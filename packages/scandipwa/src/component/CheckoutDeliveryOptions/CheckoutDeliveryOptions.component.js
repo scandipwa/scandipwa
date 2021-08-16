@@ -13,9 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
-import StoreInPickUp from 'Component/StoreInPickUp';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
-import { addressType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
 
 import './CheckoutDeliveryOptions.style';
@@ -25,61 +23,52 @@ export class CheckoutDeliveryOptions extends PureComponent {
     static propTypes = {
         shippingMethods: shippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,
-        onStoreSelect: PropTypes.func.isRequired,
-        onShippingMethodSelect: PropTypes.func.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func.isRequired,
-        selectedShippingMethodCode: PropTypes.string,
-        estimateAddress: addressType.isRequired
+        handleSelectDeliveryMethod: PropTypes.func.isRequired,
+        selectedShippingMethod: PropTypes.object,
+        isShippingMethodPreSelected: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        selectedShippingMethodCode: null
+        selectedShippingMethod: { }
     };
 
     shippingRenderMap = {
-        [STORE_IN_PICK_UP_METHOD_CODE]: this.renderStoreInPickUp.bind(this)
+        [STORE_IN_PICK_UP_METHOD_CODE]: this.handleSelectStoreInPickUp.bind(this)
     };
 
     renderHeading() {
         return (
             <h2 block="Checkout" elem="Heading">
-                { __('Select shipping method') }
+                { __('Shipping method') }
             </h2>
         );
     }
 
-    renderStoreInPickUp() {
+    handleSelectStoreInPickUp() {
         const {
-            estimateAddress,
-            shippingMethods,
-            onStoreSelect,
-            onShippingMethodSelect,
-            setSelectedShippingMethodCode
+            handleSelectDeliveryMethod,
+            isShippingMethodPreSelected
         } = this.props;
 
-        return (
-            <StoreInPickUp
-              estimateAddress={ estimateAddress }
-              shippingMethods={ shippingMethods }
-              onStoreSelect={ onStoreSelect }
-              onShippingMethodSelect={ onShippingMethodSelect }
-              setSelectedShippingMethodCode={ setSelectedShippingMethodCode }
-            />
-        );
+        if (isShippingMethodPreSelected) {
+            return;
+        }
+
+        handleSelectDeliveryMethod();
     }
 
     renderDeliveryOption = (option) => {
         const {
-            selectedShippingMethodCode,
-            selectShippingMethod
+            selectShippingMethod,
+            selectedShippingMethod: { method_code: selectedMethodCode }
         } = this.props;
 
-        const { method_code } = option;
-        const isSelected = selectedShippingMethodCode === method_code;
+        const { carrier_code, method_code } = option;
+        const isSelected = selectedMethodCode === method_code;
 
         return (
             <CheckoutDeliveryOption
-              key={ method_code }
+              key={ carrier_code }
               isSelected={ isSelected }
               option={ option }
               onClick={ selectShippingMethod }
@@ -105,8 +94,9 @@ export class CheckoutDeliveryOptions extends PureComponent {
     }
 
     renderSelectedShippingMethod() {
-        const { selectedShippingMethodCode } = this.props;
-        const render = this.shippingRenderMap[selectedShippingMethodCode];
+        const { selectedShippingMethod: { method_code } } = this.props;
+        const render = this.shippingRenderMap[method_code];
+
         if (!render) {
             return null;
         }
@@ -118,7 +108,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
         return (
             <div block="CheckoutDeliveryOptions">
                 { this.renderHeading() }
-                <ul block="CheckoutPayments" elem="Methods">
+                <ul>
                     { this.renderShippingMethods() }
                 </ul>
                 { this.renderSelectedShippingMethod() }

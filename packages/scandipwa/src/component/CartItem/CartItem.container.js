@@ -30,9 +30,8 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/CartItem/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
@@ -60,11 +59,16 @@ export class CartItemContainer extends PureComponent {
         changeItemQty: PropTypes.func.isRequired,
         removeProduct: PropTypes.func.isRequired,
         updateCrossSellProducts: PropTypes.func.isRequired,
-        updateCrossSellsOnRemove: PropTypes.bool
+        updateCrossSellsOnRemove: PropTypes.bool,
+        isCartOverlay: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
+        isEditing: PropTypes.bool
     };
 
     static defaultProps = {
-        updateCrossSellsOnRemove: false
+        updateCrossSellsOnRemove: false,
+        isCartOverlay: false,
+        isEditing: false
     };
 
     state = { isLoading: false };
@@ -88,6 +92,7 @@ export class CartItemContainer extends PureComponent {
 
     productIsInStock() {
         const { item } = this.props;
+
         return !itemIsOutOfStock(item);
     }
 
@@ -105,11 +110,13 @@ export class CartItemContainer extends PureComponent {
 
     getMinQuantity() {
         const { stock_item: { min_sale_qty } = {} } = this.getCurrentProduct() || {};
+
         return min_sale_qty || 1;
     }
 
     getMaxQuantity() {
         const { stock_item: { max_sale_qty } = {} } = this.getCurrentProduct() || {};
+
         return max_sale_qty || DEFAULT_MAX_PRODUCTS;
     }
 
@@ -117,13 +124,32 @@ export class CartItemContainer extends PureComponent {
         this.setState({ isLoading: false });
     }
 
-    containerProps = () => ({
-        linkTo: this._getProductLinkTo(),
-        thumbnail: this._getProductThumbnail(),
-        minSaleQuantity: this.getMinQuantity(),
-        maxSaleQuantity: this.getMaxQuantity(),
-        isProductInStock: this.productIsInStock()
-    });
+    containerProps = () => {
+        const {
+            item,
+            currency_code,
+            isEditing,
+            isCartOverlay,
+            isMobile
+        } = this.props;
+        const { isLoading } = this.state;
+
+        return {
+            item,
+            currency_code,
+            isEditing,
+            isCartOverlay,
+            isMobile,
+            isLoading,
+            linkTo: this._getProductLinkTo(),
+            thumbnail: this._getProductThumbnail(),
+            minSaleQuantity: this.getMinQuantity(),
+            maxSaleQuantity: this.getMaxQuantity(),
+            isProductInStock: this.productIsInStock(),
+            optionsLabels: this.getConfigurableOptionsLabels(),
+            isMobileLayout: this.getIsMobileLayout()
+        };
+    };
 
     /**
      * Handle item quantity change. Check that value is <1
@@ -140,10 +166,22 @@ export class CartItemContainer extends PureComponent {
     /**
      * @return {void}
      */
-    handleRemoveItem() {
+    handleRemoveItem(e) {
+        if (e) {
+            e.preventDefault();
+        }
+
         this.setState({ isLoading: true }, () => {
             this.hideLoaderAfterPromise(this.removeProductAndUpdateCrossSell());
         });
+    }
+
+    getIsMobileLayout() {
+        // "isMobileLayout" check is required to render mobile content in some additional cases
+        // where screen width exceeds 810px (e.g. CartOverlay)
+        const { isMobile, isCartOverlay } = this.props;
+
+        return isMobile || isCartOverlay;
     }
 
     async removeProductAndUpdateCrossSell() {
@@ -170,6 +208,7 @@ export class CartItemContainer extends PureComponent {
     registerCancelablePromise(promise) {
         const cancelablePromise = makeCancelable(promise);
         this.handlers.push(cancelablePromise);
+
         return cancelablePromise;
     }
 
@@ -261,11 +300,60 @@ export class CartItemContainer extends PureComponent {
     _getProductThumbnail() {
         const product = this.getCurrentProduct();
         const { thumbnail: { url: thumbnail } = {} } = product;
+
         return thumbnail || '';
+    }
+
+    getConfigurationOptionLabel = ([key, attribute]) => {
+        const {
+            item: {
+                product: {
+                    configurable_options = {}
+                }
+            }
+        } = this.props;
+
+        const { attribute_code, attribute_value } = attribute;
+
+        if (!Object.keys(configurable_options).includes(key) || attribute_value === null) {
+            return null;
+        }
+
+        const {
+            [attribute_code]: { // configurable option attribute
+                attribute_options: {
+                    [attribute_value]: { // attribute option value label
+                        label
+                    }
+                }
+            }
+        } = configurable_options;
+
+        return label;
+    };
+
+    getConfigurableOptionsLabels() {
+        const {
+            item: {
+                product: {
+                    configurable_options,
+                    variants
+                }
+            }
+        } = this.props;
+
+        if (!variants || !configurable_options) {
+            return [];
+        }
+
+        const { attributes = [] } = this.getCurrentProduct() || {};
+
+        return Object.entries(attributes).map(this.getConfigurationOptionLabel).filter((label) => label);
     }
 
     renderRightSideContent = () => {
         const { handleRemoveItem } = this.containerFunctions;
+
         return (
             <button
               block="CartItem"
@@ -288,8 +376,6 @@ export class CartItemContainer extends PureComponent {
               isLoading={ isLoading }
             >
                 <CartItem
-                  { ...this.props }
-                  { ...this.state }
                   { ...this.containerFunctions }
                   { ...this.containerProps() }
                 />

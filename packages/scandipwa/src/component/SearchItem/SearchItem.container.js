@@ -29,8 +29,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/SearchItem/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = () => ({});
 
 /** @namespace Component/SearchItem/Container */
 export class SearchItemContainer extends PureComponent {
@@ -43,11 +42,16 @@ export class SearchItemContainer extends PureComponent {
         onClick: this.handleItemClick.bind(this)
     };
 
-    containerProps = () => ({
-        linkTo: this.getLinkTo(),
-        imgSrc: this.getImgSrc(),
-        customAttribute: this.getCustomAttribute()
-    });
+    containerProps() {
+        const { product } = this.props;
+
+        return {
+            product,
+            linkTo: this.getLinkTo(),
+            imgSrc: this.getImgSrc(),
+            customAttribute: this.getCustomAttribute()
+        };
+    }
 
     handleItemClick() {
         const { hideActiveOverlay } = this.props;
@@ -97,7 +101,6 @@ export class SearchItemContainer extends PureComponent {
     render() {
         return (
             <SearchItem
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

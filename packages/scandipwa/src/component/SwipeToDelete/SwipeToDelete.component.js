@@ -16,14 +16,7 @@ import Draggable from 'Component/Draggable';
 import Loader from 'Component/Loader';
 import { ChildrenType } from 'Type/Common';
 import CSS from 'Util/CSS';
-
-import {
-    ANIMATION_DURATION,
-    ANIMATION_DURATION_ON_REMOVE,
-    DRAG_ITEM_REMOVE_THRESHOLD,
-    DRAG_RIGHT_OPEN_THRESHOLD,
-    DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD
-} from './SwipeToDelete.config';
+import { isRtl } from 'Util/CSS/CSS';
 
 import './SwipeToDelete.style';
 
@@ -31,32 +24,16 @@ import './SwipeToDelete.style';
 export class SwipeToDelete extends PureComponent {
     static propTypes = {
         children: ChildrenType.isRequired,
-        dragRightOpenTriggerThreshold: PropTypes.number,
-        dragRightOpenThreshold: PropTypes.number,
-        dragItemRemoveThreshold: PropTypes.number,
-        animationDuration: PropTypes.number,
-        animationDurationOnRemove: PropTypes.number,
-        renderRightSideContent: PropTypes.func,
-        rightSideMix: PropTypes.object,
-        topElemMix: PropTypes.object,
-        onAheadOfDragItemRemoveThreshold: PropTypes.func,
-        isLoading: PropTypes.bool
-    };
-
-    static defaultProps = {
-        // Threshold after we open right side
-        dragRightOpenTriggerThreshold: DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD,
-        // Width of opened right side
-        dragRightOpenThreshold: DRAG_RIGHT_OPEN_THRESHOLD,
-        // Threshold after we remove item on touchend as percentage of item width
-        dragItemRemoveThreshold: DRAG_ITEM_REMOVE_THRESHOLD,
-        animationDuration: ANIMATION_DURATION,
-        animationDurationOnRemove: ANIMATION_DURATION_ON_REMOVE,
-        renderRightSideContent: () => {},
-        rightSideMix: {},
-        topElemMix: {},
-        onAheadOfDragItemRemoveThreshold: () => {},
-        isLoading: false
+        dragRightOpenTriggerThreshold: PropTypes.number.isRequired,
+        dragRightOpenThreshold: PropTypes.number.isRequired,
+        dragItemRemoveThreshold: PropTypes.number.isRequired,
+        animationDuration: PropTypes.number.isRequired,
+        animationDurationOnRemove: PropTypes.number.isRequired,
+        renderRightSideContent: PropTypes.func.isRequired,
+        rightSideMix: PropTypes.object.isRequired,
+        topElemMix: PropTypes.object.isRequired,
+        onAheadOfDragItemRemoveThreshold: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired
     };
 
     state = {
@@ -118,10 +95,12 @@ export class SwipeToDelete extends PureComponent {
         this.setAnimationSpeedStyle(0);
     };
 
-    handleDrag = ({ translateX }) => {
+    handleDrag = ({ translateX: translate }) => {
         const { dragRightOpenThreshold } = this.props;
         const { isRightSideOpen, isAheadRemoveItemThreshold } = this.state;
         const { draggableRemoveThreshold } = this;
+
+        const translateX = isRtl() ? -translate : translate;
         const nextIsAheadRemoveItemThreshold = Math.abs(translateX) > draggableRemoveThreshold;
 
         if (isAheadRemoveItemThreshold !== nextIsAheadRemoveItemThreshold) {
@@ -159,7 +138,7 @@ export class SwipeToDelete extends PureComponent {
         }
     };
 
-    handleDragEnd = ({ translateX }) => {
+    handleDragEnd = ({ translateX: translate }) => {
         const {
             dragRightOpenThreshold,
             dragRightOpenTriggerThreshold,
@@ -168,20 +147,23 @@ export class SwipeToDelete extends PureComponent {
         } = this.props;
         const { isAheadRemoveItemThreshold } = this.state;
         const { draggableWidth } = this;
-        const shouldOpen = translateX > -dragRightOpenTriggerThreshold;
+
+        const translateX = isRtl() ? -translate : translate;
+        const shouldOpen = translateX <= -dragRightOpenTriggerThreshold;
 
         if (isAheadRemoveItemThreshold) {
             // swipe to the end
             this.setAnimationSpeedStyle(animationDurationOnRemove);
             this.setTranslateXStyle(-draggableWidth);
             onAheadOfDragItemRemoveThreshold();
+
             return;
         }
 
         this.setAnimationSpeedStyle();
-        this.setState({ isRightSideOpen: !shouldOpen });
+        this.setState({ isRightSideOpen: shouldOpen });
 
-        if (shouldOpen) {
+        if (!shouldOpen) {
             this.setTranslateXStyle(0);
 
             return;
@@ -211,6 +193,10 @@ export class SwipeToDelete extends PureComponent {
         );
     }
 
+    stopPropagation = (event) => {
+        event.stopPropagation();
+    };
+
     renderChildren() {
         const { children } = this.props;
 
@@ -220,8 +206,7 @@ export class SwipeToDelete extends PureComponent {
                   block="SwipeToDelete"
                   role="button"
                   tabIndex="0"
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onMouseDown={ (e) => e.stopPropagation() }
+                  onMouseDown={ this.stopPropagation }
                 >
                     { children }
                 </div>

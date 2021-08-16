@@ -23,7 +23,7 @@ import { LocationType, MatchType } from 'Type/Common';
 import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
-import { appendWithStoreCode, getUrlParam } from 'Util/Url';
+import { getUrlParam, isHomePageUrl } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
 import { LOADING_TIME } from './CmsPage.config';
@@ -95,6 +95,18 @@ export class CmsPageContainer extends DataContainer {
         } = this.props;
 
         toggleBreadcrumbs(isBreadcrumbsActive);
+    }
+
+    containerProps() {
+        const { isBreadcrumbsActive } = this.props;
+        const { page, isPageLoaded, isLoading } = this.state;
+
+        return {
+            isBreadcrumbsActive,
+            isLoading,
+            isPageLoaded,
+            page
+        };
     }
 
     componentDidMount() {
@@ -175,10 +187,7 @@ export class CmsPageContainer extends DataContainer {
             canonical_url: window.location.href
         });
 
-        if (
-            pathname !== appendWithStoreCode('/')
-            && pathname !== '/'
-        ) {
+        if (!isHomePageUrl(pathname)) {
             setHeaderState({
                 name: CMS_PAGE,
                 title: content_heading,
@@ -232,8 +241,7 @@ export class CmsPageContainer extends DataContainer {
     render() {
         return (
             <CmsPage
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
             />
         );
     }

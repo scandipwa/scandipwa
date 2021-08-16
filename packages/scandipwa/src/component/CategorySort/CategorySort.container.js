@@ -23,16 +23,34 @@ export class CategorySortContainer extends PureComponent {
                 id: PropTypes.string,
                 label: PropTypes.string
             }))
-        ])
+        ]),
+        isMatchingInfoFilter: PropTypes.bool,
+        onSortChange: PropTypes.func.isRequired,
+        sortKey: PropTypes.string.isRequired,
+        sortDirection: PropTypes.string.isRequired
     };
 
     static defaultProps = {
-        sortFields: []
+        sortFields: [],
+        isMatchingInfoFilter: false
     };
 
-    containerProps = () => ({
-        selectOptions: this._prepareOptions()
-    });
+    containerProps() {
+        const {
+            isMatchingInfoFilter,
+            onSortChange,
+            sortDirection,
+            sortKey
+        } = this.props;
+
+        return {
+            isMatchingInfoFilter,
+            onSortChange,
+            sortDirection,
+            sortKey,
+            selectOptions: this._prepareOptions()
+        };
+    }
 
     _getLabel(option) {
         const { id, label: pureLabel } = option;
@@ -55,6 +73,10 @@ export class CategorySortContainer extends PureComponent {
             return {
                 asc: __('%s: Low to High', label),
                 desc: __('%s: High to Low', label)
+            };
+        case 'none':
+            return {
+                asc: __('- None -')
             };
         default:
             return {
@@ -103,7 +125,6 @@ export class CategorySortContainer extends PureComponent {
     render() {
         return (
             <CategorySort
-              { ...this.props }
               { ...this.containerProps() }
             />
         );

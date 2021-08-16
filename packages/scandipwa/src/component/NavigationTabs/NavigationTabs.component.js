@@ -9,11 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import CartIcon from 'Component/CartIcon';
+import HomeIcon from 'Component/HomeIcon';
+import MenuIcon from 'Component/MenuIcon';
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
+import UserIcon from 'Component/UserIcon';
 import { DeviceType } from 'Type/Device';
 
 import {
-    ACCOUNT_TAB, CART_TAB, HOME_TAB, MENU_TAB
+    ACCOUNT_TAB,
+    CART_TAB,
+    HOME_TAB,
+    MENU_TAB
 } from './NavigationTabs.config';
 
 import './NavigationTabs.style';
@@ -33,19 +40,19 @@ export class NavigationTabs extends NavigationAbstract {
         [MENU_TAB]: {
             menu: true
         },
-        [ACCOUNT_TAB]: {
-            account: true
-        },
         [CART_TAB]: {
             minicart: true
+        },
+        [ACCOUNT_TAB]: {
+            account: true
         }
     };
 
     renderMap = {
         home: this.renderHomeButton.bind(this),
         menu: this.renderMenuButton.bind(this),
-        minicart: this.renderMinicartButton.bind(this),
-        account: this.renderAccountButton.bind(this)
+        account: this.renderAccountButton.bind(this),
+        minicart: this.renderMinicartButton.bind(this)
     };
 
     renderHomeButton(isActive = false) {
@@ -59,12 +66,7 @@ export class NavigationTabs extends NavigationAbstract {
               aria-label="Home"
               onClick={ onHomeButtonClick }
             >
-                <div
-                  block="Header"
-                  elem="Button"
-                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
-                  mods={ { type: 'home', isVisible: true } }
-                />
+                <HomeIcon isActive={ isActive } />
             </button>
         );
     }
@@ -80,12 +82,7 @@ export class NavigationTabs extends NavigationAbstract {
               aria-label="Go to menu and search"
               onClick={ onMenuButtonClick }
             >
-                <div
-                  block="Header"
-                  elem="Button"
-                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
-                  mods={ { isVisible: true, type: 'menu' } }
-                />
+                <MenuIcon isActive={ isActive } />
             </button>
         );
     }
@@ -101,12 +98,7 @@ export class NavigationTabs extends NavigationAbstract {
               onClick={ onMyAccountButtonClick }
               aria-label="Open my account"
             >
-                <div
-                  block="Header"
-                  elem="Button"
-                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
-                  mods={ { isVisible: true, type: 'account' } }
-                />
+                <UserIcon isActive={ isActive } />
             </button>
         );
     }
@@ -140,12 +132,15 @@ export class NavigationTabs extends NavigationAbstract {
               onClick={ onMinicartButtonClick }
               aria-label="Minicart"
             >
-                <div
-                  block="Header"
-                  elem="Button"
-                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
-                  mods={ { isVisible: true, type: 'minicart' } }
-                >
+                <div block="Header" elem="MinicartWrapper">
+                    <div
+                      block="Header"
+                      elem="Button"
+                      mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
+                      mods={ { isVisible: true, type: 'minicart' } }
+                    >
+                        <CartIcon isActive={ isActive } />
+                    </div>
                     { this.renderMinicartItemsQty() }
                 </div>
             </button>

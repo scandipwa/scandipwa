@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CART, CART_EDITING } from 'Component/Header/Header.config';
+import { CART } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -32,6 +32,7 @@ import {
     getCartSubtotal,
     getCartSubtotalSubPrice,
     getCartTotalSubPrice,
+    getItemsCountLabel,
     hasOutOfStockProductsInCartItems
 } from 'Util/Cart';
 import history from 'Util/History';
@@ -92,8 +93,6 @@ export class CartPageContainer extends PureComponent {
         device: DeviceType.isRequired
     };
 
-    state = { isEditing: false };
-
     containerFunctions = {
         onCheckoutButtonClick: this.onCheckoutButtonClick.bind(this)
     };
@@ -117,7 +116,7 @@ export class CartPageContainer extends PureComponent {
         } = this.props;
 
         const {
-            totals: { items_qty: prevItemsQty },
+            totals: { items_qty: prevItemsQty = 0 },
             headerState: { name: prevName }
         } = prevProps;
 
@@ -128,7 +127,7 @@ export class CartPageContainer extends PureComponent {
         }
 
         if (items_qty !== prevItemsQty && prevItemsQty !== undefined) {
-            const title = __('%s Item(s)', items_qty);
+            const title = getItemsCountLabel(items_qty);
             changeHeaderState({
                 ...headerState,
                 title
@@ -140,7 +139,8 @@ export class CartPageContainer extends PureComponent {
         const { totals } = this.props;
 
         return {
-            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
+            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items),
+            totals
         };
     };
 
@@ -165,6 +165,7 @@ export class CartPageContainer extends PureComponent {
             history.push({
                 pathname: appendWithStoreCode(CHECKOUT_URL)
             });
+            window.scrollTo({ top: 0 });
 
             return;
         }
@@ -173,6 +174,7 @@ export class CartPageContainer extends PureComponent {
             history.push({
                 pathname: appendWithStoreCode(CHECKOUT_URL)
             });
+            window.scrollTo({ top: 0 });
 
             return;
         }
@@ -182,6 +184,7 @@ export class CartPageContainer extends PureComponent {
 
         if (device.isMobile) { // for all mobile devices, simply switch route
             history.push({ pathname: appendWithStoreCode('/my-account') });
+
             return;
         }
 
@@ -200,24 +203,12 @@ export class CartPageContainer extends PureComponent {
 
     _changeHeaderState() {
         const { changeHeaderState, totals: { items_qty } } = this.props;
-        const title = __('%s Item(s)', items_qty || 0);
+        const title = getItemsCountLabel(items_qty);
 
         changeHeaderState({
             name: CART,
             title,
-            onEditClick: () => {
-                this.setState({ isEditing: true });
-                changeHeaderState({
-                    name: CART_EDITING,
-                    title,
-                    onOkClick: () => this.setState({ isEditing: false }),
-                    onCancelClick: () => this.setState({ isEditing: false })
-                });
-            },
-            onCloseClick: () => {
-                this.setState({ isEditing: false });
-                history.goBack();
-            }
+            onCloseClick: () => history.goBack()
         });
     }
 
@@ -235,8 +226,6 @@ export class CartPageContainer extends PureComponent {
     render() {
         return (
             <CartPage
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

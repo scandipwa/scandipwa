@@ -9,23 +9,21 @@ const isMagento = process.env.BUILD_MODE === 'magento';
 
 module.exports = {
     plugin: {
-        overrideCracoConfig: async ({
+        overrideCracoConfig: ({
             cracoConfig
         }) => {
             if (!isMagento) {
                 return cracoConfig;
             }
 
-            const config = await cracoConfig;
-
             // For Magento, use magento/Magento_Theme folder as dist
-            config.paths.appBuild = path.join(process.cwd(), 'magento', 'Magento_Theme', 'web');
+            cracoConfig.paths.appBuild = path.join(process.cwd(), 'magento', 'Magento_Theme', 'web');
 
             // For Magento use PHP template (defined in /public/index.php)
-            config.paths.appHtml = FallbackPlugin.getFallbackPathname('./public/index.php');
+            cracoConfig.paths.appHtml = FallbackPlugin.getFallbackPathname('./public/index.php');
 
             // Always return the config object.
-            return config;
+            return cracoConfig;
         },
         overrideWebpackConfig: ({ webpackConfig }) => {
             if (!isMagento) {

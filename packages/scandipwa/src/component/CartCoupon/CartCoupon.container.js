@@ -13,12 +13,17 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { MixType } from 'Type/Common';
+
 import CartCoupon from './CartCoupon.component';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
 );
+
+/** @namespace Component/CartCoupon/Container/mapStateToProps */
+export const mapStateToProps = () => ({});
 
 /** @namespace Component/CartCoupon/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -36,20 +41,36 @@ export class CartCouponContainer extends PureComponent {
         couponCode: PropTypes.string,
         applyCouponToCart: PropTypes.func.isRequired,
         removeCouponFromCart: PropTypes.func.isRequired,
-        onCouponCodeUpdate: PropTypes.func
+        onCouponCodeUpdate: PropTypes.func,
+        mix: MixType,
+        title: PropTypes.string
     };
 
     static defaultProps = {
         couponCode: '',
-        onCouponCodeUpdate: () => {}
+        onCouponCodeUpdate: () => {},
+        mix: {},
+        title: ''
     };
+
+    state = { isLoading: false };
 
     containerFunctions = {
         handleApplyCouponToCart: this.handleApplyCouponToCart.bind(this),
         handleRemoveCouponFromCart: this.handleRemoveCouponFromCart.bind(this)
     };
 
-    state = { isLoading: false };
+    containerProps() {
+        const { isLoading } = this.state;
+        const { couponCode, mix, title } = this.props;
+
+        return {
+            isLoading,
+            couponCode,
+            mix,
+            title
+        };
+    }
 
     handleApplyCouponToCart(couponCode) {
         const { applyCouponToCart, onCouponCodeUpdate } = this.props;
@@ -82,16 +103,11 @@ export class CartCouponContainer extends PureComponent {
     render() {
         return (
             <CartCoupon
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );
     }
 }
-
-/** @namespace Component/CartCoupon/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartCouponContainer);

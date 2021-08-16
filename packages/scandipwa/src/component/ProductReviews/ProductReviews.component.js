@@ -14,13 +14,11 @@ import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
-import Popup from 'Component/Popup';
-import ProductReviewForm from 'Component/ProductReviewForm';
 import ProductReviewList from 'Component/ProductReviewList';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-
-import { REVIEW_POPUP_ID } from './ProductReviews.config';
+import { showNewReviewPopup } from 'Util/Product';
 
 import './ProductReviews.style';
 
@@ -28,43 +26,34 @@ import './ProductReviews.style';
 export class ProductReviews extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        showPopup: PropTypes.func.isRequired,
-        areDetailsLoaded: PropTypes.bool
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        device: DeviceType.isRequired
     };
-
-    static defaultProps = {
-        areDetailsLoaded: false
-    };
-
-    renderPopup() {
-        const { product } = this.props;
-
-        return (
-            <Popup
-              id={ REVIEW_POPUP_ID }
-              mix={ { block: 'ProductReviews', elem: 'Popup' } }
-            >
-                <ProductReviewForm product={ product } />
-            </Popup>
-        );
-    }
 
     renderButton() {
-        const { showPopup } = this.props;
-
         return (
             <button
               block="ProductReviews"
               elem="Button"
-              mix={ { block: 'Button' } }
-              onClick={ showPopup }
+              mix={ { block: 'Button', mods: { isHollow: true } } }
+              onClick={ showNewReviewPopup }
             >
-                { __('Write a new review') }
+                { __('Write a review') }
             </button>
         );
     }
 
     renderNoRating() {
+        const { device: { isMobile } } = this.props;
+
+        if (isMobile) {
+            return (
+                <p>
+                    { __('There are no reviews yet! Click button below to submit one!') }
+                </p>
+            );
+        }
+
         return (
             <p>
                 { __('There are no reviews yet! Click button on the right to submit one!') }
@@ -127,18 +116,13 @@ export class ProductReviews extends PureComponent {
             }
         } = this.props;
 
-        const reviewSchemaObject = review_count
-            ? {
-                itemType: 'http://schema.org/AggregateRating',
-                itemProp: 'aggregateRating',
-                itemScope: true
-            } : {};
-
         return (
             <div
               block="ProductReviews"
               elem="Summary"
-              { ...reviewSchemaObject }
+              itemType={ review_count ? 'http://schema.org/AggregateRating' : null }
+              itemProp={ review_count ? 'aggregateRating' : null }
+              itemScope={ review_count ? true : null }
             >
                 { this.renderRatingData() }
                 { this.renderButton() }
@@ -157,18 +141,9 @@ export class ProductReviews extends PureComponent {
     }
 
     render() {
-        const {
-            product,
-            areDetailsLoaded
-        } = this.props;
+        const { areDetailsLoaded } = this.props;
 
-        const {
-            review_summary: { review_count } = {}
-        } = product;
-
-        const heading = areDetailsLoaded
-            ? __('Product reviews (%s)', review_count || '0')
-            : '';
+        const heading = areDetailsLoaded ? __('Reviews') : '';
 
         return (
             <ContentWrapper
@@ -182,7 +157,6 @@ export class ProductReviews extends PureComponent {
                 >
                     { this.renderSummary() }
                     { this.renderList() }
-                    { this.renderPopup() }
                 </ExpandableContent>
             </ContentWrapper>
         );

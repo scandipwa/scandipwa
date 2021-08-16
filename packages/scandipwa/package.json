@@ -1,17 +1,20 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "4.4.0",
+    "version": "5.0.2",
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
-        "build": "scandipwa-scripts build"
+        "build": "scandipwa-scripts build",
+        "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/m2-theme": "^0.1.4",
-        "@scandipwa/scandipwa-scripts": "^2.3.6",
-        "@scandipwa/service-worker": "^0.0.4",
-        "@scandipwa/webpack-i18n-runtime": "0.0.9",
+        "@scandipwa/chunk-optimizer": "0.0.2",
+        "@scandipwa/m2-theme": "0.2.1",
+        "@scandipwa/postcss-config": "0.0.1",
+        "@scandipwa/scandipwa-scripts": "2.4.15",
+        "@scandipwa/service-worker": "0.0.16",
+        "@scandipwa/webpack-i18n-runtime": "0.0.27",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
         "intersection-observer": "^0.12.0",
@@ -35,38 +38,57 @@
         "themeAlias": "Source",
         "type": "theme",
         "locales": {
-            "en_US": true
+            "en_US": true,
+            "da_DK": true,
+            "de_DE": true,
+            "es_ES": true,
+            "fa_IR": true,
+            "fr_FR": true,
+            "fi_FI": true,
+            "it_IT": true,
+            "lv_LV": true,
+            "nb_NO": true,
+            "nl_NL": true,
+            "pl_PL": true,
+            "pt_BR": true,
+            "ru_RU": true,
+            "sl_SI": true,
+            "sv_SE": true,
+            "tr_TR": true,
+            "zh_TW": true
         },
         "extensions": {
             "@scandipwa/m2-theme": true,
             "@scandipwa/webpack-i18n-runtime": true,
-            "@scandipwa/service-worker": true
+            "@scandipwa/service-worker": true,
+            "@scandipwa/postcss-config": true,
+            "@scandipwa/chunk-optimizer": true
         },
         "composer": {
             "magento/framework": "*",
-            "scandipwa/service-worker": "^1.0.1",
-            "scandipwa/installer": "^4.0",
-            "scandipwa/menu-organizer": "^2.1.1",
-            "scandipwa/persisted-query": "^3.0",
-            "scandipwa/slider-graphql": "^2.0",
-            "scandipwa/cms-graphql": "^1.4.2",
-            "scandipwa/catalog-graphql": "^3.1.20",
-            "scandipwa/route717": "^2",
-            "scandipwa/performance": "^1.4.3",
-            "scandipwa/customer-graph-ql": "^3.1.2",
-            "scandipwa/quote-graphql": "^2.19.6",
-            "scandipwa/wishlist-graphql": "^2.0.6",
-            "scandipwa/urlrewrite-graphql": "^1.3.7",
-            "scandipwa/store-graphql": "^1.2.3",
-            "scandipwa/customization": "^1.5.3",
-            "scandipwa/cache": "^1.1.3",
-            "scandipwa/locale": "^2",
-            "scandipwa/contact-graphql": "^1.0.0",
-            "scandipwa/klarna-graphql": "^1.1.2",
-            "scandipwa/compare-graphql": "^1.0.6",
-            "scandipwa/customer-downloadable-graphql": "^1.0.2",
-            "scandipwa/directory-graphql": "^1.0.1",
-            "scandipwa/catalog-customer-graphql": "^1.0.0"
+            "scandipwa/service-worker": "1.0.1",
+            "scandipwa/installer": "4.0",
+            "scandipwa/menu-organizer": "2.1.4",
+            "scandipwa/persisted-query": "3.0.1",
+            "scandipwa/slider-graphql": "2.1.0",
+            "scandipwa/cms-graphql": "1.4.2",
+            "scandipwa/catalog-graphql": "3.1.28",
+            "scandipwa/route717": "2",
+            "scandipwa/performance": "1.4.6",
+            "scandipwa/customer-graph-ql": "3.1.3",
+            "scandipwa/quote-graphql": "2.19.10",
+            "scandipwa/wishlist-graphql": "2.0.10",
+            "scandipwa/urlrewrite-graphql": "1.3.7",
+            "scandipwa/store-graphql": "1.2.4",
+            "scandipwa/customization": "1.5.6",
+            "scandipwa/cache": "1.1.4",
+            "scandipwa/locale": "2",
+            "scandipwa/contact-graphql": "1.0.0",
+            "scandipwa/klarna-graphql": "1.1.2",
+            "scandipwa/compare-graphql": "1.0.8",
+            "scandipwa/customer-downloadable-graphql": "1.0.2",
+            "scandipwa/directory-graphql": "1.0.1",
+            "scandipwa/catalog-customer-graphql": "1.0.0"
         }
     },
     "browserslist": {
@@ -134,7 +156,7 @@
         "rules": {
             "@scandipwa/scandipwa-guidelines/no-jsx-variables": "off",
             "@scandipwa/scandipwa-guidelines/jsx-no-conditional": "off",
-            "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "off",
+            "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "error",
             "import/no-extraneous-dependencies": "off",
             "@scandipwa/scandipwa-guidelines/file-structure": "error",
             "@scandipwa/scandipwa-guidelines/only-one-class": "error",
@@ -206,6 +228,7 @@
                 {
                     "ignoreComments": true,
                     "ignoreUrls": true,
+                    "ignorePattern": "d=\"([\\s\\S]*?)\"",
                     "code": 120
                 }
             ],
@@ -432,5 +455,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://40kskudemo.scandipwa.com/"
+    "proxy": "https://demo100-ors-1588667385-csa-qnb.scandipwa.cloud/"
 }

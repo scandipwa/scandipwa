@@ -28,7 +28,7 @@ export class DataContainer extends PureComponent {
         }
     }
 
-    fetchData(rawQueries, onSucces = () => {}, onError = () => {}) {
+    fetchData(rawQueries, onSuccess = () => {}, onError = () => {}) {
         const preparedQuery = prepareQuery(rawQueries);
         const { query, variables } = preparedQuery;
         const queryHash = hash(query + JSON.stringify(variables));
@@ -38,7 +38,8 @@ export class DataContainer extends PureComponent {
         }
 
         if (window.dataCache[queryHash]) {
-            onSucces(window.dataCache[queryHash]);
+            onSuccess(window.dataCache[queryHash]);
+
             return;
         }
 
@@ -50,7 +51,7 @@ export class DataContainer extends PureComponent {
             /** @namespace Util/Request/DataContainer/fetchData/thisPromisePromiseThen */
             (response) => {
                 window.dataCache[queryHash] = response;
-                onSucces(response);
+                onSuccess(response);
             },
             /** @namespace Util/Request/DataContainer/fetchData/thisPromisePromiseCatch */
             (err) => onError(err)

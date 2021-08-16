@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { Field, Fragment } from 'Util/Query';
@@ -118,11 +119,17 @@ export class ProductListQuery {
             },
             search: {
                 type: 'String!',
-                handler: (option) => option
+                handler: (option) => option.replace(/\+/g, ' ')
             },
             sort: {
                 type: 'ProductAttributeSortInput!',
-                handler: ({ sortKey, sortDirection }) => ({ [sortKey]: sortDirection || 'ASC' })
+                handler: ({ sortKey, sortDirection }) => {
+                    if (sortKey === NONE_SORT_OPTION_VALUE) {
+                        return {};
+                    }
+
+                    return { [sortKey]: sortDirection || 'ASC' };
+                }
             },
             filter: {
                 type: 'ProductAttributeFilterInput!',
@@ -175,6 +182,7 @@ export class ProductListQuery {
                 return acc;
             }
             const { type, handler = (option) => option } = argumentMap[key];
+
             return [...acc, [key, type, handler(arg)]];
         }, []);
     }
@@ -206,27 +214,36 @@ export class ProductListQuery {
 
     _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
         const {
+            isPlp = false,
             isSingleProduct,
             noAttributes = false,
             noVariants = false,
             noVariantAttributes = false
         } = this.options;
 
+        // Basic fields returned always
         const fields = [
             'id',
             'sku',
             'name',
             'type_id',
             'stock_status',
-            this._getPriceRangeField(),
-            this._getProductImageField(),
-            this._getProductThumbnailField(),
-            this._getProductSmallField(),
-            this._getShortDescriptionField(),
-            'special_from_date',
-            'special_to_date',
-            this._getTierPricesField()
+            this._getStockItemField()
         ];
+
+        // Additional fields, which we want to return always, except when it's variants on PLP (due to hugh number of items)
+        if (!(isPlp && isVariant)) {
+            fields.push(
+                this._getPriceRangeField(),
+                this._getProductImageField(),
+                this._getProductThumbnailField(),
+                this._getProductSmallField(),
+                this._getShortDescriptionField(),
+                'special_from_date',
+                'special_to_date',
+                this._getTierPricesField()
+            );
+        }
 
         // if it is normal product and we need attributes
         // or if, it is variant, but we need variant attributes or variants them-self
@@ -240,7 +257,8 @@ export class ProductListQuery {
                 'url',
                 this._getUrlRewritesFields(),
                 this._getReviewCountField(),
-                this._getRatingSummaryField()
+                this._getRatingSummaryField(),
+                this._getCustomizableProductFragment()
             );
 
             // if variants are not needed
@@ -331,6 +349,17 @@ export class ProductListQuery {
         ];
     }
 
+    _getDownloadableProductLinksRequired() {
+        return new Fragment('DownloadableProduct')
+            .addFieldList(this._getDownloadableProductLinksRequiredFields());
+    }
+
+    _getDownloadableProductLinksRequiredFields() {
+        return [
+            'links_purchased_separately'
+        ];
+    }
+
     _getDownloadableProductLinkField() {
         return new Field('downloadable_product_links')
             .addFieldList(this._getDownloadableProductLinkFields());
@@ -368,6 +397,8 @@ export class ProductListQuery {
         if (isSingleProduct) {
             items.addField(this._getGroupedProductItems());
             items.addField(this._getDownloadableProductFields());
+        } else {
+            items.addField(this._getDownloadableProductLinksRequired());
         }
 
         return items;
@@ -399,7 +430,8 @@ export class ProductListQuery {
     _getStockItemFields() {
         return [
             'min_sale_qty',
-            'max_sale_qty'
+            'max_sale_qty',
+            'qty_increments'
         ];
     }
 
@@ -781,7 +813,13 @@ export class ProductListQuery {
     }
 
     _getVariantsField() {
-        return new Field('variants')
+        const { isPlp = false } = this.options;
+
+        // For PLP page we have optimized variants graphql field
+        const variantsField = isPlp ? 'variants_plp' : 'variants';
+
+        return new Field(variantsField)
+            .setAlias('variants')
             .addFieldList(this._getVariantFields());
     }
 
@@ -795,6 +833,8 @@ export class ProductListQuery {
     _getCustomizableTextValueFields() {
         return [
             'price',
+            'priceInclTax',
+            'priceExclTax',
             'price_type',
             'currency',
             'sku',
@@ -819,6 +859,8 @@ export class ProductListQuery {
         return new Field('value')
             .addFieldList([
                 'price',
+                'priceInclTax',
+                'priceExclTax',
                 'price_type',
                 'currency',
                 'sku',
@@ -846,6 +888,8 @@ export class ProductListQuery {
         return [
             'option_type_id',
             'price',
+            'priceInclTax',
+            'priceExclTax',
             'price_type',
             'currency',
             'sku',
@@ -1044,7 +1088,8 @@ export class ProductListQuery {
         return [
             new Field('label').setAlias('name'),
             new Field('attribute_code').setAlias('request_var'),
-            new Field('is_boolean'),
+            'is_boolean',
+            'has_swatch',
             'position',
             this._getAggregationsOptionsField()
         ];

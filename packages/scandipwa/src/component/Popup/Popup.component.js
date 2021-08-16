@@ -15,6 +15,8 @@ import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 
 import ClickOutside from 'Component/ClickOutside';
+import CloseIcon from 'Component/CloseIcon';
+import NotificationList from 'Component/NotificationList';
 import Overlay from 'Component/Overlay/Overlay.component';
 
 import { ESCAPE_KEY } from './Popup.config';
@@ -133,8 +135,20 @@ export class Popup extends Overlay {
               elem="CloseBtn"
               aria-label={ __('Close') }
               onClick={ this.hidePopUp }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
+    }
+
+    renderNotifications() {
+        const { isMobile } = this.props;
+
+        if (!isMobile) {
+            return null;
+        }
+
+        return <NotificationList />;
     }
 
     renderContent() {
@@ -152,6 +166,7 @@ export class Popup extends Overlay {
                         { this.renderTitle() }
                         { this.renderCloseButton() }
                     </header>
+                    { this.renderNotifications() }
                     { children }
                 </div>
             </ClickOutside>

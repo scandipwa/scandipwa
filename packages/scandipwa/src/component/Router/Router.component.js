@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable max-len */
 
@@ -23,17 +24,8 @@ import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import Breadcrumbs from 'Component/Breadcrumbs';
-import CookiePopup from 'Component/CookiePopup';
-import DemoNotice from 'Component/DemoNotice';
-import Footer from 'Component/Footer';
-import Header from 'Component/Header';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
-import NavigationTabs from 'Component/NavigationTabs';
-import NewVersionPopup from 'Component/NewVersionPopup';
-import NotificationList from 'Component/NotificationList';
-import OfflineNotice from 'Component/OfflineNotice';
-import SomethingWentWrong from 'Route/SomethingWentWrong';
 import UrlRewrites from 'Route/UrlRewrites';
 import history from 'Util/History';
 
@@ -46,18 +38,28 @@ import {
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));
 export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
+export const CookiePopup = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/CookiePopup'));
+export const DemoNotice = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/DemoNotice'));
+export const Header = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Header'));
 export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/HomePage'));
 export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/MyAccount'));
 export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/PasswordChangePage'));
-export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/SearchPage'));
+export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "search" */ 'Route/SearchPage'));
 export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/ConfirmAccountPage'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/MenuPage'));
+export const Footer = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "footer" */ 'Component/Footer'));
+export const NavigationTabs = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/NavigationTabs'));
+export const NewVersionPopup = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/NewVersionPopup'));
+export const NotificationList = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/NotificationList'));
 export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));
+export const OfflineNotice = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/OfflineNotice'));
 export const ContactPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "contact" */ 'Route/ContactPage'));
 export const ProductComparePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/ProductComparePage'));
 export const CreateAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/CreateAccount'));
 export const LoginAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/LoginAccount'));
 export const ForgotPasswordPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/ForgotPassword'));
+export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "something-went-wrong" */ 'Route/SomethingWentWrong'));
+export const StyleGuidePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/StyleGuidePage'));
 
 /** @namespace Component/Router/Component/withStoreRegex */
 export const withStoreRegex = (path) => window.storeRegexText.concat(path);
@@ -165,6 +167,10 @@ export class Router extends PureComponent {
             position: 83
         },
         {
+            component: <Route path={ withStoreRegex('/styleguide') } render={ (props) => <StyleGuidePage { ...props } /> } />,
+            position: 83
+        },
+        {
             component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
             position: 1000
         }
@@ -201,6 +207,7 @@ export class Router extends PureComponent {
                 if (!entry.component) {
                     // eslint-disable-next-line no-console
                     console.warn('There is an item without a component property declared in main router.');
+
                     return false;
                 }
 
@@ -213,9 +220,17 @@ export class Router extends PureComponent {
         this.setState({ hasError: false });
     };
 
-    renderItemsOfType(type) {
+    renderComponentsOfType(type) {
         return this.getSortedItems(type)
             .map(({ position, component }) => cloneElement(component, { key: position }));
+    }
+
+    renderSectionOfType(type) {
+        return (
+            <Suspense fallback={ <Loader isLoading /> }>
+                { this.renderComponentsOfType(type) }
+            </Suspense>
+        );
     }
 
     renderMainItems() {
@@ -226,11 +241,9 @@ export class Router extends PureComponent {
         }
 
         return (
-            <Suspense fallback={ this.renderFallbackPage() }>
-                <Switch>
-                    { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
-                </Switch>
-            </Suspense>
+            <Switch>
+                { this.renderComponentsOfType(SWITCH_ITEMS_TYPE) }
+            </Switch>
         );
     }
 
@@ -254,11 +267,15 @@ export class Router extends PureComponent {
     }
 
     renderDefaultRouterContent() {
+        if (location.pathname.match('/styleguide')) {
+            return this.renderMainItems();
+        }
+
         return (
             <>
-                { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
+                { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
                 { this.renderMainItems() }
-                { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
+                { this.renderSectionOfType(AFTER_ITEMS_TYPE) }
             </>
         );
     }
@@ -277,9 +294,11 @@ export class Router extends PureComponent {
         return (
             <>
                 <Meta />
-                <ReactRouter history={ history }>
-                    { this.renderRouterContent() }
-                </ReactRouter>
+                <Suspense fallback={ this.renderFallbackPage() }>
+                    <ReactRouter history={ history }>
+                        { this.renderRouterContent() }
+                    </ReactRouter>
+                </Suspense>
             </>
         );
     }

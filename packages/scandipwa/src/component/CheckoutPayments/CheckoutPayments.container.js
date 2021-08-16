@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { addressType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 
@@ -42,7 +43,9 @@ export class CheckoutPaymentsContainer extends PureComponent {
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
         email: PropTypes.string.isRequired,
-        address: PropTypes.object.isRequired
+        address: PropTypes.object.isRequired,
+        billingAddress: addressType.isRequired,
+        showError: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -73,6 +76,24 @@ export class CheckoutPaymentsContainer extends PureComponent {
         if (window.formPortalCollector) {
             window.formPortalCollector.unsubscribe(BILLING_STEP, 'CheckoutPaymentsContainer');
         }
+    }
+
+    containerProps() {
+        const {
+            billingAddress,
+            paymentMethods,
+            setOrderButtonEnableStatus,
+            showError
+        } = this.props;
+        const { selectedPaymentCode } = this.state;
+
+        return {
+            billingAddress,
+            paymentMethods,
+            selectedPaymentCode,
+            setOrderButtonEnableStatus,
+            showError
+        };
     }
 
     getKlarnaData() {
@@ -106,9 +127,8 @@ export class CheckoutPaymentsContainer extends PureComponent {
     render() {
         return (
             <CheckoutPayments
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
-              { ...this.state }
             />
         );
     }

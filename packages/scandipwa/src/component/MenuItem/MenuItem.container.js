@@ -17,14 +17,12 @@ import MenuItem from './MenuItem.component';
 import { HOVER_TIMEOUT } from './MenuItem.config';
 
 /** @namespace Component/Menu/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/Menu/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/MenuItem/Container/menuItemContainer */
 export class MenuItemContainer extends PureComponent {
@@ -32,12 +30,18 @@ export class MenuItemContainer extends PureComponent {
         closeMenu: PropTypes.func,
         onCategoryHover: PropTypes.func,
         item: PropTypes.object.isRequired,
-        activeMenuItemsStack: PropTypes.array.isRequired
+        activeMenuItemsStack: PropTypes.array.isRequired,
+        isExpandable: PropTypes.bool,
+        itemMods: PropTypes.object,
+        isLink: PropTypes.bool
     };
 
     static defaultProps = {
         closeMenu: () => {},
-        onCategoryHover: () => {}
+        onCategoryHover: () => {},
+        itemMods: {},
+        isLink: false,
+        isExpandable: false
     };
 
     containerFunctions = {
@@ -47,6 +51,24 @@ export class MenuItemContainer extends PureComponent {
     };
 
     menuHoverTimeout = null;
+
+    containerProps() {
+        const {
+            activeMenuItemsStack,
+            isExpandable,
+            isLink,
+            item,
+            itemMods
+        } = this.props;
+
+        return {
+            activeMenuItemsStack,
+            isExpandable,
+            isLink,
+            item,
+            itemMods
+        };
+    }
 
     onItemClick() {
         const { closeMenu } = this.props;
@@ -71,7 +93,7 @@ export class MenuItemContainer extends PureComponent {
     render() {
         return (
             <MenuItem
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

@@ -29,6 +29,9 @@ export const mapStateToProps = (state) => ({
     status_code: state.MetaReducer.status_code
 });
 
+/** @namespace Component/Meta/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/Meta/Container */
 export class MetaContainer extends PureComponent {
     static propTypes = {
@@ -40,7 +43,14 @@ export class MetaContainer extends PureComponent {
         title_suffix: PropTypes.string,
         description: PropTypes.string,
         keywords: PropTypes.string,
-        title: PropTypes.string,
+        title: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.shape({
+                TranslatedValue: PropTypes.string,
+                value: PropTypes.string,
+                injectables: PropTypes.array
+            })
+        ]),
         robots: PropTypes.string,
         status_code: PropTypes.string
     };
@@ -59,9 +69,24 @@ export class MetaContainer extends PureComponent {
         status_code: ''
     };
 
-    containerProps = () => ({
-        metadata: this._getMetadata()
-    });
+    containerProps() {
+        const {
+            canonical_url,
+            default_title,
+            title,
+            title_prefix,
+            title_suffix
+        } = this.props;
+
+        return {
+            metadata: this._getMetadata(),
+            canonical_url,
+            default_title,
+            title,
+            title_prefix,
+            title_suffix
+        };
+    }
 
     _generateMetaFromMetadata(metadata, param = 'name') {
         return Object.entries(metadata).reduce((acc, [key, value]) => (
@@ -116,15 +141,10 @@ export class MetaContainer extends PureComponent {
     render() {
         return (
             <Meta
-              { ...this.props }
               { ...this.containerProps() }
             />
         );
     }
 }
-
-/** @namespace Component/Meta/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MetaContainer);

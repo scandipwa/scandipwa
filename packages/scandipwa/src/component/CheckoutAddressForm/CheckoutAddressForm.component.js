@@ -13,10 +13,10 @@ import PropTypes from 'prop-types';
 
 import FormPortal from 'Component/FormPortal';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
-import { getCityAndRegionFromZipcode } from 'Util/Address';
+import { getAvailableRegions, getCityAndRegionFromZipcode } from 'Util/Address';
 import { debounce } from 'Util/Request';
 
-import { UPDATE_STATE_FREQUENCY } from './CheckoutAddressForm.config';
+import { REQUEST_SHIPPING_METHODS_FREQUENCY } from './CheckoutAddressForm.config';
 
 /** @namespace Component/CheckoutAddressForm/Component */
 export class CheckoutAddressForm extends MyAccountAddressForm {
@@ -31,27 +31,46 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         onShippingEstimationFieldsChange: () => {}
     };
 
-    onChange = debounce((key, value) => {
-        this.setState(() => ({ [key]: value }));
-    }, UPDATE_STATE_FREQUENCY);
+    onChange = (key, value) => this.setState(() => ({ [key]: value }));
 
     __construct(props) {
         super.__construct(props);
 
         const {
-            address: { region: { region = '' } = {} }
+            shippingFields: {
+                city = '',
+                region_id: regionId = null,
+                region_string: region = '',
+                country_id = '',
+                postcode = ''
+            },
+            default_country,
+            countries
         } = this.props;
+
+        const countryId = country_id || default_country;
+        const availableRegions = getAvailableRegions(countryId, countries);
 
         // TODO: get from region data
         this.state = {
             ...this.state,
+            countryId,
             region,
-            city: '',
-            postcode: ''
+            regionId,
+            city,
+            postcode,
+            availableRegions
         };
+    }
 
+    componentDidMount() {
         this.estimateShipping();
     }
+
+    estimateShippingDebounced = debounce(
+        this.estimateShipping.bind(this),
+        REQUEST_SHIPPING_METHODS_FREQUENCY
+    );
 
     componentDidUpdate(_, prevState) {
         const {
@@ -67,7 +86,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             regionId: prevRegionId,
             region: prevRegion,
             city: prevCity,
-            postcode: prevpostcode
+            postcode: prevPostcode
         } = prevState;
 
         if (
@@ -75,10 +94,18 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             || regionId !== prevRegionId
             || city !== prevCity
             || region !== prevRegion
-            || postcode !== prevpostcode
+            || postcode !== prevPostcode
         ) {
-            this.estimateShipping();
+            this.estimateShippingDebounced();
         }
+    }
+
+    getAvailableRegions(country_id) {
+        const { countries } = this.props;
+        const country = countries.find(({ id }) => id === country_id) || {};
+        const { available_regions } = country;
+
+        return available_regions;
     }
 
     estimateShipping() {
@@ -103,7 +130,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     onZipcodeChange = async (e) => {
         const { value } = e.currentTarget;
-        const { countryId, availableRegions } = this.state;
+        const { countryId, availableRegions = [] } = this.state;
 
         const [city, regionCode] = await getCityAndRegionFromZipcode(countryId, value);
         if (city) {
@@ -124,7 +151,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     get fieldMap() {
         // country_id, region, region_id, city - are used for shipping estimation
-        const { shippingFields } = this.props;
+        const { shippingFields, countries } = this.props;
 
         const {
             default_billing,
@@ -132,8 +159,28 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             city,
             postcode,
             vat_id,
+            country_id,
+            telephone,
+            region_string,
+            region_id,
             ...fieldMap
         } = super.fieldMap;
+
+        // since object doesn't maintain the order of it's properties
+        // and last modified property goes to the end of the property list,
+        // move some of field into correct order.
+        fieldMap.country_id = {
+            ...country_id,
+            selectOptions: countries.map(({ id, label }) => ({ id, label, value: id }))
+        };
+
+        if (region_id) {
+            fieldMap.region_id = region_id;
+        }
+
+        if (region_string) {
+            fieldMap.region_string = region_string;
+        }
 
         fieldMap.city = {
             ...city,
@@ -147,9 +194,11 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             onBlur: this.onZipcodeChange
         };
 
-        // since object doesn't maintain the order of it's properties
-        // and last modified property goes to the end of the property list,
-        // move vat_id after postcode
+        // Make phone the last field
+        if (telephone) {
+            fieldMap.telephone = telephone;
+        }
+
         if (vat_id) {
             fieldMap.vat_id = vat_id;
         }

@@ -22,8 +22,7 @@ import DataContainer from 'Util/Request/DataContainer';
 import './ProductListWidget.style';
 
 /** @namespace Component/ProductListWidget/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = () => ({
     updateNoMatch,
     showNotification
 });
@@ -58,6 +57,43 @@ export class ProductListWidgetContainer extends DataContainer {
         updateLoadStatus: this.updateLoadStatus.bind(this),
         getIsNewCategory: this.getIsNewCategory.bind(this)
     };
+
+    containerProps() {
+        const {
+            currentPage,
+            device,
+            isShowLoading,
+            isVisible,
+            loadPrevPage,
+            requestPage,
+            selectedFilters,
+            title,
+            updatePage
+        } = this.props;
+        const {
+            pages,
+            totalItems,
+            totalPages,
+            isLoading
+        } = this.state;
+
+        return {
+            currentPage,
+            device,
+            isShowLoading,
+            isVisible,
+            loadPrevPage,
+            requestPage,
+            selectedFilters,
+            title,
+            updatePage,
+            pages,
+            totalItems,
+            totalPages,
+            isLoading,
+            ...this.adaptProps()
+        };
+    }
 
     onError = this.onError.bind(this);
 
@@ -153,13 +189,9 @@ export class ProductListWidgetContainer extends DataContainer {
     }
 
     render() {
-        const adaptedProps = this.adaptProps();
-
         return (
             <ProductList
-              { ...this.props }
-              { ...this.state }
-              { ...adaptedProps }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
               isInfiniteLoaderEnabled={ false }
               numberOfPlaceholders={ 6 }
@@ -171,7 +203,6 @@ export class ProductListWidgetContainer extends DataContainer {
 }
 
 /** @namespace Component/ProductListWidget/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductListWidgetContainer);

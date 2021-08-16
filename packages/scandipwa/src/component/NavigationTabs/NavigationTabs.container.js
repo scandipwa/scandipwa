@@ -61,9 +61,10 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     routeMap = {
         '/account': { name: ACCOUNT_TAB },
         '/my-account': { name: ACCOUNT_TAB },
-        '/checkout': { name: CHECKOUT_TAB, isHidden: true },
+        '/checkout': { name: CHECKOUT_TAB },
         '/cart': { name: CART_TAB },
-        '/': { name: HOME_TAB }
+        '/': { name: HOME_TAB },
+        '': { name: HOME_TAB }
     };
 
     containerFunctions = {
@@ -89,11 +90,18 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         this.handleVisibleOnScrollChange(prevProps);
     }
 
+    containerProps() {
+        const { device, navigationState, cartTotals } = this.props;
+
+        return { device, navigationState, cartTotals };
+    }
+
     handleNavVisibility() {
         const { navigationState: { isHidden } } = this.props;
 
         if (isHidden) {
             document.documentElement.classList.add('hiddenNavigationTabs');
+
             return;
         }
 
@@ -122,12 +130,14 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         if (windowY < TOP_MIN_OFFSET) {
             // We are on top
             document.documentElement.classList.remove('hideOnScroll');
+
             return;
         }
 
         if (offset >= (height - ERROR_BOTTOM_OFFSET)) {
             // We are on the bottom
             document.documentElement.classList.remove('hideOnScroll');
+
             return;
         }
 
@@ -176,6 +186,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const { pathname } = location;
 
         if (pathname !== appendWithStoreCode(`/${ CART }`)) {
+            window.scrollTo({ top: 0 });
             browserHistory.push(appendWithStoreCode(`/${ CART }`));
         }
     }
@@ -194,6 +205,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         if (noMatch) {
             this.lastSeenMenu = -1;
+
             return;
         }
 
@@ -212,7 +224,6 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     handleMobileRouteChange(history) {
         const {
-            // hideActiveOverlay,
             setNavigationState,
             navigationState: { name }
         } = this.props;
@@ -257,7 +268,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     render() {
         return (
             <NavigationTabs
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -8,19 +9,23 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-/* eslint-disable react/jsx-no-bind */
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import AddIcon from 'Component/AddIcon';
+import ChevronIcon from 'Component/ChevronIcon';
+import { BOTTOM } from 'Component/ChevronIcon/ChevronIcon.config';
 import FieldInput from 'Component/FieldInput';
 import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
-import Image from 'Component/Image';
+import MinusIcon from 'Component/MinusIcon';
+import UploadIcon from 'Component/UploadIcon';
 import { MixType } from 'Type/Common';
 
 import {
     CHECKBOX_TYPE,
+    EMAIL_TYPE,
     FILE_TYPE,
     NUMBER_TYPE,
     PASSWORD_TYPE,
@@ -28,7 +33,6 @@ import {
     SELECT_TYPE,
     TEXTAREA_TYPE
 } from './Field.config';
-import upload from './icons/upload.svg';
 
 import './Field.style';
 
@@ -68,7 +72,10 @@ export class Field extends PureComponent {
         min: PropTypes.number,
         max: PropTypes.number,
         filename: PropTypes.string,
-        fileExtensions: PropTypes.string
+        fileExtensions: PropTypes.string,
+        subLabel: PropTypes.number,
+        disabled: PropTypes.bool,
+        isLabelWithArrow: PropTypes.bool
     };
 
     static defaultProps = {
@@ -81,7 +88,10 @@ export class Field extends PureComponent {
         message: '',
         validationStatus: null,
         filename: '',
-        fileExtensions: ''
+        fileExtensions: '',
+        subLabel: null,
+        disabled: false,
+        isLabelWithArrow: false
     };
 
     renderTextarea() {
@@ -101,6 +111,15 @@ export class Field extends PureComponent {
             <FieldInput
               { ...this.props }
               type="text"
+            />
+        );
+    }
+
+    renderTypeEmail() {
+        return (
+            <FieldInput
+              { ...this.props }
+              type="email"
             />
         );
     }
@@ -139,13 +158,17 @@ export class Field extends PureComponent {
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value + 1) }
                   aria-label={ __('Add') }
-                />
+                >
+                    <AddIcon block="SubtractButton" isPrimary />
+                </button>
                 <button
                   disabled={ +value === min }
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value - 1) }
                   aria-label={ __('Subtract') }
-                />
+                >
+                    <MinusIcon block="AddButton" isPrimary />
+                </button>
             </>
         );
     }
@@ -154,18 +177,28 @@ export class Field extends PureComponent {
         const {
             id,
             onChangeCheckbox,
-            label
+            label,
+            subLabel,
+            disabled
         } = this.props;
 
         return (
-            <label htmlFor={ id }>
-                { label }
+            <label htmlFor={ id } block="Field" elem="CheckboxLabel">
                 <FieldInput
                   { ...this.props }
                   type="checkbox"
                   onChange={ onChangeCheckbox }
+                  isDisabled={ disabled }
                 />
                 <div block="input-control" />
+                <span>
+                    { label }
+                    { subLabel && (
+                        <strong block="Field" elem="SubLabel">
+                            { ` (${subLabel})` }
+                        </strong>
+                    ) }
+                </span>
             </label>
         );
     }
@@ -183,7 +216,7 @@ export class Field extends PureComponent {
                 <FieldInput
                   { ...this.props }
                   type="file"
-                  onChange={ (e) => onChange(e) }
+                  onChange={ onChange }
                 />
                 { this.renderLabelForFile(id, filename) }
                 <p>
@@ -236,6 +269,8 @@ export class Field extends PureComponent {
             return this.renderTypePassword();
         case SELECT_TYPE:
             return this.renderSelectWithOptions();
+        case EMAIL_TYPE:
+            return this.renderTypeEmail();
         case FILE_TYPE:
             return this.renderFile();
         default:
@@ -254,11 +289,21 @@ export class Field extends PureComponent {
 
         return (
             <label htmlFor={ id }>
-                <Image src={ upload } alt="Upload icon" ratio="square" height="50px" />
+                <UploadIcon />
                 <p>{ __('Drop files here or') }</p>
                 <span>{ __('Select files') }</span>
             </label>
         );
+    }
+
+    renderArrow() {
+        const { isLabelWithArrow } = this.props;
+
+        if (!isLabelWithArrow) {
+            return null;
+        }
+
+        return <ChevronIcon direction={ BOTTOM } />;
     }
 
     renderLabel() {
@@ -276,14 +321,18 @@ export class Field extends PureComponent {
         }
 
         return (
-            <label
-              block="Field"
-              elem="Label"
-              mods={ { isRequired } }
-              htmlFor={ id }
-            >
-                { label }
-            </label>
+            <div block="Field" elem="LabelContainer">
+                <label
+                  block="Field"
+                  elem="Label"
+                  mods={ { isRequired } }
+                  htmlFor={ id }
+                >
+                    { label }
+                </label>
+
+                { this.renderArrow() }
+            </div>
         );
     }
 

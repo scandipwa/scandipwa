@@ -40,7 +40,6 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/NoMatch/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite
 });
@@ -51,13 +50,20 @@ export class NoMatchContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
-        urlRewrite: PropTypes.object.isRequired
+        urlRewrite: PropTypes.object.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired
     };
 
     componentDidMount() {
         this.updateHeaderState();
         this.updateMeta();
         this.updateNoMatch();
+    }
+
+    containerProps() {
+        const { updateBreadcrumbs } = this.props;
+
+        return { updateBreadcrumbs };
     }
 
     updateHeaderState() {
@@ -87,7 +93,8 @@ export class NoMatchContainer extends PureComponent {
             <Subscribe to={ [SharedTransitionContainer] }>
                 { ({ cleanUpTransition }) => (
                     <NoMatch
-                      { ...{ ...this.props, cleanUpTransition } }
+                      { ...this.containerProps() }
+                      cleanUpTransition={ cleanUpTransition }
                     />
                 ) }
             </Subscribe>

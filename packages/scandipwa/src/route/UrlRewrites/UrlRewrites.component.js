@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -33,13 +34,11 @@ export const NoMatch = lazy(() => import(/* webpackMode: "lazy", webpackChunkNam
  */
 export class UrlRewrites extends PureComponent {
     static propTypes = {
-        isNotFound: PropTypes.bool,
         props: PropTypes.object,
         type: PropTypes.string
     };
 
     static defaultProps = {
-        isNotFound: false,
         props: {},
         type: ''
     };
@@ -52,17 +51,53 @@ export class UrlRewrites extends PureComponent {
 
     renderContent() {
         const { props, type } = this.props;
-        const { id } = props;
+        const {
+            id,
+            history,
+            location,
+            match,
+            productSKU,
+            categoryIds,
+            pageIds
+        } = props;
 
         switch (type) {
         case TYPE_PRODUCT:
-            return <ProductPage { ...props } key={ id } />;
+            return (
+                <ProductPage
+                  history={ history }
+                  location={ location }
+                  match={ match }
+                  productSKU={ productSKU }
+                  key={ id }
+                />
+            );
         case TYPE_CMS_PAGE:
-            return <CmsPage { ...props } />;
+            return (
+                <CmsPage
+                  history={ history }
+                  location={ location }
+                  match={ match }
+                  pageIds={ pageIds }
+                />
+            );
         case TYPE_CATEGORY:
-            return <CategoryPage { ...props } />;
+            return (
+                <CategoryPage
+                  history={ history }
+                  location={ location }
+                  match={ match }
+                  categoryIds={ categoryIds }
+                />
+            );
         case TYPE_NOTFOUND:
-            return <NoMatch { ...props } />;
+            return (
+                <NoMatch
+                  history={ history }
+                  location={ location }
+                  match={ match }
+                />
+            );
         default:
             return this.renderDefaultPage();
         }

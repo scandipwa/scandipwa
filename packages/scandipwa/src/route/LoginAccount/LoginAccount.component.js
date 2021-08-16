@@ -22,9 +22,9 @@ import './LoginAccount.style';
 /** @namespace Scandipwa/Route/LoginAccount/Component/LoginAccountComponent */
 export class LoginAccountComponent extends MyAccountOverlay {
     renderSignInWrapper() {
-        const { device } = this.props;
+        const { isMobile } = this.props;
 
-        if (device.isMobile) {
+        if (isMobile) {
             return this.renderSignIn();
         }
 
@@ -38,15 +38,15 @@ export class LoginAccountComponent extends MyAccountOverlay {
     }
 
     renderCreateAccountWrapper() {
-        const { device, onCreateAccountClick } = this.props;
+        const { isMobile, onCreateAccountClick } = this.props;
 
-        if (device.isMobile) {
+        if (isMobile) {
             return (
-                <div block="LoginAccount" elem="CreateAccountWrapper">
-                    <h4>{ __('Don`t have an account?') }</h4>
+                <div block="LoginAccount" elem="CreateAccount">
+                    <h4>{ __("Don't have an account?") }</h4>
                     <button
                       block="Button"
-                      mods={ { isHollow: true } }
+                      mods={ { likeLink: true } }
                       onClick={ onCreateAccountClick }
                     >
                         { __('Create an Account') }
@@ -56,7 +56,7 @@ export class LoginAccountComponent extends MyAccountOverlay {
         }
 
         return (
-            <div block="LoginAccount" elem="CreateAccountWrapper">
+            <div block="LoginAccount" elem="CreateAccount">
                 <h3>{ __('New Customers') }</h3>
                 <p>
                     { __('Creating an account has many benefits:') }

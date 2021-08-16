@@ -21,8 +21,8 @@ import './ProductLinks.style';
 /** @namespace Component/ProductLinks/Component */
 export class ProductLinks extends PureComponent {
     static propTypes = {
-        numberOfProductsToDisplay: PropTypes.number,
-        areDetailsLoaded: PropTypes.bool,
+        numberOfProductsToDisplay: PropTypes.number.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired,
         linkedProducts: PropTypes.objectOf(ProductType).isRequired,
         linkType: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
@@ -30,17 +30,22 @@ export class ProductLinks extends PureComponent {
         productCardFunctions: PropTypes.object.isRequired
     };
 
-    static defaultProps = {
-        numberOfProductsToDisplay: 4,
-        areDetailsLoaded: true
-    };
-
     renderProductCard = this.renderProductCard.bind(this);
 
     renderProductCard(product, i) {
         const {
-            productCardProps,
-            productCardFunctions
+            productCardProps: {
+                siblingsHaveBrands,
+                siblingsHavePriceBadge,
+                siblingsHaveTierPrice,
+                siblingsHaveConfigurableOptions
+            },
+            productCardFunctions: {
+                setSiblingsHaveBrands,
+                setSiblingsHavePriceBadge,
+                setSiblingsHaveTierPrice,
+                setSiblingsHaveConfigurableOptions
+            }
         } = this.props;
         const { id = i } = product;
 
@@ -50,8 +55,14 @@ export class ProductLinks extends PureComponent {
               elem="Card"
               product={ product }
               key={ id }
-              { ...productCardProps }
-              { ...productCardFunctions }
+              siblingsHaveBrands={ siblingsHaveBrands }
+              siblingsHavePriceBadge={ siblingsHavePriceBadge }
+              siblingsHaveTierPrice={ siblingsHaveTierPrice }
+              siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
+              setSiblingsHaveBrands={ setSiblingsHaveBrands }
+              setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
+              setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
+              setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }
@@ -77,9 +88,9 @@ export class ProductLinks extends PureComponent {
         const { title } = this.props;
 
         return (
-            <h3 block="ProductLinks" elem="Title">
+            <h2 block="ProductLinks" elem="Title">
                 { title }
-            </h3>
+            </h2>
         );
     }
 

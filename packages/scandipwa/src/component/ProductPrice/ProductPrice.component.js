@@ -31,10 +31,10 @@ export class ProductPrice extends PureComponent {
         discountPercentage: PropTypes.number,
         formattedFinalPrice: PropTypes.string,
         formattedSubPrice: PropTypes.string,
-        defaultFinalPriceExclTax: PropTypes.number,
         variantsCount: PropTypes.number,
         price: PriceType,
-        formattedDefaultFinalPriceExclTax: PropTypes.string,
+        label: PropTypes.string,
+        price_tiers: PropTypes.array,
         mix: MixType
     };
 
@@ -42,14 +42,14 @@ export class ProductPrice extends PureComponent {
         isSchemaRequired: false,
         roundedRegularPrice: '0',
         priceCurrency: 'USD',
-        defaultFinalPriceExclTax: 0,
         discountPercentage: 0,
         formattedFinalPrice: '0',
         formattedSubPrice: null,
         variantsCount: 0,
-        formattedDefaultFinalPriceExclTax: '0',
         mix: {},
-        price: {}
+        price: {},
+        label: '',
+        price_tiers: []
     };
 
     renderPlaceholder() {
@@ -64,6 +64,7 @@ export class ProductPrice extends PureComponent {
 
     getCurrencySchema() {
         const { isSchemaRequired, priceCurrency } = this.props;
+
         return isSchemaRequired ? { itemProp: 'priceCurrency', content: priceCurrency } : {};
     }
 
@@ -82,25 +83,42 @@ export class ProductPrice extends PureComponent {
     renderCurrentPrice() {
         const {
             discountPercentage,
-            formattedFinalPrice
+            formattedFinalPrice,
+            label
         } = this.props;
 
-        const priceSchema = this.getCurrentPriceSchema();
+        const { itemProp = null, content = null } = this.getCurrentPriceSchema();
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
-        // force unequal comparatment - unsure of resulting type
-        // eslint-disable-next-line eqeqeq
+        // force unequal comparison - unsure of resulting type
+        // eslint-disable-next-line
         if (formattedFinalPrice == 0) {
             return null;
         }
 
         return (
-            <PriceSemanticElementName>
-                <span { ...priceSchema }>{ formattedFinalPrice }</span>
+            <PriceSemanticElementName block="ProductPrice" elem="Price">
+                { this.renderPriceBadge(label) }
+                <span
+                  itemProp={ itemProp }
+                  content={ content }
+                  block="ProductPrice"
+                  elem="PriceValue"
+                >
+                    { formattedFinalPrice }
+                </span>
             </PriceSemanticElementName>
         );
+    }
+
+    renderPriceBadge(label) {
+        if (!label) {
+            return null;
+        }
+
+        return <span mix={ { block: 'ProductPrice', elem: 'PriceBadge' } }>{ label }</span>;
     }
 
     renderSubPrice() {
@@ -116,7 +134,7 @@ export class ProductPrice extends PureComponent {
               block="ProductPrice"
               elem="SubPrice"
             >
-                { `${ __('Excl. tax:') } ${ formattedSubPrice }` }
+                { __('Excl. tax: %s', formattedSubPrice) }
             </span>
         );
     }
@@ -124,15 +142,14 @@ export class ProductPrice extends PureComponent {
     renderOldPrice() {
         const {
             discountPercentage,
-            formattedDefaultFinalPriceExclTax,
-            defaultFinalPriceExclTax,
+            roundedRegularPrice,
             isSchemaRequired,
-            variantsCount
+            variantsCount,
+            price_tiers,
+            label
         } = this.props;
 
-        const schema = isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : {};
-
-        if (discountPercentage === 0 || defaultFinalPriceExclTax === 0) {
+        if (discountPercentage === 0 || roundedRegularPrice === 0 || price_tiers.length || label) {
             return null;
         }
 
@@ -141,9 +158,9 @@ export class ProductPrice extends PureComponent {
               block="ProductPrice"
               elem="HighPrice"
               aria-label={ __('Old product price') }
-              { ...schema }
+              itemProp={ isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : null }
             >
-                { formattedDefaultFinalPriceExclTax }
+                { roundedRegularPrice }
             </del>
         );
     }
@@ -152,9 +169,10 @@ export class ProductPrice extends PureComponent {
         const { isSchemaRequired } = this.props;
 
         if (isSchemaRequired) {
-            const currencySchema = this.getCurrencySchema();
+            const { itemProp = null, content = null } = this.getCurrencySchema();
+
             return (
-                <meta { ...currencySchema } />
+                <meta itemProp={ itemProp } content={ content } />
             );
         }
 
@@ -185,8 +203,8 @@ export class ProductPrice extends PureComponent {
               mix={ mix }
               aria-label={ `Product price: ${formattedFinalPrice}` }
             >
-                { this.renderCurrentPrice() }
                 { this.renderOldPrice() }
+                { this.renderCurrentPrice() }
                 { this.renderSubPrice() }
                 { this.renderSchema() }
             </p>

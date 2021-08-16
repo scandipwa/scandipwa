@@ -13,11 +13,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
+import CloseIcon from 'Component/CloseIcon';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import ProductPrice from 'Component/ProductPrice';
-import { DeviceType } from 'Type/Device';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 import { ProductType } from 'Type/ProductList';
 
 import {
@@ -35,7 +36,6 @@ export class ProductCompareItem extends PureComponent {
         removeComparedProduct: PropTypes.func.isRequired,
         getGroupedProductQuantity: PropTypes.func.isRequired,
         getProductOptionsData: PropTypes.func.isRequired,
-        device: DeviceType.isRequired,
         imgUrl: PropTypes.string.isRequired,
         overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
         linkTo: PropTypes.oneOfType([
@@ -87,6 +87,27 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
+    renderRating() {
+        const { product: { rating_summary, review_count } } = this.props;
+
+        if (review_count < 1) {
+            return null;
+        }
+
+        return <ProductReviewRating summary={ rating_summary } count={ review_count } />;
+    }
+
+    renderWishlistButton() {
+        const { product } = this.props;
+
+        return (
+            <ProductWishlistButton
+              product={ product }
+              mix={ { block: 'ProductCard', elem: 'WishListButton' } }
+            />
+        );
+    }
+
     renderAddToCartBtnEnabled() {
         const {
             product,
@@ -108,6 +129,7 @@ export class ProductCompareItem extends PureComponent {
 
     renderAddToCartBtnDisabled() {
         const { linkTo, overriddenAddToCartBtnHandler } = this.props;
+
         return (
             <Link
               to={ linkTo }
@@ -136,25 +158,11 @@ export class ProductCompareItem extends PureComponent {
         return this.renderAddToCartBtnDisabled();
     }
 
-    renderPrice() {
-        const {
-            device: { isMobile } = {},
-            product: { price_range } = {}
-        } = this.props;
-
-        if (!isMobile) {
-            return null;
-        }
-
-        return <ProductPrice price={ price_range } />;
-    }
-
     renderProductDetails() {
         return (
-            <div block="ProductCompareItem" elem="Details">
-                { this.renderPrice() }
+            <div>
+                { this.renderRating() }
                 { this.renderTitle() }
-                { this.renderAddToCartBtn() }
             </div>
         );
     }
@@ -168,7 +176,9 @@ export class ProductCompareItem extends PureComponent {
               elem="CloseBtn"
               onClick={ removeComparedProduct }
               aria-label={ __('Remove') }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 
@@ -181,10 +191,16 @@ export class ProductCompareItem extends PureComponent {
     render() {
         return (
             <div block="ProductCompareItem">
-                { this.renderProductImage() }
-                { this.renderProductDetails() }
-                { this.renderProductRemoveBtn() }
-                { this.renderLoader() }
+                <div block="ProductCompareItem" elem="Details">
+                    { this.renderProductImage() }
+                    { this.renderProductDetails() }
+                    { this.renderProductRemoveBtn() }
+                    { this.renderLoader() }
+                </div>
+                <div block="ProductCompareItem" elem="Actions">
+                    { this.renderAddToCartBtn() }
+                    { this.renderWishlistButton() }
+                </div>
             </div>
         );
     }

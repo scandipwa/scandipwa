@@ -12,6 +12,7 @@
 import ProductListQuery from 'Query/ProductList.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import {
+    updateLoadStatus,
     updateRecentlyViewedProducts
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { QueryDispatcher } from 'Util/Request';
@@ -47,12 +48,25 @@ export class RecentlyViewedProductsDispatcher extends QueryDispatcher {
      * @memberof recentlyViewedProductsDispatcher
      * @param recentlyViewedProducts
      */
-    prepareRequest(options) {
-        const { recentProducts, store } = options;
-        const recentlyViewedProductsSKUs = recentProducts[store].reduce((productSKUs, item) => {
+    prepareRequest(options, dispatch) {
+        const { store } = options;
+        const {
+            recentProducts: {
+                [store]: storeRecentProducts
+            } = {}
+        } = options;
+
+        if (!Array.isArray(storeRecentProducts)) {
+            return null;
+        }
+
+        const recentlyViewedProductsSKUs = storeRecentProducts.reduce((productSKUs, item) => {
             const { sku } = item;
+
             return [...productSKUs, `${ sku.replace(/ /g, '%20') }`];
         }, []);
+
+        dispatch(updateLoadStatus(true));
 
         return [
             ProductListQuery.getQuery({

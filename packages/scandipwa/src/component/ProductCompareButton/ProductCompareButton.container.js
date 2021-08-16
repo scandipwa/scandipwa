@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { MixType } from 'Type/Common';
+
 import ProductCompareButton from './ProductCompareButton.component';
 
 export const ProductCompareDispatcher = import(
@@ -38,6 +40,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/ProductCompareButton/Container */
 export class ProductCompareButtonContainer extends PureComponent {
     static propTypes = {
+        mix: MixType,
         productId: PropTypes.number,
         addProductToCompare: PropTypes.func.isRequired,
         removeComparedProduct: PropTypes.func.isRequired,
@@ -45,28 +48,43 @@ export class ProductCompareButtonContainer extends PureComponent {
     };
 
     static defaultProps = {
-        productId: null
+        productId: null,
+        mix: {}
+    };
+
+    state = {
+        isLoading: false
     };
 
     containerFunctions = {
         handleClick: this.handleClick.bind(this)
     };
 
-    containerProps = () => ({
-        isActive: this.isActive()
-    });
+    containerProps() {
+        const { mix } = this.props;
+        const { isLoading } = this.state;
+
+        return {
+            mix,
+            isLoading,
+            isActive: this.isActive()
+        };
+    }
 
     isActive() {
         const { comparedProducts, productId } = this.props;
+
         return comparedProducts.indexOf(productId) !== -1;
     }
 
-    async handleClick() {
+    async handleClick(e) {
         const {
             productId,
             addProductToCompare,
             removeComparedProduct
         } = this.props;
+
+        e.preventDefault();
 
         this.setState({ isLoading: true });
 
@@ -82,8 +100,6 @@ export class ProductCompareButtonContainer extends PureComponent {
     render() {
         return (
             <ProductCompareButton
-              { ...this.props }
-              { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

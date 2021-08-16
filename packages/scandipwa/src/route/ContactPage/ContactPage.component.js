@@ -17,7 +17,6 @@ import ContactForm from 'Component/ContactForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import NoMatch from 'Route/NoMatch';
-import { DeviceType } from 'Type/Device';
 
 import { DEFAULT_CONTACT_US_CMS_BLOCK } from './ContactPage.config';
 
@@ -28,7 +27,7 @@ export class ContactPage extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         isEnabled: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired
+        isMobile: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -36,9 +35,9 @@ export class ContactPage extends PureComponent {
     };
 
     renderHeading() {
-        const { device } = this.props;
+        const { isMobile } = this.props;
 
-        if (device.isMobile) {
+        if (isMobile) {
             return null;
         }
 

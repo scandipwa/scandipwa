@@ -21,8 +21,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/ProductDownloadableLinks/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/ProductDownloadableLinks/Container */
 export class ProductDownloadableLinksContainer extends PureComponent {
@@ -31,7 +30,8 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         isRequired: PropTypes.bool,
         links: PropTypes.array,
         setLinkedDownloadables: PropTypes.func.isRequired,
-        setLinkedDownloadablesPrice: PropTypes.func.isRequired
+        setLinkedDownloadablesPrice: PropTypes.func.isRequired,
+        isOpenInNewTab: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -77,6 +77,25 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         }
     }
 
+    containerProps() {
+        const {
+            isOpenInNewTab,
+            isRequired,
+            links,
+            title
+        } = this.props;
+        const { isLoading, selectedLinks } = this.state;
+
+        return {
+            isOpenInNewTab,
+            isRequired,
+            links,
+            title,
+            isLoading,
+            selectedLinks
+        };
+    }
+
     stopLoading() {
         this.setState({ isLoading: false });
     }
@@ -98,6 +117,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         return selectedLinks.reduce(
             (base, { link_id }) => {
                 const link = links.find(({ id }) => id === link_id);
+
                 return base + link.price;
             },
             0
@@ -132,8 +152,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
     render() {
         return (
             <ProductDownloadableLinks
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

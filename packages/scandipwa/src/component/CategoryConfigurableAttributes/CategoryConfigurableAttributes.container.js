@@ -23,12 +23,30 @@ export const mapStateToProps = (state) => ({
     childrenCategories: state.CategoryReducer.category.children
 });
 
+/** @namespace Component/CategoryConfigurableAttributes/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/CategoryConfigurableAttributes/Container */
 export class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer {
     containerFunctions = {
         ...this.containerFunctions,
         getSubCategories: this.getSubCategories.bind(this)
     };
+
+    containerProps() {
+        const {
+            currency_code,
+            show_product_count,
+            childrenCategories
+        } = this.props;
+
+        return {
+            currency_code,
+            show_product_count,
+            childrenCategories,
+            ...super.containerProps()
+        };
+    }
 
     getSubCategories(option) {
         const optionWithSubcategories = { ...option };
@@ -44,15 +62,11 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
     render() {
         return (
             <CategoryConfigurableAttributes
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );
     }
 }
-
-/** @namespace Component/CategoryConfigurableAttributes/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryConfigurableAttributesContainer);

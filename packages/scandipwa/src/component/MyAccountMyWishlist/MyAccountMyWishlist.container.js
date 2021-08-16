@@ -18,6 +18,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
+import { getErrorMessage } from 'Util/Request';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
@@ -59,7 +60,14 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         moveWishlistToCart: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,
-        removeSelectedFromWishlist: PropTypes.func.isRequired
+        removeSelectedFromWishlist: PropTypes.func.isRequired,
+        creatorsName: PropTypes.string,
+        isEditingActive: PropTypes.bool.isRequired,
+        isMobile: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        creatorsName: ''
     };
 
     state = {
@@ -67,28 +75,39 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         loadingItemsMap: {}
     };
 
-    containerProps = () => {
+    containerFunctions = {
+        removeAll: this.removeAll.bind(this),
+        addAllToCart: this.addAllToCart.bind(this),
+        shareWishlist: this.shareWishlist.bind(this),
+        removeSelectedFromWishlist: this.removeSelectedFromWishlist.bind(this)
+    };
+
+    containerProps() {
         const { isLoading, loadingItemsMap } = this.state;
-        const { isWishlistLoading } = this.props;
+        const {
+            isWishlistLoading,
+            creatorsName,
+            wishlistItems,
+            isEditingActive,
+            isMobile
+        } = this.props;
 
         const isWishlistEmpty = this._getIsWishlistEmpty();
 
         return {
+            isWishlistLoading,
             isWishlistEmpty,
             isLoading,
             isActionsDisabled: isWishlistLoading || isWishlistEmpty,
-            loadingItemsMap
+            loadingItemsMap,
+            creatorsName,
+            wishlistItems,
+            isEditingActive,
+            isMobile
         };
-    };
+    }
 
-    containerFunctions = () => ({
-        removeAll: this.removeAll,
-        addAllToCart: this.addAllToCart,
-        shareWishlist: this.shareWishlist,
-        removeSelectedFromWishlist: this.removeSelectedFromWishlist
-    });
-
-    addAllToCart = () => {
+    addAllToCart() {
         const { moveWishlistToCart } = this.props;
 
         if (!isSignedIn()) {
@@ -101,11 +120,11 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartThen */
             () => this.showNotificationAndRemoveLoading('Available items moved to cart'),
             /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartCatch */
-            () => this.showErrorAndRemoveLoading('Failed to add items to cart')
+            (error) => this.showErrorAndRemoveLoading(getErrorMessage(error))
         );
-    };
+    }
 
-    removeAll = () => {
+    removeAll() {
         const { clearWishlist } = this.props;
 
         if (!isSignedIn()) {
@@ -118,9 +137,9 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             /** @namespace Component/MyAccountMyWishlist/Container/clearWishlistThen */
             () => this.showNotificationAndRemoveLoading('Wishlist cleared')
         );
-    };
+    }
 
-    removeSelectedFromWishlist = (selectedIdMap) => {
+    removeSelectedFromWishlist(selectedIdMap) {
         const { removeSelectedFromWishlist } = this.props;
         const { loadingItemsMap: prevLoadingItemsMap } = this.state;
 
@@ -137,18 +156,18 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         this.setState({ loadingItemsMap });
 
         return removeSelectedFromWishlist(selectedIdMap);
-    };
+    }
 
-    shareWishlist = () => {
+    shareWishlist() {
         const { showPopup } = this.props;
         showPopup({ title: __('Share Wishlist') });
-    };
+    }
 
-    _getIsWishlistEmpty = () => {
+    _getIsWishlistEmpty() {
         const { wishlistItems } = this.props;
 
         return Object.entries(wishlistItems).length <= 0;
-    };
+    }
 
     showNotificationAndRemoveLoading(message) {
         const { showNotification } = this.props;
@@ -158,16 +177,24 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     showErrorAndRemoveLoading(message) {
         const { showError } = this.props;
+
+        try {
+            const errorMessages = JSON.parse(message);
+            errorMessages.forEach((err) => {
+                showError(err);
+            });
+        } catch {
+            showError(message);
+        }
+
         this.setState({ isLoading: false });
-        showError(message);
     }
 
     render() {
         return (
             <MyAccountMyWishlist
-              { ...this.props }
               { ...this.containerProps() }
-              { ...this.containerFunctions() }
+              { ...this.containerFunctions }
             />
         );
     }

@@ -24,6 +24,9 @@ export const mapStateToProps = (state) => ({
     baseLinkUrl: state.ConfigReducer.base_link_url || ''
 });
 
+/** @namespace Component/Link/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/Link/Container */
 export class LinkContainer extends PureComponent {
     static propTypes = {
@@ -58,7 +61,9 @@ export class LinkContainer extends PureComponent {
     };
 
     getTo() {
-        const { to } = this.props;
+        const { to: toProp } = this.props;
+        // fix null, undefined and empty links
+        const to = toProp || '/';
 
         if (typeof to === 'string') {
             // in case this URL is absolute, do not append store
@@ -69,11 +74,11 @@ export class LinkContainer extends PureComponent {
             return appendWithStoreCode(to);
         }
 
-        const { pathname } = to;
+        const pathname = to.pathname || '/';
 
         return {
-            pathname: appendWithStoreCode(pathname),
-            ...to
+            ...to,
+            pathname: appendWithStoreCode(pathname)
         };
     }
 
@@ -85,9 +90,5 @@ export class LinkContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/Link/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(LinkContainer);

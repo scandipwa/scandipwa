@@ -57,6 +57,12 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         isLoading: false
     };
 
+    containerProps() {
+        const { customer } = this.props;
+
+        return { customer };
+    }
+
     showSubscriptionUpdateNotification(isSubscribed, wasSubscribed) {
         const {
             showSuccessNotification,
@@ -120,7 +126,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
             <>
                 <Loader isLoading={ isLoading } />
                 <MyAccountNewsletterSubscription
-                  { ...this.props }
+                  { ...this.containerProps() }
                   { ...this.containerFunctions }
                 />
             </>

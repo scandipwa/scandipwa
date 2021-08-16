@@ -19,6 +19,9 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import CategorySubcategories from './CategorySubcategories.component';
 
+/** @namespace Component/CategorySubcategories/Container/mapStateToProps */
+export const mapStateToProps = () => ({});
+
 /** @namespace Component/CategorySubcategories/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
@@ -38,6 +41,12 @@ export class CategorySubcategoriesContainer extends PureComponent {
         handleCategoryClick: this.handleCategoryClick.bind(this)
     };
 
+    containerProps() {
+        const { option } = this.props;
+
+        return { option };
+    }
+
     handleCategoryClick(e) {
         const { hideActiveOverlay, option } = this.props;
         const { value_string } = option;
@@ -55,15 +64,11 @@ export class CategorySubcategoriesContainer extends PureComponent {
     render() {
         return (
             <CategorySubcategories
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );
     }
 }
-
-/** @namespace Component/CategorySubcategories/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategorySubcategoriesContainer);

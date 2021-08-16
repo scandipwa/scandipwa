@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,19 +11,22 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
 import CategoryDetails from 'Component/CategoryDetails';
-import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
+import FilterIcon from 'Component/FilterIcon';
+import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
+import ListIcon from 'Component/ListIcon';
+import Loader from 'Component/Loader';
 import { CategoryTreeType } from 'Type/Category';
-import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
+import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import {
@@ -35,6 +39,10 @@ import {
 } from './CategoryPage.config';
 
 import './CategoryPage.style';
+
+export const CategoryFilterOverlay = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "overlays-category" */ 'Component/CategoryFilterOverlay'
+));
 
 /** @namespace Route/CategoryPage/Component */
 export class CategoryPage extends PureComponent {
@@ -61,14 +69,13 @@ export class CategoryPage extends PureComponent {
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
-        device: DeviceType.isRequired,
-        is_anchor: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         onGridButtonClick: PropTypes.func.isRequired,
         onListButtonClick: PropTypes.func.isRequired,
-        defaultPlpType: PropTypes.string.isRequired,
+        defaultPlpType: PropTypes.string,
         selectedLayoutType: PropTypes.string,
-        plpTypes: PropTypes.arrayOf(PropTypes.string)
+        plpTypes: PropTypes.arrayOf(PropTypes.string),
+        appliedFiltersCount: PropTypes.number
     };
 
     static defaultProps = {
@@ -77,10 +84,11 @@ export class CategoryPage extends PureComponent {
         isCurrentCategoryLoaded: false,
         isMatchingInfoFilter: false,
         totalPages: 1,
-        is_anchor: true,
+        defaultPlpType: '',
+        plpTypes: [],
         search: '',
-        selectedLayoutType: '',
-        plpTypes: []
+        appliedFiltersCount: 0,
+        selectedLayoutType: ''
     };
 
     state = {};
@@ -132,6 +140,7 @@ export class CategoryPage extends PureComponent {
 
     displayCmsBlock() {
         const { category: { display_mode } = {} } = this.props;
+
         return display_mode === DISPLAY_MODE_CMS_BLOCK
             || display_mode === DISPLAY_MODE_BOTH;
     }
@@ -150,8 +159,24 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderFiltersCount() {
+        const { appliedFiltersCount } = this.props;
+
+        if (!appliedFiltersCount) {
+            return null;
+        }
+
+        return (
+            <span block="CategoryPage" elem="Subheading">
+                { ` (${appliedFiltersCount})` }
+            </span>
+        );
+    }
+
     renderFilterButton() {
-        const { isContentFiltered, totalPages, category: { is_anchor } } = this.props;
+        const {
+            isContentFiltered, totalPages, category: { is_anchor }
+        } = this.props;
 
         if ((!isContentFiltered && totalPages === 0) || !is_anchor) {
             return null;
@@ -163,8 +188,18 @@ export class CategoryPage extends PureComponent {
               elem="Filter"
               onClick={ this.onFilterButtonClick }
             >
-                { __('Filter') }
+                <FilterIcon />
+                <span>{ __('Filters') }</span>
+                { this.renderFiltersCount() }
             </button>
+        );
+    }
+
+    renderFilterPlaceholder() {
+        return (
+            <div block="CategoryPage" elem="FilterPlaceholder">
+                <Loader isLoading />
+            </div>
         );
     }
 
@@ -182,12 +217,14 @@ export class CategoryPage extends PureComponent {
         }
 
         return (
-            <CategoryFilterOverlay
-              availableFilters={ filters }
-              customFiltersValues={ selectedFilters }
-              isMatchingInfoFilter={ isMatchingInfoFilter }
-              isCategoryAnchor={ !!is_anchor }
-            />
+            <Suspense fallback={ this.renderFilterPlaceholder() }>
+                <CategoryFilterOverlay
+                  availableFilters={ filters }
+                  customFiltersValues={ selectedFilters }
+                  isMatchingInfoFilter={ isMatchingInfoFilter }
+                  isCategoryAnchor={ !!is_anchor }
+                />
+            </Suspense>
         );
     }
 
@@ -229,8 +266,9 @@ export class CategoryPage extends PureComponent {
                   key={ type }
                   onClick={ onGridButtonClick }
                   mix={ { block: GRID_LAYOUT, mods: { isActive: activeLayoutType === GRID_LAYOUT } } }
+                  aria-label="grid"
                 >
-                    { __('Grid') }
+                    <GridIcon isActive={ activeLayoutType === GRID_LAYOUT } />
                 </button>
             );
         case LIST_LAYOUT:
@@ -239,8 +277,9 @@ export class CategoryPage extends PureComponent {
                   key={ type }
                   onClick={ onListButtonClick }
                   mix={ { block: LIST_LAYOUT, mods: { isActive: activeLayoutType === LIST_LAYOUT } } }
+                  aria-label="list"
                 >
-                    { __('List') }
+                    <ListIcon isActive={ activeLayoutType === LIST_LAYOUT } />
                 </button>
             );
         default:
@@ -267,13 +306,13 @@ export class CategoryPage extends PureComponent {
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
-        const { isMatchingListFilter, device } = this.props;
+        const { isMatchingListFilter, isMobile } = this.props;
 
-        if (isVisibleOnMobile && !device.isMobile) {
+        if (isVisibleOnMobile && !isMobile) {
             return null;
         }
 
-        if (!isVisibleOnMobile && device.isMobile) {
+        if (!isVisibleOnMobile && isMobile) {
             return null;
         }
 
@@ -302,7 +341,11 @@ export class CategoryPage extends PureComponent {
         }
 
         return (
-            <div block="CategoryPage" elem="ProductListWrapper">
+            <div
+              block="CategoryPage"
+              elem="ProductListWrapper"
+              mods={ { isPrerendered: isSSR() || isCrawler() } }
+            >
                 { this.renderItemsCount(true) }
                 <CategoryProductList
                   filter={ filter }
@@ -312,7 +355,7 @@ export class CategoryPage extends PureComponent {
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
                   isMatchingListFilter={ isMatchingListFilter }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
-                  layout={ activeLayoutType }
+                  layout={ activeLayoutType || GRID_LAYOUT }
                 />
             </div>
         );
@@ -348,11 +391,15 @@ export class CategoryPage extends PureComponent {
 
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
-                <div block="CategoryPage" elem="LayoutWrapper">
+                { this.renderItemsCount() }
+                <div
+                  block="CategoryPage"
+                  elem="LayoutWrapper"
+                  mods={ { isPrerendered: isSSR() || isCrawler() } }
+                >
                     { this.renderLayoutButtons() }
-                    { this.renderItemsCount() }
+                    { this.renderCategorySort() }
                 </div>
-                { this.renderCategorySort() }
                 { this.renderFilterButton() }
             </aside>
         );

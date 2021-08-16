@@ -10,28 +10,58 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 import ProductCompareAttributeRow from 'Component/ProductCompareAttributeRow';
 import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
+import { DeviceType } from 'Type/Device';
 import { ProductItemsType } from 'Type/ProductList';
+import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import './ProductCompare.style';
 
 /** @namespace Component/ProductCompare/Component */
-export class ProductCompare extends PureComponent {
+export class ProductCompare extends Component {
     static propTypes = {
         clearCompareList: PropTypes.func.isRequired,
         getAttributes: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
-        products: ProductItemsType
+        products: ProductItemsType,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
         isLoading: false,
         products: []
     };
+
+    productTypeLabelMap = {
+        [BUNDLE]: __('Starting from'),
+        [GROUPED]: __('Starting from'),
+        [CONFIGURABLE]: __('As Low as')
+    };
+
+    shouldComponentUpdate(nextProps) {
+        const { products } = this.props;
+        const { products: nextProducts } = nextProps;
+
+        return products !== nextProducts;
+    }
+
+    renderHeading() {
+        const { device } = this.props;
+
+        if (device.isMobile) {
+            return null;
+        }
+
+        return (
+            <h1 block="ContactPage" elem="Heading">
+                { __('Product compare') }
+            </h1>
+        );
+    }
 
     renderClearButton() {
         const { clearCompareList } = this.props;
@@ -42,7 +72,11 @@ export class ProductCompare extends PureComponent {
               elem="FirstColumn"
               mix={ { block: 'ClearButton' } }
             >
-                <button onClick={ clearCompareList }>
+                <button
+                  block="Button"
+                  mods={ { isHollow: true } }
+                  onClick={ clearCompareList }
+                >
                     { __('Clear Compare') }
                 </button>
             </div>
@@ -62,9 +96,8 @@ export class ProductCompare extends PureComponent {
     renderPriceLabel() {
         return (
             <div
-              block="ProductCompare"
-              elem="FirstColumn"
-              mix={ { block: 'PriceLabel' } }
+              block="ProductCompareAttributeRow"
+              elem="Title"
             >
                 { __('Price') }
             </div>
@@ -74,7 +107,13 @@ export class ProductCompare extends PureComponent {
     renderProductPrices() {
         const { products } = this.props;
 
-        return products.map(({ id, price_range }) => <ProductPrice price={ price_range } key={ id } />);
+        return products.map(({ id, price_range, type_id }) => (
+            <ProductPrice
+              price={ price_range }
+              key={ id }
+              label={ this.productTypeLabelMap[type_id] }
+            />
+        ));
     }
 
     renderAttributes() {
@@ -103,16 +142,16 @@ export class ProductCompare extends PureComponent {
                 </div>
                 <div
                   block="ProductCompare"
-                  elem="Row"
-                  mix={ { block: 'ProductPriceRow' } }
-                >
-                    { this.renderPriceLabel() }
-                    { this.renderProductPrices() }
-                </div>
-                <div
-                  block="ProductCompare"
                   elem="AttributeTable"
                 >
+                    <div
+                      block="ProductCompareAttributeRow"
+                    >
+                        { this.renderPriceLabel() }
+                        <div block="ProductCompareAttributeRow" elem="Values">
+                            { this.renderProductPrices() }
+                        </div>
+                    </div>
                     { this.renderAttributes() }
                 </div>
             </div>
@@ -127,7 +166,7 @@ export class ProductCompare extends PureComponent {
         );
     }
 
-    render() {
+    renderContent() {
         const {
             isLoading,
             products
@@ -143,6 +182,15 @@ export class ProductCompare extends PureComponent {
         }
 
         return this.renderProducts();
+    }
+
+    render() {
+        return (
+            <>
+            { this.renderHeading() }
+            { this.renderContent() }
+            </>
+        );
     }
 }
 

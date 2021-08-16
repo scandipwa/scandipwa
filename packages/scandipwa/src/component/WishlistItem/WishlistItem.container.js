@@ -20,6 +20,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
+import { CONFIGURABLE } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -36,7 +37,6 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Component/WishlistItem/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
@@ -64,12 +64,20 @@ export class WishlistItemContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         updateWishlistItem: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired,
-        handleSelectIdChange: PropTypes.func.isRequired
+        handleSelectIdChange: PropTypes.func.isRequired,
+        isRemoving: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
+        isEditingActive: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        isRemoving: false
     };
 
     containerFunctions = {
         addToCart: this.addItemToCart.bind(this),
-        removeItem: this.removeItem.bind(this, false, true)
+        removeItem: this.removeItem.bind(this, false, true),
+        redirectToProductPage: this.redirectToProductPage.bind(this)
     };
 
     state = {
@@ -88,16 +96,28 @@ export class WishlistItemContainer extends PureComponent {
         updateWishlistItem({ item_id, description });
     }, UPDATE_WISHLIST_FREQUENCY);
 
-    containerProps = () => {
+    containerProps() {
+        const {
+            handleSelectIdChange,
+            isEditingActive,
+            isMobile,
+            isRemoving,
+            product
+        } = this.props;
         const { isLoading } = this.state;
 
         return {
             changeQuantity: this.changeQuantity,
             changeDescription: this.changeDescription,
             attributes: this.getAttributes(),
-            isLoading
+            isLoading,
+            handleSelectIdChange,
+            isEditingActive,
+            isMobile,
+            isRemoving,
+            product
         };
-    };
+    }
 
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
@@ -140,12 +160,13 @@ export class WishlistItemContainer extends PureComponent {
             return null;
         }
 
-        if (type_id === 'configurable') {
+        if (type_id === CONFIGURABLE) {
             const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
 
             if (!configurableVariantIndex) {
                 history.push({ pathname: appendWithStoreCode(item.url) });
-                showNotification('info', __('Please select product options!'));
+                showNotification('info', __('Please, select product options!'));
+
                 return Promise.resolve();
             }
 
@@ -157,13 +178,12 @@ export class WishlistItemContainer extends PureComponent {
         return addProductToCart({ product: item, quantity, buyRequest: buy_request })
             .then(
                 /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
-                () => this.removeItem(id),
+                () => {
+                    this.removeItem(id);
+                    showNotification('success', __('Product Added To Cart'));
+                },
                 /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartCatch */
                 () => this.showNotification('error', __('Error Adding Product To Cart'))
-            )
-            .then(
-                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThen */
-                () => showNotification('success', __('Product Added To Cart'))
             )
             .catch(
                 /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThenCatch */
@@ -184,6 +204,12 @@ export class WishlistItemContainer extends PureComponent {
         handleSelectIdChange(item_id, isRemoveOnly);
 
         return removeFromWishlist({ item_id, noMessages });
+    }
+
+    redirectToProductPage() {
+        const { product: { url } } = this.props;
+
+        history.push({ pathname: appendWithStoreCode(url) });
     }
 
     renderRightSideContent = () => (
@@ -208,10 +234,8 @@ export class WishlistItemContainer extends PureComponent {
               isLoading={ isLoading }
             >
                 <WishlistItem
-                  { ...this.props }
                   { ...this.containerProps() }
                   { ...this.containerFunctions }
-                  { ...this.state }
                 />
             </SwipeToDelete>
         );

@@ -24,11 +24,21 @@ export const mapDispatchToProps = (dispatch) => ({
     showPopup: (payload) => dispatch(showPopup(ORDER_POPUP_ID, payload))
 });
 
+/** @namespace Component/MyAccountOrderTableRow/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
+
 /** @namespace Component/MyAccountOrderTableRow/Container */
 export class MyAccountOrderTableRowContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
-        order: orderType.isRequired
+        order: orderType.isRequired,
+        display_tax_in_shipping_amount: PropTypes.string
+    };
+
+    static defaultProps = {
+        display_tax_in_shipping_amount: ''
     };
 
     containerFunctions = {
@@ -47,8 +57,18 @@ export class MyAccountOrderTableRowContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { order: { base_order_info, base_order_info: { currency_code = '' } } } = this.props;
-        return { base_order_info, currency_code };
+        const {
+            display_tax_in_shipping_amount,
+            order,
+            order: { base_order_info, base_order_info: { currency_code = '' } }
+        } = this.props;
+
+        return {
+            order,
+            base_order_info,
+            currency_code,
+            display_tax_in_shipping_amount
+        };
     };
 
     render() {
@@ -60,9 +80,5 @@ export class MyAccountOrderTableRowContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/MyAccountOrderTableRow/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccountOrderTableRowContainer);

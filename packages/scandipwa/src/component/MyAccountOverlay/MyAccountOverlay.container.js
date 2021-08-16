@@ -24,7 +24,6 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
@@ -42,7 +41,7 @@ import {
 export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     customer: state.MyAccountReducer.customer,
-    device: state.ConfigReducer.device,
+    isMobile: state.ConfigReducer.device.isMobile,
     isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
     isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT,
     redirectToDashboard: state.ConfigReducer.redirect_dashboard,
@@ -71,7 +70,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         goToPreviousHeaderState: PropTypes.func,
         isCheckout: PropTypes.bool,
         hideActiveOverlay: PropTypes.func.isRequired,
-        device: DeviceType.isRequired,
+        isMobile: PropTypes.bool.isRequired,
         redirectToDashboard: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool
     };
@@ -104,7 +103,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             isPasswordForgotSend,
             showNotification,
             isOverlayVisible,
-            device
+            isMobile
         } = props;
 
         const {
@@ -117,7 +116,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         const stateToBeUpdated = {};
         const customerIsSignedIn = isSignedIn();
 
-        if (!device.isMobile) {
+        if (!isMobile) {
             if (!isOverlayVisible && !customerIsSignedIn) {
                 if (pathname !== '/forgot-password' && !isForgotPassword) {
                     stateToBeUpdated.state = STATE_SIGN_IN;
@@ -187,10 +186,25 @@ export class MyAccountOverlayContainer extends PureComponent {
     }
 
     containerProps() {
-        const { props, state } = this;
+        const {
+            isOverlayVisible,
+            isMobile,
+            isLoading: propIsLoading,
+            onSignIn
+        } = this.props;
+        const {
+            isLoading: stateIsLoading,
+            state,
+            isCheckout
+        } = this.state;
 
         return {
-            isLoading: props.isLoading || state.isLoading
+            isCheckout,
+            isLoading: propIsLoading || stateIsLoading,
+            isMobile,
+            isOverlayVisible,
+            onSignIn,
+            state
         };
     }
 
@@ -207,7 +221,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             showOverlay,
             setHeaderState,
             isPasswordForgotSend,
-            device
+            isMobile
         } = props;
 
         const { location: { pathname, state: { isForgotPassword } = {} } } = history;
@@ -235,8 +249,9 @@ export class MyAccountOverlayContainer extends PureComponent {
             }
         });
 
-        if (device.isMobile) {
+        if (isMobile) {
             history.push({ pathname: appendWithStoreCode('/my-account'), state: { isForgotPassword: true } });
+
             return state;
         }
 
@@ -246,9 +261,9 @@ export class MyAccountOverlayContainer extends PureComponent {
     };
 
     onVisible() {
-        const { setHeaderState, isCheckout, device } = this.props;
+        const { setHeaderState, isCheckout, isMobile } = this.props;
 
-        if (device.isMobile && !isCheckout) {
+        if (isMobile && !isCheckout) {
             setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
         }
     }
@@ -306,8 +321,6 @@ export class MyAccountOverlayContainer extends PureComponent {
     render() {
         return (
             <MyAccountOverlay
-              { ...this.props }
-              { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

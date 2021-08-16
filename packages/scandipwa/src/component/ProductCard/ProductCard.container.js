@@ -15,10 +15,19 @@ import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
+import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
+import { LayoutType } from 'Type/Layout';
 import { FilterType, ProductType } from 'Type/ProductList';
 import history from 'Util/History';
-import { CONFIGURABLE, getVariantsIndexes } from 'Util/Product';
+import {
+    CONFIGURABLE,
+    getNewParameters,
+    getVariantIndex,
+    getVariantsIndexes
+} from 'Util/Product';
 import { appendWithStoreCode, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
@@ -42,7 +51,8 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     addProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
-    )
+    ),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 /** @namespace Component/ProductCard/Container */
@@ -55,19 +65,51 @@ export class ProductCardContainer extends PureComponent {
         category_url_suffix: PropTypes.string.isRequired,
         base_link_url: PropTypes.string.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
-        isPreview: PropTypes.bool
+        isPreview: PropTypes.bool,
+        showNotification: PropTypes.func.isRequired,
+        children: ChildrenType,
+        hideCompareButton: PropTypes.bool,
+        hideWishlistButton: PropTypes.bool,
+        isLoading: PropTypes.bool,
+        mix: MixType,
+        layout: LayoutType,
+        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+        siblingsHaveBrands: PropTypes.bool,
+        setSiblingsHaveBrands: PropTypes.func,
+        siblingsHavePriceBadge: PropTypes.bool,
+        setSiblingsHavePriceBadge: PropTypes.func,
+        siblingsHaveConfigurableOptions: PropTypes.bool
     };
 
     static defaultProps = {
         product: {},
         selectedFilters: {},
-        isPreview: false
+        isPreview: false,
+        children: null,
+        isLoading: false,
+        mix: {},
+        renderContent: false,
+        hideWishlistButton: false,
+        hideCompareButton: false,
+        siblingsHaveBrands: false,
+        setSiblingsHaveBrands: () => null,
+        siblingsHavePriceBadge: false,
+        setSiblingsHavePriceBadge: () => null,
+        siblingsHaveConfigurableOptions: false,
+        layout: GRID_LAYOUT
+    };
+
+    state = {
+        parameters: {},
+        configurableVariantIndex: -1
     };
 
     containerFunctions = {
         getAttribute: this.getAttribute.bind(this),
         isConfigurableProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this),
-        isBundleProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this)
+        isBundleProductOutOfStock: this.isBundleProductOutOfStock.bind(this),
+        updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
+        showSelectOptionsNotification: this.showSelectOptionsNotification.bind(this)
     };
 
     getAttribute(code) {
@@ -75,6 +117,7 @@ export class ProductCardContainer extends PureComponent {
 
         if (!Object.keys(selectedFilters).length) {
             const { product: { attributes = {} } } = this.props;
+
             return attributes[code];
         }
 
@@ -90,13 +133,50 @@ export class ProductCardContainer extends PureComponent {
         };
     }
 
-    containerProps = () => ({
-        availableVisualOptions: this._getAvailableVisualOptions(),
-        currentVariantIndex: this._getCurrentVariantIndex(),
-        productOrVariant: this._getProductOrVariant(),
-        thumbnail: this._getThumbnail(),
-        linkTo: this._getLinkTo()
-    });
+    containerProps() {
+        const {
+            children,
+            device,
+            hideCompareButton,
+            hideWishlistButton,
+            isLoading,
+            isWishlistEnabled,
+            layout,
+            mix,
+            product,
+            renderContent,
+            setSiblingsHaveBrands,
+            setSiblingsHavePriceBadge,
+            siblingsHaveBrands,
+            siblingsHaveConfigurableOptions,
+            siblingsHavePriceBadge
+        } = this.props;
+        const { configurableVariantIndex, parameters } = this.state;
+
+        return {
+            children,
+            device,
+            hideCompareButton,
+            hideWishlistButton,
+            isLoading,
+            isWishlistEnabled,
+            layout,
+            mix,
+            product,
+            renderContent,
+            setSiblingsHaveBrands,
+            setSiblingsHavePriceBadge,
+            siblingsHaveBrands,
+            siblingsHaveConfigurableOptions,
+            siblingsHavePriceBadge,
+            configurableVariantIndex,
+            parameters,
+            currentVariantIndex: this._getCurrentVariantIndex(),
+            productOrVariant: this._getProductOrVariant(),
+            thumbnail: this._getThumbnail(),
+            linkTo: this._getLinkTo()
+        };
+    }
 
     _getLinkTo() {
         const {
@@ -134,6 +214,7 @@ export class ProductCardContainer extends PureComponent {
 
     _getCurrentVariantIndex() {
         const { index } = this._getConfigurableParameters();
+
         return index;
     }
 
@@ -145,7 +226,7 @@ export class ProductCardContainer extends PureComponent {
             return { indexes: [], parameters: {} };
         }
 
-        const indexes = getVariantsIndexes(variants, selectedFilters);
+        const indexes = getVariantsIndexes(variants, selectedFilters, true);
         const [index] = indexes;
 
         if (!variants[index]) {
@@ -195,43 +276,14 @@ export class ProductCardContainer extends PureComponent {
         return product || {};
     }
 
-    _getAvailableVisualOptions() {
-        const { product: { configurable_options = {} } } = this.props;
+    showSelectOptionsNotification() {
+        const { showNotification } = this.props;
 
-        if (Object.keys(configurable_options).length === 0) {
-            return [];
-        }
-
-        // Find first option that has swatch_data in attribute_options property
-        const optionWithSwatchData = Object.values(configurable_options).find((option) => {
-            const { attribute_options = {} } = option;
-
-            return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);
-        });
-
-        const { attribute_options = {} } = optionWithSwatchData || {};
-
-        return Object.values(attribute_options).reduce(
-            (acc, option) => {
-                const {
-                    swatch_data,
-                    label
-                } = option;
-
-                const { type, value } = swatch_data || {};
-
-                if (type && value) {
-                    acc.push({ value, label, type });
-                }
-
-                return acc;
-            },
-            []
-        );
+        showNotification('info', __('Please, select product options!'));
     }
 
     isConfigurableProductOutOfStock() {
-        const { product: { variants }, isPreview } = this.props;
+        const { product: { variants = [] }, isPreview } = this.props;
 
         if (isPreview) {
             return true;
@@ -243,7 +295,7 @@ export class ProductCardContainer extends PureComponent {
     }
 
     isBundleProductOutOfStock() {
-        const { product: { items } } = this.props;
+        const { product: { items = [] } } = this.props;
 
         if (items.length === 0) {
             return true;
@@ -251,9 +303,32 @@ export class ProductCardContainer extends PureComponent {
 
         const { options } = items[0];
 
-        const optionsInStock = options.filter((option) => option.product.stock_status === IN_STOCK);
+        const optionsInStock = options.filter((option) => option?.product?.stock_status === IN_STOCK);
 
         return optionsInStock.length === 0;
+    }
+
+    updateConfigurableVariant(key, value) {
+        const { parameters: prevParameters } = this.state;
+
+        const parameters = getNewParameters(prevParameters, key, value);
+        this.setState({ parameters });
+
+        this.updateConfigurableVariantIndex(parameters);
+    }
+
+    updateConfigurableVariantIndex(parameters) {
+        const { product: { variants, configurable_options } } = this.props;
+        const { configurableVariantIndex } = this.state;
+
+        const newIndex = Object.keys(parameters).length === Object.keys(configurable_options).length
+            ? getVariantIndex(variants, parameters)
+            // Not all parameters are selected yet, therefore variantIndex must be invalid
+            : -1;
+
+        if (configurableVariantIndex !== newIndex) {
+            this.setState({ configurableVariantIndex: newIndex });
+        }
     }
 
     render() {
@@ -261,9 +336,9 @@ export class ProductCardContainer extends PureComponent {
             <Subscribe to={ [SharedTransitionContainer] }>
                 { ({ registerSharedElement }) => (
                     <ProductCard
-                      { ...{ ...this.props, registerSharedElement } }
                       { ...this.containerFunctions }
                       { ...this.containerProps() }
+                      registerSharedElement={ registerSharedElement }
                     />
                 ) }
             </Subscribe>

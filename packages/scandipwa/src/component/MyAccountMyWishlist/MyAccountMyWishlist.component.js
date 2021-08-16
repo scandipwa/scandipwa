@@ -12,8 +12,10 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import CartIcon from 'Component/CartIcon';
 import Loader from 'Component/Loader';
 import ProductCard from 'Component/ProductCard';
+import ShareIcon from 'Component/ShareIcon';
 import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
 import { ProductType } from 'Type/ProductList';
@@ -156,12 +158,12 @@ export class MyAccountMyWishlist extends PureComponent {
         return (
             <button
               block="Button"
-              mods={ { likeLink: true } }
+              mods={ { isHollow: true, isWithoutBorder: true } }
               mix={ { block: 'MyAccountMyWishlist', elem: 'ClearWishlistButton' } }
               onClick={ removeAll }
               disabled={ isActionsDisabled }
             >
-                { __('Clear') }
+                { __('Clear All') }
             </button>
         );
     }
@@ -183,7 +185,8 @@ export class MyAccountMyWishlist extends PureComponent {
               onClick={ addAllToCart }
               disabled={ isDisabled }
             >
-              { __('Add All to Cart') }
+                <CartIcon />
+                { __('Add All to Cart') }
             </button>
         );
     }
@@ -201,10 +204,11 @@ export class MyAccountMyWishlist extends PureComponent {
             <button
               block="Button"
               mods={ { isHollow: true } }
-              mix={ { } }
+              mix={ { block: 'MyAccountMyWishlist', elem: 'ShareWishlistButton' } }
               onClick={ shareWishlist }
               disabled={ disabled }
             >
+                <ShareIcon isPrimary />
                 { __('Share') }
             </button>
         );
@@ -268,8 +272,8 @@ export class MyAccountMyWishlist extends PureComponent {
 
         return (
             <div block="MyAccountMyWishlist" elem="ActionBar">
-                { this.renderAddAllToCart() }
                 { this.renderShareWishlistButton() }
+                { this.renderAddAllToCart() }
                 { this.renderClearWishlist() }
             </div>
         );

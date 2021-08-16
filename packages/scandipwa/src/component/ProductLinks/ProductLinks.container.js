@@ -12,7 +12,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import LinkedProductsReducer from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { ProductType } from 'Type/ProductList';
+import { withReducers } from 'Util/DynamicReducer';
 
 import ProductLinks from './ProductLinks.component';
 
@@ -21,11 +23,22 @@ export const mapStateToProps = (state) => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts
 });
 
+/** @namespace Component/ProductLinks/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/ProductLinks/Container */
 export class ProductLinksContainer extends PureComponent {
     static propTypes = {
         linkedProducts: PropTypes.objectOf(ProductType).isRequired,
-        linkType: PropTypes.string.isRequired
+        linkType: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        numberOfProductsToDisplay: PropTypes.number,
+        areDetailsLoaded: PropTypes.bool
+    };
+
+    static defaultProps = {
+        numberOfProductsToDisplay: 4,
+        areDetailsLoaded: true
     };
 
     state = {
@@ -37,6 +50,13 @@ export class ProductLinksContainer extends PureComponent {
 
     containerProps() {
         const {
+            areDetailsLoaded,
+            linkType,
+            linkedProducts,
+            numberOfProductsToDisplay,
+            title
+        } = this.props;
+        const {
             siblingsHaveBrands,
             siblingsHavePriceBadge,
             siblingsHaveTierPrice,
@@ -44,6 +64,11 @@ export class ProductLinksContainer extends PureComponent {
         } = this.state;
 
         return {
+            areDetailsLoaded,
+            linkType,
+            linkedProducts,
+            numberOfProductsToDisplay,
+            title,
             productCardFunctions: {
                 setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
                 setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
@@ -75,15 +100,12 @@ export class ProductLinksContainer extends PureComponent {
 
         return (
             <ProductLinks
-              { ...this.props }
               { ...this.containerProps() }
             />
         );
     }
 }
 
-/** @namespace Component/ProductLinks/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductLinksContainer);
+export default withReducers({
+    LinkedProductsReducer
+})(connect(mapStateToProps, mapDispatchToProps)(ProductLinksContainer));

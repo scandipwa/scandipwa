@@ -9,10 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { HistoryType, LocationType } from 'Type/Common';
+import { HistoryType, LocationType, MixType } from 'Type/Common';
 import { setQueryParams } from 'Util/Url';
 
 import ResetButton from './ResetButton.component';
@@ -21,18 +22,30 @@ import ResetButton from './ResetButton.component';
 export class ResetButtonContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
-        location: LocationType.isRequired
+        location: LocationType.isRequired,
+        mix: MixType,
+        onClick: PropTypes.func.isRequired
     };
 
-    containerProps = () => ({
-        isContentFiltered: this.isContentFiltered()
-    });
+    static defaultProps = {
+        mix: {}
+    };
 
-    containerFunctions = () => ({
-        resetFilters: this.resetFilters
-    });
+    containerFunctions = {
+        resetFilters: this.resetFilters.bind(this)
+    };
 
-    resetFilters = () => {
+    containerProps() {
+        const { mix, onClick } = this.props;
+
+        return {
+            mix,
+            onClick,
+            isContentFiltered: this.isContentFiltered()
+        };
+    }
+
+    resetFilters() {
         const { location, history } = this.props;
 
         setQueryParams({
@@ -41,17 +54,20 @@ export class ResetButtonContainer extends PureComponent {
             priceMax: '',
             page: ''
         }, location, history);
-    };
+    }
 
     isContentFiltered() {
         const { customFilters, priceMin, priceMax } = this.urlStringToObject();
+
         return !!(customFilters || priceMin || priceMax);
     }
 
     urlStringToObject() {
         const { location: { search = '' } } = this.props;
+
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
+
             return { ...acc, [key]: value };
         }, {});
     }
@@ -59,9 +75,8 @@ export class ResetButtonContainer extends PureComponent {
     render() {
         return (
             <ResetButton
-              { ...this.props }
               { ...this.containerProps() }
-              { ...this.containerFunctions() }
+              { ...this.containerFunctions }
             />
         );
     }

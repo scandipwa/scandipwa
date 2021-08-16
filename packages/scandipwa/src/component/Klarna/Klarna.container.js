@@ -10,12 +10,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
 
 import KlarnaComponent from './Klarna.component';
+
+/** @namespace Component/Klarna/Container/mapStateToProps */
+export const mapStateToProps = () => ({});
 
 /** @namespace Component/Klarna/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -24,6 +28,11 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /** @namespace Component/Klarna/Container */
 export class KlarnaContainer extends PureComponent {
+    static propTypes = {
+        showError: PropTypes.func.isRequired,
+        setOrderButtonEnableStatus: PropTypes.func.isRequired
+    };
+
     static authorize() {
         return new Promise((resolve, reject) => {
             window.Klarna.Payments.authorize(
@@ -41,13 +50,15 @@ export class KlarnaContainer extends PureComponent {
         });
     }
 
+    containerProps() {
+        const { showError, setOrderButtonEnableStatus } = this.props;
+
+        return { showError, setOrderButtonEnableStatus };
+    }
+
     render() {
-        return <KlarnaComponent { ...this.props } />;
+        return <KlarnaComponent { ...this.containerProps() } />;
     }
 }
-
-/** @namespace Component/Klarna/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(KlarnaContainer);

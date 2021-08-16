@@ -12,6 +12,13 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import {
+    ONE_STAR_SHARE,
+    STARS_COUNT,
+    STARS_GRANULARITY_PERCENT
+} from 'Component/ProductReviewRating/ProductReviewRating.config';
+import Star from 'Component/StarIcon';
+import { STAR_EMPTY, STAR_FULL, STAR_HALF_FULL } from 'Component/StarIcon/StarIcon.config';
 import { MixType } from 'Type/Common';
 import CSS from 'Util/CSS';
 
@@ -26,14 +33,16 @@ export class ProductReviewRating extends PureComponent {
         summary: PropTypes.number,
         code: PropTypes.string,
         placeholder: PropTypes.bool,
-        mix: MixType
+        mix: MixType,
+        count: PropTypes.number
     };
 
     static defaultProps = {
         summary: 0,
         code: '',
         placeholder: false,
-        mix: {}
+        mix: {},
+        count: 0
     };
 
     reviewRating = createRef();
@@ -74,13 +83,30 @@ export class ProductReviewRating extends PureComponent {
         );
     }
 
+    getStarCounts() {
+        const { summary } = this.props;
+        const percentRounded = Math.round(summary / STARS_GRANULARITY_PERCENT) * STARS_GRANULARITY_PERCENT;
+        const fullCount = Math.floor(percentRounded / ONE_STAR_SHARE);
+        const halfFullCount = percentRounded % ONE_STAR_SHARE === STARS_GRANULARITY_PERCENT ? 1 : 0;
+        const emptyCount = STARS_COUNT - fullCount - halfFullCount;
+
+        return [fullCount, halfFullCount, emptyCount];
+    }
+
+    renderStar(count, type) {
+        return Array.from(Array(count), (_, i) => <Star key={ i } starFill={ type } />);
+    }
+
     render() {
         const {
             summary,
             code,
             placeholder,
-            mix
+            mix,
+            count
         } = this.props;
+
+        const [fullCount, halfFullCount, emptyCount] = this.getStarCounts();
 
         const ariaText = this.getAriaText(summary, code);
 
@@ -95,7 +121,14 @@ export class ProductReviewRating extends PureComponent {
               ref={ this.reviewRating }
               aria-label={ ariaText }
               mix={ mix }
-            />
+            >
+                { this.renderStar(fullCount, STAR_FULL) }
+                { this.renderStar(halfFullCount, STAR_HALF_FULL) }
+                { this.renderStar(emptyCount, STAR_EMPTY) }
+                <span block="ProductReviewRating" elem="Counter">
+                    { `(${count})` }
+                </span>
+            </div>
         );
     }
 }

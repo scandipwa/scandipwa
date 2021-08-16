@@ -21,6 +21,9 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 
+/** @namespace Component/SharedWishlistItem/Container/mapStateToProps */
+export const mapStateToProps = () => ({});
+
 /** @namespace Component/SharedWishlistItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
@@ -37,10 +40,18 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
 
     _getConfigurableVariantIndex() {
         const { product: { wishlist: { sku }, variants } } = this.props;
+
         return +this.getConfigurableVariantIndex(sku, variants);
     }
 
-    containerProps = () => {
+    containerProps() {
+        const {
+            handleSelectIdChange,
+            isEditingActive,
+            isMobile,
+            isRemoving,
+            product
+        } = this.props;
         const { isLoading } = this.state;
 
         return {
@@ -48,9 +59,14 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
             changeDescription: this.changeDescription,
             configurableVariantIndex: this._getConfigurableVariantIndex(),
             parameters: this.getAttributes(),
-            isLoading
+            isLoading,
+            handleSelectIdChange,
+            isEditingActive,
+            isMobile,
+            isRemoving,
+            product
         };
-    };
+    }
 
     changeQuantity = (quantity) => {
         this.setState({ quantity });
@@ -59,17 +75,11 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
     render() {
         return (
             <SharedWishlistItem
-              { ...this.props }
-              { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );
     }
 }
-
-/** @namespace Component/SharedWishlistItem/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SharedWishlistItemContainer);

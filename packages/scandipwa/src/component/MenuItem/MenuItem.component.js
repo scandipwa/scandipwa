@@ -13,85 +13,67 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Image from 'Component/Image';
+import AddIcon from 'Component/AddIcon';
 import Link from 'Component/Link';
-import { DeviceType } from 'Type/Device';
-import media from 'Util/Media';
+import MinusIcon from 'Component/MinusIcon';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {
     static propTypes = {
         activeMenuItemsStack: PropTypes.array.isRequired,
         item: PropTypes.object.isRequired,
-        itemMods: PropTypes.object,
+        itemMods: PropTypes.object.isRequired,
         handleCategoryHover: PropTypes.func.isRequired,
         handleLinkLeave: PropTypes.func.isRequired,
-        isLink: PropTypes.bool,
+        isLink: PropTypes.bool.isRequired,
         onItemClick: PropTypes.func,
-        device: DeviceType.isRequired
+        isExpandable: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        itemMods: {},
-        isLink: false,
         onItemClick: () => {}
     };
 
-    renderItemContentImage(icon, itemMods) {
-        const { device } = this.props;
-        const { isBanner, isLogo, type } = itemMods;
+    renderPlusMinusIcon() {
+        const { itemMods: { isExpanded } } = this.props;
 
-        if (!icon
-            || (!device.isMobile && !isBanner && !isLogo)
-            || (type === 'subcategory')
-        ) {
+        if (isExpanded) {
+            return <MinusIcon />;
+        }
+
+        return <AddIcon />;
+    }
+
+    renderExpandButton() {
+        const { isExpandable, itemMods } = this.props;
+
+        if (!isExpandable) {
             return null;
         }
 
         return (
-            <Image
-              mix={ { block: 'Menu', elem: 'Image', mods: itemMods } }
-              src={ icon && media(icon) }
-              ratio="custom"
-            />
+            <figcaption
+              block="Menu"
+              elem="ExpandedState"
+              mods={ itemMods }
+            >
+                { this.renderPlusMinusIcon() }
+            </figcaption>
         );
     }
 
-    renderItemContentTitle(isBanner, title) {
-        if (isBanner) {
-            return (
-                <button
-                  block="Menu"
-                  elem="Button"
-                  mix={ { block: 'Button' } }
-                >
-                    { title }
-                </button>
-            );
-        }
-
-        return title;
-    }
-
-    renderItemContent(item, itemMods = {}) {
-        const { title, icon } = item;
-        const { isBanner } = itemMods;
+    renderItemContent(item, itemMods) {
+        const { title } = item;
 
         return (
-            <figure
+            <figcaption
               block="Menu"
-              elem="ItemFigure"
+              elem="ItemCaption"
               mods={ itemMods }
             >
-                { this.renderItemContentImage(icon, itemMods) }
-                <figcaption
-                  block="Menu"
-                  elem="ItemCaption"
-                  mods={ itemMods }
-                >
-                    { this.renderItemContentTitle(isBanner, title) }
-                </figcaption>
-            </figure>
+                { title }
+                { this.renderExpandButton() }
+            </figcaption>
         );
     }
 

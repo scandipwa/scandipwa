@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
+import { PRICE_TYPE_PERCENT } from 'Component/ProductBundleItem/ProductBundleItem.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { PriceType } from 'Type/ProductList';
 import { formatPrice } from 'Util/Price';
@@ -26,7 +26,6 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = () => ({});
 
 /** @namespace Component/ProductCustomizableOption/Container */
@@ -36,17 +35,20 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         productOptionsData: PropTypes.object.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
-        setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
+        setCustomizableOptionFileFieldValue: PropTypes.func,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        price_range: PriceType.isRequired,
-        type_id: PropTypes.string.isRequired
+        price_range: PriceType.isRequired
+    };
+
+    static defaultProps = {
+        setCustomizableOptionFileFieldValue: () => null
     };
 
     state = {
         textValue: '',
         selectedDropdownValue: 0,
-        textFieldValid: null
+        textFieldValid: true
     };
 
     containerFunctions = {
@@ -58,10 +60,25 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         renderOptionLabel: this.renderOptionLabel.bind(this)
     };
 
-    containerProps = () => ({
-        optionType: this.getOptionType(),
-        requiredSelected: this.getIsRequiredSelected()
-    });
+    containerProps() {
+        const { option } = this.props;
+        const {
+            textValue,
+            selectedDropdownValue,
+            textFieldValid,
+            fieldValue
+        } = this.state;
+
+        return {
+            option,
+            fieldValue,
+            textValue,
+            textFieldValid,
+            selectedDropdownValue,
+            optionType: this.getOptionType(),
+            requiredSelected: this.getIsRequiredSelected()
+        };
+    }
 
     getOptionType() {
         const { option } = this.props;
@@ -111,27 +128,18 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return !!isRequiredSelected.length;
     }
 
-    renderOptionLabel(priceType, price, currency) {
-        const {
-            price_range: {
-                minimum_price: {
-                    default_final_price_excl_tax: {
-                        value = 0
-                    } = {}
-                } = {}
-            } = {}
-        } = this.props;
-
-        const finalPriceSource = price === 0 ? value : price;
-        const finalPrice = formatPrice(finalPriceSource, currency);
-
-        switch (priceType) {
-        case 'PERCENT':
-            const percentPrice = formatPrice((finalPriceSource / ONE_HUNDRED_PERCENT) * value, currency);
-            return `${percentPrice} (${ price }%)`;
-        default:
-            return finalPrice;
+    renderPercent(priceType, price) {
+        if (priceType !== PRICE_TYPE_PERCENT) {
+            return '';
         }
+
+        return ` (${ price }%)`;
+    }
+
+    renderOptionLabel(priceType, priceInclTax, price, currency) {
+        return (price === 0 && priceInclTax === 0)
+            ? ''
+            : `+ ${formatPrice(priceInclTax, currency)}${this.renderPercent(priceType, price)}`;
     }
 
     getSelectedCheckboxValue(value) {
@@ -169,6 +177,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return values.reduce((acc, {
             option_type_id,
             title,
+            priceInclTax,
             price,
             price_type,
             sort_order,
@@ -178,7 +187,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
                 id: option_type_id,
                 name: title,
                 value: option_type_id,
-                label: `${title} + ${this.renderOptionLabel(price_type, price, currency)}`,
+                label: `${title} `,
+                subLabel: this.renderOptionLabel(price_type, priceInclTax, price, currency),
                 sort_order
             });
 
@@ -202,8 +212,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         }
 
         const reader = new FileReader();
-        // eslint-disable-next-line func-names
-        reader.onloadend = function () {
+        reader.onloadend = () => {
             setCustomizableOptionFileFieldValue(reader.result, option, name);
         };
 
@@ -215,8 +224,6 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     render() {
         return (
             <ProductCustomizableOption
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

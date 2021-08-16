@@ -14,11 +14,16 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import {
+    AUTOFILL_CHECK_TIMER,
+    GUEST_EMAIL_FIELD_ID
+} from 'Component/CheckoutGuestForm/CheckoutGuestForm.config';
+import {
     STATE_CREATE_ACCOUNT,
     STATE_FORGOT_PASSWORD,
     STATE_SIGN_IN
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { updateEmailAvailable } from 'Store/Checkout/Checkout.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import { getErrorMessage } from 'Util/Request';
@@ -43,7 +48,8 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error)))
+    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
+    clearEmailStatus: () => dispatch(updateEmailAvailable(true))
 });
 
 /** @namespace Component/CheckoutGuestForm/Container */
@@ -55,6 +61,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
         onEmailChange: PropTypes.func.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,
+        clearEmailStatus: PropTypes.func.isRequired,
         emailValue: PropTypes.string,
         onSignIn: PropTypes.func,
         isEmailAvailable: PropTypes.bool.isRequired,
@@ -85,11 +92,36 @@ export class CheckoutGuestFormContainer extends PureComponent {
         setLoadingState: this.setLoadingState.bind(this)
     };
 
+    __construct(props) {
+        super.__construct(props);
+
+        const { clearEmailStatus } = props;
+        clearEmailStatus();
+        this.setSignInState('');
+    }
+
+    componentDidMount() {
+        setTimeout(
+            () => {
+                const field = document.getElementById(GUEST_EMAIL_FIELD_ID);
+                if (field) {
+                    this.handleEmailInput(field.value);
+                }
+            },
+            AUTOFILL_CHECK_TIMER
+        );
+    }
+
     containerProps = () => {
-        const { emailValue } = this.props;
+        const { emailValue, isEmailAvailable } = this.props;
+        const { isLoading, signInState } = this.state;
+
         return ({
             formId: SHIPPING_STEP,
-            emailValue
+            emailValue,
+            isEmailAvailable,
+            isLoading,
+            signInState
         });
     };
 
@@ -146,8 +178,6 @@ export class CheckoutGuestFormContainer extends PureComponent {
 
         return (
             <CheckoutGuestForm
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

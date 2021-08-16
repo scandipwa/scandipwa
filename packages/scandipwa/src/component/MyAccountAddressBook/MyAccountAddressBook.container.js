@@ -37,23 +37,13 @@ export class MyAccountAddressBookContainer extends PureComponent {
     };
 
     containerFunctions = {
-        getDefaultPostfix: this.getDefaultPostfix.bind(this),
         showCreateNewPopup: this.showCreateNewPopup.bind(this)
     };
 
-    getDefaultPostfix(address) {
-        const { default_billing, default_shipping } = address;
-        if (!default_billing && !default_shipping) {
-            return '';
-        }
-        if (default_billing && default_shipping) {
-            return __(' - default shipping, billing address');
-        }
-        if (default_billing) {
-            return __(' - default billing address');
-        }
+    containerProps() {
+        const { customer, showPopup } = this.props;
 
-        return __(' - default shipping address');
+        return { customer, showPopup };
     }
 
     showCreateNewPopup() {
@@ -69,7 +59,7 @@ export class MyAccountAddressBookContainer extends PureComponent {
     render() {
         return (
             <MyAccountAddressBook
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

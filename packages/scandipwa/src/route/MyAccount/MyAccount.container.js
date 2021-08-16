@@ -17,6 +17,7 @@ import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_WISHLIST } from 'Comp
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import OrderReducer from 'Store/Order/Order.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ADDRESS_BOOK,
@@ -24,8 +25,8 @@ import {
     MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
+import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -43,7 +44,7 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Route/MyAccount/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device,
+    isMobile: state.ConfigReducer.device.isMobile,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isSignedIn: state.MyAccountReducer.isSignedIn,
@@ -74,7 +75,7 @@ export class MyAccountContainer extends PureComponent {
         match: MatchType.isRequired,
         location: LocationType.isRequired,
         history: HistoryType.isRequired,
-        device: DeviceType.isRequired,
+        isMobile: PropTypes.bool.isRequired,
         wishlistItems: PropTypes.object,
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
@@ -156,7 +157,12 @@ export class MyAccountContainer extends PureComponent {
     containerFunctions = {
         changeActiveTab: this.changeActiveTab.bind(this),
         onSignIn: this.onSignIn.bind(this),
-        onSignOut: this.onSignOut.bind(this)
+        onSignOut: this.onSignOut.bind(this),
+        getMyWishlistSubHeading: this.getMyWishlistSubHeading.bind(this)
+    };
+
+    subHeadingRenderMap = {
+        [MY_WISHLIST]: this.getMyWishlistSubHeading.bind(this)
     };
 
     __construct(props) {
@@ -219,13 +225,47 @@ export class MyAccountContainer extends PureComponent {
         }
     }
 
-    getMyWishlistHeaderTitle = () => {
+    containerProps() {
+        const { activeTab, isEditingActive } = this.state;
+
+        return {
+            activeTab,
+            isEditingActive,
+            subHeading: this.getSubHeading()
+        };
+    }
+
+    _getWishlistItemsCount() {
         const { wishlistItems } = this.props;
 
         const { length } = Object.keys(wishlistItems);
 
-        return `${ length } ${ length === 1 ? __('item') : __('items') }`;
+        return length;
+    }
+
+    getMyWishlistHeaderTitle = () => {
+        const count = this._getWishlistItemsCount();
+
+        return `${ count } ${ count === 1 ? __('item') : __('items') }`;
     };
+
+    getSubHeading() {
+        const { activeTab } = this.state;
+
+        const subHeadingFunc = this.subHeadingRenderMap[activeTab];
+
+        if (!subHeadingFunc) {
+            return null;
+        }
+
+        return subHeadingFunc();
+    }
+
+    getMyWishlistSubHeading() {
+        const count = this._getWishlistItemsCount();
+
+        return ` (${ count })`;
+    }
 
     tabsFilterEnabled() {
         return Object.fromEntries(Object.entries(MyAccountContainer.tabMap)
@@ -319,19 +359,20 @@ export class MyAccountContainer extends PureComponent {
         const {
             history,
             location: { pathname },
-            device
+            isMobile
         } = this.props;
 
         if (isSignedIn()) { // do nothing for signed-in users
             return;
         }
 
-        if (device.isMobile) { // do not redirect on mobile
+        if (isMobile) { // do not redirect on mobile
             return;
         }
 
         if (pathname === '/forgot-password') { // forward the forgot password state
             history.push({ pathname: appendWithStoreCode('/'), state: { isForgotPassword: true } });
+
             return;
         }
 
@@ -341,8 +382,7 @@ export class MyAccountContainer extends PureComponent {
     render() {
         return (
             <MyAccount
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
               tabMap={ this.tabsFilterEnabled(MyAccountContainer.tabMap) }
             />
@@ -350,4 +390,6 @@ export class MyAccountContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer);
+export default withReducers({
+    OrderReducer
+})(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer));

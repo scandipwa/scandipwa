@@ -37,7 +37,7 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
         updateConfigurableVariant(attribute_code, value);
     }
 
-    containerProps = () => {
+    containerProps() {
         const { option: { attribute_code, attribute_label } } = this.props;
 
         return {
@@ -46,7 +46,7 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
             selectName: attribute_code,
             selectLabel: attribute_label
         };
-    };
+    }
 
     _getSelectOptions = () => {
         const {
@@ -60,6 +60,7 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
         if (!attribute_options) {
             // eslint-disable-next-line no-console
             console.warn(`Please make sure "${ attribute_code }" is visible on Storefront.`);
+
             return [];
         }
 
@@ -86,13 +87,13 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
     _getSelectValue = () => {
         const { option: { attribute_code } } = this.props;
         const { parameters = {} } = this.props;
+
         return parameters[attribute_code];
     };
 
     render() {
         return (
             <ProductConfigurableAttributeDropdown
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

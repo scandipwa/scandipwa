@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /* eslint-disable react/jsx-no-useless-fragment */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -16,12 +17,17 @@ import parser from 'html-react-parser';
 import attributesToProps from 'html-react-parser/lib/attributes-to-props';
 import domToReact from 'html-react-parser/lib/dom-to-react';
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
 import Image from 'Component/Image';
 import Link from 'Component/Link';
-import WidgetFactory from 'Component/WidgetFactory';
+import Loader from 'Component/Loader/Loader.component';
 import { hash } from 'Util/Request/Hash';
+
+export const WidgetFactory = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "widget" */
+    'Component/WidgetFactory'
+));
 
 /**
  * Html content parser
@@ -103,6 +109,7 @@ export class Html extends PureComponent {
 
             if (rule) {
                 const { replace } = rule;
+
                 return replace.call(this, domNode);
             }
         }
@@ -122,6 +129,7 @@ export class Html extends PureComponent {
             }, {});
 
         const properties = convertPropertiesToValidFormat(attribs);
+
         return attributesToProps(properties);
     }
 
@@ -197,7 +205,11 @@ export class Html extends PureComponent {
      * @memberof Html
      */
     replaceWidget({ attribs }) {
-        return <WidgetFactory { ...this.attributesToProps(attribs) } />;
+        return (
+            <Suspense fallback={ <Loader isLoading /> }>
+                <WidgetFactory { ...this.attributesToProps(attribs) } />
+            </Suspense>
+        );
     }
 
     replaceStyle(elem) {
@@ -244,6 +256,7 @@ export class Html extends PureComponent {
 
     render() {
         const { content } = this.props;
+
         return parser(content, this.parserOptions);
     }
 }

@@ -20,7 +20,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { TotalsType } from 'Type/MiniCart';
+import { CartDisplayType, TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import {
     getCartShippingPrice,
@@ -41,7 +41,7 @@ export const CartDispatcher = import(
 /** @namespace Component/CartOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
-    device: state.ConfigReducer.device,
+    isMobile: state.ConfigReducer.device.isMobile,
     guest_checkout: state.ConfigReducer.guest_checkout,
     currencyCode: state.CartReducer.cartTotals.quote_currency_code,
     activeOverlay: state.OverlayReducer.activeOverlay,
@@ -72,27 +72,63 @@ export class CartOverlayContainer extends PureComponent {
         showOverlay: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         setNavigationState: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired
+        hideActiveOverlay: PropTypes.func.isRequired,
+        cartTotalSubPrice: PropTypes.number,
+        cartDisplaySettings: CartDisplayType.isRequired,
+        currencyCode: PropTypes.string.isRequired,
+        activeOverlay: PropTypes.string.isRequired,
+        isMobile: PropTypes.bool.isRequired,
+        cartShippingPrice: PropTypes.number,
+        cartShippingSubPrice: PropTypes.number
     };
 
     static defaultProps = {
-        guest_checkout: true
+        guest_checkout: true,
+        cartTotalSubPrice: null,
+        cartShippingPrice: 0,
+        cartShippingSubPrice: null
     };
 
     state = { isEditing: false };
 
     containerFunctions = {
         changeHeaderState: this.changeHeaderState.bind(this),
-        handleCheckoutClick: this.handleCheckoutClick.bind(this)
+        handleCheckoutClick: this.handleCheckoutClick.bind(this),
+        scrollToTop: this.scrollToTop.bind(this)
     };
 
-    containerProps = () => {
-        const { totals } = this.props;
+    containerProps() {
+        const {
+            totals,
+            showOverlay,
+            currencyCode,
+            activeOverlay,
+            cartTotalSubPrice,
+            cartDisplaySettings,
+            isMobile,
+            cartShippingPrice,
+            cartShippingSubPrice
+        } = this.props;
+        const { isEditing } = this.state;
 
         return {
+            totals,
+            showOverlay,
+            currencyCode,
+            activeOverlay,
+            cartTotalSubPrice,
+            cartDisplaySettings,
+            isEditing,
+            isMobile,
+            cartShippingPrice,
+            cartShippingSubPrice,
             hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
         };
-    };
+    }
+
+    scrollToTop() {
+        window.scrollTo({ top: 0 });
+    }
 
     handleCheckoutClick(e) {
         const {
@@ -111,6 +147,8 @@ export class CartOverlayContainer extends PureComponent {
 
         if (hasOutOfStockProductsInCart) {
             showNotification('error', __('Cannot proceed to checkout. Remove out of stock products first.'));
+            e.preventDefault();
+
             return;
         }
 
@@ -118,6 +156,8 @@ export class CartOverlayContainer extends PureComponent {
         if (guest_checkout || isSignedIn()) {
             hideActiveOverlay();
             history.push({ pathname: appendWithStoreCode(CHECKOUT_URL) });
+            this.scrollToTop();
+
             return;
         }
 
@@ -153,8 +193,6 @@ export class CartOverlayContainer extends PureComponent {
     render() {
         return (
             <CartOverlay
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

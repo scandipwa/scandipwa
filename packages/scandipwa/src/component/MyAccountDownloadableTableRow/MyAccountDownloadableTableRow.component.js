@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
+import { STATUS_EXPIRED } from 'Component/MyAccountDownloadableTableRow/MyAccountDownloadableTableRow.config';
 import { downloadableType } from 'Type/Account';
 
 import './MyAccountDownloadableTableRow.style';
@@ -42,33 +43,30 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
         );
     }
 
-    renderTitle() {
+    renderLink() {
         const {
             order: {
                 download_url,
                 link_title,
-                title,
-                downloads
+                downloads,
+                status_label
             },
             isOpenInNewTab
         } = this.props;
 
-        if (!download_url || !downloads) {
-            return title;
+        if (!download_url || !downloads || status_label === STATUS_EXPIRED) {
+            return null;
         }
 
         return (
-            <>
-                { title }
-                <Link
-                  to={ download_url }
-                  block="MyAccountDownloadTableRow"
-                  elem="Link"
-                  isOpenInNewTab={ isOpenInNewTab }
-                >
-                    { link_title }
-                </Link>
-            </>
+            <Link
+              to={ download_url }
+              block="MyAccountDownloadTableRow"
+              elem="DownloadLink"
+              isOpenInNewTab={ isOpenInNewTab }
+            >
+                { link_title }
+            </Link>
         );
     }
 
@@ -77,11 +75,9 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
             order: {
                 order_id,
                 downloads,
-                download_url,
                 created_at,
                 title,
-                status_label = '',
-                link_title
+                status_label = ''
             } = {}
         } = this.props;
 
@@ -91,14 +87,7 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
                 <td>{ created_at }</td>
                 <td>
                     { title }
-                    <a
-                      href={ download_url }
-                      download
-                      block="MyAccountOrderTableRow"
-                      elem="DownloadLink"
-                    >
-                        { link_title }
-                    </a>
+                    { this.renderLink() }
                 </td>
                 <td block="MyAccountDownloadTableRow" elem="Status">{ status_label }</td>
                 <td>{ downloads }</td>

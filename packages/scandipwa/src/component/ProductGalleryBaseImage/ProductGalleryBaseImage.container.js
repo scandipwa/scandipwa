@@ -75,13 +75,16 @@ export class ProductGalleryBaseImageContainer extends Component {
         }
     }
 
-    containerProps = () => ({
-        alt: this._getAlt(),
-        src: this._getSrc()
-    });
+    containerProps() {
+        return {
+            alt: this._getAlt(),
+            src: this._getSrc()
+        };
+    }
 
     _getAlt() {
         const { mediaData: { label } = {} } = this.props;
+
         return label || '';
     }
 

@@ -14,21 +14,20 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { showPopup } from 'Store/Popup/Popup.action';
-import { isSignedIn } from 'Util/Auth';
+import { DeviceType } from 'Type/Device';
+import { ProductType } from 'Type/ProductList';
 
 import ProductReviews from './ProductReviews.component';
-import { REVIEW_POPUP_ID } from './ProductReviews.config';
 
 /** @namespace Component/ProductReviews/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     isEnabled: state.ConfigReducer.reviews_are_enabled,
-    isGuestEnabled: state.ConfigReducer.reviews_allow_guest
+    isGuestEnabled: state.ConfigReducer.reviews_allow_guest,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/ProductReviews/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (payload) => dispatch(showPopup(REVIEW_POPUP_ID, payload)),
     showInfoNotification: (message) => dispatch(showNotification('info', message))
 });
 
@@ -36,35 +35,33 @@ export const mapDispatchToProps = (dispatch) => ({
 export class ProductReviewsContainer extends PureComponent {
     static propTypes = {
         showInfoNotification: PropTypes.func.isRequired,
-        showPopup: PropTypes.func.isRequired,
         isGuestEnabled: PropTypes.bool,
-        isEnabled: PropTypes.bool
+        isEnabled: PropTypes.bool,
+        product: ProductType.isRequired,
+        areDetailsLoaded: PropTypes.bool,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
         isEnabled: true,
-        isGuestEnabled: true
+        isGuestEnabled: true,
+        areDetailsLoaded: false
     };
 
-    containerFunctions = {
-        showPopup: this._showPopup.bind(this)
-    };
-
-    _showPopup() {
+    containerProps() {
         const {
-            showPopup,
-            isGuestEnabled,
-            showInfoNotification
+            areDetailsLoaded,
+            device,
+            isEnabled,
+            product
         } = this.props;
 
-        // if not logged in and guest reviews are not enabled
-        if (!isSignedIn() && !isGuestEnabled) {
-            showInfoNotification(__('You must login or register to review products.'));
-
-            return;
-        }
-
-        showPopup({ title: __('Write a new review') });
+        return {
+            areDetailsLoaded,
+            device,
+            isEnabled,
+            product
+        };
     }
 
     render() {
@@ -76,7 +73,7 @@ export class ProductReviewsContainer extends PureComponent {
 
         return (
             <ProductReviews
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

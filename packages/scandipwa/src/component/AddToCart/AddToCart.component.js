@@ -12,7 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CartIcon from 'Component/CartIcon';
+import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { MixType } from 'Type/Common';
+import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
 
 import './AddToCart.style';
@@ -27,13 +30,19 @@ export class AddToCart extends PureComponent {
         isLoading: PropTypes.bool,
         product: ProductType,
         mix: MixType,
-        buttonClick: PropTypes.func.isRequired
+        buttonClick: PropTypes.func.isRequired,
+        layout: LayoutType,
+        isWithIcon: PropTypes.bool,
+        disabled: PropTypes.bool
     };
 
     static defaultProps = {
         product: {},
         mix: {},
-        isLoading: false
+        isLoading: false,
+        layout: GRID_LAYOUT,
+        isWithIcon: false,
+        disabled: false
     };
 
     renderPlaceholder() {
@@ -48,12 +57,24 @@ export class AddToCart extends PureComponent {
         );
     }
 
+    renderCartIcon() {
+        const { isWithIcon } = this.props;
+
+        if (!isWithIcon) {
+            return null;
+        }
+
+        return <CartIcon />;
+    }
+
     render() {
         const {
             mix,
             product: { type_id },
             isLoading,
-            buttonClick
+            buttonClick,
+            layout,
+            disabled
         } = this.props;
 
         if (!type_id) {
@@ -65,11 +86,11 @@ export class AddToCart extends PureComponent {
               onClick={ buttonClick }
               block="Button AddToCart"
               mix={ mix }
-              mods={ { isLoading } }
-              disabled={ isLoading }
+              mods={ { isLoading, layout } }
+              disabled={ isLoading || disabled }
             >
-                <span>{ __('Add to cart') }</span>
-                <span>{ __('Adding...') }</span>
+                { this.renderCartIcon() }
+                <span>{ isLoading ? __('Adding...') : __('Add to cart') }</span>
             </button>
         );
     }

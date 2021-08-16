@@ -19,6 +19,7 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import CmsPage from 'Route/CmsPage';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { LocationType, MatchType } from 'Type/Common';
 
 import './HomePage.style';
 
@@ -35,7 +36,10 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Route/HomePage/Container */
 export class HomePageContainer extends PureComponent {
     static propTypes = {
-        changeHeaderState: PropTypes.func.isRequired
+        changeHeaderState: PropTypes.func.isRequired,
+        pageIdentifiers: PropTypes.string.isRequired,
+        location: LocationType.isRequired,
+        match: MatchType.isRequired
     };
 
     componentDidMount() {
@@ -47,11 +51,27 @@ export class HomePageContainer extends PureComponent {
         });
     }
 
+    containerProps() {
+        const {
+            changeHeaderState,
+            location,
+            match,
+            pageIdentifiers
+        } = this.props;
+
+        return {
+            changeHeaderState,
+            location,
+            match,
+            pageIdentifiers
+        };
+    }
+
     render() {
         return (
             <div block="HomePage">
                 <InstallPrompt />
-                <CmsPage { ...this.props } />
+                <CmsPage { ...this.containerProps() } />
                 <Footer isVisibleOnMobile />
             </div>
         );

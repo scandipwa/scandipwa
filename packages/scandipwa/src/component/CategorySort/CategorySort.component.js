@@ -39,11 +39,7 @@ export class CategorySort extends PureComponent {
             disabled: PropTypes.bool,
             label: PropTypes.string
         })).isRequired,
-        isMatchingInfoFilter: PropTypes.bool
-    };
-
-    static defaultProps = {
-        isMatchingInfoFilter: false
+        isMatchingInfoFilter: PropTypes.bool.isRequired
     };
 
     onChange = (value) => {
@@ -78,11 +74,12 @@ export class CategorySort extends PureComponent {
               id="category-sort"
               name="category-sort"
               type="select"
-              label={ __('SORT') }
+              label={ __('Sort') }
               mix={ { block: 'CategorySort', elem: 'Select' } }
               selectOptions={ selectOptions }
               value={ `${sortDirection} ${sortKey}` }
               onChange={ this.onChange }
+              isLabelWithArrow
             />
         );
     }

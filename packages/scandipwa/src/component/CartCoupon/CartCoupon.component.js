@@ -13,7 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+import { VALIDATION_STATUS } from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
+import { MixType } from 'Type/Common';
 
 import './CartCoupon.style';
 
@@ -24,14 +26,12 @@ export class CartCoupon extends PureComponent {
         couponCode: PropTypes.string,
         handleApplyCouponToCart: PropTypes.func.isRequired,
         handleRemoveCouponFromCart: PropTypes.func.isRequired,
-        mix: PropTypes.object,
-        title: PropTypes.string
+        mix: MixType.isRequired,
+        title: PropTypes.string.isRequired
     };
 
     static defaultProps = {
-        couponCode: '',
-        mix: {},
-        title: ''
+        couponCode: ''
     };
 
     state = {
@@ -69,6 +69,7 @@ export class CartCoupon extends PureComponent {
 
         if (couponCode) {
             this.handleRemoveCoupon();
+
             return;
         }
 
@@ -77,6 +78,7 @@ export class CartCoupon extends PureComponent {
 
     renderApplyCoupon() {
         const { enteredCouponCode } = this.state;
+        const { skip, success } = VALIDATION_STATUS;
 
         return (
             <>
@@ -85,20 +87,21 @@ export class CartCoupon extends PureComponent {
                   id="couponCode"
                   name="couponCode"
                   value={ enteredCouponCode }
-                  placeholder={ __('Coupon Code') }
+                  placeholder={ __('Your discount code') }
                   onChange={ this.handleCouponCodeChange }
+                  customValidationStatus={ !enteredCouponCode ? skip : success }
                   mix={ { block: 'CartCoupon', elem: 'Input' } }
-                  aria-label={ __('Coupon Code') }
+                  aria-label={ __('Your discount code') }
                 />
                 <button
                   block="CartCoupon"
                   elem="Button"
                   type="button"
-                  mix={ { block: 'Button' } }
+                  mods={ { isHollow: true } }
                   disabled={ !enteredCouponCode }
                   onClick={ this.handleApplyCoupon }
                 >
-                    { __('Apply Coupon') }
+                    { __('Submit') }
                 </button>
             </>
         );

@@ -23,8 +23,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/InstallPrompt/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/InstallPrompt/Container */
 export class InstallPromptContainer extends PureComponent {
@@ -44,6 +43,17 @@ export class InstallPromptContainer extends PureComponent {
 
     componentDidMount() {
         this.listenForInstallPrompt();
+    }
+
+    containerProps() {
+        const { device } = this.props;
+        const { isBannerClosed, hasInstallPromptEvent } = this.state;
+
+        return {
+            device,
+            isBannerClosed,
+            hasInstallPromptEvent
+        };
     }
 
     handleAppInstall() {
@@ -86,8 +96,7 @@ export class InstallPromptContainer extends PureComponent {
     render() {
         return (
             <InstallPrompt
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               containerFunctions={ this.containerFunctions }
             />
         );

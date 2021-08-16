@@ -13,12 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { orderType } from 'Type/Account';
 import { isSignedIn } from 'Util/Auth';
 import { getIndexedProducts } from 'Util/Product';
-import { fetchQuery } from 'Util/Request';
 
 import MyAccountOrderPopup from './MyAccountOrderPopup.component';
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
@@ -38,7 +36,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountOrderPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    getOrder: (orderId) => OrderDispatcher.then(
+    getOrderById: (orderId) => OrderDispatcher.then(
         ({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId)
     )
 });
@@ -51,7 +49,7 @@ export class MyAccountOrderPopupContainer extends PureComponent {
             increment_id: PropTypes.string
         }).isRequired,
         showNotification: PropTypes.func.isRequired,
-        getOrder: PropTypes.func.isRequired,
+        getOrderById: PropTypes.func.isRequired,
         display_tax_in_shipping_amount: PropTypes.string.isRequired
     };
 
@@ -77,7 +75,7 @@ export class MyAccountOrderPopupContainer extends PureComponent {
         const { payload: { increment_id: prevId } } = prevProps;
         const { payload: { increment_id: id } } = this.props;
 
-        if (id !== prevId) {
+        if (id && id !== prevId) {
             this.requestOrderDetails();
         }
     }
@@ -100,34 +98,31 @@ export class MyAccountOrderPopupContainer extends PureComponent {
         };
     };
 
-    requestOrderDetails() {
+    async requestOrderDetails() {
         const {
             payload: {
                 order: {
                     base_order_info: { id } = {}
                 } = {}
-            } = {}
+            } = {},
+            getOrderById
         } = this.props;
 
         if (!isSignedIn()) {
             return;
         }
 
-        fetchQuery(OrderQuery.getOrderByIdQuery(id)).then(
-            /** @namespace Component/MyAccountOrderPopup/Container/requestOrderDetailsFetchQueryThen */
-            ({ getOrderById: rawOrder }) => {
-                const { order_products = [] } = rawOrder;
-                const indexedProducts = getIndexedProducts(order_products);
-                const order = { ...rawOrder, order_products: indexedProducts };
-                const { base_order_info: { currency_code } } = order;
-                this.setState({ currency_code, order, isLoading: false });
-            },
-            /** @namespace Component/MyAccountOrderPopup/Container/requestOrderDetailsFetchQueryCatch */
-            () => {
-                showNotification('error', __('Error getting Order by ID!'));
-                this.setState({ isLoading: false });
-            }
-        );
+        const rawOrder = await getOrderById(id);
+
+        if (!rawOrder) {
+            return;
+        }
+
+        const { order_products = [] } = rawOrder;
+        const indexedProducts = getIndexedProducts(order_products);
+        const order = { ...rawOrder, order_products: indexedProducts };
+        const { base_order_info: { currency_code } } = order;
+        this.setState({ currency_code, order, isLoading: false });
     }
 
     render() {

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -24,10 +25,22 @@ import {
 
 import './WidgetFactory.style';
 
-export const ProductListWidget = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Component/ProductListWidget'));
-export const NewProducts = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Component/NewProducts'));
-export const HomeSlider = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/SliderWidget'));
-export const RecentlyViewedWidget = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Component/RecentlyViewedWidget'));
+export const ProductListWidget = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "widget-product-list" */
+    'Component/ProductListWidget'
+));
+export const NewProducts = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "widget-new-product" */
+    'Component/NewProducts'
+));
+export const HomeSlider = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "widget-slider" */
+    'Component/SliderWidget'
+));
+export const RecentlyViewedWidget = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "widget-recently-viewed" */
+    'Component/RecentlyViewedWidget'
+));
 
 /** @namespace Component/WidgetFactory/Component */
 export class WidgetFactory extends PureComponent {
@@ -62,7 +75,16 @@ export class WidgetFactory extends PureComponent {
     }
 
     renderContent() {
-        const { type } = this.props;
+        const {
+            type,
+            sliderId = null,
+            displayType,
+            productsCount,
+            showPager,
+            storeId,
+            title,
+            conditionsEncoded
+        } = this.props;
         const {
             component: Widget,
             fallback
@@ -71,7 +93,15 @@ export class WidgetFactory extends PureComponent {
         if (Widget !== undefined) {
             return (
                 <RenderWhenVisible fallback={ fallback }>
-                    <Widget { ...this.props } />
+                    <Widget
+                      sliderId={ sliderId }
+                      displayType={ displayType }
+                      productsCount={ productsCount }
+                      showPager={ showPager }
+                      storeId={ storeId }
+                      title={ title }
+                      conditionsEncoded={ conditionsEncoded }
+                    />
                 </RenderWhenVisible>
             );
         }
@@ -82,6 +112,7 @@ export class WidgetFactory extends PureComponent {
     renderFallback() {
         const { type } = this.props;
         const { fallback = this.renderDefaultFallback } = this.renderMap[type] || {};
+
         return fallback();
     }
 

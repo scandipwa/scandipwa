@@ -23,25 +23,34 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/CookiePopup/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/CookiePopup/Container */
 export class CookiePopupContainer extends PureComponent {
     static propTypes = {
+        cookieText: PropTypes.string,
+        cookieLink: PropTypes.string,
         code: PropTypes.string
     };
 
     static defaultProps = {
+        cookieText: '',
+        cookieLink: '',
         code: ''
     };
+
+    containerProps() {
+        const { code, cookieLink, cookieText } = this.props;
+
+        return { code, cookieLink, cookieText };
+    }
 
     render() {
         const { code } = this.props;
 
         return (
             <CookiePopup
-              { ...this.props }
+              { ...this.containerProps() }
               key={ code }
             />
         );

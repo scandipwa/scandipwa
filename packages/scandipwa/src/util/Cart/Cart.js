@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import {
     DISPLAY_SHIPPING_PRICES_BOTH,
     DISPLAY_SHIPPING_PRICES_EXCL_TAX
 } from 'Component/CheckoutDeliveryOption/CheckoutDeliveryOption.config';
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { CONFIGURABLE } from 'Util/Product';
 
 export const DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX';
 export const DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX';
@@ -42,19 +42,19 @@ export const itemIsOutOfStock = (item) => {
         sku: itemSku
     } = item;
 
-    if (stock_status === PRODUCT_OUT_OF_STOCK) {
+    if (stock_status !== IN_STOCK) {
         // item is out of stock
         return true;
     }
 
-    if (type_id !== 'configurable') {
+    if (type_id !== CONFIGURABLE) {
         // item is not configurable => previous check is sufficient
         return false;
     }
 
     if (
         variants.some(({ sku }) => sku === itemSku)
-        && variants.find(({ sku }) => sku === itemSku).stock_status !== PRODUCT_OUT_OF_STOCK
+        && variants.find(({ sku }) => sku === itemSku).stock_status === IN_STOCK
     ) {
         // item added to cart is present in variants and it stock status is IN_STOCK
         return false;
@@ -267,3 +267,6 @@ export const getCartTotalSubPrice = (state) => {
 
     return null;
 };
+
+/** @namespace Util/Cart/getItemsCountLabel */
+export const getItemsCountLabel = (items_qty) => (items_qty === 1 ? __('1 item') : __('%s items', items_qty || 0));
