@@ -62,6 +62,17 @@
         }
     }
 
+    &-WarningMsg {
+        padding-top: 20px;
+        text-align: center;
+        color: var(--primary-error-color);
+        font-size: 1.2em;
+
+        h2 {
+            color: var(--primary-error-color);
+        }
+    }
+
     input {
         @include mobile {
             width: 100%;
