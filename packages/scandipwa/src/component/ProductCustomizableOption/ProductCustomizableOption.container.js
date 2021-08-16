@@ -180,6 +180,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             priceInclTax,
             price,
             price_type,
+            sort_order,
             currency
         }) => {
             acc.push({
@@ -187,7 +188,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
                 name: title,
                 value: option_type_id,
                 label: `${title} `,
-                subLabel: this.renderOptionLabel(price_type, priceInclTax, price, currency)
+                subLabel: this.renderOptionLabel(price_type, priceInclTax, price, currency),
+                sort_order
             });
 
             return acc;
