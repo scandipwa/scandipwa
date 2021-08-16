@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import ProductCompareAttributeRow from 'Component/ProductCompareAttributeRow';
 import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
@@ -104,16 +105,35 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderProductPrices() {
-        const { products } = this.props;
+    renderProductPrice(product) {
+        const {
+            id,
+            price_range,
+            type_id,
+            stock_status
+        } = product;
 
-        return products.map(({ id, price_range, type_id }) => (
+        if (stock_status !== IN_STOCK) {
+            return (
+                <div block="ProductCompareAttributeRow" elem="Value">
+                    { __('Out of stock') }
+                </div>
+            );
+        }
+
+        return (
             <ProductPrice
               price={ price_range }
               key={ id }
               label={ this.productTypeLabelMap[type_id] }
             />
-        ));
+        );
+    }
+
+    renderProductPrices() {
+        const { products } = this.props;
+
+        return products.map(this.renderProductPrice);
     }
 
     renderAttributes() {
