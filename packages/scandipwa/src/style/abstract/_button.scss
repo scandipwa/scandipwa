@@ -120,8 +120,7 @@
         }
     }
 
-    // make icons on buttons have same hover behaviour as buttons themselves
-    svg {
+    &:disabled svg {
         pointer-events: none;
     }
 }

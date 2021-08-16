@@ -152,7 +152,7 @@
             margin-inline-end: 12px;
         }
 
-        &:hover .ShareIcon_isPrimary {
+        &:not([disabled]):hover .ShareIcon_isPrimary {
             fill: var(--primary-dark-color);
         }
     }
