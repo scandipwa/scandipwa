@@ -15,7 +15,7 @@ $icons = $this->getAppIconData();
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover">
 
     <!-- Muli font import from Abode -->
-    <link rel="stylesheet" href="https://use.typekit.net/gbk7rfi.css">
+    <link rel="preload" href="https://use.typekit.net/gbk7rfi.css" as="style">
 
     <title data-prerendered="1"><?= $title ?></title>
     <meta name="description" content="<?= $description ?>" data-prerendered="1">
