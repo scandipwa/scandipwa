@@ -16,6 +16,7 @@ import AddToCart from 'Component/AddToCart';
 import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
+import ProductAlerts from 'Component/ProductAlerts';
 import ProductBundleItems from 'Component/ProductBundleItems';
 import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import ProductCompareButton from 'Component/ProductCompareButton';
@@ -77,6 +78,8 @@ export class ProductActions extends PureComponent {
         stockMeta: PropTypes.string.isRequired,
         metaLink: PropTypes.string.isRequired,
         device: DeviceType.isRequired,
+        isPriceAlertEnabled: PropTypes.bool.isRequired,
+        isInStockAlertEnabled: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         displayProductStockStatus: PropTypes.bool.isRequired,
         setRefs: PropTypes.func.isRequired,
@@ -681,6 +684,43 @@ export class ProductActions extends PureComponent {
         );
     }
 
+    renderProductAlerts() {
+        const {
+            areDetailsLoaded,
+            configurableVariantIndex,
+            isInStockAlertEnabled,
+            isPriceAlertEnabled,
+            product,
+            product: { variants }
+        } = this.props;
+
+        if (
+            (!isInStockAlertEnabled && !isPriceAlertEnabled)
+            || !areDetailsLoaded
+        ) {
+            return null;
+        }
+
+        const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
+            ? variants[configurableVariantIndex]
+            : product;
+
+        const { id, stock_status } = productOrVariant;
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'alerts' } }
+            >
+                <ProductAlerts
+                  productId={ id }
+                  stockStatus={ stock_status }
+                />
+            </section>
+        );
+    }
+
     renderAddToCartActionBlock() {
         return (
             <div
@@ -727,6 +767,7 @@ export class ProductActions extends PureComponent {
                 { this.renderDownloadableProductSample() }
                 { this.renderDownloadableProductLinks() }
                 { this.renderTierPrices() }
+                { this.renderProductAlerts() }
                 { this.renderPriceWithGlobalSchema() }
                 { this.renderAddToCartActionBlock() }
             </>
@@ -750,6 +791,7 @@ export class ProductActions extends PureComponent {
                 </div>
                 { this.renderBrand() }
                 { this.renderShortDescription() }
+                { this.renderProductAlerts() }
                 { this.renderConfigurableAttributes() }
                 { this.renderCustomizableOptions() }
                 { this.renderBundleItems() }
