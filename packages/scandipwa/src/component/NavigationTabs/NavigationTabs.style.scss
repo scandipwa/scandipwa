@@ -74,9 +74,5 @@
 
     &-Icon {
         font-weight: bold;
-
-        &_isActive {
-            filter: var(--primary-base-filter);
-        }
     }
 }

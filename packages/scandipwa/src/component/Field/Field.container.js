@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import validationConfig from 'Component/Form/Form.config';
+import { MixType } from 'Type/Common';
 
 import Field from './Field.component';
 import {
@@ -25,7 +26,8 @@ import {
     RADIO_TYPE,
     SELECT_TYPE,
     TEXT_TYPE,
-    TEXTAREA_TYPE
+    TEXTAREA_TYPE,
+    VALIDATION_STATUS
 } from './Field.config';
 
 /** @namespace Component/Field/Container */
@@ -61,7 +63,7 @@ export class FieldContainer extends PureComponent {
         max: PropTypes.number,
         validation: PropTypes.arrayOf(PropTypes.string),
         message: PropTypes.string,
-        customValidationStatus: PropTypes.bool,
+        customValidationStatus: PropTypes.oneOf(Object.values(VALIDATION_STATUS)),
         id: PropTypes.string,
         formRef: PropTypes.oneOfType([
             PropTypes.func,
@@ -70,7 +72,28 @@ export class FieldContainer extends PureComponent {
         formRefMap: PropTypes.object,
         validateSeparately: PropTypes.bool,
         isSubmitted: PropTypes.bool,
-        disabled: PropTypes.bool
+        disabled: PropTypes.bool,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        subLabel: PropTypes.number,
+        filename: PropTypes.string,
+        fileExtensions: PropTypes.string,
+        mix: MixType,
+        selectOptions: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+        })),
+        name: PropTypes.string.isRequired,
+        autocomplete: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ])
     };
 
     static defaultProps = {
@@ -92,7 +115,14 @@ export class FieldContainer extends PureComponent {
         formRefMap: {},
         validateSeparately: false,
         isSubmitted: false,
-        disabled: false
+        disabled: false,
+        label: '',
+        subLabel: null,
+        mix: {},
+        filename: '',
+        fileExtensions: '',
+        selectOptions: [],
+        autocomplete: 'off'
     };
 
     containerFunctions = {
@@ -175,15 +205,28 @@ export class FieldContainer extends PureComponent {
         }
     }
 
-    containerProps = () => {
+    containerProps() {
         const {
+            autocomplete,
             checked: propsChecked,
             customValidationStatus,
-            disabled
+            disabled,
+            fileExtensions,
+            formRef,
+            formRefMap,
+            id,
+            label,
+            max,
+            min,
+            mix,
+            name,
+            selectOptions,
+            subLabel,
+            type,
+            validation
         } = this.props;
 
         const {
-            type,
             checked,
             value,
             validationStatus,
@@ -192,14 +235,29 @@ export class FieldContainer extends PureComponent {
         } = this.state;
 
         return {
+            autocomplete,
             checked: type === CHECKBOX_TYPE ? propsChecked : checked,
-            value,
-            validationStatus: customValidationStatus ?? validationStatus,
-            message: validationMessage,
+            customValidationStatus,
+            disabled,
+            fileExtensions,
             filename,
-            disabled
+            formRef,
+            formRefMap,
+            id,
+            label,
+            max,
+            message: validationMessage,
+            min,
+            mix,
+            name,
+            selectOptions,
+            subLabel,
+            type,
+            validation,
+            validationStatus: customValidationStatus ?? validationStatus,
+            value
         };
-    };
+    }
 
     validateField() {
         const {
@@ -363,11 +421,8 @@ export class FieldContainer extends PureComponent {
     }
 
     render() {
-        const { customValidationStatus, ...otherProps } = this.props;
-
         return (
             <Field
-              { ...otherProps }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

@@ -16,6 +16,7 @@ import CarouselScrollArrow from 'Component/CarouselScrollArrow';
 import CarouselScrollItem from 'Component/CarouselScrollItem';
 import { ChildrenType } from 'Type/Common';
 import CSS from 'Util/CSS';
+import { isRtl } from 'Util/CSS/CSS';
 
 import './CarouselScroll.style';
 
@@ -74,8 +75,9 @@ export class CarouselScroll extends PureComponent {
 
     getNextTranslate(nextId) {
         const { offsetWidth } = this.itemRef.current;
+        const multiplier = isRtl() ? nextId : -nextId;
 
-        return `${ -nextId * (offsetWidth + CAROUSEL_ITEM_GAP) }px`;
+        return `${ multiplier * (offsetWidth + CAROUSEL_ITEM_GAP) }px`;
     }
 
     setTranslate(nextId) {

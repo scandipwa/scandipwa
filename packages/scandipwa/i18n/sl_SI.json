@@ -81,8 +81,6 @@
     "Error clearing wish list!": "Napaka pri ponastavitvi seznama želja!",
     "Error initializing Klarna payment method.": "Neupela inicializacija plačilnega sistema Klarna",
     "Error updating wish list!": "Napaka pri posodabljanju liste želja!",
-    "Fax": "Fax",
-    "Filter": "Filter",
     "Filters": "Filtri",
     "First Name": "Ime",
     "First name": "Ime",
@@ -481,5 +479,18 @@
     "Store": null,
     "Select store": null,
     "Select Store": null,
-    "We were unable to find nearby locations for provided search query.": null
+    "We were unable to find nearby locations for provided search query.": null,
+    "About Us": null,
+    "Additional info": null,
+    "Privacy Policy": null,
+    "Terms of use": null,
+    "Use of Cookies": null,
+    "Popular categories": null,
+    "Women": null,
+    "Men": null,
+    "Accessories": null,
+    "Follow": null,
+    "LinkedIn": null,
+    "Facebook": null,
+    "Twitter": null
 }

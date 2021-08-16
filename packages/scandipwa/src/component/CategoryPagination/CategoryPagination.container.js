@@ -57,18 +57,18 @@ export class CategoryPaginationContainer extends PureComponent {
         id: ''
     };
 
-    containerFunctions = () => ({
-        getSearchQuery: this.getSearchQuery
-    });
+    containerFunctions = {
+        getSearchQuery: this.getSearchQuery.bind(this)
+    };
 
-    getSearchQuery = (pageNumber) => {
+    getSearchQuery(pageNumber) {
         const { history, location } = this.props;
         const page = pageNumber !== 1 ? pageNumber : '';
 
         return generateQuery({ page }, location, history);
-    };
+    }
 
-    containerProps = () => {
+    containerProps() {
         const {
             anchorTextNext,
             anchorTextPrevious,
@@ -98,7 +98,7 @@ export class CategoryPaginationContainer extends PureComponent {
             shouldRenderPreviousJump: this._shouldRenderPreviousJump(),
             shouldRenderJumps: this._shouldRenderJumps()
         };
-    };
+    }
 
     _getCurrentPage() {
         const { location } = this.props;
@@ -162,7 +162,7 @@ export class CategoryPaginationContainer extends PureComponent {
     render() {
         return (
             <CategoryPagination
-              { ...this.containerFunctions() }
+              { ...this.containerFunctions }
               { ...this.containerProps() }
             />
         );

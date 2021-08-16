@@ -16,6 +16,7 @@ import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
+import LockIcon from 'Component/LockIcon';
 import StoreInPickUpComponent from 'Component/StoreInPickUp';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { addressType } from 'Type/Account';
@@ -43,7 +44,11 @@ export class CheckoutShipping extends PureComponent {
         estimateAddress: addressType.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func.isRequired
+        setSelectedShippingMethodCode: PropTypes.func
+    };
+
+    static defaultProps = {
+        setSelectedShippingMethodCode: null
     };
 
     renderOrderTotalExclTax() {
@@ -106,7 +111,7 @@ export class CheckoutShipping extends PureComponent {
                   disabled={ !selectedShippingMethod }
                   mix={ { block: 'CheckoutShipping', elem: 'Button' } }
                 >
-                    <span />
+                    <LockIcon />
                     { __('Proceed to billing') }
                 </button>
             </div>
@@ -141,7 +146,8 @@ export class CheckoutShipping extends PureComponent {
             onShippingMethodSelect,
             estimateAddress,
             onStoreSelect,
-            handleSelectDeliveryMethod
+            handleSelectDeliveryMethod,
+            selectedShippingMethod
         } = this.props;
 
         return (
@@ -151,6 +157,7 @@ export class CheckoutShipping extends PureComponent {
               estimateAddress={ estimateAddress }
               onStoreSelect={ onStoreSelect }
               handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
+              selectedShippingMethod={ selectedShippingMethod }
             />
         );
     }

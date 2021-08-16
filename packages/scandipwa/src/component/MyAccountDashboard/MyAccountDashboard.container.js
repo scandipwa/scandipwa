@@ -34,6 +34,12 @@ export class MyAccountDashboardContainer extends PureComponent {
         getDefaultAddress: this.getDefaultAddress.bind(this)
     };
 
+    containerProps() {
+        const { customer } = this.props;
+
+        return { customer };
+    }
+
     getDefaultAddress(isBilling) {
         const { customer: { addresses = [] } } = this.props;
         const key = isBilling ? 'default_billing' : 'default_shipping';
@@ -44,7 +50,7 @@ export class MyAccountDashboardContainer extends PureComponent {
     render() {
         return (
             <MyAccountDashboard
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

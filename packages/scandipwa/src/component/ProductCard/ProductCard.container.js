@@ -15,8 +15,11 @@ import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
+import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
+import { LayoutType } from 'Type/Layout';
 import { FilterType, ProductType } from 'Type/ProductList';
 import history from 'Util/History';
 import {
@@ -63,13 +66,37 @@ export class ProductCardContainer extends PureComponent {
         base_link_url: PropTypes.string.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         isPreview: PropTypes.bool,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        children: ChildrenType,
+        hideCompareButton: PropTypes.bool,
+        hideWishlistButton: PropTypes.bool,
+        isLoading: PropTypes.bool,
+        mix: MixType,
+        layout: LayoutType,
+        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+        siblingsHaveBrands: PropTypes.bool,
+        setSiblingsHaveBrands: PropTypes.func,
+        siblingsHavePriceBadge: PropTypes.bool,
+        setSiblingsHavePriceBadge: PropTypes.func,
+        siblingsHaveConfigurableOptions: PropTypes.bool
     };
 
     static defaultProps = {
         product: {},
         selectedFilters: {},
-        isPreview: false
+        isPreview: false,
+        children: null,
+        isLoading: false,
+        mix: {},
+        renderContent: false,
+        hideWishlistButton: false,
+        hideCompareButton: false,
+        siblingsHaveBrands: false,
+        setSiblingsHaveBrands: () => null,
+        siblingsHavePriceBadge: false,
+        setSiblingsHavePriceBadge: () => null,
+        siblingsHaveConfigurableOptions: false,
+        layout: GRID_LAYOUT
     };
 
     state = {
@@ -106,12 +133,50 @@ export class ProductCardContainer extends PureComponent {
         };
     }
 
-    containerProps = () => ({
-        currentVariantIndex: this._getCurrentVariantIndex(),
-        productOrVariant: this._getProductOrVariant(),
-        thumbnail: this._getThumbnail(),
-        linkTo: this._getLinkTo()
-    });
+    containerProps() {
+        const {
+            children,
+            device,
+            hideCompareButton,
+            hideWishlistButton,
+            isLoading,
+            isWishlistEnabled,
+            layout,
+            mix,
+            product,
+            renderContent,
+            setSiblingsHaveBrands,
+            setSiblingsHavePriceBadge,
+            siblingsHaveBrands,
+            siblingsHaveConfigurableOptions,
+            siblingsHavePriceBadge
+        } = this.props;
+        const { configurableVariantIndex, parameters } = this.state;
+
+        return {
+            children,
+            device,
+            hideCompareButton,
+            hideWishlistButton,
+            isLoading,
+            isWishlistEnabled,
+            layout,
+            mix,
+            product,
+            renderContent,
+            setSiblingsHaveBrands,
+            setSiblingsHavePriceBadge,
+            siblingsHaveBrands,
+            siblingsHaveConfigurableOptions,
+            siblingsHavePriceBadge,
+            configurableVariantIndex,
+            parameters,
+            currentVariantIndex: this._getCurrentVariantIndex(),
+            productOrVariant: this._getProductOrVariant(),
+            thumbnail: this._getThumbnail(),
+            linkTo: this._getLinkTo()
+        };
+    }
 
     _getLinkTo() {
         const {
@@ -218,7 +283,7 @@ export class ProductCardContainer extends PureComponent {
     }
 
     isConfigurableProductOutOfStock() {
-        const { product: { variants }, isPreview } = this.props;
+        const { product: { variants = [] }, isPreview } = this.props;
 
         if (isPreview) {
             return true;
@@ -271,10 +336,9 @@ export class ProductCardContainer extends PureComponent {
             <Subscribe to={ [SharedTransitionContainer] }>
                 { ({ registerSharedElement }) => (
                     <ProductCard
-                      { ...{ ...this.props, registerSharedElement } }
                       { ...this.containerFunctions }
                       { ...this.containerProps() }
-                      { ...this.state }
+                      registerSharedElement={ registerSharedElement }
                     />
                 ) }
             </Subscribe>

@@ -19,7 +19,7 @@ import {
 } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { addressType, customerType } from 'Type/Account';
-import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
+import { shippingMethodsType, shippingMethodType, storeType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
@@ -31,7 +31,8 @@ export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
     totals: state.CartReducer.cartTotals,
-    cartTotalSubPrice: getCartTotalSubPrice(state)
+    cartTotalSubPrice: getCartTotalSubPrice(state),
+    savedShippingMethodCode: state.CheckoutReducer.shippingFields.shippingMethod
 });
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
@@ -58,10 +59,12 @@ export class CheckoutShippingContainer extends PureComponent {
         onStoreSelect: PropTypes.func.isRequired,
         selectedShippingMethod: shippingMethodType,
         setSelectedShippingMethodCode: PropTypes.func,
-        totals: TotalsType.isRequired
+        totals: TotalsType.isRequired,
+        selectedStoreAddress: storeType
     };
 
     static defaultProps = {
+        selectedStoreAddress: {},
         selectedShippingMethod: null,
         setSelectedShippingMethodCode: null,
         isSubmitted: false,
@@ -72,16 +75,21 @@ export class CheckoutShippingContainer extends PureComponent {
         onShippingSuccess: this.onShippingSuccess.bind(this),
         onShippingError: this.onShippingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
-        onShippingMethodSelect: this.onShippingMethodSelect.bind(this),
-        onStoreSelect: this.onStoreSelect.bind(this)
+        onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
 
     __construct(props) {
         super.__construct(props);
 
-        const { shippingMethods } = props;
-        const [selectedShippingMethod] = shippingMethods;
-        const { method_code = '' } = selectedShippingMethod || {};
+        const { shippingMethods = [], savedShippingMethodCode } = props;
+
+        const previousShippingMethod = shippingMethods.find(
+            (method) => `${method.carrier_code}_${method.method_code}` === savedShippingMethodCode
+        );
+
+        const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
+        const selectedShippingMethod = previousShippingMethod || defaultShippingMethod || {};
+        const { method_code = '' } = selectedShippingMethod;
 
         this.state = {
             selectedCustomerAddressId: 0,
@@ -90,6 +98,29 @@ export class CheckoutShippingContainer extends PureComponent {
                 ? selectedShippingMethod
                 : {}
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        const { shippingMethods: prevShippingMethods } = prevProps;
+        const { shippingMethods } = this.props;
+
+        if (prevShippingMethods !== shippingMethods) {
+            this.resetShippingMethod();
+        }
+    }
+
+    resetShippingMethod() {
+        const { selectedShippingMethod: { method_code: selectedMethodCode = '' } } = this.state;
+        const { shippingMethods } = this.props;
+
+        if (shippingMethods.find(({ method_code }) => method_code === selectedMethodCode)) {
+            return;
+        }
+
+        const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
+        const selectedShippingMethod = defaultShippingMethod || {};
+
+        this.setState({ selectedShippingMethod });
     }
 
     containerProps() {
@@ -102,7 +133,9 @@ export class CheckoutShippingContainer extends PureComponent {
             isSubmitted,
             setSelectedShippingMethodCode,
             shippingMethods,
-            totals
+            totals,
+            onStoreSelect,
+            onShippingEstimationFieldsChange
         } = this.props;
         const { selectedShippingMethod } = this.state;
 
@@ -116,7 +149,9 @@ export class CheckoutShippingContainer extends PureComponent {
             setSelectedShippingMethodCode,
             shippingMethods,
             totals,
-            selectedShippingMethod
+            selectedShippingMethod,
+            onStoreSelect,
+            onShippingEstimationFieldsChange
         };
     }
 
@@ -132,7 +167,7 @@ export class CheckoutShippingContainer extends PureComponent {
                 pickup_location_code,
                 country_id
             }
-        } = this.state;
+        } = this.props;
 
         const storeAddress = {
             ...shippingAddress,
@@ -178,21 +213,17 @@ export class CheckoutShippingContainer extends PureComponent {
         this.setState({ isSubmitted: !isSubmitted });
     }
 
-    onStoreSelect(address) {
-        this.setState({ selectedStoreAddress: address });
-    }
-
     onShippingSuccess(fields) {
         const {
             saveAddressInformation,
             updateShippingFields,
-            addressLinesQty
+            addressLinesQty,
+            selectedStoreAddress
         } = this.props;
 
         const {
             selectedCustomerAddressId,
-            selectedShippingMethod,
-            selectedStoreAddress
+            selectedShippingMethod
         } = this.state;
 
         const formFields = getFormFields(fields, addressLinesQty);

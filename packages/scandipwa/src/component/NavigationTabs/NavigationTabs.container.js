@@ -90,6 +90,12 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         this.handleVisibleOnScrollChange(prevProps);
     }
 
+    containerProps() {
+        const { device, navigationState, cartTotals } = this.props;
+
+        return { device, navigationState, cartTotals };
+    }
+
     handleNavVisibility() {
         const { navigationState: { isHidden } } = this.props;
 
@@ -180,6 +186,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const { pathname } = location;
 
         if (pathname !== appendWithStoreCode(`/${ CART }`)) {
+            window.scrollTo({ top: 0 });
             browserHistory.push(appendWithStoreCode(`/${ CART }`));
         }
     }
@@ -261,7 +268,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     render() {
         return (
             <NavigationTabs
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { Children, createRef, PureComponent } from 'react';
 
+import ChevronIcon from 'Component/ChevronIcon';
+import { LEFT, RIGHT } from 'Component/ChevronIcon/ChevronIcon.config';
 import Draggable from 'Component/Draggable';
 import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
@@ -245,31 +247,31 @@ export class Slider extends PureComponent {
         }
 
         const fullSliderPoss = Math.round(fullSliderSize / slideSize);
-        const elementPossitionInDOM = this.draggableRef.current.getBoundingClientRect().x;
+        const elementPositionInDOM = this.draggableRef.current.getBoundingClientRect().x;
 
-        const sliderPossition = -prevActiveSlider;
-        const realElementPossitionInDOM = elementPossitionInDOM - lastTranslate;
-        const mousePossitionInElement = originalX - realElementPossitionInDOM;
+        const sliderPosition = -prevActiveSlider;
+        const realElementPositionInDOM = elementPositionInDOM - lastTranslate;
+        const mousePositionInElement = originalX - realElementPositionInDOM;
 
         if (device.isMobile) {
-            return sliderPossition;
+            return sliderPosition;
         }
 
-        if (slideSize / 2 < mousePossitionInElement && -fullSliderPoss < sliderPossition) {
-            const activeSlide = sliderPossition - 1;
+        if (slideSize / 2 < mousePositionInElement && -fullSliderPoss < sliderPosition) {
+            const activeSlide = sliderPosition - 1;
             onActiveImageChange(-activeSlide);
 
             return activeSlide;
         }
 
-        if (slideSize / 2 > mousePossitionInElement && lastTranslate) {
-            const activeSlide = sliderPossition + 1;
+        if (slideSize / 2 > mousePositionInElement && lastTranslate) {
+            const activeSlide = sliderPosition + 1;
             onActiveImageChange(-activeSlide);
 
             return activeSlide;
         }
 
-        return sliderPossition;
+        return sliderPosition;
     }
 
     getFullSliderWidth() {
@@ -478,14 +480,18 @@ export class Slider extends PureComponent {
                   mods={ { isPrev: true, isDisabled: prevIsDisabled } }
                   aria-label={ __('Previous') }
                   onClick={ this.goPrev }
-                />
+                >
+                    <ChevronIcon direction={ LEFT } />
+                </button>
                 <button
                   block="Slider"
                   elem="Arrow"
                   mods={ { isNext: true, isDisabled: nextIsDisabled } }
                   aria-label={ __('Next') }
                   onClick={ this.goNext }
-                />
+                >
+                    <ChevronIcon direction={ RIGHT } />
+                </button>
             </>
         );
     }

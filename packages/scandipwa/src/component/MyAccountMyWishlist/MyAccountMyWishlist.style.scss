@@ -112,24 +112,17 @@
         @include mobile {
             width: 100%;
         }
-    }
 
-    &-MinicartIcon {
-        @include minicart-button;
+        .CartIcon {
+            fill: var(--color-white);
+            margin-inline-end: 12px;
+            width: 20px;
+            height: 20px;
 
-        filter: invert(100%);
-        height: 20px;
-        margin-inline-end: 14px;
-        width: 18px;
-    }
-
-    &-ShareIcon {
-        @include share-icon;
-
-        filter: var(--primary-base-filter);
-        height: 20px;
-        margin-inline-end: 14px;
-        width: 18px;
+            &:hover {
+                fill: var(--color-white);
+            }
+        }
     }
 
     &-ClearRemoveItemsButton {
@@ -155,12 +148,12 @@
     }
 
     &-ShareWishlistButton {
-        height: 0;
-        margin-block: 14px 0;
-        margin-inline: 0 20px;
+        .ShareIcon {
+            margin-inline-end: 12px;
+        }
 
-        &[disabled] {
-            @include button-disabled();
+        &:hover .ShareIcon_isPrimary {
+            fill: var(--primary-dark-color);
         }
     }
 }

@@ -16,7 +16,7 @@
         margin-block-end: 28px;
     }
 
-    @include desktop {
+    @include wide-desktop {
         &-Methods {
             width: 50%;
         }

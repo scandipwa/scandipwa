@@ -12,10 +12,6 @@
 .Checkout {
   .CheckoutShipping {
     &-Button {
-      span {
-        @include lock-button;
-      }
-
       @include desktop {
         width: 294px;
       }

@@ -36,9 +36,14 @@ export class GroupedProductsItemContainer extends PureComponent {
         this.changeCount(defaultQuantity);
     }
 
-    containerProps = () => ({
-        itemCount: this._getCurrentQuantity()
-    });
+    containerProps() {
+        const { product } = this.props;
+
+        return {
+            itemCount: this._getCurrentQuantity(),
+            product
+        };
+    }
 
     /**
      * Get the selected quantity of grouped product
@@ -61,7 +66,6 @@ export class GroupedProductsItemContainer extends PureComponent {
     render() {
         return (
             <GroupedProductsItem
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

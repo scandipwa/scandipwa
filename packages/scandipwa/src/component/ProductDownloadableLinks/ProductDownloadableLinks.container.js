@@ -30,7 +30,8 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         isRequired: PropTypes.bool,
         links: PropTypes.array,
         setLinkedDownloadables: PropTypes.func.isRequired,
-        setLinkedDownloadablesPrice: PropTypes.func.isRequired
+        setLinkedDownloadablesPrice: PropTypes.func.isRequired,
+        isOpenInNewTab: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -74,6 +75,25 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         if (selectedLinks !== prevSelectedLinks) {
             this.updateSelectedOptionsArray();
         }
+    }
+
+    containerProps() {
+        const {
+            isOpenInNewTab,
+            isRequired,
+            links,
+            title
+        } = this.props;
+        const { isLoading, selectedLinks } = this.state;
+
+        return {
+            isOpenInNewTab,
+            isRequired,
+            links,
+            title,
+            isLoading,
+            selectedLinks
+        };
     }
 
     stopLoading() {
@@ -132,8 +152,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
     render() {
         return (
             <ProductDownloadableLinks
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

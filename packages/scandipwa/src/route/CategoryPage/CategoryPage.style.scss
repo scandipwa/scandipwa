@@ -78,14 +78,19 @@
 
         @include desktop {
             display: none;
-        }
-    }
 
-    &-FilterIcon {
-        width: 18px;
-        height: 18px;
-        margin-inline-end: 15px;
-        padding-block-end: 0;
+            &Placeholder {
+                position: relative;
+                grid-row: 1/6;
+                width: 100%;
+                opacity: 1;
+                pointer-events: all;
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
+        }
     }
 
     &-Subheading {
@@ -186,19 +191,6 @@
         button {
             color: transparent;
             margin-inline-end: 10px;
-            cursor: pointer;
-
-            .Image {
-                width: 26px;
-                height: 25px;
-            }
-
-            &.grid_isActive,
-            &.list_isActive {
-                img {
-                    filter: var(--primary-base-filter);
-                }
-            }
         }
     }
 }

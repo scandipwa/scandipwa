@@ -137,16 +137,10 @@
 
             &_account {
                 @include button-visible;
-                @include account-button;
             }
 
             &_home {
                 @include visible-on-mobile;
-                @include home-icon;
-            }
-
-            &_menu {
-                @include menu-button;
             }
 
             &_minicart {
@@ -156,25 +150,21 @@
             }
 
             &_back {
-                @include back-button;
-
-                width: 18px;
-                height: 20px;
-
-                [dir="rtl"] & {
-                    transform: none;
+                .ChevronIcon {
+                    width: 20px;
+                    height: 20px;
                 }
             }
 
             &_close {
-                @include close-button;
-
-                width: 27px;
-                height: 27px;
+                .CloseIcon {
+                    width: 27px;
+                    height: 27px;
+                }
             }
 
             &_share {
-                @include share-icon;
+                @include button-visible;
             }
 
             &_compare {
@@ -193,10 +183,6 @@
 
     &-CompareButtonWrapper {
         margin-inline-start: 35px;
-    }
-
-    &-CompareIcon {
-        @include compare-icon;
     }
 
     &-LogoWrapper {
@@ -276,9 +262,7 @@
             margin-inline-start: 5px;
         }
 
-        &Icon {
-            @include exclamation-icon;
-
+        .ExclamationMarkIcon {
             inset-block-end: 1px;
             height: 16px;
             margin-inline-end: 10px;
@@ -320,12 +304,12 @@
         font-size: 14px;
         margin-inline-end: 16px;
         text-align: end;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 200px;
 
-        @include narrow-desktop {
-            display: block;
-        }
-
-        &_isVisible {
+        @include wide-desktop {
             display: block;
         }
     }
@@ -365,6 +349,7 @@
             &-MyAccount {
                 @include desktop {
                     margin-inline-start: auto;
+                    height: 24px;
                 }
 
                 @include mobile {
@@ -418,13 +403,5 @@
 
     &_name_popup {
         z-index: 400;
-    }
-
-    &-MinicartIcon {
-        @include minicart-button;
-
-        display: inline-block;
-        height: 24px;
-        width: 24px;
     }
 }

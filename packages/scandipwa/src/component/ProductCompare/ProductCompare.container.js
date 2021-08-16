@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { DeviceType } from 'Type/Device';
 import { ProductItemsType } from 'Type/ProductList';
 
 import ProductCompare from './ProductCompare.component';
@@ -49,7 +50,8 @@ export class ProductCompareContainer extends PureComponent {
         isLoading: PropTypes.bool,
         products: ProductItemsType,
         items: PropTypes.array,
-        attributes: PropTypes.array
+        attributes: PropTypes.array,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -66,6 +68,20 @@ export class ProductCompareContainer extends PureComponent {
 
     componentDidMount() {
         this.fetchCompareList();
+    }
+
+    containerProps() {
+        const {
+            isLoading,
+            products,
+            device
+        } = this.props;
+
+        return {
+            isLoading,
+            products,
+            device
+        };
     }
 
     fetchCompareList() {
@@ -100,7 +116,7 @@ export class ProductCompareContainer extends PureComponent {
     render() {
         return (
             <ProductCompare
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

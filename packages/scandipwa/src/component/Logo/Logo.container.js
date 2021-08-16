@@ -18,7 +18,7 @@ export class LogoContainer extends ImageContainer {
     render() {
         return (
             <Logo
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

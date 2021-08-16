@@ -548,11 +548,13 @@ export class CheckoutContainer extends PureComponent {
             shipping_address: {
                 id,
                 save_in_address_book,
+                guest_email,
                 ...shippingAddress
             } = {},
             billing_address: {
                 id: dropId,
                 save_in_address_book: dropSaveInAddressBook,
+                guest_email: dropGuestEmail,
                 ...billingAddress
             } = {},
             ...data
@@ -660,6 +662,7 @@ export class CheckoutContainer extends PureComponent {
             purchaseOrderNumber, // drop this
             region_id,
             region,
+            guest_email,
             ...restOfBillingAddress
         } = address;
 

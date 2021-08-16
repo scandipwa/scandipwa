@@ -75,7 +75,6 @@ export class ProductList extends PureComponent {
     componentDidUpdate(prevProps) {
         const { isWidget, currentPage, device } = this.props;
         const { currentPage: prevCurrentPage } = prevProps;
-        window.scrollTo({ top: 0 });
 
         // Scroll up on page change, ignore widgets
         if (prevCurrentPage !== currentPage && !isWidget && !device.isMobile) {
@@ -257,8 +256,13 @@ export class ProductList extends PureComponent {
             currentPage,
             mix
         } = this.props;
-
-        const newProps = this._processProps(props);
+        const {
+            items,
+            keys,
+            pageNumber,
+            selectedFilters,
+            wrapperRef
+        } = this._processProps(props);
 
         return (
             <ProductListPage
@@ -268,7 +272,11 @@ export class ProductList extends PureComponent {
               isLoading={ isLoading }
               isVisible={ isVisible }
               mix={ mix }
-              { ...newProps }
+              items={ items }
+              keys={ keys }
+              pageNumber={ pageNumber }
+              selectedFilters={ selectedFilters }
+              wrapperRef={ wrapperRef }
             />
         );
     }

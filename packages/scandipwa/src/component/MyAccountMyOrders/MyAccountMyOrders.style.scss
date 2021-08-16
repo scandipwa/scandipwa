@@ -38,11 +38,3 @@
         }
     }
 }
-
-.MyDownloadableOrders {
-    @include mobile {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        width: calc(100vw - var(--my-account-wrapper-padding-mobile) * 2);
-    }
-}

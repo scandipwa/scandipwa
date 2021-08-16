@@ -16,7 +16,7 @@ import Field from 'Component/Field';
 import Link from 'Component/Link';
 import { formatPrice } from 'Util/Price';
 
-import './ProductDownloadableLinks.style.scss';
+import './ProductDownloadableLinks.style';
 
 /** @namespace Component/ProductDownloadableLinks/Component */
 export class ProductDownloadableLinks extends PureComponent {
@@ -35,7 +35,7 @@ export class ProductDownloadableLinks extends PureComponent {
         selectedLinks: []
     };
 
-    getLabel(link) {
+    renderLabel(link) {
         const { title, price } = link;
         const { isRequired } = this.props;
 
@@ -52,29 +52,6 @@ export class ProductDownloadableLinks extends PureComponent {
                 { title }
                 { `(+${ formatPrice(price) })` }
             </span>
-        );
-    }
-
-    renderLabel(link) {
-        const { isOpenInNewTab } = this.props;
-        const { sample_url } = link;
-
-        if (!sample_url) {
-            return this.getLabel(link);
-        }
-
-        return (
-            <>
-                { this.getLabel(link) }
-                <Link
-                  to={ sample_url }
-                  isOpenInNewTab={ isOpenInNewTab }
-                  block="ProductDownloadableLink"
-                  elem="SampleLink"
-                >
-                    { __('Sample') }
-                </Link>
-            </>
         );
     }
 
@@ -98,18 +75,37 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderLink = (link) => {
+    renderLink(link) {
+        const { isOpenInNewTab } = this.props;
+        const { sample_url } = link;
+
+        if (!sample_url) {
+            return null;
+        }
+
+        return (
+            <Link
+              to={ sample_url }
+              isOpenInNewTab={ isOpenInNewTab }
+              block="ProductDownloadableLink"
+              elem="SampleLink"
+            >
+                { __('Sample') }
+            </Link>
+        );
+    }
+
+    renderDownloadableLink(link) {
         const { id } = link;
 
         return (
             <div block="ProductDownloadableLink" key={ id }>
                 { this.renderCheckBox(link) }
-                <span block="ProductDownloadableLink" elem="SampleLabel">
-                    { this.renderLabel(link) }
-                </span>
+                { this.renderLabel(link) }
+                { this.renderLink(link) }
             </div>
         );
-    };
+    }
 
     renderRequired(isRequired) {
         const { selectedLinks } = this.props;
@@ -133,7 +129,7 @@ export class ProductDownloadableLinks extends PureComponent {
 
         return (
             <>
-                { links.map(this.renderLink) }
+                { links.map(this.renderDownloadableLink.bind(this)) }
                 { this.renderRequired(isRequired) }
             </>
         );

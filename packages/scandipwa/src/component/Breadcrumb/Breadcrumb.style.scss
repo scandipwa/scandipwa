@@ -21,27 +21,19 @@
         font-size: 14px;
     }
 
-    &:not(:last-child) {
-        margin: 0;
-
-        .Breadcrumb-Arrow {
-            @include chevron-icon;
-            @include rtl-icon;
-
-            filter: invert(57%) sepia(0%) saturate(1%) hue-rotate(105deg) brightness(93%) contrast(90%);
-            display: inline-block;
-            margin-inline-start: $crumb-padding;
-            width: 12px;
-            height: 12px;
-            inset-block-end: -2px;
-        }
+    .ChevronIcon {
+        filter: invert(57%) sepia(0%) saturate(1%) hue-rotate(105deg) brightness(93%) contrast(90%);
+        display: inline-block;
+        margin-inline-start: $crumb-padding;
+        width: 12px;
+        height: 12px;
+        inset-block-end: -2px;
     }
 
     &:last-child {
-        --breadcrumbs-color: var(--breadcrumbs-active-color);
-
-        pointer-events: none;
-        margin: 0;
+        .ChevronIcon {
+            display: none;
+        }
     }
 
     &::before {

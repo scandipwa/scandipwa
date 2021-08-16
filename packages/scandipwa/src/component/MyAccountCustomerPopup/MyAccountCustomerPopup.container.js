@@ -20,13 +20,14 @@ import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action'
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import { customerType } from 'Type/Account';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import MyAccountCustomerPopup from './MyAccountCustomerPopup.component';
-import { CUSTOMER_POPUP_ID } from './MyAccountCustomerPopup.config';
+import { CHANGE_PASSWORD, CUSTOMER_POPUP_ID, EDIT_CUSTOMER } from './MyAccountCustomerPopup.config';
 
 /** @namespace Component/MyAccountCustomerPopup/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -49,7 +50,14 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
         showErrorNotification: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired
+        showSuccessNotification: PropTypes.func.isRequired,
+        payload: PropTypes.shape({
+            action: PropTypes.oneOf([
+                CHANGE_PASSWORD,
+                EDIT_CUSTOMER
+            ]),
+            customer: customerType
+        }).isRequired
     };
 
     state = {
@@ -60,6 +68,16 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
         onCustomerSave: this.onCustomerSave.bind(this),
         onPasswordChange: this.onPasswordChange.bind(this)
     };
+
+    containerProps() {
+        const { payload } = this.props;
+        const { isLoading } = this.state;
+
+        return {
+            payload,
+            isLoading
+        };
+    }
 
     onError = (error) => {
         const { showErrorNotification } = this.props;
@@ -125,8 +143,7 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
     render() {
         return (
             <MyAccountCustomerPopup
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

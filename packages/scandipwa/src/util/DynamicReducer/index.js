@@ -17,6 +17,7 @@ export const withReducers = (reducers) => (WrappedComponent) => {
     const injectAndExecute = (props) => {
         injectReducers(getStore(), reducers);
 
+        // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
         return <WrappedComponent { ...props } />;
     };
 

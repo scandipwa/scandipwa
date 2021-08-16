@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import ChevronIcon from 'Component/ChevronIcon';
+import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 import Field from 'Component/Field';
 import StoreItems from 'Component/StoreItems';
@@ -95,7 +97,7 @@ export class StoreSwitcher extends PureComponent {
                       onClick={ onStoreSwitcherClick }
                     >
                         { storeLabel }
-                        <span />
+                        <ChevronIcon direction={ isOpened ? TOP : BOTTOM } />
                     </button>
 
                     <div block="StoreSwitcher" elem="StoreList" mods={ mods }>

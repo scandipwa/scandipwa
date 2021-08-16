@@ -117,3 +117,12 @@ export const getDefaultAddressLabel = (address) => {
 
     return __(' (default shipping address)');
 };
+
+/** @namespace Util/Address/getAvailableRegions */
+export const getAvailableRegions = (country_id, countries) => {
+    const country = countries.find(({ id }) => id === country_id) || {};
+    const { available_regions } = country;
+
+    // need to handle null value
+    return available_regions || [{}];
+};

@@ -68,10 +68,6 @@
     &-CheckoutButton {
         margin-inline-start: 12px;
 
-        span {
-            @include lock-button;
-        }
-
         @include mobile {
             margin-inline-start: 16px;
             width: 100%;

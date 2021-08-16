@@ -46,7 +46,7 @@ export class CategoryPriceRangeContainer extends PureComponent {
         updatePriceRange: this.updatePriceRange.bind(this)
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             maxPriceValue,
             minPriceValue
@@ -57,7 +57,7 @@ export class CategoryPriceRangeContainer extends PureComponent {
             minPriceValue,
             priceValue: this._getPriceRangeValue()
         };
-    };
+    }
 
     _getPriceRangeValue() {
         const { minPriceValue, maxPriceValue } = this.props;
