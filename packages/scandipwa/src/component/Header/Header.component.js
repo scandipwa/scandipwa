@@ -493,11 +493,10 @@ export class Header extends NavigationAbstract {
         }
 
         return (
-            <>
+            <div key="account">
                 { this.renderWelcomeMessage() }
                 <ClickOutside
                   onClick={ onMyAccountOutsideClick }
-                  key="account"
                 >
                     <div
                       aria-label="My account"
@@ -508,7 +507,7 @@ export class Header extends NavigationAbstract {
                         { this.renderAccountOverlay() }
                     </div>
                 </ClickOutside>
-            </>
+            </div>
         );
     }
 
