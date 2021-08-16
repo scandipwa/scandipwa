@@ -50,8 +50,7 @@
     }
 
     &:not([disabled]) {
-        &:hover,
-        &:focus {
+        &:hover {
             @include desktop {
                 background-color: var(--button-hover-background);
                 border-color: var(--button-hover-border);
@@ -77,8 +76,7 @@
         text-decoration: var(--hollow-button-text-decoration);
 
         &:not([disabled]) {
-            &:hover,
-            &:focus {
+            &:hover {
                 @include desktop {
                     background-color: var(--hollow-button-hover-background);
                     border-color: var(--hollow-button-hover-border);

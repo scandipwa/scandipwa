@@ -45,6 +45,10 @@
         span {
             display: contents;
         }
+
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     &-Message {
