@@ -17,6 +17,7 @@ import CloseIcon from 'Component/CloseIcon';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 import { ProductType } from 'Type/ProductList';
@@ -127,7 +128,7 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderAddToCartBtnDisabled() {
+    renderAddToCartButtonWithLink() {
         const { linkTo, overriddenAddToCartBtnHandler } = this.props;
 
         return (
@@ -137,25 +138,40 @@ export class ProductCompareItem extends PureComponent {
               block="ProductCompareItem"
               elem="AddToCartBtnWrapper"
             >
-                <AddToCart
-                  product={ {} }
-                  groupedProductQuantity={ {} }
-                  productOptionsData={ {} }
-                  disableHandler
-                  mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
-                />
+                { this.renderAddToCartBtnDisabled() }
             </Link>
         );
     }
 
-    renderAddToCartBtn() {
-        const { overrideAddToCartBtnBehavior } = this.props;
+    renderAddToCartBtnDisabled() {
+        return (
+            <AddToCart
+              product={ {} }
+              groupedProductQuantity={ {} }
+              productOptionsData={ {} }
+              mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
+              disabled
+            />
+        );
+    }
 
-        if (!overrideAddToCartBtnBehavior) {
-            return this.renderAddToCartBtnEnabled();
+    renderAddToCartBtn() {
+        const {
+            overrideAddToCartBtnBehavior,
+            product: {
+                stock_status
+            }
+        } = this.props;
+
+        if (stock_status !== IN_STOCK) {
+            return this.renderAddToCartBtnDisabled();
         }
 
-        return this.renderAddToCartBtnDisabled();
+        if (overrideAddToCartBtnBehavior) {
+            return this.renderAddToCartButtonWithLink();
+        }
+
+        return this.renderAddToCartBtnEnabled();
     }
 
     renderProductDetails() {

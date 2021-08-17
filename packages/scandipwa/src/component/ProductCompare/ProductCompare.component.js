@@ -18,10 +18,6 @@ import ProductPrice from 'Component/ProductPrice';
 import { DeviceType } from 'Type/Device';
 import { ProductItemsType } from 'Type/ProductList';
 import { getPriceLabel } from 'Util/Price';
-import {
-    BUNDLE,
-    CONFIGURABLE
-} from 'Util/Product';
 
 import './ProductCompare.style';
 
@@ -103,32 +99,39 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderProductPrices() {
-        const { products, isOutOfStock } = this.props;
+    renderProductPrice(product) {
+        const { isOutOfStock } = this.props;
+        const {
+            id,
+            price_range,
+            type_id,
+            price_tiers = []
+        } = product;
 
-        return products.map((product) => {
-            const {
-                id,
-                price_range,
-                price_tiers = [],
-                type_id
-            } = product;
-
-            if ((type_id === CONFIGURABLE || type_id === BUNDLE) && isOutOfStock(product)) {
-                return null;
-            }
-
-            const label = getPriceLabel(type_id, price_tiers);
-
+        if (isOutOfStock(product)) {
             return (
-                <ProductPrice
-                  price={ price_range }
-                  price_tiers={ price_tiers }
-                  key={ id }
-                  label={ label }
-                />
+                <div block="ProductCompareAttributeRow" elem="Value">
+                    { __('Out of stock') }
+                </div>
             );
-        });
+        }
+
+        const label = getPriceLabel(type_id, price_tiers);
+
+        return (
+            <ProductPrice
+              price={ price_range }
+              price_tiers={ price_tiers }
+              key={ id }
+              label={ label }
+            />
+        );
+    }
+
+    renderProductPrices() {
+        const { products } = this.props;
+
+        return products.map(this.renderProductPrice.bind(this));
     }
 
     renderAttributes() {
