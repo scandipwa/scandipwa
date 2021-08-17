@@ -144,7 +144,7 @@ export class ProductCard extends Component {
         } = this.props;
 
         const label = getPriceLabel(type_id, price_tiers);
-        if (label && siblingsHavePriceBadge) {
+        if (label && !siblingsHavePriceBadge) {
             setSiblingsHavePriceBadge();
         }
 
