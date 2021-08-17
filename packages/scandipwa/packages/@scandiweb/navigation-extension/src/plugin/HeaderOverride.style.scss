@@ -19,11 +19,13 @@
     }
   }
 
-  &-BackBtn {
+  &-CloseSearchBtn {
     svg {
       width: 30px;
       height: 30px;
     }
+
+    padding-inline-start: 12px;
   }
 
   .SearchField_isVisible {

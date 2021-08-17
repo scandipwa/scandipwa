@@ -47,8 +47,8 @@ export class HeaderPlugin {
         searchIcon: this.renderSearchIcon.bind(instance),
         ...originalMember,
         logo: this.renderLogoMobile.bind(instance),
-        title: this.renderTitleMobile.bind(instance),
         search: this.renderSearchFieldMobile.bind(instance),
+        closeSearch: this.renderCloseSearchIcon.bind(instance),
         account: this.renderAccount.bind(instance),
         minicart: this.renderMiniCart.bind(instance)
     });
@@ -100,39 +100,39 @@ export class HeaderPlugin {
         return this.renderLogo(isVisible);
     }
 
-    renderTitleMobile(isVisible) {
-        const { isSearchBarActive } = this.props;
+    renderCloseSearchIcon() {
+        const {
+            isSearchBarActive,
+            onSearchBarDeactivate,
+            device: { isMobile }
+        } = this.props;
 
-        if (isSearchBarActive) {
+        if (!isSearchBarActive || !isMobile) {
             return null;
         }
 
-        return this.renderTitle(isVisible);
+        return (
+            <button
+              block="Header"
+              elem="CloseSearchBtn"
+              key="closeSearch"
+              onClick={ onSearchBarDeactivate }
+              aria-label={ __('Cancel Search') }
+            >
+                <CloseIcon />
+            </button>
+        );
     }
 
     renderSearchIcon() {
         const {
             isSearchBarActive,
-            onSearchBarDeactivate,
             onSearchButtonClick,
             device: { isMobile }
         } = this.props;
 
-        if (!isMobile) {
+        if (!isMobile || isSearchBarActive) {
             return null;
-        }
-
-        if (isSearchBarActive) {
-            return (
-                <button
-                  block="Header"
-                  elem="BackBtn"
-                  onClick={ onSearchBarDeactivate }
-                  aria-label={ __('Cancel Search') }
-                >
-                    <CloseIcon />
-                </button>
-            );
         }
 
         return (
