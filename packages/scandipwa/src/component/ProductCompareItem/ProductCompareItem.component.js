@@ -128,10 +128,23 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderAddToCartBtnDisabled(renderLink) {
+    renderAddToCartButtonWithLink() {
         const { linkTo, overriddenAddToCartBtnHandler } = this.props;
 
-        const btn = (
+        return (
+            <Link
+              to={ linkTo }
+              onClick={ overriddenAddToCartBtnHandler }
+              block="ProductCompareItem"
+              elem="AddToCartBtnWrapper"
+            >
+                { this.renderAddToCartBtnDisabled() }
+            </Link>
+        );
+    }
+
+    renderAddToCartBtnDisabled() {
+        return (
             <AddToCart
               product={ {} }
               groupedProductQuantity={ {} }
@@ -140,21 +153,6 @@ export class ProductCompareItem extends PureComponent {
               disabled
             />
         );
-
-        if (renderLink) {
-            return (
-                <Link
-                  to={ linkTo }
-                  onClick={ overriddenAddToCartBtnHandler }
-                  block="ProductCompareItem"
-                  elem="AddToCartBtnWrapper"
-                >
-                    { btn }
-                </Link>
-            );
-        }
-
-        return btn;
     }
 
     renderAddToCartBtn() {
@@ -166,11 +164,11 @@ export class ProductCompareItem extends PureComponent {
         } = this.props;
 
         if (stock_status !== IN_STOCK) {
-            return this.renderAddToCartBtnDisabled(false);
+            return this.renderAddToCartBtnDisabled();
         }
 
         if (overrideAddToCartBtnBehavior) {
-            return this.renderAddToCartBtnDisabled(true);
+            return this.renderAddToCartButtonWithLink();
         }
 
         return this.renderAddToCartBtnEnabled();
