@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import currencyMap from './Price.config';
+import currencyMap, { PRICE_LABEL_MAP, TIER_PRICES } from './Price.config';
 
 /** @namespace Util/Price/formatCurrency */
 export const formatCurrency = (currency = 'USD') => currencyMap[currency];
@@ -45,4 +45,16 @@ export const getLowestPriceTiersPrice = (price_tiers, currency) => {
         .reduce((acc, { final_price: { value } }) => (acc < value ? acc : value), price_tiers[0].final_price.value);
 
     return formatPrice(lowestValue, currency);
+};
+
+/** @namespace Util/Price/getPriceLabel */
+export const getPriceLabel = (type_id, price_tiers) => {
+    const typeId = price_tiers.length ? TIER_PRICES : type_id;
+
+    const label = PRICE_LABEL_MAP[typeId];
+    if (!label) {
+        return null;
+    }
+
+    return label;
 };

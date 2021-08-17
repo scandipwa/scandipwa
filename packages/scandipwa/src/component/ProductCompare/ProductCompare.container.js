@@ -63,7 +63,8 @@ export class ProductCompareContainer extends PureComponent {
 
     containerFunctions = {
         getAttributes: this.getAttributes.bind(this),
-        clearCompareList: this.clearCompareList.bind(this)
+        clearCompareList: this.clearCompareList.bind(this),
+        isOutOfStock: this.isOutOfStock.bind(this)
     };
 
     componentDidMount() {
@@ -111,6 +112,26 @@ export class ProductCompareContainer extends PureComponent {
                 ({ attributes }) => attributes.find((attribute) => attribute.code === code).value
             )
         }));
+    }
+
+    isOutOfStock(product) {
+        const {
+            price_range: {
+                minimum_price: {
+                    final_price: {
+                        value: minimalPriceValue = 0
+                    } = {},
+                    regular_price: {
+                        value: regularPriceValue = 0
+                    } = {},
+                    default_price: {
+                        value: defaultPriceValue = 0
+                    } = {}
+                } = {}
+            } = {}
+        } = product;
+
+        return (!minimalPriceValue || !regularPriceValue) && !defaultPriceValue;
     }
 
     render() {

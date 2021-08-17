@@ -27,6 +27,7 @@ import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config
 import { DeviceType } from 'Type/Device';
 import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
+import { getPriceLabel } from 'Util/Price';
 import {
     BUNDLE,
     CONFIGURABLE,
@@ -34,9 +35,10 @@ import {
     GROUPED
 } from 'Util/Product';
 
-import { IN_STOCK, TIER_PRICES } from './ProductCard.config';
+import { IN_STOCK } from './ProductCard.config';
 
 import './ProductCard.style';
+
 /**
  * Product card
  * @class ProductCard
@@ -103,13 +105,6 @@ export class ProductCard extends Component {
         }
     };
 
-    productTypeRenderMap = {
-        [BUNDLE]: __('Starting from'),
-        [GROUPED]: __('Starting from'),
-        [CONFIGURABLE]: __('As Low as'),
-        [TIER_PRICES]: __('As Low as')
-    };
-
     imageRef = createRef();
 
     shouldComponentUpdate(nextProps) {
@@ -148,14 +143,8 @@ export class ProductCard extends Component {
             setSiblingsHavePriceBadge
         } = this.props;
 
-        const typeId = price_tiers.length ? TIER_PRICES : type_id;
-
-        const label = this.productTypeRenderMap[typeId];
-        if (!label) {
-            return null;
-        }
-
-        if (!siblingsHavePriceBadge) {
+        const label = getPriceLabel(type_id, price_tiers);
+        if (label && siblingsHavePriceBadge) {
             setSiblingsHavePriceBadge();
         }
 
