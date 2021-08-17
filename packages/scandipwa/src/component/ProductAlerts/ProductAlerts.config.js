@@ -11,10 +11,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const OPTION_TYPE_IMAGE = '2';
-export const OPTION_TYPE_COLOR = '1';
-export const OPTION_TYPE_TEXT = '0';
-export const validOptionTypes = [OPTION_TYPE_TEXT, OPTION_TYPE_COLOR, OPTION_TYPE_IMAGE];
-
-export const IN_STOCK = 'IN_STOCK';
-export const OUT_OF_STOCK = 'OUT_OF_STOCK';
+export const PRODUCT_ALERT_PRICE_DROP = 'PRODUCT_ALERT_PRICE_DROP';
+export const PRODUCT_ALERT_IN_STOCK = 'PRODUCT_ALERT_IN_STOCK';

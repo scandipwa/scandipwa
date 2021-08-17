@@ -55,6 +55,22 @@ export class NavigationTabs extends NavigationAbstract {
         minicart: this.renderMinicartButton.bind(this)
     };
 
+    shouldComponentUpdate(nextProps) {
+        const {
+            navigationState: { name: prevName },
+            cartTotals: { items_qty: prevQty },
+            device: prevDevice
+        } = this.props;
+
+        const {
+            navigationState: { name: nextName },
+            cartTotals: { items_qty: nextQty },
+            device: nextDevice
+        } = nextProps;
+
+        return prevName !== nextName || nextQty !== prevQty || prevDevice !== nextDevice;
+    }
+
     renderHomeButton(isActive = false) {
         const { onHomeButtonClick } = this.props;
 

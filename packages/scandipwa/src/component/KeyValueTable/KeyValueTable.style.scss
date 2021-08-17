@@ -37,7 +37,7 @@
 
     &-Wrapper {
         @include mobile {
-            overflow-x: scroll;
+            overflow-x: auto;
         }
     }
 

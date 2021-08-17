@@ -443,6 +443,23 @@ export const showNewReviewPopup = () => {
     dispatch(showPopup(REVIEW_POPUP_ID, { title: __('Write a review') }));
 };
 
+/** @namespace Util/Product/sortAlphabetically */
+export const sortAlphabetically = (options, key, caseSensitive = false) => options
+    .sort((a, b) => {
+        const textA = caseSensitive ? a[key] : a[key].toUpperCase();
+        const textB = caseSensitive ? b[key] : b[key].toUpperCase();
+
+        if (textA < textB) {
+            return -1;
+        }
+
+        if (textA > textB) {
+            return 1;
+        }
+
+        return 0;
+    });
+
 /** @namespace Util/Product/getBooleanLabel */
 export const getBooleanLabel = (label, isBoolean = false) => {
     if (!isBoolean) {

@@ -9,7 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const IMAGE_LOADING = 'IMAGE_LOADING';
-export const IMAGE_LOADED = 'IMAGE_LOADED';
-export const IMAGE_NOT_FOUND = 'IMAGE_NOT_FOUND';
-export const IMAGE_NOT_SPECIFIED = 'IMAGE_NOT_SPECIFIED';
+export { default } from './ProductAlerts.container';

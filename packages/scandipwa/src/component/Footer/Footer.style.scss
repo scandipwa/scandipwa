@@ -50,6 +50,10 @@
             color: inherit;
             font-weight: 400;
             font-size: 12px;
+
+            &:hover {
+                color: var(--primary-base-color);
+            }
         }
     }
 
