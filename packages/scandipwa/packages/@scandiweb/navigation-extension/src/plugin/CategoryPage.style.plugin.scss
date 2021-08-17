@@ -1,0 +1,34 @@
+.CategoryPage {
+  &-TopPanel {
+    --category-page-miscellaneous-height: 70px;
+
+    position: fixed;
+    top: var(--header-total-height);
+    width: 100%;
+    z-index: 90;
+    background: var(--color-white);
+    border-bottom: 1px solid var(--primary-divider-color);
+    height: var(--category-page-miscellaneous-height);
+    padding-inline: 12px;
+  }
+
+  &-Title {
+    text-align: center;
+    padding-block-start: 8px;
+  }
+
+  &-Filters {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-Wrapper {
+    .CategoryPage {
+      &-ProductListWrapper {
+        @include mobile {
+          padding-block-start: 36px;
+        }
+      }
+    }
+  }
+}

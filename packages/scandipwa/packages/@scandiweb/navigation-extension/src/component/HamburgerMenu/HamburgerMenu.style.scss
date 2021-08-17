@@ -1,21 +1,29 @@
 .HamburgerMenu {
-  --side-menu-width: 250px;
+  --side-menu-width: 300px;
 
   position: fixed;
-  top: 0;
-  left: 0;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   width: var(--side-menu-width);
   background-color: var(--color-white);
   height: 100%;
   z-index: 300;
-  transform: translateX(calc(-1 * var(--side-menu-width)));
   transition: transform 250ms ease-out;
   overflow-y: auto;
   padding-block-end: 16px;
+  transform: translateX(calc(-1 * var(--side-menu-width)));
+
+  [dir="rtl"] & {
+    transform: translateX(calc(1 * var(--side-menu-width)));
+  }
 
   &_isSideMenuOpen {
     transform: translateX(0);
     box-shadow: 0 5px 10px rgba(125, 125, 125, 0.5);
+
+    [dir="rtl"] & {
+      transform: translateX(0);
+    }
   }
 
   &-CloseBtnWrapper {
@@ -23,17 +31,18 @@
     width: 100%;
     height: 40px;
     position: sticky;
-    top: 0;
+    inset-block-start: 0;
     z-index: 10;
   }
 
   &-CloseBtn {
-    position: sticky;
-    top: 0;
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: 0;
     width: 32px;
     height: 32px;
     margin-block-start: 5px;
-    margin-inline-start: 5px;
+    margin-inline-end: 5px;
 
     svg {
       width: 32px;

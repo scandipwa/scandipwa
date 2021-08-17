@@ -18,7 +18,7 @@ import UserIcon from 'Component/UserIcon';
 import { isSignedIn } from 'Util/Auth';
 
 import './HeaderOverride.style.scss';
-import './FooterOverride.style.scss';
+import './Footer.style.plugin.scss';
 
 export const HamburgerMenu = lazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "navigation-extension" */
@@ -36,7 +36,9 @@ export class HeaderPlugin {
                 search: true,
                 account: true,
                 minicart: true,
-                back: false
+                logo: true,
+                back: false,
+                title: false
             }
         }), {});
 
