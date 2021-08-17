@@ -19,7 +19,7 @@ import UserIcon from 'Component/UserIcon';
 import { isSignedIn } from 'Util/Auth';
 
 import './Header.style.plugin';
-// import './Footer.style.plugin.scss';
+import './Footer.style.plugin';
 // import './CheckoutPage.style.plugin.scss';
 
 export const HamburgerMenu = lazy(() => import(
