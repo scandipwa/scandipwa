@@ -52,10 +52,6 @@
     @include desktop {
         border-block-end: none;
 
-        .Field {
-            margin-inline-end: 24px;
-        }
-
         .FieldSelect {
             &-Select {
                 border: none;
