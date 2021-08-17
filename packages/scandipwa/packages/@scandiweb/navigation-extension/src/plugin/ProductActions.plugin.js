@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductActions.style.plugin.scss';
+// import './ProductActions.style.plugin.scss';
 
 export const renderMobile = (args, callback, instance) => (
     <>

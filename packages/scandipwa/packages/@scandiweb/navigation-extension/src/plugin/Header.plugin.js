@@ -20,7 +20,7 @@ import { isSignedIn } from 'Util/Auth';
 
 import './Header.style.plugin.scss';
 import './Footer.style.plugin.scss';
-import './CheckoutPage.style.plugin.scss';
+// import './CheckoutPage.style.plugin.scss';
 
 export const HamburgerMenu = lazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "navigation-extension" */

@@ -10,7 +10,7 @@ import { isCrawler, isSSR } from 'Util/Browser';
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-// import './CategoryPage.style.plugin';
+import './CategoryPage.style.plugin';
 
 export const renderMiscellaneous = (args, callback, instance) => {
     const { category: { name } = {}, isMobile } = instance.props;
