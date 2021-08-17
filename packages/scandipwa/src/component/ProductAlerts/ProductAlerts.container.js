@@ -38,13 +38,36 @@ export class ProductAlertsContainer extends PureComponent {
         isSignedIn: PropTypes.bool.isRequired,
         productId: PropTypes.number.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        isInStockAlertEnabled: PropTypes.bool,
+        isPriceAlertEnabled: PropTypes.bool,
+        stockStatus: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isInStockAlertEnabled: false,
+        isPriceAlertEnabled: false,
+        stockStatus: null
     };
 
     containerFunctions = {
         handlePriceDropSubscribeAlertPriceDrop: this.handlePriceDropSubscribe.bind(this, PRODUCT_ALERT_PRICE_DROP),
         handlePriceDropSubscribeAlertInStock: this.handlePriceDropSubscribe.bind(this, PRODUCT_ALERT_IN_STOCK)
     };
+
+    containerProps() {
+        const {
+            isInStockAlertEnabled,
+            isPriceAlertEnabled,
+            stockStatus
+        } = this.props;
+
+        return {
+            isInStockAlertEnabled,
+            isPriceAlertEnabled,
+            stockStatus
+        };
+    }
 
     handlePriceDropSubscribe(type) {
         const {
@@ -80,7 +103,7 @@ export class ProductAlertsContainer extends PureComponent {
     render() {
         return (
             <ProductAlerts
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

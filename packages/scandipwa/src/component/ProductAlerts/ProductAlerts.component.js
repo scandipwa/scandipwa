@@ -21,12 +21,14 @@ export class ProductAlerts extends PureComponent {
     static propTypes = {
         handlePriceDropSubscribeAlertPriceDrop: PropTypes.func.isRequired,
         handlePriceDropSubscribeAlertInStock: PropTypes.func.isRequired,
-        isInStockAlertEnabled: PropTypes.bool.isRequired,
-        isPriceAlertEnabled: PropTypes.bool.isRequired,
+        isInStockAlertEnabled: PropTypes.bool,
+        isPriceAlertEnabled: PropTypes.bool,
         stockStatus: PropTypes.bool
     };
 
     static defaultProps = {
+        isInStockAlertEnabled: false,
+        isPriceAlertEnabled: false,
         stockStatus: null
     };
 
