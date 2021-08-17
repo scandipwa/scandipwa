@@ -1,0 +1,38 @@
+.Header {
+  .Header-Nav &-MinicartButtonWrapper {
+    width: auto;
+  }
+
+  &-AccountBtn {
+    margin-inline: 8px 16px;
+  }
+
+  .Header-Nav &-MinicartItemCount {
+    @include mobile {
+      inset-block-start: 4px;
+    }
+  }
+
+  &-SearchBtn:hover {
+    .SearchIcon {
+      fill: var(--primary-base-color);
+    }
+  }
+
+  &-CloseSearchBtn {
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    padding-inline-start: 12px;
+  }
+
+  .Header-Nav .SearchField_isVisible {
+    margin-block: 0;
+  }
+
+  &-SearchBtn {
+    margin-inline: 8px;
+  }
+}

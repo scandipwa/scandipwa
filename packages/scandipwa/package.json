@@ -6,7 +6,9 @@
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
         "build": "scandipwa-scripts build",
-        "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
+        "build:magento": "BUILD_MODE=magento scandipwa-scripts build",
+        "postinstall": "scandipwa-scripts link",
+        "postupdate": "scandipwa-scripts link"
     },
     "dependencies": {
         "@scandipwa/chunk-optimizer": "0.0.2",
@@ -32,7 +34,8 @@
         "react-zoom-pan-pinch": "^1.6.1",
         "rebem-classname": "^0.4.0",
         "redux": "^4.0.5",
-        "unstated": "^2.1.1"
+        "unstated": "^2.1.1",
+        "@scandiweb/navigation-extension": "file:packages/@scandiweb/navigation-extension"
     },
     "scandipwa": {
         "themeAlias": "Source",
@@ -62,7 +65,8 @@
             "@scandipwa/webpack-i18n-runtime": true,
             "@scandipwa/service-worker": true,
             "@scandipwa/postcss-config": true,
-            "@scandipwa/chunk-optimizer": true
+            "@scandipwa/chunk-optimizer": true,
+            "@scandiweb/navigation-extension": true
         },
         "composer": {
             "magento/framework": "*",
@@ -456,5 +460,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://demo100-ors-1588667385-csa-qnb.scandipwa.cloud/"
+    "proxy": "https://scandipwapmrev.indvp.com/"
 }
