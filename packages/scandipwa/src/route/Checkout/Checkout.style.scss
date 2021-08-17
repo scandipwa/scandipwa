@@ -21,9 +21,6 @@
     }
 
     @include mobile {
-        //--footer-totals-height: 123px;
-        //
-        //padding-block-end: var(--footer-totals-height);
         padding-block-end: calc(var(--navigation-tabs-height) + 60px);
         padding-block-start: 20px;
     }
