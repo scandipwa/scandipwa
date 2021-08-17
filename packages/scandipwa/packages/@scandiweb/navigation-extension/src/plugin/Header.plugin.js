@@ -17,7 +17,7 @@ import SearchIcon from 'Component/SearchIcon';
 import UserIcon from 'Component/UserIcon';
 import { isSignedIn } from 'Util/Auth';
 
-import './HeaderOverride.style.scss';
+import './Header.style.plugin.scss';
 import './Footer.style.plugin.scss';
 
 export const HamburgerMenu = lazy(() => import(
@@ -139,6 +139,7 @@ export class HeaderPlugin {
             <button
               block="Header"
               elem="SearchBtn"
+              key="searchBtn"
               onClick={ onSearchButtonClick }
               aria-label={ __('Start Search') }
             >
@@ -159,11 +160,11 @@ export class HeaderPlugin {
 
     renderAccount(isVisible = false) {
         const {
-            onMyAccountOutsideClick,
-            isCheckout,
             onMobileMyAccountButtonClick,
             isSearchBarActive,
-            device: { isMobile }
+            device: { isMobile },
+            isCheckout,
+            onMyAccountOutsideClick
         } = this.props;
 
         if (isMobile) {
@@ -175,6 +176,7 @@ export class HeaderPlugin {
                 <button
                   block="Header"
                   elem="AccountBtn"
+                  key="accountBtn"
                   onClick={ onMobileMyAccountButtonClick }
                   aria-label="Open my account"
                 >
@@ -188,11 +190,10 @@ export class HeaderPlugin {
         }
 
         return (
-            <>
+            <div key="account">
                 { this.renderWelcomeMessage() }
                 <ClickOutside
                   onClick={ onMyAccountOutsideClick }
-                  key="account"
                 >
                     <div
                       aria-label="My account"
@@ -203,7 +204,7 @@ export class HeaderPlugin {
                         { this.renderAccountOverlay() }
                     </div>
                 </ClickOutside>
-            </>
+            </div>
         );
     }
 
@@ -222,6 +223,7 @@ export class HeaderPlugin {
         return (
             <ClickOutside
               onClick={ closeSideMenu }
+              key="sideMenu"
             >
                 <div block="Header" elem="HamburgerMenuWrapper">
                     <button
