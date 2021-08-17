@@ -13,9 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { STORE_IN_PICK_UP_METHOD_CODE, STORE_IN_PICK_UP_POPUP_ID } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { showPopup } from 'Store/Popup/Popup.action';
+import { addressType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
@@ -24,22 +23,25 @@ import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 export const mapStateToProps = () => ({});
 
 /** @namespace Component/CheckoutDeliveryOptions/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (popupId) => dispatch(showPopup(popupId))
-});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/CheckoutDeliveryOptions/Container */
 export class CheckoutDeliveryOptionsContainer extends PureComponent {
     static propTypes = {
         onShippingMethodSelect: PropTypes.func.isRequired,
-        showPopup: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
+        estimateAddress: addressType.isRequired,
+        handleSelectDeliveryMethod: PropTypes.func.isRequired,
         selectedShippingMethod: PropTypes.object
     };
 
     static defaultProps = {
         selectedShippingMethod: {}
+    };
+
+    state = {
+        isShippingMethodPreSelected: true
     };
 
     containerFunctions = {
@@ -60,6 +62,28 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         }
     }
 
+    containerProps() {
+        const {
+            estimateAddress,
+            onShippingMethodSelect,
+            onStoreSelect,
+            shippingMethods,
+            handleSelectDeliveryMethod,
+            selectedShippingMethod
+        } = this.props;
+        const { isShippingMethodPreSelected } = this.state;
+
+        return {
+            estimateAddress,
+            onShippingMethodSelect,
+            onStoreSelect,
+            selectedShippingMethod,
+            shippingMethods,
+            handleSelectDeliveryMethod,
+            isShippingMethodPreSelected
+        };
+    }
+
     collectAdditionalData = () => {
         const { selectedShippingMethod: { method_code } } = this.props;
         const additionalDataGetter = this.dataMap[method_code];
@@ -72,23 +96,21 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
     };
 
     selectShippingMethod(shippingMethod) {
-        const { onShippingMethodSelect, showPopup, onStoreSelect } = this.props;
-        const { method_code } = shippingMethod;
+        const { onShippingMethodSelect } = this.props;
+        const { isShippingMethodPreSelected } = this.state;
 
-        if (method_code === STORE_IN_PICK_UP_METHOD_CODE) {
-            showPopup(STORE_IN_PICK_UP_POPUP_ID);
+        if (isShippingMethodPreSelected) {
+            this.setState({ isShippingMethodPreSelected: false });
         }
 
         onShippingMethodSelect(shippingMethod);
-        onStoreSelect();
     }
 
     render() {
         return (
             <CheckoutDeliveryOptions
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
-              { ...this.state }
             />
         );
     }

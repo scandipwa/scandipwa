@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CART, CART_EDITING } from 'Component/Header/Header.config';
+import { CART } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -93,8 +93,6 @@ export class CartPageContainer extends PureComponent {
         device: DeviceType.isRequired
     };
 
-    state = { isEditing: false };
-
     containerFunctions = {
         onCheckoutButtonClick: this.onCheckoutButtonClick.bind(this)
     };
@@ -141,7 +139,8 @@ export class CartPageContainer extends PureComponent {
         const { totals } = this.props;
 
         return {
-            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
+            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items),
+            totals
         };
     };
 
@@ -209,19 +208,7 @@ export class CartPageContainer extends PureComponent {
         changeHeaderState({
             name: CART,
             title,
-            onEditClick: () => {
-                this.setState({ isEditing: true });
-                changeHeaderState({
-                    name: CART_EDITING,
-                    title,
-                    onOkClick: () => this.setState({ isEditing: false }),
-                    onCancelClick: () => this.setState({ isEditing: false })
-                });
-            },
-            onCloseClick: () => {
-                this.setState({ isEditing: false });
-                history.goBack();
-            }
+            onCloseClick: () => history.goBack()
         });
     }
 
@@ -239,8 +226,6 @@ export class CartPageContainer extends PureComponent {
     render() {
         return (
             <CartPage
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

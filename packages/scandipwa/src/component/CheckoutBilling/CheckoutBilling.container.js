@@ -60,7 +60,16 @@ export class CheckoutBillingContainer extends PureComponent {
             content: PropTypes.string,
             name: PropTypes.string
         })).isRequired,
-        selectedShippingMethod: PropTypes.string.isRequired
+        selectedShippingMethod: PropTypes.string.isRequired,
+        cartTotalSubPrice: PropTypes.number,
+        setDetailsStep: PropTypes.func.isRequired,
+        setLoading: PropTypes.func.isRequired,
+        termsAreEnabled: PropTypes.bool
+    };
+
+    static defaultProps = {
+        termsAreEnabled: false,
+        cartTotalSubPrice: null
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -101,6 +110,34 @@ export class CheckoutBillingContainer extends PureComponent {
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
             paymentMethod
+        };
+    }
+
+    containerProps() {
+        const {
+            cartTotalSubPrice,
+            paymentMethods,
+            selectedShippingMethod,
+            setDetailsStep,
+            setLoading,
+            shippingAddress,
+            termsAndConditions,
+            termsAreEnabled,
+            totals
+        } = this.props;
+        const { isSameAsShipping } = this.state;
+
+        return {
+            cartTotalSubPrice,
+            paymentMethods,
+            isSameAsShipping,
+            selectedShippingMethod,
+            setDetailsStep,
+            setLoading,
+            shippingAddress,
+            termsAndConditions,
+            termsAreEnabled,
+            totals
         };
     }
 
@@ -188,8 +225,20 @@ export class CheckoutBillingContainer extends PureComponent {
         }
     }
 
+    getBillingSameAsShipping() {
+        const { selectedShippingMethod, shippingAddress } = this.props;
+
+        if (selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE) {
+            const { extension_attributes, ...billingAddress } = shippingAddress;
+
+            return billingAddress;
+        }
+
+        return shippingAddress;
+    }
+
     _getAddress(fields) {
-        const { addressLinesQty, shippingAddress } = this.props;
+        const { addressLinesQty } = this.props;
 
         const {
             isSameAsShipping,
@@ -199,7 +248,7 @@ export class CheckoutBillingContainer extends PureComponent {
         const formFields = getFormFields(fields, addressLinesQty);
 
         if (isSameAsShipping) {
-            return shippingAddress;
+            return this.getBillingSameAsShipping();
         }
 
         if (!selectedCustomerAddressId) {
@@ -218,8 +267,7 @@ export class CheckoutBillingContainer extends PureComponent {
     render() {
         return (
             <CheckoutBilling
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

@@ -18,8 +18,9 @@ import {
     STORE_IN_PICK_UP_METHOD_CODE
 } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { updateShippingFields } from 'Store/Checkout/Checkout.action';
-import { customerType } from 'Type/Account';
-import { shippingMethodsType } from 'Type/Checkout';
+import { addressType, customerType } from 'Type/Account';
+import { shippingMethodsType, shippingMethodType, storeType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
 import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
 
@@ -47,15 +48,34 @@ export class CheckoutShippingContainer extends PureComponent {
         customer: customerType.isRequired,
         addressLinesQty: PropTypes.number.isRequired,
         updateShippingFields: PropTypes.func.isRequired,
-        onShippingMethodSelect: PropTypes.func.isRequired
+        cartTotalSubPrice: PropTypes.number,
+        estimateAddress: addressType.isRequired,
+        handleSelectDeliveryMethod: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        isPickInStoreMethodSelected: PropTypes.bool.isRequired,
+        isSubmitted: PropTypes.bool,
+        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
+        onShippingMethodSelect: PropTypes.func.isRequired,
+        onStoreSelect: PropTypes.func.isRequired,
+        selectedShippingMethod: shippingMethodType,
+        setSelectedShippingMethodCode: PropTypes.func,
+        totals: TotalsType.isRequired,
+        selectedStoreAddress: storeType
+    };
+
+    static defaultProps = {
+        selectedStoreAddress: {},
+        selectedShippingMethod: null,
+        setSelectedShippingMethodCode: null,
+        isSubmitted: false,
+        cartTotalSubPrice: null
     };
 
     containerFunctions = {
         onShippingSuccess: this.onShippingSuccess.bind(this),
         onShippingError: this.onShippingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
-        onShippingMethodSelect: this.onShippingMethodSelect.bind(this),
-        onStoreSelect: this.onStoreSelect.bind(this)
+        onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
 
     __construct(props) {
@@ -103,7 +123,39 @@ export class CheckoutShippingContainer extends PureComponent {
         this.setState({ selectedShippingMethod });
     }
 
-    getStoreAddress(shippingAddress) {
+    containerProps() {
+        const {
+            cartTotalSubPrice,
+            estimateAddress,
+            handleSelectDeliveryMethod,
+            isLoading,
+            isPickInStoreMethodSelected,
+            isSubmitted,
+            setSelectedShippingMethodCode,
+            shippingMethods,
+            totals,
+            onStoreSelect,
+            onShippingEstimationFieldsChange
+        } = this.props;
+        const { selectedShippingMethod } = this.state;
+
+        return {
+            cartTotalSubPrice,
+            estimateAddress,
+            handleSelectDeliveryMethod,
+            isLoading,
+            isPickInStoreMethodSelected,
+            isSubmitted,
+            setSelectedShippingMethodCode,
+            shippingMethods,
+            totals,
+            selectedShippingMethod,
+            onStoreSelect,
+            onShippingEstimationFieldsChange
+        };
+    }
+
+    getStoreAddress(shippingAddress, isBillingAddress = false) {
         const {
             selectedStoreAddress: {
                 region,
@@ -112,19 +164,29 @@ export class CheckoutShippingContainer extends PureComponent {
                 phone,
                 street,
                 name,
-                pickup_location_code
+                pickup_location_code,
+                country_id
             }
-        } = this.state;
+        } = this.props;
 
-        return {
+        const storeAddress = {
             ...shippingAddress,
+            country_id,
             region,
             city,
             postcode,
             telephone: phone,
             street: [street],
             firstname: name,
-            lastname: 'Store',
+            lastname: 'Store'
+        };
+
+        if (isBillingAddress) {
+            return storeAddress;
+        }
+
+        return {
+            ...storeAddress,
             extension_attributes: [
                 {
                     attribute_code: STORE_IN_PICK_UP_ATTRIBUTE_CODE,
@@ -151,21 +213,17 @@ export class CheckoutShippingContainer extends PureComponent {
         this.setState({ isSubmitted: !isSubmitted });
     }
 
-    onStoreSelect(address) {
-        this.setState({ selectedStoreAddress: address });
-    }
-
     onShippingSuccess(fields) {
         const {
             saveAddressInformation,
             updateShippingFields,
-            addressLinesQty
+            addressLinesQty,
+            selectedStoreAddress
         } = this.props;
 
         const {
             selectedCustomerAddressId,
-            selectedShippingMethod,
-            selectedStoreAddress
+            selectedShippingMethod
         } = this.state;
 
         const formFields = getFormFields(fields, addressLinesQty);
@@ -180,7 +238,7 @@ export class CheckoutShippingContainer extends PureComponent {
         } = selectedShippingMethod;
 
         const data = {
-            billing_address: shippingAddress,
+            billing_address: selectedStoreAddress ? this.getStoreAddress(shippingAddress, true) : shippingAddress,
             shipping_address: selectedStoreAddress ? this.getStoreAddress(shippingAddress) : shippingAddress,
             shipping_carrier_code,
             shipping_method_code
@@ -205,8 +263,7 @@ export class CheckoutShippingContainer extends PureComponent {
     render() {
         return (
             <CheckoutShipping
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

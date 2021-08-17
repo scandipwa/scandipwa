@@ -17,6 +17,7 @@ import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
 import { DeviceType } from 'Type/Device';
 import { ProductItemsType } from 'Type/ProductList';
+import { getPriceLabel } from 'Util/Price';
 
 import './ProductCompare.style';
 
@@ -25,6 +26,7 @@ export class ProductCompare extends Component {
     static propTypes = {
         clearCompareList: PropTypes.func.isRequired,
         getAttributes: PropTypes.func.isRequired,
+        isOutOfStock: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
         products: ProductItemsType,
         device: DeviceType.isRequired
@@ -97,10 +99,39 @@ export class ProductCompare extends Component {
         );
     }
 
+    renderProductPrice(product) {
+        const { isOutOfStock } = this.props;
+        const {
+            id,
+            price_range,
+            type_id,
+            price_tiers = []
+        } = product;
+
+        if (isOutOfStock(product)) {
+            return (
+                <div block="ProductCompareAttributeRow" elem="Value">
+                    { __('Out of stock') }
+                </div>
+            );
+        }
+
+        const label = getPriceLabel(type_id, price_tiers);
+
+        return (
+            <ProductPrice
+              price={ price_range }
+              price_tiers={ price_tiers }
+              key={ id }
+              label={ label }
+            />
+        );
+    }
+
     renderProductPrices() {
         const { products } = this.props;
 
-        return products.map(({ id, price_range }) => <ProductPrice price={ price_range } key={ id } />);
+        return products.map(this.renderProductPrice.bind(this));
     }
 
     renderAttributes() {

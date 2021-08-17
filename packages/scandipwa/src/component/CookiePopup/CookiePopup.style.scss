@@ -71,6 +71,10 @@
         @include mobile {
             margin-block-start: 12px;
         }
+
+        &:hover {
+            color: var(--primary-dark-color);
+        }
     }
 }
 

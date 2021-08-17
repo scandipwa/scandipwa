@@ -144,6 +144,17 @@
         }
     }
 
+    &-ShippingButton {
+        margin-inline-end: 10px;
+        margin-block-end: 10px;
+    }
+
+    &-DeliverySelect {
+        @include mobile {
+            margin-block-start: 10px;
+        }
+    }
+
     .Checkout-ExpandableContentContent {
         margin-block-start: 0;
         padding: 0 16px;

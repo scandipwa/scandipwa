@@ -30,50 +30,53 @@ import './Image.style';
  */
 export class Image extends PureComponent {
     static propTypes = {
-        isPlaceholder: PropTypes.bool,
+        isPlaceholder: PropTypes.bool.isRequired,
         title: PropTypes.string,
         src: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
-        ]),
+        ]).isRequired,
         style: PropTypes.shape({
             width: PropTypes.string,
             height: PropTypes.string
         }),
         alt: PropTypes.string,
-        className: PropTypes.string,
+        className: PropTypes.string.isRequired,
         ratio: PropTypes.oneOf([
             '4x3',
             '16x9',
             'square',
             'custom'
-        ]),
+        ]).isRequired,
         wrapperSize: PropTypes.shape({
             height: PropTypes.string
         }),
-        mix: MixType,
+        mix: MixType.isRequired,
         imageRef: PropTypes.oneOfType([
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ])
+        ]).isRequired,
+        isPlain: PropTypes.bool
     };
 
     static defaultProps = {
-        className: '',
-        src: '',
         alt: '',
-        ratio: 'square',
-        mix: {},
-        isPlaceholder: false,
         wrapperSize: {},
         style: {},
         title: null,
-        imageRef: () => {}
+        isPlain: false
     };
 
     image = createRef();
 
     state = { imageStatus: IMAGE_LOADING };
+
+    renderMap = {
+        [IMAGE_NOT_FOUND]: this.renderImageNotFound.bind(this),
+        [IMAGE_NOT_SPECIFIED]: this.renderImageNotSpecified.bind(this),
+        [IMAGE_LOADING]: this.renderLoadedImage.bind(this),
+        [IMAGE_LOADED]: this.renderLoadedImage.bind(this)
+    };
 
     onError = this.onError.bind(this);
 
@@ -120,46 +123,85 @@ export class Image extends PureComponent {
         return <span block="Image" elem="Content" mods={ { isOffline: true } } />;
     }
 
-    renderImage() {
+    renderStyledImage() {
         const {
             alt,
-            isPlaceholder,
             src,
             style,
             title
         } = this.props;
         const { imageStatus } = this.state;
 
+        return (
+            <img
+              block="Image"
+              elem="Image"
+              src={ src || '' }
+              alt={ alt }
+              mods={ { isLoading: imageStatus === IMAGE_LOADING } }
+              style={ style }
+              title={ title }
+              onLoad={ this.onLoad }
+              onError={ this.onError }
+              loading="lazy"
+            />
+        );
+    }
+
+    renderPlainImage() {
+        const {
+            alt,
+            src,
+            style,
+            title,
+            className
+        } = this.props;
+
+        return (
+            <img
+              block={ className }
+              src={ src || '' }
+              alt={ alt }
+              style={ style }
+              title={ title }
+              onLoad={ this.onLoad }
+              onError={ this.onError }
+              loading="lazy"
+            />
+        );
+    }
+
+    renderImageNotSpecified() {
+        return (
+            <span block="Image" elem="Content">{ __('Image not specified') }</span>
+        );
+    }
+
+    renderLoadedImage() {
+        const { isPlain } = this.props;
+
+        if (isPlain) {
+            return this.renderPlainImage();
+        }
+
+        return this.renderStyledImage();
+    }
+
+    renderImage() {
+        const { isPlaceholder } = this.props;
+        const { imageStatus } = this.state;
+
         if (isPlaceholder) {
             return null;
         }
 
-        switch (imageStatus) {
-        case IMAGE_NOT_FOUND:
-            return this.renderImageNotFound();
-        case IMAGE_NOT_SPECIFIED:
-            return (
-                <span block="Image" elem="Content">{ __('Image not specified') }</span>
-            );
-        case IMAGE_LOADED:
-        case IMAGE_LOADING:
-            return (
-                <img
-                  block="Image"
-                  elem="Image"
-                  src={ src || '' }
-                  alt={ alt }
-                  mods={ { isLoading: imageStatus === IMAGE_LOADING } }
-                  style={ style }
-                  title={ title }
-                  onLoad={ this.onLoad }
-                  onError={ this.onError }
-                  loading="lazy"
-                />
-            );
-        default:
+        const render = this.renderMap[imageStatus];
+
+        if (!render) {
             return null;
         }
+
+        return render();
     }
 
     render() {
@@ -170,10 +212,16 @@ export class Image extends PureComponent {
             wrapperSize,
             src,
             imageRef,
-            className
+            className,
+            isPlain
         } = this.props;
 
         const { imageStatus } = this.state;
+
+        // render image as is: without additional container and additional styles
+        if (isPlain) {
+            return this.renderImage();
+        }
 
         return (
             <div

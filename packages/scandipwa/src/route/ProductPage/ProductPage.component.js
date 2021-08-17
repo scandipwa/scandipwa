@@ -29,7 +29,6 @@ import {
     PRODUCT_REVIEWS
 } from 'Route/ProductPage/ProductPage.config';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 
 import './ProductPage.style';
@@ -68,7 +67,7 @@ export class ProductPage extends PureComponent {
         setBundlePrice: PropTypes.func.isRequired,
         selectedLinkPrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
-        device: DeviceType.isRequired,
+        isMobile: PropTypes.bool.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
@@ -157,10 +156,10 @@ export class ProductPage extends PureComponent {
             dataSource: { options },
             getSelectedCustomizableOptions,
             productOptionsData,
-            device
+            isMobile
         } = this.props;
 
-        if (!device.isMobile) {
+        if (!isMobile) {
             return null;
         }
 

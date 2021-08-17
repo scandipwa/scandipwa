@@ -64,7 +64,14 @@ export class WishlistItemContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         updateWishlistItem: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired,
-        handleSelectIdChange: PropTypes.func.isRequired
+        handleSelectIdChange: PropTypes.func.isRequired,
+        isRemoving: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
+        isEditingActive: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        isRemoving: false
     };
 
     containerFunctions = {
@@ -89,16 +96,28 @@ export class WishlistItemContainer extends PureComponent {
         updateWishlistItem({ item_id, description });
     }, UPDATE_WISHLIST_FREQUENCY);
 
-    containerProps = () => {
+    containerProps() {
+        const {
+            handleSelectIdChange,
+            isEditingActive,
+            isMobile,
+            isRemoving,
+            product
+        } = this.props;
         const { isLoading } = this.state;
 
         return {
             changeQuantity: this.changeQuantity,
             changeDescription: this.changeDescription,
             attributes: this.getAttributes(),
-            isLoading
+            isLoading,
+            handleSelectIdChange,
+            isEditingActive,
+            isMobile,
+            isRemoving,
+            product
         };
-    };
+    }
 
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
@@ -215,10 +234,8 @@ export class WishlistItemContainer extends PureComponent {
               isLoading={ isLoading }
             >
                 <WishlistItem
-                  { ...this.props }
                   { ...this.containerProps() }
                   { ...this.containerFunctions }
-                  { ...this.state }
                 />
             </SwipeToDelete>
         );

@@ -219,6 +219,14 @@ export class Header extends NavigationAbstract {
         ok: this.renderOkButton.bind(this)
     };
 
+    // PureComponent suits perfectly for current component, as changes in almost all props (7+) need to trigger rerender.
+    // Yet shouldComponentUpdate() is overridden in another component also extending NavigationAbstract
+    // (i.e. NavigationTabs) to minimize rerenders. => We can't extend PureComponent from Header.
+    // This is why shallow comparison behavior for all props  (like in PureComponent) is used here.
+    shouldComponentUpdate(nextProps) {
+        return Object.keys(nextProps).some((key) => nextProps[key] !== this.props[key]);
+    }
+
     renderBackButton(isVisible = false) {
         const { onBackButtonClick, device: { isMobile } } = this.props;
 
@@ -617,7 +625,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderWelcomeMessage(isVisible = false) {
+    renderWelcomeMessage() {
         const { firstname } = this.props;
 
         if (!isSignedIn() || !firstname) {
@@ -628,7 +636,7 @@ export class Header extends NavigationAbstract {
             <div
               block="Header"
               elem="Welcome"
-              mods={ { type: 'Welcome', isVisible } }
+              mods={ { type: 'Welcome' } }
             >
                 { __('Welcome, %s!', firstname) }
             </div>

@@ -1,5 +1,37 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
+ */
+
+:root {
+    --pick-in-store-heading-separator-color: var(--expandable-content-divider-color)
+}
+
 .StoreInPickUp {
-    &-Input {
-        width: 100%;
+    &-Actions {
+        display: flex;
+        justify-content: space-between;
+        margin-block-start: 10px;
+    }
+
+    &-Heading {
+        padding-block-end: 10px;
+        border-block-end: 1px solid var(--pick-in-store-heading-separator-color);
+        margin-block-end: 0;
+    }
+
+    &-Empty {
+        margin: 20px 0;
+        display: block;
+    }
+
+    &-SelectButton {
+        margin-inline-end: 10px;
     }
 }

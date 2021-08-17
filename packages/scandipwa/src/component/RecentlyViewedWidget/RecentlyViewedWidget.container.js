@@ -36,10 +36,15 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/RecentlyViewedWidget/Container */
 export class RecentlyViewedWidgetContainer extends PureComponent {
     static propTypes = {
+        pageSize: PropTypes.number,
         updateRecentViewedProductsInfo: PropTypes.func.isRequired,
         recentProducts: PropTypes.objectOf(ItemsType).isRequired,
         isLoading: PropTypes.bool.isRequired,
         store: PropTypes.string.isRequired
+    };
+
+    static defaultProps = {
+        pageSize: 6
     };
 
     state = {
@@ -71,7 +76,9 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
 
         const {
             store,
-            recentProducts
+            recentProducts,
+            pageSize,
+            isLoading
         } = this.props;
 
         const products = recentProducts[store] ?? [];
@@ -89,14 +96,15 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
                 siblingsHaveTierPrice,
                 siblingsHaveConfigurableOptions
             },
-            products
+            products,
+            isLoading,
+            pageSize
         };
     }
 
     render() {
         return (
             <RecentlyViewedWidget
-              { ...this.props }
               { ...this.containerProps() }
             />
         );

@@ -67,6 +67,13 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         handleDeleteAddress: this.handleDeleteAddress.bind(this)
     };
 
+    containerProps() {
+        const { payload } = this.props;
+        const { isLoading } = this.state;
+
+        return { isLoading, payload };
+    }
+
     handleAfterAction = () => {
         const {
             hideActiveOverlay,
@@ -137,8 +144,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
     render() {
         return (
             <MyAccountAddressPopup
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

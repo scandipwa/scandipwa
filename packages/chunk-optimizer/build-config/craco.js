@@ -125,6 +125,7 @@ module.exports = {
                         }
 
                         const name = (module.nameForCondition && module.nameForCondition()) || module.resource;
+
                         return !!match.exec(name);
                     },
                     chunks: 'all',

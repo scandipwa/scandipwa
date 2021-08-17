@@ -55,8 +55,7 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
     render() {
         return (
             <ForgotPassword
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

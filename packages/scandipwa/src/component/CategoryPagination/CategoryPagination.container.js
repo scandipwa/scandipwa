@@ -41,37 +41,64 @@ export class CategoryPaginationContainer extends PureComponent {
         location: LocationType.isRequired,
         totalPages: PropTypes.number.isRequired,
         paginationFrame: PropTypes.number,
-        paginationFrameSkip: PropTypes.number
+        paginationFrameSkip: PropTypes.number,
+        anchorTextPrevious: PropTypes.string,
+        anchorTextNext: PropTypes.string,
+        id: PropTypes.string
     };
 
     static defaultProps = {
         isLoading: false,
         onPageSelect: () => {},
         paginationFrame: 5,
-        paginationFrameSkip: null
+        paginationFrameSkip: null,
+        anchorTextPrevious: '',
+        anchorTextNext: '',
+        id: ''
     };
 
-    containerFunctions = () => ({
-        getSearchQuery: this.getSearchQuery
-    });
+    containerFunctions = {
+        getSearchQuery: this.getSearchQuery.bind(this)
+    };
 
-    getSearchQuery = (pageNumber) => {
+    getSearchQuery(pageNumber) {
         const { history, location } = this.props;
         const page = pageNumber !== 1 ? pageNumber : '';
 
         return generateQuery({ page }, location, history);
-    };
+    }
 
-    containerProps = () => ({
-        currentPage: this._getCurrentPage(),
-        prevPageJump: this._getPrevPageJump(),
-        nextPageJump: this._getNextPageJump(),
-        firstFramePage: this._getFirstFramePage(),
-        lastFramePage: this._getLastFramePage(),
-        shouldRenderNextJump: this._shouldRenderNextJump(),
-        shouldRenderPreviousJump: this._shouldRenderPreviousJump(),
-        shouldRenderJumps: this._shouldRenderJumps()
-    });
+    containerProps() {
+        const {
+            anchorTextNext,
+            anchorTextPrevious,
+            id,
+            isLoading,
+            onPageSelect,
+            paginationFrame,
+            totalPages,
+            location: { pathname }
+        } = this.props;
+
+        return {
+            anchorTextNext,
+            anchorTextPrevious,
+            id,
+            isLoading,
+            onPageSelect,
+            paginationFrame,
+            pathname,
+            totalPages,
+            currentPage: this._getCurrentPage(),
+            prevPageJump: this._getPrevPageJump(),
+            nextPageJump: this._getNextPageJump(),
+            firstFramePage: this._getFirstFramePage(),
+            lastFramePage: this._getLastFramePage(),
+            shouldRenderNextJump: this._shouldRenderNextJump(),
+            shouldRenderPreviousJump: this._shouldRenderPreviousJump(),
+            shouldRenderJumps: this._shouldRenderJumps()
+        };
+    }
 
     _getCurrentPage() {
         const { location } = this.props;
@@ -133,13 +160,9 @@ export class CategoryPaginationContainer extends PureComponent {
     }
 
     render() {
-        const { location: { pathname } } = this.props;
-
         return (
             <CategoryPagination
-              pathname={ pathname }
-              { ...this.props }
-              { ...this.containerFunctions() }
+              { ...this.containerFunctions }
               { ...this.containerProps() }
             />
         );

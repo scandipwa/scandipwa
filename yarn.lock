@@ -2646,20 +2646,31 @@
     semver "^7.3.2"
     validate-npm-package-name "^3.0.0"
 
-"@scandipwa/scandipwa-scripts@2.4.14":
-  version "2.4.14"
-  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.4.14.tgz#211fd7a29c12be5c091635985cf01a847a0d2226"
-  integrity sha512-EIyAxmZa+nDXyX7KzqEnpESMmdR/ky/q8Y6j8rDItOGTn66VpT8RLPip3j7Cg1v84cMh+2tgxkJTSFAMyks1BQ==
+"@scandipwa/scandipwa-dev-utils@0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.1.11.tgz#dfe9c0af56979b8e2811f626af4dee6ee62af4b3"
+  integrity sha512-dMLI0Pl+/RFo/dDvZ5nri+bSj/DhSvibBJhmpmuLGPqU0QYAdLt4RI5rGKH68l1HWqfkms/5H0v9ruyaZhXjbg==
   dependencies:
-    "@scandipwa/scandipwa-template-plugin-system" "0.1.16"
-    "@tilework/mosaic-cra-scripts" "0.1.13"
+    "@tilework/mosaic-dev-utils" "0.1.6"
+    cross-spawn "^7.0.3"
+    react-dev-utils "^11.0.4"
+    semver "^7.3.2"
+    validate-npm-package-name "^3.0.0"
 
-"@scandipwa/scandipwa-template-plugin-system@0.1.16":
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-template-plugin-system/-/scandipwa-template-plugin-system-0.1.16.tgz#fb741abd26068152599453373ffd43d6efd166fa"
-  integrity sha512-P+/H7rmQK3cRnn18Qkzf+Oi3Fkh6Tfm3nfIuQN5tKrzHKxt/Z7fSylWzOvjjTwSXWBgyqMntTZpL89cCdXFY/A==
+"@scandipwa/scandipwa-scripts@2.4.15":
+  version "2.4.15"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.4.15.tgz#bfb2d366d8651fd92f4460cace1d26ac42ebf9e5"
+  integrity sha512-OeymRy+bczfyrL2alNnB2e6AhZam8Bkxn3x/cIk2R8C+bSmTZ3Ql7TvrdthRjjBtiTbPyLZl+UKr+A/GoeJwzg==
   dependencies:
-    "@scandipwa/scandipwa-dev-utils" "0.1.10"
+    "@scandipwa/scandipwa-template-plugin-system" "0.1.17"
+    "@tilework/mosaic-cra-scripts" "0.1.15"
+
+"@scandipwa/scandipwa-template-plugin-system@0.1.17":
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-template-plugin-system/-/scandipwa-template-plugin-system-0.1.17.tgz#1e3db7ebfb4e6c3ad361f910daa30085b13e4e8c"
+  integrity sha512-kxS6ZK+xBw1kiiu9nPaQKE/AK3549niP6mPuZTR/mFrJoHaKKxSkfR74rm3kHU5r/gO574jiIJE9logsoWKtnw==
+  dependencies:
+    "@scandipwa/scandipwa-dev-utils" "0.1.11"
     "@tilework/mosaic-dev-utils" "0.0.5"
     loader-utils "^2.0.0"
     lodash "^4.17.20"
@@ -2687,12 +2698,12 @@
   dependencies:
     "@scandipwa/scandipwa-dev-utils" "0.0.25"
 
-"@scandipwa/webpack-i18n-runtime@^0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-i18n-runtime/-/webpack-i18n-runtime-0.0.26.tgz#5207179023e0d9fa84364af3ac63d3f264fbd79d"
-  integrity sha512-AIxx1qMXGpb6aQLAhunoeg2k5zZpEbskWA41jWMnNBVOA5mg5ipNGpCyK2SPevAJev2nyqlZp9LxSTNFKL7DKw==
+"@scandipwa/webpack-i18n-runtime@0.0.27":
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-i18n-runtime/-/webpack-i18n-runtime-0.0.27.tgz#03a101deb979f1482dfa16f96573ad97a1a5d9ab"
+  integrity sha512-c+CnbtccyAYUGdcGm2pmmvero5W1/iSoteex3OYlfJGHYCUOZHIf4KhtmC0vmRvo5RBO2L43FalVMOQbC9HPew==
   dependencies:
-    "@scandipwa/scandipwa-dev-utils" "0.1.10"
+    "@scandipwa/scandipwa-dev-utils" "0.1.11"
     "@scandipwa/webpack-after-emit-logger" "0.0.8"
     "@tilework/mosaic-dev-utils" "0.0.5"
     loader-utils "^2.0.0"
@@ -2862,12 +2873,12 @@
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^7.28.1"
 
-"@tilework/babel-plugin-mosaic-middleware-decorator@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@tilework/babel-plugin-mosaic-middleware-decorator/-/babel-plugin-mosaic-middleware-decorator-0.0.11.tgz#b31e7f5817b5e870c2cbb42bd3f01d4fe2c763ec"
-  integrity sha512-qdiBQEKY4aHsNGbRNdyFu/Gy2EKa1m8Xud9JTxVESov4JEhi+lz8tfT0eqz4oqRjDpFUWqvvRaikWVm+CgaE5A==
+"@tilework/babel-plugin-mosaic-middleware-decorator@0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@tilework/babel-plugin-mosaic-middleware-decorator/-/babel-plugin-mosaic-middleware-decorator-0.0.13.tgz#fada24b44d14b0442a94b84abaa24d6362e6f117"
+  integrity sha512-UQFh5DFofAulZubenpsPl3Nr5N24H5WGPGlaF08W2wK67WXd8CalwTTqV+cn6toWbxwd3Cdjs4aDbNGBDcwH2Q==
   dependencies:
-    "@tilework/mosaic-dev-utils" "^0.1.4"
+    "@tilework/mosaic-dev-utils" "0.1.6"
 
 "@tilework/eslint-plugin-mosaic@^0.0.8":
   version "0.0.8"
@@ -2877,33 +2888,33 @@
     eslint-traverse "^1.0.0"
     requireindex "~1.1.0"
 
-"@tilework/mosaic-config-injectors@0.1.11":
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-config-injectors/-/mosaic-config-injectors-0.1.11.tgz#819bc55b953b8fca526a328bc0ab5b84b0242fca"
-  integrity sha512-uiIbSdezyWmHVbJcsECZqNx2bRfpzdhrV3OvhS/l0Ud0Nf75ccQIuMaDubmPGazkCfYxxE7DQHCXHktV9ZzO6w==
+"@tilework/mosaic-config-injectors@0.1.13":
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-config-injectors/-/mosaic-config-injectors-0.1.13.tgz#b5b0469096699720f39c5e88a126ca02ad5f8ba8"
+  integrity sha512-ywcHKWOOksWSjdFQxeMOCTU7mGbU7TZntTSPNFVii27f7poN0zgEf+2fsCiYTlxtRcKrQfUADhX6msyi/WNHnw==
   dependencies:
     "@babel/plugin-transform-arrow-functions" "7.13.0"
     "@babel/plugin-transform-async-to-generator" "7.13.0"
-    "@tilework/babel-plugin-mosaic-middleware-decorator" "^0.0.11"
+    "@tilework/babel-plugin-mosaic-middleware-decorator" "0.0.13"
     "@tilework/mosaic-craco" "0.0.5"
-    "@tilework/mosaic-dev-utils" "^0.1.4"
-    "@tilework/mosaic-webpack-fallback-plugin" "^0.0.10"
-    "@tilework/mosaic-webpack-import-loader" "^0.0.10"
+    "@tilework/mosaic-dev-utils" "0.1.6"
+    "@tilework/mosaic-webpack-fallback-plugin" "0.0.12"
+    "@tilework/mosaic-webpack-import-loader" "0.0.12"
     babel-loader "8.1.0"
     babel-plugin-module-resolver "^4.1.0"
     deepmerge "^4.2.2"
     globby "^11.0.2"
 
-"@tilework/mosaic-cra-scripts@0.1.13":
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-cra-scripts/-/mosaic-cra-scripts-0.1.13.tgz#ccd46551048dbcdec8db3d7665c916d6bbcba3d7"
-  integrity sha512-KMbG/i9Va0JxDWqe+oq7fvS9GtK7ROqyDpQcI7rtgXmag9tGQ9YxavJXm4Hry811wjybDkRWrka7iIJXNbZQDw==
+"@tilework/mosaic-cra-scripts@0.1.15":
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-cra-scripts/-/mosaic-cra-scripts-0.1.15.tgz#9a1aada3db4dc304207167bf6a618b5990469d30"
+  integrity sha512-ok0ccexo3+3T/qL+BaZ4UFpx0Q1AI5tkoGPTJVrZKfpdIcmNXd9J11Es0EwgN3t32VfyGhTzKM+DQ8Hwfum/5g==
   dependencies:
-    "@tilework/mosaic-config-injectors" "0.1.11"
+    "@tilework/mosaic-config-injectors" "0.1.13"
     "@tilework/mosaic-craco" "0.0.5"
-    "@tilework/mosaic-dev-utils" "^0.1.4"
-    "@tilework/mosaic-test-utils" "0.0.22"
-    "@tilework/mosaic-webpack-fallback-plugin" "^0.0.10"
+    "@tilework/mosaic-dev-utils" "0.1.6"
+    "@tilework/mosaic-test-utils" "0.0.24"
+    "@tilework/mosaic-webpack-fallback-plugin" "0.0.12"
     babel-jest "26.6.3"
     babel-plugin-module-resolver "^4.0.0"
     babel-plugin-transform-rebem-jsx "^0.3.3"
@@ -2953,16 +2964,27 @@
     memoizee "^0.4.15"
     node-fetch "^2.6.1"
 
-"@tilework/mosaic-nextjs-scripts@0.1.14":
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-nextjs-scripts/-/mosaic-nextjs-scripts-0.1.14.tgz#60574b1882a5698bb8ae09daa0890dd1e94f4da4"
-  integrity sha512-xRF/L/Cu/fMtJ8z1v72SH/Ko2CtvPwtuFxOMuoGbHtr5vGtyM+XbQ0qbpuiX2Wt7Kh+m0D2hbIgIz+V/QRBDww==
+"@tilework/mosaic-dev-utils@0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-dev-utils/-/mosaic-dev-utils-0.1.6.tgz#5ff5202ee523c7cc7ba43ac1c84a8e7e65aaaf4e"
+  integrity sha512-ew18d5faCIOkNm3UzeZ5/gEdYNFZtUdKv0XJSbHzyTX6/0uqltb/JJetmhMluYIEASjm/0ILeufE0luQP93jqA==
+  dependencies:
+    chalk "^4.1.0"
+    mem-fs "^1.2.0"
+    mem-fs-editor "^7.0.1"
+    memoizee "^0.4.15"
+    node-fetch "^2.6.1"
+
+"@tilework/mosaic-nextjs-scripts@0.1.16":
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-nextjs-scripts/-/mosaic-nextjs-scripts-0.1.16.tgz#2908bd8803544b0c001f3a9c33f9845cabc6a605"
+  integrity sha512-PK0oRtM0VchDqAGSVHmvROsEHTupyaMMfMyCpVdoBylvn8iUiucOi0EYjzmxGZaH7vs8nu/jom9vRlCXn7GjqQ==
   dependencies:
     "@babel/core" "^7.14.0"
     "@babel/preset-react" "^7.13.13"
-    "@tilework/mosaic-config-injectors" "0.1.11"
-    "@tilework/mosaic-dev-utils" "^0.1.4"
-    "@tilework/mosaic-test-utils" "0.0.22"
+    "@tilework/mosaic-config-injectors" "0.1.13"
+    "@tilework/mosaic-dev-utils" "0.1.6"
+    "@tilework/mosaic-test-utils" "0.0.24"
     chokidar "^3.5.1"
     cross-spawn "^7.0.0"
     debounce "^1.2.0"
@@ -2974,34 +2996,41 @@
     resolve "^1.20.0"
     tree-kill "^1.2.2"
 
-"@tilework/mosaic-test-utils@0.0.22":
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-test-utils/-/mosaic-test-utils-0.0.22.tgz#e0bda6ef0da67c0ab425d4a31c3f32d51c84b851"
-  integrity sha512-aLMlW+dTNSHyFlsaLvmHuKVdhSNby0gwRWZauS1l/uEKu/l6Y4chBZbhCAoOlTNj1Fdujkn+i1547qPGzWl3eg==
+"@tilework/mosaic-test-utils@0.0.24":
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-test-utils/-/mosaic-test-utils-0.0.24.tgz#bde9240fc365ff84bab683eb572840e944ee6437"
+  integrity sha512-zLR14BSQ2y8Yf+YEn8WfJuQth57R56iXSPX+20n86lEZPq/X0P19rRUUfidEPfMQGksbOyl4OTU9RB7NBdEa+A==
   dependencies:
     "@testing-library/jest-dom" "^5.11.4"
     "@testing-library/react" "^11.2.6"
     "@tilework/mosaic" "0.1.4"
-    "@tilework/mosaic-config-injectors" "0.1.11"
-    "@tilework/mosaic-dev-utils" "^0.1.4"
-    "@tilework/mosaic-nextjs-scripts" "0.1.14"
+    "@tilework/mosaic-config-injectors" "0.1.13"
+    "@tilework/mosaic-dev-utils" "0.1.6"
+    "@tilework/mosaic-nextjs-scripts" "0.1.16"
     babel-jest "26.6.3"
     babel-preset-react-app "10.0.0"
     react "17.0.1"
 
-"@tilework/mosaic-webpack-fallback-plugin@0.0.10", "@tilework/mosaic-webpack-fallback-plugin@^0.0.10":
+"@tilework/mosaic-webpack-fallback-plugin@0.0.10":
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-fallback-plugin/-/mosaic-webpack-fallback-plugin-0.0.10.tgz#eafb2fb6a9650e874d35b330b55f3115b26ff5a3"
   integrity sha512-n4ihOYTUbnTrq/0sLEKn9mfzvBRsZ9on0z+l5yACqlFJE1adgcIWc+aaURKKKhm4P/2rrgntyc+TgfdQVNgmZw==
   dependencies:
     "@tilework/mosaic-dev-utils" "^0.1.4"
 
-"@tilework/mosaic-webpack-import-loader@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-import-loader/-/mosaic-webpack-import-loader-0.0.10.tgz#893bde247b1a7af66806d85b7aea29b9de0ab745"
-  integrity sha512-8rzKhpE+86L3CiSD+HJ3M39QaAY1i+I2Tu4uK2xmB2/rOI6A5hM3EUBbSPSNwhbd+Ezb9by0moic5ROo7tYNqA==
+"@tilework/mosaic-webpack-fallback-plugin@0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-fallback-plugin/-/mosaic-webpack-fallback-plugin-0.0.12.tgz#cb080eec97674eada097e489dbc1bb8e1247bcbb"
+  integrity sha512-4PBQokeZ08uI6yzAzZmR0R+kMLU+/Z+4sPj6r3YNYTrcCDcOdnZSD4rREeXlHlUUfcj6c71v7ImE3LP7dk4Etw==
   dependencies:
-    "@tilework/mosaic-dev-utils" "^0.1.4"
+    "@tilework/mosaic-dev-utils" "0.1.6"
+
+"@tilework/mosaic-webpack-import-loader@0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-import-loader/-/mosaic-webpack-import-loader-0.0.12.tgz#15826d4d19c0b3334654485e2fd6aeff85d0a58f"
+  integrity sha512-57uaAEJFmK2OFVg65apNY/2WQkznwjQUmxyoIeeNzAa+ogtzY7CqdGImADOA2BwuLdvu2MKuY+9213pE73JvPw==
+  dependencies:
+    "@tilework/mosaic-dev-utils" "0.1.6"
 
 "@tilework/mosaic@0.1.4":
   version "0.1.4"

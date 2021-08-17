@@ -74,7 +74,7 @@
         min-width: var(--popup-min-width);
         max-width: calc(var(--content-wrapper-width) * .8);
         max-height: 80%;
-        overflow-y: scroll;
+        overflow-y: auto;
 
         @include mobile {
             border-radius: 0;
@@ -116,5 +116,5 @@
     position: fixed;
     margin-block-start: 0;
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }

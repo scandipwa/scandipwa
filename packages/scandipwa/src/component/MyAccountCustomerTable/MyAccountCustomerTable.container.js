@@ -43,6 +43,12 @@ export class MyAccountCustomerTableContainer extends PureComponent {
         showChangePasswordPopup: this.showChangePasswordPopup.bind(this)
     };
 
+    containerProps() {
+        const { customer } = this.props;
+
+        return { customer };
+    }
+
     showEditPopup() {
         const { showPopup, customer } = this.props;
 
@@ -66,7 +72,7 @@ export class MyAccountCustomerTableContainer extends PureComponent {
     render() {
         return (
             <MyAccountCustomerTable
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

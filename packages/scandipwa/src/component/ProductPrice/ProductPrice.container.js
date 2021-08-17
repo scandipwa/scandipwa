@@ -47,7 +47,9 @@ export class ProductPriceContainer extends PureComponent {
         price: PriceType,
         mix: MixType,
         displayTaxInPrice: PropTypes.string,
-        price_tiers: PropTypes.array
+        price_tiers: PropTypes.array,
+        label: PropTypes.string,
+        variantsCount: PropTypes.number
     };
 
     static defaultProps = {
@@ -55,10 +57,12 @@ export class ProductPriceContainer extends PureComponent {
         displayTaxInPrice: DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX,
         mix: {},
         price: {},
-        price_tiers: []
+        price_tiers: [],
+        label: '',
+        variantsCount: 0
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             price: {
                 minimum_price: {
@@ -79,7 +83,13 @@ export class ProductPriceContainer extends PureComponent {
                         value: defaultFinalPriceExclTax = 0
                     } = {}
                 } = {}
-            } = {}
+            } = {},
+            isSchemaRequired,
+            label,
+            mix,
+            price,
+            price_tiers,
+            variantsCount
         } = this.props;
 
         if ((!minimalPriceValue || !regularPriceValue) && !defaultPriceValue) {
@@ -96,9 +106,15 @@ export class ProductPriceContainer extends PureComponent {
             defaultFinalPriceExclTax,
             discountPercentage,
             formattedFinalPrice,
-            formattedSubPrice
+            formattedSubPrice,
+            isSchemaRequired,
+            label,
+            mix,
+            price,
+            price_tiers,
+            variantsCount
         };
-    };
+    }
 
     getRoundedRegularPrice() {
         const {
@@ -176,7 +192,6 @@ export class ProductPriceContainer extends PureComponent {
     render() {
         return (
             <ProductPrice
-              { ...this.props }
               { ...this.containerProps() }
             />
         );

@@ -27,6 +27,7 @@ import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
+import { NONE_SORT_OPTION } from './SearchPage.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -60,7 +61,7 @@ export const mapStateToProps = (state) => ({
     maxPriceRange: state.ProductListInfoReducer.maxPrice,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
-    device: state.ConfigReducer.device
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Route/SearchPage/Container/mapDispatchToProps */
@@ -94,6 +95,11 @@ export class SearchPageContainer extends CategoryPageContainer {
     static defaultProps = {
         ...this.defaultProps,
         isSearchPage: true
+    };
+
+    config = {
+        sortKey: 'none',
+        sortDirection: 'ASC'
     };
 
     updateMeta() {
@@ -184,14 +190,29 @@ export class SearchPageContainer extends CategoryPageContainer {
         return query;
     }
 
+    getSortFields() {
+        const {
+            sortFields: {
+                options = []
+            } = {}
+        } = this.props;
+
+        return {
+            options: [
+                NONE_SORT_OPTION,
+                ...options
+            ]
+        };
+    }
+
     render() {
         return (
             <SearchPage
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
               // addded here to not override the container props
               search={ this.getSearchParam() }
+              sortFields={ this.getSortFields() }
             />
         );
     }

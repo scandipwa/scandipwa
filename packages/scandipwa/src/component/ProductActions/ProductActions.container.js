@@ -13,7 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
@@ -31,6 +32,8 @@ import { DEFAULT_MAX_PRODUCTS, ONE_HUNDRED_PERCENT } from './ProductActions.conf
 export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
     device: state.ConfigReducer.device,
+    isPriceAlertEnabled: state.ConfigReducer.product_alert_allow_price,
+    isInStockAlertEnabled: state.ConfigReducer.product_alert_allow_stock,
     displayProductStockStatus: state.ConfigReducer.display_product_stock_status,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     areReviewsEnabled: state.ConfigReducer.reviews_are_enabled
@@ -53,7 +56,15 @@ export class ProductActionsContainer extends PureComponent {
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
         selectedLinkPrice: PropTypes.number.isRequired,
         getLink: PropTypes.func.isRequired,
-        isWishlistEnabled: PropTypes.bool.isRequired
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        areReviewsEnabled: PropTypes.bool.isRequired,
+        device: DeviceType.isRequired,
+        displayProductStockStatus: PropTypes.bool.isRequired,
+        getSelectedCustomizableOptions: PropTypes.func.isRequired,
+        setBundlePrice: PropTypes.func.isRequired,
+        setLinkedDownloadables: PropTypes.func.isRequired,
+        setLinkedDownloadablesPrice: PropTypes.func.isRequired,
+        updateConfigurableVariant: PropTypes.func.isRequired
     };
 
     static getMinQuantity(props) {
@@ -115,8 +126,7 @@ export class ProductActionsContainer extends PureComponent {
         setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
         clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
         setRefs: this.setRefs.bind(this),
-        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
-        filterConfigurableOptions: this.filterConfigurableOptions.bind(this)
+        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -188,33 +198,6 @@ export class ProductActionsContainer extends PureComponent {
         return variants[configurableVariantIndex].product[attribute] === value;
     }
 
-    filterConfigurableOptions(options = {}) {
-        const { product: { variants = [] } } = this.props;
-
-        return Object.values(options).reduce((acc, option) => {
-            const { attribute_values, attribute_code } = option;
-
-            // show option if it exist as variant for configurable product
-            const filteredOptions = attribute_values.reduce((acc, value) => {
-                const isVariantExist = variants.find(({ attributes }) => {
-                    const { attribute_value: foundValue } = attributes[attribute_code] || {};
-
-                    return value === foundValue;
-                });
-
-                if (isVariantExist) {
-                    acc.push(value);
-                }
-
-                return acc;
-            }, []);
-
-            acc.push({ ...option, attribute_values: filteredOptions });
-
-            return acc;
-        }, []);
-    }
-
     getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {
         const { parameters, product: { variants } } = this.props;
 
@@ -237,7 +220,7 @@ export class ProductActionsContainer extends PureComponent {
                 const { attribute_value: foundValue } = attributes[attribute_code] || {};
 
                 return (
-                    stock_status === 'IN_STOCK'
+                    stock_status === IN_STOCK
                     // Variant must have currently checked attribute_code and attribute_value
                     && foundValue === attribute_value
                     // Variant must have all currently selected attributes
@@ -246,17 +229,64 @@ export class ProductActionsContainer extends PureComponent {
             });
     }
 
-    containerProps = () => ({
-        minQuantity: ProductActionsContainer.getMinQuantity(this.props),
-        maxQuantity: ProductActionsContainer.getMaxQuantity(this.props),
-        groupedProductQuantity: this._getGroupedProductQuantity(),
-        productPrice: this.getProductPrice(),
-        productName: this.getProductName(),
-        offerCount: this.getOfferCount(),
-        offerType: this.getOfferType(),
-        stockMeta: this.getStockMeta(),
-        metaLink: this.getMetaLink()
-    });
+    containerProps() {
+        const {
+            areDetailsLoaded,
+            areReviewsEnabled,
+            configurableVariantIndex,
+            device,
+            displayProductStockStatus,
+            getLink,
+            getSelectedCustomizableOptions,
+            isWishlistEnabled,
+            parameters,
+            product,
+            productOptionsData,
+            productOrVariant,
+            selectedBundlePrice,
+            selectedBundlePriceExclTax,
+            selectedInitialBundlePrice,
+            selectedLinkPrice,
+            setBundlePrice,
+            setLinkedDownloadables,
+            setLinkedDownloadablesPrice,
+            updateConfigurableVariant
+        } = this.props;
+        const { quantity } = this.state;
+
+        return {
+            areDetailsLoaded,
+            areReviewsEnabled,
+            configurableVariantIndex,
+            device,
+            displayProductStockStatus,
+            getLink,
+            getSelectedCustomizableOptions,
+            isWishlistEnabled,
+            parameters,
+            product,
+            productOptionsData,
+            productOrVariant,
+            selectedBundlePrice,
+            selectedBundlePriceExclTax,
+            selectedInitialBundlePrice,
+            selectedLinkPrice,
+            setBundlePrice,
+            setLinkedDownloadables,
+            setLinkedDownloadablesPrice,
+            updateConfigurableVariant,
+            quantity,
+            minQuantity: ProductActionsContainer.getMinQuantity(this.props),
+            maxQuantity: ProductActionsContainer.getMaxQuantity(this.props),
+            groupedProductQuantity: this._getGroupedProductQuantity(),
+            productPrice: this.getProductPrice(),
+            productName: this.getProductName(),
+            offerCount: this.getOfferCount(),
+            offerType: this.getOfferType(),
+            stockMeta: this.getStockMeta(),
+            metaLink: this.getMetaLink()
+        };
+    }
 
     getProductName() {
         const {
@@ -289,11 +319,11 @@ export class ProductActionsContainer extends PureComponent {
             stock_status
         } = variants[configurableVariantIndex] || product;
 
-        if (stock_status === OUT_OF_STOCK) {
-            return 'https://schema.org/OutOfStock';
+        if (stock_status === IN_STOCK) {
+            return 'https://schema.org/InStock';
         }
 
-        return 'https://schema.org/InStock';
+        return 'https://schema.org/OutOfStock';
     }
 
     getOfferType() {
@@ -630,8 +660,6 @@ export class ProductActionsContainer extends PureComponent {
     render() {
         return (
             <ProductActions
-              { ...this.props }
-              { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

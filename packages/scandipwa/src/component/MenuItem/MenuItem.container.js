@@ -32,12 +32,18 @@ export class MenuItemContainer extends PureComponent {
         closeMenu: PropTypes.func,
         onCategoryHover: PropTypes.func,
         item: PropTypes.object.isRequired,
-        activeMenuItemsStack: PropTypes.array.isRequired
+        activeMenuItemsStack: PropTypes.array.isRequired,
+        isExpandable: PropTypes.bool,
+        itemMods: PropTypes.object,
+        isLink: PropTypes.bool
     };
 
     static defaultProps = {
         closeMenu: () => {},
-        onCategoryHover: () => {}
+        onCategoryHover: () => {},
+        itemMods: {},
+        isLink: false,
+        isExpandable: false
     };
 
     containerFunctions = {
@@ -47,6 +53,24 @@ export class MenuItemContainer extends PureComponent {
     };
 
     menuHoverTimeout = null;
+
+    containerProps() {
+        const {
+            activeMenuItemsStack,
+            isExpandable,
+            isLink,
+            item,
+            itemMods
+        } = this.props;
+
+        return {
+            activeMenuItemsStack,
+            isExpandable,
+            isLink,
+            item,
+            itemMods
+        };
+    }
 
     onItemClick() {
         const { closeMenu, activeMenuItemsStack } = this.props;
@@ -75,7 +99,7 @@ export class MenuItemContainer extends PureComponent {
     render() {
         return (
             <MenuItem
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

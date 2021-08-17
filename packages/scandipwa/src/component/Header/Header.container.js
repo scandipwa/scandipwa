@@ -121,7 +121,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         hideActiveOverlay: this.props.hideActiveOverlay
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             activeOverlay,
             navigationState,
@@ -138,7 +138,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const {
             isClearEnabled,
             searchCriteria,
-            showMyAccountLogin
+            showMyAccountLogin,
+            shouldRenderCartOverlay
         } = this.state;
 
         const {
@@ -164,9 +165,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
             showMyAccountLogin,
             device,
             isWishlistLoading,
+            shouldRenderCartOverlay,
             firstname: this.getUserName()
         };
-    };
+    }
 
     __construct(props) {
         super.__construct(props);
@@ -487,7 +489,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
     render() {
         return (
             <Header
-              { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

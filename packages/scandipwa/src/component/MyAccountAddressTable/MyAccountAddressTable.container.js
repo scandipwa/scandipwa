@@ -20,6 +20,7 @@ import {
 } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType } from 'Type/Account';
+import { MixType } from 'Type/Common';
 import { countriesType } from 'Type/Config';
 
 import MyAccountAddressTable from './MyAccountAddressTable.component';
@@ -37,9 +38,18 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/MyAccountAddressTable/Container */
 export class MyAccountAddressTableContainer extends PureComponent {
     static propTypes = {
+        mix: MixType,
         address: addressType.isRequired,
         showEditPopup: PropTypes.func.isRequired,
-        countries: countriesType.isRequired
+        countries: countriesType.isRequired,
+        showAdditionalFields: PropTypes.bool,
+        showActions: PropTypes.bool
+    };
+
+    static defaultProps = {
+        showAdditionalFields: false,
+        showActions: false,
+        mix: {}
     };
 
     containerFunctions = {
@@ -47,6 +57,24 @@ export class MyAccountAddressTableContainer extends PureComponent {
         onEditClick: this.onEditClick.bind(this),
         onDeleteClick: this.onDeleteClick.bind(this)
     };
+
+    containerProps() {
+        const {
+            address,
+            countries,
+            mix,
+            showAdditionalFields,
+            showActions
+        } = this.props;
+
+        return {
+            address,
+            countries,
+            mix,
+            showAdditionalFields,
+            showActions
+        };
+    }
 
     onEditClick() {
         const { showEditPopup, address } = this.props;
@@ -96,7 +124,7 @@ export class MyAccountAddressTableContainer extends PureComponent {
     render() {
         return (
             <MyAccountAddressTable
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

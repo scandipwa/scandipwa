@@ -113,11 +113,15 @@ export class CheckoutGuestFormContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { emailValue } = this.props;
+        const { emailValue, isEmailAvailable } = this.props;
+        const { isLoading, signInState } = this.state;
 
         return ({
             formId: SHIPPING_STEP,
-            emailValue
+            emailValue,
+            isEmailAvailable,
+            isLoading,
+            signInState
         });
     };
 
@@ -174,8 +178,6 @@ export class CheckoutGuestFormContainer extends PureComponent {
 
         return (
             <CheckoutGuestForm
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

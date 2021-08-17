@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { DeviceType } from 'Type/Device';
 import { ProductItemsType } from 'Type/ProductList';
 
 import ProductCompare from './ProductCompare.component';
@@ -49,7 +50,8 @@ export class ProductCompareContainer extends PureComponent {
         isLoading: PropTypes.bool,
         products: ProductItemsType,
         items: PropTypes.array,
-        attributes: PropTypes.array
+        attributes: PropTypes.array,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -61,11 +63,26 @@ export class ProductCompareContainer extends PureComponent {
 
     containerFunctions = {
         getAttributes: this.getAttributes.bind(this),
-        clearCompareList: this.clearCompareList.bind(this)
+        clearCompareList: this.clearCompareList.bind(this),
+        isOutOfStock: this.isOutOfStock.bind(this)
     };
 
     componentDidMount() {
         this.fetchCompareList();
+    }
+
+    containerProps() {
+        const {
+            isLoading,
+            products,
+            device
+        } = this.props;
+
+        return {
+            isLoading,
+            products,
+            device
+        };
     }
 
     fetchCompareList() {
@@ -97,10 +114,30 @@ export class ProductCompareContainer extends PureComponent {
         }));
     }
 
+    isOutOfStock(product) {
+        const {
+            price_range: {
+                minimum_price: {
+                    final_price: {
+                        value: minimalPriceValue = 0
+                    } = {},
+                    regular_price: {
+                        value: regularPriceValue = 0
+                    } = {},
+                    default_price: {
+                        value: defaultPriceValue = 0
+                    } = {}
+                } = {}
+            } = {}
+        } = product;
+
+        return (!minimalPriceValue || !regularPriceValue) && !defaultPriceValue;
+    }
+
     render() {
         return (
             <ProductCompare
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

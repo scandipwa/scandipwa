@@ -13,7 +13,7 @@ import {
     DISPLAY_SHIPPING_PRICES_BOTH,
     DISPLAY_SHIPPING_PRICES_EXCL_TAX
 } from 'Component/CheckoutDeliveryOption/CheckoutDeliveryOption.config';
-import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { CONFIGURABLE } from 'Util/Product';
 
 export const DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX';
@@ -42,7 +42,7 @@ export const itemIsOutOfStock = (item) => {
         sku: itemSku
     } = item;
 
-    if (stock_status === OUT_OF_STOCK) {
+    if (stock_status !== IN_STOCK) {
         // item is out of stock
         return true;
     }
@@ -54,7 +54,7 @@ export const itemIsOutOfStock = (item) => {
 
     if (
         variants.some(({ sku }) => sku === itemSku)
-        && variants.find(({ sku }) => sku === itemSku).stock_status !== OUT_OF_STOCK
+        && variants.find(({ sku }) => sku === itemSku).stock_status === IN_STOCK
     ) {
         // item added to cart is present in variants and it stock status is IN_STOCK
         return false;

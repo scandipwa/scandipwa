@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
@@ -21,10 +22,26 @@ import CheckoutAddressTable from './CheckoutAddressTable.component';
 
 /** @namespace Component/CheckoutAddressTable/Container */
 export class CheckoutAddressTableContainer extends MyAccountAddressTableContainer {
+    static propTypes = {
+        ...super.propTypes,
+        isSelected: PropTypes.bool.isRequired,
+        onClick: PropTypes.func.isRequired
+    };
+
+    containerProps() {
+        const { isSelected, onClick } = this.props;
+
+        return {
+            isSelected,
+            onClick,
+            ...super.containerProps()
+        };
+    }
+
     render() {
         return (
             <CheckoutAddressTable
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

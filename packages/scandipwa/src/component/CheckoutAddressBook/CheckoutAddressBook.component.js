@@ -32,13 +32,8 @@ export class CheckoutAddressBook extends PureComponent {
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         selectedAddressId: PropTypes.number.isRequired,
         isBilling: PropTypes.bool.isRequired,
-        isSubmitted: PropTypes.bool,
-        is_virtual: PropTypes.bool
-    };
-
-    static defaultProps = {
-        isSubmitted: false,
-        is_virtual: false
+        isSubmitted: PropTypes.bool.isRequired,
+        is_virtual: PropTypes.bool.isRequired
     };
 
     state = {

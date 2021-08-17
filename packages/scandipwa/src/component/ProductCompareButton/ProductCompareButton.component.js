@@ -24,13 +24,12 @@ export class ProductCompareButton extends PureComponent {
         handleClick: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
         isActive: PropTypes.bool,
-        mix: MixType
+        mix: MixType.isRequired
     };
 
     static defaultProps = {
         isLoading: false,
-        isActive: false,
-        mix: {}
+        isActive: false
     };
 
     render() {

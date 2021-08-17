@@ -18,7 +18,6 @@ import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
 import NotificationList from 'Component/NotificationList';
 import Overlay from 'Component/Overlay/Overlay.component';
-import { DeviceType } from 'Type/Device';
 
 import { ESCAPE_KEY } from './Popup.config';
 
@@ -29,8 +28,7 @@ export class Popup extends Overlay {
     static propTypes = {
         ...Overlay.propTypes,
         clickOutside: PropTypes.bool,
-        title: PropTypes.string,
-        device: DeviceType.isRequired
+        title: PropTypes.string
     };
 
     static defaultProps = {
@@ -72,7 +70,7 @@ export class Popup extends Overlay {
                 popupOpen: true
             },
             '',
-            location.pathname
+            `${location.pathname}${location.search}${location.hash}`
         );
 
         onVisible();
@@ -144,7 +142,7 @@ export class Popup extends Overlay {
     }
 
     renderNotifications() {
-        const { device: { isMobile } } = this.props;
+        const { isMobile } = this.props;
 
         if (!isMobile) {
             return null;

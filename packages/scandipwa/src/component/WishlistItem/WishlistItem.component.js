@@ -33,7 +33,7 @@ export class WishlistItem extends PureComponent {
         removeItem: PropTypes.func,
         redirectToProductPage: PropTypes.func,
         isLoading: PropTypes.bool,
-        isRemoving: PropTypes.bool,
+        isRemoving: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
         handleSelectIdChange: PropTypes.func.isRequired
@@ -45,8 +45,7 @@ export class WishlistItem extends PureComponent {
         changeDescription: () => {},
         removeItem: () => {},
         redirectToProductPage: () => {},
-        isLoading: false,
-        isRemoving: false
+        isLoading: false
     };
 
     optionRenderMap = {
@@ -279,7 +278,16 @@ export class WishlistItem extends PureComponent {
                 { this.renderCommentField() }
                 <div block="WishlistItem" elem="ActionWrapper">
                     { this.renderAddToCartButton() }
-                    <EditIcon onClick={ redirectToProductPage } />
+                    <button
+                      key="edit"
+                      block="WislistItem"
+                      elem="Edit"
+                      onClick={ redirectToProductPage }
+                      aria-label={ __('Edit wishlist item') }
+                      tabIndex="0"
+                    >
+                        <EditIcon />
+                    </button>
                 </div>
             </div>
         );

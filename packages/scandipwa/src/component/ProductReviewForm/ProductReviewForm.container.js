@@ -80,6 +80,24 @@ export class ProductReviewFormContainer extends PureComponent {
         };
     }
 
+    containerProps() {
+        const { reviewRatings } = this.props;
+        const {
+            isLoading,
+            ratingData,
+            reviewData,
+            isSubmitted
+        } = this.state;
+
+        return {
+            isLoading,
+            isSubmitted,
+            ratingData,
+            reviewData,
+            reviewRatings
+        };
+    }
+
     _onReviewError(_, invalidFields) {
         const { showNotification } = this.props;
         const reviewsAreNotValid = invalidFields;
@@ -165,9 +183,8 @@ export class ProductReviewFormContainer extends PureComponent {
     render() {
         return (
             <ProductReviewForm
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
-              { ...this.state }
             />
         );
     }

@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ENTER_KEY_CODE } from 'Component/Field/Field.config';
+import { sortAlphabetically, sortBySortOrder } from 'Util/Product';
 
 import FieldSelect from './FieldSelect.component';
 import {
@@ -42,13 +43,31 @@ export class FieldSelectContainer extends PureComponent {
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         ]),
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        isDisabled: PropTypes.bool,
+        skipValue: PropTypes.bool,
+        placeholder: PropTypes.string,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.bool
+        ]),
+        autocomplete: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ]),
+        name: PropTypes.string.isRequired
     };
 
     static defaultProps = {
         selectOptions: [],
         formRef: () => {},
-        onChange: () => {}
+        onChange: () => {},
+        placeholder: '',
+        value: null,
+        isDisabled: false,
+        autocomplete: 'off',
+        skipValue: false
     };
 
     state = {
@@ -64,7 +83,17 @@ export class FieldSelectContainer extends PureComponent {
         handleSelectListKeyPress: this.handleSelectListKeyPress.bind(this)
     };
 
-    containerProps = () => {
+    containerProps() {
+        const {
+            onChange,
+            id,
+            name,
+            formRef,
+            placeholder,
+            value,
+            autocomplete,
+            skipValue
+        } = this.props;
         const {
             valueIndex,
             searchString,
@@ -76,25 +105,30 @@ export class FieldSelectContainer extends PureComponent {
             isDisabled: this.isSelectDisabled(),
             valueIndex,
             searchString,
-            isSelectExpanded
+            isSelectExpanded,
+            onChange,
+            id,
+            name,
+            formRef,
+            placeholder,
+            value,
+            autocomplete,
+            skipValue
         };
-    };
+    }
 
     sortSelectOptions() {
         const { selectOptions } = this.props;
 
         /**
-         * Trim all null label values, sort alphabetically
+         * Trim all null label values.
+         * If options have `sort_order` property, sort by sort order.
+         * Otherwise sort alphabetically.
          */
-        const sortedOptions = selectOptions.reduce(
-            (acc, a) => (a.label ? [...acc, a] : acc), []
-        ).sort((a, b) => {
-            const textA = a.label.toUpperCase();
-            const textB = b.label.toUpperCase();
-
-            // eslint-disable-next-line no-nested-ternary
-            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-        });
+        const options = selectOptions.reduce((acc, a) => (a.label ? [...acc, a] : acc), []);
+        const sortedOptions = options.every((option) => option.sort_order)
+            ? sortBySortOrder(options)
+            : sortAlphabetically(options, 'label');
 
         return sortedOptions;
     }
@@ -219,7 +253,6 @@ export class FieldSelectContainer extends PureComponent {
 
         return (
             <FieldSelect
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

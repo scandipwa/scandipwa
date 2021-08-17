@@ -1,4 +1,3 @@
-import CategoryDetails from 'Component/CategoryDetails';
 import { isCrawler, isSSR } from 'Util/Browser';
 
 /**

@@ -27,15 +27,18 @@ import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config
 import { DeviceType } from 'Type/Device';
 import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
+import { getPriceLabel } from 'Util/Price';
 import {
     BUNDLE,
     CONFIGURABLE,
+    filterConfigurableOptions,
     GROUPED
 } from 'Util/Product';
 
-import { OUT_OF_STOCK, TIER_PRICES } from './ProductCard.config';
+import { IN_STOCK } from './ProductCard.config';
 
 import './ProductCard.style';
+
 /**
  * Product card
  * @class ProductCard
@@ -102,13 +105,6 @@ export class ProductCard extends Component {
         }
     };
 
-    productTypeRenderMap = {
-        [BUNDLE]: __('Starting from'),
-        [GROUPED]: __('Starting from'),
-        [CONFIGURABLE]: __('As Low as'),
-        [TIER_PRICES]: __('As Low as')
-    };
-
     imageRef = createRef();
 
     shouldComponentUpdate(nextProps) {
@@ -147,14 +143,8 @@ export class ProductCard extends Component {
             setSiblingsHavePriceBadge
         } = this.props;
 
-        const typeId = price_tiers.length ? TIER_PRICES : type_id;
-
-        const label = this.productTypeRenderMap[typeId];
-        if (!label) {
-            return null;
-        }
-
-        if (!siblingsHavePriceBadge) {
+        const label = getPriceLabel(type_id, price_tiers);
+        if (label && !siblingsHavePriceBadge) {
             setSiblingsHavePriceBadge();
         }
 
@@ -445,8 +435,8 @@ export class ProductCard extends Component {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               productOptionsData={ productOptionsData }
+              disabled={ stock_status !== IN_STOCK }
               layout={ layout }
-              disabled={ stock_status === OUT_OF_STOCK }
             />
         );
     }
@@ -454,11 +444,14 @@ export class ProductCard extends Component {
     getAttributesToShow() {
         const {
             product: {
-                configurable_options = []
+                configurable_options = [],
+                variants
             }
         } = this.props;
 
-        return Object.fromEntries(Object.entries(configurable_options).filter(([, option]) => {
+        const filteredOptions = filterConfigurableOptions(configurable_options, variants);
+
+        return Object.fromEntries(Object.entries(filteredOptions).filter(([, option]) => {
             const { attribute_options = {} } = option;
 
             return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);

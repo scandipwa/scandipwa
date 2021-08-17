@@ -193,7 +193,8 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             quantity,
             can_change_quantity,
             finalOptionPrice,
-            price
+            price,
+            position
         }) => {
             const subLabel = this.renderOptionLabel(price_type, finalOptionPrice, price, currencyCode);
             const dropdownLabel = !can_change_quantity ? `${ quantity } x ${ label } ` : `${ label } `;
@@ -203,7 +204,8 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
                 name: label,
                 value: id,
                 label: dropdownLabel,
-                subLabel
+                subLabel,
+                sort_order: position
             });
 
             return acc;
@@ -213,8 +215,6 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
     render() {
         return (
             <ProductBundleItem
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /* eslint-disable react/jsx-no-useless-fragment */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -165,7 +166,7 @@ export class Html extends PureComponent {
         const attributes = attributesToProps(attribs);
 
         if (attribs.src) {
-            return <Image { ...attributes } />;
+            return <Image { ...attributes } isPlain />;
         }
     }
 

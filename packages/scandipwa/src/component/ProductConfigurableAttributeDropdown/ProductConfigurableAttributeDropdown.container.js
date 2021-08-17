@@ -37,7 +37,7 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
         updateConfigurableVariant(attribute_code, value);
     }
 
-    containerProps = () => {
+    containerProps() {
         const { option: { attribute_code, attribute_label } } = this.props;
 
         return {
@@ -46,7 +46,7 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
             selectName: attribute_code,
             selectLabel: attribute_label
         };
-    };
+    }
 
     _getSelectOptions = () => {
         const {
@@ -94,7 +94,6 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
     render() {
         return (
             <ProductConfigurableAttributeDropdown
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

@@ -38,8 +38,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         setCustomizableOptionFileFieldValue: PropTypes.func,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        price_range: PriceType.isRequired,
-        type_id: PropTypes.string.isRequired
+        price_range: PriceType.isRequired
     };
 
     static defaultProps = {
@@ -49,7 +48,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     state = {
         textValue: '',
         selectedDropdownValue: 0,
-        textFieldValid: null
+        textFieldValid: true
     };
 
     containerFunctions = {
@@ -61,10 +60,25 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         renderOptionLabel: this.renderOptionLabel.bind(this)
     };
 
-    containerProps = () => ({
-        optionType: this.getOptionType(),
-        requiredSelected: this.getIsRequiredSelected()
-    });
+    containerProps() {
+        const { option } = this.props;
+        const {
+            textValue,
+            selectedDropdownValue,
+            textFieldValid,
+            fieldValue
+        } = this.state;
+
+        return {
+            option,
+            fieldValue,
+            textValue,
+            textFieldValid,
+            selectedDropdownValue,
+            optionType: this.getOptionType(),
+            requiredSelected: this.getIsRequiredSelected()
+        };
+    }
 
     getOptionType() {
         const { option } = this.props;
@@ -166,6 +180,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             priceInclTax,
             price,
             price_type,
+            sort_order,
             currency
         }) => {
             acc.push({
@@ -173,7 +188,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
                 name: title,
                 value: option_type_id,
                 label: `${title} `,
-                subLabel: this.renderOptionLabel(price_type, priceInclTax, price, currency)
+                subLabel: this.renderOptionLabel(price_type, priceInclTax, price, currency),
+                sort_order
             });
 
             return acc;
@@ -208,8 +224,6 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     render() {
         return (
             <ProductCustomizableOption
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

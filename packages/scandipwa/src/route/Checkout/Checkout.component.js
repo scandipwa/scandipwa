@@ -17,7 +17,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { addressType } from 'Type/Account';
-import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
+import { paymentMethodsType, shippingMethodsType, storeType } from 'Type/Checkout';
 import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { appendWithStoreCode } from 'Util/Url';
@@ -102,12 +102,18 @@ export class Checkout extends PureComponent {
         goBack: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
         isMobile: PropTypes.bool.isRequired,
+        isPickInStoreMethodSelected: PropTypes.bool.isRequired,
+        handleSelectDeliveryMethod: PropTypes.func.isRequired,
+        isInStoreActivated: PropTypes.bool.isRequired,
         cartTotalSubPrice: PropTypes.number.isRequired,
-        onShippingMethodSelect: PropTypes.func.isRequired
+        onShippingMethodSelect: PropTypes.func.isRequired,
+        onStoreSelect: PropTypes.func.isRequired,
+        selectedStoreAddress: storeType
     };
 
     static defaultProps = {
-        paymentTotals: {}
+        paymentTotals: {},
+        selectedStoreAddress: {}
     };
 
     stepMap = {
@@ -235,8 +241,12 @@ export class Checkout extends PureComponent {
             onEmailChange,
             isCreateUser,
             estimateAddress,
+            isPickInStoreMethodSelected,
+            handleSelectDeliveryMethod,
             cartTotalSubPrice,
-            onShippingMethodSelect
+            onShippingMethodSelect,
+            onStoreSelect,
+            selectedStoreAddress
         } = this.props;
 
         return (
@@ -253,6 +263,10 @@ export class Checkout extends PureComponent {
                   onEmailChange={ onEmailChange }
                   isCreateUser={ isCreateUser }
                   estimateAddress={ estimateAddress }
+                  handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
+                  isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
+                  onStoreSelect={ onStoreSelect }
+                  selectedStoreAddress={ selectedStoreAddress }
                 />
             </Suspense>
         );
@@ -309,6 +323,7 @@ export class Checkout extends PureComponent {
     renderStep() {
         const { checkoutStep } = this.props;
         const { render } = this.stepMap[checkoutStep];
+
         if (render) {
             return render();
         }
@@ -369,6 +384,47 @@ export class Checkout extends PureComponent {
         return <CmsBlock identifier={ promo } />;
     }
 
+    renderStoreInPickUpMethod() {
+        const {
+            isPickInStoreMethodSelected,
+            handleSelectDeliveryMethod,
+            checkoutStep,
+            isInStoreActivated
+        } = this.props;
+
+        if (checkoutStep !== SHIPPING_STEP || !isInStoreActivated) {
+            return null;
+        }
+
+        return (
+            <div
+              block="Checkout"
+              elem="DeliverySelect"
+            >
+                <button
+                  block="Checkout"
+                  elem="ShippingButton"
+                  mix={ { block: 'Button', mods: { isHollow: !isPickInStoreMethodSelected } } }
+                  type="button"
+                  disabled={ !isPickInStoreMethodSelected }
+                  onClick={ handleSelectDeliveryMethod }
+                >
+                   { __('Shipping') }
+                </button>
+                <button
+                  block="Checkout"
+                  elem="PickInStore"
+                  mix={ { block: 'Button', mods: { isHollow: isPickInStoreMethodSelected } } }
+                  type="button"
+                  disabled={ isPickInStoreMethodSelected }
+                  onClick={ handleSelectDeliveryMethod }
+                >
+                    { __('Pick in Store') }
+                </button>
+            </div>
+        );
+    }
+
     render() {
         return (
             <main block="Checkout">
@@ -379,6 +435,7 @@ export class Checkout extends PureComponent {
                     { this.renderSummary(true) }
                     <div block="Checkout" elem="Step">
                         { this.renderTitle() }
+                        { this.renderStoreInPickUpMethod() }
                         { this.renderGuestForm() }
                         { this.renderStep() }
                         { this.renderLoader() }

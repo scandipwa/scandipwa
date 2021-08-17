@@ -83,6 +83,27 @@ export class ConfirmAccountPageContainer extends PureComponent {
         this._updateBreadcrumbs();
     }
 
+    containerProps() {
+        const { redirect, isLoading } = this.state;
+
+        return {
+            redirect,
+            isLoading,
+            shouldDisplayWarning: this.shouldDisplayWarning()
+        };
+    }
+
+    shouldDisplayWarning() {
+        const {
+            location: {
+                search
+            }
+        } = this.props;
+        const { email, key } = convertQueryStringToKeyValuePairs(search);
+
+        return !(email && key);
+    }
+
     onConfirmAttempt() {
         this.setState({ isLoading: true });
     }
@@ -143,9 +164,8 @@ export class ConfirmAccountPageContainer extends PureComponent {
     render() {
         return (
             <ConfirmAccountPage
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
-              { ...this.state }
             />
         );
     }

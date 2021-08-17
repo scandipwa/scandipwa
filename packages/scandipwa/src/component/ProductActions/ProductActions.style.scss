@@ -88,16 +88,26 @@
         cursor: pointer;
         inset-block-end: -2px;
         font-size: 14px;
+
+        &:hover {
+            color: var(--primary-dark-color);
+        }
     }
 
     &-Section {
-        &_type_sku {
-            display: flex;
+        &_type {
+            &_sku {
+                display: flex;
 
-            @include mobile {
-                flex: 1;
-                align-items: flex-end;
-                flex-direction: column;
+                @include mobile {
+                    flex: 1;
+                    align-items: flex-end;
+                    flex-direction: column;
+                }
+            }
+
+            &_alerts {
+                inset-block-start: 10px;
             }
         }
     }
