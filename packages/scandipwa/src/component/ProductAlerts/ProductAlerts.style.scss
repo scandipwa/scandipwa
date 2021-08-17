@@ -9,7 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const IMAGE_LOADING = 'IMAGE_LOADING';
-export const IMAGE_LOADED = 'IMAGE_LOADED';
-export const IMAGE_NOT_FOUND = 'IMAGE_NOT_FOUND';
-export const IMAGE_NOT_SPECIFIED = 'IMAGE_NOT_SPECIFIED';
+.ProductAlerts {
+    &-Wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    &-InStock,
+    &-PriceDrop {
+        text-align: left;
+        color: var(--primary-base-color);
+    }
+}

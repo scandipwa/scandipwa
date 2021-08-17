@@ -136,7 +136,7 @@ export class CheckoutDeliveryOption extends PureComponent {
 
         // disable checkbox in order to skip direct clicks on checkbox and handle clicks on entire button instead
         return (
-            <li block="CheckoutDeliveryOption">
+            <li block="CheckoutDeliveryOption" mods={ { isDisabled: !available } }>
                 <button
                   block="CheckoutDeliveryOption"
                   mods={ { isDisabled: !available } }

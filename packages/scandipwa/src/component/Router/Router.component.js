@@ -30,9 +30,35 @@ import UrlRewrites from 'Route/UrlRewrites';
 import history from 'Util/History';
 
 import {
+    ACCOUNT_FORGOT_PASSWORD,
     AFTER_ITEMS_TYPE,
     BEFORE_ITEMS_TYPE,
-    SWITCH_ITEMS_TYPE
+    BREADCRUMBS,
+    CART,
+    CHANGE_PASSWORD,
+    CHECKOUT,
+    CMS_PAGE,
+    COMPARE,
+    CONFIRM_ACCOUNT,
+    CONTACT_PAGE,
+    COOKIE_POPUP,
+    CREATE_ACCOUNT,
+    DEMO_NOTICE,
+    FOOTER,
+    FORGOT_PASSWORD,
+    HEADER,
+    HOME,
+    LOGIN,
+    MENU,
+    MY_ACCOUNT,
+    NAVIGATION_TABS,
+    NEW_VERSION_POPUP,
+    NOTIFICATION_LIST,
+    SEARCH,
+    SHARED_WISHLIST,
+    STYLE_GUIDE,
+    SWITCH_ITEMS_TYPE,
+    URL_REWRITES
 } from './Router.config';
 
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
@@ -77,113 +103,139 @@ export class Router extends PureComponent {
     [BEFORE_ITEMS_TYPE] = [
         {
             component: <NotificationList />,
-            position: 10
+            position: 10,
+            name: NOTIFICATION_LIST
         },
         {
             component: <DemoNotice />,
-            position: 15
+            position: 15,
+            name: DEMO_NOTICE
         },
         {
             component: <Header />,
-            position: 20
+            position: 20,
+            name: HEADER
         },
         {
             component: <NavigationTabs />,
-            position: 25
+            position: 25,
+            name: NAVIGATION_TABS
         },
         {
             component: <Breadcrumbs />,
-            position: 30
+            position: 30,
+            name: BREADCRUMBS
         },
         {
             component: <NewVersionPopup />,
-            position: 35
+            position: 35,
+            name: NEW_VERSION_POPUP
         }
     ];
 
     [SWITCH_ITEMS_TYPE] = [
         {
             component: <Route path={ withStoreRegex('/') } exact render={ (props) => <HomePage { ...props } /> } />,
-            position: 10
+            position: 10,
+            name: HOME
         },
         {
             component: <Route path={ withStoreRegex('/search/:query/') } render={ (props) => <SearchPage { ...props } /> } />,
-            position: 25
+            position: 25,
+            name: SEARCH
         },
         {
             component: <Route path={ withStoreRegex('/page') } render={ (props) => <CmsPage { ...props } /> } />,
-            position: 40
+            position: 40,
+            name: CMS_PAGE
         },
         {
             component: <Route path={ withStoreRegex('/cart') } exact render={ (props) => <CartPage { ...props } /> } />,
-            position: 50
+            position: 50,
+            name: CART
         },
         {
             component: <Route path={ withStoreRegex('/checkout/:step?') } render={ (props) => <Checkout { ...props } /> } />,
-            position: 55
+            position: 55,
+            name: CHECKOUT
         },
         {
             component: <Route path={ withStoreRegex('/:account*/createPassword/') } render={ (props) => <PasswordChangePage { ...props } /> } />,
-            position: 60
+            position: 60,
+            name: CHANGE_PASSWORD
         },
         {
             component: <Route path={ withStoreRegex('/:account*/create/') } render={ (props) => <CreateAccountPage { ...props } /> } />,
-            position: 61
+            position: 61,
+            name: CREATE_ACCOUNT
         },
         {
             component: <Route path={ withStoreRegex('/:account*/login/') } render={ (props) => <LoginAccountPage { ...props } /> } />,
-            position: 62
+            position: 62,
+            name: LOGIN
         },
         {
             component: <Route path={ withStoreRegex('/:account*/forgotpassword/') } render={ (props) => <ForgotPasswordPage { ...props } /> } />,
-            position: 63
+            position: 63,
+            name: ACCOUNT_FORGOT_PASSWORD
         },
         {
             component: <Route path={ withStoreRegex('/:account*/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
-            position: 65
+            position: 65,
+            name: CONFIRM_ACCOUNT
         },
         {
             component: <Route path={ withStoreRegex('/my-account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
-            position: 70
+            position: 70,
+            name: MY_ACCOUNT
         },
         {
             component: <Route path={ withStoreRegex('/forgot-password') } render={ (props) => <MyAccount { ...props } /> } />,
-            position: 71
+            position: 71,
+            name: FORGOT_PASSWORD
         },
         {
             component: <Route path={ withStoreRegex('/menu') } render={ (props) => <MenuPage { ...props } /> } />,
-            position: 80
+            position: 80,
+            name: MENU
         },
         {
             component: <Route path={ withStoreRegex('/wishlist/shared/:code') } render={ (props) => <WishlistShared { ...props } /> } />,
-            position: 81
+            position: 81,
+            name: SHARED_WISHLIST
         },
         {
             component: <Route path={ withStoreRegex('/contact') } render={ (props) => <ContactPage { ...props } /> } />,
-            position: 82
+            position: 82,
+            name: CONTACT_PAGE
         },
         {
             component: <Route path={ withStoreRegex('/compare') } render={ (props) => <ProductComparePage { ...props } /> } />,
-            position: 83
+            position: 83,
+            name: COMPARE
         },
         {
             component: <Route path={ withStoreRegex('/styleguide') } render={ (props) => <StyleGuidePage { ...props } /> } />,
-            position: 83
+            position: 84,
+            name: STYLE_GUIDE
         },
         {
             component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
-            position: 1000
+            position: 1000,
+            name: URL_REWRITES
         }
     ];
 
     [AFTER_ITEMS_TYPE] = [
         {
             component: <Footer />,
-            position: 10
+            position: 10,
+            name: FOOTER
         },
         {
             component: <CookiePopup />,
-            position: 20
+            position: 20,
+            name: COOKIE_POPUP
         }
     ];
 

@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,7 +11,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const IMAGE_LOADING = 'IMAGE_LOADING';
-export const IMAGE_LOADED = 'IMAGE_LOADED';
-export const IMAGE_NOT_FOUND = 'IMAGE_NOT_FOUND';
-export const IMAGE_NOT_SPECIFIED = 'IMAGE_NOT_SPECIFIED';
+export const PRODUCT_ALERT_PRICE_DROP = 'PRODUCT_ALERT_PRICE_DROP';
+export const PRODUCT_ALERT_IN_STOCK = 'PRODUCT_ALERT_IN_STOCK';

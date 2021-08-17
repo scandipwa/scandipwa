@@ -166,7 +166,7 @@ export class Html extends PureComponent {
         const attributes = attributesToProps(attribs);
 
         if (attribs.src) {
-            return <Image { ...attributes } />;
+            return <Image { ...attributes } isPlain />;
         }
     }
 
