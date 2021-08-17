@@ -18,7 +18,7 @@ import SearchIcon from 'Component/SearchIcon';
 import UserIcon from 'Component/UserIcon';
 import { isSignedIn } from 'Util/Auth';
 
-// import './Header.style.plugin.scss';
+import './Header.style.plugin';
 // import './Footer.style.plugin.scss';
 // import './CheckoutPage.style.plugin.scss';
 
