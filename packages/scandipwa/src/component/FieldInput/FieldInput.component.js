@@ -43,9 +43,6 @@ export class FieldInput extends PureComponent {
             ...validProps
         } = this.props;
 
-        // debugger;
-        console.log(this.props);
-
         return (
             <input
               ref={ formRef }
