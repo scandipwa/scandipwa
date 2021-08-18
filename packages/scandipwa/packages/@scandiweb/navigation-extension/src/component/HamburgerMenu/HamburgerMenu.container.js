@@ -1,5 +1,3 @@
-// import PropTypes from 'prop-types';
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *

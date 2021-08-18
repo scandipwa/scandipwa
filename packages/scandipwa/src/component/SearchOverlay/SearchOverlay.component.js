@@ -84,11 +84,11 @@ export class SearchOverlay extends PureComponent {
     }
 
     render() {
-        const { isHideOverlay, searchCriteria } = this.props;
+        const { isHideOverlay } = this.props;
 
-        if (!searchCriteria.trim()) {
-            return null;
-        }
+        // if (!searchCriteria.trim()) {
+        //     return null;
+        // }
 
         if (isHideOverlay) {
             return (
