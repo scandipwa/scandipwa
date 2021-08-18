@@ -56,10 +56,10 @@ export class ExpandableContentShowMore extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { children: { length: prevChildrenLength } } = prevProps;
-        const { children: { length: currentChildrenLength } } = this.props;
+        const { children: prevChildren } = prevProps;
+        const { children: nextChildren } = this.props;
 
-        if (prevChildrenLength !== currentChildrenLength) {
+        if (prevChildren !== nextChildren) {
             if (this.expandableRef.current) {
             // eslint-disable-next-line react/no-did-update-set-state
                 this.setState({ isOpen: true }, () => {
