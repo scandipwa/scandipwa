@@ -1,4 +1,8 @@
-//.CategoryPage {
+.CategoryPage {
+  &-BlaStyle {
+    background-color: black;
+  }
+
   //&-TopPanel {
   //  --category-page-miscellaneous-height: 70px;
   //
@@ -31,4 +35,4 @@
   //    }
   //  }
   //}
-//}
+}
