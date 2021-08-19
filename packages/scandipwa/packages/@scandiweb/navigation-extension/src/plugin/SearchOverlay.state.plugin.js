@@ -9,19 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductActions.style.scss';
+const mapStateToProps = (args, callback) => {
+    const [state] = args;
 
-export const renderMobile = (args, callback, instance) => (
-    <>
-        <div block="CustomHeader">{ instance.renderName() }</div>
-        { callback() }
-    </>
-);
+    return {
+        ...callback(...args),
+        device: state.ConfigReducer.device
+    };
+};
 
 export default {
-    'Component/ProductActions/Component': {
-        'member-function': {
-            renderMobile
-        }
+    'Component/SearchOverlay/Container/mapStateToProps': {
+        function: mapStateToProps
     }
 };

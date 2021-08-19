@@ -1,7 +1,0 @@
-.Checkout.Checkout {
-  @include mobile {
-    --footer-totals-height: 123px;
-
-    padding-block-end: var(--footer-totals-height);
-  }
-}

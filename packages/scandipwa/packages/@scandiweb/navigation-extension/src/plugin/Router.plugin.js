@@ -8,6 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 import { lazy } from 'react';
 
 import { MENU, NAVIGATION_TABS } from 'Component/Router/Router.config';

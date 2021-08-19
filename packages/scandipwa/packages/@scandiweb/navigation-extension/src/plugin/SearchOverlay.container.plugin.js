@@ -9,19 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductActions.style.scss';
+export const containerProps = (args, callback, instance) => {
+    const { device } = instance.props;
 
-export const renderMobile = (args, callback, instance) => (
-    <>
-        <div block="CustomHeader">{ instance.renderName() }</div>
-        { callback() }
-    </>
-);
+    return {
+        ...callback.apply(instance, args),
+        device
+    };
+};
 
 export default {
-    'Component/ProductActions/Component': {
+    'Component/SearchOverlay/Container': {
         'member-function': {
-            renderMobile
+            containerProps
         }
     }
 };

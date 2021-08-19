@@ -8,11 +8,14 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
+import { MobileSearchBarReducer } from '../store/MobileSearchBar/MobileSearchBar.reducer';
 import { SideMenuReducer } from '../store/SideMenu/SideMenu.reducer';
 
 const getStaticReducers = (args, callback) => ({
     ...callback(...args),
-    SideMenuReducer
+    SideMenuReducer,
+    MobileSearchBarReducer
 });
 
 export const config = {
