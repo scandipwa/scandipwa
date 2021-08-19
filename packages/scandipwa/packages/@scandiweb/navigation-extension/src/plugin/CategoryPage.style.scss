@@ -31,4 +31,14 @@
       }
     }
   }
+
+  .CategoryDetails {
+    display: block;
+    margin-block: 20px 0;
+
+    .CategoryDetails-Description {
+      padding-block-end: 0;
+      align-items: center;
+    }
+  }
 }
