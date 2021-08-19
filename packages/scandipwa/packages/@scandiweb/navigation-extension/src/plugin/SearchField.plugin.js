@@ -1,5 +1,7 @@
 import CloseIcon from 'Component/CloseIcon';
 import SearchIcon from 'Component/SearchIcon';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -54,11 +56,34 @@ export const renderSearchIcon = (args, callback, instance) => {
     );
 };
 
+export const onSearchEnterPress = (args, callback, instance) => {
+    const [e] = args;
+    const {
+        searchCriteria,
+        hideActiveOverlay,
+        onSearchBarChange,
+        deactivateSearchBar
+    } = instance.props;
+
+    const search = searchCriteria.trim().replace(/\s/g, '+');
+    const trimmedSearch = searchCriteria.trim();
+
+    if (e.key === 'Enter' && trimmedSearch !== '') {
+        history.push(appendWithStoreCode(`/search/${ search }`));
+        hideActiveOverlay();
+        onSearchBarChange({ target: { value: '' } });
+        instance.searchBarRef.current.blur();
+        instance.closeSearch();
+        deactivateSearchBar();
+    }
+};
+
 export default {
     'Component/SearchField/Component': {
         'member-function': {
             componentDidMount,
-            renderSearchIcon
+            renderSearchIcon,
+            onSearchEnterPress
         }
     }
 };

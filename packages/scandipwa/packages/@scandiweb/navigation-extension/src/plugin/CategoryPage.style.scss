@@ -32,13 +32,10 @@
     }
   }
 
-  .CategoryDetails {
-    display: block;
-    margin-block: 20px 0;
-
-    .CategoryDetails-Description {
-      padding-block-end: 0;
-      align-items: center;
-    }
+  &-SearchKeyword {
+    display: inline-block;
+    text-transform: uppercase;
+    color: var(--primary-base-color);
+    margin-inline-start: 10px;
   }
 }

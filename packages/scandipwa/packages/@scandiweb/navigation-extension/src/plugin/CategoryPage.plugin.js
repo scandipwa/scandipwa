@@ -13,16 +13,28 @@ import { isCrawler, isSSR } from 'Util/Browser';
 import './CategoryPage.style.scss';
 
 export const renderMiscellaneous = (args, callback, instance) => {
-    const { category: { name } = {}, isMobile } = instance.props;
+    const {
+        category: { name } = {},
+        isSearchPage,
+        search,
+        isMobile
+    } = instance.props;
 
     if (!instance.displayProducts()) {
         return null;
     }
 
+    const title = isSearchPage ? (
+        <div>
+            Searching for:
+            <h1 block="CategoryPage" elem="SearchKeyword">{ search }</h1>
+        </div>
+    ) : name;
+
     if (isMobile) {
         return (
             <aside block="CategoryPage" elem="TopPanel">
-                <h1 block="CategoryPage" elem="Title">{ name }</h1>
+                <h1 block="CategoryPage" elem="Title">{ title }</h1>
                 { instance.renderItemsCount() }
                 <div block="CategoryPage" elem="Filters">
                     <div
