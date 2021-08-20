@@ -28,6 +28,7 @@ import {
     getVariantIndex,
     getVariantsIndexes
 } from 'Util/Product';
+import { getProductInStock } from 'Util/Product/Extract';
 import { appendWithStoreCode, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
@@ -174,7 +175,8 @@ export class ProductCardContainer extends PureComponent {
             currentVariantIndex: this._getCurrentVariantIndex(),
             productOrVariant: this._getProductOrVariant(),
             thumbnail: this._getThumbnail(),
-            linkTo: this._getLinkTo()
+            linkTo: this._getLinkTo(),
+            inStock: getProductInStock(product, configurableVariantIndex)
         };
     }
 

@@ -24,6 +24,7 @@ import {
     SIMPLE,
     VIRTUAL
 } from 'Util/Product';
+import { getProductInStock } from 'Util/Product/Extract';
 
 import ProductActions from './ProductActions.component';
 import { DEFAULT_MAX_PRODUCTS, ONE_HUNDRED_PERCENT } from './ProductActions.config';
@@ -284,7 +285,8 @@ export class ProductActionsContainer extends PureComponent {
             offerCount: this.getOfferCount(),
             offerType: this.getOfferType(),
             stockMeta: this.getStockMeta(),
-            metaLink: this.getMetaLink()
+            metaLink: this.getMetaLink(),
+            inStock: getProductInStock(product, configurableVariantIndex)
         };
     }
 
