@@ -76,7 +76,7 @@ export class CategorySortContainer extends PureComponent {
             };
         case 'none':
             return {
-                asc: __('- None -')
+                asc: __('Best match')
             };
         default:
             return {
