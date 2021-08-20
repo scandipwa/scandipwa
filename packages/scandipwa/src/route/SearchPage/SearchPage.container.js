@@ -27,7 +27,7 @@ import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
-import { NONE_SORT_OPTION } from './SearchPage.config';
+import { BEST_MATCH_SORT_OPTION_VALUE, NONE_SORT_OPTION } from './SearchPage.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -197,10 +197,12 @@ export class SearchPageContainer extends CategoryPageContainer {
             } = {}
         } = this.props;
 
+        const filteredOptions = options.filter(({ value }) => value !== BEST_MATCH_SORT_OPTION_VALUE);
+
         return {
             options: [
                 NONE_SORT_OPTION,
-                ...options
+                ...filteredOptions
             ]
         };
     }
