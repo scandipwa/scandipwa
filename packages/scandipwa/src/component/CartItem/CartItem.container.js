@@ -17,8 +17,8 @@ import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.co
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CartItemType } from 'Type/MiniCart';
-import { itemIsOutOfStock } from 'Util/Cart';
 import { CONFIGURABLE } from 'Util/Product';
+import { getProductInStock } from 'Util/Product/Extract';
 import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';
 
@@ -91,9 +91,9 @@ export class CartItemContainer extends PureComponent {
     }
 
     productIsInStock() {
-        const { item } = this.props;
+        const { item: { product } } = this.props;
 
-        return !itemIsOutOfStock(item);
+        return getProductInStock(product);
     }
 
     /**

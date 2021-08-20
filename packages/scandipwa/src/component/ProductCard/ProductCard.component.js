@@ -35,8 +35,6 @@ import {
     GROUPED
 } from 'Util/Product';
 
-import { IN_STOCK } from './ProductCard.config';
-
 import './ProductCard.style';
 
 /**
@@ -71,7 +69,8 @@ export class ProductCard extends Component {
         configurableVariantIndex: PropTypes.number,
         parameters: PropTypes.shape({}).isRequired,
         showSelectOptionsNotification: PropTypes.func.isRequired,
-        productOrVariant: ProductType.isRequired
+        productOrVariant: ProductType.isRequired,
+        inStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -392,12 +391,13 @@ export class ProductCard extends Component {
             product,
             product: {
                 type_id,
-                stock_status,
-                options = []
+                options = [],
+                configurable_options: confOptions = {}
             },
             configurableVariantIndex,
             layout,
-            showSelectOptionsNotification
+            showSelectOptionsNotification,
+            inStock
         } = this.props;
 
         const quantity = 1;
@@ -415,7 +415,10 @@ export class ProductCard extends Component {
             requiredOptions
         };
 
-        if (type_id === BUNDLE || type_id === GROUPED) {
+        const redirectOnConfig = type_id === CONFIGURABLE
+            && Object.keys(confOptions).length !== Object.keys(this.getAttributesToShow()).length;
+
+        if (type_id === BUNDLE || type_id === GROUPED || redirectOnConfig) {
             return (
                 <button
                   block="Button AddToCart"
@@ -435,7 +438,7 @@ export class ProductCard extends Component {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               productOptionsData={ productOptionsData }
-              disabled={ stock_status !== IN_STOCK }
+              disabled={ !inStock }
               layout={ layout }
             />
         );
