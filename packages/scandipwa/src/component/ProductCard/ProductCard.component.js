@@ -391,7 +391,8 @@ export class ProductCard extends Component {
             product,
             product: {
                 type_id,
-                options = []
+                options = [],
+                configurable_options: confOptions = {}
             },
             configurableVariantIndex,
             layout,
@@ -414,7 +415,10 @@ export class ProductCard extends Component {
             requiredOptions
         };
 
-        if (type_id === BUNDLE || type_id === GROUPED) {
+        const redirectOnConfig = type_id === CONFIGURABLE
+            && Object.keys(confOptions).length !== Object.keys(this.getAttributesToShow()).length;
+
+        if (type_id === BUNDLE || type_id === GROUPED || redirectOnConfig) {
             return (
                 <button
                   block="Button AddToCart"
