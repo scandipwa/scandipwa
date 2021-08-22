@@ -111,6 +111,7 @@ export class CartDispatcher {
     }
 
     async addProductToCart(dispatch, options) {
+        console.log([options]);
         const {
             product,
             parentProduct = {},
@@ -119,24 +120,53 @@ export class CartDispatcher {
             selectedOptions = []
         } = options;
 
-        const { sku } = product;
+        const { sku, type_id: typeId } = product;
         const { sku: parentSku, type_id: parentType } = parentProduct || {};
 
-        const baseProductToAdd = {
-            sku,
-            quantity,
-            selected_options: selectedOptions,
-            entered_options: enteredOptions
-        };
+        const productToAdd = [];
 
-        const configProductToAdd = parentType !== PRODUCT_TYPE.configurable ? {} : {
-            parent_sku: parentSku
-        };
+        if (typeId === PRODUCT_TYPE.grouped) {
+            if (Object.keys(quantity).length === 0) {
+                dispatch(showNotification('error', __('Missing product!')));
+                return false;
+            }
 
-        const productToAdd = {
-            ...baseProductToAdd,
-            ...configProductToAdd
-        };
+            const { items } = product;
+            items.forEach(({
+                product: { id, sku: groupedSku }
+            }) => {
+                const { [id]: groupedQuantity } = quantity;
+                if (groupedQuantity) {
+                    productToAdd.push({
+                        sku: groupedSku,
+                        quantity: groupedQuantity,
+                        selected_options: selectedOptions,
+                        entered_options: enteredOptions
+                    });
+                }
+            });
+        } else {
+            const baseProductToAdd = {
+                sku,
+                quantity,
+                selected_options: selectedOptions,
+                entered_options: enteredOptions
+            };
+
+            const configProductToAdd = parentType !== PRODUCT_TYPE.configurable ? {} : {
+                parent_sku: parentSku
+            };
+
+            productToAdd.push({
+                ...baseProductToAdd,
+                ...configProductToAdd
+            });
+        }
+
+        if (productToAdd.length === 0) {
+            dispatch(showNotification('error', __('Missing product!')));
+            return false;
+        }
 
         if (this._canBeAdded(options)) {
             try {
@@ -148,7 +178,7 @@ export class CartDispatcher {
                 }
 
                 const { data } = await fetchMutation(
-                    CartQuery.getAddProductToCartMutation(guestQuoteId, [productToAdd])
+                    CartQuery.getAddProductToCartMutation(guestQuoteId, productToAdd)
                 );
 
                 console.log([data]);

@@ -35,18 +35,18 @@ export const bundleOptionToLabel = (option, currencyCode = 'USD') => {
     const {
         price,
         finalOptionPrice,
-        price_type,
-        can_change_quantity,
+        price_type: priceType,
+        can_change_quantity: canChangeQuantity,
         quantity,
         label
     } = option || {};
 
     const noPrice = price === 0 && finalOptionPrice === 0;
     const priceLabel = noPrice ? '' : `+ ${ formatPrice(finalOptionPrice, currencyCode) }`;
-    const percentLabel = (noPrice || price_type !== PRICE_TYPE_PERCENT) ? '' : `(${ price }%)`;
+    const percentLabel = (noPrice || priceType !== PRICE_TYPE_PERCENT) ? '' : `(${ price }%)`;
 
     return {
-        baseLabel: !can_change_quantity ? `${ quantity } x ${ label } ` : `${ label } `,
+        baseLabel: !canChangeQuantity ? `${ quantity } x ${ label } ` : `${ label } `,
         priceLabel: `${ priceLabel } ${ percentLabel }`
     };
 };

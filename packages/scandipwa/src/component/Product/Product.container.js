@@ -27,6 +27,7 @@ import {
 import { getNewParameters, getVariantIndex } from 'Util/Product';
 import { validateGroup } from 'Util/Validator';
 import { showNotification } from 'Store/Notification/Notification.action';
+import PRODUCT_TYPE from 'Config/Product.config';
 
 export const mapDispatchToProps = (dispatch) => ({
     addProductToCart: (options) => CartDispatcher.then(
@@ -64,7 +65,7 @@ export class ProductContainer extends PureComponent {
 
         setCustomOptions: this.setStateOptions.bind(this, 'customOptions'),
         setDownloadableLinks: this.setStateOptions.bind(this, 'downloadableLinks'),
-        setQuantity: this.setStateOptions.bind(this, 'quantity'),
+        setQuantity: this.setQuantity.bind(this),
         setAdjustedPrice: this.setAdjustedPrice.bind(this),
 
         getActiveProduct: this.getActiveProduct.bind(this),
@@ -100,7 +101,11 @@ export class ProductContainer extends PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const { quantity, selectedProduct } = state;
-        const { product } = props
+        const { product, product: { type_id: typeId } } = props
+
+        if (typeId === PRODUCT_TYPE.grouped && typeof quantity !== 'object') {
+            return { quantity: {} };
+        }
 
         const maxQty = getMaxQuantity(selectedProduct || product);
         const minQty = getMinQuantity(selectedProduct || product);
@@ -283,13 +288,16 @@ export class ProductContainer extends PureComponent {
         }
     }
 
-    setStateOptions(type, options, onTopOfOld = false) {
-        if (onTopOfOld) {
-            const { [type] : oldOptions } = this.state;
-
-            this.setState({ [type]: [ ...oldOptions, options ] });
+    setQuantity(quantity) {
+        if (typeof quantity === 'object') {
+            const { quantity : oldQuantity = {} } = this.state
+            this.setState({ quantity: { ...oldQuantity, ...quantity } });
+        } else {
+            this.setState({ quantity: +quantity });
         }
+    }
 
+    setStateOptions(type, options) {
         this.setState({ [type]: options });
     }
 

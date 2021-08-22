@@ -31,6 +31,7 @@ import PRODUCT_TYPE from 'Config/Product.config';
 import FieldContainer from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Config/Field.config';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
+import GroupedProductList from 'Component/GroupedProductList';
 
 export class Product extends PureComponent {
     static propTypes = {
@@ -39,7 +40,7 @@ export class Product extends PureComponent {
         productPrice: PriceType.isRequired,
         inStock: PropTypes.bool.isRequired,
 
-        quantity: PropTypes.oneOf([PropTypes.number, PropTypes.array]).isRequired,
+        quantity: PropTypes.oneOf([PropTypes.number, PropTypes.object]).isRequired,
         maxQuantity: PropTypes.number.isRequired,
         minQuantity: PropTypes.number.isRequired,
         setQuantity: PropTypes.func.isRequired,
@@ -171,6 +172,34 @@ export class Product extends PureComponent {
                     updateConfigurableVariant={ setActiveProduct }
                     configurable_options={ filterConfigurableOptions(configurable_options, variants) }
                     isContentExpanded
+                />
+            </div>
+        );
+    }
+
+    renderGroupedOptions() {
+        const {
+            product,
+            product: {
+                type_id: typeId
+            },
+            setQuantity,
+            quantity
+        } = this.props;
+
+        if (typeId !== PRODUCT_TYPE.grouped) {
+            return null;
+        }
+
+        return (
+            <div
+                block={ this.className }
+                elem="GroupedItems"
+            >
+                <GroupedProductList
+                    product={ product }
+                    quantity={ quantity }
+                    setQuantity={ setQuantity }
                 />
             </div>
         );

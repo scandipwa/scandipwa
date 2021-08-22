@@ -65,7 +65,7 @@ export class AddToCartContainer extends PureComponent {
         [PRODUCT_TYPE.bundle]: this.validateBundle.bind(this),
         [PRODUCT_TYPE.downloadable]: this.validateDownloadable.bind(this),
         [PRODUCT_TYPE.configurable]: this.validateConfigurable.bind(this),
-        [PRODUCT_TYPE.grouped]: this.validateConfigurable.bind(this)
+        [PRODUCT_TYPE.grouped]: this.validateGroup.bind(this)
     };
 
     addProductToCart() {
@@ -100,11 +100,12 @@ export class AddToCartContainer extends PureComponent {
     }
 
     validateQuantity() {
-        const { product, quantity, showNotification } = this.props;
+        const { product, quantity, showNotification, product: { type_id: typeId } } = this.props;
         const minQty = getMinQuantity(product);
         const maxQty = getMaxQuantity(product);
         const inRange = quantity >= minQty && quantity <= maxQty;
-        if (!inRange) {
+        const isValid = typeId === PRODUCT_TYPE.grouped || inRange;
+        if (!isValid) {
             if (quantity < minQty) {
                 showNotification('info', __('Sorry! Minimum quantity for this product is %s!', minQty));
             } else {
@@ -112,7 +113,7 @@ export class AddToCartContainer extends PureComponent {
             }
         }
 
-        return inRange;
+        return isValid;
     }
 
     validateByType() {

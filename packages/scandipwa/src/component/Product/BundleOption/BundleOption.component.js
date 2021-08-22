@@ -70,7 +70,7 @@ export class BundleOption extends PureComponent {
                     }
                 } }
                 events={ { onChange: this.setQuantity.bind(this, uid) } }
-                validateOn={ ["onChange"] }
+                validateOn={ ['onChange'] }
             />
         );
     }

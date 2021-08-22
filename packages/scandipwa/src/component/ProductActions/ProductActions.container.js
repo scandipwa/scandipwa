@@ -68,7 +68,6 @@ export class ProductActionsContainer extends ProductContainer {
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
         onProductValidationError: this.onProductValidationError.bind(this),
         getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
-        setQuantity: this.setQuantity.bind(this),
         setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
         clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
         setRefs: this.setRefs.bind(this),
@@ -118,10 +117,6 @@ export class ProductActionsContainer extends ProductContainer {
         default:
             break;
         }
-    }
-
-    setQuantity(value) {
-        this.setState({ quantity: +value });
     }
 
     // TODO: make key=>value based

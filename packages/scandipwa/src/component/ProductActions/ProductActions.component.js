@@ -11,11 +11,9 @@
 
 import PropTypes from 'prop-types';
 
-import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
 import { Product } from 'Component/Product/Product.component';
 import ProductAlerts from 'Component/ProductAlerts';
-import ProductBundleItems from 'Component/ProductBundleItems';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductPrice from 'Component/ProductPrice';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
@@ -47,16 +45,12 @@ export class ProductActions extends Product {
         quantity: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         getLink: PropTypes.func.isRequired,
-        setQuantity: PropTypes.func.isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
-        setGroupedProductQuantity: PropTypes.func.isRequired,
         onProductValidationError: PropTypes.func.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object.isRequired,
-        setBundlePrice: PropTypes.func.isRequired,
-        productName: PropTypes.string,
         offerCount: PropTypes.number.isRequired,
         offerType: PropTypes.string.isRequired,
         stockMeta: PropTypes.string.isRequired,
@@ -135,38 +129,6 @@ export class ProductActions extends Product {
                     ),
                     <TextPlaceholder />
                 ) }
-            </section>
-        );
-    }
-
-    renderBundleItems() {
-        const {
-            product: { items, type_id, price_range },
-            maxQuantity,
-            getSelectedCustomizableOptions,
-            productOptionsData,
-            setBundlePrice
-        } = this.props;
-
-        if (type_id !== PRODUCT_TYPE.bundle) {
-            return null;
-        }
-
-        return (
-            <section
-              block="ProductActions"
-              elem="Section"
-              mods={ { type: 'bundle_items' } }
-            >
-                <ProductBundleItems
-                  items={ items }
-                  getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
-                  maxQuantity={ maxQuantity }
-                  productOptionsData={ productOptionsData }
-                  setBundlePrice={ setBundlePrice }
-                  price_range={ price_range }
-                  type_id={ type_id }
-                />
             </section>
         );
     }
@@ -415,36 +377,6 @@ export class ProductActions extends Product {
         );
     }
 
-    renderGroupedItems() {
-        const {
-            product,
-            product: {
-                type_id
-            },
-            groupedProductQuantity,
-            setGroupedProductQuantity,
-            clearGroupedProductQuantity
-        } = this.props;
-
-        if (type_id !== PRODUCT_TYPE.grouped) {
-            return null;
-        }
-
-        return (
-            <div
-              block="ProductActions"
-              elem="GroupedItems"
-            >
-                <GroupedProductList
-                  product={ product }
-                  clearGroupedProductQuantity={ clearGroupedProductQuantity }
-                  groupedProductQuantity={ groupedProductQuantity }
-                  setGroupedProductQuantity={ setGroupedProductQuantity }
-                />
-            </div>
-        );
-    }
-
     renderTierPrices() {
         const { productOrVariant } = this.props;
 
@@ -533,7 +465,7 @@ export class ProductActions extends Product {
                 { this.renderShortDescription() }
                 { this.renderConfigurableOptions() }
                 { this.renderCustomAndBundleOptions() }
-                { this.renderGroupedItems() }
+                { this.renderGroupedOptions() }
                 { this.renderDownloadableSamples() }
                 { this.renderDownloadableLinks() }
                 { this.renderTierPrices() }
@@ -563,8 +495,7 @@ export class ProductActions extends Product {
                 { this.renderShortDescription() }
                 { this.renderProductAlerts() }
                 { this.renderConfigurableOptions() }
-                { this.renderBundleItems() }
-                { this.renderGroupedItems() }
+                { this.renderGroupedOptions() }
                 { this.renderDownloadableSamples() }
                 { this.renderDownloadableLinks() }
                 { this.renderAddToCartMobile() }

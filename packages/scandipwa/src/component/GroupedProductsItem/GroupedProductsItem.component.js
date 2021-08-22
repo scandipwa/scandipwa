@@ -12,12 +12,14 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field';
 import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
+import FieldContainer from 'Component/PureForm/Field';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { FIELD_TYPE } from 'Config/Field.config';
 import { ProductType } from 'Type/ProductList';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
+import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
 import './GroupedProductsItem.style';
 
@@ -29,7 +31,7 @@ import './GroupedProductsItem.style';
 export class GroupedProductsItem extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        changeCount: PropTypes.func.isRequired,
+        setQuantity: PropTypes.func.isRequired,
         itemCount: PropTypes.number.isRequired
     };
 
@@ -53,21 +55,30 @@ export class GroupedProductsItem extends PureComponent {
 
     renderQuantity() {
         const {
-            changeCount,
+            product: { id },
+            setQuantity,
             itemCount
         } = this.props;
 
         return (
-            <div block="GroupedProductsItem" elem="Quantity">
-                <Field
-                  type="number"
-                  id="HeaderInput"
-                  name="HeaderInput"
-                  onChange={ changeCount }
-                  value={ itemCount }
-                  min={ 0 }
-                />
-            </div>
+            <FieldContainer
+              type={ FIELD_TYPE.number }
+              attr={ {
+                  id: `item_qty_${id}`,
+                  name: `item_qty_${id}`,
+                  value: itemCount,
+                  min: 0
+              } }
+              validationRule={ {
+                  inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
+                  isRequired: true,
+                  range: {
+                      min: 0
+                  }
+              } }
+              events={ { onChange: setQuantity } }
+              validateOn={ ['onChange'] }
+            />
         );
     }
 
