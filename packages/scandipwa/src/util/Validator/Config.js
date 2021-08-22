@@ -42,7 +42,7 @@ export const VALIDATION_MESSAGES = {
     //#region VALIDATION RULE MSG
     isRequired: __('This field is required!'),
     match: __('Incorrect input!'),
-    range: __('Value is out of range!'),
+    range: __('Value is out of range!'), // Range values are also in Validator.js as they require args
     //#endregion
 
     //#region VALIDATION RULE MSG

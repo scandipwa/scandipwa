@@ -22,7 +22,8 @@ export const validate = (value, rule) => {
             onRequirementFail,
             onInputTypeFail,
             onMatchFail,
-            onRangeFail
+            onRangeFailMin,
+            onRangeFailMax
         } = {}
     } = rule;
 
@@ -54,11 +55,19 @@ export const validate = (value, rule) => {
         const { min, max } = range;
         const isNumber = !!VALIDATION_INPUT_TYPE_NUMBER[inputType];
         if (isNumber) {
-            if ((min && +value < min) || (max && +value > max)) {
-                output.errorMessages.push(onRangeFail || VALIDATION_MESSAGES.range);
+            if (min && +value < min) {
+                output.errorMessages.push(onRangeFailMin || __('Minimal value is %s', min));
             }
-        } else if ((min && value.length < min) || (max && value.length > max)) {
-            output.errorMessages.push(onRangeFail || VALIDATION_MESSAGES.range);
+            if (max && +value > max) {
+                output.errorMessages.push(onRangeFailMax || __('Maximum value is %s', max));
+            }
+        } else {
+            if (min && value.length < min) {
+                output.errorMessages.push(onRangeFailMin || __('Minimal length is %s', min));
+            }
+            if (max && value.length > max) {
+                output.errorMessages.push(onRangeFailMax || __('Maximum length is %s', max));
+            }
         }
     }
     //#endregion
