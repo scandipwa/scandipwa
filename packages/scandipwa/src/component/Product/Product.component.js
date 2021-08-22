@@ -52,6 +52,7 @@ export class Product extends PureComponent {
         setDownloadableLinks: PropTypes.func.isRequired,
         setValidator: PropTypes.func.isRequired,
 
+        getMagentoProduct: PropTypes.func.isRequired,
         getActiveProduct: PropTypes.func.isRequired,
         setActiveProduct: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -65,6 +66,7 @@ export class Product extends PureComponent {
 
     className = this.constructor.name.slice(0, -1);
 
+    //#region PRODUCT OPTIONS
     renderBundleOptions() {
         const {
             product: {
@@ -205,6 +207,21 @@ export class Product extends PureComponent {
         );
     }
 
+    renderCustomAndBundleOptions() {
+        const { product: { type_id }, configFormRef } = this.props;
+
+        return (
+            <>
+                <form ref={ configFormRef }>
+                    { type_id === PRODUCT_TYPE.bundle && this.renderBundleOptions() }
+                    { this.renderCustomizableOptions() }
+                </form>
+            </>
+        );
+    }
+    //#endregion
+
+    //#region BUTTONS
     renderAddToCartButton(layout = GRID_LAYOUT) {
         const {
             addToCart,
@@ -242,9 +259,11 @@ export class Product extends PureComponent {
     }
 
     renderCompareButton() {
-        const {
-            product: { id },
-        } = this.props;
+        const { product: { id } } = this.props;
+
+        if (!id) {
+            return null;
+        }
 
         return (
             <ProductCompareButton
@@ -258,6 +277,46 @@ export class Product extends PureComponent {
         );
     }
 
+    renderQuantityChanger() {
+        const {
+            quantity,
+            minQuantity,
+            maxQuantity,
+            setQuantity,
+            product: { type_id }
+        } = this.props;
+
+        if (type_id === PRODUCT_TYPE.grouped) {
+            return null;
+        }
+
+        return (
+            <FieldContainer
+                type={ FIELD_TYPE.number }
+                attr={ {
+                    id: "item_qty",
+                    name: "item_qty",
+                    defaultValue: quantity,
+                    max: maxQuantity,
+                    min: minQuantity
+                } }
+                validationRule={ {
+                    inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
+                    isRequired: true,
+                    range: {
+                        min: minQuantity,
+                        max: maxQuantity
+                    }
+                } }
+                mix={ { block: this.className, elem: 'Qty' } }
+                events={ { onChange: setQuantity } }
+                validateOn={ ["onChange"] }
+            />
+        );
+    }
+    //#endregion
+
+    //#region FIELDS
     renderRatingSummary() {
         const {
             product: {
@@ -324,19 +383,6 @@ export class Product extends PureComponent {
         );
     }
 
-    renderCustomAndBundleOptions() {
-        const { product: { type_id }, configFormRef } = this.props;
-
-        return (
-            <>
-                <form ref={ configFormRef }>
-                    { type_id === PRODUCT_TYPE.bundle && this.renderBundleOptions() }
-                    { this.renderCustomizableOptions() }
-                </form>
-            </>
-        );
-    }
-
     renderStock() {
         const { displayProductStockStatus } = this.props;
 
@@ -356,44 +402,6 @@ export class Product extends PureComponent {
         const { sku } = getActiveProduct();
 
         return <span block={ this.className } elem="Sku" itemProp="sku">{ __('SKU: %s', sku) }</span>;
-    }
-
-    renderQuantityChanger() {
-        const {
-            quantity,
-            minQuantity,
-            maxQuantity,
-            setQuantity,
-            product: { type_id }
-        } = this.props;
-
-        if (type_id === PRODUCT_TYPE.grouped) {
-            return null;
-        }
-
-        return (
-            <FieldContainer
-                type={ FIELD_TYPE.number }
-                attr={ {
-                    id: "item_qty",
-                    name: "item_qty",
-                    defaultValue: quantity,
-                    max: maxQuantity,
-                    min: minQuantity
-                } }
-                validationRule={ {
-                    inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
-                    isRequired: true,
-                    range: {
-                        min: minQuantity,
-                        max: maxQuantity
-                    }
-                } }
-                mix={ { block: this.className, elem: 'Qty' } }
-                events={ { onChange: setQuantity } }
-                validateOn={ ["onChange"] }
-            />
-        );
     }
 
     /**
@@ -422,6 +430,7 @@ export class Product extends PureComponent {
             </h1>
         );
     }
+    //#endregion
 
     render() {
         return null;

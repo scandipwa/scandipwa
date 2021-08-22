@@ -52,7 +52,7 @@ export const getMinQuantity = (product, configIndex = -1) => (
  * @returns {*}
  */
 export const getMaxQuantity = (product, configIndex = -1) => (
-    getQuantity(product, DEFAULT_MAX_PRODUCTS, 'max_sale_qty', configIndex)
+    getQuantity(product, DEFAULT_MAX_PRODUCTS, 'max_sale_qty', configIndex) - 1
 );
 
 /**
@@ -127,11 +127,15 @@ export const getBundleOption = (uid, options = []) => {
 };
 
 export const getPrice = (product, adjustedPrice = {}) => {
+    const { type_id: typeId = PRODUCT_TYPE.simple } = product;
+    const priceAcc = typeId === PRODUCT_TYPE.bundle ? 'default_price' : 'regular_price';
+    const priceExcTaxAcc = typeId === PRODUCT_TYPE.bundle ? 'default_final_price_excl_tax' : 'regular_price_excl_tax';
+
     const {
         price_range: {
             minimum_price: {
-                regular_price: { currency = '', value: basePrice = 0 } = {},
-                regular_price_excl_tax: { value: basePriceExclTax = 0 } = {},
+                [priceAcc]: { currency = '', value: basePrice = 0 } = {},
+                [priceExcTaxAcc]: { value: basePriceExclTax = 0 } = {},
                 discount: { percent_off = 0 } = {},
                 discount
             } = {}
@@ -220,12 +224,14 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
                     const {
                         regularOptionPrice,
                         regularOptionPriceExclTax,
-                        product
+                        product,
+                        can_change_quantity: canChangeQuantity = false
                     } = option;
 
                     if (!dynamicPrice) {
-                        adjustedPrice.bundle.exclTax += regularOptionPriceExclTax * quantity;
-                        adjustedPrice.bundle.inclTax += regularOptionPrice * quantity;
+                        const multiplier = canChangeQuantity ? quantity : quantity;
+                        adjustedPrice.bundle.exclTax += regularOptionPriceExclTax * multiplier;
+                        adjustedPrice.bundle.inclTax += regularOptionPrice * multiplier;
                     } else {
                         const {
                             minimum_price: {

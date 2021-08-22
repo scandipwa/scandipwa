@@ -16,6 +16,13 @@ import { Field } from 'Util/Query';
 
 /** @namespace Query/Wishlist */
 export class WishlistQuery {
+    getAddProductsToWishlist(wishlistId, wishlistItems) {
+        return new Field('addProductsToWishlist')
+            .addArgument('wishlistId', 'ID!', wishlistId)
+            .addArgument('wishlistItems', '[WishlistItemInput!]!', wishlistItems)
+            .addFieldList(this._getWishlistFields());
+    }
+
     getWishlistQuery(sharingCode) {
         const field = new Field('s_wishlist')
             .setAlias('wishlist')
@@ -70,6 +77,7 @@ export class WishlistQuery {
 
     _getWishlistFields() {
         return [
+            'id',
             'updated_at',
             'items_count',
             'creators_name',

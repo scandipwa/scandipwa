@@ -17,7 +17,7 @@ import { bundleOptionToLabel, getEncodedBundleUid } from 'Util/Product/Transform
 import FieldContainer from 'Component/PureForm/Field';
 import FieldGroupContainer from 'Component/PureForm/FieldGroup';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
-import { getBundleOption } from 'Util/Product/Extract';
+import { getBundleOption, getMaxQuantity, getMinQuantity } from 'Util/Product/Extract';
 
 export class BundleOption extends PureComponent {
     static propTypes = {
@@ -52,21 +52,27 @@ export class BundleOption extends PureComponent {
         setQuantity(uid, quantity);
     }
 
-    renderQuantityChange(uid, quantity) {
+    renderQuantityChange(uid, quantity, product = null) {
+        const min = !product ? 1 : getMinQuantity(product);
+        const max = !product ? 999 : getMaxQuantity(product);
+        const rangedQty = quantity < min ? min : quantity > max ? max : quantity;
+
         return (
             <FieldContainer
                 type={ FIELD_TYPE.number }
                 attr={ {
                     id: `item_qty_${uid}`,
                     name: `item_qty_${uid}`,
-                    defaultValue: quantity,
-                    min: 1
+                    defaultValue: rangedQty,
+                    min: min,
+                    max: max
                 } }
                 validationRule={ {
                     inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
                     isRequired: true,
                     range: {
-                        min: 1
+                        min: min,
+                        max: max
                     }
                 } }
                 events={ { onChange: this.setQuantity.bind(this, uid) } }
@@ -82,6 +88,7 @@ export class BundleOption extends PureComponent {
             uid,
             can_change_quantity: canChangeQuantity,
             is_default,
+            product,
             quantity: defaultQuantity = 1
         } = option;
 
@@ -106,7 +113,7 @@ export class BundleOption extends PureComponent {
                         onChange: updateSelectedValues
                     }}
                 />
-                { canChangeQuantity && this.renderQuantityChange(uid, quantity) }
+                { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
         );
     }
@@ -133,7 +140,8 @@ export class BundleOption extends PureComponent {
         const {
             uid,
             can_change_quantity: canChangeQuantity,
-            quantity: defaultQuantity = 1
+            quantity: defaultQuantity = 1,
+            product
         } = option;
 
         const {
@@ -157,7 +165,7 @@ export class BundleOption extends PureComponent {
                         onChange: updateSelectedValues
                     }}
                 />
-                { canChangeQuantity && this.renderQuantityChange(uid, quantity) }
+                { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
         );
     }
@@ -200,7 +208,8 @@ export class BundleOption extends PureComponent {
         const {
             uid: optionUid,
             quantity: defaultQuantity = 1,
-            can_change_quantity: canChangeQuantity = false
+            can_change_quantity: canChangeQuantity = false,
+            product
         } = activeOption || {};
 
         const {
@@ -225,7 +234,7 @@ export class BundleOption extends PureComponent {
                     }}
                     validateOn={ ['onChange'] }
                 />
-                { canChangeQuantity && this.renderQuantityChange(optionUid, quantity) }
+                { canChangeQuantity && this.renderQuantityChange(optionUid, quantity, product) }
             </div>
         );
     }

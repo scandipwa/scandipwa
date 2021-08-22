@@ -28,6 +28,7 @@ import { getNewParameters, getVariantIndex } from 'Util/Product';
 import { validateGroup } from 'Util/Validator';
 import { showNotification } from 'Store/Notification/Notification.action';
 import PRODUCT_TYPE from 'Config/Product.config';
+import { magentoProductTransform } from 'Util/Product/Transform';
 
 export const mapDispatchToProps = (dispatch) => ({
     addProductToCart: (options) => CartDispatcher.then(
@@ -70,6 +71,7 @@ export class ProductContainer extends PureComponent {
 
         getActiveProduct: this.getActiveProduct.bind(this),
         setActiveProduct: this.updateConfigurableVariant.bind(this),
+        getMagentoProduct: this.getMagentoProduct.bind(this),
         setValidator: this.setValidator.bind(this)
     };
 
@@ -229,8 +231,9 @@ export class ProductContainer extends PureComponent {
         });
     }
 
-    // TODO: Maybe move to AddToCart button
     addToCart() {
+        this.updateSelectedValues();
+
         const isValid = validateGroup(this.validator);
         if (isValid !== true) {
             const { showError } = this.props;
@@ -239,29 +242,10 @@ export class ProductContainer extends PureComponent {
             return;
         }
 
-        this.updateSelectedValues();
+        const { addProductToCart } = this.props;
+        const products = this.getMagentoProduct();
 
-        const { addProductToCart, product } = this.props;
-        const {
-            quantity,
-            enteredOptions,
-            selectedOptions,
-            downloadableLinks,
-        } = this.state;
-
-        const activeProduct = this.getActiveProduct();
-        const parentProduct = activeProduct === product ? null : product;
-
-        return addProductToCart({
-            quantity,
-            enteredOptions,
-            selectedOptions: [
-                ...selectedOptions,
-                ...downloadableLinks
-            ],
-            product: activeProduct,
-            parentProduct: parentProduct
-        });
+        return addProductToCart(products);
     }
 
     updateConfigurableVariant(key, value) {
@@ -299,6 +283,26 @@ export class ProductContainer extends PureComponent {
 
     setStateOptions(type, options) {
         this.setState({ [type]: options });
+    }
+
+    getMagentoProduct() {
+        const { product } = this.props;
+        const {
+            quantity,
+            enteredOptions,
+            selectedOptions,
+            downloadableLinks,
+        } = this.state;
+
+        const activeProduct = this.getActiveProduct();
+        const parentProduct = activeProduct === product ? null : product;
+        return magentoProductTransform(
+            activeProduct,
+            quantity,
+            parentProduct,
+            enteredOptions,
+            [ ...selectedOptions, ...downloadableLinks ],
+        );
     }
 
     getActiveProduct() {

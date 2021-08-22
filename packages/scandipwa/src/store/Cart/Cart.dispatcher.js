@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PRODUCT_TYPE from 'Config/Product.config';
 import CartQuery from 'Query/Cart.query';
 import { updateTotals } from 'Store/Cart/Cart.action';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -110,89 +109,40 @@ export class CartDispatcher {
         }
     }
 
-    async addProductToCart(dispatch, options) {
-        console.log([options]);
-        const {
-            product,
-            parentProduct = {},
-            quantity,
-            enteredOptions = [],
-            selectedOptions = []
-        } = options;
-
-        const { sku, type_id: typeId } = product;
-        const { sku: parentSku, type_id: parentType } = parentProduct || {};
-
-        const productToAdd = [];
-
-        if (typeId === PRODUCT_TYPE.grouped) {
-            if (Object.keys(quantity).length === 0) {
-                dispatch(showNotification('error', __('Missing product!')));
-                return false;
-            }
-
-            const { items } = product;
-            items.forEach(({
-                product: { id, sku: groupedSku }
-            }) => {
-                const { [id]: groupedQuantity } = quantity;
-                if (groupedQuantity) {
-                    productToAdd.push({
-                        sku: groupedSku,
-                        quantity: groupedQuantity,
-                        selected_options: selectedOptions,
-                        entered_options: enteredOptions
-                    });
-                }
-            });
-        } else {
-            const baseProductToAdd = {
-                sku,
-                quantity,
-                selected_options: selectedOptions,
-                entered_options: enteredOptions
-            };
-
-            const configProductToAdd = parentType !== PRODUCT_TYPE.configurable ? {} : {
-                parent_sku: parentSku
-            };
-
-            productToAdd.push({
-                ...baseProductToAdd,
-                ...configProductToAdd
-            });
-        }
-
-        if (productToAdd.length === 0) {
-            dispatch(showNotification('error', __('Missing product!')));
+    async addProductToCart(dispatch, products = []) {
+        if (!Array.isArray(products) || products.length === 0) {
+            dispatch(showNotification('error', __('No product data!')));
             return false;
         }
 
-        if (this._canBeAdded(options)) {
-            try {
-                const isCustomerSignedIn = isSignedIn();
-                const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
+        try {
+            const isCustomerSignedIn = isSignedIn();
+            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
 
-                if (!isCustomerSignedIn && !guestQuoteId) {
-                    return Promise.reject();
-                }
-
-                const { data } = await fetchMutation(
-                    CartQuery.getAddProductToCartMutation(guestQuoteId, productToAdd)
-                );
-
-                console.log([data]);
-
-                return true;
-                // return this._updateCartData(cartData, dispatch);
-            } catch (error) {
-                dispatch(showNotification('error', getErrorMessage(error)));
-
+            if (!isCustomerSignedIn && !guestQuoteId) {
                 return Promise.reject();
             }
+
+            const { addProductsToCart: { user_errors: errors = [] } = {} } = await fetchMutation(
+                CartQuery.getAddProductToCartMutation(guestQuoteId, products)
+            );
+
+            if (Array.isArray(errors) && errors.length > 0) {
+                errors.forEach((error) => {
+                    dispatch(showNotification('error', getErrorMessage(error)));
+                });
+
+                return false;
+            }
+
+            await this.updateInitialCartData(dispatch);
+            dispatch(showNotification('success', __('Product was added to cart!')));
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+            return false;
         }
 
-        return Promise.reject();
+        return true;
     }
 
     async removeProductFromCart(dispatch, item_id) {

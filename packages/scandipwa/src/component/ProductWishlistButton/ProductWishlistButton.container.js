@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,14 +14,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import PRODUCT_TYPE from 'Config/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { MixType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
-import { ERROR_CONFIGURABLE_NOT_PROVIDED } from './ProductWishlistButton.config';
 
 export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -47,27 +46,19 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/ProductWishlistButton/Container */
 export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
-        quantity: PropTypes.number,
-        product: ProductType.isRequired,
+        magentoProduct: PropTypes.object.isRequired,
         isAddingWishlistItem: PropTypes.bool.isRequired,
-        configurableVariantIndex: PropTypes.number,
-        showNotification: PropTypes.func.isRequired,
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
-        onProductValidationError: PropTypes.func,
         removeProductFromWishlist: PropTypes.func.isRequired,
-        productOptionsData: PropTypes.object,
-        groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
+        showNotification: PropTypes.func.isRequired,
+        onProductValidationError: PropTypes.func,
         mix: MixType
     };
 
     static defaultProps = {
         mix: {},
-        quantity: 1,
-        onProductValidationError: () => {},
-        configurableVariantIndex: -2,
-        productOptionsData: {},
-        groupedProductQuantity: {}
+        onProductValidationError: () => {}
     };
 
     state = {
@@ -89,12 +80,11 @@ export class ProductWishlistButtonContainer extends PureComponent {
     }
 
     containerProps() {
-        const { quantity, product, mix } = this.props;
+        const { magentoProduct, mix } = this.props;
 
         return {
-            quantity,
             mix,
-            product,
+            magentoProduct,
             isDisabled: this.isDisabled(),
             isInWishlist: this.isInWishlist(),
             isReady: this._getIsProductReady(),
@@ -108,13 +98,12 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
     toggleProductInWishlist(add = true) {
         const {
-            product: { sku, type_id },
-            quantity,
+            magentoProduct,
+            magentoProduct: [{ sku }] = [],
             isAddingWishlistItem,
             showNotification,
             productsInWishlist,
             addProductToWishlist,
-            onProductValidationError,
             removeProductFromWishlist
         } = this.props;
 
@@ -126,79 +115,58 @@ export class ProductWishlistButtonContainer extends PureComponent {
             return null;
         }
 
-        const product = this._getProductVariant();
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
-            onProductValidationError(type_id);
-
-            return showNotification('info', __('Please, select desirable option first!'));
-        }
+        // if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
+        //     onProductValidationError(type_id);
+        //
+        //     return showNotification('info', __('Please, select desirable option first!'));
+        // }
 
         this.setWishlistButtonLoading(true);
 
-        const { sku: variantSku, product_option } = product;
         if (add) {
-            return addProductToWishlist({ sku, product_option, quantity });
+            return addProductToWishlist(magentoProduct);
         }
 
         const { wishlist: { id: item_id } } = Object.values(productsInWishlist).find(
-            ({ wishlist: { sku } }) => sku === variantSku
+            ({ wishlist: { wishlistSku } }) => sku === wishlistSku
         );
 
-        return removeProductFromWishlist({ item_id, sku: variantSku });
+        return removeProductFromWishlist(item_id);
     }
 
     isDisabled = () => {
         const { isAddingWishlistItem } = this.props;
-        const product = this._getProductVariant();
-
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
-            return true;
-        }
-
         return isAddingWishlistItem || !isSignedIn();
     };
 
     isInWishlist = () => {
         const { productsInWishlist } = this.props;
-        const product = this._getProductVariant();
 
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
-            return false;
-        }
-
-        const { sku: productSku } = product;
+        const { magentoProduct: [{ sku: productSku }] = [] } = this.props;
 
         return Object.values(productsInWishlist).findIndex(({ wishlist: { sku } }) => sku === productSku) >= 0;
     };
 
     _getIsProductReady() {
-        const { product: { type_id }, configurableVariantIndex } = this.props;
-
-        if (type_id === PRODUCT_TYPE.configurable && configurableVariantIndex < 0) {
-            return false;
-        }
-
+        // const { product: { type_id }, configurableVariantIndex } = this.props;
+        //
+        // if (type_id === PRODUCT_TYPE.configurable && configurableVariantIndex < 0) {
+        //     return false;
+        // }
         return true;
     }
 
-    _getProductVariant() {
-        const {
-            product
-        } = this.props;
-
-        return product;
-    }
-
     render() {
-        const { isWishlistButtonLoading } = this.state;
-
-        return (
-            <ProductWishlistButton
-              isLoading={ isWishlistButtonLoading }
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
-            />
-        );
+        return null;
+        // const { isWishlistButtonLoading } = this.state;
+        //
+        // return (
+        //     <ProductWishlistButton
+        //       isLoading={ isWishlistButtonLoading }
+        //       { ...this.containerProps() }
+        //       { ...this.containerFunctions }
+        //     />
+        // );
     }
 }
 

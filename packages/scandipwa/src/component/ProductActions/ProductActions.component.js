@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import Html from 'Component/Html';
 import { Product } from 'Component/Product/Product.component';
 import ProductAlerts from 'Component/ProductAlerts';
-import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductPrice from 'Component/ProductPrice';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
@@ -351,20 +350,6 @@ export class ProductActions extends Product {
         );
     }
 
-    renderProductCompareButton() {
-        const {
-            product: { id } = {}
-        } = this.props;
-
-        if (!id) {
-            return null;
-        }
-
-        return (
-            <ProductCompareButton productId={ id } />
-        );
-    }
-
     renderReviewSection() {
         return (
             <div
@@ -435,7 +420,7 @@ export class ProductActions extends Product {
                 { this.renderAddToCartButton() }
                 <div block="ProductActions" elem="ActionButtons">
                     { this.renderProductWishlistButton() }
-                    { this.renderProductCompareButton() }
+                    { this.renderCompareButton() }
                 </div>
             </div>
         );
@@ -489,7 +474,7 @@ export class ProductActions extends Product {
                 </div>
                 <div block="ProductActions" elem="ActionsWrapper">
                     { this.renderReviewSection() }
-                    { this.renderProductCompareButton() }
+                    { this.renderCompareButton() }
                 </div>
                 { this.renderBrand(true) }
                 { this.renderShortDescription() }

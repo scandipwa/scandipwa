@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PRODUCT_TYPE from 'Config/Product.config';
 import { formatPrice } from 'Util/Price';
 
 export const PRICE_TYPE_PERCENT = 'PERCENT';
@@ -134,5 +135,67 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
         return result;
     }, [])
 );
+
+/**
+ * Generates Magento type product interface for performing
+ * actions (add to cart, wishlist, exc.)
+ * @param product
+ * @param quantity
+ * @param parentProduct
+ * @param enteredOptions
+ * @param selectedOptions
+ * @returns {*[]}
+ */
+export const magentoProductTransform = (
+    product,
+    quantity = 1,
+    parentProduct = {},
+    enteredOptions = [],
+    selectedOptions = []
+) => {
+    const { sku, type_id: typeId } = product;
+    const { sku: parentSku, type_id: parentType } = parentProduct || {};
+
+    const productData = [];
+    if (typeId === PRODUCT_TYPE.grouped) {
+        if (Object.keys(quantity).length === 0) {
+            return productData;
+        }
+
+        const { items } = product;
+
+        items.forEach(({
+            product: { id, sku: groupedSku }
+        }) => {
+            const { [id]: groupedQuantity } = quantity;
+            if (groupedQuantity) {
+                productData.push({
+                    sku: groupedSku,
+                    quantity: groupedQuantity,
+                    selected_options: selectedOptions,
+                    entered_options: enteredOptions
+                });
+            }
+        });
+    } else {
+        const baseProductToAdd = {
+            sku,
+            quantity,
+            selected_options: selectedOptions,
+            entered_options: enteredOptions
+        };
+
+        const configProductToAdd = parentType !== PRODUCT_TYPE.configurable ? {} : {
+            parent_sku: parentSku
+        };
+
+        productData.push({
+            ...baseProductToAdd,
+            ...configProductToAdd
+        });
+    }
+
+    return productData;
+};
 
 export default bundleOptionsToSelectTransform;
