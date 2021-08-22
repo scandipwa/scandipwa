@@ -16,7 +16,7 @@ import { withRouter } from 'react-router';
 
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import { IN_STOCK, OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { IN_STOCK, OUT_OF_STOCK } from 'Config/Stock.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -86,6 +86,10 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Route/ProductPage/Container */
 export class ProductPageContainer extends PureComponent {
     state = {
+        // Used for customizable & bundle options
+        enteredOptions: [],
+        selectedOptions: [],
+
         configurableVariantIndex: -1,
         parameters: {},
         productOptionsData: {},
@@ -453,7 +457,9 @@ export class ProductPageContainer extends PureComponent {
             selectedBundlePrice,
             selectedBundlePriceExclTax,
             selectedInitialBundlePrice,
-            selectedLinkPrice
+            selectedLinkPrice,
+            enteredOptions,
+            selectedOptions
         } = this.state;
 
         return {
@@ -469,7 +475,9 @@ export class ProductPageContainer extends PureComponent {
             selectedBundlePrice,
             selectedBundlePriceExclTax,
             selectedInitialBundlePrice,
-            selectedLinkPrice
+            selectedLinkPrice,
+            enteredOptions,
+            selectedOptions
         };
     };
 

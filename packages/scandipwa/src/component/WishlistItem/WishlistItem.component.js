@@ -18,8 +18,8 @@ import EditIcon from 'Component/EditIcon';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import PRODUCT_TYPE from 'Config/Product.config';
 import { ProductType } from 'Type/ProductList';
-import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import './WishlistItem.style';
 
@@ -49,8 +49,8 @@ export class WishlistItem extends PureComponent {
     };
 
     optionRenderMap = {
-        [GROUPED]: this.renderGroupedOption.bind(this),
-        [BUNDLE]: this.renderBundleOption.bind(this)
+        [PRODUCT_TYPE.grouped]: this.renderGroupedOption.bind(this),
+        [PRODUCT_TYPE.bundle]: this.renderBundleOption.bind(this)
     };
 
     renderCommentField() {
@@ -154,7 +154,7 @@ export class WishlistItem extends PureComponent {
             product: { url, type_id }
         } = this.props;
 
-        if (type_id !== CONFIGURABLE) {
+        if (type_id !== PRODUCT_TYPE.configurable) {
             return product;
         }
 

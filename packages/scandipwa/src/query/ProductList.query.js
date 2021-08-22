@@ -371,6 +371,7 @@ export class ProductListQuery {
             'sort_order',
             'title',
             'id',
+            'uid',
             'price'
         ];
     }
@@ -714,6 +715,7 @@ export class ProductListQuery {
 
     _getBundleOptionsFields() {
         return [
+            'uid',
             'id',
             'label',
             'quantity',
@@ -733,6 +735,7 @@ export class ProductListQuery {
 
     _getBundleItemsFields() {
         return [
+            'uid',
             'option_id',
             'title',
             'required',
@@ -886,6 +889,7 @@ export class ProductListQuery {
 
     _getCustomizableSelectionValueFields() {
         return [
+            'uid',
             'option_type_id',
             'price',
             'priceInclTax',
@@ -936,7 +940,9 @@ export class ProductListQuery {
             'title',
             'required',
             'sort_order',
-            'option_id'
+            'option_id',
+            'uid',
+            'type'
         ];
     }
 

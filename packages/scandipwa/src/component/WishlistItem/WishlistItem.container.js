@@ -14,13 +14,13 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import SwipeToDelete from 'Component/SwipeToDelete';
+import PRODUCT_TYPE from 'Config/Product.config';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
-import { CONFIGURABLE } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -160,7 +160,7 @@ export class WishlistItemContainer extends PureComponent {
             return null;
         }
 
-        if (type_id === CONFIGURABLE) {
+        if (type_id === PRODUCT_TYPE.configurable) {
             const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
 
             if (!configurableVariantIndex) {

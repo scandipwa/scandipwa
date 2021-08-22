@@ -13,7 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import PRODUCT_TYPE from 'Config/Product.config';
+import { IN_STOCK } from 'Config/Stock.config';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { MixType } from 'Type/Common';
@@ -21,10 +22,6 @@ import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import {
-    BUNDLE,
-    CONFIGURABLE,
-    DOWNLOADABLE,
-    GROUPED,
     validateProductQuantity
 } from 'Util/Product';
 
@@ -92,15 +89,15 @@ export class AddToCartContainer extends PureComponent {
     state = { isLoading: false };
 
     validationMap = {
-        [CONFIGURABLE]: this.validateConfigurableProduct.bind(this),
-        [GROUPED]: this.validateGroupedProduct.bind(this),
-        [BUNDLE]: this.validateBundleProduct.bind(this),
-        [DOWNLOADABLE]: this.validateDownloadableProduct.bind(this)
+        [PRODUCT_TYPE.configurable]: this.validateConfigurableProduct.bind(this),
+        [PRODUCT_TYPE.grouped]: this.validateGroupedProduct.bind(this),
+        [PRODUCT_TYPE.bundle]: this.validateBundleProduct.bind(this),
+        [PRODUCT_TYPE.downloadable]: this.validateDownloadableProduct.bind(this)
     };
 
     addToCartHandlerMap = {
-        [CONFIGURABLE]: this.addConfigurableProductToCart.bind(this),
-        [GROUPED]: this.addGroupedProductToCart.bind(this)
+        [PRODUCT_TYPE.configurable]: this.addConfigurableProductToCart.bind(this),
+        [PRODUCT_TYPE.grouped]: this.addGroupedProductToCart.bind(this)
     };
 
     containerFunctions = {
@@ -416,7 +413,7 @@ export class AddToCartContainer extends PureComponent {
             product: { type_id, variants = {} } = {}
         } = this.props;
 
-        if (type_id !== CONFIGURABLE) {
+        if (type_id !== PRODUCT_TYPE.configurable) {
             return;
         }
 

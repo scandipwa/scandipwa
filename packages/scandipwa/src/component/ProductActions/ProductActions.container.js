@@ -10,23 +10,18 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
-import { DeviceType } from 'Type/Device';
-import { ProductType } from 'Type/ProductList';
 import {
-    BUNDLE,
-    CONFIGURABLE,
-    DOWNLOADABLE,
-    GROUPED,
-    SIMPLE,
-    VIRTUAL
-} from 'Util/Product';
+    mapDispatchToProps,
+    ProductContainer
+} from 'Component/Product/Product.container';
+import PRODUCT_TYPE from 'Config/Product.config';
+import { IN_STOCK } from 'Config/Stock.config';
+import { DeviceType } from 'Type/Device';
 
 import ProductActions from './ProductActions.component';
-import { DEFAULT_MAX_PRODUCTS, ONE_HUNDRED_PERCENT } from './ProductActions.config';
+import { ONE_HUNDRED_PERCENT } from './ProductActions.config';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -39,18 +34,14 @@ export const mapStateToProps = (state) => ({
     areReviewsEnabled: state.ConfigReducer.reviews_are_enabled
 });
 
-/** @namespace Component/ProductActions/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
-
 /** @namespace Component/ProductActions/Container */
-export class ProductActionsContainer extends PureComponent {
+export class ProductActionsContainer extends ProductContainer {
     static propTypes = {
-        product: ProductType.isRequired,
+        ...ProductContainer.propTypes,
         productOrVariant: PropTypes.object.isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         productOptionsData: PropTypes.objectOf(PropTypes.array).isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         selectedInitialBundlePrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
@@ -67,58 +58,13 @@ export class ProductActionsContainer extends PureComponent {
         updateConfigurableVariant: PropTypes.func.isRequired
     };
 
-    static getMinQuantity(props) {
-        const {
-            product: { stock_item: { min_sale_qty } = {}, variants } = {},
-            configurableVariantIndex
-        } = props;
-
-        if (!min_sale_qty) {
-            return 1;
-        }
-        if ((!configurableVariantIndex && !variants) || configurableVariantIndex === -1) {
-            return min_sale_qty;
-        }
-
-        const { stock_item: { min_sale_qty: minVariantQty } = {} } = variants[configurableVariantIndex] || {};
-
-        return minVariantQty || min_sale_qty;
-    }
-
-    static getMaxQuantity(props) {
-        const {
-            product: {
-                stock_item: {
-                    max_sale_qty
-                } = {},
-                variants
-            } = {},
-            configurableVariantIndex
-        } = props;
-
-        if (!max_sale_qty) {
-            return DEFAULT_MAX_PRODUCTS;
-        }
-
-        if (configurableVariantIndex === -1 || !Object.keys(variants).length) {
-            return max_sale_qty;
-        }
-
-        const {
-            stock_item: {
-                max_sale_qty: maxVariantQty
-            } = {}
-        } = variants[configurableVariantIndex] || {};
-
-        return maxVariantQty || max_sale_qty;
-    }
-
     state = {
-        quantity: 1,
+        ...this.state,
         groupedProductQuantity: {}
     };
 
     containerFunctions = {
+        ...this.containerFunctions,
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
         onProductValidationError: this.onProductValidationError.bind(this),
         getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
@@ -129,27 +75,14 @@ export class ProductActionsContainer extends PureComponent {
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
 
-    static getDerivedStateFromProps(props, state) {
-        const { quantity } = state;
-        const minQty = ProductActionsContainer.getMinQuantity(props);
-        const maxQty = ProductActionsContainer.getMaxQuantity(props);
-
-        if (quantity < minQty) {
-            return { quantity: minQty };
-        }
-        if (quantity > maxQty) {
-            return { quantity: maxQty };
-        }
-
-        return null;
-    }
-
     setRefs(refs) {
         const {
             configurableOptionsRef,
-            groupedProductsRef
+            groupedProductsRef,
+            bundleOptionsRef
         } = refs;
 
+        this.onBundleProductsRef = this.onProductError.bind(this, bundleOptionsRef);
         this.onConfigurableProductError = this.onProductError.bind(this, configurableOptionsRef);
         this.onGroupedProductError = this.onProductError.bind(this, groupedProductsRef);
     }
@@ -173,11 +106,14 @@ export class ProductActionsContainer extends PureComponent {
 
     onProductValidationError(type) {
         switch (type) {
-        case CONFIGURABLE:
+        case PRODUCT_TYPE.configurable:
             this.onConfigurableProductError();
             break;
-        case GROUPED:
+        case PRODUCT_TYPE.grouped:
             this.onGroupedProductError();
+            break;
+        case PRODUCT_TYPE.bundle:
+            this.onBundleProductsRef();
             break;
         default:
             break;
@@ -239,8 +175,6 @@ export class ProductActionsContainer extends PureComponent {
             getLink,
             getSelectedCustomizableOptions,
             isWishlistEnabled,
-            parameters,
-            product,
             productOptionsData,
             productOrVariant,
             selectedBundlePrice,
@@ -252,9 +186,9 @@ export class ProductActionsContainer extends PureComponent {
             setLinkedDownloadablesPrice,
             updateConfigurableVariant
         } = this.props;
-        const { quantity } = this.state;
 
         return {
+            ...super.containerProps(),
             areDetailsLoaded,
             areReviewsEnabled,
             configurableVariantIndex,
@@ -263,8 +197,6 @@ export class ProductActionsContainer extends PureComponent {
             getLink,
             getSelectedCustomizableOptions,
             isWishlistEnabled,
-            parameters,
-            product,
             productOptionsData,
             productOrVariant,
             selectedBundlePrice,
@@ -275,12 +207,8 @@ export class ProductActionsContainer extends PureComponent {
             setLinkedDownloadables,
             setLinkedDownloadablesPrice,
             updateConfigurableVariant,
-            quantity,
-            minQuantity: ProductActionsContainer.getMinQuantity(this.props),
-            maxQuantity: ProductActionsContainer.getMaxQuantity(this.props),
             groupedProductQuantity: this._getGroupedProductQuantity(),
-            productPrice: this.getProductPrice(),
-            productName: this.getProductName(),
+            // productPrice: this.getProductPrice(),
             offerCount: this.getOfferCount(),
             offerType: this.getOfferType(),
             stockMeta: this.getStockMeta(),
@@ -509,7 +437,7 @@ export class ProductActionsContainer extends PureComponent {
             price_range
         } = variants[configurableVariantIndex] || product;
 
-        if (type_id === BUNDLE) {
+        if (type_id === PRODUCT_TYPE.bundle) {
             const {
                 selectedBundlePrice,
                 selectedBundlePriceExclTax,
@@ -525,11 +453,11 @@ export class ProductActionsContainer extends PureComponent {
             );
         }
 
-        if (type_id === DOWNLOADABLE && links_purchased_separately) {
+        if (type_id === PRODUCT_TYPE.downloadable && links_purchased_separately) {
             return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
         }
 
-        if ((type_id === SIMPLE || type_id === VIRTUAL) && options.length !== 0) {
+        if ((type_id === PRODUCT_TYPE.simple || type_id === PRODUCT_TYPE.virtual) && options.length !== 0) {
             // price of a product before selecting any options
             return this.getSimpleBasePrice();
         }

@@ -9,7 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const A_KEY_CODE = 65;
-export const z_KEY_CODE = 122;
-export const Z_KEY_CODE = 90;
-export const a_KEY_CODE = 97;
+export { default } from './FieldSelect.container';

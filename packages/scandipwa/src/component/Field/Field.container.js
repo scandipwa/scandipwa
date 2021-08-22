@@ -13,22 +13,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import validationConfig from 'Component/Form/Form.config';
+import { FIELD_TYPE } from 'Config/Field.config';
+import { KEY_CODE } from 'Config/Keyboard.config';
 import { MixType } from 'Type/Common';
 
 import Field from './Field.component';
-import {
-    CHECKBOX_TYPE,
-    EMAIL_TYPE,
-    ENTER_KEY_CODE,
-    FILE_TYPE,
-    NUMBER_TYPE,
-    PASSWORD_TYPE,
-    RADIO_TYPE,
-    SELECT_TYPE,
-    TEXT_TYPE,
-    TEXTAREA_TYPE,
-    VALIDATION_STATUS
-} from './Field.config';
+import { VALIDATION_STATUS } from './Field.config';
 
 /** @namespace Component/Field/Container */
 export class FieldContainer extends PureComponent {
@@ -43,17 +33,7 @@ export class FieldContainer extends PureComponent {
             PropTypes.number,
             PropTypes.bool
         ]),
-        type: PropTypes.oneOf([
-            TEXT_TYPE,
-            NUMBER_TYPE,
-            TEXTAREA_TYPE,
-            PASSWORD_TYPE,
-            RADIO_TYPE,
-            CHECKBOX_TYPE,
-            SELECT_TYPE,
-            FILE_TYPE,
-            EMAIL_TYPE
-        ]).isRequired,
+        type: PropTypes.oneOf(Object.values(FIELD_TYPE)).isRequired,
         onChange: PropTypes.func,
         onFocus: PropTypes.func,
         onBlur: PropTypes.func,
@@ -166,7 +146,7 @@ export class FieldContainer extends PureComponent {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ value: currentValue });
         }
-        if (type === CHECKBOX_TYPE && currChecked !== prevChecked) {
+        if ((type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio) && currChecked !== prevChecked) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ checked: currChecked });
         }
@@ -196,9 +176,9 @@ export class FieldContainer extends PureComponent {
         }
 
         switch (type) {
-        case NUMBER_TYPE:
+        case FIELD_TYPE.number:
             return 0;
-        case CHECKBOX_TYPE:
+        case FIELD_TYPE.checkbox:
             return false;
         default:
             return '';
@@ -208,7 +188,6 @@ export class FieldContainer extends PureComponent {
     containerProps() {
         const {
             autocomplete,
-            checked: propsChecked,
             customValidationStatus,
             disabled,
             fileExtensions,
@@ -236,7 +215,7 @@ export class FieldContainer extends PureComponent {
 
         return {
             autocomplete,
-            checked: type === CHECKBOX_TYPE ? propsChecked : checked,
+            checked,
             customValidationStatus,
             disabled,
             fileExtensions,
@@ -317,7 +296,7 @@ export class FieldContainer extends PureComponent {
 
         this.updateValidationStatus();
 
-        if (type === FILE_TYPE) {
+        if (type === FIELD_TYPE.file) {
             return this.handleChange(event.target.value, false, event.target.files[0]);
         }
 
@@ -360,7 +339,7 @@ export class FieldContainer extends PureComponent {
     }
 
     onKeyEnterDown(event) {
-        if (event.keyCode === ENTER_KEY_CODE) {
+        if (event.keyCode === KEY_CODE.enter) {
             const value = event.target.value || 1;
             this.handleChange(value);
         }
@@ -387,7 +366,7 @@ export class FieldContainer extends PureComponent {
         } = this.props;
 
         switch (type) {
-        case NUMBER_TYPE:
+        case FIELD_TYPE.number:
             const isValueNaN = Number.isNaN(parseInt(value, 10));
             if (min > value || value > max || isValueNaN) {
                 break;
@@ -399,7 +378,7 @@ export class FieldContainer extends PureComponent {
                 this.setState({ value });
             }
             break;
-        case FILE_TYPE:
+        case FIELD_TYPE.file:
             if (value) {
                 const result = onChange && onChange(fileValue);
 

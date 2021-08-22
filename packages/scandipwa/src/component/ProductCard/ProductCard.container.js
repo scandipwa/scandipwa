@@ -10,20 +10,21 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
+import { ProductContainer } from 'Component/Product/Product.container';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
+import PRODUCT_TYPE from 'Config/Product.config';
+import { IN_STOCK } from 'Config/Stock.config';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { LayoutType } from 'Type/Layout';
-import { FilterType, ProductType } from 'Type/ProductList';
+import { FilterType } from 'Type/ProductList';
 import history from 'Util/History';
 import {
-    CONFIGURABLE,
     getNewParameters,
     getVariantIndex,
     getVariantsIndexes
@@ -31,7 +32,6 @@ import {
 import { appendWithStoreCode, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
-import { IN_STOCK } from './ProductCard.config';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -56,9 +56,9 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/ProductCard/Container */
-export class ProductCardContainer extends PureComponent {
+export class ProductCardContainer extends ProductContainer {
     static propTypes = {
-        product: ProductType,
+        ...ProductContainer.propTypes,
         selectedFilters: FilterType,
         device: DeviceType.isRequired,
         product_use_categories: PropTypes.bool.isRequired,
@@ -82,6 +82,7 @@ export class ProductCardContainer extends PureComponent {
     };
 
     static defaultProps = {
+        ...ProductContainer.defaultProps,
         product: {},
         selectedFilters: {},
         isPreview: false,
@@ -100,11 +101,13 @@ export class ProductCardContainer extends PureComponent {
     };
 
     state = {
+        ...this.state,
         parameters: {},
         configurableVariantIndex: -1
     };
 
     containerFunctions = {
+        ...this.containerFunctions,
         getAttribute: this.getAttribute.bind(this),
         isConfigurableProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this),
         isBundleProductOutOfStock: this.isBundleProductOutOfStock.bind(this),
@@ -143,7 +146,6 @@ export class ProductCardContainer extends PureComponent {
             isWishlistEnabled,
             layout,
             mix,
-            product,
             renderContent,
             setSiblingsHaveBrands,
             setSiblingsHavePriceBadge,
@@ -154,6 +156,7 @@ export class ProductCardContainer extends PureComponent {
         const { configurableVariantIndex, parameters } = this.state;
 
         return {
+            ...super.containerProps(),
             children,
             device,
             hideCompareButton,
@@ -162,7 +165,6 @@ export class ProductCardContainer extends PureComponent {
             isWishlistEnabled,
             layout,
             mix,
-            product,
             renderContent,
             setSiblingsHaveBrands,
             setSiblingsHavePriceBadge,
@@ -269,7 +271,7 @@ export class ProductCardContainer extends PureComponent {
     _getProductOrVariant() {
         const { product: { type_id, variants }, product } = this.props;
 
-        if (type_id === CONFIGURABLE && variants?.length) {
+        if (type_id === PRODUCT_TYPE && variants?.length) {
             return variants[this._getCurrentVariantIndex()] || product || {};
         }
 

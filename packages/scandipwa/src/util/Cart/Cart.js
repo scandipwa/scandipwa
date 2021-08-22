@@ -13,8 +13,8 @@ import {
     DISPLAY_SHIPPING_PRICES_BOTH,
     DISPLAY_SHIPPING_PRICES_EXCL_TAX
 } from 'Component/CheckoutDeliveryOption/CheckoutDeliveryOption.config';
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
-import { CONFIGURABLE } from 'Util/Product';
+import PRODUCT_TYPE from 'Config/Product.config';
+import { IN_STOCK } from 'Config/Stock.config';
 
 export const DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX';
 export const DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX';
@@ -47,7 +47,7 @@ export const itemIsOutOfStock = (item) => {
         return true;
     }
 
-    if (type_id !== CONFIGURABLE) {
+    if (type_id !== PRODUCT_TYPE.configurable) {
         // item is not configurable => previous check is sufficient
         return false;
     }

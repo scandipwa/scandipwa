@@ -12,16 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ENTER_KEY_CODE } from 'Component/Field/Field.config';
+import { KEY_CODE } from 'Config/Keyboard.config';
 import { sortAlphabetically, sortBySortOrder } from 'Util/Product';
 
 import FieldSelect from './FieldSelect.component';
-import {
-    A_KEY_CODE,
-    a_KEY_CODE,
-    Z_KEY_CODE,
-    z_KEY_CODE
-} from './FieldSelect.config';
 
 /** @namespace Component/FieldSelect/Container */
 export class FieldSelectContainer extends PureComponent {
@@ -211,7 +205,7 @@ export class FieldSelectContainer extends PureComponent {
         const keyCode = event.which || event.keycode;
 
         // on Enter pressed
-        if (keyCode === ENTER_KEY_CODE) {
+        if (keyCode === KEY_CODE.enter) {
             this.handleSelectExpand();
 
             return;
@@ -219,9 +213,9 @@ export class FieldSelectContainer extends PureComponent {
 
         if (!isSelectExpanded
             || !keyCode
-            || keyCode < A_KEY_CODE
-            || keyCode > z_KEY_CODE
-            || (keyCode > Z_KEY_CODE && keyCode < a_KEY_CODE)
+            || keyCode < KEY_CODE.A
+            || keyCode > KEY_CODE.z
+            || (keyCode > KEY_CODE.Z && keyCode < KEY_CODE.a)
         ) {
             return;
         }

@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PRODUCT_TYPE from 'Config/Product.config';
 import CartQuery from 'Query/Cart.query';
 import { updateTotals } from 'Store/Cart/Cart.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
-import { getExtensionAttributes } from 'Util/Product';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 
 export const LinkedProductsDispatcher = import(
@@ -113,37 +113,29 @@ export class CartDispatcher {
     async addProductToCart(dispatch, options) {
         const {
             product,
+            parentProduct = {},
             quantity,
-            productOptionsData,
-            buyRequest
+            enteredOptions = [],
+            selectedOptions = []
         } = options;
 
-        const {
-            sku,
-            type_id: product_type
-        } = product;
+        const { sku } = product;
+        const { sku: parentSku, type_id: parentType } = parentProduct || {};
 
-        const {
-            productOptions,
-            productOptionsMulti,
-            downloadableLinks
-        } = productOptionsData || {};
+        const baseProductToAdd = {
+            sku,
+            quantity,
+            selected_options: selectedOptions,
+            entered_options: enteredOptions
+        };
+
+        const configProductToAdd = parentType !== PRODUCT_TYPE.configurable ? {} : {
+            parent_sku: parentSku
+        };
 
         const productToAdd = {
-            sku,
-            product_type,
-            quantity,
-            product_option: {
-                buy_request: buyRequest,
-                extension_attributes: getExtensionAttributes(
-                    {
-                        ...product,
-                        productOptions,
-                        productOptionsMulti,
-                        downloadableLinks
-                    }
-                )
-            }
+            ...baseProductToAdd,
+            ...configProductToAdd
         };
 
         if (this._canBeAdded(options)) {
@@ -155,11 +147,14 @@ export class CartDispatcher {
                     return Promise.reject();
                 }
 
-                const { saveCartItem: { cartData = {} } = {} } = await fetchMutation(
-                    CartQuery.getSaveCartItemMutation(productToAdd, guestQuoteId)
+                const { data } = await fetchMutation(
+                    CartQuery.getAddProductToCartMutation(guestQuoteId, [productToAdd])
                 );
 
-                return this._updateCartData(cartData, dispatch);
+                console.log([data]);
+
+                return true;
+                // return this._updateCartData(cartData, dispatch);
             } catch (error) {
                 dispatch(showNotification('error', getErrorMessage(error)));
 

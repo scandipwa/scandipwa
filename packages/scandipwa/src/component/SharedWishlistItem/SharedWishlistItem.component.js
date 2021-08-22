@@ -12,8 +12,8 @@
 import AddToCart from 'Component/AddToCart';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
+import { IN_STOCK } from 'Config/Stock.config';
 
 import './SharedWishlistItem.style';
 

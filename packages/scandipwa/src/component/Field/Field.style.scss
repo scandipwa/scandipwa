@@ -38,7 +38,7 @@
         }
     }
 
-    &-CheckboxLabel{
+    &-CheckboxLabel, &-RadioLabel{
         display: inline-flex;
         align-items: center;
 
@@ -184,7 +184,10 @@
         &_text,
         &_textarea,
         &_email,
-        &_password {
+        &_password,
+        &_date,
+        &_time,
+        &_datetime {
             &.Field_isValid {
                 input,
                 textarea {
@@ -193,14 +196,14 @@
             }
         }
 
-        &_checkbox {
+        &_checkbox, &_radio {
             span {
                 font-size: 12px;
             }
         }
     }
 
-    [type='checkbox'] {
+    [type='checkbox'], [type='radio'] {
         position: absolute;
         opacity: 0;
         padding: 0;
@@ -288,6 +291,12 @@
                     inset-block-start: calc(50% - 1px);
                 }
             }
+        }
+    }
+
+    [type='radio'] {
+        + .input-control {
+            border-radius: 50%;
         }
     }
 

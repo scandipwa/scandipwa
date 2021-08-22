@@ -15,10 +15,10 @@ import { connect } from 'react-redux';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
+import PRODUCT_TYPE from 'Config/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CartItemType } from 'Type/MiniCart';
-import { itemIsOutOfStock } from 'Util/Cart';
-import { CONFIGURABLE } from 'Util/Product';
+import { getProductInStock } from 'Util/Product/Extract';
 import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';
 
@@ -91,9 +91,9 @@ export class CartItemContainer extends PureComponent {
     }
 
     productIsInStock() {
-        const { item } = this.props;
+        const { item: { product } } = this.props;
 
-        return !itemIsOutOfStock(item);
+        return getProductInStock(product);
     }
 
     /**
@@ -265,7 +265,7 @@ export class CartItemContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        if (type_id !== CONFIGURABLE) {
+        if (type_id !== PRODUCT_TYPE.configurable) {
             return {
                 pathname: url,
                 state: { product }

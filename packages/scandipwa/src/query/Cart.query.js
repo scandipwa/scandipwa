@@ -15,6 +15,30 @@ import { Field } from 'Util/Query';
 
 /** @namespace Query/Cart */
 export class CartQuery {
+    getAddProductToCartMutation(cartId, cartItems) {
+        return new Field('addProductsToCart')
+            .addArgument('cartId', 'String!', cartId)
+            .addArgument('cartItems', '[CartItemInput!]!', cartItems)
+            .addField(this._getCartFields());
+    }
+
+    _getCartFields() {
+        return new Field('cart')
+            .addField(this._getCartItemsField2());
+    }
+
+    _getCartItemsField2() {
+        return new Field('items')
+            .addFieldList(this._getCartItemsFields());
+    }
+
+    _getCartItemsFields() {
+        return [
+            'id',
+            'quantity'
+        ];
+    }
+
     getCartQuery(quoteId) {
         const query = new Field('getCartForCustomer')
             .addFieldList(this._getCartTotalsFields())

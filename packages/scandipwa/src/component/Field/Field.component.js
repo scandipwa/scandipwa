@@ -21,18 +21,8 @@ import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
 import MinusIcon from 'Component/MinusIcon';
 import UploadIcon from 'Component/UploadIcon';
+import { FIELD_TYPE } from 'Config/Field.config';
 import { MixType } from 'Type/Common';
-
-import {
-    CHECKBOX_TYPE,
-    EMAIL_TYPE,
-    FILE_TYPE,
-    NUMBER_TYPE,
-    PASSWORD_TYPE,
-    RADIO_TYPE,
-    SELECT_TYPE,
-    TEXTAREA_TYPE
-} from './Field.config';
 
 import './Field.style';
 
@@ -231,18 +221,26 @@ export class Field extends PureComponent {
         const {
             id,
             label,
-            onClick
+            subLabel,
+            onChangeCheckbox
         } = this.props;
 
         return (
-            <label htmlFor={ id }>
+            <label htmlFor={ id } block="Field" elem="RadioLabel">
                 <FieldInput
                   { ...this.props }
                   type="radio"
-                  onChange={ onClick }
+                  onChange={ onChangeCheckbox }
                 />
                 <div block="input-control" />
-                { label }
+                <span>
+                    { label }
+                    { subLabel && (
+                        <strong block="Field" elem="SubLabel">
+                            { ` (${subLabel})` }
+                        </strong>
+                    ) }
+                </span>
             </label>
         );
     }
@@ -257,24 +255,31 @@ export class Field extends PureComponent {
 
     renderInputOfType(type) {
         switch (type) {
-        case CHECKBOX_TYPE:
+        case FIELD_TYPE.checkbox:
             return this.renderCheckbox();
-        case RADIO_TYPE:
+        case FIELD_TYPE.radio:
             return this.renderRadioButton();
-        case NUMBER_TYPE:
+        case FIELD_TYPE.number:
             return this.renderTypeNumber();
-        case TEXTAREA_TYPE:
+        case FIELD_TYPE.textarea:
             return this.renderTextarea();
-        case PASSWORD_TYPE:
+        case FIELD_TYPE.password:
             return this.renderTypePassword();
-        case SELECT_TYPE:
+        case FIELD_TYPE.select:
             return this.renderSelectWithOptions();
-        case EMAIL_TYPE:
+        case FIELD_TYPE.email:
             return this.renderTypeEmail();
-        case FILE_TYPE:
+        case FIELD_TYPE.file:
             return this.renderFile();
-        default:
+        case FIELD_TYPE.text:
             return this.renderTypeText();
+        default:
+            return (
+                <FieldInput
+                  { ...this.props }
+                  type={ type }
+                />
+            );
         }
     }
 
@@ -314,7 +319,7 @@ export class Field extends PureComponent {
             type
         } = this.props;
         const isRequired = validation.includes('notEmpty');
-        const noRenderLabel = type === CHECKBOX_TYPE || type === RADIO_TYPE;
+        const noRenderLabel = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio;
 
         if (!label || noRenderLabel) {
             return null;

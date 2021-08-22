@@ -12,6 +12,8 @@
 import { PropTypes } from 'prop-types';
 import { PureComponent } from 'react';
 
+import { FIELD_TYPE } from 'Config/Field.config';
+
 import FieldInput from './FieldInput.component';
 
 /** @namespace Component/FieldInput/Container */
@@ -44,7 +46,7 @@ export class FieldInputContainer extends PureComponent {
         /**
          * Make sure password auto-complete is enabled
          */
-        if (type === 'password' && autocomplete === 'off') {
+        if (type === FIELD_TYPE.password && autocomplete === 'off') {
             return 'current-password';
         }
 

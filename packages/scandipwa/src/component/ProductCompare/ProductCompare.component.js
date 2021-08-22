@@ -15,9 +15,9 @@ import { Component } from 'react';
 import ProductCompareAttributeRow from 'Component/ProductCompareAttributeRow';
 import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
+import PRODUCT_TYPE from 'Config/Product.config';
 import { DeviceType } from 'Type/Device';
 import { ProductItemsType } from 'Type/ProductList';
-import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import './ProductCompare.style';
 
@@ -37,9 +37,9 @@ export class ProductCompare extends Component {
     };
 
     productTypeLabelMap = {
-        [BUNDLE]: __('Starting from'),
-        [GROUPED]: __('Starting from'),
-        [CONFIGURABLE]: __('As Low as')
+        [PRODUCT_TYPE.bundle]: __('Starting from'),
+        [PRODUCT_TYPE.grouped]: __('Starting from'),
+        [PRODUCT_TYPE.configurable]: __('As Low as')
     };
 
     shouldComponentUpdate(nextProps) {

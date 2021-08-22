@@ -8,9 +8,14 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-export const CONFIGURABLE = 'configurable';
-export const GROUPED = 'grouped';
-export const SIMPLE = 'simple';
-export const BUNDLE = 'bundle';
-export const DOWNLOADABLE = 'downloadable';
-export const VIRTUAL = 'virtual';
+
+export const PRODUCT_TYPE = {
+    configurable: 'configurable',
+    grouped: 'grouped',
+    simple: 'simple',
+    bundle: 'bundle',
+    downloadable: 'downloadable',
+    virtual: 'virtual'
+};
+
+export default PRODUCT_TYPE;
