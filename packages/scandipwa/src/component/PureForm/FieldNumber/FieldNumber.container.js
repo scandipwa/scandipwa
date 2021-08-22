@@ -46,7 +46,6 @@ export class FieldNumberContainer extends PureComponent {
         if (typeof onChange === 'function') {
             onChange(rangedValue);
         }
-        console.log([this.props, rangedValue]);
 
         this.setState({ value: rangedValue });
     }

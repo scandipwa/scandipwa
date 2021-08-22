@@ -58,6 +58,8 @@ export class FieldSelect extends PureComponent {
 
         return (
             <select
+                block="FieldSelect"
+                elem="Select"
                 ref={ (elem) => setRef(elem) }
                 disabled={ isDisabled }
                 { ...attr }

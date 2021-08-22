@@ -24,11 +24,11 @@ export const getEncodedBundleUid = (uid, quantity) => {
     const decoded = atob(uid);
     const parts = decoded.split('/');
     // eslint-disable-next-line no-magic-numbers
-    if (parts.length === 3) {
-        return btoa(`bundle/${parts[1]}/${quantity}`);
-    }
+    const newUid = parts.length === 3
+        ? `bundle/${parts[1]}/${quantity}`
+        : `bundle/${parts[1]}/${parts[2]}/${quantity}`;
 
-    return btoa(`bundle/${parts[1]}/${parts[2]}/${quantity}`);
+    return btoa(newUid);
 };
 
 export const bundleOptionToLabel = (option, currencyCode = 'USD') => {
@@ -61,7 +61,7 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
     options.reduce((result = [], option) => {
         const {
             uid: sourceUid,
-            label,
+            quantity: defaultQuantity,
             position
         } = option;
 
@@ -70,12 +70,12 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
             baseLabel
         } = bundleOptionToLabel(option, currencyCode);
 
-        const { [sourceUid]: currentQty = 1 } = quantity;
+        const { [sourceUid]: currentQty = defaultQuantity } = quantity;
         const uid = getEncodedBundleUid(sourceUid, currentQty);
 
         result.push({
-            id: uid,
-            name: label,
+            id: sourceUid,
+            name: sourceUid,
             value: uid,
             label: baseLabel,
             subLabel: priceLabel,

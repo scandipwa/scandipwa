@@ -52,6 +52,7 @@ export class FieldNumber extends PureComponent {
                     // eslint-disable-next-line react/jsx-no-bind
                     onClick={ () => handleValueChange(+value + 1) }
                     aria-label={ __('Add') }
+                    type={ FIELD_TYPE.button }
                 >
                     <AddIcon block="SubtractButton" isPrimary />
                 </button>
@@ -60,6 +61,7 @@ export class FieldNumber extends PureComponent {
                     // eslint-disable-next-line react/jsx-no-bind
                     onClick={ () => handleValueChange(+value - 1) }
                     aria-label={ __('Subtract') }
+                    type={ FIELD_TYPE.button }
                 >
                     <MinusIcon block="AddButton" isPrimary />
                 </button>

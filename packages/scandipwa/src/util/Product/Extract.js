@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -106,6 +107,25 @@ export const getProductInStock = (product, configIndex = -1) => {
     return stock_status === IN_STOCK;
 };
 
+export const getBundleOption = (uid, options = []) => {
+    const uidParts = atob(uid).split('/');
+    return options.find(({ uid: linkedUid }) => {
+        const linkedUidParts = atob(linkedUid).split('/');
+        if (uidParts.length !== linkedUidParts.length) {
+            return false;
+        }
+
+        // eslint-disable-next-line fp/no-loops,fp/no-let
+        for (let i = 0; i < uidParts.length - 1; i++) {
+            if (uidParts[i] !== linkedUidParts[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+};
+
 export const getPrice = (product, adjustedPrice = {}) => {
     const {
         price_range: {
@@ -115,13 +135,14 @@ export const getPrice = (product, adjustedPrice = {}) => {
                 discount: { percent_off = 0 } = {},
                 discount
             } = {}
-        } = {}
+        } = {},
+        dynamic_price: dynamicPrice = false
     } = product || {};
 
     // eslint-disable-next-line no-magic-numbers
     const discountValue = (1 - percent_off / 100);
-    const priceValue = { value: basePrice, currency };
-    const priceValueExclTax = { value: basePriceExclTax, currency };
+    const priceValue = { value: dynamicPrice ? 0 : basePrice, currency };
+    const priceValueExclTax = { value: dynamicPrice ? 0 : basePriceExclTax, currency };
 
     Object.keys(adjustedPrice).forEach((key) => {
         const { [key]: group } = adjustedPrice;
@@ -154,6 +175,7 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
         downloadable_product_links = [],
         options = [],
         items = [],
+        dynamic_price: dynamicPrice = false,
         type_id: typeId
     } = product;
 
@@ -170,7 +192,7 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
         }
     };
 
-    // Downloadable
+    //#region DOWNLOADABLE
     if (typeId === PRODUCT_TYPE.downloadable) {
         downloadableLinks.forEach((uid) => {
             const link = downloadable_product_links.find(({ uid: linkUid }) => linkUid === uid);
@@ -181,23 +203,29 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
             }
         });
     }
+    //#endregion
 
-    // Grouped
+    //#region GROUPED
+    //#endregion
 
-    // Bundle
+    //#region BUNDLE
     if (typeId === PRODUCT_TYPE.bundle) {
         selectedOptions.forEach((uid) => {
             items.forEach(({ options = [] }) => {
-                const option = Array.isArray(options) && options.find(({ uid: linkedUid }) => linkedUid === uid);
+                const uidParts = atob(uid).split('/');
+                const option = Array.isArray(options) && getBundleOption(uid, options);
+                const quantity = +uidParts[uidParts.length - 1];
+
                 if (option) {
                     const {
-                        price = 0,
-                        price_type: priceType,
+                        regularOptionPrice,
+                        regularOptionPriceExclTax,
                         product
                     } = option;
 
-                    if (priceType === 'FIXED') {
-                        adjustedPrice.bundle.inclTax += price;
+                    if (!dynamicPrice) {
+                        adjustedPrice.bundle.exclTax += regularOptionPriceExclTax * quantity;
+                        adjustedPrice.bundle.inclTax += regularOptionPrice * quantity;
                     } else {
                         const {
                             minimum_price: {
@@ -206,15 +234,16 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
                             }
                         } = getPrice(product) || {};
 
-                        adjustedPrice.bundle.inclTax += priceInclTax;
-                        adjustedPrice.bundle.exclTax += priceExclTax;
+                        adjustedPrice.bundle.inclTax += priceInclTax * quantity;
+                        adjustedPrice.bundle.exclTax += priceExclTax * quantity;
                     }
                 }
             });
         });
     }
+    //#endregion
 
-    // Config
+    //#region CONFIGURABLE
     enteredOptions.forEach(({ uid }) => {
         const option = options.find(({ uid: linkUid }) => linkUid === uid);
         if (option) {
@@ -234,6 +263,7 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
             }
         });
     });
+    //#endregion
 
     return adjustedPrice;
 };

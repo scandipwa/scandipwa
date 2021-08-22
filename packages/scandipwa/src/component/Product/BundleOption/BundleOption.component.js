@@ -17,6 +17,7 @@ import { bundleOptionToLabel, getEncodedBundleUid } from 'Util/Product/Transform
 import FieldContainer from 'Component/PureForm/Field';
 import FieldGroupContainer from 'Component/PureForm/FieldGroup';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
+import { getBundleOption } from 'Util/Product/Extract';
 
 export class BundleOption extends PureComponent {
     static propTypes = {
@@ -25,11 +26,12 @@ export class BundleOption extends PureComponent {
         setQuantity: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
-        updateSelectedValues: PropTypes.func.isRequired,
-        dropdownOptions: PropTypes.array.isRequired,
         currencyCode: PropTypes.string.isRequired,
         activeSelectUid: PropTypes.string.isRequired,
-        updateActiveSelectUid: PropTypes.func.isRequired
+        setActiveSelectUid: PropTypes.func.isRequired,
+        getDropdownOptions: PropTypes.func.isRequired,
+        getUidWithQuantity: PropTypes.func.isRequired,
+        updateSelectedValues: PropTypes.func.isRequired
     };
 
     renderMap = {
@@ -44,21 +46,7 @@ export class BundleOption extends PureComponent {
         updateSelectedValues();
     }
 
-    getLabel(option) {
-        const { currencyCode } = this.props;
-        const {
-            baseLabel,
-            priceLabel
-        } = bundleOptionToLabel(option, currencyCode);
-
-        return (
-            <>
-                { baseLabel }
-                <strong> { priceLabel }</strong>
-            </>
-        );
-    }
-
+    //#region QUANTITY CHANGE
     setQuantity(uid, quantity) {
         const { setQuantity } = this.props;
         setQuantity(uid, quantity);
@@ -72,13 +60,13 @@ export class BundleOption extends PureComponent {
                     id: `item_qty_${uid}`,
                     name: `item_qty_${uid}`,
                     defaultValue: quantity,
-                    min: 0
+                    min: 1
                 } }
                 validationRule={ {
                     inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
                     isRequired: true,
                     range: {
-                        min: 0
+                        min: 1
                     }
                 } }
                 events={ { onChange: this.setQuantity.bind(this, uid) } }
@@ -86,11 +74,13 @@ export class BundleOption extends PureComponent {
             />
         );
     }
+    //#endregion
 
+    //#region CHECKBOXES
     renderCheckBox = (option) => {
         const {
             uid,
-            can_change_quantity,
+            can_change_quantity: canChangeQuantity,
             is_default,
             quantity: defaultQuantity = 1
         } = option;
@@ -103,20 +93,20 @@ export class BundleOption extends PureComponent {
         const label = this.getLabel(option);
 
         return (
-            <div block="ProductBundleItem" elem="Checkbox" mods={ { customQuantity: can_change_quantity } } key={ uid }>
+            <div block="ProductBundleItem" elem="Checkbox" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
                 <FieldContainer
                     type={ FIELD_TYPE.checkbox }
                     label={ label }
                     attr={{
                         id: `option-${ uid }`,
-                        value: can_change_quantity ? getEncodedBundleUid(uid, quantity) : uid,
+                        value: canChangeQuantity ? getEncodedBundleUid(uid, quantity) : uid,
                         name: `option-${ uid }`
                     }}
                     events={{
                         onChange: updateSelectedValues
                     }}
                 />
-                { can_change_quantity && this.renderQuantityChange(uid, quantity) }
+                { canChangeQuantity && this.renderQuantityChange(uid, quantity) }
             </div>
         );
     }
@@ -136,11 +126,13 @@ export class BundleOption extends PureComponent {
             </FieldGroupContainer>
         );
     }
+    //#endregion
 
+    //#region RADIO
     renderRadio = (name, option) => {
         const {
             uid,
-            can_change_quantity,
+            can_change_quantity: canChangeQuantity,
             quantity: defaultQuantity = 1
         } = option;
 
@@ -152,20 +144,20 @@ export class BundleOption extends PureComponent {
         const label = this.getLabel(option);
 
         return (
-            <div block="ProductBundleItem" elem="Radio" mods={ { customQuantity: can_change_quantity } } key={ uid }>
+            <div block="ProductBundleItem" elem="Radio" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
                 <FieldContainer
                     type={ FIELD_TYPE.radio }
                     label={ label }
                     attr={{
                         id: `option-${ uid }`,
-                        value: can_change_quantity ? getEncodedBundleUid(uid, quantity) : uid,
+                        value: canChangeQuantity ? getEncodedBundleUid(uid, quantity) : uid,
                         name: `option-${ name }`
                     }}
                     events={{
                         onChange: updateSelectedValues
                     }}
                 />
-                { can_change_quantity && this.renderQuantityChange(uid, quantity) }
+                { canChangeQuantity && this.renderQuantityChange(uid, quantity) }
             </div>
         );
     }
@@ -179,46 +171,44 @@ export class BundleOption extends PureComponent {
                     isRequired,
                     selector: '[type="radio"]'
                 }}
-                validateOn={['onBlur']}
             >
                 { options.map((option) => this.renderRadio(uid, option)) }
             </FieldGroupContainer>
         );
     }
+    //#endregion
 
+    //#region SELECT
     updateSelect(...args) {
-        const { updateSelectedValues, updateActiveSelectUid } = this.props;
-        console.log([args]);
-        updateActiveSelectUid(args[args.length - 1]);
+        const { updateSelectedValues, setActiveSelectUid } = this.props;
+        const { value } = args[args.length - 1] || {};
+        setActiveSelectUid(value);
         updateSelectedValues();
     }
 
     renderSelectValue() {
         const {
-            dropdownOptions,
+            getDropdownOptions,
             isRequired,
             uid,
             activeSelectUid,
             options
         } = this.props;
 
-        const activeOption = options.find(({ uid: optionUid, can_change_quantity }) => (
-            can_change_quantity && activeSelectUid === optionUid
-        ));
+        const activeOption = getBundleOption(activeSelectUid, options);
 
         const {
             uid: optionUid,
             quantity: defaultQuantity = 1,
-            can_change_quantity = false
+            can_change_quantity: canChangeQuantity = false
         } = activeOption || {};
 
         const {
             quantity: { [uid]: quantity = defaultQuantity }
         } = this.props;
 
-        console.log([activeOption]);
         return (
-            <div block="ProductBundleItem" elem="DropdownWrapper" mods={ { customQuantity: can_change_quantity } }>
+            <div block="ProductBundleItem" elem="DropdownWrapper" mods={ { customQuantity: canChangeQuantity } }>
                 <FieldContainer
                     type={ FIELD_TYPE.select }
                     attr={{
@@ -226,7 +216,7 @@ export class BundleOption extends PureComponent {
                         name: `bundle-options-dropdown-${ uid }`
                     }}
                     mix={ { block: 'ProductBundleItem', elem: 'Select' } }
-                    options={ dropdownOptions }
+                    options={ getDropdownOptions() }
                     events={{
                         onChange: this.updateSelect.bind(this)
                     }}
@@ -235,11 +225,13 @@ export class BundleOption extends PureComponent {
                     }}
                     validateOn={ ['onChange'] }
                 />
-                { activeOption && this.renderQuantityChange(optionUid, quantity) }
+                { canChangeQuantity && this.renderQuantityChange(optionUid, quantity) }
             </div>
         );
     }
+    //#endregion
 
+    //#region TITLE
     renderOptionGroupTitle(title) {
         const { isRequired } = this.props;
 
@@ -251,6 +243,21 @@ export class BundleOption extends PureComponent {
         );
     }
 
+    getLabel(option) {
+        const { currencyCode } = this.props;
+        const {
+            baseLabel,
+            priceLabel
+        } = bundleOptionToLabel(option, currencyCode);
+
+        return (
+            <>
+                { baseLabel }
+                <strong> { priceLabel }</strong>
+            </>
+        );
+    }
+    //#endregion
 
     render() {
         const { title, options, type } = this.props;

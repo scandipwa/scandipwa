@@ -11,7 +11,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 
 import FieldSelect from './FieldSelect.component';
 import { KEY_CODE } from 'Config/Keyboard.config';
@@ -35,8 +35,11 @@ export class FieldSelectContainer extends PureComponent {
         handleSelectExpand: this.handleSelectExpand.bind(this),
         handleSelectExpandedExpand: this.handleSelectExpandedExpand.bind(this),
         handleSelectListOptionClick: this.handleSelectListOptionClick.bind(this),
-        handleSelectListKeyPress: this.handleSelectListKeyPress.bind(this)
+        handleSelectListKeyPress: this.handleSelectListKeyPress.bind(this),
+        setRef: this.setRef.bind(this)
     }
+
+    fieldRef = createRef();
 
     static getDerivedStateFromProps(props, state) {
         const { attr: { isExpanded } = {} } = props
@@ -45,11 +48,21 @@ export class FieldSelectContainer extends PureComponent {
         return { isExpanded: isExpanded || stateIsExpanded };
     }
 
+    setRef(elem) {
+        const { setRef } = this.props;
+        setRef(elem);
+
+        if (elem && this.fieldRef !== elem) {
+            this.fieldRef = elem;
+        }
+    }
+
     handleSelectListOptionClick({ value }) {
         const { events: { onChange } = {} } = this.props;
 
         // const event = new Event('change', { bubbles: true });
         // formRef.current.dispatchEvent(event);
+        this.fieldRef.value = value;
 
         if (onChange) {
             onChange(value);
@@ -153,7 +166,7 @@ export class FieldSelectContainer extends PureComponent {
                 onChange(value.toString());
             }
 
-            const selectedElement = document.querySelector(`#${ selectId }_wrapper ul #o${id}`);
+            const selectedElement = document.getElementById(`o${id}`);
             if (selectedElement) {
                 selectedElement.focus();
             }

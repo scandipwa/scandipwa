@@ -91,6 +91,7 @@ export class ProductContainer extends PureComponent {
     }
 
     validator = createRef();
+
     setValidator(elem) {
         if (elem && elem !== this.validator) {
             this.validator = elem;
@@ -190,7 +191,7 @@ export class ProductContainer extends PureComponent {
                     if (element.checked) {
                         selectedOptions.push(value);
                     }
-                } else {
+                } else if (element.type !== FIELD_TYPE.number) {
                     selectedOptions.push(value);
                 }
             }

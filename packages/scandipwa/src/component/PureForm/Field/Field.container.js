@@ -106,8 +106,9 @@ export class FieldContainer extends PureComponent {
 
     validateOnEvent(hook, ...args) {
         if (hook) {
+            const { attr } = this.props;
             const value = this.fieldRef.value;
-            hook(...[...args, value]);
+            hook(...[...args, { fieldRef: this.fieldRef, value, ...attr }]);
         }
         this.validate();
     }

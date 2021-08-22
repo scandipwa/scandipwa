@@ -53,7 +53,6 @@ export const validate = (value, rule) => {
     if (range) {
         const { min, max } = range;
         const isNumber = !!VALIDATION_INPUT_TYPE_NUMBER[inputType];
-        console.log([isNumber, value, inputType]);
         if (isNumber) {
             if ((min && +value < min) || (max && +value > max)) {
                 output.errorMessages.push(onRangeFail || VALIDATION_MESSAGES.range);

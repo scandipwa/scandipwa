@@ -22,7 +22,6 @@ import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import PRODUCT_TYPE from 'Config/Product.config';
-import { IN_STOCK } from 'Config/Stock.config';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';
@@ -297,12 +296,10 @@ export class ProductActions extends Product {
         const {
             productPrice,
             offerCount,
-            productOrVariant: {
-                stock_status
-            }
+            inStock
         } = this.props;
 
-        if (stock_status !== IN_STOCK) {
+        if (!inStock) {
             return null;
         }
 
