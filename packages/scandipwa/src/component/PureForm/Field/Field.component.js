@@ -19,6 +19,8 @@ import FieldSelectContainer from 'Component/PureForm/FieldSelect/FieldSelect.con
 
 import './Field.style.scss';
 import { FieldNumberContainer } from 'Component/PureForm/FieldNumber/FieldNumber.container';
+import UploadIcon from 'Component/UploadIcon';
+import FieldFile from 'Component/PureForm/FieldFile';
 
 export class Field extends PureComponent {
     static propTypes = {
@@ -78,7 +80,11 @@ export class Field extends PureComponent {
     }
 
     renderFile() {
-        return this.renderDefaultInput();
+        const { attr, events, setRef } = this.props;
+
+        return (
+            <FieldFile attr={ attr } events={ events } setRef={ setRef } />
+        );
     }
 
     renderNumber() {

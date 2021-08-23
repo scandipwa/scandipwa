@@ -53,10 +53,17 @@ export class CustomizableOptionContainer extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { options: prevOptions } = prevProps;
-        const { options } = this.props;
+        const { options, type } = this.props;
+        const { dropdownOptions } = this.state;
 
-        if (options !== prevOptions) {
-            this.buildDropdownOptions();
+        if (type === CONFIG_FIELD_TYPE.select) {
+            if (
+                options !== prevOptions
+                || !dropdownOptions
+                || (Array.isArray(dropdownOptions) && dropdownOptions.length === 0)
+            ) {
+                this.buildDropdownOptions();
+            }
         }
     }
 

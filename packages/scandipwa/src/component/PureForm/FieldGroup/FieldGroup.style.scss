@@ -19,7 +19,15 @@
         }
     }
 
+    &_isValid {
+        border-left: 2px solid var(--primary-success-color);
+        padding-left: 10px;
+    }
+
     &_hasError {
+        border-left: 2px solid var(--primary-error-color);
+        padding-left: 10px;
+
         .Field {
             color: var(--primary-error-color);
             [type="checkbox"], [type="radio"] {
@@ -28,6 +36,5 @@
                 }
             }
         }
-
     }
 }

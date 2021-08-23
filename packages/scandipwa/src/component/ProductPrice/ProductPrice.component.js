@@ -304,7 +304,6 @@ export class ProductPrice extends PureComponent {
         }
 
         const { [priceType]: renderer } = this.pricePreviewRenderMap;
-        console.log([isPreview]);
 
         return (
             <p

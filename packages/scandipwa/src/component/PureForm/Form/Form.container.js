@@ -16,6 +16,8 @@ import { createRef, PureComponent } from 'react';
 import Form from './Form.component';
 import { validateGroup } from 'Util/Validator';
 import { ChildrenType } from 'Type/Common';
+import getFieldsData from 'Util/Form/Extract';
+import FIELD_TYPE from 'Config/Field.config';
 
 export class FormContainer extends PureComponent {
     static propTypes = {
@@ -24,6 +26,7 @@ export class FormContainer extends PureComponent {
         attr: PropTypes.object,
         events: PropTypes.object,
         onSubmit: PropTypes.func,
+        onError: PropTypes.func,
 
         // Validation
         validationRule: PropTypes.object,
@@ -105,6 +108,22 @@ export class FormContainer extends PureComponent {
     }
     //#endregion
 
+    onSubmit() {
+        const { onSubmit, onError } = this.props;
+        const fields = getFieldsData(this.formRef, false, [FIELD_TYPE.number, FIELD_TYPE.button]);
+        const isValid = validateGroup(this.formRef);
+        if (isValid !== true) {
+            if (typeof onError === 'function') {
+                onSubmit(this.formRef, fields, isValid);
+            }
+            return;
+        }
+
+        if (typeof onSubmit === 'function') {
+            onSubmit(this.formRef, fields);
+        }
+    }
+
     containerProps() {
         const { events, validateOn } = this.props;
         const { validate } = this.containerFunctions;
@@ -120,7 +139,10 @@ export class FormContainer extends PureComponent {
         return {
             ...this.state,
             ...this.props,
-            events: newEvents,
+            events: {
+                ...newEvents,
+                onSubmit: this.onSubmit.bind(this)
+            },
             setRef: this.setRef.bind(this)
         }
     }

@@ -198,12 +198,33 @@
         &_time,
         &_datetime,
         &_datetime-local,
+        &_file,
         &_select {
             &.Field_isValid {
                 input,
                 textarea,
                 select {
                     border: 1px solid var(--primary-success-color);
+                }
+            }
+        }
+
+        &_file {
+            &.Field {
+                &_isValid {
+                    input {
+                        & + label {
+                            border-color: var(--primary-success-color);
+                        }
+                    }
+                }
+
+                &_hasError {
+                    input {
+                        & + label {
+                            border-color: var(--primary-error-color);
+                        }
+                    }
                 }
             }
         }

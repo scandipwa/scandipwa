@@ -133,7 +133,6 @@ export class Slider extends PureComponent {
         target.onload = () => {
             const height = target.offsetHeight;
             const sliderHeight = `${ height }px`;
-            console.log(['onload', this, target, height]);
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         };
 

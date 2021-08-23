@@ -29,6 +29,7 @@ import { validateGroup } from 'Util/Validator';
 import { showNotification } from 'Store/Notification/Notification.action';
 import PRODUCT_TYPE from 'Config/Product.config';
 import { magentoProductTransform } from 'Util/Product/Transform';
+import getFieldsData from 'Util/Form/Extract';
 
 export const mapDispatchToProps = (dispatch) => ({
     addProductToCart: (options) => CartDispatcher.then(
@@ -179,35 +180,20 @@ export class ProductContainer extends PureComponent {
         const enteredOptions = [];
         const selectedOptions = [];
 
-        // Checks each input & textarea field for values
-        for (let i = 0; i < current.elements.length; i++) {
-            const element = current.elements[i];
-            const value = element.value;
+        const values = getFieldsData(current, true, [FIELD_TYPE.number]);
 
-            const tagName = element.tagName.toLowerCase();
-            if (value && value.length) {
-                if (
-                    tagName === FIELD_TYPE.textarea
-                    || element.type === FIELD_TYPE.text
-                    || element.type === FIELD_TYPE.password
-                    || element.type === FIELD_TYPE.date
-                    || element.type === FIELD_TYPE.dateTime
-                    || element.type === FIELD_TYPE.time
-                ) {
-                    const name = element.name;
-                    enteredOptions.push({
-                        uid: name,
-                        value: value
-                    });
-                } else if (element.type === FIELD_TYPE.checkbox || element.type === FIELD_TYPE.radio) {
-                    if (element.checked) {
-                        selectedOptions.push(value);
-                    }
-                } else if (element.type !== FIELD_TYPE.number) {
-                    selectedOptions.push(value);
-                }
-            }
-        }
+        values.forEach(({ name, value, type }) => {
+           if (type === FIELD_TYPE.select) {
+               selectedOptions.push(value);
+           } else if (type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio) {
+               selectedOptions.push(value);
+           } else if (type !== FIELD_TYPE.number) {
+               enteredOptions.push({
+                   uid: name,
+                   value: value
+               });
+           }
+        });
 
         this.setState({
             enteredOptions,

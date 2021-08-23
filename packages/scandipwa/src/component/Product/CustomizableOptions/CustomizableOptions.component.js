@@ -41,7 +41,7 @@ export class CustomizableOptions extends PureComponent {
     }
 
     render() {
-        const { options } = this.props;
+        const { options = [] } = this.props;
 
         return (
           <div>

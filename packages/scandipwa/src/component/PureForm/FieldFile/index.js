@@ -9,24 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.ImageZoomPopup {
-    height: 99%;
-
-    &.Popup {
-        height: 100vh;
-    }
-
-    &-PopupContent {
-        max-height: 80%;
-        height: 100vh;
-        max-width: 100vw;
-    }
-
-    .ProductGallery {
-        height: 100%;
-    }
-
-    .Slider-Arrow {
-        display: none;
-    }
-}
+export { default } from './FieldFile.container';

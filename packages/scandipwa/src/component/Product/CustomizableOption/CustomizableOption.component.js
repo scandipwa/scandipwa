@@ -98,18 +98,27 @@ export class CustomizableOption extends PureComponent {
     }
 
     renderFileValue(option) {
-        const { title, uid } = this.props;
-        const { file_extension = '' } = option;
+        const { title, uid, isRequired, updateSelectedValues } = this.props;
+        const { file_extension: fileExtensions = '' } = option;
         const label = this.getLabel(option, title);
 
         return (
             <>
                 { this.renderOptionGroupTitle(label) }
-                <Field
-                    id={ `customizable-options-${ uid }` }
-                    name={`customizable-options-${ uid }` }
+                <FieldContainer
                     type={ FIELD_TYPE.file }
-                    fileExtensions={ file_extension }
+                    validationRule={{
+                        isRequired
+                    }}
+                    attr={{
+                        id: `${ uid }`,
+                        name: `${ uid }`,
+                        accept: fileExtensions
+                    }}
+                    events={{
+                        onChange: updateSelectedValues
+                    }}
+                    validateOn={['onChange']}
                 />
             </>
         );
@@ -149,7 +158,7 @@ export class CustomizableOption extends PureComponent {
                 validationRule={{
                     isRequired,
                 }}
-                validateOn={['onBlur']}
+                validateOn={['onChange']}
             >
                 { options.map(this.renderCheckBox) }
             </FieldGroupContainer>
@@ -191,7 +200,7 @@ export class CustomizableOption extends PureComponent {
                 validationRule={{
                     isRequired,
                 }}
-                validateOn={['onBlur']}
+                validateOn={['onChange']}
             >
                 { options.map((option) => this.renderRadio(uid, option)) }
             </FieldGroupContainer>

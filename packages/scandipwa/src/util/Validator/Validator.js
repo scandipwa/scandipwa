@@ -63,10 +63,10 @@ export const validate = (value, rule) => {
             }
         } else {
             if (min && value.length < min) {
-                output.errorMessages.push(onRangeFailMin || __('Minimal length is %s', min));
+                output.errorMessages.push(onRangeFailMin || __('Minimal %s characters', min));
             }
             if (max && value.length > max) {
-                output.errorMessages.push(onRangeFailMax || __('Maximum length is %s', max));
+                output.errorMessages.push(onRangeFailMax || __('Maximum %s characters', max));
             }
         }
     }
