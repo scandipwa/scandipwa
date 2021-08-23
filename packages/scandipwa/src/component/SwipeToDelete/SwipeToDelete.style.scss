@@ -25,7 +25,6 @@
     }
 
     &-RightSideContentWrapper {
-        background-color: var(--swipe-to-delete-bg-color);
         position: absolute;
         inset-block-start: 0;
         inset-inline-end: 0;
@@ -39,7 +38,7 @@
         height: 100%;
         margin-inline-start: calc(100% - var(--end-side-content-width));
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
         width: var(--end-side-content-width);
         transition: margin-inline-start var(--right-side-content-animation-speed) ease-out;

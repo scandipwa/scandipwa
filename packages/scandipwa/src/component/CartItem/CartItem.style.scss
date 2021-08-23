@@ -264,8 +264,11 @@
 
     &-SwipeToDeleteRightSide {
         height: 100%;
+        width: 100%;
         font-weight: 600;
         color: var(--color-white);
+        background-color: var(--swipe-to-delete-bg-color);
+        margin-inline-start: 16px;
     }
 
     .ProductPrice {
