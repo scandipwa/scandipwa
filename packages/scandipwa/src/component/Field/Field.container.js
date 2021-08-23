@@ -93,7 +93,8 @@ export class FieldContainer extends PureComponent {
         autocomplete: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
-        ])
+        ]),
+        isLabelWithArrow: PropTypes.bool
     };
 
     static defaultProps = {
@@ -122,7 +123,8 @@ export class FieldContainer extends PureComponent {
         filename: '',
         fileExtensions: '',
         selectOptions: [],
-        autocomplete: 'off'
+        autocomplete: 'off',
+        isLabelWithArrow: false
     };
 
     containerFunctions = {
@@ -223,7 +225,8 @@ export class FieldContainer extends PureComponent {
             selectOptions,
             subLabel,
             type,
-            validation
+            validation,
+            isLabelWithArrow
         } = this.props;
 
         const {
@@ -255,7 +258,8 @@ export class FieldContainer extends PureComponent {
             type,
             validation,
             validationStatus: customValidationStatus ?? validationStatus,
-            value
+            value,
+            isLabelWithArrow
         };
     }
 
