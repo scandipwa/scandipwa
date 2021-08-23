@@ -38,11 +38,13 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         setCustomizableOptionFileFieldValue: PropTypes.func,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        price_range: PriceType.isRequired
+        price_range: PriceType.isRequired,
+        selectedCheckboxValues: PropTypes.array
     };
 
     static defaultProps = {
-        setCustomizableOptionFileFieldValue: () => null
+        setCustomizableOptionFileFieldValue: () => null,
+        selectedCheckboxValues: []
     };
 
     state = {
@@ -57,11 +59,12 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         updateTextFieldValue: this.updateTextFieldValue.bind(this),
         setDropdownValue: this.setDropdownValue.bind(this),
         processFileUpload: this.processFileUpload.bind(this),
-        renderOptionLabel: this.renderOptionLabel.bind(this)
+        renderOptionLabel: this.renderOptionLabel.bind(this),
+        getIsCheckboxSelected: this.getIsCheckboxSelected.bind(this)
     };
 
     containerProps() {
-        const { option } = this.props;
+        const { option, selectedCheckboxValues } = this.props;
         const {
             textValue,
             selectedDropdownValue,
@@ -76,7 +79,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             textFieldValid,
             selectedDropdownValue,
             optionType: this.getOptionType(),
-            requiredSelected: this.getIsRequiredSelected()
+            requiredSelected: this.getIsRequiredSelected(),
+            selectedCheckboxValues
         };
     }
 
@@ -128,6 +132,15 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return !!isRequiredSelected.length;
     }
 
+    getIsCheckboxSelected(variantId) {
+        const { option: { option_id: optionId }, selectedCheckboxValues } = this.props;
+        console.debug({ optionId, variantId, selectedCheckboxValues });
+
+        return selectedCheckboxValues.some(
+            ({ option_id, option_value }) => option_id === optionId && +option_value === +variantId
+        );
+    }
+
     renderPercent(priceType, price) {
         if (priceType !== PRICE_TYPE_PERCENT) {
             return '';
@@ -174,7 +187,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     }
 
     getDropdownOptions(values) {
-        return values.reduce((acc, {
+        return values.map(({
             option_type_id,
             title,
             priceInclTax,
@@ -182,18 +195,14 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             price_type,
             sort_order,
             currency
-        }) => {
-            acc.push({
-                id: option_type_id,
-                name: title,
-                value: option_type_id,
-                label: `${title} `,
-                subLabel: this.renderOptionLabel(price_type, priceInclTax, price, currency),
-                sort_order
-            });
-
-            return acc;
-        }, []);
+        }) => ({
+            id: option_type_id,
+            name: title,
+            value: option_type_id,
+            label: `${title} `,
+            subLabel: this.renderOptionLabel(price_type, priceInclTax, price, currency),
+            sort_order
+        }));
     }
 
     processFileUpload(values) {

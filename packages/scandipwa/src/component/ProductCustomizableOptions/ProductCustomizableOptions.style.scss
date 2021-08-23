@@ -33,23 +33,6 @@
             textarea {
                 width: 100%;
             }
-
-            &:hover,
-            &:focus {
-                label {
-                    @include desktop {
-                        border-color: var(--primary-base-color);
-                    }
-                }
-
-                .input-control {
-                    &::after {
-                        @include desktop {
-                            --checkmark-color: var(--secondary-dark-color);
-                        }
-                    }
-                }
-            }
         }
     }
 
