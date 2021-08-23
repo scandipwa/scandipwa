@@ -16,6 +16,10 @@ const fetchModuleParent = (issuer) => {
 const isPlugin = (module) => {
     const name = (module.nameForCondition && module.nameForCondition()) || module.resource;
 
+    if (!name) {
+        return false;
+    }
+
     // Name based check
     if (!name.endsWith('.plugin.css') && !name.endsWith('.plugin.scss')) {
         // Path based check
