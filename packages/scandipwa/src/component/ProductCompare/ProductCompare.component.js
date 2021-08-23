@@ -18,6 +18,7 @@ import ProductPrice from 'Component/ProductPrice';
 import PRODUCT_TYPE from 'Config/Product.config';
 import { DeviceType } from 'Type/Device';
 import { ProductItemsType } from 'Type/ProductList';
+import { getPrice } from 'Util/Product/Extract';
 
 import './ProductCompare.style';
 
@@ -107,11 +108,16 @@ export class ProductCompare extends Component {
     renderProductPrices() {
         const { products } = this.props;
 
-        return products.map(({ id, price_range, type_id }) => (
+        return products.map(({
+            id,
+            price_range: priceRange,
+            type_id: type,
+            dynamic_price: dynamicPrice = false
+        }) => (
             <ProductPrice
-              price={ price_range }
+              price={ getPrice(priceRange, dynamicPrice, {}, type) }
               key={ id }
-              label={ this.productTypeLabelMap[type_id] }
+              label={ this.productTypeLabelMap[type] }
             />
         ));
     }

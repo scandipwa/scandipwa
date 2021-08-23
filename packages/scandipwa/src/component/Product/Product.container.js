@@ -143,6 +143,11 @@ export class ProductContainer extends PureComponent {
         const { quantity, parameters, adjustedPrice } = this.state;
         const {
             product,
+            product: {
+                price_range: priceRange = {},
+                dynamic_price: dynamicPrice = false,
+                typeId: type
+            },
             configFormRef
         } = this.props;
 
@@ -157,7 +162,7 @@ export class ProductContainer extends PureComponent {
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
             productName: getName(product),
-            productPrice: getPrice(product, adjustedPrice)
+            productPrice: getPrice(priceRange, dynamicPrice, adjustedPrice, type)
         };
     }
 

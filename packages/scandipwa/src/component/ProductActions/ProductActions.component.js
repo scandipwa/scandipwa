@@ -237,22 +237,6 @@ export class ProductActions extends Product {
         );
     }
 
-    getConfigurablePriceBadge() {
-        const {
-            configurableVariantIndex,
-            product: { type_id }
-        } = this.props;
-
-        if (
-            type_id !== PRODUCT_TYPE.configurable
-            || configurableVariantIndex > -1
-        ) {
-            return null;
-        }
-
-        return __('As Low as');
-    }
-
     renderPriceWithSchema() {
         const {
             productPrice,
@@ -265,13 +249,11 @@ export class ProductActions extends Product {
         }
 
         const {
-            minimum_price: {
-                final_price: {
+            originalPrice: {
+                minFinalPrice: {
                     value: minFinalPrice = 0
-                } = {}
-            } = {},
-            maximum_price: {
-                final_price: {
+                } = {},
+                maxFinalPrice: {
                     value: maxFinalPrice = 0
                 } = {}
             } = {}
@@ -292,7 +274,6 @@ export class ProductActions extends Product {
                   variantsCount={ offerCount }
                   price={ productPrice }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
-                  label={ this.getConfigurablePriceBadge() }
                 />
             </div>
         );

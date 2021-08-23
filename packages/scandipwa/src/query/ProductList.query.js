@@ -887,6 +887,44 @@ export class ProductListQuery {
             .addFieldList([this._getCustomizableFileValueField('fileValues')]);
     }
 
+    _getCustomizableDateValueFields() {
+        return [
+            'price',
+            'priceInclTax',
+            'priceExclTax',
+            'price_type',
+            'currency',
+            'sku'
+        ];
+    }
+
+    _getCustomizableDateValueField() {
+        return new Field('value')
+            .addFieldList(this._getCustomizableDateValueFields());
+    }
+
+    _getCustomizableDateFields(alias) {
+        return [
+            this._getCustomizableDateValueField(alias),
+            'product_sku'
+        ];
+    }
+
+    _getCustomizableDateOption() {
+        return new Fragment('CustomizableDateOption')
+            .addFieldList(this._getCustomizableDateFields());
+    }
+    //
+    // _getCustomizableDateOption() {
+    //     return new Fragment('CustomizableAreaOption')
+    //         .addFieldList(this._getCustomizableTextFields('areaValues'));
+    // }
+    //
+    // _getCustomizableAreaOption() {
+    //     return new Fragment('CustomizableAreaOption')
+    //         .addFieldList(this._getCustomizableTextFields('areaValues'));
+    // }
+
     _getCustomizableSelectionValueFields() {
         return [
             'uid',
@@ -937,6 +975,7 @@ export class ProductListQuery {
             this._getCustomizableFieldOption(),
             this._getCustomizableAreaOption(),
             this._getCustomizableFileOption(),
+            this._getCustomizableDateOption(),
             'title',
             'required',
             'sort_order',

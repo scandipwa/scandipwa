@@ -18,7 +18,9 @@ import Field from 'Component/Field';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
+import PRODUCT_TYPE from 'Config/Product.config';
 import { CartItemType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
 
 import './CartItem.style';
 
@@ -55,6 +57,10 @@ export class CartItem extends PureComponent {
     static defaultProps = {
         isCartOverlay: false,
         isMobileLayout: false
+    };
+
+    renderOptionLabelByTypeMap = {
+        [PRODUCT_TYPE.bundle]: this.renderBundleProductOptionLabel.bind(this)
     };
 
     renderProductConfigurations() {
@@ -178,12 +184,50 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductOption = (option) => {
-        const { label, values = [], id } = option;
+    renderProductOptionLabel = (option) => {
+        const { label, values = [] } = option;
 
-        const labelText = values
+        return values
             ? __('%s: %s', label, values.map(({ label, value }) => label || value).join(', '))
             : label;
+    }
+
+    renderBundleProductOptionValue = (value) => {
+        const { label, quantity, price } = value;
+        const { currency_code: currencyCode } = this.props;
+        const formattedPrice = formatPrice(price, currencyCode);
+
+        return (
+            <>
+                { `${quantity} x ${label} ` }
+                <strong>{ formattedPrice }</strong>
+            </>
+        );
+    }
+
+    renderBundleProductOptionLabel(option) {
+        const { label, values = [] } = option;
+        if (values.length === 0) {
+            return null;
+        }
+
+        return (
+            <>
+                <div block="CartItem" elem="BundleGroupTitle">
+                    <strong>{ `${label}:` }</strong>
+                </div>
+                <div block="CartItem" elem="BundleGroupValues">
+                    { values.map(this.renderBundleProductOptionValue) }
+                </div>
+            </>
+        );
+    }
+
+    renderProductOption = (option) => {
+        const { id } = option;
+        const { item: { product: { type_id: typeId } = {} } } = this.props;
+        const { [typeId]: renderer } = this.renderOptionLabelByTypeMap;
+        const label = renderer ? renderer(option) : this.renderProductOptionLabel(option);
 
         return (
             <div
@@ -191,7 +235,7 @@ export class CartItem extends PureComponent {
               elem="Option"
               key={ id }
             >
-                { labelText }
+                { label }
             </div>
         );
     };

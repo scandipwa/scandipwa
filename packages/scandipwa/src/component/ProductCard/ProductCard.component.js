@@ -30,10 +30,12 @@ import { ProductType } from 'Type/ProductList';
 import {
     filterConfigurableOptions
 } from 'Util/Product';
+import { getPrice } from 'Util/Product/Extract';
 
 import { TIER_PRICES } from './ProductCard.config';
 
 import './ProductCard.style';
+
 /**
  * Product card
  * @class ProductCard
@@ -174,17 +176,20 @@ export class ProductCard extends Product {
     renderProductPrice() {
         const {
             product: {
-                price_range, price_tiers = [], type_id
+                price_range: priceRange,
+                price_tiers: priceTiers = [],
+                type_id: type,
+                dynamic_price: dynamicPrice = false
             },
             isConfigurableProductOutOfStock,
             isBundleProductOutOfStock
         } = this.props;
 
-        if (!price_range) {
+        if (!priceRange) {
             return <TextPlaceholder />;
         }
 
-        switch (type_id) {
+        switch (type) {
         case PRODUCT_TYPE.configurable:
             if (isConfigurableProductOutOfStock()) {
                 return this.renderEmptyProductPrice();
@@ -202,10 +207,12 @@ export class ProductCard extends Product {
         return (
             <div block="ProductCard" elem="PriceWrapper">
                 <ProductPrice
-                  price={ price_range }
-                  price_tiers={ price_tiers }
+                  price={ getPrice(priceRange, dynamicPrice, {}, type) }
+                  price_tiers={ priceTiers }
                   mix={ { block: 'ProductCard', elem: 'Price' } }
                   label={ this.renderProductTypePriceBadge() }
+                  isPreview
+                  priceType={ type }
                 />
             </div>
         );

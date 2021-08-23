@@ -12,6 +12,7 @@
 
 import { PRODUCT_TYPE } from 'Config/Product.config';
 import { IN_STOCK } from 'Config/Stock.config';
+import { formatPrice } from 'Util/Price';
 
 export const DEFAULT_MIN_PRODUCTS = 1;
 export const DEFAULT_MAX_PRODUCTS = 100;
@@ -126,50 +127,95 @@ export const getBundleOption = (uid, options = []) => {
     });
 };
 
-export const getPrice = (product, adjustedPrice = {}) => {
-    const { type_id: typeId = PRODUCT_TYPE.simple } = product;
-    const priceAcc = typeId === PRODUCT_TYPE.bundle ? 'default_price' : 'regular_price';
-    const priceExcTaxAcc = typeId === PRODUCT_TYPE.bundle ? 'default_final_price_excl_tax' : 'regular_price_excl_tax';
+// TODO: Add caching
+export const getPrice = (
+    priceRange,
+    dynamicPrice = false,
+    adjustedPrice = {},
+    type = PRODUCT_TYPE.simple
+) => {
+    const priceAcc = type === PRODUCT_TYPE.bundle ? 'default_final_price' : 'regular_price';
+    const priceExcTaxAcc = type === PRODUCT_TYPE.bundle ? 'default_final_price_excl_tax' : 'regular_price_excl_tax';
 
     const {
-        price_range: {
-            minimum_price: {
-                [priceAcc]: { currency = '', value: basePrice = 0 } = {},
-                [priceExcTaxAcc]: { value: basePriceExclTax = 0 } = {},
-                discount: { percent_off = 0 } = {},
-                discount
-            } = {}
+        minimum_price: {
+            [priceAcc]: { currency = 'USD', value: basePrice = 0 } = {},
+            [priceExcTaxAcc]: { value: basePriceExclTax = 0 } = {},
+            discount: { percent_off: percentOff = 0 } = {},
+            final_price: minFinalPrice = {},
+            final_price_excl_tax: minFinalPriceExclTax = {}
         } = {},
-        dynamic_price: dynamicPrice = false
-    } = product || {};
+        maximum_price: {
+            final_price: maxFinalPrice = {},
+            final_price_excl_tax: maxFinalPriceExclTax = {}
+        } = {}
+    } = priceRange || {};
 
     // eslint-disable-next-line no-magic-numbers
-    const discountValue = (1 - percent_off / 100);
-    const priceValue = { value: dynamicPrice ? 0 : basePrice, currency };
-    const priceValueExclTax = { value: dynamicPrice ? 0 : basePriceExclTax, currency };
+    const discountValue = (1 - percentOff / 100);
+    // eslint-disable-next-line no-magic-numbers
+    const discountValueRevert = discountValue === 0 ? 1 : discountValue;
 
-    Object.keys(adjustedPrice).forEach((key) => {
+    const basePriceExclDiscount = priceAcc === 'default_final_price'
+        ? basePrice / discountValueRevert
+        : basePrice;
+    const basePriceExclDiscountExclTax = priceAcc === 'default_final_price'
+        ? basePriceExclTax / discountValueRevert
+        : basePrice;
+
+    const priceValue = { value: dynamicPrice ? 0 : basePriceExclDiscount * discountValue, currency };
+    const priceValueExclTax = { value: dynamicPrice ? 0 : basePriceExclDiscountExclTax * discountValue, currency };
+    const priceValueExclDiscount = { value: dynamicPrice ? 0 : basePriceExclDiscount, currency };
+    const priceValueExclDiscountExclTax = { value: dynamicPrice ? 0 : basePriceExclDiscountExclTax, currency };
+
+    Object.keys(adjustedPrice || {}).forEach((key) => {
         const { [key]: group } = adjustedPrice;
-        if (typeof group === 'object') {
-            const { inclTax = 0, exclTax = 0 } = group;
+        const { inclTax = 0, exclTax = 0, hasDiscountCalculated = false } = group;
+        if (hasDiscountCalculated) {
             priceValue.value += inclTax;
             priceValueExclTax.value += exclTax;
+            priceValueExclDiscount.value += inclTax / discountValueRevert;
+            priceValueExclDiscountExclTax.value += exclTax / discountValueRevert;
         } else {
-            priceValue.value += group;
-            priceValueExclTax.value += group;
+            priceValue.value += inclTax * discountValue;
+            priceValueExclTax.value += exclTax * discountValue;
+            priceValueExclDiscount.value += inclTax;
+            priceValueExclDiscountExclTax.value += exclTax;
         }
     });
 
-    priceValue.value *= discountValue;
-    priceValueExclTax.value *= discountValue;
+    priceValue.valueFormatted = formatPrice(priceValue.value, currency);
+    priceValueExclTax.valueFormatted = formatPrice(priceValueExclTax.value, currency);
+    priceValueExclDiscount.valueFormatted = formatPrice(priceValueExclDiscount.value, currency);
+    priceValueExclDiscountExclTax.valueFormatted = formatPrice(priceValueExclDiscountExclTax.value, currency);
 
     return {
-        minimum_price: {
-            final_price: priceValue,
-            regular_price: priceValue,
-            final_price_excl_tax: priceValueExclTax,
-            regular_price_excl_tax: priceValueExclTax,
-            discount
+        price: {
+            finalPrice: priceValue,
+            finalPriceExclTax: priceValueExclTax,
+            originalPrice: priceValueExclDiscount,
+            originalPriceExclTax: priceValueExclDiscountExclTax,
+            discount: {
+                percentOff
+            }
+        },
+        originalPrice: {
+            minFinalPrice: {
+                ...minFinalPrice,
+                valueFormatted: formatPrice(minFinalPrice.value || 0, currency)
+            },
+            minFinalPriceExclTax: {
+                ...minFinalPriceExclTax,
+                valueFormatted: formatPrice(minFinalPriceExclTax.value || 0, currency)
+            },
+            maxFinalPrice: {
+                ...maxFinalPrice,
+                valueFormatted: formatPrice(maxFinalPrice.value || 0, currency)
+            },
+            maxFinalPriceExclTax: {
+                ...maxFinalPriceExclTax,
+                valueFormatted: formatPrice(maxFinalPriceExclTax.value || 0, currency)
+            }
         }
     };
 };
@@ -184,15 +230,20 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
     } = product;
 
     const adjustedPrice = {
-        downloadable: 0,
-        group: 0,
+        downloadable: {
+            exclTax: 0,
+            inclTax: 0,
+            hasDiscountCalculated: false
+        },
         bundle: {
             exclTax: 0,
-            inclTax: 0
+            inclTax: 0,
+            hasDiscountCalculated: true
         },
         config: {
             exclTax: 0,
-            inclTax: 0
+            inclTax: 0,
+            hasDiscountCalculated: true
         }
     };
 
@@ -203,7 +254,8 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
 
             if (link) {
                 const { price } = link;
-                adjustedPrice.downloadable += price;
+                adjustedPrice.downloadable.exclTax += price;
+                adjustedPrice.downloadable.inclTax += price;
             }
         });
     }
@@ -222,23 +274,29 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
 
                 if (option) {
                     const {
-                        regularOptionPrice,
-                        regularOptionPriceExclTax,
-                        product,
+                        finalOptionPrice,
+                        finalOptionPriceExclTax,
+                        product: {
+                            price_range: optionProductPriceRange = {},
+                            type_id: optionProductType,
+                            dynamic_price: optionProductDynamic
+                        },
                         can_change_quantity: canChangeQuantity = false
                     } = option;
 
                     if (!dynamicPrice) {
                         const multiplier = canChangeQuantity ? quantity : quantity;
-                        adjustedPrice.bundle.exclTax += regularOptionPriceExclTax * multiplier;
-                        adjustedPrice.bundle.inclTax += regularOptionPrice * multiplier;
+                        adjustedPrice.bundle.exclTax += finalOptionPriceExclTax * multiplier;
+                        adjustedPrice.bundle.inclTax += finalOptionPrice * multiplier;
                     } else {
                         const {
-                            minimum_price: {
-                                final_price: { value: priceInclTax = 0 } = {},
-                                final_price_excl_tax: { value: priceExclTax = 0 } = {}
+                            price: {
+                                finalPrice: { value: priceInclTax = 0 } = {},
+                                finalPriceExclTax: { value: priceExclTax = 0 } = {}
                             }
-                        } = getPrice(product) || {};
+                        } = getPrice(
+                            optionProductPriceRange, optionProductDynamic, {}, optionProductType
+                        ) || {};
 
                         adjustedPrice.bundle.inclTax += priceInclTax * quantity;
                         adjustedPrice.bundle.exclTax += priceExclTax * quantity;

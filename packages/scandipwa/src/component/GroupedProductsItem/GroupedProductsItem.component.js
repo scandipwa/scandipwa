@@ -19,6 +19,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { FIELD_TYPE } from 'Config/Field.config';
 import { ProductType } from 'Type/ProductList';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
+import { getPrice } from 'Util/Product/Extract';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
 import './GroupedProductsItem.style';
@@ -39,7 +40,9 @@ export class GroupedProductsItem extends PureComponent {
         const {
             product: {
                 name,
-                price_range
+                price_range: priceRange,
+                type_id: type,
+                dynamic_price: dynamicPrice
             }
         } = this.props;
 
@@ -48,7 +51,7 @@ export class GroupedProductsItem extends PureComponent {
                 <p>
                     <TextPlaceholder content={ name } />
                 </p>
-                <ProductPrice price={ price_range } mods={ { type: 'regular' } } />
+                <ProductPrice price={ getPrice(priceRange, dynamicPrice, {}, type) } mods={ { type: 'regular' } } />
             </div>
         );
     }
