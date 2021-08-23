@@ -107,6 +107,10 @@
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
+        &.CategoryPage-Miscellaneous_noResults {
+            height: auto;
+        }
+
         @include desktop {
             padding-block-start: 10px;
             padding-block-end: 60px;
