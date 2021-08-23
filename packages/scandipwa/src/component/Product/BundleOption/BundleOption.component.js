@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,16 +12,19 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { FIELD_TYPE } from 'Config/Field.config';
-import { bundleOptionToLabel, getEncodedBundleUid } from 'Util/Product/Transform';
-import FieldContainer from 'Component/PureForm/Field';
+
+import Field from 'Component/PureForm/Field';
 import FieldGroupContainer from 'Component/PureForm/FieldGroup';
-import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
+import { FIELD_TYPE } from 'Config/Field.config';
 import { getBundleOption, getMaxQuantity, getMinQuantity } from 'Util/Product/Extract';
+import { bundleOptionToLabel, getEncodedBundleUid } from 'Util/Product/Transform';
+import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
 export class BundleOption extends PureComponent {
     static propTypes = {
         uid: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
         quantity: PropTypes.array.isRequired,
         setQuantity: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
@@ -30,7 +33,6 @@ export class BundleOption extends PureComponent {
         activeSelectUid: PropTypes.string.isRequired,
         setActiveSelectUid: PropTypes.func.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
-        getUidWithQuantity: PropTypes.func.isRequired,
         updateSelectedValues: PropTypes.func.isRequired
     };
 
@@ -54,29 +56,31 @@ export class BundleOption extends PureComponent {
 
     renderQuantityChange(uid, quantity, product = null) {
         const min = !product ? 1 : getMinQuantity(product);
-        const max = !product ? 999 : getMaxQuantity(product);
+        // eslint-disable-next-line no-magic-numbers
+        const max = !product ? 9999 : getMaxQuantity(product);
+        // eslint-disable-next-line no-nested-ternary
         const rangedQty = quantity < min ? min : quantity > max ? max : quantity;
 
         return (
-            <FieldContainer
-                type={ FIELD_TYPE.number }
-                attr={ {
-                    id: `item_qty_${uid}`,
-                    name: `item_qty_${uid}`,
-                    defaultValue: rangedQty,
-                    min: min,
-                    max: max
-                } }
-                validationRule={ {
-                    inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
-                    isRequired: true,
-                    range: {
-                        min: min,
-                        max: max
-                    }
-                } }
-                events={ { onChange: this.setQuantity.bind(this, uid) } }
-                validateOn={ ['onChange'] }
+            <Field
+              type={ FIELD_TYPE.number }
+              attr={ {
+                  id: `item_qty_${uid}`,
+                  name: `item_qty_${uid}`,
+                  defaultValue: rangedQty,
+                  min,
+                  max
+              } }
+              validationRule={ {
+                  inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
+                  isRequired: true,
+                  range: {
+                      min,
+                      max
+                  }
+              } }
+              events={ { onChange: this.setQuantity.bind(this, uid) } }
+              validateOn={ ['onChange'] }
             />
         );
     }
@@ -87,7 +91,6 @@ export class BundleOption extends PureComponent {
         const {
             uid,
             can_change_quantity: canChangeQuantity,
-            is_default,
             product,
             quantity: defaultQuantity = 1
         } = option;
@@ -101,17 +104,17 @@ export class BundleOption extends PureComponent {
 
         return (
             <div block="ProductBundleItem" elem="Checkbox" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
-                <FieldContainer
-                    type={ FIELD_TYPE.checkbox }
-                    label={ label }
-                    attr={{
-                        id: `option-${ uid }`,
-                        value: canChangeQuantity ? getEncodedBundleUid(uid, quantity) : uid,
-                        name: `option-${ uid }`
-                    }}
-                    events={{
-                        onChange: updateSelectedValues
-                    }}
+                <Field
+                  type={ FIELD_TYPE.checkbox }
+                  label={ label }
+                  attr={ {
+                      id: `option-${ uid }`,
+                      value: canChangeQuantity ? getEncodedBundleUid(uid, quantity) : uid,
+                      name: `option-${ uid }`
+                  } }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
                 />
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
@@ -123,11 +126,11 @@ export class BundleOption extends PureComponent {
 
         return (
             <FieldGroupContainer
-                validationRule={{
-                    isRequired,
-                    selector: '[type="checkbox"]'
-                }}
-                validateOn={['onBlur']}
+              validationRule={ {
+                  isRequired,
+                  selector: '[type="checkbox"]'
+              } }
+              validateOn={ ['onBlur'] }
             >
                 { options.map(this.renderCheckBox) }
             </FieldGroupContainer>
@@ -153,17 +156,17 @@ export class BundleOption extends PureComponent {
 
         return (
             <div block="ProductBundleItem" elem="Radio" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
-                <FieldContainer
-                    type={ FIELD_TYPE.radio }
-                    label={ label }
-                    attr={{
-                        id: `option-${ uid }`,
-                        value: canChangeQuantity ? getEncodedBundleUid(uid, quantity) : uid,
-                        name: `option-${ name }`
-                    }}
-                    events={{
-                        onChange: updateSelectedValues
-                    }}
+                <Field
+                  type={ FIELD_TYPE.radio }
+                  label={ label }
+                  attr={ {
+                      id: `option-${ uid }`,
+                      value: canChangeQuantity ? getEncodedBundleUid(uid, quantity) : uid,
+                      name: `option-${ name }`
+                  } }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
                 />
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
@@ -175,10 +178,10 @@ export class BundleOption extends PureComponent {
 
         return (
             <FieldGroupContainer
-                validationRule={{
-                    isRequired,
-                    selector: '[type="radio"]'
-                }}
+              validationRule={ {
+                  isRequired,
+                  selector: '[type="radio"]'
+              } }
             >
                 { options.map((option) => this.renderRadio(uid, option)) }
             </FieldGroupContainer>
@@ -218,21 +221,21 @@ export class BundleOption extends PureComponent {
 
         return (
             <div block="ProductBundleItem" elem="DropdownWrapper" mods={ { customQuantity: canChangeQuantity } }>
-                <FieldContainer
-                    type={ FIELD_TYPE.select }
-                    attr={{
-                        id: `bundle-options-dropdown-${ uid }`,
-                        name: `bundle-options-dropdown-${ uid }`
-                    }}
-                    mix={ { block: 'ProductBundleItem', elem: 'Select' } }
-                    options={ getDropdownOptions() }
-                    events={{
-                        onChange: this.updateSelect.bind(this)
-                    }}
-                    validationRule={{
-                        isRequired
-                    }}
-                    validateOn={ ['onChange'] }
+                <Field
+                  type={ FIELD_TYPE.select }
+                  attr={ {
+                      id: `bundle-options-dropdown-${ uid }`,
+                      name: `bundle-options-dropdown-${ uid }`
+                  } }
+                  mix={ { block: 'ProductBundleItem', elem: 'Select' } }
+                  options={ getDropdownOptions() }
+                  events={ {
+                      onChange: this.updateSelect.bind(this)
+                  } }
+                  validationRule={ {
+                      isRequired
+                  } }
+                  validateOn={ ['onChange'] }
                 />
                 { canChangeQuantity && this.renderQuantityChange(optionUid, quantity, product) }
             </div>
@@ -262,7 +265,7 @@ export class BundleOption extends PureComponent {
         return (
             <>
                 { baseLabel }
-                <strong> { priceLabel }</strong>
+                <strong>{ ` ${priceLabel}` }</strong>
             </>
         );
     }

@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { Component } from 'react';
+
 import BundleOptions from './BundleOptions.component';
 
 export class BundleOptionsContainer extends Component {
@@ -27,11 +27,17 @@ export class BundleOptionsContainer extends Component {
         return nextOptions === options;
     }
 
+    containerProps() {
+        return {
+            ...this.props,
+            ...this.state
+        };
+    }
+
     render() {
         return (
             <BundleOptions
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
             />
         );
     }

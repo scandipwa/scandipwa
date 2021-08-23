@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
 import BundleOption from 'Component/Product/BundleOption';
 
 import './BundleOptions.style';
@@ -23,12 +23,22 @@ export class BundleOptions extends PureComponent {
     };
 
     renderOptionGroup = (group) => {
-        const { title, options, type, required, uid } = group;
+        const {
+            title, options, type, required, uid
+        } = group;
         const { updateSelectedValues } = this.props;
 
-        return <BundleOption { ...{
-            title, options, type, isRequired: required, updateSelectedValues, uid
-        } } />
+        return (
+            <BundleOption
+              title={ title }
+              options={ options }
+              type={ type }
+              isRequired={ required }
+              required={ required }
+              updateSelectedValues={ updateSelectedValues }
+              uid={ uid }
+            />
+        );
     }
 
     render() {

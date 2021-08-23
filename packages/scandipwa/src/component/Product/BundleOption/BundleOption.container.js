@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,10 +10,12 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
-import BundleOption from './BundleOption.component';
+import { connect } from 'react-redux';
+
 import { bundleOptionsToSelectTransform, getEncodedBundleUid } from 'Util/Product/Transform';
+
+import BundleOption from './BundleOption.component';
 
 export const mapStateToProps = (state) => ({
     currencyCode: state.ConfigReducer.currencyData.current_currency_code
@@ -83,14 +84,14 @@ export class BundleOptionContainer extends PureComponent {
         const { options, currencyCode } = this.props;
         const { quantity } = this.state;
 
-        return bundleOptionsToSelectTransform(options, currencyCode, quantity)
+        return bundleOptionsToSelectTransform(options, currencyCode, quantity);
     }
 
     containerProps() {
         return {
             ...this.props,
-            ...this.state,
-        }
+            ...this.state
+        };
     }
 
     render() {

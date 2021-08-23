@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,14 +12,18 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
+import PRODUCT_TYPE from 'Config/Product.config';
+import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { ProductType } from 'Type/ProductList';
-import { getMaxQuantity, getMinQuantity, getName, getProductInStock } from 'Util/Product/Extract';
 import { MixType } from 'Type/Common';
 import { LayoutType } from 'Type/Layout';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
+import { ProductType } from 'Type/ProductList';
+import {
+    getMaxQuantity, getMinQuantity, getName, getProductInStock
+} from 'Util/Product/Extract';
+
 import AddToCart from './AddToCart.component';
-import PRODUCT_TYPE from 'Config/Product.config';
 
 export const mapStateToProps = () => ({
 });
@@ -78,11 +81,12 @@ export class AddToCartContainer extends PureComponent {
     }
 
     validate() {
+        // eslint-disable-next-line fp/no-let
         let isValid = true;
         this.globalValidationMap.forEach((step) => {
-           if (!step()){
-               isValid = false;
-           }
+            if (!step()) {
+                isValid = false;
+            }
         });
 
         return isValid;
@@ -100,7 +104,9 @@ export class AddToCartContainer extends PureComponent {
     }
 
     validateQuantity() {
-        const { product, quantity, showNotification, product: { type_id: typeId } } = this.props;
+        const {
+            product, quantity, showNotification, product: { type_id: typeId }
+        } = this.props;
         const minQty = getMinQuantity(product);
         const maxQty = getMaxQuantity(product);
         const inRange = quantity >= minQty && quantity <= maxQty;
@@ -147,11 +153,15 @@ export class AddToCartContainer extends PureComponent {
         return true;
     }
 
+    containerProps() {
+        return this.props;
+    }
+
     render() {
         return (
             <AddToCart
-                { ...this.props }
-                { ...this.containerFunctions }
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

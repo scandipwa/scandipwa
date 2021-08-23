@@ -168,6 +168,7 @@ export const getPrice = (
     const priceValueExclDiscount = { value: dynamicPrice ? 0 : basePriceExclDiscount, currency };
     const priceValueExclDiscountExclTax = { value: dynamicPrice ? 0 : basePriceExclDiscountExclTax, currency };
 
+    // Adds adjusted price
     Object.keys(adjustedPrice || {}).forEach((key) => {
         const { [key]: group } = adjustedPrice;
         const { inclTax = 0, exclTax = 0, hasDiscountCalculated = false } = group;
@@ -184,6 +185,7 @@ export const getPrice = (
         }
     });
 
+    // Adds formatted price option
     priceValue.valueFormatted = formatPrice(priceValue.value, currency);
     priceValueExclTax.valueFormatted = formatPrice(priceValueExclTax.value, currency);
     priceValueExclDiscount.valueFormatted = formatPrice(priceValueExclDiscount.value, currency);

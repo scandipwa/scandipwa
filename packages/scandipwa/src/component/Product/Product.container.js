@@ -147,7 +147,7 @@ export class ProductContainer extends PureComponent {
             product: {
                 price_range: priceRange = {},
                 dynamic_price: dynamicPrice = false,
-                typeId: type
+                type_id: type
             },
             configFormRef
         } = this.props;
