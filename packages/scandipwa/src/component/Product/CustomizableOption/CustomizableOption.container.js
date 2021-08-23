@@ -11,7 +11,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import CustomizableOption from "./CustomizableOption.component";
 import { customizableOptionsToSelectTransform } from 'Util/Product/Transform';
 import { connect } from 'react-redux';
@@ -25,7 +25,7 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = () => ({
 });
 
-export class CustomizableOptionContainer extends Component {
+export class CustomizableOptionContainer extends PureComponent {
     static propTypes = {
         title: PropTypes.string.isRequired,
         isRequired: PropTypes.bool.isRequired,
@@ -35,37 +35,9 @@ export class CustomizableOptionContainer extends Component {
         currencyCode: PropTypes.string.isRequired
     };
 
-    state = {
-        dropdownOptions: []
+    containerFunctions = {
+        getDropdownOptions: this.getDropdownOptions.bind(this)
     };
-
-    shouldComponentUpdate(nextProps, nextState) {
-        const { options: nextOptions, type: nextType } = nextProps;
-        const { options, type } = this.props;
-
-        const { dropdownOptions: nextDropdownOptions } = nextState;
-        const { dropdownOptions } = this.state;
-
-        return nextOptions !== options
-            || nextDropdownOptions !== dropdownOptions
-            || nextType !== type;
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const { options: prevOptions } = prevProps;
-        const { options, type } = this.props;
-        const { dropdownOptions } = this.state;
-
-        if (type === CONFIG_FIELD_TYPE.select) {
-            if (
-                options !== prevOptions
-                || !dropdownOptions
-                || (Array.isArray(dropdownOptions) && dropdownOptions.length === 0)
-            ) {
-                this.buildDropdownOptions();
-            }
-        }
-    }
 
     getFieldType() {
         const { type } = this.props;
@@ -74,15 +46,13 @@ export class CustomizableOptionContainer extends Component {
         return FIELD_TYPE[typeKey];
     }
 
-    buildDropdownOptions() {
+    getDropdownOptions() {
         const { options, currencyCode, type } = this.props;
         if (type !== CONFIG_FIELD_TYPE.select) {
             return;
         }
 
-        this.setState({
-            dropdownOptions: customizableOptionsToSelectTransform(options, currencyCode)
-        });
+        return customizableOptionsToSelectTransform(options, currencyCode);
     }
 
     render() {

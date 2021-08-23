@@ -25,7 +25,6 @@ export class CustomizableOption extends PureComponent {
         title: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
         fieldType: PropTypes.string.isRequired,
-        options: PropTypes.arrayOf(PropTypes.object).isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
@@ -209,7 +208,7 @@ export class CustomizableOption extends PureComponent {
 
     renderSelectValues() {
         const {
-            dropdownOptions,
+            getDropdownOptions,
             updateSelectedValues,
             isRequired,
             uid
@@ -224,7 +223,7 @@ export class CustomizableOption extends PureComponent {
                         name: `customizable-options-dropdown-${ uid }`
                     }}
                     mix={ { block: 'ProductCustomizableItem', elem: 'Select' } }
-                    options={ dropdownOptions }
+                    options={ getDropdownOptions() }
                     events={{
                         onChange: updateSelectedValues
                     }}
