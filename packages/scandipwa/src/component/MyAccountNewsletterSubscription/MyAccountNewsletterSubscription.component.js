@@ -20,14 +20,15 @@ import './MyAccountNewsletterSubscription.style.scss';
 export class MyAccountNewsletterSubscription extends FieldForm {
     static propTypes = {
         customer: customerType.isRequired,
-        onCustomerSave: PropTypes.func.isRequired
+        onCustomerSave: PropTypes.func.isRequired,
+        isSubscriptionSelected: PropTypes.bool.isRequired
     };
 
     shouldComponentUpdate(nextProps) {
-        const { customer } = this.props;
-        const { customer: nextCustomer } = nextProps;
+        const { isSubscriptionSelected } = this.props;
+        const { isSubscriptionSelected: nextIsSubscriptionSelected } = nextProps;
 
-        return customer !== nextCustomer;
+        return isSubscriptionSelected !== nextIsSubscriptionSelected;
     }
 
     onFormSuccess = (fields) => {
@@ -46,14 +47,15 @@ export class MyAccountNewsletterSubscription extends FieldForm {
     }
 
     get fieldMap() {
-        const { customer: { is_subscribed } } = this.props;
+        const { setSubscriptionStatus, isSubscriptionSelected } = this.props;
 
         return {
             is_subscribed: {
                 type: 'checkbox',
                 label: __('General subscription'),
                 value: 'is_subscribed',
-                checked: is_subscribed
+                checked: isSubscriptionSelected,
+                onChange: setSubscriptionStatus
             }
         };
     }
