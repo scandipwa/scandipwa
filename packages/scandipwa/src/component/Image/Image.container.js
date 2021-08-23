@@ -40,7 +40,8 @@ export class ImageContainer extends PureComponent {
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         ]),
-        title: PropTypes.string
+        title: PropTypes.string,
+        isPlain: PropTypes.bool
     };
 
     static defaultProps = {
@@ -54,7 +55,8 @@ export class ImageContainer extends PureComponent {
         style: {},
         title: null,
         className: '',
-        imageRef: () => {}
+        imageRef: () => {},
+        isPlain: false
     };
 
     containerProps() {
@@ -66,7 +68,8 @@ export class ImageContainer extends PureComponent {
             className,
             ratio,
             mix,
-            imageRef
+            imageRef,
+            isPlain
         } = this.props;
 
         return {
@@ -79,7 +82,8 @@ export class ImageContainer extends PureComponent {
             className,
             ratio,
             mix,
-            imageRef
+            imageRef,
+            isPlain
         };
     }
 

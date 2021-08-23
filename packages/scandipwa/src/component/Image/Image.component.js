@@ -229,7 +229,7 @@ export class Image extends PureComponent {
               ref={ imageRef }
               mods={ {
                   ratio,
-                  imageStatus,
+                  imageStatus: imageStatus.toLowerCase(),
                   isPlaceholder,
                   hasSrc: !!src
               } }
