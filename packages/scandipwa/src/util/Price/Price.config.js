@@ -8,6 +8,17 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
+
+export const TIER_PRICES = 'TIER_PRICES';
+
+export const PRICE_LABEL_MAP = {
+    [BUNDLE]: __('Starting from'),
+    [GROUPED]: __('Starting from'),
+    [CONFIGURABLE]: __('As Low as'),
+    [TIER_PRICES]: __('As Low as')
+};
+
 export default {
     AED: 'د.إ',
     AFN: '؋',

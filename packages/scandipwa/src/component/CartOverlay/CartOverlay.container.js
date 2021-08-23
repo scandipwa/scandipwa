@@ -25,10 +25,10 @@ import { isSignedIn } from 'Util/Auth';
 import {
     getCartShippingPrice,
     getCartShippingSubPrice,
-    getCartTotalSubPrice,
-    hasOutOfStockProductsInCartItems
+    getCartTotalSubPrice
 } from 'Util/Cart';
 import history from 'Util/History';
+import { getProductInStock } from 'Util/Product/Extract';
 import { appendWithStoreCode } from 'Util/Url';
 
 import CartOverlay from './CartOverlay.component';
@@ -122,9 +122,13 @@ export class CartOverlayContainer extends PureComponent {
             isMobile,
             cartShippingPrice,
             cartShippingSubPrice,
-            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
+            hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(totals.items)
         };
     }
+
+    hasOutOfStockProductsInCartItems = (items) => (
+        items.some(({ product }) => !getProductInStock(product))
+    );
 
     scrollToTop() {
         window.scrollTo({ top: 0 });
@@ -143,7 +147,7 @@ export class CartOverlayContainer extends PureComponent {
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        const hasOutOfStockProductsInCart = hasOutOfStockProductsInCartItems(totals.items);
+        const hasOutOfStockProductsInCart = this.hasOutOfStockProductsInCartItems(totals.items);
 
         if (hasOutOfStockProductsInCart) {
             showNotification('error', __('Cannot proceed to checkout. Remove out of stock products first.'));

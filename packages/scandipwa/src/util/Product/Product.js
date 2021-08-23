@@ -17,9 +17,7 @@ import { isSignedIn } from 'Util/Auth';
 import {
     BUNDLE,
     CONFIGURABLE,
-    DOWNLOADABLE,
-    SIMPLE,
-    VIRTUAL
+    DOWNLOADABLE
 } from 'Util/Product';
 import getStore from 'Util/Store';
 
@@ -373,20 +371,19 @@ export const getExtensionAttributes = (product) => {
         return { bundle_options: Array.from(productOptions || []) };
     }
 
-    if ((type_id === SIMPLE || type_id === VIRTUAL) && (productOptions || productOptionsMulti)) {
-        return {
-            customizable_options: productOptions || [],
-            customizable_options_multi: productOptionsMulti || []
-        };
-    }
+    const customizableOptions = (productOptions || productOptionsMulti) ? {
+        customizable_options: productOptions || [],
+        customizable_options_multi: productOptionsMulti || []
+    } : {};
 
-    if (type_id === DOWNLOADABLE && downloadableLinks) {
-        return {
-            downloadable_product_links: downloadableLinks
-        };
-    }
+    const downloadableOptions = (type_id === DOWNLOADABLE && downloadableLinks) ? {
+        downloadable_product_links: downloadableLinks
+    } : {};
 
-    return {};
+    return {
+        ...customizableOptions,
+        ...downloadableOptions
+    };
 };
 
 /** @namespace Util/Product/sortBySortOrder */

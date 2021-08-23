@@ -18,7 +18,7 @@ import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
 import ProductAlerts from 'Component/ProductAlerts';
 import ProductBundleItems from 'Component/ProductBundleItems';
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { IN_STOCK, OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
@@ -83,7 +83,8 @@ export class ProductActions extends PureComponent {
         isWishlistEnabled: PropTypes.bool.isRequired,
         displayProductStockStatus: PropTypes.bool.isRequired,
         setRefs: PropTypes.func.isRequired,
-        areReviewsEnabled: PropTypes.bool.isRequired
+        areReviewsEnabled: PropTypes.bool.isRequired,
+        inStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -113,14 +114,14 @@ export class ProductActions extends PureComponent {
         }
     }
 
-    renderStock(stockStatus) {
-        const { displayProductStockStatus } = this.props;
+    renderStock() {
+        const { displayProductStockStatus, inStock } = this.props;
 
         if (!displayProductStockStatus) {
             return null;
         }
 
-        const stockStatusLabel = stockStatus === IN_STOCK ? __('In stock') : __('Out of stock');
+        const stockStatusLabel = inStock ? __('In stock') : __('Out of stock');
 
         return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
     }
@@ -155,7 +156,7 @@ export class ProductActions extends PureComponent {
             ? variants[configurableVariantIndex]
             : product;
 
-        const { sku, stock_status } = productOrVariant;
+        const { sku } = productOrVariant;
 
         return (
             <section
@@ -171,7 +172,7 @@ export class ProductActions extends PureComponent {
                             <span block="ProductActions" elem="Sku" itemProp="sku">
                                 { __('SKU: %s', sku) }
                             </span>
-                            { this.renderStock(stock_status) }
+                            { this.renderStock() }
                         </>
                     ),
                     <TextPlaceholder />
@@ -379,9 +380,7 @@ export class ProductActions extends PureComponent {
             groupedProductQuantity,
             onProductValidationError,
             productOptionsData,
-            product: {
-                stock_status
-            } = {}
+            inStock
         } = this.props;
 
         return (
@@ -393,7 +392,7 @@ export class ProductActions extends PureComponent {
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ onProductValidationError }
               productOptionsData={ productOptionsData }
-              disabled={ stock_status !== IN_STOCK }
+              disabled={ !inStock }
               isWithIcon
             />
         );
@@ -458,12 +457,10 @@ export class ProductActions extends PureComponent {
         const {
             productPrice,
             offerCount,
-            productOrVariant: {
-                stock_status
-            }
+            inStock
         } = this.props;
 
-        if (stock_status !== IN_STOCK) {
+        if (!inStock) {
             return null;
         }
 
@@ -691,6 +688,7 @@ export class ProductActions extends PureComponent {
             isInStockAlertEnabled,
             isPriceAlertEnabled,
             product,
+            inStock,
             product: { variants }
         } = this.props;
 
@@ -705,7 +703,7 @@ export class ProductActions extends PureComponent {
             ? variants[configurableVariantIndex]
             : product;
 
-        const { id, stock_status } = productOrVariant;
+        const { id } = productOrVariant;
 
         return (
             <section
@@ -715,7 +713,7 @@ export class ProductActions extends PureComponent {
             >
                 <ProductAlerts
                   productId={ id }
-                  stockStatus={ stock_status }
+                  stockStatus={ inStock ? IN_STOCK : OUT_OF_STOCK }
                 />
             </section>
         );

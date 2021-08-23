@@ -59,7 +59,7 @@ export class SharedTransition extends PureComponent {
                 [key]: {
                     width,
                     height,
-                    start,
+                    left,
                     top
                 }
             }
@@ -69,7 +69,7 @@ export class SharedTransition extends PureComponent {
             --shared-element-width: ${width}px;
             --shared-element-height: ${height}px;
             --shared-element-top: ${top}px;
-            --shared-element-start: ${start}px;
+            --shared-element-start: ${left}px;
             --shared-element-animation-speed: ${this.animationSpeed}ms;
         `;
     }
