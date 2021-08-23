@@ -17,7 +17,6 @@ import CloseIcon from 'Component/CloseIcon';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 import { ProductType } from 'Type/ProductList';
@@ -43,7 +42,8 @@ export class ProductCompareItem extends PureComponent {
             PropTypes.string,
             PropTypes.shape({})
         ]),
-        overriddenAddToCartBtnHandler: PropTypes.func.isRequired
+        overriddenAddToCartBtnHandler: PropTypes.func.isRequired,
+        isOutOfStock: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -138,7 +138,13 @@ export class ProductCompareItem extends PureComponent {
               block="ProductCompareItem"
               elem="AddToCartBtnWrapper"
             >
-                { this.renderAddToCartBtnDisabled() }
+                <AddToCart
+                  product={ {} }
+                  groupedProductQuantity={ {} }
+                  productOptionsData={ {} }
+                  mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
+                  disableHandler
+                />
             </Link>
         );
     }
@@ -158,12 +164,11 @@ export class ProductCompareItem extends PureComponent {
     renderAddToCartBtn() {
         const {
             overrideAddToCartBtnBehavior,
-            product: {
-                stock_status
-            }
+            product,
+            isOutOfStock
         } = this.props;
 
-        if (stock_status !== IN_STOCK) {
+        if (isOutOfStock(product)) {
             return this.renderAddToCartBtnDisabled();
         }
 
