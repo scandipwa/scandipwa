@@ -47,9 +47,11 @@ export class HeaderContainer {
             goToPreviousNavigationState,
             showOverlay,
             updateLoadStatus,
-            activateSearchBar
+            activateSearchBar,
+            clearSearchResults
         } = this.props;
 
+        clearSearchResults();
         updateLoadStatus(false);
         showOverlay(SEARCH);
         activateSearchBar();
