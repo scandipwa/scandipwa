@@ -355,7 +355,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onMyAccountButtonClick() {
-        const { showOverlay } = this.props;
+        const {
+            showOverlay,
+            setNavigationState
+        } = this.props;
 
         if (isSignedIn()) {
             history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
@@ -365,6 +368,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         this.setState({ showMyAccountLogin: true }, () => {
             showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
+            setNavigationState({
+                name: CHECKOUT_ACCOUNT,
+                title: 'Sign in',
+                onCloseClick: this.closeOverlay
+            });
         });
     }
 
@@ -410,6 +418,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name },
             device
         } = this.props;
+
+        console.debug('onMinicartButtonClick', name);
 
         if (name === CART_OVERLAY) {
             return;
