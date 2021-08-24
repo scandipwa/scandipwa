@@ -126,7 +126,7 @@ export class CartOverlayContainer extends PureComponent {
         };
     }
 
-    hasOutOfStockProductsInCartItems = (items) => (
+    hasOutOfStockProductsInCartItems = (items = []) => (
         items.some(({ product }) => !getProductInStock(product))
     );
 
