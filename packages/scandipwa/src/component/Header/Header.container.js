@@ -419,8 +419,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
             device
         } = this.props;
 
-        console.debug('onMinicartButtonClick', name);
-
         if (name === CART_OVERLAY) {
             return;
         }
