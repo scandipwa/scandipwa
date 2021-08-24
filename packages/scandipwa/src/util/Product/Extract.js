@@ -24,9 +24,9 @@ export const getProductInStock = (product, configIndex = -1) => {
         return false;
     }
 
-    const { type_id, variants = [], items = [] } = product;
+    const { type_id: type, variants = [], items = [] } = product;
 
-    if (type_id === BUNDLE) {
+    if (type === BUNDLE) {
         const { items = [] } = product;
         const requiredItems = items.filter(({ required }) => required);
         const requiredItemsInStock = requiredItems.filter(
@@ -36,15 +36,15 @@ export const getProductInStock = (product, configIndex = -1) => {
         return requiredItemsInStock.length === requiredItems.length;
     }
 
-    if (type_id === CONFIGURABLE && configIndex === -1) {
-        return !!variants.some(({ product }) => getProductInStock(product));
+    if (type === CONFIGURABLE && configIndex === -1) {
+        return !!variants.some((product) => getProductInStock(product));
     }
 
-    if (type_id === GROUPED) {
+    if (type === GROUPED) {
         return !!items.some(({ product }) => getProductInStock(product));
     }
 
-    const { stock_status } = variants[configIndex] || product;
+    const { stock_status: stockStatus } = variants[configIndex] || product;
 
-    return stock_status === IN_STOCK;
+    return stockStatus === IN_STOCK;
 };
