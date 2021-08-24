@@ -29,7 +29,8 @@ export const WishlistDispatcher = import(
 /** @namespace Component/ProductWishlistButton/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     productsInWishlist: state.WishlistReducer.productsInWishlist,
-    isAddingWishlistItem: state.WishlistReducer.isLoading
+    isAddingWishlistItem: state.WishlistReducer.isLoading,
+    wishlistId: state.WishlistReducer.id
 });
 
 /** @namespace Component/ProductWishlistButton/Container/mapDispatchToProps */
@@ -53,6 +54,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         removeProductFromWishlist: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         onProductValidationError: PropTypes.func,
+        wishlistId:PropTypes.number,
         mix: MixType
     };
 
@@ -103,7 +105,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
             showNotification,
             productsInWishlist,
             addProductToWishlist,
-            removeProductFromWishlist
+            removeProductFromWishlist,
+            wishlistId
         } = this.props;
 
         if (!isSignedIn()) {
@@ -117,7 +120,10 @@ export class ProductWishlistButtonContainer extends PureComponent {
         this.setWishlistButtonLoading(true);
 
         if (add) {
-            return addProductToWishlist(magentoProduct);
+            return addProductToWishlist({
+                items: magentoProduct,
+                wishlistId
+            });
         }
 
         const { wishlist: { id: item_id } } = Object.values(productsInWishlist).find(

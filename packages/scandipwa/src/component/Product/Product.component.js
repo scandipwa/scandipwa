@@ -66,12 +66,27 @@ export class Product extends PureComponent {
 
     className = this.constructor.name.slice(0, -1);
 
+    //#region PLACEHOLDERS
+    renderTextPlaceholder() {
+        return <TextPlaceholder/>
+    }
+
+    renderBlockPlaceholder() {
+        return (
+            <div
+                block={ this.className }
+                mods={ { isLoading, isPlaceholder: true } }
+            />
+        )
+    }
+    //#endregion
+
     //#region PRODUCT OPTIONS
     renderBundleOptions() {
         const {
             product: {
                 items
-            },
+            } = {},
             updateSelectedValues
         } = this.props;
 
@@ -365,17 +380,6 @@ export class Product extends PureComponent {
             type_id: type,
             price_tiers: priceTiers
         } = product;
-
-        if (isPreview && !inStock) {
-            return (
-                <div
-                    block={ this.className }
-                    elem="PriceWrapper"
-                >
-                    { __('Out of stock') }
-                </div>
-            );
-        }
 
         if (!productPrice || (!isPreview && type === PRODUCT_TYPE.grouped) || !inStock) {
             return null;

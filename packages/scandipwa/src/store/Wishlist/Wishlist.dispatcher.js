@@ -112,19 +112,22 @@ export class WishlistDispatcher {
             return Promise.reject();
         }
 
-        const { products = [], wishlistId = '' } = options;
+        const { items = [], wishlistId = '' } = options;
 
         dispatch(updateIsLoading(true));
 
-        return fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, products)).then(
+        return fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items)).then(
             /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationThen */
-            () => {
+            (dart) => {
                 dispatch(showNotification('success', __('Product added to wish-list!')));
                 this._syncWishlistWithBE(dispatch);
+                console.log([dart]);
+                dispatch(updateIsLoading(false));
             },
             /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationError */
             () => {
                 dispatch(showNotification('error', __('Error updating wish list!')));
+                dispatch(updateIsLoading(false));
             }
         );
     }

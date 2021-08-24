@@ -22,7 +22,21 @@ export class WishlistQuery {
         return new Field('addProductsToWishlist')
             .addArgument('wishlistId', 'ID!', wishlistId)
             .addArgument('wishlistItems', '[WishlistItemInput!]!', wishlistItems)
-            .addFieldList(this._getWishlistFields());
+            .addField(this._getWishlistErrorsField());
+    }
+    //#endregion
+
+    //#region ERROR
+    _getWishlistErrorsFields() {
+        return [
+            'message',
+            'code'
+        ];
+    }
+
+    _getWishlistErrorsField() {
+        return new Field('user_errors')
+            .addFieldList(this._getWishlistErrorsFields());
     }
     //#endregion
 

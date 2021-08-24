@@ -147,13 +147,24 @@ export class ProductCard extends Product {
     }
 
     renderPrice() {
-        const { getActiveProduct } = this.props;
+        const { getActiveProduct, inStock } = this.props;
         const {
             price_range: priceRange
         } = getActiveProduct();
 
         if (!priceRange) {
-            return <TextPlaceholder />;
+            return this.renderTextPlaceholder();
+        }
+
+        if (!inStock) {
+            return (
+                <div
+                  block={ this.className }
+                  elem="PriceWrapper"
+                >
+                    { __('Out of stock') }
+                </div>
+            );
         }
 
         return super.renderPrice(true);
