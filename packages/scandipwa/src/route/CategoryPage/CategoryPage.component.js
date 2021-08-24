@@ -422,9 +422,10 @@ export class CategoryPage extends PureComponent {
 
     render() {
         const hideProducts = !this.displayProducts();
+        const { totalItems } = this.props;
 
         return (
-            <main block="CategoryPage">
+            <main block="CategoryPage" mods={ { noResults: totalItems === 0 } }>
                 <ContentWrapper
                   wrapperMix={ {
                       block: 'CategoryPage',
