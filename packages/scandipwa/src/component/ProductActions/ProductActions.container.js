@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 
 import {
     mapDispatchToProps,
+    mapStateToProps as sourceMapStateToProps,
     ProductContainer
 } from 'Component/Product/Product.container';
 import PRODUCT_TYPE from 'Config/Product.config';
@@ -25,6 +26,7 @@ import { ONE_HUNDRED_PERCENT } from './ProductActions.config';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
+    ...sourceMapStateToProps,
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
     device: state.ConfigReducer.device,
     isPriceAlertEnabled: state.ConfigReducer.product_alert_allow_price,

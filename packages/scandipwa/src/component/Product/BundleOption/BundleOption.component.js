@@ -16,7 +16,9 @@ import { PureComponent } from 'react';
 import Field from 'Component/PureForm/Field';
 import FieldGroupContainer from 'Component/PureForm/FieldGroup';
 import { FIELD_TYPE } from 'Config/Field.config';
-import { getBundleOption, getMaxQuantity, getMinQuantity } from 'Util/Product/Extract';
+import {
+    getBundleOption, getMaxQuantity, getMinQuantity, getProductInStock
+} from 'Util/Product/Extract';
 import { bundleOptionToLabel, getEncodedBundleUid } from 'Util/Product/Transform';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
@@ -47,6 +49,22 @@ export class BundleOption extends PureComponent {
         const { updateSelectedValues } = this.props;
         updateSelectedValues();
     }
+
+    //#refion ERROR
+    getError(quantity, stock, min, max, value) {
+        if (!value) {
+            return true;
+        } if (quantity < min) {
+            return __('Min quantity %s!', min);
+        } if (quantity > max) {
+            return __('Max quantity %s!', max);
+        } if (!stock) {
+            return __('Product out of stock!');
+        }
+
+        return true;
+    }
+    //#endregion
 
     //#region QUANTITY CHANGE
     setQuantity(uid, quantity) {
@@ -101,6 +119,9 @@ export class BundleOption extends PureComponent {
         } = this.props;
 
         const label = this.getLabel(option);
+        const min = getMinQuantity(product);
+        const max = getMaxQuantity(product);
+        const stock = getProductInStock(product);
 
         return (
             <div block="ProductBundleItem" elem="Checkbox" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
@@ -115,11 +136,15 @@ export class BundleOption extends PureComponent {
                   events={ {
                       onChange: updateSelectedValues
                   } }
+                  validationRule={ {
+                      match: this.getError.bind(this, quantity, stock, min, max)
+                  } }
+                  validateOn={ ['onChange'] }
                 />
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
         );
-    }
+    };
 
     renderCheckBoxValues(options) {
         const { isRequired } = this.props;
@@ -130,7 +155,7 @@ export class BundleOption extends PureComponent {
                   isRequired,
                   selector: '[type="checkbox"]'
               } }
-              validateOn={ ['onBlur'] }
+              validateOn={ ['onChange'] }
             >
                 { options.map(this.renderCheckBox) }
             </FieldGroupContainer>
@@ -167,6 +192,7 @@ export class BundleOption extends PureComponent {
                   events={ {
                       onChange: updateSelectedValues
                   } }
+                  validateOn={ ['onChange'] }
                 />
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
@@ -182,6 +208,7 @@ export class BundleOption extends PureComponent {
                   isRequired,
                   selector: '[type="radio"]'
               } }
+              validateOn={ ['onChange'] }
             >
                 { options.map((option) => this.renderRadio(uid, option)) }
             </FieldGroupContainer>
@@ -212,7 +239,7 @@ export class BundleOption extends PureComponent {
             uid: optionUid,
             quantity: defaultQuantity = 1,
             can_change_quantity: canChangeQuantity = false,
-            product
+            product = {}
         } = activeOption || {};
 
         const {

@@ -15,7 +15,6 @@ import Html from 'Component/Html';
 import { Product } from 'Component/Product/Product.component';
 import ProductAlerts from 'Component/ProductAlerts';
 import ProductPrice from 'Component/ProductPrice';
-import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import PRODUCT_TYPE from 'Config/Product.config';
@@ -304,33 +303,6 @@ export class ProductActions extends Product {
         );
     }
 
-    renderProductWishlistButton() {
-        const {
-            product,
-            quantity,
-            configurableVariantIndex,
-            onProductValidationError,
-            productOptionsData,
-            groupedProductQuantity,
-            isWishlistEnabled
-        } = this.props;
-
-        if (!isWishlistEnabled) {
-            return null;
-        }
-
-        return (
-            <ProductWishlistButton
-              product={ product }
-              quantity={ quantity }
-              configurableVariantIndex={ configurableVariantIndex }
-              onProductValidationError={ onProductValidationError }
-              productOptionsData={ productOptionsData }
-              groupedProductQuantity={ groupedProductQuantity }
-            />
-        );
-    }
-
     renderReviewSection() {
         return (
             <div
@@ -400,7 +372,7 @@ export class ProductActions extends Product {
                 { this.renderQuantityChanger() }
                 { this.renderAddToCartButton() }
                 <div block="ProductActions" elem="ActionButtons">
-                    { this.renderProductWishlistButton() }
+                    { this.renderWishlistButton() }
                     { this.renderCompareButton() }
                 </div>
             </div>
@@ -416,7 +388,7 @@ export class ProductActions extends Product {
             >
                 { this.renderQuantityChanger() }
                 { this.renderAddToCartButton() }
-                { this.renderProductWishlistButton() }
+                { this.renderWishlistButton() }
             </div>
         );
     }

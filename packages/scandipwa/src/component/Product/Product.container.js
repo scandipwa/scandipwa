@@ -38,7 +38,9 @@ export const mapDispatchToProps = (dispatch) => ({
     showError: (message) => dispatch(showNotification('error', message)),
 });
 
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    cartId: state.CartReducer.id
+});
 
 /**
  * Abstract Product class used to hold shared functionality
@@ -51,7 +53,8 @@ export class ProductContainer extends PureComponent {
         showError: PropTypes.func.isRequired,
         configFormRef: PropTypes.object,
 
-        parameters: PropTypes.objectOf(PropTypes.string)
+        parameters: PropTypes.objectOf(PropTypes.string),
+        cartId: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -144,15 +147,15 @@ export class ProductContainer extends PureComponent {
         const { quantity, parameters, adjustedPrice } = this.state;
         const {
             product,
-            product: {
-                price_range: priceRange = {},
-                dynamic_price: dynamicPrice = false,
-                type_id: type
-            },
             configFormRef
         } = this.props;
 
         const activeProduct = this.getActiveProduct();
+        const {
+            price_range: priceRange = {},
+            dynamic_price: dynamicPrice = false,
+            type_id: type
+        } = activeProduct;
 
         return {
             quantity,
@@ -201,6 +204,9 @@ export class ProductContainer extends PureComponent {
         });
     }
 
+    /**
+     * Generates adjusted price from entered, selected, link options
+     */
     updateAdjustedPrice() {
         const { product } = this.props;
         const { downloadableLinks, enteredOptions, selectedOptions } = this.state;
@@ -212,6 +218,7 @@ export class ProductContainer extends PureComponent {
         this.setState({ adjustedPrice });
     }
 
+
     setAdjustedPrice(type, amount) {
         const { adjustedPrice } = this.state;
         this.setState({
@@ -222,7 +229,11 @@ export class ProductContainer extends PureComponent {
         });
     }
 
-    addToCart() {
+    /**
+     * Event that validates and invokes product adding into cart
+     * @returns {*}
+     */
+    async addToCart() {
         this.updateSelectedValues();
 
         const isValid = validateGroup(this.validator);
@@ -233,12 +244,17 @@ export class ProductContainer extends PureComponent {
             return;
         }
 
-        const { addProductToCart } = this.props;
+        const { addProductToCart, cartId } = this.props;
         const products = this.getMagentoProduct();
 
-        return addProductToCart(products);
+        await addProductToCart({ products, cartId });
     }
 
+    /**
+     * Updates configurable products selected variant
+     * @param key
+     * @param value
+     */
     updateConfigurableVariant(key, value) {
         const { parameters: prevParameters } = this.state;
 
@@ -263,6 +279,11 @@ export class ProductContainer extends PureComponent {
         }
     }
 
+    /**
+     * Sets quantity, if grouped adds object over old,
+     * if any other product updates value
+     * @param quantity
+     */
     setQuantity(quantity) {
         if (typeof quantity === 'object') {
             const { quantity : oldQuantity = {} } = this.state
@@ -272,10 +293,19 @@ export class ProductContainer extends PureComponent {
         }
     }
 
+    /**
+     * Global state setting function
+     * @param type State name
+     * @param options State value
+     */
     setStateOptions(type, options) {
         this.setState({ [type]: options });
     }
 
+    /**
+     * Returns magento graphql compatible product data
+     * @returns {*[]}
+     */
     getMagentoProduct() {
         const { product } = this.props;
         const {
@@ -296,6 +326,11 @@ export class ProductContainer extends PureComponent {
         );
     }
 
+    /**
+     * Returns currently selected product, differs from prop product, for
+     * configurable products, as active product can be one of variants.
+     * @returns {*}
+     */
     getActiveProduct() {
         const { selectedProduct } = this.state;
         const { product } = this.props;

@@ -15,8 +15,9 @@ import { PureComponent } from 'react';
 import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
-import Field from 'Component/Field';
+import Field from 'Component/PureForm/Field';
 import StoreItems from 'Component/StoreItems';
+import FIELD_TYPE from 'Config/Field.config';
 import { DeviceType } from 'Type/Device';
 
 import './StoreSwitcher.style';
@@ -65,12 +66,16 @@ export class StoreSwitcher extends PureComponent {
         return (
             <div block="StoreSwitcher">
                 <Field
-                  id="StoreSwitcher"
-                  name="StoreSwitcher"
-                  type="select"
-                  selectOptions={ storeList }
-                  value={ currentStoreCode }
-                  onChange={ handleStoreSelect }
+                  type={ FIELD_TYPE.select }
+                  attr={ {
+                      id: 'StoreSwitcher',
+                      name: 'StoreSwitcher',
+                      defaultValue: currentStoreCode
+                  } }
+                  events={ {
+                      onChange: handleStoreSelect
+                  } }
+                  options={ storeList }
                 />
             </div>
         );

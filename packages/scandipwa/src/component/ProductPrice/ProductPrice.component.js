@@ -28,7 +28,7 @@ export class ProductPrice extends PureComponent {
         price: PropTypes.object,
         priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
         originalPrice: PropTypes.object,
-        // priceTiers: PropTypes.array,
+        tierPrice: PropTypes.string,
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
         isPreview: PropTypes.bool,
@@ -42,13 +42,13 @@ export class ProductPrice extends PureComponent {
         price: {},
         priceType: PRODUCT_TYPE.simple,
         originalPrice: {},
-        // priceTiers: [],
         priceCurrency: 'USD',
         discountPercentage: 0,
         isPreview: false,
         isSchemaRequired: false,
         variantsCount: 0,
         mix: {},
+        tierPrice: '',
         label: ''
     };
 
@@ -56,7 +56,7 @@ export class ProductPrice extends PureComponent {
         [PRODUCT_TYPE.simple]: this.renderCustomisablePrice.bind(this),
         [PRODUCT_TYPE.virtual]: this.renderCustomisablePrice.bind(this),
         [PRODUCT_TYPE.bundle]: this.renderBundlePrice.bind(this),
-        [PRODUCT_TYPE.grouped]: this.renderCustomisablePrice.bind(this),
+        [PRODUCT_TYPE.grouped]: this.renderGroupedPrice.bind(this),
         [PRODUCT_TYPE.downloadable]: this.renderCustomisablePrice.bind(this),
         [PRODUCT_TYPE.configurable]: this.renderCustomisablePrice.bind(this)
     };
@@ -236,6 +236,23 @@ export class ProductPrice extends PureComponent {
         );
     }
 
+    renderGroupedPrice() {
+        const {
+            originalPrice: {
+                minFinalPrice = {},
+                minFinalPriceExclTax = {}
+            },
+            priceType
+        } = this.props;
+        const { [priceType]: label } = this.priceLabelTypeMap;
+
+        return (
+            <>
+                { this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax, label) }
+            </>
+        );
+    }
+
     renderCustomisablePrice() {
         const {
             originalPrice: {
@@ -284,6 +301,20 @@ export class ProductPrice extends PureComponent {
         );
     }
 
+    renderTierPrice() {
+        const { tierPrice } = this.props;
+        if (!tierPrice) {
+            return null;
+        }
+
+        return (
+            <p block="ProductPrice" elem="TierPrice">
+                { __('As low as') }
+                <strong>{ ` ${tierPrice}` }</strong>
+            </p>
+        );
+    }
+
     render() {
         const {
             price: {
@@ -314,6 +345,7 @@ export class ProductPrice extends PureComponent {
             >
                 { isPreview && renderer && renderer() }
                 { (!isPreview || !renderer) && this.renderDefaultPrice() }
+                { this.renderTierPrice() }
             </p>
         );
     }

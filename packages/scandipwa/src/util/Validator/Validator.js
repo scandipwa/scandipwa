@@ -12,6 +12,13 @@
 import FIELD_TYPE from 'Config/Field.config';
 import { VALIDATION_INPUT_TYPE_NUMBER, VALIDATION_MESSAGES, VALIDATION_RULES } from 'Util/Validator/Config';
 
+/**
+ * Validates parameter based on rules
+ * @param value
+ * @param rule
+ * @returns {boolean|{errorMessages: *[], value}}
+ * @namespace Util/Validator/validate
+ */
 export const validate = (value, rule) => {
     const {
         isRequired,
@@ -45,7 +52,12 @@ export const validate = (value, rule) => {
     //#endregion
 
     //#region MATCH
-    if ((typeof match === 'function' && !match(value)) || (match && value.match(match))) {
+    if (typeof match === 'function') {
+        const response = match(value);
+        if (response !== true) {
+            output.errorMessages.push(response === false ? onMatchFail || VALIDATION_MESSAGES.match : response);
+        }
+    } else if (match && value.match(match)) {
         output.errorMessages.push(onMatchFail || VALIDATION_MESSAGES.match);
     }
     //#endregion
@@ -76,6 +88,13 @@ export const validate = (value, rule) => {
     return errorMessages.length === 0 ? true : output;
 };
 
+/**
+ * Validates DOM object check itself and children
+ * @param DOM
+ * @param rule
+ * @returns {boolean|{errorMessages: *[], values: *[], errorFields: *[]}}
+ * @namespace Util/Validator/validateGroup
+ */
 export const validateGroup = (DOM, rule = null) => {
     const {
         selector = 'select, input, textarea, .js-validatabale, form, .FieldGroup'
@@ -119,7 +138,8 @@ export const validateGroup = (DOM, rule = null) => {
             match,
             customErrorMessages: {
                 onRequirementFail,
-                onMatchFail
+                onMatchFail,
+                onGroupFail
             } = {}
         } = rule;
 
@@ -143,6 +163,10 @@ export const validateGroup = (DOM, rule = null) => {
 
         if (typeof match === 'function' && !match(output.values)) {
             output.errorMessages.push(onMatchFail || VALIDATION_MESSAGES.match);
+        }
+
+        if (output.errorMessages.length === 0 && output.errorFields.length > 0) {
+            output.errorMessages.push(onGroupFail || VALIDATION_MESSAGES.group);
         }
     }
     //#endregion

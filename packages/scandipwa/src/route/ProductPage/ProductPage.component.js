@@ -17,7 +17,6 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
 import Popup from 'Component/Popup/Popup.container';
 import ProductActions from 'Component/ProductActions';
-import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviewForm from 'Component/ProductReviewForm/ProductReviewForm.container';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
@@ -67,7 +66,6 @@ export class ProductPage extends PureComponent {
         setBundlePrice: PropTypes.func.isRequired,
         selectedLinkPrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
-        isMobile: PropTypes.bool.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
@@ -151,27 +149,6 @@ export class ProductPage extends PureComponent {
         );
     }
 
-    renderCustomizableOptions() {
-        const {
-            dataSource: { options },
-            getSelectedCustomizableOptions,
-            productOptionsData,
-            isMobile
-        } = this.props;
-
-        if (!isMobile) {
-            return null;
-        }
-
-        return (
-            <ProductCustomizableOptions
-              options={ options || [] }
-              getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
-              productOptionsData={ productOptionsData }
-            />
-        );
-    }
-
     renderProductInformationTab(key) {
         const {
             dataSource,
@@ -242,7 +219,6 @@ export class ProductPage extends PureComponent {
 
         return (
             <>
-                { this.renderCustomizableOptions() }
                 { this.renderProductTabs() }
                 <ProductLinks
                   linkType={ RELATED }

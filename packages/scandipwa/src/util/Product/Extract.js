@@ -75,17 +75,18 @@ export const getName = (product, configIndex = -1) => {
 /**
  * Returns whether or not product is in stock (true if in stock | false if out of stock)
  * @param product
- * @param configIndex
+ * @param configIndex - Deprecated - use getActiveProduct()
  * @returns {boolean}
+ * @namespace Util/Product/Extract/getProductInStock
  */
 export const getProductInStock = (product, configIndex = -1) => {
     if (!product) {
         return false;
     }
 
-    const { type_id, variants = [], items = [] } = product;
+    const { type_id: type, variants = [], items = [] } = product;
 
-    if (type_id === PRODUCT_TYPE.bundle) {
+    if (type === PRODUCT_TYPE.bundle) {
         const { items = [] } = product;
         const requiredItems = items.filter(({ required }) => required);
         const requiredItemsInStock = requiredItems.filter(
@@ -95,17 +96,17 @@ export const getProductInStock = (product, configIndex = -1) => {
         return requiredItemsInStock.length === requiredItems.length;
     }
 
-    if (type_id === PRODUCT_TYPE.configurable && configIndex === -1) {
-        return !!variants.some(({ product }) => getProductInStock(product));
+    if (type === PRODUCT_TYPE.configurable && configIndex === -1) {
+        return !!variants.some((product) => getProductInStock(product));
     }
 
-    if (type_id === PRODUCT_TYPE.grouped && configIndex === -1) {
+    if (type === PRODUCT_TYPE.grouped) {
         return !!items.some(({ product }) => getProductInStock(product));
     }
 
-    const { stock_status } = variants[configIndex] || product;
+    const { stock_status: stockStatus } = variants[configIndex] || product;
 
-    return stock_status === IN_STOCK;
+    return stockStatus === IN_STOCK;
 };
 
 export const getBundleOption = (uid, options = []) => {
@@ -128,6 +129,15 @@ export const getBundleOption = (uid, options = []) => {
 };
 
 // TODO: Add caching
+/**
+ * Returns price object for product.
+ * @param priceRange
+ * @param dynamicPrice
+ * @param adjustedPrice
+ * @param type
+ * @returns {{originalPrice: {maxFinalPriceExclTax: {valueFormatted: string}, minFinalPrice: {valueFormatted: string}, minFinalPriceExclTax: {valueFormatted: string}, maxFinalPrice: {valueFormatted: string}}, price: {originalPriceExclTax: {currency: string, value: (number|number)}, originalPrice: {currency: string, value: (number|number)}, finalPriceExclTax: {currency: string, value: (number|number)}, finalPrice: {currency: string, value: (number|number)}, discount: {percentOff: number}}}}
+ * @namespace Util/Product/Extract/getPrice
+ */
 export const getPrice = (
     priceRange,
     dynamicPrice = false,
@@ -333,3 +343,16 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
 
     return adjustedPrice;
 };
+
+//#region IMAGE
+export const getImage = (product, field) => {
+    const { [field]: { url = 'no_selection' } = {} } = product;
+    return url && url !== 'no_selection' ? url : '';
+};
+
+export const getThumbnailImage = (product) => getImage(product, 'thumbnail');
+
+export const getSmallImage = (product) => getImage(product, 'small_image');
+
+export const getBaseImage = (product) => getImage(product, 'image');
+//#endregion

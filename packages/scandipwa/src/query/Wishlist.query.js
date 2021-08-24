@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -16,12 +17,14 @@ import { Field } from 'Util/Query';
 
 /** @namespace Query/Wishlist */
 export class WishlistQuery {
-    getAddProductsToWishlist(wishlistId, wishlistItems) {
+    //#region MUTATION
+    addProductsToWishlist(wishlistId, wishlistItems) {
         return new Field('addProductsToWishlist')
             .addArgument('wishlistId', 'ID!', wishlistId)
             .addArgument('wishlistItems', '[WishlistItemInput!]!', wishlistItems)
             .addFieldList(this._getWishlistFields());
     }
+    //#endregion
 
     getWishlistQuery(sharingCode) {
         const field = new Field('s_wishlist')
@@ -33,13 +36,6 @@ export class WishlistQuery {
         }
 
         return field;
-    }
-
-    getSaveWishlistItemMutation(wishlistItem) {
-        return new Field('s_saveWishlistItem')
-            .setAlias('saveWishlistItem')
-            .addArgument('wishlistItem', 'WishlistItemInput!', wishlistItem)
-            .addFieldList(this._getWishlistItemsFields());
     }
 
     getShareWishlistMutation(input) {

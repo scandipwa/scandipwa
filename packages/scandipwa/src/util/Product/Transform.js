@@ -145,6 +145,7 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
  * @param enteredOptions
  * @param selectedOptions
  * @returns {*[]}
+ * @namespace Util/Product/Transform/magentoProductTransform
  */
 export const magentoProductTransform = (
     product,

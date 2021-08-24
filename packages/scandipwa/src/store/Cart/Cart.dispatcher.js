@@ -109,22 +109,21 @@ export class CartDispatcher {
         }
     }
 
-    async addProductToCart(dispatch, products = []) {
+    async addProductToCart(dispatch, options = {}) {
+        const { products = [], cartId = getGuestQuoteId() } = options;
+
         if (!Array.isArray(products) || products.length === 0) {
             dispatch(showNotification('error', __('No product data!')));
             return false;
         }
 
         try {
-            const isCustomerSignedIn = isSignedIn();
-            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
-
-            if (!isCustomerSignedIn && !guestQuoteId) {
+            if (!cartId) {
                 return Promise.reject();
             }
 
             const { addProductsToCart: { user_errors: errors = [] } = {} } = await fetchMutation(
-                CartQuery.getAddProductToCartMutation(guestQuoteId, products)
+                CartQuery.getAddProductToCartMutation(cartId, products)
             );
 
             if (Array.isArray(errors) && errors.length > 0) {

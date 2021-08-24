@@ -55,7 +55,11 @@ export class AddToCartContainer extends PureComponent {
 
     containerFunctions = {
         addProductToCart: this.addProductToCart.bind(this)
-    }
+    };
+
+    state = {
+        isAdding: false
+    };
 
     globalValidationMap = [
         this.validateStock.bind(this),
@@ -71,13 +75,16 @@ export class AddToCartContainer extends PureComponent {
         [PRODUCT_TYPE.grouped]: this.validateGroup.bind(this)
     };
 
-    addProductToCart() {
+    async addProductToCart() {
+        this.setState({ isAdding: true });
+
         if (!this.validate()) {
             return;
         }
 
         const { addToCart } = this.props;
-        addToCart();
+        await addToCart();
+        this.setState({ isAdding: false });
     }
 
     validate() {
@@ -154,7 +161,10 @@ export class AddToCartContainer extends PureComponent {
     }
 
     containerProps() {
-        return this.props;
+        return {
+            ...this.props,
+            ...this.state
+        };
     }
 
     render() {

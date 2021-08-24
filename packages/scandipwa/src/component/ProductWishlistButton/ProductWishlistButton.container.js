@@ -87,7 +87,6 @@ export class ProductWishlistButtonContainer extends PureComponent {
             magentoProduct,
             isDisabled: this.isDisabled(),
             isInWishlist: this.isInWishlist(),
-            isReady: this._getIsProductReady(),
             isSignedIn: isSignedIn()
         };
     }
@@ -115,12 +114,6 @@ export class ProductWishlistButtonContainer extends PureComponent {
             return null;
         }
 
-        // if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
-        //     onProductValidationError(type_id);
-        //
-        //     return showNotification('info', __('Please, select desirable option first!'));
-        // }
-
         this.setWishlistButtonLoading(true);
 
         if (add) {
@@ -140,33 +133,27 @@ export class ProductWishlistButtonContainer extends PureComponent {
     };
 
     isInWishlist = () => {
-        const { productsInWishlist } = this.props;
+        const { productsInWishlist, magentoProduct = [] } = this.props;
+        const [{ sku: productSku }] = magentoProduct;
 
-        const { magentoProduct: [{ sku: productSku }] = [] } = this.props;
+        if (!productSku) {
+            return false;
+        }
 
+        // TODO: After new graphql will need to check by options
         return Object.values(productsInWishlist).findIndex(({ wishlist: { sku } }) => sku === productSku) >= 0;
     };
 
-    _getIsProductReady() {
-        // const { product: { type_id }, configurableVariantIndex } = this.props;
-        //
-        // if (type_id === PRODUCT_TYPE.configurable && configurableVariantIndex < 0) {
-        //     return false;
-        // }
-        return true;
-    }
-
     render() {
-        return null;
-        // const { isWishlistButtonLoading } = this.state;
-        //
-        // return (
-        //     <ProductWishlistButton
-        //       isLoading={ isWishlistButtonLoading }
-        //       { ...this.containerProps() }
-        //       { ...this.containerFunctions }
-        //     />
-        // );
+        const { isWishlistButtonLoading } = this.state;
+
+        return (
+            <ProductWishlistButton
+              isLoading={ isWishlistButtonLoading }
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+            />
+        );
     }
 }
 

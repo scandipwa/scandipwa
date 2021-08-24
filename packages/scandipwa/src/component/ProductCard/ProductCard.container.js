@@ -13,7 +13,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
-import { ProductContainer } from 'Component/Product/Product.container';
+import {
+    mapDispatchToProps as sourceMapDispatchToProps,
+    mapStateToProps as sourceMapStateToProps,
+    ProductContainer
+} from 'Component/Product/Product.container';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import PRODUCT_TYPE from 'Config/Product.config';
 import { IN_STOCK } from 'Config/Stock.config';
@@ -40,6 +44,7 @@ export const CartDispatcher = import(
 
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
+    ...sourceMapStateToProps,
     device: state.ConfigReducer.device,
     base_link_url: state.ConfigReducer.base_link_url || '',
     product_use_categories: state.ConfigReducer.product_use_categories || false,
@@ -49,6 +54,7 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
+    ...sourceMapDispatchToProps,
     addProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),

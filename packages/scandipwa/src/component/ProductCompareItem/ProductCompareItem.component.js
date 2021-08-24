@@ -20,6 +20,7 @@ import Loader from 'Component/Loader';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 import { ProductType } from 'Type/ProductList';
+import { magentoProductTransform } from 'Util/Product/Transform';
 
 import {
     PRODUCT_ADD_TO_CART_DEFAULT_QUANTITY,
@@ -102,7 +103,7 @@ export class ProductCompareItem extends PureComponent {
 
         return (
             <ProductWishlistButton
-              product={ product }
+              magentoProduct={ magentoProductTransform(product) }
               mix={ { block: 'ProductCard', elem: 'WishListButton' } }
             />
         );

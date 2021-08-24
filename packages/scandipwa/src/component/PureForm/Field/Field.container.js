@@ -87,7 +87,9 @@ export class FieldContainer extends PureComponent {
 
     validate(data) {
         const { validationRule, type, attr: { name } = {} } = this.props;
-        const value = this.fieldRef.value;
+        const value = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio
+            ? !!this.fieldRef.checked
+            : this.fieldRef.value;
         const response = validate(value, validationRule);
         const output = response !== true ? { ...response, type, name } : response;
 

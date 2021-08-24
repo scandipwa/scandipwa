@@ -107,7 +107,10 @@ export class CartOverlayContainer extends PureComponent {
             cartDisplaySettings,
             isMobile,
             cartShippingPrice,
-            cartShippingSubPrice
+            cartShippingSubPrice,
+            totals: {
+                items = []
+            } = {}
         } = this.props;
         const { isEditing } = this.state;
 
@@ -122,7 +125,7 @@ export class CartOverlayContainer extends PureComponent {
             isMobile,
             cartShippingPrice,
             cartShippingSubPrice,
-            hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(totals.items)
+            hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items)
         };
     }
 

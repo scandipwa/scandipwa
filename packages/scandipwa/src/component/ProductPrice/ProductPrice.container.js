@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import PRODUCT_TYPE from 'Config/Product.config';
 import { MixType } from 'Type/Common';
+import { formatPrice } from 'Util/Price';
 
 import ProductPrice from './ProductPrice.component';
 import {
@@ -44,7 +45,7 @@ export class ProductPriceContainer extends PureComponent {
         isSchemaRequired: PropTypes.bool,
         mix: MixType,
         displayTaxInPrice: PropTypes.string,
-        price_tiers: PropTypes.array,
+        tierPrices: PropTypes.array,
         label: PropTypes.string,
         variantsCount: PropTypes.number
     };
@@ -56,7 +57,7 @@ export class ProductPriceContainer extends PureComponent {
         mix: {},
         price: {},
         priceType: PRODUCT_TYPE.simple,
-        price_tiers: [],
+        tierPrices: [],
         label: '',
         variantsCount: 0
     };
@@ -75,7 +76,6 @@ export class ProductPriceContainer extends PureComponent {
                     } = {}
                 } = {}
             },
-            price_tiers: priceTiers,
             isPreview,
             isSchemaRequired,
             label,
@@ -91,7 +91,7 @@ export class ProductPriceContainer extends PureComponent {
         return {
             price,
             originalPrice,
-            priceTiers,
+            tierPrice: this.getMinTierPrice(priceCurrency),
             priceCurrency,
             discountPercentage,
             isPreview,
@@ -101,6 +101,18 @@ export class ProductPriceContainer extends PureComponent {
             variantsCount,
             priceType
         };
+    }
+
+    getMinTierPrice(currency) {
+        const { tierPrices } = this.props;
+        if (tierPrices && tierPrices.length > 0) {
+            const prices = tierPrices.map(({ final_price: { value = 0 } = {} }) => value);
+            const minPrice = Math.min(...prices);
+
+            return formatPrice(minPrice, currency);
+        }
+
+        return '';
     }
 
     render() {

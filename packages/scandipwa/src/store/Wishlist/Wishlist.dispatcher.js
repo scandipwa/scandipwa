@@ -107,17 +107,21 @@ export class WishlistDispatcher {
         );
     }
 
-    addItemToWishlist(dispatch, wishlistItem) {
+    addItemToWishlist(dispatch, options) {
         if (!isSignedIn()) {
             return Promise.reject();
         }
 
-        dispatch(updateIsLoading(true));
-        dispatch(showNotification('success', __('Product added to wish-list!')));
+        const { products = [], wishlistId = '' } = options;
 
-        return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(wishlistItem)).then(
+        dispatch(updateIsLoading(true));
+
+        return fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, products)).then(
             /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationThen */
-            () => this._syncWishlistWithBE(dispatch),
+            () => {
+                dispatch(showNotification('success', __('Product added to wish-list!')));
+                this._syncWishlistWithBE(dispatch);
+            },
             /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationError */
             () => {
                 dispatch(showNotification('error', __('Error updating wish list!')));

@@ -16,10 +16,10 @@ import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
 import FieldContainer from 'Component/PureForm/Field';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import TierPrices from 'Component/TierPrices';
 import { FIELD_TYPE } from 'Config/Field.config';
 import { ProductType } from 'Type/ProductList';
-import media, { PRODUCT_MEDIA } from 'Util/Media';
-import { getPrice } from 'Util/Product/Extract';
+import { getPrice, getThumbnailImage } from 'Util/Product/Extract';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
 import './GroupedProductsItem.style';
@@ -43,7 +43,8 @@ export class GroupedProductsItem extends PureComponent {
                 price_range: priceRange,
                 type_id: type,
                 dynamic_price: dynamicPrice
-            }
+            },
+            product
         } = this.props;
 
         return (
@@ -51,7 +52,11 @@ export class GroupedProductsItem extends PureComponent {
                 <p>
                     <TextPlaceholder content={ name } />
                 </p>
-                <ProductPrice price={ getPrice(priceRange, dynamicPrice, {}, type) } mods={ { type: 'regular' } } />
+                <ProductPrice
+                  price={ getPrice(priceRange, dynamicPrice, {}, type) }
+                  mods={ { type: 'regular' } }
+                />
+                <TierPrices product={ product } />
             </div>
         );
     }
@@ -86,18 +91,13 @@ export class GroupedProductsItem extends PureComponent {
     }
 
     renderImage() {
-        const {
-            product: {
-                thumbnail: {
-                    path: thumb_url
-                }
-            }
-        } = this.props;
+        const { product } = this.props;
+        const imageUrl = getThumbnailImage(product);
 
         return (
             <Image
               mix={ { block: 'GroupedProductsItem', elem: 'Image' } }
-              src={ thumb_url && media(thumb_url, PRODUCT_MEDIA) }
+              src={ imageUrl }
               alt="Product Thumbnail"
             />
         );

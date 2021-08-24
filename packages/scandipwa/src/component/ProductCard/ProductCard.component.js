@@ -19,7 +19,6 @@ import Loader from 'Component/Loader';
 import { Product } from 'Component/Product/Product.component';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
-import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import PRODUCT_TYPE from 'Config/Product.config';
 import { IN_STOCK } from 'Config/Stock.config';
@@ -30,7 +29,6 @@ import { ProductType } from 'Type/ProductList';
 import {
     filterConfigurableOptions
 } from 'Util/Product';
-import { getPrice } from 'Util/Product/Extract';
 
 import { TIER_PRICES } from './ProductCard.config';
 
@@ -45,7 +43,6 @@ export class ProductCard extends Product {
     static propTypes = {
         ...Product.propTypes,
         linkTo: PropTypes.shape({}),
-        product: ProductType.isRequired,
         device: DeviceType.isRequired,
         thumbnail: PropTypes.string,
         getAttribute: PropTypes.func.isRequired,
@@ -98,7 +95,7 @@ export class ProductCard extends Product {
         },
         content: {
             review: this.renderReviews.bind(this),
-            productPrice: this.renderProductPrice.bind(this),
+            productPrice: this.renderPrice.bind(this),
             mainDetails: this.renderMainDetails.bind(this),
             additionalProductDetails: this.renderAdditionalProductDetails.bind(this)
         }
@@ -112,30 +109,6 @@ export class ProductCard extends Product {
     };
 
     imageRef = createRef();
-
-    shouldComponentUpdate(nextProps) {
-        const {
-            product,
-            device,
-            productOrVariant,
-            parameters,
-            layout
-        } = this.props;
-
-        const {
-            product: nextProduct,
-            device: nextDevice,
-            productOrVariant: nextProductOrVariant,
-            parameters: nextParameters,
-            layout: prevLayout
-        } = nextProps;
-
-        return product !== nextProduct
-            || device !== nextDevice
-            || productOrVariant !== nextProductOrVariant
-            || parameters !== nextParameters
-            || layout !== prevLayout;
-    }
 
     registerSharedElement = () => {
         const { registerSharedElement } = this.props;
@@ -173,49 +146,17 @@ export class ProductCard extends Product {
         );
     }
 
-    renderProductPrice() {
+    renderPrice() {
+        const { getActiveProduct } = this.props;
         const {
-            product: {
-                price_range: priceRange,
-                price_tiers: priceTiers = [],
-                type_id: type,
-                dynamic_price: dynamicPrice = false
-            },
-            isConfigurableProductOutOfStock,
-            isBundleProductOutOfStock
-        } = this.props;
+            price_range: priceRange
+        } = getActiveProduct();
 
         if (!priceRange) {
             return <TextPlaceholder />;
         }
 
-        switch (type) {
-        case PRODUCT_TYPE.configurable:
-            if (isConfigurableProductOutOfStock()) {
-                return this.renderEmptyProductPrice();
-            }
-            break;
-        case PRODUCT_TYPE.bundle:
-            if (isBundleProductOutOfStock()) {
-                return this.renderEmptyProductPrice();
-            }
-            break;
-        default:
-            break;
-        }
-
-        return (
-            <div block="ProductCard" elem="PriceWrapper">
-                <ProductPrice
-                  price={ getPrice(priceRange, dynamicPrice, {}, type) }
-                  price_tiers={ priceTiers }
-                  mix={ { block: 'ProductCard', elem: 'Price' } }
-                  label={ this.renderProductTypePriceBadge() }
-                  isPreview
-                  priceType={ type }
-                />
-            </div>
-        );
+        return super.renderPrice(true);
     }
 
     renderPicture(mix = {}) {
@@ -500,7 +441,7 @@ export class ProductCard extends Product {
                         { this.renderReviews() }
                         { this.renderBrand() }
                         { this.renderName(false) }
-                        { this.renderProductPrice() }
+                        { this.renderPrice() }
                     </div>
                     <div block="ProductCard" elem="VisibleOnHover">
                         { this.renderVisibleOnHover() }
@@ -533,7 +474,7 @@ export class ProductCard extends Product {
                         { this.renderMainDetails() }
                     </div>
                     <div block="ProductCard" elem="AttributeWrapper">
-                        { this.renderProductPrice() }
+                        { this.renderPrice() }
                         { this.renderConfigurableOptions() }
                     </div>
                     <div block="ProductCard" elem="ActionWrapper">

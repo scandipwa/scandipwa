@@ -265,7 +265,8 @@ export class ProductListQuery {
             if (!noVariants) {
                 fields.push(
                     this._getConfigurableProductFragment(),
-                    this._getBundleProductFragment()
+                    this._getBundleProductFragment(),
+                    this._getGroupedProductItems()
                 );
             }
         }
@@ -396,7 +397,7 @@ export class ProductListQuery {
             .addFieldList(this._getProductInterfaceFields());
 
         if (isSingleProduct) {
-            items.addField(this._getGroupedProductItems());
+            // items.addField(this._getGroupedProductItems());
             items.addField(this._getDownloadableProductFields());
         } else {
             items.addField(this._getDownloadableProductLinksRequired());

@@ -243,17 +243,19 @@ export class Product extends PureComponent {
     }
 
     renderWishlistButton() {
-        const { product, quantity } = this.props;
+        const { getMagentoProduct } = this.props;
+        const magentoProduct = getMagentoProduct();
+        if (magentoProduct.length === 0) {
+            return;
+        }
 
         return (
             <ProductWishlistButton
-                product={ product }
-                quantity={ quantity }
+                magentoProduct={ magentoProduct }
                 mix={ {
                     block: this.className,
                     elem: 'WishListButton'
                 } }
-                groupedProductQuantity={ {} }
             />
         );
     }
@@ -355,16 +357,27 @@ export class Product extends PureComponent {
         );
     }
 
-    renderPrice() {
-        const { getActiveProduct, inStock } = this.props;
+    renderPrice(isPreview = false) {
+        const { getActiveProduct, inStock, productPrice } = this.props;
         const product = getActiveProduct();
 
         const {
-            price_range,
-            type_id
+            type_id: type,
+            price_tiers: priceTiers
         } = product;
 
-        if (!price_range || type_id === PRODUCT_TYPE.grouped || !inStock) {
+        if (isPreview && !inStock) {
+            return (
+                <div
+                    block={ this.className }
+                    elem="PriceWrapper"
+                >
+                    { __('Out of stock') }
+                </div>
+            );
+        }
+
+        if (!productPrice || (!isPreview && type === PRODUCT_TYPE.grouped) || !inStock) {
             return null;
         }
 
@@ -375,8 +388,10 @@ export class Product extends PureComponent {
             >
                 <ProductPrice
                     meta={ true }
-                    product={ product }
-                    price={ price_range }
+                    price={ productPrice }
+                    priceType={ type }
+                    tierPrices={ priceTiers }
+                    isPreview={ isPreview }
                     mix={ { block: this.className, elem: 'Price' } }
                 />
             </div>
