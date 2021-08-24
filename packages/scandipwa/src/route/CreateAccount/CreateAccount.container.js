@@ -24,6 +24,15 @@ import CreateAccount from './CreateAccount.component';
 
 /** @namespace Scandipwa/Route/CreateAccount/Container/CreateAccountContainer */
 export class CreateAccountContainer extends MyAccountOverlayContainer {
+    containerProps() {
+        const { device } = this.props;
+
+        return {
+            ...super.containerProps(),
+            device
+        };
+    }
+
     containerFunctions = {
         ...this.containerFunctions,
         onLoginClick: this.onLoginClick.bind(this)
