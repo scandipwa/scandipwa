@@ -29,7 +29,7 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
         const { device } = this.props;
 
         return {
-            ...this.containerProps,
+            ...super.containerProps(),
             device
         };
     }

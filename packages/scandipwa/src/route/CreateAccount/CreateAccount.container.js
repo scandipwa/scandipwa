@@ -28,7 +28,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
         const { device } = this.props;
 
         return {
-            ...this.containerProps,
+            ...super.containerProps(),
             device
         };
     }
