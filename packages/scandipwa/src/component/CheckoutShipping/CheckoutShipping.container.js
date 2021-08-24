@@ -246,8 +246,6 @@ export class CheckoutShippingContainer extends PureComponent {
             shipping_method_code
         };
 
-        console.debug({ selectedStoreAddress, storeAddress: this.getStoreAddress(shippingAddress), shippingAddress });
-
         saveAddressInformation(data);
         const shippingMethod = `${shipping_carrier_code}_${shipping_method_code}`;
         updateShippingFields({ ...fields, shippingMethod });
