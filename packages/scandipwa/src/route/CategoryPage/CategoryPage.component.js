@@ -69,6 +69,7 @@ export class CategoryPage extends PureComponent {
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
+        totalItems: PropTypes.number.isRequired,
         isMobile: PropTypes.bool.isRequired,
         onGridButtonClick: PropTypes.func.isRequired,
         onListButtonClick: PropTypes.func.isRequired,
@@ -306,13 +307,9 @@ export class CategoryPage extends PureComponent {
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
-        const { isMatchingListFilter, isMobile } = this.props;
+        const { isMatchingListFilter, isMobile, totalItems } = this.props;
 
-        if (isVisibleOnMobile && !isMobile) {
-            return null;
-        }
-
-        if (!isVisibleOnMobile && isMobile) {
+        if ((isVisibleOnMobile && !isMobile) || (!isVisibleOnMobile && isMobile) || totalItems === 0) {
             return null;
         }
 
@@ -385,8 +382,10 @@ export class CategoryPage extends PureComponent {
     }
 
     renderMiscellaneous() {
-        if (!this.displayProducts()) {
-            return null;
+        const { totalItems } = this.props;
+
+        if (totalItems === 0 || !this.displayProducts()) {
+            return <aside block="CategoryPage" elem="Miscellaneous" mods={ { noResults: true } } />;
         }
 
         return (
@@ -419,9 +418,10 @@ export class CategoryPage extends PureComponent {
 
     render() {
         const hideProducts = !this.displayProducts();
+        const { totalItems } = this.props;
 
         return (
-            <main block="CategoryPage">
+            <main block="CategoryPage" mods={ { noResults: totalItems === 0 } }>
                 <ContentWrapper
                   wrapperMix={ {
                       block: 'CategoryPage',
