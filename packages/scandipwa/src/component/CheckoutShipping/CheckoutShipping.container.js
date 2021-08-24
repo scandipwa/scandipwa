@@ -237,12 +237,16 @@ export class CheckoutShippingContainer extends PureComponent {
             method_code: shipping_method_code
         } = selectedShippingMethod;
 
+        const isInStoreDelivery = Object.keys(selectedStoreAddress).length > 0;
+
         const data = {
-            billing_address: selectedStoreAddress ? this.getStoreAddress(shippingAddress, true) : shippingAddress,
-            shipping_address: selectedStoreAddress ? this.getStoreAddress(shippingAddress) : shippingAddress,
+            billing_address: isInStoreDelivery ? this.getStoreAddress(shippingAddress, true) : shippingAddress,
+            shipping_address: isInStoreDelivery ? this.getStoreAddress(shippingAddress) : shippingAddress,
             shipping_carrier_code,
             shipping_method_code
         };
+
+        console.debug({ selectedStoreAddress, storeAddress: this.getStoreAddress(shippingAddress), shippingAddress });
 
         saveAddressInformation(data);
         const shippingMethod = `${shipping_carrier_code}_${shipping_method_code}`;
