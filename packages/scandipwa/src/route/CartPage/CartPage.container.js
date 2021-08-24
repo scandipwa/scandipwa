@@ -136,10 +136,10 @@ export class CartPageContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { totals } = this.props;
+        const { totals, totals: { items = [] } = {} } = this.props;
 
         return {
-            hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(totals.items),
+            hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
             totals
         };
     };

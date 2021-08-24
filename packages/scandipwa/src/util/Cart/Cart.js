@@ -13,8 +13,6 @@ import {
     DISPLAY_SHIPPING_PRICES_BOTH,
     DISPLAY_SHIPPING_PRICES_EXCL_TAX
 } from 'Component/CheckoutDeliveryOption/CheckoutDeliveryOption.config';
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
-import { CONFIGURABLE } from 'Util/Product';
 
 export const DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX';
 export const DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX';
@@ -27,47 +25,6 @@ export const DISPLAY_CART_TAX_IN_SHIPPING_BOTH = 'DISPLAY_CART_TAX_IN_SHIPPING_B
 export const DISPLAY_CART_TAX_IN_PRICE_INCL_TAX = 'DISPLAY_CART_TAX_IN_PRICE_INCL_TAX';
 export const DISPLAY_CART_TAX_IN_PRICE_EXL_TAX = 'DISPLAY_CART_TAX_IN_PRICE_EXL_TAX';
 export const DISPLAY_CART_TAX_IN_PRICE_BOTH = 'DISPLAY_CART_TAX_IN_PRICE_BOTH';
-
-/**
- * Checks whether item in cart are out of stock
- * @namespace Util/Cart/itemIsOutOfStock
- * */
-export const itemIsOutOfStock = (item) => {
-    const {
-        product: {
-            stock_status,
-            variants,
-            type_id
-        },
-        sku: itemSku
-    } = item;
-
-    if (stock_status !== IN_STOCK) {
-        // item is out of stock
-        return true;
-    }
-
-    if (type_id !== CONFIGURABLE) {
-        // item is not configurable => previous check is sufficient
-        return false;
-    }
-
-    if (
-        variants.some(({ sku }) => sku === itemSku)
-        && variants.find(({ sku }) => sku === itemSku).stock_status === IN_STOCK
-    ) {
-        // item added to cart is present in variants and it stock status is IN_STOCK
-        return false;
-    }
-
-    return true;
-};
-
-/**
- * Checks whether some items in cart are out of stock
- * @param {Array} items cartTotals items
- * @namespace Util/Cart/hasOutOfStockProductsInCartItems */
-export const hasOutOfStockProductsInCartItems = (items = []) => items.some(itemIsOutOfStock);
 
 /** @namespace Util/Cart/getCartSubtotal */
 export const getCartSubtotal = (state) => {
