@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 import CloseIcon from 'Component/CloseIcon';
 import SearchIcon from 'Component/SearchIcon';
 import history from 'Util/History';
@@ -23,36 +24,37 @@ export const componentDidMount = (args, callback, instance) => {
 };
 
 export const renderSearchIcon = (args, callback, instance) => {
-    const { searchCriteria } = instance.props;
-
-    if (searchCriteria) {
-        return (
-            <div
-              block="SearchField"
-              elem="CloseIcon"
-              role="button"
-              tabIndex="0"
-              onClick={ instance.closeSearch }
-              onKeyDown={ instance.closeSearch }
-              aria-label={ __('Close') }
-            >
-                <CloseIcon />
-            </div>
-        );
-    }
+    const { searchCriteria, device: { isMobile } } = instance.props;
 
     return (
-        <div
-          block="SearchField"
-          elem="SearchIcon"
-          role="button"
-          tabIndex="0"
-          onClick={ instance.openSearch }
-          onKeyDown={ instance.openSearch }
-          aria-label={ __('Search') }
-        >
-            <SearchIcon />
-        </div>
+        <>
+            { (isMobile || (!isMobile && !searchCriteria)) && (
+                <div
+                  block="SearchField"
+                  elem="SearchIcon"
+                  role="button"
+                  tabIndex="0"
+                  onClick={ instance.openSearch }
+                  onKeyDown={ instance.openSearch }
+                  aria-label={ __('Search') }
+                >
+                    <SearchIcon />
+                </div>
+            ) }
+            { searchCriteria && (
+                <div
+                  block="SearchField"
+                  elem="CloseIcon"
+                  role="button"
+                  tabIndex="0"
+                  onClick={ instance.closeSearch }
+                  onKeyDown={ instance.closeSearch }
+                  aria-label={ __('Close') }
+                >
+                    <CloseIcon />
+                </div>
+            ) }
+        </>
     );
 };
 

@@ -20,12 +20,12 @@
   }
 
   &-CloseSearchBtn {
-    svg {
-      width: 30px;
-      height: 30px;
-    }
+    padding-inline: 18px 6px;
 
-    padding-inline-start: 12px;
+    &:hover {
+      cursor: pointer;
+      color: var(--primary-base-color);
+    }
   }
 
   .Header-Nav .SearchField_isVisible {
@@ -34,5 +34,17 @@
 
   &-SearchBtn {
     margin-inline: 8px;
+  }
+
+  @include mobile {
+    .SearchField {
+      &-SearchIcon {
+        inset-inline-start: 10px;
+      }
+
+      &-Input {
+        padding-inline-start: 40px;
+      }
+    }
   }
 }

@@ -12,7 +12,6 @@
 import { lazy } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
-import CloseIcon from 'Component/CloseIcon';
 import ListIcon from 'Component/ListIcon';
 import SearchIcon from 'Component/SearchIcon';
 import UserIcon from 'Component/UserIcon';
@@ -49,7 +48,7 @@ export class HeaderPlugin {
         ...originalMember,
         logo: this.renderLogoMobile.bind(instance),
         search: this.renderSearchFieldMobile.bind(instance),
-        closeSearch: this.renderCloseSearchIcon.bind(instance),
+        closeSearch: this.renderCloseSearchButton.bind(instance),
         account: this.renderAccount.bind(instance),
         minicart: this.renderMiniCart.bind(instance)
     });
@@ -101,7 +100,7 @@ export class HeaderPlugin {
         return this.renderLogo(isVisible);
     }
 
-    renderCloseSearchIcon() {
+    renderCloseSearchButton() {
         const {
             isSearchBarActive,
             onSearchBarDeactivate,
@@ -120,7 +119,7 @@ export class HeaderPlugin {
               onClick={ onSearchBarDeactivate }
               aria-label={ __('Cancel Search') }
             >
-                <CloseIcon />
+                { __('Cancel') }
             </button>
         );
     }
