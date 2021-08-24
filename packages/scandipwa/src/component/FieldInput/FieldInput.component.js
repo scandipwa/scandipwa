@@ -21,14 +21,16 @@ export class FieldInput extends PureComponent {
         ]),
         validateSeparately: PropTypes.bool,
         isSubmitted: PropTypes.bool,
-        fileExtensions: PropTypes.string
+        fileExtensions: PropTypes.string,
+        filename: PropTypes.string
     };
 
     static defaultProps = {
         formRef: () => {},
         validateSeparately: false,
         isSubmitted: false,
-        fileExtensions: ''
+        fileExtensions: '',
+        filename: ''
     };
 
     render() {
@@ -37,6 +39,7 @@ export class FieldInput extends PureComponent {
             validateSeparately,
             isSubmitted,
             fileExtensions,
+            filename,
             ...validProps
         } = this.props;
 

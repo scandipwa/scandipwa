@@ -501,11 +501,10 @@ export class Header extends NavigationAbstract {
         }
 
         return (
-            <>
+            <div key="account" block="Header" elem="MyAccountWrapper">
                 { this.renderWelcomeMessage() }
                 <ClickOutside
                   onClick={ onMyAccountOutsideClick }
-                  key="account"
                 >
                     <div
                       aria-label="My account"
@@ -516,7 +515,7 @@ export class Header extends NavigationAbstract {
                         { this.renderAccountOverlay() }
                     </div>
                 </ClickOutside>
-            </>
+            </div>
         );
     }
 
@@ -571,6 +570,7 @@ export class Header extends NavigationAbstract {
               elem="MinicartButtonWrapper"
               tabIndex="0"
               onClick={ onMinicartButtonClick }
+              aria-label={ __('Cart') }
             >
                 <CartIcon />
                 { this.renderMinicartItemsQty() }

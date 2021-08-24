@@ -12,6 +12,14 @@
       "src": "icon_ios_640x640.png",
       "type": "image\/png",
       "sizes" :"640x640"
+    },
+    {
+      "src": "maskable_icon_x192.png",
+      "sizes": "196x196",
+      "type": "image\/png",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff"
 }
