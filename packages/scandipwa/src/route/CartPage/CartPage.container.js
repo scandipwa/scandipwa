@@ -32,10 +32,10 @@ import {
     getCartSubtotal,
     getCartSubtotalSubPrice,
     getCartTotalSubPrice,
-    getItemsCountLabel,
-    hasOutOfStockProductsInCartItems
+    getItemsCountLabel
 } from 'Util/Cart';
 import history from 'Util/History';
+import { getProductInStock } from 'Util/Product/Extract';
 import { appendWithStoreCode } from 'Util/Url';
 
 import CartPage from './CartPage.component';
@@ -136,13 +136,17 @@ export class CartPageContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { totals } = this.props;
+        const { totals, totals: { items = [] } = {} } = this.props;
 
         return {
-            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items),
+            hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
             totals
         };
     };
+
+    hasOutOfStockProductsInCartItems = (items) => (
+        items.some(({ product }) => !getProductInStock(product))
+    );
 
     onCheckoutButtonClick(e) {
         const {
@@ -157,7 +161,7 @@ export class CartPageContainer extends PureComponent {
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        if (hasOutOfStockProductsInCartItems(totals.items)) {
+        if (this.hasOutOfStockProductsInCartItems(totals.items)) {
             return;
         }
 
