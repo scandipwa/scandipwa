@@ -30,7 +30,7 @@ export const getProductInStock = (product, configIndex = -1) => {
         items = [],
         stock_item: {
             in_stock: inStock = true
-        }
+        } = {}
     } = product;
 
     if (type === BUNDLE) {
