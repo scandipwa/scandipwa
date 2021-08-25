@@ -66,7 +66,8 @@ export class FieldInputContainer extends PureComponent {
             validationStatus,
             subLabel,
             fileExtensions,
-            /* eslint-enable react/prop-types */
+            customValidationStatus,
+            isLabelWithArrow,
 
             // Props to be transformed
             isDisabled: disabled,

@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { StockStatusType } from 'Type/StockStatus';
 
 import './ProductAlerts.style';
 
@@ -23,7 +24,7 @@ export class ProductAlerts extends PureComponent {
         handlePriceDropSubscribeAlertInStock: PropTypes.func.isRequired,
         isInStockAlertEnabled: PropTypes.bool,
         isPriceAlertEnabled: PropTypes.bool,
-        stockStatus: PropTypes.bool
+        stockStatus: StockStatusType
     };
 
     static defaultProps = {

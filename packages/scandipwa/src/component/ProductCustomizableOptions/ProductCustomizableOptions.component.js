@@ -27,11 +27,13 @@ export class ProductCustomizableOptions extends PureComponent {
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
         setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
         price_range: PropTypes.object.isRequired,
-        type_id: PropTypes.string.isRequired
+        type_id: PropTypes.string.isRequired,
+        maxQuantity: PropTypes.number
     };
 
     static defaultProps = {
-        options: []
+        options: [],
+        maxQuantity: null
     };
 
     renderContent() {
@@ -43,7 +45,8 @@ export class ProductCustomizableOptions extends PureComponent {
             setCustomizableOptionFileFieldValue,
             setSelectedDropdownValue,
             price_range,
-            type_id
+            type_id,
+            maxQuantity
         } = this.props;
 
         return sortBySortOrder(options).map((option, key) => (
@@ -58,6 +61,7 @@ export class ProductCustomizableOptions extends PureComponent {
               productOptionsData={ productOptionsData }
               price_range={ price_range }
               type_id={ type_id }
+              maxQuantity={ maxQuantity }
             />
         ));
     }

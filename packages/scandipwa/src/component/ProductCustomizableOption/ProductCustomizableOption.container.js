@@ -38,11 +38,13 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         setCustomizableOptionFileFieldValue: PropTypes.func,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        price_range: PriceType.isRequired
+        price_range: PriceType.isRequired,
+        maxQuantity: PropTypes.number
     };
 
     static defaultProps = {
-        setCustomizableOptionFileFieldValue: () => null
+        setCustomizableOptionFileFieldValue: () => null,
+        maxQuantity: null
     };
 
     state = {
@@ -61,7 +63,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     };
 
     containerProps() {
-        const { option } = this.props;
+        const { option, maxQuantity } = this.props;
         const {
             textValue,
             selectedDropdownValue,
@@ -75,6 +77,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             textValue,
             textFieldValid,
             selectedDropdownValue,
+            maxQuantity,
             optionType: this.getOptionType(),
             requiredSelected: this.getIsRequiredSelected()
         };
