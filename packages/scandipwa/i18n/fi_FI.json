@@ -257,7 +257,6 @@
     "Out of stock": "Varasto loppu",
     "Up to %s": "Jopa %s",
     "From %s": "Alkaen %s",
-    "Reset": "Nollaa",
     "Old product price": "Vanhan tuotteen hinta",
     "Error initializing Klarna payment method.": "Virhe alustettaessa Klarnan maksutapaa.",
     "Pay later": "Maksa myöhemmin",
@@ -332,7 +331,6 @@
     "Personal information": null,
     "Payment": null,
     "Pick in Store": null,
-    "Read more": null,
     "Transactional [default state + hover]": null,
     "Button text": null,
     "Supportive [default state + hover]": null,
@@ -436,7 +434,6 @@
     "Remaining Downloads": null,
     "Coupon code discount: ": null,
     "Discount: ": null,
-    "- None -": null,
     "Wishlist has been shared": null,
     "%s: %s": null,
     "Links:": null,
@@ -496,5 +493,8 @@
     "Please sign in to subscribe for notification": null,
     "You saved the alert subscription": null,
     "Notify me when the price drops": null,
-    "Notify me when this product is in stock": null
+    "Notify me when this product is in stock": null,
+    "Unable to confirm account": null,
+    "The URL is invalid. Some parameters are missing.": null,
+    "View cookie policy": null
 }
