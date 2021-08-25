@@ -39,12 +39,10 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         setSelectedDropdownValue: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         price_range: PriceType.isRequired,
-        selectedCheckboxValues: PropTypes.arrayOf(PropTypes.shape([
-            {
-                option_id: PropTypes.number,
-                option_value: PropTypes.string
-            }
-        ]))
+        selectedCheckboxValues: PropTypes.arrayOf(PropTypes.shape({
+            option_id: PropTypes.number,
+            option_value: PropTypes.string
+        }))
     };
 
     static defaultProps = {

@@ -28,12 +28,10 @@ export class ProductCustomizableOptions extends PureComponent {
         setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
         price_range: PropTypes.object.isRequired,
         type_id: PropTypes.string.isRequired,
-        selectedCheckboxValues: PropTypes.arrayOf(PropTypes.shape([
-            {
-                option_id: PropTypes.number,
-                option_value: PropTypes.string
-            }
-        ]))
+        selectedCheckboxValues: PropTypes.arrayOf(PropTypes.shape({
+            option_id: PropTypes.number,
+            option_value: PropTypes.string
+        }))
     };
 
     static defaultProps = {
