@@ -180,7 +180,7 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
+            <Suspense fallback={ <Loader /> } key={ key }>
                 <ProductInformation
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
@@ -198,7 +198,7 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
+            <Suspense fallback={ <Loader /> } key={ key }>
                 <ProductAttributes
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
@@ -215,7 +215,7 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
+            <Suspense fallback={ <Loader /> } key={ key }>
                 <ProductReviews
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
