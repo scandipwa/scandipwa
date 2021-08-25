@@ -95,6 +95,8 @@
             @include desktop {
                 display: none;
             }
+
+            margin-block-start: 3px;
         }
     }
 }
