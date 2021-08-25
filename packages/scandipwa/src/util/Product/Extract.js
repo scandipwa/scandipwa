@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { IN_STOCK, OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product/Types';
 
 /**
@@ -53,5 +53,5 @@ export const getProductInStock = (product, configIndex = -1) => {
 
     const { stock_status: stockStatus } = variants[configIndex] || product;
 
-    return stockStatus === IN_STOCK;
+    return stockStatus !== OUT_OF_STOCK && (inStock || stockStatus === IN_STOCK);
 };
