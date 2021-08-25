@@ -74,6 +74,7 @@ export class FieldContainer extends PureComponent {
         isSubmitted: PropTypes.bool,
         disabled: PropTypes.bool,
         label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        placeholder: PropTypes.string,
         subLabel: PropTypes.number,
         filename: PropTypes.string,
         fileExtensions: PropTypes.string,
@@ -94,6 +95,7 @@ export class FieldContainer extends PureComponent {
             PropTypes.string,
             PropTypes.bool
         ]),
+        ariaLabel: PropTypes.string,
         isLabelWithArrow: PropTypes.bool
     };
 
@@ -118,7 +120,9 @@ export class FieldContainer extends PureComponent {
         isSubmitted: false,
         disabled: false,
         label: '',
+        placeholder: '',
         subLabel: null,
+        ariaLabel: '',
         mix: {},
         filename: '',
         fileExtensions: '',
@@ -218,6 +222,7 @@ export class FieldContainer extends PureComponent {
             formRefMap,
             id,
             label,
+            placeholder,
             max,
             min,
             mix,
@@ -226,6 +231,7 @@ export class FieldContainer extends PureComponent {
             subLabel,
             type,
             validation,
+            ariaLabel,
             isLabelWithArrow
         } = this.props;
 
@@ -248,6 +254,8 @@ export class FieldContainer extends PureComponent {
             formRefMap,
             id,
             label,
+            ariaLabel,
+            placeholder,
             max,
             message: validationMessage,
             min,

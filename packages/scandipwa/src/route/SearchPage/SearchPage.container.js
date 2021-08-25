@@ -61,6 +61,7 @@ export const mapStateToProps = (state) => ({
     maxPriceRange: state.ProductListInfoReducer.maxPrice,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
+    totalItems: state.ProductListReducer.totalItems,
     isMobile: state.ConfigReducer.device.isMobile
 });
 

@@ -9,13 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.ImageZoomPopup {
-    height: 100%;
+ .ImageZoomPopup {
+    height: 99%;
+
+    &.Popup {
+        height: 100%;
+    }
 
     &-PopupContent {
-        max-height: 100vh;
+        max-height: 80%;
         height: 100vh;
-        width: 100vw;
         max-width: 100vw;
     }
 

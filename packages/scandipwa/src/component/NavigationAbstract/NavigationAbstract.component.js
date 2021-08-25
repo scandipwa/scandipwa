@@ -40,14 +40,14 @@ export class NavigationAbstract extends Component {
             : this.stateMap[this.defaultStateName];
 
         // Return defined render methods for current page/state
-        // * Dont render methods which id's are passed inside hiddenElements
+        // * Don't render methods which ids are passed inside hiddenElements
         return Object.entries(this.renderMap).map(
             ([key, renderFunction]) => renderFunction(source[key] && !hiddenElements.includes(key), key)
         );
     }
 
     render() {
-        throw new Error('Please re-define "render" method.');
+        throw new Error('Please redefine "render" method.');
     }
 }
 

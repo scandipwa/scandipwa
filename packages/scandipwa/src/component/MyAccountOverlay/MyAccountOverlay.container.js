@@ -45,7 +45,8 @@ export const mapStateToProps = (state) => ({
     isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
     isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT,
     redirectToDashboard: state.ConfigReducer.redirect_dashboard,
-    isLoading: state.MyAccountReducer.isLoading
+    isLoading: state.MyAccountReducer.isLoading,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/MyAccountOverlay/Container/mapDispatchToProps */

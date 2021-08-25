@@ -42,6 +42,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class PopupContainer extends PureComponent {
     static propTypes = {
         mix: MixType,
+        contentMix: MixType,
         payload: PropTypes.objectOf(
             PropTypes.shape({
                 title: PropTypes.string
@@ -65,6 +66,7 @@ export class PopupContainer extends PureComponent {
         onVisible: () => {},
         onClose: () => {},
         mix: {},
+        contentMix: {},
         children: [],
         isStatic: false
     };
@@ -97,6 +99,7 @@ export class PopupContainer extends PureComponent {
             isMobile,
             isStatic,
             mix,
+            contentMix,
             onClose,
             onVisible,
             hideActiveOverlay,
@@ -112,6 +115,7 @@ export class PopupContainer extends PureComponent {
             isMobile,
             isStatic,
             mix,
+            contentMix,
             onClose,
             onVisible,
             hideActiveOverlay,
