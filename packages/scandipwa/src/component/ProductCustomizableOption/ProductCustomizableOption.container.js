@@ -39,7 +39,12 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         setSelectedDropdownValue: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         price_range: PriceType.isRequired,
-        selectedCheckboxValues: PropTypes.array
+        selectedCheckboxValues: PropTypes.arrayOf(PropTypes.shape([
+            {
+                option_id: PropTypes.number,
+                option_value: PropTypes.string
+            }
+        ]))
     };
 
     static defaultProps = {
@@ -134,7 +139,6 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
     getIsCheckboxSelected(variantId) {
         const { option: { option_id: optionId }, selectedCheckboxValues } = this.props;
-        console.debug({ optionId, variantId, selectedCheckboxValues });
 
         return selectedCheckboxValues.some(
             ({ option_id, option_value }) => option_id === optionId && +option_value === +variantId
@@ -199,7 +203,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             id: option_type_id,
             name: title,
             value: option_type_id,
-            label: `${title} `,
+            label: title,
             subLabel: this.renderOptionLabel(price_type, priceInclTax, price, currency),
             sort_order
         }));

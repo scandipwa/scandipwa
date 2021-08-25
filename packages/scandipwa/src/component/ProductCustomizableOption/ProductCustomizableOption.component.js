@@ -278,7 +278,6 @@ export class ProductCustomizableOption extends PureComponent {
     }
 
     render() {
-        console.debug('render');
         const { optionType } = this.props;
 
         const optionRenderMap = this.renderMap[optionType];
