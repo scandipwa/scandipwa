@@ -109,6 +109,10 @@ $select-arrow-width: 14px !default;
             padding-inline-start: 21px;
         }
 
+        &_isPlaceholder {
+            opacity: 0.6;
+        }
+
         &::before {
             content: none;
         }

@@ -223,18 +223,19 @@ export class ProductListQuery {
 
         // Basic fields returned always
         const fields = [
+            'uid',
             'id',
             'sku',
             'name',
             'type_id',
             'stock_status',
-            this._getStockItemField()
+            this._getStockItemField(),
+            this._getPriceRangeField()
         ];
 
         // Additional fields, which we want to return always, except when it's variants on PLP (due to hugh number of items)
         if (!(isPlp && isVariant)) {
             fields.push(
-                this._getPriceRangeField(),
                 this._getProductImageField(),
                 this._getProductThumbnailField(),
                 this._getProductSmallField(),
@@ -431,6 +432,7 @@ export class ProductListQuery {
 
     _getStockItemFields() {
         return [
+            'in_stock',
             'min_sale_qty',
             'max_sale_qty',
             'qty_increments'

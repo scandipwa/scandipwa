@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,25 +13,15 @@
 import PropTypes from 'prop-types';
 import { createRef } from 'react';
 
-import AddToCart from 'Component/AddToCart';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { Product } from 'Component/Product/Product.component';
-import ProductAttributeValue from 'Component/ProductAttributeValue';
-import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import PRODUCT_TYPE from 'Config/Product.config';
-import { IN_STOCK } from 'Config/Stock.config';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { LayoutType } from 'Type/Layout';
-import { ProductType } from 'Type/ProductList';
-import {
-    filterConfigurableOptions
-} from 'Util/Product';
-
-import { TIER_PRICES } from './ProductCard.config';
 
 import './ProductCard.style';
 
@@ -45,28 +36,18 @@ export class ProductCard extends Product {
         linkTo: PropTypes.shape({}),
         device: DeviceType.isRequired,
         thumbnail: PropTypes.string,
-        getAttribute: PropTypes.func.isRequired,
-        registerSharedElement: PropTypes.func.isRequired,
-        children: PropTypes.element,
         isLoading: PropTypes.bool,
+        children: PropTypes.element,
+        layout: LayoutType,
         mix: PropTypes.shape({}),
         renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
-        isConfigurableProductOutOfStock: PropTypes.func.isRequired,
-        isBundleProductOutOfStock: PropTypes.func.isRequired,
         hideWishlistButton: PropTypes.bool,
         isWishlistEnabled: PropTypes.bool.isRequired,
         hideCompareButton: PropTypes.bool,
-        siblingsHaveBrands: PropTypes.bool,
-        setSiblingsHaveBrands: PropTypes.func,
-        siblingsHavePriceBadge: PropTypes.bool,
-        setSiblingsHavePriceBadge: PropTypes.func,
-        siblingsHaveConfigurableOptions: PropTypes.bool,
-        layout: LayoutType,
-        updateConfigurableVariant: PropTypes.func.isRequired,
-        configurableVariantIndex: PropTypes.number,
         parameters: PropTypes.shape({}).isRequired,
         showSelectOptionsNotification: PropTypes.func.isRequired,
-        productOrVariant: ProductType.isRequired
+
+        registerSharedElement: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -79,13 +60,7 @@ export class ProductCard extends Product {
         renderContent: false,
         hideWishlistButton: false,
         hideCompareButton: false,
-        siblingsHaveBrands: false,
-        setSiblingsHaveBrands: () => null,
-        siblingsHavePriceBadge: false,
-        setSiblingsHavePriceBadge: () => null,
-        siblingsHaveConfigurableOptions: false,
-        layout: GRID_LAYOUT,
-        configurableVariantIndex: -1
+        layout: GRID_LAYOUT
     };
 
     contentObject = {
@@ -97,15 +72,8 @@ export class ProductCard extends Product {
             review: this.renderReviews.bind(this),
             productPrice: this.renderPrice.bind(this),
             mainDetails: this.renderMainDetails.bind(this),
-            additionalProductDetails: this.renderAdditionalProductDetails.bind(this)
+            additionalProductDetails: this.renderBrand.bind(this)
         }
-    };
-
-    productTypeRenderMap = {
-        [PRODUCT_TYPE.bundle]: __('Starting from'),
-        [PRODUCT_TYPE.grouped]: __('Starting from'),
-        [PRODUCT_TYPE.configurable]: __('As Low as'),
-        [TIER_PRICES]: __('As Low as')
     };
 
     imageRef = createRef();
@@ -115,27 +83,7 @@ export class ProductCard extends Product {
         registerSharedElement(this.imageRef);
     };
 
-    renderProductTypePriceBadge() {
-        const {
-            product: { type_id, price_tiers = [] },
-            siblingsHavePriceBadge,
-            setSiblingsHavePriceBadge
-        } = this.props;
-
-        const typeId = price_tiers.length ? TIER_PRICES : type_id;
-
-        const label = this.productTypeRenderMap[typeId];
-        if (!label) {
-            return null;
-        }
-
-        if (!siblingsHavePriceBadge) {
-            setSiblingsHavePriceBadge();
-        }
-
-        return label;
-    }
-
+    //#region PRICE
     renderEmptyProductPrice() {
         return (
             <div
@@ -147,16 +95,25 @@ export class ProductCard extends Product {
     }
 
     renderPrice() {
-        const { getActiveProduct, inStock } = this.props;
         const {
-            price_range: priceRange
+            getActiveProduct,
+            inStock,
+            product: {
+                type_id: baseType
+            } = {}
+        } = this.props;
+
+        const {
+            price_range: priceRange,
+            type_id: typeId
         } = getActiveProduct();
 
         if (!priceRange) {
             return this.renderTextPlaceholder();
         }
 
-        if (!inStock) {
+        // If bundle is out of stock, show out of stock msg
+        if (!inStock && typeId === PRODUCT_TYPE.bundle) {
             return (
                 <div
                   block={ this.className }
@@ -167,8 +124,12 @@ export class ProductCard extends Product {
             );
         }
 
-        return super.renderPrice(true);
+        // If product is not a variant.
+        const notConfigured = baseType !== PRODUCT_TYPE.configurable || typeId === baseType;
+
+        return super.renderPrice(notConfigured);
     }
+    //#endregion
 
     renderPicture(mix = {}) {
         const { product: { id, name }, thumbnail } = this.props;
@@ -241,47 +202,6 @@ export class ProductCard extends Product {
         );
     }
 
-    renderBrandValue() {
-        const {
-            getAttribute,
-            siblingsHaveBrands,
-            setSiblingsHaveBrands
-        } = this.props;
-        const {
-            product_list_content: {
-                attribute_to_display
-            } = {}
-        } = window.contentConfiguration;
-        const brand = getAttribute(attribute_to_display || 'brand');
-
-        if (!brand) {
-            return null;
-        }
-
-        if (!siblingsHaveBrands) {
-            setSiblingsHaveBrands();
-        }
-
-        return (
-            <ProductAttributeValue
-              attribute={ brand }
-              isFormattedAsText
-              mix={ {
-                  block: 'ProductCard',
-                  elem: 'BrandAttributeValue'
-              } }
-            />
-        );
-    }
-
-    renderAdditionalProductDetails() {
-        return (
-            <div block="ProductCard" elem="Brand">
-                { this.renderBrandValue() }
-            </div>
-        );
-    }
-
     renderMainDetails() {
         const { product: { name } } = this.props;
 
@@ -323,95 +243,64 @@ export class ProductCard extends Product {
         );
     }
 
-    renderAddToCart() {
+    requiresConfiguration() {
         const {
-            product,
             product: {
-                type_id,
-                stock_status,
-                options = []
-            },
-            configurableVariantIndex,
-            layout,
-            showSelectOptionsNotification
+                type_id: type
+            }
         } = this.props;
 
-        const quantity = 1;
-        const groupedProductQuantity = {};
+        const configureBundleAndGrouped = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.grouped;
+        const configureConfig = type === PRODUCT_TYPE.configurable
+            // eslint-disable-next-line max-len
+            && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
 
-        const requiredOptions = options.reduce((acc, { option_id, required }) => {
-            if (required) {
-                acc.push(option_id);
-            }
+        return configureBundleAndGrouped || configureConfig;
+    }
 
-            return acc;
-        }, []);
+    renderAddToCart() {
+        const {
+            layout,
+            showSelectOptionsNotification,
+            inStock
+        } = this.props;
 
-        const productOptionsData = {
-            requiredOptions
-        };
-
-        if (type_id === PRODUCT_TYPE.bundle || type_id === PRODUCT_TYPE.grouped) {
+        if (inStock && this.requiresConfiguration()) {
             return (
                 <button
                   block="Button AddToCart"
                   mods={ { layout } }
                   onClick={ showSelectOptionsNotification }
                 >
-                    { __('Add To Cart') }
+                    { __('Open product') }
                 </button>
             );
         }
 
-        return (
-            <AddToCart
-              product={ product }
-              configurableVariantIndex={ configurableVariantIndex }
-              mix={ { block: 'ProductActions', elem: 'AddToCart' } }
-              quantity={ quantity }
-              groupedProductQuantity={ groupedProductQuantity }
-              productOptionsData={ productOptionsData }
-              disabled={ stock_status !== IN_STOCK }
-              layout={ layout }
-            />
-        );
+        return this.renderAddToCartButton(layout);
     }
 
-    getAttributesToShow() {
-        const {
-            product: {
-                configurable_options = [],
-                variants
-            }
-        } = this.props;
-
-        const filteredOptions = filterConfigurableOptions(configurable_options, variants);
+    getConfigurableAttributes() {
+        const filteredOptions = super.getConfigurableAttributes();
 
         return Object.fromEntries(Object.entries(filteredOptions).filter(([, option]) => {
-            const { attribute_options = {} } = option;
+            const { attribute_options: attributeOptions = {} } = option;
 
-            return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);
+            return Object.values(attributeOptions).some(({ swatch_data: swatchData }) => swatchData);
         }));
     }
 
     renderConfigurableOptions() {
-        const {
-            parameters,
-            updateConfigurableVariant,
-            product: { variants },
-            isLoading
-        } = this.props;
+        const { product: { type_id: type } = {} } = this.props;
+        const showLabel = type === PRODUCT_TYPE.configurable && this.requiresConfiguration();
 
         return (
-            <ProductConfigurableAttributes
-              configurable_options={ this.getAttributesToShow() }
-              updateConfigurableVariant={ updateConfigurableVariant }
-              parameters={ parameters }
-              variants={ variants }
-              isExpandable={ false }
-              isReady={ !isLoading }
-              showProductAttributeAsLink={ false }
-            />
+            <>
+                { super.renderConfigurableOptions() }
+                { showLabel && (
+                  <span block="ProductCard" elem="ConfigurationNotice">{ __('Contains more fields') }</span>
+                ) }
+            </>
         );
     }
 
@@ -481,7 +370,7 @@ export class ProductCard extends Product {
                 <div block="ProductCard" elem="Content" mods={ { layout } }>
                     <div block="ProductCard" elem="MainInfo">
                         { this.renderReviews() }
-                        { this.renderAdditionalProductDetails() }
+                        { this.renderBrand() }
                         { this.renderMainDetails() }
                     </div>
                     <div block="ProductCard" elem="AttributeWrapper">
@@ -505,24 +394,14 @@ export class ProductCard extends Product {
             children,
             mix,
             isLoading,
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveConfigurableOptions,
             layout
         } = this.props;
-
-        const mods = {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveConfigurableOptions,
-            layout
-        };
 
         if (layout === LIST_LAYOUT) {
             return (
                 <li
                   block="ProductCard"
-                  mods={ mods }
+                  mods={ layout }
                   mix={ mix }
                 >
                     <Loader isLoading={ isLoading } />
@@ -534,7 +413,7 @@ export class ProductCard extends Product {
         return (
             <li
               block="ProductCard"
-              mods={ mods }
+              mods={ layout }
               mix={ mix }
             >
                 <Loader isLoading={ isLoading } />

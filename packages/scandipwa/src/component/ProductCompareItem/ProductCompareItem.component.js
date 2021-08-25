@@ -12,20 +12,15 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import AddToCart from 'Component/AddToCart';
 import CloseIcon from 'Component/CloseIcon';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
+import AddToCart from 'Component/Product/AddToCart';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 import { ProductType } from 'Type/ProductList';
 import { magentoProductTransform } from 'Util/Product/Transform';
-
-import {
-    PRODUCT_ADD_TO_CART_DEFAULT_QUANTITY,
-    PRODUCT_ADD_TO_CART_DEFAULT_VARIANT_INDEX
-} from './ProductCompareItem.config';
 
 import './ProductCompareItem.style';
 
@@ -35,8 +30,6 @@ export class ProductCompareItem extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         product: ProductType.isRequired,
         removeComparedProduct: PropTypes.func.isRequired,
-        getGroupedProductQuantity: PropTypes.func.isRequired,
-        getProductOptionsData: PropTypes.func.isRequired,
         imgUrl: PropTypes.string.isRequired,
         overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
         linkTo: PropTypes.oneOfType([
@@ -111,18 +104,12 @@ export class ProductCompareItem extends PureComponent {
 
     renderAddToCartBtnEnabled() {
         const {
-            product,
-            getGroupedProductQuantity,
-            getProductOptionsData
+            product
         } = this.props;
 
         return (
             <AddToCart
               product={ product }
-              quantity={ PRODUCT_ADD_TO_CART_DEFAULT_QUANTITY }
-              configurableVariantIndex={ PRODUCT_ADD_TO_CART_DEFAULT_VARIANT_INDEX }
-              groupedProductQuantity={ getGroupedProductQuantity() }
-              productOptionsData={ getProductOptionsData() }
               mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
             />
         );

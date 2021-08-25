@@ -14,12 +14,10 @@ import PropTypes from 'prop-types';
 import Html from 'Component/Html';
 import { Product } from 'Component/Product/Product.component';
 import ProductAlerts from 'Component/ProductAlerts';
-import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import PRODUCT_TYPE from 'Config/Product.config';
-import { DeviceType } from 'Type/Device';
-import { ProductType } from 'Type/ProductList';
+import { IN_STOCK, OUT_OF_STOCK } from 'Config/Stock.config';
 import { isCrawler, isSSR } from 'Util/Browser';
 import {
     showNewReviewPopup
@@ -35,37 +33,22 @@ import './ProductActions.style';
 export class ProductActions extends Product {
     static propTypes = {
         ...Product.propTypes,
-        productOrVariant: ProductType.isRequired,
-        minQuantity: PropTypes.number.isRequired,
-        maxQuantity: PropTypes.number.isRequired,
-        configurableVariantIndex: PropTypes.number,
         showOnlyIfLoaded: PropTypes.func.isRequired,
-        quantity: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         getLink: PropTypes.func.isRequired,
-        updateConfigurableVariant: PropTypes.func.isRequired,
-        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
-        clearGroupedProductQuantity: PropTypes.func.isRequired,
-        onProductValidationError: PropTypes.func.isRequired,
-        getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        productOptionsData: PropTypes.object.isRequired,
         offerCount: PropTypes.number.isRequired,
         offerType: PropTypes.string.isRequired,
         stockMeta: PropTypes.string.isRequired,
         metaLink: PropTypes.string.isRequired,
-        device: DeviceType.isRequired,
         isPriceAlertEnabled: PropTypes.bool.isRequired,
         isInStockAlertEnabled: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         displayProductStockStatus: PropTypes.bool.isRequired,
-        setRefs: PropTypes.func.isRequired,
         areReviewsEnabled: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         ...Product.defaultProps,
-        configurableVariantIndex: 0,
-        productPrice: {},
         productName: ''
     };
 
@@ -98,17 +81,11 @@ export class ProductActions extends Product {
 
     renderSkuAndStock() {
         const {
-            product,
-            product: { variants },
-            configurableVariantIndex,
+            getActiveProduct,
             showOnlyIfLoaded
         } = this.props;
 
-        const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
-            ? variants[configurableVariantIndex]
-            : product;
-
-        const { sku } = productOrVariant;
+        const { sku } = getActiveProduct();
 
         return (
             <section
@@ -163,39 +140,6 @@ export class ProductActions extends Product {
             </section>
         );
     }
-    //
-    // renderCustomizableOptions() {
-    //     const {
-    //         product: {
-    //             options,
-    //             type_id = '',
-    //             price_range = {}
-    //         } = {},
-    //         getSelectedCustomizableOptions,
-    //         productOptionsData,
-    //         device: { isMobile }
-    //     } = this.props;
-    //
-    //     if (isMobile) {
-    //         return null;
-    //     }
-    //
-    //     return (
-    //         <section
-    //           block="ProductActions"
-    //           elem="Section"
-    //           mods={ { type: 'customizable_options' } }
-    //         >
-    //             <ProductCustomizableOptions
-    //               options={ options }
-    //               getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
-    //               productOptionsData={ productOptionsData }
-    //               price_range={ price_range }
-    //               type_id={ type_id }
-    //             />
-    //         </section>
-    //     );
-    // }
 
     renderOfferCount() {
         const { offerCount } = this.props;
@@ -238,14 +182,8 @@ export class ProductActions extends Product {
 
     renderPriceWithSchema() {
         const {
-            productPrice,
-            offerCount,
-            inStock
+            productPrice
         } = this.props;
-
-        if (!inStock) {
-            return null;
-        }
 
         const {
             originalPrice: {
@@ -268,12 +206,7 @@ export class ProductActions extends Product {
                   itemProp="highPrice"
                   content={ (minFinalPrice === maxFinalPrice) ? minFinalPrice : maxFinalPrice }
                 />
-                <ProductPrice
-                  isSchemaRequired
-                  variantsCount={ offerCount }
-                  price={ productPrice }
-                  mix={ { block: 'ProductActions', elem: 'Price' } }
-                />
+                { this.renderPrice() }
             </div>
         );
     }
@@ -282,11 +215,11 @@ export class ProductActions extends Product {
         const {
             offerType,
             product: {
-                type_id
+                type_id: type
             }
         } = this.props;
 
-        if (type_id === PRODUCT_TYPE.grouped) {
+        if (type === PRODUCT_TYPE.grouped) {
             return null;
         }
 
@@ -315,12 +248,21 @@ export class ProductActions extends Product {
         );
     }
 
+    renderPrice() {
+        const { getActiveProduct, inStock, product: { type_id: baseType } = {} } = this.props;
+        const { type_id: activeType } = getActiveProduct();
+
+        const notConfigured = baseType === PRODUCT_TYPE.configurable && activeType === baseType;
+
+        return super.renderPrice(!inStock || notConfigured);
+    }
+
     renderTierPrices() {
-        const { productOrVariant } = this.props;
+        const { getActiveProduct } = this.props;
 
         return (
             <div block="ProductActions" elem="TierPrices">
-                <TierPrices product={ productOrVariant } />
+                <TierPrices product={ getActiveProduct() } />
             </div>
         );
     }
@@ -328,11 +270,10 @@ export class ProductActions extends Product {
     renderProductAlerts() {
         const {
             areDetailsLoaded,
-            configurableVariantIndex,
             isInStockAlertEnabled,
             isPriceAlertEnabled,
-            product,
-            product: { variants }
+            getActiveProduct,
+            inStock
         } = this.props;
 
         if (
@@ -342,11 +283,7 @@ export class ProductActions extends Product {
             return null;
         }
 
-        const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
-            ? variants[configurableVariantIndex]
-            : product;
-
-        const { id, stock_status } = productOrVariant;
+        const { id } = getActiveProduct;
 
         return (
             <section
@@ -356,7 +293,7 @@ export class ProductActions extends Product {
             >
                 <ProductAlerts
                   productId={ id }
-                  stockStatus={ stock_status }
+                  stockStatus={ inStock ? IN_STOCK : OUT_OF_STOCK }
                 />
             </section>
         );
@@ -415,8 +352,8 @@ export class ProductActions extends Product {
     }
 
     renderMobile() {
-        const { product: { type_id } } = this.props;
-        const isWithoutPriceTotal = type_id === PRODUCT_TYPE.grouped;
+        const { product: { type_id: type } } = this.props;
+        const isWithoutPriceTotal = type === PRODUCT_TYPE.grouped;
 
         return (
             <>

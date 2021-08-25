@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import AddToCart from 'Component/AddToCart';
 import Field from 'Component/Field';
+import AddToCart from 'Component/Product/AddToCart';
 import ProductCard from 'Component/ProductCard';
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
 import { IN_STOCK } from 'Config/Stock.config';
@@ -24,9 +24,8 @@ export class SharedWishlistItem extends SourceWishlistItem {
             product,
             quantity,
             changeQuantity,
-            configurableVariantIndex,
             product: {
-                stock_status
+                stock_status: stockStatus
             } = {}
         } = this.props;
 
@@ -48,9 +47,8 @@ export class SharedWishlistItem extends SourceWishlistItem {
                 <AddToCart
                   product={ product }
                   quantity={ quantity }
-                  configurableVariantIndex={ configurableVariantIndex }
                   mix={ { block: 'WishlistItem', elem: 'AddToCart' } }
-                  disabled={ stock_status !== IN_STOCK }
+                  disabled={ stockStatus !== IN_STOCK }
                 />
             </div>
         );

@@ -19,7 +19,9 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { FIELD_TYPE } from 'Config/Field.config';
 import { ProductType } from 'Type/ProductList';
-import { getPrice, getThumbnailImage } from 'Util/Product/Extract';
+import {
+    getMaxQuantity, getMinQuantity, getPrice, getProductInStock, getThumbnailImage
+} from 'Util/Product/Extract';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
 import './GroupedProductsItem.style';
@@ -61,12 +63,28 @@ export class GroupedProductsItem extends PureComponent {
         );
     }
 
+    getError = (value) => {
+        const {
+            product = {}
+        } = this.props;
+
+        if (!!+value && !getProductInStock(product)) {
+            return __('Product is out of stock');
+        }
+
+        return true;
+    };
+
     renderQuantity() {
         const {
-            product: { id },
+            product = {},
+            product: { id } = {},
             setQuantity,
-            itemCount
+            itemCount = 0
         } = this.props;
+
+        const min = getMinQuantity(product);
+        const max = getMaxQuantity(product);
 
         return (
             <FieldContainer
@@ -74,18 +92,21 @@ export class GroupedProductsItem extends PureComponent {
               attr={ {
                   id: `item_qty_${id}`,
                   name: `item_qty_${id}`,
+                  defaultValue: itemCount,
                   value: itemCount,
                   min: 0
               } }
               validationRule={ {
                   inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
                   isRequired: true,
+                  match: this.getError,
                   range: {
-                      min: 0
+                      min: min === 1 ? 0 : 1,
+                      max
                   }
               } }
               events={ { onChange: setQuantity } }
-              validateOn={ ['onChange'] }
+              validateOn={ ['onChange', 'onload'] }
             />
         );
     }

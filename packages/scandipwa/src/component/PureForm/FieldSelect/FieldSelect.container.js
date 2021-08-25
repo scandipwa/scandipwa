@@ -22,7 +22,8 @@ export class FieldSelectContainer extends PureComponent {
         attr: PropTypes.object.isRequired,
         events: PropTypes.object.isRequired,
         options: PropTypes.array.isRequired,
-        setRef: PropTypes.func.isRequired
+        setRef: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool.isRequired
     };
 
     state = {
@@ -57,12 +58,33 @@ export class FieldSelectContainer extends PureComponent {
         }
     }
 
+    getOptions() {
+        const {
+            options,
+            attr: {
+                id = 'select',
+                selectPlaceholder = __('Select item...')
+            } = {}
+        } = this.props;
+
+        return [
+            {
+                id: `${id}-placeholder`,
+                name: `${id}-placeholder`,
+                label: selectPlaceholder,
+                value: '',
+                sort_order: -100,
+                isPlaceholder: true
+            },
+            ...options
+        ]
+    }
+
     handleSelectListOptionClick({ value }) {
         const { events: { onChange } = {} } = this.props;
 
-        // const event = new Event('change', { bubbles: true });
-        // formRef.current.dispatchEvent(event);
         this.fieldRef.value = value;
+        console.log(['field', value]);
 
         if (onChange) {
             onChange(value);
@@ -173,10 +195,17 @@ export class FieldSelectContainer extends PureComponent {
         });
     }
 
+    containerProps() {
+        return {
+            ...this.props,
+            ...this.state,
+            options: this.getOptions()
+        }
+    }
+
     render() {
         return <FieldSelect
-            { ...this.props }
-            { ...this.state }
+            { ...this.containerProps() }
             { ...this.containerFunctions }
         />
     }

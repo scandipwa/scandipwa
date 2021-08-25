@@ -29,7 +29,8 @@ export class FieldSelect extends PureComponent {
         handleSelectListOptionClick: PropTypes.func.isRequired,
         handleSelectListKeyPress: PropTypes.func.isRequired,
         handleSelectExpandedExpand: PropTypes.func.isRequired,
-        handleSelectExpand: PropTypes.func.isRequired
+        handleSelectExpand: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool.isRequired
     };
 
     renderNativeOption = (option) => {
@@ -41,12 +42,14 @@ export class FieldSelect extends PureComponent {
             subLabel = ''
         } = option;
 
+        const { isDisabled } = this.props;
+
         return (
             <option
                 key={ id }
                 id={ id }
                 value={ value }
-                disabled={ disabled }
+                disabled={ disabled || isDisabled }
             >
                 { `${label}${subLabel}` }
             </option>
@@ -74,7 +77,8 @@ export class FieldSelect extends PureComponent {
         const {
             id,
             label,
-            subLabel
+            subLabel,
+            isPlaceholder = false
         } = option;
 
         const {
@@ -86,7 +90,7 @@ export class FieldSelect extends PureComponent {
             <li
                 block="FieldSelect"
                 elem="Option"
-                mods={ { isExpanded } }
+                mods={ { isExpanded, isPlaceholder } }
                 key={ id }
                 /**
                  * Added 'o' as querySelector does not work with

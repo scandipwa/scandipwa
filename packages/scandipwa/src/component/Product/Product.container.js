@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { ProductType } from 'Type/ProductList';
-import { CartDispatcher } from 'Component/WishlistItem/WishlistItem.container';
 import { FIELD_TYPE } from "Config/Field.config";
 import {
     getAdjustedPrice,
@@ -30,6 +29,12 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import PRODUCT_TYPE from 'Config/Product.config';
 import { magentoProductTransform } from 'Util/Product/Transform';
 import getFieldsData from 'Util/Form/Extract';
+import { DeviceType } from 'Type/Device';
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
 export const mapDispatchToProps = (dispatch) => ({
     addProductToCart: (options) => CartDispatcher.then(
@@ -39,7 +44,9 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 export const mapStateToProps = (state) => ({
-    cartId: state.CartReducer.id
+    cartId: state.CartReducer.id,
+    device: state.ConfigReducer.device,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
 });
 
 /**
@@ -54,12 +61,16 @@ export class ProductContainer extends PureComponent {
         configFormRef: PropTypes.object,
 
         parameters: PropTypes.objectOf(PropTypes.string),
-        cartId: PropTypes.string.isRequired
+        cartId: PropTypes.string.isRequired,
+
+        device: DeviceType.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
         configFormRef: createRef(),
-        parameters: {}
+        parameters: {},
+        device: {}
     }
 
     containerFunctions = {
@@ -147,7 +158,9 @@ export class ProductContainer extends PureComponent {
         const { quantity, parameters, adjustedPrice } = this.state;
         const {
             product,
-            configFormRef
+            configFormRef,
+            device,
+            isWishlistEnabled
         } = this.props;
 
         const activeProduct = this.getActiveProduct();
@@ -162,7 +175,9 @@ export class ProductContainer extends PureComponent {
             product,
             configFormRef,
             parameters,
-            inStock: getProductInStock(activeProduct),
+            device,
+            isWishlistEnabled,
+            inStock: getProductInStock(activeProduct, product),
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
             productName: getName(product),

@@ -75,6 +75,12 @@
         }
     }
 
+    .ProductConfigurableAttributes {
+        &-Title {
+            display: none;
+        }
+    }
+
     &-Content {
         background: var(--product-card-background);
         padding-block: 10px 16px;

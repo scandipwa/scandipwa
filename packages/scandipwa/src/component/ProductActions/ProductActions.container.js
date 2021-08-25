@@ -17,22 +17,16 @@ import {
     mapStateToProps as sourceMapStateToProps,
     ProductContainer
 } from 'Component/Product/Product.container';
-import PRODUCT_TYPE from 'Config/Product.config';
 import { IN_STOCK } from 'Config/Stock.config';
-import { DeviceType } from 'Type/Device';
 
 import ProductActions from './ProductActions.component';
-import { ONE_HUNDRED_PERCENT } from './ProductActions.config';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    ...sourceMapStateToProps,
-    groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
-    device: state.ConfigReducer.device,
+    ...sourceMapStateToProps(state),
     isPriceAlertEnabled: state.ConfigReducer.product_alert_allow_price,
     isInStockAlertEnabled: state.ConfigReducer.product_alert_allow_stock,
     displayProductStockStatus: state.ConfigReducer.display_product_stock_status,
-    isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     areReviewsEnabled: state.ConfigReducer.reviews_are_enabled
 });
 
@@ -40,191 +34,39 @@ export const mapStateToProps = (state) => ({
 export class ProductActionsContainer extends ProductContainer {
     static propTypes = {
         ...ProductContainer.propTypes,
-        productOrVariant: PropTypes.object.isRequired,
-        configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
-        productOptionsData: PropTypes.objectOf(PropTypes.array).isRequired,
-        selectedInitialBundlePrice: PropTypes.number.isRequired,
-        selectedBundlePrice: PropTypes.number.isRequired,
-        selectedBundlePriceExclTax: PropTypes.number.isRequired,
-        selectedLinkPrice: PropTypes.number.isRequired,
         getLink: PropTypes.func.isRequired,
-        isWishlistEnabled: PropTypes.bool.isRequired,
         areReviewsEnabled: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired,
         displayProductStockStatus: PropTypes.bool.isRequired,
-        getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        setBundlePrice: PropTypes.func.isRequired,
-        setLinkedDownloadables: PropTypes.func.isRequired,
-        setLinkedDownloadablesPrice: PropTypes.func.isRequired,
-        updateConfigurableVariant: PropTypes.func.isRequired
-    };
-
-    state = {
-        ...this.state,
-        groupedProductQuantity: {}
+        isInStockAlertEnabled: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
         ...this.containerFunctions,
-        showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
-        onProductValidationError: this.onProductValidationError.bind(this),
-        getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
-        setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
-        clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
-        setRefs: this.setRefs.bind(this),
-        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
+        showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this)
     };
-
-    setRefs(refs) {
-        const {
-            configurableOptionsRef,
-            groupedProductsRef,
-            bundleOptionsRef
-        } = refs;
-
-        this.onBundleProductsRef = this.onProductError.bind(this, bundleOptionsRef);
-        this.onConfigurableProductError = this.onProductError.bind(this, configurableOptionsRef);
-        this.onGroupedProductError = this.onProductError.bind(this, groupedProductsRef);
-    }
-
-    onProductError(ref) {
-        if (!ref) {
-            return;
-        }
-        const { current } = ref;
-
-        current.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
-
-        current.classList.remove('animate');
-        // eslint-disable-next-line no-unused-expressions
-        current.offsetWidth; // trigger a DOM reflow
-        current.classList.add('animate');
-    }
-
-    onProductValidationError(type) {
-        switch (type) {
-        case PRODUCT_TYPE.configurable:
-            this.onConfigurableProductError();
-            break;
-        case PRODUCT_TYPE.grouped:
-            this.onGroupedProductError();
-            break;
-        case PRODUCT_TYPE.bundle:
-            this.onBundleProductsRef();
-            break;
-        default:
-            break;
-        }
-    }
-
-    // TODO: make key=>value based
-    getIsOptionInCurrentVariant(attribute, value) {
-        const { configurableVariantIndex, product: { variants } } = this.props;
-        if (!variants) {
-            return false;
-        }
-
-        return variants[configurableVariantIndex].product[attribute] === value;
-    }
-
-    getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {
-        const { parameters, product: { variants } } = this.props;
-
-        const isAttributeSelected = Object.hasOwnProperty.call(parameters, attribute_code);
-
-        // If value matches current attribute_value, option should be enabled
-        if (isAttributeSelected && parameters[attribute_code] === attribute_value) {
-            return true;
-        }
-
-        const parameterPairs = Object.entries(parameters);
-
-        const selectedAttributes = isAttributeSelected
-            // Need to exclude itself, otherwise different attribute_values of the same attribute_code will always be disabled
-            ? parameterPairs.filter(([key]) => key !== attribute_code)
-            : parameterPairs;
-
-        return variants
-            .some(({ stock_status, attributes }) => {
-                const { attribute_value: foundValue } = attributes[attribute_code] || {};
-
-                return (
-                    stock_status === IN_STOCK
-                    // Variant must have currently checked attribute_code and attribute_value
-                    && foundValue === attribute_value
-                    // Variant must have all currently selected attributes
-                    && selectedAttributes.every(([key, value]) => attributes[key].attribute_value === value)
-                );
-            });
-    }
 
     containerProps() {
         const {
             areDetailsLoaded,
             areReviewsEnabled,
-            configurableVariantIndex,
-            device,
             displayProductStockStatus,
             getLink,
-            getSelectedCustomizableOptions,
-            isWishlistEnabled,
-            productOptionsData,
-            productOrVariant,
-            selectedBundlePrice,
-            selectedBundlePriceExclTax,
-            selectedInitialBundlePrice,
-            selectedLinkPrice,
-            setBundlePrice,
-            setLinkedDownloadables,
-            setLinkedDownloadablesPrice,
-            updateConfigurableVariant
+            isInStockAlertEnabled
         } = this.props;
 
         return {
             ...super.containerProps(),
             areDetailsLoaded,
             areReviewsEnabled,
-            configurableVariantIndex,
-            device,
             displayProductStockStatus,
             getLink,
-            getSelectedCustomizableOptions,
-            isWishlistEnabled,
-            productOptionsData,
-            productOrVariant,
-            selectedBundlePrice,
-            selectedBundlePriceExclTax,
-            selectedInitialBundlePrice,
-            selectedLinkPrice,
-            setBundlePrice,
-            setLinkedDownloadables,
-            setLinkedDownloadablesPrice,
-            updateConfigurableVariant,
-            groupedProductQuantity: this._getGroupedProductQuantity(),
-            // productPrice: this.getProductPrice(),
+            isInStockAlertEnabled,
             offerCount: this.getOfferCount(),
             offerType: this.getOfferType(),
             stockMeta: this.getStockMeta(),
             metaLink: this.getMetaLink()
         };
-    }
-
-    getProductName() {
-        const {
-            product,
-            product: { variants = [] },
-            configurableVariantIndex
-        } = this.props;
-
-        const {
-            name
-        } = variants[configurableVariantIndex] || product;
-
-        return name;
     }
 
     getMetaLink() {
@@ -269,304 +111,6 @@ export class ProductActionsContainer extends ProductContainer {
         }
 
         return 0;
-    }
-
-    getSelectedOptions() {
-        const {
-            productOptionsData: {
-                productOptionsMulti = [],
-                productOptions = []
-            } = {}
-        } = this.props;
-
-        return [...productOptionsMulti, ...productOptions].map((productOption) => {
-            const { option_value } = productOption;
-
-            return parseInt(option_value, 10);
-        });
-    }
-
-    getSelectedOptionsMulti() {
-        const {
-            productOptionsData: {
-                productOptionsMulti = [],
-                productOptions = []
-            } = {}
-        } = this.props;
-
-        return [...productOptionsMulti, ...productOptions].map((productOption) => {
-            const { option_id } = productOption;
-
-            return parseInt(option_id, 10);
-        });
-    }
-
-    getOptionPricesTotal(options) {
-        const selectedOptions = this.getSelectedOptions();
-        const selectedOptionsMulti = this.getSelectedOptionsMulti();
-
-        return options.reduce(([priceInclTaxTotal, priceExclTaxTotal], { data = [], option_id, type }) => {
-            /*
-            * Such types contain a single item within data
-            * as those are looked up on the option_id
-            */
-            if (['area', 'field', 'file'].includes(type)) {
-                if (selectedOptionsMulti.includes(option_id)) {
-                    const [{ priceInclTax, priceExclTax }] = data;
-                    return [priceInclTaxTotal + priceInclTax, priceExclTaxTotal + priceExclTax];
-                }
-
-                return [priceInclTaxTotal, priceExclTaxTotal];
-            }
-
-            const [
-                selectionPriceInclTax,
-                selectionPriceExclTax
-            ] = data.reduce((
-                [optionPriceInclTax, optionPriceExclTax], { option_type_id, priceInclTax, priceExclTax }
-            ) => {
-                if (selectedOptions.includes(option_type_id)) {
-                    return [
-                        optionPriceInclTax + priceInclTax,
-                        optionPriceExclTax + priceExclTax
-                    ];
-                }
-
-                return [optionPriceInclTax, optionPriceExclTax];
-            }, [0, 0]);
-
-            return [
-                priceInclTaxTotal + selectionPriceInclTax,
-                priceExclTaxTotal + selectionPriceExclTax
-            ];
-        }, [0, 0]);
-    }
-
-    getSimpleBasePrice() {
-        const {
-            product: {
-                price_range: {
-                    minimum_price: {
-                        regular_price_excl_tax: {
-                            currency
-                        } = {},
-                        default_final_price_excl_tax: {
-                            value: defaultFinalPriceExclTax = 0
-                        } = {},
-                        default_final_price: {
-                            value: defaultFinalPrice = 0
-                        } = {},
-                        default_price: {
-                            value: defaultPrice = 0
-                        } = {},
-                        discount: {
-                            percent_off = 0
-                        } = {}
-                    } = {}
-                } = {}
-            } = {}
-        } = this.props;
-
-        return {
-            minimum_price: {
-                final_price: {
-                    currency,
-                    value: defaultFinalPrice
-                },
-                discount: { percent_off },
-                regular_price: { value: defaultPrice },
-                final_price_excl_tax: { value: defaultFinalPriceExclTax }
-            }
-        };
-    }
-
-    getCustomizablePrice({
-        minimum_price: {
-            final_price: {
-                currency,
-                value: finalPrice
-            } = {},
-            discount: { percent_off } = {},
-            regular_price: { value: regularPrice } = {},
-            final_price_excl_tax: { value: finalPriceExclTax } = {}
-        }
-    }) {
-        const { product: { options = [] } = {} } = this.props;
-
-        const [priceInclTax, priceExclTax] = this.getOptionPricesTotal(options);
-
-        return {
-            minimum_price: {
-                final_price: {
-                    currency,
-                    value: priceInclTax + finalPrice
-                },
-                discount: { percent_off },
-                regular_price: { value: priceInclTax + regularPrice },
-                final_price_excl_tax: { value: priceExclTax + finalPriceExclTax }
-            }
-        };
-    }
-
-    getProductPrice() {
-        const { product: { options = {} } } = this.props;
-
-        const priceWithVariants = this.getProductPriceWithVariants();
-
-        if (Object.keys(options).length === 0) {
-            return priceWithVariants;
-        }
-
-        return this.getCustomizablePrice(priceWithVariants);
-    }
-
-    getProductPriceWithVariants() {
-        const {
-            product,
-            product: { variants = [], type_id, links_purchased_separately },
-            configurableVariantIndex,
-            selectedLinkPrice
-        } = this.props;
-
-        const { options = [] } = product;
-
-        const {
-            price_range
-        } = variants[configurableVariantIndex] || product;
-
-        if (type_id === PRODUCT_TYPE.bundle) {
-            const {
-                selectedBundlePrice,
-                selectedBundlePriceExclTax,
-                selectedInitialBundlePrice,
-                product: { dynamic_price }
-            } = this.props;
-
-            return this._getBundleCustomPrice(
-                selectedBundlePrice,
-                selectedBundlePriceExclTax,
-                selectedInitialBundlePrice,
-                dynamic_price
-            );
-        }
-
-        if (type_id === PRODUCT_TYPE.downloadable && links_purchased_separately) {
-            return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
-        }
-
-        if ((type_id === PRODUCT_TYPE.simple || type_id === PRODUCT_TYPE.virtual) && options.length !== 0) {
-            // price of a product before selecting any options
-            return this.getSimpleBasePrice();
-        }
-
-        return price_range;
-    }
-
-    _getCustomPrice(price, withoutTax, addBase = false) {
-        const {
-            product: {
-                price_range: {
-                    minimum_price: {
-                        regular_price: { currency = '', value = 0 } = {},
-                        regular_price_excl_tax: { value: value_excl_tax = 0 } = {},
-                        discount: { percent_off = 0 } = {},
-                        discount
-                    } = {}
-                } = {}
-            } = {}
-        } = this.props;
-
-        const discountValue = (1 - percent_off / ONE_HUNDRED_PERCENT);
-
-        const basePrice = addBase ? value : 0;
-        const basePriceExclTax = addBase ? value_excl_tax : 0;
-
-        const finalPrice = (basePrice + price) * discountValue;
-        const finalPriceExclTax = (basePriceExclTax + withoutTax) * discountValue;
-
-        const priceValue = { value: finalPrice, currency };
-        const priceValueExclTax = { value: finalPriceExclTax, currency };
-
-        return {
-            minimum_price: {
-                final_price: priceValue,
-                regular_price: priceValue,
-                final_price_excl_tax: priceValueExclTax,
-                regular_price_excl_tax: priceValueExclTax,
-                discount
-            }
-        };
-    }
-
-    _getBundleCustomPrice(price, withoutTax, initial, isDynamicPrice) {
-        const {
-            product: {
-                price_range: {
-                    minimum_price: {
-                        default_price: { currency, value: defaultPrice } = {},
-                        default_final_price: { value: defaultFinalPrice } = {},
-                        default_final_price_excl_tax: { value: defaultFinalPriceExclTax } = {},
-                        discount: discountData,
-                        discount: { percent_off } = {}
-                    }
-                }
-            }
-        } = this.props;
-
-        // If bundle product has dynamic price, it's own base price is always 0. For fix priced bundles price it's configurable
-        const addBase = !isDynamicPrice;
-
-        // Adjusting `discount` for bundle products for discount to be displayed on PDP
-        const priceBeforeDiscount = addBase ? defaultPrice : initial;
-        const priceAfterDiscount = addBase ? defaultFinalPrice : price;
-        const finalDiscount = !percent_off && defaultPrice !== defaultFinalPrice
-            ? {
-                percent_off: (ONE_HUNDRED_PERCENT * (priceBeforeDiscount - priceAfterDiscount)) / priceBeforeDiscount,
-                amount_off: priceBeforeDiscount - priceAfterDiscount
-            }
-            : discountData;
-
-        // Set initial price different from 0 for specific product types, i.e. downloadable, bundles with fixed price
-        const baseInitialPrice = addBase ? defaultPrice : 0;
-        const baseFinalPrice = addBase ? defaultFinalPrice : 0;
-        const basePriceExclTax = addBase ? defaultFinalPriceExclTax : 0;
-
-        const initialPrice = baseInitialPrice + initial;
-        const finalPrice = baseFinalPrice + price;
-        const finalPriceExclTax = basePriceExclTax + withoutTax;
-
-        const initialPriceValue = { value: initialPrice, currency };
-        const priceValue = { value: finalPrice, currency };
-        const priceValueExclTax = { value: finalPriceExclTax, currency };
-
-        return {
-            minimum_price: {
-                final_price: priceValue,
-                regular_price: initialPriceValue,
-                final_price_excl_tax: priceValueExclTax,
-                regular_price_excl_tax: initialPriceValue,
-                discount: finalDiscount
-            }
-        };
-    }
-
-    _getGroupedProductQuantity() {
-        const { groupedProductQuantity } = this.state;
-
-        return groupedProductQuantity;
-    }
-
-    _setGroupedProductQuantity(id, value) {
-        this.setState(({ groupedProductQuantity }) => ({
-            groupedProductQuantity: {
-                ...groupedProductQuantity,
-                [id]: value
-            }
-        }));
-    }
-
-    _clearGroupedProductQuantity() {
-        this.setState({ groupedProductQuantity: {} });
     }
 
     showOnlyIfLoaded(expression, content, placeholder = content) {

@@ -11,7 +11,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 
 import FieldNumber from './FieldNumber.component';
 
@@ -20,20 +20,33 @@ export class FieldNumberContainer extends PureComponent {
         // Field attributes
         attr: PropTypes.object.isRequired,
         events: PropTypes.object.isRequired,
-        setRef: PropTypes.func.isRequired
+        setRef: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool.isRequired
     };
 
     state = {
-        value: 0
+        value: 0,
     };
 
     containerFunctions = {
-        handleValueChange: this.handleValueChange.bind(this)
+        handleValueChange: this.handleValueChange.bind(this),
+        setRef: this.setRef.bind(this)
     }
+
+    fieldRef = createRef();
 
     componentDidMount() {
         const { attr: { defaultValue = 0 } } = this.props;
-        this.setState({ value: defaultValue });
+        this.handleValueChange(defaultValue);
+    }
+
+    setRef(elem) {
+        const { setRef } = this.props;
+        setRef(elem);
+
+        if (elem && this.fieldRef !== elem) {
+            this.fieldRef = elem;
+        }
     }
 
     handleValueChange(value) {
@@ -44,16 +57,27 @@ export class FieldNumberContainer extends PureComponent {
         const rangedValue = value < min ? min : value > max ? max : value;
 
         if (typeof onChange === 'function') {
+            this.fieldRef.value = rangedValue;
             onChange(rangedValue);
         }
 
         this.setState({ value: rangedValue });
     }
 
+    containerProps() {
+        const { attr: { value } = {} } = this.props;
+        const { value: stateValue } = this.state;
+
+        return {
+            ...this.props,
+            ...this.state,
+            value: value || stateValue
+        }
+    }
+
     render() {
         return <FieldNumber
-            { ...this.props }
-            { ...this.state }
+            { ...this.containerProps() }
             { ...this.containerFunctions }
         />
     }

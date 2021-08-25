@@ -84,24 +84,29 @@ export class CartDispatcher {
     }
 
     async changeItemQty(dispatch, options) {
-        const { item_id, quantity, sku } = options;
+        const { uid, quantity = 1, cartId: originalCartId } = options;
+
+        const cartId = !originalCartId ? getGuestQuoteId() : originalCartId;
+        console.log([uid, quantity, cartId]);
 
         try {
-            const isCustomerSignedIn = isSignedIn();
-            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
-
-            if (!isCustomerSignedIn && !guestQuoteId) {
+            if (!cartId) {
                 return Promise.reject();
             }
 
-            const { saveCartItem: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getSaveCartItemMutation(
-                    { sku, item_id, quantity },
-                    guestQuoteId
-                )
+            await fetchMutation(
+                CartQuery.getUpdateCartItemsMutation({
+                    cart_id: cartId,
+                    cart_items: [
+                        {
+                            cart_item_uid: uid,
+                            quantity
+                        }
+                    ]
+                })
             );
 
-            return this._updateCartData(cartData, dispatch);
+            return this.updateInitialCartData(dispatch);
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
 

@@ -88,8 +88,9 @@
     }
 
     &_hasError {
-        input,
-        textarea {
+        input:not([type='number']),
+        textarea,
+        select {
             border: 1px solid var(--primary-error-color);
         }
     }

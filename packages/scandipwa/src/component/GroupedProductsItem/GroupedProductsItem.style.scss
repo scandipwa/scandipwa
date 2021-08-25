@@ -35,6 +35,17 @@
         margin-block-end: 24px;
     }
 
+    .Field {
+        &_type_number {
+            margin-top: 0;
+        }
+        &-ErrorMessages {
+            grid-column-start: 1;
+            grid-column-end: 3;
+            margin-top: -10px;
+        }
+    }
+
     &-Image {
         &::after {
             content: '';

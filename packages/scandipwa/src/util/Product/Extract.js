@@ -11,7 +11,7 @@
  */
 
 import { PRODUCT_TYPE } from 'Config/Product.config';
-import { IN_STOCK } from 'Config/Stock.config';
+import { IN_STOCK, OUT_OF_STOCK } from 'Config/Stock.config';
 import { formatPrice } from 'Util/Price';
 
 export const DEFAULT_MIN_PRODUCTS = 1;
@@ -75,16 +75,23 @@ export const getName = (product, configIndex = -1) => {
 /**
  * Returns whether or not product is in stock (true if in stock | false if out of stock)
  * @param product
- * @param configIndex - Deprecated - use getActiveProduct()
+ * @param parentProduct
  * @returns {boolean}
  * @namespace Util/Product/Extract/getProductInStock
  */
-export const getProductInStock = (product, configIndex = -1) => {
+export const getProductInStock = (product, parentProduct = {}) => {
     if (!product) {
         return false;
     }
 
-    const { type_id: type, variants = [], items = [] } = product;
+    const {
+        type_id: type,
+        variants = [],
+        items = [],
+        stock_item: {
+            in_stock: inStock = true
+        } = {}
+    } = product;
 
     if (type === PRODUCT_TYPE.bundle) {
         const { items = [] } = product;
@@ -93,20 +100,32 @@ export const getProductInStock = (product, configIndex = -1) => {
             ({ options }) => options.some(({ product }) => getProductInStock(product))
         );
 
-        return requiredItemsInStock.length === requiredItems.length;
+        return inStock && requiredItemsInStock.length === requiredItems.length;
     }
 
-    if (type === PRODUCT_TYPE.configurable && configIndex === -1) {
-        return !!variants.some((product) => getProductInStock(product));
+    if (type === PRODUCT_TYPE.configurable && parentProduct === product) {
+        return inStock && !!variants.some((variant) => getProductInStock(variant, product));
+    }
+
+    const { type_id: parentTypeId = false } = parentProduct;
+    if (parentTypeId === PRODUCT_TYPE.configurable && parentProduct !== product) {
+        const {
+            stock_item: {
+                in_stock: parentInStock = true
+            } = {},
+            stock_status: parentStockStatus
+        } = parentProduct;
+
+        return parentInStock && parentStockStatus !== OUT_OF_STOCK && getProductInStock(product);
     }
 
     if (type === PRODUCT_TYPE.grouped) {
-        return !!items.some(({ product }) => getProductInStock(product));
+        return inStock && !!items.some(({ product }) => getProductInStock(product));
     }
 
-    const { stock_status: stockStatus } = variants[configIndex] || product;
+    const { stock_status: stockStatus } = product;
 
-    return stockStatus === IN_STOCK;
+    return stockStatus !== OUT_OF_STOCK && (inStock || stockStatus === IN_STOCK);
 };
 
 export const getBundleOption = (uid, options = []) => {

@@ -52,24 +52,12 @@ export const ProductAttributes = lazy(() => import(
 /** @namespace Route/ProductPage/Component */
 export class ProductPage extends PureComponent {
     static propTypes = {
-        configurableVariantIndex: PropTypes.number.isRequired,
-        productOrVariant: ProductType.isRequired,
         getLink: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        updateConfigurableVariant: PropTypes.func.isRequired,
         dataSource: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
-        getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        setLinkedDownloadables: PropTypes.func.isRequired,
-        setLinkedDownloadablesPrice: PropTypes.func.isRequired,
-        productOptionsData: PropTypes.object.isRequired,
-        setBundlePrice: PropTypes.func.isRequired,
-        selectedLinkPrice: PropTypes.number.isRequired,
-        selectedBundlePrice: PropTypes.number.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
-        isAttributesTabEmpty: PropTypes.bool.isRequired,
-        selectedBundlePriceExclTax: PropTypes.number.isRequired,
-        selectedInitialBundlePrice: PropTypes.number.isRequired
+        isAttributesTabEmpty: PropTypes.bool.isRequired
     };
 
     tabMap = {
@@ -101,49 +89,23 @@ export class ProductPage extends PureComponent {
 
     renderProductPageContent() {
         const {
-            configurableVariantIndex,
-            parameters,
             getLink,
             dataSource,
-            updateConfigurableVariant,
-            productOrVariant,
-            areDetailsLoaded,
-            getSelectedCustomizableOptions,
-            productOptionsData,
-            setBundlePrice,
-            selectedBundlePrice,
-            selectedInitialBundlePrice,
-            selectedBundlePriceExclTax,
-            setLinkedDownloadables,
-            setLinkedDownloadablesPrice,
-            selectedLinkPrice
+            areDetailsLoaded
         } = this.props;
 
         return (
             <>
                 <Suspense fallback={ <Loader /> }>
                     <ProductGallery
-                      product={ productOrVariant }
+                      product={ dataSource }
                       areDetailsLoaded={ areDetailsLoaded }
                     />
                 </Suspense>
                 <ProductActions
                   getLink={ getLink }
-                  updateConfigurableVariant={ updateConfigurableVariant }
                   product={ dataSource }
-                  productOrVariant={ productOrVariant }
-                  parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
-                  configurableVariantIndex={ configurableVariantIndex }
-                  getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
-                  productOptionsData={ productOptionsData }
-                  setBundlePrice={ setBundlePrice }
-                  selectedBundlePrice={ selectedBundlePrice }
-                  selectedInitialBundlePrice={ selectedInitialBundlePrice }
-                  selectedBundlePriceExclTax={ selectedBundlePriceExclTax }
-                  setLinkedDownloadables={ setLinkedDownloadables }
-                  setLinkedDownloadablesPrice={ setLinkedDownloadablesPrice }
-                  selectedLinkPrice={ selectedLinkPrice }
                 />
             </>
         );
@@ -235,14 +197,14 @@ export class ProductPage extends PureComponent {
     }
 
     renderReviewPopup() {
-        const { productOrVariant } = this.props;
+        const { dataSource } = this.props;
 
         return (
             <Popup
               id={ REVIEW_POPUP_ID }
               mix={ { block: 'ProductReviews', elem: 'Popup' } }
             >
-                <ProductReviewForm product={ productOrVariant } />
+                <ProductReviewForm product={ dataSource } />
             </Popup>
         );
     }

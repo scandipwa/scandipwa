@@ -39,6 +39,8 @@ export const validate = (value, rule) => {
         errorMessages: []
     };
 
+    console.log(['valudate', value]);
+
     //#region IS REQUIRED
     if (isRequired && !value) {
         output.errorMessages.push(onRequirementFail || VALIDATION_MESSAGES.isRequired);
@@ -96,10 +98,14 @@ export const validate = (value, rule) => {
  * @namespace Util/Validator/validateGroup
  */
 export const validateGroup = (DOM, rule = null) => {
+    if (typeof DOM.querySelectorAll !== 'function') {
+        return true;
+    }
+
     const {
         selector = 'select, input, textarea, .js-validatabale, form, .FieldGroup'
     } = rule || {};
-    const fields = DOM.querySelectorAll(selector);
+    const fields = DOM?.querySelectorAll(selector);
 
     const output = {
         values: [],

@@ -31,7 +31,8 @@ export const CartDispatcher = import(
 
 /** @namespace Component/CartItem/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
+    cartId: state.CartReducer.id
 });
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
@@ -62,13 +63,15 @@ export class CartItemContainer extends PureComponent {
         updateCrossSellsOnRemove: PropTypes.bool,
         isCartOverlay: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        isEditing: PropTypes.bool
+        isEditing: PropTypes.bool,
+        cartId: PropTypes.string
     };
 
     static defaultProps = {
         updateCrossSellsOnRemove: false,
         isCartOverlay: false,
-        isEditing: false
+        isEditing: false,
+        cartId: ''
     };
 
     state = { isLoading: false };
@@ -158,8 +161,17 @@ export class CartItemContainer extends PureComponent {
      */
     handleChangeQuantity(quantity) {
         this.setState({ isLoading: true }, () => {
-            const { changeItemQty, item: { item_id, sku } } = this.props;
-            this.hideLoaderAfterPromise(changeItemQty({ item_id, quantity, sku }));
+            const { changeItemQty, item: { item_id, qty = 1 }, cartId } = this.props;
+            if (quantity === qty) {
+                this.setState({ isLoading: false });
+                return;
+            }
+
+            this.hideLoaderAfterPromise(changeItemQty({
+                uid: btoa(item_id),
+                quantity,
+                cartId
+            }));
         });
     }
 

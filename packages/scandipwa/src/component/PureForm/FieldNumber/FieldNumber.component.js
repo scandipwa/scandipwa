@@ -24,6 +24,7 @@ export class FieldNumber extends PureComponent {
         setRef: PropTypes.func.isRequired,
         value: PropTypes.number.isRequired,
         handleValueChange: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool.isRequired
     };
 
     render() {
@@ -33,7 +34,8 @@ export class FieldNumber extends PureComponent {
             events,
             setRef,
             value,
-            handleValueChange
+            handleValueChange,
+            isDisabled,
         } = this.props;
 
         return (
@@ -46,9 +48,10 @@ export class FieldNumber extends PureComponent {
                     readOnly
                     aria-label={ __('Value') }
                     value={ value }
+                    disabled={ isDisabled }
                 />
                 <button
-                    disabled={ +value === max }
+                    disabled={ +value === max || isDisabled }
                     // eslint-disable-next-line react/jsx-no-bind
                     onClick={ () => handleValueChange(+value + 1) }
                     aria-label={ __('Add') }
@@ -57,7 +60,7 @@ export class FieldNumber extends PureComponent {
                     <AddIcon block="SubtractButton" isPrimary />
                 </button>
                 <button
-                    disabled={ +value === min }
+                    disabled={ +value === min || isDisabled }
                     // eslint-disable-next-line react/jsx-no-bind
                     onClick={ () => handleValueChange(+value - 1) }
                     aria-label={ __('Subtract') }

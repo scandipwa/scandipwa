@@ -14,11 +14,11 @@ import { PureComponent } from 'react';
 
 import CartItemPrice from 'Component/CartItemPrice';
 import CloseIcon from 'Component/CloseIcon';
-import Field from 'Component/Field';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import PRODUCT_TYPE from 'Config/Product.config';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Config/Field.config';
 import { CartItemType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
 
@@ -57,10 +57,6 @@ export class CartItem extends PureComponent {
     static defaultProps = {
         isCartOverlay: false,
         isMobileLayout: false
-    };
-
-    renderOptionLabelByTypeMap = {
-        [PRODUCT_TYPE.bundle]: this.renderBundleProductOptionLabel.bind(this)
     };
 
     renderProductConfigurations() {
@@ -120,7 +116,7 @@ export class CartItem extends PureComponent {
                 { this.renderOutOfStockMessage() }
                 { this.renderProductConfigurations() }
                 { this.renderProductOptions(customizable_options) }
-                { this.renderProductOptions(bundle_options) }
+                { this.renderProductBundleOptions(bundle_options) }
                 { this.renderProductLinks(downloadable_links) }
             </div>
         );
@@ -187,10 +183,17 @@ export class CartItem extends PureComponent {
     renderProductOptionLabel = (option) => {
         const { label, values = [] } = option;
 
-        return values
-            ? __('%s: %s', label, values.map(({ label, value }) => label || value).join(', '))
-            : label;
-    }
+        if (Array.isArray(values) && values.length > 0) {
+            return (
+                <>
+                    <strong>{ `${label}: ` }</strong>
+                    { values.map(({ label, value }) => label || value).join(', ') }
+                </>
+            );
+        }
+
+        return label;
+    };
 
     renderBundleProductOptionValue = (value) => {
         const { label, quantity, price } = value;
@@ -203,7 +206,7 @@ export class CartItem extends PureComponent {
                 <strong>{ formattedPrice }</strong>
             </>
         );
-    }
+    };
 
     renderBundleProductOptionLabel(option) {
         const { label, values = [] } = option;
@@ -223,11 +226,8 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductOption = (option) => {
+    renderProductBundleOption = (option) => {
         const { id } = option;
-        const { item: { product: { type_id: typeId } = {} } } = this.props;
-        const { [typeId]: renderer } = this.renderOptionLabelByTypeMap;
-        const label = renderer ? renderer(option) : this.renderProductOptionLabel(option);
 
         return (
             <div
@@ -235,7 +235,36 @@ export class CartItem extends PureComponent {
               elem="Option"
               key={ id }
             >
-                { label }
+                { this.renderBundleProductOptionLabel(option) }
+            </div>
+        );
+    };
+
+    renderProductBundleOptions(itemOptions = []) {
+        if (!itemOptions.length) {
+            return null;
+        }
+
+        return (
+            <div
+              block="CartItem"
+              elem="Options"
+            >
+                { itemOptions.map(this.renderProductBundleOption) }
+            </div>
+        );
+    }
+
+    renderProductOption = (option) => {
+        const { id } = option;
+
+        return (
+            <div
+              block="CartItem"
+              elem="Option"
+              key={ id }
+            >
+                { this.renderProductOptionLabel(option) }
             </div>
         );
     };
@@ -269,7 +298,7 @@ export class CartItem extends PureComponent {
                   block="CartItem"
                   elem="ItemLinks"
                 >
-                    { __('Links:') }
+                    <strong>{ __('Links:') }</strong>
                 </span>
                 <div
                   block="CartItem"
@@ -345,7 +374,7 @@ export class CartItem extends PureComponent {
 
     renderQuantityChangeField() {
         const {
-            item: { qty },
+            item: { qty, sku },
             minSaleQuantity,
             maxSaleQuantity,
             handleChangeQuantity,
@@ -369,14 +398,24 @@ export class CartItem extends PureComponent {
             >
                 <Field
                   id="item_qty"
-                  name="item_qty"
-                  type="number"
-                  isControlled
-                  min={ minSaleQuantity }
-                  max={ maxSaleQuantity }
+                  type={ FIELD_TYPE.number }
+                  attr={ {
+                      id: `${sku}_item_qty`,
+                      name: `${sku}_item_qty`,
+                      value: qty,
+                      defaultValue: qty
+                  } }
+                  events={ {
+                      onChange: handleChangeQuantity
+                  } }
+                  validationRule={ {
+                      range: {
+                          min: minSaleQuantity,
+                          max: maxSaleQuantity
+                      }
+                  } }
+                  validateOn={ ['onChange'] }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
-                  value={ qty }
-                  onChange={ handleChangeQuantity }
                 />
             </div>
         );

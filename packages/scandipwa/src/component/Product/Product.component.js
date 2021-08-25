@@ -164,14 +164,21 @@ export class Product extends PureComponent {
         );
     }
 
+    getConfigurableAttributes() {
+        const {
+            product: { configurable_options: configurableOptions = {}, variants = {} }
+        } = this.props;
+        return filterConfigurableOptions(configurableOptions, variants);
+    }
+
     renderConfigurableOptions() {
         const {
             setActiveProduct,
             parameters,
-            product: { configurable_options = {}, type_id, variants = {} }
+            product: { type_id: type, variants = {} }
         } = this.props;
 
-        if (type_id !== PRODUCT_TYPE.configurable) {
+        if (type !== PRODUCT_TYPE.configurable) {
             return null;
         }
 
@@ -187,7 +194,7 @@ export class Product extends PureComponent {
                     parameters={ parameters }
                     variants={ variants }
                     updateConfigurableVariant={ setActiveProduct }
-                    configurable_options={ filterConfigurableOptions(configurable_options, variants) }
+                    configurable_options={ this.getConfigurableAttributes() }
                     isContentExpanded
                 />
             </div>
@@ -247,6 +254,8 @@ export class Product extends PureComponent {
 
         return (
             <AddToCart
+              block={ this.className }
+              elem="AddToCart"
               addToCart={ addToCart }
               isDisabled={ !inStock }
               isIconEnabled={ false }
@@ -300,6 +309,7 @@ export class Product extends PureComponent {
             minQuantity,
             maxQuantity,
             setQuantity,
+            inStock,
             product: { type_id }
         } = this.props;
 
@@ -315,7 +325,7 @@ export class Product extends PureComponent {
                     name: "item_qty",
                     defaultValue: quantity,
                     max: maxQuantity,
-                    min: minQuantity
+                    min: minQuantity,
                 } }
                 validationRule={ {
                     inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
@@ -325,6 +335,7 @@ export class Product extends PureComponent {
                         max: maxQuantity
                     }
                 } }
+                isDisabled={ !inStock }
                 mix={ { block: this.className, elem: 'Qty' } }
                 events={ { onChange: setQuantity } }
                 validateOn={ ["onChange"] }
@@ -373,7 +384,7 @@ export class Product extends PureComponent {
     }
 
     renderPrice(isPreview = false) {
-        const { getActiveProduct, inStock, productPrice } = this.props;
+        const { getActiveProduct, productPrice } = this.props;
         const product = getActiveProduct();
 
         const {
@@ -381,7 +392,7 @@ export class Product extends PureComponent {
             price_tiers: priceTiers
         } = product;
 
-        if (!productPrice || (!isPreview && type === PRODUCT_TYPE.grouped) || !inStock) {
+        if (!productPrice) {
             return null;
         }
 

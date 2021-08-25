@@ -88,19 +88,31 @@ export class Field extends PureComponent {
     }
 
     renderNumber() {
-        const { attr, events, setRef } = this.props;
+        const {
+            attr,
+            events,
+            setRef,
+            isDisabled = false
+        } = this.props;
 
         return (
             <FieldNumberContainer
                 attr={ attr }
                 events={ events }
                 setRef={ setRef }
+                isDisabled={ isDisabled }
             />
         );
     }
 
     renderSelect() {
-        const { attr, events, options, setRef } = this.props;
+        const {
+            attr,
+            events,
+            setRef,
+            options,
+            isDisabled = false
+        } = this.props;
 
         return (
             <FieldSelectContainer
@@ -108,6 +120,7 @@ export class Field extends PureComponent {
                 events={ events }
                 options={ options }
                 setRef={ setRef }
+                isDisabled={ isDisabled }
             />
         );
     }

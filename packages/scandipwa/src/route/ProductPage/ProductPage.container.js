@@ -16,7 +16,6 @@ import { withRouter } from 'react-router';
 
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import { IN_STOCK, OUT_OF_STOCK } from 'Config/Stock.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -26,7 +25,7 @@ import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyV
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import { withReducers } from 'Util/DynamicReducer';
-import { getIsConfigurableParameterSelected, getNewParameters, getVariantIndex } from 'Util/Product';
+import { getIsConfigurableParameterSelected } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
     convertQueryStringToKeyValuePairs,
@@ -85,32 +84,6 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /** @namespace Route/ProductPage/Container */
 export class ProductPageContainer extends PureComponent {
-    state = {
-        // Used for customizable & bundle options
-        enteredOptions: [],
-        selectedOptions: [],
-
-        configurableVariantIndex: -1,
-        parameters: {},
-        productOptionsData: {},
-        selectedInitialBundlePrice: 0,
-        selectedBundlePrice: 0,
-        selectedBundlePriceExclTax: 0,
-        selectedLinkPrice: 0,
-        currentProductSKU: ''
-    };
-
-    containerFunctions = {
-        updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
-        getLink: this.getLink.bind(this),
-        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
-        setBundlePrice: this.setBundlePrice.bind(this),
-        setLinkedDownloadables: this.setLinkedDownloadables.bind(this),
-        setLinkedDownloadablesPrice: this.setLinkedDownloadablesPrice.bind(this),
-        isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
-        isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
-    };
-
     static propTypes = {
         location: LocationType,
         changeHeaderState: PropTypes.func.isRequired,
@@ -136,6 +109,17 @@ export class ProductPageContainer extends PureComponent {
         location: { state: {} },
         productSKU: '',
         metaTitle: undefined
+    };
+
+    state = {
+        parameters: {},
+        currentProductSKU: ''
+    };
+
+    containerFunctions = {
+        getLink: this.getLink.bind(this),
+        isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
+        isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -183,8 +167,6 @@ export class ProductPageContainer extends PureComponent {
             };
         }
 
-        const configurableVariantIndex = getVariantIndex(variants, parameters, true);
-
         const newOptionsData = options.reduce((acc, { option_id, required }) => {
             if (required) {
                 acc.push(option_id);
@@ -199,7 +181,6 @@ export class ProductPageContainer extends PureComponent {
         return {
             parameters,
             currentProductSKU,
-            configurableVariantIndex,
             productOptionsData: {
                 ...prevOptionData, ...productOptionsData, requiredOptions
             }
@@ -236,18 +217,14 @@ export class ProductPageContainer extends PureComponent {
             isOffline,
             productSKU,
             product: {
-                sku,
-                options,
-                items
+                sku
             }
         } = this.props;
 
         const {
             productSKU: prevProductSKU,
             product: {
-                sku: prevSku,
-                options: prevOptions,
-                items: prevItems
+                sku: prevSku
             }
         } = prevProps;
 
@@ -286,22 +263,6 @@ export class ProductPageContainer extends PureComponent {
             this.updateBreadcrumbs();
             this.updateHeaderState();
             this.updateMeta();
-        }
-
-        /**
-         * LEGACY: needed to make sure required items are
-         * selected in the bundle product.
-         */
-        if (JSON.stringify(options) !== JSON.stringify(prevOptions)) {
-            this.getRequiredProductOptions(options);
-        }
-
-        /**
-         * LEGACY needed to make sure required options are
-         * selected in the customizable options product.
-         */
-        if (JSON.stringify(items) !== JSON.stringify(prevItems)) {
-            this.getRequiredProductOptions(items);
         }
 
         this._addToRecentlyViewedProducts();
@@ -388,108 +349,21 @@ export class ProductPageContainer extends PureComponent {
         return `${pathname}${query}`;
     }
 
-    getRequiredProductOptions(options) {
-        const { productOptionsData } = this.state;
-
-        if (!options) {
-            return [];
-        }
-        const requiredOptions = options.reduce((acc, { option_id, required }) => {
-            if (required) {
-                acc.push(option_id);
-            }
-
-            return acc;
-        }, []);
-
-        return this.setState({
-            productOptionsData:
-                { ...productOptionsData, requiredOptions }
-        });
-    }
-
-    setLinkedDownloadablesPrice(price) {
-        this.setState({
-            selectedLinkPrice: price
-        });
-    }
-
-    setBundlePrice(prices) {
-        const { price = 0, priceExclTax = 0, finalPrice = 0 } = prices;
-        this.setState({
-            selectedInitialBundlePrice: price,
-            selectedBundlePrice: finalPrice,
-            selectedBundlePriceExclTax: priceExclTax
-        });
-    }
-
-    setLinkedDownloadables(links) {
-        const { productOptionsData } = this.state;
-        this.setState({
-            productOptionsData: {
-                ...productOptionsData, downloadableLinks: links
-            }
-        });
-    }
-
-    getSelectedCustomizableOptions(values, updateArray = false) {
-        const { productOptionsData } = this.state;
-
-        if (updateArray) {
-            this.setState({
-                productOptionsData:
-                    { ...productOptionsData, productOptionsMulti: values }
-            });
-        } else {
-            this.setState({
-                productOptionsData:
-                    { ...productOptionsData, productOptions: values }
-            });
-        }
-    }
-
     containerProps = () => {
         const { isMobile } = this.props;
         const {
-            configurableVariantIndex,
-            parameters,
-            productOptionsData,
-            selectedBundlePrice,
-            selectedBundlePriceExclTax,
-            selectedInitialBundlePrice,
-            selectedLinkPrice,
-            enteredOptions,
-            selectedOptions
+            parameters
         } = this.state;
 
         return {
             areDetailsLoaded: this.getAreDetailsLoaded(),
-            configurableVariantIndex,
             dataSource: this.getDataSource(),
             isAttributesTabEmpty: this.isProductAttributesTabEmpty(),
             isInformationTabEmpty: this.isProductInformationTabEmpty(),
             isMobile,
-            parameters,
-            productOptionsData,
-            productOrVariant: this.getProductOrVariant(),
-            selectedBundlePrice,
-            selectedBundlePriceExclTax,
-            selectedInitialBundlePrice,
-            selectedLinkPrice,
-            enteredOptions,
-            selectedOptions
+            parameters
         };
     };
-
-    updateConfigurableVariant(key, value) {
-        const { parameters: prevParameters } = this.state;
-
-        const parameters = getNewParameters(prevParameters, key, value);
-        this.setState({ parameters });
-
-        this.updateUrl(key, value, parameters);
-        this.updateConfigurableVariantIndex(parameters);
-    }
 
     updateUrl(key, value, parameters) {
         const { location, history } = this.props;
@@ -503,53 +377,11 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
-    updateConfigurableVariantIndex(parameters) {
-        const { product: { variants, configurable_options } } = this.props;
-        const { configurableVariantIndex } = this.state;
-
-        const newIndex = Object.keys(parameters).length === Object.keys(configurable_options).length
-            ? getVariantIndex(variants, parameters, true)
-            // Not all parameters are selected yet, therefore variantIndex must be invalid
-            : -1;
-
-        if (configurableVariantIndex !== newIndex) {
-            this.setState({ configurableVariantIndex: newIndex });
-        }
-    }
-
     getAreDetailsLoaded() {
         const { product } = this.props;
         const dataSource = this.getDataSource();
 
         return dataSource === product;
-    }
-
-    getProductOrVariant() {
-        const dataSource = this.getDataSource();
-        const { variants } = dataSource;
-        const currentVariantIndex = this.getConfigurableVariantIndex(variants);
-        const variant = variants && variants[currentVariantIndex];
-
-        if (variants?.length > 0) {
-            dataSource.stock_status = variants.some((v) => v.stock_status === IN_STOCK) ? IN_STOCK : OUT_OF_STOCK;
-        }
-
-        return variant || dataSource;
-    }
-
-    getConfigurableVariantIndex(variants) {
-        const { configurableVariantIndex, parameters } = this.state;
-        const hasParameters = !!Object.keys(parameters).length;
-
-        if (configurableVariantIndex >= 0) {
-            return configurableVariantIndex;
-        }
-
-        if (variants && hasParameters) {
-            return getVariantIndex(variants, parameters, true);
-        }
-
-        return -1;
     }
 
     getDataSource() {

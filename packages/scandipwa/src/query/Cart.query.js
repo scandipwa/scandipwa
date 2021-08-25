@@ -24,6 +24,12 @@ export class CartQuery {
             .addField(this._getUserErrorsField());
     }
 
+    getUpdateCartItemsMutation(input) {
+        return new Field('updateCartItems')
+            .addArgument('input', 'UpdateCartItemsInput', input)
+            .addField(this._getCartUpdateField());
+    }
+
     getCreateEmptyCartMutation() {
         return new Field('createEmptyCart');
     }
@@ -56,6 +62,11 @@ export class CartQuery {
             .addFieldList(this._getUserErrorsFields());
     }
     //#endregion
+
+    _getCartUpdateField() {
+        return new Field('cart')
+            .addField('id');
+    }
 
     getRemoveCartItemMutation(item_id, quoteId) {
         const mutation = new Field('removeCartItem')

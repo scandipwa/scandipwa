@@ -51,7 +51,7 @@ export class ProductConfigurableAttributeDropdown extends PureComponent {
                   id: selectName,
                   name: selectName,
                   defaultValue: selectValue,
-                  selectPlaceholder: __('Chose %s', selectLabel.toLowerCase())
+                  selectPlaceholder: __('Chose %s...', selectLabel.toLowerCase())
               } }
               events={ {
                   onChange

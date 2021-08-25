@@ -24,7 +24,18 @@
 
         .Field {
             margin-top: 16px;
+
+            &_type_select + .Field-ErrorMessages {
+                position: absolute;
+                left: 0;
+                bottom: 10px;
+                transform: translateY(100%);
+            }
         }
+    }
+
+    &-Select.Field_hasError {
+        margin-bottom: 20px;
     }
 
     &-Radio, &-Checkbox {
@@ -56,7 +67,7 @@
 
     &-DropdownWrapper {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
 
         &_customQuantity {
             .Field {

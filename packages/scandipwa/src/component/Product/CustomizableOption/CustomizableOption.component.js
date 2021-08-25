@@ -220,7 +220,8 @@ export class CustomizableOption extends PureComponent {
                     type={ FIELD_TYPE.select }
                     attr={{
                         id: `customizable-options-dropdown-${ uid }`,
-                        name: `customizable-options-dropdown-${ uid }`
+                        name: `customizable-options-dropdown-${ uid }`,
+                        selectPlaceholder: __('Select option...')
                     }}
                     mix={ { block: 'ProductCustomizableItem', elem: 'Select' } }
                     options={ getDropdownOptions() }

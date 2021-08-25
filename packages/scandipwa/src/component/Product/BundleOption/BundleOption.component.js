@@ -51,7 +51,8 @@ export class BundleOption extends PureComponent {
     }
 
     //#refion ERROR
-    getError(quantity, stock, min, max, value) {
+    // eslint-disable-next-line no-magic-numbers
+    getError(quantity, stock, min = -1, max = 999, value) {
         if (!value) {
             return true;
         } if (quantity < min) {
@@ -59,7 +60,7 @@ export class BundleOption extends PureComponent {
         } if (quantity > max) {
             return __('Max quantity %s!', max);
         } if (!stock) {
-            return __('Product out of stock!');
+            return __('Product is out of stock!');
         }
 
         return true;
@@ -79,6 +80,10 @@ export class BundleOption extends PureComponent {
         // eslint-disable-next-line no-nested-ternary
         const rangedQty = quantity < min ? min : quantity > max ? max : quantity;
 
+        if (rangedQty !== quantity) {
+            this.setQuantity(uid, rangedQty);
+        }
+
         return (
             <Field
               type={ FIELD_TYPE.number }
@@ -86,6 +91,7 @@ export class BundleOption extends PureComponent {
                   id: `item_qty_${uid}`,
                   name: `item_qty_${uid}`,
                   defaultValue: rangedQty,
+                  value: rangedQty,
                   min,
                   max
               } }
@@ -178,6 +184,7 @@ export class BundleOption extends PureComponent {
         } = this.props;
 
         const label = this.getLabel(option);
+        const stock = getProductInStock(product);
 
         return (
             <div block="ProductBundleItem" elem="Radio" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
@@ -192,12 +199,15 @@ export class BundleOption extends PureComponent {
                   events={ {
                       onChange: updateSelectedValues
                   } }
+                  validationRule={ {
+                      match: this.getError.bind(this, quantity, stock)
+                  } }
                   validateOn={ ['onChange'] }
                 />
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
         );
-    }
+    };
 
     renderRadioValues(options) {
         const { isRequired, uid } = this.props;
@@ -221,6 +231,7 @@ export class BundleOption extends PureComponent {
         const { updateSelectedValues, setActiveSelectUid } = this.props;
         const { value } = args[args.length - 1] || {};
         setActiveSelectUid(value);
+        console.log([value]);
         updateSelectedValues();
     }
 
@@ -234,6 +245,7 @@ export class BundleOption extends PureComponent {
         } = this.props;
 
         const activeOption = getBundleOption(activeSelectUid, options);
+        console.log([activeSelectUid, activeOption]);
 
         const {
             uid: optionUid,
@@ -243,8 +255,12 @@ export class BundleOption extends PureComponent {
         } = activeOption || {};
 
         const {
-            quantity: { [uid]: quantity = defaultQuantity }
+            quantity: { [optionUid]: quantity = defaultQuantity }
         } = this.props;
+
+        const stock = !Object.keys(product).length ? true : getProductInStock(product);
+        const min = getMinQuantity(product);
+        const max = getMaxQuantity(product);
 
         return (
             <div block="ProductBundleItem" elem="DropdownWrapper" mods={ { customQuantity: canChangeQuantity } }>
@@ -252,7 +268,8 @@ export class BundleOption extends PureComponent {
                   type={ FIELD_TYPE.select }
                   attr={ {
                       id: `bundle-options-dropdown-${ uid }`,
-                      name: `bundle-options-dropdown-${ uid }`
+                      name: `bundle-options-dropdown-${ uid }`,
+                      selectPlaceholder: __('Select product...')
                   } }
                   mix={ { block: 'ProductBundleItem', elem: 'Select' } }
                   options={ getDropdownOptions() }
@@ -260,7 +277,8 @@ export class BundleOption extends PureComponent {
                       onChange: this.updateSelect.bind(this)
                   } }
                   validationRule={ {
-                      isRequired
+                      isRequired,
+                      match: this.getError.bind(this, quantity, stock, min, max)
                   } }
                   validateOn={ ['onChange'] }
                 />

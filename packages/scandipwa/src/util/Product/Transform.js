@@ -61,8 +61,8 @@ export const bundleOptionToLabel = (option, currencyCode = 'USD') => {
 export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', quantity = {}) => (
     options.reduce((result = [], option) => {
         const {
-            uid: sourceUid,
-            quantity: defaultQuantity,
+            uid: sourceUid = '',
+            quantity: defaultQuantity = 1,
             position
         } = option;
 

@@ -16,6 +16,8 @@ import CartIcon from 'Component/CartIcon';
 import { MixType } from 'Type/Common';
 import { LayoutType } from 'Type/Layout';
 
+import './AddToCart.style';
+
 export class AddToCart extends PureComponent {
     static propTypes = {
         addProductToCart: PropTypes.func.isRequired,

@@ -22,22 +22,34 @@ import { ProductType } from 'Type/ProductList';
 import {
     getMaxQuantity, getMinQuantity, getName, getProductInStock
 } from 'Util/Product/Extract';
+import { magentoProductTransform } from 'Util/Product/Transform';
 
 import AddToCart from './AddToCart.component';
 
-export const mapStateToProps = () => ({
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+
+export const mapStateToProps = (state) => ({
+    cartId: state.CartReducer.id
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    fallbackAddToCart: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    )
 });
 
 export class AddToCartContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         quantity: PropTypes.number,
+        cartId: PropTypes.string.isRequired,
         showNotification: PropTypes.func.isRequired,
         addToCart: PropTypes.func.isRequired,
+        fallbackAddToCart: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool,
 
         isIconEnabled: PropTypes.bool,
@@ -75,7 +87,8 @@ export class AddToCartContainer extends PureComponent {
         [PRODUCT_TYPE.grouped]: this.validateGroup.bind(this)
     };
 
-    async addProductToCart() {
+    async addProductToCart(e) {
+        e.preventDefault();
         this.setState({ isAdding: true });
 
         if (!this.validate()) {
@@ -83,7 +96,19 @@ export class AddToCartContainer extends PureComponent {
         }
 
         const { addToCart } = this.props;
-        await addToCart();
+        if (typeof addToCart === 'function') {
+            await addToCart();
+        } else {
+            const {
+                product,
+                quantity,
+                cartId,
+                fallbackAddToCart
+            } = this.props;
+            const magentoProduct = magentoProductTransform(product, quantity);
+            await fallbackAddToCart({ products: magentoProduct, cartId });
+        }
+
         this.setState({ isAdding: false });
     }
 
