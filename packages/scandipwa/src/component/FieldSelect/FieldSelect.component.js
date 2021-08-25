@@ -111,7 +111,7 @@ export class FieldSelect extends PureComponent {
               value={ value }
               disabled={ disabled }
             >
-                { `${label}${subLabel}` }
+                { `${label} ${subLabel}` }
             </option>
         );
     };
@@ -159,7 +159,11 @@ export class FieldSelect extends PureComponent {
               tabIndex={ isExpanded ? '0' : '-1' }
             >
                 { label }
-                { subLabel && <strong>{ subLabel }</strong> }
+                { subLabel && (
+                    <strong>
+                        { ` ${subLabel}` }
+                    </strong>
+                ) }
             </li>
         );
     };
