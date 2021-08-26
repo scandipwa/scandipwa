@@ -405,7 +405,8 @@
         z-index: 400;
     }
 
-    &-MyAccountWrapper {
+    &-MyAccountContainer {
         display: flex;
+        margin-inline-start: auto;
     }
 }
