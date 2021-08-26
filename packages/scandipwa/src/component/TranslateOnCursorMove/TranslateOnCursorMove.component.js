@@ -31,6 +31,10 @@ export class TranslateOnCursorMove extends PureComponent {
 
     ref = createRef();
 
+    componentDidMount() {
+        window.addEventListener('resize', this.handleLoad);
+    }
+
     componentDidUpdate(prevProps) {
         const { activeImageId } = this.props;
         const { activeImageId: prevActiveImageId } = prevProps;
@@ -38,6 +42,10 @@ export class TranslateOnCursorMove extends PureComponent {
         if (activeImageId !== prevActiveImageId) {
             this.handleLoad();
         }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleLoad);
     }
 
     handleLoad = () => {

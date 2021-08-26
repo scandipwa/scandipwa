@@ -44,6 +44,8 @@ export class CarouselScrollItem extends PureComponent {
               ref={ itemRef }
               onClick={ onClick }
               onKeyDown={ onClick }
+              onMouseOver={ onClick }
+              onFocus={ onClick }
             >
                 { children }
             </div>
