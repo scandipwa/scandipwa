@@ -17,6 +17,11 @@
         @include tablet {
             width: 300px;
         }
+
+        &_isImageZoomPopupActive {
+            width: auto;
+            max-width: 80vw;
+        }
     }
 
     &-Content {

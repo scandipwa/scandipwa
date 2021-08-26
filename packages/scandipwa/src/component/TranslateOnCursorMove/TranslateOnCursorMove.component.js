@@ -46,6 +46,7 @@ export class TranslateOnCursorMove extends PureComponent {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleLoad);
+        CSS.setVariable(this.ref, 'translateYOnCursorMove', '0');
     }
 
     handleLoad = () => {

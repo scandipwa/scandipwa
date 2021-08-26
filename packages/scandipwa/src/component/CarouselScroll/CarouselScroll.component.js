@@ -27,14 +27,16 @@ export class CarouselScroll extends PureComponent {
         showArrow: PropTypes.bool,
         showedItemCount: PropTypes.number,
         onChange: PropTypes.func,
-        activeItemId: PropTypes.number
+        activeItemId: PropTypes.number,
+        isImageZoomPopupActive: PropTypes.bool
     };
 
     static defaultProps = {
         showArrow: true,
         showedItemCount: 1,
         onChange: () => {},
-        activeItemId: null
+        activeItemId: null,
+        isImageZoomPopupActive: false
     };
 
     state = {
@@ -176,10 +178,10 @@ export class CarouselScroll extends PureComponent {
     };
 
     renderContent() {
-        const { children } = this.props;
+        const { children, isImageZoomPopupActive } = this.props;
 
         return (
-            <div block="CarouselScroll" elem="ContentWrapper">
+            <div block="CarouselScroll" elem="ContentWrapper" mods={ { isImageZoomPopupActive } }>
                 <div block="CarouselScroll" elem="Content">
                     { children.map(this.renderContentItem) }
                 </div>
