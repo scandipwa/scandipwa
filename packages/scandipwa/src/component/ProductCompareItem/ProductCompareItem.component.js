@@ -42,8 +42,8 @@ export class ProductCompareItem extends PureComponent {
             PropTypes.string,
             PropTypes.shape({})
         ]),
-        overriddenAddToCartBtnHandler: PropTypes.func.isRequired,
-        isOutOfStock: PropTypes.func.isRequired
+        overriddenAddToCartBtnHandler: PropTypes.func.isRequired // ,
+        // isOutOfStock: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -163,14 +163,15 @@ export class ProductCompareItem extends PureComponent {
 
     renderAddToCartBtn() {
         const {
-            overrideAddToCartBtnBehavior,
-            product,
-            isOutOfStock
+            overrideAddToCartBtnBehavior // ,
+            // product,
+            // isOutOfStock
         } = this.props;
 
-        if (isOutOfStock(product)) {
-            return this.renderAddToCartBtnDisabled();
-        }
+        // TODO fix this in 5.0.4 when stock status fix will be merged
+        // if (isOutOfStock(product)) {
+        //     return this.renderAddToCartBtnDisabled();
+        // }
 
         if (overrideAddToCartBtnBehavior) {
             return this.renderAddToCartButtonWithLink();
