@@ -95,13 +95,8 @@ export class ProductConfigurableAttributes extends PureComponent {
         const {
             updateConfigurableVariant,
             getIsConfigurableAttributeAvailable,
-            parameters,
-            inStock
+            parameters
         } = this.props;
-
-        if (!inStock) {
-            return null;
-        }
 
         return (
             <ProductConfigurableAttributeDropdown
@@ -139,7 +134,8 @@ export class ProductConfigurableAttributes extends PureComponent {
     renderConfigurableAttributes() {
         const {
             configurable_options,
-            isExpandable
+            isExpandable,
+            inStock
         } = this.props;
 
         return Object.values(configurable_options).map((option) => {
@@ -154,6 +150,10 @@ export class ProductConfigurableAttributes extends PureComponent {
             // render content without heading and subheading
             if (!isExpandable) {
                 return isSwatch ? this.renderSwatch(option) : this.renderDropdown(option);
+            }
+
+            if (!inStock && !isSwatch) {
+                return null;
             }
 
             return (
