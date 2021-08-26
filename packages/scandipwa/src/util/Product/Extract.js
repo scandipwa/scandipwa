@@ -33,6 +33,7 @@ export const getProductInStock = (product, configIndex = -1) => {
         } = {}
     } = product;
 
+    // Bundle (in stock if: itself in stock && each required option contains at-least one in stock product)
     if (type === BUNDLE) {
         const { items = [] } = product;
         const requiredItems = items.filter(({ required }) => required);
@@ -43,10 +44,24 @@ export const getProductInStock = (product, configIndex = -1) => {
         return inStock && requiredItemsInStock.length === requiredItems.length;
     }
 
+    // Configurable (in stock if: itself in stock and at-lest one variant is in stock)
     if (type === CONFIGURABLE && configIndex === -1) {
         return inStock && !!variants.some((product) => getProductInStock(product));
     }
 
+    // Configurable variant (in stock if: parent is set to in stock && item itself is in stock)
+    if (type === CONFIGURABLE && configIndex !== -1) {
+        const activeProduct = variants[configIndex];
+        if (activeProduct) {
+            const { stock_status: activeStockStatus } = activeProduct;
+
+            return getProductInStock(product)
+                && activeStockStatus !== OUT_OF_STOCK
+                && (inStock || activeStockStatus === IN_STOCK);
+        }
+    }
+
+    // Grouped (in stock if: contains at-least one product in stock)
     if (type === GROUPED) {
         return inStock && !!items.some(({ product }) => getProductInStock(product));
     }
