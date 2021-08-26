@@ -18,9 +18,12 @@ export const CART_TOTALS = 'cart_totals';
 
 /** @namespace Store/Cart/Reducer/updateCartTotals */
 export const updateCartTotals = (action) => {
-    const { cartData: { items = [] } = {} } = action;
+    const { cartData: { items = [], ...rest } = {} } = action;
 
-    const cartTotals = {};
+    const cartTotals = {
+        ...rest,
+        items: []
+    };
 
     if (items.length) {
         const normalizedItemsProduct = items.map((item) => {
