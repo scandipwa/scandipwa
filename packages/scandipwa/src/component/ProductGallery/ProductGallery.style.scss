@@ -35,11 +35,26 @@
         @include mobile {
             display: none;
         }
+
+        &_isImageZoomPopupActive {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+
+            .CarouselScrollItem {
+                filter: opacity(0.75);
+
+                &_isActive {
+                    border-width: 2px;
+                    filter: opacity(1);
+                }
+            }
+        }
     }
 
     &-SliderWrapper {
         flex: 1;
-        max-height: 80vh;
+        //max-height: 80vh;
     }
 
     &-Slider {

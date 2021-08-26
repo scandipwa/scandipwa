@@ -80,10 +80,11 @@ export class ProductGalleryContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { product: { media_gallery_entries: mediaGallery = [] } } = this.props;
-        const { product: { media_gallery_entries: prevMediaGallery = [] } } = prevProps;
+        // eslint-disable-next-line react/prop-types
+        const { product: { media_gallery_entries: mediaGallery = [] }, isZoomEnabled } = this.props;
+        const { product: { media_gallery_entries: prevMediaGallery = [] }, isZoomEnabled: prevZoomEnabled } = prevProps;
 
-        if (mediaGallery !== prevMediaGallery) {
+        if (mediaGallery !== prevMediaGallery || isZoomEnabled !== prevZoomEnabled) {
             this.onActiveImageChange(this.getBaseImage());
         }
     }
@@ -111,6 +112,8 @@ export class ProductGalleryContainer extends PureComponent {
                 media_gallery_entries: mediaGallery = []
             }
         } = this.props;
+
+        console.debug('getbaseimage');
 
         const baseImage = mediaGallery.find((value) => value.types.includes(IMAGE_TYPE));
         const { position = 0 } = baseImage || {};

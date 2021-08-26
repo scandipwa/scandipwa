@@ -31,6 +31,10 @@ export class TranslateOnCursorMove extends PureComponent {
 
     ref = createRef();
 
+    // componentDidMount() {
+    //     CSS.setVariable(this.ref, 'translateYOnCursorMove', '50%');
+    // }
+
     handleMouseMove = ({ pageY: wrapperPageY }) => {
         const {
             activeImageId,
@@ -61,8 +65,15 @@ export class TranslateOnCursorMove extends PureComponent {
 
         const ratio = (innerHeight - wrapperHeight) / (wrapperHeight - (paddingY * 2));
         const translate = (pageY - paddingY) * ratio;
+        // const translate = innerHeight > wrapperHeight ? (pageY - paddingY) * ratio : (innerHeight - wrapperHeight) / 2;
 
-        CSS.setVariable(this.ref, 'translateYOnCursorMove', `${ -translate }px`);
+        if (innerHeight <= wrapperHeight) {
+            // const translate = (wrapperHeight - innerHeight) / 2;
+            // CSS.setVariable(this.ref, 'translateYOnCursorMove', `${ translate }px`);
+            return;
+        }
+
+        CSS.setVariable(this.ref, 'translateYOnCursorMove', `${ -translate * 0 }px`);
     };
 
     render() {
