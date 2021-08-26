@@ -18,21 +18,17 @@ export const CART_TOTALS = 'cart_totals';
 
 /** @namespace Store/Cart/Reducer/updateCartTotals */
 export const updateCartTotals = (action) => {
-    const { cartData: { items = [] } = {} } = action;
+    const { cartData: cartTotals } = action;
 
-    const cartTotals = {};
-
-    if (items.length) {
-        cartTotals.items = items.map((item) => {
-            const {
-                variants,
-                ...normalizedItem
-            } = item;
-
+    if (Object.hasOwnProperty.call(cartTotals, 'items')) {
+        const normalizedItemsProduct = cartTotals.items.map((item) => {
+            const { variants, ...normalizedItem } = item;
             normalizedItem.product = getIndexedProduct(item.product, item.sku);
 
             return normalizedItem;
         });
+
+        cartTotals.items = normalizedItemsProduct;
     }
 
     BrowserDatabase.setItem(

@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import __ from '@scandipwa/webpack-i18n-runtime/src/util/__';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
