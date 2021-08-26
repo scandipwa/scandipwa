@@ -58,7 +58,8 @@ export class ProductBundleItem extends ProductCustomizableOption {
         const {
             currencyCode,
             getSelectedCheckboxValue,
-            renderOptionLabel
+            renderOptionLabel,
+            getIsCheckboxSelected
         } = this.props;
 
         if (!item.product) {
@@ -70,12 +71,12 @@ export class ProductBundleItem extends ProductCustomizableOption {
             label,
             price_type,
             quantity,
-            is_default,
             finalOptionPrice,
             price
         } = item;
 
         const priceLabel = renderOptionLabel(price_type, finalOptionPrice, price, currencyCode);
+        const isCheckboxSelected = getIsCheckboxSelected(id);
 
         return (
             <div key={ id }>
@@ -85,7 +86,7 @@ export class ProductBundleItem extends ProductCustomizableOption {
                   id={ `option-${ id }` }
                   name={ `option-${ id }` }
                   value={ id }
-                  checked={ is_default }
+                  checked={ isCheckboxSelected }
                   onChange={ getSelectedCheckboxValue }
                 />
             </div>

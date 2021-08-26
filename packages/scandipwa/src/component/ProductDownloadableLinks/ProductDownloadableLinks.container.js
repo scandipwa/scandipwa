@@ -46,7 +46,8 @@ export class ProductDownloadableLinksContainer extends PureComponent {
     };
 
     containerFunctions = {
-        setSelectedCheckboxValues: this.setSelectedCheckboxValues.bind(this)
+        setSelectedCheckboxValues: this.setSelectedCheckboxValues.bind(this),
+        getIsLinkSelected: this.getIsLinkSelected.bind(this)
     };
 
     componentDidMount() {
@@ -147,6 +148,12 @@ export class ProductDownloadableLinksContainer extends PureComponent {
                 )
             });
         }
+    }
+
+    getIsLinkSelected(id) {
+        const { selectedLinks } = this.state;
+
+        return selectedLinks.some(({ link_id }) => link_id === id);
     }
 
     render() {
