@@ -53,11 +53,16 @@ export const getProductInStock = (product, configIndex = -1) => {
     if (type === CONFIGURABLE && configIndex !== -1) {
         const activeProduct = variants[configIndex];
         if (activeProduct) {
-            const { stock_status: activeStockStatus } = activeProduct;
+            const {
+                stock_status: activeStockStatus,
+                stock_item: {
+                    in_stock: activeInStock = true
+                } = {}
+            } = activeProduct;
 
             return getProductInStock(product)
                 && activeStockStatus !== OUT_OF_STOCK
-                && (inStock || activeStockStatus === IN_STOCK);
+                && (activeInStock || activeStockStatus === IN_STOCK);
         }
     }
 
