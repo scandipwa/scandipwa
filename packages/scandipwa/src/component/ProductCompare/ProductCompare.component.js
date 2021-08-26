@@ -79,11 +79,14 @@ export class ProductCompare extends Component {
     }
 
     renderProductCards() {
-        const { products } = this.props;
+        const { products, isOutOfStock } = this.props;
 
         return products.map((product) => (
             <div block="ProductCompare" elem="Item" key={ product.id }>
-                <ProductCompareItem product={ product } />
+                <ProductCompareItem
+                  product={ product }
+                  isOutOfStock={ isOutOfStock }
+                />
             </div>
         ));
     }
