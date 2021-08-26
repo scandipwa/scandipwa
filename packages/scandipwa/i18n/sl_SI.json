@@ -221,9 +221,7 @@
     "Street address": "Hišna številka",
     "Submit": "Pošlji",
     "Submit Review": "Oddaj mnenje",
-    "Subscribe to Newsletter": "Naročilo na novice",
     "Subscribe to newsletter": null,
-    "Subtotal:": "Vse skupaj:",
     "Subtotal: ": "Vse skupaj: ",
     "Summary": "Skupaj",
     "Tap:": null,
@@ -471,10 +469,8 @@
     "The minimum amount you can purchase is %s": null,
     "The maximum amount you can purchase is %s": null,
     "You can buy this product only in quantities of %s at a time.": null,
-    "Read more": null,
     "None": null,
     "Pick in Store": null,
-    "- None -": null,
     "We could not preselect pickup location based on available information, please select it manually.": null,
     "Store": null,
     "Select store": null,
@@ -498,7 +494,7 @@
     "You saved the alert subscription": null,
     "Notify me when the price drops": null,
     "Notify me when this product is in stock": null,
-    "View cookie policy": null,
     "Unable to confirm account": null,
-    "The URL is invalid. Some parameters are missing.": null
+    "The URL is invalid. Some parameters are missing.": null,
+    "View cookie policy": null
 }

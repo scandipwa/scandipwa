@@ -101,7 +101,8 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
             type_id,
             maxQuantity
         } = this.props;
-        const { isLoading } = this.state;
+
+        const { isLoading, selectedCheckboxValues } = this.state;
 
         return {
             options,
@@ -109,7 +110,8 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
             productOptionsData,
             type_id,
             isLoading,
-            maxQuantity
+            maxQuantity,
+            selectedCheckboxValues
         };
     }
 

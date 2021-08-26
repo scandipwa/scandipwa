@@ -32,7 +32,12 @@ export class ProductCustomizableOption extends PureComponent {
         selectedDropdownValue: PropTypes.number.isRequired,
         optionType: PropTypes.string.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
-        requiredSelected: PropTypes.bool.isRequired
+        requiredSelected: PropTypes.bool.isRequired,
+        getIsCheckboxSelected: PropTypes.func
+    };
+
+    static defaultProps = {
+        getIsCheckboxSelected: () => {}
     };
 
     renderMap = {
@@ -96,7 +101,12 @@ export class ProductCustomizableOption extends PureComponent {
     }
 
     renderOptionCheckboxValue = (item) => {
-        const { getSelectedCheckboxValue, renderOptionLabel } = this.props;
+        const {
+            getSelectedCheckboxValue,
+            renderOptionLabel,
+            getIsCheckboxSelected
+        } = this.props;
+
         const {
             option_type_id,
             title,
@@ -107,6 +117,7 @@ export class ProductCustomizableOption extends PureComponent {
         } = item;
 
         const priceLabel = renderOptionLabel(price_type, priceInclTax, price, currency);
+        const isCheckBoxSelected = getIsCheckboxSelected(option_type_id);
 
         return (
             <Field
@@ -117,6 +128,7 @@ export class ProductCustomizableOption extends PureComponent {
               name={ `option-${ option_type_id }` }
               value={ option_type_id }
               onChange={ getSelectedCheckboxValue }
+              checked={ isCheckBoxSelected }
             />
         );
     };
