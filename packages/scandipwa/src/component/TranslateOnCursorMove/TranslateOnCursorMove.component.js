@@ -31,9 +31,36 @@ export class TranslateOnCursorMove extends PureComponent {
 
     ref = createRef();
 
-    // componentDidMount() {
-    //     CSS.setVariable(this.ref, 'translateYOnCursorMove', '50%');
-    // }
+    componentDidUpdate(prevProps) {
+        const { activeImageId } = this.props;
+        const { activeImageId: prevActiveImageId } = prevProps;
+
+        if (activeImageId !== prevActiveImageId) {
+            this.handleLoad();
+        }
+    }
+
+    handleLoad = () => {
+        const {
+            activeImageId,
+            itemSelector,
+            targetSelector
+        } = this.props;
+
+        const targets = this.ref.current.querySelectorAll(itemSelector);
+        const target = targets?.[activeImageId]?.querySelector(targetSelector);
+
+        if (!target) {
+            return;
+        }
+
+        const innerHeight = target.getBoundingClientRect().height;
+        const { height: wrapperHeight } = this.ref.current.getBoundingClientRect();
+        const translate = (wrapperHeight - innerHeight) / 2;
+
+        CSS.setVariable(this.ref, 'translateYOnCursorMove', `${ translate }px`);
+        CSS.setVariable(this.ref, 'imageOpacity', '1');
+    };
 
     handleMouseMove = ({ pageY: wrapperPageY }) => {
         const {
@@ -65,15 +92,12 @@ export class TranslateOnCursorMove extends PureComponent {
 
         const ratio = (innerHeight - wrapperHeight) / (wrapperHeight - (paddingY * 2));
         const translate = (pageY - paddingY) * ratio;
-        // const translate = innerHeight > wrapperHeight ? (pageY - paddingY) * ratio : (innerHeight - wrapperHeight) / 2;
 
         if (innerHeight <= wrapperHeight) {
-            // const translate = (wrapperHeight - innerHeight) / 2;
-            // CSS.setVariable(this.ref, 'translateYOnCursorMove', `${ translate }px`);
             return;
         }
 
-        CSS.setVariable(this.ref, 'translateYOnCursorMove', `${ -translate * 0 }px`);
+        CSS.setVariable(this.ref, 'translateYOnCursorMove', `${ -translate }px`);
     };
 
     render() {
@@ -84,7 +108,12 @@ export class TranslateOnCursorMove extends PureComponent {
         }
 
         return (
-            <div block="TranslateOnCursorMove" onMouseMove={ this.handleMouseMove } ref={ this.ref }>
+            <div
+              block="TranslateOnCursorMove"
+              onLoad={ this.handleLoad }
+              onMouseMove={ this.handleMouseMove }
+              ref={ this.ref }
+            >
                 { children }
             </div>
         );

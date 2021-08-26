@@ -113,8 +113,6 @@ export class ProductGalleryContainer extends PureComponent {
             }
         } = this.props;
 
-        console.debug('getbaseimage');
-
         const baseImage = mediaGallery.find((value) => value.types.includes(IMAGE_TYPE));
         const { position = 0 } = baseImage || {};
 
