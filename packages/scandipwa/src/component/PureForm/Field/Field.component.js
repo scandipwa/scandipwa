@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { FIELD_TYPE } from 'Config/Field.config';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { MixType } from 'Type/Common';
 import FieldSelectContainer from 'Component/PureForm/FieldSelect/FieldSelect.container';
 
@@ -39,7 +39,8 @@ export class Field extends PureComponent {
 
         // Labels
         label: PropTypes.string.isRequired,
-        subLabel: PropTypes.string.isRequired
+        subLabel: PropTypes.string.isRequired,
+        addRequiredTag: PropTypes.bool.isRequired
     };
 
     renderMap = {
@@ -210,14 +211,29 @@ export class Field extends PureComponent {
             return null;
         }
 
-        const isObject = typeof label === 'object';
+        return (
+            <div block="Field" elem="LabelContainer">
+                <label block="Field" elem="Label" htmlFor={name ? name : `input-${type}`}>
+                    { label }
+                    { this.renderRequiredTag() }
+                </label>
+            </div>
+        );
+    }
+
+    // Renders * for required fields
+    renderRequiredTag() {
+        const { addRequiredTag } = this.props;
+
+        if (!addRequiredTag) {
+            return null;
+        }
 
         return (
-            <>
-                { isObject && label }
-                { !isObject && <label htmlFor={name ? name : `input-${type}`}>{label}</label> }
-            </>
-        );
+            <span block="Field" elem="Label" mods={ { isRequired: true } }>
+                { ' *' }
+            </span>
+        )
     }
 
     // Renders fields label under field
@@ -241,7 +257,6 @@ export class Field extends PureComponent {
 
         return (
             <>
-                { type !== FIELD_TYPE.checkbox && type !== FIELD_TYPE.radio && this.renderLabel() }
                 <div
                     block="Field"
                     mods={ {
@@ -251,6 +266,7 @@ export class Field extends PureComponent {
                     } }
                     mix={ mix }
                 >
+                    { type !== FIELD_TYPE.checkbox && type !== FIELD_TYPE.radio && this.renderLabel() }
                     { inputRenderer && inputRenderer() }
                 </div>
                 { this.renderErrorMessages() }

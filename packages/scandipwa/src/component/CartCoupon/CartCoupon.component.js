@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field';
-import { VALIDATION_STATUS } from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { MixType } from 'Type/Common';
 
 import './CartCoupon.style';
@@ -78,20 +78,28 @@ export class CartCoupon extends PureComponent {
 
     renderApplyCoupon() {
         const { enteredCouponCode } = this.state;
-        const { skip, success } = VALIDATION_STATUS;
 
         return (
             <>
                 <Field
-                  type="text"
+                  type={ FIELD_TYPE.text }
+                  attr={ {
+                      id: 'couponCode',
+                      name: 'couponCode',
+                      value: enteredCouponCode,
+                      defaultValue: enteredCouponCode,
+                      placeholder: __('Your discount code'),
+                      ariaLabel: __('Your discount code')
+                  } }
+                  events={ {
+                      onChange: this.handleCouponCodeChange
+                  } }
+                  validationRule={ {
+                      isRequired: true
+                  } }
+                  validateOn={ ['OnChange'] }
                   id="couponCode"
                   name="couponCode"
-                  value={ enteredCouponCode }
-                  placeholder={ __('Your discount code') }
-                  onChange={ this.handleCouponCodeChange }
-                  customValidationStatus={ !enteredCouponCode ? skip : success }
-                  mix={ { block: 'CartCoupon', elem: 'Input' } }
-                  aria-label={ __('Your discount code') }
                 />
                 <button
                   block="CartCoupon"

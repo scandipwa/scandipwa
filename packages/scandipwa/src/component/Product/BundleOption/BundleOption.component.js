@@ -14,8 +14,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/PureForm/Field';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldGroupContainer from 'Component/PureForm/FieldGroup';
-import { FIELD_TYPE } from 'Config/Field.config';
 import {
     getBundleOption, getMaxQuantity, getMinQuantity, getProductInStock
 } from 'Util/Product/Extract';
@@ -231,7 +231,6 @@ export class BundleOption extends PureComponent {
         const { updateSelectedValues, setActiveSelectUid } = this.props;
         const { value } = args[args.length - 1] || {};
         setActiveSelectUid(value);
-        console.log([value]);
         updateSelectedValues();
     }
 
@@ -245,7 +244,6 @@ export class BundleOption extends PureComponent {
         } = this.props;
 
         const activeOption = getBundleOption(activeSelectUid, options);
-        console.log([activeSelectUid, activeOption]);
 
         const {
             uid: optionUid,

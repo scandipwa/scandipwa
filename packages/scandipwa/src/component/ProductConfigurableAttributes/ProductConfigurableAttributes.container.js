@@ -33,7 +33,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         mix: MixType,
         isReady: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
-        configurable_options: PropTypes.objectOf(AttributeType).isRequired
+        configurable_options: PropTypes.objectOf(AttributeType).isRequired,
+        inStock: PropTypes.bool
     };
 
     static defaultProps = {
@@ -42,6 +43,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         showProductAttributeAsLink: true,
         variants: null,
         isReady: true,
+        inStock: true,
         mix: {},
         numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG
     };
@@ -63,7 +65,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             numberOfPlaceholders,
             parameters,
             showProductAttributeAsLink,
-            updateConfigurableVariant
+            updateConfigurableVariant,
+            inStock
         } = this.props;
 
         return {
@@ -74,7 +77,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             numberOfPlaceholders,
             parameters,
             showProductAttributeAsLink,
-            updateConfigurableVariant
+            updateConfigurableVariant,
+            inStock
         };
     }
 

@@ -113,11 +113,13 @@ export class ProductPageContainer extends PureComponent {
 
     state = {
         parameters: {},
-        currentProductSKU: ''
+        currentProductSKU: '',
+        activeProduct: null
     };
 
     containerFunctions = {
         getLink: this.getLink.bind(this),
+        setActiveProduct: this.setActiveProduct.bind(this),
         isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
@@ -268,6 +270,10 @@ export class ProductPageContainer extends PureComponent {
         this._addToRecentlyViewedProducts();
     }
 
+    setActiveProduct(product) {
+        this.setState({ activeProduct: product });
+    }
+
     isProductInformationTabEmpty() {
         const dataSource = this.getDataSource();
 
@@ -351,15 +357,14 @@ export class ProductPageContainer extends PureComponent {
 
     containerProps = () => {
         const { isMobile } = this.props;
-        const {
-            parameters
-        } = this.state;
+        const { parameters } = this.state;
 
         return {
             areDetailsLoaded: this.getAreDetailsLoaded(),
-            dataSource: this.getDataSource(),
             isAttributesTabEmpty: this.isProductAttributesTabEmpty(),
             isInformationTabEmpty: this.isProductInformationTabEmpty(),
+            activeProduct: this.getActiveProductDataSource(),
+            dataSource: this.getDataSource(),
             isMobile,
             parameters
         };
@@ -382,6 +387,33 @@ export class ProductPageContainer extends PureComponent {
         const dataSource = this.getDataSource();
 
         return dataSource === product;
+    }
+
+    getActiveProductDataSource() {
+        const { activeProduct } = this.state;
+        const product = this.getDataSource();
+
+        if (!activeProduct || !product) {
+            return product;
+        }
+
+        const { attributes: productAttr = {} } = product;
+        const { attributes: activeAttr = {} } = activeProduct;
+
+        const attributes = {};
+        Object.keys(productAttr).forEach((attr) => {
+            const { [attr]: { attribute_value: attrValue }, [attr]: currAttr } = productAttr;
+            const { [attr]: { attribute_value: activeAttrValue } = {} } = activeAttr;
+            attributes[attr] = {
+                ...currAttr,
+                attribute_value: activeAttrValue || attrValue
+            };
+        });
+
+        return {
+            ...product,
+            attributes
+        };
     }
 
     getDataSource() {

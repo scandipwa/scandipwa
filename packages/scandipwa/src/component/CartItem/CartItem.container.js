@@ -13,12 +13,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
-import PRODUCT_TYPE from 'Config/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CartItemType } from 'Type/MiniCart';
-import { getProductInStock } from 'Util/Product/Extract';
+import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';
 
@@ -111,18 +110,6 @@ export class CartItemContainer extends PureComponent {
             : product.variants[variantIndex];
     }
 
-    getMinQuantity() {
-        const { stock_item: { min_sale_qty } = {} } = this.getCurrentProduct() || {};
-
-        return min_sale_qty || 1;
-    }
-
-    getMaxQuantity() {
-        const { stock_item: { max_sale_qty } = {} } = this.getCurrentProduct() || {};
-
-        return max_sale_qty || DEFAULT_MAX_PRODUCTS;
-    }
-
     setStateNotLoading() {
         this.setState({ isLoading: false });
     }
@@ -146,8 +133,8 @@ export class CartItemContainer extends PureComponent {
             isLoading,
             linkTo: this._getProductLinkTo(),
             thumbnail: this._getProductThumbnail(),
-            minSaleQuantity: this.getMinQuantity(),
-            maxSaleQuantity: this.getMaxQuantity(),
+            minSaleQuantity: getMinQuantity(this.getCurrentProduct()),
+            maxSaleQuantity: getMaxQuantity(this.getCurrentProduct()),
             isProductInStock: this.productIsInStock(),
             optionsLabels: this.getConfigurableOptionsLabels(),
             isMobileLayout: this.getIsMobileLayout()

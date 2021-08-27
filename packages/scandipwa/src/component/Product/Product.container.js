@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { ProductType } from 'Type/ProductList';
-import { FIELD_TYPE } from "Config/Field.config";
+import { FIELD_TYPE } from "Component/PureForm/Field/Field.config";
 import {
     getAdjustedPrice,
     getMaxQuantity,
@@ -26,7 +26,7 @@ import {
 import { getNewParameters, getVariantIndex } from 'Util/Product';
 import { validateGroup } from 'Util/Validator';
 import { showNotification } from 'Store/Notification/Notification.action';
-import PRODUCT_TYPE from 'Config/Product.config';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { magentoProductTransform } from 'Util/Product/Transform';
 import getFieldsData from 'Util/Form/Extract';
 import { DeviceType } from 'Type/Device';

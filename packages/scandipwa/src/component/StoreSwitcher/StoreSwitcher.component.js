@@ -16,8 +16,8 @@ import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import StoreItems from 'Component/StoreItems';
-import FIELD_TYPE from 'Config/Field.config';
 import { DeviceType } from 'Type/Device';
 
 import './StoreSwitcher.style';

@@ -55,9 +55,11 @@ export class ProductPage extends PureComponent {
         getLink: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         dataSource: ProductType.isRequired,
+        activeProduct: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
-        isAttributesTabEmpty: PropTypes.bool.isRequired
+        isAttributesTabEmpty: PropTypes.bool.isRequired,
+        setActiveProduct: PropTypes.func.isRequired
     };
 
     tabMap = {
@@ -91,14 +93,16 @@ export class ProductPage extends PureComponent {
         const {
             getLink,
             dataSource,
-            areDetailsLoaded
+            areDetailsLoaded,
+            activeProduct,
+            setActiveProduct
         } = this.props;
 
         return (
             <>
                 <Suspense fallback={ <Loader /> }>
                     <ProductGallery
-                      product={ dataSource }
+                      product={ activeProduct }
                       areDetailsLoaded={ areDetailsLoaded }
                     />
                 </Suspense>
@@ -106,6 +110,7 @@ export class ProductPage extends PureComponent {
                   getLink={ getLink }
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
+                  setActiveProduct={ setActiveProduct }
                 />
             </>
         );
@@ -131,15 +136,14 @@ export class ProductPage extends PureComponent {
 
     renderProductAttributesTab(key) {
         const {
-            dataSource,
-            parameters,
+            activeProduct,
             areDetailsLoaded
         } = this.props;
 
         return (
             <Suspense fallback={ <Loader /> }>
                 <ProductAttributes
-                  product={ { ...dataSource, parameters } }
+                  product={ activeProduct }
                   areDetailsLoaded={ areDetailsLoaded }
                   key={ key }
                 />

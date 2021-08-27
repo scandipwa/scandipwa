@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductCompareAttributeRow from 'Component/ProductCompareAttributeRow';
 import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
-import PRODUCT_TYPE from 'Config/Product.config';
 import { DeviceType } from 'Type/Device';
 import { ProductItemsType } from 'Type/ProductList';
 import { getPrice } from 'Util/Product/Extract';

@@ -13,10 +13,10 @@ import PropTypes from 'prop-types';
 
 import Html from 'Component/Html';
 import { Product } from 'Component/Product/Product.component';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductAlerts from 'Component/ProductAlerts';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
-import PRODUCT_TYPE from 'Config/Product.config';
 import { IN_STOCK, OUT_OF_STOCK } from 'Config/Stock.config';
 import { isCrawler, isSSR } from 'Util/Browser';
 import {
@@ -370,6 +370,7 @@ export class ProductActions extends Product {
                 { this.renderShortDescription() }
                 { this.renderProductAlerts() }
                 { this.renderConfigurableOptions() }
+                { this.renderCustomAndBundleOptions() }
                 { this.renderGroupedOptions() }
                 { this.renderDownloadableSamples() }
                 { this.renderDownloadableLinks() }

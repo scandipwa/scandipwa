@@ -12,33 +12,47 @@
 /** @namespace Util/Address/trimCustomerAddress */
 export const trimCustomerAddress = (customerAddress) => {
     const {
-        city,
-        company,
-        country_id,
-        email,
-        firstname,
-        lastname,
-        method,
-        postcode,
-        street,
-        telephone,
-        region,
-        vat_id
+        default_shipping = false,
+        default_billing = false,
+        company = null,
+        city = '',
+        country_id = 1,
+        firstname = '',
+        lastname = '',
+        middlename = '',
+        postcode = '',
+        street = [''],
+        telephone = '',
+        region: {
+            region_code = null,
+            region = null,
+            region_id = 1
+        },
+        prefix = '',
+        suffix = '',
+        vat_id = null
     } = customerAddress;
 
     return {
-        city,
         company,
+        default_shipping,
+        default_billing,
+        city,
         country_id,
-        email,
         firstname,
         lastname,
-        method,
+        middlename,
         postcode,
         street,
         telephone,
-        vat_id,
-        ...region
+        region: {
+            region_code,
+            region,
+            region_id
+        },
+        prefix,
+        suffix,
+        vat_id
     };
 };
 

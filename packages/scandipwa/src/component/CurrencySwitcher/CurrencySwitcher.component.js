@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Config/Field.config';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { getCurrency } from 'Util/Currency';
 
 import './CurrencySwitcher.style';

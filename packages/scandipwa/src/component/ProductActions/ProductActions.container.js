@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -38,7 +39,8 @@ export class ProductActionsContainer extends ProductContainer {
         getLink: PropTypes.func.isRequired,
         areReviewsEnabled: PropTypes.bool.isRequired,
         displayProductStockStatus: PropTypes.bool.isRequired,
-        isInStockAlertEnabled: PropTypes.bool.isRequired
+        isInStockAlertEnabled: PropTypes.bool.isRequired,
+        setActiveProduct: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -69,6 +71,21 @@ export class ProductActionsContainer extends ProductContainer {
         };
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        super.componentDidUpdate(prevProps, prevState);
+
+        const { selectedProduct: prevSelectedProduct } = prevState;
+        const { selectedProduct } = this.state;
+        const { setActiveProduct } = this.props;
+
+        // Updates ProductPages active product state, to
+        // match selected product variant
+        if (selectedProduct !== prevSelectedProduct) {
+            setActiveProduct(selectedProduct);
+        }
+    }
+
+    //#region META
     getMetaLink() {
         const { getLink } = this.props;
 
@@ -112,6 +129,7 @@ export class ProductActionsContainer extends ProductContainer {
 
         return 0;
     }
+    //#endregion
 
     showOnlyIfLoaded(expression, content, placeholder = content) {
         const { areDetailsLoaded } = this.props;

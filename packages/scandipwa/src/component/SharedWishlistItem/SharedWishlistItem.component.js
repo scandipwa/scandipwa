@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Field from 'Component/Field';
 import AddToCart from 'Component/Product/AddToCart';
 import ProductCard from 'Component/ProductCard';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
-import { IN_STOCK } from 'Config/Stock.config';
+import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 
 import './SharedWishlistItem.style';
 
@@ -22,12 +23,16 @@ export class SharedWishlistItem extends SourceWishlistItem {
     renderAddToCart() {
         const {
             product,
-            quantity,
-            changeQuantity,
             product: {
-                stock_status: stockStatus
-            } = {}
+                id
+            },
+            quantity,
+            changeQuantity
         } = this.props;
+
+        const min = getMinQuantity(product);
+        const max = getMaxQuantity(product);
+        const inStock = getProductInStock(product);
 
         return (
             <div
@@ -36,19 +41,32 @@ export class SharedWishlistItem extends SourceWishlistItem {
               mix={ { block: 'SharedWishlistItem', elem: 'Row' } }
             >
                 <Field
-                  id="item_qty"
-                  name="item_qty"
-                  type="number"
-                  min={ 1 }
-                  value={ quantity }
+                  type={ FIELD_TYPE.number }
+                  attr={ {
+                      id: `item_qty_wishlist_${id}`,
+                      name: `item_qty_wishlist_${id}`,
+                      value: quantity,
+                      defaultValue: quantity,
+                      min,
+                      max
+                  } }
+                  events={ {
+                      onChange: changeQuantity
+                  } }
+                  validationRule={ {
+                      range: {
+                          min,
+                          max
+                      }
+                  } }
+                  validateOn={ ['onChange'] }
                   mix={ { block: 'WishlistItem', elem: 'Quantity' } }
-                  onChange={ changeQuantity }
                 />
                 <AddToCart
                   product={ product }
                   quantity={ quantity }
                   mix={ { block: 'WishlistItem', elem: 'AddToCart' } }
-                  disabled={ stockStatus !== IN_STOCK }
+                  disabled={ !inStock }
                 />
             </div>
         );

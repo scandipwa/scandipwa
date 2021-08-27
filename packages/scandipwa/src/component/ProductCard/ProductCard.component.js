@@ -17,8 +17,8 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { Product } from 'Component/Product/Product.component';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import PRODUCT_TYPE from 'Config/Product.config';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { LayoutType } from 'Type/Layout';
@@ -291,14 +291,16 @@ export class ProductCard extends Product {
     }
 
     renderConfigurableOptions() {
-        const { product: { type_id: type } = {} } = this.props;
-        const showLabel = type === PRODUCT_TYPE.configurable && this.requiresConfiguration();
+        const { product: { type_id: type } = {}, inStock } = this.props;
+        const showLabel = type === PRODUCT_TYPE.configurable
+            && this.requiresConfiguration()
+            && Object.keys(this.getConfigurableAttributes()).length !== 0;
 
         return (
             <>
                 { super.renderConfigurableOptions() }
-                { showLabel && (
-                  <span block="ProductCard" elem="ConfigurationNotice">{ __('Contains more fields') }</span>
+                { inStock && showLabel && (
+                  <div block="ProductCard" elem="ConfigurationNotice">{ __('Contains hidden fields') }</div>
                 ) }
             </>
         );

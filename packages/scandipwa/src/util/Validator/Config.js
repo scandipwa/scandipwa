@@ -29,7 +29,8 @@ export const VALIDATION_INPUT_TYPE_NUMBER = {
 export const VALIDATION_INPUT_TYPE_INPUT = {
     email: 'email',
     password: 'password',
-    date: 'date'
+    date: 'date',
+    phone: 'phone'
 };
 
 export const VALIDATION_INPUT_TYPE = {
@@ -58,7 +59,8 @@ export const VALIDATION_MESSAGES = {
     [VALIDATION_INPUT_TYPE.naturalNoZero]: __('Incorrect input!'),
     [VALIDATION_INPUT_TYPE.email]: __('Incorrect email input!'),
     [VALIDATION_INPUT_TYPE.date]: __('Incorrect date input!'),
-    [VALIDATION_INPUT_TYPE.password]: __('Incorrect password input!')
+    [VALIDATION_INPUT_TYPE.password]: __('Incorrect password input!'),
+    [VALIDATION_INPUT_TYPE.phone]: __('Incorrect phone input!')
     //#endregion
 };
 
@@ -80,5 +82,6 @@ export const VALIDATION_RULES = {
     // Inputs
     // eslint-disable-next-line max-len
     [VALIDATION_INPUT_TYPE.email]: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-    [VALIDATION_INPUT_TYPE.date]: /\d{4}-\d{1,2}-\d{1,2}/
+    [VALIDATION_INPUT_TYPE.date]: /\d{4}-\d{1,2}-\d{1,2}/,
+    [VALIDATION_INPUT_TYPE.phone]: /^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/im
 };

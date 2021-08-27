@@ -15,8 +15,8 @@ import { PureComponent } from 'react';
 import ExpandableContent from 'Component/ExpandableContent';
 import Link from 'Component/Link';
 import FieldContainer from 'Component/PureForm/Field';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldGroupContainer from 'Component/PureForm/FieldGroup';
-import { FIELD_TYPE } from 'Config/Field.config';
 import { formatPrice } from 'Util/Price';
 
 import './ProductDownloadableLinks.style';

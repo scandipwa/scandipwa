@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import validationConfig from 'Component/Form/Form.config';
-import { FIELD_TYPE } from 'Config/Field.config';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { KEY_CODE } from 'Config/Keyboard.config';
 import { MixType } from 'Type/Common';
 

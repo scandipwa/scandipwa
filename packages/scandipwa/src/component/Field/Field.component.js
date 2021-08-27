@@ -20,8 +20,8 @@ import FieldInput from 'Component/FieldInput';
 import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
 import MinusIcon from 'Component/MinusIcon';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import UploadIcon from 'Component/UploadIcon';
-import { FIELD_TYPE } from 'Config/Field.config';
 import { MixType } from 'Type/Common';
 
 import './Field.style';

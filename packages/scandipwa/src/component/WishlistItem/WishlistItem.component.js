@@ -16,9 +16,9 @@ import { PureComponent } from 'react';
 import CloseIcon from 'Component/CloseIcon';
 import EditIcon from 'Component/EditIcon';
 import Field from 'Component/Field';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
-import PRODUCT_TYPE from 'Config/Product.config';
 import { ProductType } from 'Type/ProductList';
 
 import './WishlistItem.style';

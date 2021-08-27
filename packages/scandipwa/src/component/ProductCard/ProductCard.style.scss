@@ -81,6 +81,13 @@
         }
     }
 
+    &-ConfigurationNotice {
+        opacity: 0.3;
+        font-weight: normal;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+
     &-Content {
         background: var(--product-card-background);
         padding-block: 10px 16px;

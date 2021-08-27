@@ -54,7 +54,7 @@ export class Form extends PureComponent {
         }
 
         return (
-            <div block="FieldGroup" elem="ErrorMessages">
+            <div block="Form" elem="ErrorMessages">
                 { errorMessages.map(this.renderErrorMessage) }
             </div>
         );
@@ -105,7 +105,7 @@ export class Form extends PureComponent {
                     { ...attr }
                     { ...events }
                     ref={elem => setRef(elem)}
-                    block="FieldGroup"
+                    block="Form"
                     mods={ {
                         isValid: validationResponse === true,
                         hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0

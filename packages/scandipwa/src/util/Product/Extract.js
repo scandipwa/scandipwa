@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PRODUCT_TYPE } from 'Config/Product.config';
+import { PRODUCT_TYPE } from 'Component/Product/Product.config';
 import { IN_STOCK, OUT_OF_STOCK } from 'Config/Stock.config';
 import { formatPrice } from 'Util/Price';
 
@@ -18,6 +18,10 @@ export const DEFAULT_MIN_PRODUCTS = 1;
 export const DEFAULT_MAX_PRODUCTS = 100;
 
 export const getQuantity = (product, defaultValue, field, configIndex = -1) => {
+    if (!product) {
+        return defaultValue;
+    }
+
     const {
         stock_item: { [field]: qty } = {},
         variants

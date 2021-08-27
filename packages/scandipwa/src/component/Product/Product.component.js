@@ -27,9 +27,9 @@ import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import AddToCart from 'Component/Product/AddToCart';
 import ProductConfigurableAttributes
     from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
-import PRODUCT_TYPE from 'Config/Product.config';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import FieldContainer from 'Component/PureForm/Field';
-import { FIELD_TYPE } from 'Config/Field.config';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 import GroupedProductList from 'Component/GroupedProductList';
 
@@ -175,7 +175,8 @@ export class Product extends PureComponent {
         const {
             setActiveProduct,
             parameters,
-            product: { type_id: type, variants = {} }
+            product: { type_id: type, variants = {} },
+            inStock
         } = this.props;
 
         if (type !== PRODUCT_TYPE.configurable) {
@@ -196,6 +197,7 @@ export class Product extends PureComponent {
                     updateConfigurableVariant={ setActiveProduct }
                     configurable_options={ this.getConfigurableAttributes() }
                     isContentExpanded
+                    inStock={ inStock }
                 />
             </div>
         );

@@ -17,7 +17,7 @@ import Form from './Form.component';
 import { validateGroup } from 'Util/Validator';
 import { ChildrenType } from 'Type/Common';
 import getFieldsData from 'Util/Form/Extract';
-import FIELD_TYPE from 'Config/Field.config';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 
 export class FormContainer extends PureComponent {
     static propTypes = {
@@ -27,6 +27,7 @@ export class FormContainer extends PureComponent {
         events: PropTypes.object,
         onSubmit: PropTypes.func,
         onError: PropTypes.func,
+        returnAsObject: PropTypes.bool,
 
         // Validation
         validationRule: PropTypes.object,
@@ -47,7 +48,8 @@ export class FormContainer extends PureComponent {
         label: '',
         subLabel: '',
         onSubmit: null,
-        children: []
+        children: [],
+        returnAsObject: false
     };
 
     state = {
@@ -55,7 +57,9 @@ export class FormContainer extends PureComponent {
     }
 
     containerFunctions = {
-        validate: this.validate.bind(this)
+        validate: this.validate.bind(this),
+        setRef: this.setRef.bind(this),
+        onSubmit: this.onSubmit.bind(this)
     }
 
     formRef = createRef();
@@ -73,13 +77,11 @@ export class FormContainer extends PureComponent {
     // Adds validation event listener to field
     setRef(elem) {
         const { validationRule } = this.props;
-        if (!validationRule || Object.keys(validationRule).length === 0) {
-            return;
-        }
-
         if (elem && this.formRef !== elem) {
             this.formRef = elem;
-            elem.addEventListener('validate', this.validate.bind(this));
+            if (validationRule && Object.keys(validationRule).length > 0) {
+                elem.addEventListener('validate', this.validate.bind(this));
+            }
         }
     }
 
@@ -108,13 +110,17 @@ export class FormContainer extends PureComponent {
     }
     //#endregion
 
-    onSubmit() {
-        const { onSubmit, onError } = this.props;
-        const fields = getFieldsData(this.formRef, false, [FIELD_TYPE.number, FIELD_TYPE.button]);
+    onSubmit(e) {
+        e.preventDefault();
+        const { onSubmit, onError, returnAsObject = false } = this.props;
+        const fields = getFieldsData(
+            this.formRef, false, [FIELD_TYPE.number, FIELD_TYPE.button], returnAsObject
+        );
         const isValid = validateGroup(this.formRef);
+        console.log([fields, isValid, this.props, typeof onSubmit]);
         if (isValid !== true) {
             if (typeof onError === 'function') {
-                onSubmit(this.formRef, fields, isValid);
+                onError(this.formRef, fields, isValid);
             }
             return;
         }
@@ -126,7 +132,7 @@ export class FormContainer extends PureComponent {
 
     containerProps() {
         const { events, validateOn } = this.props;
-        const { validate } = this.containerFunctions;
+        const { validate, onSubmit } = this.containerFunctions;
 
         // Surrounds events with validation
         // TODO: Optimize
@@ -141,15 +147,15 @@ export class FormContainer extends PureComponent {
             ...this.props,
             events: {
                 ...newEvents,
-                onSubmit: this.onSubmit.bind(this)
+                onSubmit
             },
-            setRef: this.setRef.bind(this)
         }
     }
 
     render() {
         return <Form
             { ...this.containerProps() }
+            { ...this.containerFunctions }
         />
     }
 }

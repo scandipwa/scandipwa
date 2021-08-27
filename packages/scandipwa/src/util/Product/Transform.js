@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PRODUCT_TYPE from 'Config/Product.config';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { formatPrice } from 'Util/Price';
 
 export const PRICE_TYPE_PERCENT = 'PERCENT';

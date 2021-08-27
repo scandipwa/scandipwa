@@ -24,8 +24,8 @@ import { sortBySortOrder } from 'Util/Product';
 export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
     static propTypes = {
         ...ProductConfigurableAttributes.propTypes,
-        currency_code: PropTypes.string.isRequired,
-        show_product_count: PropTypes.bool.isRequired,
+        currencyCode: PropTypes.string.isRequired,
+        showProductCount: PropTypes.bool.isRequired,
         childrenCategories: PropTypes.arrayOf(PropTypes.shape(CategoryFragment)).isRequired,
         getSubCategories: PropTypes.func.isRequired
     };
@@ -44,7 +44,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
     }
 
     renderPriceSwatch(option) {
-        const { currency_code } = this.props;
+        const { currencyCode } = this.props;
         const { attribute_options, ...priceOption } = option;
 
         if (attribute_options) {
@@ -56,7 +56,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
             priceOption.attribute_options = Object.entries(attribute_options).reduce((acc, [key, option]) => {
                 const { label: oldLabel } = option;
                 const [from, to] = oldLabel.split('~');
-                const label = getPriceFilterLabel(from, to, currency_code);
+                const label = getPriceFilterLabel(from, to, currencyCode);
                 acc[key] = { ...option, label };
 
                 return acc;
@@ -103,7 +103,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
             handleOptionClick,
             getLink,
             isSelected,
-            show_product_count
+            showProductCount
         } = this.props;
 
         const { attribute_value } = attribute;
@@ -116,7 +116,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
               isAvailable={ getIsConfigurableAttributeAvailable(attribute) }
               onClick={ handleOptionClick }
               getLink={ getLink }
-              isProductCountVisible={ show_product_count }
+              isProductCountVisible={ showProductCount }
             />
         );
     }

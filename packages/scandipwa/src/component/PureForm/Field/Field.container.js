@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { FIELD_TYPE } from 'Config/Field.config';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 
 import Field from './Field.component';
 import { MixType } from 'Type/Common';
@@ -22,7 +22,7 @@ import { validate } from 'Util/Validator';
 export class FieldContainer extends PureComponent {
     static propTypes = {
         // Field attributes
-        type: PropTypes.oneOf(Object.values(FIELD_TYPE)).isRequired,
+        type: PropTypes.oneOf(Object.values(FIELD_TYPE)),
         attr: PropTypes.object,
         events: PropTypes.object,
         isDisabled: PropTypes.bool,
@@ -36,10 +36,12 @@ export class FieldContainer extends PureComponent {
 
         // Labels
         label: PropTypes.string,
-        subLabel: PropTypes.string
+        subLabel: PropTypes.string,
+        addRequiredTag: PropTypes.bool
     };
 
     static defaultProps = {
+        type: FIELD_TYPE.text,
         attr: {},
         events: {},
         mix: {},
@@ -48,6 +50,7 @@ export class FieldContainer extends PureComponent {
         options: [],
         showErrorAsLabel: true,
         isDisabled: false,
+        addRequiredTag: false,
         label: '',
         subLabel: ''
     };
@@ -75,12 +78,12 @@ export class FieldContainer extends PureComponent {
     // Adds validation event listener to field
     setRef(elem) {
         const { validationRule } = this.props;
-        if (!validationRule || Object.keys(validationRule).length === 0) {
-            return;
-        }
 
         if (elem && this.fieldRef !== elem) {
             this.fieldRef = elem;
+            if (!validationRule || Object.keys(validationRule).length === 0) {
+                return;
+            }
             elem.addEventListener('validate', this.validate.bind(this));
         }
     }

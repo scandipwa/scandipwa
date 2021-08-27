@@ -16,7 +16,7 @@ import CustomizableOption from "./CustomizableOption.component";
 import { customizableOptionsToSelectTransform } from 'Util/Product/Transform';
 import { connect } from 'react-redux';
 import { CONFIG_FIELD_TYPE } from 'Component/Product/CustomizableOption/CustomizableOption.config';
-import FIELD_TYPE from 'Config/Field.config';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 
 export const mapStateToProps = (state) => ({
     currencyCode: state.ConfigReducer.currencyData.current_currency_code

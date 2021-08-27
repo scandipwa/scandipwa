@@ -15,9 +15,9 @@ import { PureComponent } from 'react';
 import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
 import FieldContainer from 'Component/PureForm/Field';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
-import { FIELD_TYPE } from 'Config/Field.config';
 import { ProductType } from 'Type/ProductList';
 import {
     getMaxQuantity, getMinQuantity, getPrice, getProductInStock, getThumbnailImage

@@ -15,6 +15,7 @@
     --checkbox-border-color-active: var(--imported_checkboxes_border_color, var(--primary-base-color));
     --checkbox-width: var(--imported_checkboxes_width, 18px);
     --checkbox-height: var(--imported_checkboxes_height, 18px);
+    --required-text-color: #dc6d6d;
 }
 
 .Field {
@@ -27,6 +28,11 @@
     &-Label {
         font-size: 12px;
         padding-block-end: 8px;
+
+        &_isRequired {
+            font-weight: bold;
+            color: var(--required-text-color);
+        }
     }
 
     &-LabelContainer {
@@ -176,6 +182,11 @@
                 }
             }
 
+            input {
+                width: 100%;
+                height: 100%;
+            }
+
             .input-control {
                 vertical-align: middle;
             }
@@ -247,6 +258,8 @@
         padding: 0;
         min-width: 0;
         min-height: 0;
+        z-index: 10;
+        cursor: pointer;
 
         + .input-control {
             --box-color: #{$white};

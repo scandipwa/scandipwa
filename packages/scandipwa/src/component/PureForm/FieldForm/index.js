@@ -9,13 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const PRODUCT_TYPE = {
-    configurable: 'configurable',
-    grouped: 'grouped',
-    simple: 'simple',
-    bundle: 'bundle',
-    downloadable: 'downloadable',
-    virtual: 'virtual'
-};
-
-export default PRODUCT_TYPE;
+export { default } from './FieldForm.component';

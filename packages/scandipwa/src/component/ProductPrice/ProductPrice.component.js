@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import PRODUCT_TYPE from 'Config/Product.config';
 import { MixType } from 'Type/Common';
 
 import './ProductPrice.style';

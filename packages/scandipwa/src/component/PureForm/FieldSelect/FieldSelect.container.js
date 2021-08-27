@@ -84,7 +84,6 @@ export class FieldSelectContainer extends PureComponent {
         const { events: { onChange } = {} } = this.props;
 
         this.fieldRef.value = value;
-        console.log(['field', value]);
 
         if (onChange) {
             onChange(value);

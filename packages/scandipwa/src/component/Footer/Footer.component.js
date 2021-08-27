@@ -97,6 +97,7 @@ export class Footer extends Component {
 
     renderColumnItem = (item, i) => {
         const { render } = item;
+        console.log([item, i]);
 
         if (render) {
             return this.renderMap[render].render(item, i);
@@ -150,8 +151,8 @@ export class Footer extends Component {
         );
     }
 
-    renderNewsletterSubscriptionBlock(item, i) {
-        return <NewsletterSubscription key={ i } />;
+    renderNewsletterSubscriptionBlock() {
+        return <NewsletterSubscription />;
     }
 
     renderCmsBlockWrapper() {

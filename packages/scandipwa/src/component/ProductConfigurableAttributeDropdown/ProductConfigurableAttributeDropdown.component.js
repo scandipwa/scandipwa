@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Config/Field.config';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 
 import './ProductConfigurableAttributeDropdown.style';
 
@@ -51,7 +51,7 @@ export class ProductConfigurableAttributeDropdown extends PureComponent {
                   id: selectName,
                   name: selectName,
                   defaultValue: selectValue,
-                  selectPlaceholder: __('Chose %s...', selectLabel.toLowerCase())
+                  selectPlaceholder: __('Choose %s...', selectLabel.toLowerCase())
               } }
               events={ {
                   onChange

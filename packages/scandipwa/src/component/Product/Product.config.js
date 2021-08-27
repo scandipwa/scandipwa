@@ -8,6 +8,16 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
 export const IN_STOCK = 'IN_STOCK';
 export const OUT_OF_STOCK = 'OUT_OF_STOCK';
+
+export const PRODUCT_TYPE = {
+    configurable: 'configurable',
+    grouped: 'grouped',
+    simple: 'simple',
+    bundle: 'bundle',
+    downloadable: 'downloadable',
+    virtual: 'virtual'
+};
+
+export default PRODUCT_TYPE;

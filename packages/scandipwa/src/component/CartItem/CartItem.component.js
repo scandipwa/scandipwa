@@ -18,9 +18,10 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Config/Field.config';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { CartItemType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
+import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 import './CartItem.style';
 
@@ -201,10 +202,10 @@ export class CartItem extends PureComponent {
         const formattedPrice = formatPrice(price, currencyCode);
 
         return (
-            <>
+            <div>
                 { `${quantity} x ${label} ` }
                 <strong>{ formattedPrice }</strong>
-            </>
+            </div>
         );
     };
 
@@ -403,12 +404,15 @@ export class CartItem extends PureComponent {
                       id: `${sku}_item_qty`,
                       name: `${sku}_item_qty`,
                       value: qty,
-                      defaultValue: qty
+                      defaultValue: qty,
+                      min: minSaleQuantity,
+                      max: maxSaleQuantity
                   } }
                   events={ {
                       onChange: handleChangeQuantity
                   } }
                   validationRule={ {
+                      inputType: VALIDATION_INPUT_TYPE.numeric,
                       range: {
                           min: minSaleQuantity,
                           max: maxSaleQuantity

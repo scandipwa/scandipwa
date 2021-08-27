@@ -61,14 +61,17 @@ export class NewsletterSubscriptionContainer extends PureComponent {
         return { isLoading };
     }
 
-    onFormSubmit(fields) {
+    onFormSubmit(form, fields) {
         const {
             subscribeToNewsletter,
             allowGuestSubscribe,
             isSignedIn,
             showErrorNotification
         } = this.props;
-        const { newsletterEmail: email } = fields;
+
+        const {
+            value: email
+        } = fields.find(({ name }) => name === 'newsletterEmail') || {};
 
         if (!allowGuestSubscribe && !isSignedIn) {
             showErrorNotification(

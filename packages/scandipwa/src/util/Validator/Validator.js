@@ -9,7 +9,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import FIELD_TYPE from 'Config/Field.config';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { VALIDATION_INPUT_TYPE_NUMBER, VALIDATION_MESSAGES, VALIDATION_RULES } from 'Util/Validator/Config';
 
 /**
@@ -38,8 +38,6 @@ export const validate = (value, rule) => {
         value,
         errorMessages: []
     };
-
-    console.log(['valudate', value]);
 
     //#region IS REQUIRED
     if (isRequired && !value) {

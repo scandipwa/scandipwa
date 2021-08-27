@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 
 import AddIcon from 'Component/AddIcon';
 import MinusIcon from 'Component/MinusIcon';
-import { FIELD_TYPE } from 'Config/Field.config';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 
 export class FieldNumber extends PureComponent {
     static propTypes = {

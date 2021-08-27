@@ -11,7 +11,8 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from 'Component/FieldForm';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
+import FieldForm from 'Component/PureForm/FieldForm';
 import { customerType } from 'Type/Account';
 
 import './MyAccountNewsletterSubscription.style.scss';
@@ -20,7 +21,8 @@ import './MyAccountNewsletterSubscription.style.scss';
 export class MyAccountNewsletterSubscription extends FieldForm {
     static propTypes = {
         customer: customerType.isRequired,
-        onCustomerSave: PropTypes.func.isRequired
+        onCustomerSave: PropTypes.func.isRequired,
+        onError: PropTypes.func.isRequired
     };
 
     shouldComponentUpdate(nextProps) {
@@ -30,52 +32,50 @@ export class MyAccountNewsletterSubscription extends FieldForm {
         return customer !== nextCustomer;
     }
 
-    onFormSuccess = (fields) => {
-        const { onCustomerSave } = this.props;
-        onCustomerSave(fields);
-    };
-
-    getDefaultValues(fieldEntry) {
-        const [key] = fieldEntry;
-        const { customer: { [key]: value } } = this.props;
-
-        return {
-            ...super.getDefaultValues(fieldEntry),
-            value
-        };
-    }
-
     get fieldMap() {
         const { customer: { is_subscribed } } = this.props;
 
-        return {
-            is_subscribed: {
-                type: 'checkbox',
-                label: __('General subscription'),
-                value: 'is_subscribed',
-                checked: is_subscribed
+        return [
+            {
+                type: FIELD_TYPE.checkbox,
+                attr: {
+                    name: 'isSubscribed',
+                    defaultValue: is_subscribed
+                },
+                label: __('General subscription')
             }
-        };
+        ];
     }
 
-    renderFields() {
+    renderFormBody() {
         return (
             <div
               block="FieldForm"
               elem="Fields"
               mix={ { block: 'MyAccountNewsletterSubscription' } }
             >
-                { Object.entries(this.fieldMap).map(this.renderField) }
+                { super.renderFormBody() }
             </div>
         );
+    }
+
+    getFormProps() {
+        const { onCustomerSave, onError } = this.props;
+
+        return {
+            onSubmit: onCustomerSave,
+            onError,
+            returnAsObject: true
+        };
     }
 
     renderActions() {
         return (
             <button
-              type="submit"
+              type={ FIELD_TYPE.submit }
               block="Button"
               mix={ { block: 'MyAccountNewsletterSubscription', elem: 'Button' } }
+              aria-label={ __('Submit') }
             >
                 { __('Save changes') }
             </button>

@@ -12,8 +12,7 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { FIELD_TYPE } from 'Config/Field.config';
-import Field from 'Component/Field/Field.container';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 import { CONFIG_FIELD_TYPE } from 'Component/Product/CustomizableOption/CustomizableOption.config';
 import FieldContainer from 'Component/PureForm/Field';

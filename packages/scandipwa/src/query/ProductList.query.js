@@ -983,8 +983,8 @@ export class ProductListQuery {
             'required',
             'sort_order',
             'option_id',
-            'uid',
-            'type'
+            'type',
+            'uid'
         ];
     }
 

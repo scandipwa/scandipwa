@@ -59,7 +59,10 @@ export class FieldFileContainer extends PureComponent {
                     isLoading: false,
                     value: reader.result
                 });
-                this.fieldRef.fileData = reader.result;
+                this.fieldRef.fileData = JSON.stringify({
+                    file_data: reader.result,
+                    file_name: name
+                });
                 if (typeof onChange === 'function') {
                     onChange(value);
                 }
