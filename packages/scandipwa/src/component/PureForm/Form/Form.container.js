@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,11 +13,12 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import Form from './Form.component';
-import { validateGroup } from 'Util/Validator';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { ChildrenType } from 'Type/Common';
 import getFieldsData from 'Util/Form/Extract';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import { validateGroup } from 'Util/Validator';
+
+import Form from './Form.component';
 
 export class FormContainer extends PureComponent {
     static propTypes = {
@@ -48,19 +49,20 @@ export class FormContainer extends PureComponent {
         label: '',
         subLabel: '',
         onSubmit: null,
+        onError: null,
         children: [],
         returnAsObject: false
     };
 
     state = {
         validationResponse: null
-    }
+    };
 
     containerFunctions = {
         validate: this.validate.bind(this),
         setRef: this.setRef.bind(this),
         onSubmit: this.onSubmit.bind(this)
-    }
+    };
 
     formRef = createRef();
 
@@ -93,6 +95,7 @@ export class FormContainer extends PureComponent {
         // to store validation error values
         if (data && data.detail && output !== true) {
             if (!data.detail.errors) {
+                // eslint-disable-next-line no-param-reassign
                 data.detail.errors = [];
             }
             data.detail.errors.push(output);
@@ -102,26 +105,36 @@ export class FormContainer extends PureComponent {
         return output;
     }
 
-    validateOnEvent(hook) {
+    validateOnEvent(hook, ...args) {
         this.validate();
         if (hook) {
-            hook();
+            const { attr, returnAsObject } = this.props;
+            const fields = getFieldsData(
+                this.formRef,
+                false,
+                [FIELD_TYPE.number, FIELD_TYPE.button],
+                returnAsObject
+            );
+
+            hook(...[...args, { ...attr, formRef: this.formRef, fields }]);
         }
     }
     //#endregion
 
     onSubmit(e) {
         e.preventDefault();
+
         const { onSubmit, onError, returnAsObject = false } = this.props;
         const fields = getFieldsData(
             this.formRef, false, [FIELD_TYPE.number, FIELD_TYPE.button], returnAsObject
         );
         const isValid = validateGroup(this.formRef);
-        console.log([fields, isValid, this.props, typeof onSubmit]);
+
         if (isValid !== true) {
             if (typeof onError === 'function') {
                 onError(this.formRef, fields, isValid);
             }
+
             return;
         }
 
@@ -139,7 +152,7 @@ export class FormContainer extends PureComponent {
         const newEvents = { ...events };
         validateOn.forEach((eventName) => {
             const { [eventName]: baseEvent } = events;
-            newEvents[eventName] = baseEvent ?  this.validateOnEvent.bind(this, baseEvent) : validate
+            newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 
         return {
@@ -148,15 +161,17 @@ export class FormContainer extends PureComponent {
             events: {
                 ...newEvents,
                 onSubmit
-            },
-        }
+            }
+        };
     }
 
     render() {
-        return <Form
-            { ...this.containerProps() }
-            { ...this.containerFunctions }
-        />
+        return (
+            <Form
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+            />
+        );
     }
 }
 

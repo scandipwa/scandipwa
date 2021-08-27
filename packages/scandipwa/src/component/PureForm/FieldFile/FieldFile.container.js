@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -25,13 +24,13 @@ export class FieldFileContainer extends PureComponent {
 
     containerFunctions = {
         setRef: this.setRef.bind(this)
-    }
+    };
 
     state = {
         isLoading: false,
         fileName: '',
         value: ''
-    }
+    };
 
     fieldRef = createRef();
 
@@ -51,7 +50,7 @@ export class FieldFileContainer extends PureComponent {
             const { files } = this.fieldRef;
             this.setState({ isLoading: true });
 
-            const name = files[0].name;
+            const { name } = files[0];
             const reader = new FileReader();
             reader.onload = () => {
                 this.setState({
@@ -73,7 +72,7 @@ export class FieldFileContainer extends PureComponent {
                 if (typeof onChange === 'function') {
                     onChange(value);
                 }
-            }
+            };
             reader.readAsDataURL(files[0]);
         }
     }
@@ -88,14 +87,16 @@ export class FieldFileContainer extends PureComponent {
                 onChange: this.onChange.bind(this)
             },
             ...this.state
-        }
+        };
     }
 
     render() {
-        return <FieldFile
-            { ...this.containerProps() }
-            { ...this.containerFunctions }
-        />
+        return (
+            <FieldFile
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+            />
+        );
     }
 }
 

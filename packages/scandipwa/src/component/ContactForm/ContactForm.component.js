@@ -11,8 +11,10 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from 'Component/FieldForm';
 import Loader from 'Component/Loader';
+import FieldForm from 'Component/PureForm/FieldForm';
+
+import contactForm from './ContactForm.form';
 
 import './ContactForm.style';
 
@@ -28,31 +30,15 @@ export class ContactForm extends FieldForm {
     };
 
     get fieldMap() {
-        return {
-            name: {
-                validation: ['notEmpty'],
-                label: __('Name')
-            },
-            email: {
-                validation: ['notEmpty', 'email'],
-                label: __('Email')
-            },
-            telephone: {
-                label: __('Phone number')
-            },
-            message: {
-                type: 'textarea',
-                validation: ['notEmpty'],
-                label: __('What\'s on your mind?')
-            }
-        };
+        return contactForm();
     }
 
-    onFormSuccess = this.onFormSuccess.bind(this);
-
-    onFormSuccess(fields) {
+    getFormProps() {
         const { onFormSubmit } = this.props;
-        onFormSubmit(fields);
+
+        return {
+            onSubmit: onFormSubmit
+        };
     }
 
     renderActions() {

@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ChildrenType } from 'Type/Common';
+
 import './FieldGroup.style.scss';
 
 export class FieldGroup extends PureComponent {
@@ -69,9 +70,7 @@ export class FieldGroup extends PureComponent {
         }
 
         return (
-            <>
-                { label }
-            </>
+            { label }
         );
     }
 
@@ -83,10 +82,8 @@ export class FieldGroup extends PureComponent {
         }
 
         return (
-            <>
-                { subLabel }
-            </>
-        )
+            { subLabel }
+        );
     }
     //#endregion
 
@@ -103,14 +100,16 @@ export class FieldGroup extends PureComponent {
             <>
                 { this.renderLabel() }
                 <div
-                    { ...attr }
-                    { ...events }
-                    ref={ (elem) => setRef(elem) }
-                    block="FieldGroup"
-                    mods={ {
-                        isValid: validationResponse === true,
-                        hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
-                    } }
+                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+                  { ...attr }
+                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+                  { ...events }
+                  ref={ (elem) => setRef(elem) }
+                  block="FieldGroup"
+                  mods={ {
+                      isValid: validationResponse === true,
+                      hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
+                  } }
                 >
                     { children }
                 </div>

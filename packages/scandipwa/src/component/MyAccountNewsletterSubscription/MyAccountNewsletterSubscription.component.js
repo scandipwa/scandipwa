@@ -40,7 +40,7 @@ export class MyAccountNewsletterSubscription extends FieldForm {
                 type: FIELD_TYPE.checkbox,
                 attr: {
                     name: 'isSubscribed',
-                    defaultValue: is_subscribed
+                    defaultChecked: is_subscribed
                 },
                 label: __('General subscription')
             }

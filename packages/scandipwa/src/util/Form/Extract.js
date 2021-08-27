@@ -63,7 +63,8 @@ export const getFieldsData = (DOM, excludeEmpty = false, ignoreTypes = [], asObj
 
         // eslint-disable-next-line no-nested-ternary
         const value = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio
-            ? (!!field.checked)
+            // eslint-disable-next-line no-nested-ternary
+            ? (field.checked ? field.value === 'on' ? true : field.value : false)
             : type === FIELD_TYPE.file
                 ? field.fileData
                 : field.value;

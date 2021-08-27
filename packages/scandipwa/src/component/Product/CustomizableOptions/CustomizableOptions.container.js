@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,7 +11,8 @@
 
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import CustomizableOptions from "./CustomizableOptions.component";
+
+import CustomizableOptions from './CustomizableOptions.component';
 
 export class CustomizableOptionsContainer extends Component {
     static propTypes = {
@@ -27,11 +27,16 @@ export class CustomizableOptionsContainer extends Component {
         return nextOptions === options;
     }
 
+    containerProps() {
+        return {
+            ...this.props
+        };
+    }
+
     render() {
         return (
             <CustomizableOptions
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
             />
         );
     }

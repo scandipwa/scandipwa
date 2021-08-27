@@ -35,23 +35,13 @@ export class MyAccountCustomerFormContainer extends PureComponent {
     };
 
     containerProps() {
-        const { customer, onSave } = this.props;
+        const { customer, onSave, showTaxVatNumber } = this.props;
 
         return {
             customer,
             onSave,
-            vatNumberValidation: this.getVatNumberValidation()
+            showTaxVatNumber: showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED
         };
-    }
-
-    getVatNumberValidation() {
-        const { showTaxVatNumber } = this.props;
-
-        if (showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED) {
-            return ['notEmpty'];
-        }
-
-        return [];
     }
 
     render() {

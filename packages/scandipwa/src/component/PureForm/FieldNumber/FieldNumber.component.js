@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -16,6 +15,7 @@ import { PureComponent } from 'react';
 import AddIcon from 'Component/AddIcon';
 import MinusIcon from 'Component/MinusIcon';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
+import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
 export class FieldNumber extends PureComponent {
     static propTypes = {
@@ -30,41 +30,43 @@ export class FieldNumber extends PureComponent {
     render() {
         const {
             attr,
-            attr: { min = 1, max = 9999 },
+            attr: { min = 1, max = DEFAULT_MAX_PRODUCTS },
             events,
             setRef,
             value,
             handleValueChange,
-            isDisabled,
+            isDisabled
         } = this.props;
 
         return (
             <>
                 <input
-                    ref={ (elem) => setRef(elem) }
-                    { ...attr }
-                    { ...events }
-                    type={ FIELD_TYPE.number }
-                    readOnly
-                    aria-label={ __('Value') }
-                    value={ value }
-                    disabled={ isDisabled }
+                  ref={ (elem) => setRef(elem) }
+                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+                  { ...attr }
+                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+                  { ...events }
+                  type={ FIELD_TYPE.number }
+                  readOnly
+                  aria-label={ __('Value') }
+                  value={ value }
+                  disabled={ isDisabled }
                 />
                 <button
-                    disabled={ +value === max || isDisabled }
-                    // eslint-disable-next-line react/jsx-no-bind
-                    onClick={ () => handleValueChange(+value + 1) }
-                    aria-label={ __('Add') }
-                    type={ FIELD_TYPE.button }
+                  disabled={ +value === max || isDisabled }
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ () => handleValueChange(+value + 1) }
+                  aria-label={ __('Add') }
+                  type={ FIELD_TYPE.button }
                 >
                     <AddIcon block="SubtractButton" isPrimary />
                 </button>
                 <button
-                    disabled={ +value === min || isDisabled }
-                    // eslint-disable-next-line react/jsx-no-bind
-                    onClick={ () => handleValueChange(+value - 1) }
-                    aria-label={ __('Subtract') }
-                    type={ FIELD_TYPE.button }
+                  disabled={ +value === min || isDisabled }
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ () => handleValueChange(+value - 1) }
+                  aria-label={ __('Subtract') }
+                  type={ FIELD_TYPE.button }
                 >
                     <MinusIcon block="AddButton" isPrimary />
                 </button>

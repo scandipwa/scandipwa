@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,26 +12,27 @@
 
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
-import { PriceType, ProductType } from 'Type/ProductList';
-import { filterConfigurableOptions } from 'Util/Product';
+
+import GroupedProductList from 'Component/GroupedProductList';
+import AddToCart from 'Component/Product/AddToCart';
 import BundleOptions from 'Component/Product/BundleOptions';
 import CustomizableOptions from 'Component/Product/CustomizableOptions';
-import ProductReviewRating from 'Component/ProductReviewRating';
-import ProductWishlistButton from 'Component/ProductWishlistButton';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductCompareButton from 'Component/ProductCompareButton';
-import ProductPrice from 'Component/ProductPrice';
-import ProductDownloadableLinks from 'Component/ProductDownloadableLinks';
-import ProductDownloadableSamples from 'Component/ProductDownloadableSamples/ProductDownloadableSamples.component';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import AddToCart from 'Component/Product/AddToCart';
 import ProductConfigurableAttributes
     from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import ProductDownloadableLinks from 'Component/ProductDownloadableLinks';
+import ProductDownloadableSamples from 'Component/ProductDownloadableSamples/ProductDownloadableSamples.component';
+import ProductPrice from 'Component/ProductPrice';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import ProductWishlistButton from 'Component/ProductWishlistButton';
 import FieldContainer from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
+import { PriceType, ProductType } from 'Type/ProductList';
+import { filterConfigurableOptions } from 'Util/Product';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
-import GroupedProductList from 'Component/GroupedProductList';
 
 export class Product extends PureComponent {
     static propTypes = {
@@ -47,10 +48,8 @@ export class Product extends PureComponent {
 
         addToCart: PropTypes.func.isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
-        setCustomOptions: PropTypes.func.isRequired,
         setAdjustedPrice: PropTypes.func.isRequired,
         setDownloadableLinks: PropTypes.func.isRequired,
-        setValidator: PropTypes.func.isRequired,
 
         getMagentoProduct: PropTypes.func.isRequired,
         getActiveProduct: PropTypes.func.isRequired,
@@ -62,22 +61,22 @@ export class Product extends PureComponent {
 
     static defaultProps = {
         configFormRef: createRef()
-    }
+    };
 
     className = this.constructor.name.slice(0, -1);
 
     //#region PLACEHOLDERS
     renderTextPlaceholder() {
-        return <TextPlaceholder/>
+        return <TextPlaceholder />;
     }
 
     renderBlockPlaceholder() {
         return (
             <div
-                block={ this.className }
-                mods={ { isLoading, isPlaceholder: true } }
+              block={ this.className }
+              mods={ { isLoading: true, isPlaceholder: true } }
             />
-        )
+        );
     }
     //#endregion
 
@@ -92,8 +91,8 @@ export class Product extends PureComponent {
 
         return (
             <BundleOptions
-                updateSelectedValues={ updateSelectedValues }
-                options={ items }
+              updateSelectedValues={ updateSelectedValues }
+              options={ items }
             />
         );
     }
@@ -108,8 +107,8 @@ export class Product extends PureComponent {
 
         return (
             <CustomizableOptions
-                updateSelectedValues={ updateSelectedValues }
-                options={ options }
+              updateSelectedValues={ updateSelectedValues }
+              options={ options }
             />
         );
     }
@@ -126,7 +125,7 @@ export class Product extends PureComponent {
             }
         } = this.props;
 
-        if (type_id !== PRODUCT_TYPE.downloadable || (Array.isArray(links) && !links.length) ) {
+        if (type_id !== PRODUCT_TYPE.downloadable || (Array.isArray(links) && !links.length)) {
             return null;
         }
 
@@ -134,11 +133,11 @@ export class Product extends PureComponent {
 
         return (
             <ProductDownloadableLinks
-                links={ links }
-                setLinkedDownloadables={ setDownloadableLinks }
-                setLinkedDownloadablesPrice={ setAdjustedPrice }
-                title={ links_title }
-                isRequired={ isRequired }
+              links={ links }
+              setLinkedDownloadables={ setDownloadableLinks }
+              setLinkedDownloadablesPrice={ setAdjustedPrice }
+              title={ links_title }
+              isRequired={ isRequired }
             />
         );
     }
@@ -158,8 +157,8 @@ export class Product extends PureComponent {
 
         return (
             <ProductDownloadableSamples
-                title={ samples_title }
-                samples={ samples }
+              title={ samples_title }
+              samples={ samples }
             />
         );
     }
@@ -168,6 +167,7 @@ export class Product extends PureComponent {
         const {
             product: { configurable_options: configurableOptions = {}, variants = {} }
         } = this.props;
+
         return filterConfigurableOptions(configurableOptions, variants);
     }
 
@@ -185,19 +185,19 @@ export class Product extends PureComponent {
 
         return (
             <div
-                block="ProductActions"
-                elem="AttributesWrapper"
+              block="ProductActions"
+              elem="AttributesWrapper"
             >
                 <ProductConfigurableAttributes
                     // eslint-disable-next-line no-magic-numbers
-                    numberOfPlaceholders={ [2, 4] }
-                    mix={ { block: this.className, elem: 'Attributes' } }
-                    parameters={ parameters }
-                    variants={ variants }
-                    updateConfigurableVariant={ setActiveProduct }
-                    configurable_options={ this.getConfigurableAttributes() }
-                    isContentExpanded
-                    inStock={ inStock }
+                  numberOfPlaceholders={ [2, 4] }
+                  mix={ { block: this.className, elem: 'Attributes' } }
+                  parameters={ parameters }
+                  variants={ variants }
+                  updateConfigurableVariant={ setActiveProduct }
+                  configurable_options={ this.getConfigurableAttributes() }
+                  isContentExpanded
+                  inStock={ inStock }
                 />
             </div>
         );
@@ -219,13 +219,13 @@ export class Product extends PureComponent {
 
         return (
             <div
-                block={ this.className }
-                elem="GroupedItems"
+              block={ this.className }
+              elem="GroupedItems"
             >
                 <GroupedProductList
-                    product={ product }
-                    quantity={ quantity }
-                    setQuantity={ setQuantity }
+                  product={ product }
+                  quantity={ quantity }
+                  setQuantity={ setQuantity }
                 />
             </div>
         );
@@ -235,12 +235,10 @@ export class Product extends PureComponent {
         const { product: { type_id }, configFormRef } = this.props;
 
         return (
-            <>
-                <form ref={ configFormRef }>
+            <form ref={ configFormRef }>
                     { type_id === PRODUCT_TYPE.bundle && this.renderBundleOptions() }
                     { this.renderCustomizableOptions() }
-                </form>
-            </>
+            </form>
         );
     }
     //#endregion
@@ -272,16 +270,16 @@ export class Product extends PureComponent {
         const { getMagentoProduct } = this.props;
         const magentoProduct = getMagentoProduct();
         if (magentoProduct.length === 0) {
-            return;
+            return null;
         }
 
         return (
             <ProductWishlistButton
-                magentoProduct={ magentoProduct }
-                mix={ {
-                    block: this.className,
-                    elem: 'WishListButton'
-                } }
+              magentoProduct={ magentoProduct }
+              mix={ {
+                  block: this.className,
+                  elem: 'WishListButton'
+              } }
             />
         );
     }
@@ -295,12 +293,12 @@ export class Product extends PureComponent {
 
         return (
             <ProductCompareButton
-                productId={ id }
-                mix={ {
-                    block: this.className,
-                    elem: 'ProductCompareButton',
-                    mods: { isGrey: true }
-                } }
+              productId={ id }
+              mix={ {
+                  block: this.className,
+                  elem: 'ProductCompareButton',
+                  mods: { isGrey: true }
+              } }
             />
         );
     }
@@ -321,26 +319,26 @@ export class Product extends PureComponent {
 
         return (
             <FieldContainer
-                type={ FIELD_TYPE.number }
-                attr={ {
-                    id: "item_qty",
-                    name: "item_qty",
-                    defaultValue: quantity,
-                    max: maxQuantity,
-                    min: minQuantity,
-                } }
-                validationRule={ {
-                    inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
-                    isRequired: true,
-                    range: {
-                        min: minQuantity,
-                        max: maxQuantity
-                    }
-                } }
-                isDisabled={ !inStock }
-                mix={ { block: this.className, elem: 'Qty' } }
-                events={ { onChange: setQuantity } }
-                validateOn={ ["onChange"] }
+              type={ FIELD_TYPE.number }
+              attr={ {
+                  id: 'item_qty',
+                  name: 'item_qty',
+                  defaultValue: quantity,
+                  max: maxQuantity,
+                  min: minQuantity
+              } }
+              validationRule={ {
+                  inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
+                  isRequired: true,
+                  range: {
+                      min: minQuantity,
+                      max: maxQuantity
+                  }
+              } }
+              isDisabled={ !inStock }
+              mix={ { block: this.className, elem: 'Qty' } }
+              events={ { onChange: setQuantity } }
+              validateOn={ ['onChange'] }
             />
         );
     }
@@ -355,13 +353,13 @@ export class Product extends PureComponent {
                     review_count
                 } = {}
             }
-        } = this.props
+        } = this.props;
 
         if (!rating_summary) {
             return null;
         }
 
-        return <ProductReviewRating summary={ rating_summary || 0 } count={ review_count } />
+        return <ProductReviewRating summary={ rating_summary || 0 } count={ review_count } />;
     }
 
     renderBrand(withMeta = false) {
@@ -400,27 +398,27 @@ export class Product extends PureComponent {
 
         return (
             <div
-                block={ this.className }
-                elem="PriceWrapper"
+              block={ this.className }
+              elem="PriceWrapper"
             >
                 <ProductPrice
-                    meta={ true }
-                    price={ productPrice }
-                    priceType={ type }
-                    tierPrices={ priceTiers }
-                    isPreview={ isPreview }
-                    mix={ { block: this.className, elem: 'Price' } }
+                  meta
+                  price={ productPrice }
+                  priceType={ type }
+                  tierPrices={ priceTiers }
+                  isPreview={ isPreview }
+                  mix={ { block: this.className, elem: 'Price' } }
                 />
             </div>
         );
     }
 
     renderStock() {
-        const { displayProductStockStatus } = this.props;
-
-        if (!displayProductStockStatus) {
-            return null;
-        }
+        // const { displayProductStockStatus } = this.props;
+        //
+        // if (!displayProductStockStatus) {
+        //     return null;
+        // }
 
         const { inStock } = this.props;
 

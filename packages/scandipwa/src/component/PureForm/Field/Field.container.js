@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -14,10 +14,10 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-
-import Field from './Field.component';
 import { MixType } from 'Type/Common';
 import { validate } from 'Util/Validator';
+
+import Field from './Field.component';
 
 export class FieldContainer extends PureComponent {
     static propTypes = {
@@ -57,11 +57,11 @@ export class FieldContainer extends PureComponent {
 
     state = {
         validationResponse: null
-    }
+    };
 
     containerFunctions = {
         validate: this.validate.bind(this)
-    }
+    };
 
     fieldRef = createRef();
 
@@ -100,6 +100,7 @@ export class FieldContainer extends PureComponent {
         // to store validation error values
         if (data && data.detail && response !== true) {
             if (!data.detail.errors) {
+                // eslint-disable-next-line no-param-reassign
                 data.detail.errors = [];
             }
             data.detail.errors.push(output);
@@ -111,9 +112,11 @@ export class FieldContainer extends PureComponent {
 
     validateOnEvent(hook, ...args) {
         if (hook) {
-            const { attr } = this.props;
-            const value = this.fieldRef.value;
-            hook(...[...args, { fieldRef: this.fieldRef, value, ...attr }]);
+            const { attr, type } = this.props;
+            const { value } = this.fieldRef;
+            hook(...[...args, {
+                fieldRef: this.fieldRef, value, type, ...attr
+            }]);
         }
         this.validate();
     }
@@ -128,7 +131,7 @@ export class FieldContainer extends PureComponent {
         const newEvents = { ...events };
         validateOn.forEach((eventName) => {
             const { [eventName]: baseEvent } = events;
-            newEvents[eventName] = baseEvent ?  this.validateOnEvent.bind(this, baseEvent) : validate
+            newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 
         return {
@@ -137,13 +140,15 @@ export class FieldContainer extends PureComponent {
             events: newEvents,
             fieldRef: this.fieldRef,
             setRef: this.setRef.bind(this)
-        }
+        };
     }
 
     render() {
-        return <Field
-            { ...this.containerProps() }
-        />
+        return (
+            <Field
+              { ...this.containerProps() }
+            />
+        );
     }
 }
 

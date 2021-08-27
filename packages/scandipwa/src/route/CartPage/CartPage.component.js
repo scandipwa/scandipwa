@@ -18,6 +18,7 @@ import CheckoutOrderSummary from 'Component/CheckoutOrderSummary/CheckoutOrderSu
 import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
+import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
@@ -42,7 +43,11 @@ export class CartPage extends PureComponent {
     renderCartItems() {
         const { totals: { items, quote_currency_code } } = this.props;
 
-        if (!items || items.length < 1) {
+        if (!items) {
+            return <Loader isLoading />;
+        }
+
+        if (items.length < 1) {
             return (
                 <p block="CartPage" elem="Empty">{ __('There are no products in cart.') }</p>
             );

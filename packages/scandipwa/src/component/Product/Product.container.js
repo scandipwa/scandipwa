@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,8 +12,14 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
+
+import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import { FIELD_TYPE } from "Component/PureForm/Field/Field.config";
+import getFieldsData from 'Util/Form/Extract';
+import { getNewParameters, getVariantIndex } from 'Util/Product';
 import {
     getAdjustedPrice,
     getMaxQuantity,
@@ -23,13 +28,8 @@ import {
     getPrice,
     getProductInStock
 } from 'Util/Product/Extract';
-import { getNewParameters, getVariantIndex } from 'Util/Product';
-import { validateGroup } from 'Util/Validator';
-import { showNotification } from 'Store/Notification/Notification.action';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { magentoProductTransform } from 'Util/Product/Transform';
-import getFieldsData from 'Util/Form/Extract';
-import { DeviceType } from 'Type/Device';
+import { validateGroup } from 'Util/Validator';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -40,13 +40,13 @@ export const mapDispatchToProps = (dispatch) => ({
     addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
-    showError: (message) => dispatch(showNotification('error', message)),
+    showError: (message) => dispatch(showNotification('error', message))
 });
 
 export const mapStateToProps = (state) => ({
     cartId: state.CartReducer.id,
     device: state.ConfigReducer.device,
-    isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
 /**
@@ -63,23 +63,21 @@ export class ProductContainer extends PureComponent {
         parameters: PropTypes.objectOf(PropTypes.string),
         cartId: PropTypes.string.isRequired,
 
-        device: DeviceType.isRequired,
-        isWishlistEnabled: PropTypes.bool.isRequired,
+        device: DeviceType,
+        isWishlistEnabled: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         configFormRef: createRef(),
         parameters: {},
         device: {}
-    }
+    };
 
     containerFunctions = {
         addToCart: this.addToCart.bind(this),
 
         // Used to update entered and selected state values
         updateSelectedValues: this.updateSelectedValues.bind(this),
-
-        setCustomOptions: this.setStateOptions.bind(this, 'customOptions'),
         setDownloadableLinks: this.setStateOptions.bind(this, 'downloadableLinks'),
         setQuantity: this.setQuantity.bind(this),
         setAdjustedPrice: this.setAdjustedPrice.bind(this),
@@ -105,11 +103,13 @@ export class ProductContainer extends PureComponent {
 
         // Used for configurable product - it can be ether parent or variant
         selectedProduct: null,
+        // eslint-disable-next-line react/destructuring-assignment
         parameters: this.props.parameters
-    }
+    };
 
     validator = createRef();
 
+    // eslint-disable-next-line react/sort-comp
     setValidator(elem) {
         if (elem && elem !== this.validator) {
             this.validator = elem;
@@ -118,7 +118,7 @@ export class ProductContainer extends PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const { quantity, selectedProduct } = state;
-        const { product, product: { type_id: typeId } } = props
+        const { product, product: { type_id: typeId } } = props;
 
         if (typeId === PRODUCT_TYPE.grouped && typeof quantity !== 'object') {
             return { quantity: {} };
@@ -201,16 +201,16 @@ export class ProductContainer extends PureComponent {
         const values = getFieldsData(current, true, [FIELD_TYPE.number]);
 
         values.forEach(({ name, value, type }) => {
-           if (type === FIELD_TYPE.select) {
-               selectedOptions.push(value);
-           } else if (type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio) {
-               selectedOptions.push(value);
-           } else if (type !== FIELD_TYPE.number) {
-               enteredOptions.push({
-                   uid: name,
-                   value: value
-               });
-           }
+            if (type === FIELD_TYPE.select) {
+                selectedOptions.push(value);
+            } else if (type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio) {
+                selectedOptions.push(value);
+            } else if (type !== FIELD_TYPE.number) {
+                enteredOptions.push({
+                    uid: name,
+                    value
+                });
+            }
         });
 
         this.setState({
@@ -227,12 +227,11 @@ export class ProductContainer extends PureComponent {
         const { downloadableLinks, enteredOptions, selectedOptions } = this.state;
 
         const adjustedPrice = getAdjustedPrice(
-          product, downloadableLinks, enteredOptions, selectedOptions
+            product, downloadableLinks, enteredOptions, selectedOptions
         );
 
         this.setState({ adjustedPrice });
     }
-
 
     setAdjustedPrice(type, amount) {
         const { adjustedPrice } = this.state;
@@ -289,7 +288,7 @@ export class ProductContainer extends PureComponent {
         if (newProduct !== selectedProduct) {
             this.setState({
                 selectedProduct: newProduct,
-                parameters: parameters
+                parameters
             });
         }
     }
@@ -301,7 +300,7 @@ export class ProductContainer extends PureComponent {
      */
     setQuantity(quantity) {
         if (typeof quantity === 'object') {
-            const { quantity : oldQuantity = {} } = this.state
+            const { quantity: oldQuantity = {} } = this.state;
             this.setState({ quantity: { ...oldQuantity, ...quantity } });
         } else {
             this.setState({ quantity: +quantity });
@@ -327,7 +326,7 @@ export class ProductContainer extends PureComponent {
             quantity,
             enteredOptions,
             selectedOptions,
-            downloadableLinks,
+            downloadableLinks
         } = this.state;
 
         const activeProduct = this.getActiveProduct();
@@ -337,7 +336,7 @@ export class ProductContainer extends PureComponent {
             quantity,
             parentProduct,
             enteredOptions,
-            [ ...selectedOptions, ...downloadableLinks ],
+            [...selectedOptions, ...downloadableLinks],
         );
     }
 

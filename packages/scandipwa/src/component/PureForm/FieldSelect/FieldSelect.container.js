@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,8 +12,9 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import FieldSelect from './FieldSelect.component';
 import { KEY_CODE } from 'Config/Keyboard.config';
+
+import FieldSelect from './FieldSelect.component';
 
 export class FieldSelectContainer extends PureComponent {
     static propTypes = {
@@ -38,12 +38,12 @@ export class FieldSelectContainer extends PureComponent {
         handleSelectListOptionClick: this.handleSelectListOptionClick.bind(this),
         handleSelectListKeyPress: this.handleSelectListKeyPress.bind(this),
         setRef: this.setRef.bind(this)
-    }
+    };
 
     fieldRef = createRef();
 
     static getDerivedStateFromProps(props, state) {
-        const { attr: { isExpanded } = {} } = props
+        const { attr: { isExpanded } = {} } = props;
         const { isExpanded: stateIsExpanded } = state;
 
         return { isExpanded: isExpanded || stateIsExpanded };
@@ -77,7 +77,7 @@ export class FieldSelectContainer extends PureComponent {
                 isPlaceholder: true
             },
             ...options
-        ]
+        ];
     }
 
     handleSelectListOptionClick({ value }) {
@@ -152,8 +152,7 @@ export class FieldSelectContainer extends PureComponent {
         const { isExpanded } = this.state;
         const {
             options,
-            events: { onChange } = {},
-            attr: { id: selectId = '' } = {}
+            events: { onChange } = {}
         } = this.props;
         const keyCode = event.which || event.keycode;
 
@@ -199,14 +198,16 @@ export class FieldSelectContainer extends PureComponent {
             ...this.props,
             ...this.state,
             options: this.getOptions()
-        }
+        };
     }
 
     render() {
-        return <FieldSelect
-            { ...this.containerProps() }
-            { ...this.containerFunctions }
-        />
+        return (
+            <FieldSelect
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+            />
+        );
     }
 }
 

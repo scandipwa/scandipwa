@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,11 +11,13 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import CustomizableOption from "./CustomizableOption.component";
-import { customizableOptionsToSelectTransform } from 'Util/Product/Transform';
 import { connect } from 'react-redux';
+
 import { CONFIG_FIELD_TYPE } from 'Component/Product/CustomizableOption/CustomizableOption.config';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import { customizableOptionsToSelectTransform } from 'Util/Product/Transform';
+
+import CustomizableOption from './CustomizableOption.component';
 
 export const mapStateToProps = (state) => ({
     currencyCode: state.ConfigReducer.currencyData.current_currency_code
@@ -41,7 +42,7 @@ export class CustomizableOptionContainer extends PureComponent {
 
     getFieldType() {
         const { type } = this.props;
-        const typeKey = Object.keys(CONFIG_FIELD_TYPE).find(key => CONFIG_FIELD_TYPE[key] === type);
+        const typeKey = Object.keys(CONFIG_FIELD_TYPE).find((key) => CONFIG_FIELD_TYPE[key] === type);
 
         return FIELD_TYPE[typeKey];
     }
@@ -49,19 +50,24 @@ export class CustomizableOptionContainer extends PureComponent {
     getDropdownOptions() {
         const { options, currencyCode, type } = this.props;
         if (type !== CONFIG_FIELD_TYPE.select) {
-            return;
+            return null;
         }
 
         return customizableOptionsToSelectTransform(options, currencyCode);
     }
 
+    containerProps() {
+        return {
+            ...this.props
+        };
+    }
+
     render() {
         return (
             <CustomizableOption
-                { ...this.props }
-                { ...this.containerFunctions }
-                { ...this.state }
-                fieldType={ this.getFieldType() }
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+              fieldType={ this.getFieldType() }
             />
         );
     }

@@ -20,6 +20,7 @@ import {
     getCityAndRegionFromZipcode, trimCustomerAddress
     // setAddressesInFormObject
 } from 'Util/Address';
+import transformToNameValuePair from 'Util/Form/Transform';
 
 import myAccountAddressForm from './MyAccountAddressForm.form';
 
@@ -79,10 +80,7 @@ export class MyAccountAddressForm extends FieldForm {
     onFormSuccess = (form, fields) => {
         const { onSave, addressLinesQty } = this.props;
 
-        const newAddress = {};
-        fields.forEach(({ name, value }) => {
-            newAddress[name] = value;
-        });
+        const newAddress = transformToNameValuePair(fields);
 
         if (addressLinesQty > 1) {
             newAddress.street = [];

@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -68,9 +68,7 @@ export class Form extends PureComponent {
         }
 
         return (
-            <>
-                { label }
-            </>
+            { label }
         );
     }
 
@@ -82,10 +80,8 @@ export class Form extends PureComponent {
         }
 
         return (
-            <>
-                { subLabel }
-            </>
-        )
+            { subLabel }
+        );
     }
     //#endregion
 
@@ -102,14 +98,16 @@ export class Form extends PureComponent {
             <>
                 { this.renderLabel() }
                 <form
-                    { ...attr }
-                    { ...events }
-                    ref={elem => setRef(elem)}
-                    block="Form"
-                    mods={ {
-                        isValid: validationResponse === true,
-                        hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
-                    } }
+                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+                  { ...attr }
+                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+                  { ...events }
+                  ref={ (elem) => setRef(elem) }
+                  block="Form"
+                  mods={ {
+                      isValid: validationResponse === true,
+                      hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
+                  } }
                 >
                     { children }
                 </form>

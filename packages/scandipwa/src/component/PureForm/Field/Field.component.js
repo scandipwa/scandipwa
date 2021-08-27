@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable spaced-comment,@scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -14,13 +14,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import { MixType } from 'Type/Common';
+import FieldFile from 'Component/PureForm/FieldFile';
+import { FieldNumberContainer } from 'Component/PureForm/FieldNumber/FieldNumber.container';
 import FieldSelectContainer from 'Component/PureForm/FieldSelect/FieldSelect.container';
+import { MixType } from 'Type/Common';
 
 import './Field.style.scss';
-import { FieldNumberContainer } from 'Component/PureForm/FieldNumber/FieldNumber.container';
-import UploadIcon from 'Component/UploadIcon';
-import FieldFile from 'Component/PureForm/FieldFile';
 
 export class Field extends PureComponent {
     static propTypes = {
@@ -63,21 +62,25 @@ export class Field extends PureComponent {
         [FIELD_TYPE.select]: this.renderSelect.bind(this),
         [FIELD_TYPE.textarea]: this.renderTextArea.bind(this),
         [FIELD_TYPE.button]: this.renderButton.bind(this),
-        [FIELD_TYPE.number]: this.renderNumber.bind(this),
+        [FIELD_TYPE.number]: this.renderNumber.bind(this)
 
     };
 
     //#region INPUT TYPE RENDER
     renderDefaultInput() {
-        const { type, setRef, attr, events, isDisabled } = this.props
+        const {
+            type, setRef, attr, events, isDisabled
+        } = this.props;
 
-        return <input
-            ref={elem => setRef(elem)}
-            disabled={ isDisabled }
-            type={ type }
-            { ...attr }
-            { ...events }
-        />;
+        return (
+            <input
+              ref={ (elem) => setRef(elem) }
+              disabled={ isDisabled }
+              type={ type }
+              { ...attr }
+              { ...events }
+            />
+        );
     }
 
     renderFile() {
@@ -98,10 +101,10 @@ export class Field extends PureComponent {
 
         return (
             <FieldNumberContainer
-                attr={ attr }
-                events={ events }
-                setRef={ setRef }
-                isDisabled={ isDisabled }
+              attr={ attr }
+              events={ events }
+              setRef={ setRef }
+              isDisabled={ isDisabled }
             />
         );
     }
@@ -117,25 +120,31 @@ export class Field extends PureComponent {
 
         return (
             <FieldSelectContainer
-                attr={ attr }
-                events={ events }
-                options={ options }
-                setRef={ setRef }
-                isDisabled={ isDisabled }
+              attr={ attr }
+              events={ events }
+              options={ options }
+              setRef={ setRef }
+              isDisabled={ isDisabled }
             />
         );
     }
 
     renderButton() {
-        const { setRef, attr, events, isDisabled } = this.props
-        const { value = __("Submit") } = attr;
+        const {
+            setRef, attr, events, isDisabled
+        } = this.props;
+        const { value = __('Submit') } = attr;
 
-        return <button
-            ref={elem => setRef(elem)}
-            disabled={ isDisabled }
-            { ...attr }
-            { ...events }
-        >{ value }</button>;
+        return (
+            <button
+              ref={ (elem) => setRef(elem) }
+              disabled={ isDisabled }
+              { ...attr }
+              { ...events }
+            >
+                { value }
+            </button>
+        );
     }
 
     renderCheckboxOrRadio() {
@@ -143,20 +152,20 @@ export class Field extends PureComponent {
             type,
             setRef,
             attr,
-            attr: { id = "" } = {},
+            attr: { id = '' } = {},
             events,
             isDisabled,
             label
-        } = this.props
+        } = this.props;
 
         return (
             <label htmlFor={ id } block="Field" elem="CheckboxLabel">
                 <input
-                    ref={elem => setRef(elem)}
-                    disabled={ isDisabled }
-                    type={ type }
-                    { ...attr }
-                    { ...events }
+                  ref={ (elem) => setRef(elem) }
+                  disabled={ isDisabled }
+                  type={ type }
+                  { ...attr }
+                  { ...events }
                 />
                 <div block="input-control" />
                 { label }
@@ -165,14 +174,18 @@ export class Field extends PureComponent {
     }
 
     renderTextArea() {
-        const { setRef, attr, events, isDisabled } = this.props
+        const {
+            setRef, attr, events, isDisabled
+        } = this.props;
 
-        return <textarea
-            ref={elem => setRef(elem)}
-            disabled={ isDisabled }
-            { ...attr }
-            { ...events }
-        />;
+        return (
+            <textarea
+              ref={ (elem) => setRef(elem) }
+              disabled={ isDisabled }
+              { ...attr }
+              { ...events }
+            />
+        );
     }
     //#endregion
 
@@ -213,7 +226,7 @@ export class Field extends PureComponent {
 
         return (
             <div block="Field" elem="LabelContainer">
-                <label block="Field" elem="Label" htmlFor={name ? name : `input-${type}`}>
+                <label block="Field" elem="Label" htmlFor={ name || `input-${type}` }>
                     { label }
                     { this.renderRequiredTag() }
                 </label>
@@ -233,7 +246,7 @@ export class Field extends PureComponent {
             <span block="Field" elem="Label" mods={ { isRequired: true } }>
                 { ' *' }
             </span>
-        )
+        );
     }
 
     // Renders fields label under field
@@ -244,10 +257,8 @@ export class Field extends PureComponent {
         }
 
         return (
-            <>
-                { subLabel }
-            </>
-        )
+            { subLabel }
+        );
     }
     //#endregion
 
@@ -258,13 +269,13 @@ export class Field extends PureComponent {
         return (
             <>
                 <div
-                    block="Field"
-                    mods={ {
-                        type,
-                        isValid: validationResponse === true,
-                        hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
-                    } }
-                    mix={ mix }
+                  block="Field"
+                  mods={ {
+                      type,
+                      isValid: validationResponse === true,
+                      hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
+                  } }
+                  mix={ mix }
                 >
                     { type !== FIELD_TYPE.checkbox && type !== FIELD_TYPE.radio && this.renderLabel() }
                     { inputRenderer && inputRenderer() }
@@ -272,7 +283,7 @@ export class Field extends PureComponent {
                 { this.renderErrorMessages() }
                 { this.renderSubLabel() }
             </>
-        )
+        );
     }
 }
 

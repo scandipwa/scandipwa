@@ -46,7 +46,7 @@ export const validate = (value, rule) => {
     //#endregion
 
     //#region INPUT TYPE
-    if (inputType && !value.match(VALIDATION_RULES[inputType])) {
+    if (inputType && value && !value.match(VALIDATION_RULES[inputType])) {
         output.errorMessages.push(onInputTypeFail || VALIDATION_MESSAGES[inputType]);
     }
     //#endregion
@@ -57,7 +57,7 @@ export const validate = (value, rule) => {
         if (response !== true) {
             output.errorMessages.push(response === false ? onMatchFail || VALIDATION_MESSAGES.match : response);
         }
-    } else if (match && value.match(match)) {
+    } else if (match && !value.match(match)) {
         output.errorMessages.push(onMatchFail || VALIDATION_MESSAGES.match);
     }
     //#endregion
@@ -68,17 +68,17 @@ export const validate = (value, rule) => {
         const isNumber = !!VALIDATION_INPUT_TYPE_NUMBER[inputType];
         if (isNumber) {
             if (min && +value < min) {
-                output.errorMessages.push(onRangeFailMin || __('Minimal value is %s', min));
+                output.errorMessages.push(onRangeFailMin || __('Minimal value is %s!', min));
             }
             if (max && +value > max) {
-                output.errorMessages.push(onRangeFailMax || __('Maximum value is %s', max));
+                output.errorMessages.push(onRangeFailMax || __('Maximum value is %s!', max));
             }
         } else {
             if (min && value.length < min) {
-                output.errorMessages.push(onRangeFailMin || __('Minimal %s characters', min));
+                output.errorMessages.push(onRangeFailMin || __('Minimal %s characters!', min));
             }
             if (max && value.length > max) {
-                output.errorMessages.push(onRangeFailMax || __('Maximum %s characters', max));
+                output.errorMessages.push(onRangeFailMax || __('Maximum %s characters!', max));
             }
         }
     }

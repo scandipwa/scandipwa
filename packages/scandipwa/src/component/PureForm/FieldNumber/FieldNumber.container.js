@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
+
 import FieldNumber from './FieldNumber.component';
 
 export class FieldNumberContainer extends PureComponent {
@@ -25,13 +26,13 @@ export class FieldNumberContainer extends PureComponent {
     };
 
     state = {
-        value: 0,
+        value: 0
     };
 
     containerFunctions = {
         handleValueChange: this.handleValueChange.bind(this),
         setRef: this.setRef.bind(this)
-    }
+    };
 
     fieldRef = createRef();
 
@@ -52,8 +53,10 @@ export class FieldNumberContainer extends PureComponent {
     handleValueChange(value) {
         const {
             events: { onChange } = {},
-            attr: { min = 0, max = 9999 } = {}
+            attr: { min = 0, max = DEFAULT_MAX_PRODUCTS } = {}
         } = this.props;
+
+        // eslint-disable-next-line no-nested-ternary
         const rangedValue = value < min ? min : value > max ? max : value;
 
         if (typeof onChange === 'function') {
@@ -72,14 +75,16 @@ export class FieldNumberContainer extends PureComponent {
             ...this.props,
             ...this.state,
             value: value || stateValue
-        }
+        };
     }
 
     render() {
-        return <FieldNumber
-            { ...this.containerProps() }
-            { ...this.containerFunctions }
-        />
+        return (
+            <FieldNumber
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+            />
+        );
     }
 }
 

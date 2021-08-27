@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,11 +11,12 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import { customizableOptionToLabel } from 'Util/Product/Transform';
+
 import { CONFIG_FIELD_TYPE } from 'Component/Product/CustomizableOption/CustomizableOption.config';
 import FieldContainer from 'Component/PureForm/Field';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldGroupContainer from 'Component/PureForm/FieldGroup';
+import { customizableOptionToLabel } from 'Util/Product/Transform';
 
 export class CustomizableOption extends PureComponent {
     static propTypes = {
@@ -27,7 +27,8 @@ export class CustomizableOption extends PureComponent {
         updateSelectedValues: PropTypes.func.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
-        currencyCode: PropTypes.string.isRequired
+        currencyCode: PropTypes.string.isRequired,
+        options: PropTypes.arrayOf(PropTypes.object).isRequired
     };
 
     renderMap = {
@@ -59,44 +60,48 @@ export class CustomizableOption extends PureComponent {
 
         return (
             <>
-                { overrideBase ? overrideBase : baseLabel }
-                <strong> { overridePrice ? overridePrice : priceLabel }</strong>
+                { overrideBase || baseLabel }
+                <strong>{ overridePrice || priceLabel }</strong>
             </>
         );
     }
 
     renderDefaultValue(option) {
-        const { updateSelectedValues, title, fieldType, isRequired, uid } = this.props;
-        const { max_characters } = option
+        const {
+            updateSelectedValues, title, fieldType, isRequired, uid
+        } = this.props;
+        const { max_characters } = option;
         const label = this.getLabel(option, title);
 
         return (
             <>
                 { this.renderOptionGroupTitle(label) }
                 <FieldContainer
-                    type={ fieldType }
-                    validationRule={{
-                        isRequired,
-                        range: {
-                            // min: isRequired ? 1 : 0,
-                            max: max_characters > 0 ? max_characters : null
-                        }
-                    }}
-                    attr={{
-                        id: `${ uid }`,
-                        name: `${ uid }`
-                    }}
-                    events={{
-                        onChange: updateSelectedValues
-                    }}
-                    validateOn={['onBlur']}
+                  type={ fieldType }
+                  validationRule={ {
+                      isRequired,
+                      range: {
+                          // min: isRequired ? 1 : 0,
+                          max: max_characters > 0 ? max_characters : null
+                      }
+                  } }
+                  attr={ {
+                      id: `${ uid }`,
+                      name: `${ uid }`
+                  } }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
+                  validateOn={ ['onBlur'] }
                 />
             </>
         );
     }
 
     renderFileValue(option) {
-        const { title, uid, isRequired, updateSelectedValues } = this.props;
+        const {
+            title, uid, isRequired, updateSelectedValues
+        } = this.props;
         const { file_extension: fileExtensions = '' } = option;
         const label = this.getLabel(option, title);
 
@@ -104,19 +109,19 @@ export class CustomizableOption extends PureComponent {
             <>
                 { this.renderOptionGroupTitle(label) }
                 <FieldContainer
-                    type={ FIELD_TYPE.file }
-                    validationRule={{
-                        isRequired
-                    }}
-                    attr={{
-                        id: `${ uid }`,
-                        name: `${ uid }`,
-                        accept: fileExtensions
-                    }}
-                    events={{
-                        onChange: updateSelectedValues
-                    }}
-                    validateOn={['onChange']}
+                  type={ FIELD_TYPE.file }
+                  validationRule={ {
+                      isRequired
+                  } }
+                  attr={ {
+                      id: `${ uid }`,
+                      name: `${ uid }`,
+                      accept: fileExtensions
+                  } }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
+                  validateOn={ ['onChange'] }
                 />
             </>
         );
@@ -125,7 +130,7 @@ export class CustomizableOption extends PureComponent {
     renderCheckBox = (option) => {
         const {
             uid,
-            is_default = false,
+            is_default: isDefault = false
         } = option;
         const { updateSelectedValues } = this.props;
         const label = this.getLabel(option);
@@ -133,30 +138,31 @@ export class CustomizableOption extends PureComponent {
         return (
             <div key={ uid }>
                 <FieldContainer
-                    type={ FIELD_TYPE.checkbox }
-                    label={ label }
-                    attr={{
-                        id: `option-${ uid }`,
-                        value: uid,
-                        name: `option-${ uid }`
-                    }}
-                    events={{
-                        onChange: updateSelectedValues
-                    }}
+                  type={ FIELD_TYPE.checkbox }
+                  label={ label }
+                  attr={ {
+                      id: `option-${ uid }`,
+                      value: uid,
+                      name: `option-${ uid }`,
+                      defaultChecked: isDefault
+                  } }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
                 />
             </div>
         );
-    }
+    };
 
     renderCheckboxValues(options) {
         const { isRequired } = this.props;
 
         return (
             <FieldGroupContainer
-                validationRule={{
-                    isRequired,
-                }}
-                validateOn={['onChange']}
+              validationRule={ {
+                  isRequired
+              } }
+              validateOn={ ['onChange'] }
             >
                 { options.map(this.renderCheckBox) }
             </FieldGroupContainer>
@@ -166,7 +172,7 @@ export class CustomizableOption extends PureComponent {
     renderRadio = (name, option) => {
         const {
             uid,
-            is_default,
+            is_default
         } = option;
         const { updateSelectedValues } = this.props;
         const label = this.getLabel(option);
@@ -174,31 +180,31 @@ export class CustomizableOption extends PureComponent {
         return (
             <div key={ uid }>
                 <FieldContainer
-                    type={ FIELD_TYPE.radio }
-                    label={ label }
-                    attr={{
-                        id: `option-${ uid }`,
-                        value: uid,
-                        name: `option-${ name }`,
-                        checked: is_default
-                    }}
-                    events={{
-                        onChange: updateSelectedValues
-                    }}
+                  type={ FIELD_TYPE.radio }
+                  label={ label }
+                  attr={ {
+                      id: `option-${ uid }`,
+                      value: uid,
+                      name: `option-${ name }`,
+                      checked: is_default
+                  } }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
                 />
             </div>
         );
-    }
+    };
 
     renderRadioValues(options) {
         const { isRequired, uid } = this.props;
 
         return (
             <FieldGroupContainer
-                validationRule={{
-                    isRequired,
-                }}
-                validateOn={['onChange']}
+              validationRule={ {
+                  isRequired
+              } }
+              validateOn={ ['onChange'] }
             >
                 { options.map((option) => this.renderRadio(uid, option)) }
             </FieldGroupContainer>
@@ -216,21 +222,21 @@ export class CustomizableOption extends PureComponent {
         return (
             <div block="ProductCustomizableItem" elem="DropdownWrapper">
                 <FieldContainer
-                    type={ FIELD_TYPE.select }
-                    attr={{
-                        id: `customizable-options-dropdown-${ uid }`,
-                        name: `customizable-options-dropdown-${ uid }`,
-                        selectPlaceholder: __('Select option...')
-                    }}
-                    mix={ { block: 'ProductCustomizableItem', elem: 'Select' } }
-                    options={ getDropdownOptions() }
-                    events={{
-                        onChange: updateSelectedValues
-                    }}
-                    validationRule={{
-                        isRequired
-                    }}
-                    validateOn={ ['onChange'] }
+                  type={ FIELD_TYPE.select }
+                  attr={ {
+                      id: `customizable-options-dropdown-${ uid }`,
+                      name: `customizable-options-dropdown-${ uid }`,
+                      selectPlaceholder: __('Select option...')
+                  } }
+                  mix={ { block: 'ProductCustomizableItem', elem: 'Select' } }
+                  options={ getDropdownOptions() }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
+                  validationRule={ {
+                      isRequired
+                  } }
+                  validateOn={ ['onChange'] }
                 />
             </div>
         );

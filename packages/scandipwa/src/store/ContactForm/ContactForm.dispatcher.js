@@ -23,7 +23,9 @@ import { updateContactForm } from './ContactForm.action';
  */
 export class ContactFormDispatcher {
     prepareRequest(options, dispatch) {
-        const mutation = ContactFormQuery.getSendContactFormMutation(options);
+        const { form = {}, fields = {} } = options;
+
+        const mutation = ContactFormQuery.getSendContactFormMutation(fields);
 
         dispatch(updateContactForm({
             isLoading: true
@@ -37,6 +39,11 @@ export class ContactFormDispatcher {
                     dispatch(updateContactForm({
                         isLoading: false
                     }));
+
+                    // Clears form
+                    if (typeof form.reset === 'function') {
+                        form.reset();
+                    }
                 },
                 /** @namespace Store/ContactForm/Dispatcher/fetchMutationError */
                 (error) => {

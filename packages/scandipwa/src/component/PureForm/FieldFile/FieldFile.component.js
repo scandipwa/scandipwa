@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Loader from 'Component/Loader';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import UploadIcon from 'Component/UploadIcon';
-import Loader from 'Component/Loader';
 
 export class FieldFile extends PureComponent {
     static propTypes = {
@@ -82,11 +81,13 @@ export class FieldFile extends PureComponent {
         return (
             <>
                 <input
-                    ref={elem => setRef(elem)}
-                    type={ FIELD_TYPE.file }
-                    { ...attr }
-                    { ...events }
-                />;
+                  ref={ (elem) => setRef(elem) }
+                  type={ FIELD_TYPE.file }
+                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+                  { ...attr }
+                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+                  { ...events }
+                />
                 { this.renderFileLabel() }
                 { allowedFieldTypes.length && this.renderSubLabel(allowedFieldTypes) }
             </>

@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,9 +13,10 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import FieldGroup from './FieldGroup.component';
-import { validateGroup } from 'Util/Validator';
 import { ChildrenType } from 'Type/Common';
+import { validateGroup } from 'Util/Validator';
+
+import FieldGroup from './FieldGroup.component';
 
 export class FieldGroupContainer extends PureComponent {
     static propTypes = {
@@ -47,11 +48,11 @@ export class FieldGroupContainer extends PureComponent {
 
     state = {
         validationResponse: null
-    }
+    };
 
     containerFunctions = {
         validate: this.validate.bind(this)
-    }
+    };
 
     groupRef = createRef();
 
@@ -67,13 +68,12 @@ export class FieldGroupContainer extends PureComponent {
 
     // Adds validation event listener to field
     setRef(elem) {
-        const { validationRule } = this.props;
-        if (!validationRule || Object.keys(validationRule).length === 0) {
-            return;
-        }
-
         if (elem && this.groupRef !== elem) {
             this.groupRef = elem;
+            const { validationRule } = this.props;
+            if (!validationRule || Object.keys(validationRule).length === 0) {
+                return;
+            }
             elem.addEventListener('validate', this.validate.bind(this));
         }
     }
@@ -86,6 +86,7 @@ export class FieldGroupContainer extends PureComponent {
         // to store validation error values
         if (data && data.detail && output !== true) {
             if (!data.detail.errors) {
+                // eslint-disable-next-line no-param-reassign
                 data.detail.errors = [];
             }
             data.detail.errors.push(output);
@@ -112,7 +113,7 @@ export class FieldGroupContainer extends PureComponent {
         const newEvents = { ...events };
         validateOn.forEach((eventName) => {
             const { [eventName]: baseEvent } = events;
-            newEvents[eventName] = baseEvent ?  this.validateOnEvent.bind(this, baseEvent) : validate
+            newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 
         return {
@@ -120,13 +121,15 @@ export class FieldGroupContainer extends PureComponent {
             ...this.props,
             events: newEvents,
             setRef: this.setRef.bind(this)
-        }
+        };
     }
 
     render() {
-        return <FieldGroup
-            { ...this.containerProps() }
-        />
+        return (
+            <FieldGroup
+              { ...this.containerProps() }
+            />
+        );
     }
 }
 

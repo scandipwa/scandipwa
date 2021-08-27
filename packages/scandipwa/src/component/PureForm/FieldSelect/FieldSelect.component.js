@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -46,10 +45,10 @@ export class FieldSelect extends PureComponent {
 
         return (
             <option
-                key={ id }
-                id={ id }
-                value={ value }
-                disabled={ disabled || isDisabled }
+              key={ id }
+              id={ id }
+              value={ value }
+              disabled={ disabled || isDisabled }
             >
                 { `${label}${subLabel}` }
             </option>
@@ -57,16 +56,20 @@ export class FieldSelect extends PureComponent {
     };
 
     renderNativeSelect() {
-        const { setRef, attr, events, isDisabled, options } = this.props
+        const {
+            setRef, attr, events, isDisabled, options
+        } = this.props;
 
         return (
             <select
-                block="FieldSelect"
-                elem="Select"
-                ref={ (elem) => setRef(elem) }
-                disabled={ isDisabled }
-                { ...attr }
-                { ...events }
+              block="FieldSelect"
+              elem="Select"
+              ref={ (elem) => setRef(elem) }
+              disabled={ isDisabled }
+              // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+              { ...attr }
+              // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+              { ...events }
             >
                 { options.map(this.renderNativeOption) }
             </select>
@@ -88,21 +91,21 @@ export class FieldSelect extends PureComponent {
 
         return (
             <li
-                block="FieldSelect"
-                elem="Option"
-                mods={ { isExpanded, isPlaceholder } }
-                key={ id }
-                /**
-                 * Added 'o' as querySelector does not work with
-                 * ids, that consist of numbers only
-                 */
-                id={ `o${id}` }
-                role="menuitem"
-                // eslint-disable-next-line react/jsx-no-bind
-                onClick={ () => handleSelectListOptionClick(option) }
-                // eslint-disable-next-line react/jsx-no-bind
-                onKeyPress={ () => handleSelectListOptionClick(option) }
-                tabIndex={ isExpanded ? '0' : '-1' }
+              block="FieldSelect"
+              elem="Option"
+              mods={ { isExpanded, isPlaceholder } }
+              key={ id }
+              /**
+               * Added 'o' as querySelector does not work with
+               * ids, that consist of numbers only
+               */
+              id={ `o${id}` }
+              role="menuitem"
+              // eslint-disable-next-line react/jsx-no-bind
+              onClick={ () => handleSelectListOptionClick(option) }
+              // eslint-disable-next-line react/jsx-no-bind
+              onKeyPress={ () => handleSelectListOptionClick(option) }
+              tabIndex={ isExpanded ? '0' : '-1' }
             >
                 { label }
                 { subLabel && <strong>{ subLabel }</strong> }
@@ -118,10 +121,10 @@ export class FieldSelect extends PureComponent {
 
         return (
             <ul
-                block="FieldSelect"
-                elem="Options"
-                role="menu"
-                mods={ { isExpanded } }
+              block="FieldSelect"
+              elem="Options"
+              role="menu"
+              mods={ { isExpanded } }
             >
                 { options.map(this.renderOption) }
             </ul>
@@ -140,15 +143,15 @@ export class FieldSelect extends PureComponent {
         return (
             <ClickOutside onClick={ handleSelectExpandedExpand }>
                 <div
-                    id={ `${ id }_wrapper` }
-                    block="FieldSelect"
-                    mods={ { isExpanded } }
-                    onClick={ handleSelectExpand }
-                    onKeyPress={ handleSelectListKeyPress }
-                    role="button"
-                    tabIndex="0"
-                    aria-label="Select dropdown"
-                    aria-expanded={ isExpanded }
+                  id={ `${ id }_wrapper` }
+                  block="FieldSelect"
+                  mods={ { isExpanded } }
+                  onClick={ handleSelectExpand }
+                  onKeyPress={ handleSelectListKeyPress }
+                  role="button"
+                  tabIndex="0"
+                  aria-label="Select dropdown"
+                  aria-expanded={ isExpanded }
                 >
                     <div block="FieldSelect" elem="Clickable">
                         { this.renderNativeSelect() }

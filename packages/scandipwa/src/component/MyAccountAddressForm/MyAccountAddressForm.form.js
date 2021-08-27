@@ -152,7 +152,7 @@ export const myAccountAddressForm = (props, events) => {
             label: __('This is default Billing Address'),
             attr: {
                 name: 'default_billing',
-                defaultValue: defaultBilling
+                defaultChecked: defaultBilling
             }
         },
         {
@@ -160,7 +160,7 @@ export const myAccountAddressForm = (props, events) => {
             label: __('This is default Shipping Address'),
             attr: {
                 name: 'default_shipping',
-                defaultValue: defaultShipping
+                defaultChecked: defaultShipping
             }
         },
         {

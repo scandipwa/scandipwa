@@ -12,8 +12,9 @@
 import PropTypes from 'prop-types';
 
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import FieldForm from 'Component/PureForm/FieldForm/FieldForm.component';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import FieldForm from 'Component/PureForm/FieldForm';
+
+import newsletterSubscriptionForm from './NewsletterForm.form';
 
 import './NewsletterSubscription.style';
 
@@ -29,21 +30,7 @@ export class NewsletterSubscription extends FieldForm {
     };
 
     get fieldMap() {
-        return [
-            {
-                type: FIELD_TYPE.email,
-                attr: {
-                    name: 'newsletterEmail',
-                    placeholder: __('Enter your email address'),
-                    'aria-label': __('Email address')
-                },
-                validateOn: ['onChange'],
-                validationRule: {
-                    isRequired: true,
-                    inputType: VALIDATION_INPUT_TYPE.email
-                }
-            }
-        ];
+        return newsletterSubscriptionForm();
     }
 
     renderActions() {

@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
 import CustomizableOption from 'Component/Product/CustomizableOption';
 
 import './CustomizableOptions.style.scss';
@@ -23,22 +23,22 @@ export class CustomizableOptions extends PureComponent {
     };
 
     renderOptionGroup = (group) => {
-        const { title, value, type, required, uid } = group;
+        const {
+            title, value, type, required, uid
+        } = group;
         const { updateSelectedValues } = this.props;
 
         return (
-            <CustomizableOption {
-            ...{
-                    uid,
-                    title,
-                    options: value,
-                    isRequired: required,
-                    type,
-                    updateSelectedValues
-                }
-            }/>
+            <CustomizableOption
+              uid={ uid }
+              title={ title }
+              options={ value }
+              isRequired={ required }
+              type={ type }
+              updateSelectedValues={ updateSelectedValues }
+            />
         );
-    }
+    };
 
     render() {
         const { options = [] } = this.props;
