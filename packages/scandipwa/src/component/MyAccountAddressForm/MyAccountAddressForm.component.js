@@ -96,8 +96,6 @@ export class MyAccountAddressForm extends FieldForm {
 
         newAddress.region = { region_id: +region_id, region };
         onSave(trimCustomerAddress(newAddress));
-
-        console.log([fields, newAddress, trimCustomerAddress(newAddress)]);
     };
 
     onCountryChange = (countryId) => {
@@ -165,8 +163,6 @@ export class MyAccountAddressForm extends FieldForm {
             onZipcodeChange: '',
             setRegionId: ''
         };
-
-        console.log([address]);
 
         return myAccountAddressForm(props, events);
     }

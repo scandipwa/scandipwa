@@ -97,8 +97,6 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
             }
         } = this.props;
 
-        console.log([fields]);
-
         const {
             isSubscribed: {
                 value = false

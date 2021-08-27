@@ -87,7 +87,6 @@ export class CartDispatcher {
         const { uid, quantity = 1, cartId: originalCartId } = options;
 
         const cartId = !originalCartId ? getGuestQuoteId() : originalCartId;
-        console.log([uid, quantity, cartId]);
 
         try {
             if (!cartId) {

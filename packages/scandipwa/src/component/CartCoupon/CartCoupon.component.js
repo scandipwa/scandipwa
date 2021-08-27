@@ -41,7 +41,6 @@ export class CartCoupon extends PureComponent {
 
     handleCouponCodeChange = (event, field) => {
         const { value = '' } = field;
-        console.log([value, field]);
 
         this.setState({
             enteredCouponCode: value

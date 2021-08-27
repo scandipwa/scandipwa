@@ -118,10 +118,9 @@ export class WishlistDispatcher {
 
         return fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items)).then(
             /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationThen */
-            (dart) => {
+            () => {
                 dispatch(showNotification('success', __('Product added to wish-list!')));
                 this._syncWishlistWithBE(dispatch);
-                console.log([dart]);
                 dispatch(updateIsLoading(false));
             },
             /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationError */
