@@ -62,13 +62,17 @@ export class CartItemContainer extends PureComponent {
         updateCrossSellsOnRemove: PropTypes.bool,
         isCartOverlay: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        isEditing: PropTypes.bool
+        isEditing: PropTypes.bool,
+        onCartItemLoading: PropTypes.func,
+        showLoader: PropTypes.bool
     };
 
     static defaultProps = {
         updateCrossSellsOnRemove: false,
         isCartOverlay: false,
-        isEditing: false
+        isEditing: false,
+        onCartItemLoading: null,
+        showLoader: true
     };
 
     state = { isLoading: false };
@@ -85,6 +89,8 @@ export class CartItemContainer extends PureComponent {
     };
 
     componentWillUnmount() {
+        this.notifyAboutLoadingStateChange(false);
+
         if (this.handlers.length) {
             [].forEach.call(this.handlers, (cancelablePromise) => cancelablePromise.cancel());
         }
@@ -121,6 +127,7 @@ export class CartItemContainer extends PureComponent {
     }
 
     setStateNotLoading() {
+        this.notifyAboutLoadingStateChange(false);
         this.setState({ isLoading: false });
     }
 
@@ -130,7 +137,8 @@ export class CartItemContainer extends PureComponent {
             currency_code,
             isEditing,
             isCartOverlay,
-            isMobile
+            isMobile,
+            showLoader
         } = this.props;
         const { isLoading } = this.state;
 
@@ -141,6 +149,7 @@ export class CartItemContainer extends PureComponent {
             isCartOverlay,
             isMobile,
             isLoading,
+            showLoader,
             linkTo: this._getProductLinkTo(),
             thumbnail: this._getProductThumbnail(),
             minSaleQuantity: this.getMinQuantity(),
@@ -161,6 +170,7 @@ export class CartItemContainer extends PureComponent {
             const { changeItemQty, item: { item_id, sku } } = this.props;
             this.hideLoaderAfterPromise(changeItemQty({ item_id, quantity, sku }));
         });
+        this.notifyAboutLoadingStateChange(true);
     }
 
     /**
@@ -174,6 +184,7 @@ export class CartItemContainer extends PureComponent {
         this.setState({ isLoading: true }, () => {
             this.hideLoaderAfterPromise(this.removeProductAndUpdateCrossSell());
         });
+        this.notifyAboutLoadingStateChange(true);
     }
 
     getIsMobileLayout() {
@@ -349,6 +360,14 @@ export class CartItemContainer extends PureComponent {
         const { attributes = [] } = this.getCurrentProduct() || {};
 
         return Object.entries(attributes).map(this.getConfigurationOptionLabel).filter((label) => label);
+    }
+
+    notifyAboutLoadingStateChange(isLoading) {
+        const { onCartItemLoading } = this.props;
+
+        if (onCartItemLoading) {
+            onCartItemLoading(isLoading);
+        }
     }
 
     renderRightSideContent = () => {

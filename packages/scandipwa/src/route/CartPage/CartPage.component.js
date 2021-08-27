@@ -18,6 +18,7 @@ import CheckoutOrderSummary from 'Component/CheckoutOrderSummary/CheckoutOrderSu
 import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
+import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
@@ -31,16 +32,27 @@ export class CartPage extends PureComponent {
         totals: TotalsType.isRequired,
         onCheckoutButtonClick: PropTypes.func.isRequired,
         hasOutOfStockProductsInCart: PropTypes.bool,
-        onCouponCodeUpdate: PropTypes.func
+        onCouponCodeUpdate: PropTypes.func,
+        onCartItemLoading: PropTypes.func,
+        isCartItemLoading: PropTypes.bool
     };
 
     static defaultProps = {
         hasOutOfStockProductsInCart: false,
-        onCouponCodeUpdate: () => {}
+        onCouponCodeUpdate: () => {},
+        onCartItemLoading: null,
+        isCartItemLoading: false
     };
 
     renderCartItems() {
-        const { totals: { items, quote_currency_code } } = this.props;
+        const {
+            totals: {
+                items,
+                quote_currency_code
+            },
+            isCartItemLoading,
+            onCartItemLoading
+        } = this.props;
 
         if (!items || items.length < 1) {
             return (
@@ -56,11 +68,14 @@ export class CartPage extends PureComponent {
                     <span>{ __('subtotal') }</span>
                 </p>
                 <div block="CartPage" elem="Items" aria-label="List of items in cart">
+                    <Loader isLoading={ isCartItemLoading } />
                     { items.map((item) => (
                         <CartItem
                           key={ item.item_id }
                           item={ item }
                           currency_code={ quote_currency_code }
+                          onCartItemLoading={ onCartItemLoading }
+                          showLoader={ false }
                           isEditing
                           updateCrossSellsOnRemove
                         />
