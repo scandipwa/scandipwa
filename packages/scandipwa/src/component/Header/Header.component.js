@@ -501,7 +501,7 @@ export class Header extends NavigationAbstract {
         }
 
         return (
-            <div key="account" block="Header" elem="MyAccountWrapper">
+            <div key="account" block="Header" elem="MyAccountContainer">
                 { this.renderWelcomeMessage() }
                 <ClickOutside
                   onClick={ onMyAccountOutsideClick }

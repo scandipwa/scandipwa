@@ -37,7 +37,8 @@ export class ProductConfigurableAttributes extends PureComponent {
         isSelected: PropTypes.func.isRequired,
         getLink: PropTypes.func.isRequired,
         isExpandable: PropTypes.bool,
-        showProductAttributeAsLink: PropTypes.bool
+        showProductAttributeAsLink: PropTypes.bool,
+        inStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -55,7 +56,8 @@ export class ProductConfigurableAttributes extends PureComponent {
             handleOptionClick,
             getLink,
             isSelected,
-            showProductAttributeAsLink
+            showProductAttributeAsLink,
+            inStock
         } = this.props;
 
         const { attribute_value } = attribute;
@@ -65,7 +67,7 @@ export class ProductConfigurableAttributes extends PureComponent {
               key={ attribute_value }
               attribute={ attribute }
               isSelected={ isSelected(attribute) }
-              isAvailable={ getIsConfigurableAttributeAvailable(attribute) }
+              isAvailable={ inStock && getIsConfigurableAttributeAvailable(attribute) }
               onClick={ handleOptionClick }
               getLink={ getLink }
               showProductAttributeAsLink={ showProductAttributeAsLink }
@@ -132,7 +134,8 @@ export class ProductConfigurableAttributes extends PureComponent {
     renderConfigurableAttributes() {
         const {
             configurable_options,
-            isExpandable
+            isExpandable,
+            inStock
         } = this.props;
 
         return Object.values(configurable_options).map((option) => {
@@ -148,6 +151,10 @@ export class ProductConfigurableAttributes extends PureComponent {
             // render content without heading and subheading
             if (!isExpandable) {
                 return isSwatch ? this.renderSwatch(option) : this.renderDropdown(option);
+            }
+
+            if (!inStock && !isSwatch) {
+                return null;
             }
 
             return (

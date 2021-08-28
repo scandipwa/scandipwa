@@ -466,7 +466,8 @@ export class ProductCard extends Component {
             parameters,
             updateConfigurableVariant,
             product: { variants },
-            isLoading
+            isLoading,
+            inStock
         } = this.props;
 
         return (
@@ -478,6 +479,7 @@ export class ProductCard extends Component {
               isExpandable={ false }
               isReady={ !isLoading }
               showProductAttributeAsLink={ false }
+              inStock={ inStock }
             />
         );
     }

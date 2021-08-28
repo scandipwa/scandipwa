@@ -187,6 +187,7 @@ export class ProductActions extends PureComponent {
             updateConfigurableVariant,
             parameters,
             areDetailsLoaded,
+            inStock,
             product: { configurable_options = {}, type_id, variants = {} }
         } = this.props;
 
@@ -211,6 +212,7 @@ export class ProductActions extends PureComponent {
                   updateConfigurableVariant={ updateConfigurableVariant }
                   configurable_options={ filterConfigurableOptions(configurable_options, variants) }
                   isContentExpanded
+                  inStock={ inStock }
                 />
             </div>
         );
