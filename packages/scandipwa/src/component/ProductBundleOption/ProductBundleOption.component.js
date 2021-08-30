@@ -17,6 +17,7 @@ import Field from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldGroup from 'Component/PureForm/FieldGroup';
 import {
+    DEFAULT_MAX_PRODUCTS, DEFAULT_MIN_PRODUCTS,
     getBundleOption, getMaxQuantity, getMinQuantity, getProductInStock
 } from 'Util/Product/Extract';
 import { bundleOptionToLabel, getEncodedBundleUid } from 'Util/Product/Transform';
@@ -51,8 +52,7 @@ export class ProductBundleOption extends PureComponent {
     }
 
     //#refion ERROR
-    // eslint-disable-next-line no-magic-numbers
-    getError(quantity, stock, min = -1, max = 999, value) {
+    getError(quantity, stock, min = -1, max = DEFAULT_MAX_PRODUCTS, value) {
         if (!value) {
             return true;
         } if (quantity < min) {
@@ -74,9 +74,8 @@ export class ProductBundleOption extends PureComponent {
     }
 
     renderQuantityChange(uid, quantity, product = null) {
-        const min = !product ? 1 : getMinQuantity(product);
-        // eslint-disable-next-line no-magic-numbers
-        const max = !product ? 9999 : getMaxQuantity(product);
+        const min = !product ? DEFAULT_MIN_PRODUCTS : getMinQuantity(product);
+        const max = !product ? DEFAULT_MAX_PRODUCTS : getMaxQuantity(product);
         // eslint-disable-next-line no-nested-ternary
         const rangedQty = quantity < min ? min : quantity > max ? max : quantity;
 

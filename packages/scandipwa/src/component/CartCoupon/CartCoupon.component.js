@@ -100,8 +100,6 @@ export class CartCoupon extends PureComponent {
                           isRequired: true
                       } }
                       validateOn={ ['onChange'] }
-                      id="couponCode"
-                      name="couponCode"
                     />
                 </div>
                 <button
