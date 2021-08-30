@@ -92,6 +92,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
+                      inputType: VALIDATION_INPUT_TYPE.alphaSpace,
                       isRequired: true
                   } }
                   addRequiredTag
@@ -108,6 +109,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
+                      inputType: VALIDATION_INPUT_TYPE.alphaSpace,
                       isRequired: true
                   } }
                   addRequiredTag
@@ -154,7 +156,17 @@ export class MyAccountCreateAccount extends PureComponent {
                       validateOn={ ['onChange'] }
                       validationRule={ {
                           isRequired: true,
-                          inputType: VALIDATION_INPUT_TYPE.password
+                          inputType: VALIDATION_INPUT_TYPE.password,
+                          match: (value) => {
+                              const email = document.getElementById('email');
+                              return value && email.value !== value;
+                          },
+                          customErrorMessages: {
+                              onMatchFail: __('Passwords can\'t be the same as email!')
+                          },
+                          range: {
+                              min: 8
+                          }
                       } }
                       addRequiredTag
                     />
@@ -173,7 +185,7 @@ export class MyAccountCreateAccount extends PureComponent {
                           inputType: VALIDATION_INPUT_TYPE.password,
                           match: (value) => {
                               const password = document.getElementById('password');
-                              return password.value === value;
+                              return value && password.value === value;
                           },
                           customErrorMessages: {
                               onMatchFail: __('Passwords do not match!')

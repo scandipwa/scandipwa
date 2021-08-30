@@ -125,7 +125,7 @@ export class FormContainer extends PureComponent {
     }
     //#endregion
 
-    onSubmit(e) {
+    async onSubmit(e) {
         e.preventDefault();
 
         const { onSubmit, onError, returnAsObject = false } = this.props;
@@ -151,14 +151,13 @@ export class FormContainer extends PureComponent {
         const { events, validateOn } = this.props;
         const { validate, onSubmit } = this.containerFunctions;
 
-        // Surrounds events with validation
-        // TODO: Optimize
         const newEvents = { };
         Object.keys(events).forEach((eventName) => {
             const { [eventName]: event } = events;
             newEvents[eventName] = this.surroundEvent.bind(this, event);
         });
 
+        // Surrounds events with validation
         validateOn.forEach((eventName) => {
             const { [eventName]: baseEvent } = events;
             newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;

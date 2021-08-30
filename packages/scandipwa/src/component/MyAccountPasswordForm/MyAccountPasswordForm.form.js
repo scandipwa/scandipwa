@@ -17,6 +17,7 @@ export const myAccountPasswordForm = () => [
         label: __('Current password'),
         type: FIELD_TYPE.password,
         attr: {
+            id: 'my-account-currentPassword',
             name: 'currentPassword',
             placeholder: __('Your current password'),
             'aria-label': __('Current password')
@@ -32,6 +33,7 @@ export const myAccountPasswordForm = () => [
         label: __('New password'),
         type: FIELD_TYPE.password,
         attr: {
+            id: 'my-account-newPassword',
             name: 'newPassword',
             placeholder: __('Your new password'),
             'aria-label': __('New password')
@@ -40,7 +42,17 @@ export const myAccountPasswordForm = () => [
         validateOn: ['onChange'],
         validationRule: {
             inputType: VALIDATION_INPUT_TYPE.password,
-            isRequired: true
+            isRequired: true,
+            match: (value) => {
+                const password = document.getElementById('my-account-currentPassword');
+                return value && password.value !== value;
+            },
+            customErrorMessages: {
+                onMatchFail: __('New passwords can\'t be the same as old password!')
+            },
+            range: {
+                min: 8
+            }
         }
     }
 ];

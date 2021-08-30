@@ -135,7 +135,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         }
 
         try {
-            const code = await createAccount(customerData);
+            const code = await createAccount(customerData).catch(() => process.exit(1));
 
             // if user needs confirmation
             if (code === 2) {
@@ -148,7 +148,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
                         __('The email confirmation link has been sent to your email. Please confirm your account to proceed.')
                     );
                 }
-            } else {
+            } else if (code !== false) {
                 onSignIn();
             }
         } finally {

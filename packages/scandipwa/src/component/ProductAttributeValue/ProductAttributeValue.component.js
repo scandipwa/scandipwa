@@ -266,8 +266,16 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
+    getCheckboxLabel = (label, subLabel) => (
+        <>
+            { label }
+            <strong>{ `(${subLabel})` }</strong>
+        </>
+    );
+
     renderDropdown(value, subLabel) {
         const { isSelected } = this.props;
+        console.log([value, isSelected]);
 
         return (
             <Field
@@ -275,11 +283,9 @@ export class ProductAttributeValue extends PureComponent {
               attr={ {
                   id: value,
                   name: value,
-                  value,
                   defaultChecked: isSelected
               } }
-              label={ value }
-              subLabel={ subLabel }
+              label={ this.getCheckboxLabel(value, subLabel) }
               mix={ {
                   block: 'ProductAttributeValue',
                   elem: 'Text',

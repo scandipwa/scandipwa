@@ -12,6 +12,7 @@
 
 export const VALIDATION_INPUT_TYPE_TEXT = {
     alpha: 'alpha',
+    alphaSpace: 'alphaSpace',
     alphaNumeric: 'alphaNumeric',
     alphaDash: 'alphaDash',
     url: 'url'
@@ -48,7 +49,8 @@ export const VALIDATION_MESSAGES = {
     //#endregion
 
     //#region VALIDATION RULE MSG
-    [VALIDATION_INPUT_TYPE.alpha]: __('Incorrect input! Alpha value required!'),
+    [VALIDATION_INPUT_TYPE.alpha]: __('Incorrect input! Only letters allowed!'),
+    [VALIDATION_INPUT_TYPE.alphaSpace]: __('Incorrect input! Only words allowed!'),
     [VALIDATION_INPUT_TYPE.alphaNumeric]: __('Incorrect input! Alpha-Numeric value required!'),
     [VALIDATION_INPUT_TYPE.alphaDash]: __('Incorrect input! Alpha-Dash value required!'),
     [VALIDATION_INPUT_TYPE.url]: __('Incorrect input! URL required!'),
@@ -67,6 +69,7 @@ export const VALIDATION_MESSAGES = {
 export const VALIDATION_RULES = {
     // Text
     [VALIDATION_INPUT_TYPE.alpha]: /^[a-z]+$/i,
+    [VALIDATION_INPUT_TYPE.alphaSpace]: /^[a-z\s]+$/i,
     [VALIDATION_INPUT_TYPE.alphaNumeric]: /^[a-z0-9]+$/i,
     [VALIDATION_INPUT_TYPE.alphaDash]: /^[a-z0-9_\\-]+$/i,
     [VALIDATION_INPUT_TYPE.url]: /^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\\/]))?$/,

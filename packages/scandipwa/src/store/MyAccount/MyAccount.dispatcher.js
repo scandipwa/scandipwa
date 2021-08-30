@@ -179,8 +179,6 @@ export class MyAccountDispatcher {
             (error) => {
                 dispatch(updateIsLoading(false));
                 dispatch(showNotification('error', getErrorMessage(error)));
-                Promise.reject();
-
                 return false;
             }
         );

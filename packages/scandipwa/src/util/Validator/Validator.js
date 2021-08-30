@@ -75,7 +75,7 @@ export const validate = (value, rule) => {
             }
         } else {
             if (min && value.length < min) {
-                output.errorMessages.push(onRangeFailMin || __('Minimal %s characters!', min));
+                output.errorMessages.push(onRangeFailMin || __('Minimum %s characters!', min));
             }
             if (max && value.length > max) {
                 output.errorMessages.push(onRangeFailMax || __('Maximum %s characters!', max));

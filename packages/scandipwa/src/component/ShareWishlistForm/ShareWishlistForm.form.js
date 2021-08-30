@@ -23,7 +23,8 @@ export const shareWishlistForm = () => [
         validateOn: ['onChange'],
         validationRule: {
             isRequired: true
-        }
+        },
+        addRequiredTag: true
     },
     {
         label: __('Message'),
