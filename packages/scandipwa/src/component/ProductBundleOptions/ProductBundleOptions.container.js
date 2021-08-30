@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 
-import BundleOptions from './BundleOptions.component';
+import ProductBundleOptions from './ProductBundleOptions.component';
 
-export class BundleOptionsContainer extends Component {
+export class ProductBundleOptionsContainer extends Component {
     static propTypes = {
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
         updateSelectedValues: PropTypes.func.isRequired
@@ -36,11 +36,11 @@ export class BundleOptionsContainer extends Component {
 
     render() {
         return (
-            <BundleOptions
+            <ProductBundleOptions
               { ...this.containerProps() }
             />
         );
     }
 }
 
-export default BundleOptionsContainer;
+export default ProductBundleOptionsContainer;

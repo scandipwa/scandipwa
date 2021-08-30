@@ -172,7 +172,6 @@ export class CheckoutGuestFormContainer extends PureComponent {
     handleEmailInput(event, field) {
         const { value: email } = field;
         this.checkEmailAvailability(email);
-        console.log([email]);
 
         const { updateEmail, isEmailAvailable } = this.props;
         if (isEmailAvailable) {

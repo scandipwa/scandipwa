@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import AddToCart from 'Component/Product/AddToCart';
+import AddToCart from 'Component/AddToCart';
 import ProductCard from 'Component/ProductCard';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';

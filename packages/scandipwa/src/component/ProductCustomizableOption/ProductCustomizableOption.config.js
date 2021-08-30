@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// eslint-disable-next-line import/prefer-default-export
 export const CONFIG_FIELD_TYPE = {
     text: 'field',
     radio: 'radio',
@@ -22,3 +21,5 @@ export const CONFIG_FIELD_TYPE = {
     time: 'time',
     multi: 'multiple'
 };
+
+export default CONFIG_FIELD_TYPE;

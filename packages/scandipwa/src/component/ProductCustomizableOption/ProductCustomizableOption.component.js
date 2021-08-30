@@ -12,13 +12,14 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { CONFIG_FIELD_TYPE } from 'Component/Product/CustomizableOption/CustomizableOption.config';
 import FieldContainer from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldGroup from 'Component/PureForm/FieldGroup';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
-export class CustomizableOption extends PureComponent {
+import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
+
+export class ProductCustomizableOption extends PureComponent {
     static propTypes = {
         uid: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
@@ -276,4 +277,4 @@ export class CustomizableOption extends PureComponent {
     }
 }
 
-export default CustomizableOption;
+export default ProductCustomizableOption;

@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { bundleOptionsToSelectTransform, getEncodedBundleUid } from 'Util/Product/Transform';
 
-import BundleOption from './BundleOption.component';
+import ProductBundleOption from './ProductBundleOption.component';
 
 export const mapStateToProps = (state) => ({
     currencyCode: state.ConfigReducer.currencyData.current_currency_code
@@ -24,7 +24,7 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = () => ({
 });
 
-export class BundleOptionContainer extends PureComponent {
+export class ProductBundleOptionContainer extends PureComponent {
     static propTypes = {
         uid: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
@@ -96,7 +96,7 @@ export class BundleOptionContainer extends PureComponent {
 
     render() {
         return (
-            <BundleOption
+            <ProductBundleOption
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />
@@ -104,4 +104,4 @@ export class BundleOptionContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BundleOptionContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductBundleOptionContainer);

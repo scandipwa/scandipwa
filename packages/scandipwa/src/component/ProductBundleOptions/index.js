@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './CustomizableOption.container';
+export { default } from './ProductBundleOptions.container';

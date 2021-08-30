@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 
-import CustomizableOptions from './CustomizableOptions.component';
+import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 
-export class CustomizableOptionsContainer extends Component {
+export class ProductCustomizableOptionsContainer extends Component {
     static propTypes = {
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
         updateSelectedValues: PropTypes.func.isRequired
@@ -35,11 +35,11 @@ export class CustomizableOptionsContainer extends Component {
 
     render() {
         return (
-            <CustomizableOptions
+            <ProductCustomizableOptions
               { ...this.containerProps() }
             />
         );
     }
 }
 
-export default CustomizableOptionsContainer;
+export default ProductCustomizableOptionsContainer;

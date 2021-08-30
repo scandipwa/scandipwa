@@ -13,11 +13,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CONFIG_FIELD_TYPE } from 'Component/Product/CustomizableOption/CustomizableOption.config';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { customizableOptionsToSelectTransform } from 'Util/Product/Transform';
 
-import CustomizableOption from './CustomizableOption.component';
+import ProductCustomizableOption from './ProductCustomizableOption.component';
+import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
 
 export const mapStateToProps = (state) => ({
     currencyCode: state.ConfigReducer.currencyData.current_currency_code
@@ -26,7 +26,7 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = () => ({
 });
 
-export class CustomizableOptionContainer extends PureComponent {
+export class ProductCustomizableOptionContainer extends PureComponent {
     static propTypes = {
         title: PropTypes.string.isRequired,
         isRequired: PropTypes.bool.isRequired,
@@ -64,7 +64,7 @@ export class CustomizableOptionContainer extends PureComponent {
 
     render() {
         return (
-            <CustomizableOption
+            <ProductCustomizableOption
               { ...this.containerProps() }
               { ...this.containerFunctions }
               fieldType={ this.getFieldType() }
@@ -73,4 +73,4 @@ export class CustomizableOptionContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomizableOptionContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCustomizableOptionContainer);

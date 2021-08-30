@@ -257,7 +257,11 @@ export class Field extends PureComponent {
         }
 
         return (
-            { subLabel }
+            <div block="Field" elem="SubLabelContainer">
+                <div block="Field" elem="SubLabel">
+                    { subLabel }
+                </div>
+            </div>
         );
     }
     //#endregion

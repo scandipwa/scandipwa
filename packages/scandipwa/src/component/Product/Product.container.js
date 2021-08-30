@@ -171,7 +171,6 @@ export class ProductContainer extends PureComponent {
             type_id: type
         } = activeProduct;
 
-        console.time('start product');
         const output = {
             isWishlistEnabled,
             inStock: fromCache(getProductInStock, [activeProduct, product]),
@@ -180,8 +179,6 @@ export class ProductContainer extends PureComponent {
             productName: getName(product),
             productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type])
         };
-
-        console.timeEnd('start product');
 
         return {
             quantity,

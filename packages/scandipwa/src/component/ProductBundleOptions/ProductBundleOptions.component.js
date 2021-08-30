@@ -12,11 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CustomizableOption from 'Component/Product/CustomizableOption';
+import ProductBundleOption from 'Component/ProductBundleOption';
 
-import './CustomizableOptions.style.scss';
+import './ProductBundleOptions.style';
 
-export class CustomizableOptions extends PureComponent {
+export class ProductBundleOptions extends PureComponent {
     static propTypes = {
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
         updateSelectedValues: PropTypes.func.isRequired
@@ -24,24 +24,25 @@ export class CustomizableOptions extends PureComponent {
 
     renderOptionGroup = (group) => {
         const {
-            title, value, type, required, uid
+            title, options, type, required, uid
         } = group;
         const { updateSelectedValues } = this.props;
 
         return (
-            <CustomizableOption
-              uid={ uid }
+            <ProductBundleOption
               title={ title }
-              options={ value }
-              isRequired={ required }
+              options={ options }
               type={ type }
+              isRequired={ required }
+              required={ required }
               updateSelectedValues={ updateSelectedValues }
+              uid={ uid }
             />
         );
     };
 
     render() {
-        const { options = [] } = this.props;
+        const { options } = this.props;
 
         return (
           <div>
@@ -51,4 +52,4 @@ export class CustomizableOptions extends PureComponent {
     }
 }
 
-export default CustomizableOptions;
+export default ProductBundleOptions;

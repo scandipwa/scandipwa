@@ -13,14 +13,14 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import AddToCart from 'Component/AddToCart';
 import GroupedProductList from 'Component/GroupedProductList';
-import AddToCart from 'Component/Product/AddToCart';
-import BundleOptions from 'Component/Product/BundleOptions';
-import CustomizableOptions from 'Component/Product/CustomizableOptions';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
+import ProductBundleOptions from 'Component/ProductBundleOptions';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes
     from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductDownloadableLinks from 'Component/ProductDownloadableLinks';
 import ProductDownloadableSamples from 'Component/ProductDownloadableSamples/ProductDownloadableSamples.component';
 import ProductPrice from 'Component/ProductPrice';
@@ -90,7 +90,7 @@ export class Product extends PureComponent {
         } = this.props;
 
         return (
-            <BundleOptions
+            <ProductBundleOptions
               updateSelectedValues={ updateSelectedValues }
               options={ items }
             />
@@ -106,7 +106,7 @@ export class Product extends PureComponent {
         } = this.props;
 
         return (
-            <CustomizableOptions
+            <ProductCustomizableOptions
               updateSelectedValues={ updateSelectedValues }
               options={ options }
             />

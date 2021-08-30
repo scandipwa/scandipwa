@@ -14,6 +14,7 @@
  * @param {function} fn
  * @param {array} args
  * @returns function response
+ * @namespace Util/Cache/fromCache
  */
 export const fromCache = (fn, args) => {
     // Checks if cache is defined
