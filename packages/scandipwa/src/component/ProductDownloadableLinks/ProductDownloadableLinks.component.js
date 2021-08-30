@@ -27,7 +27,8 @@ export class ProductDownloadableLinks extends PureComponent {
         title: PropTypes.string.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         isOpenInNewTab: PropTypes.bool.isRequired,
-        selectedLinks: PropTypes.array
+        selectedLinks: PropTypes.array,
+        getIsLinkSelected: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -56,12 +57,18 @@ export class ProductDownloadableLinks extends PureComponent {
     }
 
     renderCheckBox(link) {
-        const { setSelectedCheckboxValues, isRequired } = this.props;
+        const {
+            setSelectedCheckboxValues,
+            isRequired,
+            getIsLinkSelected
+        } = this.props;
         const { id } = link;
 
         if (!isRequired) {
             return null;
         }
+
+        const isLinkSelected = getIsLinkSelected(id);
 
         return (
             <Field
@@ -71,6 +78,7 @@ export class ProductDownloadableLinks extends PureComponent {
               name={ `link-${ id }` }
               value={ id }
               onChange={ setSelectedCheckboxValues }
+              checked={ isLinkSelected }
             />
         );
     }

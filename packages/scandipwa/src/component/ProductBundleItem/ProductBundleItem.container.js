@@ -212,6 +212,14 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
         }, []);
     }
 
+    getIsCheckboxSelected(variantId) {
+        const { option: { option_id: optionId }, selectedCheckboxValues } = this.props;
+
+        return selectedCheckboxValues.some(
+            ({ id, value }) => id === optionId && value.includes(variantId.toString())
+        );
+    }
+
     render() {
         return (
             <ProductBundleItem

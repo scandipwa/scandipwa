@@ -38,7 +38,8 @@ export class ProductBundleItems extends ProductCustomizableOptions {
             productOptionsData,
             price_range,
             type_id,
-            price_range: { minimum_price: { regular_price: { currency } } }
+            price_range: { minimum_price: { regular_price: { currency } } },
+            selectedCheckboxValues
         } = this.props;
 
         return items.map((item, key) => (
@@ -49,6 +50,7 @@ export class ProductBundleItems extends ProductCustomizableOptions {
               key={ key }
               setSelectedCheckboxValues={ setSelectedCheckboxValues }
               setSelectedDropdownValue={ setSelectedDropdownValue }
+              selectedCheckboxValues={ selectedCheckboxValues }
               maxQuantity={ maxQuantity }
               updateQuantity={ updateQuantity }
               productOptionsData={ productOptionsData }
