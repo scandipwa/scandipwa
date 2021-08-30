@@ -16,7 +16,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import Link from 'Component/Link';
 import FieldContainer from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import FieldGroupContainer from 'Component/PureForm/FieldGroup';
+import FieldGroup from 'Component/PureForm/FieldGroup';
 import { formatPrice } from 'Util/Price';
 
 import './ProductDownloadableLinks.style';
@@ -117,7 +117,7 @@ export class ProductDownloadableLinks extends PureComponent {
         const { links, isRequired, setRef } = this.props;
 
         return (
-            <FieldGroupContainer
+            <FieldGroup
               validationRule={ {
                   isRequired
               } }
@@ -126,7 +126,7 @@ export class ProductDownloadableLinks extends PureComponent {
                 <div ref={ (elem) => setRef(elem) }>
                     { links.map(this.renderDownloadableLink.bind(this)) }
                 </div>
-            </FieldGroupContainer>
+            </FieldGroup>
         );
     }
 

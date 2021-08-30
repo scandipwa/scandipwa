@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import { CONFIG_FIELD_TYPE } from 'Component/Product/CustomizableOption/CustomizableOption.config';
 import FieldContainer from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import FieldGroupContainer from 'Component/PureForm/FieldGroup';
+import FieldGroup from 'Component/PureForm/FieldGroup';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
 export class CustomizableOption extends PureComponent {
@@ -158,14 +158,14 @@ export class CustomizableOption extends PureComponent {
         const { isRequired } = this.props;
 
         return (
-            <FieldGroupContainer
+            <FieldGroup
               validationRule={ {
                   isRequired
               } }
               validateOn={ ['onChange'] }
             >
                 { options.map(this.renderCheckBox) }
-            </FieldGroupContainer>
+            </FieldGroup>
         );
     }
 
@@ -200,14 +200,14 @@ export class CustomizableOption extends PureComponent {
         const { isRequired, uid } = this.props;
 
         return (
-            <FieldGroupContainer
+            <FieldGroup
               validationRule={ {
                   isRequired
               } }
               validateOn={ ['onChange'] }
             >
                 { options.map((option) => this.renderRadio(uid, option)) }
-            </FieldGroupContainer>
+            </FieldGroup>
         );
     }
 

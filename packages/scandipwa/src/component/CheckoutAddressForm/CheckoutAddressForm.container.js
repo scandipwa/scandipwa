@@ -11,16 +11,16 @@
 
 import { connect } from 'react-redux';
 
+import {
+    mapStateToProps as sourceMapStateToProps
+} from 'Component/MyAccountAddressForm/MyAccountAddressForm.container';
+
 import CheckoutAddressForm from './CheckoutAddressForm.component';
 
 /** @namespace Component/CheckoutAddressForm/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    countries: state.ConfigReducer.countries,
-    default_country: state.ConfigReducer.default_country,
-    addressLinesQty: state.ConfigReducer.address_lines_quantity,
-    shippingFields: state.CheckoutReducer.shippingFields,
-    showVatNumber: state.ConfigReducer.show_vat_number_on_storefront,
-    regionDisplayAll: state.ConfigReducer.region_display_all
+    ...sourceMapStateToProps(state),
+    shippingFields: state.CheckoutReducer.shippingFields
 });
 
 /** @namespace Component/CheckoutAddressForm/Container/mapDispatchToProps */

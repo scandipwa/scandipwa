@@ -31,7 +31,9 @@ export class FieldGroup extends PureComponent {
 
         // Labels
         label: PropTypes.string.isRequired,
-        subLabel: PropTypes.string.isRequired
+        subLabel: PropTypes.string.isRequired,
+
+        mods: PropTypes.object.isRequired
     };
 
     //#region LABEL/TEXT RENDER
@@ -93,11 +95,12 @@ export class FieldGroup extends PureComponent {
             children,
             setRef,
             attr,
-            events
+            events,
+            mods
         } = this.props;
 
         return (
-            <>
+            <div block="FieldGroup" elem="Wrapper" mods={ mods }>
                 { this.renderLabel() }
                 <div
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
@@ -115,7 +118,7 @@ export class FieldGroup extends PureComponent {
                 </div>
                 { this.renderErrorMessages() }
                 { this.renderSubLabel() }
-            </>
+            </div>
         );
     }
 }

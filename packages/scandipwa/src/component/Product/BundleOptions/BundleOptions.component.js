@@ -39,7 +39,7 @@ export class BundleOptions extends PureComponent {
               uid={ uid }
             />
         );
-    }
+    };
 
     render() {
         const { options } = this.props;

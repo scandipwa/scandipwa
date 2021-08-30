@@ -12,7 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field/Field.container';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { shippingMethodType } from 'Type/Checkout';
 import { formatPrice } from 'Util/Price';
 
@@ -146,11 +147,13 @@ export class CheckoutDeliveryOption extends PureComponent {
                   disabled={ !available }
                 >
                     <Field
-                      type="checkbox"
-                      id={ `option-${ carrier_title }` }
-                      name={ `option-${ carrier_title }` }
-                      checked={ isSelected }
-                      disabled
+                      type={ FIELD_TYPE.checkbox }
+                      attr={ {
+                          id: `option-${ carrier_title }`,
+                          name: `option-${ carrier_title }`,
+                          defaultChecked: isSelected
+                      } }
+                      isDisabled
                     />
                     { this.renderRow() }
                 </button>

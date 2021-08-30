@@ -18,6 +18,7 @@ import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Common';
+import transformToNameValuePair from 'Util/Form/Transform';
 import { getQueryParam } from 'Util/Url';
 
 import PasswordChangePage from './PasswordChangePage.component';
@@ -104,7 +105,6 @@ export class PasswordChangePageContainer extends PureComponent {
     }
 
     containerFunctions = {
-        onPasswordAttempt: this.onPasswordAttempt.bind(this),
         onPasswordSuccess: this.onPasswordSuccess.bind(this),
         onError: this.onError.bind(this)
     };
@@ -120,16 +120,17 @@ export class PasswordChangePageContainer extends PureComponent {
         return { isLoading };
     };
 
-    onPasswordSuccess(fields) {
-        const { resetPassword, location } = this.props;
-        const { password, password_confirmation } = fields;
-        const token = getQueryParam('token', location);
+    onPasswordSuccess(form, fields) {
+        this.setState({ isLoading: true }, () => {
+            const { resetPassword, location } = this.props;
+            const { password, password_confirmation } = transformToNameValuePair(fields);
+            const token = getQueryParam('token', location);
 
-        resetPassword({ token, password, password_confirmation });
+            resetPassword({ token, password, password_confirmation });
+        });
     }
 
     onPasswordAttempt() {
-        this.setState({ isLoading: true });
     }
 
     onError() {

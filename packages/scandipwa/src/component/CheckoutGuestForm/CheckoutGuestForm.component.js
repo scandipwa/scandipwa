@@ -208,7 +208,7 @@ export class CheckoutGuestForm extends FieldForm {
 
     renderForm() {
         const { signInState } = this.props;
-        const { render } = this.renderMap[signInState];
+        const { render } = this.renderMap[signInState] || {};
 
         return typeof render === 'function' ? render() : super.render();
     }

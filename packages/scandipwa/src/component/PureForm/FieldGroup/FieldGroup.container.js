@@ -13,7 +13,9 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { ChildrenType } from 'Type/Common';
+import getFieldsData from 'Util/Form/Extract';
 import { validateGroup } from 'Util/Validator';
 
 import FieldGroup from './FieldGroup.component';
@@ -32,7 +34,9 @@ export class FieldGroupContainer extends PureComponent {
 
         // Labels
         label: PropTypes.string,
-        subLabel: PropTypes.string
+        subLabel: PropTypes.string,
+
+        mods: PropTypes.object
     };
 
     static defaultProps = {
@@ -43,7 +47,8 @@ export class FieldGroupContainer extends PureComponent {
         showErrorAsLabel: true,
         label: '',
         subLabel: '',
-        children: []
+        children: [],
+        mods: {}
     };
 
     state = {
@@ -96,11 +101,22 @@ export class FieldGroupContainer extends PureComponent {
         return output;
     }
 
-    validateOnEvent(hook) {
+    validateOnEvent(hook, ...args) {
         this.validate();
-        if (hook) {
-            hook();
+        if (typeof hook === 'function') {
+            this.surroundEvent(hook, ...args);
         }
+    }
+
+    surroundEvent(hook, ...args) {
+        const { attr } = this.props;
+        const fields = getFieldsData(
+            this.groupRef,
+            false,
+            [FIELD_TYPE.number, FIELD_TYPE.button]
+        );
+
+        hook(...[...args, { ...attr, formRef: this.groupRef, fields }]);
     }
     //#endregion
 
@@ -110,7 +126,12 @@ export class FieldGroupContainer extends PureComponent {
 
         // Surrounds events with validation
         // TODO: Optimize
-        const newEvents = { ...events };
+        const newEvents = { };
+        Object.keys(events).forEach((eventName) => {
+            const { [eventName]: event } = events;
+            newEvents[eventName] = this.surroundEvent.bind(this, event);
+        });
+
         validateOn.forEach((eventName) => {
             const { [eventName]: baseEvent } = events;
             newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;

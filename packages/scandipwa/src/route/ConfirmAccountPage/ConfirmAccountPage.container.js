@@ -17,6 +17,7 @@ import { ERROR_TYPE } from 'Component/Notification/Notification.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router';
+import transformToNameValuePair from 'Util/Form/Transform';
 import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
@@ -62,7 +63,6 @@ export class ConfirmAccountPageContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onConfirmAttempt: this.onConfirmAttempt.bind(this),
         onConfirmSuccess: this.onConfirmSuccess.bind(this),
         onFormError: this.onFormError.bind(this)
     };
@@ -93,17 +93,18 @@ export class ConfirmAccountPageContainer extends PureComponent {
     }
 
     onConfirmAttempt() {
-        this.setState({ isLoading: true });
     }
 
-    onConfirmSuccess(fields) {
+    onConfirmSuccess(form, fields) {
         const {
             location: { search },
             confirmAccount,
             signIn
         } = this.props;
 
-        const { password } = fields;
+        this.setState({ isLoading: true });
+
+        const { password } = transformToNameValuePair(fields);
 
         const options = convertQueryStringToKeyValuePairs(search);
         const { email } = options;

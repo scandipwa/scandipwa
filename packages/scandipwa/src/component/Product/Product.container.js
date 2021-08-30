@@ -18,6 +18,7 @@ import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
+import fromCache from 'Util/Cache/Cache';
 import getFieldsData from 'Util/Form/Extract';
 import { getNewParameters, getVariantIndex } from 'Util/Product';
 import {
@@ -170,18 +171,25 @@ export class ProductContainer extends PureComponent {
             type_id: type
         } = activeProduct;
 
+        console.time('start product');
+        const output = {
+            isWishlistEnabled,
+            inStock: fromCache(getProductInStock, [activeProduct, product]),
+            maxQuantity: getMaxQuantity(activeProduct),
+            minQuantity: getMinQuantity(activeProduct),
+            productName: getName(product),
+            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type])
+        };
+
+        console.timeEnd('start product');
+
         return {
             quantity,
             product,
             configFormRef,
             parameters,
             device,
-            isWishlistEnabled,
-            inStock: getProductInStock(activeProduct, product),
-            maxQuantity: getMaxQuantity(activeProduct),
-            minQuantity: getMinQuantity(activeProduct),
-            productName: getName(product),
-            productPrice: getPrice(priceRange, dynamicPrice, adjustedPrice, type)
+            ...output
         };
     }
 

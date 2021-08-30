@@ -9,4 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './FieldSelect.container';
+export const transformCountriesToOptions = (countries) => (
+    countries.map((country) => {
+        const { id } = country;
+        return {
+            value: id,
+            name: id,
+            ...country
+        };
+    })
+);
+
+export default transformCountriesToOptions;

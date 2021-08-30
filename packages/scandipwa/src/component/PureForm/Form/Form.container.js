@@ -107,17 +107,21 @@ export class FormContainer extends PureComponent {
 
     validateOnEvent(hook, ...args) {
         this.validate();
-        if (hook) {
-            const { attr, returnAsObject } = this.props;
-            const fields = getFieldsData(
-                this.formRef,
-                false,
-                [FIELD_TYPE.number, FIELD_TYPE.button],
-                returnAsObject
-            );
-
-            hook(...[...args, { ...attr, formRef: this.formRef, fields }]);
+        if (typeof hook === 'function') {
+            this.surroundEvent(hook, ...args);
         }
+    }
+
+    surroundEvent(hook, ...args) {
+        const { attr, returnAsObject } = this.props;
+        const fields = getFieldsData(
+            this.formRef,
+            false,
+            [FIELD_TYPE.number, FIELD_TYPE.button],
+            returnAsObject
+        );
+
+        hook(...[...args, { ...attr, formRef: this.formRef, fields }]);
     }
     //#endregion
 
@@ -149,7 +153,12 @@ export class FormContainer extends PureComponent {
 
         // Surrounds events with validation
         // TODO: Optimize
-        const newEvents = { ...events };
+        const newEvents = { };
+        Object.keys(events).forEach((eventName) => {
+            const { [eventName]: event } = events;
+            newEvents[eventName] = this.surroundEvent.bind(this, event);
+        });
+
         validateOn.forEach((eventName) => {
             const { [eventName]: baseEvent } = events;
             newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;

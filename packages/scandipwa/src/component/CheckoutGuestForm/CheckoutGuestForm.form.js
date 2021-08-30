@@ -23,7 +23,7 @@ export const checkoutGuestForm = (props, events) => {
             attr: {
                 name: 'guest_email',
                 placeholder: __('Your email'),
-                value: emailValue,
+                defaultValue: emailValue,
                 'aria-label': __('Your email')
             },
             events: {

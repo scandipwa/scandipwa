@@ -20,6 +20,7 @@ import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { customerType } from 'Type/Account';
 import { ProductType } from 'Type/ProductList';
 import { RatingItemsType } from 'Type/Rating';
+import transformToNameValuePair from 'Util/Form/Transform';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
@@ -57,12 +58,8 @@ export class ProductReviewFormContainer extends PureComponent {
     };
 
     containerFunctions = ({
-        onReviewSubmitAttempt: this._onReviewSubmitAttempt.bind(this),
         onReviewSubmitSuccess: this._onReviewSubmitSuccess.bind(this),
         onStarRatingClick: this._onStarRatingClick.bind(this),
-        handleNicknameChange: this._handleFieldChange.bind(this, 'nickname'),
-        handleSummaryChange: this._handleFieldChange.bind(this, 'summary'),
-        handleDetailChange: this._handleFieldChange.bind(this, 'detail'),
         onReviewError: this._onReviewError.bind(this)
     });
 
@@ -109,19 +106,7 @@ export class ProductReviewFormContainer extends PureComponent {
         this.setState({ isLoading: !reviewsAreNotValid });
     }
 
-    _onReviewSubmitAttempt() {
-        const { showNotification, reviewRatings } = this.props;
-        const { ratingData, isSubmitted } = this.state;
-        const reviewsAreNotValid = !reviewRatings.every(({ rating_id }) => ratingData[rating_id]);
-
-        if (reviewsAreNotValid) {
-            showNotification('info', __('Please fill all rating fields.'));
-        }
-
-        this.setState({ isSubmitted: !isSubmitted, isLoading: !reviewsAreNotValid });
-    }
-
-    _onReviewSubmitSuccess(fields) {
+    _onReviewSubmitSuccess(form, fields) {
         const {
             product,
             addReview,
@@ -135,7 +120,7 @@ export class ProductReviewFormContainer extends PureComponent {
             nickname,
             title,
             detail
-        } = fields;
+        } = transformToNameValuePair(fields);
 
         const { sku: product_sku } = product;
 

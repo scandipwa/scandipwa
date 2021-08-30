@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 
 import { STATE_FORGOT_PASSWORD_SUCCESS } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { signInStateType } from 'Type/Account';
+import transformToNameValuePair from 'Util/Form/Transform';
 
 import MyAccountForgotPassword from './MyAccountForgotPassword.component';
 
@@ -46,7 +47,6 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onForgotPasswordAttempt: this.onForgotPasswordAttempt.bind(this),
         onForgotPasswordSuccess: this.onForgotPasswordSuccess.bind(this)
     };
 
@@ -68,15 +68,11 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
         };
     };
 
-    onForgotPasswordAttempt() {
-        const { setLoadingState } = this.props;
-        setLoadingState(true);
-    }
-
-    onForgotPasswordSuccess(fields) {
+    onForgotPasswordSuccess(form, fields) {
         const { forgotPassword, setSignInState, setLoadingState } = this.props;
+        setLoadingState(true);
 
-        forgotPassword(fields).then(
+        forgotPassword(transformToNameValuePair(fields)).then(
             /** @namespace Component/MyAccountOverlay/Container/forgotPasswordThen */
             () => {
                 setSignInState(STATE_FORGOT_PASSWORD_SUCCESS);

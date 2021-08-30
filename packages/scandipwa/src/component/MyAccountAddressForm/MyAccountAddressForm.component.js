@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -17,8 +18,8 @@ import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
 import {
     getAvailableRegions,
-    getCityAndRegionFromZipcode, trimCustomerAddress
-    // setAddressesInFormObject
+    getCityAndRegionFromZipcode,
+    trimCustomerAddress
 } from 'Util/Address';
 import transformToNameValuePair from 'Util/Form/Transform';
 
@@ -27,61 +28,78 @@ import myAccountAddressForm from './MyAccountAddressForm.form';
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
     static propTypes = {
-        isSubmitted: PropTypes.bool,
         address: addressType.isRequired,
         countries: countriesType.isRequired,
-        default_country: PropTypes.string,
-        onSave: PropTypes.func,
+        defaultCountry: PropTypes.string,
         addressLinesQty: PropTypes.number.isRequired,
         showVatNumber: PropTypes.bool.isRequired,
         regionDisplayAll: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        default_country: 'US',
-        isSubmitted: false,
-        onSave: () => {}
+        defaultCountry: 'US'
     };
 
-    __construct(props) {
-        super.__construct(props);
+    state = {
+        countryId: this.getCountry()?.value || 'US',
+        availableRegions: this.getAvailableRegions() || [],
+        isStateRequired: this.getCountry()?.is_state_required || true
+    };
 
-        const {
-            countries,
-            shippingFields,
-            address,
-            default_country
-        } = props;
+    //#region GETTERS
+    get fieldMap() {
+        const { address } = this.props;
 
-        const {
-            country_id,
-            region_id,
-            city = ''
-        } = shippingFields || address;
+        return myAccountAddressForm({
+            ...this.props,
+            ...this.state,
+            ...address
+        }, {
+            onCountryChange: this.onCountryChange,
+            onZipcodeBlur: this.onZipcodeBlur
+        });
+    }
 
-        const country = countries.find(({ id }) => id === country_id) || {};
-        const countryId = Object.keys(country).length ? country_id : default_country;
-
-        const { is_state_required = false } = country;
-
-        const availableRegions = getAvailableRegions(countryId, countries);
-        const [{ id: defaultRegionId = '' }] = availableRegions;
-        const regionId = region_id || defaultRegionId;
-
-        this.state = {
-            countryId,
-            availableRegions,
-            regionId,
-            isStateRequired: is_state_required,
-            city
+    getFormProps() {
+        return {
+            onSubmit: this.onSubmit.bind(this)
         };
     }
 
-    onFormSuccess = (form, fields) => {
-        const { onSave, addressLinesQty } = this.props;
+    getCountry(countryId = null) {
+        const { countries, defaultCountry, address: { country_id: countryIdAddress } = {} } = this.props;
+        const countryIdFixed = countryId || countryIdAddress || defaultCountry;
 
+        return countries.find(({ value }) => value === countryIdFixed);
+    }
+
+    /**
+     * Returns available regions based on country and zip
+     * @param countryId
+     * @param zipCode
+     * @returns {Promise<[*, *]|null[]|*>}
+     */
+    getAvailableRegions(countryId = null, zipCode = null) {
+        const { countries, defaultCountry } = this.props;
+        const { value: currCountryId = defaultCountry } = this.getCountry(countryId) || {};
+
+        return !zipCode
+            ? getAvailableRegions(currCountryId, countries)
+            : getCityAndRegionFromZipcode(countryId, zipCode);
+    }
+    //#endregion
+
+    //#region EVENTS
+    /**
+     * Creates / Updates address from entered data
+     * @param form
+     * @param fields
+     */
+    onSubmit = (form, fields) => {
+        const { onSave, addressLinesQty } = this.props;
         const newAddress = transformToNameValuePair(fields);
 
+        // Joins streets into one variable
         if (addressLinesQty > 1) {
             newAddress.street = [];
             // eslint-disable-next-line fp/no-loops,fp/no-let
@@ -92,81 +110,35 @@ export class MyAccountAddressForm extends FieldForm {
             }
         }
 
+        // Fixes region variable format
         const { region_id = 0, region_string: region } = newAddress;
-
         newAddress.region = { region_id: +region_id, region };
+
+        // Filters out non-required options and save address
         onSave(trimCustomerAddress(newAddress));
     };
 
-    onCountryChange = (countryId) => {
+    onCountryChange = (field) => {
         const { countries } = this.props;
-        const { countryId: prevCountryId } = this.state;
-        const country = countries.find(({ id }) => id === countryId);
-        const { available_regions = [], is_state_required } = country;
-
-        this.setState({
-            countryId,
-            availableRegions: available_regions || [],
-            isStateRequired: is_state_required
-        });
-
-        // avoid region reset when coming back to shipping step
-        if (prevCountryId && prevCountryId !== countryId) {
-            this.setState({
-                regionId: available_regions?.length ? available_regions[0].id : null
-            });
-        }
-    };
-
-    onZipcodeChange = async (e) => {
-        const { value } = e.currentTarget;
-        const { countryId, availableRegions } = this.state;
-
-        const [city, regionCode] = await getCityAndRegionFromZipcode(countryId, value);
-        if (city) {
-            this.setState({
-                city
-            });
-        }
-
-        if (availableRegions.length > 0 && regionCode) {
-            const { id: regionId } = availableRegions
-                .find((r) => r.code.toUpperCase() === regionCode.toUpperCase());
-
-            if (regionId) {
-                this.setState({ regionId });
-            }
-        }
-    };
-
-    get fieldMap() {
+        const country = countries.find(({ value }) => value === field);
         const {
-            countries: sourceCountries,
-            address,
-            regionDisplayAll,
-            showVatNumber,
-            addressLinesQty
-        } = this.props;
+            available_regions: availableRegions = [],
+            is_state_required: isStateRequired = true,
+            value: countryId
+        } = country;
 
-        const props = {
-            addressLinesQty,
-            address,
-            ...address,
-            countries: sourceCountries.map(({ id, label }) => ({ id, label, value: id })),
-            showVatNumber,
-            regionDisplayAll,
-            ...this.state
-        };
+        this.setState({ availableRegions, isStateRequired, countryId });
+    };
 
-        const events = {
-            onCountryChange: '',
-            onZipcodeChange: '',
-            setRegionId: ''
-        };
+    onZipcodeBlur = async (event, field) => {
+        const { value: zipCode = '' } = field || {};
+        const { countryId } = this.state;
+        await this.getAvailableRegions(countryId, zipCode);
+        // TODO: add missing stuff
+    };
+    //#endregion
 
-        return myAccountAddressForm(props, events);
-    }
-
+    //#region RENDERERS
     renderActions() {
         return (
             <button
@@ -179,12 +151,7 @@ export class MyAccountAddressForm extends FieldForm {
             </button>
         );
     }
-
-    getFormProps() {
-        return {
-            onSubmit: this.onFormSuccess.bind(this)
-        };
-    }
+    //#endregion
 }
 
 export default MyAccountAddressForm;

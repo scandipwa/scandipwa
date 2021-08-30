@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import FieldGroupContainer from 'Component/PureForm/FieldGroup';
+import FieldGroup from 'Component/PureForm/FieldGroup';
 import {
     getBundleOption, getMaxQuantity, getMinQuantity, getProductInStock
 } from 'Util/Product/Extract';
@@ -156,7 +156,7 @@ export class BundleOption extends PureComponent {
         const { isRequired } = this.props;
 
         return (
-            <FieldGroupContainer
+            <FieldGroup
               validationRule={ {
                   isRequired,
                   selector: '[type="checkbox"]'
@@ -164,7 +164,7 @@ export class BundleOption extends PureComponent {
               validateOn={ ['onChange'] }
             >
                 { options.map(this.renderCheckBox) }
-            </FieldGroupContainer>
+            </FieldGroup>
         );
     }
     //#endregion
@@ -213,7 +213,7 @@ export class BundleOption extends PureComponent {
         const { isRequired, uid } = this.props;
 
         return (
-            <FieldGroupContainer
+            <FieldGroup
               validationRule={ {
                   isRequired,
                   selector: '[type="radio"]'
@@ -221,7 +221,7 @@ export class BundleOption extends PureComponent {
               validateOn={ ['onChange'] }
             >
                 { options.map((option) => this.renderRadio(uid, option)) }
-            </FieldGroupContainer>
+            </FieldGroup>
         );
     }
     //#endregion

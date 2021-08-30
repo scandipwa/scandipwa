@@ -13,10 +13,12 @@ import { PureComponent } from 'react';
 import { Redirect } from 'react-router';
 
 import ContentWrapper from 'Component/ContentWrapper';
-import Field from 'Component/Field';
-import Form from 'Component/Form';
 import Loader from 'Component/Loader';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import Form from 'Component/PureForm/Form';
 import { isSignedIn } from 'Util/Auth';
+import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 import './ConfirmAccountPage.style';
 
@@ -25,46 +27,51 @@ export class ConfirmAccountPage extends PureComponent {
     static propTypes = {
         redirect: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        onConfirmAttempt: PropTypes.func.isRequired,
         onConfirmSuccess: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired
     };
 
     renderForm() {
         const {
-            onConfirmAttempt,
             onConfirmSuccess,
             onFormError
         } = this.props;
-
-        // TODO: use FieldForm instead!!!
 
         return (
             <Form
               mix={ { block: 'ConfirmAccountPage', elem: 'Form' } }
               key="confirm-account"
-              onSubmit={ onConfirmAttempt }
-              onSubmitSuccess={ onConfirmSuccess }
-              onSubmitError={ onFormError }
+              onSubmit={ onConfirmSuccess }
+              onError={ onFormError }
             >
                 { /*
                     Added email field with display:none to fix warning
                     `Password forms should have (optionally hidden) username fields for accessibility`
                 */ }
                 <Field
-                  type="email"
+                  type={ FIELD_TYPE.email }
                   label={ __('Email') }
-                  id="email"
-                  name="email"
+                  attr={ {
+                      id: 'email',
+                      name: 'email'
+                  } }
                   mix={ { block: 'ConfirmAccountPage', elem: 'EmailInput' } }
                 />
                 <Field
-                  type="password"
+                  type={ FIELD_TYPE.password }
                   label={ __('Password') }
-                  id="password"
-                  name="password"
-                  placeholder={ __('Enter your password') }
-                  validation={ ['notEmpty', 'password'] }
+                  attr={ {
+                      id: 'password',
+                      name: 'password',
+                      placeholder: __('Enter your password'),
+                      autocomplete: 'new-password'
+                  } }
+                  validateOn={ ['onChange'] }
+                  validationRule={ {
+                      isRequired: true,
+                      inputType: VALIDATION_INPUT_TYPE.password
+                  } }
+                  addRequiredTag
                 />
                 <button
                   type="submit"

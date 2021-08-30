@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { signInStateType } from 'Type/Account';
+import transformToNameValuePair from 'Util/Form/Transform';
 
 import MyAccountCreateAccount from './MyAccountCreateAccount.component';
 import { SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
@@ -65,8 +66,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onCreateAccountSuccess: this.onCreateAccountSuccess.bind(this),
-        onCreateAccountAttempt: this.onCreateAccountAttempt.bind(this)
+        onSuccess: this.onSuccess.bind(this),
+        onError: this.onError.bind(this)
     };
 
     containerProps() {
@@ -82,31 +83,22 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             handleSignIn,
             showTaxVatNumber,
             newsletterActive,
-            vatNumberValidation: this.getVatNumberValidation()
+            vatNumberRequired: this.getVatNumberRequired()
         };
     }
 
-    getVatNumberValidation() {
+    getVatNumberRequired() {
         const { showTaxVatNumber } = this.props;
 
-        if (showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED) {
-            return ['notEmpty'];
-        }
-
-        return [];
+        return showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED;
     }
 
-    onCreateAccountAttempt(_, invalidFields) {
-        const { showNotification, setLoadingState } = this.props;
-
-        if (invalidFields) {
-            showNotification('info', __('Incorrect data! Please resolve all field validation errors.'));
-        }
-
-        setLoadingState(!invalidFields);
+    onError() {
+        const { showNotification } = this.props;
+        showNotification('info', __('Incorrect data! Please resolve all field validation errors.'));
     }
 
-    async onCreateAccountSuccess(fields) {
+    async onSuccess(form, fields) {
         const {
             createAccount,
             onSignIn,
@@ -125,7 +117,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             lastname,
             is_subscribed,
             taxvat
-        } = fields;
+        } = transformToNameValuePair(fields);
 
         const customerData = {
             customer: {

@@ -182,7 +182,7 @@ export class FieldSelectContainer extends PureComponent {
         this.setState({ searchString, valueIndex }, () => {
             const { id, value } = options[valueIndex];
             // converting to string for avoiding the error with the first select option
-            if (onChange) {
+            if (onChange && value) {
                 onChange(value.toString());
             }
 

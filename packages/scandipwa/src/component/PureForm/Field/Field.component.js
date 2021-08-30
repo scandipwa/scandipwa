@@ -267,7 +267,7 @@ export class Field extends PureComponent {
         const inputRenderer = this.renderMap[type];
 
         return (
-            <>
+            <div block="Field" elem="Wrapper">
                 <div
                   block="Field"
                   mods={ {
@@ -282,7 +282,7 @@ export class Field extends PureComponent {
                 </div>
                 { this.renderErrorMessages() }
                 { this.renderSubLabel() }
-            </>
+            </div>
         );
     }
 }

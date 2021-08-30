@@ -10,9 +10,13 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import {
+    CheckoutStepContainer,
+    mapDispatchToProps as sourceMapDispatchToProps,
+    mapStateToProps as sourceMapStateToProps
+} from 'Component/CheckoutStep/CheckoutStep.container';
 import {
     STORE_IN_PICK_UP_ATTRIBUTE_CODE,
     STORE_IN_PICK_UP_METHOD_CODE
@@ -28,6 +32,7 @@ import CheckoutShipping from './CheckoutShipping.component';
 
 /** @namespace Component/CheckoutShipping/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
+    ...sourceMapStateToProps(state),
     customer: state.MyAccountReducer.customer,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
     totals: state.CartReducer.cartTotals,
@@ -37,12 +42,14 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
+    ...sourceMapDispatchToProps(dispatch),
     updateShippingFields: (fields) => dispatch(updateShippingFields(fields))
 });
 
 /** @namespace Component/CheckoutShipping/Container */
-export class CheckoutShippingContainer extends PureComponent {
+export class CheckoutShippingContainer extends CheckoutStepContainer {
     static propTypes = {
+        ...super.propTypes,
         saveAddressInformation: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
         customer: customerType.isRequired,
@@ -64,6 +71,7 @@ export class CheckoutShippingContainer extends PureComponent {
     };
 
     static defaultProps = {
+        ...super.defaultProps,
         selectedStoreAddress: {},
         selectedShippingMethod: null,
         setSelectedShippingMethodCode: null,
@@ -72,6 +80,7 @@ export class CheckoutShippingContainer extends PureComponent {
     };
 
     containerFunctions = {
+        ...this.containerFunctions,
         onShippingSuccess: this.onShippingSuccess.bind(this),
         onShippingError: this.onShippingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
@@ -92,8 +101,8 @@ export class CheckoutShippingContainer extends PureComponent {
         const { method_code = '' } = selectedShippingMethod;
 
         this.state = {
+            ...super.state,
             selectedCustomerAddressId: 0,
-            isSubmitted: false,
             selectedShippingMethod: method_code && method_code !== STORE_IN_PICK_UP_METHOD_CODE
                 ? selectedShippingMethod
                 : {}
@@ -207,13 +216,12 @@ export class CheckoutShippingContainer extends PureComponent {
         onShippingMethodSelect(method);
     }
 
-    onShippingError() {
+    onShippingError(form, fields, validation) {
+        console.log([validation]);
         // TODO: implement notification if some data in Form can not display error
-        const { isSubmitted } = this.state;
-        this.setState({ isSubmitted: !isSubmitted });
     }
 
-    onShippingSuccess(fields) {
+    onShippingSuccess(form, fields) {
         const {
             saveAddressInformation,
             updateShippingFields,
