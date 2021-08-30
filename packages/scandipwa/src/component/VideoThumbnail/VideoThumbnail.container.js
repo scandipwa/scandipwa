@@ -72,8 +72,6 @@ export class VideoThumbnailContainer extends PureComponent {
             onZoomedVideoClick();
         }
 
-        console.debug('play video', media, video_title);
-
         setTimeout(() => {
             showPopup({
                 media,
