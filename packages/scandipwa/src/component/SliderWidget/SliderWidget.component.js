@@ -60,13 +60,15 @@ export class SliderWidget extends PureComponent {
         const { activeImage } = this.state;
         const { activeImage: prevActiveImage } = prevState;
 
-        if (slideSpeed !== prevSlideSpeed && slides.length !== 1) {
-            this.changeSlideDebounced = debounce(this.changeSlide, slideSpeed);
-            this.changeSlideDebounced();
-        }
+        if (slideSpeed > 0) {
+            if (slideSpeed !== prevSlideSpeed && slides.length !== 1) {
+                this.changeSlideDebounced = debounce(this.changeSlide, slideSpeed);
+                this.changeSlideDebounced();
+            }
 
-        if (prevActiveImage !== activeImage) {
-            this.changeSlideDebounced();
+            if (prevActiveImage !== activeImage) {
+                this.changeSlideDebounced();
+            }
         }
     }
 
