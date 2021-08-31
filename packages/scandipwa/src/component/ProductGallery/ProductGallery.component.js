@@ -93,24 +93,25 @@ export class ProductGallery extends PureComponent {
         this.renderSlide = this.renderSlide.bind(this);
     }
 
-    static getDerivedStateFromProps({ isImageZoomPopupActive }, { prevZoom }) {
-        if (isImageZoomPopupActive !== prevZoom) {
-            const resizeEvent = new Event('resize');
-            setTimeout(() => window.dispatchEvent(resizeEvent), 0);
-            return { prevZoom: isImageZoomPopupActive };
-        }
-
-        return null;
-    }
-
     componentDidMount() {
         this.updateSharedDestinationElement();
         window.addEventListener('resize', this.calculateGallerySize);
     }
 
     componentDidUpdate(prevProps) {
-        const { productId, location: { pathname }, sliderRef } = this.props;
-        const { productId: prevProductId, location: { pathname: prevPathname } } = prevProps;
+        const {
+            productId,
+            location: { pathname },
+            sliderRef,
+            isImageZoomPopupActive
+        } = this.props;
+
+        const {
+            productId: prevProductId,
+            location: { pathname: prevPathname }
+        } = prevProps;
+
+        const { prevZoom } = this.state;
 
         if (productId !== prevProductId) {
             this.updateSharedDestinationElement();
@@ -123,10 +124,19 @@ export class ProductGallery extends PureComponent {
                 0
             );
         }
+
+        if (isImageZoomPopupActive !== prevZoom) {
+            this.handleZoomChange(isImageZoomPopupActive);
+        }
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.calculateGallerySize);
+    }
+
+    handleZoomChange(prevZoom) {
+        setTimeout(this.calculateGallerySize, 0);
+        this.setState({ prevZoom });
     }
 
     calculateGallerySize = () => {
