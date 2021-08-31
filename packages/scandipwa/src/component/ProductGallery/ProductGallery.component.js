@@ -15,6 +15,11 @@ import { withRouter } from 'react-router';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
 import CarouselScroll from 'Component/CarouselScroll';
+import {
+    ARROW_SAFE_AREA,
+    CAROUSEL_ITEM_GAP,
+    CAROUSEL_ITEM_WIDTH
+} from 'Component/CarouselScroll/CarouselScroll.config';
 import Image from 'Component/Image';
 import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
@@ -75,8 +80,12 @@ export class ProductGallery extends PureComponent {
 
     imageRef = createRef();
 
+    galleryRef = createRef();
+
     state = {
-        scrollEnabled: true
+        scrollEnabled: true,
+        slidesCount: 7,
+        prevZoom: false
     };
 
     __construct(props, context) {
@@ -84,8 +93,19 @@ export class ProductGallery extends PureComponent {
         this.renderSlide = this.renderSlide.bind(this);
     }
 
+    static getDerivedStateFromProps({ isImageZoomPopupActive }, { prevZoom }) {
+        if (isImageZoomPopupActive !== prevZoom) {
+            const resizeEvent = new Event('resize');
+            setTimeout(() => window.dispatchEvent(resizeEvent), 0);
+            return { prevZoom: isImageZoomPopupActive };
+        }
+
+        return null;
+    }
+
     componentDidMount() {
         this.updateSharedDestinationElement();
+        window.addEventListener('resize', this.calculateGallerySize);
     }
 
     componentDidUpdate(prevProps) {
@@ -104,6 +124,23 @@ export class ProductGallery extends PureComponent {
             );
         }
     }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.calculateGallerySize);
+    }
+
+    calculateGallerySize = () => {
+        const { isMobile } = this.props;
+        const ref = this.galleryRef.current;
+
+        if (!ref || isMobile) {
+            return;
+        }
+        const { width } = ref.getBoundingClientRect();
+
+        const slidesCount = Math.floor((width - ARROW_SAFE_AREA * 2) / (CAROUSEL_ITEM_WIDTH + CAROUSEL_ITEM_GAP));
+        this.setState({ slidesCount });
+    };
 
     handleSliderClick = () => {
         const {
@@ -305,6 +342,8 @@ export class ProductGallery extends PureComponent {
             onActiveImageChange
         } = this.props;
 
+        const { slidesCount } = this.state;
+
         if (gallery.length === 1) {
             return <div block="ProductGallery" elem="Additional" />;
         }
@@ -314,7 +353,7 @@ export class ProductGallery extends PureComponent {
                 <CarouselScroll
                   activeItemId={ activeImage }
                   onChange={ onActiveImageChange }
-                  showedItemCount={ 7 }
+                  showedItemCount={ slidesCount }
                   isImageZoomPopupActive={ isImageZoomPopupActive }
                 >
                     { gallery.map(this.renderAdditionalPicture) }
@@ -382,7 +421,7 @@ export class ProductGallery extends PureComponent {
 
     render() {
         return (
-            <div block="ProductGallery">
+            <div block="ProductGallery" ref={ this.galleryRef }>
                 { this.renderSlider() }
                 { this.renderAdditionalPictures() }
                 <VideoPopup />

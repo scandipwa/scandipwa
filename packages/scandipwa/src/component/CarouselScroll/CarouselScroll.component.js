@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -50,18 +51,26 @@ export class CarouselScroll extends PureComponent {
 
     componentDidMount() {
         const { showedItemCount } = this.props;
-        const { offsetWidth: cardWidth } = this.itemRef.current;
 
         const margin = CAROUSEL_ITEM_GAP;
-        const width = `${ (margin + cardWidth) * showedItemCount - margin }px`;
+        const width = this.getCarouselWidth(showedItemCount);
 
         CSS.setVariable(this.carouselRef, 'carousel-scroll-gap', `${margin}px`);
         CSS.setVariable(this.carouselRef, 'carousel-width', width);
     }
 
     componentDidUpdate(prevProps) {
-        const { children: { length: prevChildrenLength } } = prevProps;
-        const { activeItemId, children: { length: childrenLength } } = this.props;
+        const {
+            children: { length: prevChildrenLength },
+            showedItemCount: prevShowedItemCount
+        } = prevProps;
+
+        const {
+            activeItemId,
+            children: { length: childrenLength },
+            showedItemCount
+        } = this.props;
+
         const { activeItemId: prevActiveItemId } = this.state;
 
         if (prevChildrenLength !== childrenLength) {
@@ -73,6 +82,29 @@ export class CarouselScroll extends PureComponent {
         if (activeItemId !== null && activeItemId !== prevActiveItemId) {
             this.handleChange(activeItemId);
         }
+
+        if (prevShowedItemCount !== showedItemCount) {
+            const width = this.getCarouselWidth(showedItemCount);
+            CSS.setVariable(this.carouselRef, 'carousel-width', width);
+            this.updateFirstSlide();
+        }
+    }
+
+    updateFirstSlide() {
+        const { firstCarouselItemId } = this.state;
+
+        const maxId = this.getMaxFirstItemId();
+
+        if (firstCarouselItemId > maxId) {
+            this.setTranslate(maxId);
+            this.setState({ firstCarouselItemId: maxId });
+        }
+    }
+
+    getCarouselWidth(showedItemCount) {
+        const margin = CAROUSEL_ITEM_GAP;
+        const { offsetWidth: cardWidth } = this.itemRef.current;
+        return `${ (margin + cardWidth) * showedItemCount - margin }px`;
     }
 
     getNextTranslate(nextId) {

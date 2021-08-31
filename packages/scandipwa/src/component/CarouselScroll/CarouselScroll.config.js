@@ -11,3 +11,5 @@
 
 // eslint-disable-next-line import/prefer-default-export
 export const CAROUSEL_ITEM_GAP = 18;
+export const CAROUSEL_ITEM_WIDTH = 55;
+export const ARROW_SAFE_AREA = 25;
