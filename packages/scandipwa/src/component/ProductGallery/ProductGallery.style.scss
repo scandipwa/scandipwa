@@ -58,6 +58,7 @@
 
     &-Slider {
         height: 100%;
+        opacity: var(--sliderOpacity);
 
         &_isImageZoomPopupActive {
             cursor: pointer;

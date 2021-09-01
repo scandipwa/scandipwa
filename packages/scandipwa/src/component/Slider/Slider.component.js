@@ -121,12 +121,14 @@ export class Slider extends PureComponent {
             return;
         }
 
+        const sliderRef = this.getSliderRef();
+        CSS.setVariable(sliderRef, 'sliderOpacity', '0');
+
         // delay setting carousel translate to avoid wrong calculations be made during transition
         setTimeout(() => {
             this.setStyleVariablesOnMount();
         }, 0);
 
-        const sliderRef = this.getSliderRef();
         const sliderHeight = `${ sliderChildren[0].offsetHeight }px`;
 
         sliderChildren[0].onload = () => {
@@ -136,6 +138,8 @@ export class Slider extends PureComponent {
         setTimeout(() => {
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         }, ANIMATION_DURATION);
+
+        CSS.setVariable(sliderRef, 'sliderOpacity', '1');
     }
 
     componentDidUpdate(prevProps) {

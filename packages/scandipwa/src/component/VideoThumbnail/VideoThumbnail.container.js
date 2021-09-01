@@ -39,8 +39,7 @@ export class VideoThumbnailContainer extends PureComponent {
         media: MediaItemType.isRequired,
         showPopup: PropTypes.func.isRequired,
         isVideoZoomed: PropTypes.bool.isRequired,
-        hideActivePopup: PropTypes.func.isRequired,
-        onZoomedVideoClick: PropTypes.func.isRequired
+        hideActivePopup: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -63,13 +62,13 @@ export class VideoThumbnailContainer extends PureComponent {
             } = {},
             showPopup,
             isVideoZoomed,
-            onZoomedVideoClick
+            hideActivePopup
         } = this.props;
 
         event.preventDefault();
 
         if (isVideoZoomed) {
-            onZoomedVideoClick();
+            hideActivePopup();
         }
 
         setTimeout(() => {

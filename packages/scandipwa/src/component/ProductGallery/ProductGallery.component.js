@@ -187,14 +187,13 @@ export class ProductGallery extends PureComponent {
      * @private
      */
     renderVideo(media, index) {
-        const { isImageZoomPopupActive, handleImageZoomPopupActiveChange } = this.props;
+        const { isImageZoomPopupActive } = this.props;
 
         return (
             <VideoThumbnail
               key={ index }
               media={ media }
               isVideoZoomed={ isImageZoomPopupActive }
-              onZoomedVideoClick={ handleImageZoomPopupActiveChange }
             />
         );
     }

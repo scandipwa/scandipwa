@@ -88,6 +88,7 @@ export class Popup extends Overlay {
     hidePopUp = () => {
         const { hideActiveOverlay, goToPreviousNavigationState, onClose } = this.props;
         const isVisible = this.getIsVisible();
+
         if (isVisible) {
             this.unfreezeScroll();
             hideActiveOverlay();
