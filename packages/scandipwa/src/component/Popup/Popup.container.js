@@ -81,13 +81,10 @@ export class PopupContainer extends PureComponent {
     onVisible() {
         const { changeHeaderState, onVisible } = this.props;
 
-        console.debug('trigger on visible');
-
         changeHeaderState({
             name: POPUP,
             title: this._getPopupTitle(),
             onCloseClick: () => {
-                console.debug('onCloseClick');
                 history.back();
             }
         });

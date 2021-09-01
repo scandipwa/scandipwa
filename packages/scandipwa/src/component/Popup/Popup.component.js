@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -101,7 +99,7 @@ export class Popup extends Overlay {
     hidePopupAndGoBack = () => {
         this.hidePopUp();
         history.goBack();
-    }
+    };
 
     // Same with click outside
     handleClickOutside = () => {
