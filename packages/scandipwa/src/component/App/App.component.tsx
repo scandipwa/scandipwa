@@ -9,18 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import { Provider } from 'react-redux';
+import { ErrorInfo, PureComponent } from 'react';
+// import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
 
 import Router from 'Component/Router';
 import SharedTransition from 'Component/SharedTransition';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
-import injectStaticReducers from 'Store';
-import getStore from 'Util/Store';
+// import injectStaticReducers from 'Store/index';
+// import getStore from 'Util/Store';
 
-/** @namespace Component/App/Component */
-export class App extends PureComponent {
+export interface AppProps {}
+
+declare module 'react' {
+    interface Component {
+        __construct(props: unknown): void
+    }
+}
+
+/** @namespace /Component/App/Component/AppComponent */
+export class App extends PureComponent<AppProps> {
     productionFunctions = [
         this.disableReactDevTools.bind(this),
         this.injectComment.bind(this)
@@ -31,7 +39,7 @@ export class App extends PureComponent {
     ];
 
     commonFunctions = [
-        this.configureStore.bind(this)
+        // this.configureStore.bind(this)
     ];
 
     rootComponents = [
@@ -40,7 +48,7 @@ export class App extends PureComponent {
     ];
 
     contextProviders = [
-        this.renderRedux.bind(this),
+        // this.renderRedux.bind(this),
         this.renderUnStated.bind(this)
     ];
 
@@ -49,36 +57,36 @@ export class App extends PureComponent {
         errorDetails: {}
     };
 
-    __construct(props) {
+    componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+        this.setState({
+            isSomethingWentWrong: true,
+            errorDetails: { err: error, info: errorInfo }
+        });
+    }
+
+    __construct(props: AppProps): void {
         super.__construct(props);
 
         this.configureAppBasedOnEnvironment();
         this.configureApp();
     }
 
-    componentDidCatch(err, info) {
-        this.setState({
-            isSomethingWentWrong: true,
-            errorDetails: { err, info }
-        });
-    }
+    // configureStore() {
+    //     const store = getStore();
+    //     injectStaticReducers(store);
 
-    configureStore() {
-        const store = getStore();
-        injectStaticReducers(store);
+    //     this.reduxStore = store;
+    // }
 
-        this.reduxStore = store;
-    }
+    // renderRedux(children) {
+    //     return (
+    //         <Provider store={ this.reduxStore } key="redux">
+    //             { children }
+    //         </Provider>
+    //     );
+    // }
 
-    renderRedux(children) {
-        return (
-            <Provider store={ this.reduxStore } key="redux">
-                { children }
-            </Provider>
-        );
-    }
-
-    renderUnStated(children) {
+    renderUnStated(children: React.ReactChildren): JSX.Element {
         return (
             <UnstatedProvider key="unstated">
                 { children }
@@ -86,22 +94,22 @@ export class App extends PureComponent {
         );
     }
 
-    enableHotReload() {
+    enableHotReload(): void {
         if (module.hot) {
             module.hot.accept();
         }
     }
 
-    injectComment() {
+    injectComment(): void {
         const comment = document.createComment('Powered by ScandiPWA (scandipwa.com)');
-        document.querySelector('html').appendChild(comment);
+        document.querySelector('html')?.appendChild(comment);
     }
 
     /**
      * Disable react-dev-tools
      * @link https://github.com/facebook/react-devtools/issues/191#issuecomment-367905536
      */
-    disableReactDevTools() {
+    disableReactDevTools(): void {
         if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object') {
             // eslint-disable-next-line no-restricted-syntax, fp/no-loops, no-unused-vars
             for (const [key, value] of Object.entries(window.__REACT_DEVTOOLS_GLOBAL_HOOK__)) {
@@ -168,5 +176,3 @@ export class App extends PureComponent {
         return this.renderContextProviders();
     }
 }
-
-export default App;

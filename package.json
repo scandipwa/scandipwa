@@ -8,8 +8,8 @@
         "clean": "lerna clean --yes"
     },
     "devDependencies": {
-        "@scandipwa/eslint-config": "^0.1.6",
-        "eslint": "^7.11.0",
+        "@scandipwa/eslint-config": "^0.1.31",
+        "eslint": "^7.32.0",
         "husky": "^4.3.0",
         "lerna": "^3.22.1"
     },

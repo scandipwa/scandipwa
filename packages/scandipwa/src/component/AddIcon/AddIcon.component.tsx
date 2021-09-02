@@ -14,8 +14,8 @@ import { PureComponent } from 'react';
 
 import './AddIcon.style';
 
-/** @namespace Component/AddIcon/Component */
-export class AddIcon extends PureComponent {
+/** @namespace /Component/AddIcon/Component/AddIconComponent */
+export class AddIconComponent extends PureComponent {
     static propTypes = {
         isPrimary: PropTypes.bool
     };
@@ -43,4 +43,4 @@ export class AddIcon extends PureComponent {
     }
 }
 
-export default AddIcon;
+export default AddIconComponent;
