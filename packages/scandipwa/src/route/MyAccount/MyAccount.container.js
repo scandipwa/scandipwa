@@ -198,10 +198,12 @@ export class MyAccountContainer extends PureComponent {
             wishlistItems: prevWishlistItems,
             isSignedIn: prevIsSignedIn
         } = prevProps;
+
         const {
             wishlistItems,
             isSignedIn: currIsSignedIn
         } = this.props;
+
         const { activeTab: prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
@@ -233,6 +235,19 @@ export class MyAccountContainer extends PureComponent {
             isEditingActive,
             subHeading: this.getSubHeading()
         };
+    }
+
+    isTabEnabled(tabName) {
+        const { isWishlistEnabled, newsletterActive } = this.props;
+
+        switch (tabName) {
+        case MY_WISHLIST:
+            return isWishlistEnabled;
+        case NEWSLETTER_SUBSCRIPTION:
+            return newsletterActive;
+        default:
+            return true;
+        }
     }
 
     _getWishlistItemsCount() {
@@ -269,7 +284,7 @@ export class MyAccountContainer extends PureComponent {
 
     tabsFilterEnabled() {
         return Object.fromEntries(Object.entries(MyAccountContainer.tabMap)
-            .filter(([k]) => MyAccountContainer.isTabEnabled(this.props, k)));
+            .filter(([tabName]) => this.isTabEnabled(this.props, tabName)));
     }
 
     onSignOut() {
