@@ -1,1 +1,1 @@
-import './overrides';
+import './override-globals';

@@ -19,13 +19,8 @@ import SomethingWentWrong from 'Route/SomethingWentWrong';
 // import injectStaticReducers from 'Store/index';
 // import getStore from 'Util/Store';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AppProps {}
-
-declare module 'react' {
-    interface Component {
-        __construct(props: unknown): void
-    }
-}
 
 /** @namespace /Component/App/Component/AppComponent */
 export class App extends PureComponent<AppProps> {
@@ -38,9 +33,9 @@ export class App extends PureComponent<AppProps> {
         this.enableHotReload.bind(this)
     ];
 
-    commonFunctions = [
-        // this.configureStore.bind(this)
-    ];
+    // commonFunctions = [
+    //     this.configureStore.bind(this)
+    // ];
 
     rootComponents = [
         this.renderRouter.bind(this),
@@ -86,7 +81,7 @@ export class App extends PureComponent<AppProps> {
     //     );
     // }
 
-    renderUnStated(children: React.ReactChildren): JSX.Element {
+    renderUnStated(children: JSX.Element): JSX.Element {
         return (
             <UnstatedProvider key="unstated">
                 { children }
@@ -118,7 +113,7 @@ export class App extends PureComponent<AppProps> {
         }
     }
 
-    configureAppBasedOnEnvironment() {
+    configureAppBasedOnEnvironment(): void {
         const functionsToRun = process.env.NODE_ENV === 'production'
             ? this.productionFunctions
             : this.developmentFunctions;
@@ -126,42 +121,49 @@ export class App extends PureComponent<AppProps> {
         functionsToRun.forEach((func) => func());
     }
 
-    configureApp() {
-        this.commonFunctions.forEach((func) => func());
+    configureApp(): void {
+        // this.commonFunctions.forEach((func) => func());
     }
 
-    handleErrorReset = () => {
+    handleErrorReset = (): void => {
         this.setState({ isSomethingWentWrong: false });
     };
 
-    renderSharedTransition() {
+    renderSharedTransition(): JSX.Element {
         return (
             <SharedTransition key="transition" />
         );
     }
 
-    renderRouter() {
+    renderRouter(): JSX.Element {
         return (
             <Router key="router" />
         );
     }
 
-    renderRootComponents = () => this.rootComponents.map((render) => render());
+    renderRootComponents = (): JSX.Element => (
+        <>{ this.rootComponents.map((render) => render()) }</>
+    );
 
-    renderContextProviders() {
+    renderContextProviders(): JSX.Element {
         const { isSomethingWentWrong } = this.state;
 
         const child = isSomethingWentWrong
             ? this.renderSomethingWentWrong
             : this.renderRootComponents;
 
-        return this.contextProviders.reduce(
-            (acc, render) => render(acc),
-            [child()]
+        return (
+            <>
+                { this.contextProviders.reduce(
+                    (acc, render) => render(acc),
+                    child()
+                ) }
+
+            </>
         );
     }
 
-    renderSomethingWentWrong = () => {
+    renderSomethingWentWrong = (): JSX.Element => {
         const { errorDetails } = this.state;
 
         return (
@@ -172,7 +174,7 @@ export class App extends PureComponent<AppProps> {
         );
     };
 
-    render() {
+    render(): JSX.Element {
         return this.renderContextProviders();
     }
 }

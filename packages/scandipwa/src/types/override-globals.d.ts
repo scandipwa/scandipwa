@@ -1,6 +1,10 @@
-declare global {
-    interface Window {
-        // eslint-disable-next-line no-restricted-syntax,no-unused-labels,no-unused-expressions,no-labels
-        __REACT_DEVTOOLS_GLOBAL_HOOK__: boolean;
+interface Window {
+    '__REACT_DEVTOOLS_GLOBAL_HOOK__'?: Record<string, unknown>;
+}
+
+declare namespace React {
+
+    interface Component {
+        __construct(props: unknown): void
     }
 }
