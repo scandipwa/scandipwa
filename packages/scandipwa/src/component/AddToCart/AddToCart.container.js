@@ -48,7 +48,7 @@ export class AddToCartContainer extends PureComponent {
         quantity: PropTypes.number,
         cartId: PropTypes.string.isRequired,
         showNotification: PropTypes.func.isRequired,
-        addToCart: PropTypes.func.isRequired,
+        addToCart: PropTypes.func,
         fallbackAddToCart: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool,
 
@@ -62,7 +62,8 @@ export class AddToCartContainer extends PureComponent {
         mix: {},
         layout: GRID_LAYOUT,
         isIconEnabled: true,
-        isDisabled: false
+        isDisabled: false,
+        addToCart: null
     };
 
     containerFunctions = {
@@ -88,6 +89,11 @@ export class AddToCartContainer extends PureComponent {
     };
 
     async addProductToCart(e) {
+        const { product, addToCart } = this.props;
+        if ((!product || Object.keys(product).length === 0) && !addToCart) {
+            return;
+        }
+
         e.preventDefault();
         this.setState({ isAdding: true });
 
@@ -95,12 +101,10 @@ export class AddToCartContainer extends PureComponent {
             return;
         }
 
-        const { addToCart } = this.props;
         if (typeof addToCart === 'function') {
             await addToCart();
         } else {
             const {
-                product,
                 quantity,
                 cartId,
                 fallbackAddToCart

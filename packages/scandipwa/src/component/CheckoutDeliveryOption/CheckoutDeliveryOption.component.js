@@ -147,11 +147,11 @@ export class CheckoutDeliveryOption extends PureComponent {
                   disabled={ !available }
                 >
                     <Field
-                      type={ FIELD_TYPE.checkbox }
+                      type={ FIELD_TYPE.radio }
                       attr={ {
                           id: `option-${ carrier_title }`,
                           name: `option-${ carrier_title }`,
-                          defaultChecked: isSelected
+                          checked: !!isSelected
                       } }
                       isDisabled
                     />

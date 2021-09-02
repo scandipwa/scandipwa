@@ -24,6 +24,13 @@ export class WishlistQuery {
             .addArgument('wishlistItems', '[WishlistItemInput!]!', wishlistItems)
             .addField(this._getWishlistErrorsField());
     }
+
+    updateProductsInWishlist(wishlistId, wishlistItems) {
+        return new Field('updateProductsInWishlist')
+            .addArgument('wishlistId', 'ID!', wishlistId)
+            .addArgument('wishlistItems', '[WishlistItemUpdateInput!]!', wishlistItems)
+            .addField(this._getWishlistErrorsField());
+    }
     //#endregion
 
     //#region ERROR

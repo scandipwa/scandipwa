@@ -115,7 +115,8 @@ export class ProductBundleOption extends PureComponent {
             uid,
             can_change_quantity: canChangeQuantity,
             product,
-            quantity: defaultQuantity = 1
+            quantity: defaultQuantity = 1,
+            is_default
         } = option;
 
         const {
@@ -136,7 +137,8 @@ export class ProductBundleOption extends PureComponent {
                   attr={ {
                       id: `option-${ uid }`,
                       value: canChangeQuantity ? getEncodedBundleUid(uid, quantity) : uid,
-                      name: `option-${ uid }`
+                      name: `option-${ uid }`,
+                      defaultChecked: is_default
                   } }
                   events={ {
                       onChange: updateSelectedValues
@@ -174,7 +176,8 @@ export class ProductBundleOption extends PureComponent {
             uid,
             can_change_quantity: canChangeQuantity,
             quantity: defaultQuantity = 1,
-            product
+            product,
+            is_default
         } = option;
 
         const {
@@ -193,7 +196,8 @@ export class ProductBundleOption extends PureComponent {
                   attr={ {
                       id: `option-${ uid }`,
                       value: canChangeQuantity ? getEncodedBundleUid(uid, quantity) : uid,
-                      name: `option-${ name }`
+                      name: `option-${ name }`,
+                      defaultChecked: is_default
                   } }
                   events={ {
                       onChange: updateSelectedValues

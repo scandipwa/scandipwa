@@ -65,13 +65,18 @@ export class ProductContainer extends PureComponent {
         cartId: PropTypes.string.isRequired,
 
         device: DeviceType,
-        isWishlistEnabled: PropTypes.bool.isRequired
+        isWishlistEnabled: PropTypes.bool.isRequired,
+
+        defaultEnteredOptions: PropTypes.array,
+        defaultSelectedOptions: PropTypes.array
     };
 
     static defaultProps = {
         configFormRef: createRef(),
         parameters: {},
-        device: {}
+        device: {},
+        defaultSelectedOptions: [],
+        defaultEnteredOptions: []
     };
 
     containerFunctions = {
@@ -91,8 +96,8 @@ export class ProductContainer extends PureComponent {
 
     state = {
         // Used for customizable & bundle options
-        enteredOptions: [],
-        selectedOptions: [],
+        enteredOptions: this.setDefaultProductOptions('defaultEnteredOptions', 'enteredOptions'),
+        selectedOptions: this.setDefaultProductOptions('defaultSelectedOptions', 'selectedOptions'),
 
         // Used for downloadable
         downloadableLinks: [],
@@ -115,6 +120,17 @@ export class ProductContainer extends PureComponent {
         if (elem && elem !== this.validator) {
             this.validator = elem;
         }
+    }
+
+    setDefaultProductOptions(keyProp, keyState) {
+        const { [keyProp]: value } = this.props;
+        if (Array.isArray(value) && value.length > 0) {
+            this.setState({ [keyState]: value || [] }, () => {
+                this.updateAdjustedPrice();
+            });
+        }
+
+        return value || [];
     }
 
     static getDerivedStateFromProps(props, state) {

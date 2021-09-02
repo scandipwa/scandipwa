@@ -54,7 +54,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         removeProductFromWishlist: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         onProductValidationError: PropTypes.func,
-        wishlistId:PropTypes.number,
+        wishlistId: PropTypes.number,
         mix: MixType
     };
 

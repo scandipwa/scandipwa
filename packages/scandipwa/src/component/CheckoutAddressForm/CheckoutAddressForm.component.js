@@ -37,6 +37,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
                 onLoad: this.onAddressChange
             };
         }
+        fieldMap.splice(0, 2);
 
         return fieldMap;
     }

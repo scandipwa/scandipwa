@@ -15,8 +15,7 @@ import {
     clearWishlist,
     removeItemFromWishlist,
     updateAllProductsInWishlist,
-    updateIsLoading,
-    updateItemOptions
+    updateIsLoading
 } from 'Store/Wishlist/Wishlist.action';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
@@ -136,9 +135,13 @@ export class WishlistDispatcher {
             return Promise.reject();
         }
 
-        return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(options)).then(
+        const { wishlistItems = [], wishlistId = '' } = options;
+
+        return fetchMutation(WishlistQuery.updateProductsInWishlist(wishlistId, wishlistItems)).then(
             /** @namespace Store/Wishlist/Dispatcher/updateWishlistItemFetchMutationThen */
-            () => dispatch(updateItemOptions(options))
+            () => {
+                this._syncWishlistWithBE(dispatch);
+            }
         );
     }
 

@@ -134,20 +134,8 @@ export class MyAccountQuery {
             'taxvat',
             'id',
             'is_subscribed',
-            // this._getWishlistField(),
             this._getAddressesField()
         ];
-    }
-
-    _getWishlistFields() {
-        return [
-            'id'
-        ];
-    }
-
-    _getWishlistField() {
-        return new Field('wishlist')
-            .addFieldList(this._getWishlistFields());
     }
 
     _getAddressesField() {

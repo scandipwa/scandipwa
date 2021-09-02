@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import FieldContainer from 'Component/PureForm/Field';
+import Field from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldGroup from 'Component/PureForm/FieldGroup';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
@@ -77,7 +77,7 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <>
                 { this.renderOptionGroupTitle(label) }
-                <FieldContainer
+                <Field
                   type={ fieldType }
                   validationRule={ {
                       isRequired,
@@ -109,7 +109,7 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <>
                 { this.renderOptionGroupTitle(label) }
-                <FieldContainer
+                <Field
                   type={ FIELD_TYPE.file }
                   validationRule={ {
                       isRequired
@@ -138,7 +138,7 @@ export class ProductCustomizableOption extends PureComponent {
 
         return (
             <div key={ uid }>
-                <FieldContainer
+                <Field
                   type={ FIELD_TYPE.checkbox }
                   label={ label }
                   attr={ {
@@ -180,7 +180,7 @@ export class ProductCustomizableOption extends PureComponent {
 
         return (
             <div key={ uid }>
-                <FieldContainer
+                <Field
                   type={ FIELD_TYPE.radio }
                   label={ label }
                   attr={ {
@@ -222,7 +222,7 @@ export class ProductCustomizableOption extends PureComponent {
 
         return (
             <div block="ProductCustomizableItem" elem="DropdownWrapper">
-                <FieldContainer
+                <Field
                   type={ FIELD_TYPE.select }
                   attr={ {
                       id: `customizable-options-dropdown-${ uid }`,

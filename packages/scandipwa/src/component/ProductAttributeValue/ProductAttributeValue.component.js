@@ -275,7 +275,6 @@ export class ProductAttributeValue extends PureComponent {
 
     renderDropdown(value, subLabel) {
         const { isSelected } = this.props;
-        console.log([value, isSelected]);
 
         return (
             <Field

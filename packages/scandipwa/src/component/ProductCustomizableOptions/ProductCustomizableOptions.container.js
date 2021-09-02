@@ -10,22 +10,15 @@
  */
 
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { PureComponent } from 'react';
 
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 
-export class ProductCustomizableOptionsContainer extends Component {
+export class ProductCustomizableOptionsContainer extends PureComponent {
     static propTypes = {
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
         updateSelectedValues: PropTypes.func.isRequired
     };
-
-    shouldComponentUpdate(nextProps) {
-        const { options: nextOptions } = nextProps;
-        const { options } = this.props;
-
-        return nextOptions === options;
-    }
 
     containerProps() {
         return {

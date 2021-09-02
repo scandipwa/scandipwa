@@ -13,9 +13,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import FormPortal from 'Component/FormPortal/FormPortal.component';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import FieldGroup from 'Component/PureForm/FieldGroup';
 
 import './PurchaseOrder.style';
 
@@ -29,9 +29,11 @@ export class PurchaseOrder extends PureComponent {
         const { id } = this.props;
 
         return (
-            <FormPortal
-              id={ id }
-              name="PurchaseOrder"
+            <FieldGroup
+              attr={ {
+                  id,
+                  name: 'PurchaseOrder'
+              } }
             >
                 <Field
                   type={ FIELD_TYPE.text }
@@ -48,7 +50,7 @@ export class PurchaseOrder extends PureComponent {
                   addRequiredTag
                   mix={ { block: 'PurchaseOrderNumber', elem: 'Input' } }
                 />
-            </FormPortal>
+            </FieldGroup>
         );
     }
 }

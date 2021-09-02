@@ -38,7 +38,8 @@ export const WishlistDispatcher = import(
 
 /** @namespace Component/WishlistItem/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
+    wishlistId: state.WishlistReducer.id
 });
 
 /** @namespace Component/WishlistItem/Container/mapDispatchToProps */
@@ -67,6 +68,7 @@ export class WishlistItemContainer extends PureComponent {
         handleSelectIdChange: PropTypes.func.isRequired,
         isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
+        wishlistId: PropTypes.number.isRequired,
         isEditingActive: PropTypes.bool.isRequired
     };
 
@@ -87,13 +89,25 @@ export class WishlistItemContainer extends PureComponent {
     removeItemOnSwipe = this.removeItem.bind(this, false, true);
 
     changeQuantity = debounce((quantity) => {
-        const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
-        updateWishlistItem({ item_id, quantity });
+        const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+        updateWishlistItem({
+            wishlistId,
+            wishlistItems: [{
+                wishlist_item_id: item_id,
+                quantity
+            }]
+        });
     }, UPDATE_WISHLIST_FREQUENCY);
 
     changeDescription = debounce((description) => {
-        const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
-        updateWishlistItem({ item_id, description });
+        const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+        updateWishlistItem({
+            wishlistId,
+            wishlistItems: [{
+                wishlist_item_id: item_id,
+                description
+            }]
+        });
     }, UPDATE_WISHLIST_FREQUENCY);
 
     containerProps() {

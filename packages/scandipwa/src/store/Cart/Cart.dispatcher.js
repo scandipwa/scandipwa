@@ -34,7 +34,7 @@ export class CartDispatcher {
             const quoteId = await this._getGuestQuoteId(dispatch);
             const { cartData = {} } = await fetchQuery(
                 CartQuery.getCartQuery(
-                    !isSignedIn() && quoteId
+                    quoteId
                 )
             );
 

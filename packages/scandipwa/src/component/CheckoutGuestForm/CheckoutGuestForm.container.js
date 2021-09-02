@@ -68,6 +68,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
         showErrorNotification: PropTypes.func.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,
+        onEmailChange: PropTypes.func.isRequired,
         clearEmailStatus: PropTypes.func.isRequired,
         emailValue: PropTypes.string,
         onSignIn: PropTypes.func,
@@ -170,8 +171,10 @@ export class CheckoutGuestFormContainer extends PureComponent {
     }
 
     handleEmailInput(event, field) {
+        const { onEmailChange } = this.props;
         const { value: email } = field;
         this.checkEmailAvailability(email);
+        onEmailChange(email);
 
         const { updateEmail, isEmailAvailable } = this.props;
         if (isEmailAvailable) {

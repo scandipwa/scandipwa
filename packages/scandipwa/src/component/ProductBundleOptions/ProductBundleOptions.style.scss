@@ -31,6 +31,14 @@
                 bottom: 10px;
                 transform: translateY(100%);
             }
+
+            &-Wrapper {
+                &_type {
+                    &_select, &_checkbox, &_radio {
+                        flex: 1 1;
+                    }
+                }
+            }
         }
     }
 

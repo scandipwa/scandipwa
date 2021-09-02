@@ -246,7 +246,8 @@ export class ProductCard extends Product {
     requiresConfiguration() {
         const {
             product: {
-                type_id: type
+                type_id: type,
+                options = []
             }
         } = this.props;
 
@@ -254,8 +255,9 @@ export class ProductCard extends Product {
         const configureConfig = type === PRODUCT_TYPE.configurable
             // eslint-disable-next-line max-len
             && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
+        const configureCustomize = options.some(({ required = false }) => required);
 
-        return configureBundleAndGrouped || configureConfig;
+        return configureBundleAndGrouped || configureConfig || configureCustomize;
     }
 
     renderAddToCart() {
@@ -272,7 +274,7 @@ export class ProductCard extends Product {
                   mods={ { layout } }
                   onClick={ showSelectOptionsNotification }
                 >
-                    { __('Open product') }
+                    { __('Add to cart') }
                 </button>
             );
         }

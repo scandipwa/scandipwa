@@ -84,14 +84,14 @@ export const prepareRequest = (fields, type) => {
 
     if (process.env.NODE_ENV === 'development') {
         // eslint-disable-next-line no-console
-        // console.log(
-        //     '%cGraphQL Request',
-        //     'background-color: #ff00ff; color: #ffffff; font-weight: bold; border-radius: 5px; padding: 2px 5px',
-        //     {
-        //         query: `${type}${formattedArgs}{${fieldStrings}}`,
-        //         variables
-        //     }
-        // );
+        console.log(
+            '%cGraphQL Request',
+            'background-color: #ff00ff; color: #ffffff; font-weight: bold; border-radius: 5px; padding: 2px 5px',
+            {
+                query: `${type}${formattedArgs}{${fieldStrings}}`,
+                variables
+            }
+        );
     }
 
     return {
