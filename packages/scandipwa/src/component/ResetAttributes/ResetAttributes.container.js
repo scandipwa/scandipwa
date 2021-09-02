@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { getPriceFilterLabel } from 'Util/Category';
+import { getBooleanLabel } from 'Util/Product';
 
 import ResetAttributes from './ResetAttributes.component';
 
@@ -33,6 +34,7 @@ export class ResetAttributesContainer extends PureComponent {
             attribute_type: PropTypes.string.isRequired,
             attribute_code: PropTypes.any,
             attribute_values: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+            is_boolean: PropTypes.bool.isRequired,
             attribute_options: PropTypes.objectOf(PropTypes.shape({
                 label: PropTypes.string.isRequired,
                 value_string: PropTypes.string.isRequired
@@ -63,7 +65,7 @@ export class ResetAttributesContainer extends PureComponent {
 
     getFilterOptionsDefault = (values, options) => options.filter((option) => values.includes(option.value_string));
 
-    getResetData = (attrCode, attrValue) => {
+    getResetData = (attrCode, attrValues) => {
         const { availableFilters } = this.props;
         const filterData = availableFilters[attrCode];
 
@@ -71,14 +73,25 @@ export class ResetAttributesContainer extends PureComponent {
             return {};
         }
 
-        const { attribute_label, attribute_options, attribute_code } = filterData;
+        const {
+            is_boolean,
+            attribute_label,
+            attribute_options,
+            attribute_code
+        } = filterData;
 
         const func = attribute_code === 'price' ? this.getFilterOptionsForPrice : this.getFilterOptionsDefault;
 
         return {
-            [attribute_label]: func(attrValue, Object.values(attribute_options)).map(
-                (option) => ({ ...option, attribute_code, attribute_label })
-            )
+            [attribute_label]: func(attrValues, Object.values(attribute_options))
+                .map(
+                    (option) => ({
+                        ...option,
+                        attribute_code,
+                        attribute_label,
+                        label: getBooleanLabel(option.label, is_boolean)
+                    })
+                )
         };
     };
 
