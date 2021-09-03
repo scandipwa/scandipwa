@@ -75,11 +75,18 @@ export class MyAccountAddressForm extends FieldForm {
 
     onFormSuccess = (fields) => {
         const { onSave, addressLinesQty } = this.props;
-        const { region_id = 0, region_string: region, ...newAddress } = addressLinesQty > 1
+        const {
+            region_id = 0,
+            street,
+            region_string: region,
+            ...newAddress
+        } = addressLinesQty > 1
             ? setAddressesInFormObject(fields, addressLinesQty)
             : fields;
 
+        newAddress.street = Array.isArray(street) ? street.filter((street) => street) : street;
         newAddress.region = { region_id, region };
+
         onSave(newAddress);
     };
 

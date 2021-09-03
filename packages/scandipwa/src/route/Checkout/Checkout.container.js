@@ -662,6 +662,7 @@ export class CheckoutContainer extends PureComponent {
             purchaseOrderNumber, // drop this
             region_id,
             region,
+            street,
             guest_email,
             ...restOfBillingAddress
         } = address;
@@ -670,7 +671,8 @@ export class CheckoutContainer extends PureComponent {
             ...restOfBillingAddress,
             country_code: country_id,
             region,
-            region_id
+            region_id,
+            street: Array.isArray(street) ? street.filter((street) => street) : street
         };
 
         /**
