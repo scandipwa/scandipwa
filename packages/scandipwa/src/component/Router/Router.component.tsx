@@ -13,11 +13,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {
     cloneElement,
+    ErrorInfo,
+    // ErrorInfo,
     lazy,
-    PureComponent,
+    // PureComponent,
     Suspense
 } from 'react';
 import { Router as ReactRouter } from 'react-router';
@@ -28,46 +30,47 @@ import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 import UrlRewrites from 'Route/UrlRewrites';
 import history from 'Util/History';
+import { SimpleComponent } from 'Util/SimpleComponent';
 
 import {
-    ACCOUNT_FORGOT_PASSWORD,
+    // ACCOUNT_FORGOT_PASSWORD,
     AFTER_ITEMS_TYPE,
     BEFORE_ITEMS_TYPE,
     BREADCRUMBS,
-    CART,
-    CHANGE_PASSWORD,
-    CHECKOUT,
-    CMS_PAGE,
-    COMPARE,
-    CONFIRM_ACCOUNT,
-    CONTACT_PAGE,
+    // CART,
+    // CHANGE_PASSWORD,
+    // CHECKOUT,
+    // CMS_PAGE,
+    // COMPARE,
+    // CONFIRM_ACCOUNT,
+    // CONTACT_PAGE,
     COOKIE_POPUP,
-    CREATE_ACCOUNT,
+    // CREATE_ACCOUNT,
     DEMO_NOTICE,
     FOOTER,
-    FORGOT_PASSWORD,
+    // FORGOT_PASSWORD,
     HEADER,
     HOME,
-    LOGIN,
-    MENU,
-    MY_ACCOUNT,
+    // LOGIN,
+    // MENU,
+    // MY_ACCOUNT,
     NAVIGATION_TABS,
     NEW_VERSION_POPUP,
     NOTIFICATION_LIST,
-    SEARCH,
-    SHARED_WISHLIST,
-    STYLE_GUIDE,
+    // SEARCH,
+    // SHARED_WISHLIST,
+    // STYLE_GUIDE,
     SWITCH_ITEMS_TYPE,
     URL_REWRITES
 } from './Router.config';
 
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));
-export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
+export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/CmsPage'));
 export const CookiePopup = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/CookiePopup'));
 export const DemoNotice = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/DemoNotice'));
 export const Header = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Header'));
-export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/HomePage'));
+export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/HomePage'));
 export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/MyAccount'));
 export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/PasswordChangePage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "search" */ 'Route/SearchPage'));
@@ -88,18 +91,19 @@ export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webp
 export const StyleGuidePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/StyleGuidePage'));
 
 /** @namespace Component/Router/Component/withStoreRegex */
-export const withStoreRegex = (path) => window.storeRegexText.concat(path);
+export const withStoreRegex = (path: string): string => window.storeRegexText.concat(path);
+
+export interface RouterProps {
+    isBigOffline: boolean // what is it?
+    setHasError: (bool: boolean) => void;
+    hasError: boolean
+    errorDetails?: { error: Error, errorInfo: ErrorInfo }
+}
+
+type ItemsType = typeof BEFORE_ITEMS_TYPE | typeof SWITCH_ITEMS_TYPE | typeof AFTER_ITEMS_TYPE
 
 /** @namespace Component/Router/Component */
-export class Router extends PureComponent {
-    static propTypes = {
-        isBigOffline: PropTypes.bool
-    };
-
-    static defaultProps = {
-        isBigOffline: false
-    };
-
+export class RouterComponent extends SimpleComponent<RouterProps> {
     [BEFORE_ITEMS_TYPE] = [
         {
             component: <NotificationList />,
@@ -135,92 +139,92 @@ export class Router extends PureComponent {
 
     [SWITCH_ITEMS_TYPE] = [
         {
-            component: <Route path={ withStoreRegex('/') } exact render={ (props) => <HomePage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/') } exact render={ () => <HomePage /> } />,
             position: 10,
             name: HOME
         },
+        // {
+        //     component: <Route path={ withStoreRegex('/search/:query/') } render={ () => <SearchPage /> } />,
+        //     position: 25,
+        //     name: SEARCH
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/page') } render={ () => <CmsPage /> } />,
+        //     position: 40,
+        //     name: CMS_PAGE
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/cart') } exact render={ () => <CartPage /> } />,
+        //     position: 50,
+        //     name: CART
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/checkout/:step?') } render={ () => <CheckoutButtons /> } />,
+        //     position: 55,
+        //     name: CHECKOUT
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/:account*/createPassword/') } render={ () => <PasswordChangePage /> } />,
+        //     position: 60,
+        //     name: CHANGE_PASSWORD
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/:account*/create/') } render={ () => <CreateAccountPage /> } />,
+        //     position: 61,
+        //     name: CREATE_ACCOUNT
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/:account*/login/') } render={ () => <LoginAccountPage /> } />,
+        //     position: 62,
+        //     name: LOGIN
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/:account*/forgotpassword/') } render={ () => <ForgotPasswordPage /> } />,
+        //     position: 63,
+        //     name: ACCOUNT_FORGOT_PASSWORD
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/:account*/confirm') } render={ () => <ConfirmAccountPage /> } />,
+        //     position: 65,
+        //     name: CONFIRM_ACCOUNT
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/my-account/:tab?') } render={ () => <MyAccount /> } />,
+        //     position: 70,
+        //     name: MY_ACCOUNT
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/forgot-password') } render={ () => <MyAccount /> } />,
+        //     position: 71,
+        //     name: FORGOT_PASSWORD
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/menu') } render={ () => <MenuPage /> } />,
+        //     position: 80,
+        //     name: MENU
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/wishlist/shared/:code') } render={ () => <WishlistShared /> } />,
+        //     position: 81,
+        //     name: SHARED_WISHLIST
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/contact') } render={ () => <ContactPage /> } />,
+        //     position: 82,
+        //     name: CONTACT_PAGE
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/compare') } render={ () => <ProductComparePage /> } />,
+        //     position: 83,
+        //     name: COMPARE
+        // },
+        // {
+        //     component: <Route path={ withStoreRegex('/styleguide') } render={ () => <StyleGuidePage /> } />,
+        //     position: 84,
+        //     name: STYLE_GUIDE
+        // },
         {
-            component: <Route path={ withStoreRegex('/search/:query/') } render={ (props) => <SearchPage { ...props } /> } />,
-            position: 25,
-            name: SEARCH
-        },
-        {
-            component: <Route path={ withStoreRegex('/page') } render={ (props) => <CmsPage { ...props } /> } />,
-            position: 40,
-            name: CMS_PAGE
-        },
-        {
-            component: <Route path={ withStoreRegex('/cart') } exact render={ (props) => <CartPage { ...props } /> } />,
-            position: 50,
-            name: CART
-        },
-        {
-            component: <Route path={ withStoreRegex('/checkout/:step?') } render={ (props) => <Checkout { ...props } /> } />,
-            position: 55,
-            name: CHECKOUT
-        },
-        {
-            component: <Route path={ withStoreRegex('/:account*/createPassword/') } render={ (props) => <PasswordChangePage { ...props } /> } />,
-            position: 60,
-            name: CHANGE_PASSWORD
-        },
-        {
-            component: <Route path={ withStoreRegex('/:account*/create/') } render={ (props) => <CreateAccountPage { ...props } /> } />,
-            position: 61,
-            name: CREATE_ACCOUNT
-        },
-        {
-            component: <Route path={ withStoreRegex('/:account*/login/') } render={ (props) => <LoginAccountPage { ...props } /> } />,
-            position: 62,
-            name: LOGIN
-        },
-        {
-            component: <Route path={ withStoreRegex('/:account*/forgotpassword/') } render={ (props) => <ForgotPasswordPage { ...props } /> } />,
-            position: 63,
-            name: ACCOUNT_FORGOT_PASSWORD
-        },
-        {
-            component: <Route path={ withStoreRegex('/:account*/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
-            position: 65,
-            name: CONFIRM_ACCOUNT
-        },
-        {
-            component: <Route path={ withStoreRegex('/my-account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
-            position: 70,
-            name: MY_ACCOUNT
-        },
-        {
-            component: <Route path={ withStoreRegex('/forgot-password') } render={ (props) => <MyAccount { ...props } /> } />,
-            position: 71,
-            name: FORGOT_PASSWORD
-        },
-        {
-            component: <Route path={ withStoreRegex('/menu') } render={ (props) => <MenuPage { ...props } /> } />,
-            position: 80,
-            name: MENU
-        },
-        {
-            component: <Route path={ withStoreRegex('/wishlist/shared/:code') } render={ (props) => <WishlistShared { ...props } /> } />,
-            position: 81,
-            name: SHARED_WISHLIST
-        },
-        {
-            component: <Route path={ withStoreRegex('/contact') } render={ (props) => <ContactPage { ...props } /> } />,
-            position: 82,
-            name: CONTACT_PAGE
-        },
-        {
-            component: <Route path={ withStoreRegex('/compare') } render={ (props) => <ProductComparePage { ...props } /> } />,
-            position: 83,
-            name: COMPARE
-        },
-        {
-            component: <Route path={ withStoreRegex('/styleguide') } render={ (props) => <StyleGuidePage { ...props } /> } />,
-            position: 84,
-            name: STYLE_GUIDE
-        },
-        {
-            component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
+            component: <Route render={ () => <UrlRewrites /> } />,
             position: 1000,
             name: URL_REWRITES
         }
@@ -239,19 +243,11 @@ export class Router extends PureComponent {
         }
     ];
 
-    state = {
-        hasError: false,
-        errorDetails: {}
-    };
-
-    componentDidCatch(err, info) {
-        this.setState({
-            hasError: true,
-            errorDetails: { err, info }
-        });
-    }
-
-    getSortedItems(type) {
+    getSortedItems(type: ItemsType): {
+        component: JSX.Element;
+        position: number;
+        name: string;
+    }[] {
         return this[type].sort(
             (a, b) => a.position - b.position
         ).filter(
@@ -268,16 +264,16 @@ export class Router extends PureComponent {
         );
     }
 
-    handleErrorReset = () => {
-        this.setState({ hasError: false });
+    handleErrorReset = (): void => {
+        this.props.setHasError(false);
     };
 
-    renderComponentsOfType(type) {
+    renderComponentsOfType(type: ItemsType): React.FunctionComponentElement<unknown>[] {
         return this.getSortedItems(type)
             .map(({ position, component }) => cloneElement(component, { key: position }));
     }
 
-    renderSectionOfType(type) {
+    renderSectionOfType(type: ItemsType): JSX.Element {
         return (
             <Suspense fallback={ <Loader isLoading /> }>
                 { this.renderComponentsOfType(type) }
@@ -285,7 +281,7 @@ export class Router extends PureComponent {
         );
     }
 
-    renderMainItems() {
+    renderMainItems(): JSX.Element {
         const { isBigOffline } = this.props;
 
         if (!navigator.onLine && isBigOffline) {
@@ -299,8 +295,8 @@ export class Router extends PureComponent {
         );
     }
 
-    renderErrorRouterContent() {
-        const { errorDetails } = this.state;
+    renderErrorRouterContent(): JSX.Element {
+        const { errorDetails = {} } = this.props;
 
         return (
             <SomethingWentWrong
@@ -310,7 +306,7 @@ export class Router extends PureComponent {
         );
     }
 
-    renderFallbackPage() {
+    renderFallbackPage(): JSX.Element {
         return (
             <main style={ { height: '100vh' } }>
                 <Loader isLoading />
@@ -318,7 +314,7 @@ export class Router extends PureComponent {
         );
     }
 
-    renderDefaultRouterContent() {
+    renderDefaultRouterContent(): JSX.Element {
         if (location.pathname.match('/styleguide')) {
             return this.renderMainItems();
         }
@@ -332,8 +328,8 @@ export class Router extends PureComponent {
         );
     }
 
-    renderRouterContent() {
-        const { hasError } = this.state;
+    renderRouterContent(): JSX.Element {
+        const { hasError } = this.props;
 
         if (hasError) {
             return this.renderErrorRouterContent();
@@ -342,7 +338,7 @@ export class Router extends PureComponent {
         return this.renderDefaultRouterContent();
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <>
                 <Meta />
@@ -355,5 +351,3 @@ export class Router extends PureComponent {
         );
     }
 }
-
-export default Router;

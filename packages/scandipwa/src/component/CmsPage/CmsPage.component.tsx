@@ -8,31 +8,24 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import NoMatch from 'Route/NoMatch';
-import { BlockListType } from 'Type/CMS';
+import { BlockListType } from 'Type/CMS.d';
+import { SimpleComponent } from 'Util/SimpleComponent';
 
 import './CmsPage.style';
 
+export interface CmsPageProps {
+    isLoading: boolean
+    page: BlockListType
+    isPageLoaded: boolean
+    isBreadcrumbsActive: boolean
+}
+
 /** @namespace Route/CmsPage/Component */
-export class CmsPage extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        isBreadcrumbsActive: PropTypes.bool,
-        page: BlockListType.isRequired,
-        isPageLoaded: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
-        isBreadcrumbsActive: true
-    };
-
-    renderHeading() {
+export class CmsPageComponent extends SimpleComponent<CmsPageProps> {
+    renderHeading(): JSX.Element | null {
         const { page: { content_heading } } = this.props;
 
         if (!content_heading) {
@@ -46,7 +39,7 @@ export class CmsPage extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): JSX.Element | null {
         const {
             isLoading,
             page: { content }
@@ -69,7 +62,7 @@ export class CmsPage extends PureComponent {
         return <Html content={ content } />;
     }
 
-    render() {
+    render(): JSX.Element {
         const {
             page,
             isBreadcrumbsActive,
@@ -97,5 +90,3 @@ export class CmsPage extends PureComponent {
         );
     }
 }
-
-export default CmsPage;

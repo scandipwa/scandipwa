@@ -22,6 +22,9 @@ export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
+/** @namespace Route/SomethingWentWrong/Container/mapStateToProps */
+export const mapStateToProps = () => ({});
+
 /** @namespace Route/SomethingWentWrong/Container */
 export class SomethingWentWrongContainer extends PureComponent {
     static propTypes = {
@@ -57,8 +60,5 @@ export class SomethingWentWrongContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Route/SomethingWentWrong/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SomethingWentWrongContainer);

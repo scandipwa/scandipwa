@@ -18,6 +18,8 @@
         "@scandipwa/webpack-i18n-runtime": "0.0.28",
         "@types/react": "^17.0.19",
         "@types/react-dom": "^17.0.9",
+        "@types/react-router": "^5.1.16",
+        "@types/react-router-dom": "^5.1.8",
         "@types/webpack-env": "^1.16.2",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
@@ -116,7 +118,10 @@
             "@scandipwa/scandipwa-guidelines/use-namespace": "off",
             "@scandipwa/scandipwa-guidelines/derived-class-names": "off",
             "@scandipwa/scandipwa-guidelines/only-render-in-component": "off",
-            "max-classes-per-file": "off"
+            "max-classes-per-file": "off",
+            "@scandipwa/scandipwa-guidelines/no-jsx-variables": "off",
+            "max-lines": "off",
+            "react/prop-types": "off"
         }
     },
     "license": "OSL-3.0",

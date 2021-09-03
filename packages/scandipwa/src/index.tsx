@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import 'Util/Polyfill';
-import 'Style/main';
-
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 
 import { App } from 'Component/App';
+
+import 'Util/Polyfill';
+import 'Style/main';
 
 // TODO: move this out to i18-runtime
 // PropTypes.string = PropTypes.oneOfType([

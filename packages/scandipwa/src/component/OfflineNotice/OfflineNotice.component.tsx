@@ -10,19 +10,18 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { SimpleComponent } from 'Util/SimpleComponent';
 
 import './OfflineNotice.style';
 
-/** @namespace Component/OfflineNotice/Component */
-export class OfflineNotice extends PureComponent {
-    static propTypes = {
-        isPage: PropTypes.bool.isRequired,
-        isBig: PropTypes.bool.isRequired
-    };
+export interface OfflineNoticeProps {
+    isBig: boolean
+    isPage: boolean
+}
 
-    renderLogo() {
+/** @namespace Component/OfflineNotice/Component */
+export class OfflineNoticeComponent extends SimpleComponent<OfflineNoticeProps> {
+    renderLogo(): JSX.Element {
         const { isBig } = this.props;
 
         return (
@@ -33,7 +32,7 @@ export class OfflineNotice extends PureComponent {
         );
     }
 
-    renderText() {
+    renderText(): JSX.Element {
         const { isBig } = this.props;
 
         if (isBig) {
@@ -56,7 +55,7 @@ export class OfflineNotice extends PureComponent {
         );
     }
 
-    render() {
+    render(): JSX.Element | null {
         const { isPage, isBig } = this.props;
 
         if (!isBig && isPage) {
@@ -71,5 +70,3 @@ export class OfflineNotice extends PureComponent {
         );
     }
 }
-
-export default OfflineNotice;
