@@ -282,7 +282,8 @@ export class ProductAttributeValue extends PureComponent {
               attr={ {
                   id: value,
                   name: value,
-                  defaultChecked: isSelected
+                  defaultChecked: isSelected,
+                  checked: isSelected
               } }
               label={ this.getCheckboxLabel(value, subLabel) }
               mix={ {
