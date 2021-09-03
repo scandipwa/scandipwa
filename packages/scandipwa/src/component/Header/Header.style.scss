@@ -404,4 +404,9 @@
     &_name_popup {
         z-index: 400;
     }
+
+    &-MyAccountContainer {
+        display: flex;
+        margin-inline-start: auto;
+    }
 }

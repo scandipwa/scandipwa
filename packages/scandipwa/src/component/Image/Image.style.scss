@@ -35,7 +35,7 @@
         }
     }
 
-    &_imageStatus_0,
+    &_imageStatus_image_loading,
     &_isPlaceholder {
         background-image: var(--placeholder-image);
         background-size: var(--placeholder-size);
@@ -43,7 +43,7 @@
     }
 
     &_hasSrc,
-    &_imageStatus_1 {
+    &_imageStatus_image_loaded {
         background: none;
     }
 

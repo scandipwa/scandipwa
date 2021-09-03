@@ -36,7 +36,8 @@ export class ProductCompareItem extends PureComponent {
             PropTypes.string,
             PropTypes.shape({})
         ]),
-        overriddenAddToCartBtnHandler: PropTypes.func.isRequired
+        overriddenAddToCartBtnHandler: PropTypes.func.isRequired // ,
+        // isOutOfStock: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -115,7 +116,7 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderAddToCartBtnDisabled() {
+    renderAddToCartButtonWithLink() {
         const { linkTo, overriddenAddToCartBtnHandler } = this.props;
 
         return (
@@ -129,21 +130,42 @@ export class ProductCompareItem extends PureComponent {
                   product={ {} }
                   groupedProductQuantity={ {} }
                   productOptionsData={ {} }
-                  disableHandler
                   mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
+                  disableHandler
                 />
             </Link>
         );
     }
 
-    renderAddToCartBtn() {
-        const { overrideAddToCartBtnBehavior } = this.props;
+    renderAddToCartBtnDisabled() {
+        return (
+            <AddToCart
+              product={ {} }
+              groupedProductQuantity={ {} }
+              productOptionsData={ {} }
+              mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
+              disabled
+            />
+        );
+    }
 
-        if (!overrideAddToCartBtnBehavior) {
-            return this.renderAddToCartBtnEnabled();
+    renderAddToCartBtn() {
+        const {
+            overrideAddToCartBtnBehavior // ,
+            // product,
+            // isOutOfStock
+        } = this.props;
+
+        // TODO fix this in 5.0.4 when stock status fix will be merged
+        // if (isOutOfStock(product)) {
+        //     return this.renderAddToCartBtnDisabled();
+        // }
+
+        if (overrideAddToCartBtnBehavior) {
+            return this.renderAddToCartButtonWithLink();
         }
 
-        return this.renderAddToCartBtnDisabled();
+        return this.renderAddToCartBtnEnabled();
     }
 
     renderProductDetails() {

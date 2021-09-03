@@ -8,6 +8,8 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+export const TIER_PRICES = 'TIER_PRICES';
+
 export default {
     AED: 'د.إ',
     AFN: '؋',

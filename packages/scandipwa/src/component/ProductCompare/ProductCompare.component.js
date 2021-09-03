@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 
-import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductCompareAttributeRow from 'Component/ProductCompareAttributeRow';
 import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
@@ -27,6 +26,7 @@ export class ProductCompare extends Component {
     static propTypes = {
         clearCompareList: PropTypes.func.isRequired,
         getAttributes: PropTypes.func.isRequired,
+        isOutOfStock: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
         products: ProductItemsType,
         device: DeviceType.isRequired
@@ -35,12 +35,6 @@ export class ProductCompare extends Component {
     static defaultProps = {
         isLoading: false,
         products: []
-    };
-
-    productTypeLabelMap = {
-        [PRODUCT_TYPE.bundle]: __('Starting from'),
-        [PRODUCT_TYPE.grouped]: __('Starting from'),
-        [PRODUCT_TYPE.configurable]: __('As Low as')
     };
 
     shouldComponentUpdate(nextProps) {
@@ -85,11 +79,14 @@ export class ProductCompare extends Component {
     }
 
     renderProductCards() {
-        const { products } = this.props;
+        const { products, isOutOfStock } = this.props;
 
         return products.map((product) => (
             <div block="ProductCompare" elem="Item" key={ product.id }>
-                <ProductCompareItem product={ product } />
+                <ProductCompareItem
+                  product={ product }
+                  isOutOfStock={ isOutOfStock }
+                />
             </div>
         ));
     }
@@ -117,7 +114,8 @@ export class ProductCompare extends Component {
             <ProductPrice
               price={ getPrice(priceRange, dynamicPrice, {}, type) }
               key={ id }
-              label={ this.productTypeLabelMap[type] }
+              priceType={ type }
+              isPreview
             />
         ));
     }

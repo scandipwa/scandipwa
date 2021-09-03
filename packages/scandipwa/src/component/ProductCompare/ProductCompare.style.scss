@@ -117,7 +117,7 @@
     .ProductPrice {
         flex: 0 0 auto;
         padding: 2px var(--product-compare-item-gap);
-        width: calc(var(--product-compare-column-width);
+        width: calc(var(--product-compare-column-width));
 
         &:last-child {
             padding-inline-end: 0;

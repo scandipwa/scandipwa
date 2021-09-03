@@ -125,6 +125,12 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         }
     }
 
+    getIsLinkSelected(id) {
+        const { selectedLinks } = this.state;
+
+        return selectedLinks.some(({ link_id }) => link_id === id);
+    }
+
     render() {
         return (
             <ProductDownloadableLinks

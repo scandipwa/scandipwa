@@ -25,6 +25,15 @@ import ForgotPassword from './ForgotPassword.component';
 
 /** @namespace Scandipwa/Route/ForgotPassword/Container/ForgotPasswordContainer */
 export class ForgotPasswordContainer extends MyAccountOverlayContainer {
+    containerProps() {
+        const { device } = this.props;
+
+        return {
+            ...super.containerProps(),
+            device
+        };
+    }
+
     containerFunctions = {
         ...this.containerFunctions,
         onLoginClick: this.onLoginClick.bind(this),

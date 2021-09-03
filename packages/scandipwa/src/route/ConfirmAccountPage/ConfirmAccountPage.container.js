@@ -88,8 +88,20 @@ export class ConfirmAccountPageContainer extends PureComponent {
 
         return {
             redirect,
-            isLoading
+            isLoading,
+            shouldDisplayWarning: this.shouldDisplayWarning()
         };
+    }
+
+    shouldDisplayWarning() {
+        const {
+            location: {
+                search
+            }
+        } = this.props;
+        const { email, key } = convertQueryStringToKeyValuePairs(search);
+
+        return !(email && key);
     }
 
     onConfirmAttempt() {

@@ -50,18 +50,30 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onCustomerSave: this.onCustomerSave.bind(this),
-        onError: this.onError
+        onError: this.onError,
+        setSubscriptionStatus: this.setSubscriptionStatus.bind(this),
+        onCustomerSave: this.onCustomerSave.bind(this)
     };
 
-    state = {
-        isLoading: false
-    };
+    __construct(props) {
+        const { customer: { is_subscribed } = {} } = props;
+
+        super.__construct(props);
+        this.state = {
+            isLoading: false,
+            isSubscriptionSelected: is_subscribed
+        };
+    }
 
     containerProps() {
         const { customer } = this.props;
+        const { isSubscriptionSelected } = this.state;
 
-        return { customer };
+        return { customer, isSubscriptionSelected };
+    }
+
+    setSubscriptionStatus() {
+        this.setState((state) => ({ isSubscriptionSelected: !state.isSubscriptionSelected }));
     }
 
     showSubscriptionUpdateNotification(isSubscribed, wasSubscribed) {

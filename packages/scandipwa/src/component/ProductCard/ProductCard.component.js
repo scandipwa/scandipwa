@@ -46,7 +46,6 @@ export class ProductCard extends Product {
         hideCompareButton: PropTypes.bool,
         parameters: PropTypes.shape({}).isRequired,
         showSelectOptionsNotification: PropTypes.func.isRequired,
-
         registerSharedElement: PropTypes.func.isRequired
     };
 

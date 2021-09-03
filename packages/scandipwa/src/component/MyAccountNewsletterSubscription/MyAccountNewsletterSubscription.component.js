@@ -22,25 +22,29 @@ export class MyAccountNewsletterSubscription extends FieldForm {
     static propTypes = {
         customer: customerType.isRequired,
         onCustomerSave: PropTypes.func.isRequired,
-        onError: PropTypes.func.isRequired
+        onError: PropTypes.func.isRequired,
+        isSubscriptionSelected: PropTypes.bool.isRequired
     };
 
     shouldComponentUpdate(nextProps) {
-        const { customer } = this.props;
-        const { customer: nextCustomer } = nextProps;
+        const { isSubscriptionSelected } = this.props;
+        const { isSubscriptionSelected: nextIsSubscriptionSelected } = nextProps;
 
-        return customer !== nextCustomer;
+        return isSubscriptionSelected !== nextIsSubscriptionSelected;
     }
 
     get fieldMap() {
-        const { customer: { is_subscribed } } = this.props;
+        const { setSubscriptionStatus, isSubscriptionSelected } = this.props;
 
         return [
             {
                 type: FIELD_TYPE.checkbox,
                 attr: {
                     name: 'isSubscribed',
-                    defaultChecked: is_subscribed
+                    defaultChecked: isSubscriptionSelected
+                },
+                events: {
+                    onChange: setSubscriptionStatus
                 },
                 label: __('General subscription')
             }

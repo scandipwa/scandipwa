@@ -27,9 +27,29 @@ export class ConfirmAccountPage extends PureComponent {
     static propTypes = {
         redirect: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
+        shouldDisplayWarning: PropTypes.bool.isRequired,
         onConfirmSuccess: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired
     };
+
+    renderWarningMessage() {
+        const { shouldDisplayWarning } = this.props;
+
+        if (!shouldDisplayWarning) {
+            return null;
+        }
+
+        return (
+            <div block="ConfirmAccountPage" elem="WarningMsg">
+                <h2>
+                    { __('Unable to confirm account') }
+                </h2>
+                <div>
+                    { __('The URL is invalid. Some parameters are missing.') }
+                </div>
+            </div>
+        );
+    }
 
     renderForm() {
         const {
@@ -84,6 +104,23 @@ export class ConfirmAccountPage extends PureComponent {
         );
     }
 
+    renderPageContents() {
+        const { shouldDisplayWarning } = this.props;
+
+        if (shouldDisplayWarning) {
+            return null;
+        }
+
+        return (
+            <>
+                <h1 block="ConfirmAccountPage" elem="Heading">
+                    { __('Confirm your account') }
+                </h1>
+                { this.renderForm() }
+            </>
+        );
+    }
+
     render() {
         const {
             redirect,
@@ -101,10 +138,8 @@ export class ConfirmAccountPage extends PureComponent {
                   label={ __('Confirm Account Action') }
                 >
                     <Loader isLoading={ isLoading } />
-                    <h1 block="ConfirmAccountPage" elem="Heading">
-                        { __('Confirm your account') }
-                    </h1>
-                    { this.renderForm() }
+                    { this.renderWarningMessage() }
+                    { this.renderPageContents() }
                 </ContentWrapper>
             </main>
         );

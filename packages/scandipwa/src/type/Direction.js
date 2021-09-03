@@ -19,4 +19,4 @@ import {
 } from 'Component/ChevronIcon/ChevronIcon.config';
 
 // eslint-disable-next-line import/prefer-default-export
-export const DirectionType = PropTypes.oneOf(RIGHT, LEFT, TOP, BOTTOM);
+export const DirectionType = PropTypes.oneOf([RIGHT, LEFT, TOP, BOTTOM]);

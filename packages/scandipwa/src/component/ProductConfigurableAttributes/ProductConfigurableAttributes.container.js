@@ -43,9 +43,9 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         showProductAttributeAsLink: true,
         variants: null,
         isReady: true,
-        inStock: true,
         mix: {},
-        numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG
+        numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
+        inStock: true
     };
 
     containerFunctions = {

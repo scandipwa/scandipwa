@@ -16,6 +16,10 @@
 .CategoryPage {
     --category-page-miscellaneous-height: 44px;
 
+    &_noResults {
+        --category-page-miscellaneous-height: 0;
+    }
+
     &-Wrapper {
         @include desktop {
             display: grid;
@@ -123,7 +127,12 @@
             border-block-end: 1px solid var(--primary-divider-color);
             grid-template-columns: repeat(2, 1fr);
             height: var(--category-page-miscellaneous-height);
+
+            &_noResults {
+                height: auto;
+            }
         }
+
 
         @include tablet {
             grid-template-columns: repeat(2, 1fr);

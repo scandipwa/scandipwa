@@ -18,7 +18,7 @@
 
     @include desktop {
         border-block-end: none;
-        margin: 0;
+        margin-inline-start: 24px;
     }
 
     @include mobile {

@@ -75,6 +75,7 @@ export const mapStateToProps = (state) => ({
     selectedInfoFilter: state.ProductListInfoReducer.selectedFilter,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
+    totalItems: state.ProductListReducer.totalItems,
     plpType: state.ConfigReducer.plp_list_mode,
     isMobile: state.ConfigReducer.device.isMobile
 });
@@ -145,6 +146,7 @@ export class CategoryPageContainer extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         plpType: PropTypes.string,
         totalPages: PropTypes.number.isRequired,
+        totalItems: PropTypes.number.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired
     };
 
@@ -423,7 +425,8 @@ export class CategoryPageContainer extends PureComponent {
             isMobile,
             sortFields,
             toggleOverlayByKey,
-            totalPages
+            totalPages,
+            totalItems
         } = this.props;
 
         return {
@@ -442,7 +445,8 @@ export class CategoryPageContainer extends PureComponent {
             selectedSort: this.getSelectedSortFromUrl(),
             sortFields,
             toggleOverlayByKey,
-            totalPages
+            totalPages,
+            totalItems
         };
     }
 
