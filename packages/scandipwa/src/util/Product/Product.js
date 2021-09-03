@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { IN_STOCK } from 'Component/Product/Stock.config';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
-import { IN_STOCK } from 'Config/Stock.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { isSignedIn } from 'Util/Auth';

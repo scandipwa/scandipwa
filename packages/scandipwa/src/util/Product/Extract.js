@@ -11,7 +11,7 @@
  */
 
 import { PRODUCT_TYPE } from 'Component/Product/Product.config';
-import { IN_STOCK, OUT_OF_STOCK } from 'Config/Stock.config';
+import { IN_STOCK, OUT_OF_STOCK } from 'Component/Product/Stock.config';
 import { formatPrice } from 'Util/Price';
 
 export const DEFAULT_MIN_PRODUCTS = 1;

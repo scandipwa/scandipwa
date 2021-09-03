@@ -18,7 +18,7 @@ import {
     mapStateToProps as sourceMapStateToProps,
     ProductContainer
 } from 'Component/Product/Product.container';
-import { IN_STOCK } from 'Config/Stock.config';
+import { IN_STOCK } from 'Component/Product/Stock.config';
 
 import ProductActions from './ProductActions.component';
 

@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { IN_STOCK } from 'Config/Stock.config';
+import { IN_STOCK } from 'Component/Product/Stock.config';
 
 import './ProductAlerts.style';
 
