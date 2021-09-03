@@ -72,9 +72,13 @@ export class ProductBundleItem extends ProductCustomizableOption {
             price_type,
             quantity,
             finalOptionPrice,
-            price
+            price,
+            product: {
+                name
+            } = {}
         } = item;
 
+        const optionLabel = label || name || '';
         const priceLabel = renderOptionLabel(price_type, finalOptionPrice, price, currencyCode);
         const isCheckboxSelected = getIsCheckboxSelected(id);
 
@@ -82,7 +86,7 @@ export class ProductBundleItem extends ProductCustomizableOption {
             <div key={ id }>
                 <Field
                   type="checkbox"
-                  label={ this.renderHeading(label, priceLabel, quantity) }
+                  label={ this.renderHeading(optionLabel, priceLabel, quantity) }
                   id={ `option-${ id }` }
                   name={ `option-${ id }` }
                   value={ id }

@@ -194,14 +194,18 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             can_change_quantity,
             finalOptionPrice,
             price,
-            position
+            position,
+            product: {
+                name
+            } = {}
         }) => {
+            const optionLabel = label || name || '';
             const subLabel = this.renderOptionLabel(price_type, finalOptionPrice, price, currencyCode);
-            const dropdownLabel = !can_change_quantity ? `${ quantity } x ${ label } ` : `${ label } `;
+            const dropdownLabel = !can_change_quantity ? `${ quantity } x ${ optionLabel } ` : `${ optionLabel } `;
 
             acc.push({
                 id,
-                name: label,
+                name: optionLabel,
                 value: id,
                 label: dropdownLabel,
                 subLabel,
