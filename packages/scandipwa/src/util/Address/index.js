@@ -44,8 +44,8 @@ export const trimCustomerAddress = (customerAddress) => {
 
 /**
  * Removes null values from address.street
- * @param address
- * @returns {{street: *}}
+ * @param street
+ * @returns {*}
  */
 export const removeEmptyStreets = (street) => (
     Array.isArray(street) ? street.filter((line) => line) : street
