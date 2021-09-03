@@ -74,7 +74,7 @@ export const setAddressesInFormObject = (fields, numberOfLines) => {
         );
 
     // setting single street entry to the form object
-    newFields.street = addressValues;
+    newFields.street = Array.isArray(addressValues) ? addressValues.filter((street) => street) : addressValues;
 
     return newFields;
 };
