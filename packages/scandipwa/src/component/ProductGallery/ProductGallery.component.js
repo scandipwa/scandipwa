@@ -61,7 +61,7 @@ export class ProductGallery extends PureComponent {
         registerSharedElementDestination: PropTypes.func.isRequired,
         disableZoom: PropTypes.func.isRequired,
         location: LocationType.isRequired,
-        sliderRef: PropTypes.object.isRequired,
+        sliderRef: PropTypes.shape({}).isRequired,
         handleImageZoomPopupActiveChange: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
         isImageZoomPopupActive: PropTypes.bool.isRequired
@@ -78,11 +78,6 @@ export class ProductGallery extends PureComponent {
     state = {
         scrollEnabled: true
     };
-
-    __construct(props, context) {
-        super.__construct(props, context);
-        this.renderSlide = this.renderSlide.bind(this);
-    }
 
     componentDidMount() {
         this.updateSharedDestinationElement();
@@ -103,6 +98,11 @@ export class ProductGallery extends PureComponent {
                 0
             );
         }
+    }
+
+    __construct(props, context) {
+        super.__construct(props, context);
+        this.renderSlide = this.renderSlide.bind(this);
     }
 
     handleSliderClick = () => {

@@ -34,6 +34,7 @@ export class FieldInput extends PureComponent {
     };
 
     render() {
+        /* eslint-disable no-unused-vars */
         const {
             formRef,
             validateSeparately,
@@ -42,6 +43,7 @@ export class FieldInput extends PureComponent {
             filename,
             ...validProps
         } = this.props;
+        /* eslint-enable no-unused-vars */
 
         return (
             <input

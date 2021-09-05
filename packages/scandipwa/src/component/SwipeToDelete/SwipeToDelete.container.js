@@ -45,8 +45,8 @@ export class SwipeToDeleteContainer extends PureComponent {
         animationDuration: PropTypes.number,
         animationDurationOnRemove: PropTypes.number,
         renderRightSideContent: PropTypes.func,
-        rightSideMix: PropTypes.object,
-        topElemMix: PropTypes.object,
+        rightSideMix: PropTypes.shape({}),
+        topElemMix: PropTypes.shape({}),
         onAheadOfDragItemRemoveThreshold: PropTypes.func,
         isLoading: PropTypes.bool
     };

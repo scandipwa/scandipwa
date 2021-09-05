@@ -33,11 +33,12 @@ export class LinkContainer extends PureComponent {
         baseLinkUrl: PropTypes.string.isRequired,
         to: PropTypes.oneOfType([
             PropTypes.string,
-            PropTypes.object
+            PropTypes.shape({})
         ]).isRequired
     };
 
     containerProps = () => {
+        /* eslint-disable no-unused-vars */
         const {
             block,
             elem,
@@ -47,6 +48,7 @@ export class LinkContainer extends PureComponent {
             dispatch, // remove this prop
             ...restProps
         } = this.props;
+        /* eslint-enable no-unused-vars */
 
         return {
             ...restProps,

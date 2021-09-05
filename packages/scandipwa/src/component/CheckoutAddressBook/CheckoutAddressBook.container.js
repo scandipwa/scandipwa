@@ -74,32 +74,6 @@ export class CheckoutAddressBookContainer extends PureComponent {
         onAddressSelect: this.onAddressSelect.bind(this)
     });
 
-    __construct(props) {
-        super.__construct(props);
-
-        const {
-            requestCustomerData,
-            customer,
-            onAddressSelect
-        } = props;
-
-        if (isSignedIn() && !Object.keys(customer).length) {
-            requestCustomerData();
-        }
-
-        const defaultAddressId = CheckoutAddressBookContainer._getDefaultAddressId(props);
-
-        if (defaultAddressId) {
-            onAddressSelect(defaultAddressId);
-            this.estimateShipping(defaultAddressId);
-        }
-
-        this.state = {
-            prevDefaultAddressId: defaultAddressId,
-            selectedAddressId: defaultAddressId
-        };
-    }
-
     static getDerivedStateFromProps(props, state) {
         const { prevDefaultAddressId } = state;
         const defaultAddressId = CheckoutAddressBookContainer._getDefaultAddressId(props);
@@ -131,6 +105,32 @@ export class CheckoutAddressBookContainer extends PureComponent {
             onAddressSelect(selectedAddressId);
             this.estimateShipping(selectedAddressId);
         }
+    }
+
+    __construct(props) {
+        super.__construct(props);
+
+        const {
+            requestCustomerData,
+            customer,
+            onAddressSelect
+        } = props;
+
+        if (isSignedIn() && !Object.keys(customer).length) {
+            requestCustomerData();
+        }
+
+        const defaultAddressId = CheckoutAddressBookContainer._getDefaultAddressId(props);
+
+        if (defaultAddressId) {
+            onAddressSelect(defaultAddressId);
+            this.estimateShipping(defaultAddressId);
+        }
+
+        this.state = {
+            prevDefaultAddressId: defaultAddressId,
+            selectedAddressId: defaultAddressId
+        };
     }
 
     containerProps() {

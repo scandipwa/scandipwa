@@ -34,7 +34,7 @@ export class CategoryFilterOverlay extends PureComponent {
         onSeeResultsClick: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
         onHide: PropTypes.func.isRequired,
-        customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+        customFiltersValues: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired,
         totalPages: PropTypes.number.isRequired,

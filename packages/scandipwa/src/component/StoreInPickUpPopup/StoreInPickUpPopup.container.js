@@ -63,16 +63,6 @@ export class StoreInPickUpContainer extends PureComponent {
         handleChangeCountry: this.handleChangeCountry.bind(this)
     };
 
-    __construct(props) {
-        const {
-            countryId
-        } = props;
-
-        this.state = {
-            selectedCountryId: countryId
-        };
-    }
-
     componentDidMount() {
         this.handleStoresSearch();
     }
@@ -94,6 +84,16 @@ export class StoreInPickUpContainer extends PureComponent {
                 this.handleStoresSearch();
             }, STORES_SEARCH_TIMEOUT);
         }
+    }
+
+    __construct(props) {
+        const {
+            countryId
+        } = props;
+
+        this.state = {
+            selectedCountryId: countryId
+        };
     }
 
     containerProps = () => {

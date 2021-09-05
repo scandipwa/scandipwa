@@ -409,7 +409,9 @@ export const getIsConfigurableParameterSelected = (parameters, key, value) => Ob
 export const getNewParameters = (parameters, key, value) => {
     // If value is already selected, than we remove the key to achieve deselection
     if (getIsConfigurableParameterSelected(parameters, key, value)) {
+        /* eslint-disable no-unused-vars */
         const { [key]: oldValue, ...newParameters } = parameters;
+        /* eslint-enable no-unused-vars */
 
         return newParameters;
     }

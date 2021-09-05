@@ -10,20 +10,23 @@
  */
 
 import { ErrorInfo, PureComponent } from 'react';
-// import { Provider } from 'react-redux';
+import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
 
 import Router from 'Component/Router';
 import SharedTransition from 'Component/SharedTransition';
-import SomethingWentWrong from 'Route/SomethingWentWrong';
-// import injectStaticReducers from 'Store/index';
-// import getStore from 'Util/Store';
+import SomethingWentWrong from 'Component/SomethingWentWrong';
+import { DeviceContextProvider } from 'Store/Device/Device.provider';
+import injectStaticReducers from 'Store/index';
+import getStore from 'Util/Store';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AppProps {}
 
 /** @namespace /Component/App/Component/AppComponent */
 export class App extends PureComponent<AppProps> {
+    private reduxStore: ReturnType<typeof getStore>;
+
     productionFunctions = [
         this.disableReactDevTools.bind(this),
         this.injectComment.bind(this)
@@ -33,9 +36,9 @@ export class App extends PureComponent<AppProps> {
         this.enableHotReload.bind(this)
     ];
 
-    // commonFunctions = [
-    //     this.configureStore.bind(this)
-    // ];
+    commonFunctions = [
+        this.configureStore.bind(this)
+    ];
 
     rootComponents = [
         this.renderRouter.bind(this),
@@ -43,8 +46,9 @@ export class App extends PureComponent<AppProps> {
     ];
 
     contextProviders = [
-        // this.renderRedux.bind(this),
-        this.renderUnStated.bind(this)
+        this.renderRedux.bind(this),
+        this.renderUnStated.bind(this),
+        this.renderDeviceContext.bind(this)
     ];
 
     state = {
@@ -60,32 +64,40 @@ export class App extends PureComponent<AppProps> {
     }
 
     __construct(props: AppProps): void {
-        super.__construct(props);
+        super.__construct!(props);
 
         this.configureAppBasedOnEnvironment();
         this.configureApp();
     }
 
-    // configureStore() {
-    //     const store = getStore();
-    //     injectStaticReducers(store);
+    configureStore(): void {
+        const store = getStore();
+        injectStaticReducers(store);
 
-    //     this.reduxStore = store;
-    // }
+        this.reduxStore = store;
+    }
 
-    // renderRedux(children) {
-    //     return (
-    //         <Provider store={ this.reduxStore } key="redux">
-    //             { children }
-    //         </Provider>
-    //     );
-    // }
+    renderRedux(children: JSX.Element): JSX.Element {
+        return (
+            <Provider store={ this.reduxStore } key="redux">
+                { children }
+            </Provider>
+        );
+    }
 
     renderUnStated(children: JSX.Element): JSX.Element {
         return (
             <UnstatedProvider key="unstated">
                 { children }
             </UnstatedProvider>
+        );
+    }
+
+    renderDeviceContext(children: JSX.Element): JSX.Element {
+        return (
+            <DeviceContextProvider key="device-context">
+                { children }
+            </DeviceContextProvider>
         );
     }
 
@@ -122,7 +134,7 @@ export class App extends PureComponent<AppProps> {
     }
 
     configureApp(): void {
-        // this.commonFunctions.forEach((func) => func());
+        this.commonFunctions.forEach((func) => func());
     }
 
     handleErrorReset = (): void => {

@@ -34,7 +34,7 @@ export class ProductPrice extends PureComponent {
         variantsCount: PropTypes.number,
         price: PriceType,
         label: PropTypes.string,
-        price_tiers: PropTypes.array,
+        price_tiers: PropTypes.arrayOf(PropTypes.string),
         mix: MixType
     };
 

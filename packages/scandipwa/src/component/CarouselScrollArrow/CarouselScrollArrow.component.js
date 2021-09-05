@@ -18,7 +18,7 @@ import './CarouselScrollArrow.style';
 /** @namespace Component/CarouselScrollArrow/Component */
 export class CarouselScrollArrow extends PureComponent {
     static propTypes = {
-        mods: PropTypes.object,
+        mods: PropTypes.shape({}),
         onClick: PropTypes.func
     };
 

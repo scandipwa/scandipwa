@@ -17,7 +17,7 @@ import StoreItems from './StoreItems.component';
 /** @namespace Component/StoreItems/Container/storeItemsContainer */
 export class StoreItemsContainer extends PureComponent {
     static propTypes = {
-        item: PropTypes.object.isRequired,
+        item: PropTypes.shape({}).isRequired,
         handleStoreSelect: PropTypes.func.isRequired
     };
 

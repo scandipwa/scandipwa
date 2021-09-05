@@ -102,7 +102,7 @@ export class VideoPopup extends PureComponent {
     loadVimeoLibrary() {
         this.vimeoPromise = makeCancelable(import('react-vimeo'));
 
-        this.vimeoPromise.promise.then(
+        this.vimeoPromise.then(
             /** @namespace Component/VideoPopup/Component/vimeoPromisePromiseThen */
             ({ default: vimeo }) => {
                 this.vimeoComponent = vimeo;
@@ -113,7 +113,7 @@ export class VideoPopup extends PureComponent {
     loadYouTubeLibrary() {
         this.youTubePromise = makeCancelable(import('react-youtube'));
 
-        this.youTubePromise.promise.then(
+        this.youTubePromise.then(
             /** @namespace Component/VideoPopup/Component/youTubePromisePromiseThen */
             ({ default: youTube }) => {
                 this.youTubeComponent = youTube;

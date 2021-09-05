@@ -27,7 +27,9 @@ export const updateCartTotals = (action) => {
 
     if (items.length) {
         const normalizedItemsProduct = items.map((item) => {
+            /* eslint-disable no-unused-vars */
             const { variants, ...normalizedItem } = item;
+            /* eslint-enable no-unused-vars */
             normalizedItem.product = getIndexedProduct(item.product, item.sku);
 
             return normalizedItem;
@@ -46,12 +48,14 @@ export const updateCartTotals = (action) => {
 
 /** @namespace Store/Cart/Reducer/updateShippingPrice */
 export const updateShippingPrice = (action, state) => {
+    /* eslint-disable no-unused-vars */
     const {
         data: {
             items,
             ...rest
         } = {}
     } = action;
+    /* eslint-enable no-unused-vars */
 
     return {
         cartTotals: {

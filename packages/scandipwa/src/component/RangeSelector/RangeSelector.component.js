@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import 'react-input-range/lib/css/index.css';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import InputRange from 'react-input-range';
 
+import 'react-input-range/lib/css/index.css';
 import './RangeSelector.style';
 
 /**
@@ -25,7 +24,7 @@ import './RangeSelector.style';
 export class RangeSelector extends PureComponent {
     static propTypes = {
         value: PropTypes.oneOfType([
-            PropTypes.object,
+            PropTypes.shape({}),
             PropTypes.number
         ]).isRequired,
         minValue: PropTypes.number.isRequired,

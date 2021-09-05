@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { Component, createRef } from 'react';
 
 import AddToCart from 'Component/AddToCart';
+import { GRID_LAYOUT, LIST_LAYOUT } from 'Component/CategoryPage/CategoryPage.config';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
@@ -23,7 +24,6 @@ import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';

@@ -69,11 +69,11 @@ export class FieldContainer extends PureComponent {
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         ]),
-        formRefMap: PropTypes.object,
+        formRefMap: PropTypes.shape({}),
         validateSeparately: PropTypes.bool,
         isSubmitted: PropTypes.bool,
         disabled: PropTypes.bool,
-        label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
         placeholder: PropTypes.string,
         subLabel: PropTypes.number,
         filename: PropTypes.string,
@@ -88,7 +88,7 @@ export class FieldContainer extends PureComponent {
                 PropTypes.string,
                 PropTypes.number
             ]),
-            label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+            label: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})])
         })),
         name: PropTypes.string.isRequired,
         autocomplete: PropTypes.oneOfType([
@@ -141,21 +141,6 @@ export class FieldContainer extends PureComponent {
         onClick: this.onClick.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
-
-        const { checked } = props;
-        const value = this.getInitialPropsValue();
-
-        this.state = {
-            value,
-            checked,
-            validationMessage: '',
-            validationStatus: null,
-            eventId: ''
-        };
-    }
-
     componentDidUpdate(prevProps) {
         const { value: prevValue, checked: prevChecked, isSubmitted: prevSubmitted } = prevProps;
         const {
@@ -182,6 +167,21 @@ export class FieldContainer extends PureComponent {
             this.updateValidationStatus();
             this.setValidationMessage(prevProps);
         }
+    }
+
+    __construct(props) {
+        super.__construct(props);
+
+        const { checked } = props;
+        const value = this.getInitialPropsValue();
+
+        this.state = {
+            value,
+            checked,
+            validationMessage: '',
+            validationStatus: null,
+            eventId: ''
+        };
     }
 
     setValidationMessage(prevProps) {

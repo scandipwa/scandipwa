@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { SHIPPING_STEP } from 'Component/Checkout/Checkout.config';
 import {
     AUTOFILL_CHECK_TIMER,
     GUEST_EMAIL_FIELD_ID
@@ -22,7 +23,6 @@ import {
     STATE_FORGOT_PASSWORD,
     STATE_SIGN_IN
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { updateEmailAvailable } from 'Store/Checkout/Checkout.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
@@ -92,14 +92,6 @@ export class CheckoutGuestFormContainer extends PureComponent {
         setLoadingState: this.setLoadingState.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
-
-        const { clearEmailStatus } = props;
-        clearEmailStatus();
-        this.setSignInState('');
-    }
-
     componentDidMount() {
         setTimeout(
             () => {
@@ -110,6 +102,14 @@ export class CheckoutGuestFormContainer extends PureComponent {
             },
             AUTOFILL_CHECK_TIMER
         );
+    }
+
+    __construct(props) {
+        super.__construct(props);
+
+        const { clearEmailStatus } = props;
+        clearEmailStatus();
+        this.setSignInState('');
     }
 
     containerProps = () => {

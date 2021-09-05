@@ -12,12 +12,12 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { BILLING_STEP, SHIPPING_STEP } from 'Component/Checkout/Checkout.config';
 import CheckoutAddressForm from 'Component/CheckoutAddressForm';
 import CheckoutAddressTable from 'Component/CheckoutAddressTable';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { MY_ACCOUNT_URL } from 'Component/MyAccount/MyAccount.config';
 import { ADDRESS_BOOK, customerType } from 'Type/Account';
 import { getDefaultAddressLabel } from 'Util/Address';
 import { isSignedIn } from 'Util/Auth';

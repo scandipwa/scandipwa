@@ -30,8 +30,8 @@ export class SwipeToDelete extends PureComponent {
         animationDuration: PropTypes.number.isRequired,
         animationDurationOnRemove: PropTypes.number.isRequired,
         renderRightSideContent: PropTypes.func.isRequired,
-        rightSideMix: PropTypes.object.isRequired,
-        topElemMix: PropTypes.object.isRequired,
+        rightSideMix: PropTypes.shape({}).isRequired,
+        topElemMix: PropTypes.shape({}).isRequired,
         onAheadOfDragItemRemoveThreshold: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired
     };

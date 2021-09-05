@@ -153,6 +153,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         // country_id, region, region_id, city - are used for shipping estimation
         const { shippingFields, countries } = this.props;
 
+        /* eslint-disable no-unused-vars */
         const {
             default_billing,
             default_shipping,
@@ -165,6 +166,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             region_id,
             ...fieldMap
         } = super.fieldMap;
+        /* eslint-enable no-unused-vars */
 
         // since object doesn't maintain the order of it's properties
         // and last modified property goes to the end of the property list,

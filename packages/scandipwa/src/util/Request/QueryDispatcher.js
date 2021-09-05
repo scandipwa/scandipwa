@@ -70,7 +70,7 @@ export class QueryDispatcher {
             })
         );
 
-        this.promise.promise.then(
+        this.promise.then(
             /** @namespace Util/Request/QueryDispatcher/handleData/thisPromisePromiseThen */
             (data) => this.onSuccess(data, dispatch, options),
             /** @namespace Util/Request/QueryDispatcher/handleData/thisPromisePromiseError */

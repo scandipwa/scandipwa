@@ -21,7 +21,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         currency: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
-        mods: PropTypes.object,
+        mods: PropTypes.shape({}),
         subPrice: PropTypes.node,
         children: ChildrenType
     };

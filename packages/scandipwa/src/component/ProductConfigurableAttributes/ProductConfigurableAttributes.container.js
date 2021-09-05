@@ -29,7 +29,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         updateConfigurableVariant: PropTypes.func.isRequired,
         isExpandable: PropTypes.bool,
         showProductAttributeAsLink: PropTypes.bool,
-        variants: PropTypes.array,
+        variants: PropTypes.arrayOf(PropTypes.string),
         mix: MixType,
         isReady: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),

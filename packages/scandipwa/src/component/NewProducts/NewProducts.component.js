@@ -23,8 +23,8 @@ export class NewProducts extends Component {
     static propTypes = {
         products: PropTypes.arrayOf(ProductType),
         productsPerPage: PropTypes.number.isRequired,
-        productCardProps: PropTypes.object.isRequired,
-        productCardFunctions: PropTypes.object.isRequired
+        productCardProps: PropTypes.shape({}).isRequired,
+        productCardFunctions: PropTypes.shape({}).isRequired
     };
 
     static defaultProps = {

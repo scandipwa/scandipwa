@@ -23,11 +23,11 @@ export class ProductDownloadableLinks extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isRequired: PropTypes.bool.isRequired,
-        links: PropTypes.array,
+        links: PropTypes.arrayOf(PropTypes.string),
         title: PropTypes.string.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         isOpenInNewTab: PropTypes.bool.isRequired,
-        selectedLinks: PropTypes.array,
+        selectedLinks: PropTypes.arrayOf(PropTypes.string),
         getIsLinkSelected: PropTypes.func.isRequired
     };
 

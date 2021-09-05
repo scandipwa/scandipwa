@@ -20,13 +20,13 @@ import './ProductCustomizableOptions.style';
 export class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
-        options: PropTypes.array,
-        productOptionsData: PropTypes.object.isRequired,
+        options: PropTypes.arrayOf(PropTypes.string),
+        productOptionsData: PropTypes.shape({}).isRequired,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
         setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
-        price_range: PropTypes.object.isRequired,
+        price_range: PropTypes.shape({}).isRequired,
         type_id: PropTypes.string.isRequired,
         selectedCheckboxValues: PropTypes.arrayOf(PropTypes.shape({
             option_id: PropTypes.number,

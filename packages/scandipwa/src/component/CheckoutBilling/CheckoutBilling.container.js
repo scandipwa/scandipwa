@@ -229,7 +229,12 @@ export class CheckoutBillingContainer extends PureComponent {
         const { selectedShippingMethod, shippingAddress } = this.props;
 
         if (selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE) {
-            const { extension_attributes, ...billingAddress } = shippingAddress;
+            /* eslint-disable no-unused-vars */
+            const {
+                extension_attributes,
+                ...billingAddress
+            } = shippingAddress;
+            /* eslint-enable no-unused-vars */
 
             return billingAddress;
         }

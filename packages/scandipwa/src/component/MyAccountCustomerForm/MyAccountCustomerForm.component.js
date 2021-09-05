@@ -19,7 +19,7 @@ export class MyAccountCustomerForm extends FieldForm {
     static propTypes = {
         customer: customerType.isRequired,
         onSave: PropTypes.func.isRequired,
-        vatNumberValidation: PropTypes.array.isRequired
+        vatNumberValidation: PropTypes.arrayOf(PropTypes.string).isRequired
     };
 
     onFormSuccess = (fields) => {

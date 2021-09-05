@@ -24,7 +24,7 @@ export class InstallPrompt extends PureComponent {
         device: DeviceType.isRequired,
         isBannerClosed: PropTypes.bool.isRequired,
         hasInstallPromptEvent: PropTypes.bool.isRequired,
-        containerFunctions: PropTypes.object.isRequired
+        containerFunctions: PropTypes.shape({}).isRequired
     };
 
     /**

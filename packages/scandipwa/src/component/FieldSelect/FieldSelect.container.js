@@ -37,7 +37,7 @@ export class FieldSelectContainer extends PureComponent {
                 PropTypes.number
             ]),
             disabled: PropTypes.bool,
-            label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+            label: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})])
         })),
         formRef: PropTypes.oneOfType([
             PropTypes.func,

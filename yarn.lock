@@ -3030,6 +3030,14 @@
   resolved "https://registry.yarnpkg.com/@tilework/mosaic/-/mosaic-0.1.4.tgz#90b6f504abd0131fc5d4db315878a871e00988b0"
   integrity sha512-r4oIG5JC/hmI48l4FJB8O23jLB0eDlUtp1HMIEVpfihFLZTUqQcfPpZjftl/4Yd/CJS/Hx5Ca1RF7/cKlqvT7Q==
 
+"@tilework/opus@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@tilework/opus/-/opus-0.0.7.tgz#1f90837274cfc40d576c4238c3cb2da66991dda6"
+  integrity sha512-3FPJj2z1Hmkr1sC046wK3CXvWYmKySgFAKlIV2GzEfNnhU3YUXCVhiSegT4v0aLzAeupAJDue61p96CCSKaw2g==
+  dependencies:
+    node-fetch "^2.6.1"
+    tslib "^2.2.0"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -15577,6 +15585,11 @@ tslib@^2.0.3:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
   integrity sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==
+
+tslib@^2.2.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
+  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
 tsutils@^3.17.1, tsutils@^3.21.0:
   version "3.21.0"

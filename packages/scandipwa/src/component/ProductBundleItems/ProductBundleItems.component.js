@@ -19,7 +19,7 @@ import ProductCustomizableOptions from 'Component/ProductCustomizableOptions/Pro
 export class ProductBundleItems extends ProductCustomizableOptions {
     static propTypes = {
         ...ProductCustomizableOptions.propTypes,
-        items: PropTypes.array,
+        items: PropTypes.arrayOf(PropTypes.string),
         maxQuantity: PropTypes.number.isRequired,
         updateQuantity: PropTypes.func.isRequired
     };

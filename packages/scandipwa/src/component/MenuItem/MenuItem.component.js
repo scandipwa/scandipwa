@@ -20,9 +20,9 @@ import MinusIcon from 'Component/MinusIcon';
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {
     static propTypes = {
-        activeMenuItemsStack: PropTypes.array.isRequired,
-        item: PropTypes.object.isRequired,
-        itemMods: PropTypes.object.isRequired,
+        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
+        item: PropTypes.shape({}).isRequired,
+        itemMods: PropTypes.shape({}).isRequired,
         handleCategoryHover: PropTypes.func.isRequired,
         handleLinkLeave: PropTypes.func.isRequired,
         isLink: PropTypes.bool.isRequired,

@@ -31,8 +31,8 @@ export const mapStateToProps = () => ({});
 /** @namespace Component/ProductCustomizableOption/Container */
 export class ProductCustomizableOptionContainer extends PureComponent {
     static propTypes = {
-        option: PropTypes.object.isRequired,
-        productOptionsData: PropTypes.object.isRequired,
+        option: PropTypes.shape({}).isRequired,
+        productOptionsData: PropTypes.shape({}).isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
         setCustomizableOptionFileFieldValue: PropTypes.func,

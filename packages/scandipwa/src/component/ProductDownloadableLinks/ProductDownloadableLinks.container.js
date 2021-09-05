@@ -28,7 +28,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
     static propTypes = {
         title: PropTypes.string,
         isRequired: PropTypes.bool,
-        links: PropTypes.array,
+        links: PropTypes.arrayOf(PropTypes.string),
         setLinkedDownloadables: PropTypes.func.isRequired,
         setLinkedDownloadablesPrice: PropTypes.func.isRequired,
         isOpenInNewTab: PropTypes.bool.isRequired

@@ -14,10 +14,10 @@ import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
+import { MY_ACCOUNT_URL } from 'Component/MyAccount/MyAccount.config';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import MyAccountCustomerPopup from 'Component/MyAccountCustomerPopup';
 import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
-import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { ADDRESS_BOOK, customerType } from 'Type/Account';
 
 import './MyAccountDashboard.style';

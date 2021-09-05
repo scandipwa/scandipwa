@@ -13,13 +13,13 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { CHECKOUT_URL } from 'Component/Checkout/Checkout.config';
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import {
     ACCOUNT_LOGIN_URL,
     ACCOUNT_URL,
     MY_ACCOUNT_URL
-} from 'Route/MyAccount/MyAccount.config';
+} from 'Component/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -92,12 +92,6 @@ export class MyAccountOverlayContainer extends PureComponent {
         setSignInState: this.setSignInState.bind(this),
         setLoadingState: this.setLoadingState.bind(this)
     };
-
-    __construct(props) {
-        super.__construct(props);
-
-        this.state = this.redirectOrGetState(props);
-    }
 
     static getDerivedStateFromProps(props, state) {
         const {
@@ -184,6 +178,12 @@ export class MyAccountOverlayContainer extends PureComponent {
                 history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
             }
         }
+    }
+
+    __construct(props) {
+        super.__construct(props);
+
+        this.state = this.redirectOrGetState(props);
     }
 
     containerProps() {

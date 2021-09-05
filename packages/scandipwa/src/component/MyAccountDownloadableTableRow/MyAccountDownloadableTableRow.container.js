@@ -36,7 +36,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountDownloadableTableRowContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
-        orderList: PropTypes.array.isRequired,
+        orderList: PropTypes.arrayOf(PropTypes.string).isRequired,
         order: downloadableType.isRequired,
         device: DeviceType.isRequired,
         isOpenInNewTab: PropTypes.bool.isRequired

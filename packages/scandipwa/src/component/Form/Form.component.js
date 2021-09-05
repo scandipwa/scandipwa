@@ -149,6 +149,16 @@ export class Form extends PureComponent {
         return {};
     }
 
+    static getDerivedStateFromProps(props, state) {
+        const { refMap } = state;
+        const { children } = props;
+
+        return {
+            ...Form.cloneAndValidateChildren(children, refMap),
+            ...Form.updateChildrenRefs(props, state)
+        };
+    }
+
     __construct(props) {
         super.__construct(props);
 
@@ -159,16 +169,6 @@ export class Form extends PureComponent {
         this.state = {
             ...Form.updateChildrenRefs(props),
             fieldsAreValid: true
-        };
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        const { refMap } = state;
-        const { children } = props;
-
-        return {
-            ...Form.cloneAndValidateChildren(children, refMap),
-            ...Form.updateChildrenRefs(props, state)
         };
     }
 

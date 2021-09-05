@@ -16,8 +16,6 @@ import { QueryDispatcher } from 'Util/Request';
 
 /**
  * Url Rewrite Dispathcer
- * @class UrlRewritesDispatcher
- * @extends RequestDispatcher
  * @namespace Store/UrlRewrites/Dispatcher
  */
 export class UrlRewritesDispatcher extends QueryDispatcher {

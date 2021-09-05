@@ -10,7 +10,7 @@
  */
 
 import { ErrorInfo, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import { ErrorCatcher } from 'Component/ErrorCatcher';
@@ -39,14 +39,16 @@ export const MyAccountDispatcher = import(
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
+export const routerSelector = (state: any): { isBigOffline: boolean } => ({
+    isBigOffline: state.OfflineReducer.isBig
+});
+
 export interface RouterExternalProps {
     error?: Error
     errorInfo?: ErrorInfo
-    isBigOffline: boolean
 }
 
-export const routerLogic = (props: RouterExternalProps): RouterProps => {
-    const { error, errorInfo, isBigOffline } = props;
+export const routerLogic = ({ error, errorInfo }: RouterExternalProps): RouterProps => {
     const [hasError, setHasError] = useState<boolean>(false);
     const [errorDetails, setErrorDetails] = useState<RouterProps['errorDetails']>(undefined);
     const history = useHistory();
@@ -93,6 +95,8 @@ export const routerLogic = (props: RouterExternalProps): RouterProps => {
         }
     }, [error, errorInfo]);
 
+    const { isBigOffline } = useSelector(routerSelector);
+
     return {
         setHasError,
         hasError,
@@ -101,8 +105,10 @@ export const routerLogic = (props: RouterExternalProps): RouterProps => {
     };
 };
 
-export const Router: React.FC<Omit<RouterExternalProps, 'error' | 'errorInfo'>> = (props) => (
+export default function Router(props: Omit<RouterExternalProps, 'error' | 'errorInfo'>): JSX.Element {
+    return (
     <ErrorCatcher>
-        { ({ error, errorInfo }) => renderHOC(RouterComponent, routerLogic)({ ...props, error, errorInfo }) }
+        { ({ error, errorInfo }) => renderHOC(RouterComponent, routerLogic, 'Router')({ ...props, error, errorInfo }) }
     </ErrorCatcher>
-);
+    );
+}

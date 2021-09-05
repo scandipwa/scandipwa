@@ -31,7 +31,7 @@ import './Menu.style';
 export class Menu extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
-        activeMenuItemsStack: PropTypes.array.isRequired,
+        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
         handleSubcategoryClick: PropTypes.func.isRequired,
         closeMenu: PropTypes.func.isRequired,
         onCategoryHover: PropTypes.func.isRequired,

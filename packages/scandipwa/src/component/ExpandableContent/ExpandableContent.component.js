@@ -27,10 +27,10 @@ export class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         isArrow: PropTypes.bool,
-        heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        heading: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
         children: ChildrenType,
         mix: MixType.isRequired,
-        mods: PropTypes.object,
+        mods: PropTypes.shape({}),
         device: DeviceType.isRequired,
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];
@@ -55,16 +55,6 @@ export class ExpandableContent extends PureComponent {
 
     expandableContentRef = createRef();
 
-    __construct(props) {
-        super.__construct(props);
-        const { isContentExpanded } = this.props;
-        this.state = {
-            isContentExpanded,
-            // eslint-disable-next-line react/no-unused-state
-            prevIsContentExpanded: isContentExpanded
-        };
-    }
-
     static getDerivedStateFromProps({ isContentExpanded }, { prevIsContentExpanded }) {
         if (isContentExpanded !== prevIsContentExpanded) {
             return {
@@ -74,6 +64,16 @@ export class ExpandableContent extends PureComponent {
         }
 
         return null;
+    }
+
+    __construct(props) {
+        super.__construct(props);
+        const { isContentExpanded } = this.props;
+        this.state = {
+            isContentExpanded,
+            // eslint-disable-next-line react/no-unused-state
+            prevIsContentExpanded: isContentExpanded
+        };
     }
 
     scrollToExpandedContent() {

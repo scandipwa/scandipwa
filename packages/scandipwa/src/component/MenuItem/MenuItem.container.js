@@ -31,10 +31,10 @@ export class MenuItemContainer extends PureComponent {
     static propTypes = {
         closeMenu: PropTypes.func,
         onCategoryHover: PropTypes.func,
-        item: PropTypes.object.isRequired,
-        activeMenuItemsStack: PropTypes.array.isRequired,
+        item: PropTypes.shape({}).isRequired,
+        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
         isExpandable: PropTypes.bool,
-        itemMods: PropTypes.object,
+        itemMods: PropTypes.shape({}),
         isLink: PropTypes.bool
     };
 

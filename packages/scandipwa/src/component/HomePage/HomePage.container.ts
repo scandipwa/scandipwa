@@ -11,6 +11,7 @@
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { match as Match } from 'react-router';
 
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -21,14 +22,14 @@ import { HomePageComponent, HomePageProps } from './HomePage.component';
 
 import './HomePage.style';
 
-/** @namespace Route/HomePage/Container/mapStateToProps */
-export const homePageSelector = (state): { pageIdentifiers: string } => ({
+/** @namespace Component/HomePage/Container/mapStateToProps */
+export const homePageSelector = (state: any): { pageIdentifiers: string } => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page
 });
 
-export const homePageLogic = (): HomePageProps => {
+export const homePageLogic = ({ match }: { match: Match }): HomePageProps => {
     const dispatch = useDispatch();
-    const changeHeaderStateAction = (state) => dispatch(
+    const changeHeaderStateAction = (state: any) => dispatch(
         changeNavigationState(TOP_NAVIGATION_TYPE, state)
     );
     const { pageIdentifiers } = useSelector(homePageSelector);
@@ -41,8 +42,9 @@ export const homePageLogic = (): HomePageProps => {
     }, []);
 
     return {
-        pageIdentifiers
+        pageIdentifiers,
+        match
     };
 };
 
-export default renderHOC(HomePageComponent, homePageLogic);
+export default renderHOC(HomePageComponent, homePageLogic, 'HomePage');

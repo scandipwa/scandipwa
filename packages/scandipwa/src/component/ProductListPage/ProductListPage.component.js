@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import { GRID_LAYOUT } from 'Component/CategoryPage/CategoryPage.config';
 import ProductCard from 'Component/ProductCard';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { MixType } from 'Type/Common';
 import { FilterType, ProductType } from 'Type/ProductList';
 

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CartIcon from 'Component/CartIcon';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
+import { GRID_LAYOUT } from 'Component/CategoryPage/CategoryPage.config';
 import { MixType } from 'Type/Common';
 import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
@@ -33,7 +33,7 @@ export class AddToCart extends PureComponent {
         buttonClick: PropTypes.func.isRequired,
         layout: LayoutType,
         isWithIcon: PropTypes.bool,
-        disabled: PropTypes.bool
+        isDisabled: PropTypes.bool
     };
 
     static defaultProps = {
@@ -42,7 +42,7 @@ export class AddToCart extends PureComponent {
         isLoading: false,
         layout: GRID_LAYOUT,
         isWithIcon: false,
-        disabled: false
+        isDisabled: false
     };
 
     renderPlaceholder() {
@@ -74,7 +74,7 @@ export class AddToCart extends PureComponent {
             isLoading,
             buttonClick,
             layout,
-            disabled
+            isDisabled
         } = this.props;
 
         if (!type_id) {
@@ -87,7 +87,7 @@ export class AddToCart extends PureComponent {
               block="Button AddToCart"
               mix={ mix }
               mods={ { isLoading, layout } }
-              disabled={ isLoading || disabled }
+              disabled={ isLoading || isDisabled }
             >
                 { this.renderCartIcon() }
                 <span>{ isLoading ? __('Adding...') : __('Add to cart') }</span>

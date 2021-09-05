@@ -32,8 +32,8 @@ export class SharedTransition extends PureComponent {
                 start: PropTypes.number,
                 top: PropTypes.number
             }),
-            sharedElementDestination: PropTypes.object,
-            sharedElement: PropTypes.object
+            sharedElementDestination: PropTypes.shape({}),
+            sharedElement: PropTypes.shape({})
         }).isRequired,
         cleanUpTransition: PropTypes.func.isRequired
     };

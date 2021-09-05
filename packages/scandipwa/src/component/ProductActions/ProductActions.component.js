@@ -69,7 +69,7 @@ export class ProductActions extends PureComponent {
         setLinkedDownloadablesPrice: PropTypes.func.isRequired,
         onProductValidationError: PropTypes.func.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        productOptionsData: PropTypes.object.isRequired,
+        productOptionsData: PropTypes.shape({}).isRequired,
         setBundlePrice: PropTypes.func.isRequired,
         productPrice: PriceType,
         productName: PropTypes.string,

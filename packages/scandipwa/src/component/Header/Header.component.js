@@ -74,7 +74,7 @@ export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpac
 /** @namespace Component/Header/Component */
 export class Header extends NavigationAbstract {
     static propTypes = {
-        navigationState: PropTypes.object.isRequired,
+        navigationState: PropTypes.shape({}).isRequired,
         cartTotals: TotalsType.isRequired,
         onBackButtonClick: PropTypes.func.isRequired,
         onCloseButtonClick: PropTypes.func.isRequired,

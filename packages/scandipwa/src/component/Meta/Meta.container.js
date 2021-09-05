@@ -48,7 +48,7 @@ export class MetaContainer extends PureComponent {
             PropTypes.shape({
                 TranslatedValue: PropTypes.string,
                 value: PropTypes.string,
-                injectables: PropTypes.array
+                injectables: PropTypes.arrayOf(PropTypes.string)
             })
         ]),
         robots: PropTypes.string,

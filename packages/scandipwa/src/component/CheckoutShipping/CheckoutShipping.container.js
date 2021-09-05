@@ -78,6 +78,15 @@ export class CheckoutShippingContainer extends PureComponent {
         onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
 
+    componentDidUpdate(prevProps) {
+        const { shippingMethods: prevShippingMethods } = prevProps;
+        const { shippingMethods } = this.props;
+
+        if (prevShippingMethods !== shippingMethods) {
+            this.resetShippingMethod();
+        }
+    }
+
     __construct(props) {
         super.__construct(props);
 
@@ -98,15 +107,6 @@ export class CheckoutShippingContainer extends PureComponent {
                 ? selectedShippingMethod
                 : {}
         };
-    }
-
-    componentDidUpdate(prevProps) {
-        const { shippingMethods: prevShippingMethods } = prevProps;
-        const { shippingMethods } = this.props;
-
-        if (prevShippingMethods !== shippingMethods) {
-            this.resetShippingMethod();
-        }
     }
 
     resetShippingMethod() {

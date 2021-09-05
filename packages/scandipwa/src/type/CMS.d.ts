@@ -13,6 +13,7 @@ export interface BlockType {
 
 export interface BlockListType {
     items?: BlockType
+    title?: string
 
     [key: string]: unknown
 }

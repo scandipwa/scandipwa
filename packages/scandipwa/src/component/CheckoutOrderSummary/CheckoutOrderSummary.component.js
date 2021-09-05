@@ -13,9 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CartItem from 'Component/CartItem';
+import { BILLING_STEP } from 'Component/Checkout/Checkout.config';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { ChildrenType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { getItemsCountLabel } from 'Util/Cart';
@@ -32,7 +32,7 @@ export class CheckoutOrderSummary extends PureComponent {
         checkoutStep: PropTypes.string,
         renderCmsBlock: PropTypes.func,
         isExpandable: PropTypes.bool,
-        cartDisplayConfig: PropTypes.object.isRequired,
+        cartDisplayConfig: PropTypes.shape({}).isRequired,
         cartShippingPrice: PropTypes.number,
         cartShippingSubPrice: PropTypes.number,
         cartSubtotal: PropTypes.number,

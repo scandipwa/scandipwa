@@ -28,22 +28,6 @@ export class ExpandableContentShowMore extends PureComponent {
         showElemCount: 3
     };
 
-    __construct(props) {
-        super.__construct(props);
-
-        this.ref = createRef();
-
-        const { showElemCount, children: { length } } = this.props;
-
-        this.expandableRef = createRef();
-        this.expandableContentHeight = 'auto';
-
-        this.state = {
-            isOpen: length > showElemCount,
-            isExpanding: false
-        };
-    }
-
     componentDidMount() {
         const { isOpen } = this.state;
 
@@ -87,6 +71,22 @@ export class ExpandableContentShowMore extends PureComponent {
         if (length !== prevLength) {
             this.getExpandableContentHeight();
         }
+    }
+
+    __construct(props) {
+        super.__construct(props);
+
+        this.ref = createRef();
+
+        const { showElemCount, children: { length } } = this.props;
+
+        this.expandableRef = createRef();
+        this.expandableContentHeight = 'auto';
+
+        this.state = {
+            isOpen: length > showElemCount,
+            isExpanding: false
+        };
     }
 
     getExpandableContentHeight() {

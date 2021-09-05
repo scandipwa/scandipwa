@@ -17,7 +17,7 @@ import './StoreItems.style';
 /** @namespace Component/StoreItems/Component */
 export class StoreItems extends PureComponent {
     static propTypes = {
-        item: PropTypes.object.isRequired,
+        item: PropTypes.shape({}).isRequired,
         getStoreCode: PropTypes.func.isRequired
     };
 

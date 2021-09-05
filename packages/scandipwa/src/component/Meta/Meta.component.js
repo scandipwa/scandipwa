@@ -39,7 +39,7 @@ export class Meta extends PureComponent {
             PropTypes.shape({
                 TranslatedValue: PropTypes.shape({
                     value: PropTypes.string,
-                    injectables: PropTypes.array
+                    injectables: PropTypes.arrayOf(PropTypes.string)
                 })
             })
         ])

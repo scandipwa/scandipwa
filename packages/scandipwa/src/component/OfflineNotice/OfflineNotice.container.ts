@@ -19,7 +19,7 @@ import { renderHOC } from 'Util/RenderHOC';
 import { OfflineNoticeComponent, OfflineNoticeProps } from './OfflineNotice.component';
 
 /** @namespace Component/OfflineNotice/Container/mapStateToProps */
-export const offlineNoticeSelector = (state): { isBig: boolean } => ({
+export const offlineNoticeSelector = (state: any): { isBig: boolean } => ({
     isBig: state.OfflineReducer.isBig
 });
 

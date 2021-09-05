@@ -21,7 +21,7 @@ import {
 /** @namespace Component/ProductCustomizableOption/Component */
 export class ProductCustomizableOption extends PureComponent {
     static propTypes = {
-        option: PropTypes.object.isRequired,
+        option: PropTypes.shape({}).isRequired,
         textValue: PropTypes.string.isRequired,
         getSelectedCheckboxValue: PropTypes.func.isRequired,
         renderOptionLabel: PropTypes.func.isRequired,

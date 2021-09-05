@@ -9,12 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Location } from 'history';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useRouteMatch } from 'react-router';
+import { match as Match, useLocation } from 'react-router';
 
 import { CMS_PAGE } from 'Component/Header/Header.config';
-import CmsPageQuery from 'Query/CmsPage.query';
+import { CmsPageQuery } from 'Query/CmsPage.query';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -25,6 +26,7 @@ import { BlockListType } from 'Type/CMS';
 import history from 'Util/History';
 import { renderHOC } from 'Util/RenderHOC';
 import { debounce } from 'Util/Request';
+import { fetchData } from 'Util/Request/DataContainer';
 // import DataContainer from 'Util/Request/DataContainer';
 import { getUrlParam, isHomePageUrl } from 'Util/Url';
 
@@ -38,20 +40,21 @@ export const BreadcrumbsDispatcher = import(
 
 export const getRequestQueryParams = ({
     id,
-    identifier
+    identifier,
+    location,
+    match
 }: {
     id: number,
-    identifier: string
-}): { id?: number, identifier?: string } => {
-    const location = useLocation();
-    const match = useRouteMatch();
-
+    identifier: string,
+    location: Location,
+    match: Match
+}): { id?: string, identifier?: string } => {
     if (identifier) {
         return { identifier };
     }
 
     if (id !== -1) {
-        return { id };
+        return { id: `${id}` };
     }
 
     const urlKey = getUrlParam(match, location);
@@ -61,8 +64,8 @@ export const getRequestQueryParams = ({
     };
 };
 
-/** @namespace Route/CmsPage/Container/mapStateToProps */
-export const cmsPageSelector = (state): { isOffline: boolean } => ({
+/** @namespace Component/CmsPage/Container/mapStateToProps */
+export const cmsPageSelector = (state: any): { isOffline: boolean } => ({
     isOffline: state.OfflineReducer.isOffline
 });
 
@@ -71,6 +74,7 @@ export interface CmsPageExternalProps {
     pageIdentifiers?: string
     isOnlyPlaceholder?: boolean
     isBreadcrumbsActive?: boolean
+    match: Match
 }
 
 export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
@@ -78,20 +82,25 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
         pageIds = -1,
         pageIdentifiers = '',
         isOnlyPlaceholder = false,
-        isBreadcrumbsActive = true
+        isBreadcrumbsActive = true,
+        match
     } = props;
 
     const location = useLocation();
     const { isOffline } = useSelector(cmsPageSelector);
     const dispatch = useDispatch();
 
-    const updateBreadcrumbsAction = (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch)
+    const updateBreadcrumbsAction = (title: string) => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithCmsPage({ title }, dispatch)
     );
-    const setHeaderStateAction = (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName));
-    const setBigOfflineNoticeAction = (isBig) => dispatch(setBigOfflineNotice(isBig));
-    const updateMetaAction = (meta) => dispatch(updateMeta(meta));
-    const toggleBreadcrumbsAction = (isActive) => {
+    const setHeaderStateAction = (state: {
+        name: string,
+        title: string,
+        onBackClick?: () => void
+    }) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state));
+    const setBigOfflineNoticeAction = (isBig: boolean) => dispatch(setBigOfflineNotice(isBig));
+    const updateMetaAction = (meta: Record<string, string>) => dispatch(updateMeta(meta));
+    const toggleBreadcrumbsAction = (isActive: boolean) => {
         BreadcrumbsDispatcher.then(
             ({ default: dispatcher }) => dispatcher.update([], dispatch)
         );
@@ -121,18 +130,18 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
 
         debounce(setOfflineNoticeSize, LOADING_TIME)();
 
-        updateBreadcrumbsAction(page);
+        updateBreadcrumbsAction(page.title as string);
         updateMetaAction({
-            title: meta_title || title,
-            description: meta_description,
-            keywords: meta_keywords,
+            title: meta_title as string || title as string,
+            description: meta_description as string,
+            keywords: meta_keywords as string,
             canonical_url: window.location.href
         });
 
         if (!isHomePageUrl(location.pathname)) {
             setHeaderStateAction({
                 name: CMS_PAGE,
-                title: content_heading,
+                title: content_heading as string,
                 onBackClick: () => history.goBack()
             });
         }
@@ -145,7 +154,9 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
     const requestPage = () => {
         const params = getRequestQueryParams({
             id: pageIds,
-            identifier: pageIdentifiers
+            identifier: pageIdentifiers,
+            location,
+            match
         });
 
         if (!params.id && !params.identifier) {
@@ -155,7 +166,7 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
         setIsLoading(true);
 
         fetchData(
-            [CmsPageQuery.getQuery(params)],
+            [CmsPageQuery.getQuery(params as { id: string, identifier: string })],
             onPageLoad,
             () => setIsLoading(false)
         );
@@ -187,4 +198,4 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
     };
 };
 
-export default renderHOC(CmsPageComponent, cmsPageLogic);
+export default renderHOC(CmsPageComponent, cmsPageLogic, 'CmsPage');

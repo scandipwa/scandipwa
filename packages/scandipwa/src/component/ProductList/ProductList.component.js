@@ -238,11 +238,12 @@ export class ProductList extends PureComponent {
         if (isInfiniteLoaderEnabled) {
             return props;
         }
-
+        /* eslint-disable no-unused-vars */
         // there must be no more then one page per screen
         // if the "isInfiniteLoaderEnabled" is false
         const { key, ...restProps } = props;
         restProps.key = 0;
+        /* eslint-enable no-unused-vars */
 
         return restProps;
     }

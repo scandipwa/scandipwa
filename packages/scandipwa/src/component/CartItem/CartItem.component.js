@@ -48,7 +48,7 @@ export class CartItem extends PureComponent {
         thumbnail: PropTypes.string.isRequired,
         isProductInStock: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        optionsLabels: PropTypes.array.isRequired,
+        optionsLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
         isMobileLayout: PropTypes.bool
     };
 

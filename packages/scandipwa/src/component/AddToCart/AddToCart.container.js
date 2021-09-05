@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { GRID_LAYOUT } from 'Component/CategoryPage/CategoryPage.config';
 import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { MixType } from 'Type/Common';
 import { LayoutType } from 'Type/Layout';
@@ -70,7 +70,7 @@ export class AddToCartContainer extends PureComponent {
         removeFromWishlist: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
         onProductValidationError: PropTypes.func,
-        productOptionsData: PropTypes.object.isRequired,
+        productOptionsData: PropTypes.shape({}).isRequired,
         disableHandler: PropTypes.bool,
         mix: MixType,
         disabled: PropTypes.bool,

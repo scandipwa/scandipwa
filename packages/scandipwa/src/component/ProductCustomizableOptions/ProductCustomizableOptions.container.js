@@ -21,9 +21,9 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
     static propTypes = {
         options: OptionsType,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        price_range: PropTypes.object,
+        price_range: PropTypes.shape({}),
         type_id: PropTypes.string,
-        productOptionsData: PropTypes.object.isRequired
+        productOptionsData: PropTypes.shape({}).isRequired
     };
 
     static defaultProps = {

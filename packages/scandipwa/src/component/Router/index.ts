@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export * from './Router.container';
+export { default } from './Router.container';

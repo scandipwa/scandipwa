@@ -31,6 +31,14 @@ export class ClickOutside extends PureComponent {
         children: []
     };
 
+    componentDidMount() {
+        document.addEventListener('click', this.handleClick);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('click', this.handleClick);
+    }
+
     __construct(props) {
         super.__construct(props);
 
@@ -40,14 +48,6 @@ export class ClickOutside extends PureComponent {
             children,
             () => createRef()
         );
-    }
-
-    componentDidMount() {
-        document.addEventListener('click', this.handleClick);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('click', this.handleClick);
     }
 
     handleClick = ({ target }) => {

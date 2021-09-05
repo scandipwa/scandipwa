@@ -71,9 +71,9 @@ export const baseOrderInfoType = PropTypes.shape({
 // TODO: remove objects
 export const orderType = PropTypes.shape({
     base_order_info: baseOrderInfoType,
-    order_products: PropTypes.array,
-    payment_info: PropTypes.object,
-    shipping_info: PropTypes.object
+    order_products: PropTypes.arrayOf(PropTypes.string),
+    payment_info: PropTypes.shape({}),
+    shipping_info: PropTypes.shape({})
 });
 
 export const downloadableType = PropTypes.shape({

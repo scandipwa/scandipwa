@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import Html from 'Component/Html';
+import NoMatch from 'Component/NoMatch';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import NoMatch from 'Route/NoMatch';
 import { BlockListType } from 'Type/CMS.d';
 import { SimpleComponent } from 'Util/SimpleComponent';
 
@@ -23,7 +23,7 @@ export interface CmsPageProps {
     isBreadcrumbsActive: boolean
 }
 
-/** @namespace Route/CmsPage/Component */
+/** @namespace Component/CmsPage/Component */
 export class CmsPageComponent extends SimpleComponent<CmsPageProps> {
     renderHeading(): JSX.Element | null {
         const { page: { content_heading } } = this.props;

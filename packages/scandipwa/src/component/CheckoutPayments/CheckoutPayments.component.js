@@ -13,11 +13,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { BILLING_STEP } from 'Component/Checkout/Checkout.config';
 import CheckoutPayment from 'Component/CheckoutPayment';
 import Klarna from 'Component/Klarna';
 import NotSupportedPayment from 'Component/NotSupportedPayment';
 import { PurchaseOrder } from 'Component/PurchaseOrder/PurchaseOrder.component';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { paymentMethodsType } from 'Type/Checkout';
 
 import { KLARNA, PURCHASE_ORDER } from './CheckoutPayments.config';
@@ -45,12 +45,12 @@ export class CheckoutPayments extends PureComponent {
                 PropTypes.string
             ]),
             region: PropTypes.oneOfType([
-                PropTypes.object,
+                PropTypes.shape({}),
                 PropTypes.string
             ]),
             street: PropTypes.oneOfType([
                 PropTypes.string,
-                PropTypes.array
+                PropTypes.arrayOf(PropTypes.string)
             ]),
             telephone: PropTypes.string
         }).isRequired

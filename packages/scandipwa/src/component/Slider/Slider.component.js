@@ -50,7 +50,7 @@ export class Slider extends PureComponent {
             PropTypes.number,
             PropTypes.string
         ]),
-        sliderRef: PropTypes.object
+        sliderRef: PropTypes.shape({})
     };
 
     static defaultProps = {
@@ -84,16 +84,6 @@ export class Slider extends PureComponent {
     goNext = this.goNext.bind(this);
 
     goPrev = this.goPrev.bind(this);
-
-    __construct(props) {
-        super.__construct(props);
-
-        const { activeImage } = this.props;
-
-        this.state = {
-            prevActiveImage: activeImage
-        };
-    }
 
     static getDerivedStateFromProps(props, state) {
         const { activeImage, children } = props;
@@ -148,6 +138,16 @@ export class Slider extends PureComponent {
             this.setAnimationSpeedStyle(Math.abs((prevActiveImage - activeImage) * ANIMATION_DURATION));
             this.setTranlateXStyle(newTranslate);
         }
+    }
+
+    __construct(props) {
+        super.__construct(props);
+
+        const { activeImage } = this.props;
+
+        this.state = {
+            prevActiveImage: activeImage
+        };
     }
 
     getDir() {

@@ -34,7 +34,9 @@ export const NotificationReducer = (
         };
 
     case HIDE_NOTIFICATION:
+        /* eslint-disable no-unused-vars */
         const { [action.id]: id, ...shownNotifications } = notifications;
+        /* eslint-enable no-unused-vars */
 
         return {
             ...state,

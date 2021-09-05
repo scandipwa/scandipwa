@@ -50,6 +50,7 @@ export class Menu {
     }
 
     getMenuData({
+        // eslint-disable-next-line no-unused-vars
         cms_page_identifier,
         url,
         url_type,

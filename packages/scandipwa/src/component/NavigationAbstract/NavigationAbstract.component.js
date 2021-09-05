@@ -20,7 +20,7 @@ import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 export class NavigationAbstract extends Component {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
-        navigationState: PropTypes.object.isRequired
+        navigationState: PropTypes.shape({}).isRequired
     };
 
     defaultStateName = DEFAULT_STATE_NAME;

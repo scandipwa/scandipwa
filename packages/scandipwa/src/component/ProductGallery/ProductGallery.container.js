@@ -55,19 +55,6 @@ export class ProductGalleryContainer extends PureComponent {
         handleImageZoomPopupActiveChange: this.handleImageZoomPopupActiveChange.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
-
-        const { product: { id } } = props;
-
-        this.state = {
-            activeImage: this.getBaseImage(),
-            isZoomEnabled: false,
-            prevProdId: id,
-            isImageZoomPopupActive: false
-        };
-    }
-
     static getDerivedStateFromProps(props, state) {
         const { product: { id } } = props;
         const { prevProdId, activeImage } = state;
@@ -86,6 +73,19 @@ export class ProductGalleryContainer extends PureComponent {
         if (mediaGallery !== prevMediaGallery) {
             this.onActiveImageChange(this.getBaseImage());
         }
+    }
+
+    __construct(props) {
+        super.__construct(props);
+
+        const { product: { id } } = props;
+
+        this.state = {
+            activeImage: this.getBaseImage(),
+            isZoomEnabled: false,
+            prevProdId: id,
+            isImageZoomPopupActive: false
+        };
     }
 
     handleImageZoomPopupActiveChange(isImageZoomPopupActive) {

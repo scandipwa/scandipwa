@@ -24,7 +24,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
         shippingMethods: shippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
-        selectedShippingMethod: PropTypes.object,
+        selectedShippingMethod: PropTypes.shape({}),
         isShippingMethodPreSelected: PropTypes.bool.isRequired
     };
 

@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { BILLING_STEP } from 'Component/Checkout/Checkout.config';
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { addressType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
@@ -43,7 +43,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
         email: PropTypes.string.isRequired,
-        address: PropTypes.object.isRequired,
+        address: PropTypes.shape({}).isRequired,
         billingAddress: addressType.isRequired,
         showError: PropTypes.func.isRequired
     };
@@ -56,16 +56,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
         [KLARNA]: this.getKlarnaData.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
-
-        const { paymentMethods } = props;
-        const [{ code } = {}] = paymentMethods;
-        this.state = {
-            selectedPaymentCode: code
-        };
-    }
-
     componentDidMount() {
         if (window.formPortalCollector) {
             window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData, 'CheckoutPaymentsContainer');
@@ -76,6 +66,16 @@ export class CheckoutPaymentsContainer extends PureComponent {
         if (window.formPortalCollector) {
             window.formPortalCollector.unsubscribe(BILLING_STEP, 'CheckoutPaymentsContainer');
         }
+    }
+
+    __construct(props) {
+        super.__construct(props);
+
+        const { paymentMethods } = props;
+        const [{ code } = {}] = paymentMethods;
+        this.state = {
+            selectedPaymentCode: code
+        };
     }
 
     containerProps() {

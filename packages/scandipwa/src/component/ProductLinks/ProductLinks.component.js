@@ -26,8 +26,8 @@ export class ProductLinks extends PureComponent {
         linkedProducts: PropTypes.objectOf(ProductType).isRequired,
         linkType: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
-        productCardProps: PropTypes.object.isRequired,
-        productCardFunctions: PropTypes.object.isRequired
+        productCardProps: PropTypes.shape({}).isRequired,
+        productCardFunctions: PropTypes.shape({}).isRequired
     };
 
     renderProductCard = this.renderProductCard.bind(this);

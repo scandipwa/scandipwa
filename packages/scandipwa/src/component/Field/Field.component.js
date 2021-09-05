@@ -52,7 +52,7 @@ export class Field extends PureComponent {
         onKeyPress: PropTypes.func.isRequired,
         onKeyEnterDown: PropTypes.func.isRequired,
         onClick: PropTypes.func.isRequired,
-        label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
         message: PropTypes.string,
         value: PropTypes.oneOfType([
             PropTypes.string,

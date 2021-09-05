@@ -39,7 +39,7 @@ export class NavigationAbstractContainer extends PureComponent {
         setNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
-        navigationState: PropTypes.object.isRequired,
+        navigationState: PropTypes.shape({}).isRequired,
         device: DeviceType.isRequired
     };
 

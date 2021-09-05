@@ -14,8 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
+import { GRID_LAYOUT } from 'Component/CategoryPage/CategoryPage.config';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';

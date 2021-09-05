@@ -12,10 +12,10 @@
 import { connect } from 'react-redux';
 
 import { CART, MY_ACCOUNT } from 'Component/Header/Header.config';
-import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import {
     ACCOUNT_LOGIN_URL
-} from 'Route/MyAccount/MyAccount.config';
+} from 'Component/MyAccount/MyAccount.config';
+import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';

@@ -29,16 +29,16 @@ export const mapDispatchToProps = () => ({});
 export class ResetAttributesContainer extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape({
-            attribute_label: PropTypes.any,
+            attribute_label: PropTypes.objectOf(PropTypes.object),
             attribute_type: PropTypes.string.isRequired,
-            attribute_code: PropTypes.any,
+            attribute_code: PropTypes.objectOf(PropTypes.object),
             attribute_values: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
             attribute_options: PropTypes.objectOf(PropTypes.shape({
                 label: PropTypes.string.isRequired,
                 value_string: PropTypes.string.isRequired
             }))
         }).isRequired).isRequired,
-        customFiltersValues: PropTypes.any.isRequired,
+        customFiltersValues: PropTypes.objectOf(PropTypes.object).isRequired,
         currency_code: PropTypes.string.isRequired,
         toggleCustomFilter: PropTypes.func.isRequired
     };

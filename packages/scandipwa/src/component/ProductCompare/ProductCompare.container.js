@@ -49,8 +49,8 @@ export class ProductCompareContainer extends PureComponent {
         clearCompareList: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
         products: ProductItemsType,
-        items: PropTypes.array,
-        attributes: PropTypes.array,
+        items: PropTypes.arrayOf(PropTypes.string),
+        attributes: PropTypes.arrayOf(PropTypes.string),
         device: DeviceType.isRequired
     };
 

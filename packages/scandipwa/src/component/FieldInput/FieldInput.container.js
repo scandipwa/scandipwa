@@ -54,6 +54,7 @@ export class FieldInputContainer extends PureComponent {
     }
 
     containerProps = () => {
+        /* eslint-disable no-unused-vars */
         const {
             /* eslint-disable react/prop-types */
             dispatch,
@@ -77,6 +78,7 @@ export class FieldInputContainer extends PureComponent {
             // Props that are passed correctly from the beginning
             ...validProps
         } = this.props;
+        /* eslint-enable no-unused-vars */
 
         const ariaLabelProp = ariaLabel ? { 'aria-label': ariaLabel } : {};
 

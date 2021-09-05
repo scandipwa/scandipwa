@@ -14,6 +14,7 @@
  * @class Query
  * @extends Field
  * @namespace Util/Query/Field
+ * @deprecated Use `@tilework/opus` instead
  */
 export class Field {
     alias = '';

@@ -29,7 +29,7 @@ export const mapDispatchToProps = () => ({});
 export class ProductCompareAttributeRowContainer extends PureComponent {
     static propTypes = {
         title: PropTypes.string.isRequired,
-        values: PropTypes.array.isRequired,
+        values: PropTypes.arrayOf(PropTypes.string).isRequired,
         device: DeviceType.isRequired
     };
 

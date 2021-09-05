@@ -22,7 +22,7 @@ export class Link extends PureComponent {
     static propTypes = {
         to: PropTypes.oneOfType([
             PropTypes.string,
-            PropTypes.object
+            PropTypes.shape({})
         ]).isRequired,
         className: PropTypes.string,
         bemProps: PropTypes.shape({}),
@@ -96,6 +96,7 @@ export class Link extends PureComponent {
     }
 
     renderAbsolutePathLink = (classNameConverted) => {
+        /* eslint-disable no-unused-vars */
         const {
             isOpenInNewTab,
             children,
@@ -103,6 +104,7 @@ export class Link extends PureComponent {
             bemProps,
             ...props
         } = this.props;
+        /* eslint-enable no-unused-vars */
 
         if (isOpenInNewTab) {
             return (
@@ -132,6 +134,7 @@ export class Link extends PureComponent {
     };
 
     render() {
+        /* eslint-disable no-unused-vars */
         const {
             className,
             bemProps,
@@ -140,6 +143,7 @@ export class Link extends PureComponent {
             isOpenInNewTab,
             ...props
         } = this.props;
+        /* eslint-enable no-unused-vars */
 
         if (!to) {
             return (

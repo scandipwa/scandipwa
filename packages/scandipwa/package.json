@@ -16,6 +16,7 @@
         "@scandipwa/scandipwa-scripts": "2.4.16",
         "@scandipwa/service-worker": "0.0.16",
         "@scandipwa/webpack-i18n-runtime": "0.0.28",
+        "@tilework/opus": "^0.0.7",
         "@types/react": "^17.0.19",
         "@types/react-dom": "^17.0.9",
         "@types/react-router": "^5.1.16",
@@ -64,11 +65,11 @@
             "zh_TW": true
         },
         "extensions": {
-            "@scandipwa/m2-theme": false,
-            "@scandipwa/webpack-i18n-runtime": false,
-            "@scandipwa/service-worker": false,
-            "@scandipwa/postcss-config": false,
-            "@scandipwa/chunk-optimizer": false
+            "@scandipwa/m2-theme": true,
+            "@scandipwa/webpack-i18n-runtime": true,
+            "@scandipwa/service-worker": true,
+            "@scandipwa/postcss-config": true,
+            "@scandipwa/chunk-optimizer": true
         },
         "composer": {
             "magento/framework": "*",
@@ -121,7 +122,37 @@
             "max-classes-per-file": "off",
             "@scandipwa/scandipwa-guidelines/no-jsx-variables": "off",
             "max-lines": "off",
-            "react/prop-types": "off"
+            "react/prop-types": "off",
+            "consistent-return": "off",
+            "fp/no-let": "off",
+            "@scandipwa/scandipwa-guidelines/jsx-no-conditional": "off",
+            "react/boolean-prop-naming": "off",
+            "@typescript-eslint/no-empty-interface": "off",
+            "@scandipwa/scandipwa-guidelines/use-magic-construct": "off"
+        },
+        "overrides": [
+            {
+                "files": [
+                    "./src/query/**.query.+(ts|js)"
+                ],
+                "rules": {
+                    "@typescript-eslint/explicit-module-boundary-types": "off"
+                }
+            },
+            {
+                "files": [
+                    "./src/component/*Icon/**.+(ts|js)"
+                ],
+                "rules": {
+                    "max-len": "off"
+                }
+            }
+        ],
+        "env": {
+            "browser": true
+        },
+        "globals": {
+            "globalThis": true
         }
     },
     "license": "OSL-3.0",

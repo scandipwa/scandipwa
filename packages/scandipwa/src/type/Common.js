@@ -21,13 +21,13 @@ export const MixType = PropTypes.shape({
 });
 
 export const HistoryType = PropTypes.shape({
-    location: PropTypes.object,
+    location: PropTypes.shape({}),
     push: PropTypes.func
 });
 
 export const LocationType = PropTypes.shape({
     pathname: PropTypes.string,
-    state: PropTypes.object
+    state: PropTypes.shape({})
 });
 
 export const MatchType = PropTypes.shape({

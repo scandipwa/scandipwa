@@ -22,7 +22,7 @@ import './ProductReviewItem.style';
  */
 export class ProductReviewItem extends PureComponent {
     static propTypes = {
-        reviewItem: PropTypes.object.isRequired
+        reviewItem: PropTypes.shape({}).isRequired
     };
 
     getFormattedDate(created_at) {

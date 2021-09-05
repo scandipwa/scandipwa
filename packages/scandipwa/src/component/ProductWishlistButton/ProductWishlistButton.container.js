@@ -62,7 +62,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         addProductToWishlist: PropTypes.func.isRequired,
         onProductValidationError: PropTypes.func,
         removeProductFromWishlist: PropTypes.func.isRequired,
-        productOptionsData: PropTypes.object,
+        productOptionsData: PropTypes.shape({}),
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
         mix: MixType
     };

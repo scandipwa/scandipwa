@@ -47,7 +47,7 @@ export class ProductPriceContainer extends PureComponent {
         price: PriceType,
         mix: MixType,
         displayTaxInPrice: PropTypes.string,
-        price_tiers: PropTypes.array,
+        price_tiers: PropTypes.arrayOf(PropTypes.string),
         label: PropTypes.string,
         variantsCount: PropTypes.number
     };

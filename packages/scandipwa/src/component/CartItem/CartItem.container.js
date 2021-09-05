@@ -73,6 +73,7 @@ export class CartItemContainer extends PureComponent {
 
     state = { isLoading: false };
 
+    /** @type {ReturnType<makeCancelable>[]} */
     handlers = [];
 
     setStateNotLoading = this.setStateNotLoading.bind(this);
@@ -86,7 +87,7 @@ export class CartItemContainer extends PureComponent {
 
     componentWillUnmount() {
         if (this.handlers.length) {
-            [].forEach.call(this.handlers, (cancelablePromise) => cancelablePromise.cancel());
+            this.handlers.forEach((cancelablePromise) => cancelablePromise.cancel());
         }
     }
 
@@ -218,7 +219,7 @@ export class CartItemContainer extends PureComponent {
      */
     hideLoaderAfterPromise(promise) {
         this.registerCancelablePromise(promise)
-            .promise.then(this.setStateNotLoading, this.setStateNotLoading);
+            .then(this.setStateNotLoading, this.setStateNotLoading);
     }
 
     getProductVariant() {

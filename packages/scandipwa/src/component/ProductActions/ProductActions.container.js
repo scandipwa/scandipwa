@@ -47,10 +47,10 @@ export const mapDispatchToProps = () => ({});
 export class ProductActionsContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        productOrVariant: PropTypes.object.isRequired,
+        productOrVariant: PropTypes.shape({}).isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
-        productOptionsData: PropTypes.objectOf(PropTypes.array).isRequired,
+        productOptionsData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         selectedInitialBundlePrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,

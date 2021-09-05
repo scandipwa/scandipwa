@@ -45,7 +45,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
-        customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+        customFiltersValues: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,

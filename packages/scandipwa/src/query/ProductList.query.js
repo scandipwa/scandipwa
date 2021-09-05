@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
+import { NONE_SORT_OPTION_VALUE } from 'Component/SearchPage/SearchPage.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { Field, Fragment } from 'Util/Query';

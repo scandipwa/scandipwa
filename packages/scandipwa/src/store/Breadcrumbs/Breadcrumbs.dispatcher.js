@@ -55,9 +55,8 @@ export class BreadcrumbsDispatcher {
 
     /**
      * Set breadcrumbs for category
-     * @param {Array<Object>} category Category breadcumbs items
-     * @param {Function} dispatch
-     * @memberof BreadcrumbsDispatcher
+     * @param category Category breadcumbs items
+     * @param dispatch
      */
     updateWithCmsPage({ title }, dispatch) {
         const breadcrumbs = title
