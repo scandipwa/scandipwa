@@ -23,13 +23,15 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
         price_range: PropTypes.object,
         type_id: PropTypes.string,
-        productOptionsData: PropTypes.object.isRequired
+        productOptionsData: PropTypes.object.isRequired,
+        maxQuantity: PropTypes.number
     };
 
     static defaultProps = {
         options: [],
         price_range: {},
-        type_id: ''
+        type_id: '',
+        maxQuantity: null
     };
 
     state = {
@@ -96,7 +98,8 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
             options,
             price_range,
             productOptionsData,
-            type_id
+            type_id,
+            maxQuantity
         } = this.props;
 
         const { isLoading, selectedCheckboxValues } = this.state;
@@ -107,6 +110,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
             productOptionsData,
             type_id,
             isLoading,
+            maxQuantity,
             selectedCheckboxValues
         };
     }

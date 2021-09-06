@@ -63,7 +63,7 @@ export class WishlistItem extends PureComponent {
             <Field
               id="description"
               name="description"
-              type="input"
+              type="text"
               value={ description }
               mix={ { block: 'WishlistItem', elem: 'CommentField' } }
               placeholder={ __('Add a comment') }
@@ -308,6 +308,7 @@ export class WishlistItem extends PureComponent {
                 <div block="WishlistItem" elem="InformationWrapper">
                     <div block="WishlistItem" elem="RowWrapper">
                         <div block="WishlistItem" elem="NameAndOptions">
+                            { this.renderRating() }
                             { this.renderName() }
                             { this.renderOptions() }
                         </div>

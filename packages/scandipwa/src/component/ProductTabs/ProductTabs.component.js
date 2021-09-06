@@ -65,7 +65,7 @@ export class ProductTabs extends PureComponent {
     renderAllTabs() {
         const { tabs } = this.props;
 
-        return tabs.map(({ render }) => render());
+        return tabs.map(({ render, name }) => render(name));
     }
 
     renderTab = (item, i) => {

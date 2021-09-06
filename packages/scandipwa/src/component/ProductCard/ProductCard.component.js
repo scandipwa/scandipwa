@@ -447,7 +447,7 @@ export class ProductCard extends Component {
     getAttributesToShow() {
         const {
             product: {
-                configurable_options = [],
+                configurable_options = {},
                 variants
             }
         } = this.props;

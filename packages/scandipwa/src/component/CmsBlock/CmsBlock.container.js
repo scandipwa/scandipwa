@@ -36,6 +36,15 @@ export class CmsBlockContainer extends DataContainer {
         this._getCmsBlock();
     }
 
+    componentDidUpdate(prevProps) {
+        const { identifier } = this.props;
+        const { identifier: prevIdentifier } = prevProps;
+
+        if (identifier !== prevIdentifier) {
+            this._getCmsBlock();
+        }
+    }
+
     _getCmsBlock() {
         const { identifier } = this.props;
 

@@ -55,6 +55,13 @@
         }
     }
 
+    &-NoProducts {
+        @include tablet {
+            position: relative;
+            top: 60px;
+        }
+    }
+
     &-ActionBar {
         display: flex;
         padding: 0;

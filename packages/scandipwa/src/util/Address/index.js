@@ -42,6 +42,15 @@ export const trimCustomerAddress = (customerAddress) => {
     };
 };
 
+/**
+ * Removes null values from address.street
+ * @param street
+ * @returns {*}
+ */
+export const removeEmptyStreets = (street) => (
+    Array.isArray(street) ? street.filter((line) => line) : street
+);
+
 /** @namespace Util/Address/trimAddressFields */
 export const trimAddressFields = (fields) => {
     const {
@@ -74,7 +83,7 @@ export const setAddressesInFormObject = (fields, numberOfLines) => {
         );
 
     // setting single street entry to the form object
-    newFields.street = addressValues;
+    newFields.street = removeEmptyStreets(addressValues);
 
     return newFields;
 };
@@ -124,5 +133,5 @@ export const getAvailableRegions = (country_id, countries) => {
     const { available_regions } = country;
 
     // need to handle null value
-    return available_regions || [{}];
+    return available_regions || [];
 };

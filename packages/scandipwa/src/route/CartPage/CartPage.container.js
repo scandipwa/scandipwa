@@ -145,7 +145,8 @@ export class CartPageContainer extends PureComponent {
             totals,
             totals: {
                 items = []
-            } = {}
+            } = {},
+            device
         } = this.props;
 
         const { isCartItemLoading } = this.state;
@@ -153,7 +154,8 @@ export class CartPageContainer extends PureComponent {
         return {
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
             totals,
-            isCartItemLoading
+            isCartItemLoading,
+            device
         };
     };
 

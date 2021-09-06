@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import ChevronIcon from 'Component/ChevronIcon';
 import Link from 'Component/Link';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TranslatedStringType } from 'Type/TranslatedString';
 
 import './Breadcrumb.style';
 
@@ -27,7 +28,7 @@ export class Breadcrumb extends PureComponent {
             PropTypes.string,
             PropTypes.shape({})
         ]),
-        name: PropTypes.string
+        name: TranslatedStringType
     };
 
     static defaultProps = {

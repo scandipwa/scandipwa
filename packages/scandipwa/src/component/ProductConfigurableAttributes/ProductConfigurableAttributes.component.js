@@ -141,7 +141,8 @@ export class ProductConfigurableAttributes extends PureComponent {
         return Object.values(configurable_options).map((option) => {
             const {
                 attribute_label,
-                attribute_options
+                attribute_options,
+                attribute_id
             } = option;
 
             const [{ swatch_data }] = attribute_options ? Object.values(attribute_options) : [{}];
@@ -157,7 +158,7 @@ export class ProductConfigurableAttributes extends PureComponent {
             }
 
             return (
-                <div>
+                <div key={ attribute_id }>
                     <p block="ProductConfigurableAttributes" elem="Title">{ attribute_label }</p>
                     { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
                 </div>

@@ -467,9 +467,12 @@ export const getBooleanLabel = (label, isBoolean = false) => {
 };
 
 /** @namespace Util/Product/filterConfigurableOptions */
-export const filterConfigurableOptions = (options, variants) => (
-    Object.values(options).reduce((acc, option) => {
-        const { attribute_values, attribute_code } = option;
+export const filterConfigurableOptions = (options, variants) => Object.values(options)
+    .reduce((acc, option) => {
+        const {
+            attribute_values,
+            attribute_code
+        } = option;
 
         // show option if it exist as variant for configurable product
         const filteredOptions = attribute_values.reduce((acc, value) => {
@@ -486,11 +489,14 @@ export const filterConfigurableOptions = (options, variants) => (
             return acc;
         }, []);
 
-        acc.push({ ...option, attribute_values: filteredOptions });
-
-        return acc;
-    }, [])
-);
+        return {
+            ...acc,
+            [attribute_code]: {
+                ...option,
+                attribute_values: filteredOptions
+            }
+        };
+    }, {});
 
 /** @namespace Util/Product/validateProductQuantity */
 export const validateProductQuantity = (quantity, stockItem) => {

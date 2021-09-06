@@ -303,7 +303,14 @@ export class CartItem extends PureComponent {
 
     renderQuantityChangeField() {
         const {
-            item: { qty },
+            item: {
+                qty,
+                product: {
+                    stock_item: {
+                        qty_increments: qtyIncrement = 1
+                    } = {}
+                } = {}
+            } = {},
             minSaleQuantity,
             maxSaleQuantity,
             handleChangeQuantity,
@@ -312,7 +319,7 @@ export class CartItem extends PureComponent {
         } = this.props;
 
         if (!isProductInStock) {
-            return null;
+            return <div block="CartItem" elem="QuantityWrapper" mods={ { isPlaceholder: true } } />;
         }
 
         return (
@@ -335,6 +342,7 @@ export class CartItem extends PureComponent {
                   mix={ { block: 'CartItem', elem: 'Qty' } }
                   value={ qty }
                   onChange={ handleChangeQuantity }
+                  step={ qtyIncrement }
                 />
             </div>
         );

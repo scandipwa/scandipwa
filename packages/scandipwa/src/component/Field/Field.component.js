@@ -75,7 +75,8 @@ export class Field extends PureComponent {
         fileExtensions: PropTypes.string,
         subLabel: PropTypes.number,
         disabled: PropTypes.bool,
-        isLabelWithArrow: PropTypes.bool
+        isLabelWithArrow: PropTypes.bool,
+        step: PropTypes.number
     };
 
     static defaultProps = {
@@ -91,7 +92,8 @@ export class Field extends PureComponent {
         fileExtensions: '',
         subLabel: null,
         disabled: false,
-        isLabelWithArrow: false
+        isLabelWithArrow: false,
+        step: 1
     };
 
     renderTextarea() {
@@ -139,7 +141,8 @@ export class Field extends PureComponent {
             max,
             value,
             onKeyEnterDown,
-            handleChange
+            handleChange,
+            step
         } = this.props;
 
         return (
@@ -156,7 +159,7 @@ export class Field extends PureComponent {
                 <button
                   disabled={ +value === max }
                   // eslint-disable-next-line react/jsx-no-bind
-                  onClick={ () => handleChange(+value + 1) }
+                  onClick={ () => handleChange(+value + step) }
                   aria-label={ __('Add') }
                 >
                     <AddIcon block="SubtractButton" isPrimary />
@@ -164,7 +167,7 @@ export class Field extends PureComponent {
                 <button
                   disabled={ +value === min }
                   // eslint-disable-next-line react/jsx-no-bind
-                  onClick={ () => handleChange(+value - 1) }
+                  onClick={ () => handleChange(+value - step) }
                   aria-label={ __('Subtract') }
                 >
                     <MinusIcon block="AddButton" isPrimary />

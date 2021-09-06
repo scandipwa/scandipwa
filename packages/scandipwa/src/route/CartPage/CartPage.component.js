@@ -22,6 +22,7 @@ import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
+import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 
 import './CartPage.style';
@@ -34,7 +35,8 @@ export class CartPage extends PureComponent {
         hasOutOfStockProductsInCart: PropTypes.bool,
         onCouponCodeUpdate: PropTypes.func,
         onCartItemLoading: PropTypes.func,
-        isCartItemLoading: PropTypes.bool
+        isCartItemLoading: PropTypes.bool,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -224,6 +226,43 @@ export class CartPage extends PureComponent {
         );
     }
 
+    renderDesktop() {
+        return (
+            <>
+                <div block="CartPage" elem="Static">
+                    { this.renderHeading() }
+                    { this.renderCartItems() }
+                    { this.renderDiscountCode() }
+                </div>
+                { this.renderTotalsSection() }
+            </>
+        );
+    }
+
+    renderMobile() {
+        return (
+            <div block="CartPage" elem="Static">
+                { this.renderHeading() }
+                { this.renderCartItems() }
+                <div block="CartPage" elem="Floating">
+                    { this.renderTotals() }
+                </div>
+                { this.renderDiscountCode() }
+                { this.renderPromo() }
+            </div>
+        );
+    }
+
+    renderMainContent() {
+        const { device: { isMobile } } = this.props;
+
+        if (isMobile) {
+            return this.renderMobile();
+        }
+
+        return this.renderDesktop();
+    }
+
     render() {
         return (
             <main block="CartPage" aria-label="Cart Page">
@@ -231,12 +270,7 @@ export class CartPage extends PureComponent {
                   wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
                   label="Cart page details"
                 >
-                    <div block="CartPage" elem="Static">
-                        { this.renderHeading() }
-                        { this.renderCartItems() }
-                        { this.renderDiscountCode() }
-                    </div>
-                    { this.renderTotalsSection() }
+                    { this.renderMainContent() }
                 </ContentWrapper>
                 { this.renderCrossSellProducts() }
             </main>

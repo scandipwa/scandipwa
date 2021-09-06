@@ -53,10 +53,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         showTaxVatNumber: PropTypes.bool.isRequired,
         isLandingPage: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        onCreateAccountSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         state: signInStateType.isRequired,
-        vatNumberValidation: PropTypes.array.isRequired,
         newsletterActive: PropTypes.bool.isRequired
     };
 
@@ -66,7 +64,12 @@ export class MyAccountCreateAccountContainer extends PureComponent {
 
     containerFunctions = {
         onCreateAccountSuccess: this.onCreateAccountSuccess.bind(this),
-        onCreateAccountAttempt: this.onCreateAccountAttempt.bind(this)
+        onCreateAccountAttempt: this.onCreateAccountAttempt.bind(this),
+        onSubscriptionChange: this.onSubscriptionChange.bind(this)
+    };
+
+    state = {
+        isSubscriptionSelected: false
     };
 
     containerProps() {
@@ -77,13 +80,20 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             newsletterActive
         } = this.props;
 
+        const { isSubscriptionSelected } = this.state;
+
         return {
             state,
             handleSignIn,
             showTaxVatNumber,
             newsletterActive,
-            vatNumberValidation: this.getVatNumberValidation()
+            vatNumberValidation: this.getVatNumberValidation(),
+            isSubscriptionSelected
         };
+    }
+
+    onSubscriptionChange() {
+        this.setState((state) => ({ isSubscriptionSelected: !state.isSubscriptionSelected }));
     }
 
     getVatNumberValidation() {
