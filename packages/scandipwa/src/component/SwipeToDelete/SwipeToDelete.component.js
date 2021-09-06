@@ -187,7 +187,6 @@ export class SwipeToDelete extends PureComponent {
                   mods={ { isAheadRemoveItemThreshold } }
                   mix={ rightSideMix }
                 >
-                    <div block="SwipeToDelete" elem="SafeArea" />
                     { renderRightSideContent() }
                 </div>
             </div>
