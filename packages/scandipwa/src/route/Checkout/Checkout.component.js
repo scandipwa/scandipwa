@@ -367,7 +367,7 @@ export class Checkout extends PureComponent {
         const { checkoutStep, isMobile } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
 
-        if (!showOnMobile && isMobile) {
+        if ((!showOnMobile && isMobile) || checkoutStep === DETAILS_STEP) {
             return null;
         }
 
