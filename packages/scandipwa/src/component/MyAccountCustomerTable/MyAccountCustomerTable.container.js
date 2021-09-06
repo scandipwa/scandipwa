@@ -35,7 +35,12 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountCustomerTableContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
-        customer: customerType.isRequired
+        customer: customerType.isRequired,
+        title: PropTypes.string
+    };
+
+    static defaultProps = {
+        title: ''
     };
 
     containerFunctions = {
@@ -44,9 +49,15 @@ export class MyAccountCustomerTableContainer extends PureComponent {
     };
 
     containerProps() {
-        const { customer } = this.props;
+        const {
+            customer,
+            title
+        } = this.props;
 
-        return { customer };
+        return {
+            customer,
+            title
+        };
     }
 
     showEditPopup() {
