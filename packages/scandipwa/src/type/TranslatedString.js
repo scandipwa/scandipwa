@@ -8,17 +8,11 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
+import { TranslatedValue } from '@scandipwa/webpack-i18n-runtime/src/util/__';
 import PropTypes from 'prop-types';
 
-import { TranslatedStringType } from 'Type/TranslatedString';
-
-export const BreadcrumbType = PropTypes.shape({
-    url: PropTypes.oneOfType([
-        PropTypes.shape({}),
-        PropTypes.string
-    ]),
-    name: TranslatedStringType
-});
-
-export const BreadcrumbsType = PropTypes.arrayOf(BreadcrumbType);
+// eslint-disable-next-line import/prefer-default-export
+export const TranslatedStringType = PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.instanceOf(TranslatedValue)
+]);

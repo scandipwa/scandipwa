@@ -28,6 +28,7 @@ export class ProductCustomizableOptions extends PureComponent {
         setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
         price_range: PropTypes.object.isRequired,
         type_id: PropTypes.string.isRequired,
+        maxQuantity: PropTypes.number,
         selectedCheckboxValues: PropTypes.arrayOf(PropTypes.shape({
             option_id: PropTypes.number,
             option_value: PropTypes.string
@@ -36,6 +37,7 @@ export class ProductCustomizableOptions extends PureComponent {
 
     static defaultProps = {
         options: [],
+        maxQuantity: null,
         selectedCheckboxValues: []
     };
 
@@ -49,6 +51,7 @@ export class ProductCustomizableOptions extends PureComponent {
             setSelectedDropdownValue,
             price_range,
             type_id,
+            maxQuantity,
             selectedCheckboxValues
         } = this.props;
 
@@ -64,6 +67,7 @@ export class ProductCustomizableOptions extends PureComponent {
               productOptionsData={ productOptionsData }
               price_range={ price_range }
               type_id={ type_id }
+              maxQuantity={ maxQuantity }
               selectedCheckboxValues={ selectedCheckboxValues }
             />
         ));

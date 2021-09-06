@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import ProductAlertsQuery from 'Query/ProductAlerts.query';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { StockStatusType } from 'Type/StockStatus';
 import { fetchMutation } from 'Util/Request';
 
 import ProductAlerts from './ProductAlerts.component';
@@ -29,7 +30,8 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/ProductAlerts/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showErrorNotification: (message) => dispatch(showNotification('error', message))
 });
 
 /** @namespace Component/ProductAlerts/Container */
@@ -41,7 +43,7 @@ export class ProductAlertsContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         isInStockAlertEnabled: PropTypes.bool,
         isPriceAlertEnabled: PropTypes.bool,
-        stockStatus: PropTypes.bool
+        stockStatus: StockStatusType
     };
 
     static defaultProps = {

@@ -323,7 +323,8 @@ export class ProductActions extends PureComponent {
             } = {},
             getSelectedCustomizableOptions,
             productOptionsData,
-            device: { isMobile }
+            device: { isMobile },
+            maxQuantity
         } = this.props;
 
         if (isMobile) {
@@ -342,6 +343,7 @@ export class ProductActions extends PureComponent {
                   productOptionsData={ productOptionsData }
                   price_range={ price_range }
                   type_id={ type_id }
+                  maxQuantity={ maxQuantity }
                 />
             </section>
         );

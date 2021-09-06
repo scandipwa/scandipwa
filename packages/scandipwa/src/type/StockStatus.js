@@ -11,14 +11,10 @@
 
 import PropTypes from 'prop-types';
 
-import { TranslatedStringType } from 'Type/TranslatedString';
+import { IN_STOCK, OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 
-export const BreadcrumbType = PropTypes.shape({
-    url: PropTypes.oneOfType([
-        PropTypes.shape({}),
-        PropTypes.string
-    ]),
-    name: TranslatedStringType
-});
-
-export const BreadcrumbsType = PropTypes.arrayOf(BreadcrumbType);
+// eslint-disable-next-line import/prefer-default-export
+export const StockStatusType = PropTypes.oneOf([
+    IN_STOCK,
+    OUT_OF_STOCK
+]);

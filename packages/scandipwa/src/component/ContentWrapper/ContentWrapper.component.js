@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ChildrenType, MixType } from 'Type/Common';
+import { TranslatedStringType } from 'Type/TranslatedString';
 
 import './ContentWrapper.style';
 
@@ -29,7 +30,7 @@ export class ContentWrapper extends PureComponent {
             block: PropTypes.string,
             elem: PropTypes.string
         }),
-        label: PropTypes.string.isRequired,
+        label: TranslatedStringType.isRequired,
         isNotSection: PropTypes.bool
     };
 

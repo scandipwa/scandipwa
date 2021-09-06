@@ -45,7 +45,7 @@ export class ProductAttributes extends PureComponent {
         return (
             uniqueGroups.map(
                 (group) => (
-                    <div block="ProductAttributes" elem="AttributeBlock">
+                    <div block="ProductAttributes" elem="AttributeBlock" key={ group.attribute_group_name }>
                         <h2 block="ProductAttributes" elem="Group">
                             { group.attribute_group_name }
                         </h2>
