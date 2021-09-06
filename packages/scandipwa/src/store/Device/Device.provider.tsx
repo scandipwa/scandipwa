@@ -1,47 +1,45 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import isMobile, { isMobileClientHints, isUsingClientHints } from 'Util/Mobile';
+import { updateConfigDevice } from 'Store/Config/Config.action';
+import isMobile from 'Util/Mobile';
 
 import { DeviceContext, DeviceContextType } from './Device.context';
 
 export const standaloneDisplayMode = window.matchMedia('(display-mode: standalone)');
 
 export const DeviceContextProvider: React.FC = ({ children }): JSX.Element => {
+    const dispatch = useDispatch();
     const [deviceConfig, setDeviceConfig] = useState<DeviceContextType>({
-        isMobile: true,
-        android: true,
-        ios: false,
-        blackberry: false,
-        opera: false,
-        windows: false,
-        safari: false,
+        isMobile: navigator.userAgentData?.mobile ?? isMobile.any(),
+        android: isMobile.android(),
+        ios: isMobile.iOS(),
+        blackberry: isMobile.blackBerry(),
+        opera: isMobile.opera(),
+        safari: isMobile.safari(),
+        windows: isMobile.windows(),
         standaloneMode: standaloneDisplayMode.matches
     });
 
     useEffect(() => {
-        async function handleResize() {
-            if (isUsingClientHints) {
-                const { platform, model } = await isMobileClientHints.getDeviceData();
+        dispatch(updateConfigDevice({
+            isMobile: isMobile.any(),
+            android: isMobile.android(),
+            ios: isMobile.iOS(),
+            blackberry: isMobile.blackBerry(),
+            opera: isMobile.opera(),
+            safari: isMobile.safari(),
+            windows: isMobile.windows()
+        }));
+    }, []);
+
+    useEffect(() => {
+        function handleResize() {
+            const { mobile = isMobile.any() } = navigator.userAgentData || {};
+            if (deviceConfig.isMobile !== mobile) {
                 setDeviceConfig((config) => ({
                     ...config,
-                    isMobile: isMobile.any(),
-                    android: isMobile.android(platform),
-                    ios: isMobile.iOS(platform),
-                    blackberry: isMobile.blackBerry(model),
-                    opera: isMobile.opera(model),
-                    safari: isMobile.safari(model),
-                    windows: isMobile.windows(model)
-                }));
-            } else {
-                setDeviceConfig((config) => ({
-                    ...config,
-                    isMobile: isMobile.any(),
-                    android: isMobile.android(),
-                    ios: isMobile.iOS(),
-                    blackberry: isMobile.blackBerry(),
-                    opera: isMobile.opera(),
-                    safari: isMobile.safari(),
-                    windows: isMobile.windows()
+                    isMobile: mobile
                 }));
             }
         }

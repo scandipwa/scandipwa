@@ -13,19 +13,19 @@ import { ErrorInfo, PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
 
-import Router from 'Component/Router';
+import { Router } from 'Component/Router';
 import SharedTransition from 'Component/SharedTransition';
 import SomethingWentWrong from 'Component/SomethingWentWrong';
 import { DeviceContextProvider } from 'Store/Device/Device.provider';
 import injectStaticReducers from 'Store/index';
-import getStore from 'Util/Store';
+import { getStore } from 'Util/Store';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AppProps {}
 
 /** @namespace /Component/App/Component/AppComponent */
 export class App extends PureComponent<AppProps> {
-    private reduxStore: ReturnType<typeof getStore>;
+    private reduxStore: ReturnType<typeof injectStaticReducers> | undefined;
 
     productionFunctions = [
         this.disableReactDevTools.bind(this),
@@ -46,9 +46,9 @@ export class App extends PureComponent<AppProps> {
     ];
 
     contextProviders = [
+        this.renderDeviceContext.bind(this),
         this.renderRedux.bind(this),
-        this.renderUnStated.bind(this),
-        this.renderDeviceContext.bind(this)
+        this.renderUnStated.bind(this)
     ];
 
     state = {
@@ -72,14 +72,13 @@ export class App extends PureComponent<AppProps> {
 
     configureStore(): void {
         const store = getStore();
-        injectStaticReducers(store);
 
-        this.reduxStore = store;
+        this.reduxStore = injectStaticReducers(store);
     }
 
     renderRedux(children: JSX.Element): JSX.Element {
         return (
-            <Provider store={ this.reduxStore } key="redux">
+            <Provider store={ this.reduxStore! } key="redux">
                 { children }
             </Provider>
         );

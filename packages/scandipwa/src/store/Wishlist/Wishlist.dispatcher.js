@@ -20,7 +20,7 @@ import {
 } from 'Store/Wishlist/Wishlist.action';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
-import getStore from 'Util/Store';
+import { getStore } from 'Util/Store';
 import { getPriceRange } from 'Util/Wishlist';
 
 export const CartDispatcher = import(

@@ -11,10 +11,12 @@
  */
 
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { match as Match, useHistory, useLocation } from 'react-router-dom';
+import { useAppSelector } from 'src/hooks';
 
 import { renderHOC } from 'Util/RenderHOC';
+import { RootState } from 'Util/Store/type';
 
 import { UrlRewritesComponent, UrlRewritesProps, UrlRewritesTypes } from './UrlRewrites.component';
 import {
@@ -35,16 +37,7 @@ export const NoMatchDispatcher = import(
 );
 
 /** @namespace Component/UrlRewrites/Container/mapStateToProps */
-export const urlRewritesSelector = (state: any): {
-    urlRewrite: {
-        id?: string,
-        type?: UrlRewritesTypes,
-        sku?: string,
-        notFound?: boolean
-    },
-    isLoading: boolean,
-    requestedUrl?: string
-} => ({
+export const urlRewritesSelector = (state: RootState) => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
     isLoading: state.UrlRewritesReducer.isLoading,
     requestedUrl: state.UrlRewritesReducer.requestedUrl
@@ -72,7 +65,7 @@ export const urlRewritesLogic = (props: UrlRewritesExternalProps): UrlRewritesPr
         isLoading,
         urlRewrite,
         requestedUrl = ''
-    } = useSelector(urlRewritesSelector);
+    } = useAppSelector(urlRewritesSelector);
 
     const requestUrlRewrite = (urlParam = location.pathname): void => {
         UrlRewritesDispatcher.then(
@@ -119,7 +112,7 @@ export const urlRewritesLogic = (props: UrlRewritesExternalProps): UrlRewritesPr
         }
 
         if (type) {
-            return type;
+            return type as UrlRewritesTypes;
         }
 
         return '';

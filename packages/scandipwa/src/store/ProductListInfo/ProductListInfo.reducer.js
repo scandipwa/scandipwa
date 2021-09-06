@@ -65,7 +65,7 @@ export const getInitialState = () => ({
 });
 
 /** @namespace Store/ProductListInfo/Reducer */
-export const ProductListReducer = (
+export const ProductListInfoReducer = (
     state = getInitialState(),
     action
 ) => {
@@ -107,5 +107,3 @@ export const ProductListReducer = (
         return state;
     }
 };
-
-export default ProductListReducer;

@@ -19,13 +19,11 @@
 export class BrowserDatabase {
     /**
      * Loads data from browser storage
-     * @param {String} location Name of the local storage
-     * @return {Object} Object stored in a specified path
-     * @memberof BrowserDatabase
+     * @param location Name of the local storage
      */
-    getItem(location) {
+    getItem<T>(location: string): T | null {
         try {
-            const entryObject = JSON.parse(localStorage.getItem(location));
+            const entryObject = JSON.parse(localStorage.getItem(location) as string);
             const { data, expiration, createdAt } = entryObject;
             const MILLISECONDS_TO_SECONDS = 1000;
 
@@ -43,13 +41,11 @@ export class BrowserDatabase {
 
     /**
      * Save data to local storage
-     * @param {Any} data The value to save to local storage
-     * @param {String} location Name of the local storage
-     * @param {Number} expiration Time to store entry (in seconds)
-     * @return {Void}
-     * @memberof BrowserDatabase
+     * @param data The value to save to local storage
+     * @param location Name of the local storage
+     * @param expiration Time to store entry (in seconds)
      */
-    setItem(data, location, expiration) {
+    setItem<T>(data: T, location: string, expiration?: number): void {
         localStorage.setItem(location, JSON.stringify({
             data,
             expiration,
@@ -59,11 +55,11 @@ export class BrowserDatabase {
 
     /**
      * Delete item from local storage
-     * @param {String} location
-     * @memberof BrowserDatabase
      */
-    deleteItem(location) {
+    deleteItem(location: string): boolean {
         localStorage.removeItem(location);
+
+        return true;
     }
 }
 

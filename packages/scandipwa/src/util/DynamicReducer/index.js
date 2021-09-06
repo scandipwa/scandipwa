@@ -11,7 +11,7 @@
 import React from 'react';
 
 import injectReducers from 'Util/DynamicReducer/Helper';
-import getStore from 'Util/Store';
+import { getStore } from 'Util/Store';
 
 export const withReducers = (reducers) => (WrappedComponent) => {
     const injectAndExecute = (props) => {

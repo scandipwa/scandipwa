@@ -1,5 +1,7 @@
 import { createContext, useContext } from 'react';
 
+import isMobile from 'Util/Mobile';
+
 export interface DeviceContextType {
     isMobile: boolean
     android: boolean
@@ -12,13 +14,13 @@ export interface DeviceContextType {
 }
 
 export const DeviceContext = createContext<DeviceContextType>({
-    isMobile: true,
-    android: true,
-    ios: false,
-    blackberry: false,
-    opera: false,
-    windows: false,
-    safari: false,
+    isMobile: navigator.userAgentData?.mobile ?? isMobile.any(),
+    android: isMobile.android(),
+    ios: isMobile.iOS(),
+    blackberry: isMobile.blackBerry(),
+    opera: isMobile.opera(),
+    safari: isMobile.safari(),
+    windows: isMobile.windows(),
     standaloneMode: window.matchMedia('(display-mode: standalone)').matches
 });
 

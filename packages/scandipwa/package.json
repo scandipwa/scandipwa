@@ -146,6 +146,14 @@
                 "rules": {
                     "max-len": "off"
                 }
+            },
+            {
+                "files": [
+                    "./src/**/**.d.ts"
+                ],
+                "rules": {
+                    "no-use-before-define": "off"
+                }
             }
         ],
         "env": {

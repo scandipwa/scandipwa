@@ -16,7 +16,7 @@ import {
     updateRecentlyViewedProducts
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { QueryDispatcher } from 'Util/Request';
-import getStore from 'Util/Store';
+import { getStore } from 'Util/Store';
 
 /**
  * RecentlyViewedProducts Dispatcher

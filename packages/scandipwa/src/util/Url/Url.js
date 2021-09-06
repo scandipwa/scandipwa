@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import getStore from 'Util/Store';
+import { getStore } from 'Util/Store';
 
 /**
  * Update query params without adding to history

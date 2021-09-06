@@ -19,7 +19,7 @@ import {
     CONFIGURABLE,
     DOWNLOADABLE
 } from 'Util/Product';
-import getStore from 'Util/Store';
+import { getStore } from 'Util/Store';
 
 /**
  * Checks whether every option is in attributes

@@ -105,10 +105,8 @@ export const routerLogic = ({ error, errorInfo }: RouterExternalProps): RouterPr
     };
 };
 
-export default function Router(props: Omit<RouterExternalProps, 'error' | 'errorInfo'>): JSX.Element {
-    return (
+export const Router: React.FC<Omit<RouterExternalProps, 'error' | 'errorInfo'>> = (props): JSX.Element => (
     <ErrorCatcher>
         { ({ error, errorInfo }) => renderHOC(RouterComponent, routerLogic, 'Router')({ ...props, error, errorInfo }) }
     </ErrorCatcher>
-    );
-}
+);

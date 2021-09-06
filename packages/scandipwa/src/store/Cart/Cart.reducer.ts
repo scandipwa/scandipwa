@@ -9,6 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Action, Reducer } from 'redux';
+
+import { CartData } from 'Type/Cart';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 
@@ -16,11 +19,30 @@ import { UPDATE_SHIPPING_PRICE, UPDATE_TOTALS } from './Cart.action';
 
 export const CART_TOTALS = 'cart_totals';
 
+export interface CartStore {
+    cartTotals: Partial<CartData>
+}
+
+declare module 'Util/Store/type' {
+    export interface RootState {
+        CartReducer: CartStore
+    }
+}
+
+export type CartAction = {
+    cartData?: CartData
+}
+
+/** @namespace Store/Cart/Reducer/getInitialState */
+export const getInitialState = (): CartStore => ({
+    cartTotals: BrowserDatabase.getItem<CartData>(CART_TOTALS) || {}
+});
+
 /** @namespace Store/Cart/Reducer/updateCartTotals */
-export const updateCartTotals = (action) => {
+export const updateCartTotals = (action: CartAction): CartStore => {
     const { cartData: { items = [], ...rest } = {} } = action;
 
-    const cartTotals = {
+    const cartTotals: CartStore['cartTotals'] = {
         ...rest,
         items: []
     };
@@ -35,7 +57,7 @@ export const updateCartTotals = (action) => {
             return normalizedItem;
         });
 
-        cartTotals.items = normalizedItemsProduct;
+        cartTotals.items = normalizedItemsProduct as CartData['items'];
     }
 
     BrowserDatabase.setItem(
@@ -47,10 +69,10 @@ export const updateCartTotals = (action) => {
 };
 
 /** @namespace Store/Cart/Reducer/updateShippingPrice */
-export const updateShippingPrice = (action, state) => {
+export const updateShippingPrice = (action: CartAction, state: CartStore): CartStore => {
     /* eslint-disable no-unused-vars */
     const {
-        data: {
+        cartData: {
             items,
             ...rest
         } = {}
@@ -65,13 +87,11 @@ export const updateShippingPrice = (action, state) => {
     };
 };
 
-/** @namespace Store/Cart/Reducer/getInitialState */
-export const getInitialState = () => ({
-    cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {}
-});
-
 /** @namespace Store/Cart/Reducer */
-export const CartReducer = (
+export const CartReducer: Reducer<
+    CartStore,
+    Action<typeof UPDATE_SHIPPING_PRICE | typeof UPDATE_TOTALS> & CartAction
+> = (
     state = getInitialState(),
     action
 ) => {
@@ -79,12 +99,10 @@ export const CartReducer = (
 
     switch (type) {
     case UPDATE_TOTALS:
-        return updateCartTotals(action, state);
+        return updateCartTotals(action);
     case UPDATE_SHIPPING_PRICE:
         return updateShippingPrice(action, state);
     default:
         return state;
     }
 };
-
-export default CartReducer;

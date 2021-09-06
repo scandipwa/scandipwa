@@ -9,16 +9,34 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Action, Reducer } from 'redux';
+
+import { Breadcrumbs } from 'Type/Breadcrumbs';
+
 import { TOGGLE_BREADCRUMBS, UPDATE_BREADCRUMBS } from './Breadcrumbs.action';
 
+export interface BreadcrumbsStore {
+    breadcrumbs: Breadcrumbs
+    areBreadcrumbsVisible: boolean
+}
+
+declare module 'Util/Store/type' {
+    export interface RootState {
+        BreadcrumbsReducer: BreadcrumbsStore
+    }
+}
+
 /** @namespace Store/Breadcrumbs/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): BreadcrumbsStore => ({
     breadcrumbs: [],
     areBreadcrumbsVisible: true
 });
 
 /** @namespace Store/Breadcrumbs/Reducer */
-export const BreadcrumbsReducer = (
+export const BreadcrumbsReducer: Reducer<
+    BreadcrumbsStore,
+    Action<typeof TOGGLE_BREADCRUMBS | typeof UPDATE_BREADCRUMBS> & BreadcrumbsStore
+> = (
     state = getInitialState(),
     action
 ) => {
@@ -43,5 +61,3 @@ export const BreadcrumbsReducer = (
         return state;
     }
 };
-
-export default BreadcrumbsReducer;

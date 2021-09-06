@@ -12,7 +12,7 @@
 import { updateCustomerSignInStatus } from 'Store/MyAccount/MyAccount.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteGuestQuoteId } from 'Util/Cart';
-import getStore from 'Util/Store';
+import { getStore } from 'Util/Store';
 
 export const AUTH_TOKEN = 'auth_token';
 

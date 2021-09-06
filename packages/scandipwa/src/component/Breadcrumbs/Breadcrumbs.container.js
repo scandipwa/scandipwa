@@ -11,7 +11,7 @@
 
 import { connect } from 'react-redux';
 
-import BreadcrumbsReducer from 'Store/Breadcrumbs/Breadcrumbs.reducer';
+import { BreadcrumbsReducer } from 'Store/Breadcrumbs/Breadcrumbs.reducer';
 import { withReducers } from 'Util/DynamicReducer';
 
 import Breadcrumbs from './Breadcrumbs.component';
