@@ -317,7 +317,7 @@ export class CartItem extends PureComponent {
         } = this.props;
 
         if (!isProductInStock) {
-            return null;
+            return <div block="CartItem" elem="QuantityWrapper" mods={ { isPlaceholder: true } } />;
         }
 
         return (
