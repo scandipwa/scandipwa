@@ -133,5 +133,5 @@ export const getAvailableRegions = (country_id, countries) => {
     const { available_regions } = country;
 
     // need to handle null value
-    return available_regions || [{}];
+    return available_regions || [];
 };
