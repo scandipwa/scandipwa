@@ -20,7 +20,8 @@
     },
     "dependencies": {
         "@scandipwa/scandipwa-template-plugin-system": "0.1.17",
-        "@tilework/mosaic-cra-scripts": "0.1.16"
+        "@tilework/mosaic-cra-scripts": "0.1.16",
+        "@scandipwa/next-emulator": "file:../next-emulator"
     },
     "peerDependencies": {
         "@tilework/mosaic": "0.1.4"

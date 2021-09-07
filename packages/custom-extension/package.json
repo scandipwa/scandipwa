@@ -1,0 +1,16 @@
+{
+    "name": "@scandipwa/custom-extension",
+    "version": "0.0.1",
+    "scandipwa": {
+        "type": "extension",
+        "nextPages": {
+          "index": "server"
+        }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    }
+}

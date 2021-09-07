@@ -1,3 +1,7 @@
 #!/usr/bin/env node
 
-require('@tilework/mosaic-cra-scripts/bin/cra-scripts');
+const generatePages = require('@scandipwa/next-emulator/lib/generatePages');
+
+generatePages().then(() => {
+    require('@tilework/mosaic-cra-scripts/bin/cra-scripts');
+});
