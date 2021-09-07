@@ -1,0 +1,43 @@
+{
+    "name": "<%= name %>",
+    "description": "Blank app source-code used by CSA.",
+    "version": "0.0.0",
+    "scripts": {
+        "start": "scandipwa-scripts start",
+        "build": "scandipwa-scripts build"
+    },
+    "dependencies": {
+        "@scandipwa/scandipwa-scripts": "<%= scandipwaScriptsVersion %>",
+        "@scandipwa/eslint-config": "<%= eslintConfigVersion %>",
+        "@tilework/mosaic": "<%= mosaicVersion %>",
+        "@scandipwa/framework": "0.0.3",
+        "@scandipwa/router": "0.0.3"
+    },
+    "scandipwa": {
+        "themeAlias": "Blank",
+        "type": "theme",
+        "extensions": {
+            "@scandipwa/framework": true,
+            "@scandipwa/router": true
+        }
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    },
+    "license": "OSL-3.0",
+    "publishConfig": {
+        "access": "public"
+    }
+}

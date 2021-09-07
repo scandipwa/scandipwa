@@ -25,6 +25,9 @@ yarn-error.log*
 
 packages/test
 packages/test/**/*
+# runtime-packages
+# runtime-packages/**/*
+runtime-packages/csa
 
 # build specifc files
 lerna-debug.log
