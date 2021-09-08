@@ -17,9 +17,7 @@ import {
     CHANGE_NAVIGATION_STATE,
     GOTO_PREVIOUS_NAVIGATION_STATE
 } from './Navigation.action';
-
-export const TOP_NAVIGATION_TYPE = 'TOP_NAVIGATION_TYPE';
-export const BOTTOM_NAVIGATION_TYPE = 'BOTTOM_NAVIGATION_TYPE';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from './Navigation.config';
 
 /** @namespace Store/Navigation/Reducer/getInitialState */
 export const getInitialState = () => ({

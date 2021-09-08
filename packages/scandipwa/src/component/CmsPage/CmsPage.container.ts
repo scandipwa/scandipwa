@@ -19,7 +19,7 @@ import { CmsPageQuery } from 'Query/CmsPage.query';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.config';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { BlockListType } from 'Type/CMS';
 // import { LocationType, MatchType } from 'Type/Common';

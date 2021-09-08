@@ -16,7 +16,7 @@ import { withRouter } from 'react-router';
 
 import { FILTER } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.config';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { HistoryType, LocationType } from 'Type/Common';
 import { getQueryParam, setQueryParams } from 'Util/Url';

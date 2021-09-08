@@ -18,7 +18,7 @@ import { MENU } from 'Component/Header/Header.config';
 import Menu from 'Component/Menu';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.config';
 import { HistoryType } from 'Type/Common';
 import { appendWithStoreCode } from 'Util/Url';
 

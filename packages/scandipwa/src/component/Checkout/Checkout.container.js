@@ -21,7 +21,7 @@ import { updateShippingPrice } from 'Store/Cart/Cart.action';
 import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { customerType } from 'Type/Account';
 import { HistoryType } from 'Type/Common';

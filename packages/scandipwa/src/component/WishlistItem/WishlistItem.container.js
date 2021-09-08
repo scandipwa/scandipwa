@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
