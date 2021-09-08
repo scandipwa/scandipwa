@@ -40,7 +40,7 @@ import {
     // CART,
     // CHANGE_PASSWORD,
     // CHECKOUT,
-    // CMS_PAGE,
+    CMS_PAGE,
     // COMPARE,
     // CONFIRM_ACCOUNT,
     // CONTACT_PAGE,
@@ -148,11 +148,11 @@ export class RouterComponent extends SimpleComponent<RouterProps> {
         //     position: 25,
         //     name: SEARCH
         // },
-        // {
-        //     component: <Route path={ withStoreRegex('/page') } render={ () => <CmsPage /> } />,
-        //     position: 40,
-        //     name: CMS_PAGE
-        // },
+        {
+            component: <Route path={ withStoreRegex('/page') } render={ ({ match }) => <CmsPage match={ match } /> } />,
+            position: 40,
+            name: CMS_PAGE
+        },
         // {
         //     component: <Route path={ withStoreRegex('/cart') } exact render={ () => <CartPage /> } />,
         //     position: 50,
