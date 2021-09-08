@@ -27,11 +27,6 @@ export class CategorySearch extends PureComponent {
         onChange: PropTypes.func.isRequired
     };
 
-    __construct(props) {
-        super.__construct(props);
-        this.state = { value: decodeURIComponent(props.value) };
-    }
-
     componentDidUpdate(prevProps) {
         const { value: prevValue } = prevProps;
         const { value } = this.props;
@@ -40,6 +35,11 @@ export class CategorySearch extends PureComponent {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ value });
         }
+    }
+
+    __construct(props) {
+        super.__construct(props);
+        this.state = { value: decodeURIComponent(props.value) };
     }
 
     onChange = (e) => {
