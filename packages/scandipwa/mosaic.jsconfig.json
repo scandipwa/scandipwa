@@ -25,7 +25,7 @@
                 "src/type/*"
             ],
             "Pages/*": [
-              "src/pages/*"
+              "pages/*"
             ]
         }
     }

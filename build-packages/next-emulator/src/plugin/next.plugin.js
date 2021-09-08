@@ -1,58 +1,29 @@
 /* eslint-disable */
-import { lazy, Suspense, useEffect, useState } from 'react';
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
 
-const {
-    NEXTJS_PAGES
-} = process.env;
+import AppWrapper from '../component/AppWrapper';
+import { isMatchingRoute } from '../util/Next';
 
-const pages = JSON.parse(NEXTJS_PAGES);
-const pageRoutes = Object.keys(pages);
-
-const isMatchingRoute = (route, pathname) => {
-    const routeRe = route
-        .replace(/\[[^\]]+\]/ig, '[^\\/]+')
-        .replace(/index/ig, '/')
-        .replace(/\/+$/, '');
-
-    const re = new RegExp(`^${routeRe}$`, 'i');
-
-    return re.test(pathname.replace(/\/+$/, ''));
-};
-
-const FallbackComponent = () => (<div>loading...</div>);
-
-// const getResult = async (module) => {
-//     const result = await import(module);
-//     return result;
-// }
-
-// eslint-disable-next-line react/prop-types
-const PageComponent = ({ route, type }) => {
-    // const filepath = `@scandipwa/scandipwa/pages/${route}`;
-    const filepath = `@scandipwa/scandipwa/pages/index`;
-    const RouteComponent = lazy(() => import(filepath));
-    // const [props, setProps] = useState({});
-    const props = {};
-
-    return null;
-
-    return (
-        <Suspense fallback={ <FallbackComponent /> }>
-            <RouteComponent {...props} />
-        </Suspense>
-    );
-};
+const { NEXTJS_PAGES } = process.env;
+const nextPages = JSON.parse(NEXTJS_PAGES);
+const nextRoutes = Object.keys(nextPages);
 
 const render = (args, callback) => {
     const { pathname } = location;
-    const matchingRoute = pageRoutes.find((r) => isMatchingRoute(r, pathname));
+    const matchingRoute = nextRoutes.find((route) => isMatchingRoute(route, pathname));
 
     if (matchingRoute) {
         return (
-            <PageComponent
-              route={ matchingRoute }
-              type={ pages[matchingRoute] }
-            />
+            <AppWrapper route={ matchingRoute } />
         );
     }
 
