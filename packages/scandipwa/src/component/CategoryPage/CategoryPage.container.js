@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { GRID_LAYOUT, LAYOUT_KEY, LIST_LAYOUT } from 'Component/CategoryPage/CategoryPage.config';
 import { CATEGORY } from 'Component/Header/Header.config';
@@ -722,6 +723,6 @@ export class CategoryPageContainer extends PureComponent {
     }
 }
 
-export default withReducers({
+export default withRouter(withReducers({
     CategoryReducer
-})(connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer));
+})(connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer)));
