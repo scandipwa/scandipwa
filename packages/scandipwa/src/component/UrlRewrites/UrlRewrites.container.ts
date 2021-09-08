@@ -11,10 +11,10 @@
  */
 
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { match as Match, useHistory, useLocation } from 'react-router-dom';
 import { useAppSelector } from 'src/hooks';
 
+import { useUrlRewritesStore } from 'Store/UrlRewrites';
 import { renderHOC } from 'Util/RenderHOC';
 import { RootState } from 'Util/Store/type';
 
@@ -25,11 +25,6 @@ import {
     TYPE_NOTFOUND,
     TYPE_PRODUCT
 } from './UrlRewrites.config';
-
-export const UrlRewritesDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/UrlRewrites/UrlRewrites.dispatcher'
-);
 
 export const NoMatchDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -60,18 +55,14 @@ export const urlRewritesLogic = (props: UrlRewritesExternalProps): UrlRewritesPr
     const { match } = props;
     const history = useHistory();
     const location = useLocation();
-    const dispatch = useDispatch();
+
     const {
         isLoading,
         urlRewrite,
         requestedUrl = ''
     } = useAppSelector(urlRewritesSelector);
+    const { requestUrlRewrite } = useUrlRewritesStore();
 
-    const requestUrlRewrite = (urlParam = location.pathname): void => {
-        UrlRewritesDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, { urlParam })
-        );
-    };
     const getIsLoading = () => location.pathname !== requestedUrl;
     const redirectToCorrectUrl = () => {
         const type = getType();
@@ -93,7 +84,7 @@ export const urlRewritesLogic = (props: UrlRewritesExternalProps): UrlRewritesPr
          * (which is only valid for 1st load).
          */
         if (getIsLoading()) {
-            const state = (<Record<string, unknown>>location?.state).state || <Record<string, unknown>>{};
+            const state = (<Record<string, unknown>>location?.state)?.state || <Record<string, unknown>>{};
             const typeKey = Object.keys(state as Record<string, unknown>)
                 .find((key) => key in stateMapping) as keyof typeof stateMapping | undefined;
 
@@ -188,7 +179,7 @@ export const urlRewritesLogic = (props: UrlRewritesExternalProps): UrlRewritesPr
 
     useEffect(() => {
         requestUrlRewrite();
-    }, []);
+    }, [location.pathname]);
 
     useEffect(() => {
         initialUrl = location.pathname;
@@ -217,4 +208,4 @@ export const urlRewritesLogic = (props: UrlRewritesExternalProps): UrlRewritesPr
     };
 };
 
-export const UrlRewrites = renderHOC(UrlRewritesComponent, urlRewritesLogic);
+export const UrlRewrites = renderHOC(UrlRewritesComponent, urlRewritesLogic, 'UrlRewrites');
