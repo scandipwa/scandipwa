@@ -225,6 +225,7 @@ export class ProductPageContainer extends PureComponent {
          * Scroll page top in order to display it from the start
          */
         this.scrollTop();
+        this._addToRecentlyViewedProducts();
     }
 
     componentDidUpdate(prevProps) {
@@ -272,6 +273,7 @@ export class ProductPageContainer extends PureComponent {
          */
         if (productSKU !== sku) {
             this.requestProduct();
+            this._addToRecentlyViewedProducts();
         }
 
         /**
@@ -300,7 +302,7 @@ export class ProductPageContainer extends PureComponent {
             this.getRequiredProductOptions(items);
         }
 
-        this._addToRecentlyViewedProducts();
+        // this._addToRecentlyViewedProducts();
     }
 
     isProductInformationTabEmpty() {
