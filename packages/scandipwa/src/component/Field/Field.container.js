@@ -305,8 +305,15 @@ export class FieldContainer extends PureComponent {
     }
 
     updateValidationStatus() {
+        const { validationMessage, validationStatus } = this.state;
         const validationRule = this.validateField();
 
+        if (
+            validationMessage === validationRule.message
+            && validationStatus === !validationRule.validate
+        ) {
+            return;
+        }
         this.setState({
             validationStatus: !validationRule.validate,
             validationMessage: validationRule.message
