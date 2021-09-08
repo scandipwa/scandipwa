@@ -10,32 +10,29 @@
  */
 
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { match as Match } from 'react-router';
 
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { useNavigationStore } from 'Store/Navigation';
 import { renderHOC } from 'Util/RenderHOC';
+import { RootState } from 'Util/Store/type';
 
 import { HomePageComponent, HomePageProps } from './HomePage.component';
 
 import './HomePage.style';
 
 /** @namespace Component/HomePage/Container/mapStateToProps */
-export const homePageSelector = (state: any): { pageIdentifiers: string } => ({
-    pageIdentifiers: state.ConfigReducer.cms_home_page
+export const homePageSelector = (state: RootState) => ({
+    pageIdentifiers: state.ConfigReducer.cms_home_page as string
 });
 
 export const homePageLogic = ({ match }: { match: Match }): HomePageProps => {
-    const dispatch = useDispatch();
-    const changeHeaderStateAction = (state: any) => dispatch(
-        changeNavigationState(TOP_NAVIGATION_TYPE, state)
-    );
+    const { changeTopNavigationState } = useNavigationStore();
     const { pageIdentifiers } = useSelector(homePageSelector);
 
     useEffect(() => {
-        changeHeaderStateAction({
+        changeTopNavigationState({
             name: DEFAULT_STATE_NAME,
             isHiddenOnMobile: false
         });
