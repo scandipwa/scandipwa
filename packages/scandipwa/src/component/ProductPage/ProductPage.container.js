@@ -273,7 +273,7 @@ export class ProductPageContainer extends PureComponent {
          */
         if (productSKU !== sku) {
             this.requestProduct();
-            this._addToRecentlyViewedProducts();
+            // this._addToRecentlyViewedProducts();
         }
 
         /**
