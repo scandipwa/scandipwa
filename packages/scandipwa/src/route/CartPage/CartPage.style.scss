@@ -180,6 +180,10 @@
     &-Discount {
         border-block-start: 0;
 
+        @include mobile {
+            border-block-start: 1px solid var(--expandable-content-divider-color);
+        }
+
         @include desktop {
             margin-block-start: 24px;
         }
