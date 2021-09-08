@@ -69,7 +69,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
     };
 
     state = {
-        isSubscriptionSelected: false
+        isSubscriptionSelected: false,
+        isSubmitted: false
     };
 
     containerProps() {
@@ -80,7 +81,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             newsletterActive
         } = this.props;
 
-        const { isSubscriptionSelected } = this.state;
+        const { isSubscriptionSelected, isSubmitted } = this.state;
 
         return {
             state,
@@ -88,7 +89,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             showTaxVatNumber,
             newsletterActive,
             vatNumberValidation: this.getVatNumberValidation(),
-            isSubscriptionSelected
+            isSubscriptionSelected,
+            isSubmitted
         };
     }
 
@@ -114,6 +116,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         }
 
         setLoadingState(!invalidFields);
+        this.setState({ isSubmitted: true });
     }
 
     async onCreateAccountSuccess(fields) {
