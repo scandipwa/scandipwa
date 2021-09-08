@@ -119,16 +119,17 @@
             "@scandipwa/scandipwa-guidelines/use-namespace": "off",
             "@scandipwa/scandipwa-guidelines/derived-class-names": "off",
             "@scandipwa/scandipwa-guidelines/only-render-in-component": "off",
-            "max-classes-per-file": "off",
+            "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "off",
+            "@scandipwa/scandipwa-guidelines/jsx-no-conditional": "off",
+            "@scandipwa/scandipwa-guidelines/use-magic-construct": "off",
             "@scandipwa/scandipwa-guidelines/no-jsx-variables": "off",
+            "max-classes-per-file": "off",
             "max-lines": "off",
             "react/prop-types": "off",
             "consistent-return": "off",
             "fp/no-let": "off",
-            "@scandipwa/scandipwa-guidelines/jsx-no-conditional": "off",
             "react/boolean-prop-naming": "off",
-            "@typescript-eslint/no-empty-interface": "off",
-            "@scandipwa/scandipwa-guidelines/use-magic-construct": "off"
+            "@typescript-eslint/no-empty-interface": "off"
         },
         "overrides": [
             {
