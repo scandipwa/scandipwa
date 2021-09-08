@@ -59,7 +59,7 @@ export class App extends PureComponent<AppProps> {
     componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
         this.setState({
             isSomethingWentWrong: true,
-            errorDetails: { err: error, info: errorInfo }
+            errorDetails: { error, errorInfo }
         });
     }
 
