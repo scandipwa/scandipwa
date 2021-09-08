@@ -8,6 +8,7 @@ declare global {
         actionName?: {
             type?: string
         }
+        secure_base_media_url?: string
     }
 
     function __(message: string): string
