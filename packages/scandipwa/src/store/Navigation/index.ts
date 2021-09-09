@@ -7,7 +7,12 @@ export const useNavigationStore = () => {
     const dispatch = useDispatch();
 
     return {
-        changeTopNavigationState: (state: any): void => {
+        changeTopNavigationState: (state: {
+            name: string,
+            title?: string,
+            onBackClick?: () => void
+            isHiddenOnMobile?: boolean
+        }): void => {
             dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state));
         },
         changeBottomNavigationState: (state: any): void => {

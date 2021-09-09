@@ -16,10 +16,9 @@ import { match as Match, useLocation } from 'react-router';
 
 import { CMS_PAGE } from 'Component/Header/Header.config';
 import { CmsPageQuery } from 'Query/CmsPage.query';
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { useBreadcrumbsStore } from 'Store/Breadcrumbs';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.config';
+import { useNavigationStore } from 'Store/Navigation';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { BlockListType } from 'Type/CMS';
 // import { LocationType, MatchType } from 'Type/Common';
@@ -89,23 +88,14 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
     const location = useLocation();
     const { isOffline } = useSelector(cmsPageSelector);
     const dispatch = useDispatch();
-
-    const updateBreadcrumbsAction = (title: string) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCmsPage({ title }, dispatch)
-    );
-    const setHeaderStateAction = (state: {
-        name: string,
-        title: string,
-        onBackClick?: () => void
-    }) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state));
+    const { changeTopNavigationState } = useNavigationStore();
+    const {
+        updateBreadcrumbs,
+        toggleBreadcrumbs
+    } = useBreadcrumbsStore();
+    // const setHeaderStateAction = (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state));
     const setBigOfflineNoticeAction = (isBig: boolean) => dispatch(setBigOfflineNotice(isBig));
     const updateMetaAction = (meta: Record<string, string>) => dispatch(updateMeta(meta));
-    const toggleBreadcrumbsAction = (isActive: boolean) => {
-        BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update([], dispatch)
-        );
-        dispatch(toggleBreadcrumbs(isActive));
-    };
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isPageLoaded, setIsPageLoaded] = useState<boolean>(false);
@@ -130,7 +120,7 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
 
         debounce(setOfflineNoticeSize, LOADING_TIME)();
 
-        updateBreadcrumbsAction(page.title as string);
+        updateBreadcrumbs(page.title as string);
         updateMetaAction({
             title: meta_title as string || title as string,
             description: meta_description as string,
@@ -139,7 +129,7 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
         });
 
         if (!isHomePageUrl(location.pathname)) {
-            setHeaderStateAction({
+            changeTopNavigationState({
                 name: CMS_PAGE,
                 title: content_heading as string,
                 onBackClick: () => history.goBack()
@@ -173,7 +163,7 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
     };
 
     useEffect(() => {
-        toggleBreadcrumbsAction(isBreadcrumbsActive);
+        toggleBreadcrumbs(isBreadcrumbsActive);
 
         window.scrollTo(0, 0);
 
