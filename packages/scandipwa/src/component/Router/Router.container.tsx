@@ -15,6 +15,7 @@ import { useHistory } from 'react-router';
 
 import { ErrorCatcher } from 'Component/ErrorCatcher';
 import { renderHOC } from 'Util/RenderHOC';
+import { RootState } from 'Util/Store/type';
 
 import { RouterComponent, RouterProps } from './Router.component';
 
@@ -39,7 +40,7 @@ export const MyAccountDispatcher = import(
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
-export const routerSelector = (state: any): { isBigOffline: boolean } => ({
+export const routerSelector = (state: RootState) => ({
     isBigOffline: state.OfflineReducer.isBig
 });
 

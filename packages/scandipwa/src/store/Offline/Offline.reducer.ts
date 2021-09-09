@@ -9,19 +9,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Action, Reducer } from 'redux';
+
 import {
     SET_BIG_OFFLINE_NOTICE,
     SHOW_OFFLINE_NOTICE
 } from './Offline.action';
 
+export interface OfflineStore {
+    isOffline: boolean
+    isBig: boolean
+}
+
+declare module 'Util/Store/type' {
+    export interface RootState {
+        OfflineReducer: OfflineStore
+    }
+}
+
+export interface OfflineAction extends Partial<OfflineStore> {}
+
 /** @namespace Store/Offline/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): OfflineStore => ({
     isOffline: true,
     isBig: false
 });
 
 /** @namespace Store/Offline/Reducer */
-export const OfflineReducer = (
+export const OfflineReducer: Reducer<
+    OfflineStore,
+    Action<typeof SET_BIG_OFFLINE_NOTICE | typeof SHOW_OFFLINE_NOTICE> & OfflineAction
+> = (
     state = getInitialState(),
     action
 ) => {
@@ -31,14 +49,14 @@ export const OfflineReducer = (
 
         return {
             ...state,
-            isOffline
+            isOffline: isOffline as boolean
         };
     case SET_BIG_OFFLINE_NOTICE:
         const { isBig } = action;
 
         return {
             ...state,
-            isBig
+            isBig: isBig as boolean
         };
     default:
         return state;
