@@ -19,3 +19,6 @@ yarn-debug.log*
 yarn-error.log*
 
 .eslintcache
+
+# nextjs are generated on every build or start routes
+src/pages

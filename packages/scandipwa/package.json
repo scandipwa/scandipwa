@@ -10,7 +10,6 @@
     },
     "dependencies": {
         "@scandipwa/chunk-optimizer": "0.0.3",
-        "@scandipwa/custom-extension": "0.0.1",
         "@scandipwa/m2-theme": "0.2.2",
         "@scandipwa/next-emulator": "0.0.1",
         "@scandipwa/postcss-config": "0.0.2",
@@ -65,8 +64,7 @@
             "@scandipwa/service-worker": true,
             "@scandipwa/postcss-config": true,
             "@scandipwa/chunk-optimizer": true,
-            "@scandipwa/custom-extension": true,
-            "@scandipwa/next-emulator": true
+            "@scandipwa/next-emulator": false
         },
         "composer": {
             "magento/framework": "*",
