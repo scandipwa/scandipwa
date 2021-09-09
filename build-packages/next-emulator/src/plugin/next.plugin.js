@@ -11,7 +11,7 @@
  */
 
 import AppWrapper from '../component/AppWrapper';
-import { isMatchingRoute } from '../util/Next';
+import { getQuery, isMatchingRoute } from '../util/Next';
 
 const { NEXTJS_PAGES } = process.env;
 const nextPages = JSON.parse(NEXTJS_PAGES);
@@ -23,7 +23,7 @@ const render = (args, callback) => {
 
     if (matchingRoute) {
         return (
-            <AppWrapper route={ matchingRoute } />
+            <AppWrapper route={ matchingRoute } query={ getQuery(matchingRoute, pathname) } />
         );
     }
 

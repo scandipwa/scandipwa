@@ -8,10 +8,6 @@ const createMockRoutes = (pages, projectRoot) => {
     const imports = [];
     const exports = [];
 
-    if (!routes.length) {
-        return;
-    }
-
     routes.forEach((page) => {
         const pageId = page.replace(/\W/g, '_');
         imports.push(`import * as ${pageId} from './${page}';`);
@@ -21,7 +17,7 @@ const createMockRoutes = (pages, projectRoot) => {
     const result = [
         '/* eslint-disable */',
         imports.join('\n'),
-        `\nexport default {\n    ${exports.join('\n    ')}\n};\n`
+        `\nexport default {\n    ${exports.join(',\n    ')}\n};\n`
     ].join('\n');
 
     fs.writeFileSync(dest, result, { encoding: 'utf8' });

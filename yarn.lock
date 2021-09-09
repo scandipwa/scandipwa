@@ -2613,9 +2613,6 @@
     semver "^7.3.2"
     webpack-merge "^4.2.2"
 
-"@scandipwa/custom-extension@file:packages/custom-extension":
-  version "0.0.1"
-
 "@scandipwa/next-emulator@file:build-packages/next-emulator":
   version "0.0.1"
 

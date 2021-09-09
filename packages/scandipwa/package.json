@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "@scandipwa/chunk-optimizer": "0.0.3",
-        "@scandipwa/custom-extension": "file:../custom-extension",
+        "@scandipwa/custom-extension": "0.0.1",
         "@scandipwa/m2-theme": "0.2.2",
         "@scandipwa/next-emulator": "0.0.1",
         "@scandipwa/postcss-config": "0.0.2",

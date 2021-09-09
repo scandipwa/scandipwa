@@ -9,6 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+/** @namespace NextEmulator/Util/Next/Index/trim */
+export const trim = (str) => str.trim().replace(/^\/+/, '').replace(/\/+$/, '');
+
 /** @namespace NextEmulator/Util/Next/Index/isMatchingRoute */
 export const isMatchingRoute = (route, pathname) => {
     const routeRe = route
@@ -18,5 +21,25 @@ export const isMatchingRoute = (route, pathname) => {
 
     const re = new RegExp(`^${routeRe}$`, 'i');
 
-    return re.test(pathname.replace(/\/+$/, ''));
+    return re.test(trim(pathname));
+};
+
+/** @namespace NextEmulator/Util/Next/Index/getRouteId */
+export const getRouteId = (route) => route.replace(/\W/g, '_');
+
+/** @namespace NextEmulator/Util/Next/Index/getQuery */
+export const getQuery = (route, pathname) => {
+    const reText = route
+        .replace(/\[([^\]]+)\]/ig, '(?<$1>[^\\/]+)')
+        .replace('/index/ig', '/')
+        .replace(/\/+$/, '');
+
+    const re = new RegExp(`^${reText}$`, 'i');
+    const result = trim(pathname).match(re);
+
+    if (result) {
+        return result.groups;
+    }
+
+    return {};
 };

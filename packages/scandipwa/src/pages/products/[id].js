@@ -8,17 +8,17 @@ import renderEmptyPage from '@tilework/mosaic-nextjs-scripts/lib/pages/empty-pag
  * ! behaviour using plugin system!
  */
 
-/** @namespace Pages/index/Page */
+/** @namespace Pages/products/[id]/Page */
 const Page = () => (
     process.env.NODE_ENV === 'production'
         ? null
-        : renderEmptyPage(JSON.parse('{"type":"server","page":"index","namespaces":{"namespace":"Pages/index/Page","static_namespace":"Pages/index/getStaticProps","server_namespace":"Pages/index/getServerSideProps"}}'))
+        : renderEmptyPage(JSON.parse('{"type":"server","page":"products/[id]","namespaces":{"namespace":"Pages/products/[id]/Page","static_namespace":"Pages/products/[id]/getStaticProps","server_namespace":"Pages/products/[id]/getServerSideProps"}}'))
 );
 
 /** @namespace Pages/getCommonServerSideProps */
 const getCommonServerSideProps = () => ({ props: {} });
 
-/** @namespace Pages/index/getServerSideProps */
+/** @namespace Pages/products/[id]/getServerSideProps */
 const getServerSideProps = () => getCommonServerSideProps();
 
 export { getServerSideProps };
