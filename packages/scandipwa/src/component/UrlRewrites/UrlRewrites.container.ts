@@ -26,11 +26,6 @@ import {
     TYPE_PRODUCT
 } from './UrlRewrites.config';
 
-export const NoMatchDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NoMatch/NoMatch.dispatcher'
-);
-
 /** @namespace Component/UrlRewrites/Container/mapStateToProps */
 export const urlRewritesSelector = (state: RootState) => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
