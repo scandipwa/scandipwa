@@ -198,4 +198,4 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
     };
 };
 
-export default renderHOC(CmsPageComponent, cmsPageLogic, 'CmsPage');
+export const CmsPage = renderHOC(CmsPageComponent, cmsPageLogic, 'CmsPage');

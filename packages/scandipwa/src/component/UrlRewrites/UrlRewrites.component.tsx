@@ -12,6 +12,7 @@
 import { lazy, Suspense } from 'react';
 import { match } from 'react-router-dom';
 
+import { lazily } from 'Util/Lazily';
 import { SimpleComponent } from 'Util/SimpleComponent';
 
 import {
@@ -27,7 +28,7 @@ export const ProductPage = lazy(
 export const CategoryPage = lazy(
     () => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Component/CategoryPage')
 );
-export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/CmsPage'));
+export const { CmsPage } = lazily(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/CmsPage'));
 export const NoMatch = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Component/NoMatch'));
 
 export type UrlRewritesTypes = |

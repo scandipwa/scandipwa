@@ -13,14 +13,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// import PropTypes from 'prop-types';
 import {
-    cloneElement,
-    ErrorInfo,
-    // ErrorInfo,
-    lazy,
-    // PureComponent,
-    Suspense
+    cloneElement, ErrorInfo, lazy, Suspense
 } from 'react';
 import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
@@ -30,6 +24,7 @@ import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 import { UrlRewrites } from 'Component/UrlRewrites';
 import history from 'Util/History';
+import { lazily } from 'Util/Lazily';
 import { SimpleComponent } from 'Util/SimpleComponent';
 
 import {
@@ -66,11 +61,11 @@ import {
 
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Component/CartPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Component/Checkout'));
-export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/CmsPage'));
+export const { CmsPage } = lazily(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/CmsPage'));
 export const CookiePopup = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/CookiePopup'));
 export const DemoNotice = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/DemoNotice'));
 export const Header = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Header'));
-export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/HomePage'));
+export const { HomePage } = lazily(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/HomePage'));
 export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Component/MyAccount'));
 export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Component/PasswordChangePage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "search" */ 'Component/SearchPage'));

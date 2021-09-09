@@ -44,4 +44,4 @@ export const homePageLogic = ({ match }: { match: Match }): HomePageProps => {
     };
 };
 
-export default renderHOC(HomePageComponent, homePageLogic, 'HomePage');
+export const HomePage = renderHOC(HomePageComponent, homePageLogic, 'HomePage');

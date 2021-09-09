@@ -1,6 +1,6 @@
 import { match as Match } from 'react-router';
 
-import CmsPage from 'Component/CmsPage';
+import { CmsPage } from 'Component/CmsPage';
 import Footer from 'Component/Footer';
 import InstallPrompt from 'Component/InstallPrompt';
 import { SimpleComponent } from 'Util/SimpleComponent';
