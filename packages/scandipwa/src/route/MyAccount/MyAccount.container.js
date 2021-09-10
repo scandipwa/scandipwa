@@ -48,7 +48,8 @@ export const mapStateToProps = (state) => ({
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isSignedIn: state.MyAccountReducer.isSignedIn,
-    newsletterActive: state.ConfigReducer.newsletter_general_active
+    newsletterActive: state.ConfigReducer.newsletter_general_active,
+    baseLinkUrl: state.ConfigReducer.base_link_url
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
@@ -79,7 +80,8 @@ export class MyAccountContainer extends PureComponent {
         wishlistItems: PropTypes.object,
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
+        isSignedIn: PropTypes.bool.isRequired,
+        baseLinkUrl: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -201,13 +203,16 @@ export class MyAccountContainer extends PureComponent {
 
         const {
             wishlistItems,
-            isSignedIn: currIsSignedIn
+            isSignedIn: currIsSignedIn,
+            baseLinkUrl
         } = this.props;
 
         const { activeTab: prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
-        this.redirectIfNotSignedIn();
+        if (baseLinkUrl) {
+            this.redirectIfNotSignedIn();
+        }
 
         if (prevIsSignedIn !== currIsSignedIn) {
             this.changeHeaderState();
@@ -391,7 +396,7 @@ export class MyAccountContainer extends PureComponent {
             return;
         }
 
-        history.push({ pathname: appendWithStoreCode('/') });
+        history.push({ pathname: appendWithStoreCode('/account/login') });
     }
 
     render() {
