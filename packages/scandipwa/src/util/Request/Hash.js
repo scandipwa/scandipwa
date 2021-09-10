@@ -23,7 +23,7 @@
  * @see http://sites.google.com/site/murmurhash/
  *
  * @param {string} key ASCII only
- * @param {number} seed Positive integer only
+ * @param {number} [seed] Positive integer only
  * @return {number} 32-bit positive integer hash
  * @namespace Util/Request/hash
  */

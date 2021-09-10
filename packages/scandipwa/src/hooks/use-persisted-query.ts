@@ -8,31 +8,48 @@ import {
     useCallback, useEffect, useMemo, useState
 } from 'react';
 
+import { prepareQuery } from 'Util/Query';
+import { hash } from 'Util/Request/Hash';
+
+window.dataCache = {};
+
 // client.setEndpoint('https://api.spacex.land/graphql/');
 
-export interface UseQueryResult<T extends Query<string, unknown, boolean> | Mutation<string, unknown, boolean>> {
+export interface UsePersistedQueryResult<
+    T extends Query<string, unknown, boolean> | Mutation<string, unknown, boolean>
+> {
     data: DataType<T> | undefined;
     isLoading: boolean;
     error?: Error;
     request: () => Promise<boolean>
 }
 
-export interface UseQueryOptions {
+export interface UsePersistedQueryOptions {
     executeOnMount?: boolean
 }
 
-export function useQuery<
+export function usePersistedQuery<
   T extends Query<string, unknown, boolean> | Mutation<string, unknown, boolean>
->(query: T, options: UseQueryOptions = {}): UseQueryResult<T> {
-    const [result, setResult] = useState<Omit<UseQueryResult<T>, 'request'>>({
+>(query: T, options: UsePersistedQueryOptions = {}): UsePersistedQueryResult<T> {
+    const [result, setResult] = useState<Omit<UsePersistedQueryResult<T>, 'request'>>({
         data: undefined,
         isLoading: false,
         error: undefined
     });
-
     const controller = useMemo(() => new AbortController(), []);
-
+    const preparedQuery = useMemo(() => prepareQuery(query), []);
+    const queryHash = useMemo(
+        () => hash(preparedQuery.query + JSON.stringify(preparedQuery.variables)),
+        [preparedQuery.query, preparedQuery.variables]
+    );
     const request = useCallback(async () => {
+        if (window.dataCache?.[queryHash]) {
+            setResult({
+                data: window.dataCache?.[queryHash] as DataType<T>,
+                error: undefined,
+                isLoading: false
+            });
+        }
         try {
             const data = await client.post(query); // , { signal: controller.signal });
 
@@ -64,7 +81,6 @@ export function useQuery<
             request();
         }
     }, []);
-
     useEffect(() => () => {
         if (result.isLoading) {
             controller.abort();

@@ -1,3 +1,4 @@
+import { DataType } from '@tilework/opus';
 import { StoreEnhancer } from 'redux';
 
 declare global {
@@ -9,6 +10,7 @@ declare global {
             type?: string
         }
         secure_base_media_url?: string
+        dataCache?: Record<number, DataType<any>>
     }
 
     function __(message: string): string

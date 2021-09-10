@@ -61,39 +61,4 @@ export class DataContainer extends PureComponent {
 
 export const dataModelName = 'DataContainer';
 
-/**
- * @param {*} rawQueries
- * @param {*} onSuccess
- * @param {*} onError
- */
-export const fetchData = (rawQueries, onSuccess = () => {}, onError = () => {}) => {
-    const preparedQuery = prepareQuery(rawQueries);
-    const { query, variables } = preparedQuery;
-    const queryHash = hash(query + JSON.stringify(variables));
-
-    if (!window.dataCache) {
-        window.dataCache = {};
-    }
-
-    if (window.dataCache[queryHash]) {
-        onSuccess(window.dataCache[queryHash]);
-
-        return;
-    }
-
-    const promise = makeCancelable(
-        executeGet(preparedQuery, dataModelName, ONE_MONTH_IN_SECONDS)
-    );
-
-    promise.then(
-        /** @namespace Util/Request/DataContainer/fetchData/thisPromisePromiseThen */
-        (response) => {
-            window.dataCache[queryHash] = response;
-            onSuccess(response);
-        },
-        /** @namespace Util/Request/DataContainer/fetchData/thisPromisePromiseCatch */
-        (err) => onError(err)
-    );
-};
-
 export default DataContainer;
