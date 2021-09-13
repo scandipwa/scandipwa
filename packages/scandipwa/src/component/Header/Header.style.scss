@@ -309,6 +309,8 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         max-width: 200px;
+        align-self: center;
+        height: 24px;
 
         @include wide-desktop {
             display: block;
