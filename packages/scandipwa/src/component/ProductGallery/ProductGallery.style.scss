@@ -75,10 +75,4 @@
         height: 100%;
         width: 100%;
     }
-
-    &-SliderImage {
-        .Image-Image {
-            transform: translateY(var(--translateYOnCursorMove));
-        }
-    }
 }

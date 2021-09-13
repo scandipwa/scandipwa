@@ -139,7 +139,7 @@ export class Slider extends PureComponent {
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         }, ANIMATION_DURATION);
 
-        CSS.setVariable(sliderRef, 'sliderOpacity', '1');
+        setTimeout(() => CSS.setVariable(sliderRef, 'sliderOpacity', '1'), 0);
     }
 
     componentDidUpdate(prevProps) {

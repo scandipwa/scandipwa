@@ -67,7 +67,9 @@ export class TranslateOnCursorMove extends PureComponent {
         const { height: wrapperHeight } = this.ref.current.getBoundingClientRect();
         const translate = (wrapperHeight - innerHeight) / 2;
 
-        CSS.setVariable(this.ref, 'translateYOnCursorMove', `${ translate }px`);
+        // style set directly (not via `setVariable`) as different translate Y values have to be applied at the same time
+        // (as 2 slider images are shown simultaneously when navigating to next/previous image)
+        target.style.transform = `translateY(${translate}px)`;
         CSS.setVariable(this.ref, 'imageOpacity', '1');
     };
 
@@ -106,7 +108,7 @@ export class TranslateOnCursorMove extends PureComponent {
             return;
         }
 
-        CSS.setVariable(this.ref, 'translateYOnCursorMove', `${ -translate }px`);
+        target.style.transform = `translateY(-${translate}px)`;
     };
 
     render() {
