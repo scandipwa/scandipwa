@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductTab from 'Component/ProductTab';
+import { isCrawler, isSSR } from 'Util/Browser';
 import { isMobile } from 'Util/Mobile';
 
 import './ProductTabs.style';
@@ -84,7 +85,7 @@ export class ProductTabs extends PureComponent {
     renderTabs() {
         const { tabs } = this.props;
 
-        if (isMobile.any()) {
+        if (isMobile.any() || isSSR() || isCrawler()) {
             return this.renderAllTabs();
         }
 
