@@ -59,6 +59,18 @@ export const getUrlParam = (match, location) => {
 export const trimEndSlash = (str) => (str.endsWith('/') ? str.slice(0, -1) : str);
 
 /**
+ * Replaces section of URL with passed path value
+ * @param {RegExp} regex replacement rule
+ * @param {String} path replacement element
+ * @returns {*}
+ * @namespace Util/Url/replace
+ */
+export const replace = (regex, path) => {
+    const { pathname = '' } = new URL(window.location.href);
+    return pathname.replace(regex, path);
+};
+
+/**
  * Append store code to URL
  * @param {String} pathname the URL to append store code to
  * @namespace Util/Url/appendWithStoreCode
