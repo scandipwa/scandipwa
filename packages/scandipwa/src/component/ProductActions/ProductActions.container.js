@@ -67,9 +67,7 @@ export class ProductActionsContainer extends PureComponent {
         setBundlePrice: PropTypes.func.isRequired,
         setLinkedDownloadables: PropTypes.func.isRequired,
         setLinkedDownloadablesPrice: PropTypes.func.isRequired,
-        updateConfigurableVariant: PropTypes.func.isRequired,
-        isPriceAlertEnabled: PropTypes.bool.isRequired,
-        isInStockAlertEnabled: PropTypes.bool.isRequired
+        updateConfigurableVariant: PropTypes.func.isRequired
     };
 
     static getMinQuantity(props) {
@@ -257,9 +255,7 @@ export class ProductActionsContainer extends PureComponent {
             setBundlePrice,
             setLinkedDownloadables,
             setLinkedDownloadablesPrice,
-            updateConfigurableVariant,
-            isInStockAlertEnabled,
-            isPriceAlertEnabled
+            updateConfigurableVariant
         } = this.props;
         const { quantity } = this.state;
 
@@ -286,8 +282,6 @@ export class ProductActionsContainer extends PureComponent {
             setLinkedDownloadables,
             setLinkedDownloadablesPrice,
             updateConfigurableVariant,
-            isInStockAlertEnabled,
-            isPriceAlertEnabled,
             quantity,
             minQuantity: ProductActionsContainer.getMinQuantity(this.props),
             maxQuantity: ProductActionsContainer.getMaxQuantity(this.props),
