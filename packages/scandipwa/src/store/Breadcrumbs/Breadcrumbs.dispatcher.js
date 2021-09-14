@@ -158,7 +158,7 @@ export class BreadcrumbsDispatcher {
         const { categories, url, name } = product;
 
         if (!categories || !categories.length) {
-            return [];
+            return [{ url, name }];
         }
 
         return [
