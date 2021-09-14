@@ -73,27 +73,6 @@ export class ResetAttributesContainer extends PureComponent {
             });
     };
 
-    getFilterOptionsForPrice2 = (values, options) => options
-        .filter((option) => values.some((v) => option.value_string.startsWith(v.replace(/(\d_).*/, '$1'))))
-        .map((option) => {
-            const { currency_code } = this.props;
-
-            const [fromLabel, toLabel] = option.label.split('~');
-            const [fromValue, toValue] = values[0].split('_');
-
-            console.debug({
-                option, values, toLabel, toValue
-            });
-
-            const label = getPriceFilterLabel(
-                fromValue === '*' ? fromValue : fromLabel,
-                toValue === '*' ? toValue : toLabel,
-                currency_code
-            );
-
-            return { value_string: options.value_string, label };
-        });
-
     getFilterOptionsDefault = (values, options) => options.filter((option) => values.includes(option.value_string));
 
     getResetData = (attrCode, attrValues) => {
