@@ -63,6 +63,7 @@ export const trimEndSlash = (str) => (str.endsWith('/') ? str.slice(0, -1) : str
  * @param {RegExp} regex replacement rule
  * @param {String} path replacement element
  * @returns {*}
+ * @namespace Util/Url/replace
  */
 export const replace = (regex, path) => {
     const { pathname = '' } = new URL(window.location.href);
