@@ -28,10 +28,10 @@ import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { isSignedIn } from 'Util/Auth';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
-import { appendWithStoreCode } from 'Util/Url';
+import { appendWithStoreCode, replace } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
-import { MY_ACCOUNT_URL } from './MyAccount.config';
+import { ACCOUNT_LOGIN_URL, MY_ACCOUNT_URL } from './MyAccount.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -131,6 +131,7 @@ export class MyAccountContainer extends PureComponent {
     static navigateToSelectedTab(props, state = {}) {
         const {
             history,
+            isSignedIn,
             match: {
                 params: {
                     tab: historyActiveTab
@@ -145,7 +146,7 @@ export class MyAccountContainer extends PureComponent {
             ? historyActiveTab
             : DASHBOARD;
 
-        if (historyActiveTab !== newActiveTab) {
+        if (historyActiveTab !== newActiveTab && isSignedIn) {
             history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }/${ newActiveTab }`));
         }
 
@@ -203,16 +204,13 @@ export class MyAccountContainer extends PureComponent {
 
         const {
             wishlistItems,
-            isSignedIn: currIsSignedIn,
-            baseLinkUrl
+            isSignedIn: currIsSignedIn
         } = this.props;
 
         const { activeTab: prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
-        if (baseLinkUrl) {
-            this.redirectIfNotSignedIn();
-        }
+        this.redirectIfNotSignedIn();
 
         if (prevIsSignedIn !== currIsSignedIn) {
             this.changeHeaderState();
@@ -379,7 +377,8 @@ export class MyAccountContainer extends PureComponent {
         const {
             history,
             location: { pathname },
-            isMobile
+            isMobile,
+            baseLinkUrl
         } = this.props;
 
         if (isSignedIn()) { // do nothing for signed-in users
@@ -396,7 +395,11 @@ export class MyAccountContainer extends PureComponent {
             return;
         }
 
-        history.push({ pathname: appendWithStoreCode('/account/login') });
+        const path = baseLinkUrl
+            ? appendWithStoreCode(ACCOUNT_LOGIN_URL)
+            : replace(/\/my-account\/.*/, ACCOUNT_LOGIN_URL);
+
+        history.push({ pathname: path });
     }
 
     render() {
