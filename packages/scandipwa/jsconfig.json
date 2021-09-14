@@ -23,6 +23,9 @@
             ],
             "Type/*": [
                 "src/type/*"
+            ],
+            "Pages/*": [
+                "src/pages/*"
             ]
         }
     },

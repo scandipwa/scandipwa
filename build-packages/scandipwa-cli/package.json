@@ -1,0 +1,23 @@
+{
+    "name": "scandipwa-cli",
+    "description": "ScandiPWA CLI command used by CSA.",
+    "version": "0.3.13",
+    "bin": {
+        "scandipwa": "index.js"
+    },
+    "license": "OSL-3.0",
+    "dependencies": {
+        "@scandipwa/csa-generator-extension": "0.0.24",
+        "@scandipwa/scandipwa-dev-utils": "0.1.11",
+        "@scandipwa/scandipwa-development-toolkit-core": "1.0.22",
+        "@tilework/mosaic-dev-utils": "0.0.5",
+        "archiver": "^5.0.2",
+        "inquirer": "^7.3.3",
+        "node-fetch": "^2.6.1",
+        "yargs": "^16.1.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "7498042540d3d4560e140d9674f3abd99343a037"
+}

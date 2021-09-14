@@ -1,0 +1,13 @@
+{
+    "name": "@scandipwa/next-emulator",
+    "version": "0.0.1",
+    "scandipwa": {
+        "type": "extension"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    }
+}

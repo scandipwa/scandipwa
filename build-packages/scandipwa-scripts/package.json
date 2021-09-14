@@ -1,0 +1,34 @@
+{
+    "name": "@scandipwa/scandipwa-scripts",
+    "description": "Scripts and configuration used by CSA.",
+    "version": "2.4.16",
+    "homepage": "https://docs.create-scandipwa-app.com/",
+    "repository": "github:scandipwa/create-scandipwa-app",
+    "bin": {
+        "scandipwa-scripts": "./bin/scandipwa-scripts.js"
+    },
+    "scandipwa": {
+        "extensions": {
+            "@scandipwa/scandipwa-template-plugin-system": true
+        }
+    },
+    "files": [
+        "bin"
+    ],
+    "engines": {
+        "node": ">=12.0.0"
+    },
+    "dependencies": {
+        "@scandipwa/next-emulator": "0.0.1",
+        "@scandipwa/scandipwa-template-plugin-system": "0.1.17",
+        "@tilework/mosaic-cra-scripts": "0.1.17"
+    },
+    "peerDependencies": {
+        "@tilework/mosaic": "0.1.4"
+    },
+    "license": "OSL-3.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "7498042540d3d4560e140d9674f3abd99343a037"
+}
