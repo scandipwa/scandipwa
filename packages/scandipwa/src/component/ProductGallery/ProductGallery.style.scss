@@ -38,8 +38,8 @@
 
         &_isImageZoomPopupActive {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
+            inset-block-end: 20px;
+            inset-inline-start: 20px;
 
             .CarouselScrollItem {
                 filter: opacity(0.75);
