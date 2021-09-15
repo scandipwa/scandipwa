@@ -76,6 +76,7 @@ export class Header extends NavigationAbstract {
     static propTypes = {
         navigationState: PropTypes.object.isRequired,
         cartTotals: TotalsType.isRequired,
+        compareTotals: PropTypes.number.isRequired,
         onBackButtonClick: PropTypes.func.isRequired,
         onCloseButtonClick: PropTypes.func.isRequired,
         onSearchBarFocus: PropTypes.func.isRequired,
@@ -335,6 +336,24 @@ export class Header extends NavigationAbstract {
         );
     }
 
+    renderCompareCount() {
+        const { compareTotals } = this.props;
+
+        if (compareTotals < 1) {
+            return null;
+        }
+
+        return (
+            <span
+              aria-label="Items in cart"
+              block="Header"
+              elem="CompareCount"
+            >
+                { compareTotals }
+            </span>
+        );
+    }
+
     renderComparePageButton() {
         const {
             device: {
@@ -362,6 +381,7 @@ export class Header extends NavigationAbstract {
                   aria-label={ __('Compare Page') }
                 >
                     <CompareIcon />
+                    { this.renderCompareCount() }
                 </Link>
             </div>
         );

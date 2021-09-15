@@ -44,6 +44,7 @@ import {
 export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals,
+    compareTotals: state.ProductCompareReducer.count,
     header_logo_src: state.ConfigReducer.header_logo_src,
     isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
@@ -126,6 +127,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             activeOverlay,
             navigationState,
             cartTotals,
+            compareTotals,
             header_logo_src,
             logo_alt,
             logo_height,
@@ -154,6 +156,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             activeOverlay,
             navigationState,
             cartTotals,
+            compareTotals,
             header_logo_src,
             logo_alt,
             logo_height,

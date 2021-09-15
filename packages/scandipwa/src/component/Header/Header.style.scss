@@ -186,6 +186,23 @@
         margin-inline-start: 35px;
     }
 
+    &-CompareCount {
+        background: var(--primary-base-color);
+        border-radius: 50%;
+        color: var(--color-white);
+        height: 17px;
+        padding: 2px;
+        position: absolute;
+        width: 17px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 80%;
+        font-weight: 700;
+        inset-block-start: -16px;
+        inset-inline-end: -12px;
+    }
+
     &-LogoWrapper {
         inset-block-end: 0;
         height: var(--header-logo-height);
