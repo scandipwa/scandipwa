@@ -16,7 +16,7 @@
         "@scandipwa/scandipwa-scripts": "2.4.16",
         "@scandipwa/service-worker": "0.0.16",
         "@scandipwa/webpack-i18n-runtime": "0.0.28",
-        "@tilework/opus": "^0.0.7",
+        "@tilework/opus": "^0.0.9",
         "@types/react": "^17.0.19",
         "@types/react-dom": "^17.0.9",
         "@types/react-router": "^5.1.16",
