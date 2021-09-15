@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 @mixin button-disabled {
+    pointer-events: none;
     opacity: .25;
-    cursor: not-allowed;
 }
 
 @mixin button {
@@ -118,9 +118,5 @@
             text-decoration: underline;
             padding: 0;
         }
-    }
-
-    &:disabled svg {
-        pointer-events: none;
     }
 }
