@@ -34,7 +34,7 @@ export function useQuery<
 
     const request = useCallback(async () => {
         try {
-            const data = await client.post(query); // , { signal: controller.signal });
+            const data = await client.post(query, { signal: controller.signal });
 
             setResult({
                 data: data as DataType<T>,
