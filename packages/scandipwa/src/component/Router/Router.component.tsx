@@ -13,9 +13,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    cloneElement, ErrorInfo, lazy, Suspense
-} from 'react';
+import { cloneElement, lazy, Suspense } from 'react';
 import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
@@ -89,10 +87,7 @@ export const StyleGuidePage = lazy(() => import(/* webpackMode: "lazy", webpackC
 export const withStoreRegex = (path: string): string => window.storeRegexText.concat(path);
 
 export interface RouterProps {
-    isBigOffline: boolean // what is it?
-    setHasError: (bool: boolean) => void;
-    hasError: boolean
-    errorDetails?: { error: Error, errorInfo: ErrorInfo }
+    isBigOffline: boolean
 }
 
 type ItemsType = typeof BEFORE_ITEMS_TYPE | typeof SWITCH_ITEMS_TYPE | typeof AFTER_ITEMS_TYPE
@@ -259,9 +254,9 @@ export class RouterComponent extends SimpleComponent<RouterProps> {
         );
     }
 
-    handleErrorReset = (): void => {
-        this.props.setHasError(false);
-    };
+    // handleErrorReset = (): void => {
+    //     this.props.setHasError(false);
+    // };
 
     renderComponentsOfType(type: ItemsType): React.FunctionComponentElement<unknown>[] {
         return this.getSortedItems(type)
@@ -290,16 +285,16 @@ export class RouterComponent extends SimpleComponent<RouterProps> {
         );
     }
 
-    renderErrorRouterContent(): JSX.Element {
-        const { errorDetails = {} } = this.props;
+    // renderErrorRouterContent(): JSX.Element {
+    //     const { errorDetails = {} } = this.props;
 
-        return (
-            <SomethingWentWrong
-              onClick={ this.handleErrorReset }
-              errorDetails={ errorDetails }
-            />
-        );
-    }
+    //     return (
+    //         <SomethingWentWrong
+    //           onClick={ this.handleErrorReset }
+    //           errorDetails={ errorDetails }
+    //         />
+    //     );
+    // }
 
     renderFallbackPage(): JSX.Element {
         return (
@@ -324,11 +319,11 @@ export class RouterComponent extends SimpleComponent<RouterProps> {
     }
 
     renderRouterContent(): JSX.Element {
-        const { hasError } = this.props;
+        // const { hasError } = this.props;
 
-        if (hasError) {
-            return this.renderErrorRouterContent();
-        }
+        // if (hasError) {
+        //     return this.renderErrorRouterContent();
+        // }
 
         return this.renderDefaultRouterContent();
     }

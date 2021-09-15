@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ErrorInfo, PureComponent } from 'react';
+import { ErrorInfo } from 'react';
 import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
 
@@ -18,13 +18,19 @@ import SharedTransition from 'Component/SharedTransition';
 import SomethingWentWrong from 'Component/SomethingWentWrong';
 import { DeviceContextProvider } from 'Store/Device/Device.provider';
 import injectStaticReducers from 'Store/index';
+import { SimpleComponent } from 'Util/SimpleComponent';
 import { getStore } from 'Util/Store';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AppProps {}
+export interface AppProps {
+    hasError: boolean
+    error?: Error
+    errorInfo?: ErrorInfo
+    setHasError: (hasError: boolean) => void
+}
 
 /** @namespace /Component/App/Component/AppComponent */
-export class App extends PureComponent<AppProps> {
+export class AppComponent extends SimpleComponent<AppProps> {
     private reduxStore: ReturnType<typeof injectStaticReducers> | undefined;
 
     productionFunctions = [
@@ -55,13 +61,6 @@ export class App extends PureComponent<AppProps> {
         isSomethingWentWrong: false,
         errorDetails: {}
     };
-
-    componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-        this.setState({
-            isSomethingWentWrong: true,
-            errorDetails: { error, errorInfo }
-        });
-    }
 
     __construct(props: AppProps): void {
         super.__construct!(props);
@@ -137,7 +136,8 @@ export class App extends PureComponent<AppProps> {
     }
 
     handleErrorReset = (): void => {
-        this.setState({ isSomethingWentWrong: false });
+        const { setHasError } = this.props;
+        setHasError(false);
     };
 
     renderSharedTransition(): JSX.Element {
@@ -175,7 +175,12 @@ export class App extends PureComponent<AppProps> {
     }
 
     renderSomethingWentWrong = (): JSX.Element => {
-        const { errorDetails } = this.state;
+        const { error, errorInfo } = this.props;
+
+        const errorDetails = {
+            err: error,
+            info: errorInfo
+        };
 
         return (
             <SomethingWentWrong

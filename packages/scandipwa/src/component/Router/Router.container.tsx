@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ErrorInfo, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import { ErrorCatcher } from 'Component/ErrorCatcher';
 import { renderHOC } from 'Util/RenderHOC';
 import { RootState } from 'Util/Store/type';
 
@@ -44,14 +43,7 @@ export const routerSelector = (state: RootState) => ({
     isBigOffline: state.OfflineReducer.isBig
 });
 
-export interface RouterExternalProps {
-    error?: Error
-    errorInfo?: ErrorInfo
-}
-
-export const routerLogic = ({ error, errorInfo }: RouterExternalProps): RouterProps => {
-    const [hasError, setHasError] = useState<boolean>(false);
-    const [errorDetails, setErrorDetails] = useState<RouterProps['errorDetails']>(undefined);
+export const useRouterInit = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -88,26 +80,16 @@ export const routerLogic = ({ error, errorInfo }: RouterExternalProps): RouterPr
         init();
         redirectFromPartialUrl();
     }, []);
+};
 
-    useEffect(() => {
-        if (error && !hasError && errorInfo) {
-            setHasError(true);
-            setErrorDetails({ error, errorInfo });
-        }
-    }, [error, errorInfo]);
-
+export const routerLogic = (): RouterProps => {
     const { isBigOffline } = useSelector(routerSelector);
 
+    useRouterInit();
+
     return {
-        setHasError,
-        hasError,
-        errorDetails,
         isBigOffline
     };
 };
 
-export const Router: React.FC<Omit<RouterExternalProps, 'error' | 'errorInfo'>> = (props): JSX.Element => (
-    <ErrorCatcher>
-        { ({ error, errorInfo }) => renderHOC(RouterComponent, routerLogic, 'Router')({ ...props, error, errorInfo }) }
-    </ErrorCatcher>
-);
+export const Router = renderHOC(RouterComponent, routerLogic, 'Router');
