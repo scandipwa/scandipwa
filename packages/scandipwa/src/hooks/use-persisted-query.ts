@@ -1,60 +1,63 @@
-import {
-    client,
-    DataType,
-    Mutation,
-    Query
-} from '@tilework/opus';
+import { AbstractField, GraphQlRequestType, prepareRequest } from '@tilework/opus';
 import {
     useCallback, useEffect, useMemo, useState
 } from 'react';
 
-import { prepareQuery } from 'Util/Query';
+import { executeGet } from 'Util/Request';
 import { hash } from 'Util/Request/Hash';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 window.dataCache = {};
 
 // client.setEndpoint('https://api.spacex.land/graphql/');
 
-export interface UsePersistedQueryResult<
-    T extends Query<string, unknown, boolean> | Mutation<string, unknown, boolean>
-> {
-    data: DataType<T> | undefined;
+export interface UsePersistedQueryResult<T> {
+    data: T | undefined;
     isLoading: boolean;
     error?: Error;
-    request: () => Promise<boolean>
+    request: <
+        Name extends string,
+        FieldReturnType,
+        IsArray extends boolean
+    >(query: AbstractField<Name, FieldReturnType, IsArray>) => Promise<boolean>
 }
 
 export interface UsePersistedQueryOptions {
-    executeOnMount?: boolean
+    executeOnMount: boolean
+    query: AbstractField<string, unknown, boolean>
 }
 
-export function usePersistedQuery<
-  T extends Query<string, unknown, boolean> | Mutation<string, unknown, boolean>
->(query: T, options: UsePersistedQueryOptions = {}): UsePersistedQueryResult<T> {
-    const [result, setResult] = useState<Omit<UsePersistedQueryResult<T>, 'request'>>({
+export function usePersistedQuery<T>(options?: UsePersistedQueryOptions): UsePersistedQueryResult<T> {
+    const [result, setResult] = useState<Omit<
+        UsePersistedQueryResult<T>,
+        'request'
+        >
+    >({
         data: undefined,
         isLoading: false,
         error: undefined
     });
     const controller = useMemo(() => new AbortController(), []);
-    const preparedQuery = useMemo(() => prepareQuery(query), []);
-    const queryHash = useMemo(
-        () => hash(preparedQuery.query + JSON.stringify(preparedQuery.variables)),
-        [preparedQuery.query, preparedQuery.variables]
-    );
-    const request = useCallback(async () => {
+    const request = useCallback(async <
+        Name extends string,
+        FieldReturnType,
+        IsArray extends boolean
+    >(query: AbstractField<Name, FieldReturnType, IsArray>) => {
+        const preparedQuery = prepareRequest(query, GraphQlRequestType.Query);
+        const queryHash = hash(preparedQuery.query + JSON.stringify(preparedQuery.variables));
+
         if (window.dataCache?.[queryHash]) {
             setResult({
-                data: window.dataCache?.[queryHash] as DataType<T>,
+                data: window.dataCache?.[queryHash] as T,
                 error: undefined,
                 isLoading: false
             });
         }
         try {
-            const data = await client.post(query); // , { signal: controller.signal });
-
+            const data = await executeGet(preparedQuery, 'DataContainer', ONE_MONTH_IN_SECONDS);
+            window.dataCache![queryHash] = data as unknown as T;
             setResult({
-                data: data as DataType<T>,
+                data: data as unknown as T,
                 error: undefined,
                 isLoading: false
             });
@@ -70,15 +73,17 @@ export function usePersistedQuery<
                     error,
                     isLoading: false
                 });
+            } else {
+                throw error;
             }
 
             return false;
         }
-    }, [query]);
+    }, []);
 
     useEffect(() => {
-        if (options.executeOnMount) {
-            request();
+        if (options && options.executeOnMount) {
+            request(options.query);
         }
     }, []);
     useEffect(() => () => {
