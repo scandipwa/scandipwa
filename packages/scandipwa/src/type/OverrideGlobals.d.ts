@@ -27,5 +27,4 @@ declare global {
             mods?: Record<string, unknown>
         }
     }
-
 }
