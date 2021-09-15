@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from '@tilework/opus';
+import { Query } from '@tilework/opus';
 
 /**
  * @namespace Query/CmsPage
@@ -18,12 +18,12 @@ export class CmsPageQuery {
     /**
      * get CMS Page query
      */
-    static getQuery({ id, identifier }: { id: string, identifier: string }) {
+    static getQuery({ id, identifier }: { id?: string, identifier?: string }) {
         if (!id && !identifier) {
             throw new Error('Missing argument `id`!');
         }
 
-        const cmsPage = new Field('cmsPage')
+        const cmsPage = new Query('cmsPage')
             .addFieldList(CmsPageQuery.getPageFields());
 
         if (identifier) {
