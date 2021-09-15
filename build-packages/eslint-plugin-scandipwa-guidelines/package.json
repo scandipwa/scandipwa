@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/eslint-plugin-scandipwa-guidelines",
     "description": "ESLint plugin used by CSA.",
-    "version": "2.0.28",
+    "version": "2.0.29",
     "keywords": [
         "eslint",
         "eslintplugin",
@@ -12,7 +12,7 @@
         "test": "mocha tests --recursive tests **/*.test.js"
     },
     "dependencies": {
-        "@scandipwa/scandipwa-dev-utils": "0.1.11",
+        "@scandipwa/scandipwa-dev-utils": "0.1.12",
         "@tilework/eslint-plugin-mosaic": "^0.0.8",
         "@tilework/mosaic-dev-utils": "0.0.5",
         "eslint-traverse": "^1.0.0",

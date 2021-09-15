@@ -1,6 +1,6 @@
 {
     "name": "@scandipwa/scandipwa-template-plugin-system",
-    "version": "0.1.17",
+    "version": "0.1.18",
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -17,7 +17,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@scandipwa/scandipwa-dev-utils": "0.1.11",
+        "@scandipwa/scandipwa-dev-utils": "0.1.12",
         "@tilework/mosaic-dev-utils": "0.0.5",
         "loader-utils": "^2.0.0",
         "lodash": "^4.17.20",
