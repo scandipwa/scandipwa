@@ -9,24 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { DataType } from '@tilework/opus';
 import { Location } from 'history';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { match as Match, useLocation } from 'react-router';
+import { usePersistedQuery } from 'src/hooks/use-persisted-query';
 
 import { CMS_PAGE } from 'Component/Header/Header.config';
 import { CmsPageQuery } from 'Query/CmsPage.query';
 import { useBreadcrumbsStore } from 'Store/Breadcrumbs';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { useNavigationStore } from 'Store/Navigation';
-import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { useOfflineStore } from 'Store/Offline';
 import { BlockListType } from 'Type/CMS';
-// import { LocationType, MatchType } from 'Type/Common';
 import history from 'Util/History';
 import { renderHOC } from 'Util/RenderHOC';
 import { debounce } from 'Util/Request';
-import { fetchData } from 'Util/Request/DataContainer';
-// import DataContainer from 'Util/Request/DataContainer';
+import { RootState } from 'Util/Store/type';
 import { getUrlParam, isHomePageUrl } from 'Util/Url';
 
 import { CmsPageComponent, CmsPageProps } from './CmsPage.component';
@@ -63,8 +63,8 @@ export const getRequestQueryParams = ({
     };
 };
 
-/** @namespace Component/CmsPage/Container/mapStateToProps */
-export const cmsPageSelector = (state: any): { isOffline: boolean } => ({
+/** @namespace Component/CmsPage/Container/cmsPageSelector */
+export const cmsPageSelector = (state: RootState) => ({
     isOffline: state.OfflineReducer.isOffline
 });
 
@@ -76,6 +76,7 @@ export interface CmsPageExternalProps {
     match: Match
 }
 
+/** @namespace Component/CmsPage/Container/cmsPageLogic */
 export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
     const {
         pageIds = -1,
@@ -93,34 +94,42 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
         updateBreadcrumbs,
         toggleBreadcrumbs
     } = useBreadcrumbsStore();
-    // const setHeaderStateAction = (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state));
-    const setBigOfflineNoticeAction = (isBig: boolean) => dispatch(setBigOfflineNotice(isBig));
-    const updateMetaAction = (meta: Record<string, string>) => dispatch(updateMeta(meta));
-
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { setBigOfflineNotice } = useOfflineStore();
+    const {
+        data,
+        isLoading,
+        request
+    } = usePersistedQuery<DataType<ReturnType<typeof CmsPageQuery.getQuery>>>();
     const [isPageLoaded, setIsPageLoaded] = useState<boolean>(false);
-    const [page, setPage] = useState<BlockListType>({});
+
+    const updateMetaAction = (meta: Record<string, string>) => dispatch(updateMeta(meta));
 
     const setOfflineNoticeSize = () => {
         if (isLoading) {
-            setBigOfflineNoticeAction(true);
+            setBigOfflineNotice(true);
         } else {
-            setBigOfflineNoticeAction(false);
+            setBigOfflineNotice(false);
         }
     };
 
-    const onPageLoad = ({ cmsPage: page }: { cmsPage: BlockListType }) => {
+    useEffect(() => {
+        if (!data?.cmsPage) {
+            return;
+        }
+
+        const { cmsPage } = data;
+
         const {
             content_heading,
             meta_title,
             title,
             meta_description,
             meta_keywords
-        } = page;
+        } = cmsPage;
 
         debounce(setOfflineNoticeSize, LOADING_TIME)();
 
-        updateBreadcrumbs(page.title as string);
+        updateBreadcrumbs(title as string);
         updateMetaAction({
             title: meta_title as string || title as string,
             description: meta_description as string,
@@ -136,12 +145,10 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
             });
         }
 
-        setPage(page);
-        setIsLoading(false);
         setIsPageLoaded(true);
-    };
+    }, [data?.cmsPage]);
 
-    const requestPage = () => {
+    const requestPage = useCallback(async () => {
         const params = getRequestQueryParams({
             id: pageIds,
             identifier: pageIdentifiers,
@@ -149,18 +156,16 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
             match
         });
 
-        if (!params.id && !params.identifier) {
+        if (
+            typeof params.id === 'undefined'
+            && typeof params.identifier === 'undefined'
+        ) {
             return;
         }
-
-        setIsLoading(true);
-
-        fetchData(
-            [CmsPageQuery.getQuery(params as { id: string, identifier: string })],
-            onPageLoad,
-            () => setIsLoading(false)
+        await request(
+            CmsPageQuery.getQuery(params)
         );
-    };
+    }, [pageIds, pageIdentifiers]);
 
     useEffect(() => {
         toggleBreadcrumbs(isBreadcrumbsActive);
@@ -170,22 +175,20 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
         if (isOffline && isLoading) {
             debounce(setOfflineNoticeSize, LOADING_TIME)();
         }
-
-        if (!isOnlyPlaceholder) {
-            requestPage();
-        }
     }, []);
 
     useEffect(() => {
-        requestPage();
-    }, [pageIds, location.pathname, pageIdentifiers]);
+        if (!isOnlyPlaceholder) {
+            requestPage();
+        }
+    }, [pageIds, location.pathname, pageIdentifiers, isOnlyPlaceholder]);
 
     return {
         isBreadcrumbsActive,
         isLoading,
         isPageLoaded,
-        page
+        page: data?.cmsPage as BlockListType
     };
 };
 
-export const CmsPage = renderHOC(CmsPageComponent, cmsPageLogic, 'CmsPage');
+export const CmsPage = renderHOC(CmsPageComponent, cmsPageLogic, 'CmsPageContainer');
