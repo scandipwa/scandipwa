@@ -26,13 +26,13 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import LoginAccount from './LoginAccount.component';
 
-/** @namespace Component/LoginAccount/Container/mapDispatchToProps */
+/** @namespace Route/LoginAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     ...sourceMapDispatchToProps(dispatch),
     toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible))
 });
 
-/** @namespace Scandipwa/Route/LoginAccount/Container/LoginAccountContainer */
+/** @namespace Route/LoginAccount/Container */
 export class LoginAccountContainer extends MyAccountOverlayContainer {
     static propTypes = {
         ...MyAccountOverlayContainer.propTypes,

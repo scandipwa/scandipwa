@@ -315,9 +315,9 @@ export class AddToCartContainer extends PureComponent {
                 quantity
             });
         })).then(
-            /** @namespace Component/AddToCart/Container/addGroupedProductToCartPromiseAllThen */
+            /** @namespace Component/AddToCart/Container/AddToCartContainer/addGroupedProductToCart/all/then */
             () => this.afterAddToCart(),
-            /** @namespace Component/AddToCart/Container/addGroupedProductToCartPromiseAllCatch */
+            /** @namespace Component/AddToCart/Container/AddToCartContainer/addGroupedProductToCart/all/then/catch */
             () => this.resetLoading()
         );
     }
@@ -339,9 +339,9 @@ export class AddToCartContainer extends PureComponent {
             quantity,
             productOptionsData
         }).then(
-            /** @namespace Component/AddToCart/Container/addConfigurableProductToCartAddProductThen */
+            /** @namespace Component/AddToCart/Container/AddToCartContainer/addConfigurableProductToCart/addProduct/then */
             () => this.afterAddToCart(),
-            /** @namespace Component/AddToCart/Container/addConfigurableProductToCartAddProductCatch */
+            /** @namespace Component/AddToCart/Container/AddToCartContainer/addConfigurableProductToCart/addProduct/then/catch */
             () => this.resetLoading()
         );
     }
@@ -359,9 +359,9 @@ export class AddToCartContainer extends PureComponent {
             quantity,
             productOptionsData
         }).then(
-            /** @namespace Component/AddToCart/Container/addSimpleProductToCartAddProductThen */
+            /** @namespace Component/AddToCart/Container/AddToCartContainer/addSimpleProductToCart/addProduct/then */
             () => this.afterAddToCart(),
-            /** @namespace Component/AddToCart/Container/addSimpleProductToCartAddProductCatch */
+            /** @namespace Component/AddToCart/Container/AddToCartContainer/addSimpleProductToCart/addProduct/then/catch */
             () => this.resetLoading()
         );
     }

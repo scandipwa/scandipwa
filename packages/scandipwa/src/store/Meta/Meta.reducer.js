@@ -43,7 +43,7 @@ export const getInitialState = () => ({
     status_code: ''
 });
 
-/** @namespace Store/Meta/Reducer */
+/** @namespace Store/Meta/Reducer/MetaReducer */
 export const MetaReducer = (
     state = getInitialState(),
     action

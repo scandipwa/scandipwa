@@ -14,8 +14,7 @@ import { Field } from 'Util/Query';
 /**
  * MyAccount Mutations
  * @class MyAccount
- * @namespace Query/MyAccount
- */
+ * @namespace Query/MyAccount/Query */
 export class MyAccountQuery {
     /**
      * Get ResetPassword mutation

@@ -23,7 +23,7 @@ export const NOT_ACTIVE = 'NOT_ACTIVE';
 export class NewsletterSubscriptionDispatcher {
     subscribeToNewsletter(dispatch, email) {
         return fetchMutation(NewsletterSubscriptionQuery.getSubscribeToNewsletterMutation(email)).then(
-            /** @namespace Store/NewsletterSubscription/Dispatcher/fetchMutationThen */
+            /** @namespace Store/NewsletterSubscription/Dispatcher/NewsletterSubscriptionDispatcher/subscribeToNewsletter/fetchMutation/then */
             ({ subscribeEmailToNewsletter: { status } }) => {
                 // `NOT_ACTIVE` response status corresponds to `newsletter_subscription_confirm` magento setting
                 const message = status === NOT_ACTIVE
@@ -32,7 +32,7 @@ export class NewsletterSubscriptionDispatcher {
 
                 return dispatch(showNotification('success', message));
             },
-            /** @namespace Store/NewsletterSubscription/Dispatcher/fetchMutationSuccess */
+            /** @namespace Store/NewsletterSubscription/Dispatcher/NewsletterSubscriptionDispatcher/subscribeToNewsletter/fetchMutation/then/dispatch/catch */
             (error) => dispatch(showNotification('error', getErrorMessage(error)))
         );
     }

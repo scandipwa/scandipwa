@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-/** @namespace Query/Review */
+/** @namespace Query/Review/Query */
 export class ReviewQuery {
     getAddProductReviewMutation(reviewItem) {
         return new Field('createProductReview')

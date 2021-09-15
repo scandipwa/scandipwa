@@ -17,8 +17,7 @@ import { Field, Fragment } from 'Util/Query';
 /**
  * Product List Query
  * @class ProductListQuery
- * @namespace Query/ProductList
- */
+ * @namespace Query/ProductList/Query */
 export class ProductListQuery {
     __construct() {
         super.__construct();

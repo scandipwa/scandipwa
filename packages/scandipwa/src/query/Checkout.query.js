@@ -12,7 +12,7 @@
 import { isSignedIn } from 'Util/Auth';
 import { Field } from 'Util/Query';
 
-/** @namespace Query/Checkout */
+/** @namespace Query/Checkout/Query */
 export class CheckoutQuery {
     getPaymentMethodsQuery(guestCartId) {
         const query = new Field('getPaymentMethods')

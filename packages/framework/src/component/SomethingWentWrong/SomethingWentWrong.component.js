@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-/** @namespace Framework/Component/SomethingWentWrong/Component/SomethingWentWrongComponent */
+/** @namespace Framework/Component/SomethingWentWrong/Component */
 export class SomethingWentWrongComponent extends PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,

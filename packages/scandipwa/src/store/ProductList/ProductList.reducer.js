@@ -30,7 +30,7 @@ export const defaultConfig = {
     itemsPerPageCount: 12
 };
 
-/** @namespace Store/ProductList/Reducer */
+/** @namespace Store/ProductList/Reducer/ProductListReducer */
 export const ProductListReducer = (
     state = getInitialState(),
     action

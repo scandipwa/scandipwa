@@ -104,11 +104,13 @@ export class MyAccountDownloadableContainer extends PureComponent {
             OrderQuery.getDownloadableQuery()
         ).then(
             /** @namespace Component/MyAccountDownloadable/Container/requestDownloadable/success */
-            ((data) => {
-                const { customerDownloadableProducts: { items = [] } = {} } = data;
-                this.setState({ items, isLoading: false });
-            }),
-            /** @namespace Component/MyAccountDownloadable/Container/requestDownloadable/error */
+            (
+            /** @namespace Component/MyAccountDownloadable/Container/MyAccountDownloadableContainer/requestDownloadable/fetchQuery/then */
+                (data) => {
+                    const { customerDownloadableProducts: { items = [] } = {} } = data;
+                    this.setState({ items, isLoading: false });
+                }),
+            /** @namespace Component/MyAccountDownloadable/Container/MyAccountDownloadableContainer/requestDownloadable/fetchQuery/then/catch */
             (err) => {
                 showErrorNotification(getErrorMessage(err));
                 this.setState({ isLoading: false });

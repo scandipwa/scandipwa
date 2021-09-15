@@ -90,7 +90,7 @@ export const updateItemOptions = (options, { productsInWishlist }) => {
     return { productsInWishlist: products };
 };
 
-/** @namespace Store/Wishlist/Reducer */
+/** @namespace Store/Wishlist/Reducer/WishlistReducer */
 export const WishlistReducer = (
     state = getInitialState(),
     action

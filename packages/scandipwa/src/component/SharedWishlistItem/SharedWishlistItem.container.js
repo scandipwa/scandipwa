@@ -32,7 +32,7 @@ export const mapDispatchToProps = (dispatch) => ({
     )
 });
 
-/** @namespace Component/SharedWishlistItem/Container/sharedWishlistItemContainer */
+/** @namespace Component/SharedWishlistItem/Container */
 export class SharedWishlistItemContainer extends WishlistItemContainer {
     state = {
         quantity: 1

@@ -25,18 +25,18 @@ import { fetchQuery, getErrorMessage } from 'Util/Request';
 import StoreInPickUpComponent from './StoreInPickUpPopup.component';
 import { STORES_SEARCH_TIMEOUT } from './StoreInPickUpPopup.config';
 
-/** @namespace Component/StoreInPickUp/Container/mapDispatchToProps */
+/** @namespace Component/StoreInPickUpPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
-/** @namespace Component/StoreInPickUp/Container/mapStateToProps */
+/** @namespace Component/StoreInPickUpPopup/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     countries: state.ConfigReducer.countries
 });
 
-/** @namespace Component/StoreInPickUp/Container */
+/** @namespace Component/StoreInPickUpPopup/Container */
 export class StoreInPickUpContainer extends PureComponent {
     static propTypes = {
         countries: countriesType.isRequired,
@@ -155,6 +155,7 @@ export class StoreInPickUpContainer extends PureComponent {
         const { storeSearchCriteria, selectedCountryId } = this.state;
 
         fetchQuery(StoreInPickUpQuery.getStores(selectedCountryId, storeSearchCriteria)).then(
+            /** @namespace Component/StoreInPickUpPopup/Container/StoreInPickUpContainer/handleStoresSearch/fetchQuery/then */
             ({ getStores: { stores } = {} }) => {
                 if (stores) {
                     this.setState({ stores });
@@ -162,6 +163,7 @@ export class StoreInPickUpContainer extends PureComponent {
 
                 this.setState({ isLoading: false });
             },
+            /** @namespace Component/StoreInPickUpPopup/Container/StoreInPickUpContainer/handleStoresSearch/fetchQuery/then/catch */
             (error) => {
                 this.setState({ stores: [] });
                 showNotification('error', getErrorMessage(error));

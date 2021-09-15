@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import StoreItems from './StoreItems.component';
 
-/** @namespace Component/StoreItems/Container/storeItemsContainer */
+/** @namespace Component/StoreItems/Container */
 export class StoreItemsContainer extends PureComponent {
     static propTypes = {
         item: PropTypes.object.isRequired,

@@ -16,8 +16,7 @@ export const DEFAULT_ERROR_MESSAGE = __('Something went wrong!');
  * @param array | object error
  * @param string optional default error message if couldn't get any from the given error
  * @return string message
- * @namespace Util/Request/getErrorMessage
- */
+ * @namespace Util/Request/Error/getErrorMessage */
 export const getErrorMessage = (error, defaultMessage = DEFAULT_ERROR_MESSAGE) => {
     const {
         message = defaultMessage

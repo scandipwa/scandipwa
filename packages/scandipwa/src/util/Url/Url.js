@@ -55,7 +55,7 @@ export const getUrlParam = (match, location) => {
     return currentUrl.replace(baseUrl, '').replace(/^\/*/, '');
 };
 
-/**  Util/Url/trimEndSlash */
+/** @namespace Util/Url/trimEndSlash */
 export const trimEndSlash = (str) => (str.endsWith('/') ? str.slice(0, -1) : str);
 
 /**
@@ -240,6 +240,7 @@ export const objectToUri = (keyValueObject = {}) => {
     return paramString.length > 0 ? `?${paramString}` : '';
 };
 
+/** @namespace Util/Url/isHomePageUrl */
 export const isHomePageUrl = (pathname) => {
     const isHomePage = pathname === appendWithStoreCode('/')
         || pathname === '/'

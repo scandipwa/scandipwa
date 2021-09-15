@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-/** @namespace Query/Config */
+/** @namespace Query/Config/Query */
 export class ConfigQuery {
     getStoreListField() {
         return new Field('storeList')

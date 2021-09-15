@@ -32,8 +32,7 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /**
  * @class VideoThumbnailContainer
- * @namespace Component/VideoThumbnail/Container/videoThumbnailContainer
- */
+ * @namespace Component/VideoThumbnail/Container */
 export class VideoThumbnailContainer extends PureComponent {
     static propTypes = {
         media: MediaItemType.isRequired,

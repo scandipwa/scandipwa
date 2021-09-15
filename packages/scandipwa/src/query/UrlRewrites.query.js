@@ -13,8 +13,7 @@ import { Field } from 'Util/Query';
 /**
  * UrlRewrites Query
  * @class UrlRewritesQuery
- * @namespace Query/UrlRewrites
- */
+ * @namespace Query/UrlRewrites/Query */
 export class UrlRewritesQuery {
     getQuery({ urlParam }) {
         return new Field('urlResolver')

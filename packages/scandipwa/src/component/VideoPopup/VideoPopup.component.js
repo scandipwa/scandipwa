@@ -39,7 +39,7 @@ export class VideoPopup extends PureComponent {
             this.vimeoPromise,
             this.youTubePromise
         ]).then(
-            /** @namespace Component/VideoPopup/Component/videoLibrariesThen */
+            /** @namespace Component/VideoPopup/Component/VideoPopup/componentDidMount/all/then */
             () => this.forceUpdate()
         );
     }
@@ -103,7 +103,7 @@ export class VideoPopup extends PureComponent {
         this.vimeoPromise = makeCancelable(import('react-vimeo'));
 
         this.vimeoPromise.promise.then(
-            /** @namespace Component/VideoPopup/Component/vimeoPromisePromiseThen */
+            /** @namespace Component/VideoPopup/Component/VideoPopup/loadVimeoLibrary/then */
             ({ default: vimeo }) => {
                 this.vimeoComponent = vimeo;
             }
@@ -114,7 +114,7 @@ export class VideoPopup extends PureComponent {
         this.youTubePromise = makeCancelable(import('react-youtube'));
 
         this.youTubePromise.promise.then(
-            /** @namespace Component/VideoPopup/Component/youTubePromisePromiseThen */
+            /** @namespace Component/VideoPopup/Component/VideoPopup/loadYouTubeLibrary/then */
             ({ default: youTube }) => {
                 this.youTubeComponent = youTube;
             }

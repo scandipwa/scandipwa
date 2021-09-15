@@ -62,23 +62,23 @@ export class QueryDispatcher {
             new Promise((resolve, reject) => {
                 executeGet(prepareQuery(queries), name, cacheTTL)
                     .then(
-                        /** @namespace Util/Request/QueryDispatcher/handleData/executeGetThen */
+                        /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/makeCancelable/executeGet/then/resolve */
                         (data) => resolve(data),
-                        /** @namespace Util/Request/QueryDispatcher/handleData/executeGetError */
+                        /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/makeCancelable/executeGet/then/reject/catch */
                         (error) => reject(error)
                     );
             })
         );
 
         this.promise.promise.then(
-            /** @namespace Util/Request/QueryDispatcher/handleData/thisPromisePromiseThen */
+            /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/then */
             (data) => this.onSuccess(data, dispatch, options),
-            /** @namespace Util/Request/QueryDispatcher/handleData/thisPromisePromiseError */
+            /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/then/catch */
             (error) => this.onError(error, dispatch, options),
         );
 
         listenForBroadCast(name).then(
-            /** @namespace Util/Request/QueryDispatcher/handleData/listenForBroadCastThen */
+            /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/listenForBroadCast/then */
             (data) => this.onUpdate(data, dispatch, options),
         );
     }

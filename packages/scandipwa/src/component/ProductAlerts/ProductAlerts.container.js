@@ -86,7 +86,7 @@ export class ProductAlertsContainer extends PureComponent {
         const query = ProductAlertsQuery.getProductAlertSubscribeMutation(productId, type);
 
         return fetchMutation(query).then(
-            /** @namespace Component/ProductAlerts/Container/fetchMutation/then */
+            /** @namespace Component/ProductAlerts/Container/ProductAlertsContainer/handlePriceDropSubscribe/then/catch/fetchMutation/then */
             (ProductAlertSubscribe) => {
                 if (!ProductAlertSubscribe) {
                     return null;
@@ -95,7 +95,7 @@ export class ProductAlertsContainer extends PureComponent {
                 return showNotification('success', __('You saved the alert subscription'));
             }
         ).catch(
-            /** @namespace Component/ProductAlerts/Container/fetchMutation/catch */
+            /** @namespace Component/ProductAlerts/Container/ProductAlertsContainer/handlePriceDropSubscribe/then/catch */
             (error) => {
                 showErrorNotification('error', error[0].message);
             }

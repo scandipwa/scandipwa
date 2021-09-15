@@ -31,7 +31,7 @@ export class CSS {
     }
 }
 
-/** @namespace Util/CSS/getHeight */
+/** @namespace Util/CSS/getElementHeight */
 export const getElementHeight = (id) => Array.from(
     document.getElementsByClassName(id)
 ).reduce((acc, item) => {

@@ -12,7 +12,7 @@
 import { ProductListQuery } from 'Query/ProductList.query';
 import { Field } from 'Util/Query';
 
-/** @namespace Query/ProductCompare */
+/** @namespace Query/ProductCompare/Query */
 export class ProductCompareQuery extends ProductListQuery {
     getCreateEmptyCompareList() {
         return new Field('createCompareList')

@@ -13,12 +13,12 @@ import { connect } from 'react-redux';
 
 import TranslateOnCursorMove from './TranslateOnCursorMove.component';
 
-/** @namespace Component/Slider/Container/mapStateToProps */
+/** @namespace Component/TranslateOnCursorMove/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
 
-/** @namespace Component/Slider/Container/mapDispatchToProps */
+/** @namespace Component/TranslateOnCursorMove/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
 // eslint-disable-next-line @scandipwa/scandipwa-guidelines/always-both-mappings
