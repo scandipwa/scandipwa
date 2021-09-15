@@ -69,11 +69,11 @@ export class CmsPageComponent extends SimpleComponent<CmsPageProps> {
             isLoading,
             isPageLoaded
         } = this.props;
-        const { page_width } = page;
 
         if (!isLoading && !isPageLoaded) {
             return <NoMatch />;
         }
+        const { page_width } = page;
 
         return (
             <main
