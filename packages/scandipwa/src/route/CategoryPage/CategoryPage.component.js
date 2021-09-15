@@ -68,6 +68,7 @@ export class CategoryPage extends PureComponent {
         isCurrentCategoryLoaded: PropTypes.bool,
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
+        isSearchPage: PropTypes.bool.isRequired,
         totalPages: PropTypes.number,
         totalItems: PropTypes.number.isRequired,
         isMobile: PropTypes.bool.isRequired,
@@ -208,7 +209,8 @@ export class CategoryPage extends PureComponent {
         const {
             filters,
             selectedFilters,
-            isMatchingInfoFilter
+            isMatchingInfoFilter,
+            isSearchPage
         } = this.props;
 
         const { category: { is_anchor } } = this.props;
@@ -224,6 +226,7 @@ export class CategoryPage extends PureComponent {
                   customFiltersValues={ selectedFilters }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
                   isCategoryAnchor={ !!is_anchor }
+                  isSearchPage={ isSearchPage }
                 />
             </Suspense>
         );

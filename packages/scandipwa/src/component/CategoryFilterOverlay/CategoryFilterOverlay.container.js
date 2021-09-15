@@ -56,6 +56,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         isCategoryAnchor: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
         isProductsLoading: PropTypes.bool.isRequired,
+        isSearchPage: PropTypes.bool.isRequired,
         totalPages: PropTypes.number.isRequired
     };
 
@@ -230,6 +231,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             isInfoLoading,
             isMatchingInfoFilter,
             isProductsLoading,
+            isSearchPage,
             totalPages
         } = this.props;
 
@@ -239,6 +241,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             isInfoLoading,
             isProductsLoading,
             isMatchingInfoFilter,
+            isSearchPage,
             totalPages,
             customFiltersValues,
             areFiltersEmpty: this.getAreFiltersEmpty(),

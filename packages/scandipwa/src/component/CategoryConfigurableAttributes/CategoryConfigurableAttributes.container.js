@@ -20,7 +20,8 @@ import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.com
 export const mapStateToProps = (state) => ({
     currency_code: state.ConfigReducer.currencyData.current_currency_code,
     show_product_count: state.ConfigReducer.layered_navigation_product_count_enabled,
-    childrenCategories: state.CategoryReducer.category.children
+    childrenCategories: state.CategoryReducer.category.children,
+    categoryItems: state.ProductListReducer.pages
 });
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapDispatchToProps */
@@ -48,12 +49,25 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
         };
     }
 
-    getSubCategories(option) {
-        const optionWithSubcategories = { ...option };
+    getSearchCategories() {
+        const { categoryItems } = this.props;
+        const allCategoryItems = Object.values(categoryItems).reduce((prev, next) => [...prev, ...next], []);
+        const categoryIds = allCategoryItems.reduce((prev, { categoryId }) => [...prev, categoryId.toString()], []);
+        return Array.from(new Set(categoryIds));
+    }
+
+    getCategorySubCategories() {
         const { childrenCategories } = this.props;
+        return childrenCategories.map(({ id }) => id.toString());
+    }
+
+    getSubCategories(option) {
+        const { isSearchPage } = this.props;
+        const optionWithSubcategories = { ...option };
         const { attribute_values } = option;
-        const childrenCategoryIds = childrenCategories.map((category) => category.id.toString());
-        const subCategoriesIds = attribute_values.filter((item) => childrenCategoryIds.includes(item));
+
+        const categoryItemsIds = isSearchPage ? this.getSearchCategories() : this.getCategorySubCategories();
+        const subCategoriesIds = attribute_values.filter((item) => categoryItemsIds.includes(item));
         optionWithSubcategories.attribute_values = subCategoriesIds;
 
         return optionWithSubcategories;

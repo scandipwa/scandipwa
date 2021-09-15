@@ -426,7 +426,8 @@ export class CategoryPageContainer extends PureComponent {
             sortFields,
             toggleOverlayByKey,
             totalPages,
-            totalItems
+            totalItems,
+            isSearchPage
         } = this.props;
 
         return {
@@ -440,6 +441,7 @@ export class CategoryPageContainer extends PureComponent {
             isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
             isMatchingListFilter: this.getIsMatchingListFilter(),
             isMobile,
+            isSearchPage,
             plpTypes: this.getPlpTypes(),
             selectedFilters: this.getSelectedFiltersFromUrl(),
             selectedSort: this.getSelectedSortFromUrl(),
