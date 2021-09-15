@@ -219,7 +219,7 @@
         button {
             cursor: pointer;
 
-            &:hover {
+            &:hover:not([disabled]) {
                 border-color: var(--primary-dark-color);
             }
         }
