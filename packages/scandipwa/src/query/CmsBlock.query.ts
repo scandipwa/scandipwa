@@ -9,44 +9,40 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { DataType, Field, Query } from '@tilework/opus';
 
 /**
  * CMS Blocks Query
- * @class CmsBlocksQuery
  * @namespace Query/CmsBlock
  */
 export class CmsBlockQuery {
     /**
      * get CMS Block query
-     * @param  {{identifier: String, title: String, content: String}} options A object containing different aspects of query, each item can be omitted
-     * @return {Field} CMS Block query
-     * @memberof CmsBlocksQuery
      */
-    getQuery({ identifiers }) {
+    static getQuery({ identifiers }: { identifiers: string[] }) {
         if (!identifiers) {
             throw new Error('Missing argument `options`');
         }
 
-        return new Field('cmsBlocks')
+        return new Query('cmsBlocks')
             .addArgument('identifiers', '[String]', identifiers)
-            .addField(this._getItemsField())
+            .addField(CmsBlockQuery.getItemsField())
             .setAlias('cmsBlocks');
     }
 
-    _getItemFields() {
+    static getItemFields() {
         return [
             'title',
             'content',
             'identifier',
             'disabled'
-        ];
+        ] as const;
     }
 
-    _getItemsField() {
+    static getItemsField() {
         return new Field('items')
-            .addFieldList(this._getItemFields());
+            .addFieldList(CmsBlockQuery.getItemFields());
     }
 }
 
-export default new CmsBlockQuery();
+export type CmsBlockQueryData = DataType<ReturnType<typeof CmsBlockQuery.getQuery>>
