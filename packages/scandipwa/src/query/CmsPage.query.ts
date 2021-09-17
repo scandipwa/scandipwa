@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Query } from '@tilework/opus';
+import { DataType, Query } from '@tilework/opus';
 
 /**
  * @namespace Query/CmsPage
@@ -47,3 +47,5 @@ export class CmsPageQuery {
         ] as const;
     }
 }
+
+export type CmsPageQueryData = DataType<ReturnType<typeof CmsPageQuery.getQuery>>

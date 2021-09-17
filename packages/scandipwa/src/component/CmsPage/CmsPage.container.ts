@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { DataType } from '@tilework/opus';
 import { Location } from 'history';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +16,7 @@ import { match as Match, useLocation } from 'react-router';
 import { usePersistedQuery } from 'src/hooks/use-persisted-query';
 
 import { CMS_PAGE } from 'Component/Header/Header.config';
-import { CmsPageQuery } from 'Query/CmsPage.query';
+import { CmsPageQuery, CmsPageQueryData } from 'Query/CmsPage.query';
 import { useBreadcrumbsStore } from 'Store/Breadcrumbs';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { useNavigationStore } from 'Store/Navigation';
@@ -99,7 +98,7 @@ export const cmsPageLogic = (props: CmsPageExternalProps): CmsPageProps => {
         data,
         isLoading,
         request
-    } = usePersistedQuery<DataType<ReturnType<typeof CmsPageQuery.getQuery>>>();
+    } = usePersistedQuery<CmsPageQueryData>();
     const [isPageLoaded, setIsPageLoaded] = useState<boolean>(false);
 
     const updateMetaAction = (meta: Record<string, string>) => dispatch(updateMeta(meta));
