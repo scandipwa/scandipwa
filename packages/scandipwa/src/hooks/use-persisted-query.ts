@@ -6,10 +6,9 @@ import {
 import { executeGet } from 'Util/Request';
 import { hash } from 'Util/Request/Hash';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { persistedQueryStorage } from 'Util/Storage/PersistedQueryStorage';
 
-window.dataCache = {};
-
-// client.setEndpoint('https://api.spacex.land/graphql/');
+// window.dataCache = {};
 
 export interface UsePersistedQueryResult<T> {
     data: T | undefined;
@@ -23,7 +22,7 @@ export interface UsePersistedQueryResult<T> {
 }
 
 export interface UsePersistedQueryOptions {
-    executeOnMount: boolean
+    requestOnMount: boolean
     query: AbstractField<string, unknown, boolean>
 }
 
@@ -38,6 +37,7 @@ export function usePersistedQuery<T>(options?: UsePersistedQueryOptions): UsePer
         error: undefined
     });
     const controller = useMemo(() => new AbortController(), []);
+
     const request = useCallback(async <
         Name extends string,
         FieldReturnType,
@@ -46,16 +46,22 @@ export function usePersistedQuery<T>(options?: UsePersistedQueryOptions): UsePer
         const preparedQuery = prepareRequest(query, GraphQlRequestType.Query);
         const queryHash = hash(preparedQuery.query + JSON.stringify(preparedQuery.variables));
 
-        if (window.dataCache?.[queryHash]) {
+        const cachedResult = await persistedQueryStorage.getItem<T>(`${queryHash}`);
+        if (cachedResult) {
             setResult({
-                data: window.dataCache?.[queryHash] as T,
+                data: cachedResult,
                 error: undefined,
                 isLoading: false
             });
+
+            return true;
         }
         try {
+            // refactor this
             const data = await executeGet(preparedQuery, 'DataContainer', ONE_MONTH_IN_SECONDS);
-            window.dataCache![queryHash] = data as unknown as T;
+
+            await persistedQueryStorage.setItem(`${queryHash}`, data, ONE_MONTH_IN_SECONDS);
+
             setResult({
                 data: data as unknown as T,
                 error: undefined,
@@ -82,10 +88,11 @@ export function usePersistedQuery<T>(options?: UsePersistedQueryOptions): UsePer
     }, []);
 
     useEffect(() => {
-        if (options && options.executeOnMount) {
+        if (options && options.requestOnMount) {
             request(options.query);
         }
     }, []);
+
     useEffect(() => () => {
         if (result.isLoading) {
             controller.abort();
