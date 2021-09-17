@@ -1,6 +1,5 @@
 import {
     client,
-    DataType,
     Mutation,
     Query
 } from '@tilework/opus';
@@ -10,20 +9,23 @@ import {
 
 // client.setEndpoint('https://api.spacex.land/graphql/');
 
-export interface UseQueryResult<T extends Query<string, unknown, boolean> | Mutation<string, unknown, boolean>> {
-    data: DataType<T> | undefined;
+export interface UseQueryResult<T> {
+    data: T | undefined;
     isLoading: boolean;
     error?: Error;
-    request: () => Promise<boolean>
+    request: <
+        Name extends string,
+        FieldReturnType,
+        IsArray extends boolean
+    >(query: Query<Name, FieldReturnType, IsArray> | Mutation<Name, FieldReturnType, IsArray>) => Promise<boolean>
 }
 
 export interface UseQueryOptions {
-    executeOnMount?: boolean
+    requestOnMount?: boolean
+    query: Query<string, unknown, boolean> | Mutation<string, unknown, boolean>
 }
 
-export function useQuery<
-  T extends Query<string, unknown, boolean> | Mutation<string, unknown, boolean>
->(query: T, options: UseQueryOptions = {}): UseQueryResult<T> {
+export function useQuery<T>(options: UseQueryOptions): UseQueryResult<T> {
     const [result, setResult] = useState<Omit<UseQueryResult<T>, 'request'>>({
         data: undefined,
         isLoading: false,
@@ -32,12 +34,18 @@ export function useQuery<
 
     const controller = useMemo(() => new AbortController(), []);
 
-    const request = useCallback(async () => {
+    const request = useCallback(async <
+        Name extends string,
+        FieldReturnType,
+        IsArray extends boolean
+    >(
+        query: Query<Name, FieldReturnType, IsArray> | Mutation<Name, FieldReturnType, IsArray>
+    ) => {
         try {
             const data = await client.post(query, { signal: controller.signal });
 
             setResult({
-                data: data as DataType<T>,
+                data: data as unknown as T,
                 error: undefined,
                 isLoading: false
             });
@@ -53,15 +61,17 @@ export function useQuery<
                     error,
                     isLoading: false
                 });
+            } else {
+                throw error;
             }
 
             return false;
         }
-    }, [query]);
+    }, []);
 
     useEffect(() => {
-        if (options.executeOnMount) {
-            request();
+        if (options && options.requestOnMount) {
+            request(options.query);
         }
     }, []);
 
