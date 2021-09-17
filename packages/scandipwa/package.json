@@ -6,7 +6,9 @@
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
         "build": "scandipwa-scripts build",
-        "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
+        "build:magento": "BUILD_MODE=magento scandipwa-scripts build",
+        "sb": "start-storybook -p 6006",
+        "build-sb": "build-storybook"
     },
     "dependencies": {
         "@babel/preset-env": "^7.15.0",
@@ -24,6 +26,7 @@
         "@types/webpack-env": "^1.16.2",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
+        "idb-keyval": "^6.0.1",
         "intersection-observer": "^0.12.0",
         "prop-types": "^15.7.2",
         "react": "^17.0.2",
@@ -39,11 +42,15 @@
         "react-zoom-pan-pinch": "^1.6.1",
         "rebem-classname": "^0.4.0",
         "redux": "^4.0.5",
-        "unstated": "^2.1.1"
+        "unstated": "^2.1.1",
+        "workbox-webpack-plugin": "^6.3.0"
     },
     "scandipwa": {
         "themeAlias": "Source",
         "type": "theme",
+        "sourceDirectories": [
+            "./.storybook"
+        ],
         "locales": {
             "en_US": true,
             "da_DK": true,
@@ -168,5 +175,13 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://demo100-ors-1588667385-csa-qnb.scandipwa.cloud/"
+    "proxy": "https://demo100-ors-1588667385-csa-qnb.scandipwa.cloud/",
+    "devDependencies": {
+        "@babel/core": "^7.15.5",
+        "@storybook/addon-actions": "^6.3.8",
+        "@storybook/addon-essentials": "^6.3.8",
+        "@storybook/addon-links": "^6.3.8",
+        "@storybook/react": "^6.3.8",
+        "babel-loader": "^8.2.2"
+    }
 }
