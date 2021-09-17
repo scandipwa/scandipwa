@@ -148,6 +148,8 @@
     }
 
     &-DeliverySelect {
+        margin-block-start: 15px;
+
         @include mobile {
             margin-block-start: 10px;
         }

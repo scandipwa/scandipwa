@@ -13,8 +13,10 @@
     .Popup {
         &-Content {
             @include desktop {
-                width: 50vh;
-                height: 40vh;
+                max-height: 60vh;
+                min-height: 40vh;
+                overflow-y: hidden;
+                width: 70vh;
             }
         }
     }
@@ -30,7 +32,11 @@
         font-size: 14px;
     }
 
-    &-Heading {
-        margin-block-start: 0;
+
+    &-Results {
+        @include desktop {
+            max-height: 300px;
+            overflow-y: auto;
+        }
     }
 }

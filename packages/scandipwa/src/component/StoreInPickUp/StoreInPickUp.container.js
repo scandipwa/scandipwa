@@ -23,7 +23,7 @@ import StoreInPickUp from './StoreInPickUp.component';
 
 /** @namespace Component/StoreInPickUp/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (popupId) => dispatch(showPopup(popupId)),
+    showPopup: (payload) => dispatch(showPopup(STORE_IN_PICK_UP_POPUP_ID, payload)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
@@ -81,7 +81,7 @@ export class StoreInPickUpContainer extends PureComponent {
     handleOpenPopup() {
         const { showPopup } = this.props;
 
-        showPopup(STORE_IN_PICK_UP_POPUP_ID);
+        showPopup({ title: __('Select Store') });
     }
 
     setSelectedStore(store) {

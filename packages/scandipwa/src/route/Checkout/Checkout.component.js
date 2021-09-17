@@ -389,10 +389,17 @@ export class Checkout extends PureComponent {
             isPickInStoreMethodSelected,
             handleSelectDeliveryMethod,
             checkoutStep,
-            isInStoreActivated
+            isInStoreActivated,
+            totals: {
+                is_in_store_pickup_available: isInStorePickupAvailable
+            }
         } = this.props;
 
         if (checkoutStep !== SHIPPING_STEP || !isInStoreActivated) {
+            return null;
+        }
+
+        if (!isInStorePickupAvailable) {
             return null;
         }
 

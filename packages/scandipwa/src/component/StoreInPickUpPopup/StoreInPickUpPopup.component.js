@@ -44,17 +44,6 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         isLoading: true
     };
 
-    renderHeading() {
-        return (
-            <h3
-              block="StoreInPickUpPopup"
-              elem="Heading"
-            >
-                { __('Select Store') }
-            </h3>
-        );
-    }
-
     renderNoResult() {
         return (
             <span
@@ -159,7 +148,6 @@ export class StoreInPickUpPopupComponent extends PureComponent {
               clickOutside={ false }
               mix={ { block: 'StoreInPickUpPopup' } }
             >
-                { this.renderHeading() }
                 { this.renderContent() }
             </Popup>
         );
