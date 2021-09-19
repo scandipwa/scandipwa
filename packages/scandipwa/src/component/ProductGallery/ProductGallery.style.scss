@@ -35,15 +35,30 @@
         @include mobile {
             display: none;
         }
+
+        &_isImageZoomPopupActive {
+            position: absolute;
+            inset-block-end: 20px;
+            inset-inline-start: 20px;
+
+            .CarouselScrollItem {
+                filter: opacity(0.75);
+
+                &_isActive {
+                    border-width: 2px;
+                    filter: opacity(1);
+                }
+            }
+        }
     }
 
     &-SliderWrapper {
         flex: 1;
-        max-height: 80vh;
     }
 
     &-Slider {
         height: 100%;
+        opacity: var(--sliderOpacity);
 
         &_isImageZoomPopupActive {
             cursor: pointer;
@@ -59,11 +74,5 @@
     &-SliderImage {
         height: 100%;
         width: 100%;
-    }
-
-    &-SliderImage {
-        .Image-Image {
-            transform: translateY(var(--translateYOnCursorMove));
-        }
     }
 }
