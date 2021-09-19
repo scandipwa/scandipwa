@@ -12,9 +12,12 @@ const generatePages = async () => {
     const { dir } = getDirFromArgs(args);
     const pages = await getDefinedPages(dir);
     const outputDir = path.join(dir, 'src');
+    const hasPages = Object.keys(pages).length;
 
-    await createMockPages(pages, outputDir);
-    await createMockRoutes(pages, outputDir);
+    if (hasPages) {
+        await createMockPages(pages, outputDir);
+        await createMockRoutes(pages, outputDir);
+    }
 
     process.env.NEXTJS_PAGES = JSON.stringify(pages);
 };
