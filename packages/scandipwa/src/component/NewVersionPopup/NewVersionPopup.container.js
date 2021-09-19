@@ -19,6 +19,7 @@ import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { DeviceType } from 'Type/Device';
 import { isCrawler, isSSR } from 'Util/Browser';
+import history from 'Util/History';
 
 import NewVersionPopup from './NewVersionPopup.component';
 import { NEW_VERSION_POPUP_ID } from './NewVersionPopup.config';
@@ -78,6 +79,7 @@ export class NewVersionPopupContainer extends PureComponent {
         const { hideActiveOverlay } = this.props;
 
         hideActiveOverlay();
+        history.goBack();
     }
 
     render() {
