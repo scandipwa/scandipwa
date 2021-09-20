@@ -53,3 +53,5 @@ export const hasHomeScreenSupport = () => {
 };
 
 export const hasManifest = () => !!document.querySelector("[rel='manifest']");
+
+export const hasServiceWorker = () => 'serviceWorker' in navigator;
