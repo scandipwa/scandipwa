@@ -51,3 +51,5 @@ export const hasHomeScreenSupport = () => {
     console.debug(platform.isCompatible);
     return platform.isCompatible;
 };
+
+export const hasManifest = () => document.querySelector("[rel='manifest']");
