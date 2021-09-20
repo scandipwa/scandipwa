@@ -98,6 +98,9 @@ export class InstallPrompt extends PureComponent {
         return (
             <div block="InstallPrompt">
                 { this.renderPrompt() }
+                { JSON.stringify({
+                    hasSupport: displayComponent, standaloneMode, android, isBannerClosed, hasInstallPromptEvent
+                }) }
             </div>
         );
     }
