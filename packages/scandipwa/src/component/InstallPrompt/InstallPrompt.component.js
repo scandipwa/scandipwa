@@ -15,7 +15,11 @@ import { PureComponent } from 'react';
 import InstallPromptAndroid from 'Component/InstallPromptAndroid';
 import InstallPromptIOS from 'Component/InstallPromptIOS';
 import { DeviceType } from 'Type/Device';
-import { hasHomeScreenSupport, hasManifest, hasServiceWorker } from 'Util/Mobile/hasHomeScreenSupport';
+import {
+    hasManifest,
+    hasServiceWorker,
+    isBrowserCompatible
+} from 'Util/Mobile/hasHomeScreenSupport';
 
 import './InstallPrompt.style';
 
@@ -43,10 +47,11 @@ export class InstallPrompt extends PureComponent {
             safari,
             standaloneMode
         } = device;
-        const isAndroid = android && hasInstallPromptEvent;
-        const isIos = ios && safari;
+        const isInstallable = hasInstallPromptEvent || (isBrowserCompatible() && hasManifest() && hasServiceWorker());
+        const hasSupportAndroid = android && isInstallable;
+        const hasSupportIos = ios && safari;
 
-        return (isAndroid || isIos)
+        return (hasSupportAndroid || hasSupportIos)
             && !standaloneMode
             && !isBannerClosed;
     }
@@ -95,7 +100,7 @@ export class InstallPrompt extends PureComponent {
             android,
             isBannerClosed,
             hasInstallPromptEvent,
-            hasHomeScreenSupport: hasHomeScreenSupport(),
+            isBrowserCompatible: isBrowserCompatible(),
             hasManifest: hasManifest(),
             hasServiceWorker: hasServiceWorker()
         });

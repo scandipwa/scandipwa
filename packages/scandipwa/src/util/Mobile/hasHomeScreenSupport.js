@@ -11,7 +11,7 @@
 
 export const platform = {};
 
-export const hasHomeScreenSupport = () => {
+export const isBrowserCompatible = () => {
     // browser info and capability
     const _ua = window.navigator.userAgent;
 
