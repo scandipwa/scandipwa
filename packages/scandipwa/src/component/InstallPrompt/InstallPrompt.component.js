@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import InstallPromptAndroid from 'Component/InstallPromptAndroid';
 import InstallPromptIOS from 'Component/InstallPromptIOS';
 import { DeviceType } from 'Type/Device';
+import { hasHomeScreenSupport } from 'Util/Mobile/hasHomeScreenSupport';
 
 import './InstallPrompt.style';
 
@@ -91,7 +92,12 @@ export class InstallPrompt extends PureComponent {
 
         if (!displayComponent) {
             return JSON.stringify({
-                hasSupport: displayComponent, standaloneMode, android, isBannerClosed, hasInstallPromptEvent
+                hasSupport: displayComponent,
+                standaloneMode,
+                android,
+                isBannerClosed,
+                hasInstallPromptEvent,
+                hasHomeScreenSupport: hasHomeScreenSupport()
             });
         }
 
@@ -99,7 +105,12 @@ export class InstallPrompt extends PureComponent {
             <div block="InstallPrompt">
                 { this.renderPrompt() }
                 { JSON.stringify({
-                    hasSupport: displayComponent, standaloneMode, android, isBannerClosed, hasInstallPromptEvent
+                    hasSupport: displayComponent,
+                    standaloneMode,
+                    android,
+                    isBannerClosed,
+                    hasInstallPromptEvent,
+                    hasHomeScreenSupport: hasHomeScreenSupport()
                 }) }
             </div>
         );
