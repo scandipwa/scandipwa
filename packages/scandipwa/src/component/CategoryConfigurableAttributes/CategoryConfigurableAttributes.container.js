@@ -52,7 +52,10 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
     getSearchCategories() {
         const { categoryItems } = this.props;
         const allCategoryItems = Object.values(categoryItems).reduce((prev, next) => [...prev, ...next], []);
-        const categoryIds = allCategoryItems.reduce((prev, { categoryId }) => [...prev, categoryId.toString()], []);
+        const categoryIds = allCategoryItems.reduce(
+            (prev, { categories }) => [...prev, ...categories.map(({ id }) => id.toString())], []
+        );
+
         return Array.from(new Set(categoryIds));
     }
 

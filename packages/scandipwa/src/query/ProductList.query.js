@@ -312,7 +312,11 @@ export class ProductListQuery {
      * @private
      */
     _getCategoryIds() {
-        return new Field('categories').addField('id');
+        return new Field('categories').addFieldList(['id', this._getBreadcrumbs()]);
+    }
+
+    _getBreadcrumbs() {
+        return new Field('breadcrumbs').addField('category_level');
     }
 
     /**

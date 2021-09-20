@@ -287,13 +287,11 @@ export const getIndexedProduct = (product, itemSku) => {
         bundle_options = []
     } = product;
 
-    const { categories, ...otherProductFields } = product;
-
     const attributes = getIndexedAttributes(initialAttributes || []);
     const reviews = getIndexedReviews(initialReviews);
 
     const updatedProduct = {
-        ...otherProductFields,
+        ...product,
         configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
         variants: itemSku ? getIndexedSingleVariant(initialVariants, itemSku) : getIndexedVariants(initialVariants),
         options: getIndexedCustomOptions(initialOptions || []),
@@ -308,11 +306,6 @@ export const getIndexedProduct = (product, itemSku) => {
 
     if (bundle_options.length) {
         updatedProduct.items = getBundleOptions(bundle_options, items);
-    }
-
-    if (categories.length) {
-        const [{ id }] = categories;
-        updatedProduct.categoryId = id;
     }
 
     return updatedProduct;
