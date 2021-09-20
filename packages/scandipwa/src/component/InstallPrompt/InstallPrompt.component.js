@@ -16,9 +16,9 @@ import InstallPromptAndroid from 'Component/InstallPromptAndroid';
 import InstallPromptIOS from 'Component/InstallPromptIOS';
 import { DeviceType } from 'Type/Device';
 import {
+    browserHasA2hsSupport,
     hasManifest,
-    hasServiceWorker,
-    isBrowserCompatible
+    hasServiceWorker
 } from 'Util/Mobile/hasHomeScreenSupport';
 
 import './InstallPrompt.style';
@@ -47,7 +47,7 @@ export class InstallPrompt extends PureComponent {
             safari,
             standaloneMode
         } = device;
-        const isInstallable = hasInstallPromptEvent || (isBrowserCompatible() && hasManifest() && hasServiceWorker());
+        const isInstallable = hasInstallPromptEvent || (browserHasA2hsSupport() && hasManifest() && hasServiceWorker());
         const hasSupportAndroid = android && isInstallable;
         const hasSupportIos = ios && safari;
 
@@ -100,9 +100,11 @@ export class InstallPrompt extends PureComponent {
             android,
             isBannerClosed,
             hasInstallPromptEvent,
-            isBrowserCompatible: isBrowserCompatible(),
+            isBrowserCompatible: browserHasA2hsSupport(),
             hasManifest: hasManifest(),
-            hasServiceWorker: hasServiceWorker()
+            hasServiceWorker: hasServiceWorker(),
+            fullscreenMode: window.matchMedia('(display-mode: fullscreen)').matches,
+            minimalUiMode: window.matchMedia('(display-mode: minimal-ui)').matches
         });
 
         if (!displayComponent) {

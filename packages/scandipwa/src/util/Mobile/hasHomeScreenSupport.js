@@ -11,7 +11,8 @@
 
 export const platform = {};
 
-export const isBrowserCompatible = () => {
+// A2HS = Add to home screen: https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen
+export const browserHasA2hsSupport = () => {
     // browser info and capability
     const _ua = window.navigator.userAgent;
 
