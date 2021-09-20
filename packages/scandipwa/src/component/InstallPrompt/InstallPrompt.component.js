@@ -81,10 +81,18 @@ export class InstallPrompt extends PureComponent {
     }
 
     render() {
+        const { device, isBannerClosed, hasInstallPromptEvent } = this.props;
+        const {
+            android,
+            standaloneMode
+        } = device;
+
         const displayComponent = this.hasSupport();
 
         if (!displayComponent) {
-            return null;
+            return JSON.stringify({
+                hasSupport: displayComponent, standaloneMode, android, isBannerClosed, hasInstallPromptEvent
+            });
         }
 
         return (
