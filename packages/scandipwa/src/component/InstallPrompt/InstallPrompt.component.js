@@ -89,29 +89,23 @@ export class InstallPrompt extends PureComponent {
         } = device;
 
         const displayComponent = this.hasSupport();
+        const debugMsg = SON.stringify({
+            hasSupport: displayComponent,
+            standaloneMode,
+            android,
+            isBannerClosed,
+            hasInstallPromptEvent,
+            hasHomeScreenSupport: hasHomeScreenSupport()
+        });
 
         if (!displayComponent) {
-            return JSON.stringify({
-                hasSupport: displayComponent,
-                standaloneMode,
-                android,
-                isBannerClosed,
-                hasInstallPromptEvent,
-                hasHomeScreenSupport: hasHomeScreenSupport()
-            });
+            return debugMsg;
         }
 
         return (
             <div block="InstallPrompt">
                 { this.renderPrompt() }
-                { JSON.stringify({
-                    hasSupport: displayComponent,
-                    standaloneMode,
-                    android,
-                    isBannerClosed,
-                    hasInstallPromptEvent,
-                    hasHomeScreenSupport: hasHomeScreenSupport()
-                }) }
+                { debugMsg }
             </div>
         );
     }
