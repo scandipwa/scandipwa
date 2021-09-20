@@ -190,6 +190,8 @@ export class MyAccountContainer extends PureComponent {
         this.redirectIfNotSignedIn();
         this.onSignIn();
         this.updateBreadcrumbs();
+
+        window.scrollTo({ top: 0 });
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -219,6 +221,8 @@ export class MyAccountContainer extends PureComponent {
         if (prevActiveTab !== activeTab) {
             this.updateBreadcrumbs();
             this.changeHeaderState();
+
+            window.scrollTo({ top: 0 });
         }
 
         if (Object.keys(wishlistItems).length !== Object.keys(prevWishlistItems).length) {
