@@ -48,7 +48,6 @@ export const hasHomeScreenSupport = () => {
         || platform.isOpera
         || platform.isIDevice;
 
-    console.debug(platform.isCompatible);
     return platform.isCompatible;
 };
 
