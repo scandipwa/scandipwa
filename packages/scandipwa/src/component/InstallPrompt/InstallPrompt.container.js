@@ -88,7 +88,6 @@ export class InstallPromptContainer extends PureComponent {
     listenForInstallPrompt() {
         window.addEventListener('beforeinstallprompt', (event) => {
             event.preventDefault();
-            alert('beforeinstallprompt event occurred');
             window.promt_event = Object.assign(event);
             this.setState({ hasInstallPromptEvent: true });
         });

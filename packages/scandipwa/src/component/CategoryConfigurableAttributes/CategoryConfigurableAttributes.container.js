@@ -20,8 +20,7 @@ import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.com
 export const mapStateToProps = (state) => ({
     currency_code: state.ConfigReducer.currencyData.current_currency_code,
     show_product_count: state.ConfigReducer.layered_navigation_product_count_enabled,
-    childrenCategories: state.CategoryReducer.category.children,
-    categoryItems: state.ProductListReducer.pages
+    childrenCategories: state.CategoryReducer.category.children
 });
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapDispatchToProps */
@@ -49,16 +48,6 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
         };
     }
 
-    getSearchCategories() {
-        const { categoryItems } = this.props;
-        const allCategoryItems = Object.values(categoryItems).reduce((prev, next) => [...prev, ...next], []);
-        const categoryIds = allCategoryItems.reduce(
-            (prev, { categories }) => [...prev, ...categories.map(({ id }) => id.toString())], []
-        );
-
-        return Array.from(new Set(categoryIds));
-    }
-
     getCategorySubCategories() {
         const { childrenCategories } = this.props;
         return childrenCategories.map(({ id }) => id.toString());
@@ -69,9 +58,11 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
         const optionWithSubcategories = { ...option };
         const { attribute_values } = option;
 
-        const categoryItemsIds = isSearchPage ? this.getSearchCategories() : this.getCategorySubCategories();
-        const subCategoriesIds = attribute_values.filter((item) => categoryItemsIds.includes(item));
-        optionWithSubcategories.attribute_values = subCategoriesIds;
+        if (!isSearchPage) {
+            const categoryItemsIds = this.getCategorySubCategories();
+            const subCategoriesIds = attribute_values.filter((item) => categoryItemsIds.includes(item));
+            optionWithSubcategories.attribute_values = subCategoriesIds;
+        }
 
         return optionWithSubcategories;
     }

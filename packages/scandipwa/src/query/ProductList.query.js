@@ -299,24 +299,9 @@ export class ProductListQuery {
                     this._getCustomizableProductFragment()
                 );
             }
-        } else {
-            fields.push(this._getCategoryIds());
         }
 
         return fields;
-    }
-
-    /**
-     * Returns categories ids on PLP (required for layered navigation)
-     * @returns {Field}
-     * @private
-     */
-    _getCategoryIds() {
-        return new Field('categories').addFieldList(['id', this._getBreadcrumbs()]);
-    }
-
-    _getBreadcrumbs() {
-        return new Field('breadcrumbs').addField('category_level');
     }
 
     /**
