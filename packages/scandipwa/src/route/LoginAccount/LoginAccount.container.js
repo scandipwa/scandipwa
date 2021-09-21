@@ -56,7 +56,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
         const { setHeaderState, toggleBreadcrumbs } = this.props;
 
         if (isSignedIn()) {
-            history.push(appendWithStoreCode('/'));
+            history.replace(appendWithStoreCode('/'));
         }
 
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
@@ -65,7 +65,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
 
     componentDidUpdate(prevProps, prevState) {
         if (isSignedIn()) {
-            history.push(appendWithStoreCode('/'));
+            history.replace(appendWithStoreCode('/'));
 
             return;
         }

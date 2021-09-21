@@ -18,8 +18,6 @@ import {
     updateCustomerSignInStatus,
     updateIsLoading
 } from 'Store/MyAccount/MyAccount.action';
-import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ORDERS } from 'Store/Order/Order.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
@@ -247,7 +245,6 @@ export class MyAccountDispatcher {
 
         dispatch(updateCustomerSignInStatus(true));
         dispatch(updateIsLoading(false));
-        dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE));
         dispatch(hideActiveOverlay());
         dispatch(showNotification('success', __('You are successfully logged in!')));
 

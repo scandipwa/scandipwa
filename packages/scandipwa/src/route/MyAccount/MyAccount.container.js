@@ -136,7 +136,8 @@ export class MyAccountContainer extends PureComponent {
                 params: {
                     tab: historyActiveTab
                 } = {}
-            } = {}
+            } = {},
+            isMobile
         } = props;
 
         const { activeTab } = state;
@@ -146,7 +147,7 @@ export class MyAccountContainer extends PureComponent {
             ? historyActiveTab
             : DASHBOARD;
 
-        if (historyActiveTab !== newActiveTab && isSignedIn) {
+        if (historyActiveTab !== newActiveTab && isSignedIn && !isMobile) {
             history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }/${ newActiveTab }`));
         }
 
@@ -298,7 +299,7 @@ export class MyAccountContainer extends PureComponent {
         const { toggleOverlayByKey } = this.props;
         this.setState({ activeTab: DASHBOARD });
         toggleOverlayByKey(CUSTOMER_ACCOUNT);
-        history.push(appendWithStoreCode('/'));
+        history.replace(appendWithStoreCode('/'));
     }
 
     onSignIn() {
@@ -341,7 +342,9 @@ export class MyAccountContainer extends PureComponent {
         changeHeaderState({
             title: 'My account',
             name: CUSTOMER_ACCOUNT_PAGE,
-            onBackClick: () => history.push(appendWithStoreCode('/'))
+            onBackClick: () => {
+                history.push(appendWithStoreCode('/'));
+            }
         });
     }
 
@@ -403,7 +406,7 @@ export class MyAccountContainer extends PureComponent {
             ? appendWithStoreCode(ACCOUNT_LOGIN_URL)
             : replace(/\/my-account\/.*/, ACCOUNT_LOGIN_URL);
 
-        history.push({ pathname: path });
+        history.replace({ pathname: path });
     }
 
     render() {
