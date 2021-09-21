@@ -17,6 +17,7 @@ import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_WISHLIST } from 'Comp
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification/Notification.action';
 import OrderReducer from 'Store/Order/Order.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
@@ -62,7 +63,8 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     ),
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 /** @namespace Route/MyAccount/Container */
@@ -81,7 +83,8 @@ export class MyAccountContainer extends PureComponent {
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
-        baseLinkUrl: PropTypes.string.isRequired
+        baseLinkUrl: PropTypes.string.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -385,8 +388,12 @@ export class MyAccountContainer extends PureComponent {
             history,
             location: { pathname },
             isMobile,
-            baseLinkUrl
+            baseLinkUrl,
+            showNotification
         } = this.props;
+
+        // eslint-disable-next-line no-debugger
+        debugger;
 
         if (isSignedIn()) { // do nothing for signed-in users
             return;
@@ -407,6 +414,7 @@ export class MyAccountContainer extends PureComponent {
             : replace(/\/my-account\/.*/, ACCOUNT_LOGIN_URL);
 
         history.replace({ pathname: path });
+        showNotification('info', __('Please, sign in to access this page contents!'));
     }
 
     render() {

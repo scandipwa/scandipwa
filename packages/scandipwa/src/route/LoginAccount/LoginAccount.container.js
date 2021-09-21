@@ -65,6 +65,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
 
     componentDidUpdate(prevProps, prevState) {
         if (isSignedIn()) {
+            // remove login url from history to skip it when navigating back
             history.replace(appendWithStoreCode('/'));
 
             return;
