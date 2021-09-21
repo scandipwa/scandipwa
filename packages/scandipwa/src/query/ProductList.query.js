@@ -99,6 +99,7 @@ export class ProductListQuery {
             },
             productsSkuArray: (sku) => ({ sku: { in: sku } }),
             productSKU: (sku) => ({ sku: { eq: sku } }),
+            productID: (id) => ({ id: { eq: id } }),
             productUrlPath: (url) => ({ url_key: { eq: url } }),
             customFilters: this._getCustomFilters,
             newToDate: (date) => ({ news_to_date: { gteq: date } }),

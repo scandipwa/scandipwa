@@ -117,6 +117,7 @@ export class ProductPageContainer extends PureComponent {
         requestProduct: PropTypes.func.isRequired,
         isOffline: PropTypes.bool.isRequired,
         productSKU: PropTypes.string,
+        productID: PropTypes.number,
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired,
@@ -131,6 +132,7 @@ export class ProductPageContainer extends PureComponent {
     static defaultProps = {
         location: { state: {} },
         productSKU: '',
+        productID: 0,
         metaTitle: undefined
     };
 
@@ -578,9 +580,9 @@ export class ProductPageContainer extends PureComponent {
     }
 
     getProductRequestFilter() {
-        const { productSKU } = this.props;
+        const { productID } = this.props;
 
-        return { productSKU };
+        return { productID };
     }
 
     requestProduct() {
