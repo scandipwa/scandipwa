@@ -123,6 +123,7 @@ export class CartQuery {
             'shipping_incl_tax',
             'shipping_tax_amount',
             'shipping_method',
+            'is_in_store_pickup_available',
             this._getCartItemsField(),
             this._getAppliedTaxesField()
         ];
