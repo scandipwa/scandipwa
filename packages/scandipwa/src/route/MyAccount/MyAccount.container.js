@@ -392,9 +392,6 @@ export class MyAccountContainer extends PureComponent {
             showNotification
         } = this.props;
 
-        // eslint-disable-next-line no-debugger
-        debugger;
-
         if (isSignedIn()) { // do nothing for signed-in users
             return;
         }
