@@ -63,13 +63,16 @@ export class MyAccountAddressForm extends FieldForm {
         const availableRegions = getAvailableRegions(countryId, countries);
         const defaultRegionId = availableRegions.length ? availableRegions[0].id : '';
         const regionId = region_id || defaultRegionId;
+        const { default_billing, default_shipping } = address;
 
         this.state = {
             countryId,
             availableRegions,
             regionId,
             isStateRequired: is_state_required,
-            city
+            city,
+            default_billing,
+            default_shipping
         };
     }
 
@@ -210,9 +213,10 @@ export class MyAccountAddressForm extends FieldForm {
     }
 
     get fieldMap() {
-        const { countryId, city } = this.state;
-        const { countries: sourceCountries, address, isSubmitted } = this.props;
-        const { default_billing, default_shipping } = address;
+        const {
+            countryId, city, default_billing, default_shipping
+        } = this.state;
+        const { countries: sourceCountries, isSubmitted } = this.props;
 
         /*
         * Map and push empty field to show in case
@@ -226,13 +230,16 @@ export class MyAccountAddressForm extends FieldForm {
                 type: 'checkbox',
                 label: __('This is default Billing Address'),
                 value: 'default_billing',
-                checked: default_billing
+                checked: default_billing,
+                onChange: () => this.setState(({ default_billing }) => ({ default_billing: !default_billing }))
+
             },
             default_shipping: {
                 type: 'checkbox',
                 label: __('This is default Shipping Address'),
                 value: 'default_shipping',
-                checked: default_shipping
+                checked: default_shipping,
+                onChange: () => this.setState(({ default_shipping }) => ({ default_shipping: !default_shipping }))
             },
             firstname: {
                 label: __('First name'),
