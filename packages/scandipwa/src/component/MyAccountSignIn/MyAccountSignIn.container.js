@@ -28,7 +28,7 @@ export const mapStateToProps = (state) => ({
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable
 });
 
-/** @namespace Component/MyAccountSignIn/Container/mapDispatchtoProps */
+/** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)

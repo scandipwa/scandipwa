@@ -22,8 +22,7 @@ import './VideoThumbnail.style';
 /**
  * VideoThumbnail component
  * @class VideoThumbnail
- * @namespace Component/VideoThumbnail/Component/videoThumbnail
- */
+ * @namespace Component/VideoThumbnail/Component */
 export class VideoThumbnail extends PureComponent {
     static propTypes = {
         media: MediaItemType.isRequired,
@@ -32,8 +31,7 @@ export class VideoThumbnail extends PureComponent {
 
     /**
      * Renders an icon indicating that the video can be played
-     * @namespace Component/VideoThumbnail/Component
- */
+     */
     renderPlayIcon() {
         return (
             <span block="VideoThumbnail" elem="PlayIcon">

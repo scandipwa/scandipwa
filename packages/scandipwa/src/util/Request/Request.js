@@ -164,14 +164,14 @@ export const handleConnectionError = (err) => console.error(err); // TODO: Add t
  */
 export const parseResponse = (promise) => new Promise((resolve, reject) => {
     promise.then(
-        /** @namespace Util/Request/promiseThen */
+        /** @namespace Util/Request/parseResponse/Promise/promise/then */
         (res) => res.json().then(
-            /** @namespace Util/Request/resJsonThen */
+            /** @namespace Util/Request/parseResponse/Promise/promise/then/json/then/resolve */
             (res) => resolve(checkForErrors(res)),
-            /** @namespace Util/Request/resJsonError */
+            /** @namespace Util/Request/parseResponse/Promise/promise/then/json/then/catch */
             () => handleConnectionError('Can not transform JSON!') && reject()
         ),
-        /** @namespace Util/Request/promiseError */
+        /** @namespace Util/Request/parseResponse/Promise/promise/then/catch */
         (err) => handleConnectionError('Can not establish connection!') && reject(err)
     );
 });
@@ -193,15 +193,15 @@ export const executeGet = (queryObject, name, cacheTTL) => {
 
     return parseResponse(new Promise((resolve) => {
         getFetch(uri, name).then(
-            /** @namespace Util/Request/getFetchThen */
+            /** @namespace Util/Request/executeGet/parseResponse/getFetch/then */
             (res) => {
                 if (res.status === HTTP_410_GONE) {
                     putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL).then(
-                        /** @namespace Util/Request/putPersistedQueryThen */
+                        /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/putPersistedQuery/then */
                         (putResponse) => {
                             if (putResponse.status === HTTP_201_CREATED) {
                                 getFetch(uri, name).then(
-                                    /** @namespace Util/Request/putResponseGetFetchThen */
+                                    /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/putPersistedQuery/then/getFetch/then/resolve */
                                     (res) => resolve(res)
                                 );
                             }

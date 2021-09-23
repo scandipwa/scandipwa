@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/** @namespace Util/Address/trimCustomerAddress */
+/** @namespace Util/Address/Index/trimCustomerAddress */
 export const trimCustomerAddress = (customerAddress) => {
     const {
         city,
@@ -46,12 +46,13 @@ export const trimCustomerAddress = (customerAddress) => {
  * Removes null values from address.street
  * @param street
  * @returns {*}
+ * @namespace Util/Address/Index/removeEmptyStreets
  */
 export const removeEmptyStreets = (street) => (
     Array.isArray(street) ? street.filter((line) => line) : street
 );
 
-/** @namespace Util/Address/trimAddressFields */
+/** @namespace Util/Address/Index/trimAddressFields */
 export const trimAddressFields = (fields) => {
     const {
         region_string: region,
@@ -63,7 +64,7 @@ export const trimAddressFields = (fields) => {
 
 /** transforming "street[index]" entries into a single "street" object
     for checkout/billing/myAccoutAddress form fields object */
-/** @namespace Util/Address/setAddressesInFormObject */
+/** @namespace Util/Address/Index/setAddressesInFormObject */
 export const setAddressesInFormObject = (fields, numberOfLines) => {
     const addressKeys = new Array(numberOfLines)
         .fill('')
@@ -89,7 +90,7 @@ export const setAddressesInFormObject = (fields, numberOfLines) => {
 };
 
 // get Form Fields object depending on addressLinesQty
-/** @namespace Util/Address/getFormFields */
+/** @namespace Util/Address/Index/getFormFields */
 export const getFormFields = (fields, addressLinesQty) => {
     if (addressLinesQty === 1) {
         return fields;
@@ -98,7 +99,7 @@ export const getFormFields = (fields, addressLinesQty) => {
     return setAddressesInFormObject(fields, addressLinesQty);
 };
 
-/** @namespace Util/Address/getCityAndRegionFromZipcode */
+/** @namespace Util/Address/Index/getCityAndRegionFromZipcode */
 export const getCityAndRegionFromZipcode = async (countryId, value) => {
     const response = await fetch(`https://api.zippopotam.us/${countryId}/${value.split(' ')[0]}`);
     const data = await response.json();
@@ -111,7 +112,7 @@ export const getCityAndRegionFromZipcode = async (countryId, value) => {
         : [null, null];
 };
 
-/** @namespace Util/Address/getDefaultAddressLabel */
+/** @namespace Util/Address/Index/getDefaultAddressLabel */
 export const getDefaultAddressLabel = (address) => {
     const { default_billing, default_shipping } = address;
     if (!default_billing && !default_shipping) {
@@ -127,7 +128,7 @@ export const getDefaultAddressLabel = (address) => {
     return __(' (default shipping address)');
 };
 
-/** @namespace Util/Address/getAvailableRegions */
+/** @namespace Util/Address/Index/getAvailableRegions */
 export const getAvailableRegions = (country_id, countries) => {
     const country = countries.find(({ id }) => id === country_id) || {};
     const { available_regions } = country;

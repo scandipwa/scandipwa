@@ -15,7 +15,7 @@ export const initialState = {
     isLoading: false
 };
 
-/** @namespace Store/ContactForm/Reducer/contactFormReducer */
+/** @namespace Store/ContactForm/Reducer/ContactFormReducer */
 export const ContactFormReducer = (state = initialState, action) => {
     const {
         type,

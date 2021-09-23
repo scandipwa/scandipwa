@@ -17,7 +17,7 @@ export const getInitialState = () => ({
     areBreadcrumbsVisible: true
 });
 
-/** @namespace Store/Breadcrumbs/Reducer */
+/** @namespace Store/Breadcrumbs/Reducer/BreadcrumbsReducer */
 export const BreadcrumbsReducer = (
     state = getInitialState(),
     action

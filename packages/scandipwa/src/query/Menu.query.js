@@ -13,8 +13,7 @@ import { Field } from 'Util/Query';
 /**
  * Menu Query
  * @class MenuQuery
- * @namespace Query/Menu
- */
+ * @namespace Query/Menu/Query */
 export class MenuQuery {
     /**
      * get Menu query

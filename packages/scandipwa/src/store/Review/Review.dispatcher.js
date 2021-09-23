@@ -46,9 +46,9 @@ export class ReviewDispatcher {
         return fetchMutation(ReviewQuery.getAddProductReviewMutation(
             this.prepareReviewData(options)
         )).then(
-            /** @namespace Store/Review/Dispatcher/submitProductReviewFetchMutationThen */
+            /** @namespace Store/Review/Dispatcher/ReviewDispatcher/submitProductReview/fetchMutation/then/dispatch */
             () => dispatch(showNotification('success', 'You submitted your review for moderation.')),
-            /** @namespace Store/Review/Dispatcher/submitProductReviewFetchMutationError */
+            /** @namespace Store/Review/Dispatcher/ReviewDispatcher/submitProductReview/fetchMutation/then/dispatch/catch */
             () => dispatch(showNotification('error', __('Error submitting review!')))
         );
     }

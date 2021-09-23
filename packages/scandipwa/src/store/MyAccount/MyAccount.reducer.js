@@ -29,7 +29,7 @@ export const getInitialState = () => ({
     message: ''
 });
 
-/** @namespace Store/MyAccount/Reducer */
+/** @namespace Store/MyAccount/Reducer/MyAccountReducer */
 export const MyAccountReducer = (
     state = getInitialState(),
     action

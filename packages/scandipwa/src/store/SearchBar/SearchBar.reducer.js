@@ -23,7 +23,7 @@ export const getInitialState = () => ({
     isLoading: true
 });
 
-/** @namespace Store/SearchBar/Reducer */
+/** @namespace Store/SearchBar/Reducer/SearchBarReducer */
 export const SearchBarReducer = (
     state = getInitialState(),
     action

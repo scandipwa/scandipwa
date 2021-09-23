@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/** @namespace Util/FormPortalCollector */
+/** @namespace Util/FormPortalCollector/Index */
 export class FormPortalCollector {
     portalsObservers = {};
 

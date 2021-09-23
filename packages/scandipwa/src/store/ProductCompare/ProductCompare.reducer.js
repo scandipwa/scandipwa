@@ -26,7 +26,7 @@ export const getInitialState = () => ({
     items: []
 });
 
-/** @namespace Store/ProductCompare/Reducer */
+/** @namespace Store/ProductCompare/Reducer/ProductCompareReducer */
 export const ProductCompareReducer = (state = getInitialState(), action) => {
     const { type } = action;
 

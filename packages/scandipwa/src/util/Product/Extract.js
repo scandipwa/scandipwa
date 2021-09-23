@@ -18,6 +18,7 @@ import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product/Types';
  * @param product
  * @param configIndex
  * @returns {boolean}
+ * @namespace Util/Product/Extract/getProductInStock
  */
 export const getProductInStock = (product, configIndex = -1) => {
     if (!product) {

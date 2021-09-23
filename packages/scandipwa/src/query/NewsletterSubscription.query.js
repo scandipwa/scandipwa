@@ -14,8 +14,7 @@ import { Field } from 'Util/Query';
 /**
  * NewsletterSubscription Mutations
  * @class NewsletterSubscriptionQuery
- * @namespace Query/NewsletterSubscription
- */
+ * @namespace Query/NewsletterSubscription/Query */
 export class NewsletterSubscriptionQuery {
     getSubscribeToNewsletterMutation(email) {
         return new Field('subscribeEmailToNewsletter')

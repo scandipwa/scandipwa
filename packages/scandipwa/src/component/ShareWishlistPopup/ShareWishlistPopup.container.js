@@ -31,7 +31,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/ShareWishlistPopup/Container/mapStateToProps */
 export const mapStateToProps = () => ({});
 
-/** @namespace Component/ShareWishlistPopup/Container/shareWishlistPopupContainer */
+/** @namespace Component/ShareWishlistPopup/Container */
 export class ShareWishlistPopupContainer extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
@@ -53,12 +53,12 @@ export class ShareWishlistPopupContainer extends PureComponent {
         }
 
         fetchMutation(WishlistQuery.getShareWishlistMutation({ message, emails })).then(
-            /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationThen */
+            /** @namespace Component/ShareWishlistPopup/Container/ShareWishlistPopupContainer/handleFormData/fetchMutation/then */
             () => {
                 showNotification(__('Wishlist has been shared'));
                 hidePopup();
             },
-            /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationCatch */
+            /** @namespace Component/ShareWishlistPopup/Container/ShareWishlistPopupContainer/handleFormData/fetchMutation/then/showError/catch */
             (error) => showError(getErrorMessage(error))
         );
     }

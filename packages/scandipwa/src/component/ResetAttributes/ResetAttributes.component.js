@@ -18,7 +18,7 @@ import { getFiltersCount } from 'Util/Category';
 
 import './ResetAttributes.style';
 
-/** @namespace Component/ResetButton/Component */
+/** @namespace Component/ResetAttributes/Component */
 export class ResetAttributes extends PureComponent {
     static propTypes = {
         toggleCustomFilter: PropTypes.func.isRequired,

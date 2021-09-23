@@ -7,6 +7,12 @@ function getIdentifierOccurrences(context, name) {
         context,
         context.getSourceCode().ast,
         ({ node }) => {
+            if (!node) {
+                // if node is null, like in the code `const [, a] = b;`, then eslint-traverse crashes
+                // skip null nodes
+                return traverse.SKIP;
+            }
+
             if (
                 node.type !== 'Identifier'
                 || node.name !== name

@@ -26,7 +26,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MenuItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
-/** @namespace Component/MenuItem/Container/menuItemContainer */
+/** @namespace Component/MenuItem/Container */
 export class MenuItemContainer extends PureComponent {
     static propTypes = {
         closeMenu: PropTypes.func,
