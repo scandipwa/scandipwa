@@ -3325,12 +3325,12 @@
     semver "^7.3.2"
     webpack-merge "^4.2.2"
 
-"@scandipwa/eslint-config@^0.1.31":
-  version "0.1.31"
-  resolved "https://registry.yarnpkg.com/@scandipwa/eslint-config/-/eslint-config-0.1.31.tgz#a031ecbda27a01f692c743938ce6378401860918"
-  integrity sha512-QuxledH4GPcaFaW6M0Q9RX+EK5jK374FblsZfenk/cEwKZrsLQZ+ukpwWU6C+2bpWO2KWoAhPPuE0d3YEI1quQ==
+"@scandipwa/eslint-config@^0.1.32":
+  version "0.1.32"
+  resolved "https://registry.yarnpkg.com/@scandipwa/eslint-config/-/eslint-config-0.1.32.tgz#6766b801292f3d055c9d7a98075051466cc56367"
+  integrity sha512-un1JZmaD05+WtBnBVuECTe+ZFHcvlVnJdIAOZ9l/gKv4gr19jQWbWh7BdTIV5mrrGriUBFZ9+TcKk05JWmS0Wg==
   dependencies:
-    "@scandipwa/eslint-plugin-scandipwa-guidelines" "2.0.28"
+    "@scandipwa/eslint-plugin-scandipwa-guidelines" "2.0.29"
     "@typescript-eslint/eslint-plugin" "^4.5.0"
     "@typescript-eslint/parser" "^4.5.0"
     babel-eslint "^10.1.0"
@@ -3346,12 +3346,12 @@
     eslint-plugin-simple-import-sort "^5.0.3"
     typescript "^4.0.3"
 
-"@scandipwa/eslint-plugin-scandipwa-guidelines@2.0.28":
-  version "2.0.28"
-  resolved "https://registry.yarnpkg.com/@scandipwa/eslint-plugin-scandipwa-guidelines/-/eslint-plugin-scandipwa-guidelines-2.0.28.tgz#ab7511344546ee0d5a395b38edf888819e093d14"
-  integrity sha512-uVQh/2S3p5A4HcBjhs159kg2E4KUUUTyAy+O8SvzPEtRCK4/mzVwMT/M+1AZ51APe6Qi0RfFcCjDf03vY2LT1w==
+"@scandipwa/eslint-plugin-scandipwa-guidelines@2.0.29":
+  version "2.0.29"
+  resolved "https://registry.yarnpkg.com/@scandipwa/eslint-plugin-scandipwa-guidelines/-/eslint-plugin-scandipwa-guidelines-2.0.29.tgz#feeb10f73073c71a7430c22035ada709de0a7b14"
+  integrity sha512-AgU/QRURhAc1QBBPEpgbjtaL/xelN0NHZPC2aRf5cgCfNYVyzwBJ9yn/IgeWKFfu3K+Serx31BNIlCVQeBZ0YQ==
   dependencies:
-    "@scandipwa/scandipwa-dev-utils" "0.1.11"
+    "@scandipwa/scandipwa-dev-utils" "0.1.12"
     "@tilework/eslint-plugin-mosaic" "^0.0.8"
     "@tilework/mosaic-dev-utils" "0.0.5"
     eslint-traverse "^1.0.0"
@@ -3375,6 +3375,17 @@
   version "0.1.11"
   resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.1.11.tgz#dfe9c0af56979b8e2811f626af4dee6ee62af4b3"
   integrity sha512-dMLI0Pl+/RFo/dDvZ5nri+bSj/DhSvibBJhmpmuLGPqU0QYAdLt4RI5rGKH68l1HWqfkms/5H0v9ruyaZhXjbg==
+  dependencies:
+    "@tilework/mosaic-dev-utils" "0.1.6"
+    cross-spawn "^7.0.3"
+    react-dev-utils "^11.0.4"
+    semver "^7.3.2"
+    validate-npm-package-name "^3.0.0"
+
+"@scandipwa/scandipwa-dev-utils@0.1.12":
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.1.12.tgz#c3e833a7fac6ec8e45f54af2eafe5c417aab639c"
+  integrity sha512-asGj333cLL6LkCLG9ubRL521WWSdET0FFi2bOwnGOID7r7N0SH0gWFEJviWyGXH8ldBlCzt17l36ce4gQ+bcUA==
   dependencies:
     "@tilework/mosaic-dev-utils" "0.1.6"
     cross-spawn "^7.0.3"
@@ -4045,6 +4056,11 @@
   integrity sha512-qtU68/G1NGcoJuin84ZAk2VhaXkWbJC622ngTVrYWxVWvvryGk4A7Qscx2R9o5R8zmQVV18HZ5d7bs5g0ibsgA==
   dependencies:
     core-js "^3.8.2"
+
+"@storybook/preset-scss@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@storybook/preset-scss/-/preset-scss-1.0.3.tgz#8ac834545c642dada0f64f510ef08dfb882e9737"
+  integrity sha512-o9Iz6wxPeNENrQa2mKlsDKynBfqU2uWaRP80HeWp4TkGgf7/x3DVF2O7yi9N0x/PI1qzzTTpxlQ90D62XmpiTw==
 
 "@storybook/react-docgen-typescript-plugin@1.0.2-canary.253f8c1.0":
   version "1.0.2-canary.253f8c1.0"
@@ -6070,6 +6086,11 @@ babel-plugin-react-docgen@^4.2.1:
     ast-types "^0.14.2"
     lodash "^4.17.15"
     react-docgen "^5.0.0"
+
+babel-plugin-react-require@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-require/-/babel-plugin-react-require-3.1.3.tgz#ba3d7305b044a90c35c32c5a9ab943fd68e1638d"
+  integrity sha512-kDXhW2iPTL81x4Ye2aUMdEXQ56JP0sBJmRQRXJPH5FsNB7fOc/YCsHTqHv8IovPyw9Rk07gdd7MVUz8tUmRBCA==
 
 babel-plugin-syntax-jsx@6.18.0, babel-plugin-syntax-jsx@^6.18.0:
   version "6.18.0"
@@ -17108,10 +17129,10 @@ sass-graph@2.2.5:
     scss-tokenizer "^0.2.3"
     yargs "^13.3.2"
 
-sass-loader@10.0.5:
-  version "10.0.5"
-  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-10.0.5.tgz#f53505b5ddbedf43797470ceb34066ded82bb769"
-  integrity sha512-2LqoNPtKkZq/XbXNQ4C64GFEleSEHKv6NPSI+bMC/l+jpEXGJhiRYkAQToO24MR7NU4JRY2RpLpJ/gjo2Uf13w==
+sass-loader@10, sass-loader@^10.0.5:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-10.2.0.tgz#3d64c1590f911013b3fa48a0b22a83d5e1494716"
+  integrity sha512-kUceLzC1gIHz0zNJPpqRsJyisWatGYNFRmv2CKZK2/ngMJgLqxTbXwe/hJ85luyvZkgqU3VlJ33UVF2T/0g6mw==
   dependencies:
     klona "^2.0.4"
     loader-utils "^2.0.0"
@@ -17119,10 +17140,10 @@ sass-loader@10.0.5:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
-sass-loader@^10.0.5:
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-10.2.0.tgz#3d64c1590f911013b3fa48a0b22a83d5e1494716"
-  integrity sha512-kUceLzC1gIHz0zNJPpqRsJyisWatGYNFRmv2CKZK2/ngMJgLqxTbXwe/hJ85luyvZkgqU3VlJ33UVF2T/0g6mw==
+sass-loader@10.0.5:
+  version "10.0.5"
+  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-10.0.5.tgz#f53505b5ddbedf43797470ceb34066ded82bb769"
+  integrity sha512-2LqoNPtKkZq/XbXNQ4C64GFEleSEHKv6NPSI+bMC/l+jpEXGJhiRYkAQToO24MR7NU4JRY2RpLpJ/gjo2Uf13w==
   dependencies:
     klona "^2.0.4"
     loader-utils "^2.0.0"
