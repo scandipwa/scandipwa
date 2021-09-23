@@ -9,7 +9,8 @@
         "Magento",
         "REBEM",
         "Scandiweb",
-        "scandipwa"
+        "scandipwa",
+        "tilework"
     ],
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
