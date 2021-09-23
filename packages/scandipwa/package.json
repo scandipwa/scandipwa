@@ -166,7 +166,7 @@
             "@scandipwa/scandipwa-guidelines/derived-class-names": "off",
             "@scandipwa/scandipwa-guidelines/no-middleware": "error",
             "@scandipwa/scandipwa-guidelines/only-render-in-component": "off",
-            "@scandipwa/scandipwa-guidelines/use-namespace": "error",
+            "@scandipwa/scandipwa-guidelines/use-namespace": "off",
             "@scandipwa/scandipwa-guidelines/use-magic-construct": "error",
             "@scandipwa/scandipwa-guidelines/export-level-one": "error",
             "@scandipwa/scandipwa-guidelines/no-extensible-base": "error",
