@@ -69,6 +69,7 @@ export class UrlRewrites extends PureComponent {
                   location={ location }
                   match={ match }
                   productSKU={ productSKU }
+                  productID={ id }
                   key={ id }
                 />
             );

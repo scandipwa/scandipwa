@@ -1,0 +1,35 @@
+{
+    "name": "@scandipwa/eslint-plugin-scandipwa-guidelines",
+    "description": "ESLint plugin used by CSA.",
+    "version": "2.0.29",
+    "keywords": [
+        "eslint",
+        "eslintplugin",
+        "eslint-plugin"
+    ],
+    "main": "lib/index.js",
+    "scripts": {
+        "test": "mocha tests --recursive tests **/*.test.js"
+    },
+    "dependencies": {
+        "@scandipwa/scandipwa-dev-utils": "0.1.12",
+        "@tilework/eslint-plugin-mosaic": "^0.0.8",
+        "@tilework/mosaic-dev-utils": "0.0.5",
+        "eslint-traverse": "^1.0.0",
+        "requireindex": "~1.1.0"
+    },
+    "devDependencies": {
+        "mocha": "^3.1.2"
+    },
+    "engines": {
+        "node": ">=0.10.0"
+    },
+    "license": "OSL-3.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "7498042540d3d4560e140d9674f3abd99343a037",
+    "peerDependencies": {
+        "eslint": "^7.26.0"
+    }
+}

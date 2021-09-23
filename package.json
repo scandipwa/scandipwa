@@ -3,15 +3,21 @@
     "name": "create-scandipwa-app",
     "scripts": {
         "eslint": "eslint ./packages --resolve-plugins-relative-to . --cache --no-error-on-unmatched-pattern --ext .js,.ts,.tsx",
-        "csa": "create-scandipwa-app packages/test",
-        "postinstall": "lerna bootstrap",
-        "clean": "lerna clean --yes"
+        "csa:test": "create-scandipwa-app packages/test",
+        "clean": "lerna clean --yes",
+        "eslint:csa": "eslint ./build-packages ./runtime-packages --cache --no-error-on-unmatched-pattern --ext .js,.ts,.tsx",
+        "csa": "create-scandipwa-app runtime-packages/csa",
+        "csa-blank": "create-scandipwa-app runtime-packages/csa-blank --template blank",
+        "csa-cra": "create-scandipwa-app runtime-packages/csa-cra --template cra",
+        "postinstall": "lerna bootstrap && lerna run compile",
+        "compile:lockfile": "node build-tasks/compile-lockfile.js"
     },
     "devDependencies": {
         "@scandipwa/eslint-config": "^0.1.6",
         "eslint": "^7.11.0",
         "husky": "^4.3.0",
-        "lerna": "^3.22.1"
+        "lerna": "^3.22.1",
+        "fs-extra": "^9.0.1"
     },
     "husky": {
         "hooks": {
@@ -23,10 +29,19 @@
         "ignorePatterns": [
             "**/node_modules/**",
             "**/Magento_Theme/**",
-            "**/build/**"
+            "**/build/**",
+            "build-packages/craco/**",
+            "runtime-packages/scandipwa/**",
+            "runtime-packages/cma/**",
+            "build-packages/csa-generator-*/template/**",
+            "build-packages/eslint-plugin-scandipwa-guidelines/**",
+            "build-packages/scandipwa-development-toolkit-vscode/**",
+            "build-packages/scandipwa-development-toolkit-core/**"
         ]
     },
     "workspaces": [
-        "packages/*"
+        "packages/*",
+        "build-packages/*",
+        "runtime-packages/*"
     ]
 }

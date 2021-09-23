@@ -41,6 +41,123 @@
                 "BUILD_MODE": "magento"
             },
             "cwd": "${workspaceFolder}/packages/scandipwa"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "CMA",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/node_modules/create-magento-app/index.js",
+            "args": [
+                "runtime-packages/cma"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "CSA",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/node_modules/create-scandipwa-app/index.js",
+            "args": [
+                "runtime-packages/csa"
+            ]
+        },
+        {
+            "name": "Start",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "start"
+            ],
+            "env": {
+                "SKIP_PREFLIGHT_CHECK": true
+            },
+            "runtimeExecutable": "npm",
+            "cwd": "${workspaceFolder}/runtime-packages/scandipwa",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
+            "name": "ESLint",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "eslint"
+            ],
+            "env": {
+                "SKIP_PREFLIGHT_CHECK": true
+            },
+            "runtimeExecutable": "npm",
+            "cwd": "${workspaceFolder}",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
+            "name": "Build:Magento",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "build"
+            ],
+            "runtimeExecutable": "npm",
+            "cwd": "${workspaceFolder}/runtime-packages/scandipwa",
+            "env": {
+                "BUILD_MODE": "magento"
+            },
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Link",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/runtime-packages/csa",
+            "program": "${workspaceFolder}/node_modules/@scandipwa/scandipwa-scripts/bin/scandipwa-scripts.js",
+            "args": [
+                "link"
+            ]
+        },
+        {
+            "name": "CLI",
+            "program": "${workspaceFolder}/build-packages/scandipwa-cli/index.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "args": [
+                "create",
+                "component",
+                "--redux",
+                "AddToCart"
+            ],
+            "cwd": "${workspaceFolder}/runtime-packages/csa",
+            "type": "pwa-node"
+        },
+        {
+            "name": "VSCode",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${workspaceFolder}/build-packages/scandipwa-development-toolkit-vscode/${execPath}",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}/build-packages/scandipwa-development-toolkit-vscode"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/build-packages/scandipwa-development-toolkit-vscode/out/**/*.js"
+            ],
+            "preLaunchTask": "${defaultBuildTask}"
         }
     ]
 }

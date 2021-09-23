@@ -1,8 +1,19 @@
 {
+    "cSpell.enableFiletypes": [
+        "!json"
+    ],
     "cSpell.words": [
         "Stateful",
-        "Unmount"
+        "Unmount",
+        "CRACO",
+        "Magento",
+        "REBEM",
+        "Scandiweb",
+        "scandipwa"
     ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
     "search.exclude": {
         "**/Magento_Theme": true
     }

@@ -134,7 +134,6 @@ export class MyAccountAddressForm extends FieldForm {
         const { value: zipCode = '' } = field || {};
         const { countryId } = this.state;
         await this.getAvailableRegions(countryId, zipCode);
-        // TODO: add missing stuff
     };
     //#endregion
 

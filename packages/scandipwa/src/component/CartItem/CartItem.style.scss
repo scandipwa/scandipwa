@@ -281,19 +281,26 @@
         }
     }
 
-    .CartItem-QuantityWrapper_isCartOverlay {
-        & button {
-            width: 36px;
-            height: 36px;
+    .CartItem-QuantityWrapper {
+        &_isCartOverlay {
+
+            & button {
+                width: 36px;
+                height: 36px;
+            }
+
+            .CartItem-Qty {
+                font-size: 14px;
+
+                input {
+                    width: 32px;
+                    min-width: 32px;
+                }
+            }
         }
 
-        .CartItem-Qty {
-            font-size: 14px;
-
-            input {
-                width: 32px;
-                min-width: 32px;
-            }
+        &_isPlaceholder {
+            width: 144px;
         }
     }
 }

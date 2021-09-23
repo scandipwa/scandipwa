@@ -54,10 +54,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         showTaxVatNumber: PropTypes.bool.isRequired,
         isLandingPage: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        onCreateAccountSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         state: signInStateType.isRequired,
-        vatNumberValidation: PropTypes.array.isRequired,
         newsletterActive: PropTypes.bool.isRequired
     };
 

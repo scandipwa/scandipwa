@@ -171,6 +171,7 @@ export class StoreInPickUpContainer extends PureComponent {
 
     handleChangeCountry(countryId) {
         this.setState({ selectedCountryId: countryId });
+        this.handleStoresSearch();
     }
 
     render() {

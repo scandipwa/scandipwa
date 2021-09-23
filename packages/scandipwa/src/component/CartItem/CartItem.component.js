@@ -52,12 +52,14 @@ export class CartItem extends PureComponent {
         isProductInStock: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
         optionsLabels: PropTypes.array.isRequired,
-        isMobileLayout: PropTypes.bool
+        isMobileLayout: PropTypes.bool,
+        showLoader: PropTypes.bool
     };
 
     static defaultProps = {
         isCartOverlay: false,
-        isMobileLayout: false
+        isMobileLayout: false,
+        showLoader: true
     };
 
     renderProductConfigurations() {
@@ -375,7 +377,15 @@ export class CartItem extends PureComponent {
 
     renderQuantityChangeField() {
         const {
-            item: { qty, sku },
+            item: {
+                sku,
+                qty,
+                product: {
+                    stock_item: {
+                        qty_increments: qtyIncrement = 1
+                    } = {}
+                } = {}
+            } = {},
             minSaleQuantity,
             maxSaleQuantity,
             handleChangeQuantity,
@@ -384,7 +394,7 @@ export class CartItem extends PureComponent {
         } = this.props;
 
         if (!isProductInStock) {
-            return null;
+            return <div block="CartItem" elem="QuantityWrapper" mods={ { isPlaceholder: true } } />;
         }
 
         return (
@@ -406,7 +416,8 @@ export class CartItem extends PureComponent {
                       value: qty,
                       defaultValue: qty,
                       min: minSaleQuantity,
-                      max: maxSaleQuantity
+                      max: maxSaleQuantity,
+                      step: qtyIncrement
                   } }
                   events={ {
                       onChange: handleChangeQuantity
@@ -507,12 +518,24 @@ export class CartItem extends PureComponent {
         );
     }
 
+    renderLoader() {
+        const { showLoader, isLoading } = this.props;
+
+        if (!showLoader) {
+            return false;
+        }
+
+        return (
+            <Loader isLoading={ isLoading } />
+        );
+    }
+
     render() {
-        const { isLoading, isEditing, isCartOverlay } = this.props;
+        const { isEditing, isCartOverlay } = this.props;
 
         return (
             <div block="CartItem" mods={ { isEditing, isCartOverlay } }>
-                <Loader isLoading={ isLoading } />
+                { this.renderLoader() }
                 { this.renderContent() }
             </div>
         );

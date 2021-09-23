@@ -121,12 +121,13 @@ export class Slider extends PureComponent {
             return;
         }
 
+        const sliderRef = this.getSliderRef();
+        CSS.setVariable(sliderRef, 'sliderOpacity', '0');
+
         // delay setting carousel translate to avoid wrong calculations be made during transition
         setTimeout(() => {
             this.setStyleVariablesOnMount();
         }, 0);
-
-        const sliderRef = this.getSliderRef();
 
         const target = sliderChildren[0].querySelector('img') || sliderChildren[0];
 
@@ -143,6 +144,8 @@ export class Slider extends PureComponent {
                 CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
             }
         }, ANIMATION_DURATION);
+
+        setTimeout(() => CSS.setVariable(sliderRef, 'sliderOpacity', '1'), 0);
     }
 
     componentDidUpdate(prevProps) {

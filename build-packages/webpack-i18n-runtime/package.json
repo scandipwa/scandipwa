@@ -1,0 +1,27 @@
+{
+    "name": "@scandipwa/webpack-i18n-runtime",
+    "description": "Webpack internationalization plugin used used by CSA.",
+    "version": "0.0.29",
+    "license": "OSL-3.0",
+    "dependencies": {
+        "@scandipwa/scandipwa-dev-utils": "0.1.12",
+        "@scandipwa/webpack-after-emit-logger": "0.0.9",
+        "@tilework/mosaic-dev-utils": "0.0.5",
+        "loader-utils": "^2.0.0"
+    },
+    "scandipwa": {
+        "type": "extension",
+        "extensions": {
+            "@scandipwa/webpack-after-emit-logger": true
+        },
+        "build": {
+            "cracoPlugins": [
+                "build-config/config.plugin.js"
+            ]
+        }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "7498042540d3d4560e140d9674f3abd99343a037"
+}

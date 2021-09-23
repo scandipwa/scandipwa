@@ -1,0 +1,17 @@
+{
+    "name": "@scandipwa/scandipwa-dev-utils",
+    "description": "Development utilities used by CSA.",
+    "version": "0.1.12",
+    "dependencies": {
+        "@tilework/mosaic-dev-utils": "0.1.6",
+        "cross-spawn": "^7.0.3",
+        "react-dev-utils": "^11.0.4",
+        "semver": "^7.3.2",
+        "validate-npm-package-name": "^3.0.0"
+    },
+    "license": "OSL-3.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "7498042540d3d4560e140d9674f3abd99343a037"
+}

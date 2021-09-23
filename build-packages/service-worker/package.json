@@ -1,0 +1,28 @@
+{
+    "name": "@scandipwa/service-worker",
+    "description": "Service-worker capabilities for CSA.",
+    "version": "0.0.17",
+    "license": "OSL-3.0",
+    "scandipwa": {
+        "type": "extension",
+        "build": {
+            "cracoPlugins": [
+                "build-config/workbox-dev.js"
+            ]
+        }
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    },
+    "dependencies": {
+        "@tilework/mosaic-webpack-fallback-plugin": "0.0.10",
+        "lodash.clonedeep": "^4.5.0"
+    },
+    "peerDependencies": {
+        "@tilework/mosaic-craco": "0.0.5"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "7498042540d3d4560e140d9674f3abd99343a037"
+}

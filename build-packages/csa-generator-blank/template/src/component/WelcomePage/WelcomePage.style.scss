@@ -1,0 +1,49 @@
+@keyframes logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+  
+.WelcomePage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    background: #505665;
+    background: radial-gradient(circle, #505665 0%, #313234 100%);
+    min-height: 100vh;
+    text-align: center;
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+
+    &-Logo {
+        height: 40vmin;
+        pointer-events: none;
+        margin-bottom: 2rem;
+
+        @media (prefers-reduced-motion: no-preference) {
+            animation: logo-spin infinite 20s linear;
+        }
+    }
+
+    &-Link {
+        margin-top: 5rem;
+        color: #ec530f;
+
+        &::after {
+            content: ' >';
+        }
+    }
+
+    code {
+        display: inline-block;
+        word-break: break-all;
+        background-color: #505665;
+        padding: 5px 20px;
+        border-radius: 5px;
+        margin: 2rem;
+    }
+}

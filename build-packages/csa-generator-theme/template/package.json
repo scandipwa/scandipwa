@@ -1,0 +1,40 @@
+{
+    "name": "<%= name %>",
+    "version": "0.0.1",
+    "license": "OSL-3.0",
+    "dependencies": {
+        "@scandipwa/scandipwa": "<%= scandipwaVersion %>",
+        "@scandipwa/scandipwa-scripts": "<%= scandipwaScriptsVersion %>",
+        "@scandipwa/eslint-config": "<%= eslintConfigVersion %>",
+        "@tilework/mosaic": "<%= mosaicVersion %>",
+        "@tilework/mosaic-craco": "<%= mosaicCracoVersion %>"
+    },
+    "scandipwa": {
+        "type": "theme",
+        "locales": {
+            "en_US": true
+        },
+        "parentTheme": "@scandipwa/scandipwa",
+        "extensions": {}
+    },
+    "scripts": {
+        "start": "scandipwa-scripts start",
+        "build": "scandipwa-scripts build"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    },
+    "proxy": "<%= proxy %>"
+}

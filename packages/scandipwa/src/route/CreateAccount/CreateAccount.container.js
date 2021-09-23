@@ -17,6 +17,7 @@ import {
     mapStateToProps,
     MyAccountOverlayContainer
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
+import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -40,6 +41,11 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
 
     componentDidMount() {
         const { setHeaderState } = this.props;
+
+        if (isSignedIn()) {
+            // remove login url from history to skip it when navigating back after account create + block access to create account for signed in user
+            history.replace(appendWithStoreCode('/'));
+        }
 
         setHeaderState({
             name: CUSTOMER_SUB_ACCOUNT,

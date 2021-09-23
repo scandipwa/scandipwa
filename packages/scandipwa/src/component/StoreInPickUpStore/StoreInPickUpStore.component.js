@@ -73,7 +73,7 @@ export class StoreInPickUpStoreComponent extends PureComponent {
                 <div block="StoreInPickUpStore" elem="StoreData">
                     <h3>{ name }</h3>
                     <p>{ street }</p>
-                    <p>{ `${city}, ${region} ${postcode}` }</p>
+                    <p>{ `${city}, ${region || ''} ${postcode}` }</p>
                     <p>{ country }</p>
                     <a href={ `tel:${phone}` }>{ phone }</a>
                     <p>

@@ -10,20 +10,31 @@
  */
 
  .ImageZoomPopup {
-    height: 99%;
+   height: 100%;
 
     &.Popup {
         height: 100%;
     }
 
-    &-PopupContent {
-        max-height: 80%;
+    &-PopupContent.Popup-Content {
+        max-height: 100vh;
         height: 100vh;
         max-width: 100vw;
+        width: 100%;
+        padding: 0;
+
+      .Popup-CloseBtn {
+        inset-inline-end: 10px;
+        inset-block-start: 10px;
+      }
     }
 
     .ProductGallery {
         height: 100%;
+
+      &-SliderWrapper {
+        height: 100%;
+      }
     }
 
     .Slider-Arrow {

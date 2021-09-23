@@ -94,7 +94,12 @@ export class CartPageContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onCheckoutButtonClick: this.onCheckoutButtonClick.bind(this)
+        onCheckoutButtonClick: this.onCheckoutButtonClick.bind(this),
+        onCartItemLoading: this.onCartItemLoading.bind(this)
+    };
+
+    state = {
+        isCartItemLoading: false
     };
 
     componentDidMount() {
@@ -136,11 +141,21 @@ export class CartPageContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { totals, totals: { items = [] } = {} } = this.props;
+        const {
+            totals,
+            totals: {
+                items = []
+            } = {},
+            device
+        } = this.props;
+
+        const { isCartItemLoading } = this.state;
 
         return {
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
-            totals
+            totals,
+            isCartItemLoading,
+            device
         };
     };
 
@@ -194,6 +209,10 @@ export class CartPageContainer extends PureComponent {
 
         // for desktop, just open customer overlay
         showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
+    }
+
+    onCartItemLoading(isCartItemLoading) {
+        this.setState({ isCartItemLoading });
     }
 
     _updateBreadcrumbs() {

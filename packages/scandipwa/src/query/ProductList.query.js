@@ -99,6 +99,7 @@ export class ProductListQuery {
             },
             productsSkuArray: (sku) => ({ sku: { in: sku } }),
             productSKU: (sku) => ({ sku: { eq: sku } }),
+            productID: (id) => ({ id: { eq: id } }),
             productUrlPath: (url) => ({ url_key: { eq: url } }),
             customFilters: this._getCustomFilters,
             newToDate: (date) => ({ news_to_date: { gteq: date } }),
@@ -281,24 +282,23 @@ export class ProductListQuery {
         if (isSingleProduct) {
             fields.push(
                 'stock_status',
-                'meta_title',
-                'meta_keyword',
-                'canonical_url',
-                'meta_description',
                 this._getDescriptionField(),
                 this._getMediaGalleryField(),
-                this._getSimpleProductFragment(),
-                this._getProductLinksField(),
-                this._getCustomizableProductFragment()
+                this._getSimpleProductFragment()
             );
 
             // for variants of PDP requested product
             if (!isVariant) {
                 fields.push(
+                    'canonical_url',
+                    'meta_title',
+                    'meta_keyword',
+                    'meta_description',
                     this._getCategoriesField(),
                     this._getReviewsField(),
                     this._getVirtualProductFragment(),
-                    this._getCustomizableProductFragment()
+                    this._getCustomizableProductFragment(),
+                    this._getProductLinksField()
                 );
             }
         }
@@ -562,7 +562,6 @@ export class ProductListQuery {
             'attribute_type',
             'attribute_label',
             'attribute_group_id',
-            'attribute_group_code',
             'attribute_group_name',
             ...(!isVariant
                 ? [
@@ -727,8 +726,17 @@ export class ProductListQuery {
             'price',
             'price_type',
             'can_change_quantity',
-            this._getProductField()
+            this._getProductBundleOptionFields()
         ];
+    }
+
+    _getProductBundleOptionFields() {
+        return new Field('product')
+            .addFieldList(this._getProductNameField());
+    }
+
+    _getProductNameField() {
+        return ['name'];
     }
 
     _getBundleOptionsField() {
@@ -779,7 +787,6 @@ export class ProductListQuery {
 
     _getBundleProductFragmentFields() {
         return [
-            'price_view',
             'dynamic_price',
             'dynamic_sku',
             'ship_bundle_items',

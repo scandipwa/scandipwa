@@ -1,0 +1,20 @@
+{
+    "name": "create-scandipwa-app",
+    "description": "Global command used by CSA.",
+    "version": "1.3.20",
+    "main": "./index.js",
+    "bin": "./index.js",
+    "license": "OSL-3.0",
+    "dependencies": {
+        "@scandipwa/csa-generator-blank": "0.1.19",
+        "@scandipwa/csa-generator-cra": "0.1.19",
+        "@scandipwa/csa-generator-theme": "0.2.23",
+        "@scandipwa/scandipwa-dev-utils": "0.1.12",
+        "semver": "^7.3.2",
+        "yargs": "^16.1.0"
+    },
+    "engines": {
+        "node": ">=12.0.0"
+    },
+    "gitHead": "7498042540d3d4560e140d9674f3abd99343a037"
+}

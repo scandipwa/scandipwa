@@ -11,12 +11,14 @@
 
 import PropTypes from 'prop-types';
 
+import { TranslatedStringType } from 'Type/TranslatedString';
+
 export const BreadcrumbType = PropTypes.shape({
     url: PropTypes.oneOfType([
         PropTypes.shape({}),
         PropTypes.string
     ]),
-    name: PropTypes.string
+    name: TranslatedStringType
 });
 
 export const BreadcrumbsType = PropTypes.arrayOf(BreadcrumbType);

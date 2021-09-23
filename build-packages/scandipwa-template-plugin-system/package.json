@@ -1,0 +1,30 @@
+{
+    "name": "@scandipwa/scandipwa-template-plugin-system",
+    "version": "0.1.18",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "debug": "node index.js"
+    },
+    "scandipwa": {
+        "type": "extension",
+        "build": {
+            "cracoPlugins": [
+                "build-config/config.plugin.js"
+            ]
+        }
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@scandipwa/scandipwa-dev-utils": "0.1.12",
+        "@tilework/mosaic-dev-utils": "0.0.5",
+        "loader-utils": "^2.0.0",
+        "lodash": "^4.17.20",
+        "xmldom": "^0.5.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "7498042540d3d4560e140d9674f3abd99343a037"
+}

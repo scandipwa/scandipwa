@@ -26,6 +26,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { customerType } from 'Type/Account';
 import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
+import { removeEmptyStreets } from 'Util/Address';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteGuestQuoteId, getCartTotalSubPrice, getGuestQuoteId } from 'Util/Cart';
@@ -662,6 +663,7 @@ export class CheckoutContainer extends PureComponent {
             purchaseOrderNumber, // drop this
             region_id,
             region,
+            street,
             guest_email,
             ...restOfBillingAddress
         } = address;
@@ -670,7 +672,8 @@ export class CheckoutContainer extends PureComponent {
             ...restOfBillingAddress,
             country_code: country_id,
             region,
-            region_id
+            region_id,
+            street: removeEmptyStreets(street)
         };
 
         /**

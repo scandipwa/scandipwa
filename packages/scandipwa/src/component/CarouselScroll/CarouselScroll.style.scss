@@ -13,10 +13,6 @@
         flex: 1;
         display: flex;
         width: var(--carousel-width);
-
-        @include tablet {
-            width: 300px;
-        }
     }
 
     &-Content {

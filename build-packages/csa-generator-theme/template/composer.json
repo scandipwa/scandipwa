@@ -1,0 +1,15 @@
+{
+    "name": "scandipwa/<%= name %>",
+    "description": "N/A",
+    "version": "0.0.1",
+    "type": "magento2-theme",
+    "license": [
+        "proprietary"
+    ],
+    "require": {},
+    "autoload": {
+        "files": [
+            "magento/registration.php"
+        ]
+    }
+}

@@ -1,3 +1,10 @@
 .TranslateOnCursorMove {
+    --imageOpacity: 0;
+
     height: 100%;
+
+    .ProductGallery-SliderImage {
+        opacity: var(--imageOpacity);
+        transition: opacity .5s;
+    }
 }

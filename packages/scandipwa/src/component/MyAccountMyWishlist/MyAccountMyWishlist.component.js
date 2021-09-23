@@ -116,7 +116,7 @@ export class MyAccountMyWishlist extends PureComponent {
     };
 
     renderNoProductsFound = () => (
-        <div>
+        <div block="MyAccountMyWishlist" elem="NoProducts">
             <p>{ __('Wishlist is empty!') }</p>
         </div>
     );

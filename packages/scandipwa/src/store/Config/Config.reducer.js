@@ -63,7 +63,6 @@ export const getInitialState = () => ({
     cartDisplayConfig,
     priceTaxDisplay: {},
     category_url_suffix: DEFAULT_CATGORY_URL_SUFFIX,
-    newsletter_general_active: false,
     device: {
         isMobile: true,
         android: true,

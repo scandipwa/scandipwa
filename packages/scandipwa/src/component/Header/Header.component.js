@@ -160,7 +160,6 @@ export class Header extends NavigationAbstract {
             search: true
         },
         [SEARCH]: {
-            back: true,
             search: true
         },
         [CART]: {

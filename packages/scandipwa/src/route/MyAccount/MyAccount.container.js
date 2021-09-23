@@ -17,6 +17,7 @@ import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_WISHLIST } from 'Comp
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification/Notification.action';
 import OrderReducer from 'Store/Order/Order.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
@@ -28,10 +29,10 @@ import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { isSignedIn } from 'Util/Auth';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
-import { appendWithStoreCode } from 'Util/Url';
+import { appendWithStoreCode, replace } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
-import { MY_ACCOUNT_URL } from './MyAccount.config';
+import { ACCOUNT_LOGIN_URL, MY_ACCOUNT_URL } from './MyAccount.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -48,7 +49,8 @@ export const mapStateToProps = (state) => ({
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isSignedIn: state.MyAccountReducer.isSignedIn,
-    newsletterActive: state.ConfigReducer.newsletter_general_active
+    newsletterActive: state.ConfigReducer.newsletter_general_active,
+    baseLinkUrl: state.ConfigReducer.base_link_url
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
@@ -61,7 +63,8 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     ),
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 /** @namespace Route/MyAccount/Container */
@@ -79,7 +82,9 @@ export class MyAccountContainer extends PureComponent {
         wishlistItems: PropTypes.object,
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
+        isSignedIn: PropTypes.bool.isRequired,
+        baseLinkUrl: PropTypes.string.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -129,11 +134,13 @@ export class MyAccountContainer extends PureComponent {
     static navigateToSelectedTab(props, state = {}) {
         const {
             history,
+            isSignedIn,
             match: {
                 params: {
                     tab: historyActiveTab
                 } = {}
-            } = {}
+            } = {},
+            isMobile
         } = props;
 
         const { activeTab } = state;
@@ -143,7 +150,7 @@ export class MyAccountContainer extends PureComponent {
             ? historyActiveTab
             : DASHBOARD;
 
-        if (historyActiveTab !== newActiveTab) {
+        if (historyActiveTab !== newActiveTab && isSignedIn && !isMobile) {
             history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }/${ newActiveTab }`));
         }
 
@@ -187,6 +194,8 @@ export class MyAccountContainer extends PureComponent {
         this.redirectIfNotSignedIn();
         this.onSignIn();
         this.updateBreadcrumbs();
+
+        window.scrollTo({ top: 0 });
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -198,10 +207,12 @@ export class MyAccountContainer extends PureComponent {
             wishlistItems: prevWishlistItems,
             isSignedIn: prevIsSignedIn
         } = prevProps;
+
         const {
             wishlistItems,
             isSignedIn: currIsSignedIn
         } = this.props;
+
         const { activeTab: prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
@@ -214,6 +225,8 @@ export class MyAccountContainer extends PureComponent {
         if (prevActiveTab !== activeTab) {
             this.updateBreadcrumbs();
             this.changeHeaderState();
+
+            window.scrollTo({ top: 0 });
         }
 
         if (Object.keys(wishlistItems).length !== Object.keys(prevWishlistItems).length) {
@@ -233,6 +246,19 @@ export class MyAccountContainer extends PureComponent {
             isEditingActive,
             subHeading: this.getSubHeading()
         };
+    }
+
+    isTabEnabled(tabName) {
+        const { isWishlistEnabled, newsletterActive } = this.props;
+
+        switch (tabName) {
+        case MY_WISHLIST:
+            return isWishlistEnabled;
+        case NEWSLETTER_SUBSCRIPTION:
+            return newsletterActive;
+        default:
+            return true;
+        }
     }
 
     _getWishlistItemsCount() {
@@ -269,14 +295,14 @@ export class MyAccountContainer extends PureComponent {
 
     tabsFilterEnabled() {
         return Object.fromEntries(Object.entries(MyAccountContainer.tabMap)
-            .filter(([k]) => MyAccountContainer.isTabEnabled(this.props, k)));
+            .filter(([tabName]) => this.isTabEnabled(this.props, tabName)));
     }
 
     onSignOut() {
         const { toggleOverlayByKey } = this.props;
         this.setState({ activeTab: DASHBOARD });
         toggleOverlayByKey(CUSTOMER_ACCOUNT);
-        history.push(appendWithStoreCode('/'));
+        history.replace(appendWithStoreCode('/'));
     }
 
     onSignIn() {
@@ -319,7 +345,9 @@ export class MyAccountContainer extends PureComponent {
         changeHeaderState({
             title: 'My account',
             name: CUSTOMER_ACCOUNT_PAGE,
-            onBackClick: () => history.push(appendWithStoreCode('/'))
+            onBackClick: () => {
+                history.push(appendWithStoreCode('/'));
+            }
         });
     }
 
@@ -359,7 +387,9 @@ export class MyAccountContainer extends PureComponent {
         const {
             history,
             location: { pathname },
-            isMobile
+            isMobile,
+            baseLinkUrl,
+            showNotification
         } = this.props;
 
         if (isSignedIn()) { // do nothing for signed-in users
@@ -376,7 +406,12 @@ export class MyAccountContainer extends PureComponent {
             return;
         }
 
-        history.push({ pathname: appendWithStoreCode('/') });
+        const path = baseLinkUrl
+            ? appendWithStoreCode(ACCOUNT_LOGIN_URL)
+            : replace(/\/my-account\/.*/, ACCOUNT_LOGIN_URL);
+
+        history.replace({ pathname: path });
+        showNotification('info', __('Please, sign in to access this page contents!'));
     }
 
     render() {
