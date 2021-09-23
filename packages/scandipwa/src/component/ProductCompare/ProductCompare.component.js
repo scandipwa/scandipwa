@@ -38,10 +38,10 @@ export class ProductCompare extends Component {
     };
 
     shouldComponentUpdate(nextProps) {
-        const { products } = this.props;
-        const { products: nextProducts } = nextProps;
+        const { products, isLoading } = this.props;
+        const { products: nextProducts, isLoading: nextIsLoading } = nextProps;
 
-        return products !== nextProducts;
+        return products !== nextProducts || isLoading !== nextIsLoading;
     }
 
     renderHeading() {
