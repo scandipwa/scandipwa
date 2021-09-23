@@ -21,12 +21,12 @@
 
     &_isValid {
         border-left: 2px solid var(--primary-success-color);
-        padding-left: 10px;
+        padding-inline-start: 10px;
     }
 
     &_hasError {
-        border-left: 2px solid var(--primary-error-color);
-        padding-left: 10px;
+        border-inline-start: 2px solid var(--primary-error-color);
+        padding-inline-start: 10px;
 
         .Field {
             color: var(--primary-error-color);

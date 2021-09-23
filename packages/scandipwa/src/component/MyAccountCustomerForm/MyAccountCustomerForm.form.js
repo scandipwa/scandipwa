@@ -11,6 +11,12 @@
 
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 
+/**
+ * Returns customer forms fields
+ * @param props
+ * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
+ * @namespace Component/MyAccountCustomerForm/Form/myAccountCustomerForm
+ */
 export const myAccountCustomerForm = (props) => {
     const {
         firstname,

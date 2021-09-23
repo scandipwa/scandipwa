@@ -12,6 +12,11 @@
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
+/**
+ * Returns fields for newsletter
+ * @returns {[{validateOn: [string], validationRule: {isRequired: boolean, inputType: string}, type: string, attr: {name: string, placeholder: *, 'aria-label': *}}]}
+ * @namespace Component/NewsletterSubscription/Form/newsletterSubscriptionForm
+ */
 export const newsletterSubscriptionForm = () => [
     {
         type: FIELD_TYPE.email,

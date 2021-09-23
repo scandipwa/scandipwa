@@ -12,6 +12,10 @@
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
+/**
+ * Form for contacts
+ * @namespace Component/ContactForm/Form/contactForm
+ */
 export const contactForm = () => [
     {
         type: FIELD_TYPE.text,

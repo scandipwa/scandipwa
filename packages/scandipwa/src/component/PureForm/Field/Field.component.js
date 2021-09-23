@@ -19,8 +19,13 @@ import { FieldNumberContainer } from 'Component/PureForm/FieldNumber/FieldNumber
 import FieldSelectContainer from 'Component/PureForm/FieldSelect/FieldSelect.container';
 import { MixType } from 'Type/Common';
 
-import './Field.style.scss';
+import './Field.style';
 
+/**
+ * Field
+ * @class Field
+ * @namespace Component/Field/Component
+ */
 export class Field extends PureComponent {
     static propTypes = {
         // Field attributes

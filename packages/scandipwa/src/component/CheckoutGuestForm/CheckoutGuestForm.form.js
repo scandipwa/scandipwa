@@ -12,6 +12,13 @@
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
+/**
+ * Form for guest checkout
+ * @param props
+ * @param events
+ * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean, inputType: string}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *, 'aria-label': *}, events: {onChange}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean, inputType: string}, label: *, type: string, attr: {name: string, placeholder: *, 'aria-label': *}, events: {onChange}}]|*[]]}
+ * @namespace Component/CheckoutGuestForm/Form/checkoutGuestForm
+ */
 export const checkoutGuestForm = (props, events) => {
     const { emailValue, isCreateUser } = props;
     const { handleEmailInput, handlePasswordInput } = events;

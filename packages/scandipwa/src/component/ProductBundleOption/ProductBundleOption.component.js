@@ -23,6 +23,11 @@ import {
 import { bundleOptionToLabel, getEncodedBundleUid } from 'Util/Product/Transform';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
+/**
+ * Product Bundle Option
+ * @class ProductBundleOption
+ * @namespace Component/ProductBundleOption/Component
+ */
 export class ProductBundleOption extends PureComponent {
     static propTypes = {
         uid: PropTypes.string.isRequired,

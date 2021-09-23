@@ -48,6 +48,7 @@ export const fromCache = (fn, args) => {
 /**
  * Clears functions cache from global cache register
  * @param {function} fn
+ * @namespace Util/Cache/clearCacheFor
  */
 export const clearCacheFor = (fn) => {
     if (fromCache.cache === undefined) {

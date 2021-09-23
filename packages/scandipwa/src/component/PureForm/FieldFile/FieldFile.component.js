@@ -16,6 +16,11 @@ import Loader from 'Component/Loader';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import UploadIcon from 'Component/UploadIcon';
 
+/**
+ * Field File
+ * @class FieldFile
+ * @namespace Component/FieldFile/Component
+ */
 export class FieldFile extends PureComponent {
     static propTypes = {
         attr: PropTypes.object.isRequired,

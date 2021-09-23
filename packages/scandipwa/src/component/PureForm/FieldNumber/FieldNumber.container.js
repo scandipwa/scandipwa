@@ -16,6 +16,11 @@ import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
 import FieldNumber from './FieldNumber.component';
 
+/**
+ * Field Number
+ * @class FieldNumberContainer
+ * @namespace Component/FieldNumber/Container
+ */
 export class FieldNumberContainer extends PureComponent {
     static propTypes = {
         // Field attributes
@@ -68,12 +73,20 @@ export class FieldNumberContainer extends PureComponent {
     }
 
     containerProps() {
-        const { attr: { value } = {} } = this.props;
+        const {
+            attr: { value } = {},
+            attr,
+            events,
+            setRef,
+            isDisabled
+        } = this.props;
         const { value: stateValue } = this.state;
 
         return {
-            ...this.props,
-            ...this.state,
+            attr,
+            events,
+            setRef,
+            isDisabled,
             value: value || stateValue
         };
     }

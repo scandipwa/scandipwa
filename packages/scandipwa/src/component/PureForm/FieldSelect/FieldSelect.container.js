@@ -16,6 +16,11 @@ import { KEY_CODE } from 'Component/PureForm/Field/Keyboard.config';
 
 import FieldSelect from './FieldSelect.component';
 
+/**
+ * Field Select
+ * @class FieldSelectContainer
+ * @namespace Component/FieldSelect/Container
+ */
 export class FieldSelectContainer extends PureComponent {
     static propTypes = {
         // Field attributes
@@ -194,9 +199,21 @@ export class FieldSelectContainer extends PureComponent {
     }
 
     containerProps() {
+        const {
+            attr,
+            events,
+            setRef,
+            isDisabled
+        } = this.props;
+
+        const { isExpanded } = this.state;
+
         return {
-            ...this.props,
-            ...this.state,
+            attr,
+            events,
+            setRef,
+            isDisabled,
+            isExpanded,
             options: this.getOptions()
         };
     }

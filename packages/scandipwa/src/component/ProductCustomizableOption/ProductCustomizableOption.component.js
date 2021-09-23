@@ -19,6 +19,11 @@ import { customizableOptionToLabel } from 'Util/Product/Transform';
 
 import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
 
+/**
+ * Product Customizable Option
+ * @class ProductCustomizableOption
+ * @namespace Component/ProductCustomizableOption/Component
+ */
 export class ProductCustomizableOption extends PureComponent {
     static propTypes = {
         uid: PropTypes.string.isRequired,

@@ -11,6 +11,11 @@
 
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 
+/**
+ * Returns fields for share wishlist form
+ * @returns {[{addRequiredTag: boolean, validateOn: [string], validationRule: {isRequired: boolean}, label: *, type: string, attr: {name: string, placeholder: *, 'aria-label': *}}, {label: *, type: string, attr: {name: string, placeholder: *, 'aria-label': *}}]}
+ * @namespace Component/ShareWishlistForm/Form/shareWishlistForm
+ */
 export const shareWishlistForm = () => [
     {
         type: FIELD_TYPE.email,

@@ -20,6 +20,11 @@ import { validateGroup } from 'Util/Validator';
 
 import Form from './Form.component';
 
+/**
+ * Form
+ * @class FormContainer
+ * @namespace Component/Form/Container
+ */
 export class FormContainer extends PureComponent {
     static propTypes = {
         // Form attributes
@@ -148,8 +153,17 @@ export class FormContainer extends PureComponent {
     }
 
     containerProps() {
-        const { events, validateOn } = this.props;
+        const {
+            events,
+            validateOn,
+            children,
+            attr,
+            showErrorAsLabel,
+            label,
+            subLabel
+        } = this.props;
         const { validate, onSubmit } = this.containerFunctions;
+        const { validationResponse } = this.state;
 
         const newEvents = { };
         Object.keys(events).forEach((eventName) => {
@@ -164,8 +178,12 @@ export class FormContainer extends PureComponent {
         });
 
         return {
-            ...this.state,
-            ...this.props,
+            validationResponse,
+            children,
+            attr,
+            showErrorAsLabel,
+            label,
+            subLabel,
             events: {
                 ...newEvents,
                 onSubmit

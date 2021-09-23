@@ -12,6 +12,11 @@
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
+/**
+ * Returns password-change fields
+ * @returns {[{addRequiredTag: boolean, validateOn: [string], validationRule: {isRequired: boolean, inputType: string}, label: *, type: string, attr: {name: string, id: string, placeholder: *, 'aria-label': *}}, {addRequiredTag: boolean, validateOn: [string], validationRule: {isRequired: boolean, match: (function(*=)), range: {min: number}, inputType: string, customErrorMessages: {onMatchFail: *}}, label: *, type: string, attr: {name: string, id: string, placeholder: *, 'aria-label': *}}]}
+ * @namespace Component/MyAccountPasswordForm/Form/myAccountPasswordForm
+ */
 export const myAccountPasswordForm = () => [
     {
         label: __('Current password'),

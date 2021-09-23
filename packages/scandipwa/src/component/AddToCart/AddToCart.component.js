@@ -18,6 +18,11 @@ import { LayoutType } from 'Type/Layout';
 
 import './AddToCart.style';
 
+/**
+ * Button for adding product to Cart
+ * @class AddToCart
+ * @namespace Component/AddToCart/Component
+ */
 export class AddToCart extends PureComponent {
     static propTypes = {
         addProductToCart: PropTypes.func.isRequired,

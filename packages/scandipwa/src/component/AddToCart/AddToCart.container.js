@@ -31,10 +31,12 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 
+/** @namespace Component/AddToCart/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     cartId: state.CartReducer.id
 });
 
+/** @namespace Component/AddToCart/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     fallbackAddToCart: (options) => CartDispatcher.then(
@@ -42,6 +44,7 @@ export const mapDispatchToProps = (dispatch) => ({
     )
 });
 
+/* @namespace Component/AddToCart/Container */
 export class AddToCartContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -190,9 +193,23 @@ export class AddToCartContainer extends PureComponent {
     }
 
     containerProps() {
+        const {
+            isDisabled,
+            isIconEnabled,
+            mix,
+            layout
+        } = this.props;
+
+        const {
+            isAdding
+        } = this.state;
+
         return {
-            ...this.props,
-            ...this.state
+            isDisabled,
+            isIconEnabled,
+            mix,
+            layout,
+            isAdding
         };
     }
 

@@ -20,6 +20,7 @@ export const PRICE_TYPE_PERCENT = 'PERCENT';
  *
  * @param uid
  * @param quantity
+ * @namespace Util/Product/Transform/getEncodedBundleUid
  */
 export const getEncodedBundleUid = (uid, quantity) => {
     const decoded = atob(uid);
@@ -32,6 +33,14 @@ export const getEncodedBundleUid = (uid, quantity) => {
     return btoa(newUid);
 };
 
+/**
+ * Generates label for bundle option
+ *
+ * @param option
+ * @param currencyCode
+ * @returns {{baseLabel: string, priceLabel: string}}
+ * @namespace Util/Product/Transform/bundleOptionToLabel
+ */
 export const bundleOptionToLabel = (option, currencyCode = 'USD') => {
     const {
         price,
@@ -57,6 +66,7 @@ export const bundleOptionToLabel = (option, currencyCode = 'USD') => {
  * meaning into [uid:label] pair
  *
  * @param options
+ * @namespace Util/Product/Transform/bundleOptionsToSelectTransform
  */
 export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', quantity = {}) => (
     options.reduce((result = [], option) => {
@@ -87,6 +97,14 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
     }, [])
 );
 
+/**
+ * Generates label for customizable option
+ *
+ * @param option
+ * @param currencyCode
+ * @returns {{baseLabel: string, priceLabel: string}}
+ * @namespace Util/Product/Transform/customizableOptionToLabel
+ */
 export const customizableOptionToLabel = (option, currencyCode = 'USD') => {
     const {
         price,
@@ -109,6 +127,7 @@ export const customizableOptionToLabel = (option, currencyCode = 'USD') => {
  * meaning into [uid:label] pair
  *
  * @param options
+ * @namespace Util/Product/Transform/customizableOptionsToSelectTransform
  */
 export const customizableOptionsToSelectTransform = (options, currencyCode = 'USD') => (
     options.reduce((result = [], option) => {

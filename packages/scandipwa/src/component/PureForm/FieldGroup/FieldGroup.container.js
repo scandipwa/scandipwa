@@ -20,6 +20,11 @@ import { validateGroup } from 'Util/Validator';
 
 import FieldGroup from './FieldGroup.component';
 
+/**
+ * Field Group
+ * @class FieldGroupContainer
+ * @namespace Component/FieldGroup/Container
+ */
 export class FieldGroupContainer extends PureComponent {
     static propTypes = {
         // Group attributes
@@ -121,12 +126,21 @@ export class FieldGroupContainer extends PureComponent {
     //#endregion
 
     containerProps() {
-        const { events, validateOn } = this.props;
+        const {
+            events,
+            validateOn,
+            children,
+            attr,
+            showErrorAsLabel,
+            label,
+            subLabel,
+            mods
+        } = this.props;
         const { validate } = this.containerFunctions;
+        const { validationResponse } = this.state;
 
         // Surrounds events with validation
-        // TODO: Optimize
-        const newEvents = { };
+        const newEvents = {};
         Object.keys(events).forEach((eventName) => {
             const { [eventName]: event } = events;
             newEvents[eventName] = this.surroundEvent.bind(this, event);
@@ -138,8 +152,13 @@ export class FieldGroupContainer extends PureComponent {
         });
 
         return {
-            ...this.state,
-            ...this.props,
+            validationResponse,
+            children,
+            attr,
+            showErrorAsLabel,
+            label,
+            subLabel,
+            mods,
             events: newEvents,
             setRef: this.setRef.bind(this)
         };

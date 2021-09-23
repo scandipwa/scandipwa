@@ -37,6 +37,7 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 
+/** @namespace Component/Product/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
@@ -44,6 +45,7 @@ export const mapDispatchToProps = (dispatch) => ({
     showError: (message) => dispatch(showNotification('error', message))
 });
 
+/** @namespace Component/Product/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     cartId: state.CartReducer.id,
     device: state.ConfigReducer.device,
@@ -53,7 +55,9 @@ export const mapStateToProps = (state) => ({
 /**
  * Abstract Product class used to hold shared functionality
  * between ProductDetails & ProductCard
- */
+ * @class ProductContainer
+ * @namespace Component/Product/Container
+*/
 export class ProductContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,

@@ -14,6 +14,11 @@ import { PureComponent } from 'react';
 
 import ProductBundleOptions from './ProductBundleOptions.component';
 
+/**
+ * Product Bundle Options
+ * @class ProductBundleOptions
+ * @namespace Component/ProductBundleOptions/Container
+ */
 export class ProductBundleOptionsContainer extends PureComponent {
     static propTypes = {
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -21,9 +26,11 @@ export class ProductBundleOptionsContainer extends PureComponent {
     };
 
     containerProps() {
+        const { options, updateSelectedValues } = this.props;
+
         return {
-            ...this.props,
-            ...this.state
+            options,
+            updateSelectedValues
         };
     }
 

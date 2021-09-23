@@ -14,6 +14,11 @@ import { PureComponent } from 'react';
 
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 
+/**
+ * Product Customizable Options
+ * @class ProductCustomizableOptionsContainer
+ * @namespace Component/ProductCustomizableOptions/Container
+ */
 export class ProductCustomizableOptionsContainer extends PureComponent {
     static propTypes = {
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -21,8 +26,11 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
     };
 
     containerProps() {
+        const { options, updateSelectedValues } = this.props;
+
         return {
-            ...this.props
+            options,
+            updateSelectedValues
         };
     }
 

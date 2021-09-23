@@ -14,8 +14,13 @@ import { PureComponent } from 'react';
 
 import ProductCustomizableOption from 'Component/ProductCustomizableOption';
 
-import './ProductCustomizableOptions.style.scss';
+import './ProductCustomizableOptions.style';
 
+/**
+ * Product Customizable Options
+ * @class ProductCustomizableOptions
+ * @namespace Component/ProductCustomizableOptions/Component
+ */
 export class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -44,7 +49,7 @@ export class ProductCustomizableOptions extends PureComponent {
         const { options = [] } = this.props;
 
         return (
-          <div>
+          <div block="ProductCustomizableOptions" elem="Wrapper">
               { options.map(this.renderOptionGroup) }
           </div>
         );

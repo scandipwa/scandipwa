@@ -19,13 +19,19 @@ import { customizableOptionsToSelectTransform } from 'Util/Product/Transform';
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
 
+/** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     currencyCode: state.ConfigReducer.currencyData.current_currency_code
 });
 
-export const mapDispatchToProps = () => ({
-});
+/** @namespace Component/ProductCustomizableOption/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
 
+/**
+ * Product Customizable Option
+ * @class ProductCustomizableOptionContainer
+ * @namespace Component/ProductCustomizableOption/Container
+ */
 export class ProductCustomizableOptionContainer extends PureComponent {
     static propTypes = {
         title: PropTypes.string.isRequired,
@@ -57,8 +63,23 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     }
 
     containerProps() {
+        const {
+            title,
+            isRequired,
+            type,
+            options,
+            updateSelectedValues,
+            currencyCode
+        } = this.props;
+
         return {
-            ...this.props
+            title,
+            isRequired,
+            type,
+            options,
+            updateSelectedValues,
+            currencyCode,
+            fieldType: this.getFieldType()
         };
     }
 
@@ -67,7 +88,6 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             <ProductCustomizableOption
               { ...this.containerProps() }
               { ...this.containerFunctions }
-              fieldType={ this.getFieldType() }
             />
         );
     }

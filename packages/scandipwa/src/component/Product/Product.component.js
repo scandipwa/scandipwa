@@ -34,6 +34,11 @@ import { PriceType, ProductType } from 'Type/ProductList';
 import { filterConfigurableOptions } from 'Util/Product';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
+/**
+ * Product
+ * @class Product
+ * @namespace Component/Product/Component
+ */
 export class Product extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,

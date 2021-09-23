@@ -17,6 +17,11 @@ import MinusIcon from 'Component/MinusIcon';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
+/**
+ * Field Number
+ * @class FieldNumber
+ * @namespace Component/FieldNumber/Component
+ */
 export class FieldNumber extends PureComponent {
     static propTypes = {
         attr: PropTypes.object.isRequired,

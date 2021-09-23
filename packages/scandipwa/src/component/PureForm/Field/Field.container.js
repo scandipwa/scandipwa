@@ -19,6 +19,11 @@ import { validate } from 'Util/Validator';
 
 import Field from './Field.component';
 
+/**
+ * Field
+ * @class FieldContainer
+ * @namespace Component/Field/Container
+ */
 export class FieldContainer extends PureComponent {
     static propTypes = {
         // Field attributes
@@ -123,11 +128,23 @@ export class FieldContainer extends PureComponent {
     //#endregion
 
     containerProps() {
-        const { events, validateOn } = this.props;
+        const {
+            events,
+            validateOn,
+            type,
+            attr,
+            isDisabled,
+            mix,
+            options,
+            showErrorAsLabel,
+            label,
+            subLabel,
+            addRequiredTag
+        } = this.props;
+        const { validationResponse } = this.state;
         const { validate } = this.containerFunctions;
 
         // Surrounds events with validation
-        // TODO: Optimize
         const newEvents = { ...events };
         validateOn.forEach((eventName) => {
             const { [eventName]: baseEvent } = events;
@@ -135,8 +152,16 @@ export class FieldContainer extends PureComponent {
         });
 
         return {
-            ...this.state,
-            ...this.props,
+            type,
+            attr,
+            isDisabled,
+            mix,
+            options,
+            showErrorAsLabel,
+            label,
+            subLabel,
+            addRequiredTag,
+            validationResponse,
             events: newEvents,
             fieldRef: this.fieldRef,
             setRef: this.setRef.bind(this)

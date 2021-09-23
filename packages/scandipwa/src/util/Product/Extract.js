@@ -17,6 +17,15 @@ import { formatPrice } from 'Util/Price';
 export const DEFAULT_MIN_PRODUCTS = 1;
 export const DEFAULT_MAX_PRODUCTS = 999;
 
+/**
+ * Returns product quantity for specific field (with fallback value)
+ * @param product
+ * @param defaultValue
+ * @param field
+ * @param configIndex
+ * @returns {*}
+ * @namespace Util/Product/Extract/getQuantity
+ */
 export const getQuantity = (product, defaultValue, field, configIndex = -1) => {
     if (!product) {
         return defaultValue;
@@ -45,6 +54,7 @@ export const getQuantity = (product, defaultValue, field, configIndex = -1) => {
  * @param product
  * @param configIndex
  * @returns {*}
+ * @namespace Util/Product/Extract/getMinQuantity
  */
 export const getMinQuantity = (product, configIndex = -1) => (
     getQuantity(product, DEFAULT_MIN_PRODUCTS, 'min_sale_qty', configIndex)
@@ -55,6 +65,7 @@ export const getMinQuantity = (product, configIndex = -1) => (
  * @param product
  * @param configIndex
  * @returns {*}
+ * @namespace Util/Product/Extract/getMaxQuantity
  */
 export const getMaxQuantity = (product, configIndex = -1) => (
     getQuantity(product, DEFAULT_MAX_PRODUCTS, 'max_sale_qty', configIndex) - 1
@@ -65,6 +76,7 @@ export const getMaxQuantity = (product, configIndex = -1) => (
  * @param product
  * @param configIndex
  * @returns {*}
+ * @namespace Util/Product/Extract/getName
  */
 export const getName = (product, configIndex = -1) => {
     const { variants = [] } = product;
@@ -132,6 +144,12 @@ export const getProductInStock = (product, parentProduct = {}) => {
     return stockStatus !== OUT_OF_STOCK && (inStock || stockStatus === IN_STOCK);
 };
 
+/**
+ * Checks if bundle option exist in options (ignoring quantity)
+ * @param uid
+ * @param options
+ * @namespace Util/Product/Extract/getBundleOption
+ */
 export const getBundleOption = (uid, options = []) => {
     const uidParts = atob(uid).split('/');
     return options.find(({ uid: linkedUid }) => {
@@ -151,7 +169,6 @@ export const getBundleOption = (uid, options = []) => {
     });
 };
 
-// TODO: Add caching
 /**
  * Returns price object for product.
  * @param priceRange
@@ -255,6 +272,15 @@ export const getPrice = (
     };
 };
 
+/**
+ * Generates adjusted price from entered product options
+ *
+ * @param product
+ * @param downloadableLinks
+ * @param enteredOptions
+ * @param selectedOptions
+ * @namespace Util/Product/Extract/getAdjustedPrice
+ */
 export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, selectedOptions) => {
     const {
         downloadable_product_links = [],
@@ -294,9 +320,6 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
             }
         });
     }
-    //#endregion
-
-    //#region GROUPED
     //#endregion
 
     //#region BUNDLE
@@ -368,14 +391,35 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
 };
 
 //#region IMAGE
+/**
+ * Returns product image based on variable field, on fail placeholder
+ * @param product
+ * @param field
+ * @namespace Util/Product/Extract/getImage
+ */
 export const getImage = (product, field) => {
     const { [field]: { url = 'no_selection' } = {} } = product;
     return url && url !== 'no_selection' ? url : '';
 };
 
+/**
+ * Returns products thumbnail image
+ * @param product
+ * @namespace Util/Product/Extract/getThumbnailImage
+ */
 export const getThumbnailImage = (product) => getImage(product, 'thumbnail');
 
+/**
+ * Returns products small image
+ * @param product
+ * @namespace Util/Product/Extract/getSmallImage
+ */
 export const getSmallImage = (product) => getImage(product, 'small_image');
 
+/**
+ * Returns products base image
+ * @param product
+ * @namespace Util/Product/Extract/getBaseImage
+ */
 export const getBaseImage = (product) => getImage(product, 'image');
 //#endregion

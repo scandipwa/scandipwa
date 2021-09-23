@@ -15,6 +15,11 @@ import { PureComponent } from 'react';
 
 import { ChildrenType } from 'Type/Common';
 
+/**
+ * Form
+ * @class Form
+ * @namespace Component/Form/Component
+ */
 export class Form extends PureComponent {
     static propTypes = {
         // Group attributes

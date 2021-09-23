@@ -37,12 +37,12 @@
 
     .Field {
         &_type_number {
-            margin-top: 0;
+            margin-block-start: 0;
         }
         &-ErrorMessages {
             grid-column-start: 1;
             grid-column-end: 3;
-            margin-top: -10px;
+            margin-block-start: -10px;
         }
     }
 

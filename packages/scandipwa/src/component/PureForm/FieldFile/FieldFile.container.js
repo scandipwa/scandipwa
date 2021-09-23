@@ -14,6 +14,11 @@ import { createRef, PureComponent } from 'react';
 
 import FieldFile from './FieldFile.component';
 
+/**
+ * Field File
+ * @class FieldFileContainer
+ * @namespace Component/FieldFile/Container
+ */
 export class FieldFileContainer extends PureComponent {
     static propTypes = {
         // Field attributes
@@ -78,15 +83,19 @@ export class FieldFileContainer extends PureComponent {
     }
 
     containerProps() {
-        const { events } = this.props;
+        const { events, attr, setRef } = this.props;
+        const { fileName, isLoading, value } = this.state;
 
         return {
-            ...this.props,
+            attr,
+            setRef,
             events: {
                 ...events,
                 onChange: this.onChange.bind(this)
             },
-            ...this.state
+            fileName,
+            isLoading,
+            value
         };
     }
 

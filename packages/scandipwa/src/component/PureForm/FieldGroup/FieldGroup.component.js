@@ -15,8 +15,13 @@ import { PureComponent } from 'react';
 
 import { ChildrenType } from 'Type/Common';
 
-import './FieldGroup.style.scss';
+import './FieldGroup.style';
 
+/**
+ * Field Group
+ * @class FieldGroup
+ * @namespace Component/FieldGroup/Component
+ */
 export class FieldGroup extends PureComponent {
     static propTypes = {
         // Group attributes

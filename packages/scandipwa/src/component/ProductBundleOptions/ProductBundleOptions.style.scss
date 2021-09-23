@@ -23,12 +23,12 @@
         }
 
         .Field {
-            margin-top: 16px;
+            margin-block-start: 16px;
 
             &_type_select + .Field-ErrorMessages {
                 position: absolute;
-                left: 0;
-                bottom: 10px;
+                inset-inline-start: 0;
+                inset-block-end: 10px;
                 transform: translateY(100%);
             }
 
@@ -50,12 +50,12 @@
         &_customQuantity {
             display: flex;
             .Field {
-                margin-top: 0;
+                margin-block-start: 0;
 
                 &_type {
                     &_radio, &_checkbox {
                         flex: 1 1;
-                        padding-top: 8px;
+                        padding-block-start: 8px;
                     }
                 }
             }
@@ -68,7 +68,7 @@
             }
 
             & + & {
-                margin-top: 10px;
+                margin-block-start: 10px;
             }
         }
     }
@@ -81,7 +81,7 @@
             .Field {
                 &_type {
                     &_number {
-                        margin-left: 16px;
+                        margin-inline-start: 16px;
                     }
                 }
             }

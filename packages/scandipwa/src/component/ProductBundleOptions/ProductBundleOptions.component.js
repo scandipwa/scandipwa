@@ -16,6 +16,11 @@ import ProductBundleOption from 'Component/ProductBundleOption';
 
 import './ProductBundleOptions.style';
 
+/**
+ * Product Bundle Options
+ * @class ProductBundleOptions
+ * @namespace Component/ProductBundleOptions/Component
+ */
 export class ProductBundleOptions extends PureComponent {
     static propTypes = {
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -45,7 +50,7 @@ export class ProductBundleOptions extends PureComponent {
         const { options = [] } = this.props;
 
         return (
-          <div>
+          <div block="ProductBundleOptions" elem="Wrapper">
               { options.map(this.renderOptionGroup) }
           </div>
         );

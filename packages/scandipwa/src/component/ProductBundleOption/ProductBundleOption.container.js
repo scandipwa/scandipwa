@@ -17,13 +17,19 @@ import { bundleOptionsToSelectTransform, getEncodedBundleUid } from 'Util/Produc
 
 import ProductBundleOption from './ProductBundleOption.component';
 
+/** @namespace Component/ProductBundleOption/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     currencyCode: state.ConfigReducer.currencyData.current_currency_code
 });
 
-export const mapDispatchToProps = () => ({
-});
+/** @namespace Component/ProductBundleOption/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
 
+/**
+ * Product Bundle Option
+ * @class ProductBundleOptionContainer
+ * @namespace Component/ProductBundleOption/Container
+ */
 export class ProductBundleOptionContainer extends PureComponent {
     static propTypes = {
         uid: PropTypes.string.isRequired,
@@ -36,6 +42,7 @@ export class ProductBundleOptionContainer extends PureComponent {
     };
 
     state = {
+        // Is different from UID, due to quantity changing encoding
         activeSelectUid: null,
         quantity: {}
     };
@@ -88,9 +95,31 @@ export class ProductBundleOptionContainer extends PureComponent {
     }
 
     containerProps() {
+        const {
+            uid,
+            title,
+            isRequired,
+            type,
+            options,
+            updateSelectedValues,
+            currencyCode
+        } = this.props;
+
+        const {
+            activeSelectUid,
+            quantity
+        } = this.state;
+
         return {
-            ...this.props,
-            ...this.state
+            uid,
+            title,
+            isRequired,
+            type,
+            options,
+            updateSelectedValues,
+            currencyCode,
+            activeSelectUid,
+            quantity
         };
     }
 

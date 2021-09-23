@@ -16,6 +16,7 @@ import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
  * @param value
  * @param lessThan
  * @returns {string|*}
+ * @namespace Util/Form/Extract/zeroBasedValue
  */
 // eslint-disable-next-line no-magic-numbers
 export const zeroBasedValue = (value, lessThan = 10) => (
@@ -26,6 +27,7 @@ export const zeroBasedValue = (value, lessThan = 10) => (
  * Converts date to magento supported format
  * @param value
  * @returns {string|*}
+ * @namespace Util/Form/Extract/getDateValue
  */
 export const getDateValue = (value, fieldType = FIELD_TYPE.date) => {
     try {
@@ -47,6 +49,15 @@ export const getDateValue = (value, fieldType = FIELD_TYPE.date) => {
     }
 };
 
+/**
+ * Returns fields values from DOM/Form
+ * @param DOM
+ * @param excludeEmpty
+ * @param ignoreTypes
+ * @param asObject
+ * @returns {{}|*[]}
+ * @namespace Util/Form/Extract/getFieldsData
+ */
 export const getFieldsData = (DOM, excludeEmpty = false, ignoreTypes = [], asObject = false) => {
     const fields = DOM.querySelectorAll('input, textarea, select');
     const output = [];

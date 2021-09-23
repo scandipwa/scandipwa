@@ -12,6 +12,12 @@
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
+/**
+ * Returns fields for street
+ * @param props
+ * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue: (*|string), name: string, placeholder: *}}]|*[]}
+ * @namespace Component/MyAccountAddressForm/Form/getStreetFields
+ */
 export const getStreetFields = (props) => {
     const {
         addressLinesQty = 1,
@@ -58,6 +64,12 @@ export const getStreetFields = (props) => {
     return streets;
 };
 
+/**
+ * Returns region fields
+ * @param props
+ * @returns {[{addRequiredTag: boolean, validateOn: (string[]|*[]), validationRule: {isRequired}, options, label: *, type: string, attr: {defaultValue: number, name: string, selectPlaceholder: *}}]|*[]|[{validateOn: (string[]|*[]), validationRule: {isRequired}, label: *, type: string, attr: {defaultValue, name: string, id: string, placeholder: *}}]}
+ * @namespace Component/MyAccountAddressForm/Form/getRegionFields
+ */
 export const getRegionFields = (props) => {
     const {
         region: { region, region_id: regionId = 1 } = {},
@@ -108,6 +120,12 @@ export const getRegionFields = (props) => {
     ];
 };
 
+/**
+ * Returns VAT fields
+ * @param props
+ * @returns {*[]|[{label: *, type: string, attr: {defaultValue: string, name: string}}]}
+ * @namespace Component/MyAccountAddressForm/Form/getVatFields
+ */
 export const getVatFields = (props) => {
     const { showVatNumber, vat_id: vatID = '' } = props;
 
@@ -127,6 +145,13 @@ export const getVatFields = (props) => {
     ];
 };
 
+/**
+ * Returns address form fields
+ * @param props
+ * @param events
+ * @returns {[{label: *, type: string, attr: {defaultChecked, name: string}}, {label: *, type: string, attr: {defaultChecked, name: string}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue: string, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue: string, name: string, placeholder: *}}, {mods: {street: boolean, multipleFields: boolean, oddAddresses: boolean}, name: string, fields: ({addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue: (*|string), name: string, placeholder: *}}[]|*[])}, null, ...*[]|{label: *, type: string, attr: {defaultValue: string, name: string}}[], null]}
+ * @namespace Component/MyAccountAddressForm/Form/myAccountAddressForm
+ */
 export const myAccountAddressForm = (props, events = {}) => {
     const {
         default_billing: defaultBilling,

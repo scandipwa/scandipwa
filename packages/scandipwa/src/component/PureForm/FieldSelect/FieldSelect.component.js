@@ -18,6 +18,11 @@ import ClickOutside from 'Component/ClickOutside';
 
 import './FieldSelect.style';
 
+/**
+ * Field Select
+ * @class FieldSelect
+ * @namespace Component/FieldSelect/Component
+ */
 export class FieldSelect extends PureComponent {
     static propTypes = {
         attr: PropTypes.object.isRequired,
