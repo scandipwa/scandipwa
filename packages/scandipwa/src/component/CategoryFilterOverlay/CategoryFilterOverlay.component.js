@@ -38,7 +38,8 @@ export class CategoryFilterOverlay extends PureComponent {
         toggleCustomFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired,
         totalPages: PropTypes.number.isRequired,
-        isCategoryAnchor: PropTypes.bool.isRequired
+        isCategoryAnchor: PropTypes.bool.isRequired,
+        isSearchPage: PropTypes.bool.isRequired
     };
 
     renderFilters() {
@@ -47,7 +48,8 @@ export class CategoryFilterOverlay extends PureComponent {
             customFiltersValues,
             toggleCustomFilter,
             isMatchingInfoFilter,
-            getFilterUrl
+            getFilterUrl,
+            isSearchPage
         } = this.props;
 
         return (
@@ -58,6 +60,7 @@ export class CategoryFilterOverlay extends PureComponent {
               getLink={ getFilterUrl }
               parameters={ customFiltersValues }
               updateConfigurableVariant={ toggleCustomFilter }
+              isSearchPage={ isSearchPage }
             />
         );
     }
@@ -198,10 +201,12 @@ export class CategoryFilterOverlay extends PureComponent {
             totalPages,
             isProductsLoading,
             isContentFiltered,
-            isCategoryAnchor
+            isCategoryAnchor,
+            isSearchPage
         } = this.props;
 
-        if ((!isProductsLoading && totalPages === 0 && !isContentFiltered) || !isCategoryAnchor) {
+        // show CategoryFilterOverlay for 1. categories marked as `anchor` in Magento admin 2. Search page
+        if ((!isProductsLoading && totalPages === 0 && !isContentFiltered) || (!isCategoryAnchor && !isSearchPage)) {
             return (
                 <div block="CategoryFilterOverlay" />
             );

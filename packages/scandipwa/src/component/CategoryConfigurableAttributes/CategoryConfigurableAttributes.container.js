@@ -48,13 +48,21 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
         };
     }
 
-    getSubCategories(option) {
-        const optionWithSubcategories = { ...option };
+    getCategorySubCategories() {
         const { childrenCategories } = this.props;
+        return childrenCategories.map(({ id }) => id.toString());
+    }
+
+    getSubCategories(option) {
+        const { isSearchPage } = this.props;
+        const optionWithSubcategories = { ...option };
         const { attribute_values } = option;
-        const childrenCategoryIds = childrenCategories.map((category) => category.id.toString());
-        const subCategoriesIds = attribute_values.filter((item) => childrenCategoryIds.includes(item));
-        optionWithSubcategories.attribute_values = subCategoriesIds;
+
+        if (!isSearchPage) {
+            const categoryItemsIds = this.getCategorySubCategories();
+            const subCategoriesIds = attribute_values.filter((item) => categoryItemsIds.includes(item));
+            optionWithSubcategories.attribute_values = subCategoriesIds;
+        }
 
         return optionWithSubcategories;
     }
