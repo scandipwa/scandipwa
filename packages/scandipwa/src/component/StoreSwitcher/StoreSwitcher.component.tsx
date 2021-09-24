@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
 import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
@@ -41,14 +39,6 @@ export interface StoreSwitcherProps {
 
 /** @namespace Component/StoreSwitcher/Component */
 export class StoreSwitcherComponent extends SimpleComponent<StoreSwitcherProps> {
-    static propTypes = {
-        storeLabel: PropTypes.string
-    };
-
-    static defaultProps = {
-        storeLabel: ''
-    };
-
     renderStoreList = (item: FormattedStoreList): JSX.Element => {
         const { handleStoreSelect } = this.props;
         const { value } = item;
