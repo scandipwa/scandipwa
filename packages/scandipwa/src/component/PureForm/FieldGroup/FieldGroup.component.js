@@ -20,7 +20,7 @@ import './FieldGroup.style';
 /**
  * Field Group
  * @class FieldGroup
- * @namespace Component/FieldGroup/Component
+ * @namespace Component/PureForm/FieldGroup/Component
  */
 export class FieldGroup extends PureComponent {
     static propTypes = {

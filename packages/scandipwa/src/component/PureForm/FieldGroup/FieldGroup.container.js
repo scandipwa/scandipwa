@@ -23,7 +23,7 @@ import FieldGroup from './FieldGroup.component';
 /**
  * Field Group
  * @class FieldGroupContainer
- * @namespace Component/FieldGroup/Container
+ * @namespace Component/PureForm/FieldGroup/Container
  */
 export class FieldGroupContainer extends PureComponent {
     static propTypes = {

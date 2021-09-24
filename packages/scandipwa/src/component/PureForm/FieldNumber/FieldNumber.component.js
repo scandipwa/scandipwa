@@ -20,7 +20,7 @@ import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 /**
  * Field Number
  * @class FieldNumber
- * @namespace Component/FieldNumber/Component
+ * @namespace Component/PureForm/FieldNumber/Component
  */
 export class FieldNumber extends PureComponent {
     static propTypes = {

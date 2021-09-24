@@ -66,7 +66,7 @@ export class InstallPromptContainer extends PureComponent {
 
         // Wait for the user to respond to the prompt
         window.promt_event.userChoice.then(
-            /** @namespace Component/InstallPrompt/Container/then */
+            /** @namespace Component/InstallPrompt/Container/InstallPromptContainer/handleAppInstall/then */
             (choice) => {
                 if (choice.outcome === 'accepted') {
                     this.setState({ isBannerClosed: true });

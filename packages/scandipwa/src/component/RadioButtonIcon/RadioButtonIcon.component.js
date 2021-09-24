@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import './RadioButtonIcon.style';
 
-/** @namespace Component/RadioButton/Component */
+/** @namespace Component/RadioButtonIcon/Component */
 export class RadioButton extends PureComponent {
     static propTypes = {
         isActive: PropTypes.bool

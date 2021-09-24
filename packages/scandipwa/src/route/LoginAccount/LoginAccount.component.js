@@ -19,7 +19,7 @@ import {
 
 import './LoginAccount.style';
 
-/** @namespace Scandipwa/Route/LoginAccount/Component/LoginAccountComponent */
+/** @namespace Route/LoginAccount/Component */
 export class LoginAccountComponent extends MyAccountOverlay {
     renderSignInWrapper() {
         const { isMobile } = this.props;

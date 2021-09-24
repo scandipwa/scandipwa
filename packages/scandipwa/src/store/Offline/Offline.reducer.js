@@ -20,7 +20,7 @@ export const getInitialState = () => ({
     isBig: false
 });
 
-/** @namespace Store/Offline/Reducer */
+/** @namespace Store/Offline/Reducer/OfflineReducer */
 export const OfflineReducer = (
     state = getInitialState(),
     action

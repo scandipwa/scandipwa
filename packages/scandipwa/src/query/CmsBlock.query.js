@@ -14,8 +14,7 @@ import { Field } from 'Util/Query';
 /**
  * CMS Blocks Query
  * @class CmsBlocksQuery
- * @namespace Query/CmsBlock
- */
+ * @namespace Query/CmsBlock/Query */
 export class CmsBlockQuery {
     /**
      * get CMS Block query

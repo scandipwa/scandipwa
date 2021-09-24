@@ -64,7 +64,7 @@ export const getInitialState = () => ({
     isLoading: true
 });
 
-/** @namespace Store/ProductListInfo/Reducer */
+/** @namespace Store/ProductListInfo/Reducer/ProductListReducer */
 export const ProductListReducer = (
     state = getInitialState(),
     action

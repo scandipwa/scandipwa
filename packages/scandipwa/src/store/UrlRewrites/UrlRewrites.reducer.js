@@ -20,7 +20,7 @@ export const getInitialState = () => ({
     isLoading: false
 });
 
-/** @namespace Store/UrlRewrites/Reducer */
+/** @namespace Store/UrlRewrites/Reducer/UrlRewritesReducer */
 export const UrlRewritesReducer = (
     state = getInitialState(),
     action

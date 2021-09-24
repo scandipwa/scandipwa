@@ -133,7 +133,10 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         }
 
         try {
-            const code = await createAccount(customerData).catch(() => process.exit(1));
+            const code = await createAccount(customerData).catch(
+                /** @namespace Component/MyAccountCreateAccount/Container/MyAccountCreateAccountContainer/onSuccess/code/createAccount/catch */
+                () => process.exit(1)
+            );
 
             // if user needs confirmation
             if (code === 2) {

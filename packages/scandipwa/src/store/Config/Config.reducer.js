@@ -74,7 +74,7 @@ export const getInitialState = () => ({
     }
 });
 
-/** @namespace Store/Config/Reducer */
+/** @namespace Store/Config/Reducer/ConfigReducer */
 export const ConfigReducer = (
     state = getInitialState(),
     action

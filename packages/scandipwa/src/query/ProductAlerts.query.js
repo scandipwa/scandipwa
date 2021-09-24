@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-/** @namespace Query/ProductAlerts */
+/** @namespace Query/ProductAlerts/Query */
 export class ProductAlertsQuery {
     getProductAlertSubscribeMutation(productId, type) {
         return new Field('productAlertSubscribe')

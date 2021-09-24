@@ -16,7 +16,7 @@ export const getInitialState = () => ({
     category: {}
 });
 
-/** @namespace Store/Category/Reducer */
+/** @namespace Store/Category/Reducer/CategoryReducer */
 export const CategoryReducer = (
     state = getInitialState(),
     { type, category }

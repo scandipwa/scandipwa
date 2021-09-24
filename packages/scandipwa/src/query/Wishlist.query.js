@@ -15,7 +15,7 @@ import { isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId } from 'Util/Cart';
 import { Field } from 'Util/Query';
 
-/** @namespace Query/Wishlist */
+/** @namespace Query/Wishlist/Query */
 export class WishlistQuery {
     //#region MUTATION
     addProductsToWishlist(wishlistId, wishlistItems) {

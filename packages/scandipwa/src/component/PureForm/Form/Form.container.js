@@ -23,7 +23,7 @@ import Form from './Form.component';
 /**
  * Form
  * @class FormContainer
- * @namespace Component/Form/Container
+ * @namespace Component/PureForm/Form/Container
  */
 export class FormContainer extends PureComponent {
     static propTypes = {

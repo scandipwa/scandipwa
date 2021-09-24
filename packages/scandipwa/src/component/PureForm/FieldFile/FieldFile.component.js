@@ -19,7 +19,7 @@ import UploadIcon from 'Component/UploadIcon';
 /**
  * Field File
  * @class FieldFile
- * @namespace Component/FieldFile/Component
+ * @namespace Component/PureForm/FieldFile/Component
  */
 export class FieldFile extends PureComponent {
     static propTypes = {

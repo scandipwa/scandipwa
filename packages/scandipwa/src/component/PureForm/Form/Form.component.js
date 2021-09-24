@@ -18,7 +18,7 @@ import { ChildrenType } from 'Type/Common';
 /**
  * Form
  * @class Form
- * @namespace Component/Form/Component
+ * @namespace Component/PureForm/Form/Component
  */
 export class Form extends PureComponent {
     static propTypes = {

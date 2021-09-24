@@ -25,7 +25,7 @@ import ProductListInfoReducer from 'Store/ProductListInfo/ProductListInfo.reduce
 import UrlRewritesReducer from 'Store/UrlRewrites/UrlRewrites.reducer';
 import WishlistReducer from 'Store/Wishlist/Wishlist.reducer';
 
-/** @namespace Store/Index/getReducers */
+/** @namespace Store/Index/getStaticReducers */
 export const getStaticReducers = () => ({
     ProductListReducer,
     ProductListInfoReducer,

@@ -21,7 +21,7 @@ import './FieldSelect.style';
 /**
  * Field Select
  * @class FieldSelect
- * @namespace Component/FieldSelect/Component
+ * @namespace Component/PureForm/FieldSelect/Component
  */
 export class FieldSelect extends PureComponent {
     static propTypes = {

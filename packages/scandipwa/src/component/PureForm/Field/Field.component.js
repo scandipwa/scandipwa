@@ -24,7 +24,7 @@ import './Field.style';
 /**
  * Field
  * @class Field
- * @namespace Component/Field/Component
+ * @namespace Component/PureForm/Field/Component
  */
 export class Field extends PureComponent {
     static propTypes = {

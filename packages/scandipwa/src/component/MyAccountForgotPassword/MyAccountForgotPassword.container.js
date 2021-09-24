@@ -73,12 +73,12 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
         setLoadingState(true);
 
         forgotPassword(transformToNameValuePair(fields)).then(
-            /** @namespace Component/MyAccountOverlay/Container/forgotPasswordThen */
+            /** @namespace Component/MyAccountForgotPassword/Container/MyAccountForgotPasswordContainer/onForgotPasswordSuccess/forgotPassword/then */
             () => {
                 setSignInState(STATE_FORGOT_PASSWORD_SUCCESS);
                 setLoadingState(false);
             },
-            /** @namespace Component/MyAccountForgotPassword/Container/forgotPasswordThen */
+            /** @namespace Component/MyAccountForgotPassword/Container/MyAccountForgotPasswordContainer/onForgotPasswordSuccess/forgotPassword/then/setLoadingState/catch */
             () => setLoadingState(false)
         );
     }

@@ -22,7 +22,7 @@ import Field from './Field.component';
 /**
  * Field
  * @class FieldContainer
- * @namespace Component/Field/Container
+ * @namespace Component/PureForm/Field/Container
  */
 export class FieldContainer extends PureComponent {
     static propTypes = {

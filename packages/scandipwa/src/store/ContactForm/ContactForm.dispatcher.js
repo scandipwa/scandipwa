@@ -33,7 +33,7 @@ export class ContactFormDispatcher {
 
         return fetchMutation(mutation)
             .then(
-                /** @namespace Store/ContactForm/Dispatcher/fetchMutationThen */
+                /** @namespace Store/ContactForm/Dispatcher/ContactFormDispatcher/prepareRequest/fetchMutation/then */
                 (data) => {
                     dispatch(showNotification('success', data.contactForm.message));
                     dispatch(updateContactForm({
@@ -45,7 +45,7 @@ export class ContactFormDispatcher {
                         form.reset();
                     }
                 },
-                /** @namespace Store/ContactForm/Dispatcher/fetchMutationError */
+                /** @namespace Store/ContactForm/Dispatcher/ContactFormDispatcher/prepareRequest/fetchMutation/then/catch */
                 (error) => {
                     dispatch(showNotification('error', getErrorMessage(error)));
                     dispatch(updateContactForm({

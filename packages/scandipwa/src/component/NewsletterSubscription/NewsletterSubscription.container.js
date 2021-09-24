@@ -22,7 +22,7 @@ export const NewsletterSubscriptionDispatcher = import(
     'Store/NewsletterSubscription/NewsletterSubscription.dispatcher'
 );
 
-/** @namespace Component/NewsletterSubscribtion/Container/mapStateToProps */
+/** @namespace Component/NewsletterSubscription/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     allowGuestSubscribe: state.ConfigReducer.newsletter_subscription_allow_guest_subscribe,
     isSignedIn: state.MyAccountReducer.isSignedIn

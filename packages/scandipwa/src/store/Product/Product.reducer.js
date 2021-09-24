@@ -36,7 +36,7 @@ export const formatConfigurableOptions = (configurable_options) => configurable_
         };
     }, {});
 
-/** @namespace Store/Product/Reducer */
+/** @namespace Store/Product/Reducer/ProductReducer */
 export const ProductReducer = (
     state = getInitialState(),
     action

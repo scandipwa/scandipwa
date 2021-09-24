@@ -15,8 +15,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 /**
  * Returns fields for newsletter
  * @returns {[{validateOn: [string], validationRule: {isRequired: boolean, inputType: string}, type: string, attr: {name: string, placeholder: *, 'aria-label': *}}]}
- * @namespace Component/NewsletterSubscription/Form/newsletterSubscriptionForm
- */
+ * @namespace Component/NewsletterSubscription/NewsletterForm/Form/newsletterSubscriptionForm */
 export const newsletterSubscriptionForm = () => [
     {
         type: FIELD_TYPE.email,

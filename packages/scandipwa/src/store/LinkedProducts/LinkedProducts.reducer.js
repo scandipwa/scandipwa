@@ -27,7 +27,7 @@ export const getInitialState = () => ({
     }
 });
 
-/** @namespace Store/LinkedProducts/Reducer */
+/** @namespace Store/LinkedProducts/Reducer/LinkedProductsReducer */
 export const LinkedProductsReducer = (
     state = getInitialState(),
     action

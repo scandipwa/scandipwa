@@ -132,7 +132,7 @@ export class ProductReviewFormContainer extends PureComponent {
                 product_sku,
                 rating_data
             }).then(
-                /** @namespace Component/ProductReviewForm/Container/addReviewThen */
+                /** @namespace Component/ProductReviewForm/Container/ProductReviewFormContainer/_onReviewSubmitSuccess/addReview/then */
                 (success) => {
                     if (success) {
                         this.setState({
