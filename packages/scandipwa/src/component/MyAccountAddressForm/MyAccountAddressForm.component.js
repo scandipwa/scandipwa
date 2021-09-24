@@ -48,11 +48,31 @@ export class MyAccountAddressForm extends FieldForm {
 
     //#region GETTERS
     get fieldMap() {
-        const { address } = this.props;
+        const {
+            address,
+            countries,
+            addressLinesQty,
+            regionDisplayAll,
+            showVatNumber,
+            defaultCountry
+        } = this.props;
+
+        const {
+            availableRegions,
+            isStateRequired,
+            countryId
+        } = this.state;
 
         return myAccountAddressForm({
-            ...this.props,
-            ...this.state,
+            address,
+            countries,
+            addressLinesQty,
+            regionDisplayAll,
+            showVatNumber,
+            defaultCountry,
+            availableRegions,
+            isStateRequired,
+            countryId,
             ...address
         }, {
             onCountryChange: this.onCountryChange,

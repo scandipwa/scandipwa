@@ -92,8 +92,8 @@ export class ProductCustomizableOption extends PureComponent {
                       }
                   } }
                   attr={ {
-                      id: `${ uid }`,
-                      name: `${ uid }`
+                      id: uid,
+                      name: uid
                   } }
                   events={ {
                       onChange: updateSelectedValues
@@ -120,8 +120,8 @@ export class ProductCustomizableOption extends PureComponent {
                       isRequired
                   } }
                   attr={ {
-                      id: `${ uid }`,
-                      name: `${ uid }`,
+                      id: uid,
+                      name: uid,
                       accept: fileExtensions
                   } }
                   events={ {
