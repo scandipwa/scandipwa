@@ -9,21 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { DataType, Field, Query } from '@tilework/opus';
 
 /** @namespace Query/Config */
 export class ConfigQuery {
-    getStoreListField() {
-        return new Field('storeList')
-            .addFieldList(this._getStoreListFields());
+    static getStoreList() {
+        return new Query('storeList', true)
+            .addFieldList(ConfigQuery._getStoreListFields());
     }
 
-    getCheckoutAgreements() {
+    static getCheckoutAgreements() {
         return new Field('checkoutAgreements')
-            .addFieldList(this._getCheckoutAgreementFields());
+            .addFieldList(ConfigQuery._getCheckoutAgreementFields());
     }
 
-    getCurrencyField() {
+    static getCurrencyField() {
         return new Field('available_currencies_data')
             .addFieldList([
                 'id',
@@ -32,15 +32,13 @@ export class ConfigQuery {
             ]);
     }
 
-    getCurrencyData() {
+    static getCurrencyData() {
         return new Field('currencyData')
-            .addFieldList([
-                this.getCurrencyField(),
-                'current_currency_code'
-            ]);
+            .addField(ConfigQuery.getCurrencyField())
+            .addField('current_currency_code');
     }
 
-    getPriceDisplayTypeField() {
+    static getPriceDisplayTypeField() {
         return new Field('priceTaxDisplay')
             .addFieldList([
                 'product_price_display_type',
@@ -48,15 +46,13 @@ export class ConfigQuery {
             ]);
     }
 
-    getSaveSelectedCurrencyMutation(newCurrency) {
+    static getSaveSelectedCurrencyMutation(newCurrency: string) {
         return new Field('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)
-            .addFieldList([
-                this.getCurrencyData()
-            ]);
+            .addField(ConfigQuery.getCurrencyData());
     }
 
-    _getCheckoutAgreementFields() {
+    static _getCheckoutAgreementFields() {
         return [
             'agreement_id',
             'checkbox_text',
@@ -65,25 +61,26 @@ export class ConfigQuery {
             'is_html',
             'mode',
             'name'
-        ];
+        ] as const;
     }
 
-    _getStoreListFields() {
+    static _getStoreListFields() {
         return [
             'name',
             'is_active',
             'base_url',
             'base_link_url',
             'code'
-        ];
+        ] as const;
     }
 
-    getQuery() {
-        return new Field('storeConfig')
-            .addFieldList(this._getStoreConfigFields());
+    static getQuery() {
+        return new Query('storeConfig')
+            .addFieldList(ConfigQuery._getStoreConfigFields())
+            .addField(ConfigQuery.getPriceDisplayTypeField());
     }
 
-    _getStoreConfigFields() {
+    static _getStoreConfigFields() {
         return [
             'code',
             'is_active',
@@ -138,10 +135,11 @@ export class ConfigQuery {
             'newsletter_general_active',
             'newsletter_subscription_allow_guest_subscribe',
             'newsletter_subscription_confirm',
-            'delivery_instore_active',
-            this.getPriceDisplayTypeField()
-        ];
+            'delivery_instore_active'
+        ] as const;
     }
 }
 
-export default new ConfigQuery();
+export type StoreConfigQueryData = DataType<ReturnType<typeof ConfigQuery.getQuery>>
+
+export type StoreListData = DataType<ReturnType<typeof ConfigQuery.getStoreList>>

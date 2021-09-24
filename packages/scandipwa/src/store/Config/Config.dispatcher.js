@@ -10,7 +10,7 @@
  */
 
 import CartQuery from 'Query/Cart.query';
-import ConfigQuery from 'Query/Config.query';
+import { ConfigQuery } from 'Query/Config.query';
 import RegionQuery from 'Query/Region.query';
 import ReviewQuery from 'Query/Review.query';
 import { updateConfig } from 'Store/Config/Config.action';
