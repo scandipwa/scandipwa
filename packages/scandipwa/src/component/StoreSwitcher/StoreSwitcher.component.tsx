@@ -20,8 +20,16 @@ import { SimpleComponent } from 'Util/SimpleComponent';
 
 import './StoreSwitcher.style';
 
+export interface FormattedStoreList {
+    id: string
+    value: string
+    storeUrl: string
+    storeLinkUrl: string
+    label: string
+}
+
 export interface StoreSwitcherProps {
-    storeList: Record<string, string>[]
+    storeList: FormattedStoreList[]
     isOpened: boolean
     currentStoreCode: string
     handleStoreSelect: (storeCode: string) => void
@@ -41,7 +49,7 @@ export class StoreSwitcherComponent extends SimpleComponent<StoreSwitcherProps> 
         storeLabel: ''
     };
 
-    renderStoreList = (item: Record<string, string>): JSX.Element => {
+    renderStoreList = (item: FormattedStoreList): JSX.Element => {
         const { handleStoreSelect } = this.props;
         const { value } = item;
 

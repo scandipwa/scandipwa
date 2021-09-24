@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import {
+    useCallback, useEffect, useState
+} from 'react';
 import { useSelector } from 'react-redux';
 import { usePersistedQuery } from 'src/hooks/use-persisted-query';
 
@@ -9,7 +11,7 @@ import { BrowserDatabase } from 'Util/BrowserDatabase';
 import { renderHOC } from 'Util/RenderHOC';
 import { RootState } from 'Util/Store/type';
 
-import { StoreSwitcherComponent, StoreSwitcherProps } from './StoreSwitcher.component';
+import { FormattedStoreList, StoreSwitcherComponent, StoreSwitcherProps } from './StoreSwitcher.component';
 import { STORE_CONFIG_KEY } from './StoreSwitcher.config';
 
 /** @namespace Component/StoreSwitcher/Container/mapStateToProps */
@@ -17,12 +19,10 @@ export const storeSwitcherSelector = (state: RootState) => ({
     currentStoreCode: state.ConfigReducer.code as string
 });
 
-export type FormattedStoreList = Record<'id' | 'value' | 'storeUrl' | 'storeLinkUrl' | 'label', string>[]
-
 export const formatStoreList = (
     storeList: StoreListData['storeList']
-): FormattedStoreList => storeList
-    .reduce<FormattedStoreList>(
+): FormattedStoreList[] => storeList
+    .reduce<FormattedStoreList[]>(
         (acc, val) => {
             const {
                 name,
@@ -54,12 +54,15 @@ export const storeSwitcherLogic = (): StoreSwitcherProps => {
     const { currentStoreCode = 'default' } = useSelector(storeSwitcherSelector);
     const [isOpened, setIsOpened] = useState(false);
     const [storeLabel, setStoreLabel] = useState('');
-    const [storeList, setStoreList] = useState<FormattedStoreList>([]);
+    const [storeList, setStoreList] = useState<FormattedStoreList[]>([]);
     const { showNotification } = useNotificationStore();
-    const showErrorNotification = (message: string) => showNotification('error', message);
+    const showErrorNotification = useCallback(
+        (message: string) => showNotification('error', message),
+        [showNotification]
+    );
     const { data, request } = usePersistedQuery<StoreListData>();
 
-    const handleStoreSelect = (storeCode: string) => {
+    const handleStoreSelect = useCallback((storeCode: string) => {
         const store = storeList.find(
             ({ value }) => value === storeCode
         );
@@ -72,17 +75,17 @@ export const storeSwitcherLogic = (): StoreSwitcherProps => {
 
         BrowserDatabase.deleteItem(STORE_CONFIG_KEY);
         window.location = store.storeLinkUrl as unknown as Location;
-    };
+    }, [storeList, showErrorNotification]);
 
-    const onStoreSwitcherClick = () => {
+    const onStoreSwitcherClick = useCallback(() => {
         setIsOpened(!isOpened);
-    };
+    }, [isOpened, setIsOpened]);
 
-    const onStoreSwitcherOutsideClick = () => {
+    const onStoreSwitcherOutsideClick = useCallback(() => {
         setIsOpened(false);
-    };
+    }, [setIsOpened]);
 
-    const setCurrentStoreLabel = (storeCode: string) => {
+    const setCurrentStoreLabel = useCallback((storeCode: string) => {
         const store = storeList.find(
             ({ value }) => value === storeCode
         );
@@ -94,11 +97,12 @@ export const storeSwitcherLogic = (): StoreSwitcherProps => {
         const { label } = store;
 
         setStoreLabel(label);
-    };
+    }, [storeList, setStoreLabel]);
 
-    const getStoreList = async () => {
-        await request(ConfigQuery.getStoreList());
-    };
+    const getStoreList = () => useCallback(
+        () => request(ConfigQuery.getStoreList()),
+        [request]
+    );
 
     useEffect(() => {
         getStoreList();
