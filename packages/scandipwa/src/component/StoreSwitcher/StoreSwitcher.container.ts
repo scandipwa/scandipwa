@@ -1,6 +1,4 @@
-import {
-    useCallback, useEffect, useState
-} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { usePersistedQuery } from 'src/hooks/use-persisted-query';
 
