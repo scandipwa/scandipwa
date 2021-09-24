@@ -9,4 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './BrowserDatabase';
+export {
+    default,
+    default as BrowserDatabase
+} from './BrowserDatabase';

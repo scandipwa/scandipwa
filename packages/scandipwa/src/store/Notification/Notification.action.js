@@ -16,7 +16,7 @@ export const HIDE_NOTIFICATION = 'HIDE_NOTIFICATION';
  * Show notification (append to notification to global notification map).
  * @param  {String} msgType
  * @param  {String} msgText
- * @param  {any} msgDebug
+ * @param  {any} [msgDebug]
  * @return {void}
  * @namespace Store/Notification/Action/showNotification
  */
