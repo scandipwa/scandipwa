@@ -15,8 +15,7 @@ import {
     clearWishlist,
     removeItemFromWishlist,
     updateAllProductsInWishlist,
-    updateIsLoading,
-    updateItemOptions
+    updateIsLoading
 } from 'Store/Wishlist/Wishlist.action';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
@@ -106,20 +105,26 @@ export class WishlistDispatcher {
         );
     }
 
-    addItemToWishlist(dispatch, wishlistItem) {
+    addItemToWishlist(dispatch, options) {
         if (!isSignedIn()) {
             return Promise.reject();
         }
 
-        dispatch(updateIsLoading(true));
-        dispatch(showNotification('success', __('Product added to wish-list!')));
+        const { items = [], wishlistId = '' } = options;
 
-        return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(wishlistItem)).then(
+        dispatch(updateIsLoading(true));
+
+        return fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items)).then(
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/addItemToWishlist/fetchMutation/then */
-            () => this._syncWishlistWithBE(dispatch),
+            () => {
+                dispatch(showNotification('success', __('Product added to wish-list!')));
+                this._syncWishlistWithBE(dispatch);
+                dispatch(updateIsLoading(false));
+            },
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/addItemToWishlist/fetchMutation/then/catch */
             () => {
                 dispatch(showNotification('error', __('Error updating wish list!')));
+                dispatch(updateIsLoading(false));
             }
         );
     }
@@ -129,9 +134,13 @@ export class WishlistDispatcher {
             return Promise.reject();
         }
 
-        return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(options)).then(
-            /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/updateWishlistItem/fetchMutation/then/dispatch */
-            () => dispatch(updateItemOptions(options))
+        const { wishlistItems = [], wishlistId = '' } = options;
+
+        return fetchMutation(WishlistQuery.updateProductsInWishlist(wishlistId, wishlistItems)).then(
+            /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/updateWishlistItem/fetchMutation/then */
+            () => {
+                this._syncWishlistWithBE(dispatch);
+            }
         );
     }
 

@@ -60,7 +60,7 @@ export class ProductGalleryContainer extends PureComponent {
     __construct(props) {
         super.__construct(props);
 
-        const { product: { id } } = props;
+        const { product: { id } = {} } = props;
 
         this.state = {
             activeImage: this.getBaseImage(),

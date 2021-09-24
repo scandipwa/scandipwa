@@ -56,7 +56,11 @@ export class CartPage extends PureComponent {
             onCartItemLoading
         } = this.props;
 
-        if (!items || items.length < 1) {
+        if (!items) {
+            return <Loader isLoading />;
+        }
+
+        if (items.length < 1) {
             return (
                 <p block="CartPage" elem="Empty">{ __('There are no products in cart.') }</p>
             );

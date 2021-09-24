@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 
-import { IN_STOCK, OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { IN_STOCK, OUT_OF_STOCK } from 'Component/Product/Stock.config';
 
 // eslint-disable-next-line import/prefer-default-export
 export const StockStatusType = PropTypes.oneOf([

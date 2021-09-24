@@ -13,10 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CartIcon from 'Component/CartIcon';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { MixType } from 'Type/Common';
 import { LayoutType } from 'Type/Layout';
-import { ProductType } from 'Type/ProductList';
 
 import './AddToCart.style';
 
@@ -27,40 +25,20 @@ import './AddToCart.style';
  */
 export class AddToCart extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool,
-        product: ProductType,
-        mix: MixType,
-        buttonClick: PropTypes.func.isRequired,
-        layout: LayoutType,
-        isWithIcon: PropTypes.bool,
-        disabled: PropTypes.bool
+        addProductToCart: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool.isRequired,
+        isAdding: PropTypes.bool.isRequired,
+
+        // Customization
+        isIconEnabled: PropTypes.bool.isRequired,
+        mix: MixType.isRequired,
+        layout: LayoutType.isRequired
     };
-
-    static defaultProps = {
-        product: {},
-        mix: {},
-        isLoading: false,
-        layout: GRID_LAYOUT,
-        isWithIcon: false,
-        disabled: false
-    };
-
-    renderPlaceholder() {
-        const { isLoading, mix } = this.props;
-
-        return (
-            <div
-              block="AddToCart"
-              mods={ { isLoading, isPlaceholder: true } }
-              mix={ mix }
-            />
-        );
-    }
 
     renderCartIcon() {
-        const { isWithIcon } = this.props;
+        const { isIconEnabled } = this.props;
 
-        if (!isWithIcon) {
+        if (!isIconEnabled) {
             return null;
         }
 
@@ -70,27 +48,22 @@ export class AddToCart extends PureComponent {
     render() {
         const {
             mix,
-            product: { type_id },
-            isLoading,
-            buttonClick,
+            addProductToCart,
             layout,
-            disabled
+            isDisabled,
+            isAdding
         } = this.props;
-
-        if (!type_id) {
-            this.renderPlaceholder();
-        }
 
         return (
             <button
-              onClick={ buttonClick }
+              onClick={ addProductToCart }
               block="Button AddToCart"
               mix={ mix }
-              mods={ { isLoading, layout } }
-              disabled={ isLoading || disabled }
+              mods={ { layout } }
+              disabled={ isDisabled || isAdding }
             >
                 { this.renderCartIcon() }
-                <span>{ isLoading ? __('Adding...') : __('Add to cart') }</span>
+                <span>{ isAdding ? __('Adding...') : __('Add to cart') }</span>
             </button>
         );
     }

@@ -15,8 +15,9 @@ import { PureComponent } from 'react';
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutPayments from 'Component/CheckoutPayments';
 import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
-import Field from 'Component/Field';
-import Form from 'Component/Form';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import Form from 'Component/PureForm/Form';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { addressType } from 'Type/Account';
@@ -104,13 +105,17 @@ export class CheckoutBilling extends PureComponent {
               elem="TermsAndConditions"
             >
                 <Field
-                  id="termsAndConditions"
-                  name="termsAndConditions"
-                  type="checkbox"
-                  value="termsAndConditions"
+                  type={ FIELD_TYPE.checkbox }
+                  attr={ {
+                      id: 'termsAndConditions',
+                      name: 'termsAndConditions',
+                      value: 'termsAndConditions',
+                      checked: isTermsAndConditionsAccepted
+                  } }
+                  events={ {
+                      onChange: this.setTACAccepted
+                  } }
                   mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
-                  checked={ isTermsAndConditionsAccepted }
-                  onChange={ this.setTACAccepted }
                 />
                 <label
                   block="CheckoutBilling"
@@ -234,13 +239,18 @@ export class CheckoutBilling extends PureComponent {
 
         return (
             <Field
-              id="sameAsShippingAddress"
-              name="sameAsShippingAddress"
-              type="checkbox"
-              label={ __('My billing and shipping are the same') }
-              value="sameAsShippingAddress"
+              type={ FIELD_TYPE.checkbox }
+              attr={ {
+                  id: 'sameAsShippingAddress',
+                  name: 'sameAsShippingAddress',
+                  value: 'sameAsShippingAddress',
+                  checked: isSameAsShipping && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE
+              } }
+              events={ {
+                  onChange: onSameAsShippingChange
+              } }
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
-              checked={ isSameAsShipping && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE }
+              label={ __('My billing and shipping are the same') }
               onChange={ onSameAsShippingChange }
               isDisabled={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
             />
@@ -300,10 +310,12 @@ export class CheckoutBilling extends PureComponent {
 
         return (
             <Form
+              attr={ {
+                  id: BILLING_STEP
+              } }
               mix={ { block: 'CheckoutBilling' } }
-              id={ BILLING_STEP }
-              onSubmitError={ onBillingError }
-              onSubmitSuccess={ onBillingSuccess }
+              onError={ onBillingError }
+              onSubmit={ onBillingSuccess }
             >
                 { this.renderAddresses() }
                 { this.renderPayments() }

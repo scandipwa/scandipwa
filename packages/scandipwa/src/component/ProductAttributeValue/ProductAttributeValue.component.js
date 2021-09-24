@@ -14,8 +14,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field';
 import Html from 'Component/Html';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
 import { getBooleanLabel } from 'Util/Product';
@@ -265,23 +266,31 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
+    getCheckboxLabel = (label, subLabel) => (
+        <>
+            { label }
+            <strong>{ `(${subLabel})` }</strong>
+        </>
+    );
+
     renderDropdown(value, subLabel) {
         const { isSelected } = this.props;
 
         return (
             <Field
-              id={ value }
-              name={ value }
-              type="checkbox"
-              label={ value }
-              value={ value }
-              subLabel={ subLabel }
+              type={ FIELD_TYPE.checkbox }
+              attr={ {
+                  id: value,
+                  name: value,
+                  defaultChecked: isSelected,
+                  checked: isSelected
+              } }
+              label={ this.getCheckboxLabel(value, subLabel) }
               mix={ {
                   block: 'ProductAttributeValue',
                   elem: 'Text',
                   mods: { isSelected }
               } }
-              checked={ isSelected }
             />
         );
     }

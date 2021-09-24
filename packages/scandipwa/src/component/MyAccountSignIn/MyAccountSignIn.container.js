@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
+import transformToNameValuePair from 'Util/Form/Transform';
 import { getErrorMessage } from 'Util/Request';
 
 import MyAccountSignIn from './MyAccountSignIn.component';
@@ -62,8 +63,7 @@ export class MyAccountSignInContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onSignInSuccess: this.onSignInSuccess.bind(this),
-        onSignInAttempt: this.onSignInAttempt.bind(this)
+        onSignInSuccess: this.onSignInSuccess.bind(this)
     };
 
     componentDidUpdate(prevProps) {
@@ -99,7 +99,7 @@ export class MyAccountSignInContainer extends PureComponent {
         };
     };
 
-    async onSignInSuccess(fields) {
+    async onSignInSuccess(form, fields) {
         const {
             signIn,
             showNotification,
@@ -107,19 +107,17 @@ export class MyAccountSignInContainer extends PureComponent {
             setLoadingState
         } = this.props;
 
+        setLoadingState(true);
+        const fieldPairs = transformToNameValuePair(fields);
+
         try {
-            await signIn(fields);
+            await signIn(fieldPairs);
             onSignIn();
         } catch (error) {
             showNotification('error', getErrorMessage(error));
         }
 
         setLoadingState(false);
-    }
-
-    onSignInAttempt() {
-        const { setLoadingState } = this.props;
-        setLoadingState(true);
     }
 
     render() {

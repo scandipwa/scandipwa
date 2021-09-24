@@ -18,8 +18,8 @@ import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.com
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    currency_code: state.ConfigReducer.currencyData.current_currency_code,
-    show_product_count: state.ConfigReducer.layered_navigation_product_count_enabled,
+    currencyCode: state.ConfigReducer.currencyData.current_currency_code,
+    showProductCount: state.ConfigReducer.layered_navigation_product_count_enabled,
     childrenCategories: state.CategoryReducer.category.children
 });
 
@@ -35,14 +35,14 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
 
     containerProps() {
         const {
-            currency_code,
-            show_product_count,
+            currencyCode,
+            showProductCount,
             childrenCategories
         } = this.props;
 
         return {
-            currency_code,
-            show_product_count,
+            currencyCode,
+            showProductCount,
             childrenCategories,
             ...super.containerProps()
         };

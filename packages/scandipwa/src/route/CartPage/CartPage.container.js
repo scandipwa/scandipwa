@@ -170,13 +170,13 @@ export class CartPageContainer extends PureComponent {
             showOverlay,
             showNotification,
             device,
-            totals
+            totals: { items = [] } = {}
         } = this.props;
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        if (this.hasOutOfStockProductsInCartItems(totals.items)) {
+        if (this.hasOutOfStockProductsInCartItems(items)) {
             return;
         }
 

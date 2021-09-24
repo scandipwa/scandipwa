@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import ProductDownloadableLinks from './ProductDownloadableLinks.component';
@@ -30,7 +30,6 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         isRequired: PropTypes.bool,
         links: PropTypes.array,
         setLinkedDownloadables: PropTypes.func.isRequired,
-        setLinkedDownloadablesPrice: PropTypes.func.isRequired,
         isOpenInNewTab: PropTypes.bool.isRequired
     };
 
@@ -47,8 +46,10 @@ export class ProductDownloadableLinksContainer extends PureComponent {
 
     containerFunctions = {
         setSelectedCheckboxValues: this.setSelectedCheckboxValues.bind(this),
-        getIsLinkSelected: this.getIsLinkSelected.bind(this)
+        setRef: this.setRef.bind(this)
     };
+
+    formRef = createRef();
 
     componentDidMount() {
         const { links } = this.props;
@@ -78,6 +79,12 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         }
     }
 
+    setRef(elem) {
+        if (elem && this.formRef !== elem) {
+            this.formRef = elem;
+        }
+    }
+
     containerProps() {
         const {
             isOpenInNewTab,
@@ -102,51 +109,19 @@ export class ProductDownloadableLinksContainer extends PureComponent {
     }
 
     updateSelectedOptionsArray() {
-        const { setLinkedDownloadables, setLinkedDownloadablesPrice } = this.props;
+        const { setLinkedDownloadables } = this.props;
         const { selectedLinks } = this.state;
 
         setLinkedDownloadables(selectedLinks);
-
-        const price = this.getTotalPrice();
-        setLinkedDownloadablesPrice(price);
     }
 
-    getTotalPrice() {
+    setSelectedCheckboxValues() {
         const { selectedLinks } = this.state;
-        const { links } = this.props;
+        const checkboxes = this.formRef.querySelectorAll('input[type="checkbox"]:checked');
+        const newSelectedLinks = Array.from(checkboxes, ({ value }) => value);
 
-        return selectedLinks.reduce(
-            (base, { link_id }) => {
-                const link = links.find(({ id }) => id === link_id);
-
-                return base + link.price;
-            },
-            0
-        );
-    }
-
-    setSelectedCheckboxValues(option_id, option_value) {
-        const { selectedLinks } = this.state;
-
-        const optionIdInt = parseInt(option_id, 10);
-
-        if (option_value) {
-            if (selectedLinks.some(({ link_id: id }) => optionIdInt === id)) {
-                return;
-            }
-            this.setState({
-                selectedLinks: [...selectedLinks, { link_id: optionIdInt }]
-            });
-
-            return;
-        }
-
-        if (selectedLinks.some(({ link_id: id }) => optionIdInt === id)) {
-            this.setState({
-                selectedLinks: selectedLinks.filter(
-                    (link) => link.link_id !== optionIdInt
-                )
-            });
+        if (selectedLinks !== newSelectedLinks) {
+            this.setState({ selectedLinks: newSelectedLinks });
         }
     }
 

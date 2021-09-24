@@ -12,9 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import Popup from 'Component/Popup';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
 import { storeType } from 'Type/Checkout';
 import { countriesType } from 'Type/Config';
@@ -67,23 +68,30 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         return (
             <>
                 <Field
-                  type="select"
-                  id="country_id"
-                  name="country_id"
-                  value={ selectedCountryId }
-                  onChange={ handleChangeCountry }
-                  selectOptions={ countries.map(({ id, label }) => ({ id, label, value: id })) }
+                  type={ FIELD_TYPE.select }
+                  attr={ {
+                      id: 'country_id',
+                      name: 'country_id',
+                      defaultValue: selectedCountryId
+                  } }
+                  events={ {
+                      onChange: handleChangeCountry
+                  } }
+                  options={ countries.map(({ id, label }) => ({ id, label, value: id })) }
                   mix={ { block: 'StoreInPickUpPopup', elem: 'Input' } }
                 />
                 <Field
-                  type="text"
-                  id="store-finder"
-                  name="store-finder"
-                  placeholder={ __('City or Postcode') }
-                  value={ storeSearchCriteria }
-                  onChange={ setStoreSearchCriteria }
+                  type={ FIELD_TYPE.text }
+                  attr={ {
+                      id: 'store-finder',
+                      name: 'store-finder',
+                      defaultValue: storeSearchCriteria,
+                      placeholder: __('City or Postcode')
+                  } }
+                  events={ {
+                      onChange: setStoreSearchCriteria
+                  } }
                   mix={ { block: 'StoreInPickUpPopup', elem: 'Input' } }
-                  validateSeparately
                 />
                 { this.renderInfo() }
             </>

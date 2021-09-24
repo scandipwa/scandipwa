@@ -9,8 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const CHECKBOX = 'checkbox';
-export const DROPDOWN = 'dropdown';
-export const TEXT_FIELD = 'field';
-export const AREA_FIELD = 'area';
-export const FILE = 'file';
+export const CONFIG_FIELD_TYPE = {
+    text: 'field',
+    radio: 'radio',
+    checkbox: 'checkbox',
+    textarea: 'area',
+    select: 'drop_down',
+    file: 'file',
+    date: 'date',
+    dateTime: 'date_time',
+    time: 'time',
+    multi: 'multiple'
+};
+
+export default CONFIG_FIELD_TYPE;

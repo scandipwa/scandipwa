@@ -129,14 +129,20 @@ export class Slider extends PureComponent {
             this.setStyleVariablesOnMount();
         }, 0);
 
-        const sliderHeight = `${ sliderChildren[0].offsetHeight }px`;
+        const target = sliderChildren[0].querySelector('img') || sliderChildren[0];
 
-        sliderChildren[0].onload = () => {
+        target.onload = () => {
+            const height = target.offsetHeight;
+            const sliderHeight = `${ height }px`;
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         };
 
         setTimeout(() => {
-            CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
+            const height = target.offsetHeight;
+            const sliderHeight = `${ height }px`;
+            if (height !== 0) {
+                CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
+            }
         }, ANIMATION_DURATION);
 
         setTimeout(() => CSS.setVariable(sliderRef, 'sliderOpacity', '1'), 0);

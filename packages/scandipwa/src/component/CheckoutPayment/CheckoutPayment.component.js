@@ -12,7 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field/Field.container';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { paymentMethodType } from 'Type/Checkout';
 
 import './CheckoutPayment.style';
@@ -55,11 +56,13 @@ export class CheckoutPayment extends PureComponent {
                   onClick={ this.onClick }
                 >
                     <Field
-                      type="checkbox"
-                      id={ `option-${ title }` }
-                      name={ `option-${ title }` }
-                      checked={ isSelected }
-                      disabled
+                      type={ FIELD_TYPE.checkbox }
+                      attr={ {
+                          id: `option-${ title }`,
+                          name: `option-${ title }`,
+                          defaultChecked: isSelected
+                      } }
+                      isDisabled
                     />
                     { title }
                 </button>

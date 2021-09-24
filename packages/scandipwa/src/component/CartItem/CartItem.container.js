@@ -13,12 +13,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CartItemType } from 'Type/MiniCart';
-import { CONFIGURABLE } from 'Util/Product';
-import { getProductInStock } from 'Util/Product/Extract';
+import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';
 
@@ -31,7 +30,8 @@ export const CartDispatcher = import(
 
 /** @namespace Component/CartItem/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
+    cartId: state.CartReducer.id
 });
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
@@ -63,6 +63,7 @@ export class CartItemContainer extends PureComponent {
         isCartOverlay: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         isEditing: PropTypes.bool,
+        cartId: PropTypes.string,
         onCartItemLoading: PropTypes.func,
         showLoader: PropTypes.bool
     };
@@ -71,6 +72,7 @@ export class CartItemContainer extends PureComponent {
         updateCrossSellsOnRemove: false,
         isCartOverlay: false,
         isEditing: false,
+        cartId: '',
         onCartItemLoading: null,
         showLoader: true
     };
@@ -114,18 +116,6 @@ export class CartItemContainer extends PureComponent {
             : product.variants[variantIndex];
     }
 
-    getMinQuantity() {
-        const { stock_item: { min_sale_qty } = {} } = this.getCurrentProduct() || {};
-
-        return min_sale_qty || 1;
-    }
-
-    getMaxQuantity() {
-        const { stock_item: { max_sale_qty } = {} } = this.getCurrentProduct() || {};
-
-        return max_sale_qty || DEFAULT_MAX_PRODUCTS;
-    }
-
     setStateNotLoading() {
         this.notifyAboutLoadingStateChange(false);
         this.setState({ isLoading: false });
@@ -152,8 +142,8 @@ export class CartItemContainer extends PureComponent {
             showLoader,
             linkTo: this._getProductLinkTo(),
             thumbnail: this._getProductThumbnail(),
-            minSaleQuantity: this.getMinQuantity(),
-            maxSaleQuantity: this.getMaxQuantity(),
+            minSaleQuantity: getMinQuantity(this.getCurrentProduct()),
+            maxSaleQuantity: getMaxQuantity(this.getCurrentProduct()),
             isProductInStock: this.productIsInStock(),
             optionsLabels: this.getConfigurableOptionsLabels(),
             isMobileLayout: this.getIsMobileLayout()
@@ -167,8 +157,17 @@ export class CartItemContainer extends PureComponent {
      */
     handleChangeQuantity(quantity) {
         this.setState({ isLoading: true }, () => {
-            const { changeItemQty, item: { item_id, sku } } = this.props;
-            this.hideLoaderAfterPromise(changeItemQty({ item_id, quantity, sku }));
+            const { changeItemQty, item: { item_id, qty = 1 }, cartId } = this.props;
+            if (quantity === qty) {
+                this.setState({ isLoading: false });
+                return;
+            }
+
+            this.hideLoaderAfterPromise(changeItemQty({
+                uid: btoa(item_id),
+                quantity,
+                cartId
+            }));
         });
         this.notifyAboutLoadingStateChange(true);
     }
@@ -276,7 +275,7 @@ export class CartItemContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        if (type_id !== CONFIGURABLE) {
+        if (type_id !== PRODUCT_TYPE.configurable) {
             return {
                 pathname: url,
                 state: { product }

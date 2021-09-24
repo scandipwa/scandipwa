@@ -12,9 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field';
-import Form from 'Component/Form';
 import Loader from 'Component/Loader';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import Form from 'Component/PureForm/Form';
 import ReviewStar from 'Component/ReviewStar';
 import { RatingItemsType } from 'Type/Rating';
 
@@ -29,24 +30,15 @@ export class ProductReviewForm extends PureComponent {
     static propTypes = {
         reviewRatings: RatingItemsType.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        onReviewSubmitAttempt: PropTypes.func.isRequired,
         onReviewSubmitSuccess: PropTypes.func.isRequired,
         onReviewError: PropTypes.func.isRequired,
         onStarRatingClick: PropTypes.func.isRequired,
-        handleNicknameChange: PropTypes.func.isRequired,
-        handleSummaryChange: PropTypes.func.isRequired,
-        handleDetailChange: PropTypes.func.isRequired,
         ratingData: PropTypes.objectOf(PropTypes.string).isRequired,
         reviewData: PropTypes.shape({
             nickname: PropTypes.string,
             summary: PropTypes.string,
             detail: PropTypes.string
-        }).isRequired,
-        isSubmitted: PropTypes.bool
-    };
-
-    static defaultProps = {
-        isSubmitted: false
+        }).isRequired
     };
 
     ratingTitleMap = {
@@ -109,13 +101,7 @@ export class ProductReviewForm extends PureComponent {
     }
 
     renderReviewFormContent() {
-        const {
-            handleNicknameChange,
-            handleSummaryChange,
-            handleDetailChange,
-            reviewData,
-            isSubmitted
-        } = this.props;
+        const { reviewData } = this.props;
 
         const {
             nickname = '',
@@ -136,37 +122,49 @@ export class ProductReviewForm extends PureComponent {
                   elem="Content"
                 >
                     <Field
-                      type="text"
+                      type={ FIELD_TYPE.text }
                       label={ __('Nickname') }
-                      id="nickname"
-                      name="nickname"
-                      validation={ ['notEmpty'] }
-                      value={ nickname }
-                      onChange={ handleNicknameChange }
-                      validateSeparately
-                      isSubmitted={ isSubmitted }
+                      attr={ {
+                          id: 'nickname',
+                          name: 'nickname',
+                          defaultValue: nickname,
+                          placeholder: __('Your nickname')
+                      } }
+                      validateOn={ ['onChange'] }
+                      validationRule={ {
+                          isRequired: true
+                      } }
+                      addRequiredTag
                     />
                     <Field
-                      type="text"
+                      type={ FIELD_TYPE.text }
                       label={ __('Summary') }
-                      id="title"
-                      name="title"
-                      validation={ ['notEmpty'] }
-                      value={ summary }
-                      onChange={ handleSummaryChange }
-                      isSubmitted={ isSubmitted }
-                      validateSeparately
+                      attr={ {
+                          id: 'title',
+                          name: 'title',
+                          defaultValue: summary,
+                          placeholder: __('Summary...')
+                      } }
+                      validateOn={ ['onChange'] }
+                      validationRule={ {
+                          isRequired: true
+                      } }
+                      addRequiredTag
                     />
                     <Field
-                      type="textarea"
+                      type={ FIELD_TYPE.textarea }
                       label={ __('Review') }
-                      id="detail"
-                      name="detail"
-                      validation={ ['notEmpty'] }
-                      value={ detail }
-                      onChange={ handleDetailChange }
-                      isSubmitted={ isSubmitted }
-                      validateSeparately
+                      attr={ {
+                          id: 'detail',
+                          name: 'detail',
+                          defaultValue: detail,
+                          placeholder: __('Review...')
+                      } }
+                      validateOn={ ['onChange'] }
+                      validationRule={ {
+                          isRequired: true
+                      } }
+                      addRequiredTag
                     />
                 </div>
             </div>
@@ -176,7 +174,6 @@ export class ProductReviewForm extends PureComponent {
     render() {
         const {
             isLoading,
-            onReviewSubmitAttempt,
             onReviewSubmitSuccess,
             onReviewError
         } = this.props;
@@ -185,9 +182,8 @@ export class ProductReviewForm extends PureComponent {
             <Form
               key="product-review"
               mix={ { block: 'ProductReviewForm' } }
-              onSubmit={ onReviewSubmitAttempt }
-              onSubmitSuccess={ onReviewSubmitSuccess }
-              onSubmitError={ onReviewError }
+              onSubmit={ onReviewSubmitSuccess }
+              onError={ onReviewError }
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderReviewFormContent() }

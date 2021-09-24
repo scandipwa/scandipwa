@@ -142,6 +142,10 @@ export class CartOverlayContainer extends PureComponent {
         window.scrollTo({ top: 0 });
     }
 
+    hasOutOfStockProductsInCartItems = (items) => (
+        items.some(({ product }) => !getProductInStock(product))
+    );
+
     handleCheckoutClick(e) {
         const {
             guest_checkout,

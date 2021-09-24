@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -15,6 +16,26 @@ import { Field } from 'Util/Query';
 
 /** @namespace Query/Cart/Query */
 export class CartQuery {
+    //#region MUTATIONS
+    getAddProductToCartMutation(cartId, cartItems) {
+        return new Field('addProductsToCart')
+            .addArgument('cartId', 'String!', cartId)
+            .addArgument('cartItems', '[CartItemInput!]!', cartItems)
+            .addField(this._getUserErrorsField());
+    }
+
+    getUpdateCartItemsMutation(input) {
+        return new Field('updateCartItems')
+            .addArgument('input', 'UpdateCartItemsInput', input)
+            .addField(this._getCartUpdateField());
+    }
+
+    getCreateEmptyCartMutation() {
+        return new Field('createEmptyCart');
+    }
+    //#endregion
+
+    //#region QUERIES
     getCartQuery(quoteId) {
         const query = new Field('getCartForCustomer')
             .addFieldList(this._getCartTotalsFields())
@@ -26,21 +47,25 @@ export class CartQuery {
 
         return query;
     }
+    //#endregion
 
-    getCreateEmptyCartMutation() {
-        return new Field('createEmptyCart');
+    //#region ERROR
+    _getUserErrorsFields() {
+        return [
+            'message',
+            'code'
+        ];
     }
 
-    getSaveCartItemMutation(product, quoteId) {
-        const mutation = new Field('saveCartItem')
-            .addArgument('cartItem', 'CartItemInput!', product)
-            .addFieldList(this._getSaveCartItemFields(quoteId));
+    _getUserErrorsField() {
+        return new Field('user_errors')
+            .addFieldList(this._getUserErrorsFields());
+    }
+    //#endregion
 
-        if (!isSignedIn()) {
-            mutation.addArgument('guestCartId', 'String', quoteId);
-        }
-
-        return mutation;
+    _getCartUpdateField() {
+        return new Field('cart')
+            .addField('id');
     }
 
     getRemoveCartItemMutation(item_id, quoteId) {
@@ -105,6 +130,7 @@ export class CartQuery {
 
     _getCartTotalsFields() {
         return [
+            'id',
             'subtotal',
             'subtotal_incl_tax',
             'items_qty',

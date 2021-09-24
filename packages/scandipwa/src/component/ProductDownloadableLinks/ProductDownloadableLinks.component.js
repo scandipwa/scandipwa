@@ -8,12 +8,15 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ExpandableContent from 'Component/ExpandableContent';
-import Field from 'Component/Field';
 import Link from 'Component/Link';
+import FieldContainer from 'Component/PureForm/Field';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
+import FieldGroup from 'Component/PureForm/FieldGroup';
 import { formatPrice } from 'Util/Price';
 
 import './ProductDownloadableLinks.style';
@@ -26,14 +29,12 @@ export class ProductDownloadableLinks extends PureComponent {
         links: PropTypes.array,
         title: PropTypes.string.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
-        isOpenInNewTab: PropTypes.bool.isRequired,
-        selectedLinks: PropTypes.array,
-        getIsLinkSelected: PropTypes.func.isRequired
+        setRef: PropTypes.func.isRequired,
+        isOpenInNewTab: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        links: [],
-        selectedLinks: []
+        links: []
     };
 
     renderLabel(link) {
@@ -57,28 +58,25 @@ export class ProductDownloadableLinks extends PureComponent {
     }
 
     renderCheckBox(link) {
-        const {
-            setSelectedCheckboxValues,
-            isRequired,
-            getIsLinkSelected
-        } = this.props;
-        const { id } = link;
+        const { setSelectedCheckboxValues, isRequired } = this.props;
+        const { uid } = link;
 
         if (!isRequired) {
             return null;
         }
 
-        const isLinkSelected = getIsLinkSelected(id);
-
         return (
-            <Field
-              type="checkbox"
-              key={ id }
-              id={ `link-${ id }` }
-              name={ `link-${ id }` }
-              value={ id }
-              onChange={ setSelectedCheckboxValues }
-              checked={ isLinkSelected }
+            <FieldContainer
+              type={ FIELD_TYPE.checkbox }
+              attr={ {
+                  id: `link-${ uid }`,
+                  value: uid,
+                  name: `link-${ uid }`,
+                  key: { uid }
+              } }
+              events={ {
+                  onChange: setSelectedCheckboxValues
+              } }
             />
         );
     }
@@ -115,40 +113,30 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderRequired(isRequired) {
-        const { selectedLinks } = this.props;
-
-        if (isRequired !== true || selectedLinks.length > 0) {
-            return null;
-        }
-
-        return (
-            <div
-              block="ProductDownloadableLink"
-              elem="Required"
-            >
-                { __('This field is required!') }
-            </div>
-        );
-    }
-
     renderLinks() {
-        const { links, isRequired } = this.props;
+        const { links, isRequired, setRef } = this.props;
 
         return (
-            <>
-                { links.map(this.renderDownloadableLink.bind(this)) }
-                { this.renderRequired(isRequired) }
-            </>
+            <FieldGroup
+              validationRule={ {
+                  isRequired
+              } }
+              validateOn={ ['onBlur'] }
+            >
+                <div ref={ (elem) => setRef(elem) }>
+                    { links.map(this.renderDownloadableLink.bind(this)) }
+                </div>
+            </FieldGroup>
         );
     }
 
     renderTitle() {
-        const { title } = this.props;
+        const { title, isRequired } = this.props;
 
         return (
             <p block="ProductDownloadableLinks" elem="Title">
                 { title }
+                { isRequired && <strong block="ProductDownloadableLinks" elem="Required"> *</strong> }
             </p>
         );
     }

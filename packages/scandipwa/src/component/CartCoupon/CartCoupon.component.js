@@ -12,9 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field';
-import { VALIDATION_STATUS } from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import Form from 'Component/PureForm/Form';
 import { MixType } from 'Type/Common';
 
 import './CartCoupon.style';
@@ -38,9 +39,11 @@ export class CartCoupon extends PureComponent {
         enteredCouponCode: ''
     };
 
-    handleCouponCodeChange = (enteredCouponCode) => {
+    handleCouponCodeChange = (event, field) => {
+        const { value = '' } = field;
+
         this.setState({
-            enteredCouponCode
+            enteredCouponCode: value
         });
     };
 
@@ -63,9 +66,8 @@ export class CartCoupon extends PureComponent {
         });
     };
 
-    handleFormSubmit = (e) => {
+    handleFormSubmit = () => {
         const { couponCode } = this.props;
-        e.preventDefault();
 
         if (couponCode) {
             this.handleRemoveCoupon();
@@ -78,25 +80,32 @@ export class CartCoupon extends PureComponent {
 
     renderApplyCoupon() {
         const { enteredCouponCode } = this.state;
-        const { skip, success } = VALIDATION_STATUS;
 
         return (
             <>
-                <Field
-                  type="text"
-                  id="couponCode"
-                  name="couponCode"
-                  value={ enteredCouponCode }
-                  placeholder={ __('Your discount code') }
-                  onChange={ this.handleCouponCodeChange }
-                  customValidationStatus={ !enteredCouponCode ? skip : success }
-                  mix={ { block: 'CartCoupon', elem: 'Input' } }
-                  aria-label={ __('Your discount code') }
-                />
+                <div block="CartCoupon" elem="Input">
+                    <Field
+                      type={ FIELD_TYPE.text }
+                      attr={ {
+                          id: 'couponCode',
+                          name: 'couponCode',
+                          defaultValue: enteredCouponCode,
+                          placeholder: __('Your discount code'),
+                          'aria-label': __('Your discount code')
+                      } }
+                      events={ {
+                          onChange: this.handleCouponCodeChange
+                      } }
+                      validationRule={ {
+                          isRequired: true
+                      } }
+                      validateOn={ ['onChange'] }
+                    />
+                </div>
                 <button
                   block="CartCoupon"
                   elem="Button"
-                  type="button"
+                  type={ FIELD_TYPE.button }
                   mods={ { isHollow: true } }
                   disabled={ !enteredCouponCode }
                   onClick={ this.handleApplyCoupon }
@@ -147,14 +156,22 @@ export class CartCoupon extends PureComponent {
         const { isLoading, couponCode, mix } = this.props;
 
         return (
-            <form block="CartCoupon" onSubmit={ this.handleFormSubmit } mix={ mix }>
-                <Loader isLoading={ isLoading } />
-                { this.renderTitle() }
-                { (couponCode
-                    ? this.renderRemoveCoupon()
-                    : this.renderApplyCoupon()
-                ) }
-            </form>
+            <div
+              block="CartCoupon"
+              mix={ mix }
+            >
+                <Form
+                  onSubmit={ this.handleFormSubmit }
+                  returnAsObject
+                >
+                    <Loader isLoading={ isLoading } />
+                    { this.renderTitle() }
+                    { (couponCode
+                        ? this.renderRemoveCoupon()
+                        : this.renderApplyCoupon()
+                    ) }
+                </Form>
+            </div>
         );
     }
 }

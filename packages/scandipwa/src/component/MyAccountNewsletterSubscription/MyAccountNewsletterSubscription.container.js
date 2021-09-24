@@ -50,6 +50,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
     };
 
     containerFunctions = {
+        onError: this.onError,
         setSubscriptionStatus: this.setSubscriptionStatus.bind(this),
         onCustomerSave: this.onCustomerSave.bind(this)
     };
@@ -100,7 +101,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         });
     };
 
-    onCustomerSave(customer) {
+    onCustomerSave(form, fields) {
         const {
             updateCustomer,
             customer: {
@@ -108,6 +109,13 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
             }
         } = this.props;
 
+        const {
+            isSubscribed: {
+                value = false
+            }
+        } = fields;
+
+        const customer = { is_subscribed: value };
         const mutation = MyAccountQuery.getUpdateInformationMutation(customer);
 
         if (!isSignedIn()) {

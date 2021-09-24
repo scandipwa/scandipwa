@@ -78,8 +78,9 @@
 
     .CartIcon {
         margin-inline-end: 16px;
-        padding-block-end: 20px;
         width: 20px;
+        height: 100%;
+        padding-block-end: 0;
         fill: var(--color-white);
 
         &:hover {

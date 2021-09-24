@@ -67,7 +67,7 @@ export class ProductConfigurableAttributes extends PureComponent {
               key={ attribute_value }
               attribute={ attribute }
               isSelected={ isSelected(attribute) }
-              isAvailable={ inStock && getIsConfigurableAttributeAvailable(attribute) }
+              isAvailable={ getIsConfigurableAttributeAvailable(attribute) && inStock }
               onClick={ handleOptionClick }
               getLink={ getLink }
               showProductAttributeAsLink={ showProductAttributeAsLink }

@@ -150,8 +150,8 @@ export class Footer extends Component {
         );
     }
 
-    renderNewsletterSubscriptionBlock(item, i) {
-        return <NewsletterSubscription key={ i } />;
+    renderNewsletterSubscriptionBlock() {
+        return <NewsletterSubscription />;
     }
 
     renderCmsBlockWrapper() {

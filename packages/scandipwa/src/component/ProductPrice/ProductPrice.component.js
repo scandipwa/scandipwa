@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { MixType } from 'Type/Common';
-import { PriceType } from 'Type/ProductList';
 
 import './ProductPrice.style';
 
@@ -25,31 +25,49 @@ import './ProductPrice.style';
  */
 export class ProductPrice extends PureComponent {
     static propTypes = {
-        isSchemaRequired: PropTypes.bool,
-        roundedRegularPrice: PropTypes.string,
+        price: PropTypes.object,
+        priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
+        originalPrice: PropTypes.object,
+        tierPrice: PropTypes.string,
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
-        formattedFinalPrice: PropTypes.string,
-        formattedSubPrice: PropTypes.string,
-        variantsCount: PropTypes.number,
-        price: PriceType,
+        isPreview: PropTypes.bool,
+        isSchemaRequired: PropTypes.bool,
         label: PropTypes.string,
-        price_tiers: PropTypes.array,
+        variantsCount: PropTypes.number,
         mix: MixType
     };
 
     static defaultProps = {
-        isSchemaRequired: false,
-        roundedRegularPrice: '0',
+        price: {},
+        priceType: PRODUCT_TYPE.simple,
+        originalPrice: {},
         priceCurrency: 'USD',
         discountPercentage: 0,
-        formattedFinalPrice: '0',
-        formattedSubPrice: null,
+        isPreview: false,
+        isSchemaRequired: false,
         variantsCount: 0,
         mix: {},
-        price: {},
-        label: '',
-        price_tiers: []
+        tierPrice: '',
+        label: ''
+    };
+
+    pricePreviewRenderMap = {
+        [PRODUCT_TYPE.simple]: this.renderCustomisablePrice.bind(this),
+        [PRODUCT_TYPE.virtual]: this.renderCustomisablePrice.bind(this),
+        [PRODUCT_TYPE.bundle]: this.renderBundlePrice.bind(this),
+        [PRODUCT_TYPE.grouped]: this.renderGroupedPrice.bind(this),
+        [PRODUCT_TYPE.downloadable]: this.renderCustomisablePrice.bind(this),
+        [PRODUCT_TYPE.configurable]: this.renderCustomisablePrice.bind(this)
+    };
+
+    priceLabelTypeMap = {
+        [PRODUCT_TYPE.simple]: __('Starting at'),
+        [PRODUCT_TYPE.virtual]: __('Starting at'),
+        [PRODUCT_TYPE.bundle]: __('Starting at'),
+        [PRODUCT_TYPE.grouped]: __('Starting at'),
+        [PRODUCT_TYPE.downloadable]: __('Starting at'),
+        [PRODUCT_TYPE.configurable]: __('As Low as')
     };
 
     renderPlaceholder() {
@@ -69,23 +87,32 @@ export class ProductPrice extends PureComponent {
     }
 
     getCurrentPriceSchema() {
-        const { isSchemaRequired, variantsCount, price } = this.props;
-        const content_price = price.minimum_price.final_price
-            ? price.minimum_price.final_price.value : price.minimum_price.regular_price.value;
+        const {
+            isSchemaRequired,
+            variantsCount,
+            price: {
+                finalPrice: {
+                    value: contentPrice = 0
+                } = {}
+            } = {}
+        } = this.props;
 
         if (variantsCount > 1) {
-            return isSchemaRequired ? { itemProp: 'lowPrice', content: content_price } : {};
+            return isSchemaRequired ? { itemProp: 'lowPrice', content: contentPrice } : {};
         }
 
-        return isSchemaRequired ? { itemProp: 'price', content: content_price } : {};
+        return isSchemaRequired ? { itemProp: 'price', content: contentPrice } : {};
     }
 
-    renderCurrentPrice() {
+    renderPrice(price, label) {
         const {
-            discountPercentage,
-            formattedFinalPrice,
-            label
+            discountPercentage
         } = this.props;
+
+        const {
+            value: priceValue,
+            valueFormatted: priceFormatted = 0
+        } = price;
 
         const { itemProp = null, content = null } = this.getCurrentPriceSchema();
 
@@ -94,7 +121,7 @@ export class ProductPrice extends PureComponent {
 
         // force unequal comparison - unsure of resulting type
         // eslint-disable-next-line
-        if (formattedFinalPrice == 0) {
+        if (priceValue == 0) {
             return null;
         }
 
@@ -107,7 +134,7 @@ export class ProductPrice extends PureComponent {
                   block="ProductPrice"
                   elem="PriceValue"
                 >
-                    { formattedFinalPrice }
+                    { priceFormatted }
                 </span>
             </PriceSemanticElementName>
         );
@@ -121,10 +148,13 @@ export class ProductPrice extends PureComponent {
         return <span mix={ { block: 'ProductPrice', elem: 'PriceBadge' } }>{ label }</span>;
     }
 
-    renderSubPrice() {
-        const { formattedSubPrice } = this.props;
+    renderSubPrice(price) {
+        const {
+            value: priceExclTax = 0,
+            valueFormatted: priceExclTaxFormatted = 0
+        } = price;
 
-        if (!formattedSubPrice) {
+        if (!priceExclTax) {
             return null;
         }
 
@@ -134,22 +164,25 @@ export class ProductPrice extends PureComponent {
               block="ProductPrice"
               elem="SubPrice"
             >
-                { __('Excl. tax: %s', formattedSubPrice) }
+                { __('Excl. tax: %s', priceExclTaxFormatted) }
             </span>
         );
     }
 
     renderOldPrice() {
         const {
+            price: {
+                originalPrice: {
+                    value: originalPriceValue,
+                    valueFormatted: originalPriceFormatted
+                } = {}
+            } = {},
             discountPercentage,
-            roundedRegularPrice,
             isSchemaRequired,
-            variantsCount,
-            price_tiers,
-            label
+            variantsCount
         } = this.props;
 
-        if (discountPercentage === 0 || roundedRegularPrice === 0 || price_tiers.length || label) {
+        if (discountPercentage === 0 || originalPriceValue === 0) {
             return null;
         }
 
@@ -160,7 +193,7 @@ export class ProductPrice extends PureComponent {
               aria-label={ __('Old product price') }
               itemProp={ isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : null }
             >
-                { roundedRegularPrice }
+                { originalPriceFormatted }
             </del>
         );
     }
@@ -179,34 +212,140 @@ export class ProductPrice extends PureComponent {
         return null;
     }
 
+    renderBundlePrice() {
+        const {
+            originalPrice: {
+                minFinalPrice = {},
+                minFinalPrice: { value: minValue = 0 } = {},
+                maxFinalPrice = {},
+                maxFinalPrice: { value: maxValue = 0 } = {},
+                minFinalPriceExclTax = {},
+                maxFinalPriceExclTax = {}
+            }
+        } = this.props;
+
+        if (minValue === maxValue) {
+            return this.renderDefaultPrice();
+        }
+
+        return (
+            <>
+                { this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax, __('from')) }
+                { this.renderPriceWithTax(maxFinalPrice, maxFinalPriceExclTax, __('to')) }
+            </>
+        );
+    }
+
+    renderGroupedPrice() {
+        const {
+            originalPrice: {
+                minFinalPrice = {},
+                minFinalPriceExclTax = {}
+            },
+            priceType
+        } = this.props;
+        const { [priceType]: label } = this.priceLabelTypeMap;
+
+        return (
+            <>
+                { this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax, label) }
+            </>
+        );
+    }
+
+    renderCustomisablePrice() {
+        const {
+            originalPrice: {
+                minFinalPrice = {},
+                minFinalPriceExclTax = {},
+                minFinalPrice: { value: minValue = 0 } = {},
+                maxFinalPrice: { value: maxValue = 0 } = {}
+            },
+            priceType
+        } = this.props;
+
+        if (minValue === maxValue) {
+            return this.renderDefaultPrice();
+        }
+
+        const { [priceType]: label } = this.priceLabelTypeMap;
+
+        return (
+            <>
+                { this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax, label) }
+            </>
+        );
+    }
+
+    renderDefaultPrice(defaultLabel = null) {
+        const {
+            price: { finalPrice = {}, finalPriceExclTax = {} } = {},
+            label
+        } = this.props;
+
+        return (
+            <>
+                { this.renderOldPrice() }
+                { this.renderPriceWithTax(finalPrice, finalPriceExclTax, defaultLabel || label) }
+                { this.renderSchema() }
+            </>
+        );
+    }
+
+    renderPriceWithTax(basePrice, texPrice, label) {
+        return (
+            <>
+                { this.renderPrice(basePrice, label) }
+                { this.renderSubPrice(texPrice) }
+            </>
+        );
+    }
+
+    renderTierPrice() {
+        const { tierPrice } = this.props;
+        if (!tierPrice) {
+            return null;
+        }
+
+        return (
+            <p block="ProductPrice" elem="TierPrice">
+                { __('As low as') }
+                <strong>{ ` ${tierPrice}` }</strong>
+            </p>
+        );
+    }
+
     render() {
         const {
             price: {
-                minimum_price: {
-                    final_price,
-                    regular_price
+                finalPrice,
+                originalPrice,
+                finalPrice: {
+                    value: finalPriceValue = 0
                 } = {}
             } = {},
+            priceType,
+            isPreview,
             discountPercentage,
-            formattedFinalPrice,
             mix
         } = this.props;
 
-        if (!final_price || !regular_price) {
+        if (!finalPrice || !originalPrice) {
             return this.renderPlaceholder();
         }
+
+        const { [priceType]: renderer } = this.pricePreviewRenderMap;
 
         return (
             <p
               block="ProductPrice"
-              mods={ { hasDiscount: discountPercentage !== 0 } }
+              mods={ { hasDiscount: discountPercentage !== 0, isPreview } }
               mix={ mix }
-              aria-label={ `Product price: ${formattedFinalPrice}` }
+              aria-label={ `Product price: ${finalPriceValue}` }
             >
-                { this.renderOldPrice() }
-                { this.renderCurrentPrice() }
-                { this.renderSubPrice() }
-                { this.renderSchema() }
+                { isPreview && renderer && renderer() }
+                { (!isPreview || !renderer) && this.renderDefaultPrice() }
+                { this.renderTierPrice() }
             </p>
         );
     }

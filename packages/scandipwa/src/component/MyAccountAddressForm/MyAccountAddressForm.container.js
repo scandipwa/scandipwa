@@ -11,12 +11,14 @@
 
 import { connect } from 'react-redux';
 
+import transformCountriesToOptions from 'Util/Store/Transform';
+
 import MyAccountAddressForm from './MyAccountAddressForm.component';
 
 /** @namespace Component/MyAccountAddressForm/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    countries: state.ConfigReducer.countries,
-    default_country: state.ConfigReducer.default_country,
+    countries: transformCountriesToOptions(state.ConfigReducer.countries || []),
+    defaultCountry: state.ConfigReducer.default_country,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
     showVatNumber: state.ConfigReducer.show_vat_number_on_storefront,
     regionDisplayAll: state.ConfigReducer.region_display_all

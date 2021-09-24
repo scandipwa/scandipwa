@@ -14,9 +14,9 @@ import { PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
-import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
+import Form from 'Component/PureForm/Form';
 import StoreInPickUpComponent from 'Component/StoreInPickUp';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { addressType } from 'Type/Account';
@@ -205,10 +205,11 @@ export class CheckoutShipping extends PureComponent {
 
         return (
             <Form
-              id={ SHIPPING_STEP }
-              mix={ { block: 'CheckoutShipping' } }
-              onSubmitError={ onShippingError }
-              onSubmitSuccess={ onShippingSuccess }
+              attr={ {
+                  id: SHIPPING_STEP
+              } }
+              onSubmit={ onShippingSuccess }
+              onError={ onShippingError }
             >
                 { this.renderContent() }
             </Form>

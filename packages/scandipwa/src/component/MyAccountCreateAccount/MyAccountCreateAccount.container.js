@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { signInStateType } from 'Type/Account';
+import transformToNameValuePair from 'Util/Form/Transform';
 
 import MyAccountCreateAccount from './MyAccountCreateAccount.component';
 import { SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
@@ -63,14 +64,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onCreateAccountSuccess: this.onCreateAccountSuccess.bind(this),
-        onCreateAccountAttempt: this.onCreateAccountAttempt.bind(this),
-        onSubscriptionChange: this.onSubscriptionChange.bind(this)
-    };
-
-    state = {
-        isSubscriptionSelected: false,
-        isSubmitted: false
+        onSuccess: this.onSuccess.bind(this),
+        onError: this.onError.bind(this)
     };
 
     containerProps() {
@@ -81,45 +76,27 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             newsletterActive
         } = this.props;
 
-        const { isSubscriptionSelected, isSubmitted } = this.state;
-
         return {
             state,
             handleSignIn,
             showTaxVatNumber,
             newsletterActive,
-            vatNumberValidation: this.getVatNumberValidation(),
-            isSubscriptionSelected,
-            isSubmitted
+            vatNumberRequired: this.getVatNumberRequired()
         };
     }
 
-    onSubscriptionChange() {
-        this.setState((state) => ({ isSubscriptionSelected: !state.isSubscriptionSelected }));
-    }
-
-    getVatNumberValidation() {
+    getVatNumberRequired() {
         const { showTaxVatNumber } = this.props;
 
-        if (showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED) {
-            return ['notEmpty'];
-        }
-
-        return [];
+        return showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED;
     }
 
-    onCreateAccountAttempt(_, invalidFields) {
-        const { showNotification, setLoadingState } = this.props;
-
-        if (invalidFields) {
-            showNotification('info', __('Incorrect data! Please resolve all field validation errors.'));
-        }
-
-        setLoadingState(!invalidFields);
-        this.setState({ isSubmitted: true });
+    onError() {
+        const { showNotification } = this.props;
+        showNotification('info', __('Incorrect data! Please resolve all field validation errors.'));
     }
 
-    async onCreateAccountSuccess(fields) {
+    async onSuccess(form, fields) {
         const {
             createAccount,
             onSignIn,
@@ -138,7 +115,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             lastname,
             is_subscribed,
             taxvat
-        } = fields;
+        } = transformToNameValuePair(fields);
 
         const customerData = {
             customer: {
@@ -156,7 +133,10 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         }
 
         try {
-            const code = await createAccount(customerData);
+            const code = await createAccount(customerData).catch(
+                /** @namespace Component/MyAccountCreateAccount/Container/MyAccountCreateAccountContainer/onSuccess/code/createAccount/catch */
+                () => process.exit(1)
+            );
 
             // if user needs confirmation
             if (code === 2) {
@@ -169,7 +149,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
                         __('The email confirmation link has been sent to your email. Please confirm your account to proceed.')
                     );
                 }
-            } else {
+            } else if (code !== false) {
                 onSignIn();
             }
         } finally {

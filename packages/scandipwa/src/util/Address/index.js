@@ -12,33 +12,80 @@
 /** @namespace Util/Address/Index/trimCustomerAddress */
 export const trimCustomerAddress = (customerAddress) => {
     const {
-        city,
+        default_shipping = false,
+        default_billing = false,
+        company = null,
+        city = '',
+        country_id = 1,
+        firstname = '',
+        lastname = '',
+        middlename = '',
+        postcode = '',
+        street = [''],
+        telephone = '',
+        region: {
+            region_code = null,
+            region = null,
+            region_id = 1
+        } = {},
+        prefix = '',
+        suffix = '',
+        vat_id = null
+    } = customerAddress;
+
+    return {
         company,
+        default_shipping,
+        default_billing,
+        city,
         country_id,
-        email,
         firstname,
         lastname,
-        method,
+        middlename,
+        postcode,
+        street,
+        telephone,
+        region: {
+            region_code,
+            region,
+            region_id
+        },
+        prefix,
+        suffix,
+        vat_id
+    };
+};
+
+/** @namespace Util/Address/Index/trimCheckoutAddress */
+export const trimCheckoutAddress = (customerAddress) => {
+    const {
+        company = null,
+        city = '',
+        country_id = 1,
+        firstname = '',
+        lastname = '',
+        postcode = '',
+        street = [''],
+        telephone = '',
+        region = '',
+        region_id = 1,
+        region_code = null,
+        vat_id = null
+    } = customerAddress;
+
+    return {
+        company,
+        city,
+        country_id,
+        firstname,
+        lastname,
         postcode,
         street,
         telephone,
         region,
+        region_id,
+        region_code,
         vat_id
-    } = customerAddress;
-
-    return {
-        city,
-        company,
-        country_id,
-        email,
-        firstname,
-        lastname,
-        method,
-        postcode,
-        street,
-        telephone,
-        vat_id,
-        ...region
     };
 };
 
