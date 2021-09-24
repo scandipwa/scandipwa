@@ -10,39 +10,38 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 import Field from 'Component/Field';
 import StoreItems from 'Component/StoreItems';
-import { DeviceType } from 'Type/Device';
+import { SimpleComponent } from 'Util/SimpleComponent';
 
 import './StoreSwitcher.style';
 
+export interface StoreSwitcherProps {
+    storeList: Record<string, string>[]
+    isOpened: boolean
+    currentStoreCode: string
+    handleStoreSelect: (storeCode: string) => void
+    onStoreSwitcherClick: () => void
+    onStoreSwitcherOutsideClick: () => void
+    storeLabel: string
+    isMobile: boolean
+}
+
 /** @namespace Component/StoreSwitcher/Component */
-export class StoreSwitcher extends PureComponent {
+export class StoreSwitcherComponent extends SimpleComponent<StoreSwitcherProps> {
     static propTypes = {
-        storeList: PropTypes.arrayOf(
-            PropTypes.objectOf(
-                PropTypes.string
-            )
-        ).isRequired,
-        isOpened: PropTypes.bool.isRequired,
-        currentStoreCode: PropTypes.string.isRequired,
-        handleStoreSelect: PropTypes.func.isRequired,
-        onStoreSwitcherClick: PropTypes.func.isRequired,
-        onStoreSwitcherOutsideClick: PropTypes.func.isRequired,
-        storeLabel: PropTypes.string,
-        device: DeviceType.isRequired
+        storeLabel: PropTypes.string
     };
 
     static defaultProps = {
         storeLabel: ''
     };
 
-    renderStoreList = (item) => {
+    renderStoreList = (item: Record<string, string>): JSX.Element => {
         const { handleStoreSelect } = this.props;
         const { value } = item;
 
@@ -55,7 +54,7 @@ export class StoreSwitcher extends PureComponent {
         );
     };
 
-    renderMobileStoreSwitcher() {
+    renderMobileStoreSwitcher(): JSX.Element {
         const {
             storeList,
             handleStoreSelect,
@@ -76,7 +75,7 @@ export class StoreSwitcher extends PureComponent {
         );
     }
 
-    renderDesktopStoreSwitcher() {
+    renderDesktopStoreSwitcher(): JSX.Element {
         const {
             storeList,
             onStoreSwitcherOutsideClick,
@@ -108,19 +107,17 @@ export class StoreSwitcher extends PureComponent {
         );
     }
 
-    render() {
-        const { storeList, device } = this.props;
+    render(): JSX.Element | null {
+        const { storeList, isMobile } = this.props;
 
         if (storeList.length <= 1) {
             return null;
         }
 
-        if (device.isMobile) {
+        if (isMobile) {
             return this.renderMobileStoreSwitcher();
         }
 
         return this.renderDesktopStoreSwitcher();
     }
 }
-
-export default StoreSwitcher;

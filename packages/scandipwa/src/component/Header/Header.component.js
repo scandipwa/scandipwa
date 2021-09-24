@@ -32,7 +32,7 @@ import OfflineNotice from 'Component/OfflineNotice';
 import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
 import ShareIcon from 'Component/ShareIcon';
-import StoreSwitcher from 'Component/StoreSwitcher';
+import { StoreSwitcher } from 'Component/StoreSwitcher';
 import UserIcon from 'Component/UserIcon';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
