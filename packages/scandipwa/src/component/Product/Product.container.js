@@ -142,7 +142,10 @@ export class ProductContainer extends PureComponent {
         const { product, product: { type_id: typeId } } = props;
 
         if (typeId === PRODUCT_TYPE.grouped && typeof quantity !== 'object') {
-            return { quantity: {} };
+            const { items } = product;
+            const quantity = items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
+
+            return { quantity };
         }
 
         const maxQty = getMaxQuantity(selectedProduct || product);
