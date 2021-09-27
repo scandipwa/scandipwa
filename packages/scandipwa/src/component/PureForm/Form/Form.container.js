@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common';
 import getFieldsData from 'Util/Form/Extract';
 import { validateGroup } from 'Util/Validator';
 
@@ -42,7 +42,9 @@ export class FormContainer extends PureComponent {
 
         // Labels
         label: PropTypes.string,
-        subLabel: PropTypes.string
+        subLabel: PropTypes.string,
+
+        mix: MixType
     };
 
     static defaultProps = {
@@ -56,7 +58,8 @@ export class FormContainer extends PureComponent {
         onSubmit: null,
         onError: null,
         children: [],
-        returnAsObject: false
+        returnAsObject: false,
+        mix: {}
     };
 
     state = {
@@ -160,7 +163,8 @@ export class FormContainer extends PureComponent {
             attr,
             showErrorAsLabel,
             label,
-            subLabel
+            subLabel,
+            mix
         } = this.props;
         const { validate, onSubmit } = this.containerFunctions;
         const { validationResponse } = this.state;
@@ -184,6 +188,7 @@ export class FormContainer extends PureComponent {
             showErrorAsLabel,
             label,
             subLabel,
+            mix,
             events: {
                 ...newEvents,
                 onSubmit

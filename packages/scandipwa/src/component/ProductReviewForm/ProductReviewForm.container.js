@@ -114,7 +114,8 @@ export class ProductReviewFormContainer extends PureComponent {
             goToPreviousHeaderState
         } = this.props;
 
-        const { ratingData: rating_data, isLoading } = this.state;
+        this.setState({ isLoading: true });
+        const { ratingData: rating_data } = this.state;
 
         const {
             nickname,
@@ -124,7 +125,7 @@ export class ProductReviewFormContainer extends PureComponent {
 
         const { sku: product_sku } = product;
 
-        if (Object.keys(rating_data).length && isLoading) {
+        if (Object.keys(rating_data).length) {
             addReview({
                 nickname,
                 title,
@@ -146,6 +147,12 @@ export class ProductReviewFormContainer extends PureComponent {
 
                         return;
                     }
+
+                    this.setState({ isLoading: false });
+                },
+                /** @namespace Component/ProductReviewForm/Container/ProductReviewFormContainer/_onReviewSubmitSuccess/addReview/then/catch */
+                () => {
+                    showNotification('info', __('Incorrect data! Please check review fields.'));
 
                     this.setState({ isLoading: false });
                 }
