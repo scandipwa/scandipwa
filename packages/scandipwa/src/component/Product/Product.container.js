@@ -137,28 +137,36 @@ export class ProductContainer extends PureComponent {
         return value || [];
     }
 
-    setDefaultQuantity(props = null, state = null) {
-        const { quantity, selectedProduct } = state || this.state;
-        const { product, product: { type_id: typeId } } = props || this.props;
+    static getDerivedStateFromProps(props, state) {
+        const quantity = ProductContainer.getDefaultQuantity(props, state);
+        if (quantity) {
+            return { quantity };
+        }
+
+        return null;
+    }
+
+    // eslint-disable-next-line react/sort-comp
+    static getDefaultQuantity(props, state) {
+        const { quantity, selectedProduct } = state;
+        const { product, product: { type_id: typeId } } = props;
 
         if (typeId === PRODUCT_TYPE.grouped && typeof quantity !== 'object') {
             const { items = [] } = product;
-            const quantity = items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
-
-            this.setState({ quantity });
-            return;
+            return items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
         }
 
         const minQty = getMinQuantity(selectedProduct || product);
         if (quantity < minQty) {
-            this.setState({ quantity: minQty });
-            return;
+            return minQty;
         }
 
         const maxQty = getMaxQuantity(selectedProduct || product);
         if (quantity > maxQty) {
-            this.setState({ quantity: maxQty });
+            return maxQty;
         }
+
+        return null;
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -181,7 +189,11 @@ export class ProductContainer extends PureComponent {
         const { product: prevProduct } = prevProps;
 
         if (product !== prevProduct) {
-            this.setDefaultQuantity();
+            const quantity = ProductContainer.getDefaultQuantity(this.props, this.state);
+            if (quantity) {
+                // eslint-disable-next-line react/no-did-update-set-state
+                this.setState({ quantity });
+            }
         }
     }
 
