@@ -176,6 +176,11 @@ export class CartItemContainer extends PureComponent {
      * @return {void}
      */
     handleRemoveItem(e) {
+        this.handleRemoveItemOnSwipe(e);
+        this.notifyAboutLoadingStateChange(true);
+    }
+
+    handleRemoveItemOnSwipe = (e) => {
         if (e) {
             e.preventDefault();
         }
@@ -183,8 +188,7 @@ export class CartItemContainer extends PureComponent {
         this.setState({ isLoading: true }, () => {
             this.hideLoaderAfterPromise(this.removeProductAndUpdateCrossSell());
         });
-        this.notifyAboutLoadingStateChange(true);
-    }
+    };
 
     getIsMobileLayout() {
         // "isMobileLayout" check is required to render mobile content in some additional cases
@@ -390,7 +394,7 @@ export class CartItemContainer extends PureComponent {
         return (
             <SwipeToDelete
               renderRightSideContent={ this.renderRightSideContent }
-              onAheadOfDragItemRemoveThreshold={ this.containerFunctions.handleRemoveItem }
+              onAheadOfDragItemRemoveThreshold={ this.handleRemoveItemOnSwipe }
               isLoading={ isLoading }
             >
                 <CartItem
