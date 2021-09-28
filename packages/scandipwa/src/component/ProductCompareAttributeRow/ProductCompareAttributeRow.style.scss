@@ -55,6 +55,10 @@
         text-align: justify;
         overflow: hidden;
 
+        img {
+            height: auto;
+        }
+
         &:last-child {
             padding-inline-end: 0;
         }

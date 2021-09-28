@@ -47,6 +47,14 @@
         background: none;
     }
 
+    &-WidthFull {
+        width: 100%;
+    }
+
+    &-HeightFull {
+        height: 100%;
+    }
+
     &-Content {
         position: absolute;
         height: max-content;
