@@ -135,6 +135,8 @@ main {
 }
 
 main {
+    --border-width: 1px;
+
     min-height: calc(100vh - var(--header-height) - var(--breadcrumbs-height));
     max-width: 100vw;
 
@@ -143,7 +145,7 @@ main {
                 100vh
                 - var(--header-total-height)
                 - var(--navigation-tabs-height)
-                - var(--category-page-miscellaneous-height));
+                + 2 * var(--border-width));
         margin-block-start: var(--header-total-height);
         margin-block-end: var(--footer-total-height);
     }
