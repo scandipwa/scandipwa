@@ -61,7 +61,7 @@ export const contactForm = () => [
         label: __('What\'s on your mind?'),
         attr: {
             name: 'message',
-            placeholder: __('Message...')
+            placeholder: __('Message')
         },
         addRequiredTag: true,
         validateOn: ['onChange'],
