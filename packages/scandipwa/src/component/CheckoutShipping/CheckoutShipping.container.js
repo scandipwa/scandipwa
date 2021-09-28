@@ -21,7 +21,11 @@ import { updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { addressType, customerType } from 'Type/Account';
 import { shippingMethodsType, shippingMethodType, storeType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-import { trimAddressFields, trimCheckoutAddress, trimCustomerAddress } from 'Util/Address';
+import {
+    trimAddressFields,
+    trimCheckoutAddress,
+    trimCheckoutCustomerAddress
+} from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
 import transformToNameValuePair from 'Util/Form/Transform';
 
@@ -270,7 +274,7 @@ export class CheckoutShippingContainer extends PureComponent {
         const address = addresses.find(({ id }) => id === addressId);
 
         return {
-            ...trimCustomerAddress(address),
+            ...trimCheckoutCustomerAddress(address),
             save_in_address_book: false,
             id: addressId
         };
