@@ -138,24 +138,32 @@ export class ProductContainer extends PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
+        const quantity = ProductContainer.getDefaultQuantity(props, state);
+        if (quantity) {
+            return { quantity };
+        }
+
+        return null;
+    }
+
+    // eslint-disable-next-line react/sort-comp
+    static getDefaultQuantity(props, state) {
         const { quantity, selectedProduct } = state;
         const { product, product: { type_id: typeId } } = props;
 
         if (typeId === PRODUCT_TYPE.grouped && typeof quantity !== 'object') {
-            const { items } = product;
-            const quantity = items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
+            const { items = [] } = product;
+            return items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
+        }
 
-            return { quantity };
+        const minQty = getMinQuantity(selectedProduct || product);
+        if (quantity < minQty) {
+            return minQty;
         }
 
         const maxQty = getMaxQuantity(selectedProduct || product);
-        const minQty = getMinQuantity(selectedProduct || product);
-
-        if (quantity < minQty) {
-            return { quantity: minQty };
-        }
         if (quantity > maxQty) {
-            return { quantity: maxQty };
+            return maxQty;
         }
 
         return null;
@@ -175,6 +183,17 @@ export class ProductContainer extends PureComponent {
             || downloadableLinks !== prevDownloadableLinks
         ) {
             this.updateAdjustedPrice();
+        }
+
+        const { product } = this.props;
+        const { product: prevProduct } = prevProps;
+
+        if (product !== prevProduct) {
+            const quantity = ProductContainer.getDefaultQuantity(this.props, this.state);
+            if (quantity) {
+                // eslint-disable-next-line react/no-did-update-set-state
+                this.setState({ quantity });
+            }
         }
     }
 
