@@ -173,7 +173,6 @@ body {
     color: $black;
     scroll-behavior: smooth;
     background-color: #fff;
-    height: calc(100vh - env(safe-area-inset-bottom));
 }
 
 a {
