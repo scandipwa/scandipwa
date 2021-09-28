@@ -177,10 +177,13 @@ export class CategoryPage extends PureComponent {
 
     renderFilterButton() {
         const {
-            isContentFiltered, totalPages, category: { is_anchor }
+            isContentFiltered,
+            totalPages,
+            category: { is_anchor },
+            isSearchPage
         } = this.props;
 
-        if ((!isContentFiltered && totalPages === 0) || !is_anchor) {
+        if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage)) {
             return null;
         }
 
