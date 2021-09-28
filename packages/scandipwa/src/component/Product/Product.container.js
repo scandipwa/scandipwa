@@ -137,28 +137,28 @@ export class ProductContainer extends PureComponent {
         return value || [];
     }
 
-    static getDerivedStateFromProps(props, state) {
-        const { quantity, selectedProduct } = state;
-        const { product, product: { type_id: typeId } } = props;
+    setDefaultQuantity(props = null, state = null) {
+        const { quantity, selectedProduct } = state || this.state;
+        const { product, product: { type_id: typeId } } = props || this.props;
 
         if (typeId === PRODUCT_TYPE.grouped && typeof quantity !== 'object') {
-            const { items } = product;
+            const { items = [] } = product;
             const quantity = items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
 
-            return { quantity };
+            this.setState({ quantity });
+            return;
+        }
+
+        const minQty = getMinQuantity(selectedProduct || product);
+        if (quantity < minQty) {
+            this.setState({ quantity: minQty });
+            return;
         }
 
         const maxQty = getMaxQuantity(selectedProduct || product);
-        const minQty = getMinQuantity(selectedProduct || product);
-
-        if (quantity < minQty) {
-            return { quantity: minQty };
-        }
         if (quantity > maxQty) {
-            return { quantity: maxQty };
+            this.setState({ quantity: maxQty });
         }
-
-        return null;
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -175,6 +175,13 @@ export class ProductContainer extends PureComponent {
             || downloadableLinks !== prevDownloadableLinks
         ) {
             this.updateAdjustedPrice();
+        }
+
+        const { product } = this.props;
+        const { product: prevProduct } = prevProps;
+
+        if (product !== prevProduct) {
+            this.setDefaultQuantity();
         }
     }
 
