@@ -173,6 +173,7 @@ body {
     color: $black;
     scroll-behavior: smooth;
     background-color: #fff;
+    height: calc(100vh - env(safe-area-inset-bottom));
 }
 
 a {
@@ -306,6 +307,11 @@ li {
     list-style-type: none;
     list-style-position: inside;
     margin-block-end: 6px;
+
+    // override default blue color for lists in Safari since iOS15
+     & * {
+         color: var(--color-black);
+     }
 
     ol & {
         counter-increment: list;
