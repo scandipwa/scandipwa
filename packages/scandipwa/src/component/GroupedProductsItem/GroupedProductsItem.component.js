@@ -119,6 +119,7 @@ export class GroupedProductsItem extends PureComponent {
             <Image
               mix={ { block: 'GroupedProductsItem', elem: 'Image' } }
               src={ imageUrl }
+              isPlaceholder={ !imageUrl }
               alt="Product Thumbnail"
             />
         );
