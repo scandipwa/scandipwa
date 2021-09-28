@@ -173,6 +173,13 @@ export class ProductContainer extends PureComponent {
         ) {
             this.updateAdjustedPrice();
         }
+
+        const { product } = this.props;
+        const { product: prevProduct } = prevProps;
+
+        if (product !== prevProduct) {
+            this.updateSelectedValues();
+        }
     }
 
     containerProps() {

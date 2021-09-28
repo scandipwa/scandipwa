@@ -211,7 +211,7 @@ export const getPrice = (
         : basePrice;
     const basePriceExclDiscountExclTax = priceAcc === 'default_final_price'
         ? basePriceExclTax / discountValueRevert
-        : basePrice;
+        : basePriceExclTax;
 
     const priceValue = { value: dynamicPrice ? 0 : basePriceExclDiscount * discountValue, currency };
     const priceValueExclTax = { value: dynamicPrice ? 0 : basePriceExclDiscountExclTax * discountValue, currency };
