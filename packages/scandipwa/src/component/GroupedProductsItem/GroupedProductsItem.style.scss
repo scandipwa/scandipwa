@@ -35,6 +35,16 @@
         margin-block-end: 24px;
     }
 
+    &-OutOfStock{
+        text-align: end;
+        font-size: 14px;
+        font-weight: bold;
+
+        @include mobile {
+            white-space: nowrap;
+        }
+    }
+
     .Field {
         &_type_number {
             margin-block-start: 0;
