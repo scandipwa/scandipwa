@@ -128,6 +128,7 @@ export class ProductContainer extends PureComponent {
 
     setDefaultProductOptions(keyProp, keyState) {
         const { [keyProp]: value } = this.props;
+
         if (Array.isArray(value) && value.length > 0) {
             this.setState({ [keyState]: value || [] }, () => {
                 this.updateAdjustedPrice();
@@ -139,6 +140,7 @@ export class ProductContainer extends PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const quantity = ProductContainer.getDefaultQuantity(props, state);
+
         if (quantity) {
             return { quantity };
         }
@@ -157,11 +159,13 @@ export class ProductContainer extends PureComponent {
         }
 
         const minQty = getMinQuantity(selectedProduct || product);
+
         if (quantity < minQty) {
             return minQty;
         }
 
         const maxQty = getMaxQuantity(selectedProduct || product);
+
         if (quantity > maxQty) {
             return maxQty;
         }
@@ -190,6 +194,7 @@ export class ProductContainer extends PureComponent {
 
         if (product !== prevProduct) {
             const quantity = ProductContainer.getDefaultQuantity(this.props, this.state);
+
             if (quantity) {
                 // eslint-disable-next-line react/no-did-update-set-state
                 this.setState({ quantity });
@@ -238,6 +243,7 @@ export class ProductContainer extends PureComponent {
      */
     updateSelectedValues() {
         const { configFormRef: { current } = {} } = this.props;
+
         if (!current) {
             return;
         }
@@ -298,6 +304,7 @@ export class ProductContainer extends PureComponent {
         this.updateSelectedValues();
 
         const isValid = validateGroup(this.validator);
+
         if (isValid !== true) {
             const { showError } = this.props;
             this.validator.scrollIntoView();

@@ -24,6 +24,7 @@ export const fromCache = (fn, args) => {
 
     // Checks if function is registered into cache
     const { name } = fn;
+
     if (fromCache.cache[name] === undefined) {
         fromCache.cache[name] = {};
     }

@@ -49,6 +49,7 @@ export class TextPlaceholder extends PureComponent {
 
     render() {
         const { content, length, mix } = this.props;
+
         if (content) {
             return content;
         }

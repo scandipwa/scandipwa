@@ -105,6 +105,7 @@ export class ProductPriceContainer extends PureComponent {
 
     getMinTierPrice(currency) {
         const { tierPrices } = this.props;
+
         if (tierPrices && tierPrices.length > 0) {
             const prices = tierPrices.map(({ final_price: { value = 0 } = {} }) => value);
             const minPrice = Math.min(...prices);

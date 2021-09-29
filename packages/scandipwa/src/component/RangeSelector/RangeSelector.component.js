@@ -81,6 +81,7 @@ export class RangeSelector extends PureComponent {
         if (newValue.max > maxValue) {
             newValue.max = maxValue;
         }
+
         if (newValue.min < minValue) {
             newValue.min = minValue;
         }

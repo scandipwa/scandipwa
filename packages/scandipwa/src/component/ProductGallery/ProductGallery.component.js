@@ -160,6 +160,7 @@ export class ProductGallery extends PureComponent {
         } = this.props;
 
         const { media_type } = gallery[activeImage];
+
         if (media_type === VIDEO_TYPE) {
             return;
         }

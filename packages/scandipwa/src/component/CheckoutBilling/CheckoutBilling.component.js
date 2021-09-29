@@ -58,6 +58,7 @@ export class CheckoutBilling extends PureComponent {
 
     componentDidMount() {
         const { termsAreEnabled } = this.props;
+
         if (!termsAreEnabled) {
             this.setState({ isOrderButtonEnabled: true });
         }

@@ -139,6 +139,7 @@ export class MenuContainer extends DataContainer {
 
     closeMenu() {
         const { device } = this.props;
+
         if (device.isMobile) {
             return;
         }

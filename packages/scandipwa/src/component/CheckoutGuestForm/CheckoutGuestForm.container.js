@@ -119,6 +119,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
         setTimeout(
             () => {
                 const field = document.getElementById(GUEST_EMAIL_FIELD_ID);
+
                 if (field) {
                     this.handleEmailInput(field.value);
                 }
@@ -177,6 +178,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
         onEmailChange(email);
 
         const { updateEmail, isEmailAvailable } = this.props;
+
         if (isEmailAvailable) {
             updateEmail(email);
         }
@@ -194,6 +196,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
 
     render() {
         const { isGuestEmailSaved } = this.props;
+
         if (isSignedIn() || isGuestEmailSaved) {
             return null;
         }

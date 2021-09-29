@@ -74,6 +74,7 @@ export class ProductAttributeValue extends PureComponent {
 
         if (attribute_options) {
             const optionValues = attribute_options[value];
+
             if (optionValues) {
                 if (!isProductCountVisible) {
                     const { label } = optionValues;
@@ -122,6 +123,7 @@ export class ProductAttributeValue extends PureComponent {
 
         const labelsArray = attribute_value.split(',').reduce((labels, value) => {
             const { label } = this.getOptionLabel(value);
+
             if (label) {
                 labels.push(label);
             }

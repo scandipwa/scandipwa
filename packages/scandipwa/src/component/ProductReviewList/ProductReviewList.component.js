@@ -40,6 +40,7 @@ export class ProductReviewList extends PureComponent {
     render() {
         const { product } = this.props;
         const hasReviews = product.reviews && Object.keys(product.reviews).length > 0;
+
         if (!hasReviews) {
             return null;
         }

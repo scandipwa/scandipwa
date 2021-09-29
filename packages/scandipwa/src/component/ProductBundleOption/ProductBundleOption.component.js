@@ -60,11 +60,17 @@ export class ProductBundleOption extends PureComponent {
     getError(quantity, stock, min = -1, max = DEFAULT_MAX_PRODUCTS, value) {
         if (!value) {
             return true;
-        } if (quantity < min) {
+        }
+
+        if (quantity < min) {
             return __('Min quantity %s!', min);
-        } if (quantity > max) {
+        }
+
+        if (quantity > max) {
             return __('Max quantity %s!', max);
-        } if (!stock) {
+        }
+
+        if (!stock) {
             return __('Product is out of stock!');
         }
 

@@ -157,6 +157,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     handleScroll = () => {
         const { navigationState: { isVisibleOnScroll } } = this.props;
+
         if (!isVisibleOnScroll) {
             return;
         }

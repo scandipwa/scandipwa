@@ -124,6 +124,7 @@ export const getProductInStock = (product, parentProduct = {}) => {
     }
 
     const { type_id: parentTypeId = false } = parentProduct;
+
     if (parentTypeId === PRODUCT_TYPE.configurable && parentProduct !== product) {
         const {
             stock_item: {
@@ -154,6 +155,7 @@ export const getBundleOption = (uid, options = []) => {
     const uidParts = atob(uid).split('/');
     return options.find(({ uid: linkedUid }) => {
         const linkedUidParts = atob(linkedUid).split('/');
+
         if (uidParts.length !== linkedUidParts.length) {
             return false;
         }
@@ -222,6 +224,7 @@ export const getPrice = (
     Object.keys(adjustedPrice || {}).forEach((key) => {
         const { [key]: group } = adjustedPrice;
         const { inclTax = 0, exclTax = 0, hasDiscountCalculated = false } = group;
+
         if (hasDiscountCalculated) {
             priceValue.value += inclTax;
             priceValueExclTax.value += exclTax;
@@ -368,6 +371,7 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
     //#region CONFIGURABLE
     enteredOptions.forEach(({ uid }) => {
         const option = options.find(({ uid: linkUid }) => linkUid === uid);
+
         if (option) {
             const { value: { priceExclTax = 0, priceInclTax = 0 } = {} } = option;
             adjustedPrice.config.inclTax += priceInclTax;
@@ -378,6 +382,7 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
     selectedOptions.forEach((uid) => {
         options.forEach(({ value = [] }) => {
             const option = Array.isArray(value) && value.find(({ uid: linkedUid }) => linkedUid === uid);
+
             if (option) {
                 const { priceExclTax = 0, priceInclTax = 0 } = option;
                 adjustedPrice.config.inclTax += priceInclTax;

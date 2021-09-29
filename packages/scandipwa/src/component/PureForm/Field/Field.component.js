@@ -211,6 +211,7 @@ export class Field extends PureComponent {
         }
 
         const { errorMessages } = validationResponse;
+
         if (!errorMessages) {
             return null;
         }
@@ -225,6 +226,7 @@ export class Field extends PureComponent {
     // Renders fields label above field
     renderLabel() {
         const { type, label, attr: { name } = {} } = this.props;
+
         if (!label) {
             return null;
         }
@@ -257,6 +259,7 @@ export class Field extends PureComponent {
     // Renders fields label under field
     renderSubLabel() {
         const { subLabel } = this.props;
+
         if (!subLabel) {
             return null;
         }

@@ -303,6 +303,7 @@ export class ProductPrice extends PureComponent {
 
     renderTierPrice() {
         const { tierPrice } = this.props;
+
         if (!tierPrice) {
             return null;
         }

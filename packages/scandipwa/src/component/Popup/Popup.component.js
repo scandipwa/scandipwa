@@ -104,6 +104,7 @@ export class Popup extends Overlay {
     // Same with click outside
     handleClickOutside = () => {
         const { clickOutside } = this.props;
+
         if (!clickOutside) {
             return;
         }
@@ -122,6 +123,7 @@ export class Popup extends Overlay {
 
     renderTitle() {
         const { title } = this.props;
+
         if (!title) {
             return null;
         }
