@@ -32,11 +32,13 @@
         transition: transform 200ms ease-in-out;
         transform: translateY(100%);
         will-change: transform;
+        overflow-y: hidden;
 
         &-Wrapper {
             display: grid;
             grid-template-rows: min-content auto min-content;
             height: 100%;
+            overflow-y: auto;
         }
     }
 
