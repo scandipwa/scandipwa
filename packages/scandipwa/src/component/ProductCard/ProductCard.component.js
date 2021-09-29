@@ -28,7 +28,7 @@ import './ProductCard.style';
 /**
  * Product card
  * @class ProductCard
- * @namespace /Component/ProductCard/Component/ProductCard */
+ * @namespace Component/ProductCard/Component */
 export class ProductCard extends Product {
     static propTypes = {
         ...Product.propTypes,
