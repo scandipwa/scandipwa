@@ -174,6 +174,7 @@ export class FieldContainer extends PureComponent {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ value: currentValue });
         }
+
         if (type === CHECKBOX_TYPE && currChecked !== prevChecked) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ checked: currChecked });
@@ -388,6 +389,7 @@ export class FieldContainer extends PureComponent {
         if (selectValue) {
             event.target.select();
         }
+
         if (onClick) {
             onClick(event);
         }
@@ -405,12 +407,15 @@ export class FieldContainer extends PureComponent {
         switch (type) {
         case NUMBER_TYPE:
             const isValueNaN = Number.isNaN(parseInt(value, 10));
+
             if (min > value || value > max || isValueNaN) {
                 break;
             }
+
             if (onChange && shouldUpdate) {
                 onChange(value);
             }
+
             if (!isControlled) {
                 this.setState({ value });
             }
@@ -430,6 +435,7 @@ export class FieldContainer extends PureComponent {
             if (onChange) {
                 onChange(value);
             }
+
             if (!isControlled) {
                 this.setState({ value });
             }

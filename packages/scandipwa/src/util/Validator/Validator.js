@@ -54,6 +54,7 @@ export const validate = (value, rule) => {
     //#region MATCH
     if (typeof match === 'function') {
         const response = match(value);
+
         if (response !== true) {
             output.errorMessages.push(response === false ? onMatchFail || VALIDATION_MESSAGES.match : response);
         }
@@ -66,10 +67,12 @@ export const validate = (value, rule) => {
     if (range) {
         const { min, max } = range;
         const isNumber = !!VALIDATION_INPUT_TYPE_NUMBER[inputType];
+
         if (isNumber) {
             if (min && +value < min) {
                 output.errorMessages.push(onRangeFailMin || __('Minimal value is %s!', min));
             }
+
             if (max && +value > max) {
                 output.errorMessages.push(onRangeFailMax || __('Maximum value is %s!', max));
             }
@@ -77,6 +80,7 @@ export const validate = (value, rule) => {
             if (min && value.length < min) {
                 output.errorMessages.push(onRangeFailMin || __('Minimum %s characters!', min));
             }
+
             if (max && value.length > max) {
                 output.errorMessages.push(onRangeFailMax || __('Maximum %s characters!', max));
             }
@@ -129,6 +133,7 @@ export const validateGroup = (DOM, rule = null) => {
         const event = new CustomEvent('validate', { detail: data });
         field.dispatchEvent(event);
         const { errors } = data;
+
         if (errors.length > 0) {
             output.errorFields.push(errors);
         }

@@ -230,6 +230,7 @@ export class Menu extends PureComponent {
 
     renderSubMenuDesktop(itemList) {
         const { device } = this.props;
+
         if (device.isMobile) {
             return null;
         }
@@ -241,6 +242,7 @@ export class Menu extends PureComponent {
 
     renderAdditionalInformation(checkMobile = false) {
         const { device } = this.props;
+
         if (checkMobile && !device.isMobile) {
             return null;
         }
@@ -348,6 +350,7 @@ export class Menu extends PureComponent {
 
     renderCurrencySwitcher() {
         const { device } = this.props;
+
         if (!device.isMobile) {
             return null;
         }
@@ -357,6 +360,7 @@ export class Menu extends PureComponent {
 
     renderStoreSwitcher() {
         const { device } = this.props;
+
         if (!device.isMobile) {
             return null;
         }
@@ -366,6 +370,7 @@ export class Menu extends PureComponent {
 
     renderComparePageLink() {
         const { device } = this.props;
+
         if (!device.isMobile) {
             return null;
         }

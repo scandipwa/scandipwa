@@ -158,6 +158,7 @@ export class CartItemContainer extends PureComponent {
     handleChangeQuantity(quantity) {
         this.setState({ isLoading: true }, () => {
             const { changeItemQty, item: { item_id, qty = 1 }, cartId } = this.props;
+
             if (quantity === qty) {
                 this.setState({ isLoading: false });
                 return;
@@ -287,6 +288,7 @@ export class CartItemContainer extends PureComponent {
         }
 
         const variant = this.getProductVariant();
+
         if (!variant) {
             return {};
         }

@@ -274,6 +274,7 @@ export class Product extends PureComponent {
     renderWishlistButton() {
         const { getMagentoProduct } = this.props;
         const magentoProduct = getMagentoProduct();
+
         if (magentoProduct.length === 0) {
             return null;
         }

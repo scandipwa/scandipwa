@@ -137,6 +137,7 @@ export class ProductActionsContainer extends ProductContainer {
         if (!areDetailsLoaded) {
             return placeholder;
         }
+
         if (areDetailsLoaded && !expression) {
             return null;
         }

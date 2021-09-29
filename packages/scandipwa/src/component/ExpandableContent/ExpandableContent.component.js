@@ -35,9 +35,11 @@ export class ExpandableContent extends PureComponent {
         device: DeviceType.isRequired,
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];
+
             if (propValue === null) {
                 return;
             }
+
             if (typeof propValue === 'function') {
                 return;
             }
@@ -111,6 +113,7 @@ export class ExpandableContent extends PureComponent {
 
     toggleExpand = () => {
         const { onClick } = this.props;
+
         if (onClick) {
             onClick();
 
