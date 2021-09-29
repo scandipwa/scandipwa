@@ -149,7 +149,11 @@ export class ProductContainer extends PureComponent {
     // eslint-disable-next-line react/sort-comp
     static getDefaultQuantity(props, state) {
         const { quantity, selectedProduct } = state;
-        const { product, product: { type_id: typeId } } = props;
+        const { product, product: { type_id: typeId } = {} } = props;
+
+        if (!product) {
+            return null;
+        }
 
         if (typeId === PRODUCT_TYPE.grouped && typeof quantity !== 'object') {
             const { items = [] } = product;
@@ -211,7 +215,7 @@ export class ProductContainer extends PureComponent {
             price_range: priceRange = {},
             dynamic_price: dynamicPrice = false,
             type_id: type
-        } = activeProduct;
+        } = activeProduct || {};
 
         const output = {
             isWishlistEnabled,
