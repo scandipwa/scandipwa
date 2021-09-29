@@ -113,16 +113,23 @@ export class ProductCard extends Product {
             return this.renderTextPlaceholder();
         }
 
-        // If bundle is out of stock, show out of stock msg
-        if (!inStock && typeId === PRODUCT_TYPE.bundle) {
-            return (
-                <div
-                  block={ this.className }
-                  elem="PriceWrapper"
-                >
-                    { __('Out of stock') }
-                </div>
-            );
+        if (!inStock) {
+            // If configurable, do not render price
+            if (typeId === PRODUCT_TYPE.configurable) {
+                return null;
+            }
+
+            // If bundle is out of stock, show out of stock msg
+            if (typeId === PRODUCT_TYPE.bundle) {
+                return (
+                    <div
+                      block={ this.className }
+                      elem="PriceWrapper"
+                    >
+                        { __('Out of stock') }
+                    </div>
+                );
+            }
         }
 
         // If product is not a variant.
