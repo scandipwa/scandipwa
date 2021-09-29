@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "npm run storybook",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "sb"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node",
+            "cwd": "${workspaceFolder}/packages/scandipwa"
+        },
+        {
             "name": "Attach to Chrome",
             "port": 9222,
             "request": "attach",
