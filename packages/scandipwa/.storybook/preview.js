@@ -1,4 +1,6 @@
-const { ProviderWrapper } = require('./Provider');
+import React from 'react'
+
+import { ProviderWrapper } from './Provider';
 
 export const decorators = [
     (Story) => (

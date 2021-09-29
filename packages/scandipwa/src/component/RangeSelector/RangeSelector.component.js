@@ -19,7 +19,7 @@ import './RangeSelector.style';
 /**
  * Product Sort
  * @class ProductSort
- * @namespace Component/RangeSelector/Component/rangeSelector
+ * @namespace Component/RangeSelector/Component/RangeSelector
  */
 export class RangeSelector extends PureComponent {
     static propTypes = {
@@ -32,8 +32,8 @@ export class RangeSelector extends PureComponent {
         onChangeComplete: PropTypes.func.isRequired
     };
 
-    __construct() {
-        super.__construct();
+    __construct(props) {
+        super.__construct(props);
 
         this.state = {
             value: false

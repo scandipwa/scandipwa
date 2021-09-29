@@ -1,7 +1,6 @@
-/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 import React from 'react';
 
-import RangeSelector from 'Component/RangeSelector/RangeSelector.component';
+import RangeSelector from 'Component/RangeSelector';
 
 export const RangeSelectorDefault = () => (
   <RangeSelector
