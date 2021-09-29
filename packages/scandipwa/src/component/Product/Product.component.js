@@ -259,8 +259,7 @@ export class Product extends PureComponent {
 
         return (
             <AddToCart
-              block={ this.className }
-              elem="AddToCart"
+              mix={ { block: this.className, elem: 'AddToCart' } }
               addToCart={ addToCart }
               isDisabled={ !inStock }
               isIconEnabled={ false }
