@@ -28,8 +28,7 @@ import './ProductCard.style';
 /**
  * Product card
  * @class ProductCard
- * @namespace Component/ProductCard/Component
- */
+ * @namespace /Component/ProductCard/Component/ProductCard */
 export class ProductCard extends Product {
     static propTypes = {
         ...Product.propTypes,
@@ -289,22 +288,6 @@ export class ProductCard extends Product {
 
             return Object.values(attributeOptions).some(({ swatch_data: swatchData }) => swatchData);
         }));
-    }
-
-    renderConfigurableOptions() {
-        const { product: { type_id: type } = {}, inStock } = this.props;
-        const showLabel = type === PRODUCT_TYPE.configurable
-            && this.requiresConfiguration()
-            && Object.keys(this.getConfigurableAttributes()).length !== 0;
-
-        return (
-            <>
-                { super.renderConfigurableOptions() }
-                { inStock && showLabel && (
-                  <div block="ProductCard" elem="ConfigurationNotice">{ __('Contains hidden fields') }</div>
-                ) }
-            </>
-        );
     }
 
     renderVisibleOnHover() {
