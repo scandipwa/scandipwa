@@ -138,8 +138,9 @@ export class ProductContainer extends PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
+        const { quantityState } = state;
         const quantity = ProductContainer.getDefaultQuantity(props, state);
-        if (quantity) {
+        if (quantity && typeof quantityState !== 'object') {
             return { quantity };
         }
 
@@ -151,7 +152,7 @@ export class ProductContainer extends PureComponent {
         const { quantity, selectedProduct } = state;
         const { product, product: { type_id: typeId } } = props;
 
-        if (typeId === PRODUCT_TYPE.grouped && typeof quantity !== 'object') {
+        if (typeId === PRODUCT_TYPE.grouped) {
             const { items = [] } = product;
             return items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
         }
@@ -191,8 +192,7 @@ export class ProductContainer extends PureComponent {
         if (product !== prevProduct) {
             const quantity = ProductContainer.getDefaultQuantity(this.props, this.state);
             if (quantity) {
-                // eslint-disable-next-line react/no-did-update-set-state
-                this.setState({ quantity });
+                this.setQuantity(quantity);
             }
         }
     }
