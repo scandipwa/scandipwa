@@ -143,7 +143,7 @@ export class ProductReviewForm extends PureComponent {
                           id: 'title',
                           name: 'title',
                           defaultValue: summary,
-                          placeholder: __('Summary...')
+                          placeholder: __('Summary')
                       } }
                       validateOn={ ['onChange'] }
                       validationRule={ {
@@ -158,7 +158,7 @@ export class ProductReviewForm extends PureComponent {
                           id: 'detail',
                           name: 'detail',
                           defaultValue: detail,
-                          placeholder: __('Review...')
+                          placeholder: __('Review')
                       } }
                       validateOn={ ['onChange'] }
                       validationRule={ {

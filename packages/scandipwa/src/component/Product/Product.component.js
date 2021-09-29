@@ -68,7 +68,7 @@ export class Product extends PureComponent {
         configFormRef: createRef()
     };
 
-    className = this.constructor.name.slice(0, -1);
+    className = this.constructor.name.slice(0, -1) || 'Product';
 
     //#region PLACEHOLDERS
     renderTextPlaceholder() {
@@ -259,8 +259,7 @@ export class Product extends PureComponent {
 
         return (
             <AddToCart
-              block={ this.className }
-              elem="AddToCart"
+              mix={ { block: this.className, elem: 'AddToCart' } }
               addToCart={ addToCart }
               isDisabled={ !inStock }
               isIconEnabled={ false }

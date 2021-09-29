@@ -34,9 +34,11 @@ export class GroupedProductList extends PureComponent {
             setQuantity
         } = this.props;
 
+        const sortedItems = items.sort(({ position }, { position: cmpPosition }) => position > cmpPosition);
+
         return (
             <ul>
-                { items.map(({ product, product: { id } = {}, qty }) => (
+                { sortedItems.map(({ product, product: { id } = {}, qty }) => (
                     <GroupedProductsItem
                       key={ id }
                       product={ product }

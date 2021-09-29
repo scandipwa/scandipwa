@@ -83,6 +83,14 @@ export class GroupedProductsItem extends PureComponent {
             itemCount = 0
         } = this.props;
 
+        if (!getProductInStock(product)) {
+            return (
+                <div block="GroupedProductsItem" elem="OutOfStock">
+                    { __('Out of stock') }
+                </div>
+            );
+        }
+
         const min = getMinQuantity(product);
         const max = getMaxQuantity(product);
 
@@ -119,6 +127,7 @@ export class GroupedProductsItem extends PureComponent {
             <Image
               mix={ { block: 'GroupedProductsItem', elem: 'Image' } }
               src={ imageUrl }
+              isPlaceholder={ !imageUrl }
               alt="Product Thumbnail"
             />
         );

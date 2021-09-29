@@ -59,12 +59,15 @@ export class Overlay extends PureComponent {
 
     onVisible() {
         const { onVisible, isStatic, isMobile } = this.props;
+
         if (isStatic) {
             return;
         }
+
         if (isMobile) {
             this.freezeScroll();
         }
+
         this.overlayRef.current.focus();
         onVisible();
     }

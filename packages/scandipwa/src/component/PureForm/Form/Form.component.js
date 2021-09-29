@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common';
 
 /**
  * Form
@@ -34,7 +34,9 @@ export class Form extends PureComponent {
 
         // Labels
         label: PropTypes.string.isRequired,
-        subLabel: PropTypes.string.isRequired
+        subLabel: PropTypes.string.isRequired,
+
+        mix: MixType.isRequired
     };
 
     //#region LABEL/TEXT RENDER
@@ -96,7 +98,8 @@ export class Form extends PureComponent {
             children,
             setRef,
             attr,
-            events
+            events,
+            mix
         } = this.props;
 
         return (
@@ -109,6 +112,7 @@ export class Form extends PureComponent {
                   { ...events }
                   ref={ (elem) => setRef(elem) }
                   block="Form"
+                  mix={ mix }
                   mods={ {
                       isValid: validationResponse === true,
                       hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0

@@ -113,8 +113,15 @@
 }
 
 .scrollDisabled {
-    position: fixed;
     margin-block-start: 0;
     width: 100%;
-    overflow-y: auto;
+
+    @include desktop {
+        position: fixed;
+        overflow-y: auto;
+    }
+
+    @include mobile {
+        overflow-y: hidden;
+    }
 }

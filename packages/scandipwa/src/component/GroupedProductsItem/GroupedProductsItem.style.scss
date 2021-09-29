@@ -11,7 +11,7 @@
 
 .GroupedProductsItem {
     display: grid;
-    align-items: center;
+    align-items: start;
     padding-inline-start: 0;
     margin-block-end: 12px;
     grid-template-columns: 72px 3fr 1fr;
@@ -33,6 +33,16 @@
 
     &:not(:last-of-type){
         margin-block-end: 24px;
+    }
+
+    &-OutOfStock{
+        text-align: end;
+        font-size: 14px;
+        font-weight: bold;
+
+        @include mobile {
+            white-space: nowrap;
+        }
     }
 
     .Field {
