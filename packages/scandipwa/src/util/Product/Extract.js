@@ -185,7 +185,9 @@ export const getPrice = (
     type = PRODUCT_TYPE.simple
 ) => {
     const priceAcc = type === PRODUCT_TYPE.bundle ? 'default_final_price' : 'regular_price';
-    const priceExcTaxAcc = type === PRODUCT_TYPE.bundle ? 'default_final_price_excl_tax' : 'regular_price_excl_tax';
+    const priceExcTaxAcc = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.configurable
+        ? 'default_final_price_excl_tax'
+        : 'regular_price_excl_tax';
 
     const {
         minimum_price: {

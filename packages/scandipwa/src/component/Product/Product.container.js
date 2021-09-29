@@ -199,7 +199,6 @@ export class ProductContainer extends PureComponent {
         } = activeProduct;
 
         const output = {
-            isWishlistEnabled,
             inStock: fromCache(getProductInStock, [activeProduct, product]),
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
@@ -208,6 +207,7 @@ export class ProductContainer extends PureComponent {
         };
 
         return {
+            isWishlistEnabled,
             quantity,
             product,
             configFormRef,
