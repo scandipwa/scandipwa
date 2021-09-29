@@ -167,6 +167,18 @@
             margin-inline: 18px 4px;
             margin-block: auto;
         }
+
+        .Field {
+            &-Wrapper {
+                &_type {
+                    &_number {
+                        @include mobile {
+                            display: flex;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     &-AddToCartWrapper {
