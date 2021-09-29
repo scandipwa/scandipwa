@@ -77,6 +77,8 @@ export class ProductCard extends Product {
 
     imageRef = createRef();
 
+    className = 'ProductCard';
+
     registerSharedElement = () => {
         const { registerSharedElement } = this.props;
         registerSharedElement(this.imageRef);

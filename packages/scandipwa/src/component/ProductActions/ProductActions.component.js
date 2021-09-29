@@ -52,6 +52,8 @@ export class ProductActions extends Product {
         productName: ''
     };
 
+    className = 'ProductActions';
+
     componentDidUpdate(prevProps) {
         const { product: { id: prevId } } = prevProps;
         const { product: { id }, minQuantity, setQuantity } = this.props;
