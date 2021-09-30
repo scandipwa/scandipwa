@@ -147,10 +147,10 @@ export const trimAddressFields = (fields) => {
 /** transforming "street[index]" entries into a single "street" object
     for checkout/billing/myAccoutAddress form fields object */
 /** @namespace Util/Address/Index/setAddressesInFormObject */
-export const setAddressesInFormObject = (fields, numberOfLines) => {
+export const setAddressesInFormObject = (fields, numberOfLines, prefix = 'street') => {
     const addressKeys = new Array(numberOfLines)
         .fill('')
-        .map((_, index) => `street${index}`);
+        .map((_, index) => `${prefix}${index}`);
 
     const addressValues = addressKeys.map((key) => fields[key]);
 
