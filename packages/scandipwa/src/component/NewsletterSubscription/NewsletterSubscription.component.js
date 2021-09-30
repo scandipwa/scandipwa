@@ -11,8 +11,10 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from 'Component/FieldForm/FieldForm.component';
-import Form from 'Component/Form';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
+import FieldForm from 'Component/PureForm/FieldForm';
+
+import newsletterSubscriptionForm from './NewsletterForm.form';
 
 import './NewsletterSubscription.style';
 
@@ -28,21 +30,13 @@ export class NewsletterSubscription extends FieldForm {
     };
 
     get fieldMap() {
-        const fields = {
-            newsletterEmail: {
-                validation: ['notEmpty', 'email'],
-                placeholder: __('Enter your email address'),
-                ariaLabel: __('Email address')
-            }
-        };
-
-        return fields;
+        return newsletterSubscriptionForm();
     }
 
     renderActions() {
         return (
             <button
-              type="submit"
+              type={ FIELD_TYPE.submit }
               block="Button"
               mods={ { isHollow: true } }
               aria-label={ __('Submit') }
@@ -52,20 +46,28 @@ export class NewsletterSubscription extends FieldForm {
         );
     }
 
-    render() {
-        const { isLoading, onFormSubmit } = this.props;
+    renderFormBody() {
+        const { isLoading } = this.props;
 
         return (
+            <div block="FieldForm" elem="Fieldset" mods={ { isLoading } }>
+                { super.renderFormBody() }
+            </div>
+        );
+    }
+
+    getFormProps() {
+        const { onFormSubmit } = this.props;
+
+        return {
+            onSubmit: onFormSubmit
+        };
+    }
+
+    render() {
+        return (
             <div block="NewsletterSubscription">
-                <Form
-                  onSubmitSuccess={ onFormSubmit }
-                  mix={ { block: 'FieldForm' } }
-                >
-                    <div block="FieldForm" elem="Fieldset" mods={ { isLoading } }>
-                        { this.renderFields() }
-                        { this.renderActions() }
-                    </div>
-                </Form>
+                { super.render() }
             </div>
         );
     }

@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-/** @namespace Query/Klarna */
+/** @namespace Query/Klarna/Query */
 export class KlarnaQuery {
     getCreateKlarnaTokenMutation(input) {
         return new Field('createKlarnaToken')

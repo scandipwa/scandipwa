@@ -16,7 +16,6 @@ import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttrib
 import CategoryPagination from 'Component/CategoryPagination';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
-import Field from 'Component/Field';
 import GridIcon from 'Component/GridIcon';
 import HeartIcon from 'Component/HeartIcon';
 import Image from 'Component/Image';
@@ -24,6 +23,8 @@ import ListIcon from 'Component/ListIcon';
 import LockIcon from 'Component/LockIcon';
 import Notification from 'Component/Notification';
 import ProductCard from 'Component/ProductCard';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import SearchItem from 'Component/SearchItem';
 import UserIcon from 'Component/UserIcon';
 import { ProductType } from 'Type/ProductList';
@@ -44,7 +45,7 @@ import {
 
 import './StyleGuidePage.style';
 
-/** @namespace Base/Component/StyleGuide/Component/StyleGuideComponent */
+/** @namespace Route/StyleGuidePage/Component */
 export class StyleGuidePageComponent extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -167,15 +168,22 @@ export class StyleGuidePageComponent extends PureComponent {
         return (
             <>
                 <Field
-                  type="select"
-                  placeholder={ __('Select color') }
-                  name="testSelect"
+                  type={ FIELD_TYPE.select }
+                  attr={ {
+                      name: 'testSelect',
+                      selectPlaceholder: __('Select color')
+                  } }
                 />
                 <Field
-                  type="text"
-                  id="input"
-                  placeholder={ __('Your email address') }
-                  validation={ ['notEmpty'] }
+                  type={ FIELD_TYPE.text }
+                  attr={ {
+                      name: 'testSelect',
+                      selectPlaceholder: __('Your email address')
+                  } }
+                  validationRule={ {
+                      isRequired: true
+                  } }
+                  addRequiredTag
                 />
             </>
         );

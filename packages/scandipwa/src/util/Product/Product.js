@@ -9,16 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { IN_STOCK } from 'Component/Product/Stock.config';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { isSignedIn } from 'Util/Auth';
-import {
-    BUNDLE,
-    CONFIGURABLE,
-    DOWNLOADABLE
-} from 'Util/Product';
 import { getStore } from 'Util/Store';
 
 /**
@@ -35,6 +30,7 @@ export const checkEveryOption = (attributes, options) => Object.keys(options)
         }
 
         const { attribute_value } = attributes[option];
+
         if (typeof options[option] === 'string') {
             return options[option] === attribute_value;
         }
@@ -45,6 +41,7 @@ export const checkEveryOption = (attributes, options) => Object.keys(options)
 /** @namespace Util/Product/getIndexedAttributeOption */
 export const getIndexedAttributeOption = (option) => {
     const { swatch_data: defaultSwatchData } = option;
+
     if (!defaultSwatchData) {
         return option;
     }
@@ -166,35 +163,28 @@ export const getIndexedCustomOption = (option) => {
     if (checkboxValues) {
         const data = Array.isArray(checkboxValues) ? checkboxValues : [checkboxValues];
 
-        return { type: 'checkbox', data, ...otherFields };
+        return { value: data, ...otherFields };
     }
 
     if (dropdownValues) {
         const data = Array.isArray(dropdownValues) ? dropdownValues : [dropdownValues];
 
-        return { type: 'dropdown', data, ...otherFields };
+        return { value: data, ...otherFields };
     }
 
     if (fieldValues) {
-        const data = Array.isArray(fieldValues) ? fieldValues : [fieldValues];
-
-        return { type: 'field', data, ...otherFields };
+        return { value: fieldValues, ...otherFields };
     }
 
     if (areaValues) {
-        const data = Array.isArray(areaValues) ? areaValues : [areaValues];
-
-        return { type: 'area', data, ...otherFields };
+        return { value: areaValues, ...otherFields };
     }
 
     if (fileValues) {
-        const data = Array.isArray(fileValues) ? fileValues : [fileValues];
-
-        return { type: 'file', data, ...otherFields };
+        return { value: fileValues, ...otherFields };
     }
 
-    // skip unsupported types
-    return null;
+    return { value: otherFields, ...otherFields };
 };
 
 /** @namespace Util/Product/getIndexedCustomOptions */
@@ -321,71 +311,6 @@ export const getIndexedParameteredProducts = (products) => Object.entries(produc
         [id]: getIndexedProduct(product)
     }), {});
 
-/** @namespace Util/Product/getExtensionAttributes */
-export const getExtensionAttributes = (product) => {
-    const {
-        configurable_options,
-        configurableVariantIndex,
-        productOptions,
-        productOptionsMulti,
-        downloadableLinks,
-        variants,
-        type_id
-    } = product;
-
-    if (type_id === CONFIGURABLE) {
-        const { attributes = {} } = variants[configurableVariantIndex] || {};
-        const properties = {
-            configurable_item_options: Object.values(configurable_options)
-                .reduce((prev, { attribute_id, attribute_code }) => {
-                    const {
-                        attribute_value,
-                        attribute_id: attrId
-                    } = attributes[attribute_code] || {};
-
-                    if (attribute_value) {
-                        return [
-                            ...prev,
-                            {
-                                option_id: attribute_id || attrId,
-                                option_value: attribute_value
-                            }
-                        ];
-                    }
-
-                    return prev;
-                }, [])
-        };
-
-        if (productOptions) {
-            properties.customizable_options = productOptions;
-        }
-        if (productOptionsMulti) {
-            properties.customizable_options_multi = productOptionsMulti;
-        }
-
-        return properties;
-    }
-
-    if (type_id === BUNDLE && (productOptions || productOptionsMulti)) {
-        return { bundle_options: Array.from(productOptions || []) };
-    }
-
-    const customizableOptions = (productOptions || productOptionsMulti) ? {
-        customizable_options: productOptions || [],
-        customizable_options_multi: productOptionsMulti || []
-    } : {};
-
-    const downloadableOptions = (type_id === DOWNLOADABLE && downloadableLinks) ? {
-        downloadable_product_links: downloadableLinks
-    } : {};
-
-    return {
-        ...customizableOptions,
-        ...downloadableOptions
-    };
-};
-
 /** @namespace Util/Product/sortBySortOrder */
 export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort(
     (a, b) => {
@@ -469,9 +394,12 @@ export const getBooleanLabel = (label, isBoolean = false) => {
 };
 
 /** @namespace Util/Product/filterConfigurableOptions */
-export const filterConfigurableOptions = (options, variants) => (
-    Object.values(options).reduce((acc, option) => {
-        const { attribute_values, attribute_code } = option;
+export const filterConfigurableOptions = (options, variants) => Object.values(options)
+    .reduce((acc, option) => {
+        const {
+            attribute_values,
+            attribute_code
+        } = option;
 
         // show option if it exist as variant for configurable product
         const filteredOptions = attribute_values.reduce((acc, value) => {
@@ -488,11 +416,14 @@ export const filterConfigurableOptions = (options, variants) => (
             return acc;
         }, []);
 
-        acc.push({ ...option, attribute_values: filteredOptions });
-
-        return acc;
-    }, [])
-);
+        return {
+            ...acc,
+            [attribute_code]: {
+                ...option,
+                attribute_values: filteredOptions
+            }
+        };
+    }, {});
 
 /** @namespace Util/Product/validateProductQuantity */
 export const validateProductQuantity = (quantity, stockItem) => {

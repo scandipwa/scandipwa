@@ -49,7 +49,7 @@ export const mapDispatchToProps = (dispatch) => ({
     )
 });
 
-/** @namespace Component/WishlistSharedPage/Container/wishlistSharedContainer */
+/** @namespace Route/WishlistSharedPage/Container */
 export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
     static propTypes = {
         match: MatchType.isRequired,
@@ -88,9 +88,9 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         this.setState({ isLoading: true });
 
         return moveWishlistToCart(sharingCode).then(
-            /** @namespace Component/WishlistSharedPage/Container/moveWishlistToCartThen */
+            /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/moveWishlistToCart/then */
             () => this.showNotificationAndRemoveLoading('Wishlist moved to cart'),
-            /** @namespace Component/WishlistSharedPage/Container/moveWishlistToCartCatch */
+            /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/moveWishlistToCart/then/showError/catch */
             (error) => showError(getErrorMessage(error))
         );
     };
@@ -105,7 +105,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         this.setLoading();
 
         executeGet(query, 'SharedWishlist', FIVE_MINUTES_IN_SECONDS).then(
-            /** @namespace Component/WishlistSharedPage/Container/requestWishlistExecuteGetThen */
+            /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/requestWishlist/executeGet/then */
             ({ wishlist, wishlist: { items_count, creators_name: creatorsName } = {} }) => {
                 if (!items_count) {
                     this.setLoading(false);
@@ -151,7 +151,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
                     isWishlistLoading: false
                 });
             },
-            /** @namespace Component/WishlistSharedPage/Container/executeGetCatch */
+            /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/requestWishlist/executeGet/then/catch */
             (error) => {
                 showError(getErrorMessage(error));
                 showNoMatch();

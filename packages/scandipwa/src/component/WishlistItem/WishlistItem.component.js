@@ -15,11 +15,12 @@ import { PureComponent } from 'react';
 
 import CloseIcon from 'Component/CloseIcon';
 import EditIcon from 'Component/EditIcon';
-import Field from 'Component/Field';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { ProductType } from 'Type/ProductList';
-import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import './WishlistItem.style';
 
@@ -49,8 +50,8 @@ export class WishlistItem extends PureComponent {
     };
 
     optionRenderMap = {
-        [GROUPED]: this.renderGroupedOption.bind(this),
-        [BUNDLE]: this.renderBundleOption.bind(this)
+        [PRODUCT_TYPE.grouped]: this.renderGroupedOption.bind(this),
+        [PRODUCT_TYPE.bundle]: this.renderBundleOption.bind(this)
     };
 
     renderCommentField() {
@@ -61,13 +62,17 @@ export class WishlistItem extends PureComponent {
 
         return (
             <Field
-              id="description"
-              name="description"
-              type="input"
-              value={ description }
+              type={ FIELD_TYPE.text }
+              attr={ {
+                  id: 'description',
+                  name: 'description',
+                  placeholder: __('Add a comment'),
+                  defaultValue: description
+              } }
+              events={ {
+                  onChange: changeDescription
+              } }
               mix={ { block: 'WishlistItem', elem: 'CommentField' } }
-              placeholder={ __('Add a comment') }
-              onChange={ changeDescription }
             />
         );
     }
@@ -80,13 +85,17 @@ export class WishlistItem extends PureComponent {
 
         return (
             <Field
-              id="item_qty"
-              name="item_qty"
-              type="number"
-              min={ 1 }
-              value={ quantity }
+              type={ FIELD_TYPE.number }
+              attr={ {
+                  id: 'item_qty',
+                  name: 'item_qty',
+                  defaultValue: quantity,
+                  min: 1
+              } }
+              events={ {
+                  onChange: changeQuantity
+              } }
               mix={ { block: 'WishlistItem', elem: 'QuantityInput' } }
-              onChange={ changeQuantity }
             />
         );
     }
@@ -154,7 +163,7 @@ export class WishlistItem extends PureComponent {
             product: { url, type_id }
         } = this.props;
 
-        if (type_id !== CONFIGURABLE) {
+        if (type_id !== PRODUCT_TYPE.configurable) {
             return product;
         }
 
@@ -260,11 +269,15 @@ export class WishlistItem extends PureComponent {
         return (
             <div block="WishlistItem" elem="Select" mods={ { isEditingActive } }>
                 <Field
-                  type="checkbox"
-                  id={ `option-${ id }` }
-                  name={ `option-${ id }` }
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onClick={ () => handleSelectIdChange(id) }
+                  type={ FIELD_TYPE.checkbox }
+                  attr={ {
+                      id: `option-${ id }`,
+                      name: `option-${ id }`
+                  } }
+                  events={ {
+                      // eslint-disable-next-line react/jsx-no-bind
+                      onClick: () => handleSelectIdChange(id)
+                  } }
                 />
             </div>
         );
@@ -308,6 +321,7 @@ export class WishlistItem extends PureComponent {
                 <div block="WishlistItem" elem="InformationWrapper">
                     <div block="WishlistItem" elem="RowWrapper">
                         <div block="WishlistItem" elem="NameAndOptions">
+                            { this.renderRating() }
                             { this.renderName() }
                             { this.renderOptions() }
                         </div>
@@ -392,10 +406,15 @@ export class WishlistItem extends PureComponent {
 
     render() {
         const { isLoading, isRemoving } = this.props;
+        const product = this.getWishlistProduct();
+
+        if (!product) {
+            return null;
+        }
 
         return (
             <ProductCard
-              product={ this.getWishlistProduct() }
+              product={ product }
               mix={ { block: 'WishlistItem', elem: 'ProductCard' } }
               isLoading={ isLoading || isRemoving }
               renderContent={ this.renderContent }

@@ -27,7 +27,7 @@ export const getInitialState = () => ({
     isLoading: true
 });
 
-/** @namespace Store/RecentlyViewedProducts/Reducer/recentlyViewedProductsReducer */
+/** @namespace Store/RecentlyViewedProducts/Reducer/RecentlyViewedProductsReducer */
 export const RecentlyViewedProductsReducer = (
     state = getInitialState(),
     action

@@ -28,5 +28,6 @@
                 "src/pages/*"
             ]
         }
-    }
+    },
+    "extends": "./mosaic.jsconfig.json"
 }

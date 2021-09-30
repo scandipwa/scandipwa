@@ -43,13 +43,15 @@ export class MyAccountAddressTableContainer extends PureComponent {
         showEditPopup: PropTypes.func.isRequired,
         countries: countriesType.isRequired,
         showAdditionalFields: PropTypes.bool,
-        showActions: PropTypes.bool
+        showActions: PropTypes.bool,
+        title: PropTypes.string
     };
 
     static defaultProps = {
         showAdditionalFields: false,
         showActions: false,
-        mix: {}
+        mix: {},
+        title: ''
     };
 
     containerFunctions = {
@@ -64,7 +66,8 @@ export class MyAccountAddressTableContainer extends PureComponent {
             countries,
             mix,
             showAdditionalFields,
-            showActions
+            showActions,
+            title
         } = this.props;
 
         return {
@@ -72,7 +75,8 @@ export class MyAccountAddressTableContainer extends PureComponent {
             countries,
             mix,
             showAdditionalFields,
-            showActions
+            showActions,
+            title
         };
     }
 

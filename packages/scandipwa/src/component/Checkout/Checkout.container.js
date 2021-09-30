@@ -26,6 +26,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { customerType } from 'Type/Account';
 import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
+import { removeEmptyStreets } from 'Util/Address';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteGuestQuoteId, getCartTotalSubPrice, getGuestQuoteId } from 'Util/Cart';
@@ -291,7 +292,7 @@ export class CheckoutContainer extends PureComponent {
             address,
             guestQuoteId
         )).then(
-            /** @namespace Component/Checkout/Container/onShippingEstimationFieldsChangeFetchMutationThen */
+            /** @namespace Route/Checkout/Container/CheckoutContainer/onShippingEstimationFieldsChange/fetchMutation/then */
             ({ estimateShippingCosts: shippingMethods }) => {
                 const { requestsSent } = this.state;
 
@@ -454,7 +455,7 @@ export class CheckoutContainer extends PureComponent {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
             getGuestQuoteId()
         )).then(
-            /** @namespace Component/Checkout/Container/fetchQueryThen */
+            /** @namespace Route/Checkout/Container/CheckoutContainer/_getPaymentMethods/fetchQuery/then */
             ({ getPaymentMethods: paymentMethods }) => {
                 this.setState({ isLoading: false, paymentMethods });
             },
@@ -485,7 +486,7 @@ export class CheckoutContainer extends PureComponent {
         updateEmail(email);
 
         return fetchMutation(mutation).then(
-            /** @namespace Component/Checkout/Container/saveGuestEmailFetchMutationThen */
+            /** @namespace Route/Checkout/Container/CheckoutContainer/saveGuestEmail/fetchMutation/then */
             ({ setGuestEmailOnCart: data }) => {
                 if (data) {
                     this.setState({ isGuestEmailSaved: true });
@@ -591,7 +592,7 @@ export class CheckoutContainer extends PureComponent {
             this.prepareAddressInformation(addressInformation),
             getGuestQuoteId()
         )).then(
-            /** @namespace Component/Checkout/Container/saveAddressInformationFetchMutationThen */
+            /** @namespace Route/Checkout/Container/CheckoutContainer/saveAddressInformation/fetchMutation/then */
             ({ saveAddressInformation: data }) => {
                 const { payment_methods, totals } = data;
 
@@ -648,7 +649,7 @@ export class CheckoutContainer extends PureComponent {
         }
 
         await this.saveBillingAddress(paymentInformation).then(
-            /** @namespace Component/Checkout/Container/saveBillingAddressThen */
+            /** @namespace Route/Checkout/Container/CheckoutContainer/savePaymentInformation/saveBillingAddress/then */
             () => this.savePaymentMethodAndPlaceOrder(paymentInformation),
             this._handleError
         );
@@ -665,6 +666,7 @@ export class CheckoutContainer extends PureComponent {
             purchaseOrderNumber, // drop this
             region_id,
             region,
+            street,
             guest_email,
             ...restOfBillingAddress
         } = address;
@@ -674,7 +676,8 @@ export class CheckoutContainer extends PureComponent {
             ...restOfBillingAddress,
             country_code: country_id,
             region,
-            region_id
+            region_id,
+            street: removeEmptyStreets(street)
         };
 
         /**

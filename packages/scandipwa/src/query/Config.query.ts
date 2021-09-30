@@ -11,7 +11,7 @@
 
 import { DataType, Field, Query } from '@tilework/opus';
 
-/** @namespace Query/Config */
+/** @namespace Query/Config/Query */
 export class ConfigQuery {
     static getStoreList() {
         return new Query('storeList', true)

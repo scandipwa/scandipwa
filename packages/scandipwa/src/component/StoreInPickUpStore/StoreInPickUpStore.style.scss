@@ -29,5 +29,11 @@
                 margin: 0;
             }
         }
+
+        &Actions {
+            @include desktop {
+                margin-inline-end: 15px;
+            }
+        }
     }
 }

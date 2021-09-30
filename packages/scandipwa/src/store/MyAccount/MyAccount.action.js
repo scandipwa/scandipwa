@@ -39,7 +39,7 @@ export const updateCustomerPasswordForgotStatus = () => ({
     type: UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
 });
 
-/** @namespace Store/MyAccount/Action/updateCustomerIsLoading */
+/** @namespace Store/MyAccount/Action/updateIsLoading */
 export const updateIsLoading = (isLoading) => ({
     type: UPDATE_CUSTOMER_IS_LOADING,
     isLoading

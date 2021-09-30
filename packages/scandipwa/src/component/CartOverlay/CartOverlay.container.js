@@ -89,12 +89,16 @@ export class CartOverlayContainer extends PureComponent {
         cartShippingSubPrice: null
     };
 
-    state = { isEditing: false };
+    state = {
+        isEditing: false,
+        isCartItemLoading: false
+    };
 
     containerFunctions = {
         changeHeaderState: this.changeHeaderState.bind(this),
         handleCheckoutClick: this.handleCheckoutClick.bind(this),
-        scrollToTop: this.scrollToTop.bind(this)
+        scrollToTop: this.scrollToTop.bind(this),
+        onCartItemLoading: this.onCartItemLoading.bind(this)
     };
 
     containerProps() {
@@ -112,7 +116,7 @@ export class CartOverlayContainer extends PureComponent {
             cartShippingPrice,
             cartShippingSubPrice
         } = this.props;
-        const { isEditing } = this.state;
+        const { isEditing, isCartItemLoading } = this.state;
 
         return {
             totals,
@@ -125,6 +129,7 @@ export class CartOverlayContainer extends PureComponent {
             isMobile,
             cartShippingPrice,
             cartShippingSubPrice,
+            isCartItemLoading,
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items)
         };
     }
@@ -136,6 +141,10 @@ export class CartOverlayContainer extends PureComponent {
     scrollToTop() {
         window.scrollTo({ top: 0 });
     }
+
+    hasOutOfStockProductsInCartItems = (items) => (
+        items.some(({ product }) => !getProductInStock(product))
+    );
 
     handleCheckoutClick(e) {
         const {
@@ -195,6 +204,10 @@ export class CartOverlayContainer extends PureComponent {
             },
             onCloseClick: () => this.setState({ isEditing: false })
         });
+    }
+
+    onCartItemLoading(isCartItemLoading) {
+        this.setState({ isCartItemLoading });
     }
 
     render() {

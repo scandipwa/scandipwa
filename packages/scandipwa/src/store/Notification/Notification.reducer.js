@@ -16,7 +16,7 @@ export const getInitialState = () => ({
     notifications: {}
 });
 
-/** @namespace Store/Notification/Reducer */
+/** @namespace Store/Notification/Reducer/NotificationReducer */
 export const NotificationReducer = (
     state = getInitialState(),
     action

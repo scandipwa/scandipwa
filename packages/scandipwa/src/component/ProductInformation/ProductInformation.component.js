@@ -76,7 +76,9 @@ export class ProductInformation extends PureComponent {
         }
 
         // check if at least one HTML element has content
-        const elementsWithContent = Array.from(document.body.children).filter((element) => element.innerText !== '');
+        const elementsWithContent = Array.from(document.body.children).filter(
+            (element) => element.innerText !== '' || element.nodeName === 'IMG'
+        );
 
         return elementsWithContent.length === 0;
     }

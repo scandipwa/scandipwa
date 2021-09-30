@@ -13,7 +13,7 @@ import { DataType, Field, Query } from '@tilework/opus';
 
 /**
  * CMS Blocks Query
- * @namespace Query/CmsBlock
+ * @namespace Query/CmsBlock/Query
  */
 export class CmsBlockQuery {
     /**

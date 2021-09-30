@@ -407,6 +407,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onSignIn() {
         const { location: { pathname } } = history;
 
+        goToPreviousNavigationState();
+
         if (pathname.includes(CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
         }

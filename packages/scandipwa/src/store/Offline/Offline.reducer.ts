@@ -35,7 +35,7 @@ export const getInitialState = (): OfflineStore => ({
     isBig: false
 });
 
-/** @namespace Store/Offline/Reducer */
+/** @namespace Store/Offline/Reducer/OfflineReducer */
 export const OfflineReducer: Reducer<
     OfflineStore,
     Action<typeof SET_BIG_OFFLINE_NOTICE | typeof SHOW_OFFLINE_NOTICE> & OfflineAction

@@ -83,7 +83,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         } = this.props;
 
         updateCustomerDetails().then(
-            /** @namespace Component/MyAccountAddressPopup/Container/updateCustomerDetailsThen */
+            /** @namespace Component/MyAccountAddressPopup/Container/MyAccountAddressPopupContainer/updateCustomerDetails/then */
             () => {
                 this.setState({ isLoading: false }, () => {
                     hideActiveOverlay();
@@ -102,6 +102,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
     handleAddress(address) {
         const { payload: { address: { id } } } = this.props;
         this.setState({ isLoading: true });
+
         if (id) {
             return this.handleEditAddress(address);
         }

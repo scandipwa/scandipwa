@@ -25,6 +25,7 @@ import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
+import transformToNameValuePair from 'Util/Form/Transform';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
@@ -163,12 +164,13 @@ export class CheckoutBillingContainer extends PureComponent {
         this.setState({ paymentMethod: code });
     }
 
-    onBillingSuccess(fields, asyncData) {
+    onBillingSuccess(form, fields, asyncData) {
         const { savePaymentInformation } = this.props;
         const { isSameAsShipping } = this.state;
 
-        const address = this._getAddress(fields);
-        const paymentMethod = this._getPaymentData(fields, asyncData);
+        const extractedFields = transformToNameValuePair(fields);
+        const address = this._getAddress(extractedFields);
+        const paymentMethod = this._getPaymentData(extractedFields, asyncData);
 
         savePaymentInformation({
             billing_address: address,
@@ -177,13 +179,9 @@ export class CheckoutBillingContainer extends PureComponent {
         });
     }
 
-    onBillingError(fields, invalidFields, error) {
+    onBillingError() {
         const { showErrorNotification } = this.props;
-
-        if (error) {
-            const { message = __('Something went wrong!') } = error;
-            showErrorNotification(message);
-        }
+        showErrorNotification(__('Something went wrong!'));
     }
 
     showPopup() {

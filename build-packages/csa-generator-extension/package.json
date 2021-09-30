@@ -1,0 +1,14 @@
+{
+    "name": "@scandipwa/csa-generator-extension",
+    "description": "Extension template used by CSA.",
+    "version": "0.0.25",
+    "main": "index.js",
+    "license": "OSL-3.0",
+    "dependencies": {
+        "@scandipwa/scandipwa-dev-utils": "0.0.25"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "1dc70f97183dc4f826e64114343c51abdb0030ea"
+}

@@ -61,7 +61,7 @@ export class FieldForm extends PureComponent {
             validateSeparately,
             validation = [],
             value = null,
-            selectOptions = {},
+            selectOptions = [],
             checked = null,
             ariaLabel = null
         } = this.getDefaultValues(fieldEntry);

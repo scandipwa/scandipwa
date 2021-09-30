@@ -24,15 +24,13 @@ import { OverlayReducer } from 'Store/Overlay/Overlay.reducer';
 import { PopupReducer } from 'Store/Popup/Popup.reducer';
 import { ProductCompareReducer } from 'Store/ProductCompare/ProductCompare.reducer';
 import { ProductListReducer } from 'Store/ProductList/ProductList.reducer';
-import { ProductListInfoReducer } from 'Store/ProductListInfo/ProductListInfo.reducer';
 import { UrlRewritesReducer } from 'Store/UrlRewrites/UrlRewrites.reducer';
 import { WishlistReducer } from 'Store/Wishlist/Wishlist.reducer';
 import type { ModifiedReduxStore } from 'Util/Store';
 
-/** @namespace Store/Index/getReducers */
+/** @namespace Store/Index/getStaticReducers */
 export const getStaticReducers = () => ({
     ProductListReducer,
-    ProductListInfoReducer,
     CartReducer,
     WishlistReducer,
     NoMatchReducer,

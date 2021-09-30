@@ -52,7 +52,7 @@ export const mapDispatchToProps = (dispatch) => ({
 
 export const DEFAULT_NAVIGATION_TABS_STATE = { name: MENU_TAB };
 
-/** @namespace Component/NavigationTabsContainer/Container */
+/** @namespace Component/NavigationTabs/Container */
 export class NavigationTabsContainer extends NavigationAbstractContainer {
     default_state = DEFAULT_NAVIGATION_TABS_STATE;
 
@@ -157,6 +157,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     handleScroll = () => {
         const { navigationState: { isVisibleOnScroll } } = this.props;
+
         if (!isVisibleOnScroll) {
             return;
         }

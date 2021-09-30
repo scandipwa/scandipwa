@@ -14,19 +14,15 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { GRID_LAYOUT } from 'Component/CategoryPage/CategoryPage.config';
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { MixType } from 'Type/Common';
 import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
-import { isSignedIn } from 'Util/Auth';
 import {
-    BUNDLE,
-    CONFIGURABLE,
-    DOWNLOADABLE,
-    GROUPED,
-    validateProductQuantity
-} from 'Util/Product';
+    getMaxQuantity, getMinQuantity, getName, getProductInStock
+} from 'Util/Product/Extract';
+import { magentoProductTransform } from 'Util/Product/Transform';
 
 import AddToCart from './AddToCart.component';
 
@@ -35,419 +31,189 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 
-export const WishlistDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Wishlist/Wishlist.dispatcher'
-);
-
 /** @namespace Component/AddToCart/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    wishlistItems: state.WishlistReducer.productsInWishlist
+    cartId: state.CartReducer.id
 });
 
 /** @namespace Component/AddToCart/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    addProduct: (options) => CartDispatcher.then(
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    fallbackAddToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
-    ),
-    removeFromWishlist: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
-    ),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    )
 });
 
 /* @namespace Component/AddToCart/Container */
 export class AddToCartContainer extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool,
         product: ProductType.isRequired,
         quantity: PropTypes.number,
-        configurableVariantIndex: PropTypes.number,
-        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
+        cartId: PropTypes.string.isRequired,
         showNotification: PropTypes.func.isRequired,
-        setQuantityToDefault: PropTypes.func,
-        addProduct: PropTypes.func.isRequired,
-        removeFromWishlist: PropTypes.func.isRequired,
-        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-        onProductValidationError: PropTypes.func,
-        productOptionsData: PropTypes.shape({}).isRequired,
-        disableHandler: PropTypes.bool,
+        addToCart: PropTypes.func,
+        fallbackAddToCart: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool,
+
+        isIconEnabled: PropTypes.bool,
         mix: MixType,
-        disabled: PropTypes.bool,
         layout: LayoutType
     };
 
     static defaultProps = {
         quantity: 1,
-        configurableVariantIndex: 0,
-        setQuantityToDefault: () => {},
-        onProductValidationError: () => {},
-        isLoading: false,
-        disableHandler: false,
         mix: {},
-        disabled: false,
-        layout: GRID_LAYOUT
-    };
-
-    state = { isLoading: false };
-
-    validationMap = {
-        [CONFIGURABLE]: this.validateConfigurableProduct.bind(this),
-        [GROUPED]: this.validateGroupedProduct.bind(this),
-        [BUNDLE]: this.validateBundleProduct.bind(this),
-        [DOWNLOADABLE]: this.validateDownloadableProduct.bind(this)
-    };
-
-    addToCartHandlerMap = {
-        [CONFIGURABLE]: this.addConfigurableProductToCart.bind(this),
-        [GROUPED]: this.addGroupedProductToCart.bind(this)
+        layout: GRID_LAYOUT,
+        isIconEnabled: true,
+        isDisabled: false,
+        addToCart: null
     };
 
     containerFunctions = {
-        buttonClick: this.buttonClick.bind(this)
+        addProductToCart: this.addProductToCart.bind(this)
     };
 
-    containerProps() {
-        const {
-            product,
-            mix,
-            disabled,
-            layout
-        } = this.props;
-        const { isLoading } = this.state;
+    state = {
+        isAdding: false
+    };
 
-        return {
-            isLoading,
-            product,
-            mix,
-            disabled,
-            layout
-        };
-    }
+    globalValidationMap = [
+        this.validateStock.bind(this),
+        this.validateQuantity.bind(this),
+        this.validateCustomizable.bind(this),
+        this.validateByType.bind(this)
+    ];
 
-    validateConfigurableProduct() {
-        const {
-            configurableVariantIndex,
-            showNotification,
-            product: {
-                variants = []
-            },
-            quantity
-        } = this.props;
+    typeValidationMap = {
+        [PRODUCT_TYPE.bundle]: this.validateBundle.bind(this),
+        [PRODUCT_TYPE.downloadable]: this.validateDownloadable.bind(this),
+        [PRODUCT_TYPE.configurable]: this.validateConfigurable.bind(this),
+        [PRODUCT_TYPE.grouped]: this.validateGroup.bind(this)
+    };
 
-        if (configurableVariantIndex < 0 || !variants[configurableVariantIndex]) {
-            showNotification('info', __('Please, select product options!'));
+    async addProductToCart(e) {
+        const { product, addToCart } = this.props;
 
-            return false;
-        }
-
-        const { stock_status: configurableStock, stock_item } = variants[configurableVariantIndex];
-
-        if (configurableStock !== IN_STOCK) {
-            showNotification('info', __('Sorry! The selected product option is out of stock!'));
-
-            return false;
-        }
-
-        const [validationStatus, message] = validateProductQuantity(quantity, stock_item);
-
-        if (validationStatus === false) {
-            showNotification('info', message);
-
-            return false;
-        }
-
-        return true;
-    }
-
-    validateGroupedProduct() {
-        const {
-            groupedProductQuantity,
-            showNotification,
-            product: {
-                items = []
-            }
-        } = this.props;
-
-        const isAllItemsAvailable = items.some(({ product: { id } }) => groupedProductQuantity[id]);
-
-        if (!isAllItemsAvailable) {
-            showNotification('info', __('Please specify the quantity of product(s)!'));
-
-            return false;
-        }
-
-        return true;
-    }
-
-    validateDownloadableProduct() {
-        const {
-            product: { links_purchased_separately },
-            productOptionsData: { downloadableLinks = [] },
-            showNotification
-        } = this.props;
-
-        if (links_purchased_separately && downloadableLinks.length === 0) {
-            showNotification('info', __('Please, select product links!'));
-
-            return false;
-        }
-
-        return true;
-    }
-
-    validateBundleProduct() {
-        const {
-            productOptionsData,
-            showNotification
-        } = this.props;
-
-        const validateBundleOptions = this.validateCustomizableOptions(productOptionsData, true);
-
-        if (!validateBundleOptions) {
-            showNotification('info', __('Please, select required options!'));
-
-            return false;
-        }
-
-        return true;
-    }
-
-    validateSimpleProduct() {
-        const {
-            productOptionsData,
-            showNotification,
-            product: { stock_item = {} },
-            quantity
-        } = this.props;
-
-        const validateCustomizableOptions = this.validateCustomizableOptions(productOptionsData);
-
-        if (!validateCustomizableOptions) {
-            showNotification('info', __('Please, select required options!'));
-
-            return false;
-        }
-
-        const [validationStatus, message] = validateProductQuantity(quantity, stock_item);
-
-        if (validationStatus === false) {
-            showNotification('info', message);
-
-            return false;
-        }
-
-        return true;
-    }
-
-    validateCustomizableOptions(productOptionsData, isBundle = false) {
-        const {
-            requiredOptions = {}
-        } = productOptionsData || {};
-
-        if (requiredOptions.length) {
-            const {
-                productOptions,
-                productOptionsMulti,
-                requiredOptions
-            } = productOptionsData;
-
-            return this.validateProductOptions(
-                [...productOptions || [], ...productOptionsMulti || []],
-                requiredOptions,
-                isBundle
-            );
-        }
-
-        return true;
-    }
-
-    validateProductOptions(items, requiredOptions, isBundle = false) {
-        // Make sure EVERY required option is FOUND in selected items
-        return requiredOptions.every((requiredOption) => (
-            items.find((item) => {
-                const { id, option_id } = item;
-                const matchWith = isBundle ? id : option_id;
-
-                return requiredOption === matchWith;
-            })
-        ));
-    }
-
-    validateAddToCart() {
-        const {
-            product: { type_id }
-        } = this.props;
-
-        const validationRule = this.validationMap[type_id];
-
-        if (validationRule) {
-            return validationRule();
-        }
-
-        return this.validateSimpleProduct();
-    }
-
-    addGroupedProductToCart() {
-        const {
-            product,
-            product: { items },
-            groupedProductQuantity,
-            addProduct
-        } = this.props;
-
-        Promise.all(items.map((item) => {
-            const { product: groupedProductItem } = item;
-
-            const newProduct = {
-                ...groupedProductItem,
-                parent: product
-            };
-
-            const quantity = groupedProductQuantity[groupedProductItem.id];
-
-            if (!quantity) {
-                return Promise.resolve();
-            }
-
-            return addProduct({
-                product: newProduct,
-                quantity
-            });
-        })).then(
-            /** @namespace Component/AddToCart/Container/addGroupedProductToCartPromiseAllThen */
-            () => this.afterAddToCart(),
-            /** @namespace Component/AddToCart/Container/addGroupedProductToCartPromiseAllCatch */
-            () => this.resetLoading()
-        );
-    }
-
-    addConfigurableProductToCart() {
-        const {
-            product,
-            quantity,
-            addProduct,
-            configurableVariantIndex,
-            productOptionsData
-        } = this.props;
-
-        addProduct({
-            product: {
-                ...product,
-                configurableVariantIndex
-            },
-            quantity,
-            productOptionsData
-        }).then(
-            /** @namespace Component/AddToCart/Container/addConfigurableProductToCartAddProductThen */
-            () => this.afterAddToCart(),
-            /** @namespace Component/AddToCart/Container/addConfigurableProductToCartAddProductCatch */
-            () => this.resetLoading()
-        );
-    }
-
-    addSimpleProductToCart() {
-        const {
-            product,
-            quantity,
-            addProduct,
-            productOptionsData
-        } = this.props;
-
-        addProduct({
-            product,
-            quantity,
-            productOptionsData
-        }).then(
-            /** @namespace Component/AddToCart/Container/addSimpleProductToCartAddProductThen */
-            () => this.afterAddToCart(),
-            /** @namespace Component/AddToCart/Container/addSimpleProductToCartAddProductCatch */
-            () => this.resetLoading()
-        );
-    }
-
-    addProductToCart() {
-        const {
-            product: { type_id }
-        } = this.props;
-
-        const addToCartHandler = this.addToCartHandlerMap[type_id];
-
-        if (addToCartHandler) {
-            addToCartHandler();
-
-            return;
-        }
-
-        this.addSimpleProductToCart();
-    }
-
-    buttonClick(e) {
-        const {
-            product: { type_id } = {},
-            onProductValidationError,
-            disableHandler
-        } = this.props;
-
-        if (disableHandler) {
-            return;
-        }
-
-        if (!this.validateAddToCart()) {
-            onProductValidationError(type_id);
-
+        if ((!product || Object.keys(product).length === 0) && !addToCart) {
             return;
         }
 
         e.preventDefault();
+        this.setState({ isAdding: true });
 
-        this.setState({ isLoading: true }, () => this.addProductToCart());
-    }
-
-    resetLoading() {
-        this.setState({ isLoading: false });
-    }
-
-    removeProductFromWishlist() {
-        const {
-            wishlistItems,
-            removeFromWishlist,
-            configurableVariantIndex,
-            product: { type_id, variants = {} } = {}
-        } = this.props;
-
-        if (type_id !== CONFIGURABLE) {
+        if (!this.validate()) {
             return;
         }
 
-        const { sku } = variants[configurableVariantIndex];
-
-        const wishlistItemKey = Object.keys(wishlistItems)
-            .find((key) => {
-                const { wishlist: { sku: wSku } } = wishlistItems[key];
-
-                return wSku === sku;
-            });
-
-        if (!isSignedIn() || wishlistItemKey === undefined) {
-            return;
+        if (typeof addToCart === 'function') {
+            await addToCart();
+        } else {
+            const {
+                quantity,
+                cartId,
+                fallbackAddToCart
+            } = this.props;
+            const magentoProduct = magentoProductTransform(product, quantity);
+            await fallbackAddToCart({ products: magentoProduct, cartId });
         }
 
-        const { wishlist: { id: item_id } } = wishlistItems[wishlistItemKey];
-        removeFromWishlist({ item_id, sku, noMessage: true });
+        this.setState({ isAdding: false });
     }
 
-    afterAddToCart() {
+    validate() {
+        // eslint-disable-next-line fp/no-let
+        let isValid = true;
+        this.globalValidationMap.forEach((step) => {
+            if (!step()) {
+                isValid = false;
+            }
+        });
+
+        return isValid;
+    }
+
+    validateStock() {
+        const { product, showNotification } = this.props;
+        const inStock = getProductInStock(product);
+
+        if (!inStock) {
+            const name = getName(product);
+            showNotification('info', __('Sorry! The product %s is out of stock!', name));
+        }
+
+        return inStock;
+    }
+
+    validateQuantity() {
         const {
-            showNotification,
-            setQuantityToDefault
+            product, quantity, showNotification, product: { type_id: typeId }
+        } = this.props;
+        const minQty = getMinQuantity(product);
+        const maxQty = getMaxQuantity(product);
+        const inRange = quantity >= minQty && quantity <= maxQty;
+        const isValid = typeId === PRODUCT_TYPE.grouped || inRange;
+
+        if (!isValid) {
+            if (quantity < minQty) {
+                showNotification('info', __('Sorry! Minimum quantity for this product is %s!', minQty));
+            } else {
+                showNotification('info', __('Sorry! Maximum quantity for this product is %s!', maxQty));
+            }
+        }
+
+        return isValid;
+    }
+
+    validateByType() {
+        const { product: { type_id } = {} } = this.props;
+        const { [type_id]: typeValidationFn } = this.typeValidationMap;
+
+        if (!typeValidationFn) {
+            return true;
+        }
+
+        return typeValidationFn();
+    }
+
+    validateBundle() {
+        return true;
+    }
+
+    validateCustomizable() {
+        return true;
+    }
+
+    validateDownloadable() {
+        return true;
+    }
+
+    validateGroup() {
+        return true;
+    }
+
+    validateConfigurable() {
+        return true;
+    }
+
+    containerProps() {
+        const {
+            isDisabled,
+            isIconEnabled,
+            mix,
+            layout
         } = this.props;
 
-        showNotification('success', __('Product added to cart!'));
-        setQuantityToDefault();
+        const {
+            isAdding
+        } = this.state;
 
-        this.removeProductFromWishlist();
-        this.setState({ isLoading: false });
+        return {
+            isDisabled,
+            isIconEnabled,
+            mix,
+            layout,
+            isAdding
+        };
     }
 
     render() {

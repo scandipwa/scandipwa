@@ -98,6 +98,7 @@
 
     &_name {
         &_menu,
+        &_search,
         &_menu_subcategory {
             border-block-end: none;
         }
@@ -131,6 +132,7 @@
                 @include button-visible;
 
                 @include desktop {
+                    height: 24px;
                     margin-inline-start: 35px;
                 }
             }
@@ -183,6 +185,7 @@
 
     &-CompareButtonWrapper {
         margin-inline-start: 35px;
+        height: 24px;
     }
 
     &-LogoWrapper {
@@ -253,6 +256,12 @@
         }
     }
 
+    &-MyAccount {
+        @include desktop {
+            height: 24px;
+        }
+    }
+
     &-News {
         align-items: center;
         display: flex;
@@ -308,6 +317,8 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         max-width: 200px;
+        align-self: center;
+        line-height: 16px;
 
         @include wide-desktop {
             display: block;

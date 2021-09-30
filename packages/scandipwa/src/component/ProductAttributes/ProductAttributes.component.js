@@ -31,8 +31,7 @@ export class ProductAttributes extends PureComponent {
         const groups = Object.values(attributesWithValues).map(
             (attribute) => ({
                 attribute_group_id: attribute.attribute_group_id,
-                attribute_group_name: attribute.attribute_group_name,
-                attribute_group_code: attribute.attribute_group_code
+                attribute_group_name: attribute.attribute_group_name
             })
         );
 
@@ -45,7 +44,7 @@ export class ProductAttributes extends PureComponent {
         return (
             uniqueGroups.map(
                 (group) => (
-                    <div block="ProductAttributes" elem="AttributeBlock">
+                    <div block="ProductAttributes" elem="AttributeBlock" key={ group.attribute_group_name }>
                         <h2 block="ProductAttributes" elem="Group">
                             { group.attribute_group_name }
                         </h2>

@@ -76,6 +76,7 @@ export class UrlRewritesComponent extends SimpleComponent<UrlRewritesProps> {
                 <ProductPage
                   match={ match }
                   productSKU={ productSKU }
+                  productID={ id }
                   key={ id }
                 />
             );

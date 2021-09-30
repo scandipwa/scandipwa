@@ -32,7 +32,7 @@ export const getInitialState = (): BreadcrumbsStore => ({
     areBreadcrumbsVisible: true
 });
 
-/** @namespace Store/Breadcrumbs/Reducer */
+/** @namespace Store/Breadcrumbs/Reducer/BreadcrumbsReducer */
 export const BreadcrumbsReducer: Reducer<
     BreadcrumbsStore,
     Action<typeof TOGGLE_BREADCRUMBS | typeof UPDATE_BREADCRUMBS> & BreadcrumbsStore

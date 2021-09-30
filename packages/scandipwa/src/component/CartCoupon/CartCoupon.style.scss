@@ -23,6 +23,18 @@
         display: inline-block;
     }
 
+    .Field {
+        margin-block-start: 0;
+    }
+
+    .Form {
+        margin-block-start: 24px;
+    }
+
+    input, button {
+        vertical-align: top;
+    }
+
     &-Input {
         display: inline-block;
 

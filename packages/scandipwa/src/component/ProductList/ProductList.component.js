@@ -254,7 +254,6 @@ export class ProductList extends PureComponent {
             loadPage,
             isLoading,
             isVisible,
-            currentPage,
             mix
         } = this.props;
         const {
@@ -262,12 +261,13 @@ export class ProductList extends PureComponent {
             keys,
             pageNumber,
             selectedFilters,
-            wrapperRef
+            wrapperRef,
+            key
         } = this._processProps(props);
 
         return (
             <ProductListPage
-              key={ currentPage }
+              key={ key }
               isInfiniteLoaderEnabled={ isInfiniteLoaderEnabled }
               updatePages={ loadPage }
               isLoading={ isLoading }

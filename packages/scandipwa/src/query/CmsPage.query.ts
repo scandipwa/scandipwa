@@ -12,7 +12,7 @@
 import { DataType, Query } from '@tilework/opus';
 
 /**
- * @namespace Query/CmsPage
+ * @namespace Query/CmsPage/Query
  */
 export class CmsPageQuery {
     /**

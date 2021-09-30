@@ -27,6 +27,7 @@ export class NoMatch extends PureComponent {
     componentDidMount() {
         this.updateBreadcrumbs();
         this.cleanUpTransition();
+        window.scrollTo({ top: 0 });
     }
 
     cleanUpTransition() {

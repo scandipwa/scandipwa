@@ -37,7 +37,7 @@ export const getInitialState = (): CheckoutStore => ({
     isEmailAvailable: true
 });
 
-/** @namespace Store/Checkout/Reducer/checkoutReducer */
+/** @namespace Store/Checkout/Reducer/CheckoutReducer */
 export const CheckoutReducer: Reducer<
     CheckoutStore,
     Action<

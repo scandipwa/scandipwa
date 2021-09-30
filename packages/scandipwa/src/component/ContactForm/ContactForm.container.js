@@ -43,9 +43,14 @@ export class ContactFormContainer extends PureComponent {
         onFormSubmit: this.onFormSubmit.bind(this)
     };
 
-    onFormSubmit(fields) {
+    onFormSubmit(form, fields) {
         const { sendMessage } = this.props;
-        sendMessage(fields);
+        const filteredFields = {};
+        fields.forEach(({ name, value }) => {
+            filteredFields[name] = value;
+        });
+
+        sendMessage({ form, fields: filteredFields });
     }
 
     containerProps() {

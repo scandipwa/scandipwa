@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { getPriceFilterLabel } from 'Util/Category';
+import { getBooleanLabel } from 'Util/Product';
 
 import ResetAttributes from './ResetAttributes.component';
 
@@ -33,6 +34,7 @@ export class ResetAttributesContainer extends PureComponent {
             attribute_type: PropTypes.string.isRequired,
             attribute_code: PropTypes.objectOf(PropTypes.object),
             attribute_values: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+            is_boolean: PropTypes.bool.isRequired,
             attribute_options: PropTypes.objectOf(PropTypes.shape({
                 label: PropTypes.string.isRequired,
                 value_string: PropTypes.string.isRequired
@@ -52,18 +54,28 @@ export class ResetAttributesContainer extends PureComponent {
         };
     }
 
-    getFilterOptionsForPrice = (options) => options.map((option) => {
-        const { currency_code } = this.props;
+    getFilterOptionsForPrice = (values, options) => {
+        // no multiselect for price, always 1 selected value
+        const [fromValue, toValue] = values[0].split('_');
 
-        const [from, to] = option.split('_');
-        const label = getPriceFilterLabel(from, to, currency_code);
+        return options
+            .filter(({ value_string }) => value_string.startsWith(fromValue))
+            .map((option) => {
+                const { currency_code } = this.props;
+                const { label: initialLabel, value_string } = option;
 
-        return { value_string: option, label };
-    });
+                const [from, to] = initialLabel.split('~');
+                const rangeEnd = toValue === '*' ? toValue : to;
+
+                const label = getPriceFilterLabel(from, rangeEnd, currency_code);
+
+                return { value_string, label };
+            });
+    };
 
     getFilterOptionsDefault = (values, options) => options.filter((option) => values.includes(option.value_string));
 
-    getResetData = (attrCode, attrValue) => {
+    getResetData = (attrCode, attrValues) => {
         const { availableFilters } = this.props;
         const filterData = availableFilters[attrCode];
 
@@ -71,14 +83,25 @@ export class ResetAttributesContainer extends PureComponent {
             return {};
         }
 
-        const { attribute_label, attribute_options, attribute_code } = filterData;
+        const {
+            is_boolean,
+            attribute_label,
+            attribute_options,
+            attribute_code
+        } = filterData;
 
         const func = attribute_code === 'price' ? this.getFilterOptionsForPrice : this.getFilterOptionsDefault;
 
         return {
-            [attribute_label]: func(attrValue, Object.values(attribute_options)).map(
-                (option) => ({ ...option, attribute_code, attribute_label })
-            )
+            [attribute_label]: func(attrValues, Object.values(attribute_options))
+                .map(
+                    (option) => ({
+                        ...option,
+                        attribute_code,
+                        attribute_label,
+                        label: getBooleanLabel(option.label, is_boolean)
+                    })
+                )
         };
     };
 

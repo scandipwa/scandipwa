@@ -100,7 +100,7 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         return fetchMutation(mutation).then(
-            /** @namespace Component/MyAccountCustomerPopup/Container/onCustomerSaveFetchMutationThen */
+            /** @namespace Component/MyAccountCustomerPopup/Container/MyAccountCustomerPopupContainer/onCustomerSave/fetchMutation/then */
             ({ updateCustomer: { customer } }) => {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
                 updateCustomer(customer);
@@ -128,7 +128,7 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         return fetchMutation(mutation).then(
-            /** @namespace Component/MyAccountCustomerPopup/Container/onPasswordChangeFetchMutationThen */
+            /** @namespace Component/MyAccountCustomerPopup/Container/MyAccountCustomerPopupContainer/onPasswordChange/fetchMutation/then */
             () => {
                 showSuccessNotification(__('Your password was successfully updated!'));
                 this.setState({ isLoading: false }, () => {

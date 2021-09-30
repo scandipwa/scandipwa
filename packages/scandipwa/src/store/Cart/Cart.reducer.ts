@@ -87,7 +87,7 @@ export const updateShippingPrice = (action: CartAction, state: CartStore): CartS
     };
 };
 
-/** @namespace Store/Cart/Reducer */
+/** @namespace Store/Cart/Reducer/CartReducer */
 export const CartReducer: Reducer<
     CartStore,
     Action<typeof UPDATE_SHIPPING_PRICE | typeof UPDATE_TOTALS> & CartAction

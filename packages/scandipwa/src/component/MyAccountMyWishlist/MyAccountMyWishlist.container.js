@@ -117,9 +117,9 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         return moveWishlistToCart().then(
-            /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartThen */
+            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/addAllToCart/moveWishlistToCart/then */
             () => this.showNotificationAndRemoveLoading('Available items moved to cart'),
-            /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartCatch */
+            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/addAllToCart/moveWishlistToCart/then/catch */
             (error) => this.showErrorAndRemoveLoading(getErrorMessage(error))
         );
     }
@@ -134,7 +134,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         return clearWishlist().then(
-            /** @namespace Component/MyAccountMyWishlist/Container/clearWishlistThen */
+            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/removeAll/clearWishlist/then */
             () => this.showNotificationAndRemoveLoading('Wishlist cleared')
         );
     }

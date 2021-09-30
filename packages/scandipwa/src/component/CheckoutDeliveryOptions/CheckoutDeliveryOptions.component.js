@@ -86,6 +86,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
 
     renderShippingMethods() {
         const { shippingMethods } = this.props;
+
         if (!shippingMethods.length) {
             return this.renderNoDeliveryOptions();
         }

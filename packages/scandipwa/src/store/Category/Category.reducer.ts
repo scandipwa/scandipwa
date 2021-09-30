@@ -34,7 +34,7 @@ export const getInitialState = (): CategoryStore => ({
     category: {}
 });
 
-/** @namespace Store/Category/Reducer */
+/** @namespace Store/Category/Reducer/CategoryReducer */
 export const CategoryReducer: Reducer<
     CategoryStore,
     Action<typeof UPDATE_CURRENT_CATEGORY> & CategoryAction

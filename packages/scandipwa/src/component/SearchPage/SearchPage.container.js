@@ -14,7 +14,6 @@ import { LOADING_TIME } from 'Component/CategoryPage/CategoryPage.config';
 import { CategoryPageContainer } from 'Component/CategoryPage/CategoryPage.container';
 // TODO: try SEARCH type
 import { CATEGORY } from 'Component/Header/Header.config';
-import { updateCurrentCategory } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -84,10 +83,6 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
     ),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: (category) => MetaDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
-    ),
-    updateCurrentCategory: (category) => dispatch(updateCurrentCategory(category)),
     updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 

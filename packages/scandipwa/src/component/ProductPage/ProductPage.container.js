@@ -17,7 +17,6 @@ import { withRouter } from 'react-router';
 import { LOADING_TIME } from 'Component/CategoryPage/CategoryPage.config';
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import { IN_STOCK, OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.config';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
@@ -26,7 +25,7 @@ import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyV
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import { withReducers } from 'Util/DynamicReducer';
-import { getIsConfigurableParameterSelected, getNewParameters, getVariantIndex } from 'Util/Product';
+import { getIsConfigurableParameterSelected } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
     convertQueryStringToKeyValuePairs,
@@ -85,28 +84,6 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /** @namespace Component/ProductPage/Container */
 export class ProductPageContainer extends PureComponent {
-    state = {
-        configurableVariantIndex: -1,
-        parameters: {},
-        productOptionsData: {},
-        selectedInitialBundlePrice: 0,
-        selectedBundlePrice: 0,
-        selectedBundlePriceExclTax: 0,
-        selectedLinkPrice: 0,
-        currentProductSKU: ''
-    };
-
-    containerFunctions = {
-        updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
-        getLink: this.getLink.bind(this),
-        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
-        setBundlePrice: this.setBundlePrice.bind(this),
-        setLinkedDownloadables: this.setLinkedDownloadables.bind(this),
-        setLinkedDownloadablesPrice: this.setLinkedDownloadablesPrice.bind(this),
-        isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
-        isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
-    };
-
     static propTypes = {
         location: LocationType,
         changeHeaderState: PropTypes.func.isRequired,
@@ -117,6 +94,7 @@ export class ProductPageContainer extends PureComponent {
         requestProduct: PropTypes.func.isRequired,
         isOffline: PropTypes.bool.isRequired,
         productSKU: PropTypes.string,
+        productID: PropTypes.number,
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired,
@@ -131,7 +109,21 @@ export class ProductPageContainer extends PureComponent {
     static defaultProps = {
         location: { state: {} },
         productSKU: '',
+        productID: 0,
         metaTitle: undefined
+    };
+
+    state = {
+        parameters: {},
+        currentProductSKU: '',
+        activeProduct: null
+    };
+
+    containerFunctions = {
+        getLink: this.getLink.bind(this),
+        setActiveProduct: this.setActiveProduct.bind(this),
+        isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
+        isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -179,8 +171,6 @@ export class ProductPageContainer extends PureComponent {
             };
         }
 
-        const configurableVariantIndex = getVariantIndex(variants, parameters, true);
-
         const newOptionsData = options.reduce((acc, { option_id, required }) => {
             if (required) {
                 acc.push(option_id);
@@ -195,7 +185,6 @@ export class ProductPageContainer extends PureComponent {
         return {
             parameters,
             currentProductSKU,
-            configurableVariantIndex,
             productOptionsData: {
                 ...prevOptionData, ...productOptionsData, requiredOptions
             }
@@ -233,18 +222,14 @@ export class ProductPageContainer extends PureComponent {
             isOffline,
             productSKU,
             product: {
-                sku,
-                options,
-                items
+                sku
             }
         } = this.props;
 
         const {
             productSKU: prevProductSKU,
             product: {
-                sku: prevSku,
-                options: prevOptions,
-                items: prevItems
+                sku: prevSku
             }
         } = prevProps;
 
@@ -286,23 +271,11 @@ export class ProductPageContainer extends PureComponent {
             this.updateMeta();
         }
 
-        /**
-         * LEGACY: needed to make sure required items are
-         * selected in the bundle product.
-         */
-        if (JSON.stringify(options) !== JSON.stringify(prevOptions)) {
-            this.getRequiredProductOptions(options);
-        }
+        this._addToRecentlyViewedProducts();
+    }
 
-        /**
-         * LEGACY needed to make sure required options are
-         * selected in the customizable options product.
-         */
-        if (JSON.stringify(items) !== JSON.stringify(prevItems)) {
-            this.getRequiredProductOptions(items);
-        }
-
-        // this._addToRecentlyViewedProducts();
+    setActiveProduct(product) {
+        this.setState({ activeProduct: product });
     }
 
     isProductInformationTabEmpty() {
@@ -388,104 +361,21 @@ export class ProductPageContainer extends PureComponent {
         return `${pathname}${query}`;
     }
 
-    getRequiredProductOptions(options) {
-        const { productOptionsData } = this.state;
-
-        if (!options) {
-            return [];
-        }
-        const requiredOptions = options.reduce((acc, { option_id, required }) => {
-            if (required) {
-                acc.push(option_id);
-            }
-
-            return acc;
-        }, []);
-
-        return this.setState({
-            productOptionsData:
-                { ...productOptionsData, requiredOptions }
-        });
-    }
-
-    setLinkedDownloadablesPrice(price) {
-        this.setState({
-            selectedLinkPrice: price
-        });
-    }
-
-    setBundlePrice(prices) {
-        const { price = 0, priceExclTax = 0, finalPrice = 0 } = prices;
-        this.setState({
-            selectedInitialBundlePrice: price,
-            selectedBundlePrice: finalPrice,
-            selectedBundlePriceExclTax: priceExclTax
-        });
-    }
-
-    setLinkedDownloadables(links) {
-        const { productOptionsData } = this.state;
-        this.setState({
-            productOptionsData: {
-                ...productOptionsData, downloadableLinks: links
-            }
-        });
-    }
-
-    getSelectedCustomizableOptions(values, updateArray = false) {
-        const { productOptionsData } = this.state;
-
-        if (updateArray) {
-            this.setState({
-                productOptionsData:
-                    { ...productOptionsData, productOptionsMulti: values }
-            });
-        } else {
-            this.setState({
-                productOptionsData:
-                    { ...productOptionsData, productOptions: values }
-            });
-        }
-    }
-
     containerProps = () => {
-        const { isMobile } = this.props;
-        const {
-            configurableVariantIndex,
-            parameters,
-            productOptionsData,
-            selectedBundlePrice,
-            selectedBundlePriceExclTax,
-            selectedInitialBundlePrice,
-            selectedLinkPrice
-        } = this.state;
+        const { isMobile, location } = this.props;
+        const { parameters } = this.state;
 
         return {
             areDetailsLoaded: this.getAreDetailsLoaded(),
-            configurableVariantIndex,
-            dataSource: this.getDataSource(),
             isAttributesTabEmpty: this.isProductAttributesTabEmpty(),
             isInformationTabEmpty: this.isProductInformationTabEmpty(),
+            activeProduct: this.getActiveProductDataSource(),
+            dataSource: this.getDataSource(),
             isMobile,
             parameters,
-            productOptionsData,
-            productOrVariant: this.getProductOrVariant(),
-            selectedBundlePrice,
-            selectedBundlePriceExclTax,
-            selectedInitialBundlePrice,
-            selectedLinkPrice
+            location
         };
     };
-
-    updateConfigurableVariant(key, value) {
-        const { parameters: prevParameters } = this.state;
-
-        const parameters = getNewParameters(prevParameters, key, value);
-        this.setState({ parameters });
-
-        this.updateUrl(key, value, parameters);
-        this.updateConfigurableVariantIndex(parameters);
-    }
 
     updateUrl(key, value, parameters) {
         const { location, history } = this.props;
@@ -499,20 +389,6 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
-    updateConfigurableVariantIndex(parameters) {
-        const { product: { variants, configurable_options } } = this.props;
-        const { configurableVariantIndex } = this.state;
-
-        const newIndex = Object.keys(parameters).length === Object.keys(configurable_options).length
-            ? getVariantIndex(variants, parameters, true)
-            // Not all parameters are selected yet, therefore variantIndex must be invalid
-            : -1;
-
-        if (configurableVariantIndex !== newIndex) {
-            this.setState({ configurableVariantIndex: newIndex });
-        }
-    }
-
     getAreDetailsLoaded() {
         const { product } = this.props;
         const dataSource = this.getDataSource();
@@ -520,32 +396,31 @@ export class ProductPageContainer extends PureComponent {
         return dataSource === product;
     }
 
-    getProductOrVariant() {
-        const dataSource = this.getDataSource();
-        const { variants } = dataSource;
-        const currentVariantIndex = this.getConfigurableVariantIndex(variants);
-        const variant = variants && variants[currentVariantIndex];
+    getActiveProductDataSource() {
+        const { activeProduct } = this.state;
+        const product = this.getDataSource();
 
-        if (variants?.length > 0) {
-            dataSource.stock_status = variants.some((v) => v.stock_status === IN_STOCK) ? IN_STOCK : OUT_OF_STOCK;
+        if (!activeProduct || !product) {
+            return product;
         }
 
-        return variant || dataSource;
-    }
+        const { attributes: productAttr = {} } = product;
+        const { attributes: activeAttr = {} } = activeProduct;
 
-    getConfigurableVariantIndex(variants) {
-        const { configurableVariantIndex, parameters } = this.state;
-        const hasParameters = !!Object.keys(parameters).length;
+        const attributes = {};
+        Object.keys(productAttr).forEach((attr) => {
+            const { [attr]: { attribute_value: attrValue }, [attr]: currAttr } = productAttr;
+            const { [attr]: { attribute_value: activeAttrValue } = {} } = activeAttr;
+            attributes[attr] = {
+                ...currAttr,
+                attribute_value: activeAttrValue || attrValue
+            };
+        });
 
-        if (configurableVariantIndex >= 0) {
-            return configurableVariantIndex;
-        }
-
-        if (variants && hasParameters) {
-            return getVariantIndex(variants, parameters, true);
-        }
-
-        return -1;
+        return {
+            ...product,
+            attributes
+        };
     }
 
     getDataSource() {
@@ -582,9 +457,9 @@ export class ProductPageContainer extends PureComponent {
     }
 
     getProductRequestFilter() {
-        const { productSKU } = this.props;
+        const { productID } = this.props;
 
-        return { productSKU };
+        return { productID };
     }
 
     requestProduct() {

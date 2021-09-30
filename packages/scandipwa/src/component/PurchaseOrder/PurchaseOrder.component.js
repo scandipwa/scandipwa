@@ -13,8 +13,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field/Field.container';
-import FormPortal from 'Component/FormPortal/FormPortal.component';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import FieldGroup from 'Component/PureForm/FieldGroup';
 
 import './PurchaseOrder.style';
 
@@ -28,20 +29,28 @@ export class PurchaseOrder extends PureComponent {
         const { id } = this.props;
 
         return (
-            <FormPortal
-              id={ id }
-              name="PurchaseOrder"
+            <FieldGroup
+              attr={ {
+                  id,
+                  name: 'PurchaseOrder'
+              } }
             >
                 <Field
-                  type="text"
-                  id="purchaseOrderNumber"
-                  name="purchaseOrderNumber"
-                  validation={ ['notEmpty'] }
-                  placeholder={ __('Purchase Order Number') }
+                  type={ FIELD_TYPE.text }
+                  attr={ {
+                      id: 'purchaseOrderNumber',
+                      name: 'purchaseOrderNumber',
+                      placeholder: __('Purchase Order Number'),
+                      'aria-label': __('Purchase Order Number')
+                  } }
+                  validateOn={ ['onChange'] }
+                  validationRule={ {
+                      isRequired: true
+                  } }
+                  addRequiredTag
                   mix={ { block: 'PurchaseOrderNumber', elem: 'Input' } }
-                  aria-label={ __('Purchase Order Number') }
                 />
-            </FormPortal>
+            </FieldGroup>
         );
     }
 }

@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { IMAGE_HUNDRED_PERCENT } from 'Component/Image/Image.config';
 import { MixType } from 'Type/Common';
 
 import Image from './Image.component';
@@ -65,7 +66,6 @@ export class ImageContainer extends PureComponent {
             src,
             title,
             alt,
-            className,
             ratio,
             mix,
             imageRef,
@@ -79,7 +79,7 @@ export class ImageContainer extends PureComponent {
             src,
             title,
             alt,
-            className,
+            className: this._getCorrectClassNames(),
             ratio,
             mix,
             imageRef,
@@ -91,7 +91,7 @@ export class ImageContainer extends PureComponent {
         const trimmedSize = size.trim();
 
         if (!trimmedSize) {
-            return '100%';
+            return IMAGE_HUNDRED_PERCENT;
         }
 
         const PX_LENGTH = -2;
@@ -107,11 +107,40 @@ export class ImageContainer extends PureComponent {
         return `${trimmedSize}px`;
     }
 
+    _getCorrectClassNames() {
+        const { width, height, className } = this.props;
+
+        const trueMap = [
+            this._parseSize(height) === IMAGE_HUNDRED_PERCENT,
+            this._parseSize(width) === IMAGE_HUNDRED_PERCENT
+        ];
+        const classMap = [
+            'Image-WidthFull',
+            'Image-HeightFull'
+        ];
+
+        const classes = classMap.filter((_, index) => trueMap[index]);
+
+        return [className, ...classes].join(' ');
+    }
+
     _getCorrectSize() {
         const { width, height } = this.props;
 
         const correctHeight = this._parseSize(height);
         const correctWidth = this._parseSize(width);
+
+        if (correctHeight === IMAGE_HUNDRED_PERCENT && correctWidth === IMAGE_HUNDRED_PERCENT) {
+            return {};
+        }
+
+        if (correctHeight === IMAGE_HUNDRED_PERCENT && correctWidth) {
+            return { width: correctWidth };
+        }
+
+        if (correctHeight && correctWidth === IMAGE_HUNDRED_PERCENT) {
+            return { height: correctHeight };
+        }
 
         return { width: correctWidth, height: correctHeight };
     }
@@ -126,7 +155,7 @@ export class ImageContainer extends PureComponent {
         const size = this._getCorrectSize();
         const { height, width } = size;
 
-        if (height.slice(-1) === '%' && width.slice(-1) === '%') {
+        if ((!height || height.slice(-1) === '%') && (!width || width.slice(-1) === '%')) {
             return {};
         }
 

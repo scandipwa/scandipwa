@@ -156,8 +156,12 @@ export class BreadcrumbsDispatcher {
     _getProductBreadcrumbs(product, prevCategoryId = null) {
         const { categories, url, name } = product;
 
-        if (!categories || !categories.length) {
+        if (!categories) {
             return [];
+        }
+
+        if (!categories.length) {
+            return [{ url, name }];
         }
 
         return [

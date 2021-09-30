@@ -32,24 +32,17 @@
         width: calc(-1 * var(--translateX));
         transition: width var(--animation-speed) ease-out;
         overflow: hidden;
+        padding-inline-start: 16px;
     }
 
     &-RightSideContent {
         height: 100%;
         margin-inline-start: calc(100% - var(--end-side-content-width));
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
         width: var(--end-side-content-width);
         transition: margin-inline-start var(--right-side-content-animation-speed) ease-out;
 
         &_isAheadRemoveItemThreshold {
             margin-inline-start: 0;
         }
-    }
-
-    &-SafeArea {
-        width: 16px;
-        height: 100%;
     }
 }

@@ -11,7 +11,7 @@
 
 .GroupedProductsItem {
     display: grid;
-    align-items: center;
+    align-items: start;
     padding-inline-start: 0;
     margin-block-end: 12px;
     grid-template-columns: 72px 3fr 1fr;
@@ -33,6 +33,27 @@
 
     &:not(:last-of-type){
         margin-block-end: 24px;
+    }
+
+    &-OutOfStock{
+        text-align: end;
+        font-size: 14px;
+        font-weight: bold;
+
+        @include mobile {
+            white-space: nowrap;
+        }
+    }
+
+    .Field {
+        &_type_number {
+            margin-block-start: 0;
+        }
+        &-ErrorMessages {
+            grid-column-start: 1;
+            grid-column-end: 3;
+            margin-block-start: -10px;
+        }
     }
 
     &-Image {
@@ -57,7 +78,6 @@
         overflow: hidden;
 
         @include mobile {
-            padding-block-start: 14px;
             padding-block-end: 14px;
         }
 

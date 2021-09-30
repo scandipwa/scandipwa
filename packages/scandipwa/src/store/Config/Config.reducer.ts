@@ -64,7 +64,6 @@ export interface ConfigStore {
     }
     priceTaxDisplay: Record<string, string>
     category_url_suffix: string
-    newsletter_general_active: boolean
     device: DeviceContextType
     storeConfig?: Partial<Record<string, string | number | boolean>>
 
@@ -138,7 +137,6 @@ export const getInitialState = (): ConfigStore => ({
     cartDisplayConfig,
     priceTaxDisplay: {},
     category_url_suffix: DEFAULT_CATGORY_URL_SUFFIX,
-    newsletter_general_active: false,
     device: {
         isMobile: isMobile.any(),
         android: isMobile.android(),

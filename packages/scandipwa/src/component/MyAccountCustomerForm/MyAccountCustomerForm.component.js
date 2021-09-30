@@ -11,59 +11,38 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from 'Component/FieldForm';
+import FieldForm from 'Component/PureForm/FieldForm';
 import { customerType } from 'Type/Account';
+import transformToNameValuePair from 'Util/Form/Transform';
+
+import myAccountCustomerForm from './MyAccountCustomerForm.form';
 
 /** @namespace Component/MyAccountCustomerForm/Component */
 export class MyAccountCustomerForm extends FieldForm {
     static propTypes = {
         customer: customerType.isRequired,
         onSave: PropTypes.func.isRequired,
-        vatNumberValidation: PropTypes.arrayOf(PropTypes.string).isRequired
+        showTaxVatNumber: PropTypes.bool.isRequired
     };
 
-    onFormSuccess = (fields) => {
+    onFormSuccess = (form, fields) => {
         const { onSave } = this.props;
-        onSave(fields);
+        onSave(transformToNameValuePair(fields));
     };
-
-    getDefaultValues(fieldEntry) {
-        const [key] = fieldEntry;
-        const { customer: { [key]: value } } = this.props;
-
-        return {
-            ...super.getDefaultValues(fieldEntry),
-            value
-        };
-    }
 
     get fieldMap() {
-        return {
-            firstname: {
-                label: __('First name'),
-                validation: ['notEmpty']
-            },
-            lastname: {
-                label: __('Last name'),
-                validation: ['notEmpty']
-            },
-            ...this.getVatField()
-        };
-    }
-
-    getVatField() {
-        const { showTaxVatNumber, vatNumberValidation } = this.props;
-
-        if (!showTaxVatNumber) {
-            return {};
-        }
-
-        return {
-            taxvat: {
-                label: __('Tax/VAT Number'),
-                validation: vatNumberValidation
+        const {
+            showTaxVatNumber,
+            customer: {
+                firstname = '',
+                lastname = '',
+                taxvat = ''
             }
-        };
+        } = this.props;
+
+        return myAccountCustomerForm({
+            showTaxVatNumber, firstname, lastname, taxvat
+        });
     }
 
     renderActions() {
@@ -76,6 +55,12 @@ export class MyAccountCustomerForm extends FieldForm {
                 { __('Save customer') }
             </button>
         );
+    }
+
+    getFormProps() {
+        return {
+            onSubmit: this.onFormSuccess
+        };
     }
 }
 

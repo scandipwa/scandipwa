@@ -1,0 +1,14 @@
+{
+    "name": "@scandipwa/csa-generator-blank",
+    "description": "Blank app template used by CSA.",
+    "version": "0.1.19",
+    "main": "index.js",
+    "license": "OSL-3.0",
+    "dependencies": {
+        "@scandipwa/scandipwa-dev-utils": "0.1.12"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "7498042540d3d4560e140d9674f3abd99343a037"
+}

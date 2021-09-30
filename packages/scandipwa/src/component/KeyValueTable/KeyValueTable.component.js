@@ -64,6 +64,7 @@ export class KeyValueTable extends PureComponent {
 
     renderHeading() {
         const { title, isSelected } = this.props;
+
         if (!title) {
             return null;
         }

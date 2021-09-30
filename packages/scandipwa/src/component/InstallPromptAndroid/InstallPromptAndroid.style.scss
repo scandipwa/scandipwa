@@ -22,15 +22,11 @@
     }
 
     &-Content {
-        font-size: 15px;
-        text-align: center;
-        padding-block-start: 24px;
-        padding-block-end: 12px;
-        padding-inline: 0;
-
         @include mobile {
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
             padding-block-start: 28px;
-            padding-block-end: 14px;
             padding-inline: 0;
         }
     }
@@ -53,5 +49,6 @@
         display: block;
         margin: auto;
         width: max-content;
+        background-color: var(--color-white);
     }
 }

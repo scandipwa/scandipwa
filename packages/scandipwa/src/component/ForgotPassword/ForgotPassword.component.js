@@ -19,7 +19,7 @@ import {
 
 import './ForgotPassword.style';
 
-/** @namespace Scandipwa/Component/ForgotPassword/Component/ForgotPasswordComponent */
+/** @namespace Route/ForgotPassword/Component */
 export class ForgotPasswordComponent extends MyAccountOverlay {
     renderSignInWrapper() {
         const { onLoginClick } = this.props;

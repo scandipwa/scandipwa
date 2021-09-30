@@ -9,7 +9,7 @@ export class SomethingWentWrongContainer extends PureComponent {
         onClick: PropTypes.func.isRequired,
         errorDetails: PropTypes.shape({
             // eslint-disable-next-line react/forbid-prop-types
-            err: PropTypes.object,
+            err: PropTypes.shape({}),
             info: PropTypes.shape({
                 componentStack: PropTypes.string
             })

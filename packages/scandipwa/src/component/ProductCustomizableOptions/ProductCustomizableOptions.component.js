@@ -8,86 +8,51 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ProductCustomizableOption from 'Component/ProductCustomizableOption';
-import { sortBySortOrder } from 'Util/Product';
 
 import './ProductCustomizableOptions.style';
 
-/** @namespace Component/ProductCustomizableOptions/Component */
+/**
+ * Product Customizable Options
+ * @class ProductCustomizableOptions
+ * @namespace Component/ProductCustomizableOptions/Component
+ */
 export class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        options: PropTypes.arrayOf(PropTypes.string),
-        productOptionsData: PropTypes.shape({}).isRequired,
-        setSelectedDropdownValue: PropTypes.func.isRequired,
-        setSelectedCheckboxValues: PropTypes.func.isRequired,
-        setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
-        setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
-        price_range: PropTypes.shape({}).isRequired,
-        type_id: PropTypes.string.isRequired,
-        selectedCheckboxValues: PropTypes.arrayOf(PropTypes.shape({
-            option_id: PropTypes.number,
-            option_value: PropTypes.string
-        }))
+        options: PropTypes.arrayOf(PropTypes.object).isRequired,
+        updateSelectedValues: PropTypes.func.isRequired
     };
 
-    static defaultProps = {
-        options: [],
-        selectedCheckboxValues: []
-    };
-
-    renderContent() {
+    renderOptionGroup = (group) => {
         const {
-            options,
-            productOptionsData,
-            setSelectedCheckboxValues,
-            setCustomizableOptionTextFieldValue,
-            setCustomizableOptionFileFieldValue,
-            setSelectedDropdownValue,
-            price_range,
-            type_id,
-            selectedCheckboxValues
-        } = this.props;
-
-        return sortBySortOrder(options).map((option, key) => (
-            <ProductCustomizableOption
-              option={ option }
-              /* eslint-disable-next-line react/no-array-index-key */
-              key={ key }
-              setSelectedCheckboxValues={ setSelectedCheckboxValues }
-              setCustomizableOptionTextFieldValue={ setCustomizableOptionTextFieldValue }
-              setCustomizableOptionFileFieldValue={ setCustomizableOptionFileFieldValue }
-              setSelectedDropdownValue={ setSelectedDropdownValue }
-              productOptionsData={ productOptionsData }
-              price_range={ price_range }
-              type_id={ type_id }
-              selectedCheckboxValues={ selectedCheckboxValues }
-            />
-        ));
-    }
-
-    renderPlaceholder() {
-        const { isLoading } = this.props;
+            title, value, type, required, uid
+        } = group;
+        const { updateSelectedValues } = this.props;
 
         return (
-            <div
-              block="ProductCustomizableOptions"
-              mods={ { isLoading, isPlaceholder: true } }
+            <ProductCustomizableOption
+              uid={ uid }
+              title={ title }
+              options={ value }
+              isRequired={ required }
+              type={ type }
+              updateSelectedValues={ updateSelectedValues }
             />
         );
-    }
+    };
 
     render() {
-        const { isLoading } = this.props;
+        const { options = [] } = this.props;
 
-        if (isLoading) {
-            return this.renderPlaceholder();
-        }
-
-        return this.renderContent();
+        return (
+          <div block="ProductCustomizableOptions" elem="Wrapper">
+              { options.map(this.renderOptionGroup) }
+          </div>
+        );
     }
 }
 

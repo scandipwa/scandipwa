@@ -55,8 +55,20 @@ export const getUrlParam = (match, location) => {
     return currentUrl.replace(baseUrl, '').replace(/^\/*/, '');
 };
 
-/**  Util/Url/trimEndSlash */
+/** @namespace Util/Url/trimEndSlash */
 export const trimEndSlash = (str) => (str.endsWith('/') ? str.slice(0, -1) : str);
+
+/**
+ * Replaces section of URL with passed path value
+ * @param {RegExp} regex replacement rule
+ * @param {String} path replacement element
+ * @returns {*}
+ * @namespace Util/Url/replace
+ */
+export const replace = (regex, path) => {
+    const { pathname = '' } = new URL(window.location.href);
+    return pathname.replace(regex, path);
+};
 
 /**
  * Append store code to URL
@@ -228,6 +240,7 @@ export const objectToUri = (keyValueObject = {}) => {
     return paramString.length > 0 ? `?${paramString}` : '';
 };
 
+/** @namespace Util/Url/isHomePageUrl */
 export const isHomePageUrl = (pathname) => {
     const isHomePage = pathname === appendWithStoreCode('/')
         || pathname === '/'

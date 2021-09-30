@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import ProductAlertsQuery from 'Query/ProductAlerts.query';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { StockStatusType } from 'Type/StockStatus';
 import { fetchMutation } from 'Util/Request';
 
 import ProductAlerts from './ProductAlerts.component';
@@ -29,7 +30,8 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/ProductAlerts/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showErrorNotification: (message) => dispatch(showNotification('error', message))
 });
 
 /** @namespace Component/ProductAlerts/Container */
@@ -41,7 +43,7 @@ export class ProductAlertsContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         isInStockAlertEnabled: PropTypes.bool,
         isPriceAlertEnabled: PropTypes.bool,
-        stockStatus: PropTypes.bool
+        stockStatus: StockStatusType
     };
 
     static defaultProps = {
@@ -84,7 +86,7 @@ export class ProductAlertsContainer extends PureComponent {
         const query = ProductAlertsQuery.getProductAlertSubscribeMutation(productId, type);
 
         return fetchMutation(query).then(
-            /** @namespace Component/ProductAlerts/Container/fetchMutation/then */
+            /** @namespace Component/ProductAlerts/Container/ProductAlertsContainer/handlePriceDropSubscribe/then/catch/fetchMutation/then */
             (ProductAlertSubscribe) => {
                 if (!ProductAlertSubscribe) {
                     return null;
@@ -93,7 +95,7 @@ export class ProductAlertsContainer extends PureComponent {
                 return showNotification('success', __('You saved the alert subscription'));
             }
         ).catch(
-            /** @namespace Component/ProductAlerts/Container/fetchMutation/catch */
+            /** @namespace Component/ProductAlerts/Container/ProductAlertsContainer/handlePriceDropSubscribe/then/catch */
             (error) => {
                 showErrorNotification('error', error[0].message);
             }

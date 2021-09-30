@@ -111,6 +111,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         if (parameter === undefined) {
             return false;
         }
+
         if (parameter.length !== undefined) {
             return parameter.includes(attribute_value);
         }

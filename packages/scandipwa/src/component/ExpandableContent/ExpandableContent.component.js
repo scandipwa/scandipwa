@@ -18,6 +18,7 @@ import MinusIcon from 'Component/MinusIcon';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
+import { isCrawler, isSSR } from 'Util/Browser';
 import { getFixedElementHeight } from 'Util/CSS';
 
 import './ExpandableContent.style';
@@ -34,9 +35,11 @@ export class ExpandableContent extends PureComponent {
         device: DeviceType.isRequired,
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];
+
             if (propValue === null) {
                 return;
             }
+
             if (typeof propValue === 'function') {
                 return;
             }
@@ -69,8 +72,11 @@ export class ExpandableContent extends PureComponent {
     __construct(props) {
         super.__construct(props);
         const { isContentExpanded } = this.props;
+
+        const isForceExpanded = isSSR() || isCrawler();
+
         this.state = {
-            isContentExpanded,
+            isContentExpanded: isForceExpanded || isContentExpanded,
             // eslint-disable-next-line react/no-unused-state
             prevIsContentExpanded: isContentExpanded
         };
@@ -107,6 +113,7 @@ export class ExpandableContent extends PureComponent {
 
     toggleExpand = () => {
         const { onClick } = this.props;
+
         if (onClick) {
             onClick();
 

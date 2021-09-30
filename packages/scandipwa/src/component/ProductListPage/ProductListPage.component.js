@@ -24,8 +24,8 @@ import './ProductListPage.style';
 
 /**
  * Placeholder for List of category product
- * @namespace Component/ProductListPage/Component
  * @class ProductListPage
+ * @namespace Component/ProductListPage/Component
  */
 export class ProductListPage extends PureComponent {
     static propTypes = {

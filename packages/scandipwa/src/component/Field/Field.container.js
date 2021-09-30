@@ -96,7 +96,8 @@ export class FieldContainer extends PureComponent {
             PropTypes.bool
         ]),
         ariaLabel: PropTypes.string,
-        isLabelWithArrow: PropTypes.bool
+        isLabelWithArrow: PropTypes.bool,
+        step: PropTypes.number
     };
 
     static defaultProps = {
@@ -128,7 +129,8 @@ export class FieldContainer extends PureComponent {
         fileExtensions: '',
         selectOptions: [],
         autocomplete: 'off',
-        isLabelWithArrow: false
+        isLabelWithArrow: false,
+        step: 1
     };
 
     containerFunctions = {
@@ -157,6 +159,7 @@ export class FieldContainer extends PureComponent {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ value: currentValue });
         }
+
         if (type === CHECKBOX_TYPE && currChecked !== prevChecked) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ checked: currChecked });
@@ -232,7 +235,8 @@ export class FieldContainer extends PureComponent {
             type,
             validation,
             ariaLabel,
-            isLabelWithArrow
+            isLabelWithArrow,
+            step
         } = this.props;
 
         const {
@@ -267,7 +271,8 @@ export class FieldContainer extends PureComponent {
             validation,
             validationStatus: customValidationStatus ?? validationStatus,
             value,
-            isLabelWithArrow
+            isLabelWithArrow,
+            step
         };
     }
 
@@ -391,6 +396,7 @@ export class FieldContainer extends PureComponent {
         if (selectValue) {
             event.target.select();
         }
+
         if (onClick) {
             onClick(event);
         }
@@ -408,12 +414,15 @@ export class FieldContainer extends PureComponent {
         switch (type) {
         case NUMBER_TYPE:
             const isValueNaN = Number.isNaN(parseInt(value, 10));
+
             if (min > value || value > max || isValueNaN) {
                 break;
             }
+
             if (onChange && shouldUpdate) {
                 onChange(value);
             }
+
             if (!isControlled) {
                 this.setState({ value });
             }
@@ -433,6 +442,7 @@ export class FieldContainer extends PureComponent {
             if (onChange) {
                 onChange(value);
             }
+
             if (!isControlled) {
                 this.setState({ value });
             }

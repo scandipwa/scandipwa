@@ -47,8 +47,8 @@ export const ThumbnailType = PropTypes.shape({
 export const MediaItemType = PropTypes.shape({
     thumbnail: ThumbnailType,
     file: PropTypes.string,
-    content: PropTypes.objectOf(PropTypes.object),
-    video_content: PropTypes.objectOf(PropTypes.object),
+    content: PropTypes.objectOf(PropTypes.shape({})),
+    video_content: PropTypes.objectOf(PropTypes.shape({})),
     id: PropTypes.number,
     media_type: PropTypes.string,
     label: PropTypes.string

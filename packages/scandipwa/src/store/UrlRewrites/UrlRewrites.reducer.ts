@@ -42,7 +42,7 @@ export const getInitialState = (): UrlRewritesStore => ({
     isLoading: false
 });
 
-/** @namespace Store/UrlRewrites/Reducer */
+/** @namespace Store/UrlRewrites/Reducer/UrlRewritesReducer */
 export const UrlRewritesReducer: Reducer<
     UrlRewritesStore,
     Action<typeof UPDATE_URL_REWRITE | typeof IS_LOADING_URL_REWRITE> & UrlRewritesAction

@@ -15,12 +15,4 @@
     @include desktop {
         display: inline-block;
     }
-
-    &-Button {
-        @include desktop {
-            position: absolute;
-            inset-block-start: -55px;
-            inset-inline-end: 0;
-        }
-    }
 }

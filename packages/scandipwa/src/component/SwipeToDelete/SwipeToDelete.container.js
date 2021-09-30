@@ -26,15 +26,15 @@ import {
     DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD
 } from './SwipeToDelete.config';
 
-/** @namespace Component/Link/Container/mapStateToProps */
+/** @namespace Component/SwipeToDelete/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
 
-/** @namespace Component/Link/Container/mapDispatchToProps */
+/** @namespace Component/SwipeToDelete/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
-/** @namespace Component/Link/Container */
+/** @namespace Component/SwipeToDelete/Container */
 export class SwipeToDeleteContainer extends PureComponent {
     static propTypes = {
         isMobile: PropTypes.bool.isRequired,

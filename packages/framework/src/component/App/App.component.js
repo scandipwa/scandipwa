@@ -7,7 +7,7 @@ import SomethingWentWrong from '../SomethingWentWrong/SomethingWentWrong.compone
 export class AppComponent extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/forbid-prop-types
-        errorDetails: PropTypes.object.isRequired,
+        errorDetails: PropTypes.shape({}).isRequired,
         isSomethingWentWrong: PropTypes.bool.isRequired,
         handleErrorReset: PropTypes.func.isRequired
     };

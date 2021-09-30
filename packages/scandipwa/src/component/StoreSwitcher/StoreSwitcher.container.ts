@@ -97,10 +97,7 @@ export const storeSwitcherLogic = (): StoreSwitcherProps => {
         setStoreLabel(label);
     }, [storeList, setStoreLabel]);
 
-    const getStoreList = () => useCallback(
-        () => request(ConfigQuery.getStoreList()),
-        [request]
-    );
+    const getStoreList = () => request(ConfigQuery.getStoreList());
 
     useEffect(() => {
         getStoreList();

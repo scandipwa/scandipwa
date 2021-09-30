@@ -75,6 +75,7 @@ export class NoMatchHandler extends PureComponent {
 
     render() {
         const { children, noMatch } = this.props;
+
         if (noMatch) {
             return <NoMatch />;
         }

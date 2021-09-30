@@ -39,13 +39,13 @@ export const clearComparedProducts = () => ({
     type: CLEAR_COMPARED_PRODUCTS
 });
 
-/** @namespace Store/ProductCompare/Action/clearComparedProducts/setComparedProductIds */
+/** @namespace Store/ProductCompare/Action/setCompareListIds */
 export const setCompareListIds = (productIds) => ({
     type: SET_COMPARED_PRODUCT_IDS,
     productIds
 });
 
-/** @namespace Store/ProductCompare/Action/clearComparedProducts/addComparedProductIds */
+/** @namespace Store/ProductCompare/Action/addComparedProductIds */
 export const addComparedProductIds = (productId) => ({
     type: ADD_COMPARED_PRODUCT_ID,
     productId

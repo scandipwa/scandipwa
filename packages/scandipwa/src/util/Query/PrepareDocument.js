@@ -16,9 +16,7 @@ export const QUERY_TYPE = 'query';
  * Prepare request body string from query list (all entries must be instances of Query).
  * @param  {Array<Field>} queries
  * @return {String} JSON String, format: `{"query":"{alias: queryName (attr:key) { field1, field2 }}"}`
- * @namespace Util/Query/prepareFieldString
- * @deprecated Use `@tilework/opus` instead
- */
+ * @namespace Util/Query/PrepareDocument/prepareFieldString */
 export const prepareFieldString = (rootField, accArgs = {}) => {
     const {
         alias, name, args, children
@@ -53,10 +51,7 @@ export const prepareFieldString = (rootField, accArgs = {}) => {
     return `${alias}${name}${formattedArgs}${body}`;
 };
 
-/**
- * @namespace Util/Query/prepareRequest
- * @deprecated Use `@tilework/opus` instead
- * */
+/** @namespace Util/Query/PrepareDocument/prepareRequest */
 export const prepareRequest = (fields, type) => {
     const fieldsArray = Array.isArray(fields) ? fields : [fields];
 
@@ -105,14 +100,8 @@ export const prepareRequest = (fields, type) => {
     };
 };
 
-/**
- * @namespace Util/Query/prepareMutation
- * @deprecated Use `@tilework/opus` instead
- * */
+/** @namespace Util/Query/PrepareDocument/prepareMutation */
 export const prepareMutation = (mutations) => prepareRequest(mutations, MUTATION_TYPE);
 
-/**
- * @namespace Util/Query/prepareQuery
- * @deprecated Use `@tilework/opus` instead
- * */
+/** @namespace Util/Query/PrepareDocument/prepareQuery */
 export const prepareQuery = (queries) => prepareRequest(queries, QUERY_TYPE);

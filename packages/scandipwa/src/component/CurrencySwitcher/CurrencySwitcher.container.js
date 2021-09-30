@@ -48,7 +48,7 @@ export class CurrencySwitcherContainer extends DataContainer {
         const { updateCurrency } = this.props;
 
         updateCurrency({ currencyCode }).then(
-            /** @namespace Component/CurrencySwitcher/Container/updateCurrencyThen */
+            /** @namespace Component/CurrencySwitcher/Container/CurrencySwitcherContainer/_handleCurrencySelect/updateCurrency/then */
             () => location.reload()
         );
     }

@@ -12,7 +12,8 @@
 import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
-import Field from 'Component/Field';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import StoreItems from 'Component/StoreItems';
 import { SimpleComponent } from 'Util/SimpleComponent';
 
@@ -62,12 +63,16 @@ export class StoreSwitcherComponent extends SimpleComponent<StoreSwitcherProps> 
         return (
             <div block="StoreSwitcher">
                 <Field
-                  id="StoreSwitcher"
-                  name="StoreSwitcher"
-                  type="select"
-                  selectOptions={ storeList }
-                  value={ currentStoreCode }
-                  onChange={ handleStoreSelect }
+                  type={ FIELD_TYPE.select }
+                  attr={ {
+                      id: 'StoreSwitcher',
+                      name: 'StoreSwitcher',
+                      defaultValue: currentStoreCode
+                  } }
+                  events={ {
+                      onChange: handleStoreSelect
+                  } }
+                  options={ storeList }
                 />
             </div>
         );

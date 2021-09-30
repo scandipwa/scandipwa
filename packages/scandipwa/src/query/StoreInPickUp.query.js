@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-/** @namespace StoreinPickup/Query/StoreInPickUp/Query/StoreInPickUpQuery */
+/** @namespace Query/StoreInPickUp/Query */
 export class StoreInPickUpQuery {
     getStores(country, search = '') {
         return new Field('getStores')

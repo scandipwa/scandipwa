@@ -108,7 +108,7 @@
             padding: 24px 12px;
 
             @include mobile {
-                margin-block-start: 12px;
+                margin-block: 12px;
                 padding: 14px;
                 border: 1px solid var(--primary-divider-color);
             }
@@ -179,6 +179,10 @@
 
     &-Discount {
         border-block-start: 0;
+
+        @include mobile {
+            border-block-start: 1px solid var(--expandable-content-divider-color);
+        }
 
         @include desktop {
             margin-block-start: 24px;

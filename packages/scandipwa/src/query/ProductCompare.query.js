@@ -12,7 +12,7 @@
 import { ProductListQuery } from 'Query/ProductList.query';
 import { Field } from 'Util/Query';
 
-/** @namespace Query/ProductCompare */
+/** @namespace Query/ProductCompare/Query */
 export class ProductCompareQuery extends ProductListQuery {
     getCreateEmptyCompareList() {
         return new Field('createCompareList')
@@ -127,7 +127,8 @@ export class ProductCompareQuery extends ProductListQuery {
             .addFieldList(this._getProductInterfaceFields(true, false))
             .addFieldList(['url'])
             .addField(this._getReviewCountField())
-            .addField(this._getRatingSummaryField());
+            .addField(this._getRatingSummaryField())
+            .addField(this._getDescriptionField());
     }
 
     _getProductIdsField() {

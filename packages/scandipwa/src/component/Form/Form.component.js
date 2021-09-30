@@ -214,7 +214,7 @@ export class Form extends PureComponent {
         }, []));
 
         asyncData.then(
-            /** @namespace Component/Form/Component/handleFormSubmitAsyncDataThen */
+            /** @namespace Component/Form/Component/Form/asyncData/then */
             (asyncDataList) => {
                 if (!invalidFields.length) {
                     onSubmitSuccess(inputValues, asyncDataList);
@@ -224,7 +224,7 @@ export class Form extends PureComponent {
 
                 onSubmitError(inputValues, invalidFields);
             },
-            /** @namespace Component/Form/Component/handleFormSubmitAsyncDataCatch */
+            /** @namespace Component/Form/Component/Form/asyncData/then/onSubmitError/catch */
             (e) => onSubmitError(inputValues, invalidFields, e)
         );
     };
@@ -243,6 +243,7 @@ export class Form extends PureComponent {
 
         const inputValues = Object.values(refMap).reduce((inputValues, input) => {
             const { current } = input;
+
             if (current && current.id && current.value) {
                 const { name, value, checked } = current;
 

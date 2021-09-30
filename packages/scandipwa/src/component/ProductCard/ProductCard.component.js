@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,70 +11,45 @@
  */
 
 import PropTypes from 'prop-types';
-import { Component, createRef } from 'react';
+import { createRef } from 'react';
 
-import AddToCart from 'Component/AddToCart';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Component/CategoryPage/CategoryPage.config';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import ProductAttributeValue from 'Component/ProductAttributeValue';
-import ProductCompareButton from 'Component/ProductCompareButton';
-import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
-import ProductPrice from 'Component/ProductPrice';
-import ProductReviewRating from 'Component/ProductReviewRating';
-import ProductWishlistButton from 'Component/ProductWishlistButton';
+import { Product } from 'Component/Product/Product.component';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { DeviceType } from 'Type/Device';
 import { LayoutType } from 'Type/Layout';
-import { ProductType } from 'Type/ProductList';
-import { getPriceLabel } from 'Util/Price';
-import {
-    BUNDLE,
-    CONFIGURABLE,
-    filterConfigurableOptions,
-    GROUPED
-} from 'Util/Product';
 
 import './ProductCard.style';
 
 /**
  * Product card
  * @class ProductCard
- * @namespace Component/ProductCard/Component
- */
-export class ProductCard extends Component {
+ * @namespace Component/ProductCard/Component */
+export class ProductCard extends Product {
     static propTypes = {
+        ...Product.propTypes,
         linkTo: PropTypes.shape({}),
-        product: ProductType.isRequired,
         device: DeviceType.isRequired,
         thumbnail: PropTypes.string,
-        getAttribute: PropTypes.func.isRequired,
-        registerSharedElement: PropTypes.func.isRequired,
-        children: PropTypes.element,
         isLoading: PropTypes.bool,
+        children: PropTypes.element,
+        layout: LayoutType,
         mix: PropTypes.shape({}),
         renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
-        isConfigurableProductOutOfStock: PropTypes.func.isRequired,
-        isBundleProductOutOfStock: PropTypes.func.isRequired,
         hideWishlistButton: PropTypes.bool,
         isWishlistEnabled: PropTypes.bool.isRequired,
         hideCompareButton: PropTypes.bool,
-        siblingsHaveBrands: PropTypes.bool,
-        setSiblingsHaveBrands: PropTypes.func,
-        siblingsHavePriceBadge: PropTypes.bool,
-        setSiblingsHavePriceBadge: PropTypes.func,
-        siblingsHaveConfigurableOptions: PropTypes.bool,
-        layout: LayoutType,
-        updateConfigurableVariant: PropTypes.func.isRequired,
-        configurableVariantIndex: PropTypes.number,
         parameters: PropTypes.shape({}).isRequired,
         showSelectOptionsNotification: PropTypes.func.isRequired,
-        productOrVariant: ProductType.isRequired,
-        inStock: PropTypes.bool.isRequired
+        registerSharedElement: PropTypes.func.isRequired
     };
 
     static defaultProps = {
+        ...Product.defaultProps,
         thumbnail: '',
         linkTo: {},
         children: null,
@@ -82,13 +58,7 @@ export class ProductCard extends Component {
         renderContent: false,
         hideWishlistButton: false,
         hideCompareButton: false,
-        siblingsHaveBrands: false,
-        setSiblingsHaveBrands: () => null,
-        siblingsHavePriceBadge: false,
-        setSiblingsHavePriceBadge: () => null,
-        siblingsHaveConfigurableOptions: false,
-        layout: GRID_LAYOUT,
-        configurableVariantIndex: -1
+        layout: GRID_LAYOUT
     };
 
     contentObject = {
@@ -98,58 +68,22 @@ export class ProductCard extends Component {
         },
         content: {
             review: this.renderReviews.bind(this),
-            productPrice: this.renderProductPrice.bind(this),
+            productPrice: this.renderPrice.bind(this),
             mainDetails: this.renderMainDetails.bind(this),
-            additionalProductDetails: this.renderAdditionalProductDetails.bind(this)
+            additionalProductDetails: this.renderBrand.bind(this)
         }
     };
 
     imageRef = createRef();
 
-    shouldComponentUpdate(nextProps) {
-        const {
-            product,
-            device,
-            productOrVariant,
-            parameters,
-            layout
-        } = this.props;
-
-        const {
-            product: nextProduct,
-            device: nextDevice,
-            productOrVariant: nextProductOrVariant,
-            parameters: nextParameters,
-            layout: prevLayout
-        } = nextProps;
-
-        return product !== nextProduct
-            || device !== nextDevice
-            || productOrVariant !== nextProductOrVariant
-            || parameters !== nextParameters
-            || layout !== prevLayout;
-    }
+    className = 'ProductCard';
 
     registerSharedElement = () => {
         const { registerSharedElement } = this.props;
         registerSharedElement(this.imageRef);
     };
 
-    renderProductTypePriceBadge() {
-        const {
-            product: { type_id, price_tiers = [] },
-            siblingsHavePriceBadge,
-            setSiblingsHavePriceBadge
-        } = this.props;
-
-        const label = getPriceLabel(type_id, price_tiers);
-        if (label && !siblingsHavePriceBadge) {
-            setSiblingsHavePriceBadge();
-        }
-
-        return label;
-    }
-
+    //#region PRICE
     renderEmptyProductPrice() {
         return (
             <div
@@ -160,45 +94,49 @@ export class ProductCard extends Component {
         );
     }
 
-    renderProductPrice() {
+    renderPrice() {
         const {
+            getActiveProduct,
+            inStock,
             product: {
-                price_range, price_tiers = [], type_id
-            },
-            isConfigurableProductOutOfStock,
-            isBundleProductOutOfStock
+                type_id: baseType
+            } = {}
         } = this.props;
 
-        if (!price_range) {
-            return <TextPlaceholder />;
+        const {
+            price_range: priceRange,
+            type_id: typeId
+        } = getActiveProduct();
+
+        if (!priceRange) {
+            return this.renderTextPlaceholder();
         }
 
-        switch (type_id) {
-        case CONFIGURABLE:
-            if (isConfigurableProductOutOfStock()) {
-                return this.renderEmptyProductPrice();
+        if (!inStock) {
+            // If configurable, do not render price
+            if (typeId === PRODUCT_TYPE.configurable) {
+                return null;
             }
-            break;
-        case BUNDLE:
-            if (isBundleProductOutOfStock()) {
-                return this.renderEmptyProductPrice();
+
+            // If bundle is out of stock, show out of stock msg
+            if (typeId === PRODUCT_TYPE.bundle) {
+                return (
+                    <div
+                      block={ this.className }
+                      elem="PriceWrapper"
+                    >
+                        { __('Out of stock') }
+                    </div>
+                );
             }
-            break;
-        default:
-            break;
         }
 
-        return (
-            <div block="ProductCard" elem="PriceWrapper">
-                <ProductPrice
-                  price={ price_range }
-                  price_tiers={ price_tiers }
-                  mix={ { block: 'ProductCard', elem: 'Price' } }
-                  label={ this.renderProductTypePriceBadge() }
-                />
-            </div>
-        );
+        // If product is not a variant.
+        const notConfigured = baseType !== PRODUCT_TYPE.configurable || typeId === baseType;
+
+        return super.renderPrice(notConfigured);
     }
+    //#endregion
 
     renderPicture(mix = {}) {
         const { product: { id, name }, thumbnail } = this.props;
@@ -227,25 +165,7 @@ export class ProductCard extends Component {
     }
 
     renderReviews() {
-        const {
-            product: {
-                review_summary: {
-                    rating_summary,
-                    review_count
-                } = {}
-            },
-            layout
-        } = this.props;
-
-        if (!rating_summary) {
-            return (
-                <div
-                  block="ProductCard"
-                  elem="Reviews"
-                  mods={ { layout } }
-                />
-            );
-        }
+        const { layout } = this.props;
 
         return (
             <div
@@ -253,14 +173,13 @@ export class ProductCard extends Component {
               elem="Reviews"
               mods={ { layout } }
             >
-                <ProductReviewRating summary={ rating_summary || 0 } count={ review_count } />
+                { this.renderRatingSummary() }
             </div>
         );
     }
 
     renderProductCompareButton() {
         const {
-            product: { id },
             hideCompareButton
         } = this.props;
 
@@ -268,31 +187,17 @@ export class ProductCard extends Component {
             return null;
         }
 
-        return (
-            <ProductCompareButton
-              productId={ id }
-              mix={ {
-                  block: 'ProductCompareButton',
-                  mods: { isGrey: true }
-              } }
-            />
-        );
+        return this.renderCompareButton();
     }
 
     renderProductCardWishlistButton() {
-        const { product, hideWishlistButton, isWishlistEnabled } = this.props;
+        const { hideWishlistButton, isWishlistEnabled } = this.props;
 
         if (hideWishlistButton || !isWishlistEnabled) {
             return null;
         }
 
-        return (
-            <ProductWishlistButton
-              product={ product }
-              mix={ { block: 'ProductCard', elem: 'WishListButton' } }
-              groupedProductQuantity={ {} }
-            />
-        );
+        return this.renderWishlistButton();
     }
 
     renderProductActions() {
@@ -300,47 +205,6 @@ export class ProductCard extends Component {
             <div block="ProductCard" elem="ProductActions">
                 { this.renderProductCardWishlistButton() }
                 { this.renderProductCompareButton() }
-            </div>
-        );
-    }
-
-    renderBrandValue() {
-        const {
-            getAttribute,
-            siblingsHaveBrands,
-            setSiblingsHaveBrands
-        } = this.props;
-        const {
-            product_list_content: {
-                attribute_to_display
-            } = {}
-        } = window.contentConfiguration;
-        const brand = getAttribute(attribute_to_display || 'brand');
-
-        if (!brand) {
-            return null;
-        }
-
-        if (!siblingsHaveBrands) {
-            setSiblingsHaveBrands();
-        }
-
-        return (
-            <ProductAttributeValue
-              attribute={ brand }
-              isFormattedAsText
-              mix={ {
-                  block: 'ProductCard',
-                  elem: 'BrandAttributeValue'
-              } }
-            />
-        );
-    }
-
-    renderAdditionalProductDetails() {
-        return (
-            <div block="ProductCard" elem="Brand">
-                { this.renderBrandValue() }
             </div>
         );
     }
@@ -386,102 +250,53 @@ export class ProductCard extends Component {
         );
     }
 
+    requiresConfiguration() {
+        const {
+            product: {
+                type_id: type,
+                options = []
+            }
+        } = this.props;
+
+        const configureBundleAndGrouped = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.grouped;
+        const configureConfig = type === PRODUCT_TYPE.configurable
+            // eslint-disable-next-line max-len
+            && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
+        const configureCustomize = options.some(({ required = false }) => required);
+
+        return configureBundleAndGrouped || configureConfig || configureCustomize;
+    }
+
     renderAddToCart() {
         const {
-            product,
-            product: {
-                type_id,
-                options = [],
-                configurable_options: confOptions = {}
-            },
-            configurableVariantIndex,
             layout,
             showSelectOptionsNotification,
             inStock
         } = this.props;
 
-        const quantity = 1;
-        const groupedProductQuantity = {};
-
-        const requiredOptions = options.reduce((acc, { option_id, required }) => {
-            if (required) {
-                acc.push(option_id);
-            }
-
-            return acc;
-        }, []);
-
-        const productOptionsData = {
-            requiredOptions
-        };
-
-        const redirectOnConfig = type_id === CONFIGURABLE
-            && Object.keys(confOptions).length !== Object.keys(this.getAttributesToShow()).length;
-
-        if (type_id === BUNDLE || type_id === GROUPED || redirectOnConfig) {
+        if (inStock && this.requiresConfiguration()) {
             return (
                 <button
                   block="Button AddToCart"
                   mods={ { layout } }
                   onClick={ showSelectOptionsNotification }
                 >
-                    { __('Add To Cart') }
+                    { __('Add to cart') }
                 </button>
             );
         }
 
-        return (
-            <AddToCart
-              product={ product }
-              configurableVariantIndex={ configurableVariantIndex }
-              mix={ { block: 'ProductActions', elem: 'AddToCart' } }
-              quantity={ quantity }
-              groupedProductQuantity={ groupedProductQuantity }
-              productOptionsData={ productOptionsData }
-              disabled={ !inStock }
-              layout={ layout }
-            />
-        );
+        return this.renderAddToCartButton(layout);
     }
 
-    getAttributesToShow() {
-        const {
-            product: {
-                configurable_options = [],
-                variants
-            }
-        } = this.props;
-
-        const filteredOptions = filterConfigurableOptions(configurable_options, variants);
+    getConfigurableAttributes() {
+        const filteredOptions = super.getConfigurableAttributes();
 
         return Object.fromEntries(Object.entries(filteredOptions).filter(([, option]) => {
-            const { attribute_options = {} } = option;
+            const { attribute_options: attributeOptions = {} } = option;
 
-            return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);
+            return Object.values(attributeOptions).some(({ swatch_data: swatchData }) => swatchData);
         }));
-    }
-
-    renderConfigurableOptions() {
-        const {
-            parameters,
-            updateConfigurableVariant,
-            product: { variants },
-            isLoading,
-            inStock
-        } = this.props;
-
-        return (
-            <ProductConfigurableAttributes
-              configurable_options={ this.getAttributesToShow() }
-              updateConfigurableVariant={ updateConfigurableVariant }
-              parameters={ parameters }
-              variants={ variants }
-              isExpandable={ false }
-              isReady={ !isLoading }
-              showProductAttributeAsLink={ false }
-              inStock={ inStock }
-            />
-        );
     }
 
     renderVisibleOnHover() {
@@ -519,9 +334,9 @@ export class ProductCard extends Component {
                     </div>
                     <div block="ProductCard" elem="Content">
                         { this.renderReviews() }
-                        { this.renderAdditionalProductDetails() }
-                        { this.renderMainDetails() }
-                        { this.renderProductPrice() }
+                        { this.renderBrand() }
+                        { this.renderName(false) }
+                        { this.renderPrice() }
                     </div>
                     <div block="ProductCard" elem="VisibleOnHover">
                         { this.renderVisibleOnHover() }
@@ -550,11 +365,11 @@ export class ProductCard extends Component {
                 <div block="ProductCard" elem="Content" mods={ { layout } }>
                     <div block="ProductCard" elem="MainInfo">
                         { this.renderReviews() }
-                        { this.renderAdditionalProductDetails() }
+                        { this.renderBrand() }
                         { this.renderMainDetails() }
                     </div>
                     <div block="ProductCard" elem="AttributeWrapper">
-                        { this.renderProductPrice() }
+                        { this.renderPrice() }
                         { this.renderConfigurableOptions() }
                     </div>
                     <div block="ProductCard" elem="ActionWrapper">
@@ -574,24 +389,14 @@ export class ProductCard extends Component {
             children,
             mix,
             isLoading,
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveConfigurableOptions,
             layout
         } = this.props;
-
-        const mods = {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveConfigurableOptions,
-            layout
-        };
 
         if (layout === LIST_LAYOUT) {
             return (
                 <li
                   block="ProductCard"
-                  mods={ mods }
+                  mods={ layout }
                   mix={ mix }
                 >
                     <Loader isLoading={ isLoading } />
@@ -603,7 +408,7 @@ export class ProductCard extends Component {
         return (
             <li
               block="ProductCard"
-              mods={ mods }
+              mods={ layout }
               mix={ mix }
             >
                 <Loader isLoading={ isLoading } />

@@ -19,8 +19,7 @@ import './RangeSelector.style';
 /**
  * Product Sort
  * @class ProductSort
- * @namespace Component/RangeSelector/Component/RangeSelector
- */
+ * @namespace Component/RangeSelector/Component */
 export class RangeSelector extends PureComponent {
     static propTypes = {
         value: PropTypes.oneOfType([
@@ -73,8 +72,7 @@ export class RangeSelector extends PureComponent {
      * Limit selected value to min and max bounds
      * @param {Object} value sliders mix and max values
      * @return {Number} value within bounds
-     * @namespace Component/RangeSelector/Component
- */
+     */
     limitValueToBounds(value) {
         const { minValue, maxValue } = this.props;
         const newValue = { ...value };
@@ -82,6 +80,7 @@ export class RangeSelector extends PureComponent {
         if (newValue.max > maxValue) {
             newValue.max = maxValue;
         }
+
         if (newValue.min < minValue) {
             newValue.min = minValue;
         }

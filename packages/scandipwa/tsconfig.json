@@ -1,35 +1,35 @@
 {
-    "include": [
-        "./src/**/*"
+  "include": [
+    "./src/**/*"
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "lib": [
+      "dom",
+      "ES2020"
     ],
-    "compilerOptions": {
-        "strict": true,
-        "allowJs": true,
-        "checkJs": false,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
-        "baseUrl": "./",
-        "lib": [
-            "dom",
-            "ES2020"
-        ],
-        "jsx": "react-jsx",
-        "typeRoots": [
-            "./src/type",
-            "./node_modules/@types"
-        ],
-        "types": [
-            "webpack-env"
-        ],
-        "target": "ES5",
-        "skipLibCheck": true,
-        "noFallthroughCasesInSwitch": true,
-        "module": "ESNext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true
-    },
-    "extends": "./mosaic.jsconfig"
+    "jsx": "react",
+    "typeRoots": [
+      "./src/type",
+      "./node_modules/@types"
+    ],
+    "types": [
+      "webpack-env"
+    ],
+    "target": "ES5",
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
+  },
+  "extends": "./mosaic.jsconfig"
 }

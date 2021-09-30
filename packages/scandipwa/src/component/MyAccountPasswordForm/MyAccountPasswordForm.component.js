@@ -11,7 +11,10 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from 'Component/FieldForm';
+import FieldForm from 'Component/PureForm/FieldForm';
+import transformToNameValuePair from 'Util/Form/Transform';
+
+import myAccountPasswordForm from './MyAccountPasswordForm.form';
 
 /** @namespace Component/MyAccountPasswordForm/Component */
 export class MyAccountPasswordForm extends FieldForm {
@@ -19,23 +22,18 @@ export class MyAccountPasswordForm extends FieldForm {
         onPasswordChange: PropTypes.func.isRequired
     };
 
-    onFormSuccess = (fields) => {
+    onFormSuccess = (form, fields) => {
         const { onPasswordChange } = this.props;
-        onPasswordChange(fields);
+        onPasswordChange(transformToNameValuePair(fields));
     };
 
     get fieldMap() {
+        return myAccountPasswordForm();
+    }
+
+    getFormProps() {
         return {
-            currentPassword: {
-                type: 'password',
-                label: __('Current Password'),
-                validation: ['notEmpty']
-            },
-            newPassword: {
-                type: 'password',
-                label: __('New password'),
-                validation: ['notEmpty']
-            }
+            onSubmit: this.onFormSuccess
         };
     }
 

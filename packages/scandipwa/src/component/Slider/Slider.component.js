@@ -111,21 +111,32 @@ export class Slider extends PureComponent {
             return;
         }
 
+        const sliderRef = this.getSliderRef();
+        CSS.setVariable(sliderRef, 'sliderOpacity', '0');
+
         // delay setting carousel translate to avoid wrong calculations be made during transition
         setTimeout(() => {
             this.setStyleVariablesOnMount();
         }, 0);
 
-        const sliderRef = this.getSliderRef();
-        const sliderHeight = `${ sliderChildren[0].offsetHeight }px`;
+        const target = sliderChildren[0].querySelector('img') || sliderChildren[0];
 
-        sliderChildren[0].onload = () => {
+        target.onload = () => {
+            const height = target.offsetHeight;
+            const sliderHeight = `${ height }px`;
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         };
 
         setTimeout(() => {
-            CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
+            const height = target.offsetHeight;
+            const sliderHeight = `${ height }px`;
+
+            if (height !== 0) {
+                CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
+            }
         }, ANIMATION_DURATION);
+
+        setTimeout(() => CSS.setVariable(sliderRef, 'sliderOpacity', '1'), 0);
     }
 
     componentDidUpdate(prevProps) {

@@ -15,7 +15,7 @@ type CancelablePromise<T> = Promise<T> & { cancel(): void }
 
 /**
  * Promise wrapper to make it cancelable
- * @namespace Util/Promise/makeCancelable
+ * @namespace Util/Promise/MakeCancelable/makeCancelable
  */
 export const makeCancelable = <T>(promise: Promise<T>): CancelablePromise<T> => {
     // eslint-disable-next-line fp/no-let
@@ -23,9 +23,9 @@ export const makeCancelable = <T>(promise: Promise<T>): CancelablePromise<T> => 
 
     const wrappedPromise = new Promise((resolve, reject) => {
         promise.then(
-            /** @namespace Util/Promise/MakeCancelable/promiseThen */
+            /** @namespace Util/Promise/MakeCancelable/makeCancelable/wrappedPromise/promise/then */
             (val) => (!hasCanceled_ && resolve(val)),
-            /** @namespace Util/Promise/MakeCancelable/promiseError */
+            /** @namespace Util/Promise/MakeCancelable/makeCancelable/wrappedPromise/promise/then/catch */
             (error) => (!hasCanceled_ && reject(error))
         );
     }) as CancelablePromise<T>;

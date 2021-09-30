@@ -13,10 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import ProductCompareItem from './ProductCompareItem.component';
 
@@ -141,7 +141,7 @@ export class ProductCompareItemContainer extends PureComponent {
 
     getOverrideAddToCartBtnBehavior() {
         const { product: { type_id, options } } = this.props;
-        const types = [BUNDLE, CONFIGURABLE, GROUPED];
+        const types = [PRODUCT_TYPE.bundle, PRODUCT_TYPE.configurable, PRODUCT_TYPE.grouped];
 
         return !!(types.indexOf(type_id) !== -1 || options?.length);
     }

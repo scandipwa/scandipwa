@@ -27,7 +27,7 @@ export type ModifiedReduxStore<S, A> = (Store<S, Action<A>> & {
 
 /**
  * Configure the store
- * @namespace Store/Index/configureStore
+ * @namespace Util/Store/Index/configureStore
  * */
 export function configureStore<S, A, T extends ModifiedReduxStore<S, A>>(store: T): T {
     // Add a dictionary to keep track of the registered async reducers
@@ -46,6 +46,7 @@ export function configureStore<S, A, T extends ModifiedReduxStore<S, A>>(store: 
     return store;
 }
 
+/** @namespace Util/Store/Index/noopReducer */
 export const noopReducer = <T>(state: T): T => state;
 
 // Initialize the store

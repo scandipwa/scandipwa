@@ -37,11 +37,13 @@ export class ProductAttributesContainer extends PureComponent {
 
         const allAttribsWithValues = Object.entries(attributes).reduce((acc, [key, val]) => {
             const { attribute_label, attribute_value } = val;
+
             if (attribute_value) {
                 return { ...acc, [attribute_label]: val };
             }
 
             const valueIndexFromParameter = parameters[key];
+
             if (valueIndexFromParameter) {
                 return { ...acc, [attribute_label]: { ...val, attribute_value: valueIndexFromParameter } };
             }

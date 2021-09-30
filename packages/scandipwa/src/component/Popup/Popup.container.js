@@ -54,17 +54,20 @@ export class PopupContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         onVisible: PropTypes.func,
         onClose: PropTypes.func,
+        onHide: PropTypes.func,
         isStatic: PropTypes.bool,
         children: ChildrenType,
         id: PropTypes.string.isRequired,
         shouldPopupClose: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired
+        hideActiveOverlay: PropTypes.func.isRequired,
+        resetHideActivePopup: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         onVisible: () => {},
         onClose: () => {},
+        onHide: () => {},
         mix: {},
         contentMix: {},
         children: [],
@@ -101,8 +104,11 @@ export class PopupContainer extends PureComponent {
             mix,
             contentMix,
             onClose,
+            onHide,
             onVisible,
+            shouldPopupClose,
             hideActiveOverlay,
+            resetHideActivePopup,
             goToPreviousNavigationState
         } = this.props;
 
@@ -116,9 +122,12 @@ export class PopupContainer extends PureComponent {
             isStatic,
             mix,
             contentMix,
+            shouldPopupClose,
             onClose,
+            onHide,
             onVisible,
             hideActiveOverlay,
+            resetHideActivePopup,
             goToPreviousNavigationState,
             title: this._getPopupTitle()
         };

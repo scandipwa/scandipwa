@@ -17,6 +17,7 @@ import { ERROR_TYPE } from 'Component/Notification/Notification.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router';
+import transformToNameValuePair from 'Util/Form/Transform';
 import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
@@ -62,7 +63,6 @@ export class ConfirmAccountPageContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onConfirmAttempt: this.onConfirmAttempt.bind(this),
         onConfirmSuccess: this.onConfirmSuccess.bind(this),
         onFormError: this.onFormError.bind(this)
     };
@@ -105,24 +105,25 @@ export class ConfirmAccountPageContainer extends PureComponent {
     }
 
     onConfirmAttempt() {
-        this.setState({ isLoading: true });
     }
 
-    onConfirmSuccess(fields) {
+    onConfirmSuccess(form, fields) {
         const {
             location: { search },
             confirmAccount,
             signIn
         } = this.props;
 
-        const { password } = fields;
+        this.setState({ isLoading: true });
+
+        const { password } = transformToNameValuePair(fields);
 
         const options = convertQueryStringToKeyValuePairs(search);
         const { email } = options;
 
         confirmAccount({ ...options, password })
             .then(
-                /** @namespace Component/ConfirmAccountPage/Container/confirmAccountThen */
+                /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch/then/then/confirmAccount/then */
                 (data) => {
                     const { msgType } = data || {};
 
@@ -136,11 +137,11 @@ export class ConfirmAccountPageContainer extends PureComponent {
                 }
             )
             .then(
-                /** @namespace Component/ConfirmAccountPage/Container/confirmAccountThenThen */
+                /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch/then/then */
                 () => this.setState({ redirect: true })
             )
             .catch(
-                /** @namespace Component/ConfirmAccountPage/Container/confirmAccountThenThenCatch */
+                /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch */
                 () => this.setState({ isLoading: false })
             );
     }

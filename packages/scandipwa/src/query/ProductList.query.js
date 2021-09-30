@@ -17,8 +17,7 @@ import { Field, Fragment } from 'Util/Query';
 /**
  * Product List Query
  * @class ProductListQuery
- * @namespace Query/ProductList
- */
+ * @namespace Query/ProductList/Query */
 export class ProductListQuery {
     __construct() {
         super.__construct();
@@ -99,6 +98,7 @@ export class ProductListQuery {
             },
             productsSkuArray: (sku) => ({ sku: { in: sku } }),
             productSKU: (sku) => ({ sku: { eq: sku } }),
+            productID: (id) => ({ id: { eq: id } }),
             productUrlPath: (url) => ({ url_key: { eq: url } }),
             customFilters: this._getCustomFilters,
             newToDate: (date) => ({ news_to_date: { gteq: date } }),
@@ -223,18 +223,19 @@ export class ProductListQuery {
 
         // Basic fields returned always
         const fields = [
+            'uid',
             'id',
             'sku',
             'name',
             'type_id',
             'stock_status',
-            this._getStockItemField()
+            this._getStockItemField(),
+            this._getPriceRangeField()
         ];
 
         // Additional fields, which we want to return always, except when it's variants on PLP (due to hugh number of items)
         if (!(isPlp && isVariant)) {
             fields.push(
-                this._getPriceRangeField(),
                 this._getProductImageField(),
                 this._getProductThumbnailField(),
                 this._getProductSmallField(),
@@ -265,7 +266,8 @@ export class ProductListQuery {
             if (!noVariants) {
                 fields.push(
                     this._getConfigurableProductFragment(),
-                    this._getBundleProductFragment()
+                    this._getBundleProductFragment(),
+                    this._getGroupedProductItems()
                 );
             }
         }
@@ -279,24 +281,23 @@ export class ProductListQuery {
         if (isSingleProduct) {
             fields.push(
                 'stock_status',
-                'meta_title',
-                'meta_keyword',
-                'canonical_url',
-                'meta_description',
                 this._getDescriptionField(),
                 this._getMediaGalleryField(),
-                this._getSimpleProductFragment(),
-                this._getProductLinksField(),
-                this._getCustomizableProductFragment()
+                this._getSimpleProductFragment()
             );
 
             // for variants of PDP requested product
             if (!isVariant) {
                 fields.push(
+                    'canonical_url',
+                    'meta_title',
+                    'meta_keyword',
+                    'meta_description',
                     this._getCategoriesField(),
                     this._getReviewsField(),
                     this._getVirtualProductFragment(),
-                    this._getCustomizableProductFragment()
+                    this._getCustomizableProductFragment(),
+                    this._getProductLinksField()
                 );
             }
         }
@@ -371,6 +372,7 @@ export class ProductListQuery {
             'sort_order',
             'title',
             'id',
+            'uid',
             'price'
         ];
     }
@@ -395,7 +397,7 @@ export class ProductListQuery {
             .addFieldList(this._getProductInterfaceFields());
 
         if (isSingleProduct) {
-            items.addField(this._getGroupedProductItems());
+            // items.addField(this._getGroupedProductItems());
             items.addField(this._getDownloadableProductFields());
         } else {
             items.addField(this._getDownloadableProductLinksRequired());
@@ -559,7 +561,6 @@ export class ProductListQuery {
             'attribute_type',
             'attribute_label',
             'attribute_group_id',
-            'attribute_group_code',
             'attribute_group_name',
             ...(!isVariant
                 ? [
@@ -715,7 +716,7 @@ export class ProductListQuery {
 
     _getBundleOptionsFields() {
         return [
-            'id',
+            'uid',
             'label',
             'quantity',
             'position',
@@ -723,8 +724,13 @@ export class ProductListQuery {
             'price',
             'price_type',
             'can_change_quantity',
-            this._getProductField()
+            this._getProductBundleOptionFields()
         ];
+    }
+
+    _getProductBundleOptionFields() {
+        return new Field('product')
+            .addField(this._getPriceRangeField());
     }
 
     _getBundleOptionsField() {
@@ -734,6 +740,7 @@ export class ProductListQuery {
 
     _getBundleItemsFields() {
         return [
+            'uid',
             'option_id',
             'title',
             'required',
@@ -774,7 +781,6 @@ export class ProductListQuery {
 
     _getBundleProductFragmentFields() {
         return [
-            'price_view',
             'dynamic_price',
             'dynamic_sku',
             'ship_bundle_items',
@@ -885,8 +891,47 @@ export class ProductListQuery {
             .addFieldList([this._getCustomizableFileValueField('fileValues')]);
     }
 
+    _getCustomizableDateValueFields() {
+        return [
+            'price',
+            'priceInclTax',
+            'priceExclTax',
+            'price_type',
+            'currency',
+            'sku'
+        ];
+    }
+
+    _getCustomizableDateValueField() {
+        return new Field('value')
+            .addFieldList(this._getCustomizableDateValueFields());
+    }
+
+    _getCustomizableDateFields(alias) {
+        return [
+            this._getCustomizableDateValueField(alias),
+            'product_sku'
+        ];
+    }
+
+    _getCustomizableDateOption() {
+        return new Fragment('CustomizableDateOption')
+            .addFieldList(this._getCustomizableDateFields());
+    }
+    //
+    // _getCustomizableDateOption() {
+    //     return new Fragment('CustomizableAreaOption')
+    //         .addFieldList(this._getCustomizableTextFields('areaValues'));
+    // }
+    //
+    // _getCustomizableAreaOption() {
+    //     return new Fragment('CustomizableAreaOption')
+    //         .addFieldList(this._getCustomizableTextFields('areaValues'));
+    // }
+
     _getCustomizableSelectionValueFields() {
         return [
+            'uid',
             'option_type_id',
             'price',
             'priceInclTax',
@@ -934,10 +979,12 @@ export class ProductListQuery {
             this._getCustomizableFieldOption(),
             this._getCustomizableAreaOption(),
             this._getCustomizableFileOption(),
+            this._getCustomizableDateOption(),
             'title',
             'required',
             'sort_order',
-            'option_id'
+            'type',
+            'uid'
         ];
     }
 

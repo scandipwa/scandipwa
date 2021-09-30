@@ -12,10 +12,12 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field';
-import Form from 'Component/Form';
+import Field from 'Component/PureForm/Field';
+import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import Form from 'Component/PureForm/Form';
 import { signInStateType } from 'Type/Account';
 import history from 'Util/History';
+import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 import './MyAccountCreateAccount.style.scss';
 
@@ -23,16 +25,16 @@ import './MyAccountCreateAccount.style.scss';
 export class MyAccountCreateAccount extends PureComponent {
     static propTypes = {
         state: signInStateType.isRequired,
-        onCreateAccountAttempt: PropTypes.func.isRequired,
-        onCreateAccountSuccess: PropTypes.func.isRequired,
+        onError: PropTypes.func.isRequired,
+        onSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.bool.isRequired,
-        vatNumberValidation: PropTypes.arrayOf(PropTypes.string).isRequired,
+        vatNumberRequired: PropTypes.bool.isRequired,
         newsletterActive: PropTypes.bool.isRequired
     };
 
     renderVatNumberField() {
-        const { showTaxVatNumber, vatNumberValidation } = this.props;
+        const { showTaxVatNumber, vatNumberRequired } = this.props;
 
         if (!showTaxVatNumber) {
             return null;
@@ -40,12 +42,18 @@ export class MyAccountCreateAccount extends PureComponent {
 
         return (
             <Field
-              type="text"
+              type={ FIELD_TYPE.text }
               label={ __('Tax/VAT Number') }
-              placeholder={ __('Your Tax/VAT Number') }
-              id="taxvat"
-              name="taxvat"
-              validation={ vatNumberValidation }
+              attr={ {
+                  id: 'taxvat',
+                  name: 'taxvat',
+                  placeholder: __('Your Tax/VAT Number')
+              } }
+              validateOn={ ['onChange'] }
+              validationRule={ {
+                  isRequired: vatNumberRequired
+              } }
+              addRequiredTag={ vatNumberRequired }
             />
         );
     }
@@ -53,12 +61,14 @@ export class MyAccountCreateAccount extends PureComponent {
     renderSubscribeToNewsletter() {
         return (
             <Field
-              type="checkbox"
-              value="is_subscribed"
+              type={ FIELD_TYPE.checkbox }
               label={ __('Subscribe to newsletter') }
-              id="is_subscribed"
+              attr={ {
+                  id: 'is_subscribed',
+                  name: 'is_subscribed',
+                  placeholder: __('Your Tax/VAT Number')
+              } }
               mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
-              name="is_subscribed"
             />
         );
     }
@@ -71,24 +81,38 @@ export class MyAccountCreateAccount extends PureComponent {
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend>{ __('Personal Information') }</legend>
                 <Field
-                  type="text"
+                  type={ FIELD_TYPE.text }
                   label={ __('First Name') }
-                  id="firstname"
-                  name="firstname"
-                  placeholder={ __('Your first name') }
-                  value={ firstName }
-                  autocomplete="given-name"
-                  validation={ ['notEmpty'] }
+                  attr={ {
+                      id: 'firstname',
+                      name: 'firstname',
+                      defaultValue: firstName,
+                      placeholder: __('Your first name'),
+                      autocomplete: 'given-name'
+                  } }
+                  validateOn={ ['onChange'] }
+                  validationRule={ {
+                      inputType: VALIDATION_INPUT_TYPE.alphaSpace,
+                      isRequired: true
+                  } }
+                  addRequiredTag
                 />
                 <Field
-                  type="text"
+                  type={ FIELD_TYPE.text }
                   label={ __('Last Name') }
-                  id="lastname"
-                  name="lastname"
-                  placeholder={ __('Your last name') }
-                  value={ lastName }
-                  autocomplete="family-name"
-                  validation={ ['notEmpty'] }
+                  attr={ {
+                      id: 'lastname',
+                      name: 'lastname',
+                      defaultValue: lastName,
+                      placeholder: __('Your last name'),
+                      autocomplete: 'family-name'
+                  } }
+                  validateOn={ ['onChange'] }
+                  validationRule={ {
+                      inputType: VALIDATION_INPUT_TYPE.alphaSpace,
+                      isRequired: true
+                  } }
+                  addRequiredTag
                 />
                 { this.renderVatNumberField() }
                 { newsletterActive ? this.renderSubscribeToNewsletter() : null }
@@ -103,34 +127,72 @@ export class MyAccountCreateAccount extends PureComponent {
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend>{ __('Sign-Up Information') }</legend>
                 <Field
-                  type="email"
+                  type={ FIELD_TYPE.email }
                   label={ __('Email') }
-                  id="email"
-                  name="email"
-                  placeholder={ __('Your email address') }
-                  value={ email }
-                  autocomplete="email"
-                  validation={ ['notEmpty', 'email'] }
+                  attr={ {
+                      id: 'email',
+                      name: 'email',
+                      defaultValue: email,
+                      placeholder: __('Your email name'),
+                      autocomplete: 'email'
+                  } }
+                  validateOn={ ['onChange'] }
+                  validationRule={ {
+                      isRequired: true,
+                      inputType: VALIDATION_INPUT_TYPE.email
+                  } }
+                  addRequiredTag
                 />
                 <div block="MyAccountOverlay" elem="PasswordBlock">
-                <Field
-                  type="password"
-                  label={ __('Password') }
-                  id="password"
-                  name="password"
-                  placeholder={ __('Enter your password') }
-                  autocomplete="new-password"
-                  validation={ ['notEmpty', 'password'] }
-                />
-                <Field
-                  type="password"
-                  label={ __('Confirm password') }
-                  id="confirm_password"
-                  name="confirm_password"
-                  placeholder={ __('Retype your password') }
-                  autocomplete="new-password"
-                  validation={ ['notEmpty', 'password', 'password_match'] }
-                />
+                    <Field
+                      type={ FIELD_TYPE.password }
+                      label={ __('Password') }
+                      attr={ {
+                          id: 'password',
+                          name: 'password',
+                          placeholder: __('Enter your password'),
+                          autocomplete: 'new-password'
+                      } }
+                      validateOn={ ['onChange'] }
+                      validationRule={ {
+                          isRequired: true,
+                          inputType: VALIDATION_INPUT_TYPE.password,
+                          match: (value) => {
+                              const email = document.getElementById('email');
+                              return value && email.value !== value;
+                          },
+                          customErrorMessages: {
+                              onMatchFail: __('Passwords can\'t be the same as email!')
+                          },
+                          range: {
+                              min: 8
+                          }
+                      } }
+                      addRequiredTag
+                    />
+                    <Field
+                      type={ FIELD_TYPE.password }
+                      label={ __('Confirm password') }
+                      attr={ {
+                          id: 'confirm_password',
+                          name: 'confirm_password',
+                          placeholder: __('Retype your password'),
+                          autocomplete: 'new-password'
+                      } }
+                      validateOn={ ['onChange'] }
+                      validationRule={ {
+                          isRequired: true,
+                          inputType: VALIDATION_INPUT_TYPE.password,
+                          match: (value) => {
+                              const password = document.getElementById('password');
+                              return value && password.value === value;
+                          },
+                          customErrorMessages: {
+                              onMatchFail: __('Passwords do not match!')
+                          }
+                      } }
+                      addRequiredTag
+                    />
                 </div>
             </fieldset>
         );
@@ -151,14 +213,13 @@ export class MyAccountCreateAccount extends PureComponent {
     }
 
     renderCreateAccountForm() {
-        const { onCreateAccountAttempt, onCreateAccountSuccess } = this.props;
+        const { onError, onSuccess } = this.props;
 
         return (
             <Form
               key="create-account"
-              onSubmit={ onCreateAccountAttempt }
-              onSubmitSuccess={ onCreateAccountSuccess }
-              onSubmitError={ onCreateAccountAttempt }
+              onSubmit={ onSuccess }
+              onError={ onError }
             >
                 { this.renderCreateAccountPersonalInfoFields() }
                 { this.renderCreateAccountSignUpInfoFields() }

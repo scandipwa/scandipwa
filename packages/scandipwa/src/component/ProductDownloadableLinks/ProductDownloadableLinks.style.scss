@@ -14,17 +14,13 @@
         margin-block-end: 1px;
         font-weight: 700;
 
-        &_isRequired {
-            &::after{
-                content: '*';
-                color: var(--primary-base-color);
-                padding: 0 5px;
-            }
-        }
-
         @include mobile {
             display: none;
         }
+    }
+
+    &-Required {
+        color: var(--primary-base-color);
     }
 
     &-ExpandableContent {
@@ -46,6 +42,14 @@
 
         &Heading {
             text-transform: uppercase;
+        }
+    }
+
+    .FieldGroup {
+        &_hasError {
+            .ProductDownloadableLink {
+                color: var(--primary-error-color);
+            }
         }
     }
 
@@ -82,12 +86,6 @@
         &::before {
             content: ' '
         }
-    }
-
-    &-Required {
-        color: var(--primary-error-color);
-        padding-block-start: 10px;
-        padding-inline-start: 15px;
     }
 
     @include mobile {

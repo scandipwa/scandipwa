@@ -19,7 +19,7 @@ export const updateUrlRewrite = (urlRewrite, requestedUrl) => ({
     requestedUrl
 });
 
-/** @namespace Store/UrlRewrites/Action/clearUrlRewrite */
+/** @namespace Store/UrlRewrites/Action/setIsUrlRewritesLoading */
 export const setIsUrlRewritesLoading = (isLoading) => ({
     type: IS_LOADING_URL_REWRITE,
     isLoading

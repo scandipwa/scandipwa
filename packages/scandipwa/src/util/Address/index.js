@@ -9,40 +9,132 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/** @namespace Util/Address/trimCustomerAddress */
+/** @namespace Util/Address/Index/trimCustomerAddress */
 export const trimCustomerAddress = (customerAddress) => {
     const {
-        city,
+        default_shipping = false,
+        default_billing = false,
+        company = null,
+        city = '',
+        country_id = 1,
+        firstname = '',
+        lastname = '',
+        middlename = '',
+        postcode = '',
+        street = [''],
+        telephone = '',
+        region: {
+            region_code = null,
+            region = null,
+            region_id = 1
+        } = {},
+        prefix = '',
+        suffix = '',
+        vat_id = null
+    } = customerAddress;
+
+    return {
         company,
+        default_shipping,
+        default_billing,
+        city,
         country_id,
-        email,
         firstname,
         lastname,
-        method,
+        middlename,
+        postcode,
+        street,
+        telephone,
+        region: {
+            region_code,
+            region,
+            region_id
+        },
+        prefix,
+        suffix,
+        vat_id
+    };
+};
+
+/** @namespace Util/Address/Index/trimCheckoutCustomerAddress */
+export const trimCheckoutCustomerAddress = (customerAddress) => {
+    const {
+        company = null,
+        city = '',
+        country_id = 1,
+        firstname = '',
+        lastname = '',
+        postcode = '',
+        street = [''],
+        telephone = '',
+        region: {
+            region_code = null,
+            region = null,
+            region_id = 1
+        } = {},
+        vat_id = null
+    } = customerAddress;
+
+    return {
+        company,
+        city,
+        country_id,
+        firstname,
+        lastname,
         postcode,
         street,
         telephone,
         region,
+        region_id,
+        region_code,
         vat_id
-    } = customerAddress;
-
-    return {
-        city,
-        company,
-        country_id,
-        email,
-        firstname,
-        lastname,
-        method,
-        postcode,
-        street,
-        telephone,
-        vat_id,
-        ...region
     };
 };
 
-/** @namespace Util/Address/trimAddressFields */
+/** @namespace Util/Address/Index/trimCheckoutAddress */
+export const trimCheckoutAddress = (customerAddress) => {
+    const {
+        company = null,
+        city = '',
+        country_id = 1,
+        firstname = '',
+        lastname = '',
+        postcode = '',
+        street = [''],
+        telephone = '',
+        region = '',
+        region_id = 1,
+        region_code = null,
+        vat_id = null
+    } = customerAddress;
+
+    return {
+        company,
+        city,
+        country_id,
+        firstname,
+        lastname,
+        postcode,
+        street,
+        telephone,
+        region,
+        region_id,
+        region_code,
+        vat_id
+    };
+};
+
+/**
+ * Removes null values from address.street
+ * @param street
+ * @returns {*}
+ * @namespace Util/Address/Index/removeEmptyStreets
+ */
+export const removeEmptyStreets = (street) => (
+    Array.isArray(street) ? street.filter((line) => line) : street
+);
+
+/** @namespace Util/Address/Index/trimAddressFields */
 export const trimAddressFields = (fields) => {
     const {
         region_string: region,
@@ -54,7 +146,7 @@ export const trimAddressFields = (fields) => {
 
 /** transforming "street[index]" entries into a single "street" object
     for checkout/billing/myAccoutAddress form fields object */
-/** @namespace Util/Address/setAddressesInFormObject */
+/** @namespace Util/Address/Index/setAddressesInFormObject */
 export const setAddressesInFormObject = (fields, numberOfLines) => {
     const addressKeys = new Array(numberOfLines)
         .fill('')
@@ -74,13 +166,13 @@ export const setAddressesInFormObject = (fields, numberOfLines) => {
         );
 
     // setting single street entry to the form object
-    newFields.street = addressValues;
+    newFields.street = removeEmptyStreets(addressValues);
 
     return newFields;
 };
 
 // get Form Fields object depending on addressLinesQty
-/** @namespace Util/Address/getFormFields */
+/** @namespace Util/Address/Index/getFormFields */
 export const getFormFields = (fields, addressLinesQty) => {
     if (addressLinesQty === 1) {
         return fields;
@@ -89,7 +181,7 @@ export const getFormFields = (fields, addressLinesQty) => {
     return setAddressesInFormObject(fields, addressLinesQty);
 };
 
-/** @namespace Util/Address/getCityAndRegionFromZipcode */
+/** @namespace Util/Address/Index/getCityAndRegionFromZipcode */
 export const getCityAndRegionFromZipcode = async (countryId, value) => {
     const response = await fetch(`https://api.zippopotam.us/${countryId}/${value.split(' ')[0]}`);
     const data = await response.json();
@@ -102,15 +194,18 @@ export const getCityAndRegionFromZipcode = async (countryId, value) => {
         : [null, null];
 };
 
-/** @namespace Util/Address/getDefaultAddressLabel */
+/** @namespace Util/Address/Index/getDefaultAddressLabel */
 export const getDefaultAddressLabel = (address) => {
     const { default_billing, default_shipping } = address;
+
     if (!default_billing && !default_shipping) {
         return '';
     }
+
     if (default_billing && default_shipping) {
         return __(' (default shipping & billing)');
     }
+
     if (default_billing) {
         return __(' (default billing address)');
     }
@@ -118,11 +213,11 @@ export const getDefaultAddressLabel = (address) => {
     return __(' (default shipping address)');
 };
 
-/** @namespace Util/Address/getAvailableRegions */
+/** @namespace Util/Address/Index/getAvailableRegions */
 export const getAvailableRegions = (country_id, countries) => {
     const country = countries.find(({ id }) => id === country_id) || {};
     const { available_regions } = country;
 
     // need to handle null value
-    return available_regions || [{}];
+    return available_regions || [];
 };

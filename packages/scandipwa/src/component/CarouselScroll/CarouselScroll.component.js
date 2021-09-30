@@ -27,14 +27,16 @@ export class CarouselScroll extends PureComponent {
         showArrow: PropTypes.bool,
         showedItemCount: PropTypes.number,
         onChange: PropTypes.func,
-        activeItemId: PropTypes.number
+        activeItemId: PropTypes.number,
+        isImageZoomPopupActive: PropTypes.bool
     };
 
     static defaultProps = {
         showArrow: true,
         showedItemCount: 1,
         onChange: () => {},
-        activeItemId: null
+        activeItemId: null,
+        isImageZoomPopupActive: false
     };
 
     state = {
@@ -48,18 +50,26 @@ export class CarouselScroll extends PureComponent {
 
     componentDidMount() {
         const { showedItemCount } = this.props;
-        const { offsetWidth: cardWidth } = this.itemRef.current;
 
         const margin = CAROUSEL_ITEM_GAP;
-        const width = `${ (margin + cardWidth) * showedItemCount - margin }px`;
+        const width = this.getCarouselWidth(showedItemCount);
 
         CSS.setVariable(this.carouselRef, 'carousel-scroll-gap', `${margin}px`);
         CSS.setVariable(this.carouselRef, 'carousel-width', width);
     }
 
     componentDidUpdate(prevProps) {
-        const { children: { length: prevChildrenLength } } = prevProps;
-        const { activeItemId, children: { length: childrenLength } } = this.props;
+        const {
+            children: { length: prevChildrenLength },
+            showedItemCount: prevShowedItemCount
+        } = prevProps;
+
+        const {
+            activeItemId,
+            children: { length: childrenLength },
+            showedItemCount
+        } = this.props;
+
         const { activeItemId: prevActiveItemId } = this.state;
 
         if (prevChildrenLength !== childrenLength) {
@@ -71,6 +81,29 @@ export class CarouselScroll extends PureComponent {
         if (activeItemId !== null && activeItemId !== prevActiveItemId) {
             this.handleChange(activeItemId);
         }
+
+        if (prevShowedItemCount !== showedItemCount) {
+            const width = this.getCarouselWidth(showedItemCount);
+            CSS.setVariable(this.carouselRef, 'carousel-width', width);
+            this.updateFirstSlide();
+        }
+    }
+
+    updateFirstSlide() {
+        const { firstCarouselItemId } = this.state;
+
+        const maxId = this.getMaxFirstItemId();
+
+        if (firstCarouselItemId > maxId) {
+            this.setTranslate(maxId);
+            this.setState({ firstCarouselItemId: maxId });
+        }
+    }
+
+    getCarouselWidth(showedItemCount) {
+        const margin = CAROUSEL_ITEM_GAP;
+        const { offsetWidth: cardWidth } = this.itemRef.current;
+        return `${ (margin + cardWidth) * showedItemCount - margin }px`;
     }
 
     getNextTranslate(nextId) {
@@ -81,20 +114,13 @@ export class CarouselScroll extends PureComponent {
     }
 
     setTranslate(nextId) {
-        const { children: { length: childrenLength }, showedItemCount } = this.props;
-
-        if (childrenLength <= showedItemCount) {
-            return;
-        }
-
         const translate = this.getNextTranslate(nextId);
         CSS.setVariable(this.carouselRef, 'translateX', translate);
     }
 
     getMaxFirstItemId = () => {
         const { children: { length: childrenLength }, showedItemCount } = this.props;
-
-        return childrenLength - showedItemCount;
+        return Math.max(childrenLength - showedItemCount, 0);
     };
 
     getNewCarouselItemId(isNextArrow) {
@@ -176,10 +202,10 @@ export class CarouselScroll extends PureComponent {
     };
 
     renderContent() {
-        const { children } = this.props;
+        const { children, isImageZoomPopupActive } = this.props;
 
         return (
-            <div block="CarouselScroll" elem="ContentWrapper">
+            <div block="CarouselScroll" elem="ContentWrapper" mods={ { isImageZoomPopupActive } }>
                 <div block="CarouselScroll" elem="Content">
                     { children.map(this.renderContentItem) }
                 </div>

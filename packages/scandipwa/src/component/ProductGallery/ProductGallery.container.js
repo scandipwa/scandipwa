@@ -39,11 +39,13 @@ export class ProductGalleryContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        isZoomEnabled: PropTypes.bool
     };
 
     static defaultProps = {
-        areDetailsLoaded: false
+        areDetailsLoaded: false,
+        isZoomEnabled: false
     };
 
     sliderRef = createRef();
@@ -67,10 +69,10 @@ export class ProductGalleryContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { product: { media_gallery_entries: mediaGallery = [] } } = this.props;
-        const { product: { media_gallery_entries: prevMediaGallery = [] } } = prevProps;
+        const { product: { media_gallery_entries: mediaGallery = [] }, isZoomEnabled } = this.props;
+        const { product: { media_gallery_entries: prevMediaGallery = [] }, isZoomEnabled: prevZoomEnabled } = prevProps;
 
-        if (mediaGallery !== prevMediaGallery) {
+        if (mediaGallery !== prevMediaGallery || isZoomEnabled !== prevZoomEnabled) {
             this.onActiveImageChange(this.getBaseImage());
         }
     }
@@ -78,7 +80,7 @@ export class ProductGalleryContainer extends PureComponent {
     __construct(props) {
         super.__construct(props);
 
-        const { product: { id } } = props;
+        const { product: { id } = {} } = props;
 
         this.state = {
             activeImage: this.getBaseImage(),
