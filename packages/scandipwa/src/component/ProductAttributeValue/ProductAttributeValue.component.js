@@ -269,10 +269,18 @@ export class ProductAttributeValue extends PureComponent {
     }
 
     getCheckboxLabel = (label, subLabel) => (
-        <>
+        <span
+          block="ProductAttributeValue"
+          elem="Label"
+        >
             { label }
-            <strong>{ `(${subLabel})` }</strong>
-        </>
+            <strong
+              block="ProductAttributeValue"
+              elem="SubLabel"
+            >
+                { `(${subLabel})` }
+            </strong>
+        </span>
     );
 
     renderDropdown(value, subLabel) {
