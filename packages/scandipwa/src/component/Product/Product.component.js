@@ -402,7 +402,7 @@ export class Product extends PureComponent {
         }
 
         // If only one price tier, and it is of default qty, then skip
-        const tierPricesFiltered = priceTiers.length === 1 && priceTiers[0].quantity === 1
+        const tierPricesFiltered = priceTiers && priceTiers.length === 1 && priceTiers[0].quantity === 1
             ? null
             : priceTiers;
 
