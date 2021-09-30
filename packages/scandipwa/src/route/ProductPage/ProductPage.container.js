@@ -358,7 +358,7 @@ export class ProductPageContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { isMobile } = this.props;
+        const { isMobile, location } = this.props;
         const { parameters } = this.state;
 
         return {
@@ -368,7 +368,8 @@ export class ProductPageContainer extends PureComponent {
             activeProduct: this.getActiveProductDataSource(),
             dataSource: this.getDataSource(),
             isMobile,
-            parameters
+            parameters,
+            location
         };
     };
 
