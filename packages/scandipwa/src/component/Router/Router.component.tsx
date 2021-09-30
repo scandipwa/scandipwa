@@ -258,7 +258,7 @@ export class RouterComponent extends SimpleComponent<RouterProps> {
     //     this.props.setHasError(false);
     // };
 
-    renderComponentsOfType(type: ItemsType): React.FunctionComponentElement<unknown>[] {
+    renderComponentsOfType(type: ItemsType): React.FunctionComponentElement<any>[] {
         return this.getSortedItems(type)
             .map(({ position, component }) => cloneElement(component, { key: position }));
     }
