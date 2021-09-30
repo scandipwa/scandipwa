@@ -60,6 +60,7 @@ export class SearchField extends PureComponent {
 
     onClearSearchButtonClick(isFocusOnSearchBar = true) {
         const { onClearSearchButtonClick } = this.props;
+
         if (isFocusOnSearchBar) {
             this.searchBarRef.current.focus();
         }

@@ -125,6 +125,7 @@ export class CheckoutPayments extends PureComponent {
     renderSelectedPayment() {
         const { selectedPaymentCode } = this.props;
         const render = this.paymentRenderMap[selectedPaymentCode];
+
         if (!render) {
             return null;
         }

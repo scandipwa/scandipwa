@@ -71,6 +71,7 @@ export class Draggable extends PureComponent {
     static getDerivedStateFromProps(props, state) {
         const { shiftX, shiftY } = props;
         const { lastTranslateX, lastTranslateY } = state;
+
         if (shiftX !== lastTranslateX || shiftY !== lastTranslateY) {
             return {
                 lastTranslateX: shiftX,
@@ -127,6 +128,7 @@ export class Draggable extends PureComponent {
             translateY: clientY - originalY + shiftY
         }), () => {
             const { onDrag } = this.props;
+
             if (onDrag) {
                 onDrag({ ...this.state, clientX, clientY });
             }

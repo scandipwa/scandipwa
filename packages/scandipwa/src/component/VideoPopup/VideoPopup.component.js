@@ -140,11 +140,13 @@ export class VideoPopup extends PureComponent {
         }
 
         const [, vimeoId] = VIMEO_FORMAT.exec(video_url) || [];
+
         if (vimeoId) {
             return this._renderVimeoVideo(vimeoId);
         }
 
         const [, youtubeId] = YOUTUBE_FORMAT.exec(video_url);
+
         if (youtubeId) {
             return this._renderYoutubeVideo(youtubeId);
         }

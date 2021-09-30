@@ -86,6 +86,7 @@ export class FieldContainer extends PureComponent {
 
         if (elem && this.fieldRef !== elem) {
             this.fieldRef = elem;
+
             if (!validationRule || Object.keys(validationRule).length === 0) {
                 return;
             }

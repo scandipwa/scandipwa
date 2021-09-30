@@ -87,7 +87,9 @@ export class Html extends PureComponent {
 
                 if (name && domName && name.indexOf(domName) !== -1) {
                     return true;
-                } if (attribs && domAttrs) {
+                }
+
+                if (attribs && domAttrs) {
                     // eslint-disable-next-line fp/no-loops, fp/no-let
                     for (let i = 0; i < attribs.length; i++) {
                         const attrib = attribs[i];

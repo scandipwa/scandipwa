@@ -63,6 +63,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         if (defaultAddressId) {
             return +defaultAddressId;
         }
+
         if (addresses && addresses.length) {
             return addresses[0].id;
         }

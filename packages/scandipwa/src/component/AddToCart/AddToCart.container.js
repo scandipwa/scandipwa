@@ -93,6 +93,7 @@ export class AddToCartContainer extends PureComponent {
 
     async addProductToCart(e) {
         const { product, addToCart } = this.props;
+
         if ((!product || Object.keys(product).length === 0) && !addToCart) {
             return;
         }
@@ -134,6 +135,7 @@ export class AddToCartContainer extends PureComponent {
     validateStock() {
         const { product, showNotification } = this.props;
         const inStock = getProductInStock(product);
+
         if (!inStock) {
             const name = getName(product);
             showNotification('info', __('Sorry! The product %s is out of stock!', name));
@@ -150,6 +152,7 @@ export class AddToCartContainer extends PureComponent {
         const maxQty = getMaxQuantity(product);
         const inRange = quantity >= minQty && quantity <= maxQty;
         const isValid = typeId === PRODUCT_TYPE.grouped || inRange;
+
         if (!isValid) {
             if (quantity < minQty) {
                 showNotification('info', __('Sorry! Minimum quantity for this product is %s!', minQty));

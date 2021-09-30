@@ -177,6 +177,7 @@ export const magentoProductTransform = (
     const { sku: parentSku, type_id: parentType } = parentProduct || {};
 
     const productData = [];
+
     if (typeId === PRODUCT_TYPE.grouped) {
         if (Object.keys(quantity).length === 0) {
             return productData;
@@ -188,6 +189,7 @@ export const magentoProductTransform = (
             product: { id, sku: groupedSku }
         }) => {
             const { [id]: groupedQuantity } = quantity;
+
             if (groupedQuantity) {
                 productData.push({
                     sku: groupedSku,

@@ -29,6 +29,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
     get fieldMap() {
         const fieldMap = super.fieldMap;
         const addressGroup = fieldMap.find(({ name }) => name === 'addressGroup');
+
         if (addressGroup) {
             addressGroup.events = {
                 // Updates shipping methods on address blurt

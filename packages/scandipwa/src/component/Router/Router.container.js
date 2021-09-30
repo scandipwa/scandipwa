@@ -170,6 +170,7 @@ export class RouterContainer extends PureComponent {
 
     handleResize = async () => {
         const { updateConfigDevice } = this.props;
+
         if (isUsingClientHints) {
             const { platform, model } = await isMobileClientHints.getDeviceData();
             updateConfigDevice({

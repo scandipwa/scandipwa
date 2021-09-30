@@ -55,6 +55,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
     getDropdownOptions() {
         const { options, currencyCode, type } = this.props;
+
         if (type !== CONFIG_FIELD_TYPE.select) {
             return null;
         }

@@ -30,6 +30,7 @@ export const checkEveryOption = (attributes, options) => Object.keys(options)
         }
 
         const { attribute_value } = attributes[option];
+
         if (typeof options[option] === 'string') {
             return options[option] === attribute_value;
         }
@@ -40,6 +41,7 @@ export const checkEveryOption = (attributes, options) => Object.keys(options)
 /** @namespace Util/Product/getIndexedAttributeOption */
 export const getIndexedAttributeOption = (option) => {
     const { swatch_data: defaultSwatchData } = option;
+
     if (!defaultSwatchData) {
         return option;
     }

@@ -243,6 +243,7 @@ export class Form extends PureComponent {
 
         const inputValues = Object.values(refMap).reduce((inputValues, input) => {
             const { current } = input;
+
             if (current && current.id && current.value) {
                 const { name, value, checked } = current;
 

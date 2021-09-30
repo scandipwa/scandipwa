@@ -67,6 +67,7 @@ export class FieldFileContainer extends PureComponent {
                     file_data: reader.result,
                     file_name: name
                 });
+
                 if (typeof onChange === 'function') {
                     onChange(value);
                 }
@@ -74,6 +75,7 @@ export class FieldFileContainer extends PureComponent {
             reader.onerror = () => {
                 // TODO: Add showNotification('error', __('Failed to upload file'))
                 this.setState({ fileName: '', isLoading: false });
+
                 if (typeof onChange === 'function') {
                     onChange(value);
                 }

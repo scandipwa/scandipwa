@@ -56,6 +56,7 @@ export class Form extends PureComponent {
         }
 
         const { errorMessages } = validationResponse;
+
         if (!errorMessages) {
             return null;
         }
@@ -70,6 +71,7 @@ export class Form extends PureComponent {
     // Renders group label above form
     renderLabel() {
         const { label } = this.props;
+
         if (!label) {
             return null;
         }
@@ -82,6 +84,7 @@ export class Form extends PureComponent {
     // Renders group label under form
     renderSubLabel() {
         const { subLabel } = this.props;
+
         if (!subLabel) {
             return null;
         }

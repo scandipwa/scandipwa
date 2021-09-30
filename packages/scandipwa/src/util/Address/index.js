@@ -197,12 +197,15 @@ export const getCityAndRegionFromZipcode = async (countryId, value) => {
 /** @namespace Util/Address/Index/getDefaultAddressLabel */
 export const getDefaultAddressLabel = (address) => {
     const { default_billing, default_shipping } = address;
+
     if (!default_billing && !default_shipping) {
         return '';
     }
+
     if (default_billing && default_shipping) {
         return __(' (default shipping & billing)');
     }
+
     if (default_billing) {
         return __(' (default billing address)');
     }

@@ -38,6 +38,7 @@ export class MyAccountTabList extends PureComponent {
 
     onTabClick = (key) => {
         const { changeActiveTab } = this.props;
+
         if (!isSignedIn()) {
             return;
         }

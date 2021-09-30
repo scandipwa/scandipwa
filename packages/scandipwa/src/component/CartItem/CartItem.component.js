@@ -213,6 +213,7 @@ export class CartItem extends PureComponent {
 
     renderBundleProductOptionLabel(option) {
         const { label, values = [] } = option;
+
         if (values.length === 0) {
             return null;
         }
