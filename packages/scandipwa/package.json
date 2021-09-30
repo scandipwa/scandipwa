@@ -435,6 +435,11 @@
                         "singleline-var"
                     ],
                     "next": "*"
+                },
+                {
+                    "blankLine": "always",
+                    "prev": "*",
+                    "next": "if"
                 }
             ],
             "prefer-destructuring": [
