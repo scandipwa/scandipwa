@@ -27,6 +27,7 @@ import {
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
 import { withReducers } from 'Util/DynamicReducer';
@@ -227,7 +228,7 @@ export class CategoryPageContainer extends PureComponent {
             }
         } = this.props;
 
-        window.scrollTo(0, 0);
+        scrollToTop();
 
         /**
          * Ensure transition PLP => homepage => PLP always having proper meta

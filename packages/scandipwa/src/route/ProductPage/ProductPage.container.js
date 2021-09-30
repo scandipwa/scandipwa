@@ -24,6 +24,7 @@ import ProductReducer from 'Store/Product/Product.reducer';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
+import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import { getIsConfigurableParameterSelected } from 'Util/Product';
 import { debounce } from 'Util/Request';
@@ -213,7 +214,7 @@ export class ProductPageContainer extends PureComponent {
         /**
          * Scroll page top in order to display it from the start
          */
-        this.scrollTop();
+        scrollToTop();
     }
 
     componentDidUpdate(prevProps) {
@@ -320,10 +321,6 @@ export class ProductPageContainer extends PureComponent {
         } = product;
 
         addRecentlyViewedProduct(productPreview, store);
-    }
-
-    scrollTop() {
-        window.scrollTo(0, 0);
     }
 
     setOfflineNoticeSize = () => {

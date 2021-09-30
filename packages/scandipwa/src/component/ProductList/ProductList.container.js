@@ -19,6 +19,7 @@ import { HistoryType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, PagesType } from 'Type/ProductList';
 import { LocationType } from 'Type/Router';
+import { scrollToTop } from 'Util/Browser';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import ProductList from './ProductList.component';
@@ -105,10 +106,20 @@ export class ProductListContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { sort, search, filter } = this.props;
-        const { sort: prevSort, search: prevSearch, filter: prevFilter } = prevProps;
+        const {
+            sort,
+            search,
+            filter,
+            pages
+        } = this.props;
 
-        const { pages } = this.props;
+        const {
+            sort: prevSort,
+            search: prevSearch,
+            filter: prevFilter,
+            pages: prevPages
+        } = prevProps;
+
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
 
@@ -122,6 +133,10 @@ export class ProductListContainer extends PureComponent {
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
         ) {
             this.requestPage(this._getPageFromUrl());
+        }
+
+        if (pages !== prevPages) {
+            scrollToTop({ behavior: 'smooth' });
         }
     }
 

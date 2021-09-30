@@ -21,6 +21,7 @@ import LockIcon from 'Component/LockIcon';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
 import { CartDisplayType, TotalsType } from 'Type/MiniCart';
+import { scrollToTop } from 'Util/Browser';
 import { formatPrice } from 'Util/Price';
 
 import './CartOverlay.style';
@@ -38,7 +39,6 @@ export class CartOverlay extends PureComponent {
         cartTotalSubPrice: PropTypes.number.isRequired,
         cartDisplaySettings: CartDisplayType.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        scrollToTop: PropTypes.func.isRequired,
         onCartItemLoading: PropTypes.func,
         isCartItemLoading: PropTypes.bool
     };
@@ -206,8 +206,6 @@ export class CartOverlay extends PureComponent {
     }
 
     renderActions() {
-        const { scrollToTop } = this.props;
-
         return (
             <div block="CartOverlay" elem="Actions">
                 <Link

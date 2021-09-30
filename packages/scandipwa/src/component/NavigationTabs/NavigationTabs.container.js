@@ -20,6 +20,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import browserHistory from 'Util/History';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -186,7 +187,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const { pathname } = location;
 
         if (pathname !== appendWithStoreCode(`/${ CART }`)) {
-            window.scrollTo({ top: 0 });
+            scrollToTop();
             browserHistory.push(appendWithStoreCode(`/${ CART }`));
         }
     }
@@ -254,14 +255,8 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         browserHistory.push(appendWithStoreCode('/'));
         hideActiveOverlay();
 
-        if (
-            pathname === appendWithStoreCode('/')
-            || pathname === '/'
-        ) {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+        if (pathname === appendWithStoreCode('/') || pathname === '/') {
+            scrollToTop({ behavior: 'smooth' });
         }
     }
 
