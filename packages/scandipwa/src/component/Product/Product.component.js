@@ -68,7 +68,7 @@ export class Product extends PureComponent {
         configFormRef: createRef()
     };
 
-    className = this.constructor.name.slice(0, -1);
+    className = this.constructor.name.slice(0, -1) || 'Product';
 
     //#region PLACEHOLDERS
     renderTextPlaceholder() {
@@ -259,8 +259,7 @@ export class Product extends PureComponent {
 
         return (
             <AddToCart
-              block={ this.className }
-              elem="AddToCart"
+              mix={ { block: this.className, elem: 'AddToCart' } }
               addToCart={ addToCart }
               isDisabled={ !inStock }
               isIconEnabled={ false }
@@ -402,6 +401,11 @@ export class Product extends PureComponent {
             return null;
         }
 
+        // If only one price tier, and it is of default qty, then skip
+        const tierPricesFiltered = priceTiers.length === 1 && priceTiers[0].quantity === 1
+            ? null
+            : priceTiers;
+
         return (
             <div
               block={ this.className }
@@ -411,7 +415,7 @@ export class Product extends PureComponent {
                   meta
                   price={ productPrice }
                   priceType={ type }
-                  tierPrices={ priceTiers }
+                  tierPrices={ tierPricesFiltered }
                   isPreview={ isPreview }
                   mix={ { block: this.className, elem: 'Price' } }
                 />

@@ -406,10 +406,15 @@ export class WishlistItem extends PureComponent {
 
     render() {
         const { isLoading, isRemoving } = this.props;
+        const product = this.getWishlistProduct();
+
+        if (!product) {
+            return null;
+        }
 
         return (
             <ProductCard
-              product={ this.getWishlistProduct() }
+              product={ product }
               mix={ { block: 'WishlistItem', elem: 'ProductCard' } }
               isLoading={ isLoading || isRemoving }
               renderContent={ this.renderContent }

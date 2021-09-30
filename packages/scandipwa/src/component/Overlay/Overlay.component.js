@@ -69,6 +69,7 @@ export class Overlay extends PureComponent {
         if (isMobile) {
             this.freezeScroll();
         }
+
         this.overlayRef.current.focus();
         onVisible();
     }

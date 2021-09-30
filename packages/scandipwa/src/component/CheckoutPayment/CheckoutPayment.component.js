@@ -60,7 +60,7 @@ export class CheckoutPayment extends PureComponent {
                       attr={ {
                           id: `option-${ title }`,
                           name: `option-${ title }`,
-                          defaultChecked: isSelected
+                          checked: isSelected
                       } }
                       isDisabled
                     />

@@ -280,7 +280,7 @@ export class MyAccountMyWishlist extends PureComponent {
     }
 
     renderPlaceholders() {
-        return Array.from({ length: 2 }, (_, i) => <ProductCard key={ i } />);
+        return Array.from({ length: 2 }, (_, i) => <ProductCard key={ i } product={ {} } />);
     }
 
     renderShareWishlist() {

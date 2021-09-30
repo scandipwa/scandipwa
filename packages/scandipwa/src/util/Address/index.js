@@ -56,6 +56,41 @@ export const trimCustomerAddress = (customerAddress) => {
     };
 };
 
+/** @namespace Util/Address/Index/trimCheckoutCustomerAddress */
+export const trimCheckoutCustomerAddress = (customerAddress) => {
+    const {
+        company = null,
+        city = '',
+        country_id = 1,
+        firstname = '',
+        lastname = '',
+        postcode = '',
+        street = [''],
+        telephone = '',
+        region: {
+            region_code = null,
+            region = null,
+            region_id = 1
+        } = {},
+        vat_id = null
+    } = customerAddress;
+
+    return {
+        company,
+        city,
+        country_id,
+        firstname,
+        lastname,
+        postcode,
+        street,
+        telephone,
+        region,
+        region_id,
+        region_code,
+        vat_id
+    };
+};
+
 /** @namespace Util/Address/Index/trimCheckoutAddress */
 export const trimCheckoutAddress = (customerAddress) => {
     const {
