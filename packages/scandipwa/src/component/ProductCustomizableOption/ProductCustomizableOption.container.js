@@ -34,6 +34,7 @@ export const mapDispatchToProps = () => ({});
  */
 export class ProductCustomizableOptionContainer extends PureComponent {
     static propTypes = {
+        uid: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         isRequired: PropTypes.bool.isRequired,
         type: PropTypes.string.isRequired,
@@ -65,6 +66,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
     containerProps() {
         const {
+            uid,
             title,
             isRequired,
             type,
@@ -74,6 +76,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         } = this.props;
 
         return {
+            uid,
             title,
             isRequired,
             type,

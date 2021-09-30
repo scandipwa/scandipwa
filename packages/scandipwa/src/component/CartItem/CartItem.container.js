@@ -90,6 +90,10 @@ export class CartItemContainer extends PureComponent {
         getProductVariant: this.getProductVariant.bind(this)
     };
 
+    componentDidMount() {
+        this.setStateNotLoading();
+    }
+
     componentWillUnmount() {
         this.notifyAboutLoadingStateChange(false);
 

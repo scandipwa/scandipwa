@@ -717,7 +717,6 @@ export class ProductListQuery {
     _getBundleOptionsFields() {
         return [
             'uid',
-            'id',
             'label',
             'quantity',
             'position',
@@ -731,11 +730,7 @@ export class ProductListQuery {
 
     _getProductBundleOptionFields() {
         return new Field('product')
-            .addFieldList(this._getProductNameField());
-    }
-
-    _getProductNameField() {
-        return ['name'];
+            .addField(this._getPriceRangeField());
     }
 
     _getBundleOptionsField() {
@@ -988,7 +983,6 @@ export class ProductListQuery {
             'title',
             'required',
             'sort_order',
-            'option_id',
             'type',
             'uid'
         ];
