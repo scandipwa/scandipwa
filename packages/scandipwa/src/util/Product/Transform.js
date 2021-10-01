@@ -48,15 +48,20 @@ export const bundleOptionToLabel = (option, currencyCode = 'USD') => {
         price_type: priceType,
         can_change_quantity: canChangeQuantity,
         quantity,
-        label
+        label,
+        product
     } = option || {};
 
     const noPrice = price === 0 && finalOptionPrice === 0;
     const priceLabel = noPrice ? '' : `+ ${ formatPrice(finalOptionPrice, currencyCode) }`;
     const percentLabel = (noPrice || priceType !== PRICE_TYPE_PERCENT) ? '' : `(${ price }%)`;
+    // Accessing name here, because product may be passed as null - which prevents from assigning its
+    // default value, thus resulting in error
+    const fallbackLabel = product ? product.name : __('Option');
+    const renderLabel = label ?? fallbackLabel;
 
     return {
-        baseLabel: !canChangeQuantity ? `${ quantity } x ${ label } ` : `${ label } `,
+        baseLabel: !canChangeQuantity ? `${ quantity } x ${ renderLabel } ` : `${ renderLabel } `,
         priceLabel: `${ priceLabel } ${ percentLabel }`
     };
 };

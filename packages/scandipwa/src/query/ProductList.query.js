@@ -724,13 +724,21 @@ export class ProductListQuery {
             'price',
             'price_type',
             'can_change_quantity',
-            this._getProductBundleOptionFields()
+            this._getProductBundleOptionField()
         ];
     }
 
-    _getProductBundleOptionFields() {
+    _getProductBundleOptionField() {
         return new Field('product')
-            .addField(this._getPriceRangeField());
+            .addFieldList(this._getProductBundleOptionFields());
+    }
+
+    _getProductBundleOptionFields() {
+        return [
+            'name',
+            'stock_status',
+            this._getPriceRangeField()
+        ];
     }
 
     _getBundleOptionsField() {

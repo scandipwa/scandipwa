@@ -237,14 +237,27 @@ export const getIndexedReviews = (reviews) => {
     }, []);
 };
 
+/** @namespace Util/Product/getBundleId */
+export const getBundleId = (uid = '') => {
+    const arrayId = atob(uid).split('/');
+
+    if (Array.isArray(arrayId) && arrayId.length > 2) {
+        return +arrayId[2];
+    }
+
+    return 0;
+};
+
 /** @namespace Util/Product/getBundleOptions */
 export const getBundleOptions = (options, items) => {
     const bundleOptions = options.reduce((prev, next) => [...prev, ...next.selection_details], []);
 
     return items.map((item) => ({
         ...item,
-        options: item?.options?.map((option) => {
-            const selection = bundleOptions.find((o) => o.selection_id === option.id) || {};
+        options: item?.options?.filter(({ product }) => product).map((option) => {
+            const id = getBundleId(option.uid);
+            const selection = bundleOptions.find((o) => o.selection_id === id) || {};
+
             const {
                 regular_option_price: regularOptionPrice = 0,
                 regular_option_price_excl_tax: regularOptionPriceExclTax = 0,
