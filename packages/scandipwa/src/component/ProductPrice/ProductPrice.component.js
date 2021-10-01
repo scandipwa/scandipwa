@@ -225,7 +225,11 @@ export class ProductPrice extends PureComponent {
         } = this.props;
 
         if (minValue === maxValue) {
-            return this.renderDefaultPrice();
+            if (minValue === 0) {
+                return this.renderDefaultPrice();
+            }
+
+            return this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax);
         }
 
         return (
