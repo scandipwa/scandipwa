@@ -21,6 +21,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
+import { getEncodedCustomizableOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -161,12 +162,19 @@ export class WishlistItemContainer extends PureComponent {
     };
 
     addItemToCart() {
-        const { product: item, addProductToCart, showNotification } = this.props;
+        const {
+            product: item,
+            addProductToCart,
+            showNotification
+        } = this.props;
         const {
             type_id,
             variants,
             wishlist: {
-                id, sku, quantity, buy_request
+                id,
+                sku,
+                quantity,
+                buy_request
             }
         } = item;
 
@@ -189,19 +197,19 @@ export class WishlistItemContainer extends PureComponent {
 
         this.setState({ isLoading: true });
 
-        return addProductToCart({ product: item, quantity, buyRequest: buy_request })
+        const selectedOptions = getEncodedCustomizableOptions(buy_request);
+        const products = magentoProductTransform(item, quantity, null, [], selectedOptions);
+
+        return addProductToCart({
+            products,
+            quantity,
+            buyRequest: buy_request
+        })
             .then(
-                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/then/catch/addProductToCart/then */
-                () => {
-                    this.removeItem(id);
-                    showNotification('success', __('Product Added To Cart'));
-                },
-                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/then/catch/addProductToCart/then/catch */
-                () => this.showNotification('error', __('Error Adding Product To Cart'))
-            )
-            .catch(
-                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/then/catch */
-                () => this.showNotification('error', __('Error cleaning wishlist'))
+                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/addProductToCart/then */
+                () => this.removeItem(id),
+                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/addProductToCart/then/catch */
+                () => this.setState({ isLoading: false }, this.redirectToProductPage)
             );
     }
 
@@ -217,7 +225,10 @@ export class WishlistItemContainer extends PureComponent {
 
         handleSelectIdChange(item_id, isRemoveOnly);
 
-        return removeFromWishlist({ item_id, noMessages });
+        return removeFromWishlist({ item_id, noMessages }).catch(
+            /** @namespace Component/WishlistItem/Container/WishlistItemContainer/removeItem/removeFromWishlist/catch */
+            () => this.showNotification('error', __('Error cleaning wishlist'))
+        );
     }
 
     redirectToProductPage() {

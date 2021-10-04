@@ -33,6 +33,14 @@ export const getEncodedBundleUid = (uid, quantity) => {
     return btoa(newUid);
 };
 
+/** @namespace Util/Product/Transform/getEncodedCustomizableOptions */
+export const getEncodedCustomizableOptions = (buyrequest) => {
+    const { options } = JSON.parse(buyrequest);
+    return Object.entries(options).map(
+        ([option, variant]) => btoa(`custom-option/${option}/${variant}`)
+    );
+};
+
 /**
  * Generates label for bundle option
  *
