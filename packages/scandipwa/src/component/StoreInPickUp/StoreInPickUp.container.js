@@ -17,7 +17,7 @@ import { STORE_IN_PICK_UP_POPUP_ID } from 'Component/StoreInPickUpPopup/StoreInP
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType } from 'Type/Account';
-import { shippingMethodsType } from 'Type/Checkout';
+import { ShippingMethodsType } from 'Type/Checkout';
 
 import StoreInPickUp from './StoreInPickUp.component';
 
@@ -35,7 +35,7 @@ export class StoreInPickUpContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
         estimateAddress: addressType.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
         countryId: PropTypes.string.isRequired,

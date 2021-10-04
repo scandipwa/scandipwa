@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { shippingMethodType } from 'Type/Checkout';
+import { ShippingMethodType } from 'Type/Checkout';
 import { formatPrice } from 'Util/Price';
 
 import { DELIVERY_METHOD_UNAVAILABLE_MESSAGE } from './CheckoutDeliveryOption.config';
@@ -24,7 +24,7 @@ import './CheckoutDeliveryOption.style';
 /** @namespace Component/CheckoutDeliveryOption/Component */
 export class CheckoutDeliveryOption extends PureComponent {
     static propTypes = {
-        option: shippingMethodType.isRequired,
+        option: ShippingMethodType.isRequired,
         currency: PropTypes.string.isRequired,
         isSelected: PropTypes.bool,
         optionPrice: PropTypes.number,

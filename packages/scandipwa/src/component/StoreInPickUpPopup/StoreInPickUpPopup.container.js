@@ -18,7 +18,7 @@ import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { addressType } from 'Type/Account';
-import { shippingMethodsType } from 'Type/Checkout';
+import { ShippingMethodsType } from 'Type/Checkout';
 import { countriesType } from 'Type/Config';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 
@@ -46,7 +46,7 @@ export class StoreInPickUpContainer extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         setSelectedStore: PropTypes.func.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
         showNotification: PropTypes.func.isRequired
     };
 

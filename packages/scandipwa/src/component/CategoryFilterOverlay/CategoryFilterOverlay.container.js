@@ -19,6 +19,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { HistoryType, LocationType } from 'Type/Common';
+import { FilterAttributeType } from 'Type/ProductList';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
@@ -45,13 +46,13 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
-        customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+        customFiltersValues: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
-        availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
+        availableFilters: FilterAttributeType.isRequired,
         isInfoLoading: PropTypes.bool.isRequired,
         isCategoryAnchor: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,

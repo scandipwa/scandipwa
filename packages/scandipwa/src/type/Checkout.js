@@ -11,6 +11,8 @@
 
 import PropTypes from 'prop-types';
 
+import { BILLING_STEP, DETAILS_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+
 export const paymentMethodType = PropTypes.shape({
     code: PropTypes.string,
     title: PropTypes.string
@@ -20,7 +22,7 @@ export const paymentMethodsType = PropTypes.arrayOf(
     paymentMethodType
 );
 
-export const shippingMethodType = PropTypes.shape({
+export const ShippingMethodType = PropTypes.shape({
     amount: PropTypes.number,
     available: PropTypes.bool,
     base_amount: PropTypes.number,
@@ -33,11 +35,11 @@ export const shippingMethodType = PropTypes.shape({
     price_incl_tax: PropTypes.number
 });
 
-export const shippingMethodsType = PropTypes.arrayOf(
-    shippingMethodType
+export const ShippingMethodsType = PropTypes.arrayOf(
+    ShippingMethodType
 );
 
-export const storeType = PropTypes.shape({
+export const StoreType = PropTypes.shape({
     city: PropTypes.string,
     country: PropTypes.string,
     description: PropTypes.string,
@@ -48,3 +50,9 @@ export const storeType = PropTypes.shape({
     region: PropTypes.string,
     street: PropTypes.string
 });
+
+export const CheckoutStepType = PropTypes.oneOf([
+    BILLING_STEP,
+    SHIPPING_STEP,
+    DETAILS_STEP
+]);

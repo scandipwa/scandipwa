@@ -22,6 +22,22 @@ export const AttributeType = PropTypes.shape({
     }))
 });
 
+export const FilterAttributeType = PropTypes.shape({
+    attribute_code: PropTypes.string,
+    attribute_label: PropTypes.string,
+    attribute_position: PropTypes.number,
+    attribute_values: PropTypes.arrayOf(PropTypes.string),
+    attribute_type: PropTypes.string,
+    attribute_options: PropTypes.objectOf(PropTypes.shape({
+        label: PropTypes.string,
+        count: PropTypes.number,
+        value_string: PropTypes.string,
+        swatch_data: PropTypes.shape({ type: PropTypes.string, value: PropTypes.string })
+    })),
+    is_boolean: PropTypes.bool,
+    has_swatch: PropTypes.bool
+});
+
 export const BreadcrumbsType = PropTypes.arrayOf(
     PropTypes.shape({
         name: PropTypes.string,

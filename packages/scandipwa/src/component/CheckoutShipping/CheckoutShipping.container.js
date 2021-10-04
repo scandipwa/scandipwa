@@ -19,7 +19,7 @@ import {
 } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { addressType, customerType } from 'Type/Account';
-import { shippingMethodsType, shippingMethodType, storeType } from 'Type/Checkout';
+import { ShippingMethodsType, ShippingMethodType, StoreType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import {
     trimAddressFields,
@@ -49,7 +49,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CheckoutShippingContainer extends PureComponent {
     static propTypes = {
         saveAddressInformation: PropTypes.func.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
         customer: customerType.isRequired,
         addressLinesQty: PropTypes.number.isRequired,
         updateShippingFields: PropTypes.func.isRequired,
@@ -62,10 +62,10 @@ export class CheckoutShippingContainer extends PureComponent {
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        selectedShippingMethod: shippingMethodType,
+        selectedShippingMethod: ShippingMethodType,
         setSelectedShippingMethodCode: PropTypes.func,
         totals: TotalsType.isRequired,
-        selectedStoreAddress: storeType
+        selectedStoreAddress: StoreType
     };
 
     static defaultProps = {

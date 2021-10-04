@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { addressType } from 'Type/Account';
-import { shippingMethodsType } from 'Type/Checkout';
+import { ShippingMethodsType } from 'Type/Checkout';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 
@@ -30,7 +30,7 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
     static propTypes = {
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
         estimateAddress: addressType.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         selectedShippingMethod: PropTypes.object
