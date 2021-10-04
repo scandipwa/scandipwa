@@ -48,10 +48,7 @@ export class CheckoutPayments extends PureComponent {
                 PropTypes.object,
                 PropTypes.string
             ]),
-            street: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.array
-            ]),
+            street: PropTypes.arrayOf(PropTypes.string),
             telephone: PropTypes.string
         }).isRequired
     };

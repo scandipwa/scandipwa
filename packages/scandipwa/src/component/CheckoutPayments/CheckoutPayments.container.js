@@ -31,8 +31,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/CheckoutPayments/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
-    email: state.CheckoutReducer.email,
-    address: state.CheckoutReducer.shippingFields
+    email: state.CheckoutReducer.email
 });
 
 /** @namespace Component/CheckoutPayments/Container */
@@ -43,7 +42,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
         email: PropTypes.string.isRequired,
-        address: PropTypes.object.isRequired,
         billingAddress: addressType.isRequired,
         showError: PropTypes.func.isRequired
     };
@@ -85,6 +83,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
             setOrderButtonEnableStatus,
             showError
         } = this.props;
+
         const { selectedPaymentCode } = this.state;
 
         return {
