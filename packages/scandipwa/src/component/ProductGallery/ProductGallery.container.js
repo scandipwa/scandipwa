@@ -191,7 +191,7 @@ export class ProductGalleryContainer extends PureComponent {
      * @private
      */
     _getProductName() {
-        const { product: { name } } = this.props;
+        const { product: { name = '' } } = this.props;
 
         return name;
     }

@@ -69,7 +69,9 @@ export class ProductCardContainer extends ProductContainer {
 
         children: ChildrenType,
         mix: MixType,
-        layout: LayoutType
+        layout: LayoutType,
+
+        cartId: PropTypes.string
     };
 
     static defaultProps = {
@@ -81,7 +83,8 @@ export class ProductCardContainer extends ProductContainer {
         isLoading: false,
         children: null,
         mix: {},
-        layout: GRID_LAYOUT
+        layout: GRID_LAYOUT,
+        cartId: ''
     };
 
     containerFunctions = {

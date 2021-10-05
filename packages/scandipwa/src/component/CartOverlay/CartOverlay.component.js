@@ -31,11 +31,11 @@ export class CartOverlay extends PureComponent {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         handleCheckoutClick: PropTypes.func.isRequired,
-        currencyCode: PropTypes.string.isRequired,
+        currencyCode: PropTypes.string,
         showOverlay: PropTypes.func.isRequired,
         activeOverlay: PropTypes.string.isRequired,
         hasOutOfStockProductsInCart: PropTypes.bool,
-        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         cartDisplaySettings: CartDisplayType.isRequired,
         isMobile: PropTypes.bool.isRequired,
         scrollToTop: PropTypes.func.isRequired,
@@ -46,7 +46,9 @@ export class CartOverlay extends PureComponent {
     static defaultProps = {
         hasOutOfStockProductsInCart: false,
         onCartItemLoading: null,
-        isCartItemLoading: false
+        isCartItemLoading: false,
+        currencyCode: null,
+        cartTotalSubPrice: null
     };
 
     componentDidMount() {

@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/** @namespace Util/Validator/Config/VALIDATION_INPUT_TYPE_TEXT */
 export const VALIDATION_INPUT_TYPE_TEXT = {
     alpha: 'alpha',
     alphaSpace: 'alphaSpace',
@@ -19,7 +18,6 @@ export const VALIDATION_INPUT_TYPE_TEXT = {
     url: 'url'
 };
 
-/** @namespace Util/Validator/Config/VALIDATION_INPUT_TYPE_NUMBER */
 export const VALIDATION_INPUT_TYPE_NUMBER = {
     numeric: 'numeric',
     numericDash: 'numericDash',
@@ -29,7 +27,6 @@ export const VALIDATION_INPUT_TYPE_NUMBER = {
     naturalNoZero: 'naturalNoZero'
 };
 
-/** @namespace Util/Validator/Config/VALIDATION_INPUT_TYPE_INPUT */
 export const VALIDATION_INPUT_TYPE_INPUT = {
     email: 'email',
     password: 'password',
@@ -37,14 +34,12 @@ export const VALIDATION_INPUT_TYPE_INPUT = {
     phone: 'phone'
 };
 
-/** @namespace Util/Validator/Config/VALIDATION_INPUT_TYPE */
 export const VALIDATION_INPUT_TYPE = {
     ...VALIDATION_INPUT_TYPE_TEXT,
     ...VALIDATION_INPUT_TYPE_NUMBER,
     ...VALIDATION_INPUT_TYPE_INPUT
 };
 
-/** @namespace Util/Validator/Config/VALIDATION_MESSAGES */
 export const VALIDATION_MESSAGES = {
     //#region VALIDATION RULE MSG
     isRequired: __('This field is required!'),
@@ -71,7 +66,6 @@ export const VALIDATION_MESSAGES = {
     //#endregion
 };
 
-/** @namespace Util/Validator/Config/VALIDATION_RULES */
 export const VALIDATION_RULES = {
     // Text
     [VALIDATION_INPUT_TYPE.alpha]: /^[a-z]+$/i,

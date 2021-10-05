@@ -75,7 +75,7 @@ export class CartOverlayContainer extends PureComponent {
         hideActiveOverlay: PropTypes.func.isRequired,
         cartTotalSubPrice: PropTypes.number,
         cartDisplaySettings: CartDisplayType.isRequired,
-        currencyCode: PropTypes.string.isRequired,
+        currencyCode: PropTypes.string,
         activeOverlay: PropTypes.string.isRequired,
         isMobile: PropTypes.bool.isRequired,
         cartShippingPrice: PropTypes.number,
@@ -86,7 +86,8 @@ export class CartOverlayContainer extends PureComponent {
         guest_checkout: true,
         cartTotalSubPrice: null,
         cartShippingPrice: 0,
-        cartShippingSubPrice: null
+        cartShippingSubPrice: null,
+        currencyCode: null
     };
 
     state = {

@@ -74,8 +74,12 @@ export class FieldNumberContainer extends PureComponent {
 
     containerProps() {
         const {
-            attr: { value } = {},
-            attr,
+            attr: {
+                value,
+                autoComplete,
+                autocomplete,
+                ...attr
+            } = {},
             events,
             setRef,
             isDisabled
@@ -83,7 +87,11 @@ export class FieldNumberContainer extends PureComponent {
         const { value: stateValue } = this.state;
 
         return {
-            attr,
+            attr: {
+                ...attr,
+                value,
+                autoComplete: autoComplete || autocomplete
+            },
             events,
             setRef,
             isDisabled,

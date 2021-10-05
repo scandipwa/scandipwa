@@ -133,7 +133,11 @@ export class FieldContainer extends PureComponent {
             events,
             validateOn,
             type,
-            attr,
+            attr: {
+                autoComplete,
+                autocomplete,
+                ...attr
+            } = {},
             isDisabled,
             mix,
             options,
@@ -154,7 +158,10 @@ export class FieldContainer extends PureComponent {
 
         return {
             type,
-            attr,
+            attr: {
+                ...attr,
+                autoComplete: autoComplete || autocomplete
+            },
             isDisabled,
             mix,
             options,
