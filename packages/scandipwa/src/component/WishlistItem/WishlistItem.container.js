@@ -21,7 +21,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
-import { getEncodedCustomizableOptions, magentoProductTransform } from 'Util/Product/Transform';
+import { getEnteredOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -161,20 +161,48 @@ export class WishlistItemContainer extends PureComponent {
         }, []) : [];
     };
 
+    getProducts() {
+        const {
+            product: {
+                type_id,
+                wishlist: {
+                    quantity,
+                    buy_request,
+                    sku
+                },
+                sku: parentSku
+            },
+            product: item
+        } = this.props;
+
+        const selectedOptions = getEnteredOptions(buy_request);
+
+        if (type_id === PRODUCT_TYPE.configurable) {
+            return [{
+                sku,
+                quantity,
+                parent_sku: parentSku,
+                selected_options: selectedOptions,
+                entered_options: []
+            }];
+        }
+
+        return magentoProductTransform(item, quantity, null, [], selectedOptions);
+    }
+
     addItemToCart() {
         const {
             product: item,
             addProductToCart,
             showNotification
         } = this.props;
+
         const {
             type_id,
             variants,
             wishlist: {
                 id,
-                sku,
-                quantity,
-                buy_request
+                sku
             }
         } = item;
 
@@ -197,14 +225,9 @@ export class WishlistItemContainer extends PureComponent {
 
         this.setState({ isLoading: true });
 
-        const selectedOptions = getEncodedCustomizableOptions(buy_request);
-        const products = magentoProductTransform(item, quantity, null, [], selectedOptions);
+        const products = this.getProducts();
 
-        return addProductToCart({
-            products,
-            quantity,
-            buyRequest: buy_request
-        })
+        return addProductToCart({ products })
             .then(
                 /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/addProductToCart/then */
                 () => this.removeItem(id),

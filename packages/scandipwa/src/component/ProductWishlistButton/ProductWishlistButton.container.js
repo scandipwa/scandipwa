@@ -127,10 +127,10 @@ export class ProductWishlistButtonContainer extends PureComponent {
         }
 
         const { wishlist: { id: item_id } } = Object.values(productsInWishlist).find(
-            ({ wishlist: { wishlistSku } }) => sku === wishlistSku
+            ({ wishlist: { sku: wishlistSku } }) => sku === wishlistSku
         );
 
-        return removeProductFromWishlist(item_id);
+        return removeProductFromWishlist({ item_id });
     }
 
     isDisabled = () => {

@@ -33,13 +33,40 @@ export const getEncodedBundleUid = (uid, quantity) => {
     return btoa(newUid);
 };
 
-/** @namespace Util/Product/Transform/getEncodedCustomizableOptions */
-export const getEncodedCustomizableOptions = (buyrequest) => {
-    const { options } = JSON.parse(buyrequest);
-    return Object.entries(options).map(
-        ([option, variant]) => btoa(`custom-option/${option}/${variant}`)
-    );
+/** @namespace Util/Product/Transform/getBundleOptions */
+export const getBundleOptions = (buyRequest) => {
+    const { bundle_option = {}, bundle_option_qty = {} } = JSON.parse(buyRequest);
+
+    return Object.entries(bundle_option).reduce((prev, [option, variant]) => {
+        const qty = bundle_option_qty[option] || 1;
+
+        if (typeof variant === 'string') {
+            return [...prev, btoa(`bundle/${option}/${variant}/${qty}`)];
+        }
+
+        return [...prev, ...Object.keys(variant).map((id) => btoa(`bundle/${option}/${id}/${qty}`))];
+    }, []);
 };
+
+/** @namespace Util/Product/Transform/getCustomizableOptions */
+export const getCustomizableOptions = (buyRequest) => {
+    const { options = {} } = JSON.parse(buyRequest);
+
+    return Object.entries(options).reduce((prev, [option, variant]) => {
+        if (typeof variant === 'string') {
+            return [...prev, btoa(`custom-option/${option}/${variant}`)];
+        }
+
+        return [...prev, ...variant.map((id) => btoa(`custom-option/${option}/${id}`))];
+    },
+    []);
+};
+
+/** @namespace Util/Product/Transform/getEnteredOptions */
+export const getEnteredOptions = (buyRequest) => [
+    ...getBundleOptions(buyRequest),
+    ...getCustomizableOptions(buyRequest)
+];
 
 /**
  * Generates label for bundle option

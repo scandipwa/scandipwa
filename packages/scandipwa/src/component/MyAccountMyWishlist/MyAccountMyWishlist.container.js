@@ -116,12 +116,11 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
         this.setState({ isLoading: true });
 
-        return moveWishlistToCart().then(
-            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/addAllToCart/moveWishlistToCart/then */
-            () => this.showNotificationAndRemoveLoading('Available items moved to cart'),
-            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/addAllToCart/moveWishlistToCart/then/catch */
-            (error) => this.showErrorAndRemoveLoading(getErrorMessage(error))
-        );
+        return moveWishlistToCart()
+            .catch(
+            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/addAllToCart/moveWishlistToCart/catch */
+                (error) => this.showErrorAndRemoveLoading(getErrorMessage(error))
+            );
     }
 
     removeAll() {
@@ -133,10 +132,14 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
         this.setState({ isLoading: true });
 
-        return clearWishlist().then(
-            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/removeAll/clearWishlist/then */
-            () => this.showNotificationAndRemoveLoading('Wishlist cleared')
-        );
+        return clearWishlist()
+            .then(
+            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/removeAll/then/finally/clearWishlist/then */
+                () => this.showNotificationAndRemoveLoading('Wishlist cleared')
+            ).finally(
+            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/removeAll/then/finally */
+                () => this.setState({ isLoading: false })
+            );
     }
 
     removeSelectedFromWishlist(selectedIdMap) {

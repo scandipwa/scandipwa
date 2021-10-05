@@ -116,9 +116,6 @@ export class CartDispatcher {
     async addProductToCart(dispatch, options = {}) {
         const { products = [], cartId = getGuestQuoteId() } = options;
 
-        // eslint-disable-next-line no-debugger
-        debugger;
-
         if (!Array.isArray(products) || products.length === 0) {
             dispatch(showNotification('error', __('No product data!')));
             return Promise.reject();
