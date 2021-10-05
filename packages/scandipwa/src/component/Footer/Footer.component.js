@@ -125,13 +125,9 @@ export class Footer extends Component {
 
         const { [columnActiveKey]: isColumnActive } = this.props;
 
-        console.log('COLUMN', title.toString(), columnActiveKey, this.props);
-
         if (columnActiveKey && !isColumnActive === true) {
             return null;
         }
-
-        console.log('RENDERED', title.toString());
 
         return (
             <div block="Footer" elem="Column" mods={ mods } key={ i }>
