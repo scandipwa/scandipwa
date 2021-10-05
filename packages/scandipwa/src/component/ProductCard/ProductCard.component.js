@@ -396,7 +396,7 @@ export class ProductCard extends Product {
             return (
                 <li
                   block="ProductCard"
-                  mods={ layout }
+                  mods={ { layout } }
                   mix={ mix }
                 >
                     <Loader isLoading={ isLoading } />
@@ -408,7 +408,7 @@ export class ProductCard extends Product {
         return (
             <li
               block="ProductCard"
-              mods={ layout }
+              mods={ { layout } }
               mix={ mix }
             >
                 <Loader isLoading={ isLoading } />

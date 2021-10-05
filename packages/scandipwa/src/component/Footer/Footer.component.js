@@ -151,7 +151,7 @@ export class Footer extends Component {
     }
 
     renderNewsletterSubscriptionBlock() {
-        return <NewsletterSubscription />;
+        return <NewsletterSubscription key="NewsletterSubscription" />;
     }
 
     renderCmsBlockWrapper() {

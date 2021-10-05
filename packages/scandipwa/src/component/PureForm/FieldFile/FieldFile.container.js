@@ -85,11 +85,22 @@ export class FieldFileContainer extends PureComponent {
     }
 
     containerProps() {
-        const { events, attr, setRef } = this.props;
+        const {
+            events,
+            attr: {
+                autoComplete,
+                autocomplete,
+                ...attr
+            } = {},
+            setRef
+        } = this.props;
         const { fileName, isLoading, value } = this.state;
 
         return {
-            attr,
+            attr: {
+                ...attr,
+                autoComplete: autoComplete || autocomplete
+            },
             setRef,
             events: {
                 ...events,

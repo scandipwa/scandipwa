@@ -52,7 +52,12 @@ export class FieldForm extends PureComponent {
     }
 
     renderSection = (section) => {
-        const { fields } = section;
+        const {
+            fields,
+            attr: {
+                name = ''
+            } = {}
+        } = section;
 
         // If contains attr fields then outputs data as fields
         if (Array.isArray(fields)) {
@@ -63,7 +68,7 @@ export class FieldForm extends PureComponent {
             );
         }
 
-        return <Field { ...section } />;
+        return <Field { ...section } key={ name } />;
     };
 
     renderActions() {
