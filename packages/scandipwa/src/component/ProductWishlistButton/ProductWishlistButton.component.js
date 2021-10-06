@@ -21,7 +21,7 @@ import './ProductWishlistButton.style';
 /** @namespace Component/ProductWishlistButton/Component */
 export class ProductWishlistButton extends PureComponent {
     static propTypes = {
-        magentoProduct: PropTypes.object.isRequired,
+        magentoProduct: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 
         isLoading: PropTypes.bool,
         isDisabled: PropTypes.bool,

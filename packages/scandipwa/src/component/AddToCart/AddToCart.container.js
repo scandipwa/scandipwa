@@ -49,7 +49,7 @@ export class AddToCartContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         quantity: PropTypes.number,
-        cartId: PropTypes.string.isRequired,
+        cartId: PropTypes.string,
         showNotification: PropTypes.func.isRequired,
         addToCart: PropTypes.func,
         fallbackAddToCart: PropTypes.func.isRequired,
@@ -62,6 +62,7 @@ export class AddToCartContainer extends PureComponent {
 
     static defaultProps = {
         quantity: 1,
+        cartId: '',
         mix: {},
         layout: GRID_LAYOUT,
         isIconEnabled: true,

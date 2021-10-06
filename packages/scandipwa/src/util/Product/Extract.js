@@ -82,7 +82,7 @@ export const getName = (product, configIndex = -1) => {
     const { variants = [] } = product;
 
     const {
-        name
+        name = ''
     } = variants[configIndex] || product;
 
     return name;
