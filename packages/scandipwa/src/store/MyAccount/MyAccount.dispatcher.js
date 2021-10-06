@@ -10,6 +10,7 @@
  */
 
 import { CHECKOUT, MY_ACCOUNT } from 'Component/Header/Header.config';
+import { CONFIRMATION_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
 import {
@@ -34,8 +35,6 @@ import { removeUid } from 'Util/Compare';
 import history from 'Util/History';
 import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
-
-import { CONFIRMATION_REQUIRED } from '../../component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
