@@ -25,7 +25,8 @@ export class MyAccountTabList extends PureComponent {
         activeTab: activeTabType.isRequired,
         handleLogout: PropTypes.func.isRequired,
         onTabClick: PropTypes.func.isRequired,
-        isContentExpanded: PropTypes.bool.isRequired
+        isContentExpanded: PropTypes.bool.isRequired,
+        toggleExpandableContent: PropTypes.func.isRequired
     };
 
     renderTabListItem = (tabEntry, index, tabArray) => {
@@ -75,7 +76,12 @@ export class MyAccountTabList extends PureComponent {
     }
 
     render() {
-        const { tabMap, activeTab, isContentExpanded } = this.props;
+        const {
+            activeTab,
+            isContentExpanded,
+            tabMap,
+            toggleExpandableContent
+        } = this.props;
         const { tabName } = tabMap[activeTab];
 
         const tabs = [
@@ -88,6 +94,7 @@ export class MyAccountTabList extends PureComponent {
               heading={ tabName }
               isContentExpanded={ isContentExpanded }
               mix={ { block: 'MyAccountTabList' } }
+              onClick={ toggleExpandableContent }
               mods={ { isWithoutBorder: true } }
             >
                 <ul>

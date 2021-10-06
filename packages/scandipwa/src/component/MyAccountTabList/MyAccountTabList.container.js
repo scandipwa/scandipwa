@@ -53,7 +53,8 @@ export class MyAccountTabListContainer extends PureComponent {
 
     containerFunctions = {
         handleLogout: this.handleLogout.bind(this),
-        onTabClick: this.onTabClick.bind(this)
+        onTabClick: this.onTabClick.bind(this),
+        toggleExpandableContent: this.toggleExpandableContent.bind(this)
     };
 
     containerProps() {

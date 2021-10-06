@@ -35,6 +35,8 @@ import history from 'Util/History';
 import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
 
+import { CONFIRMATION_REQUIRED } from '../../component/MyAccountCreateAccount/MyAccountCreateAccount.config';
+
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
@@ -165,7 +167,7 @@ export class MyAccountDispatcher {
                 if (confirmation_required) {
                     dispatch(updateIsLoading(false));
 
-                    return 2;
+                    return CONFIRMATION_REQUIRED;
                 }
 
                 return this.signIn({ email, password }, dispatch);
