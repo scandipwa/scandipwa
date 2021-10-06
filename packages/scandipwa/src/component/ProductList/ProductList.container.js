@@ -116,8 +116,7 @@ export class ProductListContainer extends PureComponent {
         const {
             sort: prevSort,
             search: prevSearch,
-            filter: prevFilter,
-            pages: prevPages
+            filter: prevFilter
         } = prevProps;
 
         const { pagesCount } = this.state;
@@ -133,10 +132,6 @@ export class ProductListContainer extends PureComponent {
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
         ) {
             this.requestPage(this._getPageFromUrl());
-        }
-
-        if (pages !== prevPages) {
-            scrollToTop({ behavior: 'smooth' });
         }
     }
 
@@ -171,7 +166,8 @@ export class ProductListContainer extends PureComponent {
             requestProductListInfo,
             noAttributes,
             noVariants,
-            isWidget
+            isWidget,
+            device
         } = this.props;
 
         /**
@@ -217,6 +213,10 @@ export class ProductListContainer extends PureComponent {
 
         if (!isWidget) {
             requestProductListInfo(infoOptions);
+
+            if (!device.isMobile) {
+                scrollToTop();
+            }
         }
     };
 
