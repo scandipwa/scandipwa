@@ -11,12 +11,13 @@
 
 import { connect } from 'react-redux';
 
-import { CUSTOMER_SUB_ACCOUNT, LOGIN } from 'Component/Header/Header.config';
+import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
 import {
     mapDispatchToProps,
     mapStateToProps,
     MyAccountOverlayContainer
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
+import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
@@ -43,22 +44,23 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
         const { setHeaderState } = this.props;
 
         if (isSignedIn()) {
-            // remove login url from history to skip it when navigating back after account create + block access to create account for signed in user
-            history.replace(appendWithStoreCode('/'));
+            // remove login url from history to skip it when navigating back after account create
+            // + block access to create account for signed in user
+            history.replace(appendWithStoreCode(ACCOUNT_URL));
         }
 
         setHeaderState({
             name: CUSTOMER_SUB_ACCOUNT,
-            title: 'Create account',
+            title: __('Create account'),
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode(`${ LOGIN }`) });
+                history.push({ pathname: appendWithStoreCode(`${ ACCOUNT_LOGIN_URL }`) });
                 this.handleSignIn(e);
             }
         });
     }
 
     onLoginClick() {
-        history.replace(appendWithStoreCode(`${ LOGIN }`));
+        history.replace(appendWithStoreCode(`${ ACCOUNT_LOGIN_URL }`));
     }
 
     render() {

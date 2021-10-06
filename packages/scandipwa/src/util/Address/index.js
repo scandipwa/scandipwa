@@ -221,3 +221,28 @@ export const getAvailableRegions = (country_id, countries) => {
     // need to handle null value
     return available_regions || [];
 };
+
+/** @namespace Util/Address/Index/getFormattedRegion */
+export const getFormattedRegion = (address, countries) => {
+    const { country_id, region: regionData } = address;
+
+    if (!regionData) {
+        return {};
+    }
+
+    const { region_id, region } = regionData;
+    const country = countries.find(({ id }) => id === country_id);
+
+    if (!country) {
+        return {};
+    }
+
+    const { label, available_regions } = country;
+    const regions = available_regions || [];
+    const { name } = regions.find(({ id }) => id === region_id) || { name: region };
+
+    return {
+        country: label,
+        region: name
+    };
+};

@@ -90,7 +90,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     routeMap = {
         // eslint-disable-next-line max-len
-        '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push(appendWithStoreCode('/')) },
+        '/customer/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push(appendWithStoreCode('/')) },
         '/category': { name: CATEGORY },
         '/checkout/success': { name: CHECKOUT_SUCCESS },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push(appendWithStoreCode('/cart')) },

@@ -55,7 +55,6 @@ export class MyAccountAddressTableContainer extends PureComponent {
     };
 
     containerFunctions = {
-        getFormatedRegion: this.getFormatedRegion.bind(this),
         onEditClick: this.onEditClick.bind(this),
         onDeleteClick: this.onDeleteClick.bind(this)
     };
@@ -98,31 +97,6 @@ export class MyAccountAddressTableContainer extends PureComponent {
             title: __('Confirm delete'),
             address
         });
-    }
-
-    getFormatedRegion(address) {
-        const { countries } = this.props;
-        const { country_id, region: regionData } = address;
-
-        if (!regionData) {
-            return {};
-        }
-
-        const { region_id, region } = regionData;
-        const country = countries.find(({ id }) => id === country_id);
-
-        if (!country) {
-            return {};
-        }
-
-        const { label, available_regions } = country;
-        const regions = available_regions || [];
-        const { name } = regions.find(({ id }) => id === region_id) || { name: region };
-
-        return {
-            country: label,
-            region: name
-        };
     }
 
     render() {

@@ -16,13 +16,14 @@ import Loader from 'Component/Loader';
 import { addressType } from 'Type/Account';
 import { MixType } from 'Type/Common';
 
+import { getAddressTablePairArray } from './MyAccountAddressTable.table';
+
 import './MyAccountAddressTable.style';
 
 /** @namespace Component/MyAccountAddressTable/Component */
 export class MyAccountAddressTable extends KeyValueTable {
     static propTypes = {
         mix: MixType.isRequired,
-        getFormatedRegion: PropTypes.func.isRequired,
         address: addressType.isRequired,
         showActions: PropTypes.bool.isRequired,
         showAdditionalFields: PropTypes.bool.isRequired,
@@ -44,55 +45,7 @@ export class MyAccountAddressTable extends KeyValueTable {
     };
 
     get dataPairArray() {
-        const { address, getFormatedRegion, showAdditionalFields } = this.props;
-        const regionData = getFormatedRegion(address);
-
-        const additionalFields = [
-            {
-                key: 'country',
-                label: __('County'),
-                source: regionData
-            },
-            {
-                key: 'region',
-                label: __('State/Province'),
-                source: regionData
-            },
-            {
-                key: 'city',
-                label: __('City'),
-                source: address
-            }
-        ];
-
-        return [
-            {
-                key: 'firstname',
-                label: __('First name'),
-                source: address
-            },
-            {
-                key: 'lastname',
-                label: __('Last name'),
-                source: address
-            },
-            {
-                key: 'street',
-                label: __('Street'),
-                source: address
-            },
-            {
-                key: 'postcode',
-                label: __('Postal code'),
-                source: address
-            },
-            {
-                key: 'telephone',
-                label: __('Phone number'),
-                source: address
-            },
-            ...(showAdditionalFields ? additionalFields : [])
-        ];
+        return getAddressTablePairArray(this.props);
     }
 
     renderActions() {

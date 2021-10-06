@@ -100,7 +100,7 @@ export const customerInformationFields = (props) => {
 };
 
 /**
- * Returns customer forms fields
+ * Returns customer email and password forms fields
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/MyAccountCustomerForm/Form/customerEmailAndPasswordFields */

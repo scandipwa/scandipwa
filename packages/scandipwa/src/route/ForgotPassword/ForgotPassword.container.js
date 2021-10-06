@@ -12,12 +12,13 @@
 
 import { connect } from 'react-redux';
 
-import { CUSTOMER_SUB_ACCOUNT, LOGIN, REGISTER } from 'Component/Header/Header.config';
+import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
 import {
     mapDispatchToProps,
     mapStateToProps,
     MyAccountOverlayContainer
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
+import { ACCOUNT_LOGIN_URL, ACCOUNT_REGISTRATION_URL } from 'Route/MyAccount/MyAccount.config';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -45,20 +46,20 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
 
         setHeaderState({
             name: CUSTOMER_SUB_ACCOUNT,
-            title: 'Forgot password',
+            title: __('Forgot password'),
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode(`${ LOGIN }`) });
+                history.push({ pathname: appendWithStoreCode(`${ ACCOUNT_LOGIN_URL }`) });
                 this.handleSignIn(e);
             }
         });
     }
 
     onLoginClick() {
-        history.replace(appendWithStoreCode(`${ LOGIN }`));
+        history.replace(appendWithStoreCode(`${ ACCOUNT_LOGIN_URL }`));
     }
 
     onCreateAccountClick() {
-        history.replace(appendWithStoreCode(`${ REGISTER }`));
+        history.replace(appendWithStoreCode(`${ ACCOUNT_REGISTRATION_URL }`));
     }
 
     render() {

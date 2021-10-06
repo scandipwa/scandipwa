@@ -57,7 +57,7 @@ export class MyAccountInformation extends PureComponent {
 
     render() {
         const { isLoading } = this.props;
-        console.log(isLoading);
+
         return (
             <div
               block="MyAccountInformation"

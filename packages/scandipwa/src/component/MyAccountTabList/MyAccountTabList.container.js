@@ -89,7 +89,6 @@ export class MyAccountTabListContainer extends PureComponent {
     }
 
     toggleExpandableContent() {
-        console.log('123');
         this.setState(({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }));
     }
 

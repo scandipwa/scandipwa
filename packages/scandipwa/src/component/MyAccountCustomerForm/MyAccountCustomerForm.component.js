@@ -48,8 +48,6 @@ export class MyAccountCustomerForm extends FieldForm {
             }
         } = this.props;
 
-        console.log(this.props);
-
         return customerInformationFields({
             showTaxVatNumber,
             firstname,

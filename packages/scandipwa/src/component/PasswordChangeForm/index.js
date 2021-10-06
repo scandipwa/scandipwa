@@ -9,14 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.MyAccountNewsletterSubscription {
-    font-size: 14px;
-
-    @include desktop {
-        display: inline-block;
-    }
-
-    &-Button {
-        margin-block-start: 30px;
-    }
-}
+export { default } from './PasswordChangeForm.component';
