@@ -70,7 +70,7 @@
             "magento/framework": "*",
             "scandipwa/service-worker": "1.0.2",
             "scandipwa/installer": "4.0",
-            "scandipwa/menu-organizer": "2.1.4",
+            "scandipwa/menu-organizer": "2.1.5",
             "scandipwa/persisted-query": "3.0.2",
             "scandipwa/slider-graphql": "2.1.0",
             "scandipwa/cms-graphql": "1.4.4",
