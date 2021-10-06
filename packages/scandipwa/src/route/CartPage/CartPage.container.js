@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import { CART } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -202,7 +203,7 @@ export class CartPageContainer extends PureComponent {
         showNotification('info', __('Please sign-in to complete checkout!'));
 
         if (device.isMobile) { // for all mobile devices, simply switch route
-            history.push({ pathname: appendWithStoreCode('/my-account') });
+            history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
 
             return;
         }

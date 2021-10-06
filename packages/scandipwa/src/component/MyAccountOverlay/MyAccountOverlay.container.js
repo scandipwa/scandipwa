@@ -17,8 +17,7 @@ import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import {
     ACCOUNT_LOGIN_URL,
-    ACCOUNT_URL,
-    MY_ACCOUNT_URL
+    ACCOUNT_URL
 } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -173,7 +172,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             }
         }
 
-        if (newMyAccountState !== STATE_LOGGED_IN && pathname.includes(MY_ACCOUNT_URL)) {
+        if (newMyAccountState !== STATE_LOGGED_IN && pathname.includes(ACCOUNT_URL)) {
             history.push({ pathname: appendWithStoreCode(ACCOUNT_LOGIN_URL) });
         }
 
@@ -181,7 +180,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             if (pathname.includes(ACCOUNT_URL)) {
                 history.push({ pathname: appendWithStoreCode('/') });
             } else if (!pathname.includes(CHECKOUT_URL) && redirectToDashboard) {
-                history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
+                history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
             }
         }
     }
@@ -245,13 +244,13 @@ export class MyAccountOverlayContainer extends PureComponent {
             name: CUSTOMER_SUB_ACCOUNT,
             title: 'Forgot password',
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode('/my-account') });
+                history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
                 this.handleSignIn(e);
             }
         });
 
         if (isMobile) {
-            history.push({ pathname: appendWithStoreCode('/my-account'), state: { isForgotPassword: true } });
+            history.push({ pathname: appendWithStoreCode(ACCOUNT_URL), state: { isForgotPassword: true } });
 
             return state;
         }

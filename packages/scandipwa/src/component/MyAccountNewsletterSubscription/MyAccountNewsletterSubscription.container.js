@@ -126,7 +126,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
 
         return fetchMutation(mutation).then(
             /** @namespace Component/MyAccountNewsletterSubscription/Container/MyAccountNewsletterSubscriptionContainer/onCustomerSave/fetchMutation/then */
-            ({ updateCustomer: { customer } }) => {
+            ({ updateCustomerV2: { customer } }) => {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
                 const { is_subscribed } = customer;
 

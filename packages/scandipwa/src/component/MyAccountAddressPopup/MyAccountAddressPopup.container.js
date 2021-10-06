@@ -130,6 +130,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
 
         this.setState({ isLoading: true });
         const query = MyAccountQuery.getDeleteAddressMutation(id);
+
         fetchMutation(query).then(this.handleAfterAction, this.handleError);
     }
 

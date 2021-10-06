@@ -63,12 +63,6 @@ export class MyAccountAddressTable extends KeyValueTable {
                 label: __('City'),
                 source: address
             }
-            // Will be back with B2B update
-            // {
-            //     key: 'company',
-            //     label: __('Company'),
-            //     source: address
-            // }
         ];
 
         return [

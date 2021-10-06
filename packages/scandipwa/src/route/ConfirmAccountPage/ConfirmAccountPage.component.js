@@ -17,6 +17,7 @@ import Loader from 'Component/Loader';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import Form from 'Component/PureForm/Form';
+import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { isSignedIn } from 'Util/Auth';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
@@ -128,7 +129,7 @@ export class ConfirmAccountPage extends PureComponent {
         } = this.props;
 
         if (redirect || isSignedIn()) {
-            return <Redirect to="/my-account/dashboard" />;
+            return <Redirect to={ ACCOUNT_URL } />;
         }
 
         return (

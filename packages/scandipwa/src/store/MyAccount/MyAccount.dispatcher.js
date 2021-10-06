@@ -11,6 +11,7 @@
 
 import { CHECKOUT, MY_ACCOUNT } from 'Component/Header/Header.config';
 import MyAccountQuery from 'Query/MyAccount.query';
+import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
 import {
     updateCustomerDetails,
     updateCustomerPasswordForgotStatus,
@@ -66,12 +67,6 @@ export class MyAccountDispatcher {
 
     requestCustomerData(dispatch) {
         const query = MyAccountQuery.getCustomerQuery();
-
-        const customer = BrowserDatabase.getItem(CUSTOMER) || {};
-
-        if (customer.id) {
-            dispatch(updateCustomerDetails(customer));
-        }
 
         return executePost(prepareQuery([query])).then(
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then */
@@ -261,7 +256,7 @@ export class MyAccountDispatcher {
         }, false);
 
         if (doRedirect) {
-            history.push({ pathname: '/account/login' });
+            history.push({ pathname: ACCOUNT_LOGIN_URL });
         }
     }
 

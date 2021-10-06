@@ -14,12 +14,14 @@ import { Component, lazy, Suspense } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
+import MyAccountInformation from 'Component/MyAccountInformation';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
 import {
+    ACCOUNT_INFORMATION,
     activeTabType,
     ADDRESS_BOOK,
-    DASHBOARD,
+    MY_ACCOUNT,
     MY_DOWNLOADABLE,
     MY_ORDERS,
     MY_WISHLIST,
@@ -60,11 +62,12 @@ export class MyAccount extends Component {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,
+        isEditingActive: PropTypes.bool.isRequired,
+        subHeading: PropTypes.string,
+
         changeActiveTab: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
-        onSignOut: PropTypes.func.isRequired,
-        isEditingActive: PropTypes.bool.isRequired,
-        subHeading: PropTypes.string
+        onSignOut: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -72,12 +75,13 @@ export class MyAccount extends Component {
     };
 
     renderMap = {
-        [DASHBOARD]: MyAccountDashboard,
+        [MY_ACCOUNT]: MyAccountDashboard,
         [MY_ORDERS]: MyAccountMyOrders,
         [MY_WISHLIST]: MyAccountMyWishlist,
         [ADDRESS_BOOK]: MyAccountAddressBook,
         [NEWSLETTER_SUBSCRIPTION]: MyAccountNewsletterSubscription,
-        [MY_DOWNLOADABLE]: MyAccountDownloadable
+        [MY_DOWNLOADABLE]: MyAccountDownloadable,
+        [ACCOUNT_INFORMATION]: MyAccountInformation
     };
 
     shouldComponentUpdate(nextProps) {
@@ -121,7 +125,7 @@ export class MyAccount extends Component {
         }
 
         const TabContent = this.renderMap[activeTab];
-        const { name } = tabMap[activeTab];
+        const { tabName, title } = tabMap[activeTab];
 
         return (
             <ContentWrapper
@@ -136,7 +140,7 @@ export class MyAccount extends Component {
                 />
                 <div block="MyAccount" elem="TabContent">
                     <h2 block="MyAccount" elem="Heading">
-                        { name }
+                        { title || tabName }
                         { this.renderSubHeading() }
                     </h2>
                     <Suspense fallback={ <Loader /> }>

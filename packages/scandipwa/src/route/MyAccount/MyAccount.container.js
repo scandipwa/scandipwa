@@ -21,18 +21,20 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import OrderReducer from 'Store/Order/Order.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
+    ACCOUNT_INFORMATION,
     ADDRESS_BOOK,
-    DASHBOARD, MY_DOWNLOADABLE, MY_ORDERS,
-    MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
+    FIRST_SECTION, MY_ACCOUNT, MY_DOWNLOADABLE, MY_ORDERS,
+    MY_WISHLIST, NEWSLETTER_SUBSCRIPTION,
+    SECOND_SECTION, THIRD_SECTION
 } from 'Type/Account';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { LocationType, MatchType } from 'Type/Common';
 import { isSignedIn } from 'Util/Auth';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
 import { appendWithStoreCode, replace } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
-import { ACCOUNT_LOGIN_URL, MY_ACCOUNT_URL } from './MyAccount.config';
+import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from './MyAccount.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -77,7 +79,6 @@ export class MyAccountContainer extends PureComponent {
         updateMeta: PropTypes.func.isRequired,
         match: MatchType.isRequired,
         location: LocationType.isRequired,
-        history: HistoryType.isRequired,
         isMobile: PropTypes.bool.isRequired,
         wishlistItems: PropTypes.object,
         newsletterActive: PropTypes.bool.isRequired,
@@ -92,29 +93,41 @@ export class MyAccountContainer extends PureComponent {
     };
 
     static tabMap = {
-        [DASHBOARD]: {
-            url: '/dashboard',
-            name: __('Dashboard')
-        },
-        [ADDRESS_BOOK]: {
-            url: '/address-book',
-            name: __('Address book')
+        [MY_ACCOUNT]: {
+            url: '',
+            tabName: __('My Account'),
+            section: FIRST_SECTION
         },
         [MY_ORDERS]: {
             url: '/my-orders',
-            name: __('My orders')
+            tabName: __('My Orders'),
+            section: FIRST_SECTION
         },
         [MY_DOWNLOADABLE]: {
             url: '/my-downloadable',
-            name: __('My downloadable')
+            tabName: __('My Downloadable'),
+            section: FIRST_SECTION
         },
         [MY_WISHLIST]: {
             url: '/my-wishlist',
-            name: __('My wishlist')
+            tabName: __('My Wish List'),
+            section: FIRST_SECTION
+        },
+        [ADDRESS_BOOK]: {
+            url: '/address',
+            tabName: __('Address Book'),
+            section: SECOND_SECTION
+        },
+        [ACCOUNT_INFORMATION]: {
+            url: '/edit',
+            tabName: __('Account Information'),
+            title: __('Edit Account Information'),
+            section: SECOND_SECTION
         },
         [NEWSLETTER_SUBSCRIPTION]: {
             url: '/newsletter-subscription',
-            name: __('Newsletter Subscription')
+            tabName: __('Newsletter Subscription'),
+            section: THIRD_SECTION
         }
     };
 
@@ -133,7 +146,6 @@ export class MyAccountContainer extends PureComponent {
 
     static navigateToSelectedTab(props, state = {}) {
         const {
-            history,
             isSignedIn,
             match: {
                 params: {
@@ -148,10 +160,11 @@ export class MyAccountContainer extends PureComponent {
         // redirect to Dashboard, if user visited non-existent or disabled page
         const newActiveTab = this.tabMap[historyActiveTab] && this.isTabEnabled(props, historyActiveTab)
             ? historyActiveTab
-            : DASHBOARD;
+            : MY_ACCOUNT;
+        const { url: activeTabUrl } = this.tabMap[newActiveTab];
 
-        if (historyActiveTab !== newActiveTab && isSignedIn && !isMobile) {
-            history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }/${ newActiveTab }`));
+        if (historyActiveTab !== newActiveTab && activeTab !== MY_ACCOUNT && isSignedIn && !isMobile) {
+            history.push(appendWithStoreCode(`${ ACCOUNT_URL }${ activeTabUrl }`));
         }
 
         if (activeTab !== newActiveTab) {
@@ -219,22 +232,22 @@ export class MyAccountContainer extends PureComponent {
         this.redirectIfNotSignedIn();
 
         if (prevIsSignedIn !== currIsSignedIn) {
-            this.changeHeaderState();
+            this.changeMyAccountHeaderState();
         }
 
         if (prevActiveTab !== activeTab) {
             this.updateBreadcrumbs();
-            this.changeHeaderState();
+            this.changeMyAccountHeaderState();
 
             window.scrollTo({ top: 0 });
         }
 
         if (Object.keys(wishlistItems).length !== Object.keys(prevWishlistItems).length) {
-            this.changeHeaderState();
+            this.changeMyAccountHeaderState();
         }
 
         if (!isSignedIn()) {
-            this.changeHeaderState('default');
+            this.changeMyAccountHeaderState();
         }
     }
 
@@ -248,33 +261,7 @@ export class MyAccountContainer extends PureComponent {
         };
     }
 
-    isTabEnabled(tabName) {
-        const { isWishlistEnabled, newsletterActive } = this.props;
-
-        switch (tabName) {
-        case MY_WISHLIST:
-            return isWishlistEnabled;
-        case NEWSLETTER_SUBSCRIPTION:
-            return newsletterActive;
-        default:
-            return true;
-        }
-    }
-
-    _getWishlistItemsCount() {
-        const { wishlistItems } = this.props;
-
-        const { length } = Object.keys(wishlistItems);
-
-        return length;
-    }
-
-    getMyWishlistHeaderTitle = () => {
-        const count = this._getWishlistItemsCount();
-
-        return `${ count } ${ count === 1 ? __('item') : __('items') }`;
-    };
-
+    // #region GETTERS
     getSubHeading() {
         const { activeTab } = this.state;
 
@@ -288,9 +275,38 @@ export class MyAccountContainer extends PureComponent {
     }
 
     getMyWishlistSubHeading() {
-        const count = this._getWishlistItemsCount();
+        const count = this.getWishlistItemsCount();
 
         return ` (${ count })`;
+    }
+
+    getWishlistItemsCount() {
+        const { wishlistItems } = this.props;
+
+        const { length } = Object.keys(wishlistItems);
+
+        return length;
+    }
+
+    getMyWishlistHeaderTitle = () => {
+        const count = this.getWishlistItemsCount();
+
+        return `${ count } ${ count === 1 ? __('item') : __('items') }`;
+    };
+    // #endregion
+
+    // #region HANDLE TABS
+    isTabEnabled(tabName) {
+        const { isWishlistEnabled, newsletterActive } = this.props;
+
+        switch (tabName) {
+        case MY_WISHLIST:
+            return isWishlistEnabled;
+        case NEWSLETTER_SUBSCRIPTION:
+            return newsletterActive;
+        default:
+            return true;
+        }
     }
 
     tabsFilterEnabled() {
@@ -298,9 +314,18 @@ export class MyAccountContainer extends PureComponent {
             .filter(([tabName]) => this.isTabEnabled(this.props, tabName)));
     }
 
+    changeActiveTab(activeTab) {
+        const { [activeTab]: { url } } = this.tabsFilterEnabled(MyAccountContainer.tabMap);
+
+        history.push(appendWithStoreCode(`${ ACCOUNT_URL }${ url }`));
+        this.changeMyAccountHeaderState();
+    }
+    // #endregion
+
+    // #region EVENT
     onSignOut() {
         const { toggleOverlayByKey } = this.props;
-        this.setState({ activeTab: DASHBOARD });
+        this.setState({ activeTab: MY_ACCOUNT });
         toggleOverlayByKey(CUSTOMER_ACCOUNT);
         history.replace(appendWithStoreCode('/'));
     }
@@ -312,39 +337,17 @@ export class MyAccountContainer extends PureComponent {
             requestCustomerData();
         }
 
-        this.changeHeaderState();
+        this.changeMyAccountHeaderState();
     }
 
-    changeWishlistHeaderState(hiddenElements) {
+    changeMyAccountHeaderState() {
         const { changeHeaderState } = this.props;
-        const { isEditingActive } = this.state;
-
-        const currentHiddenElements = hiddenElements || [isEditingActive ? 'edit' : 'ok'];
-
-        const handleClick = (isEdit = false) => {
-            this.setState({ isEditingActive: isEdit });
-
-            const hiddenElements = [isEdit ? 'edit' : 'ok'];
-
-            this.changeWishlistHeaderState(hiddenElements);
-        };
+        const { activeTab } = this.state;
+        const isActiveTabWishList = activeTab === MY_WISHLIST;
 
         changeHeaderState({
-            title: this.getMyWishlistHeaderTitle(),
-            name: CUSTOMER_WISHLIST,
-            onEditClick: () => handleClick(true),
-            onOkClick: () => handleClick(),
-            hiddenElements: currentHiddenElements,
-            shouldNotGoToPrevState: true
-        });
-    }
-
-    changeDefaultHeaderState() {
-        const { changeHeaderState } = this.props;
-
-        changeHeaderState({
-            title: 'My account',
-            name: CUSTOMER_ACCOUNT_PAGE,
+            title: isActiveTabWishList ? this.getMyWishlistHeaderTitle() : __('My account'),
+            name: isActiveTabWishList ? CUSTOMER_WISHLIST : CUSTOMER_ACCOUNT_PAGE,
             onBackClick: () => {
                 history.push(appendWithStoreCode('/'));
             }
@@ -364,29 +367,23 @@ export class MyAccountContainer extends PureComponent {
         this.changeWishlistHeaderState();
     }
 
-    changeActiveTab(activeTab) {
-        const { history } = this.props;
-        const { [activeTab]: { url } } = this.tabsFilterEnabled(MyAccountContainer.tabMap);
-
-        history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }${ url }`));
-        this.changeHeaderState(activeTab);
-    }
-
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const { activeTab } = this.state;
-        const { url, name } = MyAccountContainer.tabMap[activeTab];
+        const { url, tabName } = MyAccountContainer.tabMap[activeTab];
+        const breadcrumbs = [];
 
-        updateBreadcrumbs([
-            { url: `${ MY_ACCOUNT_URL }${ url }`, name },
-            { name: __('My Account'), url: `${ MY_ACCOUNT_URL }/${ DASHBOARD }` }
-        ]);
+        if (activeTab !== MY_ACCOUNT) {
+            breadcrumbs.push({ url: `${ ACCOUNT_URL }${ url }`, name: tabName });
+        }
+
+        breadcrumbs.push({ name: __('My Account'), url: `${ ACCOUNT_URL }/${ MY_ACCOUNT }` });
+
+        updateBreadcrumbs(breadcrumbs);
     }
 
     redirectIfNotSignedIn() {
         const {
-            history,
-            location: { pathname },
             isMobile,
             baseLinkUrl,
             showNotification
@@ -400,19 +397,14 @@ export class MyAccountContainer extends PureComponent {
             return;
         }
 
-        if (pathname === '/forgot-password') { // forward the forgot password state
-            history.push({ pathname: appendWithStoreCode('/'), state: { isForgotPassword: true } });
-
-            return;
-        }
-
         const path = baseLinkUrl
             ? appendWithStoreCode(ACCOUNT_LOGIN_URL)
-            : replace(/\/my-account\/.*/, ACCOUNT_LOGIN_URL);
+            : replace(/\/customer\/account\/.*/, ACCOUNT_LOGIN_URL);
 
         history.replace({ pathname: path });
         showNotification('info', __('Please, sign in to access this page contents!'));
     }
+    // #endregion
 
     render() {
         return (

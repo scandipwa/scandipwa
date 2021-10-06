@@ -88,12 +88,21 @@ export const downloadableType = PropTypes.shape({
 
 export const ordersType = PropTypes.arrayOf(orderType);
 
-export const DASHBOARD = 'dashboard';
+export const MY_ACCOUNT = 'my-account';
 export const MY_ORDERS = 'my-orders';
 export const MY_DOWNLOADABLE = 'my-downloadable';
 export const MY_WISHLIST = 'my-wishlist';
-export const ADDRESS_BOOK = 'address-book';
+export const ADDRESS_BOOK = 'address';
 export const NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription';
+export const ACCOUNT_INFORMATION = 'edit';
+
+export const FIRST_SECTION = 1;
+export const SECOND_SECTION = 2;
+export const THIRD_SECTION = 3;
+
+export const INFORMATION_EDIT = 'information_edit';
+export const PASSWORD_EDIT = 'password_edit';
+export const EMAIL_EDIT = 'email_edit';
 
 export const activeTabType = PropTypes.string;
 

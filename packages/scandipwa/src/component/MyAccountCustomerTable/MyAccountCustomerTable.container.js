@@ -11,25 +11,13 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
-import {
-    CHANGE_PASSWORD,
-    CUSTOMER_POPUP_ID,
-    EDIT_CUSTOMER
-} from 'Component/MyAccountCustomerPopup/MyAccountCustomerPopup.config';
-import { showPopup } from 'Store/Popup/Popup.action';
+import { ACCOUNT_INFORMATION_EDIT_URL } from 'Route/MyAccount/MyAccount.config';
 import { customerType } from 'Type/Account';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountCustomerTable from './MyAccountCustomerTable.component';
-
-/** @namespace Component/MyAccountCustomerTable/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
-
-/** @namespace Component/MyAccountCustomerTable/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (payload) => dispatch(showPopup(CUSTOMER_POPUP_ID, payload))
-});
 
 /** @namespace Component/MyAccountCustomerTable/Container */
 export class MyAccountCustomerTableContainer extends PureComponent {
@@ -44,8 +32,8 @@ export class MyAccountCustomerTableContainer extends PureComponent {
     };
 
     containerFunctions = {
-        showEditPopup: this.showEditPopup.bind(this),
-        showChangePasswordPopup: this.showChangePasswordPopup.bind(this)
+        handleOnEditPassword: this.handleOnEditPassword.bind(this),
+        handleOnEditInformation: this.handleOnEditInformation.bind(this)
     };
 
     containerProps() {
@@ -60,24 +48,15 @@ export class MyAccountCustomerTableContainer extends PureComponent {
         };
     }
 
-    showEditPopup() {
-        const { showPopup, customer } = this.props;
-
-        showPopup({
-            action: EDIT_CUSTOMER,
-            customer,
-            title: __('Edit customer details')
+    handleOnEditPassword() {
+        history.push({
+            pathname: appendWithStoreCode(ACCOUNT_INFORMATION_EDIT_URL),
+            state: { editPassword: true }
         });
     }
 
-    showChangePasswordPopup() {
-        const { showPopup, customer } = this.props;
-
-        showPopup({
-            action: CHANGE_PASSWORD,
-            customer,
-            title: __('Change password')
-        });
+    handleOnEditInformation() {
+        history.push({ pathname: appendWithStoreCode(ACCOUNT_INFORMATION_EDIT_URL) });
     }
 
     render() {
@@ -90,4 +69,4 @@ export class MyAccountCustomerTableContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountCustomerTableContainer);
+export default MyAccountCustomerTableContainer;

@@ -31,16 +31,32 @@ export class MyAccountCustomerFormContainer extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         onSave: PropTypes.func.isRequired,
-        showTaxVatNumber: PropTypes.string.isRequired
+        showTaxVatNumber: PropTypes.string.isRequired,
+        showEmailChangeField: PropTypes.bool.isRequired,
+        showPasswordChangeField: PropTypes.bool.isRequired,
+        handleChangeEmailCheckbox: PropTypes.func.isRequired,
+        handleChangePasswordCheckbox: PropTypes.func.isRequired
     };
 
     containerProps() {
-        const { customer, onSave, showTaxVatNumber } = this.props;
+        const {
+            customer,
+            onSave,
+            showTaxVatNumber,
+            showEmailChangeField,
+            showPasswordChangeField,
+            handleChangeEmailCheckbox,
+            handleChangePasswordCheckbox
+        } = this.props;
 
         return {
             customer,
             onSave,
-            showTaxVatNumber: showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED
+            showTaxVatNumber: showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED,
+            showEmailChangeField,
+            showPasswordChangeField,
+            handleChangeEmailCheckbox,
+            handleChangePasswordCheckbox
         };
     }
 

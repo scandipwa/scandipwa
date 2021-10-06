@@ -15,7 +15,6 @@ import { PureComponent } from 'react';
 import ExpandableContent from 'Component/ExpandableContent';
 import MyAccountTabListItem from 'Component/MyAccountTabListItem';
 import { activeTabType, tabMapType } from 'Type/Account';
-import { isSignedIn } from 'Util/Auth';
 
 import './MyAccountTabList.style';
 
@@ -25,40 +24,35 @@ export class MyAccountTabList extends PureComponent {
         tabMap: tabMapType.isRequired,
         activeTab: activeTabType.isRequired,
         handleLogout: PropTypes.func.isRequired,
-        changeActiveTab: PropTypes.func.isRequired
+        onTabClick: PropTypes.func.isRequired,
+        isContentExpanded: PropTypes.bool.isRequired
     };
 
-    state = {
-        isContentExpanded: false
-    };
-
-    toggleExpandableContent = () => {
-        this.setState(({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }));
-    };
-
-    onTabClick = (key) => {
-        const { changeActiveTab } = this.props;
-
-        if (!isSignedIn()) {
-            return;
-        }
-        this.toggleExpandableContent();
-        changeActiveTab(key);
-    };
-
-    renderTabListItem = (tabEntry) => {
-        const { activeTab } = this.props;
-        const [key] = tabEntry;
+    renderTabListItem = (tabEntry, index, tabArray) => {
+        const { activeTab, onTabClick } = this.props;
+        const [key, tab] = tabEntry;
+        const { section } = tab;
+        const nextTab = tabArray[index + 1] || [];
+        const { section: nextTabSection = section } = nextTab[1] || {};
 
         return (
-            <MyAccountTabListItem
-              key={ key }
-              isActive={ activeTab === key }
-              changeActiveTab={ this.onTabClick }
-              tabEntry={ tabEntry }
-            />
+            <>
+                <MyAccountTabListItem
+                  key={ key }
+                  isActive={ activeTab === key }
+                  changeActiveTab={ onTabClick }
+                  tabEntry={ tabEntry }
+                />
+                { nextTabSection !== section ? this.renderLine() : null }
+            </>
         );
     };
+
+    renderLine() {
+        return (
+            <div block="MyAccountTabList" elem="Separator" />
+        );
+    }
 
     renderLogoutTab() {
         const { handleLogout } = this.props;
@@ -81,9 +75,8 @@ export class MyAccountTabList extends PureComponent {
     }
 
     render() {
-        const { tabMap, activeTab } = this.props;
-        const { isContentExpanded } = this.state;
-        const { name } = tabMap[activeTab];
+        const { tabMap, activeTab, isContentExpanded } = this.props;
+        const { tabName } = tabMap[activeTab];
 
         const tabs = [
             ...Object.entries(tabMap).map(this.renderTabListItem),
@@ -92,9 +85,8 @@ export class MyAccountTabList extends PureComponent {
 
         return (
             <ExpandableContent
-              heading={ name }
+              heading={ tabName }
               isContentExpanded={ isContentExpanded }
-              onClick={ this.toggleExpandableContent }
               mix={ { block: 'MyAccountTabList' } }
               mods={ { isWithoutBorder: true } }
             >

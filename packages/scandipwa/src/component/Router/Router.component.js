@@ -45,7 +45,6 @@ import {
     CREATE_ACCOUNT,
     DEMO_NOTICE,
     FOOTER,
-    FORGOT_PASSWORD,
     HEADER,
     HOME,
     LOGIN,
@@ -160,39 +159,34 @@ export class Router extends PureComponent {
             name: CHECKOUT
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/createPassword/') } render={ (props) => <PasswordChangePage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/createPassword/') } render={ (props) => <PasswordChangePage { ...props } /> } />,
             position: 60,
             name: CHANGE_PASSWORD
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/create/') } render={ (props) => <CreateAccountPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/create/') } render={ (props) => <CreateAccountPage { ...props } /> } />,
             position: 61,
             name: CREATE_ACCOUNT
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/login/') } render={ (props) => <LoginAccountPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/login/') } render={ (props) => <LoginAccountPage { ...props } /> } />,
             position: 62,
             name: LOGIN
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/forgotpassword/') } render={ (props) => <ForgotPasswordPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/forgotpassword/') } render={ (props) => <ForgotPasswordPage { ...props } /> } />,
             position: 63,
             name: ACCOUNT_FORGOT_PASSWORD
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
             position: 65,
             name: CONFIRM_ACCOUNT
         },
         {
-            component: <Route path={ withStoreRegex('/my-account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
             position: 70,
             name: MY_ACCOUNT
-        },
-        {
-            component: <Route path={ withStoreRegex('/forgot-password') } render={ (props) => <MyAccount { ...props } /> } />,
-            position: 71,
-            name: FORGOT_PASSWORD
         },
         {
             component: <Route path={ withStoreRegex('/menu') } render={ (props) => <MenuPage { ...props } /> } />,

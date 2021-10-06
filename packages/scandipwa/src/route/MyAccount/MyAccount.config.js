@@ -11,6 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const MY_ACCOUNT_URL = '/my-account';
-export const ACCOUNT_LOGIN_URL = '/account/login';
-export const ACCOUNT_URL = '/account';
+export const ACCOUNT_INFORMATION_EDIT_URL = 'customer/account/edit';
+export const ACCOUNT_REGISTRATION_URL = '/customer/account/create';
+export const ACCOUNT_LOGIN_URL = '/customer/account/login';
+export const ACCOUNT_URL = '/customer/account';

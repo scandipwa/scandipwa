@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { activeTabType, tabMapType } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
 
 import MyAccountTabList from './MyAccountTabList.component';
 
@@ -46,21 +47,26 @@ export class MyAccountTabListContainer extends PureComponent {
         onSignOut: () => {}
     };
 
+    state = {
+        isContentExpanded: false
+    };
+
     containerFunctions = {
-        handleLogout: this.handleLogout.bind(this)
+        handleLogout: this.handleLogout.bind(this),
+        onTabClick: this.onTabClick.bind(this)
     };
 
     containerProps() {
         const {
             tabMap,
-            activeTab,
-            changeActiveTab
+            activeTab
         } = this.props;
+        const { isContentExpanded } = this.state;
 
         return {
             tabMap,
             activeTab,
-            changeActiveTab
+            isContentExpanded
         };
     }
 
@@ -69,6 +75,22 @@ export class MyAccountTabListContainer extends PureComponent {
 
         logout();
         onSignOut();
+    }
+
+    onTabClick(key) {
+        const { changeActiveTab } = this.props;
+
+        if (!isSignedIn()) {
+            return;
+        }
+
+        this.toggleExpandableContent();
+        changeActiveTab(key);
+    }
+
+    toggleExpandableContent() {
+        console.log('123');
+        this.setState(({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }));
     }
 
     render() {

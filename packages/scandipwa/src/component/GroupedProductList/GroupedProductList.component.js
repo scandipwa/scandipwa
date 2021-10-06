@@ -19,8 +19,7 @@ import { ProductType } from 'Type/ProductList';
 /**
  * Product description
  * @class GroupedProductList
- * @namespace Component/GroupedProductList/Component
- */
+ * @namespace Component/GroupedProductList/Component */
 export class GroupedProductList extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
