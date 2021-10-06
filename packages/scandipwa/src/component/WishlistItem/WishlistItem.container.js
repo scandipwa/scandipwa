@@ -190,7 +190,7 @@ export class WishlistItemContainer extends PureComponent {
         return magentoProductTransform(item, quantity, null, [], selectedOptions);
     }
 
-    addItemToCart() {
+    async addItemToCart() {
         const {
             product: item,
             addProductToCart,
@@ -207,7 +207,7 @@ export class WishlistItemContainer extends PureComponent {
         } = item;
 
         if (!isSignedIn()) {
-            return null;
+            return;
         }
 
         if (type_id === PRODUCT_TYPE.configurable) {
@@ -217,7 +217,7 @@ export class WishlistItemContainer extends PureComponent {
                 history.push({ pathname: appendWithStoreCode(item.url) });
                 showNotification('info', __('Please, select product options!'));
 
-                return Promise.resolve();
+                return;
             }
 
             item.configurableVariantIndex = configurableVariantIndex;
@@ -227,13 +227,12 @@ export class WishlistItemContainer extends PureComponent {
 
         const products = this.getProducts();
 
-        return addProductToCart({ products })
-            .then(
-                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/addProductToCart/then */
-                () => this.removeItem(id),
-                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/addProductToCart/then/catch */
-                () => this.setState({ isLoading: false }, this.redirectToProductPage)
-            );
+        try {
+            await addProductToCart({ products });
+            this.removeItem(id);
+        } catch {
+            this.setState({ isLoading: false }, this.redirectToProductPage);
+        }
     }
 
     showNotification(...args) {
@@ -248,10 +247,11 @@ export class WishlistItemContainer extends PureComponent {
 
         handleSelectIdChange(item_id, isRemoveOnly);
 
-        return removeFromWishlist({ item_id, noMessages }).catch(
-            /** @namespace Component/WishlistItem/Container/WishlistItemContainer/removeItem/removeFromWishlist/catch */
-            () => this.showNotification('error', __('Error cleaning wishlist'))
-        );
+        try {
+            removeFromWishlist({ item_id, noMessages });
+        } catch (e) {
+            this.showNotification('error', __('Error cleaning wishlist'));
+        }
     }
 
     redirectToProductPage() {

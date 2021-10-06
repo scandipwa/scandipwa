@@ -107,39 +107,38 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         };
     }
 
-    addAllToCart() {
+    async addAllToCart() {
         const { moveWishlistToCart } = this.props;
 
         if (!isSignedIn()) {
-            return null;
+            return Promise.reject();
         }
 
         this.setState({ isLoading: true });
 
-        return moveWishlistToCart()
-            .catch(
-            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/addAllToCart/moveWishlistToCart/catch */
-                (error) => this.showErrorAndRemoveLoading(getErrorMessage(error))
-            );
+        try {
+            return await moveWishlistToCart();
+        } catch (error) {
+            this.showErrorAndRemoveLoading(getErrorMessage(error));
+            return Promise.reject();
+        }
     }
 
-    removeAll() {
+    async removeAll() {
         const { clearWishlist } = this.props;
 
         if (!isSignedIn()) {
-            return null;
+            return;
         }
 
         this.setState({ isLoading: true });
 
-        return clearWishlist()
-            .then(
-            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/removeAll/then/finally/clearWishlist/then */
-                () => this.showNotificationAndRemoveLoading('Wishlist cleared')
-            ).finally(
-            /** @namespace Component/MyAccountMyWishlist/Container/MyAccountMyWishlistContainer/removeAll/then/finally */
-                () => this.setState({ isLoading: false })
-            );
+        try {
+            await clearWishlist();
+            this.showNotificationAndRemoveLoading('Wishlist cleared');
+        } finally {
+            this.setState({ isLoading: false });
+        }
     }
 
     removeSelectedFromWishlist(selectedIdMap) {

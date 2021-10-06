@@ -37,6 +37,10 @@ export const getEncodedBundleUid = (uid, quantity) => {
 export const getBundleOptions = (buyRequest) => {
     const { bundle_option = {}, bundle_option_qty = {} } = JSON.parse(buyRequest);
 
+    if (!bundle_option) {
+        return [];
+    }
+
     return Object.entries(bundle_option).reduce((prev, [option, variant]) => {
         const qty = bundle_option_qty[option] || 1;
 
