@@ -52,6 +52,11 @@ export const getBundleOptions = (buyRequest) => {
 export const getCustomizableOptions = (buyRequest) => {
     const { options = {} } = JSON.parse(buyRequest);
 
+    // handle null
+    if (!options) {
+        return [];
+    }
+
     return Object.entries(options).reduce((prev, [option, variant]) => {
         if (typeof variant === 'string') {
             return [...prev, btoa(`custom-option/${option}/${variant}`)];
@@ -62,10 +67,28 @@ export const getCustomizableOptions = (buyRequest) => {
     []);
 };
 
-/** @namespace Util/Product/Transform/getEnteredOptions */
-export const getEnteredOptions = (buyRequest) => [
+/** @namespace Util/Product/Transform/getDownloadableOptions */
+export const getDownloadableOptions = (buyRequest) => {
+    const { links } = JSON.parse(buyRequest);
+
+    if (!links) {
+        return [];
+    }
+
+    const linksData = Object.entries(links);
+
+    if (typeof linksData === 'string') {
+        return btoa(`downloadable/${links}`);
+    }
+
+    return links.map((link) => btoa(`downloadable/${link}`));
+};
+
+/** @namespace Util/Product/Transform/getSelectedOptions */
+export const getSelectedOptions = (buyRequest) => [
     ...getBundleOptions(buyRequest),
-    ...getCustomizableOptions(buyRequest)
+    ...getCustomizableOptions(buyRequest),
+    ...getDownloadableOptions(buyRequest)
 ];
 
 /**

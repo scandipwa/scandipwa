@@ -191,7 +191,7 @@ export class WishlistDispatcher {
                 dispatch(removeItemFromWishlist(item_id));
 
                 if (!noMessages) {
-                    dispatch(showNotification('info', __('Product has been removed from your Wish List!')));
+                    dispatch(showNotification('success', __('Product has been removed from your Wish List!')));
                 }
             },
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemFromWishlist/fetchMutation/then/catch */
@@ -214,7 +214,7 @@ export class WishlistDispatcher {
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemsFromWishlist/itemIdMap/map/fetchMutation/then */
                 () => {
                     dispatch(removeItemFromWishlist(id));
-                    dispatch(showNotification('info', __('Product has been removed from your Wish List!')));
+                    dispatch(showNotification('success', __('Product has been removed from your Wish List!')));
                 },
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemsFromWishlist/itemIdMap/map/fetchMutation/then/catch */
                 (error) => {

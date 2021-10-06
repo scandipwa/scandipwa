@@ -21,7 +21,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
-import { getEnteredOptions, magentoProductTransform } from 'Util/Product/Transform';
+import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -175,7 +175,7 @@ export class WishlistItemContainer extends PureComponent {
             product: item
         } = this.props;
 
-        const selectedOptions = getEnteredOptions(buy_request);
+        const selectedOptions = getSelectedOptions(buy_request);
 
         if (type_id === PRODUCT_TYPE.configurable) {
             return [{
