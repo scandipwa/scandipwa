@@ -79,8 +79,12 @@ export class FormContainer extends PureComponent {
     componentWillUnmount() {
         const { validationRule } = this.props;
 
-        if (this.formRef && validationRule && Object.keys(validationRule).length > 0) {
-            this.formRef.removeEventListener('validate', this.validate.bind(this));
+        if (this.formRef) {
+            this.formRef.removeEventListener('reset', this.resetField.bind(this));
+
+            if (validationRule && Object.keys(validationRule).length > 0) {
+                this.formRef.removeEventListener('validate', this.validate.bind(this));
+            }
         }
     }
 
