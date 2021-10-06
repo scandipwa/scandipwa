@@ -91,10 +91,18 @@ export class FormContainer extends PureComponent {
         if (elem && this.formRef !== elem) {
             this.formRef = elem;
 
+            elem.addEventListener('reset', this.resetField.bind(this));
+
             if (validationRule && Object.keys(validationRule).length > 0) {
                 elem.addEventListener('validate', this.validate.bind(this));
             }
         }
+    }
+
+    resetField() {
+        const fields = this.formRef.querySelectorAll('input, textarea, select');
+        const event = new CustomEvent('resetField');
+        fields.forEach((field) => field.dispatchEvent(event));
     }
 
     validate(data) {
