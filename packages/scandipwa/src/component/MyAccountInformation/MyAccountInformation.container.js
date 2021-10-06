@@ -123,7 +123,7 @@ export class MyAccountInformationContainer extends PureComponent {
         await this.handleInformationChange({ firstname, lastname, taxvat });
 
         if (showPasswordChangeField) {
-            await this.handleChangePasswordCheckbox({ password, newPassword });
+            await this.handlePasswordChange({ password, newPassword });
         }
 
         if (showEmailChangeField) {

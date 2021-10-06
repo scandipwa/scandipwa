@@ -63,10 +63,10 @@ export class MyAccountQuery {
     }
 
     getChangeCustomerPasswordMutation(options) {
-        const { currentPassword, newPassword } = options;
+        const { password, newPassword } = options;
 
         return new Field('changeCustomerPassword')
-            .addArgument('currentPassword', 'String!', currentPassword)
+            .addArgument('currentPassword', 'String!', password)
             .addArgument('newPassword', 'String!', newPassword)
             .addField('id')
             .addField('email');
