@@ -111,16 +111,16 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         const { moveWishlistToCart } = this.props;
 
         if (!isSignedIn()) {
-            return Promise.reject();
+            await Promise.reject();
         }
 
         this.setState({ isLoading: true });
 
         try {
-            return await moveWishlistToCart();
+            await moveWishlistToCart();
         } catch (error) {
             this.showErrorAndRemoveLoading(getErrorMessage(error));
-            return Promise.reject();
+            await Promise.reject();
         }
     }
 

@@ -162,11 +162,11 @@ export class WishlistDispatcher {
 
     async moveWishlistToCart(dispatch, sharingCode) {
         if (!isSignedIn()) {
-            return Promise.reject();
+            await Promise.reject();
         }
 
         try {
-            return await fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode));
+            await fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode));
         } finally {
             await this._syncWishlistWithBE(dispatch);
             CartDispatcher.then(
