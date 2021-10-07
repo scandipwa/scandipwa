@@ -181,15 +181,18 @@ export class WishlistDispatcher {
         if (!item_id || !isSignedIn()) {
             return Promise.reject();
         }
+
         dispatch(updateIsLoading(true));
 
-        if (!noMessages) {
-            dispatch(showNotification('info', __('Product has been removed from your Wish List!')));
-        }
-
         return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id)).then(
-            /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemFromWishlist/fetchMutation/then/dispatch */
-            () => dispatch(removeItemFromWishlist(item_id)),
+            /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemFromWishlist/fetchMutation/then */
+            () => {
+                if (!noMessages) {
+                    dispatch(showNotification('info', __('Product has been removed from your Wish List!')));
+                }
+
+                dispatch(removeItemFromWishlist(item_id));
+            },
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemFromWishlist/fetchMutation/then/catch */
             () => {
                 if (!noMessages) {

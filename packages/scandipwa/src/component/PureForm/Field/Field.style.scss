@@ -55,6 +55,13 @@
         &:hover {
             cursor: pointer;
         }
+
+        .input-control {
+            @include mobile {
+                min-width: 21px;
+                min-height: 21px;
+            }
+        }
     }
 
     &-Error {
@@ -173,12 +180,8 @@
             label {
                 &:first-of-type {
                     display: inline-flex;
-                    max-width: calc(100vw - 24px - 45px);
                     vertical-align: middle;
-
-                    @include mobile {
-                        max-width: calc(100vw - 28px - 45px);
-                    }
+                    max-width: 100%;
                 }
             }
 
@@ -189,6 +192,18 @@
 
             .input-control {
                 vertical-align: middle;
+            }
+        }
+
+        &_checkbox {
+            label {
+                &:first-of-type {
+                    max-width: calc(100vw - 24px - 45px);
+
+                    @include mobile {
+                        max-width: calc(100vw - 28px - 45px);
+                    }
+                }
             }
         }
 
