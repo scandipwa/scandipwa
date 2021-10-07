@@ -88,12 +88,32 @@ export const getDownloadableOptions = (buyRequest) => {
     return links.map((link) => btoa(`downloadable/${link}`));
 };
 
+/** @namespace Util/Product/Transform/getConfigurableOptions */
+export const getConfigurableOptions = (buyRequest) => {
+    const { super_attribute } = JSON.parse(buyRequest);
+
+    if (!super_attribute) {
+        return [];
+    }
+
+    return Object.entries(super_attribute).map(([attr, value]) => btoa(`configurable/${attr}/${value}`));
+};
+
 /** @namespace Util/Product/Transform/getSelectedOptions */
 export const getSelectedOptions = (buyRequest) => [
     ...getBundleOptions(buyRequest),
     ...getCustomizableOptions(buyRequest),
-    ...getDownloadableOptions(buyRequest)
+    ...getDownloadableOptions(buyRequest),
+    ...getConfigurableOptions(buyRequest)
 ];
+
+/** @namespace Util/Product/Transform/transformParameters */
+export const transformParameters = (parameters = [], attributes = {}) => Object.entries(parameters)
+    .map(([attrCode, selectedValue]) => {
+        const attrId = attributes[attrCode]?.attribute_id;
+
+        return btoa(`configurable/${attrId}/${selectedValue}`);
+    });
 
 /**
  * Generates label for bundle option
@@ -236,12 +256,10 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
 export const magentoProductTransform = (
     product,
     quantity = 1,
-    parentProduct = {},
     enteredOptions = [],
     selectedOptions = []
 ) => {
     const { sku, type_id: typeId } = product;
-    const { sku: parentSku, type_id: parentType } = parentProduct || {};
 
     const productData = [];
 
@@ -274,14 +292,7 @@ export const magentoProductTransform = (
             entered_options: enteredOptions
         };
 
-        const configProductToAdd = parentType !== PRODUCT_TYPE.configurable ? {} : {
-            parent_sku: parentSku
-        };
-
-        productData.push({
-            ...baseProductToAdd,
-            ...configProductToAdd
-        });
+        productData.push(baseProductToAdd);
     }
 
     return productData;

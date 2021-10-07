@@ -29,7 +29,7 @@ import {
     getPrice,
     getProductInStock
 } from 'Util/Product/Extract';
-import { magentoProductTransform } from 'Util/Product/Transform';
+import { magentoProductTransform, transformParameters } from 'Util/Product/Transform';
 import { validateGroup } from 'Util/Validator';
 
 export const CartDispatcher = import(
@@ -321,6 +321,8 @@ export class ProductContainer extends PureComponent {
         const { addProductToCart, cartId } = this.props;
         const products = this.getMagentoProduct();
 
+        console.debug(products);
+
         await addProductToCart({ products, cartId });
     }
 
@@ -381,22 +383,23 @@ export class ProductContainer extends PureComponent {
      * @returns {*[]}
      */
     getMagentoProduct() {
-        const { product } = this.props;
         const {
             quantity,
             enteredOptions,
             selectedOptions,
-            downloadableLinks
+            downloadableLinks,
+            parameters
         } = this.state;
 
-        const activeProduct = this.getActiveProduct();
-        const parentProduct = activeProduct === product ? null : product;
+        const { product, product: { attributes } } = this.props;
+
+        const configurableOptions = transformParameters(parameters, attributes);
+
         return magentoProductTransform(
-            activeProduct,
+            product,
             quantity,
-            parentProduct,
             enteredOptions,
-            [...selectedOptions, ...downloadableLinks],
+            [...selectedOptions, ...downloadableLinks, ...configurableOptions],
         );
     }
 

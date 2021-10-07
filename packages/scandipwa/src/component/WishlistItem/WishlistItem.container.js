@@ -164,30 +164,17 @@ export class WishlistItemContainer extends PureComponent {
     getProducts() {
         const {
             product: {
-                type_id,
                 wishlist: {
                     quantity,
-                    buy_request,
-                    sku
-                },
-                sku: parentSku
+                    buy_request
+                }
             },
             product: item
         } = this.props;
 
         const selectedOptions = getSelectedOptions(buy_request);
 
-        if (type_id === PRODUCT_TYPE.configurable) {
-            return [{
-                sku,
-                quantity,
-                parent_sku: parentSku,
-                selected_options: selectedOptions,
-                entered_options: []
-            }];
-        }
-
-        return magentoProductTransform(item, quantity, null, [], selectedOptions);
+        return magentoProductTransform(item, quantity, [], selectedOptions);
     }
 
     async addItemToCart() {
