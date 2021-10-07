@@ -106,6 +106,7 @@ export class MyAccountInformationContainer extends PureComponent {
     };
 
     async onCustomerSave(fields) {
+        const { updateCustomerLoadingStatus } = this.props;
         const { showPasswordChangeField, showEmailChangeField } = this.state;
         const {
             firstname = '',
@@ -119,6 +120,8 @@ export class MyAccountInformationContainer extends PureComponent {
         if (!isSignedIn()) {
             return;
         }
+
+        updateCustomerLoadingStatus(true);
 
         await this.handleInformationChange({ firstname, lastname, taxvat });
 
@@ -146,53 +149,40 @@ export class MyAccountInformationContainer extends PureComponent {
         }
     }
 
-    handlePasswordChange(passwords) {
-        const {
-            updateCustomerLoadingStatus
-        } = this.props;
-
+    async handlePasswordChange(passwords) {
         const mutation = MyAccountQuery.getChangeCustomerPasswordMutation(passwords);
-        updateCustomerLoadingStatus(true);
 
-        return fetchMutation(mutation).then(
-            /** @namespace Component/MyAccountInformation/Container/MyAccountInformationContainer/handlePasswordChange/fetchMutation/then */
-            () => {},
-            this.onError
-        );
+        try {
+            await fetchMutation(mutation);
+        } catch (e) {
+            this.onError(e);
+        }
     }
 
-    handleInformationChange(passwords) {
+    async handleInformationChange(passwords) {
         const {
-            updateCustomer,
-            updateCustomerLoadingStatus
+            updateCustomer
         } = this.props;
 
         const mutation = MyAccountQuery.getUpdateInformationMutation(passwords);
-        updateCustomerLoadingStatus(true);
 
-        return fetchMutation(mutation).then(
-            /** @namespace Component/MyAccountInformation/Container/MyAccountInformationContainer/handleInformationChange/fetchMutation/then */
-            ({ updateCustomerV2: { customer } }) => {
-                BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
-                updateCustomer(customer);
-            },
-            this.onError
-        );
+        try {
+            const { updateCustomerV2: { customer } } = await fetchMutation(mutation);
+            BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
+            updateCustomer(customer);
+        } catch (e) {
+            this.onError(e);
+        }
     }
 
-    handleEmailChange(fields) {
-        const {
-            updateCustomerLoadingStatus
-        } = this.props;
-
+    async handleEmailChange(fields) {
         const mutation = MyAccountQuery.getUpdateEmailMutation(fields);
-        updateCustomerLoadingStatus(true);
 
-        return fetchMutation(mutation).then(
-            /** @namespace Component/MyAccountInformation/Container/MyAccountInformationContainer/handleEmailChange/fetchMutation/then */
-            () => {},
-            this.onError
-        );
+        try {
+            await fetchMutation(mutation);
+        } catch (e) {
+            this.onError(e);
+        }
     }
 
     handleChangePasswordCheckbox() {
