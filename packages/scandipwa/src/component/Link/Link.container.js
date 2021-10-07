@@ -37,7 +37,7 @@ export class LinkContainer extends PureComponent {
         ]).isRequired
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             block,
             elem,

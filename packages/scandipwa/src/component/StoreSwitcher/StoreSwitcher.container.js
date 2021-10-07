@@ -72,7 +72,7 @@ export class StoreSwitcherContainer extends DataContainer {
         }
     }
 
-    containerProps = () => {
+    containerProps() {
         const { currentStoreCode, device } = this.props;
         const { storeList, isOpened, storeLabel } = this.state;
 

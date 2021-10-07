@@ -25,7 +25,7 @@ export class CmsBlockContainer extends DataContainer {
         cmsBlock: {}
     };
 
-    containerProps = () => {
+    containerProps() {
         const { blockType } = this.props;
         const { cmsBlock } = this.state;
 

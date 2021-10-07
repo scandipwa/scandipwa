@@ -80,7 +80,7 @@ export class MyAccountOrderPopupContainer extends PureComponent {
         }
     }
 
-    containerProps = () => {
+    containerProps() {
         const { order: stateOrder, isLoading, currency_code } = this.state;
         const {
             payload: { order: payloadOrder },
@@ -96,7 +96,7 @@ export class MyAccountOrderPopupContainer extends PureComponent {
                 ...stateOrder
             }
         };
-    };
+    }
 
     async requestOrderDetails() {
         const {

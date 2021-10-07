@@ -56,7 +56,7 @@ export class StoreInPickUpContainer extends PureComponent {
         selectedStore: null
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             countryId,
             estimateAddress,

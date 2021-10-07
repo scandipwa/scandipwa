@@ -26,7 +26,7 @@ export class CarouselScrollArrowContainer extends PureComponent {
         onClick: this.onClick.bind(this)
     };
 
-    containerProps = () => {
+    containerProps() {
         const { isNextArrow, isDisabled, isInvisible } = this.props;
 
         return {
@@ -36,7 +36,7 @@ export class CarouselScrollArrowContainer extends PureComponent {
                 isInvisible
             }
         };
-    };
+    }
 
     onClick() {
         const { onClick, isNextArrow } = this.props;

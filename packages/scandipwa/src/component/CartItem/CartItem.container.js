@@ -125,7 +125,7 @@ export class CartItemContainer extends PureComponent {
         this.setState({ isLoading: false });
     }
 
-    containerProps = () => {
+    containerProps() {
         const {
             item,
             currency_code,

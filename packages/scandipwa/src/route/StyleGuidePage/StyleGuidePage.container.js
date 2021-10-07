@@ -51,7 +51,7 @@ export class StyleGuidePageContainer extends PureComponent {
         updateProductDetails(product);
     }
 
-    containerProps = () => {
+    containerProps() {
         const { product } = this.props;
 
         return {

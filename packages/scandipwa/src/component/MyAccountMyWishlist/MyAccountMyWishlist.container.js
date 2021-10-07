@@ -111,15 +111,15 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         const { moveWishlistToCart } = this.props;
 
         if (!isSignedIn()) {
-            return null;
+            return;
         }
 
         this.setState({ isLoading: true });
 
         try {
-            return await moveWishlistToCart();
+            await moveWishlistToCart();
         } catch (e) {
-            return this.showErrorAndRemoveLoading(getErrorMessage(e));
+            this.showErrorAndRemoveLoading(getErrorMessage(e));
         } finally {
             this.showNotificationAndRemoveLoading('Available items moved to cart');
         }
@@ -129,13 +129,13 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         const { clearWishlist } = this.props;
 
         if (!isSignedIn()) {
-            return null;
+            return;
         }
 
         this.setState({ isLoading: true });
 
         try {
-            return await clearWishlist();
+            await clearWishlist();
         } finally {
             this.showNotificationAndRemoveLoading('Wishlist cleared');
         }

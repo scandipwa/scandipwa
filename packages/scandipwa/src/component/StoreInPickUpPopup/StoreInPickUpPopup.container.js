@@ -96,7 +96,7 @@ export class StoreInPickUpContainer extends PureComponent {
         }
     }
 
-    containerProps = () => {
+    containerProps() {
         const { countries } = this.props;
         const {
             isLoading,

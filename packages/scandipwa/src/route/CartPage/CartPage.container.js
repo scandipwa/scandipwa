@@ -141,7 +141,7 @@ export class CartPageContainer extends PureComponent {
         }
     }
 
-    containerProps = () => {
+    containerProps() {
         const {
             totals,
             totals: {

@@ -36,7 +36,7 @@ export class CartItemPriceContainer extends PureComponent {
         mix: MixType.isRequired
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             getCartItemPrice,
             getCartItemSubPrice,

@@ -61,7 +61,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
         this.requestDownloadable();
     }
 
-    containerProps = () => {
+    containerProps() {
         const { device } = this.props;
         const { isLoading } = this.state;
 
@@ -70,7 +70,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
             isLoading,
             items: this._prepareDownloadableProps()
         };
-    };
+    }
 
     _prepareDownloadableProps() {
         const { items } = this.state;
@@ -95,27 +95,23 @@ export class MyAccountDownloadableContainer extends PureComponent {
         }, []);
     }
 
-    requestDownloadable() {
+    async requestDownloadable() {
         const { showErrorNotification } = this.props;
 
         this.setState({ isLoading: true });
 
-        fetchQuery(
-            OrderQuery.getDownloadableQuery()
-        ).then(
-            /** @namespace Component/MyAccountDownloadable/Container/requestDownloadable/success */
-            (
-            /** @namespace Component/MyAccountDownloadable/Container/MyAccountDownloadableContainer/requestDownloadable/fetchQuery/then */
-                (data) => {
-                    const { customerDownloadableProducts: { items = [] } = {} } = data;
-                    this.setState({ items, isLoading: false });
-                }),
-            /** @namespace Component/MyAccountDownloadable/Container/MyAccountDownloadableContainer/requestDownloadable/fetchQuery/then/catch */
-            (err) => {
-                showErrorNotification(getErrorMessage(err));
-                this.setState({ isLoading: false });
-            }
-        );
+        try {
+            const {
+                customerDownloadableProducts: {
+                    items = []
+                } = {}
+            } = await fetchQuery(OrderQuery.getDownloadableQuery());
+
+            this.setState({ items, isLoading: false });
+        } catch (e) {
+            showErrorNotification(getErrorMessage(e));
+            this.setState({ isLoading: false });
+        }
     }
 
     render() {

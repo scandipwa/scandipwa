@@ -53,7 +53,7 @@ export class FieldInputContainer extends PureComponent {
         return autocomplete;
     }
 
-    containerProps = () => {
+    containerProps() {
         const {
             /* eslint-disable react/prop-types */
             dispatch,
