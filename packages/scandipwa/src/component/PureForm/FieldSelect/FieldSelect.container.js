@@ -108,9 +108,9 @@ export class FieldSelectContainer extends PureComponent {
     }
 
     handleSelectExpandedExpand() {
-        const { isSelectExpanded } = this.state;
+        const { isExpanded } = this.state;
 
-        if (isSelectExpanded) {
+        if (isExpanded) {
             this.handleSelectExpand();
         }
     }
