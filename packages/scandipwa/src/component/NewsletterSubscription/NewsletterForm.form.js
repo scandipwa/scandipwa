@@ -18,7 +18,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @namespace Component/NewsletterSubscription/NewsletterForm/Form/newsletterSubscriptionForm */
 export const newsletterSubscriptionForm = () => [
     {
-        type: FIELD_TYPE.email,
+        type: FIELD_TYPE.text,
         attr: {
             name: 'newsletterEmail',
             placeholder: __('Enter your email address'),

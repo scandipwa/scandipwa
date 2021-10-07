@@ -10,6 +10,7 @@
  */
 
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
  * Returns fields for share wishlist form
@@ -18,7 +19,7 @@ import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
  */
 export const shareWishlistForm = () => [
     {
-        type: FIELD_TYPE.email,
+        type: FIELD_TYPE.text,
         label: __('Email addresses, separated by commas'),
         attr: {
             name: 'emails',
@@ -27,6 +28,7 @@ export const shareWishlistForm = () => [
         },
         validateOn: ['onChange'],
         validationRule: {
+            inputType: VALIDATION_INPUT_TYPE.emailList,
             isRequired: true
         },
         addRequiredTag: true

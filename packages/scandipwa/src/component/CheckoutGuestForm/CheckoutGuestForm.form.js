@@ -25,7 +25,7 @@ export const checkoutGuestForm = (props, events) => {
 
     return [
         {
-            type: FIELD_TYPE.email,
+            type: FIELD_TYPE.text,
             label: __('Email'),
             attr: {
                 name: 'guest_email',
