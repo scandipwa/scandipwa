@@ -78,7 +78,7 @@ export class FieldFile extends PureComponent {
             setRef
         } = this.props;
 
-        const allowedFieldTypes = accept
+        const allowedFieldTypes = (accept || '')
             .split(',')
             .map((type = '') => type.split('/').slice(-1)[0])
             .join(', ');

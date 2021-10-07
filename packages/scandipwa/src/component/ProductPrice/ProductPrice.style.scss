@@ -54,6 +54,14 @@
         margin-block-start: 6px;
     }
 
+    &-RegularPrice {
+        margin-block-start: 5px;
+
+        &, strong {
+            color: var(--price-discount-color);
+        }
+    }
+
     &-Placeholder {
         &::after {
             content: 'aaaaa';

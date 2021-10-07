@@ -220,23 +220,57 @@ export class ProductPrice extends PureComponent {
                 maxFinalPrice = {},
                 maxFinalPrice: { value: maxValue = 0 } = {},
                 minFinalPriceExclTax = {},
-                maxFinalPriceExclTax = {}
+                maxFinalPriceExclTax = {},
+                minRegularPrice = {},
+                maxRegularPrice = {},
+                minRegularPrice: { value: minRegularValue = 0 } = {},
+                maxRegularPrice: { value: maxRegularValue = 0 } = {}
             }
         } = this.props;
 
         if (minValue === maxValue) {
-            if (minValue === 0) {
-                return this.renderDefaultPrice();
-            }
+            const renderer = (minValue === 0)
+                ? this.renderDefaultPrice()
+                : this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax);
 
-            return this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax);
+            return (
+                <>
+                    { renderer }
+                    { this.renderTierPrice() }
+                    { minValue < minRegularValue && this.renderRegularPrice(minRegularPrice) }
+                </>
+            );
         }
 
         return (
             <>
-                { this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax, __('from')) }
-                { this.renderPriceWithTax(maxFinalPrice, maxFinalPriceExclTax, __('to')) }
+                <div block="ProductPrice" elem="BundleFrom">
+                    { this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax, __('from')) }
+                    { minValue < minRegularValue && this.renderRegularPrice(minRegularPrice) }
+                </div>
+                <div block="ProductPrice" elem="BundleTo">
+                    { this.renderPriceWithTax(maxFinalPrice, maxFinalPriceExclTax, __('to')) }
+                    { maxValue < maxRegularValue && this.renderRegularPrice(maxRegularPrice) }
+                </div>
             </>
+        );
+    }
+
+    renderRegularPrice(price) {
+        const {
+            value,
+            valueFormatted
+        } = price;
+
+        if (!value || value <= 0 || !valueFormatted) {
+            return null;
+        }
+
+        return (
+            <p block="ProductPrice" elem="RegularPrice">
+                { __('Regular price') }
+                <strong>{ ` ${ valueFormatted }` }</strong>
+            </p>
         );
     }
 
@@ -330,9 +364,16 @@ export class ProductPrice extends PureComponent {
     }
 
     renderTierPrice() {
-        const { tierPrice } = this.props;
+        const {
+            tierPrice,
+            price: {
+                finalPrice: {
+                    valueFormatted = 0
+                } = {}
+            } = {}
+        } = this.props;
 
-        if (!tierPrice) {
+        if (!tierPrice || tierPrice === valueFormatted) {
             return null;
         }
 
@@ -374,7 +415,7 @@ export class ProductPrice extends PureComponent {
             >
                 { isPreview && renderer && renderer() }
                 { (!isPreview || !renderer) && this.renderDefaultPrice() }
-                { this.renderTierPrice() }
+                { priceType !== PRODUCT_TYPE.bundle && this.renderTierPrice() }
             </p>
         );
     }

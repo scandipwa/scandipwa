@@ -186,24 +186,44 @@ export const getPrice = (
     adjustedPrice = {},
     type = PRODUCT_TYPE.simple
 ) => {
-    const priceAcc = type === PRODUCT_TYPE.bundle ? 'default_final_price' : 'regular_price';
+    const priceAcc = type === PRODUCT_TYPE.bundle
+        ? 'default_final_price'
+        : 'regular_price';
     const priceExcTaxAcc = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.configurable
         ? 'default_final_price_excl_tax'
         : 'regular_price_excl_tax';
+    const accessRange = type === PRODUCT_TYPE.virtual
+        ? 'maximum_price'
+        : 'minimum_price';
 
     const {
-        minimum_price: {
+        [accessRange]: {
             [priceAcc]: { currency = 'USD', value: basePrice = 0 } = {},
             [priceExcTaxAcc]: { value: basePriceExclTax = 0 } = {},
-            discount: { percent_off: percentOff = 0 } = {},
+            discount: {
+                percent_off: percentOffRef = 0,
+                amount_off: amountOff = 0
+            } = {}
+        } = {},
+        minimum_price: {
+            regular_price: minRegularPrice = {},
             final_price: minFinalPrice = {},
             final_price_excl_tax: minFinalPriceExclTax = {}
         } = {},
         maximum_price: {
+            regular_price: maxRegularPrice = {},
             final_price: maxFinalPrice = {},
             final_price_excl_tax: maxFinalPriceExclTax = {}
         } = {}
     } = priceRange || {};
+
+    // Fixes decimal misplacement for discount
+    // eslint-disable-next-line no-magic-numbers
+    const percentOffCalc = (amountOff / basePrice) * 100;
+    // eslint-disable-next-line no-magic-numbers
+    const percentOff = Math.round(percentOffCalc * 100) / 100 === percentOffRef
+        ? percentOffCalc
+        : percentOffRef;
 
     // eslint-disable-next-line no-magic-numbers
     const discountValue = (1 - percentOff / 100);
@@ -257,6 +277,10 @@ export const getPrice = (
             }
         },
         originalPrice: {
+            minRegularPrice: {
+                ...minRegularPrice,
+                valueFormatted: formatPrice(minRegularPrice.value || 0, currency)
+            },
             minFinalPrice: {
                 ...minFinalPrice,
                 valueFormatted: formatPrice(minFinalPrice.value || 0, currency)
@@ -264,6 +288,10 @@ export const getPrice = (
             minFinalPriceExclTax: {
                 ...minFinalPriceExclTax,
                 valueFormatted: formatPrice(minFinalPriceExclTax.value || 0, currency)
+            },
+            maxRegularPrice: {
+                ...maxRegularPrice,
+                valueFormatted: formatPrice(maxRegularPrice.value || 0, currency)
             },
             maxFinalPrice: {
                 ...maxFinalPrice,
