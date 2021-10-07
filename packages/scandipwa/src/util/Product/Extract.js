@@ -245,16 +245,28 @@ export const getPrice = (
     // Adds adjusted price
     Object.keys(adjustedPrice || {}).forEach((key) => {
         const { [key]: group } = adjustedPrice;
-        const { inclTax = 0, exclTax = 0, hasDiscountCalculated = false } = group;
+        const {
+            inclTax = 0,
+            exclTax = 0,
+            requiresDiscountCalculations = true,
+            hasDiscountCalculated = false
+        } = group;
 
-        if (hasDiscountCalculated) {
+        if (requiresDiscountCalculations) {
+            if (hasDiscountCalculated) {
+                priceValue.value += inclTax;
+                priceValueExclTax.value += exclTax;
+                priceValueExclDiscount.value += inclTax / discountValueRevert;
+                priceValueExclDiscountExclTax.value += exclTax / discountValueRevert;
+            } else {
+                priceValue.value += inclTax * discountValue;
+                priceValueExclTax.value += exclTax * discountValue;
+                priceValueExclDiscount.value += inclTax;
+                priceValueExclDiscountExclTax.value += exclTax;
+            }
+        } else {
             priceValue.value += inclTax;
             priceValueExclTax.value += exclTax;
-            priceValueExclDiscount.value += inclTax / discountValueRevert;
-            priceValueExclDiscountExclTax.value += exclTax / discountValueRevert;
-        } else {
-            priceValue.value += inclTax * discountValue;
-            priceValueExclTax.value += exclTax * discountValue;
             priceValueExclDiscount.value += inclTax;
             priceValueExclDiscountExclTax.value += exclTax;
         }
@@ -327,17 +339,19 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
         downloadable: {
             exclTax: 0,
             inclTax: 0,
+            requiresDiscountCalculations: true,
             hasDiscountCalculated: false
         },
         bundle: {
             exclTax: 0,
             inclTax: 0,
+            requiresDiscountCalculations: true,
             hasDiscountCalculated: true
         },
         config: {
             exclTax: 0,
             inclTax: 0,
-            hasDiscountCalculated: true
+            requiresDiscountCalculations: false
         }
     };
 
