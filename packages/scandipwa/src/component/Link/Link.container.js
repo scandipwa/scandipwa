@@ -54,7 +54,7 @@ export class LinkContainer extends PureComponent {
 
     containerFunctions = {
         onClick: this.onClick.bind(this)
-    }
+    };
 
     containerProps = () => {
         const {
