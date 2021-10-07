@@ -19,25 +19,33 @@ import {
     mapStateToProps,
     MyAccountOverlayContainer
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
-import { ACCOUNT_FORGOT_PASSWORD_URL, ACCOUNT_REGISTRATION_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import {
+    ACCOUNT_FORGOT_PASSWORD_URL, ACCOUNT_LOGIN_URL, ACCOUNT_REGISTRATION_URL, ACCOUNT_URL
+} from 'Route/MyAccount/MyAccount.config';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import LoginAccount from './LoginAccount.component';
 
+export const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+
 /** @namespace Route/LoginAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     ...sourceMapDispatchToProps(dispatch),
-    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible))
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+    )
 });
 
 /** @namespace Route/LoginAccount/Container */
 export class LoginAccountContainer extends MyAccountOverlayContainer {
     static propTypes = {
         ...MyAccountOverlayContainer.propTypes,
-        toggleBreadcrumbs: PropTypes.func.isRequired
+        updateBreadcrumbs: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -54,14 +62,16 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     }
 
     componentDidMount() {
-        const { setHeaderState, toggleBreadcrumbs } = this.props;
+        const { setHeaderState, updateBreadcrumbs } = this.props;
 
         if (isSignedIn()) {
             history.replace(appendWithStoreCode(ACCOUNT_URL));
         }
 
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
-        toggleBreadcrumbs(false);
+        updateBreadcrumbs([
+            { name: __('Login'), url: ACCOUNT_LOGIN_URL }
+        ]);
     }
 
     componentDidUpdate(prevProps, prevState) {
