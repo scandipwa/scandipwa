@@ -88,7 +88,7 @@ export class FieldInputContainer extends PureComponent {
             'data-skip-value': skipValue,
             autoComplete: this.getAutocomplete()
         };
-    };
+    }
 
     render() {
         return (
