@@ -58,7 +58,7 @@ export class LinkContainer extends PureComponent {
                 mix
             }
         };
-    };
+    }
 
     getTo() {
         const { to: toProp } = this.props;

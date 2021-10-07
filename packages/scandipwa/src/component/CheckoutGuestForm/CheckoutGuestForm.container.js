@@ -139,7 +139,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
             isLoading,
             signInState
         });
-    };
+    }
 
     onFormError() {
         this.setState({ isLoading: false });

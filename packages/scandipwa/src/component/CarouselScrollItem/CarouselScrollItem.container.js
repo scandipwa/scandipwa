@@ -51,7 +51,7 @@ export class CarouselScrollItemContainer extends PureComponent {
             itemRef,
             children
         };
-    };
+    }
 
     onClick() {
         const { onClick, position } = this.props;

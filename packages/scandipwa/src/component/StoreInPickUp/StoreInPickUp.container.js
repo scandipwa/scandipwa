@@ -76,7 +76,7 @@ export class StoreInPickUpContainer extends PureComponent {
             shippingMethods,
             setSelectedShippingMethodCode
         };
-    };
+    }
 
     handleOpenPopup() {
         const { showPopup } = this.props;

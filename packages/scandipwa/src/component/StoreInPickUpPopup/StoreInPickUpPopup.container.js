@@ -112,7 +112,7 @@ export class StoreInPickUpContainer extends PureComponent {
             stores,
             storeSearchCriteria
         };
-    };
+    }
 
     clearStores() {
         this.setState({ stores: [] });

@@ -30,7 +30,7 @@ export class CmsBlockContainer extends DataContainer {
         const { cmsBlock } = this.state;
 
         return { cmsBlock, blockType };
-    };
+    }
 
     componentDidMount() {
         this._getCmsBlock();

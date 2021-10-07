@@ -158,7 +158,7 @@ export class CartPageContainer extends PureComponent {
             isCartItemLoading,
             device
         };
-    };
+    }
 
     hasOutOfStockProductsInCartItems = (items) => (
         items.some(({ product }) => !getProductInStock(product))

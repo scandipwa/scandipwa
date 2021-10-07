@@ -371,7 +371,7 @@ export class ProductPageContainer extends PureComponent {
             parameters,
             location
         };
-    };
+    }
 
     updateUrl(key, value, parameters) {
         const { location, history } = this.props;

@@ -57,7 +57,7 @@ export class StyleGuidePageContainer extends PureComponent {
         return {
             product
         };
-    };
+    }
 
     fakeFunction() {
         return 'fake';

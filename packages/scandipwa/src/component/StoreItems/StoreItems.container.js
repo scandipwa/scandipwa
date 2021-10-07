@@ -29,7 +29,7 @@ export class StoreItemsContainer extends PureComponent {
         const { item } = this.props;
 
         return { item };
-    };
+    }
 
     getStoreCode() {
         const { item: { value }, handleStoreSelect } = this.props;

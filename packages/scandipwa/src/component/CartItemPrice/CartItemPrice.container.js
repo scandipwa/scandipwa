@@ -51,7 +51,7 @@ export class CartItemPriceContainer extends PureComponent {
             price: getCartItemPrice(rest),
             subPrice: getCartItemSubPrice(rest)
         };
-    };
+    }
 
     render() {
         return (

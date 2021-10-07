@@ -152,7 +152,7 @@ export class CartItemContainer extends PureComponent {
             optionsLabels: this.getConfigurableOptionsLabels(),
             isMobileLayout: this.getIsMobileLayout()
         };
-    };
+    }
 
     /**
      * Handle item quantity change. Check that value is <1

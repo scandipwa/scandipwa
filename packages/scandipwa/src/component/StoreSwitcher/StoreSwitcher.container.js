@@ -83,7 +83,7 @@ export class StoreSwitcherContainer extends DataContainer {
             storeLabel,
             storeList
         };
-    };
+    }
 
     onStoreSwitcherClick() {
         const { isOpened } = this.state;
