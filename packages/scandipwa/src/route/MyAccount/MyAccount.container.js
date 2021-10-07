@@ -85,11 +85,13 @@ export class MyAccountContainer extends PureComponent {
         isWishlistEnabled: PropTypes.bool.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
         baseLinkUrl: PropTypes.string.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        selectedTab: PropTypes.string
     };
 
     static defaultProps = {
-        wishlistItems: {}
+        wishlistItems: {},
+        selectedTab: null
     };
 
     static tabMap = {
@@ -99,19 +101,22 @@ export class MyAccountContainer extends PureComponent {
             section: FIRST_SECTION
         },
         [MY_ORDERS]: {
-            url: '/my-orders',
+            url: '/sales/order/history',
             tabName: __('My Orders'),
-            section: FIRST_SECTION
+            section: FIRST_SECTION,
+            isFullUrl: true
         },
         [MY_DOWNLOADABLE]: {
-            url: '/my-downloadable',
+            url: '/downloadable/customer/products',
             tabName: __('My Downloadable'),
-            section: FIRST_SECTION
+            section: FIRST_SECTION,
+            isFullUrl: true
         },
         [MY_WISHLIST]: {
-            url: '/my-wishlist',
+            url: '/wishlist',
             tabName: __('My Wish List'),
-            section: FIRST_SECTION
+            section: FIRST_SECTION,
+            isFullUrl: true
         },
         [ADDRESS_BOOK]: {
             url: '/address',
@@ -152,10 +157,14 @@ export class MyAccountContainer extends PureComponent {
                     tab: historyActiveTab
                 } = {}
             } = {},
-            isMobile
+            isMobile,
+            selectedTab
         } = props;
-
         const { activeTab } = state;
+
+        if (this.tabMap[selectedTab]) {
+            return { activeTab: selectedTab };
+        }
 
         // redirect to Dashboard, if user visited non-existent or disabled page
         const newActiveTab = this.tabMap[historyActiveTab] && this.isTabEnabled(props, historyActiveTab)
@@ -315,9 +324,19 @@ export class MyAccountContainer extends PureComponent {
     }
 
     changeActiveTab(activeTab) {
-        const { [activeTab]: { url } } = this.tabsFilterEnabled(MyAccountContainer.tabMap);
+        const {
+            [activeTab]: {
+                url,
+                isFullUrl = false
+            }
+        } = this.tabsFilterEnabled(MyAccountContainer.tabMap);
 
-        history.push(appendWithStoreCode(`${ ACCOUNT_URL }${ url }`));
+        if (isFullUrl) {
+            history.push(appendWithStoreCode(url));
+        } else {
+            history.push(appendWithStoreCode(`${ ACCOUNT_URL }${ url }`));
+        }
+
         this.changeMyAccountHeaderState();
     }
     // #endregion
@@ -370,14 +389,17 @@ export class MyAccountContainer extends PureComponent {
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const { activeTab } = this.state;
-        const { url, tabName } = MyAccountContainer.tabMap[activeTab];
+        const { url, tabName, isFullUrl } = MyAccountContainer.tabMap[activeTab];
         const breadcrumbs = [];
 
         if (activeTab !== MY_ACCOUNT) {
-            breadcrumbs.push({ url: `${ ACCOUNT_URL }${ url }`, name: tabName });
+            breadcrumbs.push({
+                url: isFullUrl ? url : `${ ACCOUNT_URL }${ url }`,
+                name: tabName
+            });
         }
 
-        breadcrumbs.push({ name: __('My Account'), url: `${ ACCOUNT_URL }/${ MY_ACCOUNT }` });
+        breadcrumbs.push({ name: __('My Account'), url: ACCOUNT_URL });
 
         updateBreadcrumbs(breadcrumbs);
     }

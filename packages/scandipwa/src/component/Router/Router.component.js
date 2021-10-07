@@ -27,6 +27,7 @@ import Breadcrumbs from 'Component/Breadcrumbs';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 import UrlRewrites from 'Route/UrlRewrites';
+import { MY_DOWNLOADABLE, MY_ORDERS, MY_WISHLIST } from 'Type/Account';
 import history from 'Util/History';
 
 import {
@@ -50,6 +51,9 @@ import {
     LOGIN,
     MENU,
     MY_ACCOUNT,
+    MY_ACCOUNT_DOWNLOADABLE,
+    MY_ACCOUNT_ORDERS,
+    MY_ACCOUNT_WISHLIST,
     NAVIGATION_TABS,
     NEW_VERSION_POPUP,
     NOTIFICATION_LIST,
@@ -184,8 +188,23 @@ export class Router extends PureComponent {
             name: CONFIRM_ACCOUNT
         },
         {
-            component: <Route path={ withStoreRegex('/customer/account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/history') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_ORDERS } /> } />,
             position: 70,
+            name: MY_ACCOUNT_ORDERS
+        },
+        {
+            component: <Route path={ withStoreRegex('/downloadable/customer/products') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_DOWNLOADABLE } /> } />,
+            position: 71,
+            name: MY_ACCOUNT_DOWNLOADABLE
+        },
+        {
+            component: <Route path={ withStoreRegex('/wishlist') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_WISHLIST } /> } />,
+            position: 72,
+            name: MY_ACCOUNT_WISHLIST
+        },
+        {
+            component: <Route path={ withStoreRegex('/customer/account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
+            position: 75,
             name: MY_ACCOUNT
         },
         {
