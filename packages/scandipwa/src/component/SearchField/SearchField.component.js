@@ -23,6 +23,7 @@ import CloseIcon from 'Component/CloseIcon';
 import Loader from 'Component/Loader';
 import SearchIcon from 'Component/SearchIcon';
 import { DeviceType } from 'Type/Device';
+import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -78,6 +79,7 @@ export class SearchField extends PureComponent {
             onSearchBarChange({ target: { value: '' } });
             this.searchBarRef.current.blur();
             this.closeSearch();
+            scrollToTop();
         }
     };
 
