@@ -83,8 +83,6 @@ export class FieldFile extends PureComponent {
             .map((type = '') => type.split('/').slice(-1)[0])
             .join(', ');
 
-        console.log([allowedFieldTypes]);
-
         return (
             <>
                 <input
