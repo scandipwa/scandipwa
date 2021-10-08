@@ -21,6 +21,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
+import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -160,18 +161,53 @@ export class WishlistItemContainer extends PureComponent {
         }, []) : [];
     };
 
-    addItemToCart() {
-        const { product: item, addProductToCart, showNotification } = this.props;
+    getProducts() {
+        const {
+            product: {
+                type_id,
+                wishlist: {
+                    quantity,
+                    buy_request,
+                    sku
+                },
+                sku: parentSku
+            },
+            product: item
+        } = this.props;
+
+        const selectedOptions = getSelectedOptions(buy_request);
+
+        if (type_id === PRODUCT_TYPE.configurable) {
+            return [{
+                sku,
+                quantity,
+                parent_sku: parentSku,
+                selected_options: selectedOptions,
+                entered_options: []
+            }];
+        }
+
+        return magentoProductTransform(item, quantity, null, [], selectedOptions);
+    }
+
+    async addItemToCart() {
+        const {
+            product: item,
+            addProductToCart,
+            showNotification
+        } = this.props;
+
         const {
             type_id,
             variants,
             wishlist: {
-                id, sku, quantity, buy_request
+                id,
+                sku
             }
         } = item;
 
         if (!isSignedIn()) {
-            return null;
+            return;
         }
 
         if (type_id === PRODUCT_TYPE.configurable) {
@@ -181,7 +217,7 @@ export class WishlistItemContainer extends PureComponent {
                 history.push({ pathname: appendWithStoreCode(item.url) });
                 showNotification('info', __('Please, select product options!'));
 
-                return Promise.resolve();
+                return;
             }
 
             item.configurableVariantIndex = configurableVariantIndex;
@@ -189,20 +225,14 @@ export class WishlistItemContainer extends PureComponent {
 
         this.setState({ isLoading: true });
 
-        return addProductToCart({ product: item, quantity, buyRequest: buy_request })
-            .then(
-                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/then/catch/addProductToCart/then */
-                () => {
-                    this.removeItem(id);
-                    showNotification('success', __('Product Added To Cart'));
-                },
-                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/then/catch/addProductToCart/then/catch */
-                () => this.showNotification('error', __('Error Adding Product To Cart'))
-            )
-            .catch(
-                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/then/catch */
-                () => this.showNotification('error', __('Error cleaning wishlist'))
-            );
+        const products = this.getProducts();
+
+        try {
+            await addProductToCart({ products });
+            this.removeItem(id);
+        } catch {
+            this.setState({ isLoading: false }, this.redirectToProductPage);
+        }
     }
 
     showNotification(...args) {
@@ -217,7 +247,11 @@ export class WishlistItemContainer extends PureComponent {
 
         handleSelectIdChange(item_id, isRemoveOnly);
 
-        return removeFromWishlist({ item_id, noMessages });
+        try {
+            removeFromWishlist({ item_id, noMessages });
+        } catch (e) {
+            this.showNotification('error', __('Error cleaning wishlist'));
+        }
     }
 
     redirectToProductPage() {

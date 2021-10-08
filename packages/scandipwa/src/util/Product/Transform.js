@@ -33,6 +33,68 @@ export const getEncodedBundleUid = (uid, quantity) => {
     return btoa(newUid);
 };
 
+/** @namespace Util/Product/Transform/getBundleOptions */
+export const getBundleOptions = (buyRequest) => {
+    const { bundle_option = {}, bundle_option_qty = {} } = JSON.parse(buyRequest);
+
+    if (!bundle_option) {
+        return [];
+    }
+
+    return Object.entries(bundle_option).reduce((prev, [option, variant]) => {
+        const qty = bundle_option_qty[option] || 1;
+
+        if (typeof variant === 'string') {
+            return [...prev, btoa(`bundle/${option}/${variant}/${qty}`)];
+        }
+
+        return [...prev, ...Object.keys(variant).map((id) => btoa(`bundle/${option}/${id}/${qty}`))];
+    }, []);
+};
+
+/** @namespace Util/Product/Transform/getCustomizableOptions */
+export const getCustomizableOptions = (buyRequest) => {
+    const { options = {} } = JSON.parse(buyRequest);
+
+    // handle null
+    if (!options) {
+        return [];
+    }
+
+    return Object.entries(options).reduce((prev, [option, variant]) => {
+        if (typeof variant === 'string') {
+            return [...prev, btoa(`custom-option/${option}/${variant}`)];
+        }
+
+        return [...prev, ...variant.map((id) => btoa(`custom-option/${option}/${id}`))];
+    },
+    []);
+};
+
+/** @namespace Util/Product/Transform/getDownloadableOptions */
+export const getDownloadableOptions = (buyRequest) => {
+    const { links } = JSON.parse(buyRequest);
+
+    if (!links) {
+        return [];
+    }
+
+    const linksData = Object.entries(links);
+
+    if (typeof linksData === 'string') {
+        return btoa(`downloadable/${links}`);
+    }
+
+    return links.map((link) => btoa(`downloadable/${link}`));
+};
+
+/** @namespace Util/Product/Transform/getSelectedOptions */
+export const getSelectedOptions = (buyRequest) => [
+    ...getBundleOptions(buyRequest),
+    ...getCustomizableOptions(buyRequest),
+    ...getDownloadableOptions(buyRequest)
+];
+
 /**
  * Generates label for bundle option
  *

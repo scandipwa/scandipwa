@@ -107,7 +107,11 @@ export class AddToCartContainer extends PureComponent {
         }
 
         if (typeof addToCart === 'function') {
-            await addToCart();
+            try {
+                await addToCart();
+            } finally {
+                this.setState({ isAdding: false });
+            }
         } else {
             const {
                 quantity,
@@ -115,7 +119,15 @@ export class AddToCartContainer extends PureComponent {
                 fallbackAddToCart
             } = this.props;
             const magentoProduct = magentoProductTransform(product, quantity);
-            await fallbackAddToCart({ products: magentoProduct, cartId });
+
+            try {
+                await fallbackAddToCart({
+                    products: magentoProduct,
+                    cartId
+                });
+            } finally {
+                this.setState({ isAdding: false });
+            }
         }
 
         this.setState({ isAdding: false });
