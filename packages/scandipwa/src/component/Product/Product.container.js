@@ -321,8 +321,6 @@ export class ProductContainer extends PureComponent {
         const { addProductToCart, cartId } = this.props;
         const products = this.getMagentoProduct();
 
-        console.debug(products);
-
         await addProductToCart({ products, cartId });
     }
 
