@@ -218,6 +218,7 @@ export class ProductContainer extends PureComponent {
         } = this.props;
 
         const activeProduct = this.getActiveProduct();
+        const magentoProduct = this.getMagentoProduct();
         const {
             price_range: priceRange = {},
             dynamic_price: dynamicPrice = false,
@@ -239,6 +240,7 @@ export class ProductContainer extends PureComponent {
             configFormRef,
             parameters,
             device,
+            magentoProduct,
             ...output
         };
     }
