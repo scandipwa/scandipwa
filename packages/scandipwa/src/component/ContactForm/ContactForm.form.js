@@ -31,7 +31,7 @@ export const contactForm = () => [
         }
     },
     {
-        type: FIELD_TYPE.text,
+        type: FIELD_TYPE.email,
         label: __('Email'),
         attr: {
             name: 'email',

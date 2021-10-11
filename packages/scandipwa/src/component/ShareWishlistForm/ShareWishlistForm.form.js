@@ -19,7 +19,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  */
 export const shareWishlistForm = () => [
     {
-        type: FIELD_TYPE.text,
+        type: FIELD_TYPE.email,
         label: __('Email addresses, separated by commas'),
         attr: {
             name: 'emails',
