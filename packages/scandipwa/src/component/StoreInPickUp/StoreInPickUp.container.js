@@ -16,19 +16,23 @@ import { connect } from 'react-redux';
 import { STORE_IN_PICK_UP_POPUP_ID } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.config';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
+import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { addressType } from 'Type/Account';
-import { shippingMethodsType } from 'Type/Checkout';
+import { shippingMethodsType, storeType } from 'Type/Checkout';
 
 import StoreInPickUp from './StoreInPickUp.component';
 
 /** @namespace Component/StoreInPickUp/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showPopup: (payload) => dispatch(showPopup(STORE_IN_PICK_UP_POPUP_ID, payload)),
-    hideActiveOverlay: () => dispatch(hideActiveOverlay())
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+    setPickUpStore: (store) => dispatch(setPickUpStore(store))
 });
 
 /** @namespace Component/StoreInPickUp/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    selectedStore: state.StoreInPickUpReducer.store
+});
 
 /** @namespace Component/StoreInPickUp/Container */
 export class StoreInPickUpContainer extends PureComponent {
@@ -40,20 +44,21 @@ export class StoreInPickUpContainer extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         countryId: PropTypes.string.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func
+        setSelectedShippingMethodCode: PropTypes.func,
+        cartItemsSku: PropTypes.arrayOf(PropTypes.string),
+        setPickUpStore: PropTypes.func.isRequired,
+        selectedStore: storeType
     };
 
     static defaultProps = {
-        setSelectedShippingMethodCode: null
+        setSelectedShippingMethodCode: null,
+        cartItemsSku: [],
+        selectedStore: null
     };
 
     containerFunctions = {
         handleOpenPopup: this.handleOpenPopup.bind(this),
         setSelectedStore: this.setSelectedStore.bind(this)
-    };
-
-    state = {
-        selectedStore: null
     };
 
     containerProps = () => {
@@ -63,9 +68,10 @@ export class StoreInPickUpContainer extends PureComponent {
             onShippingMethodSelect,
             onStoreSelect,
             shippingMethods,
-            setSelectedShippingMethodCode
+            setSelectedShippingMethodCode,
+            cartItemsSku,
+            selectedStore
         } = this.props;
-        const { selectedStore } = this.state;
 
         return {
             countryId,
@@ -74,7 +80,8 @@ export class StoreInPickUpContainer extends PureComponent {
             onStoreSelect,
             selectedStore,
             shippingMethods,
-            setSelectedShippingMethodCode
+            setSelectedShippingMethodCode,
+            cartItemsSku
         };
     };
 
@@ -85,7 +92,9 @@ export class StoreInPickUpContainer extends PureComponent {
     }
 
     setSelectedStore(store) {
-        this.setState({ selectedStore: store });
+        const { setPickUpStore } = this.props;
+
+        setPickUpStore(store);
     }
 
     render() {

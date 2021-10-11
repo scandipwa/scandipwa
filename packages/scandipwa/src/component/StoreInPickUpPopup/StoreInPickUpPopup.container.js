@@ -17,8 +17,9 @@ import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPic
 import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { addressType } from 'Type/Account';
-import { shippingMethodsType } from 'Type/Checkout';
+import { shippingMethodsType, storeType } from 'Type/Checkout';
 import { countriesType } from 'Type/Config';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 
@@ -28,12 +29,15 @@ import { STORES_SEARCH_TIMEOUT } from './StoreInPickUpPopup.config';
 /** @namespace Component/StoreInPickUpPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    clearPickUpStore: () => dispatch(clearPickUpStore())
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    countries: state.ConfigReducer.countries
+    countries: state.ConfigReducer.countries,
+    defaultCountry: state.ConfigReducer.default_country,
+    selectedStore: state.StoreInPickUpReducer.store
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container */
@@ -47,7 +51,15 @@ export class StoreInPickUpContainer extends PureComponent {
         onStoreSelect: PropTypes.func.isRequired,
         setSelectedStore: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        defaultCountry: PropTypes.string.isRequired,
+        cartItemsSku: PropTypes.arrayOf(PropTypes.string).isRequired,
+        clearPickUpStore: PropTypes.func.isRequired,
+        selectedStore: storeType
+    };
+
+    static defaultProps = {
+        selectedStore: null
     };
 
     state = {
@@ -65,11 +77,12 @@ export class StoreInPickUpContainer extends PureComponent {
 
     __construct(props) {
         const {
-            countryId
+            countryId,
+            defaultCountry
         } = props;
 
         this.state = {
-            selectedCountryId: countryId
+            selectedCountryId: countryId || defaultCountry
         };
     }
 
@@ -143,37 +156,46 @@ export class StoreInPickUpContainer extends PureComponent {
     }
 
     setStoreSearchCriteria(searchCriteria) {
-        this.setState({ storeSearchCriteria: searchCriteria });
+        this.setState({ storeSearchCriteria: searchCriteria.target.value });
     }
 
     setIsLoading() {
         this.setState({ isLoading: true });
     }
 
-    handleStoresSearch() {
-        const { showNotification } = this.props;
+    async handleStoresSearch() {
+        const {
+            showNotification,
+            cartItemsSku,
+            selectedStore,
+            clearPickUpStore
+        } = this.props;
         const { storeSearchCriteria, selectedCountryId } = this.state;
 
-        fetchQuery(StoreInPickUpQuery.getStores(selectedCountryId, storeSearchCriteria)).then(
-            /** @namespace Component/StoreInPickUpPopup/Container/StoreInPickUpContainer/handleStoresSearch/fetchQuery/then */
-            ({ getStores: { stores } = {} }) => {
-                if (stores) {
-                    this.setState({ stores });
-                }
+        try {
+            const {
+                getStores: {
+                    stores
+                } = {}
+            } = await fetchQuery(StoreInPickUpQuery.getStores(selectedCountryId, storeSearchCriteria, cartItemsSku));
 
-                this.setState({ isLoading: false });
-            },
-            /** @namespace Component/StoreInPickUpPopup/Container/StoreInPickUpContainer/handleStoresSearch/fetchQuery/then/catch */
-            (error) => {
-                this.setState({ stores: [] });
-                showNotification('error', getErrorMessage(error));
+            if (stores) {
+                this.setState({ stores });
             }
-        );
+
+            if (!stores.includes(selectedStore)) {
+                clearPickUpStore();
+            }
+
+            this.setState({ isLoading: false });
+        } catch (e) {
+            this.setState({ stores: [] });
+            showNotification('error', getErrorMessage(e));
+        }
     }
 
     handleChangeCountry(countryId) {
-        this.setState({ selectedCountryId: countryId });
-        this.handleStoresSearch();
+        this.setState({ selectedCountryId: countryId }, () => this.handleStoresSearch());
     }
 
     render() {

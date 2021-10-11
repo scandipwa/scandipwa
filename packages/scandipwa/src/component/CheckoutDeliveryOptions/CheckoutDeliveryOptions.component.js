@@ -29,7 +29,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
     };
 
     static defaultProps = {
-        selectedShippingMethod: { }
+        selectedShippingMethod: {}
     };
 
     shippingRenderMap = {

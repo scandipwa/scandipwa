@@ -22,6 +22,7 @@ import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { addressType } from 'Type/Account';
 import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
+import { getAllCartItemsSku } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 
 import './CheckoutShipping.style';
@@ -125,7 +126,8 @@ export class CheckoutShipping extends PureComponent {
             onStoreSelect,
             onShippingMethodSelect,
             estimateAddress,
-            setSelectedShippingMethodCode
+            setSelectedShippingMethodCode,
+            totals: { items }
         } = this.props;
 
         return (
@@ -136,6 +138,7 @@ export class CheckoutShipping extends PureComponent {
               onShippingMethodSelect={ onShippingMethodSelect }
               estimateAddress={ estimateAddress }
               setSelectedShippingMethodCode={ setSelectedShippingMethodCode }
+              cartItemsSku={ getAllCartItemsSku(items) }
             />
         );
     }

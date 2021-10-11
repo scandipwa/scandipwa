@@ -31,7 +31,8 @@ export class StoreInPickUpComponent extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         setSelectedStore: PropTypes.func.isRequired,
         setSelectedShippingMethodCode: PropTypes.func,
-        selectedStore: storeType
+        selectedStore: storeType,
+        cartItemsSku: PropTypes.arrayOf(PropTypes.string).isRequired
     };
 
     static defaultProps = {
@@ -96,7 +97,8 @@ export class StoreInPickUpComponent extends PureComponent {
             shippingMethods,
             onStoreSelect,
             onShippingMethodSelect,
-            setSelectedStore
+            setSelectedStore,
+            cartItemsSku
         } = this.props;
 
         return (
@@ -107,6 +109,7 @@ export class StoreInPickUpComponent extends PureComponent {
               onStoreSelect={ onStoreSelect }
               onShippingMethodSelect={ onShippingMethodSelect }
               setSelectedStore={ setSelectedStore }
+              cartItemsSku={ cartItemsSku }
             />
         );
     }
