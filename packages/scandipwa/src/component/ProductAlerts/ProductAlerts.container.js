@@ -85,8 +85,6 @@ export class ProductAlertsContainer extends PureComponent {
 
         const query = ProductAlertsQuery.getProductAlertSubscribeMutation(productId, type);
 
-        console.debug(productId);
-
         return fetchMutation(query).then(
             /** @namespace Component/ProductAlerts/Container/ProductAlertsContainer/handlePriceDropSubscribe/then/catch/fetchMutation/then */
             (ProductAlertSubscribe) => {
