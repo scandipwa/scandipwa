@@ -399,7 +399,7 @@ export class ProductContainer extends PureComponent {
             product,
             quantity,
             enteredOptions,
-            [...selectedOptions, ...downloadableLinks, ...configurableOptions],
+            [...selectedOptions, ...downloadableLinks, ...configurableOptions]
         );
     }
 

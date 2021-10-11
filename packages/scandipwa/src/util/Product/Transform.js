@@ -247,7 +247,6 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
  * actions (add to cart, wishlist, exc.)
  * @param product
  * @param quantity
- * @param parentProduct
  * @param enteredOptions
  * @param selectedOptions
  * @returns {*[]}
