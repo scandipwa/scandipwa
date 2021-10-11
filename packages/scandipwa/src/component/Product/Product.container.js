@@ -139,7 +139,7 @@ export class ProductContainer extends PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { quantityState } = state;
+        const { quantity: quantityState } = state;
         const quantity = ProductContainer.getDefaultQuantity(props, state);
 
         if (quantity && typeof quantityState !== 'object') {

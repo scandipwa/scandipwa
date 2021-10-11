@@ -84,6 +84,7 @@ export class FieldNumberContainer extends PureComponent {
             setRef,
             isDisabled
         } = this.props;
+
         const { value: stateValue } = this.state;
 
         return {
@@ -95,7 +96,7 @@ export class FieldNumberContainer extends PureComponent {
             events,
             setRef,
             isDisabled,
-            value: value || stateValue
+            value: stateValue
         };
     }
 
