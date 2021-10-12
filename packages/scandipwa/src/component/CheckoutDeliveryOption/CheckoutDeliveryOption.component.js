@@ -153,7 +153,6 @@ export class CheckoutDeliveryOption extends PureComponent {
                           name: `option-${ carrier_title }`,
                           checked: !!isSelected
                       } }
-                      isDisabled
                     />
                     { this.renderRow() }
                 </button>
