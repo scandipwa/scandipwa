@@ -105,28 +105,22 @@ export class WishlistDispatcher {
         );
     }
 
-    addItemToWishlist(dispatch, options) {
+    async addItemToWishlist(dispatch, options) {
         if (!isSignedIn()) {
-            return Promise.reject();
+            return;
         }
 
-        const { items = [], wishlistId = '' } = options;
-
-        dispatch(updateIsLoading(true));
-
-        return fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items)).then(
-            /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/addItemToWishlist/fetchMutation/then */
-            () => {
-                dispatch(showNotification('success', __('Product added to wish-list!')));
-                this._syncWishlistWithBE(dispatch);
-                dispatch(updateIsLoading(false));
-            },
-            /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/addItemToWishlist/fetchMutation/then/catch */
-            () => {
-                dispatch(showNotification('error', __('Error updating wish list!')));
-                dispatch(updateIsLoading(false));
-            }
-        );
+        try {
+            const { items = [], wishlistId = '' } = options;
+            dispatch(updateIsLoading(true));
+            await fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items));
+            dispatch(showNotification('success', __('Product added to wish-list!')));
+            await this._syncWishlistWithBE(dispatch);
+        } catch {
+            dispatch(showNotification('error', __('Error updating wish list!')));
+        } finally {
+            dispatch(updateIsLoading(false));
+        }
     }
 
     updateWishlistItem(dispatch, options) {
@@ -177,29 +171,27 @@ export class WishlistDispatcher {
             );
     }
 
-    removeItemFromWishlist(dispatch, { item_id, noMessages }) {
-        if (!item_id || !isSignedIn()) {
-            return Promise.reject();
+    async removeItemFromWishlist(dispatch, { item_id: itemId, noMessages }) {
+        if (!itemId || !isSignedIn()) {
+            return;
         }
 
-        dispatch(updateIsLoading(true));
+        try {
+            dispatch(updateIsLoading(true));
+            await fetchMutation(
+                WishlistQuery.getRemoveProductFromWishlistMutation(itemId)
+            );
 
-        return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id)).then(
-            /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemFromWishlist/fetchMutation/then */
-            () => {
-                if (!noMessages) {
-                    dispatch(showNotification('info', __('Product has been removed from your Wish List!')));
-                }
-
-                dispatch(removeItemFromWishlist(item_id));
-            },
-            /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemFromWishlist/fetchMutation/then/catch */
-            () => {
-                if (!noMessages) {
-                    dispatch(showNotification('error', __('Error updating wish list!')));
-                }
+            if (!noMessages) {
+                dispatch(showNotification('info', __('Product has been removed from your Wish List!')));
             }
-        );
+
+            dispatch(removeItemFromWishlist(itemId));
+        } catch {
+            if (!noMessages) {
+                dispatch(showNotification('error', __('Error updating wish list!')));
+            }
+        }
     }
 
     // TODO: Need to make it in one request

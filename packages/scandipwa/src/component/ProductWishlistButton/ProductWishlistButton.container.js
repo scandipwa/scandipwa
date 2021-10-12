@@ -97,7 +97,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         return this.setState({ isWishlistButtonLoading: isLoading });
     }
 
-    toggleProductInWishlist(add = true) {
+    async toggleProductInWishlist(add = true) {
         const {
             magentoProduct,
             magentoProduct: [{ sku }] = [],
@@ -119,10 +119,12 @@ export class ProductWishlistButtonContainer extends PureComponent {
         this.setWishlistButtonLoading(true);
 
         if (add) {
-            return addProductToWishlist({
+            await addProductToWishlist({
                 items: magentoProduct,
                 wishlistId
             });
+
+            return;
         }
 
         const wishlistItem = this.getWishlistItem(sku);
@@ -136,7 +138,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             }
         } = wishlistItem;
 
-        return removeProductFromWishlist({ item_id: itemId });
+        await removeProductFromWishlist({ item_id: itemId });
     }
 
     isDisabled = () => {

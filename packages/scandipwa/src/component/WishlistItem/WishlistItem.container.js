@@ -211,13 +211,13 @@ export class WishlistItemContainer extends PureComponent {
         showNotification(...args);
     }
 
-    removeItem(noMessages = true, isRemoveOnly = false) {
+    async removeItem(noMessages = true, isRemoveOnly = false) {
         const { product: { wishlist: { id: item_id } }, removeFromWishlist, handleSelectIdChange } = this.props;
         this.setState({ isLoading: true });
 
         handleSelectIdChange(item_id, isRemoveOnly);
 
-        return removeFromWishlist({ item_id, noMessages });
+        await removeFromWishlist({ item_id, noMessages });
     }
 
     redirectToProductPage() {
