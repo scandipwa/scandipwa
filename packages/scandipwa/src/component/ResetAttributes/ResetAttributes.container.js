@@ -92,6 +92,8 @@ export class ResetAttributesContainer extends PureComponent {
 
         const func = attribute_code === 'price' ? this.getFilterOptionsForPrice : this.getFilterOptionsDefault;
 
+        console.debug({ attribute_code });
+
         return {
             [attribute_label]: func(attrValues, Object.values(attribute_options))
                 .map(
@@ -107,6 +109,9 @@ export class ResetAttributesContainer extends PureComponent {
 
     filterResetItems() {
         const { customFiltersValues } = this.props;
+
+        // eslint-disable-next-line no-debugger
+        debugger;
 
         return Object.entries(customFiltersValues).reduce(
             (prev, [attrCode, attrValues]) => (
