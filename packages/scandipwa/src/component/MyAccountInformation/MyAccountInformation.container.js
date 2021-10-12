@@ -30,6 +30,11 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountInformation from './MyAccountInformation.component';
 
+export const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
+
 /** @namespace Component/MyAccountInformation/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile,
@@ -42,7 +47,10 @@ export const mapDispatchToProps = (dispatch) => ({
     updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
     showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
     showSuccessNotification: (message) => dispatch(showNotification('success', message)),
-    updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status))
+    updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
+    logout: () => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.logout(false, dispatch)
+    )
 });
 
 /** @namespace Component/MyAccountInformation/Container */
@@ -57,7 +65,8 @@ export class MyAccountInformationContainer extends PureComponent {
         showErrorNotification: PropTypes.func.isRequired,
         showSuccessNotification: PropTypes.func.isRequired,
         updateCustomer: PropTypes.func.isRequired,
-        updateCustomerLoadingStatus: PropTypes.func.isRequired
+        updateCustomerLoadingStatus: PropTypes.func.isRequired,
+        logout: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -137,13 +146,18 @@ export class MyAccountInformationContainer extends PureComponent {
     }
 
     afterSubmit() {
-        const { showSuccessNotification, updateCustomerLoadingStatus } = this.props;
-        const { isErrorShow } = this.state;
+        const { showSuccessNotification, updateCustomerLoadingStatus, logout } = this.props;
+        const { isErrorShow, showEmailChangeField } = this.state;
 
         if (!isErrorShow) {
             updateCustomerLoadingStatus(false);
-            history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
-            showSuccessNotification('You saved the account information.');
+
+            if (showEmailChangeField) {
+                logout();
+            } else {
+                history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
+                showSuccessNotification('You saved the account information.');
+            }
         } else {
             this.setState({ isErrorShow: false });
         }

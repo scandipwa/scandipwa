@@ -118,7 +118,9 @@ export const customerEmailAndPasswordFields = (props) => {
                 label: __('Email'),
                 attr: {
                     name: 'email',
-                    defaultValue: email
+                    defaultValue: email,
+                    placeholder: __('Your new email'),
+                    'aria-label': __('Current password')
                 },
                 addRequiredTag: true,
                 validateOn: ['onChange'],
@@ -176,7 +178,9 @@ export const customerEmailAndPasswordFields = (props) => {
                 type: FIELD_TYPE.password,
                 label: __('Confirm New Password '),
                 attr: {
-                    name: 'confirmNewPassword '
+                    name: 'confirmNewPassword',
+                    placeholder: __('Confirm new password'),
+                    'aria-label': __('Confirm new password')
                 },
                 addRequiredTag: true,
                 validateOn: ['onChange'],

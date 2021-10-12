@@ -120,9 +120,10 @@ export class MyAccountContainer extends PureComponent {
             isFullUrl: true
         },
         [ADDRESS_BOOK]: {
-            url: '/address',
+            url: '/customer/address',
             tabName: __('Address Book'),
-            section: SECOND_SECTION
+            section: SECOND_SECTION,
+            isFullUrl: true
         },
         [ACCOUNT_INFORMATION]: {
             url: '/edit',
@@ -131,9 +132,10 @@ export class MyAccountContainer extends PureComponent {
             section: SECOND_SECTION
         },
         [NEWSLETTER_SUBSCRIPTION]: {
-            url: '/newsletter-subscription',
+            url: '/newsletter/manage',
             tabName: __('Newsletter Subscription'),
-            section: THIRD_SECTION
+            section: THIRD_SECTION,
+            isFullUrl: true
         }
     };
 

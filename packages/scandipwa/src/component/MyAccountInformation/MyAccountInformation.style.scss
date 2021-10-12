@@ -33,12 +33,6 @@
                     @include mobile {
                         width: 100%;
                     }
-
-                    &:nth-child(2) {
-                        @include mobile {
-                            margin-block-start: 30px;
-                        }
-                    }
                 }
             }
 
@@ -53,7 +47,10 @@
     }
 
     &-Submit {
-        margin-block-start: 30px;
         min-width: 110px;
+
+        @include desktop {
+            margin-block-start: 30px; 
+        }
     }
 }

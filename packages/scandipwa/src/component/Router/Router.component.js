@@ -27,7 +27,9 @@ import Breadcrumbs from 'Component/Breadcrumbs';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 import UrlRewrites from 'Route/UrlRewrites';
-import { MY_DOWNLOADABLE, MY_ORDERS, MY_WISHLIST } from 'Type/Account';
+import {
+    ADDRESS_BOOK, MY_DOWNLOADABLE, MY_ORDERS, MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
+} from 'Type/Account';
 import history from 'Util/History';
 
 import {
@@ -51,7 +53,9 @@ import {
     LOGIN,
     MENU,
     MY_ACCOUNT,
+    MY_ACCOUNT_ADDRESS,
     MY_ACCOUNT_DOWNLOADABLE,
+    MY_ACCOUNT_NEWSLETTER,
     MY_ACCOUNT_ORDERS,
     MY_ACCOUNT_WISHLIST,
     NAVIGATION_TABS,
@@ -201,6 +205,16 @@ export class Router extends PureComponent {
             component: <Route path={ withStoreRegex('/wishlist') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_WISHLIST } /> } />,
             position: 72,
             name: MY_ACCOUNT_WISHLIST
+        },
+        {
+            component: <Route path={ withStoreRegex('/customer/address') } render={ (props) => <MyAccount { ...props } selectedTab={ ADDRESS_BOOK } /> } />,
+            position: 73,
+            name: MY_ACCOUNT_ADDRESS
+        },
+        {
+            component: <Route path={ withStoreRegex('/newsletter/manage') } render={ (props) => <MyAccount { ...props } selectedTab={ NEWSLETTER_SUBSCRIPTION } /> } />,
+            position: 74,
+            name: MY_ACCOUNT_NEWSLETTER
         },
         {
             component: <Route path={ withStoreRegex('/customer/account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,

@@ -44,7 +44,8 @@ export class MyAccountCustomerForm extends FieldForm {
             customer: {
                 firstname = '',
                 lastname = '',
-                taxvat = ''
+                taxvat = '',
+                email = ''
             }
         } = this.props;
 
@@ -53,6 +54,7 @@ export class MyAccountCustomerForm extends FieldForm {
             firstname,
             lastname,
             taxvat,
+            email,
             handleChangePasswordCheckbox,
             handleChangeEmailCheckbox,
             showEmailChangeField,

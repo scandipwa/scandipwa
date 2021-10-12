@@ -16,7 +16,6 @@ import { Redirect } from 'react-router';
 
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { updateIsLoading } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
@@ -36,8 +35,7 @@ export const MyAccountDispatcher = import(
 /** @namespace Route/PasswordChangePage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus,
-    passwordResetMessage: state.MyAccountReducer.passwordResetMessage,
-    isLoading: state.MyAccountReducer.isLoading
+    passwordResetMessage: state.MyAccountReducer.passwordResetMessage
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
@@ -56,8 +54,7 @@ export const mapDispatchToProps = (dispatch) => ({
     },
     showNotification(type, message) {
         dispatch(showNotification(type, message));
-    },
-    updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status))
+    }
 });
 
 /** @namespace Route/PasswordChangePage/Container */
@@ -73,25 +70,24 @@ export class PasswordChangePageContainer extends PureComponent {
         passwordResetMessage: PropTypes.string.isRequired,
         resetPassword: PropTypes.func.isRequired,
         location: LocationType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        updateCustomerLoadingStatus: PropTypes.func.isRequired
+        isLoading: PropTypes.bool.isRequired
     };
 
     state = {
-        passwordResetStatus: ''
+        passwordResetStatus: '',
+        isLoading: false
     };
 
     static getDerivedStateFromProps(props) {
         const {
             passwordResetStatus,
             passwordResetMessage,
-            showNotification,
-            updateCustomerLoadingStatus
+            showNotification
         } = props;
         const stateToBeUpdated = {};
 
         if (passwordResetStatus) {
-            updateCustomerLoadingStatus(false);
+            stateToBeUpdated.isLoading = false;
             stateToBeUpdated.passwordResetStatus = passwordResetStatus;
 
             switch (passwordResetStatus) {
@@ -120,16 +116,12 @@ export class PasswordChangePageContainer extends PureComponent {
     }
 
     containerProps() {
-        const { isLoading } = this.props;
+        const { isLoading } = this.state;
 
         return { isLoading };
     }
 
     onPasswordSuccess(form, fields) {
-        const { updateCustomerLoadingStatus } = this.props;
-
-        updateCustomerLoadingStatus(true);
-
         const { resetPassword, location } = this.props;
         const { password, password_confirmation } = transformToNameValuePair(fields);
         const token = getQueryParam('token', location);
@@ -138,9 +130,7 @@ export class PasswordChangePageContainer extends PureComponent {
     }
 
     onError() {
-        const { updateCustomerLoadingStatus } = this.props;
-
-        updateCustomerLoadingStatus(false);
+        this.setState({ isLoading: false });
     }
 
     updateMeta() {
