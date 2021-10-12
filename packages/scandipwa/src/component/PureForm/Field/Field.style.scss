@@ -309,25 +309,27 @@
                 width: 2px;
                 will-change: background-color, box-shadow;
             }
-
-            &:hover {
-                @include desktop {
-                    --box-color: var(--secondary-light-color);
-
-                    border-color: var(--checkbox-border-color-active);
-
-                    &::after {
-                        @include desktop {
-                            --checkmark-color: var(--secondary-dark-color);
-                        }
-                    }
-                }
-            }
         }
 
         &:disabled + .input-control {
             color: var(--color-dark-gray);
             cursor: auto;
+        }
+
+        &:hover + .input-control {
+            cursor: pointer;
+
+            @include desktop {
+                --box-color: var(--secondary-light-color);
+
+                border-color: var(--checkbox-border-color-active);
+
+                &::after {
+                    @include desktop {
+                        --checkmark-color: var(--secondary-dark-color);
+                    }
+                }
+            }
         }
 
         &:checked {
