@@ -19,22 +19,41 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import Link from './Link.component';
 
+export const NoMatchDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/NoMatch/NoMatch.dispatcher'
+);
+
 /** @namespace Component/Link/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     baseLinkUrl: state.ConfigReducer.base_link_url || ''
 });
 
 /** @namespace Component/Link/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (dispatch) => ({
+    updateNoMatch: (options) => NoMatchDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
+    )
+});
 
 /** @namespace Component/Link/Container */
 export class LinkContainer extends PureComponent {
     static propTypes = {
         baseLinkUrl: PropTypes.string.isRequired,
+        updateNoMatch: PropTypes.func.isRequired,
+        onClick: PropTypes.func,
         to: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.object
         ]).isRequired
+    };
+
+    static defaultProps = {
+        onClick: () => {}
+    };
+
+    containerFunctions = {
+        onClick: this.onClick.bind(this)
     };
 
     containerProps() {
@@ -82,10 +101,21 @@ export class LinkContainer extends PureComponent {
         };
     }
 
+    // Resets no match state on redirect
+    onClick(e) {
+        const { updateNoMatch, onClick } = this.props;
+        updateNoMatch(false);
+
+        if (onClick) {
+            onClick(e);
+        }
+    }
+
     render() {
         return (
             <Link
               { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

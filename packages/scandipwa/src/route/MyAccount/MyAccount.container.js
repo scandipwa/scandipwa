@@ -29,6 +29,7 @@ import {
 } from 'Type/Account';
 import { LocationType, MatchType } from 'Type/Common';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
 import { appendWithStoreCode, replace } from 'Util/Url';
@@ -216,8 +217,7 @@ export class MyAccountContainer extends PureComponent {
         this.redirectIfNotSignedIn();
         this.onSignIn();
         this.updateBreadcrumbs();
-
-        window.scrollTo({ top: 0 });
+        scrollToTop();
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -248,7 +248,7 @@ export class MyAccountContainer extends PureComponent {
             this.updateBreadcrumbs();
             this.changeMyAccountHeaderState();
 
-            window.scrollTo({ top: 0 });
+            scrollToTop();
         }
 
         if (Object.keys(wishlistItems).length !== Object.keys(prevWishlistItems).length) {

@@ -111,17 +111,16 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         const { moveWishlistToCart } = this.props;
 
         if (!isSignedIn()) {
-            return;
+            await Promise.reject();
         }
 
         this.setState({ isLoading: true });
 
         try {
             await moveWishlistToCart();
-        } catch (e) {
-            this.showErrorAndRemoveLoading(getErrorMessage(e));
-        } finally {
-            this.showNotificationAndRemoveLoading('Available items moved to cart');
+        } catch (error) {
+            this.showErrorAndRemoveLoading(getErrorMessage(error));
+            await Promise.reject();
         }
     }
 
@@ -136,8 +135,9 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
         try {
             await clearWishlist();
-        } finally {
             this.showNotificationAndRemoveLoading('Wishlist cleared');
+        } finally {
+            this.setState({ isLoading: false });
         }
     }
 

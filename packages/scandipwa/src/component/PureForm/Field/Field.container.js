@@ -75,8 +75,12 @@ export class FieldContainer extends PureComponent {
     componentWillUnmount() {
         const { validationRule } = this.props;
 
-        if (this.fieldRef && validationRule && Object.keys(validationRule).length > 0) {
-            this.fieldRef.removeEventListener('validate', this.validate.bind(this));
+        if (this.fieldRef) {
+            this.fieldRef.removeEventListener('resetField', this.resetField.bind(this));
+
+            if (validationRule && Object.keys(validationRule).length > 0) {
+                this.fieldRef.removeEventListener('validate', this.validate.bind(this));
+            }
         }
     }
 
@@ -87,11 +91,17 @@ export class FieldContainer extends PureComponent {
         if (elem && this.fieldRef !== elem) {
             this.fieldRef = elem;
 
+            elem.addEventListener('resetField', this.resetField.bind(this));
+
             if (!validationRule || Object.keys(validationRule).length === 0) {
                 return;
             }
             elem.addEventListener('validate', this.validate.bind(this));
         }
+    }
+
+    resetField() {
+        this.setState({ validationResponse: null });
     }
 
     validate(data) {
@@ -133,7 +143,11 @@ export class FieldContainer extends PureComponent {
             events,
             validateOn,
             type,
-            attr,
+            attr: {
+                autoComplete,
+                autocomplete,
+                ...attr
+            } = {},
             isDisabled,
             mix,
             options,
@@ -154,7 +168,10 @@ export class FieldContainer extends PureComponent {
 
         return {
             type,
-            attr,
+            attr: {
+                ...attr,
+                autoComplete: autoComplete || autocomplete
+            },
             isDisabled,
             mix,
             options,

@@ -44,7 +44,8 @@ export class ProductActions extends Product {
         isInStockAlertEnabled: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         displayProductStockStatus: PropTypes.bool.isRequired,
-        areReviewsEnabled: PropTypes.bool.isRequired
+        areReviewsEnabled: PropTypes.bool.isRequired,
+        isPricePreview: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -251,12 +252,17 @@ export class ProductActions extends Product {
     }
 
     renderPrice() {
-        const { getActiveProduct, inStock, product: { type_id: baseType } = {} } = this.props;
+        const {
+            getActiveProduct,
+            inStock,
+            product: { type_id: baseType } = {},
+            isPricePreview
+        } = this.props;
         const { type_id: activeType } = getActiveProduct();
 
         const notConfigured = baseType === PRODUCT_TYPE.configurable && activeType === baseType;
 
-        return super.renderPrice(!inStock || notConfigured);
+        return super.renderPrice(!inStock || notConfigured || isPricePreview);
     }
 
     renderTierPrices() {
@@ -285,7 +291,7 @@ export class ProductActions extends Product {
             return null;
         }
 
-        const { id } = getActiveProduct;
+        const { id } = getActiveProduct();
 
         return (
             <section

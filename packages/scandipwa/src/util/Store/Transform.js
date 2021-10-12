@@ -22,7 +22,7 @@ export const transformCountriesToOptions = (countries) => (
             name: id,
             ...country
         };
-    })
+    }).sort(({ label }, { label: labelCompare }) => label > labelCompare)
 );
 
 export default transformCountriesToOptions;

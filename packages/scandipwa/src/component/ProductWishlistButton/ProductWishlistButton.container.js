@@ -47,7 +47,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/ProductWishlistButton/Container */
 export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
-        magentoProduct: PropTypes.object.isRequired,
+        magentoProduct: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
         isAddingWishlistItem: PropTypes.bool.isRequired,
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
@@ -127,10 +127,10 @@ export class ProductWishlistButtonContainer extends PureComponent {
         }
 
         const { wishlist: { id: item_id } } = Object.values(productsInWishlist).find(
-            ({ wishlist: { wishlistSku } }) => sku === wishlistSku
+            ({ wishlist: { sku: wishlistSku } }) => sku === wishlistSku
         );
 
-        return removeProductFromWishlist(item_id);
+        return removeProductFromWishlist({ item_id });
     }
 
     isDisabled = () => {

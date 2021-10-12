@@ -15,12 +15,12 @@
     padding-inline-start: 0;
     margin-block-end: 12px;
     grid-template-columns: 72px 3fr 1fr;
-    grid-gap: 18px;
+    grid-column-gap: 18px;
 
     @include mobile {
         margin-block-end: 14px;
         grid-template-columns: 84px 3fr 1fr;
-        grid-gap: 14px;
+        grid-column-gap: 14px;
     }
 
     &::before {
@@ -57,6 +57,8 @@
     }
 
     &-Image {
+        height: auto;
+
         &::after {
             content: '';
             position: absolute;
@@ -76,10 +78,6 @@
         justify-content: space-between;
         flex-wrap: wrap;
         overflow: hidden;
-
-        @include mobile {
-            padding-block-end: 14px;
-        }
 
         p {
             margin-block-end: 12px;
@@ -115,5 +113,9 @@
         del {
             display: block;
         }
+    }
+
+    .TierPrices {
+        grid-column: 2 / -1;
     }
 }

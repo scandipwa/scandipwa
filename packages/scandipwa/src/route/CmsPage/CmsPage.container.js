@@ -20,6 +20,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { LocationType, MatchType } from 'Type/Common';
+import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
@@ -115,7 +116,7 @@ export class CmsPageContainer extends DataContainer {
             isOnlyPlaceholder
         } = this.props;
 
-        window.scrollTo(0, 0);
+        scrollToTop();
 
         const { isLoading } = this.state;
 
