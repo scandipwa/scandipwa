@@ -178,6 +178,11 @@ export class ProductContainer extends PureComponent {
         return null;
     }
 
+    componentDidMount() {
+        this.updateSelectedValues();
+        this.updateAdjustedPrice();
+    }
+
     componentDidUpdate(prevProps, prevState) {
         const { enteredOptions, selectedOptions, downloadableLinks } = this.state;
         const {
