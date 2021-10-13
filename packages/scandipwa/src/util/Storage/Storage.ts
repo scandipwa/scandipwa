@@ -1,35 +1,54 @@
 import {
-    createStore, del, get, set, UseStore
-} from 'idb-keyval';
+    IDBPDatabase,
+    openDB
+} from 'idb';
 
 import { SECOND_IN_MILLISECONDS } from './Storage.config';
 
 export class Storage {
-    private store!: UseStore;
+    private store!: Promise<IDBPDatabase>;
 
-    constructor(
-        databaseName: string,
-        storeName?: string,
-    ) {
-        this.store = createStore(databaseName, storeName || databaseName);
+    private databaseName!: string;
+
+    private databaseVersion = 1;
+
+    setDatabaseName(name: string): this {
+        this.databaseName = name;
+
+        return this;
+    }
+
+    setDatabaseVersion(version: number): this {
+        this.databaseVersion = version;
+
+        return this;
+    }
+
+    init(): this {
+        this.store = openDB(
+            this.databaseName,
+            this.databaseVersion
+        );
+
+        return this;
     }
 
     /**
      * Get data from storage
      * @param key Name of the storage
      */
-    async getItem<T>(key: string): Promise<T | undefined> {
-        const result = await get<{
+    async getItem<T>(key: string, tableName?: string): Promise<T | undefined> {
+        const result = await (await this.store).get(tableName || this.databaseName, key) as {
             value: T,
             expiration?: number,
             createdAt?: number,
-        }>(key, this.store);
+        };
 
         const { value, expiration, createdAt } = result || {};
 
         if (typeof createdAt === 'number' && typeof expiration === 'number') {
             if (expiration && Date.now() - createdAt > expiration * SECOND_IN_MILLISECONDS) {
-                await del(key, this.store);
+                await this.deleteItem(key, tableName);
 
                 return undefined;
             }
@@ -44,15 +63,15 @@ export class Storage {
      * @param location Name of the storage
      * @param expiration Time to store entry (in seconds)
      */
-    async setItem<T>(key: string, value: T, expiration = 0): Promise<boolean> {
-        await set(
-            key,
+    async setItem<T>(key: string, value: T, expiration = 0, tableName?: string): Promise<boolean> {
+        await (await this.store).put(
+            tableName || this.databaseName,
             {
                 value,
                 expiration,
                 createdAt: Date.now()
             },
-            this.store
+            key
         );
 
         return true;
@@ -61,8 +80,8 @@ export class Storage {
     /**
      * Delete item from storage
      */
-    async deleteItem(key: string): Promise<boolean> {
-        await del(key, this.store);
+    async deleteItem(key: string, tableName?: string): Promise<boolean> {
+        await (await this.store).delete(tableName || this.databaseName, key);
 
         return true;
     }

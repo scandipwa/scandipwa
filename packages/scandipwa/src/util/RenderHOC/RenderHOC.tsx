@@ -2,16 +2,24 @@
 import { Constructable } from 'Type/Constructable';
 import { SimpleComponent } from 'Util/SimpleComponent';
 
-export const renderHOC = <P, T, N extends string>(
-    Component: Constructable<SimpleComponent<T>>,
-    logicHook: (props: P) => T,
-    displayName?: N
-): React.FC<P> => {
-    const FunctionalComponent = (props: P): JSX.Element => {
+/** @namespace Util/RenderHOC/renderHOC */
+export const renderHOC = <
+    P extends Record<string, any> & { children?: React.ReactNode },
+    T,
+    N extends string
+    >(
+        Component: Constructable<SimpleComponent<T>>,
+        logicHook: (props: P) => T,
+        displayName?: N
+    ): React.FC<P> => {
+    const FunctionalComponent = (props: P): JSX.Element | null => {
         const componentProps = logicHook(props);
+        if (!(componentProps as { children?: React.ReactNode }).children) {
+            (componentProps as { children?: React.ReactNode }).children = props.children;
+        }
         const renderComponent = new Component(componentProps);
 
-        return renderComponent.render() as JSX.Element;
+        return renderComponent.render();
     };
 
     if (displayName) {

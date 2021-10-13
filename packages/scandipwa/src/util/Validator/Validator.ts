@@ -1,106 +1,121 @@
-/* eslint-disable spaced-comment */
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { VALIDATION_INPUT_TYPE_NUMBER, VALIDATION_MESSAGES, VALIDATION_RULES } from 'Util/Validator/Config';
+import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
+import {
+    VALIDATION_INPUT_TYPE_NUMBER,
+    VALIDATION_MESSAGES,
+    VALIDATION_RULES
+} from 'Util/Validator/Config';
+
+import { ValidationRule } from './type';
+
+export interface ValidationResult {
+    value?: string | boolean
+    errorMessages: string[]
+}
+
+export interface ValidationResults {
+    values: { name: string; value: string | boolean, type: string }[]
+    errorMessages: string[]
+    errorFields: { name: string; value: string, type: string }[][]
+}
 
 /**
  * Validates parameter based on rules
- * @param value
- * @param rule
- * @returns {boolean|{errorMessages: *[], value}}
  * @namespace Util/Validator/validate
  */
-export const validate = (value, rule) => {
+export const validate = (
+    value: string | boolean | undefined,
+    rule?: ValidationRule
+): boolean | ValidationResult => {
     const {
         isRequired,
         inputType,
         match,
         range,
         customErrorMessages: {
-            onRequirementFail,
-            onInputTypeFail,
-            onMatchFail,
-            onRangeFailMin,
-            onRangeFailMax
+            onRequirementFail = '',
+            onInputTypeFail = '',
+            onMatchFail = '',
+            onRangeFailMin = '',
+            onRangeFailMax = ''
         } = {}
-    } = rule;
+    } = rule || {};
 
-    const output = {
+    const output: ValidationResult = {
         value,
         errorMessages: []
     };
 
-    //#region IS REQUIRED
-    if (isRequired && !value) {
+    // #region IS REQUIRED
+    if (isRequired && typeof value !== 'boolean' && !value) {
         output.errorMessages.push(onRequirementFail || VALIDATION_MESSAGES.isRequired);
-    }
-    //#endregion
 
-    //#region INPUT TYPE
-    if (inputType && value && !value.match(VALIDATION_RULES[inputType])) {
-        output.errorMessages.push(onInputTypeFail || VALIDATION_MESSAGES[inputType]);
+        return output;
     }
-    //#endregion
+    // #endregion
 
-    //#region MATCH
+    // #region INPUT TYPE
+    if (
+        inputType
+        && typeof value !== 'boolean'
+        && value
+        && !value.match(VALIDATION_RULES[inputType as keyof typeof VALIDATION_RULES])
+    ) {
+        output.errorMessages.push(
+            onInputTypeFail
+            || VALIDATION_MESSAGES[inputType as keyof typeof VALIDATION_MESSAGES]
+        );
+    }
+    // #endregion
+
+    // #region MATCH
     if (typeof match === 'function') {
         const response = match(value);
 
         if (response !== true) {
             output.errorMessages.push(response === false ? onMatchFail || VALIDATION_MESSAGES.match : response);
         }
-    } else if (match && !value.match(match)) {
+    } else if (match && typeof value === 'string' && !value?.match(match)) {
         output.errorMessages.push(onMatchFail || VALIDATION_MESSAGES.match);
     }
-    //#endregion
+    // #endregion
 
-    //#region RANGE
-    if (range) {
+    // #region RANGE
+    if (range && typeof value === 'string') {
         const { min, max } = range;
-        const isNumber = !!VALIDATION_INPUT_TYPE_NUMBER[inputType];
+        const isNumber = (inputType as keyof VALIDATION_INPUT_TYPE_NUMBER) in VALIDATION_INPUT_TYPE_NUMBER;
 
         if (isNumber) {
-            if (min && +value < min) {
+            if (min && Number.parseInt(value ?? '0', 10) < min) {
                 output.errorMessages.push(onRangeFailMin || __('Minimal value is %s!', min));
             }
 
-            if (max && +value > max) {
+            if (max && Number.parseInt(value ?? '0', 10) > max) {
                 output.errorMessages.push(onRangeFailMax || __('Maximum value is %s!', max));
             }
         } else {
-            if (min && value.length < min) {
+            if (min && (value?.length ?? 0) < min) {
                 output.errorMessages.push(onRangeFailMin || __('Minimum %s characters!', min));
             }
 
-            if (max && value.length > max) {
+            if (max && (value?.length ?? 0) > max) {
                 output.errorMessages.push(onRangeFailMax || __('Maximum %s characters!', max));
             }
         }
     }
-    //#endregion
+    // #endregion
 
-    const { errorMessages } = output;
-    return errorMessages.length === 0 ? true : output;
+    return output.errorMessages.length === 0 ? true : output;
 };
 
 /**
  * Validates DOM object check itself and children
- * @param DOM
- * @param rule
- * @returns {boolean|{errorMessages: *[], values: *[], errorFields: *[]}}
  * @namespace Util/Validator/validateGroup
  */
-export const validateGroup = (DOM, rule = null) => {
-    if (typeof DOM.querySelectorAll !== 'function') {
+export const validateGroup = (
+    DOM: HTMLElement | null,
+    rule?: ValidationRule
+): boolean | ValidationResults => {
+    if (typeof DOM?.querySelectorAll !== 'function') {
         return true;
     }
 
@@ -109,23 +124,26 @@ export const validateGroup = (DOM, rule = null) => {
     } = rule || {};
     const fields = DOM?.querySelectorAll(selector);
 
-    const output = {
+    const output: ValidationResults = {
         values: [],
         errorFields: [],
         errorMessages: []
     };
 
-    //#region VALIDATE FIELDS
+    // #region VALIDATE FIELDS
     fields.forEach((field) => {
         const {
             name,
             value,
             tagName = FIELD_TYPE.select,
             type = FIELD_TYPE.select
-        } = field;
+        } = field as HTMLInputElement;
 
         const fieldType = tagName.toLowerCase() === FIELD_TYPE.textarea ? FIELD_TYPE.textarea : type;
-        const fieldValue = fieldType === FIELD_TYPE.checkbox || fieldType === FIELD_TYPE.radio ? field.checked : value;
+        const fieldValue = (fieldType === FIELD_TYPE.checkbox || fieldType === FIELD_TYPE.radio)
+            ? (field as HTMLInputElement).checked
+            : value;
+
         output.values.push({ name, value: fieldValue, type: fieldType });
 
         // Invokes validation event for all fields
@@ -138,9 +156,9 @@ export const validateGroup = (DOM, rule = null) => {
             output.errorFields.push(errors);
         }
     });
-    //#endregion
+    // #endregion
 
-    //#region VALIDATE GROUP
+    // #region VALIDATE GROUP
     if (rule) {
         const {
             isRequired,
@@ -178,10 +196,10 @@ export const validateGroup = (DOM, rule = null) => {
             output.errorMessages.push(onGroupFail || VALIDATION_MESSAGES.group);
         }
     }
-    //#endregion
+    // #endregion
 
     const { errorMessages, errorFields } = output;
-    return errorMessages.length === 0 && errorFields.length === 0 ? true : output;
+    return (errorMessages.length === 0 && errorFields.length === 0) ? true : output;
 };
 
 export default validate;

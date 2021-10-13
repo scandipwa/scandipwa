@@ -1,13 +1,16 @@
 import React from 'react';
 
-export class SimpleComponent<P = Record<string, unknown>> {
-    __construct?(props: P): void;
+export interface SimpleProps {
+    children?: React.ReactNode
+}
 
-    constructor(props: P) {
+/** @namespace Util/SimpleComponent */
+export class SimpleComponent<P = Record<string, unknown>> {
+    __construct(props: P): void {
         this.props = props;
     }
 
-    readonly props: Readonly<P> & Readonly<{ children?: React.ReactNode }>;
+    props!: Readonly<P> & Readonly<{ children?: React.ReactNode }>;
 
     render(): JSX.Element | null {
         throw new Error('Implement me!');

@@ -1,38 +1,26 @@
-/* eslint-disable spaced-comment */
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
+export enum VALIDATION_INPUT_TYPE_TEXT {
+    alpha = 'alpha',
+    alphaSpace = 'alphaSpace',
+    alphaNumeric = 'alphaNumeric',
+    alphaDash = 'alphaDash',
+    url = 'url'
+}
 
-export const VALIDATION_INPUT_TYPE_TEXT = {
-    alpha: 'alpha',
-    alphaSpace: 'alphaSpace',
-    alphaNumeric: 'alphaNumeric',
-    alphaDash: 'alphaDash',
-    url: 'url'
-};
+export enum VALIDATION_INPUT_TYPE_NUMBER {
+    numeric = 'numeric',
+    numericDash = 'numericDash',
+    integer = 'integer',
+    decimal = 'decimal',
+    natural = 'natural',
+    naturalNoZero = 'naturalNoZero'
+}
 
-export const VALIDATION_INPUT_TYPE_NUMBER = {
-    numeric: 'numeric',
-    numericDash: 'numericDash',
-    integer: 'integer',
-    decimal: 'decimal',
-    natural: 'natural',
-    naturalNoZero: 'naturalNoZero'
-};
-
-export const VALIDATION_INPUT_TYPE_INPUT = {
-    email: 'email',
-    password: 'password',
-    date: 'date',
-    phone: 'phone'
-};
+export enum VALIDATION_INPUT_TYPE_INPUT {
+    email = 'email',
+    password = 'password',
+    date = 'date',
+    phone = 'phone'
+}
 
 export const VALIDATION_INPUT_TYPE = {
     ...VALIDATION_INPUT_TYPE_TEXT,
@@ -40,15 +28,17 @@ export const VALIDATION_INPUT_TYPE = {
     ...VALIDATION_INPUT_TYPE_INPUT
 };
 
+export type VALIDATION_INPUT_TYPE = typeof VALIDATION_INPUT_TYPE;
+
 export const VALIDATION_MESSAGES = {
-    //#region VALIDATION RULE MSG
+    // #region VALIDATION RULE MSG
     isRequired: __('This field is required!'),
     match: __('Incorrect input!'),
     range: __('Value is out of range!'), // Range values are also in Validator.js as they require args
     group: __('Field contains issues!'),
-    //#endregion
+    // #endregion
 
-    //#region VALIDATION RULE MSG
+    // #region VALIDATION RULE MSG
     [VALIDATION_INPUT_TYPE.alpha]: __('Incorrect input! Only letters allowed!'),
     [VALIDATION_INPUT_TYPE.alphaSpace]: __('Incorrect input! Only words allowed!'),
     [VALIDATION_INPUT_TYPE.alphaNumeric]: __('Incorrect input! Alpha-Numeric value required!'),
@@ -63,7 +53,7 @@ export const VALIDATION_MESSAGES = {
     [VALIDATION_INPUT_TYPE.date]: __('Incorrect date input!'),
     [VALIDATION_INPUT_TYPE.password]: __('Incorrect password input!'),
     [VALIDATION_INPUT_TYPE.phone]: __('Incorrect phone input!')
-    //#endregion
+    // #endregion
 };
 
 export const VALIDATION_RULES = {
