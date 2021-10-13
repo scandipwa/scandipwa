@@ -91,6 +91,7 @@ export class WishlistItemContainer extends PureComponent {
 
     changeQuantity = debounce((quantity) => {
         const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+
         updateWishlistItem({
             wishlistId,
             wishlistItems: [{
@@ -102,6 +103,7 @@ export class WishlistItemContainer extends PureComponent {
 
     changeDescription = debounce((description) => {
         const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+
         updateWishlistItem({
             wishlistId,
             wishlistItems: [{
