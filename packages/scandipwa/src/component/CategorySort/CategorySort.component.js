@@ -76,7 +76,8 @@ export class CategorySort extends PureComponent {
               attr={ {
                   id: 'category-sort',
                   name: 'category-sort',
-                  defaultValue: `${sortDirection} ${sortKey}`
+                  defaultValue: `${sortDirection} ${sortKey}`,
+                  noPlaceholder: true
               } }
               events={ {
                   onChange: this.onChange

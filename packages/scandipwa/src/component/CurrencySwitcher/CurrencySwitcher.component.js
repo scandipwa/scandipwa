@@ -63,7 +63,8 @@ export class CurrencySwitcher extends PureComponent {
                       attr={ {
                           id: 'CurrencySwitcherList',
                           name: 'CurrencySwitcherList',
-                          defaultValue: this.getCurrencyValue()
+                          defaultValue: this.getCurrencyValue(),
+                          noPlaceholder: true
                       } }
                       events={ {
                           onChange: handleCurrencySelect
