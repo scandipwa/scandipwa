@@ -26,7 +26,7 @@ import {
     TYPE_PRODUCT
 } from './UrlRewrites.config';
 
-/** @namespace Component/UrlRewrites/Container/mapStateToProps */
+/** @namespace Component/UrlRewrites/Container/urlRewritesSelector */
 export const urlRewritesSelector = (state: RootState) => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
     isLoading: state.UrlRewritesReducer.isLoading,
@@ -46,6 +46,7 @@ export const stateMapping: { [key: string]: UrlRewritesTypes } = {
     page: TYPE_CMS_PAGE
 };
 
+/** @namespace Component/UrlRewrites/Container/urlRewritesLogic */
 export const urlRewritesLogic = (props: UrlRewritesExternalProps): UrlRewritesProps => {
     const { match } = props;
     const history = useHistory();

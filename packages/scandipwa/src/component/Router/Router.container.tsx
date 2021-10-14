@@ -39,10 +39,12 @@ export const MyAccountDispatcher = import(
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
+/** @namespace Component/Router/Container/routerSelector */
 export const routerSelector = (state: RootState) => ({
     isBigOffline: state.OfflineReducer.isBig
 });
 
+/** @namespace Component/Router/Container/useRouterInit */
 export const useRouterInit = () => {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -82,6 +84,7 @@ export const useRouterInit = () => {
     }, []);
 };
 
+/** @namespace Component/Router/Container/routerLogic */
 export const routerLogic = (): RouterProps => {
     const { isBigOffline } = useSelector(routerSelector);
 

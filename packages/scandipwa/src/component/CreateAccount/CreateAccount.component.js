@@ -19,7 +19,7 @@ import {
 
 import './CreateAccount.style';
 
-/** @namespace Route/CreateAccount/Component */
+/** @namespace Component/CreateAccount/Component */
 export class CreateAccountComponent extends MyAccountOverlay {
     renderSignInWrapper() {
         const { onLoginClick } = this.props;

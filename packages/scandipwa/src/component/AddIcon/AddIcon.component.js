@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import './AddIcon.style';
 
-/** @namespace /Component/AddIcon/Component/AddIconComponent */
+/** @namespace Component/AddIcon/Component */
 export class AddIconComponent extends PureComponent {
     static propTypes = {
         isPrimary: PropTypes.bool

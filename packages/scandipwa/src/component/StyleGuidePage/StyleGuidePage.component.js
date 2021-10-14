@@ -45,7 +45,7 @@ import {
 
 import './StyleGuidePage.style';
 
-/** @namespace Route/StyleGuidePage/Component */
+/** @namespace Component/StyleGuidePage/Component */
 export class StyleGuidePageComponent extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,

@@ -149,7 +149,7 @@ export const getInitialState = (): ConfigStore => ({
     }
 });
 
-/** @namespace Store/Config/Reducer */
+/** @namespace Store/Config/Reducer/ConfigReducer */
 export const ConfigReducer: Reducer<
     ConfigStore,
     Action<

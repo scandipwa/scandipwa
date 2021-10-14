@@ -3,8 +3,7 @@
 * @author Jegors Batovs
 */
 
-const licenseComment = `
-/**
+const licenseComment = `/**
  * ScandiPWA - Progressive Web App for Magento
  *
  * Copyright © Scandiweb, Inc. All rights reserved.
@@ -14,6 +13,7 @@ const licenseComment = `
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 `;
 
 module.exports = {

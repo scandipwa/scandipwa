@@ -22,11 +22,12 @@ import { HomePageComponent, HomePageProps } from './HomePage.component';
 
 import './HomePage.style';
 
-/** @namespace Component/HomePage/Container/mapStateToProps */
+/** @namespace Component/HomePage/Container/homePageSelector */
 export const homePageSelector = (state: RootState) => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page as string
 });
 
+/** @namespace Component/HomePage/Container/homePageLogic */
 export const homePageLogic = ({ match }: { match: Match }): HomePageProps => {
     const { changeTopNavigationState } = useNavigationStore();
     const { pageIdentifiers } = useSelector(homePageSelector);

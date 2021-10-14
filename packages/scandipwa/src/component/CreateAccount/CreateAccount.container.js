@@ -23,7 +23,7 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import CreateAccount from './CreateAccount.component';
 
-/** @namespace Route/CreateAccount/Container */
+/** @namespace Component/CreateAccount/Container */
 export class CreateAccountContainer extends MyAccountOverlayContainer {
     containerProps() {
         const { device } = this.props;

@@ -123,7 +123,7 @@ export class ConfirmAccountPageContainer extends PureComponent {
 
         confirmAccount({ ...options, password })
             .then(
-                /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch/then/then/confirmAccount/then */
+                /** @namespace Component/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch/then/then/confirmAccount/then */
                 (data) => {
                     const { msgType } = data || {};
 
@@ -137,11 +137,11 @@ export class ConfirmAccountPageContainer extends PureComponent {
                 }
             )
             .then(
-                /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch/then/then */
+                /** @namespace Component/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch/then/then */
                 () => this.setState({ redirect: true })
             )
             .catch(
-                /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch */
+                /** @namespace Component/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch */
                 () => this.setState({ isLoading: false })
             );
     }

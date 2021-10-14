@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import {
     client,
     Mutation,
@@ -25,6 +36,7 @@ export interface UseQueryOptions {
     query: Query<string, unknown, boolean> | Mutation<string, unknown, boolean>
 }
 
+/** @namespace Hooks/UseQuery/useQuery */
 export function useQuery<T>(options: UseQueryOptions): UseQueryResult<T> {
     const [result, setResult] = useState<Omit<UseQueryResult<T>, 'request'>>({
         data: undefined,

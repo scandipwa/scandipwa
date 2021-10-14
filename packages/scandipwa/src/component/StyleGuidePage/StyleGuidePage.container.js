@@ -24,17 +24,17 @@ export const ProductDispatcher = import(
     'Store/Product/Product.dispatcher'
 );
 
-/** @namespace Route/StyleGuidePage/Container/mapStateToProps */
+/** @namespace Component/StyleGuidePage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     product: state.ProductReducer.product
 });
 
-/** @namespace Route/StyleGuidePage/Container/mapDispatchToProps */
+/** @namespace Component/StyleGuidePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateProductDetails: (product) => dispatch(updateProductDetails(product))
 });
 
-/** @namespace Route/StyleGuidePage/Container */
+/** @namespace Component/StyleGuidePage/Container */
 export class StyleGuidePageContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,

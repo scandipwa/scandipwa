@@ -36,6 +36,7 @@ export const BreadcrumbsDispatcher = import(
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
 
+/** @namespace Component/CmsPage/Container/getRequestQueryParams */
 export const getRequestQueryParams = ({
     id,
     identifier,

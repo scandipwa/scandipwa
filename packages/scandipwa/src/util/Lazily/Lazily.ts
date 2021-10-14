@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { lazy } from 'react';
 
 /**
@@ -5,13 +16,16 @@ import { lazy } from 'react';
  *
  * https://github.com/facebook/react/issues/14603#issuecomment-736878172
  * @param loader `() => import('path/to/component')`
+ * @namespace Util/Lazily/lazily
  */
 export const lazily = <U extends string, T extends Record<U, unknown>>(
     loader: (x?: string) => Promise<T>
 ): T => new Proxy({} as T, {
         get(_target, componentName: U): React.LazyExoticComponent<React.ComponentType> {
-            return lazy(() => loader(componentName).then((x) => ({
-                default: x[componentName] as React.ComponentType
-            })));
+            return lazy(() => loader(componentName).then(/** @namespace Util/Lazily/lazily/Proxy/lazy/loader/then */
+                (x) => ({
+                    default: x[componentName] as React.ComponentType
+                })
+            ));
         }
     });

@@ -14,7 +14,7 @@ import Field from 'Util/Query/Field';
 /**
  * @namespace Util/Query/Fragment
  * @deprecated Use `@tilework/opus` instead
- * */
+ */
 export class Fragment extends Field {
     __construct(name) {
         super.__construct(name);

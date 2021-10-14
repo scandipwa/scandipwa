@@ -125,13 +125,14 @@
             "@scandipwa"
         ],
         "rules": {
-            "@scandipwa/scandipwa-guidelines/use-namespace": "warn",
+            "@scandipwa/scandipwa-guidelines/use-namespace": "error",
             "@scandipwa/scandipwa-guidelines/derived-class-names": "warn",
             "@scandipwa/scandipwa-guidelines/only-render-in-component": "off",
             "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "off",
             "@scandipwa/scandipwa-guidelines/jsx-no-conditional": "off",
             "@scandipwa/scandipwa-guidelines/use-magic-construct": "warn",
             "@scandipwa/scandipwa-guidelines/no-jsx-variables": "off",
+            "@scandipwa/scandipwa-guidelines/use-license": "error",
             "react/jsx-no-useless-fragment": "off",
             "max-classes-per-file": "off",
             "max-lines": "off",
