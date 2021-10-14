@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { useErrorCatcherContext } from 'Store/ErrorCatcher/ErrorCatcher.context';
 import { ErrorCatcherContextProvider } from 'Store/ErrorCatcher/ErrorCatcher.provider';
 import { renderHOC } from 'Util/RenderHOC';

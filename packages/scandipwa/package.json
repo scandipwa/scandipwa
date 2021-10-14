@@ -132,6 +132,7 @@
             "@scandipwa/scandipwa-guidelines/jsx-no-conditional": "off",
             "@scandipwa/scandipwa-guidelines/use-magic-construct": "off",
             "@scandipwa/scandipwa-guidelines/no-jsx-variables": "off",
+            "@scandipwa/scandipwa-guidelines/use-license": "error",
             "max-classes-per-file": "off",
             "max-lines": "off",
             "react/prop-types": "off",
