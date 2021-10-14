@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 
 import { setBigOfflineNotice, showOfflineNotice } from './Offline.action';
 
+/** @namespace Store/Offline/Index/useOfflineStore */
 export const useOfflineStore = () => {
     const dispatch = useDispatch();
 

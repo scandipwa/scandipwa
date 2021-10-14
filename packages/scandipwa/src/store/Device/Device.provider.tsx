@@ -19,6 +19,7 @@ import { DeviceContext, DeviceContextType } from './Device.context';
 
 export const standaloneDisplayMode = window.matchMedia('(display-mode: standalone)');
 
+/** @namespace Store/Device/Provider/DeviceContextProvider */
 export const DeviceContextProvider: React.FC = ({ children }): JSX.Element => {
     const dispatch = useDispatch();
     const [deviceConfig, setDeviceConfig] = useState<DeviceContextType>({

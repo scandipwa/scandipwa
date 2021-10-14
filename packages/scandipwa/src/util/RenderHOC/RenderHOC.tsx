@@ -13,6 +13,7 @@
 import { Constructable } from 'Type/Constructable';
 import { SimpleComponent } from 'Util/SimpleComponent';
 
+/** @namespace Util/RenderHOC/renderHOC */
 export const renderHOC = <P, T, N extends string>(
     Component: Constructable<SimpleComponent<T>>,
     logicHook: (props: P) => T,

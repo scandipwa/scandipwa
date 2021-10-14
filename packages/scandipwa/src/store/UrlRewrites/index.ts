@@ -17,6 +17,7 @@ export const UrlRewritesDispatcher = import(
     'Store/UrlRewrites/UrlRewrites.dispatcher'
 );
 
+/** @namespace Store/UrlRewrites/Index/useUrlRewritesStore */
 export const useUrlRewritesStore = () => {
     const dispatch = useDispatch();
     const location = useLocation();

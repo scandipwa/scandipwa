@@ -25,4 +25,5 @@ export const ErrorCatcherContext = createContext<ErrorCatcherContextType>({
     setHasError: () => {}
 });
 
+/** @namespace Store/ErrorCatcher/Context/useErrorCatcherContext */
 export const useErrorCatcherContext = (): ErrorCatcherContextType => useContext(ErrorCatcherContext);

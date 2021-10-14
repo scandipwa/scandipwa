@@ -35,4 +35,5 @@ export const DeviceContext = createContext<DeviceContextType>({
     standaloneMode: window.matchMedia('(display-mode: standalone)').matches
 });
 
+/** @namespace Store/Device/Context/useDeviceContext */
 export const useDeviceContext = (): DeviceContextType => useContext(DeviceContext);

@@ -15,6 +15,7 @@ import {
 
 import { SECOND_IN_MILLISECONDS } from './Storage.config';
 
+/** @namespace Util/Storage */
 export class Storage {
     private store!: UseStore;
 

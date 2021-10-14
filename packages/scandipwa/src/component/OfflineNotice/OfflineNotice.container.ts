@@ -18,7 +18,7 @@ import { renderHOC } from 'Util/RenderHOC';
 
 import { OfflineNoticeComponent, OfflineNoticeProps } from './OfflineNotice.component';
 
-/** @namespace Component/OfflineNotice/Container/mapStateToProps */
+/** @namespace Component/OfflineNotice/Container/offlineNoticeSelector */
 export const offlineNoticeSelector = (state: any): { isBig: boolean } => ({
     isBig: state.OfflineReducer.isBig
 });
@@ -27,6 +27,7 @@ export interface OfflineNoticeExternalProps {
     isPage?: boolean;
 }
 
+/** @namespace Component/OfflineNotice/Container/offlineNoticeLogic */
 export const offlineNoticeLogic = (props: OfflineNoticeExternalProps): OfflineNoticeProps => {
     const { isPage = false } = props;
     const location = useLocation();

@@ -18,6 +18,7 @@ export const BreadcrumbsDispatcher = import(
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
 
+/** @namespace Store/Breadcrumbs/Index/useBreadcrumbsStore */
 export const useBreadcrumbsStore = () => {
     const dispatch = useDispatch();
 

@@ -125,7 +125,7 @@
             "@scandipwa"
         ],
         "rules": {
-            "@scandipwa/scandipwa-guidelines/use-namespace": "off",
+            "@scandipwa/scandipwa-guidelines/use-namespace": "error",
             "@scandipwa/scandipwa-guidelines/derived-class-names": "off",
             "@scandipwa/scandipwa-guidelines/only-render-in-component": "off",
             "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "off",

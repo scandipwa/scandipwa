@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 
 import { hideNotification, showNotification } from './Notification.action';
 
+/** @namespace Store/Notification/Index/useNotificationStore */
 export const useNotificationStore = () => {
     const dispatch = useDispatch();
 

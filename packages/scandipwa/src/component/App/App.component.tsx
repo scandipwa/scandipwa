@@ -29,7 +29,7 @@ export interface AppProps {
     setHasError: (hasError: boolean) => void
 }
 
-/** @namespace /Component/App/Component/AppComponent */
+/** @namespace Component/App/Component */
 export class AppComponent extends SimpleComponent<AppProps> {
     private reduxStore: ReturnType<typeof injectStaticReducers> | undefined;
 

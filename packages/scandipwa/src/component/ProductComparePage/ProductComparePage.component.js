@@ -18,7 +18,7 @@ import ProductCompare from 'Component/ProductCompare';
 
 import './ProductComparePage.style';
 
-/** @namespace Route/ProductComparePage/Component */
+/** @namespace Component/ProductComparePage/Component */
 export class ProductComparePage extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired

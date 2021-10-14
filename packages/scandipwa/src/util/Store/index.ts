@@ -60,4 +60,5 @@ export const store = configureStore(createStore(
     })) || undefined
 ));
 
+/** @namespace Util/Store/Index/getStore */
 export const getStore = (): typeof store => store;

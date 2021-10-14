@@ -19,7 +19,7 @@ import {
 
 import './LoginAccount.style';
 
-/** @namespace Route/LoginAccount/Component */
+/** @namespace Component/LoginAccount/Component */
 export class LoginAccountComponent extends MyAccountOverlay {
     renderSignInWrapper() {
         const { isMobile } = this.props;

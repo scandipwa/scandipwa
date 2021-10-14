@@ -3,7 +3,7 @@ import { PureComponent } from 'react';
 
 import SomethingWentWrong from './SomethingWentWrong.component';
 
-/** @namespace Framework/Component/SomethingWentWrong/Container/SomethingWentWrongContainer */
+/** @namespace Framework/Component/SomethingWentWrong/Container */
 export class SomethingWentWrongContainer extends PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,

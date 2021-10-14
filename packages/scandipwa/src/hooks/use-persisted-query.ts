@@ -37,6 +37,7 @@ export interface UsePersistedQueryOptions {
     query: AbstractField<string, unknown, boolean>
 }
 
+/** @namespace Hooks/UsePersistedQuery/usePersistedQuery */
 export function usePersistedQuery<T>(options?: UsePersistedQueryOptions): UsePersistedQueryResult<T> {
     const [result, setResult] = useState<Omit<
         UsePersistedQueryResult<T>,

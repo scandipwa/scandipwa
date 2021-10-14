@@ -18,7 +18,7 @@ type SortedItem = () => JSX.Element
 
 type SortedMapType = Map<string | SortedItem, { item: SortedItem; position: number; }>
 
-/** @namespace Framework/Util/SortedMap/SortedMap */
+/** @namespace Util/SortedMap */
 export class SortedMap {
     public options: { renderItem?: (key: string | SortedItem, item: SortedItem) => JSX.Element } = {};
 
@@ -116,7 +116,7 @@ export class SortedMap {
     }
 }
 
-/** @namespace Framework/Util/SortedMap/SortedRenderMap */
+/** @namespace Util/SortedMap */
 export class SortedRenderMap extends SortedMap {
     /**
      * Renders all items in the sorted Map.
@@ -148,12 +148,12 @@ export class SortedRenderMap extends SortedMap {
     }
 }
 
-/** @namespace Framework/Util/SortedMap/createSortedMap */
+/** @namespace Util/SortedMap/createSortedMap */
 export const createSortedMap = (
     object: { [key: string]: SortedItem } = {},
     options: SortedMap['options']
 ) => new SortedMap(object, options);
-/** @namespace Framework/Util/SortedMap/createSortedRenderMap */
+/** @namespace Util/SortedMap/createSortedRenderMap */
 export const createSortedRenderMap = (
     object: { [key: string]: SortedItem } = {},
     options: SortedMap['options']

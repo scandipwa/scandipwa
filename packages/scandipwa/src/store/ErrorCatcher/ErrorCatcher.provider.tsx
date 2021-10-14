@@ -13,6 +13,7 @@ import { ErrorInfo, PureComponent } from 'react';
 
 import { ErrorCatcherContext } from './ErrorCatcher.context';
 
+/** @namespace Store/ErrorCatcher/Provider */
 export class ErrorCatcherContextProvider extends PureComponent {
     state = {
         hasError: false,

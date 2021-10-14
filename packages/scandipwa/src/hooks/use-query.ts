@@ -36,6 +36,7 @@ export interface UseQueryOptions {
     query: Query<string, unknown, boolean> | Mutation<string, unknown, boolean>
 }
 
+/** @namespace Hooks/UseQuery/useQuery */
 export function useQuery<T>(options: UseQueryOptions): UseQueryResult<T> {
     const [result, setResult] = useState<Omit<UseQueryResult<T>, 'request'>>({
         data: undefined,

@@ -23,7 +23,7 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import ForgotPassword from './ForgotPassword.component';
 
-/** @namespace Route/ForgotPassword/Container */
+/** @namespace Component/ForgotPassword/Container */
 export class ForgotPasswordContainer extends MyAccountOverlayContainer {
     containerProps() {
         const { device } = this.props;

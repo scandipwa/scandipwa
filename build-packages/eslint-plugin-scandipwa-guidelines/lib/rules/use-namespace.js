@@ -254,7 +254,7 @@ const extractNamespaceFromComment = ({ value: comment = '' }) => {
         groups: {
             namespace
         } = {}
-    } = comment.match(/@namespace +(?<namespace>[^ ]+)/) || {};
+    } = comment.match(/@namespace +(?<namespace>[^\s]+)/) || {};
 
     return namespace;
 };
@@ -277,7 +277,9 @@ module.exports = {
             types.ExportedFunction
         ].join(',')](node) {
             const namespaceComment = getNamespaceCommentForNode(node, context.getSourceCode()) || { value: '' };
-            const namespaceCommentString = namespaceComment.value.split('@namespace').pop().trim();
+            const namespaceCommentString = namespaceComment.value
+                .split('@namespace').pop().trim()
+                .split(/[\r\n]+\s+/).shift();
 
             const namespace = extractNamespaceFromComment(namespaceComment);
             const generatedNamespace = generateNamespace(node, context);
@@ -298,10 +300,20 @@ module.exports = {
                     node,
                     message: `Namespace for this node is not valid! Consider changing it to ${generatedNamespace}`,
                     fix: fixer => {
-                        const newNamespaceCommentContent = namespaceComment.value.replace(namespace, generatedNamespace);
+                        let newNamespaceCommentContent = namespaceComment.value.replace(namespace, generatedNamespace);
+
+                        if (namespaceComment.type === 'Block') {
+                            if (/\n\s*\*\s+@namespace/.test(newNamespaceCommentContent)) {
+                                newNamespaceCommentContent = newNamespaceCommentContent.replace(
+                                    new RegExp(`${generatedNamespace}[\r\n]*`),
+                                    `${generatedNamespace}\n`
+                                );
+                            }
+                        }
+
                         const newNamespaceComment = namespaceComment.type === 'Block'
                             ? `/*${newNamespaceCommentContent}*/`
-                            : `// ${newNamespaceCommentContent}`;
+                            : `//${newNamespaceCommentContent}`;
 
                         return fixer.replaceText(
                             namespaceComment,

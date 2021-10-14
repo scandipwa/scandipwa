@@ -9,10 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React from 'react';
-
 import RangeSelector from 'Component/RangeSelector';
 
+/** @namespace Stories/RangeSelector/Story/RangeSelectorDefault */
 export const RangeSelectorDefault = () => (
   <RangeSelector
     value={ 14 }

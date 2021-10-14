@@ -15,6 +15,7 @@ import { renderHOC } from 'Util/RenderHOC';
 
 import { AppComponent, AppProps } from './App.component';
 
+/** @namespace Component/App/Container/appLogic */
 export const appLogic = (): AppProps => {
     const { hasError, setHasError, errorInfo } = useErrorCatcherContext();
 
@@ -27,6 +28,7 @@ export const appLogic = (): AppProps => {
 
 export const AppContainer = renderHOC(AppComponent, appLogic, 'AppContainer');
 
+/** @namespace Component/App/Container/App */
 export const App = (): JSX.Element => (
     <ErrorCatcherContextProvider>
         <AppContainer />

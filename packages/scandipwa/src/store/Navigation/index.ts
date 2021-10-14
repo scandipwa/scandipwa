@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { changeNavigationState } from './Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from './Navigation.config';
 
+/** @namespace Store/Navigation/Index/useNavigationStore */
 export const useNavigationStore = () => {
     const dispatch = useDispatch();
 
