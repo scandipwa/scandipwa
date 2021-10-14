@@ -6,7 +6,7 @@ import {
 import { executeGet } from 'Util/Request';
 import { hash } from 'Util/Request/Hash';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import { persistedQueryStorage } from 'Util/Storage/PersistedQueryStorage';
+import { CACHE_TABLE, persistedQueryStorage } from 'Util/Storage/PersistedQueryStorage';
 
 // window.dataCache = {};
 
@@ -47,7 +47,7 @@ export function usePersistedQuery<T>(options?: UsePersistedQueryOptions): UsePer
         const preparedQuery = prepareRequest(query, GraphQlRequestType.Query);
         const queryHash = hash(preparedQuery.query + JSON.stringify(preparedQuery.variables));
 
-        const cachedResult = await persistedQueryStorage.getItem<T>(`${queryHash}`);
+        const cachedResult = await persistedQueryStorage.getItem<T>(`${queryHash}`, CACHE_TABLE);
         if (cachedResult) {
             setResult({
                 data: cachedResult,
@@ -61,7 +61,7 @@ export function usePersistedQuery<T>(options?: UsePersistedQueryOptions): UsePer
             // refactor this
             const data = await executeGet(preparedQuery, 'DataContainer', ONE_MONTH_IN_SECONDS);
 
-            await persistedQueryStorage.setItem(`${queryHash}`, data, ONE_MONTH_IN_SECONDS);
+            await persistedQueryStorage.setItem(`${queryHash}`, data, ONE_MONTH_IN_SECONDS, CACHE_TABLE);
 
             setResult({
                 data: data as unknown as T,
