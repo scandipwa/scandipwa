@@ -122,11 +122,13 @@ export class PasswordChangePageContainer extends PureComponent {
     }
 
     onPasswordSuccess(form, fields) {
-        const { resetPassword, location } = this.props;
-        const { password, password_confirmation } = transformToNameValuePair(fields);
-        const token = getQueryParam('token', location);
+        this.setState({ isLoading: true }, () => {
+            const { resetPassword, location } = this.props;
+            const { password, password_confirmation } = transformToNameValuePair(fields);
+            const token = getQueryParam('token', location);
 
-        resetPassword({ token, password, password_confirmation });
+            resetPassword({ token, password, password_confirmation });
+        });
     }
 
     onError() {

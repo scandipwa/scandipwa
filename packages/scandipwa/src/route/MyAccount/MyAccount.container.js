@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_WISHLIST } from 'Component/Header/Header.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -441,6 +442,6 @@ export class MyAccountContainer extends PureComponent {
     }
 }
 
-export default withReducers({
+export default withRouter(withReducers({
     OrderReducer
-})(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer));
+})(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer)));

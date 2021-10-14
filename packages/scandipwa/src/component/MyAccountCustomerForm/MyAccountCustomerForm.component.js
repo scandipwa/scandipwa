@@ -26,7 +26,16 @@ export class MyAccountCustomerForm extends FieldForm {
         showEmailChangeField: PropTypes.bool.isRequired,
         showPasswordChangeField: PropTypes.bool.isRequired,
         handleChangeEmailCheckbox: PropTypes.func.isRequired,
-        handleChangePasswordCheckbox: PropTypes.func.isRequired
+        handleChangePasswordCheckbox: PropTypes.func.isRequired,
+        handleEmailInput: PropTypes.func.isRequired,
+        handlePasswordInput: PropTypes.func.isRequired,
+        email: PropTypes.string,
+        currentPassword: PropTypes.string
+    };
+
+    static defaultProps = {
+        email: '',
+        currentPassword: ''
     };
 
     onFormSuccess = (form, fields) => {
@@ -66,14 +75,18 @@ export class MyAccountCustomerForm extends FieldForm {
         const {
             showEmailChangeField,
             showPasswordChangeField,
-            customer: {
-                email
-            }
+            handlePasswordInput,
+            handleEmailInput,
+            currentPassword,
+            email
         } = this.props;
 
         return customerEmailAndPasswordFields({
             showEmailChangeField,
             showPasswordChangeField,
+            handlePasswordInput,
+            handleEmailInput,
+            currentPassword,
             email
         });
     }

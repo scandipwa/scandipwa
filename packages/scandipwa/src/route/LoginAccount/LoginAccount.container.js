@@ -12,6 +12,7 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { CUSTOMER_ACCOUNT } from 'Component/Header/Header.config';
 import {
@@ -21,6 +22,7 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { ACCOUNT_FORGOT_PASSWORD_URL, ACCOUNT_REGISTRATION_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { LocationType } from 'Type/Common';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
@@ -37,7 +39,8 @@ export const mapDispatchToProps = (dispatch) => ({
 export class LoginAccountContainer extends MyAccountOverlayContainer {
     static propTypes = {
         ...MyAccountOverlayContainer.propTypes,
-        toggleBreadcrumbs: PropTypes.func.isRequired
+        toggleBreadcrumbs: PropTypes.func.isRequired,
+        location: LocationType.isRequired
     };
 
     containerFunctions = {
@@ -54,9 +57,17 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     }
 
     componentDidMount() {
-        const { setHeaderState, toggleBreadcrumbs } = this.props;
+        const {
+            setHeaderState,
+            toggleBreadcrumbs,
+            location: {
+                state: {
+                    isFromEmailChange = false
+                } = {}
+            }
+        } = this.props;
 
-        if (isSignedIn()) {
+        if (isSignedIn() && !isFromEmailChange) {
             history.replace(appendWithStoreCode(ACCOUNT_URL));
         }
 
@@ -85,4 +96,6 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginAccountContainer);
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(LoginAccountContainer)
+);
