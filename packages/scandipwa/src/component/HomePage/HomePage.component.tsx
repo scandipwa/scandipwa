@@ -10,6 +10,7 @@ export interface HomePageProps {
     pageIdentifiers: string
 }
 
+/** @namespace Component/HomePage/Component */
 export class HomePageComponent extends SimpleComponent<HomePageProps> {
     render(): JSX.Element {
         const { match, pageIdentifiers } = this.props;

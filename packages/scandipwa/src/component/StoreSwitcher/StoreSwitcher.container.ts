@@ -12,11 +12,12 @@ import { RootState } from 'Util/Store/type';
 import { FormattedStoreList, StoreSwitcherComponent, StoreSwitcherProps } from './StoreSwitcher.component';
 import { STORE_CONFIG_KEY } from './StoreSwitcher.config';
 
-/** @namespace Component/StoreSwitcher/Container/mapStateToProps */
+/** @namespace Component/StoreSwitcher/Container/storeSwitcherSelector */
 export const storeSwitcherSelector = (state: RootState) => ({
     currentStoreCode: state.ConfigReducer.code as string
 });
 
+/** @namespace Component/StoreSwitcher/Container/formatStoreList */
 export const formatStoreList = (
     storeList: StoreListData['storeList']
 ): FormattedStoreList[] => storeList
@@ -47,6 +48,7 @@ export const formatStoreList = (
         }, []
     );
 
+/** @namespace Component/StoreSwitcher/Container/storeSwitcherLogic */
 export const storeSwitcherLogic = (): StoreSwitcherProps => {
     const { isMobile } = useDeviceContext();
     const { currentStoreCode = 'default' } = useSelector(storeSwitcherSelector);
