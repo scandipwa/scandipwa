@@ -49,10 +49,19 @@
 
     &-WidthFull {
         width: 100%;
+
+        td & {
+            max-width: 100%;
+        }
     }
 
     &-HeightFull {
         height: 100%;
+
+        td & {
+            height: auto;
+            min-height: 100%;
+        }
     }
 
     &-Content {
