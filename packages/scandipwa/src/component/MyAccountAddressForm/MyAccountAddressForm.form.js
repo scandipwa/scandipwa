@@ -93,6 +93,7 @@ export const getRegionFields = (props) => {
                     defaultValue: region,
                     placeholder: __('Your state / province')
                 },
+                addRequiredTag: isStateRequired,
                 validateOn: isStateRequired ? ['onChange'] : [],
                 validationRule: {
                     isRequired: isStateRequired
@@ -111,7 +112,7 @@ export const getRegionFields = (props) => {
                 selectPlaceholder: __('Select region...')
             },
             options: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
-            addRequiredTag: true,
+            addRequiredTag: isStateRequired,
             validateOn: isStateRequired ? ['onChange'] : [],
             validationRule: {
                 isRequired: isStateRequired

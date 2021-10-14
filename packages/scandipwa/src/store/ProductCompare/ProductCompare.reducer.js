@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
+
 import {
     CLEAR_COMPARED_PRODUCTS,
     SET_COMPARE_LIST,
@@ -16,13 +18,15 @@ import {
     TOGGLE_COMPARE_LIST_LOADER
 } from './ProductCompare.action';
 
+export const COMPARE_LIST_PRODUCTS = 'compare_list_products';
+
 /** @namespace Store/ProductCompare/Reducer/getInitialState */
 export const getInitialState = () => ({
     isLoading: false,
     count: 0,
     attributes: [],
     products: [],
-    productIds: [],
+    productIds: BrowserDatabase.getItem(COMPARE_LIST_PRODUCTS) || [],
     items: []
 });
 
@@ -49,6 +53,11 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
         }));
         const productIds = products.map((product) => product.id);
 
+        BrowserDatabase.setItem(
+            productIds,
+            COMPARE_LIST_PRODUCTS
+        );
+
         return {
             ...state,
             count: item_count,
@@ -60,6 +69,11 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
     }
 
     case CLEAR_COMPARED_PRODUCTS: {
+        BrowserDatabase.setItem(
+            [],
+            COMPARE_LIST_PRODUCTS
+        );
+
         return {
             ...state,
             count: 0,
@@ -72,6 +86,11 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
 
     case SET_COMPARED_PRODUCT_IDS: {
         const { productIds } = action;
+
+        BrowserDatabase.setItem(
+            productIds,
+            COMPARE_LIST_PRODUCTS
+        );
 
         return {
             ...state,

@@ -43,7 +43,7 @@ export class MyAccountAddressForm extends FieldForm {
     state = {
         countryId: this.getCountry()?.value || 'US',
         availableRegions: this.getAvailableRegions() || [],
-        isStateRequired: this.getCountry()?.is_state_required || true
+        isStateRequired: !!this.getCountry()?.is_state_required
     };
 
     //#region GETTERS
@@ -89,7 +89,6 @@ export class MyAccountAddressForm extends FieldForm {
     getCountry(countryId = null) {
         const { countries, defaultCountry, address: { country_id: countryIdAddress } = {} } = this.props;
         const countryIdFixed = countryId || countryIdAddress || defaultCountry;
-
         return countries.find(({ value }) => value === countryIdFixed);
     }
 
@@ -138,9 +137,17 @@ export class MyAccountAddressForm extends FieldForm {
         onSave(trimCustomerAddress(newAddress));
     };
 
-    onCountryChange = (field) => {
+    onCountryChange = (field, e) => {
+        // Handles auto fill
+        const fieldValue = typeof field === 'object' ? e.value : field;
+
         const { countries } = this.props;
-        const country = countries.find(({ value }) => value === field);
+        const country = countries.find(({ value }) => value === fieldValue);
+
+        if (!country) {
+            return;
+        }
+
         const {
             available_regions: availableRegions = [],
             is_state_required: isStateRequired = true,

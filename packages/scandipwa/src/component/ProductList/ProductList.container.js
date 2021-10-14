@@ -19,6 +19,7 @@ import { HistoryType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, PagesType } from 'Type/ProductList';
 import { LocationType } from 'Type/Router';
+import { scrollToTop } from 'Util/Browser';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import ProductList from './ProductList.component';
@@ -105,10 +106,19 @@ export class ProductListContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { sort, search, filter } = this.props;
-        const { sort: prevSort, search: prevSearch, filter: prevFilter } = prevProps;
+        const {
+            sort,
+            search,
+            filter,
+            pages
+        } = this.props;
 
-        const { pages } = this.props;
+        const {
+            sort: prevSort,
+            search: prevSearch,
+            filter: prevFilter
+        } = prevProps;
+
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
 
@@ -156,7 +166,8 @@ export class ProductListContainer extends PureComponent {
             requestProductListInfo,
             noAttributes,
             noVariants,
-            isWidget
+            isWidget,
+            device
         } = this.props;
 
         /**
@@ -202,6 +213,10 @@ export class ProductListContainer extends PureComponent {
 
         if (!isWidget) {
             requestProductListInfo(infoOptions);
+
+            if (!device.isMobile) {
+                scrollToTop();
+            }
         }
     };
 

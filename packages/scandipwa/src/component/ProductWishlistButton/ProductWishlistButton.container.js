@@ -129,7 +129,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         const wishlistItem = this.getWishlistItem(sku);
         if (!wishlistItem) {
-            return null;
+            return;
         }
 
         const {
@@ -138,7 +138,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             }
         } = wishlistItem;
 
-        await removeProductFromWishlist({ item_id: itemId });
+        return removeProductFromWishlist({ item_id: itemId });
     }
 
     isDisabled = () => {

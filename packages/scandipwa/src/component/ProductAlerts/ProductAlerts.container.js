@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import ProductAlertsQuery from 'Query/ProductAlerts.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { StockStatusType } from 'Type/StockStatus';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, getErrorMessage } from 'Util/Request';
 
 import ProductAlerts from './ProductAlerts.component';
 import { PRODUCT_ALERT_IN_STOCK, PRODUCT_ALERT_PRICE_DROP } from './ProductAlerts.config';
@@ -71,7 +71,7 @@ export class ProductAlertsContainer extends PureComponent {
         };
     }
 
-    handlePriceDropSubscribe(type) {
+    async handlePriceDropSubscribe(type) {
         const {
             productId,
             showErrorNotification,
@@ -80,26 +80,21 @@ export class ProductAlertsContainer extends PureComponent {
         } = this.props;
 
         if (!isSignedIn) {
-            return showNotification('info', __('Please sign in to subscribe for notification'));
+            showNotification('info', __('Please sign in to subscribe for notification'));
+            return;
         }
 
         const query = ProductAlertsQuery.getProductAlertSubscribeMutation(productId, type);
 
-        return fetchMutation(query).then(
-            /** @namespace Component/ProductAlerts/Container/ProductAlertsContainer/handlePriceDropSubscribe/then/catch/fetchMutation/then */
-            (ProductAlertSubscribe) => {
-                if (!ProductAlertSubscribe) {
-                    return null;
-                }
+        try {
+            const productAlertSubscribe = await fetchMutation(query);
 
-                return showNotification('success', __('You saved the alert subscription'));
+            if (productAlertSubscribe) {
+                showNotification('success', __('You saved the alert subscription'));
             }
-        ).catch(
-            /** @namespace Component/ProductAlerts/Container/ProductAlertsContainer/handlePriceDropSubscribe/then/catch */
-            (error) => {
-                showErrorNotification('error', error[0].message);
-            }
-        );
+        } catch (error) {
+            showErrorNotification(getErrorMessage(error));
+        }
     }
 
     render() {

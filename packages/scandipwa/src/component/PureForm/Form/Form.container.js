@@ -79,8 +79,12 @@ export class FormContainer extends PureComponent {
     componentWillUnmount() {
         const { validationRule } = this.props;
 
-        if (this.formRef && validationRule && Object.keys(validationRule).length > 0) {
-            this.formRef.removeEventListener('validate', this.validate.bind(this));
+        if (this.formRef) {
+            this.formRef.removeEventListener('reset', this.resetField.bind(this));
+
+            if (validationRule && Object.keys(validationRule).length > 0) {
+                this.formRef.removeEventListener('validate', this.validate.bind(this));
+            }
         }
     }
 
@@ -91,10 +95,18 @@ export class FormContainer extends PureComponent {
         if (elem && this.formRef !== elem) {
             this.formRef = elem;
 
+            elem.addEventListener('reset', this.resetField.bind(this));
+
             if (validationRule && Object.keys(validationRule).length > 0) {
                 elem.addEventListener('validate', this.validate.bind(this));
             }
         }
+    }
+
+    resetField() {
+        const fields = this.formRef.querySelectorAll('input, textarea, select');
+        const event = new CustomEvent('resetField');
+        fields.forEach((field) => field.dispatchEvent(event));
     }
 
     validate(data) {

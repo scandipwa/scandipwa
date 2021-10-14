@@ -127,6 +127,7 @@ export class Form extends PureComponent {
                       isValid: validationResponse === true,
                       hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
                   } }
+                  noValidate
                 >
                     { children }
                 </form>

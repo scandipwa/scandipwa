@@ -43,7 +43,7 @@ export class FieldNumberContainer extends PureComponent {
 
     componentDidMount() {
         const { attr: { defaultValue = 0 } } = this.props;
-        this.handleValueChange(defaultValue);
+        this.handleInitialLoad(defaultValue);
     }
 
     setRef(elem) {
@@ -55,21 +55,42 @@ export class FieldNumberContainer extends PureComponent {
         }
     }
 
-    handleValueChange(value) {
+    setValue(value) {
         const {
-            events: { onChange } = {},
             attr: { min = 0, max = DEFAULT_MAX_PRODUCTS } = {}
         } = this.props;
 
         // eslint-disable-next-line no-nested-ternary
         const rangedValue = value < min ? min : value > max ? max : value;
 
-        if (typeof onChange === 'function') {
-            this.fieldRef.value = rangedValue;
-            onChange(rangedValue);
-        }
-
+        this.fieldRef.value = value;
         this.setState({ value: rangedValue });
+
+        return rangedValue;
+    }
+
+    handleInitialLoad(value) {
+        const {
+            events: { onLoad } = {}
+        } = this.props;
+
+        const newValue = this.setValue(value);
+
+        if (typeof onLoad === 'function') {
+            onLoad(newValue);
+        }
+    }
+
+    handleValueChange(value) {
+        const {
+            events: { onChange } = {}
+        } = this.props;
+
+        const newValue = this.setValue(value);
+
+        if (typeof onChange === 'function') {
+            onChange(newValue);
+        }
     }
 
     containerProps() {
@@ -84,6 +105,7 @@ export class FieldNumberContainer extends PureComponent {
             setRef,
             isDisabled
         } = this.props;
+
         const { value: stateValue } = this.state;
 
         return {
@@ -95,7 +117,7 @@ export class FieldNumberContainer extends PureComponent {
             events,
             setRef,
             isDisabled,
-            value: value || stateValue
+            value: stateValue
         };
     }
 

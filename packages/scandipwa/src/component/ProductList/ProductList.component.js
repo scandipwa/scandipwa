@@ -17,6 +17,7 @@ import ProductListPage from 'Component/ProductListPage';
 import { MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { FilterType, PagesType } from 'Type/ProductList';
+import { scrollToTop } from 'Util/Browser';
 
 import { observerThreshold } from './ProductList.config';
 
@@ -78,7 +79,7 @@ export class ProductList extends PureComponent {
 
         // Scroll up on page change, ignore widgets
         if (prevCurrentPage !== currentPage && !isWidget && !device.isMobile) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            scrollToTop({ behavior: 'smooth' });
         }
 
         const { isInfiniteLoaderEnabled } = this.props;
