@@ -68,9 +68,23 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     onAddressChange = (event, data) => {
         const { fields = {} } = data;
-        const valuePairs = transformToNameValuePair(fields);
+        const {
+            country_id,
+            region_id,
+            region_string: region,
+            city,
+            postcode
+        } = transformToNameValuePair(fields);
+
         const { onShippingEstimationFieldsChange } = this.props;
-        onShippingEstimationFieldsChange(valuePairs);
+
+        onShippingEstimationFieldsChange({
+            country_id,
+            region_id,
+            region,
+            city,
+            postcode
+        });
     };
 
     renderActions() {
