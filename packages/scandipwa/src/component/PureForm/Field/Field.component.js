@@ -170,8 +170,10 @@ export class Field extends PureComponent {
             label
         } = this.props;
 
+        const elem = type.charAt(0).toUpperCase() + type.slice(1);
+
         return (
-            <label htmlFor={ id } block="Field" elem="CheckboxLabel">
+            <label htmlFor={ id } block="Field" elem={ `${elem}Label` }>
                 <input
                   ref={ (elem) => setRef(elem) }
                   disabled={ isDisabled }
