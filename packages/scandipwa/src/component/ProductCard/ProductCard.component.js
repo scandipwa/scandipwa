@@ -99,7 +99,6 @@ export class ProductCard extends Product {
             getActiveProduct,
             inStock,
             product: {
-                options,
                 type_id: baseType
             } = {}
         } = this.props;
@@ -134,9 +133,8 @@ export class ProductCard extends Product {
 
         // If product is not a variant.
         const notConfigured = baseType !== PRODUCT_TYPE.configurable || typeId === baseType;
-        const isCustomizable = baseType !== PRODUCT_TYPE.simple || (Array.isArray(options) && options.length > 0);
 
-        return super.renderPrice(notConfigured && isCustomizable);
+        return super.renderPrice(notConfigured);
     }
     //#endregion
 

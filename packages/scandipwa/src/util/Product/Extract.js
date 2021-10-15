@@ -177,6 +177,7 @@ export const getBundleOption = (uid, options = []) => {
  * @param dynamicPrice
  * @param adjustedPrice
  * @param type
+ * @param options
  * @returns {{originalPrice: {maxFinalPriceExclTax: {valueFormatted: string}, minFinalPrice: {valueFormatted: string}, minFinalPriceExclTax: {valueFormatted: string}, maxFinalPrice: {valueFormatted: string}}, price: {originalPriceExclTax: {currency: string, value: (number|number)}, originalPrice: {currency: string, value: (number|number)}, finalPriceExclTax: {currency: string, value: (number|number)}, finalPrice: {currency: string, value: (number|number)}, discount: {percentOff: number}}}}
  * @namespace Util/Product/Extract/getPrice
  */
@@ -184,7 +185,8 @@ export const getPrice = (
     priceRange,
     dynamicPrice = false,
     adjustedPrice = {},
-    type = PRODUCT_TYPE.simple
+    type = PRODUCT_TYPE.simple,
+    options = []
 ) => {
     const priceAcc = type === PRODUCT_TYPE.bundle
         ? 'default_final_price'
@@ -278,6 +280,29 @@ export const getPrice = (
     priceValueExclDiscount.valueFormatted = formatPrice(priceValueExclDiscount.value, currency);
     priceValueExclDiscountExclTax.valueFormatted = formatPrice(priceValueExclDiscountExclTax.value, currency);
 
+    const configuration = {
+        containsOptions: options && !!options.length,
+        containsOptionsWithPrice: false,
+        containsRequiredOptions: false,
+        containsRequiredOptionsWithPrice: false
+    };
+
+    if (options) {
+        configuration.containsOptionsWithPrice = !!options.find(
+            ({ value = [] }) => Array.isArray(value) && value.find(({ price }) => price)
+        );
+        const requiredOptions = options.filter(({ required }) => required);
+        configuration.containsRequiredOptions = !!requiredOptions.length;
+
+        if (requiredOptions.length) {
+            configuration.containsRequiredOptionsWithPrice = !!requiredOptions.find(
+                ({ value = [] }) => Array.isArray(value) && value.find(({ price }) => price)
+            );
+        }
+
+        console.log([requiredOptions, configuration]);
+    }
+
     return {
         price: {
             finalPrice: priceValue,
@@ -313,7 +338,8 @@ export const getPrice = (
                 ...maxFinalPriceExclTax,
                 valueFormatted: formatPrice(maxFinalPriceExclTax.value || 0, currency)
             }
-        }
+        },
+        configuration
     };
 };
 

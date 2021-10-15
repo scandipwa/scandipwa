@@ -67,6 +67,7 @@ export class ProductPriceContainer extends PureComponent {
             price: {
                 price,
                 originalPrice,
+                configuration,
                 price: {
                     finalPrice: {
                         currency: priceCurrency
@@ -91,6 +92,7 @@ export class ProductPriceContainer extends PureComponent {
         return {
             price,
             originalPrice,
+            configuration,
             tierPrice: this.getMinTierPrice(priceCurrency),
             priceCurrency,
             discountPercentage,
