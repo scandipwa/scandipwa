@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "5.0.6",
+    "version": "5.0.7",
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
@@ -463,5 +463,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://demo100-ors-1588667385-csa-qnb.scandipwa.cloud/"
+    "proxy": "https://demo100-ors-1588667385-csa-hcx.scandipwa.cloud/"
 }
