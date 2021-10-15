@@ -41,7 +41,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
         onShippingEstimationFieldsChange({
             country_id: countryId || defaultCountry,
-            region_id: regionId,
+            region_id: regionId !== '' ? regionId : null,
             region,
             city,
             postcode
@@ -70,7 +70,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         const { fields = {} } = data;
         const {
             country_id,
-            region_id,
+            region_id: regionId,
             region_string: region,
             city,
             postcode
@@ -80,7 +80,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
         onShippingEstimationFieldsChange({
             country_id,
-            region_id,
+            region_id: regionId !== '' ? regionId : null,
             region,
             city,
             postcode
