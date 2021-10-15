@@ -28,7 +28,12 @@ export class FieldSelectContainer extends PureComponent {
         events: PropTypes.object.isRequired,
         options: PropTypes.array.isRequired,
         setRef: PropTypes.func.isRequired,
-        isDisabled: PropTypes.bool.isRequired
+        isDisabled: PropTypes.bool.isRequired,
+        noPlaceholder: PropTypes.bool
+    };
+
+    static defaultProps = {
+        noPlaceholder: false
     };
 
     state = {
@@ -68,9 +73,14 @@ export class FieldSelectContainer extends PureComponent {
             options,
             attr: {
                 id = 'select',
-                selectPlaceholder = __('Select item...')
+                selectPlaceholder = __('Select item...'),
+                noPlaceholder
             } = {}
         } = this.props;
+
+        if (noPlaceholder) {
+            return options;
+        }
 
         return [
             {

@@ -70,7 +70,8 @@ export class StoreSwitcher extends PureComponent {
                   attr={ {
                       id: 'StoreSwitcher',
                       name: 'StoreSwitcher',
-                      defaultValue: currentStoreCode
+                      defaultValue: currentStoreCode,
+                      noPlaceholder: true
                   } }
                   events={ {
                       onChange: handleStoreSelect
