@@ -71,7 +71,6 @@
     "Email": "Email",
     "Email addresses, separated by commas": null,
     "Enter personal information": "Wprowadź dane osobowe",
-    "Error Adding Product To Cart": "Błąd podczas dodawania produktu do koszyka",
     "Error cleaning wishlist": "Błąd w trakcie czyszczenia listy życzeń",
     "Error clearing wish list!": "Błąd w trakcie czyszczenia listy życzeń!",
     "Error initializing Klarna payment method.": "Błąd podczas inicjowania metody płatności Klarna.",
@@ -164,7 +163,6 @@
     "Price: ": "Cena: ",
     "Proceed to billing": "Przejdź do fakturowania",
     "Product %s thumbnail.": "Miniaturka produktu %s.",
-    "Product Added To Cart": "Produkt dodany do koszyka",
     "Product Price": "Cena produktu",
     "Product added to wish-list!": "Produkt dodany do listy życzeń!",
     "Product has been removed from your Wish List!": "Produkt został usunięty z listy życzeń!",
@@ -491,7 +489,6 @@
     "Incorrect input! Numeric-Dash value required!": null,
     "Incorrect input! Integer required!": null,
     "Incorrect input! Natural number required!": null,
-    "Incorrect email input!": null,
     "Incorrect date input!": null,
     "Incorrect password input!": null,
     "Incorrect phone input!": null,
@@ -531,5 +528,8 @@
     "Max quantity %s!": null,
     "Product is out of stock!": null,
     "Select product...": null,
-    "Option": null
+    "Option": null,
+    "Available items moved to cart": null,
+    "Incorrect email format!": null,
+    "Incorrect list of emails!": null
 }

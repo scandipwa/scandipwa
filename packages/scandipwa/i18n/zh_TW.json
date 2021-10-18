@@ -70,7 +70,6 @@
     "Edit details": "編輯詳細資料",
     "Email": "Email",
     "Enter personal information": "輸入個人信息",
-    "Error Adding Product To Cart": "將產品添加到購物車時出錯",
     "Error cleaning wishlist": "清除願望清單時出錯",
     "Error clearing wish list!": "清除願望清單時出錯！",
     "Error initializing Klarna payment method.": "初始化Klarna付款方式時出錯。",
@@ -162,7 +161,6 @@
     "Price: ": "價格:",
     "Proceed to billing": "繼續計費",
     "Product %s thumbnail.": "產品 %s 的縮略圖。",
-    "Product Added To Cart": "產品已添加到購物車",
     "Product Price": "商品價格",
     "Product added to wish-list!": "產品已添加到願望清單!",
     "Product has been removed from your Wish List!": "產品已從您的願望清單中刪除！",
@@ -491,7 +489,6 @@
     "Incorrect input! Numeric-Dash value required!": null,
     "Incorrect input! Integer required!": null,
     "Incorrect input! Natural number required!": null,
-    "Incorrect email input!": null,
     "Incorrect date input!": null,
     "Incorrect password input!": null,
     "Incorrect phone input!": null,
@@ -531,5 +528,8 @@
     "Max quantity %s!": null,
     "Product is out of stock!": null,
     "Select product...": null,
-    "Option": null
+    "Option": null,
+    "Available items moved to cart": null,
+    "Incorrect email format!": null,
+    "Incorrect list of emails!": null
 }
