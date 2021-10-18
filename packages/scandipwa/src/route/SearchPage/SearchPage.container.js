@@ -8,6 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // TODO: try SEARCH type
@@ -88,9 +89,15 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /** @namespace Route/SearchPage/Container */
 export class SearchPageContainer extends CategoryPageContainer {
+    static propTypes = {
+        ...this.propTypes,
+        updateMetaFromCategory: PropTypes.func
+    };
+
     static defaultProps = {
         ...this.defaultProps,
-        isSearchPage: true
+        isSearchPage: true,
+        updateMetaFromCategory: () => {}
     };
 
     config = {

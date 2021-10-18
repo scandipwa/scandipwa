@@ -76,6 +76,9 @@ export const mapDispatchToProps = (dispatch) => ({
         CartDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
+        ProductCompareDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
+        );
     }
 });
 
@@ -170,6 +173,7 @@ export class RouterContainer extends PureComponent {
 
     handleResize = async () => {
         const { updateConfigDevice } = this.props;
+
         if (isUsingClientHints) {
             const { platform, model } = await isMobileClientHints.getDeviceData();
             updateConfigDevice({

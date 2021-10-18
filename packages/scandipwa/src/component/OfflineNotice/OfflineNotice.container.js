@@ -122,6 +122,7 @@ export class OfflineNoticeContainer extends PureComponent {
         } else {
             document.documentElement.classList.add('offline');
             showOfflineNotice(true);
+
             if (isBig) {
                 setBigOfflineNotice(false);
             }

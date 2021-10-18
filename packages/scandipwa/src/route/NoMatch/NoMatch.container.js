@@ -60,6 +60,12 @@ export class NoMatchContainer extends PureComponent {
         this.updateNoMatch();
     }
 
+    componentWillUnmount() {
+        const { updateNoMatch } = this.props;
+
+        updateNoMatch(false);
+    }
+
     containerProps() {
         const { updateBreadcrumbs } = this.props;
 

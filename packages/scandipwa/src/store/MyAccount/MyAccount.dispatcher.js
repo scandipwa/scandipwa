@@ -68,6 +68,7 @@ export class MyAccountDispatcher {
         const query = MyAccountQuery.getCustomerQuery();
 
         const customer = BrowserDatabase.getItem(CUSTOMER) || {};
+
         if (customer.id) {
             dispatch(updateCustomerDetails(customer));
         }

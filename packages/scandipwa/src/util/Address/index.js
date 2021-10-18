@@ -147,10 +147,10 @@ export const trimAddressFields = (fields) => {
 /** transforming "street[index]" entries into a single "street" object
     for checkout/billing/myAccoutAddress form fields object */
 /** @namespace Util/Address/Index/setAddressesInFormObject */
-export const setAddressesInFormObject = (fields, numberOfLines) => {
+export const setAddressesInFormObject = (fields, numberOfLines, prefix = 'street') => {
     const addressKeys = new Array(numberOfLines)
         .fill('')
-        .map((_, index) => `street${index}`);
+        .map((_, index) => `${prefix}${index}`);
 
     const addressValues = addressKeys.map((key) => fields[key]);
 
@@ -197,12 +197,15 @@ export const getCityAndRegionFromZipcode = async (countryId, value) => {
 /** @namespace Util/Address/Index/getDefaultAddressLabel */
 export const getDefaultAddressLabel = (address) => {
     const { default_billing, default_shipping } = address;
+
     if (!default_billing && !default_shipping) {
         return '';
     }
+
     if (default_billing && default_shipping) {
         return __(' (default shipping & billing)');
     }
+
     if (default_billing) {
         return __(' (default billing address)');
     }

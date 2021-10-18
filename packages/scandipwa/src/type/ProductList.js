@@ -213,3 +213,13 @@ export const DownloadableSamplesType = PropTypes.arrayOf(
         title: PropTypes.string
     })
 );
+
+export const MagentoProductType = PropTypes.shape({
+    entered_options: PropTypes.arrayOf(PropTypes.shape({
+        uid: PropTypes.string,
+        value: PropTypes.string
+    })),
+    quantity: PropTypes.number,
+    selected_options: PropTypes.arrayOf(PropTypes.string),
+    sku: PropTypes.string
+});

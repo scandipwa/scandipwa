@@ -67,6 +67,7 @@ export class FieldFileContainer extends PureComponent {
                     file_data: reader.result,
                     file_name: name
                 });
+
                 if (typeof onChange === 'function') {
                     onChange(value);
                 }
@@ -74,6 +75,7 @@ export class FieldFileContainer extends PureComponent {
             reader.onerror = () => {
                 // TODO: Add showNotification('error', __('Failed to upload file'))
                 this.setState({ fileName: '', isLoading: false });
+
                 if (typeof onChange === 'function') {
                     onChange(value);
                 }
@@ -83,11 +85,22 @@ export class FieldFileContainer extends PureComponent {
     }
 
     containerProps() {
-        const { events, attr, setRef } = this.props;
+        const {
+            events,
+            attr: {
+                autoComplete,
+                autocomplete,
+                ...attr
+            } = {},
+            setRef
+        } = this.props;
         const { fileName, isLoading, value } = this.state;
 
         return {
-            attr,
+            attr: {
+                ...attr,
+                autoComplete: autoComplete || autocomplete
+            },
             setRef,
             events: {
                 ...events,

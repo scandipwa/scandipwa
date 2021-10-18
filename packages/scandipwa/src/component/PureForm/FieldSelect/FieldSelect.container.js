@@ -28,7 +28,12 @@ export class FieldSelectContainer extends PureComponent {
         events: PropTypes.object.isRequired,
         options: PropTypes.array.isRequired,
         setRef: PropTypes.func.isRequired,
-        isDisabled: PropTypes.bool.isRequired
+        isDisabled: PropTypes.bool.isRequired,
+        noPlaceholder: PropTypes.bool
+    };
+
+    static defaultProps = {
+        noPlaceholder: false
     };
 
     state = {
@@ -68,9 +73,14 @@ export class FieldSelectContainer extends PureComponent {
             options,
             attr: {
                 id = 'select',
-                selectPlaceholder = __('Select item...')
+                selectPlaceholder = __('Select item...'),
+                noPlaceholder
             } = {}
         } = this.props;
+
+        if (noPlaceholder) {
+            return options;
+        }
 
         return [
             {
@@ -108,9 +118,9 @@ export class FieldSelectContainer extends PureComponent {
     }
 
     handleSelectExpandedExpand() {
-        const { isSelectExpanded } = this.state;
+        const { isExpanded } = this.state;
 
-        if (isSelectExpanded) {
+        if (isExpanded) {
             this.handleSelectExpand();
         }
     }
@@ -186,12 +196,14 @@ export class FieldSelectContainer extends PureComponent {
 
         this.setState({ searchString, valueIndex }, () => {
             const { id, value } = options[valueIndex];
+
             // converting to string for avoiding the error with the first select option
             if (onChange && value) {
                 onChange(value.toString());
             }
 
             const selectedElement = document.getElementById(`o${id}`);
+
             if (selectedElement) {
                 selectedElement.focus();
             }
@@ -200,7 +212,11 @@ export class FieldSelectContainer extends PureComponent {
 
     containerProps() {
         const {
-            attr,
+            attr: {
+                autoComplete,
+                autocomplete,
+                ...attr
+            } = {},
             events,
             setRef,
             isDisabled
@@ -209,7 +225,10 @@ export class FieldSelectContainer extends PureComponent {
         const { isExpanded } = this.state;
 
         return {
-            attr,
+            attr: {
+                ...attr,
+                autoComplete: autoComplete || autocomplete
+            },
             events,
             setRef,
             isDisabled,

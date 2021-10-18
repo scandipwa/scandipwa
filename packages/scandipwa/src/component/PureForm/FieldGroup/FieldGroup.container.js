@@ -81,6 +81,7 @@ export class FieldGroupContainer extends PureComponent {
         if (elem && this.groupRef !== elem) {
             this.groupRef = elem;
             const { validationRule } = this.props;
+
             if (!validationRule || Object.keys(validationRule).length === 0) {
                 return;
             }
@@ -108,6 +109,7 @@ export class FieldGroupContainer extends PureComponent {
 
     validateOnEvent(hook, ...args) {
         this.validate();
+
         if (typeof hook === 'function') {
             this.surroundEvent(hook, ...args);
         }

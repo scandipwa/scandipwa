@@ -29,7 +29,7 @@ import {
     getPrice,
     getProductInStock
 } from 'Util/Product/Extract';
-import { magentoProductTransform } from 'Util/Product/Transform';
+import { magentoProductTransform, transformParameters } from 'Util/Product/Transform';
 import { validateGroup } from 'Util/Validator';
 
 export const CartDispatcher = import(
@@ -128,6 +128,7 @@ export class ProductContainer extends PureComponent {
 
     setDefaultProductOptions(keyProp, keyState) {
         const { [keyProp]: value } = this.props;
+
         if (Array.isArray(value) && value.length > 0) {
             this.setState({ [keyState]: value || [] }, () => {
                 this.updateAdjustedPrice();
@@ -138,8 +139,9 @@ export class ProductContainer extends PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { quantityState } = state;
+        const { quantity: quantityState } = state;
         const quantity = ProductContainer.getDefaultQuantity(props, state);
+
         if (quantity && typeof quantityState !== 'object') {
             return { quantity };
         }
@@ -162,16 +164,23 @@ export class ProductContainer extends PureComponent {
         }
 
         const minQty = getMinQuantity(selectedProduct || product);
+
         if (quantity < minQty) {
             return minQty;
         }
 
         const maxQty = getMaxQuantity(selectedProduct || product);
+
         if (quantity > maxQty) {
             return maxQty;
         }
 
         return null;
+    }
+
+    componentDidMount() {
+        this.updateSelectedValues();
+        this.updateAdjustedPrice();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -195,9 +204,12 @@ export class ProductContainer extends PureComponent {
 
         if (product !== prevProduct) {
             const quantity = ProductContainer.getDefaultQuantity(this.props, this.state);
+
             if (quantity) {
                 this.setQuantity(quantity);
             }
+
+            this.updateSelectedValues();
         }
     }
 
@@ -211,6 +223,7 @@ export class ProductContainer extends PureComponent {
         } = this.props;
 
         const activeProduct = this.getActiveProduct();
+        const magentoProduct = this.getMagentoProduct();
         const {
             price_range: priceRange = {},
             dynamic_price: dynamicPrice = false,
@@ -218,7 +231,6 @@ export class ProductContainer extends PureComponent {
         } = activeProduct || {};
 
         const output = {
-            isWishlistEnabled,
             inStock: fromCache(getProductInStock, [activeProduct, product]),
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
@@ -227,11 +239,13 @@ export class ProductContainer extends PureComponent {
         };
 
         return {
+            isWishlistEnabled,
             quantity,
             product,
             configFormRef,
             parameters,
             device,
+            magentoProduct,
             ...output
         };
     }
@@ -242,6 +256,7 @@ export class ProductContainer extends PureComponent {
      */
     updateSelectedValues() {
         const { configFormRef: { current } = {} } = this.props;
+
         if (!current) {
             return;
         }
@@ -302,6 +317,7 @@ export class ProductContainer extends PureComponent {
         this.updateSelectedValues();
 
         const isValid = validateGroup(this.validator);
+
         if (isValid !== true) {
             const { showError } = this.props;
             this.validator.scrollIntoView();
@@ -372,22 +388,23 @@ export class ProductContainer extends PureComponent {
      * @returns {*[]}
      */
     getMagentoProduct() {
-        const { product } = this.props;
         const {
             quantity,
             enteredOptions,
             selectedOptions,
-            downloadableLinks
+            downloadableLinks,
+            parameters
         } = this.state;
 
-        const activeProduct = this.getActiveProduct();
-        const parentProduct = activeProduct === product ? null : product;
+        const { product, product: { attributes } } = this.props;
+
+        const configurableOptions = transformParameters(parameters, attributes);
+
         return magentoProductTransform(
-            activeProduct,
+            product,
             quantity,
-            parentProduct,
             enteredOptions,
-            [...selectedOptions, ...downloadableLinks],
+            [...selectedOptions, ...downloadableLinks, ...configurableOptions]
         );
     }
 

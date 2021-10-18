@@ -52,17 +52,24 @@ export class Footer extends Component {
             device: {
                 isMobile
             },
-            isVisibleOnMobile
+            isVisibleOnMobile,
+            copyright,
+            newsletterActive
         } = this.props;
 
         const {
             device: {
                 isMobile: nextIsMobile
             },
-            isVisibleOnMobile: nextIsVisibleOnMobile
+            isVisibleOnMobile: nextIsVisibleOnMobile,
+            copyright: nextCopyright,
+            newsletterActive: nextNewsletterActive
         } = nextProps;
 
-        return isMobile !== nextIsMobile || isVisibleOnMobile !== nextIsVisibleOnMobile;
+        return isMobile !== nextIsMobile
+            || isVisibleOnMobile !== nextIsVisibleOnMobile
+            || copyright !== nextCopyright
+            || newsletterActive !== nextNewsletterActive;
     }
 
     renderColumnItemContent(src, title) {
@@ -151,7 +158,7 @@ export class Footer extends Component {
     }
 
     renderNewsletterSubscriptionBlock() {
-        return <NewsletterSubscription />;
+        return <NewsletterSubscription key="NewsletterSubscription" />;
     }
 
     renderCmsBlockWrapper() {

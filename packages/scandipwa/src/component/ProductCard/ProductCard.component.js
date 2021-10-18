@@ -28,8 +28,7 @@ import './ProductCard.style';
 /**
  * Product card
  * @class ProductCard
- * @namespace Component/ProductCard/Component
- */
+ * @namespace Component/ProductCard/Component */
 export class ProductCard extends Product {
     static propTypes = {
         ...Product.propTypes,
@@ -255,7 +254,8 @@ export class ProductCard extends Product {
         const {
             product: {
                 type_id: type,
-                options = []
+                options = [],
+                links_purchased_separately
             }
         } = this.props;
 
@@ -264,8 +264,9 @@ export class ProductCard extends Product {
             // eslint-disable-next-line max-len
             && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
         const configureCustomize = options.some(({ required = false }) => required);
+        const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
 
-        return configureBundleAndGrouped || configureConfig || configureCustomize;
+        return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
     }
 
     renderAddToCart() {
@@ -298,22 +299,6 @@ export class ProductCard extends Product {
 
             return Object.values(attributeOptions).some(({ swatch_data: swatchData }) => swatchData);
         }));
-    }
-
-    renderConfigurableOptions() {
-        const { product: { type_id: type } = {}, inStock } = this.props;
-        const showLabel = type === PRODUCT_TYPE.configurable
-            && this.requiresConfiguration()
-            && Object.keys(this.getConfigurableAttributes()).length !== 0;
-
-        return (
-            <>
-                { super.renderConfigurableOptions() }
-                { inStock && showLabel && (
-                  <div block="ProductCard" elem="ConfigurationNotice">{ __('Contains hidden fields') }</div>
-                ) }
-            </>
-        );
     }
 
     renderVisibleOnHover() {
@@ -413,7 +398,7 @@ export class ProductCard extends Product {
             return (
                 <li
                   block="ProductCard"
-                  mods={ layout }
+                  mods={ { layout } }
                   mix={ mix }
                 >
                     <Loader isLoading={ isLoading } />
@@ -425,7 +410,7 @@ export class ProductCard extends Product {
         return (
             <li
               block="ProductCard"
-              mods={ layout }
+              mods={ { layout } }
               mix={ mix }
             >
                 <Loader isLoading={ isLoading } />

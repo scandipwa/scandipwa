@@ -140,6 +140,7 @@ export class Slider extends PureComponent {
         setTimeout(() => {
             const height = target.offsetHeight;
             const sliderHeight = `${ height }px`;
+
             if (height !== 0) {
                 CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
             }

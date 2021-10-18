@@ -118,7 +118,7 @@ export class CartDispatcher {
 
         if (!Array.isArray(products) || products.length === 0) {
             dispatch(showNotification('error', __('No product data!')));
-            return false;
+            return Promise.reject();
         }
 
         try {
@@ -135,17 +135,17 @@ export class CartDispatcher {
                     dispatch(showNotification('error', getErrorMessage(error)));
                 });
 
-                return false;
+                return Promise.reject();
             }
 
             await this.updateInitialCartData(dispatch);
             dispatch(showNotification('success', __('Product was added to cart!')));
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
-            return false;
+            return Promise.reject();
         }
 
-        return true;
+        return Promise.resolve();
     }
 
     async removeProductFromCart(dispatch, item_id) {

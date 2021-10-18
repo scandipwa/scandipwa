@@ -30,41 +30,47 @@ import './Image.style';
  */
 export class Image extends PureComponent {
     static propTypes = {
-        isPlaceholder: PropTypes.bool.isRequired,
+        isPlaceholder: PropTypes.bool,
         title: PropTypes.string,
         src: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
-        ]).isRequired,
+        ]),
         style: PropTypes.shape({
             width: PropTypes.string,
             height: PropTypes.string
         }),
         alt: PropTypes.string,
-        className: PropTypes.string.isRequired,
+        className: PropTypes.string,
         ratio: PropTypes.oneOf([
             '4x3',
             '16x9',
             'square',
             'custom'
-        ]).isRequired,
+        ]),
         wrapperSize: PropTypes.shape({
             height: PropTypes.string
         }),
-        mix: MixType.isRequired,
+        mix: MixType,
         imageRef: PropTypes.oneOfType([
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]).isRequired,
+        ]),
         isPlain: PropTypes.bool
     };
 
     static defaultProps = {
+        src: '',
         alt: '',
         wrapperSize: {},
         style: {},
         title: null,
-        isPlain: false
+        isPlain: false,
+        isPlaceholder: false,
+        className: '',
+        ratio: 'square',
+        mix: {},
+        imageRef: () => {}
     };
 
     image = createRef();

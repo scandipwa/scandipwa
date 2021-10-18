@@ -108,6 +108,7 @@ export class UrlRewritesContainer extends PureComponent {
         const { location, history } = this.props;
 
         const type = this.getType();
+
         if ([TYPE_CATEGORY, TYPE_PRODUCT].includes(type)) {
             if (location.pathname.endsWith('/')) {
                 history.replace(

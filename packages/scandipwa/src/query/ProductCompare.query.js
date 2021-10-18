@@ -127,7 +127,8 @@ export class ProductCompareQuery extends ProductListQuery {
             .addFieldList(this._getProductInterfaceFields(true, false))
             .addFieldList(['url'])
             .addField(this._getReviewCountField())
-            .addField(this._getRatingSummaryField());
+            .addField(this._getRatingSummaryField())
+            .addField(this._getDescriptionField());
     }
 
     _getProductIdsField() {

@@ -13,6 +13,7 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import {
     mapDispatchToProps,
     mapStateToProps as sourceMapStateToProps,
@@ -64,6 +65,7 @@ export class ProductActionsContainer extends ProductContainer {
             displayProductStockStatus,
             getLink,
             isInStockAlertEnabled,
+            isPricePreview: this.isPricePreview(),
             offerCount: this.getOfferCount(),
             offerType: this.getOfferType(),
             stockMeta: this.getStockMeta(),
@@ -137,11 +139,31 @@ export class ProductActionsContainer extends ProductContainer {
         if (!areDetailsLoaded) {
             return placeholder;
         }
+
         if (areDetailsLoaded && !expression) {
             return null;
         }
 
         return content;
+    }
+
+    // Display preview price for bundle when nothing is selected
+    isPricePreview() {
+        const {
+            product: {
+                type_id: type,
+                dynamic_price: dynamicPrice
+            } = {}
+        } = this.props;
+
+        const { enteredOptions = [], selectedOptions = [] } = this.state;
+
+        return (
+            enteredOptions.length <= 0
+            && selectedOptions.length <= 0
+            && type === PRODUCT_TYPE.bundle
+            && dynamicPrice
+        );
     }
 
     render() {

@@ -64,6 +64,7 @@ export class PopupSuspense extends PureComponent {
         } = this.props;
 
         const block = this.styleMap[actualOverlayKey];
+
         if (!block) {
             this.handleNoStyle();
         }

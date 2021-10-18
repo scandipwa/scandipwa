@@ -30,7 +30,7 @@ import FieldContainer from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import { PriceType, ProductType } from 'Type/ProductList';
+import { MagentoProductType, PriceType, ProductType } from 'Type/ProductList';
 import { filterConfigurableOptions } from 'Util/Product';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
@@ -45,6 +45,7 @@ export class Product extends PureComponent {
         productName: PropTypes.string.isRequired,
         productPrice: PriceType.isRequired,
         inStock: PropTypes.bool.isRequired,
+        magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
 
         quantity: PropTypes.oneOf([PropTypes.number, PropTypes.object]).isRequired,
         maxQuantity: PropTypes.number.isRequired,
@@ -56,7 +57,6 @@ export class Product extends PureComponent {
         setAdjustedPrice: PropTypes.func.isRequired,
         setDownloadableLinks: PropTypes.func.isRequired,
 
-        getMagentoProduct: PropTypes.func.isRequired,
         getActiveProduct: PropTypes.func.isRequired,
         setActiveProduct: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -271,8 +271,8 @@ export class Product extends PureComponent {
     }
 
     renderWishlistButton() {
-        const { getMagentoProduct } = this.props;
-        const magentoProduct = getMagentoProduct();
+        const { magentoProduct } = this.props;
+
         if (magentoProduct.length === 0) {
             return null;
         }
@@ -401,7 +401,7 @@ export class Product extends PureComponent {
         }
 
         // If only one price tier, and it is of default qty, then skip
-        const tierPricesFiltered = priceTiers.length === 1 && priceTiers[0].quantity === 1
+        const tierPricesFiltered = priceTiers && priceTiers.length === 1 && priceTiers[0].quantity === 1
             ? null
             : priceTiers;
 

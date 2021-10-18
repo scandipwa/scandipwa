@@ -24,6 +24,7 @@ import ProductReducer from 'Store/Product/Product.reducer';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
+import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import { getIsConfigurableParameterSelected } from 'Util/Product';
 import { debounce } from 'Util/Request';
@@ -213,7 +214,7 @@ export class ProductPageContainer extends PureComponent {
         /**
          * Scroll page top in order to display it from the start
          */
-        this.scrollTop();
+        scrollToTop();
     }
 
     componentDidUpdate(prevProps) {
@@ -322,10 +323,6 @@ export class ProductPageContainer extends PureComponent {
         addRecentlyViewedProduct(productPreview, store);
     }
 
-    scrollTop() {
-        window.scrollTo(0, 0);
-    }
-
     setOfflineNoticeSize = () => {
         const { setBigOfflineNotice, productSKU } = this.props;
         const { sku } = this.getDataSource();
@@ -358,7 +355,7 @@ export class ProductPageContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { isMobile } = this.props;
+        const { isMobile, location } = this.props;
         const { parameters } = this.state;
 
         return {
@@ -368,7 +365,8 @@ export class ProductPageContainer extends PureComponent {
             activeProduct: this.getActiveProductDataSource(),
             dataSource: this.getDataSource(),
             isMobile,
-            parameters
+            parameters,
+            location
         };
     };
 

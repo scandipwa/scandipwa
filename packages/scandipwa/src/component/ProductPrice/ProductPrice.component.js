@@ -58,7 +58,7 @@ export class ProductPrice extends PureComponent {
         [PRODUCT_TYPE.bundle]: this.renderBundlePrice.bind(this),
         [PRODUCT_TYPE.grouped]: this.renderGroupedPrice.bind(this),
         [PRODUCT_TYPE.downloadable]: this.renderCustomisablePrice.bind(this),
-        [PRODUCT_TYPE.configurable]: this.renderCustomisablePrice.bind(this)
+        [PRODUCT_TYPE.configurable]: this.renderConfigurablePrice.bind(this)
     };
 
     priceLabelTypeMap = {
@@ -225,7 +225,11 @@ export class ProductPrice extends PureComponent {
         } = this.props;
 
         if (minValue === maxValue) {
-            return this.renderDefaultPrice();
+            if (minValue === 0) {
+                return this.renderDefaultPrice();
+            }
+
+            return this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax);
         }
 
         return (
@@ -277,6 +281,30 @@ export class ProductPrice extends PureComponent {
         );
     }
 
+    renderConfigurablePrice() {
+        const {
+            originalPrice: {
+                minFinalPrice = {},
+                minFinalPrice: { value: minValue = 0 } = {},
+                maxFinalPrice: { value: maxValue = 0 } = {}
+            },
+            price: { finalPriceExclTax = {} },
+            priceType
+        } = this.props;
+
+        if (minValue === maxValue) {
+            return this.renderDefaultPrice();
+        }
+
+        const { [priceType]: label } = this.priceLabelTypeMap;
+
+        return (
+            <>
+                { this.renderPriceWithTax(minFinalPrice, finalPriceExclTax, label) }
+            </>
+        );
+    }
+
     renderDefaultPrice(defaultLabel = null) {
         const {
             price: { finalPrice = {}, finalPriceExclTax = {} } = {},
@@ -303,6 +331,7 @@ export class ProductPrice extends PureComponent {
 
     renderTierPrice() {
         const { tierPrice } = this.props;
+
         if (!tierPrice) {
             return null;
         }

@@ -49,9 +49,11 @@ export class Overlay extends PureComponent {
     componentDidUpdate(prevProps) {
         const prevWasVisible = this.getIsVisible(prevProps);
         const isVisible = this.getIsVisible();
+
         if (isVisible && !prevWasVisible) {
             this.onVisible();
         }
+
         if (!isVisible && prevWasVisible) {
             this.onHide();
         }
@@ -74,9 +76,11 @@ export class Overlay extends PureComponent {
 
     onHide() {
         const { onHide, isStatic, isMobile } = this.props;
+
         if (isStatic) {
             return;
         }
+
         if (isMobile) {
             this.unfreezeScroll();
         }

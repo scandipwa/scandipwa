@@ -98,9 +98,11 @@ export class CheckoutAddressBook extends PureComponent {
 
     renderAddressList() {
         const { customer: { addresses } } = this.props;
+
         if (!addresses) {
             return this.renderLoading();
         }
+
         if (!addresses.length) {
             return this.renderNoAddresses();
         }

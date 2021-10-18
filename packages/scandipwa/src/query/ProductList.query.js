@@ -717,7 +717,6 @@ export class ProductListQuery {
     _getBundleOptionsFields() {
         return [
             'uid',
-            'id',
             'label',
             'quantity',
             'position',
@@ -725,17 +724,21 @@ export class ProductListQuery {
             'price',
             'price_type',
             'can_change_quantity',
-            this._getProductBundleOptionFields()
+            this._getProductBundleOptionField()
         ];
     }
 
-    _getProductBundleOptionFields() {
+    _getProductBundleOptionField() {
         return new Field('product')
-            .addFieldList(this._getProductNameField());
+            .addFieldList(this._getProductBundleOptionFields());
     }
 
-    _getProductNameField() {
-        return ['name'];
+    _getProductBundleOptionFields() {
+        return [
+            'name',
+            'stock_status',
+            this._getPriceRangeField()
+        ];
     }
 
     _getBundleOptionsField() {
@@ -988,7 +991,6 @@ export class ProductListQuery {
             'title',
             'required',
             'sort_order',
-            'option_id',
             'type',
             'uid'
         ];

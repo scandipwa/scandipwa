@@ -135,7 +135,6 @@ export class CheckoutDeliveryOption extends PureComponent {
             isSelected
         } = this.props;
 
-        // disable checkbox in order to skip direct clicks on checkbox and handle clicks on entire button instead
         return (
             <li block="CheckoutDeliveryOption" mods={ { isDisabled: !available } }>
                 <button
@@ -153,7 +152,6 @@ export class CheckoutDeliveryOption extends PureComponent {
                           name: `option-${ carrier_title }`,
                           checked: !!isSelected
                       } }
-                      isDisabled
                     />
                     { this.renderRow() }
                 </button>

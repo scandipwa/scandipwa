@@ -23,7 +23,7 @@ import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType, customerType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { getFormFields, setAddressesInFormObject, trimCheckoutCustomerAddress } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
 import transformToNameValuePair from 'Util/Form/Transform';
 
@@ -250,14 +250,16 @@ export class CheckoutBillingContainer extends PureComponent {
         }
 
         if (!selectedCustomerAddressId) {
-            return trimAddressFields(formFields);
+            const joinedStreetAddressFields = setAddressesInFormObject(formFields, addressLinesQty, 'street_');
+
+            return trimCheckoutCustomerAddress(joinedStreetAddressFields);
         }
 
         const { customer: { addresses } } = this.props;
         const address = addresses.find(({ id }) => id === selectedCustomerAddressId);
 
         return {
-            ...trimCustomerAddress(address),
+            ...trimCheckoutCustomerAddress(address),
             save_in_address_book: false
         };
     }

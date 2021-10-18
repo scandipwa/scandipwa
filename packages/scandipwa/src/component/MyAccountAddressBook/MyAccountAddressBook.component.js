@@ -76,6 +76,7 @@ export class MyAccountAddressBook extends Component {
 
     renderAddressList() {
         const { customer: { addresses = [] } } = this.props;
+
         if (!addresses.length) {
             return this.renderNoAddresses();
         }

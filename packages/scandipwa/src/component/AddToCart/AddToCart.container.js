@@ -49,7 +49,7 @@ export class AddToCartContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         quantity: PropTypes.number,
-        cartId: PropTypes.string.isRequired,
+        cartId: PropTypes.string,
         showNotification: PropTypes.func.isRequired,
         addToCart: PropTypes.func,
         fallbackAddToCart: PropTypes.func.isRequired,
@@ -62,6 +62,7 @@ export class AddToCartContainer extends PureComponent {
 
     static defaultProps = {
         quantity: 1,
+        cartId: '',
         mix: {},
         layout: GRID_LAYOUT,
         isIconEnabled: true,
@@ -93,6 +94,7 @@ export class AddToCartContainer extends PureComponent {
 
     async addProductToCart(e) {
         const { product, addToCart } = this.props;
+
         if ((!product || Object.keys(product).length === 0) && !addToCart) {
             return;
         }
@@ -105,7 +107,11 @@ export class AddToCartContainer extends PureComponent {
         }
 
         if (typeof addToCart === 'function') {
-            await addToCart();
+            try {
+                await addToCart();
+            } finally {
+                this.setState({ isAdding: false });
+            }
         } else {
             const {
                 quantity,
@@ -113,7 +119,15 @@ export class AddToCartContainer extends PureComponent {
                 fallbackAddToCart
             } = this.props;
             const magentoProduct = magentoProductTransform(product, quantity);
-            await fallbackAddToCart({ products: magentoProduct, cartId });
+
+            try {
+                await fallbackAddToCart({
+                    products: magentoProduct,
+                    cartId
+                });
+            } finally {
+                this.setState({ isAdding: false });
+            }
         }
 
         this.setState({ isAdding: false });
@@ -134,6 +148,7 @@ export class AddToCartContainer extends PureComponent {
     validateStock() {
         const { product, showNotification } = this.props;
         const inStock = getProductInStock(product);
+
         if (!inStock) {
             const name = getName(product);
             showNotification('info', __('Sorry! The product %s is out of stock!', name));
@@ -150,6 +165,7 @@ export class AddToCartContainer extends PureComponent {
         const maxQty = getMaxQuantity(product);
         const inRange = quantity >= minQty && quantity <= maxQty;
         const isValid = typeId === PRODUCT_TYPE.grouped || inRange;
+
         if (!isValid) {
             if (quantity < minQty) {
                 showNotification('info', __('Sorry! Minimum quantity for this product is %s!', minQty));
