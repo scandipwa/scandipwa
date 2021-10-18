@@ -113,8 +113,6 @@
     "Filters": "Suodattimet",
     "Remove": "Poistaa",
     "Delete": "Poistaa",
-    "Error Adding Product To Cart": "Virhe lisäämällä tuotetta ostoskoriin",
-    "Product Added To Cart": "Tuote Lisätty Ostoskoriin",
     "Error cleaning wishlist": "Virhe toivelistan puhdistamisessa",
     "Linked products": "Linkitetyt tuotteet",
     "Name": "Nimi",
@@ -491,7 +489,6 @@
     "Incorrect input! Numeric-Dash value required!": null,
     "Incorrect input! Integer required!": null,
     "Incorrect input! Natural number required!": null,
-    "Incorrect email input!": null,
     "Incorrect date input!": null,
     "Incorrect password input!": null,
     "Incorrect phone input!": null,
@@ -531,5 +528,8 @@
     "Max quantity %s!": null,
     "Product is out of stock!": null,
     "Select product...": null,
-    "Option": null
+    "Option": null,
+    "Available items moved to cart": null,
+    "Incorrect email format!": null,
+    "Incorrect list of emails!": null
 }

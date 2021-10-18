@@ -71,7 +71,6 @@
     "Email": "E-Naslov",
     "Email addresses, separated by commas": null,
     "Enter personal information": "Vnesite osebne podatke",
-    "Error Adding Product To Cart": "Napaka pri dodajanju artikla v košarico",
     "Error cleaning wishlist": "Napaka pri brisanju seznama želja",
     "Error clearing wish list!": "Napaka pri ponastavitvi seznama želja!",
     "Error initializing Klarna payment method.": "Neupela inicializacija plačilnega sistema Klarna",
@@ -164,7 +163,6 @@
     "Price: ": "Cena:",
     "Proceed to billing": "Nadaljuj na blagajno",
     "Product %s thumbnail.": "Predstavna %s slikica.",
-    "Product Added To Cart": "Artikel dodan v košarico",
     "Product Price": "Cena Artikla",
     "Product added to wish-list!": null,
     "Product has been removed from your Wish List!": "Artikel odstranjen iz seznama želja!",
@@ -491,7 +489,6 @@
     "Incorrect input! Numeric-Dash value required!": null,
     "Incorrect input! Integer required!": null,
     "Incorrect input! Natural number required!": null,
-    "Incorrect email input!": null,
     "Incorrect date input!": null,
     "Incorrect password input!": null,
     "Incorrect phone input!": null,
@@ -531,5 +528,8 @@
     "Max quantity %s!": null,
     "Product is out of stock!": null,
     "Select product...": null,
-    "Option": null
+    "Option": null,
+    "Available items moved to cart": null,
+    "Incorrect email format!": null,
+    "Incorrect list of emails!": null
 }
