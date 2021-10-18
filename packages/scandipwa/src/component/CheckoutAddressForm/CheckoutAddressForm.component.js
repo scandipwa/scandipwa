@@ -41,7 +41,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
         onShippingEstimationFieldsChange({
             country_id: countryId || defaultCountry,
-            region_id: regionId,
+            region_id: regionId !== '' ? regionId : null,
             region,
             city,
             postcode
@@ -68,9 +68,23 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     onAddressChange = (event, data) => {
         const { fields = {} } = data;
-        const valuePairs = transformToNameValuePair(fields);
+        const {
+            country_id,
+            region_id: regionId,
+            region_string: region,
+            city,
+            postcode
+        } = transformToNameValuePair(fields);
+
         const { onShippingEstimationFieldsChange } = this.props;
-        onShippingEstimationFieldsChange(valuePairs);
+
+        onShippingEstimationFieldsChange({
+            country_id,
+            region_id: regionId !== '' ? regionId : null,
+            region,
+            city,
+            postcode
+        });
     };
 
     renderActions() {
