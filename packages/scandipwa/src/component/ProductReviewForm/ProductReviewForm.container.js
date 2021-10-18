@@ -101,7 +101,7 @@ export class ProductReviewFormContainer extends PureComponent {
         const reviewsAreNotValid = invalidFields;
 
         if (reviewsAreNotValid) {
-            showNotification('info', __('Incorrect data! Please check review fields.'));
+            showNotification('info', __('Please fill in all rating fields'));
         }
 
         this.setState({ isLoading: !reviewsAreNotValid });
@@ -120,7 +120,7 @@ export class ProductReviewFormContainer extends PureComponent {
         const { ratingData: rating_data } = this.state;
 
         if (Object.keys(rating_data).length < Object.keys(reviewRatings).length) {
-            showNotification('info', __('Incorrect data! Please check review fields.'));
+            showNotification('info', __('Please fill in all rating fields'));
             return;
         }
 
