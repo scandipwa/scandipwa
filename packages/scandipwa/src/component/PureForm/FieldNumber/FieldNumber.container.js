@@ -109,6 +109,7 @@ export class FieldNumberContainer extends PureComponent {
                 value,
                 autoComplete,
                 autocomplete,
+                defaultValue,
                 ...attr
             } = {},
             events,

@@ -64,6 +64,7 @@ export class LinkContainer extends PureComponent {
             mix,
             baseLinkUrl, // remove this prop
             dispatch, // remove this prop
+            updateNoMatch,
             ...restProps
         } = this.props;
 

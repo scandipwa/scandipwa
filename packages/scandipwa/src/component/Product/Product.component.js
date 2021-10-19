@@ -47,7 +47,7 @@ export class Product extends PureComponent {
         inStock: PropTypes.bool.isRequired,
         magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
 
-        quantity: PropTypes.oneOf([PropTypes.number, PropTypes.object]).isRequired,
+        quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.object]).isRequired,
         maxQuantity: PropTypes.number.isRequired,
         minQuantity: PropTypes.number.isRequired,
         setQuantity: PropTypes.func.isRequired,

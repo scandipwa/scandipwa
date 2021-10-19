@@ -66,7 +66,7 @@ export class ProductContainer extends PureComponent {
         configFormRef: PropTypes.object,
 
         parameters: PropTypes.objectOf(PropTypes.string),
-        cartId: PropTypes.string.isRequired,
+        cartId: PropTypes.string,
 
         device: DeviceType,
         isWishlistEnabled: PropTypes.bool.isRequired,
@@ -80,7 +80,8 @@ export class ProductContainer extends PureComponent {
         parameters: {},
         device: {},
         defaultSelectedOptions: [],
-        defaultEnteredOptions: []
+        defaultEnteredOptions: [],
+        cartId: ''
     };
 
     containerFunctions = {

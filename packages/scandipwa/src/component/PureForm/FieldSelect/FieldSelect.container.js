@@ -215,6 +215,7 @@ export class FieldSelectContainer extends PureComponent {
             attr: {
                 autoComplete,
                 autocomplete,
+                noPlaceholder,
                 ...attr
             } = {},
             events,
