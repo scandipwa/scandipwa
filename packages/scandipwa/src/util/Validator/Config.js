@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/** @namespace Util/Validator/Config/VALIDATION_INPUT_TYPE_TEXT */
 export const VALIDATION_INPUT_TYPE_TEXT = {
     alpha: 'alpha',
     alphaSpace: 'alphaSpace',
@@ -19,7 +18,6 @@ export const VALIDATION_INPUT_TYPE_TEXT = {
     url: 'url'
 };
 
-/** @namespace Util/Validator/Config/VALIDATION_INPUT_TYPE_NUMBER */
 export const VALIDATION_INPUT_TYPE_NUMBER = {
     numeric: 'numeric',
     numericDash: 'numericDash',
@@ -29,22 +27,20 @@ export const VALIDATION_INPUT_TYPE_NUMBER = {
     naturalNoZero: 'naturalNoZero'
 };
 
-/** @namespace Util/Validator/Config/VALIDATION_INPUT_TYPE_INPUT */
 export const VALIDATION_INPUT_TYPE_INPUT = {
     email: 'email',
     password: 'password',
     date: 'date',
-    phone: 'phone'
+    phone: 'phone',
+    emailList: 'emailList'
 };
 
-/** @namespace Util/Validator/Config/VALIDATION_INPUT_TYPE */
 export const VALIDATION_INPUT_TYPE = {
     ...VALIDATION_INPUT_TYPE_TEXT,
     ...VALIDATION_INPUT_TYPE_NUMBER,
     ...VALIDATION_INPUT_TYPE_INPUT
 };
 
-/** @namespace Util/Validator/Config/VALIDATION_MESSAGES */
 export const VALIDATION_MESSAGES = {
     //#region VALIDATION RULE MSG
     isRequired: __('This field is required!'),
@@ -64,14 +60,14 @@ export const VALIDATION_MESSAGES = {
     [VALIDATION_INPUT_TYPE.integer]: __('Incorrect input! Integer required!'),
     [VALIDATION_INPUT_TYPE.natural]: __('Incorrect input! Natural number required!'),
     [VALIDATION_INPUT_TYPE.naturalNoZero]: __('Incorrect input!'),
-    [VALIDATION_INPUT_TYPE.email]: __('Incorrect email input!'),
+    [VALIDATION_INPUT_TYPE.email]: __('Incorrect email format!'),
+    [VALIDATION_INPUT_TYPE.emailList]: __('Incorrect list of emails!'),
     [VALIDATION_INPUT_TYPE.date]: __('Incorrect date input!'),
     [VALIDATION_INPUT_TYPE.password]: __('Incorrect password input!'),
     [VALIDATION_INPUT_TYPE.phone]: __('Incorrect phone input!')
     //#endregion
 };
 
-/** @namespace Util/Validator/Config/VALIDATION_RULES */
 export const VALIDATION_RULES = {
     // Text
     [VALIDATION_INPUT_TYPE.alpha]: /^[a-z]+$/i,
@@ -92,5 +88,7 @@ export const VALIDATION_RULES = {
     // eslint-disable-next-line max-len
     [VALIDATION_INPUT_TYPE.email]: /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     [VALIDATION_INPUT_TYPE.date]: /\d{4}-\d{1,2}-\d{1,2}/,
-    [VALIDATION_INPUT_TYPE.phone]: /^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/im
+    [VALIDATION_INPUT_TYPE.phone]: /^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/im,
+    // eslint-disable-next-line max-len
+    [VALIDATION_INPUT_TYPE.emailList]: /^(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+([,\s]+(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/
 };

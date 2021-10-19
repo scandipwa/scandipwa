@@ -33,6 +33,88 @@ export const getEncodedBundleUid = (uid, quantity) => {
     return btoa(newUid);
 };
 
+/** @namespace Util/Product/Transform/getBundleOptions */
+export const getBundleOptions = (buyRequest) => {
+    const { bundle_option = {}, bundle_option_qty = {} } = JSON.parse(buyRequest);
+
+    if (!bundle_option) {
+        return [];
+    }
+
+    return Object.entries(bundle_option).reduce((prev, [option, variant]) => {
+        const qty = bundle_option_qty[option] || 1;
+
+        if (typeof variant === 'string') {
+            return [...prev, btoa(`bundle/${option}/${variant}/${qty}`)];
+        }
+
+        return [...prev, ...Object.keys(variant).map((id) => btoa(`bundle/${option}/${id}/${qty}`))];
+    }, []);
+};
+
+/** @namespace Util/Product/Transform/getCustomizableOptions */
+export const getCustomizableOptions = (buyRequest) => {
+    const { options = {} } = JSON.parse(buyRequest);
+
+    // handle null
+    if (!options) {
+        return [];
+    }
+
+    return Object.entries(options).reduce((prev, [option, variant]) => {
+        if (typeof variant === 'string') {
+            return [...prev, btoa(`custom-option/${option}/${variant}`)];
+        }
+
+        return [...prev, ...variant.map((id) => btoa(`custom-option/${option}/${id}`))];
+    },
+    []);
+};
+
+/** @namespace Util/Product/Transform/getDownloadableOptions */
+export const getDownloadableOptions = (buyRequest) => {
+    const { links } = JSON.parse(buyRequest);
+
+    if (!links) {
+        return [];
+    }
+
+    const linksData = Object.entries(links);
+
+    if (typeof linksData === 'string') {
+        return btoa(`downloadable/${links}`);
+    }
+
+    return links.map((link) => btoa(`downloadable/${link}`));
+};
+
+/** @namespace Util/Product/Transform/getConfigurableOptions */
+export const getConfigurableOptions = (buyRequest) => {
+    const { super_attribute } = JSON.parse(buyRequest);
+
+    if (!super_attribute) {
+        return [];
+    }
+
+    return Object.entries(super_attribute).map(([attr, value]) => btoa(`configurable/${attr}/${value}`));
+};
+
+/** @namespace Util/Product/Transform/getSelectedOptions */
+export const getSelectedOptions = (buyRequest) => [
+    ...getBundleOptions(buyRequest),
+    ...getCustomizableOptions(buyRequest),
+    ...getDownloadableOptions(buyRequest),
+    ...getConfigurableOptions(buyRequest)
+];
+
+/** @namespace Util/Product/Transform/transformParameters */
+export const transformParameters = (parameters = [], attributes = {}) => Object.entries(parameters)
+    .map(([attrCode, selectedValue]) => {
+        const attrId = attributes[attrCode]?.attribute_id;
+
+        return btoa(`configurable/${attrId}/${selectedValue}`);
+    });
+
 /**
  * Generates label for bundle option
  *
@@ -165,7 +247,6 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
  * actions (add to cart, wishlist, exc.)
  * @param product
  * @param quantity
- * @param parentProduct
  * @param enteredOptions
  * @param selectedOptions
  * @returns {*[]}
@@ -174,12 +255,10 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
 export const magentoProductTransform = (
     product,
     quantity = 1,
-    parentProduct = {},
     enteredOptions = [],
     selectedOptions = []
 ) => {
     const { sku, type_id: typeId } = product;
-    const { sku: parentSku, type_id: parentType } = parentProduct || {};
 
     const productData = [];
 
@@ -212,14 +291,7 @@ export const magentoProductTransform = (
             entered_options: enteredOptions
         };
 
-        const configProductToAdd = parentType !== PRODUCT_TYPE.configurable ? {} : {
-            parent_sku: parentSku
-        };
-
-        productData.push({
-            ...baseProductToAdd,
-            ...configProductToAdd
-        });
+        productData.push(baseProductToAdd);
     }
 
     return productData;

@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 
 import MenuItem from './MenuItem.component';
@@ -74,7 +75,7 @@ export class MenuItemContainer extends PureComponent {
 
     onItemClick() {
         const { closeMenu, activeMenuItemsStack } = this.props;
-        window.scrollTo({ top: 0 });
+        scrollToTop();
         closeMenu();
 
         // keep the stack here, so later we can deconstruct menu out of it

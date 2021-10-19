@@ -254,7 +254,8 @@ export class ProductCard extends Product {
         const {
             product: {
                 type_id: type,
-                options = []
+                options = [],
+                links_purchased_separately
             }
         } = this.props;
 
@@ -263,8 +264,9 @@ export class ProductCard extends Product {
             // eslint-disable-next-line max-len
             && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
         const configureCustomize = options.some(({ required = false }) => required);
+        const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
 
-        return configureBundleAndGrouped || configureConfig || configureCustomize;
+        return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
     }
 
     renderAddToCart() {
@@ -396,7 +398,7 @@ export class ProductCard extends Product {
             return (
                 <li
                   block="ProductCard"
-                  mods={ layout }
+                  mods={ { layout } }
                   mix={ mix }
                 >
                     <Loader isLoading={ isLoading } />
@@ -408,7 +410,7 @@ export class ProductCard extends Product {
         return (
             <li
               block="ProductCard"
-              mods={ layout }
+              mods={ { layout } }
               mix={ mix }
             >
                 <Loader isLoading={ isLoading } />

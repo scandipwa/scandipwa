@@ -155,7 +155,7 @@ export class ImageContainer extends PureComponent {
         const size = this._getCorrectSize();
         const { height, width } = size;
 
-        if ((!height || height.slice(-1) === '%') && (!width || width.slice(-1) === '%')) {
+        if (!height || (height.slice(-1) === '%' && (!width || width.slice(-1) === '%'))) {
             return {};
         }
 

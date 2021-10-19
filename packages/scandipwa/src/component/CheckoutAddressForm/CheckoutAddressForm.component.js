@@ -26,6 +26,28 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         onShippingEstimationFieldsChange: () => {}
     };
 
+    componentDidMount() {
+        const {
+            address: {
+                countryId,
+                regionId,
+                region,
+                city,
+                postcode
+            },
+            defaultCountry,
+            onShippingEstimationFieldsChange
+        } = this.props;
+
+        onShippingEstimationFieldsChange({
+            country_id: countryId || defaultCountry,
+            region_id: regionId !== '' ? regionId : null,
+            region,
+            city,
+            postcode
+        });
+    }
+
     get fieldMap() {
         const fieldMap = super.fieldMap;
         const addressGroup = fieldMap.find(({ name }) => name === 'addressGroup');
@@ -38,6 +60,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
                 onLoad: this.onAddressChange
             };
         }
+
         fieldMap.splice(0, 2);
 
         return fieldMap;
@@ -45,9 +68,23 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     onAddressChange = (event, data) => {
         const { fields = {} } = data;
-        const valuePairs = transformToNameValuePair(fields);
+        const {
+            country_id,
+            region_id: regionId,
+            region_string: region,
+            city,
+            postcode
+        } = transformToNameValuePair(fields);
+
         const { onShippingEstimationFieldsChange } = this.props;
-        onShippingEstimationFieldsChange(valuePairs);
+
+        onShippingEstimationFieldsChange({
+            country_id,
+            region_id: regionId !== '' ? regionId : null,
+            region,
+            city,
+            postcode
+        });
     };
 
     renderActions() {

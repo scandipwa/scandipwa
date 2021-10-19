@@ -32,13 +32,20 @@ export class FieldGroup extends PureComponent {
 
         // Validation
         showErrorAsLabel: PropTypes.bool.isRequired,
-        validationResponse: PropTypes.object.isRequired,
+        validationResponse: PropTypes.oneOfType([
+            PropTypes.shape({ errorMessages: PropTypes.string }),
+            PropTypes.bool
+        ]),
 
         // Labels
         label: PropTypes.string.isRequired,
         subLabel: PropTypes.string.isRequired,
 
         mods: PropTypes.object.isRequired
+    };
+
+    static defaultProps = {
+        validationResponse: null
     };
 
     //#region LABEL/TEXT RENDER

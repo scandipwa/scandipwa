@@ -45,8 +45,7 @@ export class GroupedProductsItem extends PureComponent {
                 price_range: priceRange,
                 type_id: type,
                 dynamic_price: dynamicPrice
-            },
-            product
+            }
         } = this.props;
 
         return (
@@ -58,9 +57,14 @@ export class GroupedProductsItem extends PureComponent {
                   price={ getPrice(priceRange, dynamicPrice, {}, type) }
                   mods={ { type: 'regular' } }
                 />
-                <TierPrices product={ product } />
             </div>
         );
+    }
+
+    renderTierPrices() {
+        const { product } = this.props;
+
+        return <TierPrices product={ product } />;
     }
 
     getError = (value) => {
@@ -139,6 +143,7 @@ export class GroupedProductsItem extends PureComponent {
                 { this.renderImage() }
                 { this.renderTitle() }
                 { this.renderQuantity() }
+                { this.renderTierPrices() }
             </li>
         );
     }

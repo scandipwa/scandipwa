@@ -291,7 +291,7 @@ export class ProductActions extends Product {
             return null;
         }
 
-        const { id } = getActiveProduct;
+        const { id } = getActiveProduct();
 
         return (
             <section

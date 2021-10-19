@@ -81,10 +81,7 @@ export class ExpandableContentShowMore extends PureComponent {
                 transitionDurationCSStoMS);
         }
 
-        const { children: { length } } = this.props;
-        const { children: { length: prevLength } } = prevProps;
-
-        if (length !== prevLength) {
+        if (nextChildren !== prevChildren) {
             this.getExpandableContentHeight();
         }
     }

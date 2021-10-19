@@ -39,12 +39,19 @@ export class Field extends PureComponent {
 
         // Validation
         showErrorAsLabel: PropTypes.bool.isRequired,
-        validationResponse: PropTypes.object.isRequired,
+        validationResponse: PropTypes.oneOfType([
+            PropTypes.shape({ errorMessages: PropTypes.string }),
+            PropTypes.bool
+        ]),
 
         // Labels
         label: PropTypes.string.isRequired,
         subLabel: PropTypes.string.isRequired,
         addRequiredTag: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        validationResponse: null
     };
 
     renderMap = {
@@ -163,8 +170,10 @@ export class Field extends PureComponent {
             label
         } = this.props;
 
+        const elem = type.charAt(0).toUpperCase() + type.slice(1);
+
         return (
-            <label htmlFor={ id } block="Field" elem="CheckboxLabel">
+            <label htmlFor={ id } block="Field" elem={ `${elem}Label` }>
                 <input
                   ref={ (elem) => setRef(elem) }
                   disabled={ isDisabled }
