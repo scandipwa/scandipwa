@@ -14,7 +14,19 @@ import PropTypes from 'prop-types';
 export const NotificationType = PropTypes.shape({
     msgText: PropTypes.string,
     msgType: PropTypes.string,
-    msgDebug: PropTypes.any
+    msgDebug: PropTypes.arrayOf(
+        PropTypes.shape({
+            message: PropTypes.string,
+            extensions: PropTypes.shape({
+                category: PropTypes.string
+            }),
+            locations: PropTypes.arrayOf(PropTypes.shape({
+                line: PropTypes.number,
+                column: PropTypes.number
+            })),
+            path: PropTypes.arrayOf(PropTypes.string)
+        })
+    )
 });
 
 export const NotificationListType = PropTypes.objectOf(NotificationType);

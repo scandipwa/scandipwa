@@ -20,8 +20,8 @@ import {
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { addressType, customerType } from 'Type/Account';
-import { paymentMethodsType } from 'Type/Checkout';
+import { Addresstype, CustomerType } from 'Type/Account';
+import { PaymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { getFormFields, setAddressesInFormObject, trimCheckoutCustomerAddress } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
@@ -49,11 +49,11 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CheckoutBillingContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
+        paymentMethods: PaymentMethodsType.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
         showPopup: PropTypes.func.isRequired,
-        shippingAddress: addressType.isRequired,
-        customer: customerType.isRequired,
+        shippingAddress: Addresstype.isRequired,
+        customer: CustomerType.isRequired,
         totals: TotalsType.isRequired,
         addressLinesQty: PropTypes.number.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({

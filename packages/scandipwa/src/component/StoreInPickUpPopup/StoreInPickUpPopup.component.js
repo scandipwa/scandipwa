@@ -18,7 +18,7 @@ import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
 import { StoreType } from 'Type/Checkout';
-import { countriesType } from 'Type/Config';
+import { CountriesType } from 'Type/Config';
 
 import { STORE_IN_PICK_UP_POPUP_ID } from './StoreInPickUpPopup.config';
 
@@ -27,7 +27,7 @@ import './StoreInPickUpPopup.style';
 /** @namespace Component/StoreInPickUpPopup/Component */
 export class StoreInPickUpPopupComponent extends PureComponent {
     static propTypes = {
-        countries: countriesType.isRequired,
+        countries: CountriesType.isRequired,
         selectedCountryId: PropTypes.string.isRequired,
         handleChangeCountry: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,

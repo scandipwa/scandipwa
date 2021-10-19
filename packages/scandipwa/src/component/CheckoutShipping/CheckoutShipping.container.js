@@ -18,7 +18,7 @@ import {
     STORE_IN_PICK_UP_METHOD_CODE
 } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { updateShippingFields } from 'Store/Checkout/Checkout.action';
-import { addressType, customerType } from 'Type/Account';
+import { Addresstype, CustomerType } from 'Type/Account';
 import { ShippingMethodsType, ShippingMethodType, StoreType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import {
@@ -50,11 +50,11 @@ export class CheckoutShippingContainer extends PureComponent {
     static propTypes = {
         saveAddressInformation: PropTypes.func.isRequired,
         shippingMethods: ShippingMethodsType.isRequired,
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         addressLinesQty: PropTypes.number.isRequired,
         updateShippingFields: PropTypes.func.isRequired,
         cartTotalSubPrice: PropTypes.number,
-        estimateAddress: addressType.isRequired,
+        estimateAddress: Addresstype.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,

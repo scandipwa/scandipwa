@@ -13,13 +13,13 @@ import PropTypes from 'prop-types';
 
 import { BILLING_STEP, DETAILS_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 
-export const paymentMethodType = PropTypes.shape({
+export const PaymentMethodType = PropTypes.shape({
     code: PropTypes.string,
     title: PropTypes.string
 });
 
-export const paymentMethodsType = PropTypes.arrayOf(
-    paymentMethodType
+export const PaymentMethodsType = PropTypes.arrayOf(
+    PaymentMethodType
 );
 
 export const ShippingMethodType = PropTypes.shape({

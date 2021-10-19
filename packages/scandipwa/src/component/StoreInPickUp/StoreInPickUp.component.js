@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import StoreInPickUpPopupComponent from 'Component/StoreInPickUpPopup';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
-import { addressType } from 'Type/Account';
+import { Addresstype } from 'Type/Account';
 import { ShippingMethodsType, StoreType } from 'Type/Checkout';
 
 import './StoreInPickUp.style';
@@ -25,7 +25,7 @@ export class StoreInPickUpComponent extends PureComponent {
         selectStore: PropTypes.func,
         handleOpenPopup: PropTypes.func.isRequired,
         countryId: PropTypes.string.isRequired,
-        estimateAddress: addressType.isRequired,
+        estimateAddress: Addresstype.isRequired,
         shippingMethods: ShippingMethodsType.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,

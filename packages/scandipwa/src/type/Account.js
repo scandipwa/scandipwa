@@ -10,7 +10,7 @@
  */
 import PropTypes from 'prop-types';
 
-export const regionType = PropTypes.oneOfType([
+export const RegionType = PropTypes.oneOfType([
     PropTypes.shape({
         region_code: PropTypes.string,
         region: PropTypes.string,
@@ -18,7 +18,7 @@ export const regionType = PropTypes.oneOfType([
     })
 ]);
 
-export const addressType = PropTypes.shape({
+export const Addresstype = PropTypes.shape({
     city: PropTypes.string,
     country_id: PropTypes.string,
     customer_id: PropTypes.number,
@@ -30,7 +30,7 @@ export const addressType = PropTypes.shape({
     middlename: PropTypes.string,
     postcode: PropTypes.string,
     prefix: PropTypes.string,
-    regionType,
+    RegionType,
     street: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.string)
@@ -39,10 +39,10 @@ export const addressType = PropTypes.shape({
     telephone: PropTypes.string
 });
 
-export const addressesType = PropTypes.arrayOf(addressType);
+export const AddressesType = PropTypes.arrayOf(Addresstype);
 
-export const customerType = PropTypes.shape({
-    addressesType,
+export const CustomerType = PropTypes.shape({
+    AddressesType,
     created_at: PropTypes.string,
     default_billing: PropTypes.string,
     default_shipping: PropTypes.string,
@@ -59,7 +59,7 @@ export const customerType = PropTypes.shape({
     taxvat: PropTypes.string
 });
 
-export const baseOrderInfoType = PropTypes.shape({
+export const BaseOrderInfoType = PropTypes.shape({
     id: PropTypes.number,
     increment_id: PropTypes.string,
     created_at: PropTypes.string,
@@ -68,15 +68,14 @@ export const baseOrderInfoType = PropTypes.shape({
     subtotal: PropTypes.string
 });
 
-// TODO: remove objects
-export const orderType = PropTypes.shape({
-    base_order_info: baseOrderInfoType,
+export const OrderType = PropTypes.shape({
+    base_order_info: BaseOrderInfoType,
     order_products: PropTypes.array,
     payment_info: PropTypes.object,
     shipping_info: PropTypes.object
 });
 
-export const downloadableType = PropTypes.shape({
+export const DownloadableType = PropTypes.shape({
     id: PropTypes.number,
     order_id: PropTypes.string,
     status_label: PropTypes.string,
@@ -86,7 +85,7 @@ export const downloadableType = PropTypes.shape({
     title: PropTypes.string
 });
 
-export const ordersType = PropTypes.arrayOf(orderType);
+export const OrdersType = PropTypes.arrayOf(OrderType);
 
 export const DASHBOARD = 'dashboard';
 export const MY_ORDERS = 'my-orders';
@@ -95,13 +94,13 @@ export const MY_WISHLIST = 'my-wishlist';
 export const ADDRESS_BOOK = 'address-book';
 export const NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription';
 
-export const activeTabType = PropTypes.string;
+export const ActiveTabType = PropTypes.string;
 
-export const tabType = PropTypes.shape({
+export const TabType = PropTypes.shape({
     url: PropTypes.string,
     name: PropTypes.string
 });
 
-export const tabMapType = PropTypes.objectOf(tabType);
+export const TabMapType = PropTypes.objectOf(TabType);
 
-export const signInStateType = PropTypes.string;
+export const SignInStateType = PropTypes.string;

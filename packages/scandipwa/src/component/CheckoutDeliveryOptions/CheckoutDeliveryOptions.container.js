@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { addressType } from 'Type/Account';
+import { Addresstype } from 'Type/Account';
 import { ShippingMethodsType } from 'Type/Checkout';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
@@ -31,9 +31,20 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         shippingMethods: ShippingMethodsType.isRequired,
-        estimateAddress: addressType.isRequired,
+        estimateAddress: Addresstype.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
-        selectedShippingMethod: PropTypes.object
+        selectedShippingMethod: PropTypes.shape({
+            amount: PropTypes.number,
+            available: PropTypes.bool,
+            base_amount: PropTypes.number,
+            method_code: PropTypes.string,
+            carrier_code: PropTypes.string,
+            method_title: PropTypes.string,
+            carrier_title: PropTypes.string,
+            error_message: PropTypes.string,
+            price_excl_tax: PropTypes.number,
+            price_incl_tax: PropTypes.number
+        })
     };
 
     static defaultProps = {

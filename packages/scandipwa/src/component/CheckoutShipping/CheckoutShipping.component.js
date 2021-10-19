@@ -19,7 +19,7 @@ import LockIcon from 'Component/LockIcon';
 import Form from 'Component/PureForm/Form';
 import StoreInPickUpComponent from 'Component/StoreInPickUp';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { addressType } from 'Type/Account';
+import { Addresstype } from 'Type/Account';
 import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
@@ -41,7 +41,7 @@ export class CheckoutShipping extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         isSubmitted: PropTypes.bool.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        estimateAddress: addressType.isRequired,
+        estimateAddress: Addresstype.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,
         setSelectedShippingMethodCode: PropTypes.func

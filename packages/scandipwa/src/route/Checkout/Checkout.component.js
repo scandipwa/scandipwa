@@ -16,9 +16,12 @@ import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
-import { addressType } from 'Type/Account';
+import { Addresstype } from 'Type/Account';
 import {
-    CheckoutStepType, paymentMethodsType, ShippingMethodsType, StoreType
+    CheckoutStepType,
+    PaymentMethodsType,
+    ShippingMethodsType,
+    StoreType
 } from 'Type/Checkout';
 import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
@@ -76,14 +79,14 @@ export class Checkout extends PureComponent {
         shippingMethods: ShippingMethodsType.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
+        paymentMethods: PaymentMethodsType.isRequired,
         saveAddressInformation: PropTypes.func.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
-        shippingAddress: addressType.isRequired,
-        billingAddress: addressType.isRequired,
-        estimateAddress: addressType.isRequired,
+        shippingAddress: Addresstype.isRequired,
+        billingAddress: Addresstype.isRequired,
+        estimateAddress: Addresstype.isRequired,
         checkoutTotals: TotalsType.isRequired,
         orderID: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,

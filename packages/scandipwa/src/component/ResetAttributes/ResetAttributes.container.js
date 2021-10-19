@@ -30,9 +30,9 @@ export const mapDispatchToProps = () => ({});
 export class ResetAttributesContainer extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape({
-            attribute_label: PropTypes.any,
+            attribute_label: PropTypes.string.isRequired,
             attribute_type: PropTypes.string.isRequired,
-            attribute_code: PropTypes.any,
+            attribute_code: PropTypes.string.isRequired,
             attribute_values: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
             is_boolean: PropTypes.bool.isRequired,
             attribute_options: PropTypes.objectOf(PropTypes.shape({
@@ -40,7 +40,7 @@ export class ResetAttributesContainer extends PureComponent {
                 value_string: PropTypes.string.isRequired
             }))
         }).isRequired).isRequired,
-        customFiltersValues: PropTypes.any.isRequired,
+        customFiltersValues: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
         currency_code: PropTypes.string.isRequired,
         toggleCustomFilter: PropTypes.func.isRequired
     };

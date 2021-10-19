@@ -16,7 +16,7 @@ import Image from 'Component/Image';
 import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import Popup from 'Component/Popup';
-import { orderType } from 'Type/Account';
+import { OrderType } from 'Type/Account';
 import { DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 
@@ -27,7 +27,7 @@ import './MyAccountOrderPopup.style';
 /** @namespace Component/MyAccountOrderPopup/Component */
 export class MyAccountOrderPopup extends PureComponent {
     static propTypes = {
-        order: orderType.isRequired,
+        order: OrderType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         currency_code: PropTypes.string.isRequired,
         display_tax_in_shipping_amount: PropTypes.string.isRequired

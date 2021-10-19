@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { STORE_IN_PICK_UP_POPUP_ID } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.config';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { addressType } from 'Type/Account';
+import { Addresstype } from 'Type/Account';
 import { ShippingMethodsType } from 'Type/Checkout';
 
 import StoreInPickUp from './StoreInPickUp.component';
@@ -34,7 +34,7 @@ export const mapStateToProps = () => ({});
 export class StoreInPickUpContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
-        estimateAddress: addressType.isRequired,
+        estimateAddress: Addresstype.isRequired,
         shippingMethods: ShippingMethodsType.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,

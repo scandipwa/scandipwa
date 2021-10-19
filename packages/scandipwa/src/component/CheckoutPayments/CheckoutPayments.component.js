@@ -18,7 +18,7 @@ import Klarna from 'Component/Klarna';
 import NotSupportedPayment from 'Component/NotSupportedPayment';
 import { PurchaseOrder } from 'Component/PurchaseOrder/PurchaseOrder.component';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { paymentMethodsType } from 'Type/Checkout';
+import { PaymentMethodsType } from 'Type/Checkout';
 
 import { KLARNA, PURCHASE_ORDER } from './CheckoutPayments.config';
 
@@ -29,7 +29,7 @@ export class CheckoutPayments extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
+        paymentMethods: PaymentMethodsType.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.string.isRequired,
         billingAddress: PropTypes.shape({

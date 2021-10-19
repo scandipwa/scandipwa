@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { orderType } from 'Type/Account';
+import { OrderType } from 'Type/Account';
 import { isSignedIn } from 'Util/Auth';
 import { getIndexedProducts } from 'Util/Product';
 
@@ -45,7 +45,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountOrderPopupContainer extends PureComponent {
     static propTypes = {
         payload: PropTypes.shape({
-            order: orderType,
+            order: OrderType,
             increment_id: PropTypes.string
         }).isRequired,
         showNotification: PropTypes.func.isRequired,
