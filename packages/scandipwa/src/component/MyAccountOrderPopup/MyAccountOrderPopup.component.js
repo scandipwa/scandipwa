@@ -120,7 +120,6 @@ export class MyAccountOrderPopup extends PureComponent {
             const {
                 name,
                 thumbnail,
-                id,
                 qty,
                 row_total
             } = product;
@@ -129,7 +128,7 @@ export class MyAccountOrderPopup extends PureComponent {
 
             return (
                 <tr
-                  key={ id || i.toString() }
+                  key={ i.toString() }
                   block="MyAccountOrderPopup"
                   elem="Row"
                 >

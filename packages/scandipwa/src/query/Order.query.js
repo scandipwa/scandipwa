@@ -139,7 +139,6 @@ export class OrderQuery {
             'shipping_description',
             'shipping_incl_tax',
             'shipping_amount',
-            'tracking_numbers',
             this._prepareOrderCustomerAddressInfo()
         ];
     }
@@ -155,23 +154,10 @@ export class OrderQuery {
             'company',
             'firstname',
             'lastname',
-            'middlename',
             'telephone',
-            'district',
-            'house_number',
-            'apartment_number',
-            'postomat_code',
-            'store_pickup_code',
-            'post_office_code',
             'postcode',
             'street',
-            'is_b2b',
-            'region',
-            'organizationname',
-            'organizationbin',
-            'organizationaddress',
-            'organizationiic',
-            'organizationbik'
+            'region'
         ];
     }
 

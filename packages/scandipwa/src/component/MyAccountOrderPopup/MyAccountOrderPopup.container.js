@@ -28,7 +28,6 @@ export const OrderDispatcher = import(
 
 /** @namespace Component/MyAccountOrderPopup/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    order: state.OrderReducer.order,
     payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {},
     display_tax_in_shipping_amount: state.ConfigReducer.cartDisplayConfig.display_tax_in_shipping_amount
 });

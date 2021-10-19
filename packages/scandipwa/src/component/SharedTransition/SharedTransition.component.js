@@ -117,9 +117,6 @@ export class SharedTransition extends PureComponent {
     render() {
         const { state: { sharedElement } } = this.props;
 
-        // eslint-disable-next-line react/destructuring-assignment
-        console.debug(this.props.state.sharedElementDestination);
-
         return (
             <div
               block="SharedTransition"

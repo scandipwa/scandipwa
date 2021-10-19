@@ -20,18 +20,25 @@ export const MixType = PropTypes.shape({
     ]))
 });
 
-export const HistoryType = PropTypes.shape({
-    location: PropTypes.object,
-    push: PropTypes.func
-});
-
 export const LocationType = PropTypes.shape({
     pathname: PropTypes.string,
-    state: PropTypes.object
+    search: PropTypes.string,
+    state: PropTypes.object,
+    hash: PropTypes.string,
+    key: PropTypes.string
 });
 
+export const HistoryType = {
+    length: PropTypes.number,
+    action: PropTypes.string,
+    location: LocationType
+};
+
 export const MatchType = PropTypes.shape({
-    path: PropTypes.string
+    path: PropTypes.string,
+    url: PropTypes.string,
+    params: PropTypes.object,
+    isExact: PropTypes.bool
 });
 
 export const ChildrenType = PropTypes.oneOfType([

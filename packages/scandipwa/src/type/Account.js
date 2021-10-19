@@ -68,11 +68,26 @@ export const BaseOrderInfoType = PropTypes.shape({
     subtotal: PropTypes.string
 });
 
+export const OrderPaymentInfo = PropTypes.shape({
+    method: PropTypes.string,
+    additional_information: {
+        method_title: PropTypes.string
+    }
+});
+
+export const OrderShippingInfo = PropTypes.shape({
+    shipping_method: PropTypes.string,
+    shipping_description: PropTypes.string,
+    shipping_incl_tax: PropTypes.number,
+    shipping_amount: PropTypes.number,
+    shipping_address: Addresstype
+});
+
 export const OrderType = PropTypes.shape({
     base_order_info: BaseOrderInfoType,
     order_products: PropTypes.array,
-    payment_info: PropTypes.object,
-    shipping_info: PropTypes.object
+    payment_info: OrderPaymentInfo,
+    shipping_info: OrderShippingInfo
 });
 
 export const DownloadableType = PropTypes.shape({
