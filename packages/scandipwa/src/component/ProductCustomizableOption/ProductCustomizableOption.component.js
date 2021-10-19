@@ -34,7 +34,7 @@ export class ProductCustomizableOption extends PureComponent {
         getDropdownOptions: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
         currencyCode: PropTypes.string.isRequired,
-        options: PropTypes.arrayOf(PropTypes.object).isRequired
+        options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired
     };
 
     renderMap = {

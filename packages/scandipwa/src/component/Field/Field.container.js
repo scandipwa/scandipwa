@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import validationConfig from 'Component/Form/Form.config';
-import { MixType } from 'Type/Common';
+import { MixType, RefType } from 'Type/Common';
 
 import Field from './Field.component';
 import {
@@ -65,10 +65,7 @@ export class FieldContainer extends PureComponent {
         message: PropTypes.string,
         customValidationStatus: PropTypes.oneOf(Object.values(VALIDATION_STATUS)),
         id: PropTypes.string,
-        formRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]),
+        formRef: RefType,
         formRefMap: PropTypes.object,
         validateSeparately: PropTypes.bool,
         isSubmitted: PropTypes.bool,

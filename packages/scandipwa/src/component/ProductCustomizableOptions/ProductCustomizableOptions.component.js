@@ -29,12 +29,18 @@ export class ProductCustomizableOptions extends PureComponent {
 
     renderOptionGroup = (group) => {
         const {
-            title, value, type, required, uid
+            title,
+            value,
+            type,
+            required,
+            uid
         } = group;
+
         const { updateSelectedValues } = this.props;
 
         return (
             <ProductCustomizableOption
+              key={ uid }
               uid={ uid }
               title={ title }
               options={ value }

@@ -14,7 +14,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { MixType } from 'Type/Common';
+import { MixType, RefType } from 'Type/Common';
 
 import {
     IMAGE_LOADED, IMAGE_LOADING, IMAGE_NOT_FOUND, IMAGE_NOT_SPECIFIED
@@ -52,10 +52,7 @@ export class Image extends PureComponent {
             height: PropTypes.string
         }),
         mix: MixType,
-        imageRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]),
+        imageRef: RefType,
         isPlain: PropTypes.bool
     };
 

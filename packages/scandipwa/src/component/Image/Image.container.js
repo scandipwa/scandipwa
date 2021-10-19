@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { IMAGE_HUNDRED_PERCENT } from 'Component/Image/Image.config';
-import { MixType } from 'Type/Common';
+import { MixType, RefType } from 'Type/Common';
 
 import Image from './Image.component';
 
@@ -37,10 +37,7 @@ export class ImageContainer extends PureComponent {
         ]),
         mix: MixType,
         className: PropTypes.string,
-        imageRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]),
+        imageRef: RefType,
         title: PropTypes.string,
         isPlain: PropTypes.bool
     };
