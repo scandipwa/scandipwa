@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// import { TranslatedValue } from '@scandipwa/webpack-i18n-runtime/src/util/__';
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
