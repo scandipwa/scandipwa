@@ -11,9 +11,25 @@
 
 import PropTypes from 'prop-types';
 
-// eslint-disable-next-line import/prefer-default-export
+import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+
 export const OptionType = PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.string,
     value: PropTypes.string
+});
+
+export const CustomErrorMessagesType = PropTypes.shape({
+    onRequirementFail: PropTypes.string,
+    onInputTypeFail: PropTypes.string,
+    onMatchFail: PropTypes.string,
+    onRangeFailMin: PropTypes.string,
+    onRangeFailMax: PropTypes.string
+});
+
+export const ValidationRuleType = PropTypes.shape({
+    isRequired: PropTypes.bool,
+    inputType: PropTypes.oneOf(Object.values(VALIDATION_INPUT_TYPE)),
+    match: PropTypes.func,
+    customErrorMessages: CustomErrorMessagesType
 });

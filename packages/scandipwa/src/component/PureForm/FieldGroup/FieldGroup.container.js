@@ -15,6 +15,7 @@ import { createRef, PureComponent } from 'react';
 
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { ChildrenType } from 'Type/Common';
+import { ValidationRuleType } from 'Type/Field';
 import getFieldsData from 'Util/Form/Extract';
 import { validateGroup } from 'Util/Validator';
 
@@ -33,7 +34,7 @@ export class FieldGroupContainer extends PureComponent {
         events: PropTypes.object,
 
         // Validation
-        validationRule: PropTypes.object,
+        validationRule: ValidationRuleType,
         validateOn: PropTypes.array,
         showErrorAsLabel: PropTypes.bool,
 

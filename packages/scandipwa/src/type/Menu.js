@@ -11,6 +11,8 @@
 
 import PropTypes from 'prop-types';
 
+import { LocationType } from 'Type/Router';
+
 export const MenuItemType = PropTypes.shape({
     item_id: PropTypes.string,
     is_active: PropTypes.bool,
@@ -19,11 +21,12 @@ export const MenuItemType = PropTypes.shape({
     title: PropTypes.string,
     item_class: PropTypes.string,
     icon: PropTypes.string,
-    url: PropTypes.string,
-    url_type: PropTypes.number,
+    url: LocationType,
     cms_page_identifier: PropTypes.string,
     category_id: PropTypes.number
 });
+
+MenuItemType.children = PropTypes.objectOf(MenuItemType);
 
 export const MenuType = PropTypes.shape({
     menu_id: PropTypes.string,

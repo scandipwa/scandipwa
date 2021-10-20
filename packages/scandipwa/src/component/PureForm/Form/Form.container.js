@@ -15,6 +15,7 @@ import { createRef, PureComponent } from 'react';
 
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { ChildrenType, MixType } from 'Type/Common';
+import { ValidationRuleType } from 'Type/Field';
 import getFieldsData from 'Util/Form/Extract';
 import { validateGroup } from 'Util/Validator';
 
@@ -36,7 +37,7 @@ export class FormContainer extends PureComponent {
         returnAsObject: PropTypes.bool,
 
         // Validation
-        validationRule: PropTypes.object,
+        validationRule: ValidationRuleType,
         validateOn: PropTypes.array,
         showErrorAsLabel: PropTypes.bool,
 

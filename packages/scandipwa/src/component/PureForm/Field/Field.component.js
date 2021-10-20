@@ -10,6 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+// import { TranslatedValue } from '@scandipwa/webpack-i18n-runtime/src/util/__';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -46,7 +47,7 @@ export class Field extends PureComponent {
         ]),
 
         // Labels
-        label: PropTypes.string.isRequired,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
         subLabel: PropTypes.string.isRequired,
         addRequiredTag: PropTypes.bool.isRequired
     };

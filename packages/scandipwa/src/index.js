@@ -12,14 +12,9 @@
 import 'Util/Polyfill';
 import 'Style/main';
 
-import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 
 import App from 'Component/App';
-import { TranslatedStringType } from 'Type/TranslatedString';
-
-// TODO: move this out to i18-runtime
-PropTypes.string = TranslatedStringType;
 
 // let's register service-worker
 if ('serviceWorker' in navigator) {

@@ -10,11 +10,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+// import { TranslatedValue } from '@scandipwa/webpack-i18n-runtime/src/util/__';
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { MixType } from 'Type/Common';
+import { ValidationRuleType } from 'Type/Field';
+// import { TranslatedStringType } from 'Type/TranslatedString';
 import { validate } from 'Util/Validator';
 
 import Field from './Field.component';
@@ -35,12 +38,12 @@ export class FieldContainer extends PureComponent {
         options: PropTypes.array,
 
         // Validation
-        validationRule: PropTypes.object,
+        validationRule: ValidationRuleType,
         validateOn: PropTypes.array,
         showErrorAsLabel: PropTypes.bool,
 
         // Labels
-        label: PropTypes.string,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         subLabel: PropTypes.string,
         addRequiredTag: PropTypes.bool
     };

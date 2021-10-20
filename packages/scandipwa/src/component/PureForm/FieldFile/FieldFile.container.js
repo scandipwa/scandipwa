@@ -23,7 +23,7 @@ export class FieldFileContainer extends PureComponent {
     static propTypes = {
         // Field attributes
         attr: PropTypes.object.isRequired,
-        events: PropTypes.object.isRequired,
+        events: PropTypes.objectOf(PropTypes.func).isRequired,
         setRef: PropTypes.func.isRequired
     };
 

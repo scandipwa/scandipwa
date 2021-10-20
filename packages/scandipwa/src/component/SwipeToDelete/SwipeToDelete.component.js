@@ -30,7 +30,6 @@ export class SwipeToDelete extends PureComponent {
         animationDuration: PropTypes.number.isRequired,
         animationDurationOnRemove: PropTypes.number.isRequired,
         renderRightSideContent: PropTypes.func.isRequired,
-        rightSideMix: PropTypes.object.isRequired,
         topElemMix: PropTypes.object.isRequired,
         onAheadOfDragItemRemoveThreshold: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired
@@ -173,7 +172,7 @@ export class SwipeToDelete extends PureComponent {
     };
 
     renderRightSideContent() {
-        const { renderRightSideContent, rightSideMix } = this.props;
+        const { renderRightSideContent } = this.props;
         const { isAheadRemoveItemThreshold } = this.state;
 
         return (
@@ -185,7 +184,6 @@ export class SwipeToDelete extends PureComponent {
                   block="SwipeToDelete"
                   elem="RightSideContent"
                   mods={ { isAheadRemoveItemThreshold } }
-                  mix={ rightSideMix }
                 >
                     { renderRightSideContent() }
                 </div>
