@@ -14,7 +14,7 @@ import { createRef, PureComponent } from 'react';
 
 import Draggable from 'Component/Draggable';
 import Loader from 'Component/Loader';
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common';
 import CSS from 'Util/CSS';
 import { isRtl } from 'Util/CSS/CSS';
 
@@ -30,7 +30,7 @@ export class SwipeToDelete extends PureComponent {
         animationDuration: PropTypes.number.isRequired,
         animationDurationOnRemove: PropTypes.number.isRequired,
         renderRightSideContent: PropTypes.func.isRequired,
-        topElemMix: PropTypes.object.isRequired,
+        topElemMix: MixType.isRequired,
         onAheadOfDragItemRemoveThreshold: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired
     };

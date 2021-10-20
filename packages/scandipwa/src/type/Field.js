@@ -33,3 +33,5 @@ export const ValidationRuleType = PropTypes.shape({
     match: PropTypes.func,
     customErrorMessages: CustomErrorMessagesType
 });
+
+export const EventsType = PropTypes.objectOf(PropTypes.func);

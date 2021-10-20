@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import Loader from 'Component/Loader';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import UploadIcon from 'Component/UploadIcon';
+import { EventsType } from 'Type/Field';
 
 /**
  * Field File
@@ -24,7 +25,7 @@ import UploadIcon from 'Component/UploadIcon';
 export class FieldFile extends PureComponent {
     static propTypes = {
         attr: PropTypes.object.isRequired,
-        events: PropTypes.object.isRequired,
+        events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
         fileName: PropTypes.string.isRequired,
         isLoading: PropTypes.bool.isRequired

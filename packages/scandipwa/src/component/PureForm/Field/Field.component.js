@@ -19,7 +19,7 @@ import FieldFile from 'Component/PureForm/FieldFile';
 import { FieldNumberContainer } from 'Component/PureForm/FieldNumber/FieldNumber.container';
 import FieldSelectContainer from 'Component/PureForm/FieldSelect/FieldSelect.container';
 import { MixType } from 'Type/Common';
-import { OptionType } from 'Type/Field';
+import { EventsType, OptionType } from 'Type/Field';
 
 import './Field.style';
 
@@ -33,7 +33,7 @@ export class Field extends PureComponent {
         // Field attributes
         type: PropTypes.oneOf(Object.values(FIELD_TYPE)).isRequired,
         attr: PropTypes.object.isRequired,
-        events: PropTypes.objectOf(PropTypes.func).isRequired,
+        events: EventsType.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         setRef: PropTypes.func.isRequired,
         mix: MixType.isRequired,
