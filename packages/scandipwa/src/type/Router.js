@@ -11,10 +11,30 @@
 
 import PropTypes from 'prop-types';
 
-// eslint-disable-next-line import/prefer-default-export
 export const LocationType = PropTypes.shape({
-    hash: PropTypes.string,
-    key: PropTypes.string,
     pathname: PropTypes.string,
-    search: PropTypes.string
+    search: PropTypes.string,
+    state: PropTypes.object,
+    hash: PropTypes.string,
+    key: PropTypes.string
+});
+
+export const HistoryType = PropTypes.shape({
+    length: PropTypes.number,
+    action: PropTypes.string,
+    location: LocationType
+});
+
+export const MatchType = PropTypes.shape({
+    path: PropTypes.string,
+    url: PropTypes.string,
+    params: PropTypes.object,
+    isExact: PropTypes.bool
+});
+
+export const UrlRewriteType = PropTypes.shape({
+    id: PropTypes.number,
+    type: PropTypes.string,
+    sku: PropTypes.string,
+    notFound: PropTypes.bool
 });

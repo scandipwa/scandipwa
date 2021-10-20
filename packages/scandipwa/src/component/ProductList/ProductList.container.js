@@ -15,10 +15,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
-import { HistoryType, MixType } from 'Type/Common';
+import { MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, PagesType } from 'Type/ProductList';
-import { LocationType } from 'Type/Router';
+import { HistoryType, LocationType } from 'Type/Router';
 import { scrollToTop } from 'Util/Browser';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 

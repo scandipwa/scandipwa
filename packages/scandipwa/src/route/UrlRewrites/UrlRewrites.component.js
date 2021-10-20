@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { HistoryType, LocationType, MatchType } from 'Type/Router';
 
 import {
     TYPE_CATEGORY,
@@ -39,7 +39,7 @@ export class UrlRewrites extends PureComponent {
             location: LocationType,
             match: MatchType,
             history: HistoryType,
-            categoryIds: 35,
+            categoryIds: PropTypes.number,
             id: PropTypes.number,
             productSKU: PropTypes.string,
             pageIds: PropTypes.number

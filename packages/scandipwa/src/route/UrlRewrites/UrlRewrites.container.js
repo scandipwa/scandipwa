@@ -13,7 +13,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import {
+    HistoryType,
+    LocationType,
+    MatchType,
+    UrlRewriteType
+} from 'Type/Router';
 
 import UrlRewrites from './UrlRewrites.component';
 import {
@@ -58,12 +63,7 @@ export class UrlRewritesContainer extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         requestedUrl: PropTypes.string,
         requestUrlRewrite: PropTypes.func.isRequired,
-        urlRewrite: PropTypes.shape({
-            id: PropTypes.number,
-            type: PropTypes.string,
-            sku: PropTypes.string,
-            notFound: PropTypes.bool
-        }).isRequired
+        urlRewrite: UrlRewriteType.isRequired
     };
 
     static defaultProps = {

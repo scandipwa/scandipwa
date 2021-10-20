@@ -22,10 +22,13 @@ import OrderReducer from 'Store/Order/Order.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ADDRESS_BOOK,
-    DASHBOARD, MY_DOWNLOADABLE, MY_ORDERS,
-    MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
+    DASHBOARD,
+    MY_DOWNLOADABLE,
+    MY_ORDERS,
+    MY_WISHLIST,
+    NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { HistoryType, LocationType, MatchType } from 'Type/Router';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';

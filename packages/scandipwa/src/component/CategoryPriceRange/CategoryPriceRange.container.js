@@ -14,8 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { HistoryType } from 'Type/Common';
-import { LocationType } from 'Type/Router';
+import { HistoryType, LocationType } from 'Type/Router';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryPriceRange from './CategoryPriceRange.component';

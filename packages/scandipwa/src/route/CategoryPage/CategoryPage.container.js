@@ -26,7 +26,7 @@ import {
     updateInfoLoadStatus
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { CategoryTreeType } from 'Type/Category';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { HistoryType, LocationType, MatchType } from 'Type/Router';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
