@@ -189,12 +189,22 @@ export class StyleGuidePageComponent extends PureComponent {
         );
     }
 
+    renderIcon(icon) {
+        const [name, Component] = icon;
+
+        if (typeof Component === 'string') {
+            return (
+                <Image src={ Component } alt={ name } key={ name } />
+            );
+        }
+
+        return <Component />;
+    }
+
     renderIcons() {
         return (
             <div block="StyleGuidePage" elem="Icons">
-                { Object.entries(ICONS_LIST).map(
-                    ([iconName, iconPath]) => (<Image src={ iconPath } alt={ iconName } key={ iconName } />)
-                ) }
+                { Object.entries(ICONS_LIST).map(this.renderIcon) }
                 <h4 block="StyleGuidePage" elem="SubHeading">
                     { __('Icons in header [default state + hover]') }
                 </h4>
