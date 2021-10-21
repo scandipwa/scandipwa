@@ -38,7 +38,6 @@ export class ProductList extends PureComponent {
         updatePage: PropTypes.func,
         totalPages: PropTypes.number,
         loadPage: PropTypes.func,
-        requestPage: PropTypes.func,
         loadPrevPage: PropTypes.func,
         currentPage: PropTypes.number,
         isShowLoading: PropTypes.bool,
@@ -59,7 +58,6 @@ export class ProductList extends PureComponent {
         updatePage: () => {},
         totalPages: 1,
         loadPage: () => {},
-        requestPage: () => {},
         loadPrevPage: () => {},
         currentPage: 1,
         isShowLoading: false,
@@ -302,7 +300,6 @@ export class ProductList extends PureComponent {
         const {
             isLoading,
             totalPages,
-            requestPage,
             isPaginationEnabled
         } = this.props;
 
@@ -314,7 +311,6 @@ export class ProductList extends PureComponent {
             <CategoryPagination
               isLoading={ isLoading }
               totalPages={ totalPages }
-              onPageSelect={ requestPage }
             />
         );
     }
