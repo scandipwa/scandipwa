@@ -25,7 +25,10 @@ export class ImageContainer extends PureComponent {
             PropTypes.string,
             PropTypes.bool
         ]),
-        style: PropTypes.shape({}),
+        style: PropTypes.objectOf(PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ])),
         width: PropTypes.string,
         height: PropTypes.string,
         alt: PropTypes.string,

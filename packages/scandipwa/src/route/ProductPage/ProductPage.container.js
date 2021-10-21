@@ -56,7 +56,6 @@ export const ProductDispatcher = import(
 export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product,
-    navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
     metaTitle: state.MetaReducer.title,
     isMobile: state.ConfigReducer.device.isMobile,
     store: state.ConfigReducer.code
@@ -100,7 +99,6 @@ export class ProductPageContainer extends PureComponent {
         history: HistoryType.isRequired,
         match: MatchType.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
-        navigation: PropTypes.shape(PropTypes.shape).isRequired,
         metaTitle: PropTypes.string,
         addRecentlyViewedProduct: PropTypes.func.isRequired,
         store: PropTypes.string.isRequired,
