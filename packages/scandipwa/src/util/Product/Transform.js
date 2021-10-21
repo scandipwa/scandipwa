@@ -70,8 +70,11 @@ export const getCustomizableOptions = (buyRequest) => {
             return [...prev, ...variant.map((id) => btoa(`custom-option/${option}/${id}`))];
         }
 
-        if (typeof variant === 'object') {
-            return [...prev, btoa(`custom-option/${option}/1`)];
+        // Handle case when we need to pass previously uploaded file as selected option
+        // Normally files are passed via entered_options, but when customer adds product with attachment from wishlist,
+        // we need to reference data of the already uploaded file
+        if (typeof variant === 'object' && variant.type === 'application/octet-stream') {
+            return [...prev, btoa(`custom-option/${option}/file-${btoa(JSON.stringify(variant))}`)];
         }
 
         return prev;
