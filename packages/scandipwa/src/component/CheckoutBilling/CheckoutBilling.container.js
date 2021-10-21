@@ -23,7 +23,12 @@ import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType, customerType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-import { getFormFields, setAddressesInFormObject, trimCheckoutCustomerAddress } from 'Util/Address';
+import {
+    getFormFields,
+    setAddressesInFormObject,
+    trimCheckoutAddress,
+    trimCheckoutCustomerAddress
+} from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
 import transformToNameValuePair from 'Util/Form/Transform';
 
@@ -252,7 +257,7 @@ export class CheckoutBillingContainer extends PureComponent {
         if (!selectedCustomerAddressId) {
             const joinedStreetAddressFields = setAddressesInFormObject(formFields, addressLinesQty, 'street_');
 
-            return trimCheckoutCustomerAddress(joinedStreetAddressFields);
+            return trimCheckoutAddress(joinedStreetAddressFields);
         }
 
         const { customer: { addresses } } = this.props;
