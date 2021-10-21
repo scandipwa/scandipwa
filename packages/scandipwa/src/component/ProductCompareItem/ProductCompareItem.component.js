@@ -97,7 +97,7 @@ export class ProductCompareItem extends PureComponent {
 
         return (
             <ProductWishlistButton
-              magentoProduct={ magentoProductTransform(product) }
+              magentoProduct={ magentoProductTransform(product, null) }
               mix={ { block: 'ProductCard', elem: 'WishListButton' } }
             />
         );

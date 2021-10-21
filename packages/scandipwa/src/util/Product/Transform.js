@@ -263,36 +263,42 @@ export const magentoProductTransform = (
     const productData = [];
 
     if (typeId === PRODUCT_TYPE.grouped) {
-        if (Object.keys(quantity).length === 0) {
+        const fetchDefaultQuantity = quantity === null;
+
+        if (!fetchDefaultQuantity && Object.keys(quantity).length === 0) {
             return productData;
         }
 
-        const { items } = product;
+        const { items = [] } = product;
 
         items.forEach(({
-            product: { id, sku: groupedSku }
+            product: { id: groupedId },
+            qty
         }) => {
-            const { [id]: groupedQuantity } = quantity;
+            const { [groupedId]: groupedQuantity } = quantity || [];
+            const finalQty = fetchDefaultQuantity ? qty : groupedQuantity;
 
-            if (groupedQuantity) {
-                productData.push({
-                    sku: groupedSku,
-                    quantity: groupedQuantity,
-                    selected_options: selectedOptions,
-                    entered_options: enteredOptions
-                });
+            if (finalQty) {
+                selectedOptions.push(btoa(`grouped/${groupedId}/${finalQty}`));
             }
         });
-    } else {
-        const baseProductToAdd = {
+
+        return [{
             sku,
-            quantity,
+            quantity: 1,
             selected_options: selectedOptions,
             entered_options: enteredOptions
-        };
-
-        productData.push(baseProductToAdd);
+        }];
     }
+
+    const baseProductToAdd = {
+        sku,
+        quantity,
+        selected_options: selectedOptions,
+        entered_options: enteredOptions
+    };
+
+    productData.push(baseProductToAdd);
 
     return productData;
 };
