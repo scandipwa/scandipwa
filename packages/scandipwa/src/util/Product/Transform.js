@@ -66,7 +66,15 @@ export const getCustomizableOptions = (buyRequest) => {
             return [...prev, btoa(`custom-option/${option}/${variant}`)];
         }
 
-        return [...prev, ...variant.map((id) => btoa(`custom-option/${option}/${id}`))];
+        if (Array.isArray(variant)) {
+            return [...prev, ...variant.map((id) => btoa(`custom-option/${option}/${id}`))];
+        }
+
+        if (typeof variant === 'object') {
+            return [...prev, btoa(`custom-option/${option}/1`)];
+        }
+
+        return prev;
     },
     []);
 };
