@@ -22,6 +22,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { LayoutType } from 'Type/Layout';
+import { LinkType } from 'Type/Router';
 
 import './ProductCard.style';
 
@@ -32,7 +33,7 @@ import './ProductCard.style';
 export class ProductCard extends Product {
     static propTypes = {
         ...Product.propTypes,
-        linkTo: PropTypes.shape({}),
+        linkTo: LinkType,
         device: DeviceType.isRequired,
         thumbnail: PropTypes.string,
         isLoading: PropTypes.bool,

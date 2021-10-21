@@ -15,9 +15,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
+import { FilterInputType, SelectedFiltersType } from 'Type/Category';
 import { MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
-import { FilterInputType, PagesType } from 'Type/ProductList';
+import { PagesType } from 'Type/ProductList';
 import { HistoryType, LocationType } from 'Type/Router';
 import { scrollToTop } from 'Util/Browser';
 import { getQueryParam, setQueryParams } from 'Util/Url';
@@ -52,7 +53,7 @@ export class ProductListContainer extends PureComponent {
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
-        selectedFilters: PropTypes.objectOf(PropTypes.shape),
+        selectedFilters: SelectedFiltersType,
         isPreventRequest: PropTypes.bool,
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,

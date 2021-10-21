@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { SelectedFiltersType } from 'Type/Category';
+import { AttributesType } from 'Type/ProductList';
 import { getPriceFilterLabel } from 'Util/Category';
 import { getBooleanLabel } from 'Util/Product';
 
@@ -29,18 +31,8 @@ export const mapDispatchToProps = () => ({});
 /** @namespace Component/ResetAttributes/Container */
 export class ResetAttributesContainer extends PureComponent {
     static propTypes = {
-        availableFilters: PropTypes.objectOf(PropTypes.shape({
-            attribute_label: PropTypes.string.isRequired,
-            attribute_type: PropTypes.string.isRequired,
-            attribute_code: PropTypes.string.isRequired,
-            attribute_values: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-            is_boolean: PropTypes.bool.isRequired,
-            attribute_options: PropTypes.objectOf(PropTypes.shape({
-                label: PropTypes.string.isRequired,
-                value_string: PropTypes.string.isRequired
-            }))
-        }).isRequired).isRequired,
-        customFiltersValues: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+        availableFilters: AttributesType.isRequired,
+        customFiltersValues: SelectedFiltersType.isRequired,
         currency_code: PropTypes.string.isRequired,
         toggleCustomFilter: PropTypes.func.isRequired
     };

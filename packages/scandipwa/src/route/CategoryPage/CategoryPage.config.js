@@ -21,3 +21,8 @@ export const DISPLAY_MODE_BOTH = 'PRODUCTS_AND_PAGE';
 export const LAYOUT_KEY = 'layout';
 export const GRID_LAYOUT = 'grid';
 export const LIST_LAYOUT = 'list';
+
+export const SORT_DIRECTION_TYPE = {
+    asc: 'ASC',
+    desc: 'DESC'
+};

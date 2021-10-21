@@ -16,14 +16,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import { stringify } from 'rebem-classname';
 
 import { ChildrenType } from 'Type/Common';
+import { LinkType } from 'Type/Router';
 
 /** @namespace Component/Link/Component */
 export class Link extends PureComponent {
     static propTypes = {
-        to: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.object
-        ]).isRequired,
+        to: LinkType.isRequired,
         className: PropTypes.string,
         bemProps: PropTypes.shape({}),
         children: ChildrenType.isRequired,

@@ -20,6 +20,7 @@ import Loader from 'Component/Loader';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 import { ProductType } from 'Type/ProductList';
+import { LinkType } from 'Type/Router';
 import { magentoProductTransform } from 'Util/Product/Transform';
 
 import './ProductCompareItem.style';
@@ -32,10 +33,7 @@ export class ProductCompareItem extends PureComponent {
         removeComparedProduct: PropTypes.func.isRequired,
         imgUrl: PropTypes.string.isRequired,
         overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
-        linkTo: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.shape({})
-        ]),
+        linkTo: LinkType,
         overriddenAddToCartBtnHandler: PropTypes.func.isRequired // ,
         // isOutOfStock: PropTypes.func.isRequired
     };

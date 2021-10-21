@@ -38,3 +38,10 @@ export const UrlRewriteType = PropTypes.shape({
     sku: PropTypes.string,
     notFound: PropTypes.bool
 });
+
+export const LinkType = PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+        pathname: PropTypes.string
+    })
+]);

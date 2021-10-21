@@ -14,8 +14,9 @@ import { connect } from 'react-redux';
 
 import ProductList from 'Component/ProductList';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
+import { FilterInputType, SelectedFiltersType } from 'Type/Category';
 import { LayoutType } from 'Type/Layout';
-import { FilterInputType, PagesType } from 'Type/ProductList';
+import { PagesType } from 'Type/ProductList';
 
 import './CategoryProductList.style';
 
@@ -56,7 +57,7 @@ export class CategoryProductListContainer extends PureComponent {
         totalPages: PropTypes.number,
         search: PropTypes.string,
         sort: PropTypes.objectOf(PropTypes.string),
-        selectedFilters: PropTypes.objectOf(PropTypes.shape),
+        selectedFilters: SelectedFiltersType,
         pages: PagesType.isRequired,
         isPageLoading: PropTypes.bool
     };

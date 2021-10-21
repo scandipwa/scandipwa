@@ -19,8 +19,12 @@ export const AttributeType = PropTypes.shape({
     attribute_options: PropTypes.objectOf(PropTypes.shape({
         label: PropTypes.string,
         value: PropTypes.string
-    }))
+    })),
+    has_swatch: PropTypes.bool,
+    is_boolean: PropTypes.bool
 });
+
+export const AttributesType = PropTypes.objectOf(AttributeType);
 
 export const FilterAttributeType = PropTypes.shape({
     attribute_code: PropTypes.string,
@@ -211,21 +215,6 @@ export const ProductType = PropTypes.shape({
     options: OptionsType,
     items: ProductItemsType,
     reviews: ReviewsType
-});
-
-export const FilterType = PropTypes.objectOf(
-    PropTypes.arrayOf(PropTypes.string)
-);
-
-export const FilterInputType = PropTypes.shape({
-    categoryIds: PropTypes.number,
-    categoryUrlPath: PropTypes.string,
-    customFilters: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-    priceRange: PropTypes.shape({
-        min: PropTypes.number,
-        max: PropTypes.number
-    }),
-    condtions: PropTypes.string
 });
 
 export const DownloadableSamplesType = PropTypes.arrayOf(

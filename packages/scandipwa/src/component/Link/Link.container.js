@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { LinkType } from 'Type/Router';
 import { appendWithStoreCode } from 'Util/Url';
 
 import Link from './Link.component';
@@ -42,10 +43,7 @@ export class LinkContainer extends PureComponent {
         baseLinkUrl: PropTypes.string.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
         onClick: PropTypes.func,
-        to: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.object
-        ]).isRequired
+        to: LinkType.isRequired
     };
 
     static defaultProps = {
