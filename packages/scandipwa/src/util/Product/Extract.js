@@ -299,8 +299,6 @@ export const getPrice = (
                 ({ value = [] }) => Array.isArray(value) && value.find(({ price }) => price)
             );
         }
-
-        console.log([requiredOptions, configuration]);
     }
 
     return {

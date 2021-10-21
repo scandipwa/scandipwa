@@ -55,11 +55,11 @@ export class ProductPrice extends PureComponent {
     };
 
     pricePreviewRenderMap = {
-        [PRODUCT_TYPE.simple]: this.renderSimplePrice.bind(this),
-        [PRODUCT_TYPE.virtual]: this.renderSimplePrice.bind(this),
+        [PRODUCT_TYPE.simple]: this.renderDefaultPrice.bind(this),
+        [PRODUCT_TYPE.virtual]: this.renderDefaultPrice.bind(this),
         [PRODUCT_TYPE.bundle]: this.renderBundlePrice.bind(this),
         [PRODUCT_TYPE.grouped]: this.renderGroupedPrice.bind(this),
-        [PRODUCT_TYPE.downloadable]: this.renderCustomisablePrice.bind(this),
+        [PRODUCT_TYPE.downloadable]: this.renderDefaultPrice.bind(this),
         [PRODUCT_TYPE.configurable]: this.renderConfigurablePrice.bind(this)
     };
 
@@ -214,7 +214,7 @@ export class ProductPrice extends PureComponent {
         return null;
     }
 
-    renderSimplePrice() {
+    renderRequiredWithChangePrice() {
         const {
             configuration: {
                 containsRequiredOptionsWithPrice = false
