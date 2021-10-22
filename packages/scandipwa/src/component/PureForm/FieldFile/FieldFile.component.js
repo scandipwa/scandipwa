@@ -94,7 +94,7 @@ export class FieldFile extends PureComponent {
                   { ...events }
                 />
                 { this.renderFileLabel() }
-                { allowedFieldTypes && allowedFieldTypes.length && this.renderSubLabel(allowedFieldTypes) }
+                { allowedFieldTypes.length > 0 && this.renderSubLabel(allowedFieldTypes) }
             </>
         );
     }

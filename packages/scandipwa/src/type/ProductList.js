@@ -213,3 +213,10 @@ export const DownloadableSamplesType = PropTypes.arrayOf(
         title: PropTypes.string
     })
 );
+
+export const PriceConfiguration = PropTypes.shape({
+    containsOptions: PropTypes.bool,
+    containsOptionsWithPrice: PropTypes.bool,
+    containsRequiredOptions: PropTypes.bool,
+    containsRequiredOptionsWithPrice: PropTypes.bool
+});

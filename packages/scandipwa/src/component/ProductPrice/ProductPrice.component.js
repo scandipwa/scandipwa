@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { MixType } from 'Type/Common';
+import { PriceConfiguration } from 'Type/ProductList';
 
 import './ProductPrice.style';
 
@@ -29,7 +30,7 @@ export class ProductPrice extends PureComponent {
         priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
         originalPrice: PropTypes.object,
         tierPrice: PropTypes.string,
-        configuration: PropTypes.object,
+        configuration: PriceConfiguration,
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
         isPreview: PropTypes.bool,
