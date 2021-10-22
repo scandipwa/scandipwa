@@ -178,9 +178,6 @@ export const customerEmailAndPasswordFields = (props) => {
                     },
                     customErrorMessages: {
                         onMatchFail: __('New passwords can\'t be the same as old password!')
-                    },
-                    range: {
-                        min: 8
                     }
                 }
             },
