@@ -107,7 +107,9 @@ export class FieldSelect extends PureComponent {
               id={ `o${id}` }
               role="menuitem"
               // eslint-disable-next-line react/jsx-no-bind
-              onClick={ () => handleSelectListOptionClick(option) }
+              onMouseDown={ () => handleSelectListOptionClick(option) }
+              // eslint-disable-next-line react/jsx-no-bind
+              onTouchStart={ () => handleSelectListOptionClick(option) }
               // eslint-disable-next-line react/jsx-no-bind
               onKeyPress={ () => handleSelectListOptionClick(option) }
               tabIndex={ isExpanded ? '0' : '-1' }

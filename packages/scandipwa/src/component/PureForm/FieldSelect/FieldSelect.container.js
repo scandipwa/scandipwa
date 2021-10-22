@@ -194,6 +194,8 @@ export class FieldSelectContainer extends PureComponent {
             return;
         }
 
+        this.updateValue(valueIndex);
+
         this.setState({ searchString, valueIndex }, () => {
             const { id, value } = options[valueIndex];
 
@@ -208,6 +210,17 @@ export class FieldSelectContainer extends PureComponent {
                 selectedElement.focus();
             }
         });
+    }
+
+    updateValue(valueIndex) {
+        if (this.fieldRef) {
+            const { options } = this.props;
+            const { value } = options[valueIndex];
+
+            if (value) {
+                this.fieldRef.value = value;
+            }
+        }
     }
 
     containerProps() {
