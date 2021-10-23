@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 
 import FieldForm from 'Component/PureForm/FieldForm';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import myAccountCustomerForm from './MyAccountCustomerForm.form';
@@ -20,7 +20,7 @@ import myAccountCustomerForm from './MyAccountCustomerForm.form';
 /** @namespace Component/MyAccountCustomerForm/Component */
 export class MyAccountCustomerForm extends FieldForm {
     static propTypes = {
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         onSave: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.bool.isRequired
     };

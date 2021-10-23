@@ -114,7 +114,9 @@ export class CartDispatcher {
     }
 
     async addProductToCart(dispatch, options = {}) {
-        const { products = [], cartId = getGuestQuoteId() } = options;
+        const { products = [], cartId: userCartId } = options;
+
+        const cartId = userCartId || getGuestQuoteId();
 
         if (!Array.isArray(products) || products.length === 0) {
             dispatch(showNotification('error', __('No product data!')));

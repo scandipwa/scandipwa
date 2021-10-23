@@ -16,12 +16,13 @@ import { PureComponent } from 'react';
 import AddIcon from 'Component/AddIcon';
 import Link from 'Component/Link';
 import MinusIcon from 'Component/MinusIcon';
+import { MenuItemType } from 'Type/Menu';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {
     static propTypes = {
         activeMenuItemsStack: PropTypes.array.isRequired,
-        item: PropTypes.object.isRequired,
+        item: MenuItemType.isRequired,
         itemMods: PropTypes.object.isRequired,
         handleCategoryHover: PropTypes.func.isRequired,
         handleLinkLeave: PropTypes.func.isRequired,

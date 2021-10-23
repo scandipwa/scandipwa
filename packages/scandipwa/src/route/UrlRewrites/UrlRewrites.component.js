@@ -1,4 +1,3 @@
-/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -13,6 +12,8 @@
 
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
+
+import { HistoryType, LocationType, MatchType } from 'Type/Router';
 
 import {
     TYPE_CATEGORY,
@@ -34,7 +35,15 @@ export const NoMatch = lazy(() => import(/* webpackMode: "lazy", webpackChunkNam
  */
 export class UrlRewrites extends PureComponent {
     static propTypes = {
-        props: PropTypes.object,
+        props: PropTypes.shape({
+            location: LocationType,
+            match: MatchType,
+            history: HistoryType,
+            categoryIds: PropTypes.number,
+            id: PropTypes.number,
+            productSKU: PropTypes.string,
+            pageIds: PropTypes.number
+        }),
         type: PropTypes.string
     };
 

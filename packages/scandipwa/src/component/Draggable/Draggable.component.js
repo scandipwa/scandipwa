@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType, MixType } from 'Type/Common';
+import { ChildrenType, MixType, RefType } from 'Type/Common';
 
 import './Draggable.style';
 
@@ -30,10 +30,7 @@ export class Draggable extends PureComponent {
         onDrag: PropTypes.func,
         children: ChildrenType.isRequired,
         mix: MixType,
-        draggableRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ])
+        draggableRef: RefType
     };
 
     static defaultProps = {

@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { SORT_DIRECTION_TYPE } from 'Route/CategoryPage/CategoryPage.config';
 import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -128,7 +129,7 @@ export class ProductListQuery {
                         return {};
                     }
 
-                    return { [sortKey]: sortDirection || 'ASC' };
+                    return { [sortKey]: sortDirection || SORT_DIRECTION_TYPE.asc };
                 }
             },
             filter: {

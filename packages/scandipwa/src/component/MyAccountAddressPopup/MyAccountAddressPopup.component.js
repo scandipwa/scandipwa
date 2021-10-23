@@ -16,7 +16,7 @@ import Loader from 'Component/Loader';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import Popup from 'Component/Popup';
-import { addressType } from 'Type/Account';
+import { Addresstype } from 'Type/Account';
 
 import {
     ADD_ADDRESS, ADDRESS_POPUP_ID, DELETE_ADDRESS, EDIT_ADDRESS
@@ -36,7 +36,7 @@ export class MyAccountAddressPopup extends PureComponent {
                 DELETE_ADDRESS,
                 ADD_ADDRESS
             ]),
-            address: addressType
+            address: Addresstype
         }).isRequired
     };
 

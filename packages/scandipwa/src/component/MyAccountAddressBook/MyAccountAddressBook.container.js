@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { ADD_ADDRESS, ADDRESS_POPUP_ID } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account';
 
 import MyAccountAddressBook from './MyAccountAddressBook.component';
 
@@ -32,7 +32,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/MyAccountAddressBook/Container */
 export class MyAccountAddressBookContainer extends PureComponent {
     static propTypes = {
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         showPopup: PropTypes.func.isRequired
     };
 

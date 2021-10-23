@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import { RefType } from 'Type/Common';
+
 import { SHARED_ELEMENT_TRANSITION } from './SharedTransition.config';
 
 import './SharedTransition.style';
@@ -32,8 +34,8 @@ export class SharedTransition extends PureComponent {
                 start: PropTypes.number,
                 top: PropTypes.number
             }),
-            sharedElementDestination: PropTypes.object,
-            sharedElement: PropTypes.object
+            sharedElementDestination: RefType,
+            sharedElement: RefType
         }).isRequired,
         cleanUpTransition: PropTypes.func.isRequired
     };

@@ -37,3 +37,20 @@ export const CategoryTreeType = PropTypes.shape({
     ...CategoryFragment,
     children: PropTypes.arrayOf(PropTypes.shape(CategoryFragment))
 });
+
+export const SelectedFiltersType = PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string));
+
+export const FilterType = PropTypes.objectOf(
+    PropTypes.arrayOf(PropTypes.string)
+);
+
+export const FilterInputType = PropTypes.shape({
+    categoryIds: PropTypes.number,
+    categoryUrlPath: PropTypes.string,
+    customFilters: SelectedFiltersType,
+    priceRange: PropTypes.shape({
+        min: PropTypes.number,
+        max: PropTypes.number
+    }),
+    condtions: PropTypes.string
+});

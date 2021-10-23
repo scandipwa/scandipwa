@@ -56,13 +56,14 @@ export class FieldForm extends PureComponent {
             fields,
             attr: {
                 name = ''
-            } = {}
+            } = {},
+            name: sectionName
         } = section;
 
         // If contains attr fields then outputs data as fields
         if (Array.isArray(fields)) {
             return (
-                <FieldGroup { ...section }>
+                <FieldGroup { ...section } key={ name || sectionName }>
                     { fields.map(this.renderSection) }
                 </FieldGroup>
             );

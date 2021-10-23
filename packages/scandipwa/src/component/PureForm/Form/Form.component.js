@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ChildrenType, MixType } from 'Type/Common';
+import { EventsType } from 'Type/Field';
 
 /**
  * Form
@@ -25,7 +26,7 @@ export class Form extends PureComponent {
         // Group attributes
         children: ChildrenType.isRequired,
         attr: PropTypes.object.isRequired,
-        events: PropTypes.object.isRequired,
+        events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
 
         // Validation

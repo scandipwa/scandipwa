@@ -16,7 +16,7 @@ import {
     BIG_PLACEHOLDER_CONFIG
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import { MixType } from 'Type/Common';
-import { AttributeType } from 'Type/ProductList';
+import { AttributesType } from 'Type/ProductList';
 import { getBooleanLabel } from 'Util/Product';
 
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';
@@ -33,7 +33,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         mix: MixType,
         isReady: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
-        configurable_options: PropTypes.objectOf(AttributeType).isRequired,
+        configurable_options: AttributesType.isRequired,
         inStock: PropTypes.bool
     };
 

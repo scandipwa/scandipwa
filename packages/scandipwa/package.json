@@ -319,7 +319,8 @@
                 2,
                 {
                     "forbid": [
-                        "className"
+                        "className",
+                        "any"
                     ]
                 }
             ],
@@ -463,5 +464,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://demo100-ors-1588667385-csa-hcx.scandipwa.cloud/"
+    "proxy": "https://scandipwapmrev.indvp.com/"
 }

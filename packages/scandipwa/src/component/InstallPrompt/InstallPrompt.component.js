@@ -24,7 +24,8 @@ export class InstallPrompt extends PureComponent {
         device: DeviceType.isRequired,
         isBannerClosed: PropTypes.bool.isRequired,
         hasInstallPromptEvent: PropTypes.bool.isRequired,
-        containerFunctions: PropTypes.object.isRequired
+        handleAppInstall: PropTypes.func.isRequired,
+        handleBannerClose: PropTypes.func.isRequired
     };
 
     /**
@@ -53,10 +54,8 @@ export class InstallPrompt extends PureComponent {
     renderPrompt() {
         const {
             device,
-            containerFunctions: {
-                handleAppInstall,
-                handleBannerClose
-            }
+            handleAppInstall,
+            handleBannerClose
         } = this.props;
 
         if (device.ios) {

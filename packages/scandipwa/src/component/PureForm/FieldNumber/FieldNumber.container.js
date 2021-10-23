@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import { EventsType } from 'Type/Field';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
 import FieldNumber from './FieldNumber.component';
@@ -25,7 +26,7 @@ export class FieldNumberContainer extends PureComponent {
     static propTypes = {
         // Field attributes
         attr: PropTypes.object.isRequired,
-        events: PropTypes.object.isRequired,
+        events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired
     };
@@ -109,6 +110,7 @@ export class FieldNumberContainer extends PureComponent {
                 value,
                 autoComplete,
                 autocomplete,
+                defaultValue,
                 ...attr
             } = {},
             events,

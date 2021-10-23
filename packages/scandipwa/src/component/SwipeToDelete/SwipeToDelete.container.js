@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common';
 
 import SwipeToDelete from './SwipeToDelete.component';
 import {
@@ -45,8 +45,7 @@ export class SwipeToDeleteContainer extends PureComponent {
         animationDuration: PropTypes.number,
         animationDurationOnRemove: PropTypes.number,
         renderRightSideContent: PropTypes.func,
-        rightSideMix: PropTypes.object,
-        topElemMix: PropTypes.object,
+        topElemMix: MixType,
         onAheadOfDragItemRemoveThreshold: PropTypes.func,
         isLoading: PropTypes.bool
     };
@@ -61,7 +60,6 @@ export class SwipeToDeleteContainer extends PureComponent {
         animationDuration: ANIMATION_DURATION,
         animationDurationOnRemove: ANIMATION_DURATION_ON_REMOVE,
         renderRightSideContent: () => {},
-        rightSideMix: {},
         topElemMix: {},
         onAheadOfDragItemRemoveThreshold: () => {},
         isLoading: false
@@ -78,8 +76,6 @@ export class SwipeToDeleteContainer extends PureComponent {
             isLoading,
             onAheadOfDragItemRemoveThreshold,
             renderRightSideConte,
-            rightSideMix,
-            topElemMix,
             renderRightSideContent
         } = this.props;
 
@@ -93,8 +89,6 @@ export class SwipeToDeleteContainer extends PureComponent {
             isLoading,
             onAheadOfDragItemRemoveThreshold,
             renderRightSideConte,
-            rightSideMix,
-            topElemMix,
             renderRightSideContent
         };
     }

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account';
 import { isSignedIn } from 'Util/Auth';
 
 import CheckoutAddressBook from './CheckoutAddressBook.component';
@@ -41,7 +41,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         requestCustomerData: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func,
         onAddressSelect: PropTypes.func,
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         isBilling: PropTypes.bool,
         isSubmitted: PropTypes.bool,
         is_virtual: PropTypes.bool
