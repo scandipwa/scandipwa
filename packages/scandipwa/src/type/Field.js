@@ -13,9 +13,11 @@ import PropTypes from 'prop-types';
 
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
+export const LabelType = PropTypes.oneOfType([PropTypes.string, PropTypes.node]);
+
 export const OptionType = PropTypes.shape({
     id: PropTypes.string,
-    label: PropTypes.string,
+    label: LabelType,
     value: PropTypes.string
 });
 

@@ -15,7 +15,7 @@ import { createRef, PureComponent } from 'react';
 
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { MixType } from 'Type/Common';
-import { EventsType, ValidationRuleType } from 'Type/Field';
+import { EventsType, LabelType, ValidationRuleType } from 'Type/Field';
 import { validate } from 'Util/Validator';
 
 import Field from './Field.component';
@@ -41,7 +41,7 @@ export class FieldContainer extends PureComponent {
         showErrorAsLabel: PropTypes.bool,
 
         // Labels
-        label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+        label: LabelType,
         subLabel: PropTypes.string,
         addRequiredTag: PropTypes.bool
     };

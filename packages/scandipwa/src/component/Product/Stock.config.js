@@ -9,5 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const IN_STOCK = 'IN_STOCK';
-export const OUT_OF_STOCK = 'OUT_OF_STOCK';
+// eslint-disable-next-line import/prefer-default-export
+export const STOCK_TYPE = {
+    IN_STOCK: 'IN_STOCK',
+    OUT_OF_STOCK: 'OUT_OF_STOCK'
+};

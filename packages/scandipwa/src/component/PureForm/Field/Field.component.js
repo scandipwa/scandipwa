@@ -18,7 +18,7 @@ import FieldFile from 'Component/PureForm/FieldFile';
 import { FieldNumberContainer } from 'Component/PureForm/FieldNumber/FieldNumber.container';
 import FieldSelectContainer from 'Component/PureForm/FieldSelect/FieldSelect.container';
 import { MixType } from 'Type/Common';
-import { EventsType, OptionType } from 'Type/Field';
+import { EventsType, LabelType, OptionType } from 'Type/Field';
 
 import './Field.style';
 
@@ -46,7 +46,7 @@ export class Field extends PureComponent {
         ]),
 
         // Labels
-        label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+        label: LabelType.isRequired,
         subLabel: PropTypes.string.isRequired,
         addRequiredTag: PropTypes.bool.isRequired
     };

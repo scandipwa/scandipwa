@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import Html from 'Component/Html';
 import { Product } from 'Component/Product/Product.component';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
-import { IN_STOCK, OUT_OF_STOCK } from 'Component/Product/Stock.config';
+import { STOCK_TYPE } from 'Component/Product/Stock.config';
 import ProductAlerts from 'Component/ProductAlerts';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
@@ -301,7 +301,7 @@ export class ProductActions extends Product {
             >
                 <ProductAlerts
                   productId={ id }
-                  stockStatus={ inStock ? IN_STOCK : OUT_OF_STOCK }
+                  stockStatus={ inStock ? STOCK_TYPE.IN_STOCK : STOCK_TYPE.OUT_OF_STOCK }
                 />
             </section>
         );

@@ -11,6 +11,9 @@
 
 import PropTypes from 'prop-types';
 
+import { UrlRewriteType } from 'Type/Router';
+import { StockStatusType } from 'Type/StockStatus';
+
 export const AttributeType = PropTypes.shape({
     attribute_code: PropTypes.string,
     attribute_type: PropTypes.string,
@@ -48,6 +51,11 @@ export const BreadcrumbsType = PropTypes.arrayOf(
         url_path: PropTypes.string
     })
 );
+
+export const ImageType = {
+    path: PropTypes.string,
+    url: PropTypes.string
+};
 
 export const CategoryType = PropTypes.shape({
     name: PropTypes.string,
@@ -132,6 +140,15 @@ export const ReviewsType = PropTypes.arrayOf(
     })
 );
 
+export const DescriptionType = PropTypes.shape({ html: PropTypes.string });
+
+export const StockItemType = PropTypes.shape({
+    in_stock: PropTypes.bool,
+    min_sale_qty: PropTypes.number,
+    max_sale_qty: PropTypes.number,
+    qty_increments: PropTypes.number
+});
+
 export const OptionValueType = PropTypes.shape({
     option_type_id: PropTypes.number,
     price: PropTypes.number,
@@ -151,7 +168,60 @@ export const OptionsType = PropTypes.arrayOf(
     })
 );
 
-export const ItemsType = PropTypes.arrayOf(PropTypes.shape({}));
+export const ValueType = PropTypes.shape({
+    uid: PropTypes.string,
+    option_type_id: PropTypes.number,
+    price: PropTypes.number,
+    priceInclTax: PropTypes.number,
+    priceExclTax: PropTypes.number,
+    price_type: PropTypes.string,
+    currency: PropTypes.string,
+    sku: PropTypes.string,
+    title: PropTypes.string,
+    sort_order: PropTypes.number
+});
+
+export const OptionType = [{
+    value: PropTypes.arrayOf(ValueType),
+    title: PropTypes.string,
+    required: PropTypes.bool,
+    sort_order: PropTypes.number,
+    type: PropTypes.string,
+    uid: PropTypes.string
+}];
+
+export const PriceTierType = PropTypes.shape({
+    discount: PropTypes.shape({ amount_off: PropTypes.number, percent_off: PropTypes.number }),
+    final_price: PropTypes.shape({ currency: PropTypes.string, value: PropTypes.number }),
+    quantity: PropTypes.number
+});
+
+export const ItemsType = PropTypes.arrayOf(PropTypes.shape({
+    attributes: AttributesType,
+    configurable_options: AttributesType,
+    id: PropTypes.number,
+    image: ImageType,
+    name: PropTypes.string,
+    options: PropTypes.arrayOf(OptionType),
+    price_range: PriceType,
+    price_tiers: PropTypes.arrayOf(PriceTierType),
+    ...ReviewSummaryType,
+    review_summary: ReviewSummaryType,
+    short_description: DescriptionType,
+    sku: PropTypes.string,
+    small_image: ImageType,
+    special_from_date: PropTypes.string,
+    special_to_date: PropTypes.string,
+    stock_item: StockItemType,
+    stock_status: StockStatusType,
+    thumbnail: ImageType,
+    type_id: PropTypes.string,
+    uid: PropTypes.string,
+    url: PropTypes.string,
+    url_rewrites: PropTypes.arrayOf(UrlRewriteType)
+}));
+
+ItemsType.variants = ItemsType;
 
 export const PagesType = PropTypes.objectOf(ItemsType);
 
@@ -185,7 +255,7 @@ export const ProductItemsType = PropTypes.arrayOf(
 export const ProductType = PropTypes.shape({
     canonical_url: PropTypes.string,
     categories: CategoriesType,
-    description: PropTypes.shape({ html: PropTypes.string }),
+    description: DescriptionType,
     id: PropTypes.number,
     image: PropTypes.shape({ url: PropTypes.string }),
     image_label: PropTypes.string,
@@ -196,7 +266,7 @@ export const ProductType = PropTypes.shape({
     name: PropTypes.string,
     price_range: PriceType,
     product_links: ProductLinksType,
-    short_description: PropTypes.shape({ html: PropTypes.string }),
+    short_description: DescriptionType,
     small_image: PropTypes.shape({ url: PropTypes.string }),
     small_image_label: PropTypes.shape({ label: PropTypes.string }),
     special_price: PropTypes.number,
@@ -204,11 +274,7 @@ export const ProductType = PropTypes.shape({
     special_to_date: PropTypes.string,
     thumbnail: PropTypes.shape({ url: PropTypes.string }),
     thumbnail_label: PropTypes.shape({ label: PropTypes.string }),
-    price_tiers: PropTypes.arrayOf(PropTypes.shape({
-        discount: PropTypes.shape({ amount_off: PropTypes.number, percent_off: PropTypes.number }),
-        final_price: PropTypes.shape({ currency: PropTypes.string, value: PropTypes.number }),
-        quantity: PropTypes.number
-    })),
+    price_tiers: PropTypes.arrayOf(PriceTierType),
     url_key: PropTypes.string,
     quantity: PropTypes.number,
     review_summary: ReviewSummaryType,
