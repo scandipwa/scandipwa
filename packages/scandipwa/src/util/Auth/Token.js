@@ -23,7 +23,7 @@ export const setAuthorizationToken = (token) => {
     const state = getStore().getState();
     const {
         cookie_lifetime = ONE_HOUR,
-        access_token_lifetime = null
+        access_token_lifetime
     } = state.ConfigReducer;
 
     const token_lifetime = access_token_lifetime ? access_token_lifetime * ONE_HOUR : cookie_lifetime;
