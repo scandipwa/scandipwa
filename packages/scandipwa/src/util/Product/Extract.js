@@ -68,7 +68,7 @@ export const getMinQuantity = (product, configIndex = -1) => (
  * @namespace Util/Product/Extract/getMaxQuantity
  */
 export const getMaxQuantity = (product, configIndex = -1) => (
-    getQuantity(product, DEFAULT_MAX_PRODUCTS, 'max_sale_qty', configIndex) - 1
+    getQuantity(product, DEFAULT_MAX_PRODUCTS, 'max_sale_qty', configIndex)
 );
 
 /**
