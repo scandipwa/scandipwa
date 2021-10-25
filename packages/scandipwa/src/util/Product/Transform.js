@@ -12,6 +12,8 @@
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { formatPrice } from 'Util/Price';
 
+import { ADD_TO_CART } from './Product';
+
 export const PRICE_TYPE_PERCENT = 'PERCENT';
 
 /**
@@ -253,6 +255,7 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
  * @namespace Util/Product/Transform/magentoProductTransform
  */
 export const magentoProductTransform = (
+    action = ADD_TO_CART,
     product,
     quantity = 1,
     enteredOptions = [],
@@ -262,7 +265,7 @@ export const magentoProductTransform = (
 
     const productData = [];
 
-    if (typeId === PRODUCT_TYPE.grouped) {
+    if (typeId === PRODUCT_TYPE.grouped && action === ADD_TO_CART) {
         if (Object.keys(quantity).length === 0) {
             return productData;
         }

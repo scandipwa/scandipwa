@@ -19,6 +19,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { MixType } from 'Type/Common';
 import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
+import { ADD_TO_CART } from 'Util/Product';
 import {
     getMaxQuantity, getMinQuantity, getName, getProductInStock
 } from 'Util/Product/Extract';
@@ -118,7 +119,7 @@ export class AddToCartContainer extends PureComponent {
                 cartId,
                 fallbackAddToCart
             } = this.props;
-            const magentoProduct = magentoProductTransform(product, quantity);
+            const magentoProduct = magentoProductTransform(ADD_TO_CART, product, quantity);
 
             try {
                 await fallbackAddToCart({
