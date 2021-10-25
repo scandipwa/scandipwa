@@ -21,6 +21,7 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 import { ProductType } from 'Type/ProductList';
 import { LinkType } from 'Type/Router';
+import { ADD_TO_WISHLIST } from 'Util/Product';
 import { magentoProductTransform } from 'Util/Product/Transform';
 
 import './ProductCompareItem.style';
@@ -95,7 +96,7 @@ export class ProductCompareItem extends PureComponent {
 
         return (
             <ProductWishlistButton
-              magentoProduct={ magentoProductTransform(product, null) }
+              magentoProduct={ magentoProductTransform(ADD_TO_WISHLIST, product) }
               mix={ { block: 'ProductCard', elem: 'WishListButton' } }
             />
         );

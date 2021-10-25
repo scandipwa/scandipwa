@@ -20,7 +20,7 @@ import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import fromCache from 'Util/Cache/Cache';
 import getFieldsData from 'Util/Form/Extract';
-import { getNewParameters, getVariantIndex } from 'Util/Product';
+import { ADD_TO_CART, getNewParameters, getVariantIndex } from 'Util/Product';
 import {
     getAdjustedPrice,
     getMaxQuantity,
@@ -403,10 +403,11 @@ export class ProductContainer extends PureComponent {
         const configurableOptions = transformParameters(parameters, attributes);
 
         return magentoProductTransform(
+            ADD_TO_CART,
             product,
             quantity,
             enteredOptions,
-            [...selectedOptions, ...downloadableLinks, ...configurableOptions]
+            [...selectedOptions, ...downloadableLinks, ...configurableOptions],
         );
     }
 
