@@ -196,7 +196,7 @@ export const PriceTierType = PropTypes.shape({
     quantity: PropTypes.number
 });
 
-export const ItemsType = PropTypes.arrayOf(PropTypes.shape({
+export const ItemType = PropTypes.shape({
     attributes: AttributesType,
     configurable_options: AttributesType,
     id: PropTypes.number,
@@ -219,7 +219,9 @@ export const ItemsType = PropTypes.arrayOf(PropTypes.shape({
     uid: PropTypes.string,
     url: PropTypes.string,
     url_rewrites: PropTypes.arrayOf(UrlRewriteType)
-}));
+});
+
+export const ItemsType = PropTypes.arrayOf(ItemType);
 
 ItemsType.variants = ItemsType;
 
@@ -234,8 +236,6 @@ export const ItemOptionsType = PropTypes.arrayOf(
         position: PropTypes.number,
         price: PropTypes.number,
         price_type: PropTypes.string,
-        // eslint-disable-next-line no-use-before-define
-        product: PropTypes.shape({}),
         quantity: PropTypes.number
     })
 );
@@ -256,31 +256,17 @@ export const ProductType = PropTypes.shape({
     canonical_url: PropTypes.string,
     categories: CategoriesType,
     description: DescriptionType,
-    id: PropTypes.number,
-    image: PropTypes.shape({ url: PropTypes.string }),
-    image_label: PropTypes.string,
     media_gallery_entries: MediaType,
     meta_description: PropTypes.string,
     meta_keyword: PropTypes.string,
     meta_title: PropTypes.string,
-    name: PropTypes.string,
-    price_range: PriceType,
     product_links: ProductLinksType,
-    short_description: DescriptionType,
-    small_image: PropTypes.shape({ url: PropTypes.string }),
-    small_image_label: PropTypes.shape({ label: PropTypes.string }),
     special_price: PropTypes.number,
-    special_from_date: PropTypes.string,
-    special_to_date: PropTypes.string,
-    thumbnail: PropTypes.shape({ url: PropTypes.string }),
-    thumbnail_label: PropTypes.shape({ label: PropTypes.string }),
-    price_tiers: PropTypes.arrayOf(PriceTierType),
     url_key: PropTypes.string,
     quantity: PropTypes.number,
-    review_summary: ReviewSummaryType,
-    options: OptionsType,
     items: ProductItemsType,
-    reviews: ReviewsType
+    reviews: ReviewsType,
+    ...ItemType
 });
 
 export const DownloadableSamplesType = PropTypes.arrayOf(

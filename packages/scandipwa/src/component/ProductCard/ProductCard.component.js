@@ -45,7 +45,7 @@ export class ProductCard extends Product {
         hideWishlistButton: PropTypes.bool,
         isWishlistEnabled: PropTypes.bool.isRequired,
         hideCompareButton: PropTypes.bool,
-        parameters: PropTypes.shape({}).isRequired,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         showSelectOptionsNotification: PropTypes.func.isRequired,
         registerSharedElement: PropTypes.func.isRequired
     };
