@@ -177,6 +177,7 @@ export const getBundleOption = (uid, options = []) => {
  * @param dynamicPrice
  * @param adjustedPrice
  * @param type
+ * @param options
  * @returns {{originalPrice: {maxFinalPriceExclTax: {valueFormatted: string}, minFinalPrice: {valueFormatted: string}, minFinalPriceExclTax: {valueFormatted: string}, maxFinalPrice: {valueFormatted: string}}, price: {originalPriceExclTax: {currency: string, value: (number|number)}, originalPrice: {currency: string, value: (number|number)}, finalPriceExclTax: {currency: string, value: (number|number)}, finalPrice: {currency: string, value: (number|number)}, discount: {percentOff: number}}}}
  * @namespace Util/Product/Extract/getPrice
  */
@@ -184,26 +185,47 @@ export const getPrice = (
     priceRange,
     dynamicPrice = false,
     adjustedPrice = {},
-    type = PRODUCT_TYPE.simple
+    type = PRODUCT_TYPE.simple,
+    options = []
 ) => {
-    const priceAcc = type === PRODUCT_TYPE.bundle ? 'default_final_price' : 'regular_price';
+    const priceAcc = type === PRODUCT_TYPE.bundle
+        ? 'default_final_price'
+        : 'regular_price';
     const priceExcTaxAcc = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.configurable
         ? 'default_final_price_excl_tax'
         : 'regular_price_excl_tax';
+    const accessRange = type === PRODUCT_TYPE.virtual
+        ? 'maximum_price'
+        : 'minimum_price';
 
     const {
-        minimum_price: {
+        [accessRange]: {
             [priceAcc]: { currency = 'USD', value: basePrice = 0 } = {},
             [priceExcTaxAcc]: { value: basePriceExclTax = 0 } = {},
-            discount: { percent_off: percentOff = 0 } = {},
+            discount: {
+                percent_off: percentOffRef = 0,
+                amount_off: amountOff = 0
+            } = {}
+        } = {},
+        minimum_price: {
+            regular_price: minRegularPrice = {},
             final_price: minFinalPrice = {},
             final_price_excl_tax: minFinalPriceExclTax = {}
         } = {},
         maximum_price: {
+            regular_price: maxRegularPrice = {},
             final_price: maxFinalPrice = {},
             final_price_excl_tax: maxFinalPriceExclTax = {}
         } = {}
     } = priceRange || {};
+
+    // Fixes decimal misplacement for discount
+    // eslint-disable-next-line no-magic-numbers
+    const percentOffCalc = (amountOff / basePrice) * 100;
+    // eslint-disable-next-line no-magic-numbers
+    const percentOff = Math.round(percentOffCalc * 100) / 100 === percentOffRef
+        ? percentOffCalc
+        : percentOffRef;
 
     // eslint-disable-next-line no-magic-numbers
     const discountValue = (1 - percentOff / 100);
@@ -225,16 +247,28 @@ export const getPrice = (
     // Adds adjusted price
     Object.keys(adjustedPrice || {}).forEach((key) => {
         const { [key]: group } = adjustedPrice;
-        const { inclTax = 0, exclTax = 0, hasDiscountCalculated = false } = group;
+        const {
+            inclTax = 0,
+            exclTax = 0,
+            requiresDiscountCalculations = true,
+            hasDiscountCalculated = false
+        } = group;
 
-        if (hasDiscountCalculated) {
+        if (requiresDiscountCalculations) {
+            if (hasDiscountCalculated) {
+                priceValue.value += inclTax;
+                priceValueExclTax.value += exclTax;
+                priceValueExclDiscount.value += inclTax / discountValueRevert;
+                priceValueExclDiscountExclTax.value += exclTax / discountValueRevert;
+            } else {
+                priceValue.value += inclTax * discountValue;
+                priceValueExclTax.value += exclTax * discountValue;
+                priceValueExclDiscount.value += inclTax;
+                priceValueExclDiscountExclTax.value += exclTax;
+            }
+        } else {
             priceValue.value += inclTax;
             priceValueExclTax.value += exclTax;
-            priceValueExclDiscount.value += inclTax / discountValueRevert;
-            priceValueExclDiscountExclTax.value += exclTax / discountValueRevert;
-        } else {
-            priceValue.value += inclTax * discountValue;
-            priceValueExclTax.value += exclTax * discountValue;
             priceValueExclDiscount.value += inclTax;
             priceValueExclDiscountExclTax.value += exclTax;
         }
@@ -245,6 +279,27 @@ export const getPrice = (
     priceValueExclTax.valueFormatted = formatPrice(priceValueExclTax.value, currency);
     priceValueExclDiscount.valueFormatted = formatPrice(priceValueExclDiscount.value, currency);
     priceValueExclDiscountExclTax.valueFormatted = formatPrice(priceValueExclDiscountExclTax.value, currency);
+
+    const configuration = {
+        containsOptions: options && !!options.length,
+        containsOptionsWithPrice: false,
+        containsRequiredOptions: false,
+        containsRequiredOptionsWithPrice: false
+    };
+
+    if (options) {
+        configuration.containsOptionsWithPrice = !!options.find(
+            ({ value = [] }) => Array.isArray(value) && value.find(({ price }) => price)
+        );
+        const requiredOptions = options.filter(({ required }) => required);
+        configuration.containsRequiredOptions = !!requiredOptions.length;
+
+        if (requiredOptions.length) {
+            configuration.containsRequiredOptionsWithPrice = !!requiredOptions.find(
+                ({ value = [] }) => Array.isArray(value) && value.find(({ price }) => price)
+            );
+        }
+    }
 
     return {
         price: {
@@ -257,6 +312,10 @@ export const getPrice = (
             }
         },
         originalPrice: {
+            minRegularPrice: {
+                ...minRegularPrice,
+                valueFormatted: formatPrice(minRegularPrice.value || 0, currency)
+            },
             minFinalPrice: {
                 ...minFinalPrice,
                 valueFormatted: formatPrice(minFinalPrice.value || 0, currency)
@@ -264,6 +323,10 @@ export const getPrice = (
             minFinalPriceExclTax: {
                 ...minFinalPriceExclTax,
                 valueFormatted: formatPrice(minFinalPriceExclTax.value || 0, currency)
+            },
+            maxRegularPrice: {
+                ...maxRegularPrice,
+                valueFormatted: formatPrice(maxRegularPrice.value || 0, currency)
             },
             maxFinalPrice: {
                 ...maxFinalPrice,
@@ -273,7 +336,8 @@ export const getPrice = (
                 ...maxFinalPriceExclTax,
                 valueFormatted: formatPrice(maxFinalPriceExclTax.value || 0, currency)
             }
-        }
+        },
+        configuration
     };
 };
 
@@ -299,17 +363,19 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
         downloadable: {
             exclTax: 0,
             inclTax: 0,
+            requiresDiscountCalculations: true,
             hasDiscountCalculated: false
         },
         bundle: {
             exclTax: 0,
             inclTax: 0,
+            requiresDiscountCalculations: true,
             hasDiscountCalculated: true
         },
         config: {
             exclTax: 0,
             inclTax: 0,
-            hasDiscountCalculated: true
+            requiresDiscountCalculations: false
         }
     };
 

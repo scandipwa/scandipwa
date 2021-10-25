@@ -225,6 +225,13 @@ export const DownloadableSamplesType = PropTypes.arrayOf(
     })
 );
 
+export const PriceConfiguration = PropTypes.shape({
+    containsOptions: PropTypes.bool,
+    containsOptionsWithPrice: PropTypes.bool,
+    containsRequiredOptions: PropTypes.bool,
+    containsRequiredOptionsWithPrice: PropTypes.bool
+});
+
 export const MagentoProductType = PropTypes.shape({
     entered_options: PropTypes.arrayOf(PropTypes.shape({
         uid: PropTypes.string,

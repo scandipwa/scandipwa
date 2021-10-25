@@ -218,6 +218,7 @@ export class ProductContainer extends PureComponent {
         const { quantity, parameters, adjustedPrice } = this.state;
         const {
             product,
+            product: { options = [] } = {},
             configFormRef,
             device,
             isWishlistEnabled
@@ -236,7 +237,7 @@ export class ProductContainer extends PureComponent {
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
             productName: getName(product),
-            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type])
+            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type, options])
         };
 
         return {
