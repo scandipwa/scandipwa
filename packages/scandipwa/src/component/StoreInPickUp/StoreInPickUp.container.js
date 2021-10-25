@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { STORE_IN_PICK_UP_POPUP_ID } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.config';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-
 import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { Addresstype } from 'Type/Account';
 import { ShippingMethodsType, StoreType } from 'Type/Checkout';

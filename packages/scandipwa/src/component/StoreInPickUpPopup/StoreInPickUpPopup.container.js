@@ -18,10 +18,9 @@ import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
-import { AddressType } from 'Type/Account';
+import { Addresstype } from 'Type/Account';
 import { ShippingMethodsType, StoreType } from 'Type/Checkout';
 import { CountriesType } from 'Type/Config';
-
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 
 import StoreInPickUpComponent from './StoreInPickUpPopup.component';
@@ -56,7 +55,7 @@ export class StoreInPickUpContainer extends PureComponent {
         defaultCountry: PropTypes.string.isRequired,
         cartItemsSku: PropTypes.arrayOf(PropTypes.string).isRequired,
         clearPickUpStore: PropTypes.func.isRequired,
-        selectedStore: storeType
+        selectedStore: StoreType
     };
 
     static defaultProps = {
