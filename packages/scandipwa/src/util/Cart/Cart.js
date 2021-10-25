@@ -227,3 +227,10 @@ export const getCartTotalSubPrice = (state) => {
 
 /** @namespace Util/Cart/getItemsCountLabel */
 export const getItemsCountLabel = (items_qty) => (items_qty === 1 ? __('1 item') : __('%s items', items_qty || 0));
+
+/** @namespace Util/Cart/getAllCartItemsSku */
+export const getAllCartItemsSku = (cartItems) => cartItems.reduce((acc, item) => {
+    acc.push({ sku: item.sku });
+
+    return acc;
+}, []);
