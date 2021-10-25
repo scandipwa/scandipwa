@@ -140,7 +140,7 @@ export class StyleGuidePageComponent extends PureComponent {
                 <button block="Button" id="hollowHoverButtons" mods={ { isHollow: true, isHovered: true } }>
                     { __('Secondary button') }
                 </button>
-                <button block="Button" id="hollowHoverButtons" disabled>
+                <button block="Button" id="hollowHoverButtons" mods={ { isHollow: true } } disabled>
                     { __('Secondary button') }
                 </button>
             </div>
