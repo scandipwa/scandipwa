@@ -222,6 +222,7 @@ export class ProductListQuery {
             'type_id',
             'stock_status',
             'url',
+            'salable_qty',
             this._getStockItemField(),
             this._getProductThumbnailField(),
             this._getCartConfigurableProductFragment(),
@@ -255,6 +256,7 @@ export class ProductListQuery {
                 'id',
                 'sku',
                 'stock_status',
+                'salable_qty',
                 this._getStockItemField(),
                 this._getProductThumbnailField(),
                 this._getAttributesField(true, true)
@@ -278,6 +280,7 @@ export class ProductListQuery {
             'name',
             'type_id',
             'stock_status',
+            'salable_qty',
             this._getStockItemField(),
             this._getPriceRangeField()
         ];
