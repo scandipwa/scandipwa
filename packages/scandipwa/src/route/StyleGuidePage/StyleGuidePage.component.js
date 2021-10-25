@@ -15,19 +15,14 @@ import { PureComponent } from 'react';
 
 import Breadcrumbs from 'Component/Breadcrumbs/Breadcrumbs.component';
 import ContentWrapper from 'Component/ContentWrapper';
-import HeartIcon from 'Component/HeartIcon';
-import Image from 'Component/Image';
 import LockIcon from 'Component/LockIcon';
 import Notification from 'Component/Notification';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import UserIcon from 'Component/UserIcon';
 
 import {
     ADDITIONAL_ELEMENTS,
     BUTTONS, COLORS, CONTENT_WRAPPER,
-    ICONS,
-    ICONS_LIST,
     INPUTS,
     NOTIFICATION_ERROR_DATA,
     NOTIFICATION_INFO_DATA,
@@ -49,7 +44,6 @@ export class StyleGuidePageComponent extends PureComponent {
         [BUTTONS]: () => this.renderButtons(),
         [TEXT_STYLES]: () => this.renderTextStyles(),
         [INPUTS]: () => this.renderInputs(),
-        [ICONS]: () => this.renderIcons(),
         [ADDITIONAL_ELEMENTS]: () => this.renderAdditionalElements()
     };
 
@@ -407,37 +401,6 @@ export class StyleGuidePageComponent extends PureComponent {
                   attr={ { checked: true } }
                 />
             </>
-        );
-    }
-
-    renderIcon(icon) {
-        const [name, Component] = icon;
-
-        if (typeof Component === 'string') {
-            return (
-                <Image src={ Component } alt={ name } key={ name } />
-            );
-        }
-
-        return <Component />;
-    }
-
-    renderIcons() {
-        return (
-            <div block="StyleGuidePage" elem="Icons">
-                { Object.entries(ICONS_LIST).map(this.renderIcon) }
-                <h4 block="StyleGuidePage" elem="SubHeading">
-                    { __('Icons in header [default state + hover]') }
-                </h4>
-                <div>
-                    <UserIcon />
-                    <UserIcon isActive />
-                </div>
-                <div>
-                    <HeartIcon />
-                    <HeartIcon isActive />
-                </div>
-            </div>
         );
     }
 

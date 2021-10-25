@@ -35,7 +35,6 @@ export const COLORS = 'colors';
 export const BUTTONS = 'buttons';
 export const TEXT_STYLES = 'text styles';
 export const INPUTS = 'inputs';
-export const ICONS = 'icons';
 export const ADDITIONAL_ELEMENTS = 'additional elements';
 export const ICONS_LIST = {
     CartIcon,
