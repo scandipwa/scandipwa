@@ -23,3 +23,6 @@ export const toggleScroll = (state) => document.documentElement.classList.toggle
 
 /** @namespace Util/Browser/isScrollDisabled */
 export const isScrollDisabled = () => document.documentElement.classList.contains('scrollDisabled');
+
+/** @namespace Util/Browser/scrollToTop */
+export const scrollToTop = (options = {}) => window.scrollTo({ ...options, top: 0 });

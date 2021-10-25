@@ -18,7 +18,7 @@ import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action'
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { addressType } from 'Type/Account';
+import { Addresstype } from 'Type/Account';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 
@@ -54,7 +54,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
         payload: PropTypes.shape({
-            address: addressType
+            address: Addresstype
         }).isRequired
     };
 

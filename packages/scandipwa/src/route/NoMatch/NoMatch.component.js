@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Link from 'Component/Link';
+import { scrollToTop } from 'Util/Browser';
 
 import './NoMatch.style';
 
@@ -27,7 +28,7 @@ export class NoMatch extends PureComponent {
     componentDidMount() {
         this.updateBreadcrumbs();
         this.cleanUpTransition();
-        window.scrollTo({ top: 0 });
+        scrollToTop();
     }
 
     cleanUpTransition() {

@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { orderType } from 'Type/Account';
+import { OrderType } from 'Type/Account';
 
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
 
@@ -33,7 +33,7 @@ export const mapStateToProps = (state) => ({
 export class MyAccountOrderTableRowContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
-        order: orderType.isRequired,
+        order: OrderType.isRequired,
         display_tax_in_shipping_amount: PropTypes.string
     };
 

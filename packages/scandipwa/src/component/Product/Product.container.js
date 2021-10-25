@@ -29,7 +29,7 @@ import {
     getPrice,
     getProductInStock
 } from 'Util/Product/Extract';
-import { magentoProductTransform } from 'Util/Product/Transform';
+import { magentoProductTransform, transformParameters } from 'Util/Product/Transform';
 import { validateGroup } from 'Util/Validator';
 
 export const CartDispatcher = import(
@@ -66,7 +66,7 @@ export class ProductContainer extends PureComponent {
         configFormRef: PropTypes.object,
 
         parameters: PropTypes.objectOf(PropTypes.string),
-        cartId: PropTypes.string.isRequired,
+        cartId: PropTypes.string,
 
         device: DeviceType,
         isWishlistEnabled: PropTypes.bool.isRequired,
@@ -80,7 +80,8 @@ export class ProductContainer extends PureComponent {
         parameters: {},
         device: {},
         defaultSelectedOptions: [],
-        defaultEnteredOptions: []
+        defaultEnteredOptions: [],
+        cartId: ''
     };
 
     containerFunctions = {
@@ -139,7 +140,7 @@ export class ProductContainer extends PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { quantityState } = state;
+        const { quantity: quantityState } = state;
         const quantity = ProductContainer.getDefaultQuantity(props, state);
 
         if (quantity && typeof quantityState !== 'object') {
@@ -176,6 +177,11 @@ export class ProductContainer extends PureComponent {
         }
 
         return null;
+    }
+
+    componentDidMount() {
+        this.updateSelectedValues();
+        this.updateAdjustedPrice();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -219,6 +225,7 @@ export class ProductContainer extends PureComponent {
         } = this.props;
 
         const activeProduct = this.getActiveProduct();
+        const magentoProduct = this.getMagentoProduct();
         const {
             price_range: priceRange = {},
             dynamic_price: dynamicPrice = false,
@@ -240,6 +247,7 @@ export class ProductContainer extends PureComponent {
             configFormRef,
             parameters,
             device,
+            magentoProduct,
             ...output
         };
     }
@@ -382,22 +390,23 @@ export class ProductContainer extends PureComponent {
      * @returns {*[]}
      */
     getMagentoProduct() {
-        const { product } = this.props;
         const {
             quantity,
             enteredOptions,
             selectedOptions,
-            downloadableLinks
+            downloadableLinks,
+            parameters
         } = this.state;
 
-        const activeProduct = this.getActiveProduct();
-        const parentProduct = activeProduct === product ? null : product;
+        const { product, product: { attributes } } = this.props;
+
+        const configurableOptions = transformParameters(parameters, attributes);
+
         return magentoProductTransform(
-            activeProduct,
+            product,
             quantity,
-            parentProduct,
             enteredOptions,
-            [...selectedOptions, ...downloadableLinks],
+            [...selectedOptions, ...downloadableLinks, ...configurableOptions]
         );
     }
 

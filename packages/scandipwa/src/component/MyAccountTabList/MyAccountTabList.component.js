@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import ExpandableContent from 'Component/ExpandableContent';
 import MyAccountTabListItem from 'Component/MyAccountTabListItem';
-import { activeTabType, tabMapType } from 'Type/Account';
+import { ActiveTabType, TabMapType } from 'Type/Account';
 import { isSignedIn } from 'Util/Auth';
 
 import './MyAccountTabList.style';
@@ -22,8 +22,8 @@ import './MyAccountTabList.style';
 /** @namespace Component/MyAccountTabList/Component */
 export class MyAccountTabList extends PureComponent {
     static propTypes = {
-        tabMap: tabMapType.isRequired,
-        activeTab: activeTabType.isRequired,
+        tabMap: TabMapType.isRequired,
+        activeTab: ActiveTabType.isRequired,
         handleLogout: PropTypes.func.isRequired,
         changeActiveTab: PropTypes.func.isRequired
     };

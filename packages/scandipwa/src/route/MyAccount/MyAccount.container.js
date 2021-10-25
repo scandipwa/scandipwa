@@ -22,11 +22,15 @@ import OrderReducer from 'Store/Order/Order.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ADDRESS_BOOK,
-    DASHBOARD, MY_DOWNLOADABLE, MY_ORDERS,
-    MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
+    DASHBOARD,
+    MY_DOWNLOADABLE,
+    MY_ORDERS,
+    MY_WISHLIST,
+    NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { HistoryType, LocationType, MatchType } from 'Type/Router';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
 import { appendWithStoreCode, replace } from 'Util/Url';
@@ -194,8 +198,7 @@ export class MyAccountContainer extends PureComponent {
         this.redirectIfNotSignedIn();
         this.onSignIn();
         this.updateBreadcrumbs();
-
-        window.scrollTo({ top: 0 });
+        scrollToTop();
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -226,7 +229,7 @@ export class MyAccountContainer extends PureComponent {
             this.updateBreadcrumbs();
             this.changeHeaderState();
 
-            window.scrollTo({ top: 0 });
+            scrollToTop();
         }
 
         if (Object.keys(wishlistItems).length !== Object.keys(prevWishlistItems).length) {

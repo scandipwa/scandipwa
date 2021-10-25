@@ -16,10 +16,15 @@ import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
-import { addressType } from 'Type/Account';
-import { paymentMethodsType, shippingMethodsType, storeType } from 'Type/Checkout';
-import { HistoryType } from 'Type/Common';
+import { Addresstype } from 'Type/Account';
+import {
+    CheckoutStepType,
+    PaymentMethodsType,
+    ShippingMethodsType,
+    StoreType
+} from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
+import { HistoryType } from 'Type/Router';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
@@ -71,17 +76,17 @@ export class Checkout extends PureComponent {
     static propTypes = {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
+        paymentMethods: PaymentMethodsType.isRequired,
         saveAddressInformation: PropTypes.func.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
-        shippingAddress: addressType.isRequired,
-        billingAddress: addressType.isRequired,
-        estimateAddress: addressType.isRequired,
+        shippingAddress: Addresstype.isRequired,
+        billingAddress: Addresstype.isRequired,
+        estimateAddress: Addresstype.isRequired,
         checkoutTotals: TotalsType.isRequired,
         orderID: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,
@@ -90,11 +95,7 @@ export class Checkout extends PureComponent {
         history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
         paymentTotals: TotalsType,
-        checkoutStep: PropTypes.oneOf([
-            SHIPPING_STEP,
-            BILLING_STEP,
-            DETAILS_STEP
-        ]).isRequired,
+        checkoutStep: CheckoutStepType.isRequired,
         isCreateUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,
@@ -108,7 +109,7 @@ export class Checkout extends PureComponent {
         cartTotalSubPrice: PropTypes.number.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        selectedStoreAddress: storeType
+        selectedStoreAddress: StoreType
     };
 
     static defaultProps = {

@@ -19,6 +19,7 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { UrlRewriteType } from 'Type/Router';
 
 import NoMatch from './NoMatch.component';
 
@@ -50,7 +51,7 @@ export class NoMatchContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
-        urlRewrite: PropTypes.object.isRequired,
+        urlRewrite: UrlRewriteType.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired
     };
 

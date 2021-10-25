@@ -19,7 +19,27 @@ export const AttributeType = PropTypes.shape({
     attribute_options: PropTypes.objectOf(PropTypes.shape({
         label: PropTypes.string,
         value: PropTypes.string
-    }))
+    })),
+    has_swatch: PropTypes.bool,
+    is_boolean: PropTypes.bool
+});
+
+export const AttributesType = PropTypes.objectOf(AttributeType);
+
+export const FilterAttributeType = PropTypes.shape({
+    attribute_code: PropTypes.string,
+    attribute_label: PropTypes.string,
+    attribute_position: PropTypes.number,
+    attribute_values: PropTypes.arrayOf(PropTypes.string),
+    attribute_type: PropTypes.string,
+    attribute_options: PropTypes.objectOf(PropTypes.shape({
+        label: PropTypes.string,
+        count: PropTypes.number,
+        value_string: PropTypes.string,
+        swatch_data: PropTypes.shape({ type: PropTypes.string, value: PropTypes.string })
+    })),
+    is_boolean: PropTypes.bool,
+    has_swatch: PropTypes.bool
 });
 
 export const BreadcrumbsType = PropTypes.arrayOf(
@@ -47,8 +67,14 @@ export const ThumbnailType = PropTypes.shape({
 export const MediaItemType = PropTypes.shape({
     thumbnail: ThumbnailType,
     file: PropTypes.string,
-    content: PropTypes.any,
-    video_content: PropTypes.any,
+    video_content: PropTypes.shape({
+        media_type: PropTypes.string,
+        video_description: PropTypes.string,
+        video_metadata: PropTypes.string,
+        video_provider: PropTypes.string,
+        video_title: PropTypes.string,
+        video_url: PropTypes.string
+    }),
     id: PropTypes.number,
     media_type: PropTypes.string,
     label: PropTypes.string
@@ -191,21 +217,6 @@ export const ProductType = PropTypes.shape({
     reviews: ReviewsType
 });
 
-export const FilterType = PropTypes.objectOf(
-    PropTypes.arrayOf(PropTypes.string)
-);
-
-export const FilterInputType = PropTypes.shape({
-    categoryIds: PropTypes.number,
-    categoryUrlPath: PropTypes.string,
-    customFilters: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-    priceRange: PropTypes.shape({
-        min: PropTypes.number,
-        max: PropTypes.number
-    }),
-    condtions: PropTypes.string
-});
-
 export const DownloadableSamplesType = PropTypes.arrayOf(
     PropTypes.shape({
         sample_url: ProductType.string,
@@ -219,4 +230,14 @@ export const PriceConfiguration = PropTypes.shape({
     containsOptionsWithPrice: PropTypes.bool,
     containsRequiredOptions: PropTypes.bool,
     containsRequiredOptionsWithPrice: PropTypes.bool
+});
+
+export const MagentoProductType = PropTypes.shape({
+    entered_options: PropTypes.arrayOf(PropTypes.shape({
+        uid: PropTypes.string,
+        value: PropTypes.string
+    })),
+    quantity: PropTypes.number,
+    selected_options: PropTypes.arrayOf(PropTypes.string),
+    sku: PropTypes.string
 });

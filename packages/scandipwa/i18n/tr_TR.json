@@ -72,7 +72,6 @@
     "Email": "E-posta",
     "Email addresses, separated by commas": null,
     "Enter personal information": "Kişisel bilgileri girin",
-    "Error Adding Product To Cart": "Ürünü Sepete Eklerken Hata",
     "Error cleaning wishlist": "Dilek listesi temizlenirken hata oluştu",
     "Error clearing wish list!": "Dilek listesi silinirken hata oluştu!",
     "Error initializing Klarna payment method.": "Klarna ödeme yöntemini başlatma hatası.",
@@ -165,7 +164,6 @@
     "Price: ": "Fiyat:",
     "Proceed to billing": "Fatura Bilgilerine Devam Et",
     "Product %s thumbnail.": "Ürün %s küçük resmi.",
-    "Product Added To Cart": "Ürün Sepete Eklendi",
     "Product Price": "Ürün Fiyatı",
     "Product added to wish-list!": null,
     "Product has been removed from your Wish List!": "Ürün İstek Listenizden çıkarıldı!",
@@ -491,7 +489,6 @@
     "Incorrect input! Numeric-Dash value required!": null,
     "Incorrect input! Integer required!": null,
     "Incorrect input! Natural number required!": null,
-    "Incorrect email input!": null,
     "Incorrect date input!": null,
     "Incorrect password input!": null,
     "Incorrect phone input!": null,
@@ -531,5 +528,8 @@
     "Max quantity %s!": null,
     "Product is out of stock!": null,
     "Select product...": null,
-    "Option": null
+    "Option": null,
+    "Available items moved to cart": null,
+    "Incorrect email format!": null,
+    "Incorrect list of emails!": null
 }

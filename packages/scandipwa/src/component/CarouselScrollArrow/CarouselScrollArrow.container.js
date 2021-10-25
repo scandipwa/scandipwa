@@ -17,7 +17,6 @@ import CarouselScrollArrow from './CarouselScrollArrow.component';
 export class CarouselScrollArrowContainer extends PureComponent {
     static propTypes = {
         isNextArrow: PropTypes.bool.isRequired,
-        isDisabled: PropTypes.bool.isRequired,
         onClick: PropTypes.func.isRequired,
         isInvisible: PropTypes.bool.isRequired
     };
@@ -27,12 +26,11 @@ export class CarouselScrollArrowContainer extends PureComponent {
     };
 
     containerProps = () => {
-        const { isNextArrow, isDisabled, isInvisible } = this.props;
+        const { isNextArrow, isInvisible } = this.props;
 
         return {
             mods: {
                 isNextArrow,
-                isDisabled,
                 isInvisible
             }
         };

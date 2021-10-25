@@ -22,8 +22,9 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import ProductReducer from 'Store/Product/Product.reducer';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
+import { HistoryType, LocationType, MatchType } from 'Type/Router';
+import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import { getIsConfigurableParameterSelected } from 'Util/Product';
 import { debounce } from 'Util/Request';
@@ -55,7 +56,6 @@ export const ProductDispatcher = import(
 export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product,
-    navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
     metaTitle: state.MetaReducer.title,
     isMobile: state.ConfigReducer.device.isMobile,
     store: state.ConfigReducer.code
@@ -99,7 +99,6 @@ export class ProductPageContainer extends PureComponent {
         history: HistoryType.isRequired,
         match: MatchType.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
-        navigation: PropTypes.shape(PropTypes.shape).isRequired,
         metaTitle: PropTypes.string,
         addRecentlyViewedProduct: PropTypes.func.isRequired,
         store: PropTypes.string.isRequired,
@@ -213,7 +212,7 @@ export class ProductPageContainer extends PureComponent {
         /**
          * Scroll page top in order to display it from the start
          */
-        this.scrollTop();
+        scrollToTop();
     }
 
     componentDidUpdate(prevProps) {
@@ -320,10 +319,6 @@ export class ProductPageContainer extends PureComponent {
         } = product;
 
         addRecentlyViewedProduct(productPreview, store);
-    }
-
-    scrollTop() {
-        window.scrollTo(0, 0);
     }
 
     setOfflineNoticeSize = () => {

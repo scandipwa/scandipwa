@@ -22,8 +22,13 @@ export class RecentlyViewedWidget extends Component {
     static propTypes = {
         pageSize: PropTypes.number.isRequired,
         products: ItemsType.isRequired,
-        productCardProps: PropTypes.object.isRequired,
-        productCardFunctions: PropTypes.object.isRequired,
+        productCardProps: PropTypes.shape({
+            siblingsHaveBrands: PropTypes.bool,
+            siblingsHavePriceBadge: PropTypes.bool,
+            siblingsHaveTierPrice: PropTypes.bool,
+            siblingsHaveConfigurableOptions: PropTypes.bool
+        }).isRequired,
+        productCardFunctions: PropTypes.objectOf(PropTypes.func).isRequired,
         isLoading: PropTypes.bool.isRequired
     };
 

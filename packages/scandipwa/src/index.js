@@ -12,16 +12,9 @@
 import 'Util/Polyfill';
 import 'Style/main';
 
-import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 
 import App from 'Component/App';
-
-// TODO: move this out to i18-runtime
-PropTypes.string = PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object
-]);
 
 // let's register service-worker
 if ('serviceWorker' in navigator) {

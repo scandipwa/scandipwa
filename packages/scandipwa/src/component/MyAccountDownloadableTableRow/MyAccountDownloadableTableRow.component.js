@@ -15,14 +15,14 @@ import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
 import { STATUS_EXPIRED } from 'Component/MyAccountDownloadableTableRow/MyAccountDownloadableTableRow.config';
-import { downloadableType } from 'Type/Account';
+import { DownloadableType } from 'Type/Account';
 
 import './MyAccountDownloadableTableRow.style';
 
 /** @namespace Component/MyAccountDownloadableTableRow/Component */
 export class MyAccountDownloadableTableRowComponent extends PureComponent {
     static propTypes = {
-        order: downloadableType.isRequired,
+        order: DownloadableType.isRequired,
         onOrderIdClick: PropTypes.func.isRequired,
         isOpenInNewTab: PropTypes.bool.isRequired
     };

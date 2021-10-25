@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import { EventsType } from 'Type/Field';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
 import FieldNumber from './FieldNumber.component';
@@ -25,7 +26,7 @@ export class FieldNumberContainer extends PureComponent {
     static propTypes = {
         // Field attributes
         attr: PropTypes.object.isRequired,
-        events: PropTypes.object.isRequired,
+        events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired
     };
@@ -43,7 +44,17 @@ export class FieldNumberContainer extends PureComponent {
 
     componentDidMount() {
         const { attr: { defaultValue = 0 } } = this.props;
-        this.handleValueChange(defaultValue);
+        this.handleInitialLoad(defaultValue);
+    }
+
+    componentDidUpdate(prevProps) {
+        const { attr: { value } = {} } = this.props;
+        const { attr: { value: prevValue } = {} } = prevProps;
+
+        if (value !== prevValue) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ value });
+        }
     }
 
     setRef(elem) {
@@ -55,21 +66,42 @@ export class FieldNumberContainer extends PureComponent {
         }
     }
 
-    handleValueChange(value) {
+    setValue(value) {
         const {
-            events: { onChange } = {},
             attr: { min = 0, max = DEFAULT_MAX_PRODUCTS } = {}
         } = this.props;
 
         // eslint-disable-next-line no-nested-ternary
         const rangedValue = value < min ? min : value > max ? max : value;
 
-        if (typeof onChange === 'function') {
-            this.fieldRef.value = rangedValue;
-            onChange(rangedValue);
-        }
-
+        this.fieldRef.value = value;
         this.setState({ value: rangedValue });
+
+        return rangedValue;
+    }
+
+    handleInitialLoad(value) {
+        const {
+            events: { onLoad } = {}
+        } = this.props;
+
+        const newValue = this.setValue(value);
+
+        if (typeof onLoad === 'function') {
+            onLoad(newValue);
+        }
+    }
+
+    handleValueChange(value) {
+        const {
+            events: { onChange } = {}
+        } = this.props;
+
+        const newValue = this.setValue(value);
+
+        if (typeof onChange === 'function') {
+            onChange(newValue);
+        }
     }
 
     containerProps() {
@@ -78,12 +110,14 @@ export class FieldNumberContainer extends PureComponent {
                 value,
                 autoComplete,
                 autocomplete,
+                defaultValue,
                 ...attr
             } = {},
             events,
             setRef,
             isDisabled
         } = this.props;
+
         const { value: stateValue } = this.state;
 
         return {
@@ -95,7 +129,7 @@ export class FieldNumberContainer extends PureComponent {
             events,
             setRef,
             isDisabled,
-            value: value || stateValue
+            value: stateValue
         };
     }
 

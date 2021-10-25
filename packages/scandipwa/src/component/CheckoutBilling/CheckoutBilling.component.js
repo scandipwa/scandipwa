@@ -20,8 +20,8 @@ import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import Form from 'Component/PureForm/Form';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { addressType } from 'Type/Account';
-import { paymentMethodsType } from 'Type/Checkout';
+import { Addresstype } from 'Type/Account';
+import { PaymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
 
@@ -46,10 +46,10 @@ export class CheckoutBilling extends PureComponent {
         onBillingError: PropTypes.func.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
         showPopup: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
+        paymentMethods: PaymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
         cartTotalSubPrice: PropTypes.number.isRequired,
-        shippingAddress: addressType.isRequired,
+        shippingAddress: Addresstype.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
         })).isRequired,

@@ -16,8 +16,8 @@ import { connect } from 'react-redux';
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { addressType } from 'Type/Account';
-import { paymentMethodsType } from 'Type/Checkout';
+import { Addresstype } from 'Type/Account';
+import { PaymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 
 import CheckoutPayments from './CheckoutPayments.component';
@@ -31,8 +31,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/CheckoutPayments/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
-    email: state.CheckoutReducer.email,
-    address: state.CheckoutReducer.shippingFields
+    email: state.CheckoutReducer.email
 });
 
 /** @namespace Component/CheckoutPayments/Container */
@@ -40,11 +39,10 @@ export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
         onPaymentMethodSelect: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
+        paymentMethods: PaymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
         email: PropTypes.string.isRequired,
-        address: PropTypes.object.isRequired,
-        billingAddress: addressType.isRequired,
+        billingAddress: Addresstype.isRequired,
         showError: PropTypes.func.isRequired
     };
 
@@ -85,6 +83,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
             setOrderButtonEnableStatus,
             showError
         } = this.props;
+
         const { selectedPaymentCode } = this.state;
 
         return {

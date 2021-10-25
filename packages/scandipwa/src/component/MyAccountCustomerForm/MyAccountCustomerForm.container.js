@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { SHOW_VAT_NUMBER_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account';
 
 import MyAccountCustomerForm from './MyAccountCustomerForm.component';
 
@@ -29,7 +29,7 @@ export const mapDispatchToProps = () => ({});
 /** @namespace Component/MyAccountCustomerForm/Container */
 export class MyAccountCustomerFormContainer extends PureComponent {
     static propTypes = {
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         onSave: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.string.isRequired
     };

@@ -21,9 +21,9 @@ import {
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { FilterType } from 'Type/Category';
 import { ChildrenType, MixType } from 'Type/Common';
 import { LayoutType } from 'Type/Layout';
-import { FilterType } from 'Type/ProductList';
 import history from 'Util/History';
 import { getSmallImage } from 'Util/Product/Extract';
 import { appendWithStoreCode, objectToUri } from 'Util/Url';
@@ -69,9 +69,7 @@ export class ProductCardContainer extends ProductContainer {
 
         children: ChildrenType,
         mix: MixType,
-        layout: LayoutType,
-
-        cartId: PropTypes.string
+        layout: LayoutType
     };
 
     static defaultProps = {
@@ -83,8 +81,7 @@ export class ProductCardContainer extends ProductContainer {
         isLoading: false,
         children: null,
         mix: {},
-        layout: GRID_LAYOUT,
-        cartId: ''
+        layout: GRID_LAYOUT
     };
 
     containerFunctions = {

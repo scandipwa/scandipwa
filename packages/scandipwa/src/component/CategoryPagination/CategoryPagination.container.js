@@ -15,8 +15,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { UTMOST_PAGES_COUNT } from 'Component/CategoryPagination/CategoryPagination.config';
-import { HistoryType } from 'Type/Common';
-import { LocationType } from 'Type/Router';
+import { HistoryType, LocationType } from 'Type/Router';
 import { generateQuery, getQueryParam } from 'Util/Url';
 
 import CategoryPagination from './CategoryPagination.component';

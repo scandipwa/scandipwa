@@ -17,9 +17,9 @@ import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPic
 import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { addressType } from 'Type/Account';
-import { shippingMethodsType } from 'Type/Checkout';
-import { countriesType } from 'Type/Config';
+import { Addresstype } from 'Type/Account';
+import { ShippingMethodsType } from 'Type/Checkout';
+import { CountriesType } from 'Type/Config';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 
 import StoreInPickUpComponent from './StoreInPickUpPopup.component';
@@ -39,14 +39,14 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/StoreInPickUpPopup/Container */
 export class StoreInPickUpContainer extends PureComponent {
     static propTypes = {
-        countries: countriesType.isRequired,
+        countries: CountriesType.isRequired,
         countryId: PropTypes.string.isRequired,
-        estimateAddress: addressType.isRequired,
+        estimateAddress: Addresstype.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         setSelectedStore: PropTypes.func.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
         showNotification: PropTypes.func.isRequired
     };
 

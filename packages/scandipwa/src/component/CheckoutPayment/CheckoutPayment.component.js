@@ -14,14 +14,14 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { paymentMethodType } from 'Type/Checkout';
+import { PaymentMethodType } from 'Type/Checkout';
 
 import './CheckoutPayment.style';
 
 /** @namespace Component/CheckoutPayment/Component */
 export class CheckoutPayment extends PureComponent {
     static propTypes = {
-        method: paymentMethodType.isRequired,
+        method: PaymentMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
         isSelected: PropTypes.bool
     };

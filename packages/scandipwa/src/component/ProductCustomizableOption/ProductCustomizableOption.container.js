@@ -38,7 +38,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         title: PropTypes.string.isRequired,
         isRequired: PropTypes.bool.isRequired,
         type: PropTypes.string.isRequired,
-        options: PropTypes.arrayOf(PropTypes.object).isRequired,
+        options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
         currencyCode: PropTypes.string.isRequired
     };
