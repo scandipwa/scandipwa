@@ -26,7 +26,7 @@ import ProductConfigurableAttributes from './ProductConfigurableAttributes.compo
 export class ProductConfigurableAttributesContainer extends PureComponent {
     static propTypes = {
         getLink: PropTypes.func,
-        parameters: PropTypes.shape({}).isRequired,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         isExpandable: PropTypes.bool,
         showProductAttributeAsLink: PropTypes.bool,

@@ -20,6 +20,7 @@ import { Product } from 'Component/Product/Product.component';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
+import { MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { LayoutType } from 'Type/Layout';
 import { LinkType } from 'Type/Router';
@@ -39,7 +40,7 @@ export class ProductCard extends Product {
         isLoading: PropTypes.bool,
         children: PropTypes.element,
         layout: LayoutType,
-        mix: PropTypes.shape({}),
+        mix: MixType,
         renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
         hideWishlistButton: PropTypes.bool,
         isWishlistEnabled: PropTypes.bool.isRequired,

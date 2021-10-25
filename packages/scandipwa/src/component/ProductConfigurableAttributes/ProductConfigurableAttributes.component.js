@@ -28,7 +28,7 @@ export class ProductConfigurableAttributes extends PureComponent {
     static propTypes = {
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
         configurable_options: AttributesType.isRequired,
-        parameters: PropTypes.shape({}).isRequired,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         isReady: PropTypes.bool,
         mix: MixType,

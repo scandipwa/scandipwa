@@ -11,11 +11,10 @@
 
 import PropTypes from 'prop-types';
 
+import { LinkType } from 'Type/Router';
+
 export const BreadcrumbType = PropTypes.shape({
-    url: PropTypes.oneOfType([
-        PropTypes.shape({}),
-        PropTypes.string
-    ]),
+    url: LinkType,
     name: PropTypes.string
 });
 

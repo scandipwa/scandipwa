@@ -20,6 +20,8 @@ export const MixType = PropTypes.shape({
     ]))
 });
 
+MixType.mix = MixType;
+
 export const ChildrenType = PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
