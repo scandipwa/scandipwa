@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { shippingMethodType } from 'Type/Checkout';
+import { ShippingMethodType } from 'Type/Checkout';
 import { formatPrice } from 'Util/Price';
 
 import { DELIVERY_METHOD_UNAVAILABLE_MESSAGE } from './CheckoutDeliveryOption.config';
@@ -24,7 +24,7 @@ import './CheckoutDeliveryOption.style';
 /** @namespace Component/CheckoutDeliveryOption/Component */
 export class CheckoutDeliveryOption extends PureComponent {
     static propTypes = {
-        option: shippingMethodType.isRequired,
+        option: ShippingMethodType.isRequired,
         currency: PropTypes.string.isRequired,
         isSelected: PropTypes.bool,
         optionPrice: PropTypes.number,
@@ -135,7 +135,6 @@ export class CheckoutDeliveryOption extends PureComponent {
             isSelected
         } = this.props;
 
-        // disable checkbox in order to skip direct clicks on checkbox and handle clicks on entire button instead
         return (
             <li block="CheckoutDeliveryOption" mods={ { isDisabled: !available } }>
                 <button
@@ -153,7 +152,6 @@ export class CheckoutDeliveryOption extends PureComponent {
                           name: `option-${ carrier_title }`,
                           checked: !!isSelected
                       } }
-                      isDisabled
                     />
                     { this.renderRow() }
                 </button>

@@ -15,6 +15,7 @@ import { createRef, PureComponent } from 'react';
 
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { MixType } from 'Type/Common';
+import { EventsType, ValidationRuleType } from 'Type/Field';
 import { validate } from 'Util/Validator';
 
 import Field from './Field.component';
@@ -29,18 +30,18 @@ export class FieldContainer extends PureComponent {
         // Field attributes
         type: PropTypes.oneOf(Object.values(FIELD_TYPE)),
         attr: PropTypes.object,
-        events: PropTypes.object,
+        events: EventsType,
         isDisabled: PropTypes.bool,
         mix: MixType,
         options: PropTypes.array,
 
         // Validation
-        validationRule: PropTypes.object,
+        validationRule: ValidationRuleType,
         validateOn: PropTypes.array,
         showErrorAsLabel: PropTypes.bool,
 
         // Labels
-        label: PropTypes.string,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         subLabel: PropTypes.string,
         addRequiredTag: PropTypes.bool
     };
@@ -75,8 +76,12 @@ export class FieldContainer extends PureComponent {
     componentWillUnmount() {
         const { validationRule } = this.props;
 
-        if (this.fieldRef && validationRule && Object.keys(validationRule).length > 0) {
-            this.fieldRef.removeEventListener('validate', this.validate.bind(this));
+        if (this.fieldRef) {
+            this.fieldRef.removeEventListener('resetField', this.resetField.bind(this));
+
+            if (validationRule && Object.keys(validationRule).length > 0) {
+                this.fieldRef.removeEventListener('validate', this.validate.bind(this));
+            }
         }
     }
 
@@ -87,11 +92,17 @@ export class FieldContainer extends PureComponent {
         if (elem && this.fieldRef !== elem) {
             this.fieldRef = elem;
 
+            elem.addEventListener('resetField', this.resetField.bind(this));
+
             if (!validationRule || Object.keys(validationRule).length === 0) {
                 return;
             }
             elem.addEventListener('validate', this.validate.bind(this));
         }
+    }
+
+    resetField() {
+        this.setState({ validationResponse: null });
     }
 
     validate(data) {

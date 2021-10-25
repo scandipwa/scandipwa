@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { TranslatedValue } from '@scandipwa/webpack-i18n-runtime/src/util/__';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -27,8 +26,7 @@ export class TextPlaceholder extends PureComponent {
         content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool,
-            PropTypes.number,
-            PropTypes.instanceOf(TranslatedValue)
+            PropTypes.number
         ]),
         length: PropTypes.oneOf([
             'block',

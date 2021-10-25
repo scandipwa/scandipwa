@@ -55,7 +55,8 @@ export class ProductActionsContainer extends ProductContainer {
             areReviewsEnabled,
             displayProductStockStatus,
             getLink,
-            isInStockAlertEnabled
+            isInStockAlertEnabled,
+            isPriceAlertEnabled
         } = this.props;
 
         return {
@@ -65,6 +66,7 @@ export class ProductActionsContainer extends ProductContainer {
             displayProductStockStatus,
             getLink,
             isInStockAlertEnabled,
+            isPriceAlertEnabled,
             isPricePreview: this.isPricePreview(),
             offerCount: this.getOfferCount(),
             offerType: this.getOfferType(),

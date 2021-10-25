@@ -20,21 +20,12 @@ export const MixType = PropTypes.shape({
     ]))
 });
 
-export const HistoryType = PropTypes.shape({
-    location: PropTypes.object,
-    push: PropTypes.func
-});
-
-export const LocationType = PropTypes.shape({
-    pathname: PropTypes.string,
-    state: PropTypes.object
-});
-
-export const MatchType = PropTypes.shape({
-    path: PropTypes.string
-});
-
 export const ChildrenType = PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
+]);
+
+export const RefType = PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
 ]);

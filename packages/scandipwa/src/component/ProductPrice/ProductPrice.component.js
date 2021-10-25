@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { MixType } from 'Type/Common';
+import { PriceConfiguration } from 'Type/ProductList';
 
 import './ProductPrice.style';
 
@@ -29,6 +30,7 @@ export class ProductPrice extends PureComponent {
         priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
         originalPrice: PropTypes.object,
         tierPrice: PropTypes.string,
+        configuration: PriceConfiguration,
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
         isPreview: PropTypes.bool,
@@ -49,15 +51,16 @@ export class ProductPrice extends PureComponent {
         variantsCount: 0,
         mix: {},
         tierPrice: '',
-        label: ''
+        label: '',
+        configuration: {}
     };
 
     pricePreviewRenderMap = {
-        [PRODUCT_TYPE.simple]: this.renderCustomisablePrice.bind(this),
-        [PRODUCT_TYPE.virtual]: this.renderCustomisablePrice.bind(this),
+        [PRODUCT_TYPE.simple]: this.renderDefaultPrice.bind(this),
+        [PRODUCT_TYPE.virtual]: this.renderDefaultPrice.bind(this),
         [PRODUCT_TYPE.bundle]: this.renderBundlePrice.bind(this),
         [PRODUCT_TYPE.grouped]: this.renderGroupedPrice.bind(this),
-        [PRODUCT_TYPE.downloadable]: this.renderCustomisablePrice.bind(this),
+        [PRODUCT_TYPE.downloadable]: this.renderDefaultPrice.bind(this),
         [PRODUCT_TYPE.configurable]: this.renderConfigurablePrice.bind(this)
     };
 
@@ -212,6 +215,24 @@ export class ProductPrice extends PureComponent {
         return null;
     }
 
+    renderRequiredWithChangePrice() {
+        const {
+            configuration: {
+                containsRequiredOptionsWithPrice = false
+            } = {},
+            priceType
+        } = this.props;
+
+        const { [priceType]: label } = this.priceLabelTypeMap;
+
+        return (
+            <>
+                { label && containsRequiredOptionsWithPrice && this.renderPriceBadge(label) }
+                { this.renderDefaultPrice() }
+            </>
+        );
+    }
+
     renderBundlePrice() {
         const {
             originalPrice: {
@@ -220,23 +241,56 @@ export class ProductPrice extends PureComponent {
                 maxFinalPrice = {},
                 maxFinalPrice: { value: maxValue = 0 } = {},
                 minFinalPriceExclTax = {},
-                maxFinalPriceExclTax = {}
+                maxFinalPriceExclTax = {},
+                minRegularPrice = {},
+                maxRegularPrice = {},
+                minRegularPrice: { value: minRegularValue = 0 } = {},
+                maxRegularPrice: { value: maxRegularValue = 0 } = {}
             }
         } = this.props;
 
         if (minValue === maxValue) {
-            if (minValue === 0) {
-                return this.renderDefaultPrice();
-            }
+            const renderer = (minValue === 0)
+                ? this.renderDefaultPrice()
+                : this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax);
 
-            return this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax);
+            return (
+                <>
+                    { minValue < minRegularValue && this.renderRegularPrice(minRegularPrice) }
+                    { renderer }
+                    { this.renderTierPrice() }
+                </>
+            );
         }
 
         return (
             <>
-                { this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax, __('from')) }
-                { this.renderPriceWithTax(maxFinalPrice, maxFinalPriceExclTax, __('to')) }
+                <div block="ProductPrice" elem="BundleFrom" mods={ { hasDiscount: minValue < minRegularValue } }>
+                    { minValue > 0 && this.renderPriceBadge(__('from')) }
+                    { minValue < minRegularValue && this.renderRegularPrice(minRegularPrice) }
+                    { this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax) }
+                </div>
+                <div block="ProductPrice" elem="BundleTo" mods={ { hasDiscount: maxValue < maxRegularValue } }>
+                    { maxValue > 0 && this.renderPriceBadge(__('to')) }
+                    { maxValue < maxRegularValue && this.renderRegularPrice(maxRegularPrice) }
+                    { this.renderPriceWithTax(maxFinalPrice, maxFinalPriceExclTax) }
+                </div>
             </>
+        );
+    }
+
+    renderRegularPrice(price) {
+        const {
+            value,
+            valueFormatted
+        } = price;
+
+        if (!value || value <= 0 || !valueFormatted) {
+            return null;
+        }
+
+        return (
+            <del block="ProductPrice" elem="HighPrice">{ valueFormatted }</del>
         );
     }
 
@@ -288,11 +342,14 @@ export class ProductPrice extends PureComponent {
                 minFinalPrice: { value: minValue = 0 } = {},
                 maxFinalPrice: { value: maxValue = 0 } = {}
             },
+            configuration: {
+                containsOptions = false
+            } = {},
             price: { finalPriceExclTax = {} },
             priceType
         } = this.props;
 
-        if (minValue === maxValue) {
+        if (minValue === maxValue && !containsOptions) {
             return this.renderDefaultPrice();
         }
 
@@ -330,9 +387,16 @@ export class ProductPrice extends PureComponent {
     }
 
     renderTierPrice() {
-        const { tierPrice } = this.props;
+        const {
+            tierPrice,
+            price: {
+                finalPrice: {
+                    valueFormatted = 0
+                } = {}
+            } = {}
+        } = this.props;
 
-        if (!tierPrice) {
+        if (!tierPrice || tierPrice === valueFormatted) {
             return null;
         }
 
@@ -374,7 +438,7 @@ export class ProductPrice extends PureComponent {
             >
                 { isPreview && renderer && renderer() }
                 { (!isPreview || !renderer) && this.renderDefaultPrice() }
-                { this.renderTierPrice() }
+                { priceType !== PRODUCT_TYPE.bundle && this.renderTierPrice() }
             </p>
         );
     }

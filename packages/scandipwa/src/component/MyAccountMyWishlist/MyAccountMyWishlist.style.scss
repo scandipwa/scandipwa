@@ -87,6 +87,7 @@
             position: fixed;
             width: 100%;
             border-block-start: 1px solid var(--primary-divider-color);
+            z-index: 10;
         }
 
         @include tablet {

@@ -17,6 +17,8 @@ import Loader from 'Component/Loader';
 import Overlay from 'Component/Overlay';
 import ResetAttributes from 'Component/ResetAttributes';
 import ResetButton from 'Component/ResetButton';
+import { SelectedFiltersType } from 'Type/Category';
+import { AttributesType } from 'Type/ProductList';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
 
@@ -25,7 +27,7 @@ import './CategoryFilterOverlay.style';
 /** @namespace Component/CategoryFilterOverlay/Component */
 export class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
-        availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
+        availableFilters: AttributesType.isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
         isContentFiltered: PropTypes.bool.isRequired,
         isMatchingInfoFilter: PropTypes.bool.isRequired,
@@ -34,7 +36,7 @@ export class CategoryFilterOverlay extends PureComponent {
         onSeeResultsClick: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
         onHide: PropTypes.func.isRequired,
-        customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+        customFiltersValues: SelectedFiltersType.isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired,
         totalPages: PropTypes.number.isRequired,

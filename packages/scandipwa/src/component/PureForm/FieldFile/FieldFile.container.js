@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import { EventsType } from 'Type/Field';
+
 import FieldFile from './FieldFile.component';
 
 /**
@@ -23,7 +25,7 @@ export class FieldFileContainer extends PureComponent {
     static propTypes = {
         // Field attributes
         attr: PropTypes.object.isRequired,
-        events: PropTypes.object.isRequired,
+        events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired
     };
 

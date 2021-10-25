@@ -14,17 +14,17 @@ import { PureComponent } from 'react';
 
 import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
-import { shippingMethodsType } from 'Type/Checkout';
+import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout';
 
 import './CheckoutDeliveryOptions.style';
 
 /** @namespace Component/CheckoutDeliveryOptions/Component */
 export class CheckoutDeliveryOptions extends PureComponent {
     static propTypes = {
-        shippingMethods: shippingMethodsType.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
-        selectedShippingMethod: PropTypes.object,
+        selectedShippingMethod: ShippingMethodType,
         isShippingMethodPreSelected: PropTypes.bool.isRequired
     };
 

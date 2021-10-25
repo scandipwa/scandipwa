@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { IMAGE_HUNDRED_PERCENT } from 'Component/Image/Image.config';
-import { MixType } from 'Type/Common';
+import { MixType, RefType } from 'Type/Common';
 
 import Image from './Image.component';
 
@@ -25,7 +25,10 @@ export class ImageContainer extends PureComponent {
             PropTypes.string,
             PropTypes.bool
         ]),
-        style: PropTypes.shape({}),
+        style: PropTypes.objectOf(PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ])),
         width: PropTypes.string,
         height: PropTypes.string,
         alt: PropTypes.string,
@@ -37,10 +40,7 @@ export class ImageContainer extends PureComponent {
         ]),
         mix: MixType,
         className: PropTypes.string,
-        imageRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]),
+        imageRef: RefType,
         title: PropTypes.string,
         isPlain: PropTypes.bool
     };
@@ -155,7 +155,7 @@ export class ImageContainer extends PureComponent {
         const size = this._getCorrectSize();
         const { height, width } = size;
 
-        if ((!height || height.slice(-1) === '%') && (!width || width.slice(-1) === '%')) {
+        if (!height || (height.slice(-1) === '%' && (!width || width.slice(-1) === '%'))) {
             return {};
         }
 

@@ -173,7 +173,6 @@ export class CartQuery {
         return [
             'id',
             'label',
-            'type',
             this._getBundleOptionValuesField()
         ];
     }
@@ -183,25 +182,11 @@ export class CartQuery {
             .addFieldList(this._getBundleOptionsFields());
     }
 
-    _getCustomizableOptionPriceFields() {
-        return [
-            'value',
-            'units',
-            'type'
-        ];
-    }
-
-    _getCustomizableOptionPriceField() {
-        return new Field('price')
-            .addFieldList(this._getCustomizableOptionPriceFields());
-    }
-
     _getCustomizableOptionValueFields() {
         return [
             'id',
             'label',
-            'value',
-            this._getCustomizableOptionPriceField()
+            'value'
         ];
     }
 
@@ -215,9 +200,7 @@ export class CartQuery {
             .addFieldList([
                 'id',
                 'label',
-                'is_required',
-                this._getCustomizableOptionValueField(),
-                'sort_order'
+                this._getCustomizableOptionValueField()
             ]);
     }
 
@@ -253,14 +236,8 @@ export class CartQuery {
     }
 
     _getProductField() {
-        ProductListQuery.options.isForLinkedProducts = true;
-
-        const productQuery = new Field('product')
-            .addFieldList(ProductListQuery._getProductInterfaceFields(false, true));
-
-        ProductListQuery.options.isForLinkedProducts = false;
-
-        return productQuery;
+        return new Field('product')
+            .addFieldList(ProductListQuery._getCartProductInterfaceFields());
     }
 
     _getCartItemsField() {

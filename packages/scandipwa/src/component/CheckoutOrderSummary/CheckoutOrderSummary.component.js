@@ -16,6 +16,7 @@ import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
+import { CheckoutStepType } from 'Type/Checkout';
 import { ChildrenType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { getItemsCountLabel } from 'Util/Cart';
@@ -29,7 +30,7 @@ import './CheckoutOrderSummary.style';
 export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
-        checkoutStep: PropTypes.string,
+        checkoutStep: CheckoutStepType,
         renderCmsBlock: PropTypes.func,
         isExpandable: PropTypes.bool,
         cartDisplayConfig: PropTypes.object.isRequired,

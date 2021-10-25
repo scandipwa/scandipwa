@@ -15,7 +15,7 @@ import { Component } from 'react';
 import Loader from 'Component/Loader';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
-import { ordersType } from 'Type/Account';
+import { OrdersType } from 'Type/Account';
 import { DeviceType } from 'Type/Device';
 
 import './MyAccountMyOrders.style';
@@ -23,7 +23,7 @@ import './MyAccountMyOrders.style';
 /** @namespace Component/MyAccountMyOrders/Component */
 export class MyAccountMyOrders extends Component {
     static propTypes = {
-        orderList: ordersType.isRequired,
+        orderList: OrdersType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         device: DeviceType.isRequired
     };

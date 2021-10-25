@@ -19,6 +19,7 @@
 
     transform: translateX(var(--translateX));
     transition: transform var(--animation-speed) ease-out;
+    z-index: 5;
 
     [dir="rtl"] & {
         transform: translateX(calc(-1 * var(--translateX)));

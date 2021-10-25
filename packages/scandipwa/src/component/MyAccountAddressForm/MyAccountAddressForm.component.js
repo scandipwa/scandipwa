@@ -14,8 +14,8 @@ import PropTypes from 'prop-types';
 
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import FieldForm from 'Component/PureForm/FieldForm';
-import { addressType } from 'Type/Account';
-import { countriesType } from 'Type/Config';
+import { Addresstype } from 'Type/Account';
+import { CountriesType } from 'Type/Config';
 import {
     getAvailableRegions,
     getCityAndRegionFromZipcode,
@@ -28,8 +28,8 @@ import myAccountAddressForm from './MyAccountAddressForm.form';
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
     static propTypes = {
-        address: addressType.isRequired,
-        countries: countriesType.isRequired,
+        address: Addresstype.isRequired,
+        countries: CountriesType.isRequired,
         defaultCountry: PropTypes.string,
         addressLinesQty: PropTypes.number.isRequired,
         showVatNumber: PropTypes.bool.isRequired,
@@ -43,7 +43,7 @@ export class MyAccountAddressForm extends FieldForm {
     state = {
         countryId: this.getCountry()?.value || 'US',
         availableRegions: this.getAvailableRegions() || [],
-        isStateRequired: this.getCountry()?.is_state_required || true
+        isStateRequired: !!this.getCountry()?.is_state_required
     };
 
     //#region GETTERS
@@ -89,7 +89,6 @@ export class MyAccountAddressForm extends FieldForm {
     getCountry(countryId = null) {
         const { countries, defaultCountry, address: { country_id: countryIdAddress } = {} } = this.props;
         const countryIdFixed = countryId || countryIdAddress || defaultCountry;
-
         return countries.find(({ value }) => value === countryIdFixed);
     }
 
@@ -138,9 +137,17 @@ export class MyAccountAddressForm extends FieldForm {
         onSave(trimCustomerAddress(newAddress));
     };
 
-    onCountryChange = (field) => {
+    onCountryChange = (field, e) => {
+        // Handles auto fill
+        const fieldValue = typeof field === 'object' ? e.value : field;
+
         const { countries } = this.props;
-        const country = countries.find(({ value }) => value === field);
+        const country = countries.find(({ value }) => value === fieldValue);
+
+        if (!country) {
+            return;
+        }
+
         const {
             available_regions: availableRegions = [],
             is_state_required: isStateRequired = true,

@@ -16,7 +16,7 @@ import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAc
 import WishlistQuery from 'Query/Wishlist.query';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { MatchType } from 'Type/Common';
+import { MatchType } from 'Type/Router';
 import { getIndexedProduct } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
 import { executeGet, getErrorMessage } from 'Util/Request';

@@ -19,8 +19,8 @@ import LockIcon from 'Component/LockIcon';
 import Form from 'Component/PureForm/Form';
 import StoreInPickUpComponent from 'Component/StoreInPickUp';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { addressType } from 'Type/Account';
-import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
+import { Addresstype } from 'Type/Account';
+import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { getAllCartItemsSku } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
@@ -35,14 +35,14 @@ export class CheckoutShipping extends PureComponent {
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
-        selectedShippingMethod: shippingMethodType.isRequired,
+        selectedShippingMethod: ShippingMethodType.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         isSubmitted: PropTypes.bool.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        estimateAddress: addressType.isRequired,
+        estimateAddress: Addresstype.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,
         setSelectedShippingMethodCode: PropTypes.func

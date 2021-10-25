@@ -21,6 +21,8 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
+import { ADD_TO_CART } from 'Util/Product';
+import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -90,6 +92,7 @@ export class WishlistItemContainer extends PureComponent {
 
     changeQuantity = debounce((quantity) => {
         const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+
         updateWishlistItem({
             wishlistId,
             wishlistItems: [{
@@ -101,6 +104,7 @@ export class WishlistItemContainer extends PureComponent {
 
     changeDescription = debounce((description) => {
         const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+
         updateWishlistItem({
             wishlistId,
             wishlistItems: [{
@@ -160,18 +164,40 @@ export class WishlistItemContainer extends PureComponent {
         }, []) : [];
     };
 
-    addItemToCart() {
-        const { product: item, addProductToCart, showNotification } = this.props;
+    getProducts() {
+        const {
+            product: {
+                wishlist: {
+                    quantity,
+                    buy_request
+                }
+            },
+            product: item
+        } = this.props;
+
+        const selectedOptions = getSelectedOptions(buy_request);
+
+        return magentoProductTransform(ADD_TO_CART, item, quantity, [], selectedOptions);
+    }
+
+    async addItemToCart() {
+        const {
+            product: item,
+            addProductToCart,
+            showNotification
+        } = this.props;
+
         const {
             type_id,
             variants,
             wishlist: {
-                id, sku, quantity, buy_request
+                id,
+                sku
             }
         } = item;
 
         if (!isSignedIn()) {
-            return null;
+            return;
         }
 
         if (type_id === PRODUCT_TYPE.configurable) {
@@ -181,7 +207,7 @@ export class WishlistItemContainer extends PureComponent {
                 history.push({ pathname: appendWithStoreCode(item.url) });
                 showNotification('info', __('Please, select product options!'));
 
-                return Promise.resolve();
+                return;
             }
 
             item.configurableVariantIndex = configurableVariantIndex;
@@ -189,20 +215,14 @@ export class WishlistItemContainer extends PureComponent {
 
         this.setState({ isLoading: true });
 
-        return addProductToCart({ product: item, quantity, buyRequest: buy_request })
-            .then(
-                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/then/catch/addProductToCart/then */
-                () => {
-                    this.removeItem(id);
-                    showNotification('success', __('Product Added To Cart'));
-                },
-                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/then/catch/addProductToCart/then/catch */
-                () => this.showNotification('error', __('Error Adding Product To Cart'))
-            )
-            .catch(
-                /** @namespace Component/WishlistItem/Container/WishlistItemContainer/addItemToCart/then/catch */
-                () => this.showNotification('error', __('Error cleaning wishlist'))
-            );
+        const products = this.getProducts();
+
+        try {
+            await addProductToCart({ products });
+            this.removeItem(id);
+        } catch {
+            this.setState({ isLoading: false }, this.redirectToProductPage);
+        }
     }
 
     showNotification(...args) {
@@ -211,13 +231,17 @@ export class WishlistItemContainer extends PureComponent {
         showNotification(...args);
     }
 
-    removeItem(noMessages = true, isRemoveOnly = false) {
+    async removeItem(noMessages = true, isRemoveOnly = false) {
         const { product: { wishlist: { id: item_id } }, removeFromWishlist, handleSelectIdChange } = this.props;
         this.setState({ isLoading: true });
 
         handleSelectIdChange(item_id, isRemoveOnly);
 
-        return removeFromWishlist({ item_id, noMessages });
+        try {
+            removeFromWishlist({ item_id, noMessages });
+        } catch (e) {
+            this.showNotification('error', __('Error cleaning wishlist'));
+        }
     }
 
     redirectToProductPage() {

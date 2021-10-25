@@ -14,15 +14,24 @@
  * @param countries
  * @namespace Util/Store/Transform/transformCountriesToOptions
  */
-export const transformCountriesToOptions = (countries) => (
-    countries.map((country) => {
+export const transformCountriesToOptions = (countries) => {
+    const options = countries.map((country) => {
         const { id } = country;
+
         return {
             value: id,
             name: id,
             ...country
         };
-    })
-);
+    });
+
+    const filtered = options.filter(({ label }) => label);
+
+    const sorted = filtered.sort(
+        ({ label }, { label: labelCompare }) => label.localeCompare(labelCompare)
+    );
+
+    return sorted;
+};
 
 export default transformCountriesToOptions;

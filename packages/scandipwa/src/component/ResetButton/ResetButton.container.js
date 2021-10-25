@@ -13,7 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { HistoryType, LocationType, MixType } from 'Type/Common';
+import { MixType } from 'Type/Common';
+import { HistoryType, LocationType } from 'Type/Router';
 import { setQueryParams } from 'Util/Url';
 
 import ResetButton from './ResetButton.component';

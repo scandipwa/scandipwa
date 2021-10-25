@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { SortDirectionType } from 'Type/Direction';
 
 import './CategorySort.style';
 
@@ -27,7 +28,7 @@ export class CategorySort extends PureComponent {
     static propTypes = {
         onSortChange: PropTypes.func.isRequired,
         sortKey: PropTypes.string.isRequired,
-        sortDirection: PropTypes.string.isRequired,
+        sortDirection: SortDirectionType.isRequired,
         selectOptions: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.oneOfType([
                 PropTypes.string,
@@ -76,7 +77,8 @@ export class CategorySort extends PureComponent {
               attr={ {
                   id: 'category-sort',
                   name: 'category-sort',
-                  defaultValue: `${sortDirection} ${sortKey}`
+                  defaultValue: `${sortDirection} ${sortKey}`,
+                  noPlaceholder: true
               } }
               events={ {
                   onChange: this.onChange

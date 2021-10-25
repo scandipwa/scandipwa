@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { setBigOfflineNotice, showOfflineNotice } from 'Store/Offline/Offline.action';
-import { LocationType } from 'Type/Common';
+import { LocationType } from 'Type/Router';
 
 import OfflineNotice from './OfflineNotice.component';
 

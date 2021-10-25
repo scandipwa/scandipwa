@@ -22,6 +22,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { LayoutType } from 'Type/Layout';
+import { LinkType } from 'Type/Router';
 
 import './ProductCard.style';
 
@@ -32,7 +33,7 @@ import './ProductCard.style';
 export class ProductCard extends Product {
     static propTypes = {
         ...Product.propTypes,
-        linkTo: PropTypes.shape({}),
+        linkTo: LinkType,
         device: DeviceType.isRequired,
         thumbnail: PropTypes.string,
         isLoading: PropTypes.bool,
@@ -254,7 +255,8 @@ export class ProductCard extends Product {
         const {
             product: {
                 type_id: type,
-                options = []
+                options = [],
+                links_purchased_separately
             }
         } = this.props;
 
@@ -263,8 +265,9 @@ export class ProductCard extends Product {
             // eslint-disable-next-line max-len
             && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
         const configureCustomize = options.some(({ required = false }) => required);
+        const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
 
-        return configureBundleAndGrouped || configureConfig || configureCustomize;
+        return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
     }
 
     renderAddToCart() {

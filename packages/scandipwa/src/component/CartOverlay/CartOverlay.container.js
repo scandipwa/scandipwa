@@ -22,6 +22,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { CartDisplayType, TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import {
     getCartShippingPrice,
     getCartShippingSubPrice,
@@ -98,7 +99,6 @@ export class CartOverlayContainer extends PureComponent {
     containerFunctions = {
         changeHeaderState: this.changeHeaderState.bind(this),
         handleCheckoutClick: this.handleCheckoutClick.bind(this),
-        scrollToTop: this.scrollToTop.bind(this),
         onCartItemLoading: this.onCartItemLoading.bind(this)
     };
 
@@ -139,10 +139,6 @@ export class CartOverlayContainer extends PureComponent {
         items.some(({ product }) => !getProductInStock(product))
     );
 
-    scrollToTop() {
-        window.scrollTo({ top: 0 });
-    }
-
     hasOutOfStockProductsInCartItems = (items) => (
         items.some(({ product }) => !getProductInStock(product))
     );
@@ -173,7 +169,7 @@ export class CartOverlayContainer extends PureComponent {
         if (guest_checkout || isSignedIn()) {
             hideActiveOverlay();
             history.push({ pathname: appendWithStoreCode(CHECKOUT_URL) });
-            this.scrollToTop();
+            scrollToTop();
 
             return;
         }

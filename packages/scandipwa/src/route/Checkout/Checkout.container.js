@@ -23,9 +23,9 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { customerType } from 'Type/Account';
-import { HistoryType } from 'Type/Common';
+import { CustomerType } from 'Type/Account';
 import { TotalsType } from 'Type/MiniCart';
+import { HistoryType } from 'Type/Router';
 import { removeEmptyStreets } from 'Util/Address';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -114,7 +114,7 @@ export class CheckoutContainer extends PureComponent {
         guest_checkout: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired,
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         countries: PropTypes.arrayOf(
             PropTypes.shape({
                 label: PropTypes.string,

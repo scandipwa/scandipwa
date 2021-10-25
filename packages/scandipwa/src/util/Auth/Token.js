@@ -22,10 +22,13 @@ export const ONE_HOUR = 3600;
 export const setAuthorizationToken = (token) => {
     const state = getStore().getState();
     const {
-        cookie_lifetime = ONE_HOUR
+        cookie_lifetime = ONE_HOUR,
+        access_token_lifetime
     } = state.ConfigReducer;
 
-    BrowserDatabase.setItem(token, AUTH_TOKEN, cookie_lifetime);
+    const token_lifetime = access_token_lifetime ? access_token_lifetime * ONE_HOUR : cookie_lifetime;
+
+    BrowserDatabase.setItem(token, AUTH_TOKEN, token_lifetime);
 };
 
 /** @namespace Util/Auth/Token/deleteAuthorizationToken */

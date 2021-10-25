@@ -26,7 +26,7 @@ import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage
 import Slider from 'Component/Slider';
 import VideoPopup from 'Component/VideoPopup';
 import VideoThumbnail from 'Component/VideoThumbnail';
-import { LocationType } from 'Type/Common';
+import { LocationType } from 'Type/Router';
 import CSS from 'Util/CSS';
 
 import {

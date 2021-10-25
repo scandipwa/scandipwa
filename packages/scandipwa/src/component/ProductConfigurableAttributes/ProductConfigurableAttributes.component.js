@@ -19,7 +19,7 @@ import {
     SMALL_PLACEHOLDER_CONFIG
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import { MixType } from 'Type/Common';
-import { AttributeType } from 'Type/ProductList';
+import { AttributesType } from 'Type/ProductList';
 
 import './ProductConfigurableAttributes.style';
 
@@ -27,7 +27,7 @@ import './ProductConfigurableAttributes.style';
 export class ProductConfigurableAttributes extends PureComponent {
     static propTypes = {
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
-        configurable_options: PropTypes.objectOf(AttributeType).isRequired,
+        configurable_options: AttributesType.isRequired,
         parameters: PropTypes.shape({}).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         isReady: PropTypes.bool,

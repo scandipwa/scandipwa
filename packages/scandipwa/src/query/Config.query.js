@@ -139,6 +139,7 @@ export class ConfigQuery {
             'newsletter_subscription_allow_guest_subscribe',
             'newsletter_subscription_confirm',
             'delivery_instore_active',
+            'access_token_lifetime',
             this.getPriceDisplayTypeField()
         ];
     }
