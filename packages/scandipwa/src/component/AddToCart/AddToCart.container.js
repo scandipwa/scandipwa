@@ -54,6 +54,7 @@ export class AddToCartContainer extends PureComponent {
         addToCart: PropTypes.func,
         fallbackAddToCart: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool,
+        isPlaceholder: PropTypes.bool,
 
         isIconEnabled: PropTypes.bool,
         mix: MixType,
@@ -67,6 +68,7 @@ export class AddToCartContainer extends PureComponent {
         layout: GRID_LAYOUT,
         isIconEnabled: true,
         isDisabled: false,
+        isPlaceholder: false,
         addToCart: null
     };
 
@@ -213,7 +215,8 @@ export class AddToCartContainer extends PureComponent {
             isDisabled,
             isIconEnabled,
             mix,
-            layout
+            layout,
+            isPlaceholder
         } = this.props;
 
         const {
@@ -223,6 +226,7 @@ export class AddToCartContainer extends PureComponent {
         return {
             isDisabled,
             isIconEnabled,
+            isPlaceholder,
             mix,
             layout,
             isAdding

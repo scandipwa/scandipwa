@@ -49,6 +49,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
         magentoProduct: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
         isAddingWishlistItem: PropTypes.bool.isRequired,
+        isPlaceholder: PropTypes.bool,
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
         removeProductFromWishlist: PropTypes.func.isRequired,
@@ -60,7 +61,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
     static defaultProps = {
         mix: {},
-        onProductValidationError: () => {}
+        onProductValidationError: () => {},
+        isPlaceholder: false
     };
 
     state = {
@@ -82,11 +84,12 @@ export class ProductWishlistButtonContainer extends PureComponent {
     }
 
     containerProps() {
-        const { magentoProduct, mix } = this.props;
+        const { magentoProduct, mix, isPlaceholder } = this.props;
 
         return {
             mix,
             magentoProduct,
+            isPlaceholder,
             isDisabled: this.isDisabled(),
             isInWishlist: this.isInWishlist(),
             isSignedIn: isSignedIn()

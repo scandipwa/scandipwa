@@ -274,17 +274,19 @@ export class ProductCard extends Product {
         const {
             layout,
             showSelectOptionsNotification,
-            inStock
+            inStock,
+            hasLoaded
         } = this.props;
 
         if (inStock && this.requiresConfiguration()) {
             return (
                 <button
                   block="Button AddToCart"
-                  mods={ { layout } }
+                  mods={ { layout, isPlaceholder: !hasLoaded } }
                   onClick={ showSelectOptionsNotification }
+                  disabled={ !hasLoaded }
                 >
-                    { __('Add to cart') }
+                    { hasLoaded && __('Add to cart') }
                 </button>
             );
         }

@@ -61,10 +61,12 @@ export class Product extends PureComponent {
         setActiveProduct: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
 
-        configFormRef: PropTypes.object
+        configFormRef: PropTypes.object,
+        hasLoaded: ProductType.bool
     };
 
     static defaultProps = {
+        hasLoaded: false,
         configFormRef: createRef()
     };
 
@@ -75,9 +77,10 @@ export class Product extends PureComponent {
         return <TextPlaceholder />;
     }
 
-    renderBlockPlaceholder() {
+    renderBlockPlaceholder(mix = {}) {
         return (
             <div
+              mix={ mix }
               block={ this.className }
               mods={ { isLoading: true, isPlaceholder: true } }
             />
@@ -254,7 +257,8 @@ export class Product extends PureComponent {
             addToCart,
             inStock,
             quantity,
-            getActiveProduct
+            getActiveProduct,
+            hasLoaded
         } = this.props;
 
         return (
@@ -263,6 +267,7 @@ export class Product extends PureComponent {
               addToCart={ addToCart }
               isDisabled={ !inStock }
               isIconEnabled={ false }
+              isPlaceholder={ !hasLoaded }
               layout={ layout }
               quantity={ quantity }
               product={ getActiveProduct() }
@@ -271,7 +276,7 @@ export class Product extends PureComponent {
     }
 
     renderWishlistButton() {
-        const { magentoProduct } = this.props;
+        const { magentoProduct, hasLoaded } = this.props;
 
         if (magentoProduct.length === 0) {
             return null;
@@ -280,6 +285,7 @@ export class Product extends PureComponent {
         return (
             <ProductWishlistButton
               magentoProduct={ magentoProduct }
+              isPlaceholder={ !hasLoaded }
               mix={ {
                   block: this.className,
                   elem: 'WishListButton'

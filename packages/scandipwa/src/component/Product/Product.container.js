@@ -228,7 +228,8 @@ export class ProductContainer extends PureComponent {
         const {
             price_range: priceRange = {},
             dynamic_price: dynamicPrice = false,
-            type_id: type
+            type_id: type,
+            id
         } = activeProduct || {};
 
         const output = {
@@ -236,7 +237,8 @@ export class ProductContainer extends PureComponent {
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
             productName: getName(product),
-            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type])
+            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type]),
+            hasLoaded: !!id
         };
 
         return {

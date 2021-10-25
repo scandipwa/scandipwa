@@ -14,17 +14,26 @@
     height: var(--wishlist-heart-size);
     width: var(--wishlist-heart-size);
 
-    &-Button.Button {
-        background-color: unset;
-        border: none;
-        height: var(--wishlist-heart-size);
-        padding: 0;
-
-        &:hover,
-        &:focus {
+    &-Button {
+        &.Button {
             background-color: unset;
+            border: none;
             height: var(--wishlist-heart-size);
             padding: 0;
+
+            &:hover,
+            &:focus {
+                background-color: unset;
+                height: var(--wishlist-heart-size);
+                padding: 0;
+            }
         }
+    }
+
+    &_isPlaceholder {
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
+        will-change: background-position;
     }
 }

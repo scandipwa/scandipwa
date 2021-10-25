@@ -50,6 +50,7 @@
         background-size: var(--placeholder-size);
         animation: var(--placeholder-animation);
         will-change: background-position;
+        border: none;
 
         @include mobile {
             height: 56px;
