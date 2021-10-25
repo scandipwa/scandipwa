@@ -25,7 +25,6 @@ export class CategoryPagination extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         pathname: PropTypes.string.isRequired,
-        onPageSelect: PropTypes.func.isRequired,
         totalPages: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
         getSearchQuery: PropTypes.func.isRequired,
@@ -123,7 +122,6 @@ export class CategoryPagination extends PureComponent {
     ) {
         const {
             pathname,
-            onPageSelect,
             getSearchQuery
         } = this.props;
 
@@ -136,7 +134,6 @@ export class CategoryPagination extends PureComponent {
                 <CategoryPaginationLink
                   label={ label }
                   url_path={ pathname }
-                  getPage={ onPageSelect }
                   isCurrent={ isCurrent }
                   pageNumber={ pageNumber }
                   getSearchQueryForPage={ getSearchQuery }
