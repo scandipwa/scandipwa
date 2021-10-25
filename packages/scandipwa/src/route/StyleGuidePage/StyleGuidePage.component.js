@@ -449,7 +449,14 @@ export class StyleGuidePageComponent extends PureComponent {
                 <h4 block="StyleGuidePage" elem="SubHeading">
                     { __('Breadcrumbs') }
                 </h4>
-                <Breadcrumbs breadcrumbs={ [{ url: '/styleguide', name: 'Style Guide' }] } areBreadcrumbsVisible />
+                <Breadcrumbs
+                  breadcrumbs={ [{ url: '/styleguide', name: 'Style Guide' }] }
+                  areBreadcrumbsVisible
+                />
+                <Breadcrumbs
+                  breadcrumbs={ [{ name: 'Style Guide' }] }
+                  areBreadcrumbsVisible
+                />
 
                 <h4 block="StyleGuidePage" elem="SubHeading">
                     { __('Notification messages') }
