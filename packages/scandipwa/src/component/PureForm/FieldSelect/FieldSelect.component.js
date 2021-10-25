@@ -86,7 +86,8 @@ export class FieldSelect extends PureComponent {
             id,
             label,
             subLabel,
-            isPlaceholder = false
+            isPlaceholder = false,
+            isHovered
         } = option;
 
         const {
@@ -98,7 +99,7 @@ export class FieldSelect extends PureComponent {
             <li
               block="FieldSelect"
               elem="Option"
-              mods={ { isExpanded, isPlaceholder } }
+              mods={ { isExpanded, isPlaceholder, isHovered } }
               key={ id }
               /**
                * Added 'o' as querySelector does not work with

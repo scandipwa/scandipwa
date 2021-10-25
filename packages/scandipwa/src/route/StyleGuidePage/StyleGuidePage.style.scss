@@ -23,8 +23,6 @@
     &-ActiveLink {
         color: var(--link-hover);
         border-block-end: 2px solid var(--link-hover);
-        margin-inline-start: 20px;
-        padding-block-end: 3px;
     }
 
     &-Buttons {
@@ -149,6 +147,84 @@
         margin-block-end: 24px;
         margin-inline: 0;
         padding-block-end: 8px;
+    }
+
+    &-Color{
+        float: left;
+        height: 50px;
+        width: 50px;
+        &#primary{
+            background-color: var(--primary-base-color);
+        }
+        &#secondary{
+            background-color: var(--secondary-base-color);
+        }
+        &#text{
+            background-color: var(--color-black);
+        }
+        &#error{
+            background-color: var(--primary-error-color);
+        }
+        &#success{
+            background-color: var(--primary-success-color);
+        }
+        &#info{
+            background-color: var(--primary-info-color);
+        }
+    }
+
+    &-ColorLabel{
+        line-height: 70px;
+        margin-left: 20px;
+        font-weight: bold;
+    }
+
+    &-Split{
+        margin-top: 150px;
+    }
+
+    &-ErrorSelect, &-ErrorText, &-ErrorCheckbox{
+        border: 1px solid var(--primary-error-color);
+    }
+
+    &-FocusedText{
+        border: 1px solid var(--input-border-color-focus);
+    }
+
+    &-DesktopContentWrapper{
+        border: 1px solid var(--primary-base-color);
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &-MobileContentWrapper{
+        border: 1px solid var(--primary-base-color);
+        max-width: 810px;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &-HoveredInput#hoveredCheckbox~.input-control, &-HoveredInput#hoveredRadio~.input-control{
+        @include desktop {
+            --box-color: var(--secondary-light-color);
+
+            border-color: var(--checkbox-border-color-active);
+            &::after {
+                @include desktop {
+                    --checkmark-color: var(--secondary-dark-color);
+                }
+            }
+        }
+    }
+
+    &-ErrorInput#errorCheckbox~.input-control, &-ErrorInput#errorRadio~.input-control{
+        border: 1px solid var(--primary-error-color);
     }
 
     .Button {
