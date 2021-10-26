@@ -395,8 +395,8 @@ export class ProductPageContainer extends PureComponent {
             return product;
         }
 
-        const { attributes: productAttr = {} } = product;
-        const { attributes: activeAttr = {} } = activeProduct;
+        const { attributes: productAttr = {}, media_gallery_entries: mediaGallery = [] } = product;
+        const { attributes: activeAttr = {}, media_gallery_entries: activeMediaGallery = [] } = activeProduct;
 
         const attributes = {};
         Object.keys(productAttr).forEach((attr) => {
@@ -410,7 +410,8 @@ export class ProductPageContainer extends PureComponent {
 
         return {
             ...product,
-            attributes
+            attributes,
+            media_gallery_entries: activeMediaGallery.length === 0 ? mediaGallery : activeMediaGallery
         };
     }
 
