@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 export const LocationType = PropTypes.shape({
     pathname: PropTypes.string,
     search: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
     state: PropTypes.object,
     hash: PropTypes.string,
     key: PropTypes.string
@@ -28,6 +29,7 @@ export const HistoryType = PropTypes.shape({
 export const MatchType = PropTypes.shape({
     path: PropTypes.string,
     url: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
     params: PropTypes.object,
     isExact: PropTypes.bool
 });
