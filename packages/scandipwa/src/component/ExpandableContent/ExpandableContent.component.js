@@ -28,7 +28,7 @@ export class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         isArrow: PropTypes.bool,
-        heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        heading: PropTypes.string,
         children: ChildrenType,
         mix: MixType.isRequired,
         mods: ModsType,

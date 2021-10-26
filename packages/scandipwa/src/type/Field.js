@@ -37,3 +37,5 @@ export const ValidationRuleType = PropTypes.shape({
 });
 
 export const EventsType = PropTypes.objectOf(PropTypes.func);
+
+export const FieldAttrType = PropTypes.object;
