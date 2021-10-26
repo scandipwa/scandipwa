@@ -17,6 +17,21 @@ import { formatPrice } from 'Util/Price';
 export const DEFAULT_MIN_PRODUCTS = 1;
 export const DEFAULT_MAX_PRODUCTS = 999;
 
+export const MIN_SALE_QTY = 'min_sale_qty';
+export const MAX_SALE_QTY = 'max_sale_qty';
+export const SALABLE_QTY = 'salable_qty';
+
+/** @namespace Util/Product/Extract/getFieldQty */
+export const getFieldQty = (product, field) => {
+    if (field === MIN_SALE_QTY || field === MAX_SALE_QTY) {
+        const { stock_item: { [field]: qty } = {} } = product;
+        return qty;
+    }
+
+    const { [field]: qty } = product;
+    return qty;
+};
+
 /**
  * Returns product quantity for specific field (with fallback value)
  * @param product
@@ -31,20 +46,19 @@ export const getQuantity = (product, defaultValue, field, configIndex = -1) => {
         return defaultValue;
     }
 
-    const {
-        stock_item: { [field]: qty } = {},
-        variants
-    } = product;
+    const qty = getFieldQty(product, field);
 
     if (!qty) {
         return defaultValue;
     }
 
+    const { variants } = product;
+
     if ((!configIndex && !variants) || configIndex === -1) {
         return qty;
     }
 
-    const { stock_item: { [field]: variantQty } = {} } = variants[configIndex] || {};
+    const variantQty = getFieldQty(variants[configIndex] || {}, field);
 
     return variantQty || qty;
 };
@@ -57,7 +71,7 @@ export const getQuantity = (product, defaultValue, field, configIndex = -1) => {
  * @namespace Util/Product/Extract/getMinQuantity
  */
 export const getMinQuantity = (product, configIndex = -1) => (
-    getQuantity(product, DEFAULT_MIN_PRODUCTS, 'min_sale_qty', configIndex)
+    getQuantity(product, DEFAULT_MIN_PRODUCTS, MIN_SALE_QTY, configIndex)
 );
 
 /**
@@ -67,9 +81,11 @@ export const getMinQuantity = (product, configIndex = -1) => (
  * @returns {*}
  * @namespace Util/Product/Extract/getMaxQuantity
  */
-export const getMaxQuantity = (product, configIndex = -1) => (
-    getQuantity(product, DEFAULT_MAX_PRODUCTS, 'max_sale_qty', configIndex)
-);
+export const getMaxQuantity = (product, configIndex = -1) => {
+    const maxQuantity = getQuantity(product, DEFAULT_MAX_PRODUCTS, MAX_SALE_QTY, configIndex);
+    const salableQuantity = getQuantity(product, DEFAULT_MAX_PRODUCTS, SALABLE_QTY, configIndex);
+    return Math.min(maxQuantity, salableQuantity);
+};
 
 /**
  * Returns active products name
