@@ -45,3 +45,15 @@ export const LinkType = PropTypes.oneOfType([
         pathname: PropTypes.string
     })
 ]);
+
+export const NavigationStateType = PropTypes.shape(
+    {
+        name: PropTypes.string.isRequired,
+        title: PropTypes.string
+    }
+);
+
+export const NavigationStateHistoryType = PropTypes.shape({
+    navigationStateHistory: PropTypes.arrayOf(NavigationStateType),
+    navigationState: NavigationStateType
+});

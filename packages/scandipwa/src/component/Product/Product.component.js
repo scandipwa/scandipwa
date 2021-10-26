@@ -30,6 +30,7 @@ import FieldContainer from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
+import { RefType } from 'Type/Common';
 import { MagentoProductType, PriceType, ProductType } from 'Type/ProductList';
 import { filterConfigurableOptions } from 'Util/Product';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
@@ -61,7 +62,7 @@ export class Product extends PureComponent {
         setActiveProduct: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
 
-        configFormRef: PropTypes.object
+        configFormRef: RefType
     };
 
     static defaultProps = {

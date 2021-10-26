@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { DeviceType } from 'Type/Device';
+import { NavigationStateHistoryType } from 'Type/Router';
 import { isSignedIn } from 'Util/Auth';
 import { isScrollDisabled, toggleScroll } from 'Util/Browser';
 import history from 'Util/History';
@@ -38,8 +39,7 @@ export class NavigationAbstractContainer extends PureComponent {
     static propTypes = {
         setNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
-        // eslint-disable-next-line react/no-unused-prop-types
-        navigationState: PropTypes.object.isRequired,
+        navigationState: NavigationStateHistoryType.isRequired,
         device: DeviceType.isRequired
     };
 

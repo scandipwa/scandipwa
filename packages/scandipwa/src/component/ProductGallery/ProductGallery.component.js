@@ -26,6 +26,7 @@ import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage
 import Slider from 'Component/Slider';
 import VideoPopup from 'Component/VideoPopup';
 import VideoThumbnail from 'Component/VideoThumbnail';
+import { RefType } from 'Type/Common';
 import { LocationType } from 'Type/Router';
 import CSS from 'Util/CSS';
 
@@ -66,7 +67,7 @@ export class ProductGallery extends PureComponent {
         registerSharedElementDestination: PropTypes.func.isRequired,
         disableZoom: PropTypes.func.isRequired,
         location: LocationType.isRequired,
-        sliderRef: PropTypes.object.isRequired,
+        sliderRef: RefType.isRequired,
         handleImageZoomPopupActiveChange: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
         isImageZoomPopupActive: PropTypes.bool.isRequired

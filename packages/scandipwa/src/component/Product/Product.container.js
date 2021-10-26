@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { RefType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import fromCache from 'Util/Cache/Cache';
@@ -63,7 +64,7 @@ export class ProductContainer extends PureComponent {
         product: ProductType.isRequired,
         addProductToCart: PropTypes.func.isRequired,
         showError: PropTypes.func.isRequired,
-        configFormRef: PropTypes.object,
+        configFormRef: RefType,
 
         parameters: PropTypes.objectOf(PropTypes.string),
         cartId: PropTypes.string,
