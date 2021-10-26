@@ -79,7 +79,7 @@ export class FieldFile extends PureComponent {
             setRef
         } = this.props;
 
-        const allowedFieldTypes = accept
+        const allowedFieldTypes = (accept || '')
             .split(',')
             .map((type = '') => type.split('/').slice(-1)[0])
             .join(', ');
@@ -95,7 +95,7 @@ export class FieldFile extends PureComponent {
                   { ...events }
                 />
                 { this.renderFileLabel() }
-                { allowedFieldTypes.length && this.renderSubLabel(allowedFieldTypes) }
+                { allowedFieldTypes.length > 0 && this.renderSubLabel(allowedFieldTypes) }
             </>
         );
     }

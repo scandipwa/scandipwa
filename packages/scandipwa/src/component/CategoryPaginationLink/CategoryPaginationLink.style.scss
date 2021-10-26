@@ -33,8 +33,7 @@
         padding: 7px 11px;
     }
 
-    &:hover,
-    &:focus {
+    &:hover {
         --color-pagination-link-text: var(--color-pagination-link-active-text);
 
         text-decoration: none;

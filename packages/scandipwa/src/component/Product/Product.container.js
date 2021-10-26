@@ -20,7 +20,7 @@ import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import fromCache from 'Util/Cache/Cache';
 import getFieldsData from 'Util/Form/Extract';
-import { getNewParameters, getVariantIndex } from 'Util/Product';
+import { ADD_TO_CART, getNewParameters, getVariantIndex } from 'Util/Product';
 import {
     getAdjustedPrice,
     getMaxQuantity,
@@ -218,6 +218,7 @@ export class ProductContainer extends PureComponent {
         const { quantity, parameters, adjustedPrice } = this.state;
         const {
             product,
+            product: { options = [] } = {},
             configFormRef,
             device,
             isWishlistEnabled
@@ -236,7 +237,7 @@ export class ProductContainer extends PureComponent {
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
             productName: getName(product),
-            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type])
+            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type, options])
         };
 
         return {
@@ -402,10 +403,11 @@ export class ProductContainer extends PureComponent {
         const configurableOptions = transformParameters(parameters, attributes);
 
         return magentoProductTransform(
+            ADD_TO_CART,
             product,
             quantity,
             enteredOptions,
-            [...selectedOptions, ...downloadableLinks, ...configurableOptions]
+            [...selectedOptions, ...downloadableLinks, ...configurableOptions],
         );
     }
 

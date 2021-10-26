@@ -35,7 +35,6 @@ export const mapDispatchToProps = () => ({});
 export class CategoryPaginationContainer extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
-        onPageSelect: PropTypes.func,
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
         totalPages: PropTypes.number.isRequired,
@@ -48,7 +47,6 @@ export class CategoryPaginationContainer extends PureComponent {
 
     static defaultProps = {
         isLoading: false,
-        onPageSelect: () => {},
         paginationFrame: 5,
         paginationFrameSkip: null,
         anchorTextPrevious: '',
@@ -73,7 +71,6 @@ export class CategoryPaginationContainer extends PureComponent {
             anchorTextPrevious,
             id,
             isLoading,
-            onPageSelect,
             paginationFrame,
             totalPages,
             location: { pathname }
@@ -84,7 +81,6 @@ export class CategoryPaginationContainer extends PureComponent {
             anchorTextPrevious,
             id,
             isLoading,
-            onPageSelect,
             paginationFrame,
             pathname,
             totalPages,

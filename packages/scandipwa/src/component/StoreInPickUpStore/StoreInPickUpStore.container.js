@@ -20,12 +20,13 @@ export class StoreInPickUpStoreContainer extends PureComponent {
     static propTypes = {
         selectStore: PropTypes.func,
         isSelectedStore: PropTypes.bool,
-        store: StoreType.isRequired
+        store: StoreType
     };
 
     static defaultProps = {
         selectStore: null,
-        isSelectedStore: false
+        isSelectedStore: false,
+        store: null
     };
 
     containerFunctions = {

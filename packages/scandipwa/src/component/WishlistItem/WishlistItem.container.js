@@ -21,6 +21,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
+import { ADD_TO_CART } from 'Util/Product';
 import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -176,7 +177,7 @@ export class WishlistItemContainer extends PureComponent {
 
         const selectedOptions = getSelectedOptions(buy_request);
 
-        return magentoProductTransform(item, quantity, [], selectedOptions);
+        return magentoProductTransform(ADD_TO_CART, item, quantity, [], selectedOptions);
     }
 
     async addItemToCart() {

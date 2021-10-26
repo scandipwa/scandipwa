@@ -16,6 +16,9 @@ import { showPopup } from 'Store/Popup/Popup.action';
 import { isSignedIn } from 'Util/Auth';
 import getStore from 'Util/Store';
 
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
+
 /**
  * Checks whether every option is in attributes
  * @param {Object} attributes
