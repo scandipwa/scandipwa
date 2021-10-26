@@ -75,8 +75,6 @@ export const trimCheckoutCustomerAddress = (customerAddress) => {
         vat_id = null
     } = customerAddress;
 
-    console.debug([customerAddress, region_id]);
-
     return {
         company,
         city,
