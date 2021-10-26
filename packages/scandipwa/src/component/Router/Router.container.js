@@ -96,14 +96,7 @@ export class RouterContainer extends PureComponent {
         title_suffix: PropTypes.string,
         isLoading: PropTypes.bool,
         isBigOffline: PropTypes.bool,
-        meta_title: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.shape({
-                TranslatedValue: PropTypes.string,
-                value: PropTypes.string,
-                injectables: PropTypes.array
-            })
-        ]),
+        meta_title: PropTypes.string,
         status_code: PropTypes.string
     };
 

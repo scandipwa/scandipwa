@@ -35,7 +35,7 @@ export class MenuItemContainer extends PureComponent {
         closeMenu: PropTypes.func,
         onCategoryHover: PropTypes.func,
         item: MenuItemType.isRequired,
-        activeMenuItemsStack: PropTypes.array.isRequired,
+        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
         isExpandable: PropTypes.bool,
         itemMods: ModsType,
         isLink: PropTypes.bool

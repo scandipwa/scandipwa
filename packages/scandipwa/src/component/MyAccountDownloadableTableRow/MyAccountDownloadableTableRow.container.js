@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { DownloadableType } from 'Type/Account.type';
+import { DownloadableType, OrdersType } from 'Type/Account.type';
 import { DeviceType } from 'Type/Device.type';
 
 import MyAccountDownloadableTableRow from './MyAccountDownloadableTableRow.component';
@@ -36,7 +36,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountDownloadableTableRowContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
-        orderList: PropTypes.array.isRequired,
+        orderList: OrdersType.isRequired,
         order: DownloadableType.isRequired,
         device: DeviceType.isRequired,
         isOpenInNewTab: PropTypes.bool.isRequired

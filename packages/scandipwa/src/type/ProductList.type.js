@@ -312,13 +312,13 @@ export const CustomizableOptionType = PropTypes.shape({
 
 export const InputOptionType = PropTypes.shape({
     ...CustomizableOptionShape,
-    max_characters: 0
+    max_characters: PropTypes.number
 });
 
-export const FileOptionType = {
+export const FileOptionType = PropTypes.shape({
     ...CustomizableOptionShape,
-    file_extension: 'png, jpg'
-};
+    file_extension: PropTypes.string
+});
 
 export const CustomizableOptionsType = PropTypes.oneOfType([
     FileOptionType,

@@ -35,7 +35,7 @@ export class FieldGroupContainer extends PureComponent {
 
         // Validation
         validationRule: ValidationRuleType,
-        validateOn: PropTypes.array,
+        validateOn: PropTypes.arrayOf(PropTypes.string),
         showErrorAsLabel: PropTypes.bool,
 
         // Labels

@@ -34,15 +34,7 @@ export class Meta extends PureComponent {
         default_title: PropTypes.string.isRequired,
         title_prefix: PropTypes.string.isRequired,
         title_suffix: PropTypes.string.isRequired,
-        title: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.shape({
-                TranslatedValue: PropTypes.shape({
-                    value: PropTypes.string,
-                    injectables: PropTypes.array
-                })
-            })
-        ])
+        title: PropTypes.string
     };
 
     static defaultProps = {

@@ -10,6 +10,8 @@
  */
 import PropTypes from 'prop-types';
 
+import { ItemsType } from 'Type/ProductList.type';
+
 export const RegionType = PropTypes.oneOfType([
     PropTypes.shape({
         region_code: PropTypes.string,
@@ -85,7 +87,7 @@ export const OrderShippingInfo = PropTypes.shape({
 
 export const OrderType = PropTypes.shape({
     base_order_info: BaseOrderInfoType,
-    order_products: PropTypes.array,
+    order_products: ItemsType,
     payment_info: OrderPaymentInfo,
     shipping_info: OrderShippingInfo
 });

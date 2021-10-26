@@ -57,3 +57,9 @@ export const ProductPriceType = PropTypes.shape({
         containsRequiredOptionsWithPrice: false
     }
 });
+
+export const TierPricesType = PropTypes.arrayOf(PropTypes.shape({
+    discount: DiscountType,
+    final_price: { currency: PropTypes.string, value: PropTypes.number },
+    quantity: PropTypes.number
+}));

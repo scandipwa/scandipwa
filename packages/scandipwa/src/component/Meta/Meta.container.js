@@ -43,14 +43,7 @@ export class MetaContainer extends PureComponent {
         title_suffix: PropTypes.string,
         description: PropTypes.string,
         keywords: PropTypes.string,
-        title: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.shape({
-                TranslatedValue: PropTypes.string,
-                value: PropTypes.string,
-                injectables: PropTypes.array
-            })
-        ]),
+        title: PropTypes.string,
         robots: PropTypes.string,
         status_code: PropTypes.string
     };

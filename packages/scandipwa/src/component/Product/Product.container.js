@@ -72,8 +72,11 @@ export class ProductContainer extends PureComponent {
         device: DeviceType,
         isWishlistEnabled: PropTypes.bool.isRequired,
 
-        defaultEnteredOptions: PropTypes.array,
-        defaultSelectedOptions: PropTypes.array
+        defaultEnteredOptions: PropTypes.arrayOf(PropTypes.shape({
+            uid: PropTypes.string,
+            value: PropTypes.string
+        })),
+        defaultSelectedOptions: PropTypes.arrayOf(PropTypes.string)
     };
 
     static defaultProps = {

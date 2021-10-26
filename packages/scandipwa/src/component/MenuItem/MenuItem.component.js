@@ -22,7 +22,7 @@ import { MenuItemType } from 'Type/Menu.type';
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {
     static propTypes = {
-        activeMenuItemsStack: PropTypes.array.isRequired,
+        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
         item: MenuItemType.isRequired,
         itemMods: ModsType.isRequired,
         handleCategoryHover: PropTypes.func.isRequired,
