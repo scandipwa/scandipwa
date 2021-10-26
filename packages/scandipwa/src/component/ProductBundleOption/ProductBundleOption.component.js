@@ -33,15 +33,19 @@ export class ProductBundleOption extends PureComponent {
         uid: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
-        quantity: PropTypes.array.isRequired,
+        quantity: PropTypes.object.isRequired,
         setQuantity: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
         currencyCode: PropTypes.string.isRequired,
-        activeSelectUid: PropTypes.string.isRequired,
+        activeSelectUid: PropTypes.string,
         setActiveSelectUid: PropTypes.func.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
         updateSelectedValues: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        activeSelectUid: null
     };
 
     renderMap = {

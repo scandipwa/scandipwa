@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import ProductCard from 'Component/ProductCard';
-import { ItemsType } from 'Type/ProductList';
+import { ItemsType, ProductCardPropsType } from 'Type/ProductList';
 
 import './RecentlyViewedWidget.style';
 
@@ -22,12 +22,7 @@ export class RecentlyViewedWidget extends Component {
     static propTypes = {
         pageSize: PropTypes.number.isRequired,
         products: ItemsType.isRequired,
-        productCardProps: PropTypes.shape({
-            siblingsHaveBrands: PropTypes.bool,
-            siblingsHavePriceBadge: PropTypes.bool,
-            siblingsHaveTierPrice: PropTypes.bool,
-            siblingsHaveConfigurableOptions: PropTypes.bool
-        }).isRequired,
+        productCardProps: ProductCardPropsType.isRequired,
         productCardFunctions: PropTypes.objectOf(PropTypes.func).isRequired,
         isLoading: PropTypes.bool.isRequired
     };

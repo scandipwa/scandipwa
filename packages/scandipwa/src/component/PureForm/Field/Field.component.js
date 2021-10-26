@@ -40,10 +40,21 @@ export class Field extends PureComponent {
 
         // Validation
         showErrorAsLabel: PropTypes.bool.isRequired,
-        validationResponse: PropTypes.oneOfType([
-            PropTypes.shape({ errorMessages: PropTypes.string }),
-            PropTypes.bool
-        ]),
+        validationResponse: (props, propName, componentName) => {
+            const propValue = props[propName];
+
+            if (propValue === null) {
+                return;
+            }
+
+            if (typeof propValue === 'boolean') {
+                return;
+            }
+
+            if (typeof propValue === 'object' && Object.keys(propValue).includes('errorMessages')) {
+                throw new Error(`${componentName} only accepts null, bool or object of "errorMessages"`);
+            }
+        },
 
         // Labels
         label: LabelType.isRequired,
@@ -206,14 +217,15 @@ export class Field extends PureComponent {
 
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under field
-    renderErrorMessage = (message) => (
-        <div block="Field" elem="ErrorMessage">{ message }</div>
+    renderErrorMessage = (message, key) => (
+        <div block="Field" elem="ErrorMessage" key={ key }>{ message }</div>
     );
 
     renderErrorMessages() {
         const {
             showErrorAsLabel,
-            validationResponse
+            validationResponse,
+            attr: { name }
         } = this.props;
 
         if (!showErrorAsLabel || !validationResponse || validationResponse === true) {
@@ -228,7 +240,7 @@ export class Field extends PureComponent {
 
         return (
             <div block="Field" elem="ErrorMessages">
-                { errorMessages.map(this.renderErrorMessage) }
+                { errorMessages.map((message, index) => this.renderErrorMessage(message, name + index)) }
             </div>
         );
     }

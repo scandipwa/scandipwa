@@ -11,6 +11,8 @@
 
 import PropTypes from 'prop-types';
 
+import { DISPLAY_CART_TAX_IN_PRICE, DISPLAY_CART_TAX_IN_SHIPPING, DISPLAY_CART_TAX_IN_SUBTOTAL } from 'Util/Cart';
+
 export const RegionType = PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
@@ -24,3 +26,12 @@ export const CountriesType = PropTypes.arrayOf(
         available_regions: PropTypes.arrayOf(RegionType)
     })
 );
+
+export const CartConfigType = PropTypes.shape({
+    display_tax_in_price: PropTypes.oneOf(Object.values(DISPLAY_CART_TAX_IN_PRICE)),
+    display_tax_in_subtotal: PropTypes.oneOf(Object.values(DISPLAY_CART_TAX_IN_SUBTOTAL)),
+    display_tax_in_shipping_amount: PropTypes.oneOf(Object.values(DISPLAY_CART_TAX_IN_SHIPPING)),
+    include_tax_in_order_total: PropTypes.bool.isRequired,
+    display_full_tax_summary: PropTypes.bool.isRequired,
+    display_zero_tax_subtotal: PropTypes.bool.isRequired
+});

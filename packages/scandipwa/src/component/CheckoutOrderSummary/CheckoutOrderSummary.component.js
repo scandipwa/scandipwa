@@ -18,6 +18,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { CheckoutStepType } from 'Type/Checkout';
 import { ChildrenType } from 'Type/Common';
+import { CartConfigType } from 'Type/Config';
 import { TotalsType } from 'Type/MiniCart';
 import { getItemsCountLabel } from 'Util/Cart';
 
@@ -33,7 +34,7 @@ export class CheckoutOrderSummary extends PureComponent {
         checkoutStep: CheckoutStepType,
         renderCmsBlock: PropTypes.func,
         isExpandable: PropTypes.bool,
-        cartDisplayConfig: PropTypes.object.isRequired,
+        cartDisplayConfig: CartConfigType.isRequired,
         cartShippingPrice: PropTypes.number,
         cartShippingSubPrice: PropTypes.number,
         cartSubtotal: PropTypes.number,

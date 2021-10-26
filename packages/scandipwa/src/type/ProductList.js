@@ -196,7 +196,7 @@ export const PriceTierType = PropTypes.shape({
     quantity: PropTypes.number
 });
 
-export const ItemType = PropTypes.shape({
+export const ItemShape = {
     attributes: AttributesType,
     configurable_options: AttributesType,
     id: PropTypes.number,
@@ -219,7 +219,8 @@ export const ItemType = PropTypes.shape({
     uid: PropTypes.string,
     url: PropTypes.string,
     url_rewrites: PropTypes.arrayOf(UrlRewriteType)
-});
+};
+export const ItemType = PropTypes.shape(ItemShape);
 
 export const ItemsType = PropTypes.arrayOf(ItemType);
 
@@ -266,7 +267,7 @@ export const ProductType = PropTypes.shape({
     quantity: PropTypes.number,
     items: ProductItemsType,
     reviews: ReviewsType,
-    ...ItemType
+    ...ItemShape
 });
 
 export const DownloadableSamplesType = PropTypes.arrayOf(
@@ -292,4 +293,11 @@ export const MagentoProductType = PropTypes.shape({
     quantity: PropTypes.number,
     selected_options: PropTypes.arrayOf(PropTypes.string),
     sku: PropTypes.string
+});
+
+export const ProductCardPropsType = PropTypes.shape({
+    siblingsHaveBrands: PropTypes.bool,
+    siblingsHavePriceBadge: PropTypes.bool,
+    siblingsHaveTierPrice: PropTypes.bool,
+    siblingsHaveConfigurableOptions: PropTypes.bool
 });

@@ -17,7 +17,7 @@ import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import Popup from 'Component/Popup';
 import { OrderType } from 'Type/Account';
-import { DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX } from 'Util/Cart';
+import { DISPLAY_CART_TAX_IN_SHIPPING } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
@@ -91,7 +91,7 @@ export class MyAccountOrderPopup extends PureComponent {
             return null;
         }
 
-        const amount = display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX
+        const amount = display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.EXCL_TAX
             ? shipping_amount
             : shipping_incl_tax;
 

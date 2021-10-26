@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType, ModsType } from 'Type/Common';
 import { formatPrice } from 'Util/Price';
 
 /** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
@@ -21,11 +21,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         currency: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
-        mods: PropTypes.shape({
-            withAppendedContent: PropTypes.bool,
-            isTotal: PropTypes.bool,
-            divider: PropTypes.bool
-        }),
+        mods: ModsType,
         subPrice: PropTypes.node,
         children: ChildrenType
     };

@@ -29,12 +29,19 @@ export class ProductBundleOptions extends PureComponent {
 
     renderOptionGroup = (group) => {
         const {
-            title, options, type, required, uid
+            title,
+            options,
+            type,
+            required,
+            uid,
+            option_id
         } = group;
+
         const { updateSelectedValues } = this.props;
 
         return (
             <ProductBundleOption
+              key={ option_id }
               title={ title }
               options={ options }
               type={ type }
