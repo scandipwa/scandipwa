@@ -137,6 +137,7 @@ export class Image extends PureComponent {
 
         return (
             <img
+              key={ src }
               block="Image"
               elem="Image"
               src={ src || '' }
