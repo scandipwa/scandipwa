@@ -31,7 +31,8 @@ import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { RefType } from 'Type/Common';
-import { MagentoProductType, PriceType, ProductType } from 'Type/ProductList';
+import { PriceType } from 'Type/Price';
+import { MagentoProductType, ProductType } from 'Type/ProductList';
 import { filterConfigurableOptions } from 'Util/Product';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
@@ -48,7 +49,7 @@ export class Product extends PureComponent {
         inStock: PropTypes.bool.isRequired,
         magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
 
-        quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.object]).isRequired,
+        quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.objectOf(PropTypes.number)]).isRequired,
         maxQuantity: PropTypes.number.isRequired,
         minQuantity: PropTypes.number.isRequired,
         setQuantity: PropTypes.func.isRequired,

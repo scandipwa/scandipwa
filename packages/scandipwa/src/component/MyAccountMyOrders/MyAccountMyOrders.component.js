@@ -15,7 +15,7 @@ import { Component } from 'react';
 import Loader from 'Component/Loader';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
-import { OrdersType } from 'Type/Account';
+import { OrdersType } from 'Type/Account.type';
 import { DeviceType } from 'Type/Device';
 
 import './MyAccountMyOrders.style';

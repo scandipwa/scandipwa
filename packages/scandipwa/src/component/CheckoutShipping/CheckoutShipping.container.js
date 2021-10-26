@@ -18,8 +18,8 @@ import {
     STORE_IN_PICK_UP_METHOD_CODE
 } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { updateShippingFields } from 'Store/Checkout/Checkout.action';
-import { Addresstype, CustomerType } from 'Type/Account';
-import { ShippingMethodsType, ShippingMethodType, StoreType } from 'Type/Checkout';
+import { Addresstype, CustomerType } from 'Type/Account.type';
+import { ShippingMethodsType, ShippingMethodType, StoreType } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart';
 import {
     trimAddressFields,

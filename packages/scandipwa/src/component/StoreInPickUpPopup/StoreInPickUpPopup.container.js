@@ -18,8 +18,8 @@ import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
-import { Addresstype } from 'Type/Account';
-import { ShippingMethodsType, StoreType } from 'Type/Checkout';
+import { Addresstype } from 'Type/Account.type';
+import { ShippingMethodsType, StoreType } from 'Type/Checkout.type';
 import { CountriesType } from 'Type/Config';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 

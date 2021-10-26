@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ModsType } from 'Type/Common';
+import { MenuItemType } from 'Type/Menu';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 
@@ -33,7 +34,7 @@ export class MenuItemContainer extends PureComponent {
     static propTypes = {
         closeMenu: PropTypes.func,
         onCategoryHover: PropTypes.func,
-        item: PropTypes.object.isRequired,
+        item: MenuItemType.isRequired,
         activeMenuItemsStack: PropTypes.array.isRequired,
         isExpandable: PropTypes.bool,
         itemMods: ModsType,

@@ -28,7 +28,7 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
-import { CategoryTreeType, SelectedFiltersType } from 'Type/Category';
+import { CategoryTreeType, SelectedFiltersType } from 'Type/Category.type';
 import { AttributesType } from 'Type/ProductList';
 import { HistoryType, LocationType, MatchType } from 'Type/Router';
 import { scrollToTop } from 'Util/Browser';

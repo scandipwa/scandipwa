@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import CategoryPagination from 'Component/CategoryPagination';
 import ProductListPage from 'Component/ProductListPage';
-import { FilterType } from 'Type/Category';
+import { FilterType } from 'Type/Category.type';
 import { MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { PagesType } from 'Type/ProductList';

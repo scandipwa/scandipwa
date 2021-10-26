@@ -20,7 +20,7 @@ import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
 import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
 import MyAccountSignIn from 'Component/MyAccountSignIn';
 import Overlay from 'Component/Overlay';
-import { SignInStateType } from 'Type/Account';
+import { SignInStateType } from 'Type/Account.type';
 
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,

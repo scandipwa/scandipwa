@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { OrderType } from 'Type/Account';
+import { OrderType } from 'Type/Account.type';
 import { isSignedIn } from 'Util/Auth';
 import { getIndexedProducts } from 'Util/Product';
 

@@ -24,7 +24,7 @@ import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
-import { CategoryTreeType, FilterInputType, FilterType } from 'Type/Category';
+import { CategoryTreeType, FilterInputType, FilterType } from 'Type/Category.type';
 import { SortDirectionType } from 'Type/Direction';
 import { AttributesType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';

@@ -20,8 +20,8 @@ import {
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { Addresstype, CustomerType } from 'Type/Account';
-import { PaymentMethodsType } from 'Type/Checkout';
+import { Addresstype, CustomerType } from 'Type/Account.type';
+import { PaymentMethodsType } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart';
 import {
     getFormFields,

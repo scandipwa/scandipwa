@@ -16,13 +16,13 @@ import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
-import { Addresstype } from 'Type/Account';
+import { Addresstype } from 'Type/Account.type';
 import {
     CheckoutStepType,
     PaymentMethodsType,
     ShippingMethodsType,
     StoreType
-} from 'Type/Checkout';
+} from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Router';
 import { appendWithStoreCode } from 'Util/Url';

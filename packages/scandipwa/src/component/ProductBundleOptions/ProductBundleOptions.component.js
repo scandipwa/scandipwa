@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ProductBundleOption from 'Component/ProductBundleOption';
+import { ItemOptionsType } from 'Type/ProductList';
 
 import './ProductBundleOptions.style';
 
@@ -23,7 +24,7 @@ import './ProductBundleOptions.style';
  */
 export class ProductBundleOptions extends PureComponent {
     static propTypes = {
-        options: PropTypes.arrayOf(PropTypes.object).isRequired,
+        options: PropTypes.arrayOf(ItemOptionsType).isRequired,
         updateSelectedValues: PropTypes.func.isRequired
     };
 

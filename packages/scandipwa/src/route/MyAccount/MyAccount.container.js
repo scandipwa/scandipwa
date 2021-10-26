@@ -27,7 +27,7 @@ import {
     MY_ORDERS,
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION
-} from 'Type/Account';
+} from 'Type/Account.type';
 import { ItemType } from 'Type/ProductList';
 import { HistoryType, LocationType, MatchType } from 'Type/Router';
 import { isSignedIn } from 'Util/Auth';

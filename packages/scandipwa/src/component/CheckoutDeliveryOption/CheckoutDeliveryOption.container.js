@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ShippingMethodType } from 'Type/Checkout';
+import { ShippingMethodType } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart';
 import { getCartShippingItemPrice, getCartShippingItemSubPrice } from 'Util/Cart';
 

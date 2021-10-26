@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { BaseOrderInfoType } from 'Type/Account';
+import { BaseOrderInfoType } from 'Type/Account.type';
 import { formatPrice } from 'Util/Price';
 
 import './MyAccountOrderTableRow.style';

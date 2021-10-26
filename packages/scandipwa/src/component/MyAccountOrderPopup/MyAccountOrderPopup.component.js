@@ -16,7 +16,7 @@ import Image from 'Component/Image';
 import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import Popup from 'Component/Popup';
-import { OrderType } from 'Type/Account';
+import { OrderType } from 'Type/Account.type';
 import { DISPLAY_CART_TAX_IN_SHIPPING } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 

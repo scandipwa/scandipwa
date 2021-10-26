@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldForm from 'Component/PureForm/FieldForm';
-import { CustomerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 
 import './MyAccountNewsletterSubscription.style.scss';
 

@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
-import { FilterInputType, SelectedFiltersType } from 'Type/Category';
+import { FilterInputType, SelectedFiltersType } from 'Type/Category.type';
 import { MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { PagesType } from 'Type/ProductList';

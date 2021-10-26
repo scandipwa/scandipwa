@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ActiveTabType, TabMapType } from 'Type/Account';
+import { ActiveTabType, TabMapType } from 'Type/Account.type';
 
 import MyAccountTabList from './MyAccountTabList.component';
 

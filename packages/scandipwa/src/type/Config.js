@@ -35,3 +35,11 @@ export const CartConfigType = PropTypes.shape({
     display_full_tax_summary: PropTypes.bool.isRequired,
     display_zero_tax_subtotal: PropTypes.bool.isRequired
 });
+
+export const StoreItemType = PropTypes.shape({
+    id: PropTypes.string,
+    value: PropTypes.string,
+    storeUrl: PropTypes.string,
+    storeLinkUrl: PropTypes.string,
+    label: PropTypes.string
+});

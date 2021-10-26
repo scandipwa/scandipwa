@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldGroup from 'Component/PureForm/FieldGroup';
+import { CustomizableOptionsType } from 'Type/ProductList';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
 import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
@@ -34,7 +35,7 @@ export class ProductCustomizableOption extends PureComponent {
         getDropdownOptions: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
         currencyCode: PropTypes.string.isRequired,
-        options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired
+        options: CustomizableOptionsType.isRequired
     };
 
     renderMap = {

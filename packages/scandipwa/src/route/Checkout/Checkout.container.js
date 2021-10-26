@@ -23,7 +23,7 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { CustomerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Router';
 import { removeEmptyStreets } from 'Util/Address';

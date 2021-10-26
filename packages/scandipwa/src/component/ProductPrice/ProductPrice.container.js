@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { MixType } from 'Type/Common';
+import { ProductPriceType } from 'Type/Price';
 import { formatPrice } from 'Util/Price';
 
 import ProductPrice from './ProductPrice.component';
@@ -38,7 +39,7 @@ export const mapDispatchToProps = () => ({});
 export class ProductPriceContainer extends PureComponent {
     static propTypes = {
         // Price should be gotten from Util/Product/Extract/getPrice()
-        price: PropTypes.object,
+        price: ProductPriceType,
         isPreview: PropTypes.bool,
         priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
 

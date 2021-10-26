@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { OrdersType } from 'Type/Account';
+import { OrdersType } from 'Type/Account.type';
 import { DeviceType } from 'Type/Device';
 
 import MyAccountMyOrders from './MyAccountMyOrders.component';

@@ -15,7 +15,7 @@ import { withRouter } from 'react-router-dom';
 
 import ProductCard from 'Component/ProductCard';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import { FilterType } from 'Type/Category';
+import { FilterType } from 'Type/Category.type';
 import { MixType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 

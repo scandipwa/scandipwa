@@ -19,7 +19,7 @@ import {
     EDIT_ADDRESS
 } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { Addresstype } from 'Type/Account';
+import { Addresstype } from 'Type/Account.type';
 import { MixType } from 'Type/Common';
 import { CountriesType } from 'Type/Config';
 

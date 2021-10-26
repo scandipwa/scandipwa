@@ -18,7 +18,7 @@ import Klarna from 'Component/Klarna';
 import NotSupportedPayment from 'Component/NotSupportedPayment';
 import { PurchaseOrder } from 'Component/PurchaseOrder/PurchaseOrder.component';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { PaymentMethodsType } from 'Type/Checkout';
+import { PaymentMethodsType } from 'Type/Checkout.type';
 
 import { KLARNA, PURCHASE_ORDER } from './CheckoutPayments.config';
 
@@ -44,10 +44,7 @@ export class CheckoutPayments extends PureComponent {
                 PropTypes.number,
                 PropTypes.string
             ]),
-            region: PropTypes.oneOfType([
-                PropTypes.object,
-                PropTypes.string
-            ]),
+            region: PropTypes.string,
             street: PropTypes.arrayOf(PropTypes.string),
             telephone: PropTypes.string
         }).isRequired

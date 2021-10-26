@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { SignInStateType } from 'Type/Account';
+import { SignInStateType } from 'Type/Account.type';
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Component */
 export class MyAccountForgotPasswordSuccess extends PureComponent {

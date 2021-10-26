@@ -16,8 +16,8 @@ import { connect } from 'react-redux';
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { Addresstype } from 'Type/Account';
-import { PaymentMethodsType } from 'Type/Checkout';
+import { Addresstype } from 'Type/Account.type';
+import { PaymentMethodsType } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart';
 
 import CheckoutPayments from './CheckoutPayments.component';

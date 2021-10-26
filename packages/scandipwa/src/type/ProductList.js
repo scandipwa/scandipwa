@@ -11,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 
+import { PriceType } from 'Type/Price';
 import { UrlRewriteType } from 'Type/Router';
 import { StockStatusType } from 'Type/StockStatus';
 
@@ -89,26 +90,6 @@ export const MediaItemType = PropTypes.shape({
 });
 
 export const MediaType = PropTypes.arrayOf(MediaItemType);
-
-export const PriceVariantType = PropTypes.shape({
-    discount: PropTypes.shape({
-        amount_off: PropTypes.number,
-        percent_off: PropTypes.number
-    }),
-    final_price: PropTypes.shape({
-        currency: PropTypes.string,
-        value: PropTypes.number
-    }),
-    regular_price: PropTypes.shape({
-        currency: PropTypes.string,
-        value: PropTypes.number
-    })
-});
-
-export const PriceType = PropTypes.shape({
-    minimum_price: PriceVariantType,
-    maximal_price: PriceVariantType
-});
 
 export const ProductLinksType = PropTypes.arrayOf(
     PropTypes.shape({
@@ -237,7 +218,17 @@ export const ItemOptionsType = PropTypes.arrayOf(
         position: PropTypes.number,
         price: PropTypes.number,
         price_type: PropTypes.string,
-        quantity: PropTypes.number
+        quantity: PropTypes.number,
+        uid: PropTypes.string,
+        product: {
+            name: PropTypes.string,
+            stock_status: PropTypes.string,
+            price_range: PriceType
+        },
+        regularOptionPrice: PropTypes.number,
+        regularOptionPriceExclTax: PropTypes.number,
+        finalOptionPrice: PropTypes.number,
+        finalOptionPriceExclTax: PropTypes.number
     })
 );
 
@@ -300,4 +291,46 @@ export const ProductCardPropsType = PropTypes.shape({
     siblingsHavePriceBadge: PropTypes.bool,
     siblingsHaveTierPrice: PropTypes.bool,
     siblingsHaveConfigurableOptions: PropTypes.bool
+});
+
+export const CustomizableOptionShape = {
+    price: PropTypes.number,
+    priceInclTax: PropTypes.number,
+    priceExclTax: PropTypes.number,
+    price_type: PropTypes.string,
+    currency: PropTypes.string,
+    sku: PropTypes.string
+};
+
+export const CustomizableOptionType = PropTypes.shape({
+    ...CustomizableOptionShape,
+    uid: PropTypes.string,
+    option_type_id: PropTypes.number,
+    title: PropTypes.string,
+    sort_order: PropTypes.number
+});
+
+export const InputOptionType = PropTypes.shape({
+    ...CustomizableOptionShape,
+    max_characters: 0
+});
+
+export const FileOptionType = {
+    ...CustomizableOptionShape,
+    file_extension: 'png, jpg'
+};
+
+export const CustomizableOptionsType = PropTypes.oneOfType([
+    FileOptionType,
+    InputOptionType,
+    PropTypes.arrayOf(CustomizableOptionType)
+]);
+
+export const OptionsListType = PropTypes.shape({
+    value: CustomizableOptionsType,
+    title: PropTypes.string,
+    required: PropTypes.bool,
+    sort_order: PropTypes.number,
+    type: PropTypes.string,
+    uid: PropTypes.string
 });
