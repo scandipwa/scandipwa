@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import FieldForm from 'Component/PureForm/FieldForm';
 import { Addresstype } from 'Type/Account.type';
-import { CountriesType } from 'Type/Config';
+import { CountriesType } from 'Type/Config.type';
 import {
     getAvailableRegions,
     getCityAndRegionFromZipcode,

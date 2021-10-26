@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
-import { ModsType } from 'Type/Common';
+import { ModsType } from 'Type/Common.type';
 
 import './CarouselScrollArrow.style';
 

@@ -17,10 +17,10 @@ import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldFile from 'Component/PureForm/FieldFile';
 import { FieldNumberContainer } from 'Component/PureForm/FieldNumber/FieldNumber.container';
 import FieldSelectContainer from 'Component/PureForm/FieldSelect/FieldSelect.container';
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
 import {
     EventsType, FieldAttrType, LabelType, OptionType
-} from 'Type/Field';
+} from 'Type/Field.type';
 
 import './Field.style';
 

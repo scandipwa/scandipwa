@@ -25,8 +25,8 @@ import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
 import { CategoryTreeType, FilterInputType, FilterType } from 'Type/Category.type';
-import { SortDirectionType } from 'Type/Direction';
-import { AttributesType } from 'Type/ProductList';
+import { SortDirectionType } from 'Type/Direction.type';
+import { AttributesType } from 'Type/ProductList.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 

@@ -20,10 +20,10 @@ import { Product } from 'Component/Product/Product.component';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import { MixType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
-import { LayoutType } from 'Type/Layout';
-import { LinkType } from 'Type/Router';
+import { MixType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
+import { LayoutType } from 'Type/Layout.type';
+import { LinkType } from 'Type/Router.type';
 
 import './ProductCard.style';
 

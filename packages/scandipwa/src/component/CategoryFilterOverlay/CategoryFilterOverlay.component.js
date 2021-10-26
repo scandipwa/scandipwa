@@ -18,7 +18,7 @@ import Overlay from 'Component/Overlay';
 import ResetAttributes from 'Component/ResetAttributes';
 import ResetButton from 'Component/ResetButton';
 import { SelectedFiltersType } from 'Type/Category.type';
-import { AttributesType } from 'Type/ProductList';
+import { AttributesType } from 'Type/ProductList.type';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
 

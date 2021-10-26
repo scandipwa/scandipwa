@@ -23,8 +23,8 @@ import {
     ShippingMethodsType,
     StoreType
 } from 'Type/Checkout.type';
-import { TotalsType } from 'Type/MiniCart';
-import { HistoryType } from 'Type/Router';
+import { TotalsType } from 'Type/MiniCart.type';
+import { HistoryType } from 'Type/Router.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {

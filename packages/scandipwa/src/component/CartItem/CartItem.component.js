@@ -19,8 +19,8 @@ import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { CartItemType } from 'Type/MiniCart';
-import { LinkType } from 'Type/Router';
+import { CartItemType } from 'Type/MiniCart.type';
+import { LinkType } from 'Type/Router.type';
 import { formatPrice } from 'Util/Price';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 

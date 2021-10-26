@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ItemOptionsType } from 'Type/ProductList';
+import { ItemOptionsType } from 'Type/ProductList.type';
 import { bundleOptionsToSelectTransform, getEncodedBundleUid } from 'Util/Product/Transform';
 
 import ProductBundleOption from './ProductBundleOption.component';

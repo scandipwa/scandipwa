@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { SelectedFiltersType } from 'Type/Category.type';
-import { AttributesType } from 'Type/ProductList';
+import { AttributesType } from 'Type/ProductList.type';
 import { getPriceFilterLabel } from 'Util/Category';
 import { getBooleanLabel } from 'Util/Product';
 

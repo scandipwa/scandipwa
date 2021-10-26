@@ -15,9 +15,9 @@ import { PureComponent } from 'react';
 import CategoryPagination from 'Component/CategoryPagination';
 import ProductListPage from 'Component/ProductListPage';
 import { FilterType } from 'Type/Category.type';
-import { MixType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
-import { PagesType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
+import { PagesType } from 'Type/ProductList.type';
 import { scrollToTop } from 'Util/Browser';
 
 import { observerThreshold } from './ProductList.config';

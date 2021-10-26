@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType, ModsType } from 'Type/Common';
+import { ChildrenType, ModsType } from 'Type/Common.type';
 import { formatPrice } from 'Util/Price';
 
 /** @namespace Component/CheckoutOrderSummaryPriceLine/Component */

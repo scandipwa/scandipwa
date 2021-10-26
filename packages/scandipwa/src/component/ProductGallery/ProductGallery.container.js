@@ -16,7 +16,7 @@ import { Subscribe } from 'unstated';
 
 import ImageZoomPopup from 'Component/ImageZoomPopup';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 
 import ProductGallery from './ProductGallery.component';
 import {

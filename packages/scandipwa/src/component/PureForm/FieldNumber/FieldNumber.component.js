@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import AddIcon from 'Component/AddIcon';
 import MinusIcon from 'Component/MinusIcon';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import { EventsType, FieldAttrType } from 'Type/Field';
+import { EventsType, FieldAttrType } from 'Type/Field.type';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
 /**

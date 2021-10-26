@@ -13,8 +13,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType, MixType } from 'Type/Common';
-import { EventsType, FieldAttrType } from 'Type/Field';
+import { ChildrenType, MixType } from 'Type/Common.type';
+import { EventsType, FieldAttrType } from 'Type/Field.type';
 
 /**
  * Form

@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldGroup from 'Component/PureForm/FieldGroup';
-import { CustomizableOptionsType } from 'Type/ProductList';
+import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
 import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';

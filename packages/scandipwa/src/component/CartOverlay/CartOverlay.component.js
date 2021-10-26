@@ -20,7 +20,7 @@ import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
-import { CartDisplayType, TotalsType } from 'Type/MiniCart';
+import { CartDisplayType, TotalsType } from 'Type/MiniCart.type';
 import { scrollToTop } from 'Util/Browser';
 import { formatPrice } from 'Util/Price';
 

@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { CartItemType } from 'Type/MiniCart';
+import { CartItemType } from 'Type/MiniCart.type';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';

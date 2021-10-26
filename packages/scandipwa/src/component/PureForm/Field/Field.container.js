@@ -14,10 +14,10 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
 import {
     EventsType, FieldAttrType, LabelType, ValidationRuleType
-} from 'Type/Field';
+} from 'Type/Field.type';
 import { validate } from 'Util/Validator';
 
 import Field from './Field.component';

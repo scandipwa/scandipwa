@@ -17,9 +17,9 @@ import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLi
 import ExpandableContent from 'Component/ExpandableContent';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { CheckoutStepType } from 'Type/Checkout.type';
-import { ChildrenType } from 'Type/Common';
-import { CartConfigType } from 'Type/Config';
-import { TotalsType } from 'Type/MiniCart';
+import { ChildrenType } from 'Type/Common.type';
+import { CartConfigType } from 'Type/Config.type';
+import { TotalsType } from 'Type/MiniCart.type';
 import { getItemsCountLabel } from 'Util/Cart';
 
 import './CheckoutOrderSummary.style';

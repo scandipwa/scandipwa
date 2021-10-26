@@ -14,7 +14,7 @@ import React, { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
-import { ProductCardPropsType, ProductType } from 'Type/ProductList';
+import { ProductCardPropsType, ProductType } from 'Type/ProductList.type';
 
 import './ProductLinks.style';
 

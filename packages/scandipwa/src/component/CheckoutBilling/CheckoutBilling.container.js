@@ -22,7 +22,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { Addresstype, CustomerType } from 'Type/Account.type';
 import { PaymentMethodsType } from 'Type/Checkout.type';
-import { TotalsType } from 'Type/MiniCart';
+import { TotalsType } from 'Type/MiniCart.type';
 import {
     getFormFields,
     setAddressesInFormObject,

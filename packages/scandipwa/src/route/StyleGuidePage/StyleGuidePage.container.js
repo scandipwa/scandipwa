@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateProductDetails } from 'Store/Product/Product.action';
 import ProductReducer from 'Store/Product/Product.reducer';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 import { withReducers } from 'Util/DynamicReducer';
 
 import product from './product.json';

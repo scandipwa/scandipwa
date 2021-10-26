@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import ProductReviewRating from 'Component/ProductReviewRating';
-import { ReviewItemType } from 'Type/Rating';
+import { ReviewItemType } from 'Type/Rating.type';
 
 import './ProductReviewItem.style';
 

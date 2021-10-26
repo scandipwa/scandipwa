@@ -15,8 +15,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { MixType } from 'Type/Common';
-import { MagentoProductType, ProductType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { MagentoProductType, ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 
 import ProductWishlistButton from './ProductWishlistButton.component';

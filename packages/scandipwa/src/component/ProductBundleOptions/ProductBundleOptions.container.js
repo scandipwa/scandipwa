@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ItemOptionsType } from 'Type/ProductList';
+import { ItemOptionsType } from 'Type/ProductList.type';
 
 import ProductBundleOptions from './ProductBundleOptions.component';
 

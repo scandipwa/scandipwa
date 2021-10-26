@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { CustomizableOptionsType } from 'Type/ProductList';
+import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionsToSelectTransform } from 'Util/Product/Transform';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';

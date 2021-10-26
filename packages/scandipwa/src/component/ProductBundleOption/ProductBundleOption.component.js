@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldGroup from 'Component/PureForm/FieldGroup';
-import { ItemOptionsType } from 'Type/ProductList';
+import { ItemOptionsType } from 'Type/ProductList.type';
 import {
     DEFAULT_MAX_PRODUCTS, DEFAULT_MIN_PRODUCTS,
     getBundleOption, getMaxQuantity, getMinQuantity, getProductInStock

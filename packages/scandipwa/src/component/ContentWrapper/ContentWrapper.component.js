@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType, MixType } from 'Type/Common';
-import { LabelType } from 'Type/Field';
+import { ChildrenType, MixType } from 'Type/Common.type';
+import { LabelType } from 'Type/Field.type';
 
 import './ContentWrapper.style';
 

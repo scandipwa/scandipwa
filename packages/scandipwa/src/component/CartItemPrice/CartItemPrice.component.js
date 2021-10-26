@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
 import { formatPrice, roundPrice } from 'Util/Price';
 
 /** @namespace Component/CartItemPrice/Component */

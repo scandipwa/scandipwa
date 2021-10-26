@@ -15,8 +15,8 @@ import { PureComponent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { stringify } from 'rebem-classname';
 
-import { ChildrenType, MixType } from 'Type/Common';
-import { LinkType } from 'Type/Router';
+import { ChildrenType, MixType } from 'Type/Common.type';
+import { LinkType } from 'Type/Router.type';
 
 /** @namespace Component/Link/Component */
 export class Link extends PureComponent {

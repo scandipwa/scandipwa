@@ -15,8 +15,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DeviceType } from 'Type/Device';
-import { NavigationStateHistoryType } from 'Type/Router';
+import { DeviceType } from 'Type/Device.type';
+import { NavigationStateHistoryType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import { isScrollDisabled, toggleScroll } from 'Util/Browser';
 import history from 'Util/History';

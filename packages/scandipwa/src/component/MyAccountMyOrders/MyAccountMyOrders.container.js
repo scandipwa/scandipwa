@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { OrdersType } from 'Type/Account.type';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 

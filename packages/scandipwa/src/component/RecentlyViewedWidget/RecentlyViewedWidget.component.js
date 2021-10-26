@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import ProductCard from 'Component/ProductCard';
-import { ItemsType, ProductCardPropsType } from 'Type/ProductList';
+import { ItemsType, ProductCardPropsType } from 'Type/ProductList.type';
 
 import './RecentlyViewedWidget.style';
 

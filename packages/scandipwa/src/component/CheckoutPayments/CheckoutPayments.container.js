@@ -18,7 +18,7 @@ import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { Addresstype } from 'Type/Account.type';
 import { PaymentMethodsType } from 'Type/Checkout.type';
-import { TotalsType } from 'Type/MiniCart';
+import { TotalsType } from 'Type/MiniCart.type';
 
 import CheckoutPayments from './CheckoutPayments.component';
 import { KLARNA } from './CheckoutPayments.config';

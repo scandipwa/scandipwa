@@ -28,8 +28,8 @@ import {
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account.type';
-import { ItemType } from 'Type/ProductList';
-import { HistoryType, LocationType, MatchType } from 'Type/Router';
+import { ItemType } from 'Type/ProductList.type';
+import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';

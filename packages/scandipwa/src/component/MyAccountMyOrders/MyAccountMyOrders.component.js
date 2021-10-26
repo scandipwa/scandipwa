@@ -16,7 +16,7 @@ import Loader from 'Component/Loader';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
 import { OrdersType } from 'Type/Account.type';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 
 import './MyAccountMyOrders.style';
 

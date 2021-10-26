@@ -16,8 +16,8 @@ import { STOCK_TYPE } from 'Component/Product/Stock.config';
 import {
     BIG_PLACEHOLDER_CONFIG
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
-import { MixType } from 'Type/Common';
-import { AttributesType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { AttributesType } from 'Type/ProductList.type';
 import { getBooleanLabel } from 'Util/Product';
 
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';

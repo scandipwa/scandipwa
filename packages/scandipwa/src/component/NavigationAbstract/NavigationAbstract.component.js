@@ -13,7 +13,7 @@
 
 import { Component } from 'react';
 
-import { NavigationStateHistoryType } from 'Type/Router';
+import { NavigationStateHistoryType } from 'Type/Router.type';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 

@@ -11,9 +11,9 @@
 
 import PropTypes from 'prop-types';
 
-import { PriceType } from 'Type/Price';
-import { UrlRewriteType } from 'Type/Router';
-import { StockStatusType } from 'Type/StockStatus';
+import { PriceType } from 'Type/Price.type';
+import { UrlRewriteType } from 'Type/Router.type';
+import { StockStatusType } from 'Type/StockStatus.type';
 
 export const AttributeType = PropTypes.shape({
     attribute_code: PropTypes.string,

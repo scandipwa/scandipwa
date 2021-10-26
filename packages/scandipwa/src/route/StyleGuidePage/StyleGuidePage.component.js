@@ -27,7 +27,7 @@ import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import SearchItem from 'Component/SearchItem';
 import UserIcon from 'Component/UserIcon';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 
 import configurableOptions from './configurableOptions.json';
 import {

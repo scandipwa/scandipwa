@@ -11,7 +11,7 @@
 
 import { PureComponent } from 'react';
 
-import { DirectionType } from 'Type/Direction';
+import { DirectionType } from 'Type/Direction.type';
 
 import { RIGHT } from './ChevronIcon.config';
 

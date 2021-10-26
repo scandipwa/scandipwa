@@ -18,8 +18,8 @@ import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import { DeviceType } from 'Type/Device';
-import { MenuType } from 'Type/Menu';
+import { DeviceType } from 'Type/Device.type';
+import { MenuType } from 'Type/Menu.type';
 import { getSortedItems } from 'Util/Menu';
 import { debounce } from 'Util/Request';
 

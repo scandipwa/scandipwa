@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import KeyValueTable from 'Component/KeyValueTable';
 import Loader from 'Component/Loader';
 import { Addresstype } from 'Type/Account.type';
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
 
 import './MyAccountAddressTable.style';
 

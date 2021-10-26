@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 
-import { LocationType } from 'Type/Router';
+import { LocationType } from 'Type/Router.type';
 
 export const MenuItemType = PropTypes.shape({
     item_id: PropTypes.string,

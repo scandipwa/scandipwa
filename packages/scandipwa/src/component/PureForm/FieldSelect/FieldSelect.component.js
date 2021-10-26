@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
-import { EventsType, FieldAttrType } from 'Type/Field';
+import { EventsType, FieldAttrType } from 'Type/Field.type';
 
 import './FieldSelect.style';
 

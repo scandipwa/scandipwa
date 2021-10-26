@@ -30,9 +30,9 @@ import FieldContainer from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import { RefType } from 'Type/Common';
-import { PriceType } from 'Type/Price';
-import { MagentoProductType, ProductType } from 'Type/ProductList';
+import { RefType } from 'Type/Common.type';
+import { PriceType } from 'Type/Price.type';
+import { MagentoProductType, ProductType } from 'Type/ProductList.type';
 import { filterConfigurableOptions } from 'Util/Product';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 

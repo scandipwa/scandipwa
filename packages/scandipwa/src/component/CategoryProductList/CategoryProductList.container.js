@@ -15,8 +15,8 @@ import { connect } from 'react-redux';
 import ProductList from 'Component/ProductList';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
 import { FilterInputType, SelectedFiltersType } from 'Type/Category.type';
-import { LayoutType } from 'Type/Layout';
-import { PagesType } from 'Type/ProductList';
+import { LayoutType } from 'Type/Layout.type';
+import { PagesType } from 'Type/ProductList.type';
 
 import './CategoryProductList.style';
 

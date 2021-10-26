@@ -14,9 +14,9 @@ import { PureComponent } from 'react';
 
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { MixType } from 'Type/Common';
-import { OriginalPriceType, ProductPriceType } from 'Type/Price';
-import { PriceConfiguration } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { OriginalPriceType, ProductPriceType } from 'Type/Price.type';
+import { PriceConfiguration } from 'Type/ProductList.type';
 
 import './ProductPrice.style';
 

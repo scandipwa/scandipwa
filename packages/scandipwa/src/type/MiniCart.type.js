@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 
-import { ProductType } from './ProductList';
+import { ProductType } from './ProductList.type';
 
 export const PageType = PropTypes.shape({
     title: PropTypes.string,

@@ -14,8 +14,8 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { ChildrenType, ModsType } from 'Type/Common';
-import { EventsType, FieldAttrType, ValidationRuleType } from 'Type/Field';
+import { ChildrenType, ModsType } from 'Type/Common.type';
+import { EventsType, FieldAttrType, ValidationRuleType } from 'Type/Field.type';
 import getFieldsData from 'Util/Form/Extract';
 import { validateGroup } from 'Util/Validator';
 

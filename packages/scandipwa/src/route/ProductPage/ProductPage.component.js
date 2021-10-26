@@ -27,7 +27,7 @@ import {
     PRODUCT_REVIEWS
 } from 'Route/ProductPage/ProductPage.config';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 
 import './ProductPage.style';
 

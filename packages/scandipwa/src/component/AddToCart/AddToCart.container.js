@@ -16,9 +16,9 @@ import { connect } from 'react-redux';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { MixType } from 'Type/Common';
-import { LayoutType } from 'Type/Layout';
-import { ProductType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { LayoutType } from 'Type/Layout.type';
+import { ProductType } from 'Type/ProductList.type';
 import { ADD_TO_CART } from 'Util/Product';
 import {
     getMaxQuantity, getMinQuantity, getName, getProductInStock

@@ -19,8 +19,8 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { SelectedFiltersType } from 'Type/Category.type';
-import { FilterAttributeType } from 'Type/ProductList';
-import { HistoryType, LocationType } from 'Type/Router';
+import { FilterAttributeType } from 'Type/ProductList.type';
+import { HistoryType, LocationType } from 'Type/Router.type';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';

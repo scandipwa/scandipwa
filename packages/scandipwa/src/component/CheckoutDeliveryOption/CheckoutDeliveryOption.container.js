@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ShippingMethodType } from 'Type/Checkout.type';
-import { TotalsType } from 'Type/MiniCart';
+import { TotalsType } from 'Type/MiniCart.type';
 import { getCartShippingItemPrice, getCartShippingItemSubPrice } from 'Util/Cart';
 
 import CheckoutDeliveryOption from './CheckoutDeliveryOption.component';

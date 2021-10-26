@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { Component, createRef } from 'react';
 
 import ProductCard from 'Component/ProductCard';
-import { ProductCardPropsType, ProductType } from 'Type/ProductList';
+import { ProductCardPropsType, ProductType } from 'Type/ProductList.type';
 import CSS from 'Util/CSS';
 
 import './NewProducts.style';

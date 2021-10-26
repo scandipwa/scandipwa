@@ -16,8 +16,8 @@ import { PureComponent } from 'react';
 import AddIcon from 'Component/AddIcon';
 import Link from 'Component/Link';
 import MinusIcon from 'Component/MinusIcon';
-import { ModsType } from 'Type/Common';
-import { MenuItemType } from 'Type/Menu';
+import { ModsType } from 'Type/Common.type';
+import { MenuItemType } from 'Type/Menu.type';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {

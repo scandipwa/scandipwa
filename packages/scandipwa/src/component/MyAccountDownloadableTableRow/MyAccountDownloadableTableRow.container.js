@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { DownloadableType } from 'Type/Account.type';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 
 import MyAccountDownloadableTableRow from './MyAccountDownloadableTableRow.component';
 

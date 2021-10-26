@@ -18,7 +18,7 @@ import ClickOutside from 'Component/ClickOutside';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import StoreItem from 'Component/StoreItem';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 
 import './StoreSwitcher.style';
 

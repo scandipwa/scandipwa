@@ -20,7 +20,7 @@ import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { Addresstype } from 'Type/Account.type';
 import { ShippingMethodsType, StoreType } from 'Type/Checkout.type';
-import { CountriesType } from 'Type/Config';
+import { CountriesType } from 'Type/Config.type';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 
 import StoreInPickUpComponent from './StoreInPickUpPopup.component';

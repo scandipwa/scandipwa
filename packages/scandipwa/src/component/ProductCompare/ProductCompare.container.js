@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DeviceType } from 'Type/Device';
-import { ProductItemsType } from 'Type/ProductList';
+import { DeviceType } from 'Type/Device.type';
+import { ProductItemsType } from 'Type/ProductList.type';
 
 import ProductCompare from './ProductCompare.component';
 

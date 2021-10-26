@@ -16,8 +16,8 @@ import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import MinusIcon from 'Component/MinusIcon';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { ChildrenType, MixType, ModsType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
+import { ChildrenType, MixType, ModsType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import { getFixedElementHeight } from 'Util/CSS';
 

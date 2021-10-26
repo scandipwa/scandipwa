@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ProductBundleOption from 'Component/ProductBundleOption';
-import { ItemOptionsType } from 'Type/ProductList';
+import { ItemOptionsType } from 'Type/ProductList.type';
 
 import './ProductBundleOptions.style';
 

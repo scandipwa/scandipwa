@@ -18,7 +18,7 @@ import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
 import { StoreType } from 'Type/Checkout.type';
-import { CountriesType } from 'Type/Config';
+import { CountriesType } from 'Type/Config.type';
 
 import { STORE_IN_PICK_UP_POPUP_ID } from './StoreInPickUpPopup.config';
 

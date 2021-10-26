@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 
-import { LinkType } from 'Type/Router';
+import { LinkType } from 'Type/Router.type';
 
 export const BreadcrumbType = PropTypes.shape({
     url: LinkType,

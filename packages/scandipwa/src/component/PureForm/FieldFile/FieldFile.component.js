@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import Loader from 'Component/Loader';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import UploadIcon from 'Component/UploadIcon';
-import { EventsType, FieldAttrType } from 'Type/Field';
+import { EventsType, FieldAttrType } from 'Type/Field.type';
 
 /**
  * Field File

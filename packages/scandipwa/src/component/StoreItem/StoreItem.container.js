@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { StoreItemType } from 'Type/Config';
+import { StoreItemType } from 'Type/Config.type';
 
 import StoreItem from './StoreItem.component';
 

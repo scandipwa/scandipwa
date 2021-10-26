@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { SortDirectionType } from 'Type/Direction';
+import { SortDirectionType } from 'Type/Direction.type';
 
 import './CategorySort.style';
 
