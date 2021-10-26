@@ -431,8 +431,6 @@
     "Your first name": null,
     "Your last name": null,
     "Retype your password": null,
-    "Incorrect data! Please check review fields.": null,
-    "Error submitting review!": null,
     "Payment method": null,
     "There are no reviews yet! Click button below to submit one!": null,
     "Product tabs": null,
@@ -531,5 +529,6 @@
     "Option": null,
     "Available items moved to cart": null,
     "Incorrect email format!": null,
-    "Incorrect list of emails!": null
+    "Incorrect list of emails!": null,
+    "Please fill in all rating fields": null
 }

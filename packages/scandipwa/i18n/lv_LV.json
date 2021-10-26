@@ -383,7 +383,6 @@
     "Ship here": null,
     "Slide crumb": null,
     "Sample": null,
-    "Error submitting review!": null,
     "Write a review": null,
     "1 item": null,
     "Welcome, %s!": null,
@@ -433,7 +432,6 @@
     "1 filter selected": null,
     "Thank you for your subscription.": null,
     "Excl. tax:": null,
-    "Incorrect data! Please check review fields.": null,
     "Please, select required options!": null,
     "Product compare": null,
     "Enter your password": null,
@@ -531,5 +529,6 @@
     "Option": null,
     "Available items moved to cart": null,
     "Incorrect email format!": null,
-    "Incorrect list of emails!": null
+    "Incorrect list of emails!": null,
+    "Please fill in all rating fields": null
 }
