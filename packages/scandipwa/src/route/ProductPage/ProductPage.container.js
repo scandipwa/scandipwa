@@ -362,6 +362,7 @@ export class ProductPageContainer extends PureComponent {
             isInformationTabEmpty: this.isProductInformationTabEmpty(),
             activeProduct: this.getActiveProductDataSource(),
             dataSource: this.getDataSource(),
+            useEmptyGallerySwitcher: this.getUseEmptyGallerySwitcher(),
             isMobile,
             parameters,
             location
@@ -385,6 +386,20 @@ export class ProductPageContainer extends PureComponent {
         const dataSource = this.getDataSource();
 
         return dataSource === product;
+    }
+
+    getUseEmptyGallerySwitcher() {
+        const { activeProduct } = this.state;
+        const product = this.getDataSource();
+
+        if (!activeProduct || !product) {
+            return false;
+        }
+
+        const { media_gallery_entries: mediaGallery = [] } = product;
+        const { media_gallery_entries: activeMediaGallery = [] } = activeProduct;
+
+        return mediaGallery.length > 1 || activeMediaGallery.length > 1;
     }
 
     getActiveProductDataSource() {

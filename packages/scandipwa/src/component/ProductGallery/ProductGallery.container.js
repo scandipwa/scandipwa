@@ -40,12 +40,17 @@ export class ProductGalleryContainer extends PureComponent {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        isZoomEnabled: PropTypes.bool
+        isZoomEnabled: PropTypes.bool,
+
+        // Renders empty image switcher, so that when changing active product, transaction
+        // between images is not jumping, when parent has multiple images, but child only one
+        isWithEmptySwitcher: PropTypes.bool
     };
 
     static defaultProps = {
         areDetailsLoaded: false,
-        isZoomEnabled: false
+        isZoomEnabled: false,
+        isWithEmptySwitcher: false
     };
 
     sliderRef = createRef();
@@ -172,7 +177,7 @@ export class ProductGalleryContainer extends PureComponent {
 
     containerProps() {
         const { activeImage, isZoomEnabled, isImageZoomPopupActive } = this.state;
-        const { product: { id }, isMobile } = this.props;
+        const { product: { id }, isMobile, isWithEmptySwitcher } = this.props;
 
         return {
             gallery: this.getGalleryPictures(),
@@ -182,7 +187,8 @@ export class ProductGalleryContainer extends PureComponent {
             productId: id,
             isMobile,
             isImageZoomPopupActive,
-            sliderRef: this.sliderRef
+            sliderRef: this.sliderRef,
+            isWithEmptySwitcher
         };
     }
 

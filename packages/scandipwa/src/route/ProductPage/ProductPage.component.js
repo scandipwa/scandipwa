@@ -59,7 +59,8 @@ export class ProductPage extends PureComponent {
         areDetailsLoaded: PropTypes.bool.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
-        setActiveProduct: PropTypes.func.isRequired
+        setActiveProduct: PropTypes.func.isRequired,
+        useEmptyGallerySwitcher: PropTypes.bool.isRequired
     };
 
     tabMap = {
@@ -95,7 +96,8 @@ export class ProductPage extends PureComponent {
             dataSource,
             areDetailsLoaded,
             activeProduct,
-            setActiveProduct
+            setActiveProduct,
+            useEmptyGallerySwitcher
         } = this.props;
 
         return (
@@ -104,6 +106,7 @@ export class ProductPage extends PureComponent {
                     <ProductGallery
                       product={ activeProduct }
                       areDetailsLoaded={ areDetailsLoaded }
+                      isWithEmptySwitcher={ useEmptyGallerySwitcher }
                     />
                 </Suspense>
                 <ProductActions
