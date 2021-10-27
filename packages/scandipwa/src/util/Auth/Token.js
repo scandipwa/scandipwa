@@ -16,19 +16,17 @@ import getStore from 'Util/Store';
 
 export const AUTH_TOKEN = 'auth_token';
 
-export const ONE_HOUR = 3600;
+export const ONE_HOUR_IN_SECONDS = 3600;
+export const ONE_HOUR = 1;
 
 /** @namespace Util/Auth/Token/setAuthorizationToken */
 export const setAuthorizationToken = (token) => {
     const state = getStore().getState();
     const {
-        cookie_lifetime = ONE_HOUR,
-        access_token_lifetime
+        access_token_lifetime = ONE_HOUR
     } = state.ConfigReducer;
 
-    const token_lifetime = access_token_lifetime ? access_token_lifetime * ONE_HOUR : cookie_lifetime;
-
-    BrowserDatabase.setItem(token, AUTH_TOKEN, token_lifetime);
+    BrowserDatabase.setItem(token, AUTH_TOKEN, access_token_lifetime * ONE_HOUR_IN_SECONDS);
 };
 
 /** @namespace Util/Auth/Token/deleteAuthorizationToken */
