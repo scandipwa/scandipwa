@@ -431,7 +431,7 @@ export class ProductPrice extends PureComponent {
         const { [priceType]: renderer } = this.pricePreviewRenderMap;
 
         return (
-            <p
+            <div
               block="ProductPrice"
               mods={ { hasDiscount: discountPercentage !== 0, isPreview } }
               mix={ mix }
@@ -440,7 +440,7 @@ export class ProductPrice extends PureComponent {
                 { isPreview && renderer && renderer() }
                 { (!isPreview || !renderer) && this.renderDefaultPrice() }
                 { priceType !== PRODUCT_TYPE.bundle && this.renderTierPrice() }
-            </p>
+            </div>
         );
     }
 }

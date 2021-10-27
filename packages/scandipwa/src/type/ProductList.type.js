@@ -53,10 +53,10 @@ export const BreadcrumbsType = PropTypes.arrayOf(
     })
 );
 
-export const ImageType = {
+export const ImageType = PropTypes.shape({
     path: PropTypes.string,
     url: PropTypes.string
-};
+});
 
 export const CategoryType = PropTypes.shape({
     name: PropTypes.string,
@@ -99,10 +99,10 @@ export const ProductLinksType = PropTypes.arrayOf(
     })
 );
 
-export const ReviewSummaryType = PropTypes.shape({
+export const ReviewSummaryShape = {
     rating_summary: PropTypes.number,
     review_count: PropTypes.number
-});
+};
 
 export const RatingVoteType = PropTypes.shape({
     vote_id: PropTypes.number,
@@ -162,20 +162,44 @@ export const ValueType = PropTypes.shape({
     sort_order: PropTypes.number
 });
 
-export const OptionType = [{
-    value: PropTypes.arrayOf(ValueType),
-    title: PropTypes.string,
-    required: PropTypes.bool,
-    sort_order: PropTypes.number,
-    type: PropTypes.string,
-    uid: PropTypes.string
-}];
-
 export const PriceTierType = PropTypes.shape({
     discount: PropTypes.shape({ amount_off: PropTypes.number, percent_off: PropTypes.number }),
     final_price: PropTypes.shape({ currency: PropTypes.string, value: PropTypes.number }),
     quantity: PropTypes.number
 });
+
+export const CustomizableOptionShape = {
+    price: PropTypes.number,
+    priceInclTax: PropTypes.number,
+    priceExclTax: PropTypes.number,
+    price_type: PropTypes.string,
+    currency: PropTypes.string,
+    sku: PropTypes.string
+};
+
+export const CustomizableOptionType = PropTypes.shape({
+    ...CustomizableOptionShape,
+    uid: PropTypes.string,
+    option_type_id: PropTypes.number,
+    title: PropTypes.string,
+    sort_order: PropTypes.number
+});
+
+export const InputOptionType = PropTypes.shape({
+    ...CustomizableOptionShape,
+    max_characters: PropTypes.number
+});
+
+export const FileOptionType = PropTypes.shape({
+    ...CustomizableOptionShape,
+    file_extension: PropTypes.string
+});
+
+export const CustomizableOptionsType = PropTypes.oneOfType([
+    FileOptionType,
+    InputOptionType,
+    PropTypes.arrayOf(CustomizableOptionType)
+]);
 
 export const ItemShape = {
     attributes: AttributesType,
@@ -183,11 +207,11 @@ export const ItemShape = {
     id: PropTypes.number,
     image: ImageType,
     name: PropTypes.string,
-    options: PropTypes.arrayOf(OptionType),
+    options: CustomizableOptionsType,
     price_range: PriceType,
     price_tiers: PropTypes.arrayOf(PriceTierType),
-    ...ReviewSummaryType,
-    review_summary: ReviewSummaryType,
+    ...ReviewSummaryShape,
+    review_summary: PropTypes.shape(ReviewSummaryShape),
     short_description: DescriptionType,
     sku: PropTypes.string,
     small_image: ImageType,
@@ -220,11 +244,11 @@ export const ItemOptionsType = PropTypes.arrayOf(
         price_type: PropTypes.string,
         quantity: PropTypes.number,
         uid: PropTypes.string,
-        product: {
+        product: PropTypes.shape({
             name: PropTypes.string,
             stock_status: PropTypes.string,
             price_range: PriceType
-        },
+        }),
         regularOptionPrice: PropTypes.number,
         regularOptionPriceExclTax: PropTypes.number,
         finalOptionPrice: PropTypes.number,
@@ -292,39 +316,6 @@ export const ProductCardPropsType = PropTypes.shape({
     siblingsHaveTierPrice: PropTypes.bool,
     siblingsHaveConfigurableOptions: PropTypes.bool
 });
-
-export const CustomizableOptionShape = {
-    price: PropTypes.number,
-    priceInclTax: PropTypes.number,
-    priceExclTax: PropTypes.number,
-    price_type: PropTypes.string,
-    currency: PropTypes.string,
-    sku: PropTypes.string
-};
-
-export const CustomizableOptionType = PropTypes.shape({
-    ...CustomizableOptionShape,
-    uid: PropTypes.string,
-    option_type_id: PropTypes.number,
-    title: PropTypes.string,
-    sort_order: PropTypes.number
-});
-
-export const InputOptionType = PropTypes.shape({
-    ...CustomizableOptionShape,
-    max_characters: PropTypes.number
-});
-
-export const FileOptionType = PropTypes.shape({
-    ...CustomizableOptionShape,
-    file_extension: PropTypes.string
-});
-
-export const CustomizableOptionsType = PropTypes.oneOfType([
-    FileOptionType,
-    InputOptionType,
-    PropTypes.arrayOf(CustomizableOptionType)
-]);
 
 export const OptionsListType = PropTypes.shape({
     value: CustomizableOptionsType,

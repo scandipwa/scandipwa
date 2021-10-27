@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { MixType } from 'Type/Common.type';
+import { LabelType } from 'Type/Field.type';
 import { ProductPriceType, TierPricesType } from 'Type/Price.type';
 import { formatPrice } from 'Util/Price';
 
@@ -47,7 +48,7 @@ export class ProductPriceContainer extends PureComponent {
         mix: MixType,
         displayTaxInPrice: PropTypes.string,
         tierPrices: TierPricesType,
-        label: PropTypes.string,
+        label: LabelType,
         variantsCount: PropTypes.number
     };
 

@@ -169,6 +169,8 @@ export class FieldContainer extends PureComponent {
             newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 
+        console.debug({ label });
+
         return {
             type,
             attr: {

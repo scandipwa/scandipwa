@@ -43,7 +43,7 @@ export const FieldAttrType = PropTypes.object;
 export const FieldOptionsType = PropTypes.arrayOf(
     PropTypes.shape({
         id: PropTypes.string,
-        label: PropTypes.string,
+        label: LabelType,
         value: PropTypes.string
     })
 );

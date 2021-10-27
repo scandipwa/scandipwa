@@ -42,24 +42,27 @@ export const OriginalPriceType = PropTypes.shape({
 });
 
 export const ProductPriceType = PropTypes.shape({
-    price: {
+    price: PropTypes.shape({
         finalPrice: PriceItemType,
         finalPriceExclTax: PriceItemType,
         originalPrice: PriceItemType,
         originalPriceExclTax: PriceItemType,
         discount: DiscountType
-    },
+    }),
     originalPrice: OriginalPriceType,
-    configuration: {
+    configuration: PropTypes.shape({
         containsOptions: false,
         containsOptionsWithPrice: false,
         containsRequiredOptions: false,
         containsRequiredOptionsWithPrice: false
-    }
+    })
 });
 
 export const TierPricesType = PropTypes.arrayOf(PropTypes.shape({
     discount: DiscountType,
-    final_price: { currency: PropTypes.string, value: PropTypes.number },
+    final_price: PropTypes.shape({
+        currency: PropTypes.string,
+        value: PropTypes.number
+    }),
     quantity: PropTypes.number
 }));
