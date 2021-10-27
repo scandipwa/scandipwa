@@ -199,6 +199,21 @@
         border: 1px solid var(--primary-error-color);
     }
 
+    &-ErrorSelect{
+        min-width: 100%;
+        padding-inline-end: 40px;
+        width: 100%;
+
+        @include desktop {
+            pointer-events: none;
+        }
+
+        &_isExpanded {
+            border-color: var(--input-border-color-focus);
+            opacity: 1;
+        }
+    }
+
     &-FocusedText{
         border: 1px solid var(--input-border-color-focus);
     }
