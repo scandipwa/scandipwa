@@ -82,7 +82,7 @@ export class Checkout extends PureComponent {
         paymentMethods: PaymentMethodsType.isRequired,
         saveAddressInformation: PropTypes.func.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool,
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
         shippingAddress: Addresstype.isRequired,
         billingAddress: Addresstype.isRequired,
@@ -114,7 +114,8 @@ export class Checkout extends PureComponent {
 
     static defaultProps = {
         paymentTotals: {},
-        selectedStoreAddress: {}
+        selectedStoreAddress: {},
+        isLoading: false
     };
 
     stepMap = {

@@ -11,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 
+import { MetaTitleType } from 'Type/Common.type';
 import { PriceType } from 'Type/Price.type';
 import { UrlRewriteType } from 'Type/Router.type';
 import { StockStatusType } from 'Type/StockStatus.type';
@@ -275,7 +276,7 @@ export const ProductType = PropTypes.shape({
     media_gallery_entries: MediaType,
     meta_description: PropTypes.string,
     meta_keyword: PropTypes.string,
-    meta_title: PropTypes.string,
+    meta_title: MetaTitleType,
     product_links: ProductLinksType,
     special_price: PropTypes.number,
     url_key: PropTypes.string,
@@ -317,11 +318,13 @@ export const ProductCardPropsType = PropTypes.shape({
     siblingsHaveConfigurableOptions: PropTypes.bool
 });
 
-export const OptionsListType = PropTypes.shape({
-    value: CustomizableOptionsType,
-    title: PropTypes.string,
-    required: PropTypes.bool,
-    sort_order: PropTypes.number,
-    type: PropTypes.string,
-    uid: PropTypes.string
-});
+export const OptionsListType = PropTypes.arrayOf(
+    PropTypes.shape({
+        value: CustomizableOptionsType,
+        title: PropTypes.string,
+        required: PropTypes.bool,
+        sort_order: PropTypes.number,
+        type: PropTypes.string,
+        uid: PropTypes.string
+    })
+);

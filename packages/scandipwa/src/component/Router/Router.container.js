@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
+import { MetaTitleType } from 'Type/Common.type';
 import {
     isMobile,
     isMobileClientHints,
@@ -96,7 +97,7 @@ export class RouterContainer extends PureComponent {
         title_suffix: PropTypes.string,
         isLoading: PropTypes.bool,
         isBigOffline: PropTypes.bool,
-        meta_title: PropTypes.string,
+        meta_title: MetaTitleType,
         status_code: PropTypes.string
     };
 

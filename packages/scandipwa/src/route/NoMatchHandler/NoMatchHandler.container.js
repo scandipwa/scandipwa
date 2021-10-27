@@ -44,10 +44,14 @@ export const mapDispatchToProps = (dispatch) => ({
 export class NoMatchHandlerContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
-        noMatch: PropTypes.bool.isRequired,
+        noMatch: PropTypes.bool,
         location: LocationType.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
         children: ChildrenType.isRequired
+    };
+
+    static defaultProps = {
+        noMatch: false
     };
 
     componentDidUpdate(prevProps) {

@@ -271,7 +271,8 @@ export class CheckoutContainer extends PureComponent {
     }
 
     onShippingMethodSelect(selectedShippingMethod) {
-        this.setState({ selectedShippingMethod });
+        const { method_code } = selectedShippingMethod;
+        this.setState({ selectedShippingMethod: method_code });
     }
 
     onShippingEstimationFieldsChange(address) {

@@ -53,8 +53,11 @@ export class Field extends PureComponent {
                 return;
             }
 
-            if (typeof propValue === 'object' && Object.keys(propValue).includes('errorMessages')) {
-                throw new Error(`${componentName} only accepts null, bool or object of "errorMessages"`);
+            if (typeof propValue === 'object' && !Object.keys(propValue).includes('errorMessages')) {
+                throw new Error(
+                    // eslint-disable-next-line max-len
+                    `${componentName} only accepts null, bool or object of "errorMessages" as "validationResponse", received "${JSON.stringify(propValue)}"`
+                );
             }
         },
 

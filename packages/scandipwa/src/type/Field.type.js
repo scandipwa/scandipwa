@@ -16,9 +16,9 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 export const LabelType = PropTypes.oneOfType([PropTypes.string, PropTypes.node]);
 
 export const OptionType = PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     label: LabelType,
-    value: PropTypes.string
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 });
 
 export const CustomErrorMessagesType = PropTypes.shape({
@@ -42,8 +42,8 @@ export const FieldAttrType = PropTypes.object;
 
 export const FieldOptionsType = PropTypes.arrayOf(
     PropTypes.shape({
-        id: PropTypes.string,
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         label: LabelType,
-        value: PropTypes.string
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     })
 );

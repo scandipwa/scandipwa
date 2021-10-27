@@ -33,3 +33,5 @@ export const RefType = PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
 ]);
+
+export const MetaTitleType = PropTypes.oneOfType([PropTypes.string, PropTypes.object]);

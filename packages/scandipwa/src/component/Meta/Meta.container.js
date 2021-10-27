@@ -12,6 +12,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { MetaTitleType } from 'Type/Common.type';
+
 import Meta from './Meta.component';
 
 /** @namespace Component/Meta/Container/mapStateToProps */
@@ -43,7 +45,7 @@ export class MetaContainer extends PureComponent {
         title_suffix: PropTypes.string,
         description: PropTypes.string,
         keywords: PropTypes.string,
-        title: PropTypes.string,
+        title: MetaTitleType,
         robots: PropTypes.string,
         status_code: PropTypes.string
     };
