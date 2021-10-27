@@ -191,15 +191,15 @@
         font-weight: bold;
     }
 
-    &-Split{
+    &-Mt70{
+        margin-top: 70px;
+    }
+
+    &-Mt150{
         margin-top: 150px;
     }
 
-    &-ErrorSelect, &-ErrorText{
-        border: 1px solid var(--primary-error-color);
-    }
-
-    &-ErrorSelect{
+    &-Select{
         min-width: 100%;
         padding-inline-end: 40px;
         width: 100%;
@@ -212,10 +212,28 @@
             border-color: var(--input-border-color-focus);
             opacity: 1;
         }
+
+        &_hasError{
+            border: 1px solid var(--primary-error-color);
+        }
+
+        &_isValid{
+            border: 1px solid var(--primary-success-color);
+        }
     }
 
-    &-FocusedText{
-        border: 1px solid var(--input-border-color-focus);
+    &-Text{
+        &_hasError{
+            border: 1px solid var(--primary-error-color);
+        }
+
+        &_isFocused{
+            border: 1px solid var(--input-border-color-focus);
+        }
+
+        &_isValid{
+            border: 1px solid var(--primary-success-color);
+        }
     }
 
     &-DesktopContentWrapper{

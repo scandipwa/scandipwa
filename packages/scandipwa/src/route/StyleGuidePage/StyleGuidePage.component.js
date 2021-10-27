@@ -261,6 +261,7 @@ export class StyleGuidePageComponent extends PureComponent {
                   } }
                   options={ [{ label: 'Yellow', value: 'yellow' }, { label: 'Orange', value: 'Orange' }] }
                 />
+                <div block="StyleGuidePage" elem="Mt70" />
                 <Field
                   type={ FIELD_TYPE.select }
                   label="Color"
@@ -273,29 +274,34 @@ export class StyleGuidePageComponent extends PureComponent {
                       { label: 'Orange', value: 'Orange' }
                   ] }
                 />
-                <div block="StyleGuidePage" elem="Split" />
+                <div block="StyleGuidePage" elem="Mt150" />
                 <Field
                   type={ FIELD_TYPE.select }
                   label="Color"
                   attr={ {
                       selectPlaceholder: __('Select color'),
                       block: 'StyleGuidePage',
-                      elem: 'ErrorSelect'
+                      elem: 'Select',
+                      mods: { hasError: true }
                   } }
                   options={ [
                       { label: 'Yellow', value: 'yellow' },
                       { label: 'Orange', value: 'Orange' }
                   ] }
+                  addRequiredTag
                 />
                 <div block="Field" elem="ErrorMessages">
-                This is an error message
+                This field is required!
                 </div>
                 <Field
                   type={ FIELD_TYPE.select }
                   label="Color"
                   attr={ {
                       selectPlaceholder: __('Select color'),
-                      value: 'orange'
+                      value: 'orange',
+                      block: 'StyleGuidePage',
+                      elem: 'Select',
+                      mods: { isValid: true }
                   } }
                   options={ [
                       { label: 'Yellow', value: 'yellow' },
@@ -333,7 +339,8 @@ export class StyleGuidePageComponent extends PureComponent {
                   attr={ {
                       placeholder: __('Your email address'),
                       block: 'StyleGuidePage',
-                      elem: 'FocusedText'
+                      elem: 'Text',
+                      mods: { isFocused: true }
                   } }
                 />
                 <Field
@@ -342,17 +349,22 @@ export class StyleGuidePageComponent extends PureComponent {
                   attr={ {
                       placeholder: __('Your email address'),
                       block: 'StyleGuidePage',
-                      elem: 'ErrorText'
+                      elem: 'Text',
+                      mods: { hasError: true }
                   } }
+                  addRequiredTag
                 />
                 <div block="Field" elem="ErrorMessages">
-                This is an error message
+                This field is required!
                 </div>
                 <Field
                   type={ FIELD_TYPE.text }
                   label="Email"
                   attr={ {
                       placeholder: __('Your email address'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { isValid: true },
                       value: 'email@example.com'
                   } }
                 />
