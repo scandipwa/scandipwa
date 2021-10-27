@@ -33,10 +33,10 @@ export class FieldFile extends PureComponent {
 
     renderSubLabel(allowedTypes) {
         return (
-            <div block="FieldFile" elem="AllowedTypes">
+            <p block="FieldFile" elem="AllowedTypes">
                 { __('Compatible file extensions to upload:') }
                 <strong>{ ` ${allowedTypes}` }</strong>
-            </div>
+            </p>
         );
     }
 
