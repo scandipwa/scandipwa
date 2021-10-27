@@ -27,6 +27,7 @@ import { HistoryType, LocationType, MatchType } from 'Type/Router';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import { getIsConfigurableParameterSelected } from 'Util/Product';
+import { getActiveProductFromUrl, getParametersFromUrl } from 'Util/Product/Extract';
 import { debounce } from 'Util/Request';
 import {
     convertQueryStringToKeyValuePairs,
@@ -127,19 +128,17 @@ export class ProductPageContainer extends PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const {
+            product,
             product: {
                 sku,
-                variants,
-                configurable_options,
-                options,
-                productOptionsData
+                variants = [],
+                configurable_options: configurableOptions = []
             },
             location: { search }
         } = props;
 
         const {
-            currentProductSKU: prevSKU,
-            productOptionsData: prevOptionData
+            currentProductSKU: prevSKU
         } = state;
 
         const currentProductSKU = prevSKU === sku ? '' : prevSKU;
@@ -148,45 +147,21 @@ export class ProductPageContainer extends PureComponent {
          * If the product we expect to load is loaded -
          * reset expected SKU
          */
-        if (!configurable_options && !variants) {
+        if (!configurableOptions && !variants) {
             return {
                 currentProductSKU
             };
         }
 
-        const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
-            .reduce((acc, [key, value]) => {
-                if (key in configurable_options) {
-                    return { ...acc, [key]: value };
-                }
+        const parameters = getParametersFromUrl(product, search);
+        const activeProduct = getActiveProductFromUrl(product, search);
 
-                return acc;
-            }, {});
-
-        if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
-            return {
-                parameters,
-                currentProductSKU
-            };
-        }
-
-        const newOptionsData = options.reduce((acc, { option_id, required }) => {
-            if (required) {
-                acc.push(option_id);
-            }
-
-            return acc;
-        }, []);
-
-        const prevRequiredOptions = productOptionsData?.requiredOptions || [];
-        const requiredOptions = [...prevRequiredOptions, ...newOptionsData];
+        console.debug([parameters]);
 
         return {
+            defaultActiveProduct: activeProduct,
             parameters,
-            currentProductSKU,
-            productOptionsData: {
-                ...prevOptionData, ...productOptionsData, requiredOptions
-            }
+            currentProductSKU
         };
     }
 

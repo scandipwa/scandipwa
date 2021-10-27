@@ -97,7 +97,8 @@ export class ProductPage extends PureComponent {
             areDetailsLoaded,
             activeProduct,
             setActiveProduct,
-            useEmptyGallerySwitcher
+            useEmptyGallerySwitcher,
+            parameters
         } = this.props;
 
         return (
@@ -112,6 +113,7 @@ export class ProductPage extends PureComponent {
                 <ProductActions
                   getLink={ getLink }
                   product={ dataSource }
+                  parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
                   setActiveProduct={ setActiveProduct }
                 />
