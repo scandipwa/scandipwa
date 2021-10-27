@@ -3,39 +3,36 @@
  * @author Tatiana Karamorina
  */
 
-const path = require('path');
-
 module.exports = {
     meta: {
         docs: {
-            description: 'Forbid usage of certain prop types in PropTypes.shape.',
+            description: 'Forbid usage of PropTypes.shape with empty content.',
             category: 'Coding standard',
             recommended: true
-        },
-        fixable: 'code'
+        }
     },
     create: (context) => ({
-        MethodDefinition(node) {
-            const filePath = context.getFilename();
-            const exploded = filePath.split(path.sep);
-            const [, postfix] = exploded[exploded.length - 1].split('.');
-
-            if (postfix !== 'component') {
-                // Skip all non-components
-                return;
+        MemberExpression(node) {
+            function isShapePropType(node){
+                return node.object.name === 'PropTypes' && node.property.name === 'shape';
             }
 
-            const { key: { name } } = node;
-
-            if (name.startsWith('render')) {
-                // Skip all valid method names
-                return;
+            if(isShapePropType(node) && node.parent.arguments === undefined) {
+                context.report({
+                    node: node.property,
+                    message: `Found empty PropTypes.shape`
+                });
             }
 
-            context.report({
-                node,
-                message: 'Component should only contain rendering logic.'
-            });
+            if(isShapePropType(node)
+                && node.parent.arguments?.length === 1
+                && node.parent.arguments[0].properties?.length === 0
+            ) {
+                context.report({
+                    node: node.property,
+                    message: `Found PropTypes.shape with empty object as parameter`
+                });
+            }
         }
     })
-}
+};
