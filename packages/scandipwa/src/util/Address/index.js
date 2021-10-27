@@ -118,7 +118,7 @@ export const trimCheckoutAddress = (customerAddress) => {
         street,
         telephone,
         region,
-        region_id,
+        region_id: region_id === '' ? 0 : region_id,
         region_code,
         vat_id
     };
