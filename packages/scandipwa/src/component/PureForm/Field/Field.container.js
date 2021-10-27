@@ -16,7 +16,7 @@ import { createRef, PureComponent } from 'react';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { MixType } from 'Type/Common.type';
 import {
-    EventsType, FieldAttrType, LabelType, ValidationRuleType
+    EventsType, FieldAttrType, FieldOptionsType, LabelType, ValidationRuleType
 } from 'Type/Field.type';
 import { validate } from 'Util/Validator';
 
@@ -35,7 +35,7 @@ export class FieldContainer extends PureComponent {
         events: EventsType,
         isDisabled: PropTypes.bool,
         mix: MixType,
-        options: PropTypes.array,
+        options: FieldOptionsType,
 
         // Validation
         validationRule: ValidationRuleType,

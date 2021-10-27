@@ -54,3 +54,10 @@ export const FilterInputType = PropTypes.shape({
     }),
     condtions: PropTypes.string
 });
+
+export const SortFieldsType = PropTypes.shape({
+    options: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string
+    }))
+});

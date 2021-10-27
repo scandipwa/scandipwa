@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import { KEY_CODE } from 'Component/PureForm/Field/Keyboard.config';
-import { EventsType, FieldAttrType } from 'Type/Field.type';
+import { EventsType, FieldAttrType, FieldOptionsType } from 'Type/Field.type';
 
 import FieldSelect from './FieldSelect.component';
 
@@ -27,7 +27,7 @@ export class FieldSelectContainer extends PureComponent {
         // Field attributes
         attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
-        options: PropTypes.array.isRequired,
+        options: FieldOptionsType.isRequired,
         setRef: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         noPlaceholder: PropTypes.bool

@@ -314,7 +314,8 @@
                     "forbid": [
                         "className",
                         "any",
-                        "object"
+                        "object",
+                        "array"
                     ]
                 }
             ],
