@@ -22,7 +22,7 @@ import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 
 import {
     ADDITIONAL_ELEMENTS,
-    BUTTONS, COLORS, CONTENT_WRAPPER,
+    BUTTONS, COLORS,
     INPUTS,
     NOTIFICATION_ERROR_DATA,
     NOTIFICATION_INFO_DATA,
@@ -39,7 +39,6 @@ export class StyleGuidePageComponent extends PureComponent {
     };
 
     renderMap = {
-        [CONTENT_WRAPPER]: () => this.renderContentWrapper(),
         [COLORS]: () => this.renderColors(),
         [BUTTONS]: () => this.renderButtons(),
         [TEXT_STYLES]: () => this.renderTextStyles(),
@@ -50,15 +49,14 @@ export class StyleGuidePageComponent extends PureComponent {
     renderContentWrapper() {
         return (
             <>
-            <h4 block="StyleGuidePage" elem="SubHeading">{ __('Desktop') }</h4>
             <ContentWrapper wrapperMix={ { block: 'StyleGuidePage', elem: 'DesktopContentWrapper' } }>
-                <h3>{ __('Desktop Max Width: 1400px') }</h3>
+                <h3>{ __('Desktop Content Wrapper Max Width: 1400px') }</h3>
                 <h4>{ __('Padding Right: 32px') }</h4>
                 <h4>{ __('Padding Left: 32px') }</h4>
             </ContentWrapper>
-            <h4 block="StyleGuidePage" elem="SubHeading">{ __('Mobile') }</h4>
+            <div block="StyleGuidePage" elem="Mt70" />
             <ContentWrapper wrapperMix={ { block: 'StyleGuidePage', elem: 'MobileContentWrapper' } }>
-                <h3>{ __('Mobile Max Width: 810px') }</h3>
+                <h3>{ __('Mobile Content Wrapper Max Width: 810px') }</h3>
                 <h4>{ __('Padding Right: 14px') }</h4>
                 <h4>{ __('Padding Left: 14px') }</h4>
             </ContentWrapper>
@@ -488,6 +486,7 @@ export class StyleGuidePageComponent extends PureComponent {
     render() {
         return (
             <main block="StyleGuidePage">
+                { this.renderContentWrapper() }
                 <ContentWrapper
                   wrapperMix={ { block: 'StyleGuidePage', elem: 'Wrapper' } }
                   label={ __('Style Guide page') }

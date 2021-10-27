@@ -248,6 +248,7 @@
     &-MobileContentWrapper{
         border: 1px solid var(--primary-base-color);
         max-width: 810px;
+        padding-inline: 14px;
         height: 400px;
         display: flex;
         flex-direction: column;

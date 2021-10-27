@@ -30,7 +30,6 @@ import facebook from 'Style/icons/logos/facebook.svg';
 import linkedIn from 'Style/icons/logos/linkedIn.svg';
 import twitter from 'Style/icons/logos/twitter.svg';
 
-export const CONTENT_WRAPPER = 'content wrapper';
 export const COLORS = 'colors';
 export const BUTTONS = 'buttons';
 export const TEXT_STYLES = 'text styles';
