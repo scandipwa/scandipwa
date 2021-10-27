@@ -153,11 +153,23 @@
         float: left;
         height: 50px;
         width: 50px;
-        &#primary{
+        &#primaryBase{
             background-color: var(--primary-base-color);
         }
-        &#secondary{
+        &#primaryHover{
+            background-color: var(--primary-dark-color);
+        }
+        &#primaryHighlight{
+            background-color: var(--primary-light-color);
+        }
+        &#secondaryBase{
             background-color: var(--secondary-base-color);
+        }
+        &#secondaryHover{
+            background-color: var(--secondary-dark-color);
+        }
+        &#secondaryHightlight{
+            background-color: var(--secondary-light-color);
         }
         &#text{
             background-color: var(--color-black);

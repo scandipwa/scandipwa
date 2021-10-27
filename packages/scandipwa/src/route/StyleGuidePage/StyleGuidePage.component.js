@@ -71,12 +71,28 @@ export class StyleGuidePageComponent extends PureComponent {
             <div block="StyleGuidePage" elem="Colors">
                 <h4 block="StyleGuidePage" elem="SubHeading">{ __('Color scheme') }</h4>
                 <div>
-                    <div block="StyleGuidePage" elem="Color" id="primary" />
-                    <span block="StyleGuidePage" elem="ColorLabel">{ __('PRIMARY') }</span>
+                    <div block="StyleGuidePage" elem="Color" id="primaryBase" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('PRIMARY BASE') }</span>
                 </div>
                 <div>
-                    <div block="StyleGuidePage" elem="Color" id="secondary" />
-                    <span block="StyleGuidePage" elem="ColorLabel">{ __('SECONDARY') }</span>
+                    <div block="StyleGuidePage" elem="Color" id="primaryHover" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('PRIMARY HOVER') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="primaryHighlight" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('PRIMARY HIGHTLIGHT') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="secondaryBase" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('SECONDARY BASE') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="secondaryHover" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('SECONDARY HOVER') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="secondaryHightlight" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('SECONDARY HIGHLIGHT') }</span>
                 </div>
                 <div>
                     <div block="StyleGuidePage" elem="Color" id="text" />
