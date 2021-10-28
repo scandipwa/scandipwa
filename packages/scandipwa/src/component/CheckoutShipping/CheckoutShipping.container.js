@@ -212,10 +212,28 @@ export class CheckoutShippingContainer extends PureComponent {
         onShippingMethodSelect(method);
     }
 
-    onShippingError() {
+    onShippingError(_, fields, validation) {
         // TODO: implement notification if some data in Form can not display error
         const { isSubmitted } = this.state;
         this.setState({ isSubmitted: !isSubmitted });
+
+        // Scrolls to error
+        if (validation && Array.isArray(fields) && fields.length > 0) {
+            const { errorFields = [] } = validation;
+
+            if (errorFields.length) {
+                const { name } = errorFields[0][0];
+                const errorItem = fields.find(({ name: itemName }) => itemName === name);
+
+                if (errorItem) {
+                    const { field } = errorItem;
+
+                    if (field) {
+                        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            }
+        }
     }
 
     onShippingSuccess(form, fields) {
