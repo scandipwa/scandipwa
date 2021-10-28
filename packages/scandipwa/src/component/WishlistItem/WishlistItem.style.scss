@@ -41,6 +41,10 @@
         color: var(--secondary-dark-color);
     }
 
+    &Option {
+        padding-inline-end: 5px;
+    }
+
     &Options-List {
         min-height: 30px;
 
