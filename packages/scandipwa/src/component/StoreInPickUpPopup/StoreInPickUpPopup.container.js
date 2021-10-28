@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -22,6 +23,7 @@ import { Addresstype } from 'Type/Account';
 import { ShippingMethodsType, StoreType } from 'Type/Checkout';
 import { CountriesType } from 'Type/Config';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
+import transformCountriesToOptions from 'Util/Store/Transform';
 
 import StoreInPickUpComponent from './StoreInPickUpPopup.component';
 import { STORES_SEARCH_TIMEOUT } from './StoreInPickUpPopup.config';
@@ -35,7 +37,7 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    countries: state.ConfigReducer.countries,
+    countries: transformCountriesToOptions(state.ConfigReducer.countries),
     defaultCountry: state.ConfigReducer.default_country,
     selectedStore: state.StoreInPickUpReducer.store
 });
@@ -167,8 +169,8 @@ export class StoreInPickUpContainer extends PureComponent {
         const {
             showNotification,
             cartItemsSku,
-            selectedStore,
-            clearPickUpStore
+            clearPickUpStore,
+            selectedStore
         } = this.props;
         const { storeSearchCriteria, selectedCountryId } = this.state;
 
@@ -183,7 +185,7 @@ export class StoreInPickUpContainer extends PureComponent {
                 this.setState({ stores });
             }
 
-            if (!stores.includes(selectedStore)) {
+            if (!stores.indexOf(selectedStore)) {
                 clearPickUpStore();
             }
 
