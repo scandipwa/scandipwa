@@ -53,7 +53,9 @@ export class Image extends PureComponent {
         }),
         mix: MixType,
         imageRef: RefType,
-        isPlain: PropTypes.bool
+        isPlain: PropTypes.bool,
+
+        showIsLoading: PropTypes.bool
     };
 
     static defaultProps = {
@@ -67,6 +69,7 @@ export class Image extends PureComponent {
         className: '',
         ratio: 'square',
         mix: {},
+        showIsLoading: false,
         imageRef: () => {}
     };
 
@@ -137,7 +140,6 @@ export class Image extends PureComponent {
 
         return (
             <img
-              key={ src }
               block="Image"
               elem="Image"
               src={ src || '' }
@@ -208,6 +210,27 @@ export class Image extends PureComponent {
         return render();
     }
 
+    renderLoader() {
+        const { showIsLoading, src } = this.props;
+        const { imageStatus } = this.state;
+
+        if (imageStatus !== IMAGE_LOADING || !showIsLoading) {
+            return null;
+        }
+
+        const image = document.createElement('img');
+        image.sec = src;
+        console.debug([image, image.complete, image.naturalHeight]);
+
+        if (image.complete && image.naturalHeight !== 0) {
+            return null;
+        }
+
+        return (
+            <div block="Image" elem="Loader" />
+        );
+    }
+
     render() {
         const {
             ratio,
@@ -243,6 +266,7 @@ export class Image extends PureComponent {
               className={ className }
             >
                 { this.renderImage() }
+                { this.renderLoader() }
             </div>
         );
     }

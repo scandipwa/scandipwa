@@ -16,6 +16,7 @@ import { withRouter } from 'react-router';
 
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -241,9 +242,42 @@ export class ProductPageContainer extends PureComponent {
             this.updateBreadcrumbs();
             this.updateHeaderState();
             this.updateMeta();
+            this.prefetchImages();
         }
 
         this._addToRecentlyViewedProducts();
+    }
+
+    async prefetchImages() {
+        const {
+            product: {
+                type_id: type,
+                variants = []
+            }
+        } = this.props;
+
+        if (type !== PRODUCT_TYPE.configurable) {
+            return;
+        }
+
+        const promises = variants.map(({ media_gallery_entries: mediaGallery = [] }) => (
+            new Promise((resolve, reject) => {
+                if (mediaGallery.length > 0) {
+                    const { base: { url } = {} } = mediaGallery[0];
+
+                    const img = new Image();
+                    img.src = url;
+                    img.onload = resolve();
+                    img.onerror = reject();
+
+                    console.debug(['img', url]);
+                } else {
+                    resolve();
+                }
+            })
+        ));
+
+        await Promise.all(promises);
     }
 
     setActiveProduct(product) {

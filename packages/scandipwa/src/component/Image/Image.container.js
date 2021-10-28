@@ -42,7 +42,8 @@ export class ImageContainer extends PureComponent {
         className: PropTypes.string,
         imageRef: RefType,
         title: PropTypes.string,
-        isPlain: PropTypes.bool
+        isPlain: PropTypes.bool,
+        showIsLoading: PropTypes.bool
     };
 
     static defaultProps = {
@@ -57,7 +58,8 @@ export class ImageContainer extends PureComponent {
         title: null,
         className: '',
         imageRef: () => {},
-        isPlain: false
+        isPlain: false,
+        showIsLoading: false
     };
 
     containerProps() {
@@ -69,7 +71,8 @@ export class ImageContainer extends PureComponent {
             ratio,
             mix,
             imageRef,
-            isPlain
+            isPlain,
+            showIsLoading
         } = this.props;
 
         return {
@@ -83,7 +86,8 @@ export class ImageContainer extends PureComponent {
             ratio,
             mix,
             imageRef,
-            isPlain
+            isPlain,
+            showIsLoading
         };
     }
 

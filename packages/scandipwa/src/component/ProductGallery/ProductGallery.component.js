@@ -277,6 +277,7 @@ export class ProductGallery extends PureComponent {
                   } }
                   isPlaceholder={ !src }
                   style={ style }
+                  showIsLoading
                 />
             );
         }

@@ -218,6 +218,24 @@ export class ProductPage extends PureComponent {
         );
     }
 
+    renderPrefetch() {
+        const {
+            dataSource: { variants = [] } = {}
+        } = this.props;
+
+        return variants.map(({ media_gallery_entries: mediaGallery = [] }) => {
+            if (mediaGallery.length > 0) {
+                const { base: { url } = {} } = mediaGallery[0];
+
+                return (
+                    <link rel="prefetch prerender" as="image" href={ url } />
+                );
+            }
+
+            return null;
+        });
+    }
+
     render() {
         return (
             <NoMatchHandler>
