@@ -168,7 +168,6 @@ export class WishlistItemContainer extends PureComponent {
         const {
             product: {
                 wishlist: {
-                    quantity,
                     buy_request
                 }
             },
@@ -176,8 +175,29 @@ export class WishlistItemContainer extends PureComponent {
         } = this.props;
 
         const selectedOptions = getSelectedOptions(buy_request);
+        const quantity = this.getQuantity();
 
         return magentoProductTransform(ADD_TO_CART, item, quantity, [], selectedOptions);
+    }
+
+    getQuantity() {
+        const {
+            product: {
+                type_id: typeId,
+                wishlist: {
+                    quantity,
+                    buy_request: buyRequest
+                }
+            }
+        } = this.props;
+
+        if (typeId !== PRODUCT_TYPE.grouped) {
+            return quantity;
+        }
+
+        const { super_group: superGroup = {} } = JSON.parse(buyRequest);
+
+        return superGroup;
     }
 
     async addItemToCart() {

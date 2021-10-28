@@ -256,6 +256,42 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
 );
 
 /**
+ * Generates graphql object for adding item to wishlist
+ * @param product
+ * @param magentoItem
+ * @returns {*[]}
+ * @namespace Util/Product/Transform/wishlistGroupedItem
+ */
+export const wishlistGroupedItem = (product, magentoItem) => {
+    const productData = [];
+    const selectedOptions = [];
+
+    if (!Array.isArray(magentoItem) || magentoItem.length === 0) {
+        return productData;
+    }
+
+    const { sku, items = [] } = product;
+
+    magentoItem.forEach(({ sku, quantity }) => {
+        const item = items.find(({ product: { sku: itemSku } = {} }) => itemSku === sku);
+
+        if (item) {
+            const { product: { id } = {} } = item;
+            selectedOptions.push(btoa(`grouped/${id}/${quantity}`));
+        }
+    });
+
+    productData.push({
+        sku,
+        quantity: 1,
+        selected_options: selectedOptions,
+        entered_options: []
+    });
+
+    return productData;
+};
+
+/**
  * Generates Magento type product interface for performing
  * actions (add to cart, wishlist, exc.)
  * @param product

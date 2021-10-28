@@ -32,6 +32,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { MagentoProductType, PriceType, ProductType } from 'Type/ProductList';
 import { filterConfigurableOptions } from 'Util/Product';
+import { wishlistGroupedItem } from 'Util/Product/Transform';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
 /**
@@ -271,7 +272,7 @@ export class Product extends PureComponent {
     }
 
     renderWishlistButton() {
-        const { magentoProduct } = this.props;
+        const { magentoProduct, product } = this.props;
 
         if (magentoProduct.length === 0) {
             return null;
@@ -279,7 +280,7 @@ export class Product extends PureComponent {
 
         return (
             <ProductWishlistButton
-              magentoProduct={ magentoProduct }
+              magentoProduct={ wishlistGroupedItem(product, magentoProduct) }
               mix={ {
                   block: this.className,
                   elem: 'WishListButton'
