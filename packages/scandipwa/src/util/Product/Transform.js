@@ -272,13 +272,10 @@ export const wishlistGroupedItem = (product, magentoItem) => {
 
     const { sku, items = [] } = product;
 
-    magentoItem.forEach(({ sku, quantity }) => {
-        const item = items.find(({ product: { sku: itemSku } = {} }) => itemSku === sku);
-
-        if (item) {
-            const { product: { id } = {} } = item;
-            selectedOptions.push(btoa(`grouped/${id}/${quantity}`));
-        }
+    items.forEach(({ product: { sku: itemSku, id } = {} }) => {
+        const item = magentoItem.find(({ sku }) => itemSku === sku);
+        const { quantity = 0 } = item || {};
+        selectedOptions.push(btoa(`grouped/${id}/${quantity}`));
     });
 
     productData.push({
@@ -324,7 +321,7 @@ export const magentoProductTransform = (
         }) => {
             const { [id]: groupedQuantity } = quantity;
 
-            if (groupedQuantity) {
+            if (groupedQuantity && groupedQuantity > 0) {
                 productData.push({
                     sku: groupedSku,
                     quantity: groupedQuantity,
