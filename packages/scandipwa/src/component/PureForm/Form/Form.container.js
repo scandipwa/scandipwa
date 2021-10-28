@@ -152,11 +152,17 @@ export class FormContainer extends PureComponent {
     async onSubmit(e) {
         e.preventDefault();
 
-        const { onSubmit, onError, returnAsObject = false } = this.props;
+        const {
+            onSubmit,
+            onError,
+            returnAsObject = false,
+            validationRule
+        } = this.props;
+
         const fields = getFieldsData(
             this.formRef, false, [FIELD_TYPE.number, FIELD_TYPE.button], returnAsObject
         );
-        const isValid = validateGroup(this.formRef);
+        const isValid = validateGroup(this.formRef, validationRule);
 
         if (isValid !== true) {
             if (typeof onError === 'function') {

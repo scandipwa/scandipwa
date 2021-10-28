@@ -30,7 +30,6 @@ import {
     trimCheckoutCustomerAddress
 } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
-import scrollToError from 'Util/Form/Form';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import CheckoutBilling from './CheckoutBilling.component';
@@ -185,10 +184,9 @@ export class CheckoutBillingContainer extends PureComponent {
         });
     }
 
-    onBillingError(_, fields, validation) {
+    onBillingError() {
         const { showErrorNotification } = this.props;
         showErrorNotification(__('Something went wrong!'));
-        scrollToError(fields, validation);
     }
 
     showPopup() {
