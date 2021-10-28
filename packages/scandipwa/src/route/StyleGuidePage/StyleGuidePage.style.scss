@@ -150,7 +150,7 @@
     }
 
     &-Color{
-        float: left;
+        float: inline-start;
         height: 50px;
         width: 50px;
         &#primaryBase{
@@ -187,16 +187,16 @@
 
     &-ColorLabel{
         line-height: 70px;
-        margin-left: 20px;
+        margin-inline-start: 20px;
         font-weight: bold;
     }
 
     &-Mt70{
-        margin-top: 70px;
+        margin-block-start: 70px;
     }
 
     &-Mt150{
-        margin-top: 150px;
+        margin-block-start: 150px;
     }
 
     &-Select{
