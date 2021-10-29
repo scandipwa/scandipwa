@@ -477,7 +477,7 @@ export class CheckoutContainer extends PureComponent {
         const { updateEmail } = this.props;
         const guestCartId = getGuestQuoteId();
 
-        if (!guestCartId) {
+        if (!guestCartId || !email) {
             return null;
         }
 

@@ -16,6 +16,7 @@ import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
+import Form from 'Component/PureForm/Form';
 import { Addresstype } from 'Type/Account';
 import {
     CheckoutStepType,
@@ -25,6 +26,7 @@ import {
 } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Router';
+import scrollToError from 'Util/Form/Form';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
@@ -433,6 +435,10 @@ export class Checkout extends PureComponent {
         );
     }
 
+    onError = (_, fields, validation) => {
+        scrollToError(fields, validation);
+    };
+
     render() {
         return (
             <main block="Checkout">
@@ -441,13 +447,20 @@ export class Checkout extends PureComponent {
                   label={ __('Checkout page') }
                 >
                     { this.renderSummary(true) }
-                    <div block="Checkout" elem="Step">
-                        { this.renderTitle() }
-                        { this.renderStoreInPickUpMethod() }
-                        { this.renderGuestForm() }
-                        { this.renderStep() }
-                        { this.renderLoader() }
-                    </div>
+                    <Form
+                      onError={ this.onError }
+                      validationRule={ {
+                          selector: 'input:not([type="password"]), select'
+                      } }
+                    >
+                        <div block="Checkout" elem="Step">
+                            { this.renderTitle() }
+                            { this.renderStoreInPickUpMethod() }
+                            { this.renderGuestForm() }
+                            { this.renderStep() }
+                            { this.renderLoader() }
+                        </div>
+                    </Form>
                     <div>
                         <Suspense fallback={ <Loader /> }>
                             { this.renderSummary() }
