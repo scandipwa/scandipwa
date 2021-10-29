@@ -16,7 +16,6 @@ import { withRouter } from 'react-router';
 
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -28,7 +27,6 @@ import { HistoryType, LocationType, MatchType } from 'Type/Router';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import { getIsConfigurableParameterSelected } from 'Util/Product';
-import { getActiveProductFromUrl, getParametersFromUrl } from 'Util/Product/Extract';
 import { debounce } from 'Util/Request';
 import {
     convertQueryStringToKeyValuePairs,
@@ -129,17 +127,19 @@ export class ProductPageContainer extends PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const {
-            product,
             product: {
                 sku,
-                variants = [],
-                configurable_options: configurableOptions = []
+                variants,
+                configurable_options,
+                options,
+                productOptionsData
             },
             location: { search }
         } = props;
 
         const {
-            currentProductSKU: prevSKU
+            currentProductSKU: prevSKU,
+            productOptionsData: prevOptionData
         } = state;
 
         const currentProductSKU = prevSKU === sku ? '' : prevSKU;
@@ -148,21 +148,45 @@ export class ProductPageContainer extends PureComponent {
          * If the product we expect to load is loaded -
          * reset expected SKU
          */
-        if (!configurableOptions && !variants) {
+        if (!configurable_options && !variants) {
             return {
                 currentProductSKU
             };
         }
 
-        const parameters = getParametersFromUrl(product, search);
-        const activeProduct = getActiveProductFromUrl(product, search);
+        const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
+            .reduce((acc, [key, value]) => {
+                if (key in configurable_options) {
+                    return { ...acc, [key]: value };
+                }
 
-        console.debug([parameters]);
+                return acc;
+            }, {});
+
+        if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
+            return {
+                parameters,
+                currentProductSKU
+            };
+        }
+
+        const newOptionsData = options.reduce((acc, { option_id, required }) => {
+            if (required) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        const prevRequiredOptions = productOptionsData?.requiredOptions || [];
+        const requiredOptions = [...prevRequiredOptions, ...newOptionsData];
 
         return {
-            defaultActiveProduct: activeProduct,
             parameters,
-            currentProductSKU
+            currentProductSKU,
+            productOptionsData: {
+                ...prevOptionData, ...productOptionsData, requiredOptions
+            }
         };
     }
 
@@ -242,42 +266,9 @@ export class ProductPageContainer extends PureComponent {
             this.updateBreadcrumbs();
             this.updateHeaderState();
             this.updateMeta();
-            this.prefetchImages();
         }
 
         this._addToRecentlyViewedProducts();
-    }
-
-    async prefetchImages() {
-        const {
-            product: {
-                type_id: type,
-                variants = []
-            }
-        } = this.props;
-
-        if (type !== PRODUCT_TYPE.configurable) {
-            return;
-        }
-
-        const promises = variants.map(({ media_gallery_entries: mediaGallery = [] }) => (
-            new Promise((resolve, reject) => {
-                if (mediaGallery.length > 0) {
-                    const { base: { url } = {} } = mediaGallery[0];
-
-                    const img = new Image();
-                    img.src = url;
-                    img.onload = resolve();
-                    img.onerror = reject();
-
-                    console.debug(['img', url]);
-                } else {
-                    resolve();
-                }
-            })
-        ));
-
-        await Promise.all(promises);
     }
 
     setActiveProduct(product) {
@@ -372,11 +363,25 @@ export class ProductPageContainer extends PureComponent {
             activeProduct: this.getActiveProductDataSource(),
             dataSource: this.getDataSource(),
             useEmptyGallerySwitcher: this.getUseEmptyGallerySwitcher(),
+            isVariant: this.getIsVariant(),
             isMobile,
             parameters,
             location
         };
     };
+
+    getIsVariant() {
+        const { activeProduct } = this.state;
+
+        if (!activeProduct) {
+            return false;
+        }
+
+        const { product: { id } = {} } = this.props;
+        const { id: childId } = activeProduct;
+
+        return id !== childId;
+    }
 
     updateUrl(key, value, parameters) {
         const { location, history } = this.props;

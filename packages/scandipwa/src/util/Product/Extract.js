@@ -13,8 +13,6 @@
 import { PRODUCT_TYPE } from 'Component/Product/Product.config';
 import { IN_STOCK, OUT_OF_STOCK } from 'Component/Product/Stock.config';
 import { formatPrice } from 'Util/Price';
-import { getVariantIndex } from 'Util/Product/Product';
-import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 export const DEFAULT_MIN_PRODUCTS = 1;
 export const DEFAULT_MAX_PRODUCTS = 999;
@@ -498,51 +496,3 @@ export const getSmallImage = (product) => getImage(product, 'small_image');
  */
 export const getBaseImage = (product) => getImage(product, 'image');
 //#endregion
-
-/**
- * Returns selected parameters from URL
- * @param product
- * @param url - search url
- * @namespace Util/Product/Extract/getParametersFromUrl
- */
-export const getParametersFromUrl = (product, url) => {
-    const {
-        configurable_options: configurableOptions = []
-    } = product;
-
-    return Object.entries(convertQueryStringToKeyValuePairs(url))
-        .reduce((acc, [key, value]) => {
-            if (key in configurableOptions) {
-                return { ...acc, [key]: value };
-            }
-
-            return acc;
-        }, {});
-};
-
-/**
- * Returns active product based on search url
- * @param product
- * @param url - search url
- * @namespace Util/Product/Extract/getActiveProductFromUrl
- */
-export const getActiveProductFromUrl = (product, url) => {
-    const {
-        variants = [],
-        configurable_options: configurableOptions = []
-    } = product;
-
-    const parameters = getParametersFromUrl(product, url);
-
-    if (Object.keys(parameters).length !== Object.keys(configurableOptions).length) {
-        return product;
-    }
-
-    const configurableVariantIndex = getVariantIndex(variants, parameters, true);
-
-    if (variants[configurableVariantIndex]) {
-        return variants[configurableVariantIndex];
-    }
-
-    return product;
-};

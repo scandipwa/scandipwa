@@ -54,6 +54,7 @@ export class Image extends PureComponent {
         mix: MixType,
         imageRef: RefType,
         isPlain: PropTypes.bool,
+        isCached: PropTypes.bool,
 
         showIsLoading: PropTypes.bool
     };
@@ -66,6 +67,7 @@ export class Image extends PureComponent {
         title: null,
         isPlain: false,
         isPlaceholder: false,
+        isCached: false,
         className: '',
         ratio: 'square',
         mix: {},
@@ -102,10 +104,14 @@ export class Image extends PureComponent {
     }
 
     onImageChange() {
-        const { src } = this.props;
+        const { src, isCached } = this.props;
 
         if (!src) {
             return this.setState({ imageStatus: IMAGE_NOT_SPECIFIED });
+        }
+
+        if (isCached) {
+            return this.setState({ imageStatus: IMAGE_LOADED });
         }
 
         return this.setState({ imageStatus: IMAGE_LOADING });
@@ -211,18 +217,10 @@ export class Image extends PureComponent {
     }
 
     renderLoader() {
-        const { showIsLoading, src } = this.props;
+        const { showIsLoading } = this.props;
         const { imageStatus } = this.state;
 
         if (imageStatus !== IMAGE_LOADING || !showIsLoading) {
-            return null;
-        }
-
-        const image = document.createElement('img');
-        image.sec = src;
-        console.debug([image, image.complete, image.naturalHeight]);
-
-        if (image.complete && image.naturalHeight !== 0) {
             return null;
         }
 

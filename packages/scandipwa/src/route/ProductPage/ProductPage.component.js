@@ -60,7 +60,8 @@ export class ProductPage extends PureComponent {
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
         setActiveProduct: PropTypes.func.isRequired,
-        useEmptyGallerySwitcher: PropTypes.bool.isRequired
+        useEmptyGallerySwitcher: PropTypes.bool.isRequired,
+        isVariant: PropTypes.bool.isRequired
     };
 
     tabMap = {
@@ -98,7 +99,8 @@ export class ProductPage extends PureComponent {
             activeProduct,
             setActiveProduct,
             useEmptyGallerySwitcher,
-            parameters
+            parameters,
+            isVariant
         } = this.props;
 
         return (
@@ -108,6 +110,7 @@ export class ProductPage extends PureComponent {
                       product={ activeProduct }
                       areDetailsLoaded={ areDetailsLoaded }
                       isWithEmptySwitcher={ useEmptyGallerySwitcher }
+                      showLoader={ isVariant }
                     />
                 </Suspense>
                 <ProductActions
@@ -216,24 +219,6 @@ export class ProductPage extends PureComponent {
                 <ProductReviewForm product={ dataSource } />
             </Popup>
         );
-    }
-
-    renderPrefetch() {
-        const {
-            dataSource: { variants = [] } = {}
-        } = this.props;
-
-        return variants.map(({ media_gallery_entries: mediaGallery = [] }) => {
-            if (mediaGallery.length > 0) {
-                const { base: { url } = {} } = mediaGallery[0];
-
-                return (
-                    <link rel="prefetch prerender" as="image" href={ url } />
-                );
-            }
-
-            return null;
-        });
     }
 
     render() {

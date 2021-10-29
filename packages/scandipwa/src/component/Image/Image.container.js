@@ -87,8 +87,34 @@ export class ImageContainer extends PureComponent {
             mix,
             imageRef,
             isPlain,
-            showIsLoading
+            showIsLoading,
+            isCached: this._isCached()
         };
+    }
+
+    _isCached() {
+        const { showIsLoading, src } = this.props;
+
+        if (!showIsLoading) {
+            return false;
+        }
+
+        if (
+            window.prefetchedImages
+            && window.prefetchedImages[src]
+            && window.prefetchedImages[src].complete
+        ) {
+            return true;
+        }
+
+        const img = document.createElement('img');
+        img.src = src;
+
+        if (img.complete) {
+            return true;
+        }
+
+        return false;
     }
 
     _parseSize(size) {

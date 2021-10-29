@@ -70,7 +70,8 @@ export class ProductGallery extends PureComponent {
         handleImageZoomPopupActiveChange: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
         isImageZoomPopupActive: PropTypes.bool.isRequired,
-        isWithEmptySwitcher: PropTypes.bool.isRequired
+        isWithEmptySwitcher: PropTypes.bool.isRequired,
+        showLoader: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -252,7 +253,8 @@ export class ProductGallery extends PureComponent {
             handleZoomChange,
             disableZoom,
             isMobile,
-            isImageZoomPopupActive
+            isImageZoomPopupActive,
+            showLoader
         } = this.props;
         const { scrollEnabled } = this.state;
 
@@ -277,7 +279,7 @@ export class ProductGallery extends PureComponent {
                   } }
                   isPlaceholder={ !src }
                   style={ style }
-                  showIsLoading
+                  showIsLoading={ showLoader }
                 />
             );
         }
