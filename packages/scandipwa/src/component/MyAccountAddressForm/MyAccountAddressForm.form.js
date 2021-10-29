@@ -77,7 +77,7 @@ export const getRegionFields = (props, events) => {
         regionDisplayAll,
         availableRegions,
         isStateRequired,
-        currentRegion = '',
+        currentRegion,
         currentRegionId
     } = props;
 
@@ -178,8 +178,8 @@ export const myAccountAddressForm = (props, events = {}) => {
         postcode: zipcode = '',
         telephone = '',
         addressLinesQty = 1,
-        currentCity = '',
-        currentZipcode = ''
+        currentCity,
+        currentZipcode
     } = props;
 
     const {

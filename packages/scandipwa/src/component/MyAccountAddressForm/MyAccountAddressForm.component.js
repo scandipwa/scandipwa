@@ -47,10 +47,10 @@ export class MyAccountAddressForm extends FieldForm {
         countryId: this.getCountry()?.value || 'US',
         availableRegions: this.getAvailableRegions() || [],
         isStateRequired: !!this.getCountry()?.is_state_required,
-        currentCity: '',
-        currentRegion: '',
-        currentZipcode: '',
-        currentRegionId: 1
+        currentCity: null,
+        currentRegion: null,
+        currentZipcode: null,
+        currentRegionId: null
     };
 
     //#region GETTERS
