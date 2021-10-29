@@ -256,39 +256,6 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
 );
 
 /**
- * Generates graphql object for adding item to wishlist
- * @param product
- * @param magentoItem
- * @returns {*[]}
- * @namespace Util/Product/Transform/wishlistGroupedItem
- */
-export const wishlistGroupedItem = (product, magentoItem) => {
-    const productData = [];
-    const selectedOptions = [];
-
-    if (!Array.isArray(magentoItem) || magentoItem.length === 0) {
-        return productData;
-    }
-
-    const { sku, items = [] } = product;
-
-    items.forEach(({ product: { sku: itemSku, id } = {} }) => {
-        const item = magentoItem.find(({ sku }) => itemSku === sku);
-        const { quantity = 0 } = item || {};
-        selectedOptions.push(btoa(`grouped/${id}/${quantity}`));
-    });
-
-    productData.push({
-        sku,
-        quantity: 1,
-        selected_options: selectedOptions,
-        entered_options: []
-    });
-
-    return productData;
-};
-
-/**
  * Generates Magento type product interface for performing
  * actions (add to cart, wishlist, exc.)
  * @param product
@@ -315,20 +282,18 @@ export const magentoProductTransform = (
         }
 
         const { items } = product;
+        const groupedProducts = [];
 
-        items.forEach(({
-            product: { id, sku: groupedSku }
-        }) => {
-            const { [id]: groupedQuantity } = quantity;
+        items.forEach(({ product: { id } }) => {
+            const { [id]: groupedQuantity = 0 } = quantity;
+            groupedProducts.push(btoa(`grouped/${id}/${groupedQuantity}`));
+        });
 
-            if (groupedQuantity && groupedQuantity > 0) {
-                productData.push({
-                    sku: groupedSku,
-                    quantity: groupedQuantity,
-                    selected_options: selectedOptions,
-                    entered_options: enteredOptions
-                });
-            }
+        productData.push({
+            sku,
+            quantity: 1,
+            selected_options: [...selectedOptions, ...groupedProducts],
+            entered_options: enteredOptions
         });
     } else {
         const baseProductToAdd = {
