@@ -19,10 +19,13 @@ import { CountriesType } from 'Type/Config';
 import {
     getAvailableRegions,
     getCityAndRegionFromZipcode,
+    getRegionIdFromAvailableRegions,
     trimCustomerAddress
 } from 'Util/Address';
 import transformToNameValuePair from 'Util/Form/Transform';
+import { debounce } from 'Util/Request';
 
+import { UPDATE_ZIPCODE_FREQUENCY } from './MyAccountAddressForm.config';
 import myAccountAddressForm from './MyAccountAddressForm.form';
 
 /** @namespace Component/MyAccountAddressForm/Component */
@@ -43,7 +46,11 @@ export class MyAccountAddressForm extends FieldForm {
     state = {
         countryId: this.getCountry()?.value || 'US',
         availableRegions: this.getAvailableRegions() || [],
-        isStateRequired: !!this.getCountry()?.is_state_required
+        isStateRequired: !!this.getCountry()?.is_state_required,
+        currentCity: '',
+        currentRegion: '',
+        currentZipcode: '',
+        currentRegionId: 1
     };
 
     //#region GETTERS
@@ -60,7 +67,11 @@ export class MyAccountAddressForm extends FieldForm {
         const {
             availableRegions,
             isStateRequired,
-            countryId
+            countryId,
+            currentRegion,
+            currentCity,
+            currentRegionId,
+            currentZipcode
         } = this.state;
 
         return myAccountAddressForm({
@@ -73,10 +84,17 @@ export class MyAccountAddressForm extends FieldForm {
             availableRegions,
             isStateRequired,
             countryId,
+            currentRegion,
+            currentCity,
+            currentRegionId,
+            currentZipcode,
             ...address
         }, {
             onCountryChange: this.onCountryChange,
-            onZipcodeBlur: this.onZipcodeBlur
+            onZipcodeChange: this.onZipcodeChange,
+            onCityChange: this.onCityChange,
+            onRegionChange: this.onRegionChange,
+            onRegionIdChange: this.onRegionIdChange
         });
     }
 
@@ -89,6 +107,7 @@ export class MyAccountAddressForm extends FieldForm {
     getCountry(countryId = null) {
         const { countries, defaultCountry, address: { country_id: countryIdAddress } = {} } = this.props;
         const countryIdFixed = countryId || countryIdAddress || defaultCountry;
+
         return countries.find(({ value }) => value === countryIdFixed);
     }
 
@@ -104,7 +123,7 @@ export class MyAccountAddressForm extends FieldForm {
 
         return !zipCode
             ? getAvailableRegions(currCountryId, countries)
-            : getCityAndRegionFromZipcode(countryId, zipCode);
+            : this.handleSetCityAndRegionDependingOnZipcode(countryId, zipCode);
     }
     //#endregion
 
@@ -137,10 +156,23 @@ export class MyAccountAddressForm extends FieldForm {
         onSave(trimCustomerAddress(newAddress));
     };
 
+    onCityChange = (field) => {
+        this.setState({ currentCity: field.target.value });
+    };
+
+    onRegionChange = (field) => {
+        this.setState({ currentRegion: field.target.value });
+    };
+
+    onRegionIdChange = (field) => {
+        this.setState({ currentRegionId: field });
+    };
+
     onCountryChange = (field, e) => {
         // Handles auto fill
         const fieldValue = typeof field === 'object' ? e.value : field;
 
+        const { currentZipcode } = this.state;
         const { countries } = this.props;
         const country = countries.find(({ value }) => value === fieldValue);
 
@@ -154,13 +186,41 @@ export class MyAccountAddressForm extends FieldForm {
             value: countryId
         } = country;
 
+        this.getAvailableRegions(countryId, currentZipcode);
+
         this.setState({ availableRegions, isStateRequired, countryId });
     };
 
-    onZipcodeBlur = async (event, field) => {
+    onZipcodeChange = async (event, field) => {
         const { value: zipCode = '' } = field || {};
         const { countryId } = this.state;
-        await this.getAvailableRegions(countryId, zipCode);
+        this.setState({ currentZipcode: zipCode });
+        await debounce(this.getAvailableRegions(countryId, zipCode), UPDATE_ZIPCODE_FREQUENCY);
+    };
+
+    handleSetCityAndRegionDependingOnZipcode = async (countryId, zipCode) => {
+        const { availableRegions } = this.state;
+        const cityAndRegion = await getCityAndRegionFromZipcode(countryId, zipCode);
+
+        if (!cityAndRegion) {
+            return;
+        }
+
+        const { city, region } = cityAndRegion;
+
+        if (availableRegions.length) {
+            this.setState({
+                currentCity: city,
+                currentRegionId: getRegionIdFromAvailableRegions(availableRegions, region),
+                currentRegion: ''
+            });
+        } else {
+            this.setState({
+                currentCity: city,
+                currentRegion: region,
+                currentRegionId: 1
+            });
+        }
     };
     //#endregion
 
