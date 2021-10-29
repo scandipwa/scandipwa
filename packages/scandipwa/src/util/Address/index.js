@@ -189,7 +189,7 @@ export const getCityAndRegionFromZipcode = async (countryId, value) => {
     return data && Object.entries(data).length > 0
         ? {
             city: data.places[0]['place name'],
-            region: data.places[0]['state abbreviation']
+            region: data.places[0].state
         }
         : null;
 };
@@ -224,7 +224,7 @@ export const getAvailableRegions = (country_id, countries) => {
 
 /** @namespace Util/Address/Index/getRegionIdFromAvailableRegions */
 export const getRegionIdFromAvailableRegions = (availableRegions, region) => {
-    const { id: regionId = 1 } = availableRegions.find(({ code }) => code === region) || {};
+    const { id: regionId = 1 } = availableRegions.find(({ name }) => name === region) || {};
 
     return regionId;
 };

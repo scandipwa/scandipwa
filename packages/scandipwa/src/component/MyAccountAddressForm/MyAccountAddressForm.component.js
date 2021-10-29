@@ -199,7 +199,7 @@ export class MyAccountAddressForm extends FieldForm {
     };
 
     handleSetCityAndRegionDependingOnZipcode = async (countryId, zipCode) => {
-        const { availableRegions } = this.state;
+        const { availableRegions = [] } = this.state;
         const cityAndRegion = await getCityAndRegionFromZipcode(countryId, zipCode);
 
         if (!cityAndRegion) {
