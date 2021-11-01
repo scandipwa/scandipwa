@@ -9,31 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
-    mapStateToProps as sourceMapStateToProps,
+    mapDispatchToProps,
+    mapStateToProps,
     MyAccountAddressFormContainer
 } from 'Component/MyAccountAddressForm/MyAccountAddressForm.container';
 
 import CheckoutAddressForm from './CheckoutAddressForm.component';
 
-/** @namespace Component/CheckoutAddressForm/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    ...sourceMapStateToProps(state),
-    shippingFields: state.CheckoutReducer.shippingFields
-});
-
-/** @namespace Component/CheckoutAddressForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
-
 /** @namespace Component/CheckoutAddressForm/Container */
 export class CheckoutAddressFormContainer extends MyAccountAddressFormContainer {
+    static propTypes = {
+        ...super.propTypes,
+        onShippingEstimationFieldsChange: PropTypes.func.isRequired
+    };
+
     containerProps() {
-        const { shippingFields, onShippingEstimationFieldsChange } = this.props;
+        const { onShippingEstimationFieldsChange } = this.props;
 
         return {
-            shippingFields,
             onShippingEstimationFieldsChange,
             ...super.containerProps()
         };
