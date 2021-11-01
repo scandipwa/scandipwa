@@ -2,6 +2,7 @@
  * @fileoverview Forbid usage of empty PropTypes.shape
  * @author Tatiana Karamorina
  */
+const isShapePropType = (node) => node.object.name === 'PropTypes' && node.property.name === 'shape';
 
 module.exports = {
     meta: {
@@ -13,12 +14,8 @@ module.exports = {
     },
     create: (context) => ({
         MemberExpression(node) {
-            function isShapePropType(node) {
-                return node.object.name === 'PropTypes' && node.property.name === 'shape';
-            }
-
             if (isShapePropType(node)) {
-                // forbid `PropTypes.shape`
+                // Empty PropTypes.shape is forbidden (i.e. `PropTypes.shape`)
                 if (node.parent.arguments === undefined) {
                     context.report({
                         node: node.property,
@@ -26,7 +23,7 @@ module.exports = {
                     });
                 }
 
-                // forbid `PropTypes.shape({})`
+                // PropTypes.shape with empty object as parameter is forbidden (i.e. `PropTypes.shape({})`)
                 if (node.parent.arguments?.length === 1 && node.parent.arguments[0].properties?.length === 0) {
                     context.report({
                         node: node.property,
