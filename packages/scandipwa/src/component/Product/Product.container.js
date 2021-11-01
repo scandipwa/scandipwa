@@ -165,6 +165,7 @@ export class ProductContainer extends PureComponent {
 
         if (typeId === PRODUCT_TYPE.grouped) {
             const { items = [] } = product;
+
             return items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
         }
 

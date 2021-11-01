@@ -139,6 +139,10 @@ export class CartPageContainer extends PureComponent {
                 title
             });
         }
+
+        if (items_qty !== prevItemsQty) {
+            this._updateCrossSellProducts();
+        }
     }
 
     containerProps = () => {

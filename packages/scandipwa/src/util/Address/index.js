@@ -118,7 +118,7 @@ export const trimCheckoutAddress = (customerAddress) => {
         street,
         telephone,
         region,
-        region_id,
+        region_id: region_id === '' ? 0 : region_id,
         region_code,
         vat_id
     };
@@ -220,4 +220,11 @@ export const getAvailableRegions = (country_id, countries) => {
 
     // need to handle null value
     return available_regions || [];
+};
+
+/** @namespace Util/Address/Index/checkIfStoreIncluded */
+export const checkIfStoreIncluded = (stores, selectedStore) => {
+    const selectedStoreInString = JSON.stringify(selectedStore);
+
+    return stores.find((store) => JSON.stringify(store) === selectedStoreInString);
 };

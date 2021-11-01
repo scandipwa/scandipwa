@@ -210,6 +210,9 @@
                 inset-block-end: 0;
             }
         }
+        .Field-ErrorMessages {
+            position: absolute;
+        }
     }
 
     &-Qty {

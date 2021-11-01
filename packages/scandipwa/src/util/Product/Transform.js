@@ -68,7 +68,18 @@ export const getCustomizableOptions = (buyRequest) => {
             return [...prev, btoa(`custom-option/${option}/${variant}`)];
         }
 
-        return [...prev, ...variant.map((id) => btoa(`custom-option/${option}/${id}`))];
+        if (Array.isArray(variant)) {
+            return [...prev, ...variant.map((id) => btoa(`custom-option/${option}/${id}`))];
+        }
+
+        // Handle case when we need to pass previously uploaded file as selected option
+        // Normally files are passed via entered_options, but when customer adds product with attachment from wishlist,
+        // we need to reference data of the already uploaded file
+        if (typeof variant === 'object' && variant.type === 'application/octet-stream') {
+            return [...prev, btoa(`custom-option/${option}/file-${btoa(JSON.stringify(variant))}`)];
+        }
+
+        return prev;
     },
     []);
 };
@@ -202,8 +213,8 @@ export const customizableOptionToLabel = (option, currencyCode = 'USD') => {
         title
     } = option || {};
     const noPrice = price === 0 && priceInclTax === 0;
-    const priceLabel = noPrice ? '' : `+ ${ formatPrice(priceInclTax, currencyCode) }`;
-    const percentLabel = (noPrice || price_type !== PRICE_TYPE_PERCENT) ? '' : `(${ price }%)`;
+    const priceLabel = noPrice ? '' : ` + ${ formatPrice(priceInclTax, currencyCode) }`;
+    const percentLabel = (noPrice || price_type !== PRICE_TYPE_PERCENT) ? '' : ` (${ price }%)`;
 
     return {
         baseLabel: title,
@@ -271,20 +282,18 @@ export const magentoProductTransform = (
         }
 
         const { items } = product;
+        const groupedProducts = [];
 
-        items.forEach(({
-            product: { id, sku: groupedSku }
-        }) => {
-            const { [id]: groupedQuantity } = quantity;
+        items.forEach(({ product: { id } }) => {
+            const { [id]: groupedQuantity = 0 } = quantity;
+            groupedProducts.push(btoa(`grouped/${id}/${groupedQuantity}`));
+        });
 
-            if (groupedQuantity) {
-                productData.push({
-                    sku: groupedSku,
-                    quantity: groupedQuantity,
-                    selected_options: selectedOptions,
-                    entered_options: enteredOptions
-                });
-            }
+        productData.push({
+            sku,
+            quantity: 1,
+            selected_options: [...selectedOptions, ...groupedProducts],
+            entered_options: enteredOptions
         });
     } else {
         const baseProductToAdd = {

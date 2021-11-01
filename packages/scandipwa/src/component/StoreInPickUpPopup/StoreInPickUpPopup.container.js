@@ -21,7 +21,9 @@ import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { Addresstype } from 'Type/Account.type';
 import { ShippingMethodsType, StoreType } from 'Type/Checkout.type';
 import { CountriesType } from 'Type/Config.type';
+import { checkIfStoreIncluded } from 'Util/Address';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
+import transformCountriesToOptions from 'Util/Store/Transform';
 
 import StoreInPickUpComponent from './StoreInPickUpPopup.component';
 import { STORES_SEARCH_TIMEOUT } from './StoreInPickUpPopup.config';
@@ -35,7 +37,7 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    countries: state.ConfigReducer.countries,
+    countries: transformCountriesToOptions(state.ConfigReducer.countries),
     defaultCountry: state.ConfigReducer.default_country,
     selectedStore: state.StoreInPickUpReducer.store
 });
@@ -183,7 +185,7 @@ export class StoreInPickUpContainer extends PureComponent {
                 this.setState({ stores });
             }
 
-            if (!stores.includes(selectedStore)) {
+            if (!checkIfStoreIncluded(stores, selectedStore)) {
                 clearPickUpStore();
             }
 

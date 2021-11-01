@@ -10,6 +10,31 @@
  */
 
 /**
+ * Prefetches images
+ * @param urls
+ * @returns {Promise<void>}
+ * @namespace Util/Cache/cacheImages
+ */
+export const cacheImages = (urls = []) => {
+    if (!Array.isArray(urls) || urls.length === 0) {
+        return;
+    }
+
+    // Prefetched images require persistent variable
+    // to prevent browser from creating repeated requests
+    if (!window.prefetchedImages) {
+        window.prefetchedImages = {};
+    }
+
+    const filteredUrls = urls.filter((url) => !window.prefetchedImages[url]);
+    filteredUrls.forEach((url) => {
+        const img = new Image();
+        img.src = url;
+        window.prefetchedImages[url] = img;
+    });
+};
+
+/**
  * Returns result from global cache for fn
  * @param {function} fn
  * @param {array} args

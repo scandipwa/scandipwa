@@ -145,7 +145,7 @@ export class SearchPageContainer extends CategoryPageContainer {
         const search = this.getSearchParam();
 
         // if the search requested is equal to search from URL
-        return search === currentSearch;
+        return super.getIsMatchingListFilter() && search === currentSearch;
     }
 
     getIsMatchingInfoFilter() {
