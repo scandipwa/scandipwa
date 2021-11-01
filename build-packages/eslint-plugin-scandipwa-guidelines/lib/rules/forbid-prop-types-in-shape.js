@@ -15,7 +15,7 @@ module.exports = {
     create: (context) => ({
         MemberExpression(node) {
             if (isShapePropType(node)) {
-                // Empty PropTypes.shape is forbidden (i.e. `PropTypes.shape`)
+                // Empty PropTypes.shape is forbidden (i.e. `PropTypes.shape` not even followed by curly braces)
                 if (node.parent.arguments === undefined) {
                     context.report({
                         node: node.property,
