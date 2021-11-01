@@ -186,10 +186,10 @@ export class MyAccountAddressFormContainer extends PureComponent {
 
         const { city, region } = cityAndRegion;
 
-        if (availableRegions.length) {
+        if (availableRegions && availableRegions.length) {
             this.setState({
                 currentCity: city,
-                currentRegionId: getRegionIdFromAvailableRegions(availableRegions, region),
+                currentRegionId: getRegionIdFromAvailableRegions(availableRegions, cityAndRegion),
                 currentRegion: ''
             });
         } else {
