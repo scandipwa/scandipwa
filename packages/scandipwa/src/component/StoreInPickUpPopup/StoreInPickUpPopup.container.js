@@ -21,6 +21,7 @@ import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { Addresstype } from 'Type/Account';
 import { ShippingMethodsType, StoreType } from 'Type/Checkout';
 import { CountriesType } from 'Type/Config';
+import { checkIfStoreIncluded } from 'Util/Address';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 import transformCountriesToOptions from 'Util/Store/Transform';
 
@@ -168,8 +169,8 @@ export class StoreInPickUpContainer extends PureComponent {
         const {
             showNotification,
             cartItemsSku,
-            clearPickUpStore,
-            selectedStore
+            selectedStore,
+            clearPickUpStore
         } = this.props;
         const { storeSearchCriteria, selectedCountryId } = this.state;
 
@@ -184,7 +185,7 @@ export class StoreInPickUpContainer extends PureComponent {
                 this.setState({ stores });
             }
 
-            if (!stores.indexOf(selectedStore)) {
+            if (!checkIfStoreIncluded(stores, selectedStore)) {
                 clearPickUpStore();
             }
 
