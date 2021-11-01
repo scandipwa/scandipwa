@@ -12,7 +12,8 @@
 import { connect } from 'react-redux';
 
 import {
-    mapStateToProps as sourceMapStateToProps
+    mapStateToProps as sourceMapStateToProps,
+    MyAccountAddressFormContainer
 } from 'Component/MyAccountAddressForm/MyAccountAddressForm.container';
 
 import CheckoutAddressForm from './CheckoutAddressForm.component';
@@ -26,4 +27,26 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/CheckoutAddressForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutAddressForm);
+/** @namespace Component/CheckoutAddressForm/Container */
+export class CheckoutAddressFormContainer extends MyAccountAddressFormContainer {
+    containerProps() {
+        const { shippingFields, onShippingEstimationFieldsChange } = this.props;
+
+        return {
+            shippingFields,
+            onShippingEstimationFieldsChange,
+            ...super.containerProps()
+        };
+    }
+
+    render() {
+        return (
+            <CheckoutAddressForm
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutAddressFormContainer);
