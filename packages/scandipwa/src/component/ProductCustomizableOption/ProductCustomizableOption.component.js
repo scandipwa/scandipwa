@@ -119,7 +119,7 @@ export class ProductCustomizableOption extends PureComponent {
                   type={ FIELD_TYPE.file }
                   validationRule={ {
                       isRequired,
-                      inputType: VALIDATION_INPUT_TYPE.fileExtension
+                      inputType: VALIDATION_INPUT_TYPE.imageFormat
                   } }
                   attr={ {
                       id: uid,
