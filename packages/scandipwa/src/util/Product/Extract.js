@@ -149,7 +149,7 @@ export const getProductInStock = (product, parentProduct = {}) => {
             stock_status: parentStockStatus
         } = parentProduct;
 
-        return parentInStock && parentStockStatus !== OUT_OF_STOCK && getProductInStock(product);
+        return (parentInStock || parentStockStatus === IN_STOCK) && getProductInStock(product);
     }
 
     if (type === PRODUCT_TYPE.grouped) {
