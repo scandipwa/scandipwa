@@ -246,36 +246,23 @@ export const listenForBroadCast = (name) => new Promise((resolve) => {
     }
 });
 
-// eslint-disable-next-line fp/no-let,import/no-mutable-exports
-export let timeout;
-/** @namespace Util/Request/handler */
-// eslint-disable-next-line fp/no-let,import/no-mutable-exports
-export let handler = () => {};
-
 /** @namespace Util/Request/debounce */
-export const debounce = (callback, delay) => (...args) => {
-    const context = this;
-    clearTimeout(timeout);
-    handler = () => callback.apply(context, args);
-    timeout = setTimeout(handler, delay);
-};
+export const debounce = (callback, delay) => {
+    // eslint-disable-next-line fp/no-let
+    let timeout;
 
-/** @namespace Util/Request/cancelDebounce */
-export const cancelDebounce = () => {
-    clearTimeout(timeout);
-};
-
-/** @namespace Util/Request/cancelDebounceAndExecuteImmediately */
-export const cancelDebounceAndExecuteImmediately = () => {
-    clearTimeout(timeout);
-    handler();
+    return (...args) => {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => callback.apply(context, args), delay);
+    };
 };
 
 /** @namespace Util/Request */
 export class Debouncer {
     timeout;
 
-    handler = () => console.debug('defaultHandler called');
+    handler = () => {};
 
     startDebounce = (callback, delay) => (...args) => {
         const context = this;

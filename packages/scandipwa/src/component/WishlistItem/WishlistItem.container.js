@@ -87,22 +87,6 @@ export class WishlistItemContainer extends PureComponent {
         setQuantity: this.setQuantity.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
-        this.state = {
-            isLoading: false,
-            currentQty: this.getQuantity()
-        };
-    }
-
-    setQuantity(quantity) {
-        const { setIsQtyUpdateInProgress } = this.props;
-        this.setState({ currentQty: quantity });
-
-        setIsQtyUpdateInProgress(true);
-    }
-
-    // eslint-disable-next-line react/sort-comp
     removeItemOnSwipe = this.removeItem.bind(this, false, true);
 
     changeQuantityDebouncer = new Debouncer();
@@ -144,6 +128,14 @@ export class WishlistItemContainer extends PureComponent {
         setIsQtyUpdateInProgress(false);
     }, UPDATE_WISHLIST_FREQUENCY);
 
+    __construct(props) {
+        super.__construct(props);
+        this.state = {
+            isLoading: false,
+            currentQty: this.getQuantity()
+        };
+    }
+
     containerProps() {
         const {
             handleSelectIdChange,
@@ -165,6 +157,13 @@ export class WishlistItemContainer extends PureComponent {
             isRemoving,
             product
         };
+    }
+
+    setQuantity(quantity) {
+        const { setIsQtyUpdateInProgress } = this.props;
+        this.setState({ currentQty: quantity });
+
+        setIsQtyUpdateInProgress(true);
     }
 
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
