@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
+import { UPDATE_WISHLIST_FREQUENCY } from 'Component/WishlistItem/WishlistItem.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ProductType } from 'Type/ProductList';
@@ -72,18 +73,24 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     state = {
         isLoading: false,
-        loadingItemsMap: {}
+        loadingItemsMap: {},
+        isQtyUpdateInProgress: false
     };
 
     containerFunctions = {
         removeAll: this.removeAll.bind(this),
         addAllToCart: this.addAllToCart.bind(this),
         shareWishlist: this.shareWishlist.bind(this),
-        removeSelectedFromWishlist: this.removeSelectedFromWishlist.bind(this)
+        removeSelectedFromWishlist: this.removeSelectedFromWishlist.bind(this),
+        setIsQtyUpdateInProgress: this.setIsQtyUpdateInProgress.bind(this)
     };
 
     containerProps() {
-        const { isLoading, loadingItemsMap } = this.state;
+        const {
+            isLoading,
+            loadingItemsMap
+        } = this.state;
+
         const {
             isWishlistLoading,
             creatorsName,
@@ -107,14 +114,29 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         };
     }
 
-    async addAllToCart() {
-        const { moveWishlistToCart } = this.props;
+    setIsQtyUpdateInProgress(status) {
+        this.setState({ isQtyUpdateInProgress: status });
+    }
+
+    addAllToCart() {
+        const { isQtyUpdateInProgress } = this.state;
 
         if (!isSignedIn()) {
-            await Promise.reject();
+            Promise.reject();
         }
 
         this.setState({ isLoading: true });
+
+        if (isQtyUpdateInProgress) {
+            // wait for qty update request to finish before moving all items to cart
+            setTimeout(() => this.addAllToCartAsync(), UPDATE_WISHLIST_FREQUENCY);
+        } else {
+            this.addAllToCartAsync();
+        }
+    }
+
+    async addAllToCartAsync() {
+        const { moveWishlistToCart } = this.props;
 
         try {
             await moveWishlistToCart();

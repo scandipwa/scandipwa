@@ -71,11 +71,13 @@ export class WishlistItemContainer extends PureComponent {
         isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         wishlistId: PropTypes.number.isRequired,
-        isEditingActive: PropTypes.bool.isRequired
+        isEditingActive: PropTypes.bool.isRequired,
+        setIsQtyUpdateInProgress: PropTypes.func
     };
 
     static defaultProps = {
-        isRemoving: false
+        isRemoving: false,
+        setIsQtyUpdateInProgress: () => {}
     };
 
     containerFunctions = {
@@ -94,7 +96,10 @@ export class WishlistItemContainer extends PureComponent {
     }
 
     setQuantity(quantity) {
+        const { setIsQtyUpdateInProgress } = this.props;
         this.setState({ currentQty: quantity });
+
+        setIsQtyUpdateInProgress(true);
     }
 
     // eslint-disable-next-line react/sort-comp
@@ -118,7 +123,16 @@ export class WishlistItemContainer extends PureComponent {
 
     // eslint-disable-next-line react/sort-comp
     changeQuantityFunc = (quantity) => {
-        const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+        const {
+            wishlistId,
+            product: {
+                wishlist: {
+                    id: item_id
+                }
+            },
+            updateWishlistItem,
+            setIsQtyUpdateInProgress
+        } = this.props;
 
         updateWishlistItem({
             wishlistId,
@@ -127,6 +141,8 @@ export class WishlistItemContainer extends PureComponent {
                 quantity
             }]
         });
+
+        setIsQtyUpdateInProgress(false);
     };
 
     changeQuantity = this.changeQuantityDebouncer.startDebounce(this.changeQuantityFunc, UPDATE_WISHLIST_FREQUENCY);
