@@ -105,7 +105,7 @@ export class WishlistItemContainer extends PureComponent {
         });
     }, UPDATE_WISHLIST_FREQUENCY);
 
-    changeQuantity = this.changeQuantityDebouncer.startDebounce((quantity) => {
+    changeQuantity = this.changeQuantityDebouncer.startDebounce(async (quantity) => {
         const {
             wishlistId,
             product: {
@@ -117,7 +117,7 @@ export class WishlistItemContainer extends PureComponent {
             setIsQtyUpdateInProgress
         } = this.props;
 
-        updateWishlistItem({
+        await updateWishlistItem({
             wishlistId,
             wishlistItems: [{
                 wishlist_item_id: item_id,
