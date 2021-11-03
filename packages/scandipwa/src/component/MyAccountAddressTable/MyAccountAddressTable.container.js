@@ -19,9 +19,9 @@ import {
     EDIT_ADDRESS
 } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { addressType } from 'Type/Account';
+import { Addresstype } from 'Type/Account';
 import { MixType } from 'Type/Common';
-import { countriesType } from 'Type/Config';
+import { CountriesType } from 'Type/Config';
 
 import MyAccountAddressTable from './MyAccountAddressTable.component';
 
@@ -39,9 +39,9 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountAddressTableContainer extends PureComponent {
     static propTypes = {
         mix: MixType,
-        address: addressType.isRequired,
+        address: Addresstype.isRequired,
         showEditPopup: PropTypes.func.isRequired,
-        countries: countriesType.isRequired,
+        countries: CountriesType.isRequired,
         showAdditionalFields: PropTypes.bool,
         showActions: PropTypes.bool,
         title: PropTypes.string

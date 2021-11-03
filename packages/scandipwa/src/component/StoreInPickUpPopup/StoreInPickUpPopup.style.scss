@@ -15,20 +15,22 @@
             @include desktop {
                 max-height: 60vh;
                 min-height: 40vh;
-                overflow-y: hidden;
                 width: 70vh;
             }
         }
     }
 
     &-Input {
-        width: 100%;
+        input {
+            width: 100%;
+        }
     }
 
     &-NoResult,
     &-Info {
         display: block;
         margin-block-start: 10px;
+        margin-block-end: 15px;
         font-size: 14px;
     }
 

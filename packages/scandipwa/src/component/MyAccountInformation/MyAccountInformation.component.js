@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
 import MyAccountCustomerForm from 'Component/MyAccountCustomerForm';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account';
 
 import './MyAccountInformation.style';
 
@@ -23,7 +23,7 @@ export class MyAccountInformation extends PureComponent {
     static propTypes = {
         onCustomerSave: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         showEmailChangeField: PropTypes.bool.isRequired,
         showPasswordChangeField: PropTypes.bool.isRequired,
         handleChangeEmailCheckbox: PropTypes.func.isRequired,

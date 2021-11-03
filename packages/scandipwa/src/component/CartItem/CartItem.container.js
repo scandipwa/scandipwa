@@ -368,7 +368,10 @@ export class CartItemContainer extends PureComponent {
 
         const { attributes = [] } = this.getCurrentProduct() || {};
 
-        return Object.entries(attributes).map(this.getConfigurationOptionLabel).filter((label) => label);
+        return Object.entries(attributes)
+            .filter(([attrKey]) => Object.keys(configurable_options).includes(attrKey))
+            .map(this.getConfigurationOptionLabel)
+            .filter((label) => label);
     }
 
     notifyAboutLoadingStateChange(isLoading) {

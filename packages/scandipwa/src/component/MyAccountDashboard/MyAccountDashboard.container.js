@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account';
 
 import MyAccountDashboard from './MyAccountDashboard.component';
 
@@ -27,7 +27,7 @@ export const mapDispatchToProps = () => ({});
 /** @namespace Component/MyAccountDashboard/Container */
 export class MyAccountDashboardContainer extends PureComponent {
     static propTypes = {
-        customer: customerType.isRequired
+        customer: CustomerType.isRequired
     };
 
     containerFunctions = {

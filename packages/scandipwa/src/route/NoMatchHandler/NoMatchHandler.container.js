@@ -15,7 +15,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { ChildrenType, LocationType } from 'Type/Common';
+import { ChildrenType } from 'Type/Common';
+import { LocationType } from 'Type/Router';
 
 import NoMatchHandler from './NoMatchHandler.component';
 

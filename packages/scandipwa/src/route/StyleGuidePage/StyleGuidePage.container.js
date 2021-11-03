@@ -13,8 +13,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateProductDetails } from 'Store/Product/Product.action';
+import ProductReducer from 'Store/Product/Product.reducer';
 import { ProductType } from 'Type/ProductList';
+import { withReducers } from 'Util/DynamicReducer';
 
 import product from './product.json';
 import StyleGuide from './StyleGuidePage.component';
@@ -73,4 +76,12 @@ export class StyleGuidePageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyleGuidePageContainer);
+export default withReducers({
+    CategoryReducer,
+    ProductReducer
+})(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(StyleGuidePageContainer)
+);

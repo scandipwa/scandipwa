@@ -19,14 +19,14 @@ import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
 import {
     ACCOUNT_INFORMATION,
-    activeTabType,
+    ActiveTabType,
     ADDRESS_BOOK,
     MY_ACCOUNT,
     MY_DOWNLOADABLE,
     MY_ORDERS,
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION,
-    tabMapType
+    TabMapType
 } from 'Type/Account';
 import { isSignedIn } from 'Util/Auth';
 
@@ -60,11 +60,10 @@ export const MyAccountNewsletterSubscription = lazy(() => import(
 /** @namespace Route/MyAccount/Component */
 export class MyAccount extends Component {
     static propTypes = {
-        activeTab: activeTabType.isRequired,
-        tabMap: tabMapType.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
         subHeading: PropTypes.string,
-
+        activeTab: ActiveTabType.isRequired,
+        tabMap: TabMapType.isRequired,
         changeActiveTab: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
         onSignOut: PropTypes.func.isRequired

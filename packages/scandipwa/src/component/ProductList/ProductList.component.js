@@ -14,9 +14,10 @@ import { PureComponent } from 'react';
 
 import CategoryPagination from 'Component/CategoryPagination';
 import ProductListPage from 'Component/ProductListPage';
+import { FilterType } from 'Type/Category';
 import { MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
-import { FilterType, PagesType } from 'Type/ProductList';
+import { PagesType } from 'Type/ProductList';
 import { scrollToTop } from 'Util/Browser';
 
 import { observerThreshold } from './ProductList.config';
@@ -38,7 +39,6 @@ export class ProductList extends PureComponent {
         updatePage: PropTypes.func,
         totalPages: PropTypes.number,
         loadPage: PropTypes.func,
-        requestPage: PropTypes.func,
         loadPrevPage: PropTypes.func,
         currentPage: PropTypes.number,
         isShowLoading: PropTypes.bool,
@@ -59,7 +59,6 @@ export class ProductList extends PureComponent {
         updatePage: () => {},
         totalPages: 1,
         loadPage: () => {},
-        requestPage: () => {},
         loadPrevPage: () => {},
         currentPage: 1,
         isShowLoading: false,
@@ -302,7 +301,6 @@ export class ProductList extends PureComponent {
         const {
             isLoading,
             totalPages,
-            requestPage,
             isPaginationEnabled
         } = this.props;
 
@@ -314,7 +312,6 @@ export class ProductList extends PureComponent {
             <CategoryPagination
               isLoading={ isLoading }
               totalPages={ totalPages }
-              onPageSelect={ requestPage }
             />
         );
     }

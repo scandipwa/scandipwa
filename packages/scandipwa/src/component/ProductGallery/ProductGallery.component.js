@@ -26,7 +26,7 @@ import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage
 import Slider from 'Component/Slider';
 import VideoPopup from 'Component/VideoPopup';
 import VideoThumbnail from 'Component/VideoThumbnail';
-import { LocationType } from 'Type/Common';
+import { LocationType } from 'Type/Router';
 import CSS from 'Util/CSS';
 
 import {
@@ -69,7 +69,9 @@ export class ProductGallery extends PureComponent {
         sliderRef: PropTypes.object.isRequired,
         handleImageZoomPopupActiveChange: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        isImageZoomPopupActive: PropTypes.bool.isRequired
+        isImageZoomPopupActive: PropTypes.bool.isRequired,
+        isWithEmptySwitcher: PropTypes.bool.isRequired,
+        showLoader: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -251,7 +253,8 @@ export class ProductGallery extends PureComponent {
             handleZoomChange,
             disableZoom,
             isMobile,
-            isImageZoomPopupActive
+            isImageZoomPopupActive,
+            showLoader
         } = this.props;
         const { scrollEnabled } = this.state;
 
@@ -276,6 +279,7 @@ export class ProductGallery extends PureComponent {
                   } }
                   isPlaceholder={ !src }
                   style={ style }
+                  showIsLoading={ showLoader }
                 />
             );
         }
@@ -350,13 +354,14 @@ export class ProductGallery extends PureComponent {
             gallery,
             isImageZoomPopupActive,
             activeImage,
-            onActiveImageChange
+            onActiveImageChange,
+            isWithEmptySwitcher
         } = this.props;
 
         const { slidesCount } = this.state;
 
         if (gallery.length === 1) {
-            return <div block="ProductGallery" elem="Additional" />;
+            return <div block="ProductGallery" elem="Additional" mods={ { isWithEmptySwitcher } } />;
         }
 
         return (

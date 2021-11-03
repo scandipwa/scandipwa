@@ -19,8 +19,8 @@ import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config
 import { updateCustomerDetails, updateIsLoading } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { customerType } from 'Type/Account';
-import { LocationType } from 'Type/Common';
+import { CustomerType } from 'Type/Account';
+import { LocationType } from 'Type/Router';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
@@ -57,7 +57,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/MyAccountInformation/Container */
 export class MyAccountInformationContainer extends PureComponent {
     static propTypes = {
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         location: LocationType.isRequired,
         baseLinkUrl: PropTypes.string.isRequired,
 

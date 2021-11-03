@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 
 // TODO: try SEARCH type
 import { CATEGORY } from 'Component/Header/Header.config';
-import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
+import { LOADING_TIME, SORT_DIRECTION_TYPE } from 'Route/CategoryPage/CategoryPage.config';
 import { CategoryPageContainer } from 'Route/CategoryPage/CategoryPage.container';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -102,7 +102,7 @@ export class SearchPageContainer extends CategoryPageContainer {
 
     config = {
         sortKey: 'none',
-        sortDirection: 'ASC'
+        sortDirection: SORT_DIRECTION_TYPE.asc
     };
 
     updateMeta() {
@@ -145,7 +145,7 @@ export class SearchPageContainer extends CategoryPageContainer {
         const search = this.getSearchParam();
 
         // if the search requested is equal to search from URL
-        return search === currentSearch;
+        return super.getIsMatchingListFilter() && search === currentSearch;
     }
 
     getIsMatchingInfoFilter() {

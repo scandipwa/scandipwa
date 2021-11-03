@@ -17,10 +17,11 @@ import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action'
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account';
 import { ProductType } from 'Type/ProductList';
 import { RatingItemsType } from 'Type/Rating';
 import transformToNameValuePair from 'Util/Form/Transform';
+import { getErrorMessage } from 'Util/Request';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
@@ -54,7 +55,7 @@ export class ProductReviewFormContainer extends PureComponent {
         reviewRatings: RatingItemsType.isRequired,
         product: ProductType.isRequired,
         addReview: PropTypes.func.isRequired,
-        customer: customerType.isRequired
+        customer: CustomerType.isRequired
     };
 
     containerFunctions = ({
@@ -100,22 +101,30 @@ export class ProductReviewFormContainer extends PureComponent {
         const reviewsAreNotValid = invalidFields;
 
         if (reviewsAreNotValid) {
-            showNotification('info', __('Incorrect data! Please check review fields.'));
+            showNotification('info', __('Please fill in all rating fields'));
         }
 
         this.setState({ isLoading: !reviewsAreNotValid });
     }
 
-    _onReviewSubmitSuccess(form, fields) {
+    async _onReviewSubmitSuccess(form, fields) {
         const {
             product,
             addReview,
             hideActiveOverlay,
-            goToPreviousHeaderState
+            goToPreviousHeaderState,
+            showNotification,
+            reviewRatings
         } = this.props;
 
-        this.setState({ isLoading: true });
         const { ratingData: rating_data } = this.state;
+
+        if (Object.keys(rating_data).length < Object.keys(reviewRatings).length) {
+            showNotification('info', __('Please fill in all rating fields'));
+            return;
+        }
+
+        this.setState({ isLoading: true });
 
         const {
             nickname,
@@ -125,38 +134,26 @@ export class ProductReviewFormContainer extends PureComponent {
 
         const { sku: product_sku } = product;
 
-        if (Object.keys(rating_data).length) {
-            addReview({
+        try {
+            await addReview({
                 nickname,
                 title,
                 detail,
                 product_sku,
                 rating_data
-            }).then(
-                /** @namespace Component/ProductReviewForm/Container/ProductReviewFormContainer/_onReviewSubmitSuccess/addReview/then */
-                (success) => {
-                    if (success) {
-                        this.setState({
-                            ratingData: {},
-                            reviewData: {},
-                            isLoading: false
-                        });
+            });
 
-                        goToPreviousHeaderState();
-                        hideActiveOverlay();
+            this.setState({
+                ratingData: {},
+                reviewData: {}
+            });
 
-                        return;
-                    }
-
-                    this.setState({ isLoading: false });
-                },
-                /** @namespace Component/ProductReviewForm/Container/ProductReviewFormContainer/_onReviewSubmitSuccess/addReview/then/catch */
-                () => {
-                    showNotification('info', __('Incorrect data! Please check review fields.'));
-
-                    this.setState({ isLoading: false });
-                }
-            );
+            goToPreviousHeaderState();
+            hideActiveOverlay();
+        } catch (error) {
+            showNotification('error', getErrorMessage(error));
+        } finally {
+            this.setState({ isLoading: false });
         }
     }
 

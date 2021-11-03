@@ -14,8 +14,8 @@ import PropTypes from 'prop-types';
 
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import FieldForm from 'Component/PureForm/FieldForm';
-import { addressType } from 'Type/Account';
-import { countriesType } from 'Type/Config';
+import { Addresstype } from 'Type/Account';
+import { CountriesType } from 'Type/Config';
 import {
     getAvailableRegions,
     getCityAndRegionFromZipcode,
@@ -28,8 +28,8 @@ import myAccountAddressForm from './MyAccountAddressForm.form';
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
     static propTypes = {
-        address: addressType.isRequired,
-        countries: countriesType.isRequired,
+        address: Addresstype.isRequired,
+        countries: CountriesType.isRequired,
         defaultCountry: PropTypes.string,
         addressLinesQty: PropTypes.number.isRequired,
         showVatNumber: PropTypes.bool.isRequired,

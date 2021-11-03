@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import { KEY_CODE } from 'Component/PureForm/Field/Keyboard.config';
+import { EventsType } from 'Type/Field';
 
 import FieldSelect from './FieldSelect.component';
 
@@ -25,7 +26,7 @@ export class FieldSelectContainer extends PureComponent {
     static propTypes = {
         // Field attributes
         attr: PropTypes.object.isRequired,
-        events: PropTypes.object.isRequired,
+        events: EventsType.isRequired,
         options: PropTypes.array.isRequired,
         setRef: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired,
@@ -194,6 +195,8 @@ export class FieldSelectContainer extends PureComponent {
             return;
         }
 
+        this.updateValue(valueIndex);
+
         this.setState({ searchString, valueIndex }, () => {
             const { id, value } = options[valueIndex];
 
@@ -210,11 +213,24 @@ export class FieldSelectContainer extends PureComponent {
         });
     }
 
+    updateValue(valueIndex) {
+        if (this.fieldRef) {
+            const { options } = this.props;
+            const { value } = options[valueIndex];
+
+            if (value) {
+                this.fieldRef.value = value;
+            }
+        }
+    }
+
     containerProps() {
         const {
             attr: {
                 autoComplete,
                 autocomplete,
+                noPlaceholder,
+                selectPlaceholder,
                 ...attr
             } = {},
             events,

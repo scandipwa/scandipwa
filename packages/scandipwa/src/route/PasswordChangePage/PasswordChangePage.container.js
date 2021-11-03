@@ -17,7 +17,7 @@ import { Redirect } from 'react-router';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { LocationType } from 'Type/Common';
+import { LocationType } from 'Type/Router';
 import transformToNameValuePair from 'Util/Form/Transform';
 import { getQueryParam } from 'Util/Url';
 

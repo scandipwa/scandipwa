@@ -127,5 +127,11 @@ $select-arrow-width: 14px !default;
                 background: var(--secondary-base-color);
             }
         }
+
+        &_isHovered{
+            @include desktop {
+                background: var(--secondary-base-color);
+            }
+        }
     }
 }

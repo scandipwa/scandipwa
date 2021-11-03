@@ -18,7 +18,7 @@ import MyAccountQuery from 'Query/MyAccount.query';
 import { updateCustomerDetails } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
@@ -42,7 +42,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/MyAccountNewsletterSubscription/Container */
 export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
     static propTypes = {
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         updateCustomer: PropTypes.func.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
         showSuccessNotification: PropTypes.func.isRequired,

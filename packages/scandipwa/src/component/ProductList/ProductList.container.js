@@ -15,10 +15,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
-import { HistoryType, MixType } from 'Type/Common';
+import { FilterInputType, SelectedFiltersType } from 'Type/Category';
+import { MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
-import { FilterInputType, PagesType } from 'Type/ProductList';
-import { LocationType } from 'Type/Router';
+import { PagesType } from 'Type/ProductList';
+import { HistoryType, LocationType } from 'Type/Router';
 import { scrollToTop } from 'Util/Browser';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
@@ -52,7 +53,7 @@ export class ProductListContainer extends PureComponent {
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
-        selectedFilters: PropTypes.objectOf(PropTypes.shape),
+        selectedFilters: SelectedFiltersType,
         isPreventRequest: PropTypes.bool,
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
@@ -116,7 +117,8 @@ export class ProductListContainer extends PureComponent {
         const {
             sort: prevSort,
             search: prevSearch,
-            filter: prevFilter
+            filter: prevFilter,
+            location: prevLocation
         } = prevProps;
 
         const { pagesCount } = this.state;
@@ -127,7 +129,11 @@ export class ProductListContainer extends PureComponent {
             this.setState({ pagesCount: pagesLength });
         }
 
+        const prevPage = this._getPageFromUrl(prevLocation);
+        const currentPage = this._getPageFromUrl();
+
         if (search !== prevSearch
+            || currentPage !== prevPage
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
         ) {
@@ -263,8 +269,9 @@ export class ProductListContainer extends PureComponent {
         return false;
     }
 
-    _getPageFromUrl() {
-        const { location } = this.props;
+    _getPageFromUrl(url) {
+        const { location: currentLocation } = this.props;
+        const location = url || currentLocation;
 
         return +(getQueryParam('page', location) || 1);
     }

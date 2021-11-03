@@ -23,9 +23,9 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { HistoryType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
+import { HistoryType } from 'Type/Router';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import {
@@ -139,6 +139,10 @@ export class CartPageContainer extends PureComponent {
                 ...headerState,
                 title
             });
+        }
+
+        if (items_qty !== prevItemsQty) {
+            this._updateCrossSellProducts();
         }
     }
 

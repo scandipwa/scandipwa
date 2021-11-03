@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ordersType } from 'Type/Account';
+import { OrdersType } from 'Type/Account';
 import { DeviceType } from 'Type/Device';
 
 import MyAccountMyOrders from './MyAccountMyOrders.component';
@@ -41,7 +41,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountMyOrdersContainer extends PureComponent {
     static propTypes = {
         getOrderList: PropTypes.func.isRequired,
-        orderList: ordersType.isRequired,
+        orderList: OrdersType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         device: DeviceType.isRequired
     };

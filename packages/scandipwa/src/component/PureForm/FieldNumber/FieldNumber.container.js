@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import { EventsType } from 'Type/Field';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
 import FieldNumber from './FieldNumber.component';
@@ -25,7 +26,7 @@ export class FieldNumberContainer extends PureComponent {
     static propTypes = {
         // Field attributes
         attr: PropTypes.object.isRequired,
-        events: PropTypes.object.isRequired,
+        events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired
     };
@@ -47,8 +48,12 @@ export class FieldNumberContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { attr: { value } = {} } = this.props;
-        const { attr: { value: prevValue } = {} } = prevProps;
+        const { attr: { value, defaultValue = 0 } = {} } = this.props;
+        const { attr: { value: prevValue, defaultValue: prevDefaultValue } = {} } = prevProps;
+
+        if (defaultValue !== prevDefaultValue) {
+            this.handleInitialLoad(defaultValue);
+        }
 
         if (value !== prevValue) {
             // eslint-disable-next-line react/no-did-update-set-state
@@ -109,6 +114,7 @@ export class FieldNumberContainer extends PureComponent {
                 value,
                 autoComplete,
                 autocomplete,
+                defaultValue,
                 ...attr
             } = {},
             events,

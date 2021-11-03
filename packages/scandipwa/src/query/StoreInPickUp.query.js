@@ -13,11 +13,12 @@ import { Field } from 'Util/Query';
 
 /** @namespace Query/StoreInPickUp/Query */
 export class StoreInPickUpQuery {
-    getStores(country, search = '') {
+    getStores(country, search = '', productsInfo) {
         return new Field('getStores')
             .addFieldList([this.getStoreFields()])
             .addArgument('search', 'String', search)
-            .addArgument('country', 'String', country);
+            .addArgument('country', 'String', country)
+            .addArgument('productsInfo', '[ProductInfoInput]', productsInfo);
     }
 
     getStoreFields() {

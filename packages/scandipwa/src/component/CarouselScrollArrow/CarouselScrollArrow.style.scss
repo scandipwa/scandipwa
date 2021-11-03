@@ -25,11 +25,6 @@
         }
     }
 
-    &_isDisabled {
-        opacity: 0;
-        cursor: default;
-    }
-
     &_isInvisible {
         visibility: hidden;
     }

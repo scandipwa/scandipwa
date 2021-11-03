@@ -20,6 +20,7 @@ import Loader from 'Component/Loader';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { CartItemType } from 'Type/MiniCart';
+import { LinkType } from 'Type/Router';
 import { formatPrice } from 'Util/Price';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
@@ -41,13 +42,7 @@ export class CartItem extends PureComponent {
         minSaleQuantity: PropTypes.number.isRequired,
         maxSaleQuantity: PropTypes.number.isRequired,
         handleChangeQuantity: PropTypes.func.isRequired,
-        linkTo: PropTypes.oneOfType([
-            PropTypes.shape({
-                pathname: PropTypes.string,
-                search: PropTypes.string
-            }),
-            PropTypes.string
-        ]).isRequired,
+        linkTo: LinkType.isRequired,
         thumbnail: PropTypes.string.isRequired,
         isProductInStock: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,

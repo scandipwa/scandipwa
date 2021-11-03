@@ -28,7 +28,7 @@ import {
     MY_WISHLIST, NEWSLETTER_SUBSCRIPTION,
     SECOND_SECTION, THIRD_SECTION
 } from 'Type/Account';
-import { LocationType, MatchType } from 'Type/Common';
+import { LocationType, MatchType } from 'Type/Router';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';

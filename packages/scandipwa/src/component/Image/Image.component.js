@@ -14,7 +14,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { MixType } from 'Type/Common';
+import { MixType, RefType } from 'Type/Common';
 
 import {
     IMAGE_LOADED, IMAGE_LOADING, IMAGE_NOT_FOUND, IMAGE_NOT_SPECIFIED
@@ -52,11 +52,11 @@ export class Image extends PureComponent {
             height: PropTypes.string
         }),
         mix: MixType,
-        imageRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]),
-        isPlain: PropTypes.bool
+        imageRef: RefType,
+        isPlain: PropTypes.bool,
+        isCached: PropTypes.bool,
+
+        showIsLoading: PropTypes.bool
     };
 
     static defaultProps = {
@@ -67,9 +67,11 @@ export class Image extends PureComponent {
         title: null,
         isPlain: false,
         isPlaceholder: false,
+        isCached: false,
         className: '',
         ratio: 'square',
         mix: {},
+        showIsLoading: false,
         imageRef: () => {}
     };
 
@@ -102,10 +104,14 @@ export class Image extends PureComponent {
     }
 
     onImageChange() {
-        const { src } = this.props;
+        const { src, isCached } = this.props;
 
         if (!src) {
             return this.setState({ imageStatus: IMAGE_NOT_SPECIFIED });
+        }
+
+        if (isCached) {
+            return this.setState({ imageStatus: IMAGE_LOADED });
         }
 
         return this.setState({ imageStatus: IMAGE_LOADING });
@@ -210,6 +216,19 @@ export class Image extends PureComponent {
         return render();
     }
 
+    renderLoader() {
+        const { showIsLoading } = this.props;
+        const { imageStatus } = this.state;
+
+        if (imageStatus !== IMAGE_LOADING || !showIsLoading) {
+            return null;
+        }
+
+        return (
+            <div block="Image" elem="Loader" />
+        );
+    }
+
     render() {
         const {
             ratio,
@@ -245,6 +264,7 @@ export class Image extends PureComponent {
               className={ className }
             >
                 { this.renderImage() }
+                { this.renderLoader() }
             </div>
         );
     }

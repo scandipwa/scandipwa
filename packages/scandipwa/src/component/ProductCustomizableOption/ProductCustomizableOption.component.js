@@ -34,7 +34,7 @@ export class ProductCustomizableOption extends PureComponent {
         getDropdownOptions: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
         currencyCode: PropTypes.string.isRequired,
-        options: PropTypes.arrayOf(PropTypes.object).isRequired
+        options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired
     };
 
     renderMap = {
@@ -65,10 +65,10 @@ export class ProductCustomizableOption extends PureComponent {
         } = customizableOptionToLabel(option, currencyCode);
 
         return (
-            <div block="ProductCustomizableItem" elem="Label">
+            <span block="ProductCustomizableItem" elem="Label">
                 { overrideBase || baseLabel }
                 <strong>{ overridePrice || priceLabel }</strong>
-            </div>
+            </span>
         );
     }
 

@@ -111,7 +111,7 @@ export class ProductCompareQuery extends ProductListQuery {
 
     _getComparableItemFields() {
         return [
-            this._getProductField(),
+            this._getCompareProductField(),
             this._getComparableItemAttributeField()
         ];
     }
@@ -122,13 +122,14 @@ export class ProductCompareQuery extends ProductListQuery {
         ];
     }
 
-    _getProductField() {
+    _getCompareProductField() {
         return new Field('product')
             .addFieldList(this._getProductInterfaceFields(true, false))
             .addFieldList(['url'])
             .addField(this._getReviewCountField())
             .addField(this._getRatingSummaryField())
-            .addField(this._getDescriptionField());
+            .addField(this._getDescriptionField())
+            .addField(this._getGroupedProductItems());
     }
 
     _getProductIdsField() {

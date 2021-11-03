@@ -11,7 +11,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType, RefType } from 'Type/Common';
 
 import CarouselScrollItem from './CarouselScrollItem.component';
 
@@ -19,10 +19,7 @@ import CarouselScrollItem from './CarouselScrollItem.component';
 export class CarouselScrollItemContainer extends PureComponent {
     static propTypes = {
         isActive: PropTypes.bool,
-        itemRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]),
+        itemRef: RefType,
         onClick: PropTypes.func,
         children: ChildrenType,
         position: PropTypes.number.isRequired

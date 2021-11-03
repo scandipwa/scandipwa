@@ -26,6 +26,8 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         onShippingEstimationFieldsChange: () => {}
     };
 
+    lastRequest = null;
+
     componentDidMount() {
         const {
             address: {
@@ -41,7 +43,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
         onShippingEstimationFieldsChange({
             country_id: countryId || defaultCountry,
-            region_id: regionId,
+            region_id: regionId !== '' ? regionId : null,
             region,
             city,
             postcode
@@ -68,9 +70,32 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     onAddressChange = (event, data) => {
         const { fields = {} } = data;
-        const valuePairs = transformToNameValuePair(fields);
+        const {
+            country_id,
+            region_id: regionId,
+            region_string: region,
+            city,
+            postcode
+        } = transformToNameValuePair(fields);
+
         const { onShippingEstimationFieldsChange } = this.props;
-        onShippingEstimationFieldsChange(valuePairs);
+        const request = {
+            country_id,
+            region_id: regionId !== '' ? regionId : null,
+            region,
+            city,
+            postcode
+        };
+
+        // If request hasn't changed, then ignore.
+        if (JSON.stringify(request) === JSON.stringify(this.lastRequest)) {
+            return;
+        }
+
+        onShippingEstimationFieldsChange(request);
+
+        // Caches last request
+        this.lastRequest = request;
     };
 
     renderActions() {

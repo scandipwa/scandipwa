@@ -11,7 +11,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { storeType } from 'Type/Checkout';
+import { StoreType } from 'Type/Checkout';
 
 import StoreInPickUpStoreComponent from './StoreInPickUpStore.component';
 
@@ -20,12 +20,13 @@ export class StoreInPickUpStoreContainer extends PureComponent {
     static propTypes = {
         selectStore: PropTypes.func,
         isSelectedStore: PropTypes.bool,
-        store: storeType.isRequired
+        store: StoreType
     };
 
     static defaultProps = {
         selectStore: null,
-        isSelectedStore: false
+        isSelectedStore: false,
+        store: null
     };
 
     containerFunctions = {
