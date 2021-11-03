@@ -71,7 +71,7 @@ export class WishlistItem extends PureComponent {
                   defaultValue: description
               } }
               events={ {
-                  onChange: changeDescription
+                  onChange: ({ target: { value } = {} }) => changeDescription(value)
               } }
               mix={ { block: 'WishlistItem', elem: 'CommentField' } }
             />

@@ -121,8 +121,7 @@ export class WishlistItemContainer extends PureComponent {
         });
     }, UPDATE_WISHLIST_FREQUENCY);
 
-    // eslint-disable-next-line react/sort-comp
-    changeQuantityFunc = (quantity) => {
+    changeQuantity = this.changeQuantityDebouncer.startDebounce((quantity) => {
         const {
             wishlistId,
             product: {
@@ -143,9 +142,7 @@ export class WishlistItemContainer extends PureComponent {
         });
 
         setIsQtyUpdateInProgress(false);
-    };
-
-    changeQuantity = this.changeQuantityDebouncer.startDebounce(this.changeQuantityFunc, UPDATE_WISHLIST_FREQUENCY);
+    }, UPDATE_WISHLIST_FREQUENCY);
 
     containerProps() {
         const {
