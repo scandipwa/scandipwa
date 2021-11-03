@@ -338,14 +338,16 @@ export class ProductPrice extends PureComponent {
     renderConfigurablePrice() {
         const {
             originalPrice: {
-                minFinalPrice = {},
                 minFinalPrice: { value: minValue = 0 } = {},
                 maxFinalPrice: { value: maxValue = 0 } = {}
             },
             configuration: {
                 containsOptions = false
             } = {},
-            price: { finalPriceExclTax = {} },
+            price: {
+                finalPriceExclTax = {},
+                finalPrice = {}
+            },
             priceType
         } = this.props;
 
@@ -357,7 +359,7 @@ export class ProductPrice extends PureComponent {
 
         return (
             <>
-                { this.renderPriceWithTax(minFinalPrice, finalPriceExclTax, label) }
+                { this.renderPriceWithTax(finalPrice, finalPriceExclTax, label) }
             </>
         );
     }
@@ -377,11 +379,11 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    renderPriceWithTax(basePrice, texPrice, label) {
+    renderPriceWithTax(basePrice, taxPrice, label) {
         return (
             <>
                 { this.renderPrice(basePrice, label) }
-                { this.renderSubPrice(texPrice) }
+                { this.renderSubPrice(taxPrice) }
             </>
         );
     }
