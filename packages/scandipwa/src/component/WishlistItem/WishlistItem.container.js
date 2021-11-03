@@ -23,7 +23,7 @@ import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
 import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
-import { debounce } from 'Util/Request';
+import { Debouncer } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
 import WishlistItem from './WishlistItem.component';
@@ -81,28 +81,30 @@ export class WishlistItemContainer extends PureComponent {
     containerFunctions = {
         addToCart: this.addItemToCart.bind(this),
         removeItem: this.removeItem.bind(this, false, true),
-        redirectToProductPage: this.redirectToProductPage.bind(this)
+        redirectToProductPage: this.redirectToProductPage.bind(this),
+        setQuantity: this.setQuantity.bind(this)
     };
 
-    state = {
-        isLoading: false
-    };
+    __construct(props) {
+        super.__construct(props);
+        this.state = {
+            isLoading: false,
+            currentQty: this.getQuantity()
+        };
+    }
 
+    setQuantity(quantity) {
+        this.setState({ currentQty: quantity });
+    }
+
+    // eslint-disable-next-line react/sort-comp
     removeItemOnSwipe = this.removeItem.bind(this, false, true);
 
-    changeQuantity = debounce((quantity) => {
-        const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+    changeQuantityDebouncer = new Debouncer();
 
-        updateWishlistItem({
-            wishlistId,
-            wishlistItems: [{
-                wishlist_item_id: item_id,
-                quantity
-            }]
-        });
-    }, UPDATE_WISHLIST_FREQUENCY);
+    changeDescriptionDebouncer = new Debouncer();
 
-    changeDescription = debounce((description) => {
+    changeDescription = this.changeDescriptionDebouncer.startDebounce((description) => {
         const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
 
         updateWishlistItem({
@@ -113,6 +115,21 @@ export class WishlistItemContainer extends PureComponent {
             }]
         });
     }, UPDATE_WISHLIST_FREQUENCY);
+
+    // eslint-disable-next-line react/sort-comp
+    changeQuantityFunc = (quantity) => {
+        const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+
+        updateWishlistItem({
+            wishlistId,
+            wishlistItems: [{
+                wishlist_item_id: item_id,
+                quantity
+            }]
+        });
+    };
+
+    changeQuantity = this.changeQuantityDebouncer.startDebounce(this.changeQuantityFunc, UPDATE_WISHLIST_FREQUENCY);
 
     containerProps() {
         const {
@@ -174,8 +191,12 @@ export class WishlistItemContainer extends PureComponent {
             product: item
         } = this.props;
 
+        const { currentQty } = this.state;
+
         const selectedOptions = getSelectedOptions(buy_request);
-        const quantity = this.getQuantity();
+
+        // take input value in case item in wishlist hasn't been updated yet (if you change qty and click "Add to cart" immediately)
+        const quantity = currentQty || this.getQuantity();
 
         return magentoProductTransform(ADD_TO_CART, item, quantity, [], selectedOptions);
     }
@@ -238,6 +259,8 @@ export class WishlistItemContainer extends PureComponent {
         const products = this.getProducts();
 
         try {
+            this.changeQuantityDebouncer.cancelDebounceAndExecuteImmediately();
+            this.changeDescriptionDebouncer.cancelDebounceAndExecuteImmediately();
             await addProductToCart({ products });
             this.removeItem(id);
         } catch {
