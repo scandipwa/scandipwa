@@ -101,6 +101,9 @@ export class MyAccountDispatcher {
         dispatch(updateCustomerSignInStatus(false));
         dispatch(updateCustomerDetails({}));
 
+        const mutation = MyAccountQuery.getRevokeAccountToken();
+        fetchMutation(mutation);
+
         // After logout cart, wishlist and compared product list is always empty.
         // There is no need to fetch it from the backend.
         CartDispatcher.then(
