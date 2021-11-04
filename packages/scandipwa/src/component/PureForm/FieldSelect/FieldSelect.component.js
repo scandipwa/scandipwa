@@ -76,8 +76,7 @@ export class FieldSelect extends PureComponent {
               { ...attr }
               // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
               { ...events }
-              // eslint-disable-next-line react/jsx-no-bind
-              onChange={ (elem) => handleSelectListOptionClick(elem) }
+              onChange={ handleSelectListOptionClick }
             >
                 { options.map(this.renderNativeOption) }
             </select>
