@@ -14,11 +14,11 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
-import { UPDATE_WISHLIST_FREQUENCY } from 'Component/WishlistItem/WishlistItem.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
+import { pauseUntil } from 'Util/Promise';
 import { getErrorMessage } from 'Util/Request';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
@@ -118,20 +118,33 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         this.setState({ isQtyUpdateInProgress: status });
     }
 
-    addAllToCart() {
+    getIsComplete() {
+        const { isQtyUpdateInProgress } = this.state;
+
+        return !isQtyUpdateInProgress;
+    }
+
+    async addAllToCart() {
         const { isQtyUpdateInProgress } = this.state;
 
         if (!isSignedIn()) {
-            Promise.reject();
+            await Promise.reject();
         }
 
         this.setState({ isLoading: true });
 
         if (isQtyUpdateInProgress) {
             // wait for qty update request to finish before moving all items to cart
-            setTimeout(() => this.addAllToCartAsync(), UPDATE_WISHLIST_FREQUENCY);
+            try {
+                await pauseUntil(this.getIsComplete.bind(this), __('Wishlist update failed'));
+            } catch (e) {
+                console.error(e);
+            } finally {
+                // we want to try to add to cart even if wishlist update failed
+                await this.addAllToCartAsync();
+            }
         } else {
-            this.addAllToCartAsync();
+            await this.addAllToCartAsync();
         }
     }
 

@@ -154,7 +154,8 @@ export class MyAccountMyWishlist extends PureComponent {
     renderClearWishlist() {
         const {
             removeAll,
-            isActionsDisabled
+            isActionsDisabled,
+            isLoading
         } = this.props;
 
         return (
@@ -163,7 +164,7 @@ export class MyAccountMyWishlist extends PureComponent {
               mods={ { isHollow: true, isWithoutBorder: true } }
               mix={ { block: 'MyAccountMyWishlist', elem: 'ClearWishlistButton' } }
               onClick={ removeAll }
-              disabled={ isActionsDisabled }
+              disabled={ isActionsDisabled || isLoading }
             >
                 { __('Clear All') }
             </button>
@@ -175,10 +176,11 @@ export class MyAccountMyWishlist extends PureComponent {
             addAllToCart,
             isActionsDisabled,
             isEditingActive,
-            isMobile
+            isMobile,
+            isLoading
         } = this.props;
 
-        const isDisabled = (isMobile && isEditingActive) || isActionsDisabled;
+        const isDisabled = (isMobile && isEditingActive) || isActionsDisabled || isLoading;
 
         return (
             <button
