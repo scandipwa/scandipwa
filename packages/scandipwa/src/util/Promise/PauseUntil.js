@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export const CHECK_INTERVAL = 500;
+export const CHECK_INTERVAL = 100;
 export const WAIT_TIMEOUT = 10000;
 
 /** @namespace Util/Promise/PauseUntil/pauseUntil */
