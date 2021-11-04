@@ -317,6 +317,10 @@
 
     &-RatingPlaceholder {
         height: 18px;
+
+        @include mobile {
+            height: auto;
+        }
     }
 
     &-Brand {
