@@ -322,7 +322,8 @@ export class ProductBundleOption extends PureComponent {
         return (
             <>
                 { baseLabel }
-                <strong>{ ` ${priceLabel}` }</strong>
+                <span>{ ' ' }</span>
+                <strong>{ priceLabel }</strong>
             </>
         );
     }
