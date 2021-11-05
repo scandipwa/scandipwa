@@ -89,6 +89,8 @@ export class MyAccountDispatcher {
             dispatch(showNotification('error', __('Your session is over, you are logged out!')));
             this.handleForceRedirectToLoginPage();
         } else {
+            const mutation = MyAccountQuery.getRevokeAccountToken();
+            fetchMutation(mutation);
             deleteAuthorizationToken();
             dispatch(showNotification('success', __('You are successfully logged out!')));
         }
@@ -100,9 +102,6 @@ export class MyAccountDispatcher {
 
         dispatch(updateCustomerSignInStatus(false));
         dispatch(updateCustomerDetails({}));
-
-        const mutation = MyAccountQuery.getRevokeAccountToken();
-        fetchMutation(mutation);
 
         // After logout cart, wishlist and compared product list is always empty.
         // There is no need to fetch it from the backend.
