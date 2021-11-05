@@ -40,19 +40,7 @@ export class Breadcrumb extends PureComponent {
             url = ''
         } = this.props;
 
-        const { pathname } = location;
-
         if (typeof url === 'string' || !url) {
-            if (pathname.includes('/search/')) {
-                return {
-                    pathname: pathname || '',
-                    search: pathname.split('/').pop(),
-                    state: {
-                        ...this.state
-                    }
-                };
-            }
-
             return {
                 pathname: url || '',
                 search: '',
