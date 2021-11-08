@@ -19,9 +19,9 @@ import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import StoreInPickUpComponent from 'Component/StoreInPickUp';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { Addresstype } from 'Type/Account';
-import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
+import { Addresstype } from 'Type/Account.type';
+import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
 import { getAllCartItemsSku } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 

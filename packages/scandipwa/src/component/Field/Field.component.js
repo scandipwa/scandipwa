@@ -16,8 +16,13 @@ import { PureComponent } from 'react';
 import FieldFile from 'Component/FieldFile';
 import { FieldNumberContainer } from 'Component/FieldNumber/FieldNumber.container';
 import FieldSelectContainer from 'Component/FieldSelect/FieldSelect.container';
-import { MixType } from 'Type/Common';
-import { EventsType, OptionType } from 'Type/Field';
+import { MixType } from 'Type/Common.type';
+import {
+    EventsType,
+    FieldAttrType,
+    LabelType,
+    OptionType
+} from 'Type/Field.type';
 
 import { FIELD_TYPE } from './Field.config';
 
@@ -32,7 +37,7 @@ export class Field extends PureComponent {
     static propTypes = {
         // Field attributes
         type: PropTypes.oneOf(Object.values(FIELD_TYPE)).isRequired,
-        attr: PropTypes.object.isRequired,
+        attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         setRef: PropTypes.func.isRequired,
@@ -41,13 +46,27 @@ export class Field extends PureComponent {
 
         // Validation
         showErrorAsLabel: PropTypes.bool.isRequired,
-        validationResponse: PropTypes.oneOfType([
-            PropTypes.shape({ errorMessages: PropTypes.string }),
-            PropTypes.bool
-        ]),
+        validationResponse: (props, propName, componentName) => {
+            const propValue = props[propName];
+
+            if (propValue === null) {
+                return;
+            }
+
+            if (typeof propValue === 'boolean') {
+                return;
+            }
+
+            if (typeof propValue === 'object' && !Object.keys(propValue).includes('errorMessages')) {
+                throw new Error(
+                    // eslint-disable-next-line max-len
+                    `${componentName} only accepts null, bool or object of "errorMessages" as "validationResponse", received "${JSON.stringify(propValue)}"`
+                );
+            }
+        },
 
         // Labels
-        label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+        label: LabelType.isRequired,
         subLabel: PropTypes.string.isRequired,
         addRequiredTag: PropTypes.bool.isRequired
     };
@@ -207,14 +226,15 @@ export class Field extends PureComponent {
 
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under field
-    renderErrorMessage = (message) => (
-        <div block="Field" elem="ErrorMessage">{ message }</div>
+    renderErrorMessage = (message, key) => (
+        <div block="Field" elem="ErrorMessage" key={ key }>{ message }</div>
     );
 
     renderErrorMessages() {
         const {
             showErrorAsLabel,
-            validationResponse
+            validationResponse,
+            attr: { name }
         } = this.props;
 
         if (!showErrorAsLabel || !validationResponse || validationResponse === true) {
@@ -229,7 +249,7 @@ export class Field extends PureComponent {
 
         return (
             <div block="Field" elem="ErrorMessages">
-                { errorMessages.map(this.renderErrorMessage) }
+                { errorMessages.map((message, index) => this.renderErrorMessage(message, name + index)) }
             </div>
         );
     }

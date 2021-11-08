@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import ExpandableContent from 'Component/ExpandableContent';
 import MyAccountTabListItem from 'Component/MyAccountTabListItem';
-import { ActiveTabType, TabMapType } from 'Type/Account';
+import { ActiveTabType, TabMapType } from 'Type/Account.type';
 import { isSignedIn } from 'Util/Auth';
 
 import './MyAccountTabList.style';

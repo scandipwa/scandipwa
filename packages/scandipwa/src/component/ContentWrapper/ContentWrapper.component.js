@@ -12,7 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType, MixType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common.type';
+import { LabelType } from 'Type/Field.type';
 
 import './ContentWrapper.style';
 
@@ -29,7 +30,7 @@ export class ContentWrapper extends PureComponent {
             block: PropTypes.string,
             elem: PropTypes.string
         }),
-        label: PropTypes.string.isRequired,
+        label: LabelType.isRequired,
         isNotSection: PropTypes.bool
     };
 

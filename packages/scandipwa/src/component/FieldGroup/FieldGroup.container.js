@@ -14,8 +14,8 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import FIELD_TYPE from 'Component/Field/Field.config';
-import { ChildrenType } from 'Type/Common';
-import { EventsType, ValidationRuleType } from 'Type/Field';
+import { ChildrenType, ModsType } from 'Type/Common.type';
+import { EventsType, FieldAttrType, ValidationRuleType } from 'Type/Field.type';
 import getFieldsData from 'Util/Form/Extract';
 import { validateGroup } from 'Util/Validator';
 
@@ -29,19 +29,19 @@ export class FieldGroupContainer extends PureComponent {
     static propTypes = {
         // Group attributes
         children: ChildrenType,
-        attr: PropTypes.object,
+        attr: FieldAttrType,
         events: EventsType,
 
         // Validation
         validationRule: ValidationRuleType,
-        validateOn: PropTypes.array,
+        validateOn: PropTypes.arrayOf(PropTypes.string),
         showErrorAsLabel: PropTypes.bool,
 
         // Labels
         label: PropTypes.string,
         subLabel: PropTypes.string,
 
-        mods: PropTypes.object
+        mods: ModsType
     };
 
     static defaultProps = {

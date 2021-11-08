@@ -30,7 +30,9 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import { MagentoProductType, PriceType, ProductType } from 'Type/ProductList';
+import { RefType } from 'Type/Common.type';
+import { PriceType } from 'Type/Price.type';
+import { MagentoProductType, ProductType } from 'Type/ProductList.type';
 import { filterConfigurableOptions } from 'Util/Product';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
@@ -47,7 +49,7 @@ export class Product extends PureComponent {
         inStock: PropTypes.bool.isRequired,
         magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
 
-        quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.object]).isRequired,
+        quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.objectOf(PropTypes.number)]).isRequired,
         maxQuantity: PropTypes.number.isRequired,
         minQuantity: PropTypes.number.isRequired,
         setQuantity: PropTypes.func.isRequired,
@@ -61,7 +63,7 @@ export class Product extends PureComponent {
         setActiveProduct: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
 
-        configFormRef: PropTypes.object
+        configFormRef: RefType
     };
 
     static defaultProps = {

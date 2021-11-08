@@ -17,7 +17,7 @@ import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import ReviewStar from 'Component/ReviewStar';
-import { RatingItemsType } from 'Type/Rating';
+import { RatingItemsType } from 'Type/Rating.type';
 
 import './ProductReviewForm.style';
 

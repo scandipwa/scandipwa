@@ -14,8 +14,9 @@ import { PureComponent } from 'react';
 
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { MixType } from 'Type/Common';
-import { PriceConfiguration } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { OriginalPriceType, ProductPriceType } from 'Type/Price.type';
+import { PriceConfiguration } from 'Type/ProductList.type';
 
 import './ProductPrice.style';
 
@@ -26,9 +27,9 @@ import './ProductPrice.style';
  */
 export class ProductPrice extends PureComponent {
     static propTypes = {
-        price: PropTypes.object,
+        price: ProductPriceType,
         priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
-        originalPrice: PropTypes.object,
+        originalPrice: OriginalPriceType,
         tierPrice: PropTypes.string,
         configuration: PriceConfiguration,
         priceCurrency: PropTypes.string,
@@ -432,7 +433,7 @@ export class ProductPrice extends PureComponent {
         const { [priceType]: renderer } = this.pricePreviewRenderMap;
 
         return (
-            <p
+            <div
               block="ProductPrice"
               mods={ { hasDiscount: discountPercentage !== 0, isPreview } }
               mix={ mix }
@@ -441,7 +442,7 @@ export class ProductPrice extends PureComponent {
                 { isPreview && renderer && renderer() }
                 { (!isPreview || !renderer) && this.renderDefaultPrice() }
                 { priceType !== PRODUCT_TYPE.bundle && this.renderTierPrice() }
-            </p>
+            </div>
         );
     }
 }

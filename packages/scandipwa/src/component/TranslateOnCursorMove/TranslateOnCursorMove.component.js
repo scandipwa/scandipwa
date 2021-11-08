@@ -11,7 +11,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType } from 'Type/Common.type';
 import CSS from 'Util/CSS';
 
 import './TranslateOnCursorMove.style';

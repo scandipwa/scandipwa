@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 
 import FieldForm from 'Component/FieldForm';
-import { CustomerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import myAccountCustomerForm from './MyAccountCustomerForm.form';

@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
-import { SignInStateType } from 'Type/Account';
+import { SignInStateType } from 'Type/Account.type';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /** @namespace Component/MyAccountForgotPassword/Component */

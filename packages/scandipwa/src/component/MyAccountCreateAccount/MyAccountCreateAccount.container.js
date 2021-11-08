@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { SignInStateType } from 'Type/Account';
+import { SignInStateType } from 'Type/Account.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import MyAccountCreateAccount from './MyAccountCreateAccount.component';

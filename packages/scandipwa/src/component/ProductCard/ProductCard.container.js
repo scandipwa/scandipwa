@@ -21,9 +21,9 @@ import {
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { FilterType } from 'Type/Category';
-import { ChildrenType, MixType } from 'Type/Common';
-import { LayoutType } from 'Type/Layout';
+import { FilterType } from 'Type/Category.type';
+import { ChildrenType, MixType } from 'Type/Common.type';
+import { LayoutType } from 'Type/Layout.type';
 import history from 'Util/History';
 import { getSmallImage } from 'Util/Product/Extract';
 import { appendWithStoreCode, objectToUri } from 'Util/Url';

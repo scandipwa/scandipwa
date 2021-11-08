@@ -12,12 +12,14 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import './StoreItems.style';
+import { StoreItemType } from 'Type/Config.type';
 
-/** @namespace Component/StoreItems/Component */
-export class StoreItems extends PureComponent {
+import './StoreItem.style';
+
+/** @namespace Component/StoreItem/Component */
+export class StoreItem extends PureComponent {
     static propTypes = {
-        item: PropTypes.object.isRequired,
+        item: StoreItemType.isRequired,
         getStoreCode: PropTypes.func.isRequired
     };
 
@@ -29,7 +31,7 @@ export class StoreItems extends PureComponent {
 
         return (
             <button
-              block="StoreItems"
+              block="StoreItem"
               elem="Item"
               onClick={ getStoreCode }
             >
@@ -39,4 +41,4 @@ export class StoreItems extends PureComponent {
     }
 }
 
-export default StoreItems;
+export default StoreItem;

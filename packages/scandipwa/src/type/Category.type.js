@@ -11,6 +11,8 @@
 
 import PropTypes from 'prop-types';
 
+import { MetaTitleType } from 'Type/Common.type';
+
 export const BreadcrumbsType = PropTypes.arrayOf(
     PropTypes.shape({
         category_name: PropTypes.string,
@@ -25,7 +27,7 @@ export const CategoryFragment = {
     description: PropTypes.string,
     image: PropTypes.string,
     meta_description: PropTypes.string,
-    meta_title: PropTypes.string,
+    meta_title: MetaTitleType,
     name: PropTypes.string,
     product_count: PropTypes.number,
     url_key: PropTypes.string,
@@ -53,4 +55,11 @@ export const FilterInputType = PropTypes.shape({
         max: PropTypes.number
     }),
     condtions: PropTypes.string
+});
+
+export const SortFieldsType = PropTypes.shape({
+    options: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string
+    }))
 });

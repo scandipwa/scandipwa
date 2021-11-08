@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType, MixType, RefType } from 'Type/Common';
+import { ChildrenType, MixType, RefType } from 'Type/Common.type';
 
 import './Draggable.style';
 

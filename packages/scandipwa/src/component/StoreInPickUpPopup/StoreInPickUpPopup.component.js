@@ -17,8 +17,8 @@ import FIELD_TYPE from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
 import Popup from 'Component/Popup';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
-import { StoreType } from 'Type/Checkout';
-import { CountriesType } from 'Type/Config';
+import { StoreType } from 'Type/Checkout.type';
+import { CountriesType } from 'Type/Config.type';
 
 import { STORE_IN_PICK_UP_POPUP_ID } from './StoreInPickUpPopup.config';
 

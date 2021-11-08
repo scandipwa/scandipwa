@@ -14,7 +14,7 @@ import { Fragment, PureComponent } from 'react';
 
 import ExpandableContent from 'Component/ExpandableContent';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
-import { AttributeType } from 'Type/ProductList';
+import { AttributeType } from 'Type/ProductList.type';
 
 import './ProductAttributes.style';
 

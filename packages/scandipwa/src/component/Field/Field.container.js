@@ -13,12 +13,14 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { FIELD_TYPE } from 'Component/Field/Field.config';
-import { MixType } from 'Type/Common';
-import { EventsType, ValidationRuleType } from 'Type/Field';
+import { MixType } from 'Type/Common.type';
+import {
+    EventsType, FieldAttrType, FieldOptionsType, LabelType, ValidationRuleType
+} from 'Type/Field.type';
 import { validate } from 'Util/Validator';
 
 import Field from './Field.component';
+import { FIELD_TYPE } from './Field.config';
 
 /**
  * Field
@@ -29,19 +31,19 @@ export class FieldContainer extends PureComponent {
     static propTypes = {
         // Field attributes
         type: PropTypes.oneOf(Object.values(FIELD_TYPE)),
-        attr: PropTypes.object,
+        attr: FieldAttrType,
         events: EventsType,
         isDisabled: PropTypes.bool,
         mix: MixType,
-        options: PropTypes.array,
+        options: FieldOptionsType,
 
         // Validation
         validationRule: ValidationRuleType,
-        validateOn: PropTypes.array,
+        validateOn: PropTypes.arrayOf(PropTypes.string),
         showErrorAsLabel: PropTypes.bool,
 
         // Labels
-        label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+        label: LabelType,
         subLabel: PropTypes.string,
         addRequiredTag: PropTypes.bool
     };

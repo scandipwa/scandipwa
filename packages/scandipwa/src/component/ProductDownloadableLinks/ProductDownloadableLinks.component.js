@@ -17,6 +17,7 @@ import FieldContainer from 'Component/Field';
 import { FIELD_TYPE } from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import Link from 'Component/Link';
+import { DownloadableLinksType } from 'Type/Downloadable.type';
 import { formatPrice } from 'Util/Price';
 
 import './ProductDownloadableLinks.style';
@@ -26,7 +27,7 @@ export class ProductDownloadableLinks extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isRequired: PropTypes.bool.isRequired,
-        links: PropTypes.array,
+        links: DownloadableLinksType,
         title: PropTypes.string.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setRef: PropTypes.func.isRequired,

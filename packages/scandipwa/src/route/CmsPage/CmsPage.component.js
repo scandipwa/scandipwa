@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import NoMatch from 'Route/NoMatch';
-import { BlockListType } from 'Type/CMS';
+import { BlockListType } from 'Type/CMS.type';
 
 import './CmsPage.style';
 

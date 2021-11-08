@@ -16,7 +16,7 @@ import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
 
 import './CartCoupon.style';
 

@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import RecentlyViewedProductsDispatcher from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.dispatcher';
 import RecentlyViewedProductsReducer from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.reducer';
-import { ItemsType } from 'Type/ProductList';
+import { ItemsType } from 'Type/ProductList.type';
 import { withReducers } from 'Util/DynamicReducer';
 
 import RecentlyViewedWidget from './RecentlyViewedWidget.component';

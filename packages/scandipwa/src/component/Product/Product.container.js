@@ -16,8 +16,9 @@ import { connect } from 'react-redux';
 import { FIELD_TYPE } from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { DeviceType } from 'Type/Device';
-import { ProductType } from 'Type/ProductList';
+import { RefType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
+import { ProductType } from 'Type/ProductList.type';
 import fromCache from 'Util/Cache/Cache';
 import getFieldsData from 'Util/Form/Extract';
 import { ADD_TO_CART, getNewParameters, getVariantIndex } from 'Util/Product';
@@ -63,7 +64,7 @@ export class ProductContainer extends PureComponent {
         product: ProductType.isRequired,
         addProductToCart: PropTypes.func.isRequired,
         showError: PropTypes.func.isRequired,
-        configFormRef: PropTypes.object,
+        configFormRef: RefType,
 
         parameters: PropTypes.objectOf(PropTypes.string),
         cartId: PropTypes.string,
@@ -71,8 +72,11 @@ export class ProductContainer extends PureComponent {
         device: DeviceType,
         isWishlistEnabled: PropTypes.bool.isRequired,
 
-        defaultEnteredOptions: PropTypes.array,
-        defaultSelectedOptions: PropTypes.array
+        defaultEnteredOptions: PropTypes.arrayOf(PropTypes.shape({
+            uid: PropTypes.string,
+            value: PropTypes.string
+        })),
+        defaultSelectedOptions: PropTypes.arrayOf(PropTypes.string)
     };
 
     static defaultProps = {

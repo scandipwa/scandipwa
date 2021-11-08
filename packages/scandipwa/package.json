@@ -162,6 +162,7 @@
             "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "error",
             "import/no-extraneous-dependencies": "off",
             "@scandipwa/scandipwa-guidelines/file-structure": "error",
+            "@scandipwa/scandipwa-guidelines/forbid-prop-types-in-shape": "error",
             "@scandipwa/scandipwa-guidelines/only-one-class": "error",
             "@scandipwa/scandipwa-guidelines/derived-class-names": "off",
             "@scandipwa/scandipwa-guidelines/no-middleware": "error",
@@ -311,7 +312,10 @@
                 2,
                 {
                     "forbid": [
-                        "className"
+                        "className",
+                        "any",
+                        "object",
+                        "array"
                     ]
                 }
             ],

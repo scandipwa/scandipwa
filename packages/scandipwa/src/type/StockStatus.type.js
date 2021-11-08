@@ -9,4 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './CategoryPriceRange.container';
+import PropTypes from 'prop-types';
+
+import { STOCK_TYPE } from 'Component/Product/Stock.config';
+
+// eslint-disable-next-line import/prefer-default-export
+export const StockStatusType = PropTypes.oneOf(Object.values(STOCK_TYPE));

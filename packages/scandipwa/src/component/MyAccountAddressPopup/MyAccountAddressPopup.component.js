@@ -16,7 +16,7 @@ import Loader from 'Component/Loader';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import Popup from 'Component/Popup';
-import { Addresstype } from 'Type/Account';
+import { Addresstype } from 'Type/Account.type';
 
 import {
     ADD_ADDRESS, ADDRESS_POPUP_ID, DELETE_ADDRESS, EDIT_ADDRESS

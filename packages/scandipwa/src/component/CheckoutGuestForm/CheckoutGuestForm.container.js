@@ -112,7 +112,6 @@ export class CheckoutGuestFormContainer extends PureComponent {
 
         const { clearEmailStatus } = props;
         clearEmailStatus();
-        this.setSignInState('');
     }
 
     componentDidMount() {

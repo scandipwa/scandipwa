@@ -17,15 +17,15 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Form from 'Component/Form';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
-import { Addresstype } from 'Type/Account';
+import { Addresstype } from 'Type/Account.type';
 import {
     CheckoutStepType,
     PaymentMethodsType,
     ShippingMethodsType,
     StoreType
-} from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
-import { HistoryType } from 'Type/Router';
+} from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
+import { HistoryType } from 'Type/Router.type';
 import scrollToError from 'Util/Form/Form';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -84,7 +84,7 @@ export class Checkout extends PureComponent {
         paymentMethods: PaymentMethodsType.isRequired,
         saveAddressInformation: PropTypes.func.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool,
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
         shippingAddress: Addresstype.isRequired,
         billingAddress: Addresstype.isRequired,
@@ -116,7 +116,8 @@ export class Checkout extends PureComponent {
 
     static defaultProps = {
         paymentTotals: {},
-        selectedStoreAddress: {}
+        selectedStoreAddress: {},
+        isLoading: false
     };
 
     stepMap = {

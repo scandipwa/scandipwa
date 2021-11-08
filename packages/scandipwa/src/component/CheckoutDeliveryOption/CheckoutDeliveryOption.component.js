@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
-import { ShippingMethodType } from 'Type/Checkout';
+import { ShippingMethodType } from 'Type/Checkout.type';
 import { formatPrice } from 'Util/Price';
 
 import { DELIVERY_METHOD_UNAVAILABLE_MESSAGE } from './CheckoutDeliveryOption.config';
