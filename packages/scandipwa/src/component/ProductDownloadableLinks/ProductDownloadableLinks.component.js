@@ -53,7 +53,7 @@ export class ProductDownloadableLinks extends PureComponent {
         return (
             <span block="ProductDownloadableLink" elem="SampleTitle">
                 { title }
-                { `(+${ formatPrice(price) })` }
+                <strong>{ ` + ${ formatPrice(price) }` }</strong>
             </span>
         );
     }

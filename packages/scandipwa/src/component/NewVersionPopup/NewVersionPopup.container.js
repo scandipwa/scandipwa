@@ -58,6 +58,12 @@ export class NewVersionPopupContainer extends PureComponent {
             return;
         }
 
+        const { serviceWorker: { controller } = {} } = navigator;
+
+        if (!controller) {
+            return;
+        }
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.addEventListener('controllerchange', () => {
                 showPopup({

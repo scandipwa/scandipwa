@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "5.0.7",
+    "version": "5.1.1",
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
@@ -74,10 +74,10 @@
             "scandipwa/persisted-query": "3.0.2",
             "scandipwa/slider-graphql": "2.1.0",
             "scandipwa/cms-graphql": "1.4.4",
-            "scandipwa/catalog-graphql": "3.2.8",
+            "scandipwa/catalog-graphql": "3.2.9",
             "scandipwa/route717": "2.0.1",
             "scandipwa/performance": "1.5.2",
-            "scandipwa/customer-graph-ql": "3.1.6",
+            "scandipwa/customer-graph-ql": "3.1.8",
             "scandipwa/quote-graphql": "2.19.20",
             "scandipwa/wishlist-graphql": "2.0.15",
             "scandipwa/urlrewrite-graphql": "1.3.7",

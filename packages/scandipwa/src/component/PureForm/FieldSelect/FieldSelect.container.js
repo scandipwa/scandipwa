@@ -96,13 +96,15 @@ export class FieldSelectContainer extends PureComponent {
         ];
     }
 
-    handleSelectListOptionClick({ value }) {
+    handleSelectListOptionClick(option) {
         const { events: { onChange } = {} } = this.props;
+        const { value, target: { value: targetValue } = {} } = option;
 
-        this.fieldRef.value = value;
+        const fieldValue = !value ? targetValue : option.value;
+        this.fieldRef.value = fieldValue;
 
         if (onChange) {
-            onChange(value);
+            onChange(fieldValue);
         }
     }
 
