@@ -20,8 +20,7 @@ import FieldSelect from './FieldSelect.component';
 /**
  * Field Select
  * @class FieldSelectContainer
- * @namespace Component/PureForm/FieldSelect/Container
- */
+ * @namespace Component/FieldSelect/Container */
 export class FieldSelectContainer extends PureComponent {
     static propTypes = {
         // Field attributes
