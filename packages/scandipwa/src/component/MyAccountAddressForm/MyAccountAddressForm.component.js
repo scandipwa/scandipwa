@@ -12,8 +12,8 @@
 
 import PropTypes from 'prop-types';
 
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import FieldForm from 'Component/PureForm/FieldForm';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldForm from 'Component/FieldForm';
 import { Addresstype } from 'Type/Account.type';
 import { CountriesType } from 'Type/Config.type';
 import {

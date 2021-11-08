@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,291 +11,129 @@
  */
 
 import PropTypes from 'prop-types';
-import {
-    Children,
-    cloneElement,
-    createRef,
-    PureComponent
-} from 'react';
+import { PureComponent } from 'react';
 
-import { FieldContainer } from 'Component/Field/Field.container';
 import { ChildrenType, MixType } from 'Type/Common.type';
-import FormPortalCollector from 'Util/FormPortalCollector';
+import { EventsType, FieldAttrType } from 'Type/Field.type';
 
-import validationConfig from './Form.config';
-
-/** @namespace Component/Form/Component */
+/**
+ * Form
+ * @class Form
+ * @namespace Component/Form/Component */
 export class Form extends PureComponent {
     static propTypes = {
-        onSubmitSuccess: PropTypes.func,
-        onSubmitError: PropTypes.func,
-        onSubmit: PropTypes.func,
+        // Group attributes
         children: ChildrenType.isRequired,
-        id: PropTypes.string,
-        mix: MixType
+        attr: FieldAttrType.isRequired,
+        events: EventsType.isRequired,
+        setRef: PropTypes.func.isRequired,
+
+        // Validation
+        showErrorAsLabel: PropTypes.bool.isRequired,
+        validationResponse: PropTypes.oneOfType([
+            PropTypes.shape({ errorMessages: PropTypes.string }),
+            PropTypes.bool
+        ]),
+
+        // Labels
+        label: PropTypes.string.isRequired,
+        subLabel: PropTypes.string.isRequired,
+
+        mix: MixType.isRequired
     };
 
     static defaultProps = {
-        onSubmitSuccess: () => {},
-        onSubmitError: () => {},
-        onSubmit: () => {},
-        mix: {},
-        id: ''
+        validationResponse: null
     };
 
-    static updateChildrenRefs(props, state = {}) {
-        const { children: propsChildren } = props;
-        const { refMap: refMapState = {} } = state;
+    //#region LABEL/TEXT RENDER
+    // Renders validation error messages under form
+    renderErrorMessage = (message) => (
+        <div block="Field" elem="ErrorMessage">{ message }</div>
+    );
 
-        const refMap = {};
-
-        const children = Form.cloneChildren(
-            propsChildren,
-            (child) => {
-                const { props: { name } } = child;
-                const { message } = Object.keys(refMapState).length
-                    ? Form.validateField(child, refMapState)
-                    : {};
-
-                refMap[name] = createRef();
-
-                const childProps = {
-                    formRef: refMap[name],
-                    formRefMap: refMap
-                };
-
-                if (message) {
-                    childProps.message = message;
-                }
-
-                return cloneElement(child, childProps);
-            }
-        );
-
-        return { children, refMap };
-    }
-
-    static cloneChildren(originChildren, fieldCallback) {
-        const executeClone = (originChildren) => Children.map(originChildren, (child) => {
-            if (child && typeof child === 'object' && child.type && child.props) {
-                const { type: { name }, props, props: { children } } = child;
-
-                if (name === FieldContainer.prototype.constructor.name) {
-                    return fieldCallback(child);
-                }
-
-                if (typeof children === 'object') {
-                    return cloneElement(child, {
-                        ...props,
-                        children: executeClone(children)
-                    });
-                }
-
-                return child;
-            }
-
-            return child;
-        });
-
-        return executeClone(originChildren);
-    }
-
-    static cloneAndValidateChildren(propsChildren, refMap) {
-        const invalidFields = [];
-        const children = Form.cloneChildren(
-            propsChildren,
-            (child) => {
-                const { props: { id, name } } = child;
-                const { message } = Form.validateField(child, refMap);
-
-                if (message) {
-                    invalidFields.push(id);
-
-                    return cloneElement(child, {
-                        message,
-                        formRef: refMap[name]
-                    });
-                }
-
-                return cloneElement(child, {
-                    formRef: refMap[name]
-                });
-            }
-        );
-
-        return { children, fieldsAreValid: !invalidFields.length, invalidFields };
-    }
-
-    static validateField(field, refMap) {
-        const { validation, id, name } = field.props;
-
-        if (validation && id && refMap[name] && refMap[name].current) {
-            const { current: inputNode } = refMap[name];
-
-            const rule = validation.find((rule) => {
-                if (!validationConfig[rule]) {
-                    return false;
-                }
-                const validationRules = validationConfig[rule];
-                const isValid = validationRules.validate(inputNode, refMap);
-
-                return !isValid;
-            });
-
-            if (rule) {
-                return validationConfig[rule];
-            }
-        }
-
-        return {};
-    }
-
-    __construct(props) {
-        super.__construct(props);
-
-        if (!window.formPortalCollector) {
-            window.formPortalCollector = new FormPortalCollector();
-        }
-
-        this.state = {
-            ...Form.updateChildrenRefs(props),
-            fieldsAreValid: true
-        };
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        const { refMap } = state;
-        const { children } = props;
-
-        return {
-            ...Form.cloneAndValidateChildren(children, refMap),
-            ...Form.updateChildrenRefs(props, state)
-        };
-    }
-
-    handleFormSubmit = async (e) => {
+    renderErrorMessages() {
         const {
-            onSubmitSuccess,
-            onSubmitError,
-            onSubmit,
-            id
+            showErrorAsLabel,
+            validationResponse
         } = this.props;
 
-        e.preventDefault();
-        onSubmit();
-
-        const portalData = id ? await window.formPortalCollector.collect(id) : [];
-
-        const {
-            invalidFields,
-            inputValues
-        } = portalData.reduce((acc, portalData) => {
-            const {
-                invalidFields = [],
-                inputValues = {}
-            } = portalData;
-
-            const {
-                invalidFields: initialInvalidFields,
-                inputValues: initialInputValues
-            } = acc;
-
-            return ({
-                invalidFields: [...initialInvalidFields, ...invalidFields],
-                inputValues: { ...initialInputValues, ...inputValues }
-            });
-        }, this.collectFieldsInformation());
-
-        const asyncData = Promise.all(portalData.reduce((acc, { asyncData }) => {
-            if (!asyncData) {
-                return acc;
-            }
-
-            return [...acc, asyncData];
-        }, []));
-
-        asyncData.then(
-            /** @namespace Component/Form/Component/Form/asyncData/then */
-            (asyncDataList) => {
-                if (!invalidFields.length) {
-                    onSubmitSuccess(inputValues, asyncDataList);
-
-                    return;
-                }
-
-                onSubmitError(inputValues, invalidFields);
-            },
-            /** @namespace Component/Form/Component/Form/asyncData/then/onSubmitError/catch */
-            (e) => onSubmitError(inputValues, invalidFields, e)
-        );
-    };
-
-    collectFieldsInformation = () => {
-        const { refMap } = this.state;
-        const { children: propsChildren } = this.props;
-
-        const {
-            children,
-            fieldsAreValid,
-            invalidFields
-        } = Form.cloneAndValidateChildren(propsChildren, refMap);
-
-        this.setState({ children, fieldsAreValid });
-
-        const inputValues = Object.values(refMap).reduce((inputValues, input) => {
-            const { current } = input;
-
-            if (current && current.id && current.value) {
-                const { name, value, checked } = current;
-
-                if (current.dataset.skipValue === 'true') {
-                    return inputValues;
-                }
-
-                if (current.type === 'checkbox') {
-                    const boolValue = checked;
-
-                    return { ...inputValues, [name]: boolValue };
-                }
-
-                return { ...inputValues, [name]: value };
-            }
-
-            return inputValues;
-        }, {});
-
-        if (invalidFields.length) {
-            const { current } = refMap[invalidFields[0]];
-
-            current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            });
+        if (!showErrorAsLabel || !validationResponse || validationResponse === true) {
+            return null;
         }
 
-        return {
-            inputValues,
-            invalidFields
-        };
-    };
+        const { errorMessages } = validationResponse;
 
-    render() {
-        const { mix, id } = this.props;
-        const { children, fieldsAreValid } = this.state;
+        if (!errorMessages) {
+            return null;
+        }
 
         return (
-            <form
-              block="Form"
-              mix={ mix }
-              mods={ { isInvalid: !fieldsAreValid } }
-              ref={ (ref) => {
-                  this.form = ref;
-              } }
-              id={ id }
-              onSubmit={ this.handleFormSubmit }
-            >
-                { children }
-            </form>
+            <div block="Form" elem="ErrorMessages">
+                { errorMessages.map(this.renderErrorMessage) }
+            </div>
+        );
+    }
+
+    // Renders group label above form
+    renderLabel() {
+        const { label } = this.props;
+
+        if (!label) {
+            return null;
+        }
+
+        return (
+            { label }
+        );
+    }
+
+    // Renders group label under form
+    renderSubLabel() {
+        const { subLabel } = this.props;
+
+        if (!subLabel) {
+            return null;
+        }
+
+        return (
+            { subLabel }
+        );
+    }
+    //#endregion
+
+    render() {
+        const {
+            validationResponse,
+            children,
+            setRef,
+            attr,
+            events,
+            mix
+        } = this.props;
+
+        return (
+            <>
+                { this.renderLabel() }
+                <form
+                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+                  { ...attr }
+                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+                  { ...events }
+                  ref={ (elem) => setRef(elem) }
+                  block="Form"
+                  mix={ mix }
+                  mods={ {
+                      isValid: validationResponse === true,
+                      hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
+                  } }
+                  noValidate
+                >
+                    { children }
+                </form>
+                { this.renderErrorMessages() }
+                { this.renderSubLabel() }
+            </>
         );
     }
 }

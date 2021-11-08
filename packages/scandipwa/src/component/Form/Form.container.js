@@ -13,25 +13,27 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { ChildrenType, ModsType } from 'Type/Common.type';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import { ChildrenType, MixType } from 'Type/Common.type';
 import { EventsType, FieldAttrType, ValidationRuleType } from 'Type/Field.type';
 import getFieldsData from 'Util/Form/Extract';
 import { validateGroup } from 'Util/Validator';
 
-import FieldGroup from './FieldGroup.component';
+import Form from './Form.component';
 
 /**
- * Field Group
- * @class FieldGroupContainer
- * @namespace Component/PureForm/FieldGroup/Container
- */
-export class FieldGroupContainer extends PureComponent {
+ * Form
+ * @class FormContainer
+ * @namespace Component/Form/Container */
+export class FormContainer extends PureComponent {
     static propTypes = {
-        // Group attributes
+        // Form attributes
         children: ChildrenType,
         attr: FieldAttrType,
         events: EventsType,
+        onSubmit: PropTypes.func,
+        onError: PropTypes.func,
+        returnAsObject: PropTypes.bool,
 
         // Validation
         validationRule: ValidationRuleType,
@@ -42,7 +44,7 @@ export class FieldGroupContainer extends PureComponent {
         label: PropTypes.string,
         subLabel: PropTypes.string,
 
-        mods: ModsType
+        mix: MixType
     };
 
     static defaultProps = {
@@ -53,8 +55,11 @@ export class FieldGroupContainer extends PureComponent {
         showErrorAsLabel: true,
         label: '',
         subLabel: '',
+        onSubmit: null,
+        onError: null,
         children: [],
-        mods: {}
+        returnAsObject: false,
+        mix: {}
     };
 
     state = {
@@ -62,37 +67,51 @@ export class FieldGroupContainer extends PureComponent {
     };
 
     containerFunctions = {
-        validate: this.validate.bind(this)
+        validate: this.validate.bind(this),
+        setRef: this.setRef.bind(this),
+        onSubmit: this.onSubmit.bind(this)
     };
 
-    groupRef = createRef();
+    formRef = createRef();
 
     //#region VALIDATION
     // Removes event listener for validation from field
     componentWillUnmount() {
         const { validationRule } = this.props;
 
-        if (this.groupRef && validationRule && Object.keys(validationRule).length > 0) {
-            this.groupRef.removeEventListener('validate', this.validate.bind(this));
+        if (this.formRef) {
+            this.formRef.removeEventListener('reset', this.resetField.bind(this));
+
+            if (validationRule && Object.keys(validationRule).length > 0) {
+                this.formRef.removeEventListener('validate', this.validate.bind(this));
+            }
         }
     }
 
     // Adds validation event listener to field
     setRef(elem) {
-        if (elem && this.groupRef !== elem) {
-            this.groupRef = elem;
-            const { validationRule } = this.props;
+        const { validationRule } = this.props;
 
-            if (!validationRule || Object.keys(validationRule).length === 0) {
-                return;
+        if (elem && this.formRef !== elem) {
+            this.formRef = elem;
+
+            elem.addEventListener('reset', this.resetField.bind(this));
+
+            if (validationRule && Object.keys(validationRule).length > 0) {
+                elem.addEventListener('validate', this.validate.bind(this));
             }
-            elem.addEventListener('validate', this.validate.bind(this));
         }
+    }
+
+    resetField() {
+        const fields = this.formRef.querySelectorAll('input, textarea, select');
+        const event = new CustomEvent('resetField');
+        fields.forEach((field) => field.dispatchEvent(event));
     }
 
     validate(data) {
         const { validationRule } = this.props;
-        const output = validateGroup(this.groupRef, validationRule);
+        const output = validateGroup(this.formRef, validationRule);
 
         // If validation is called from different object you can pass object
         // to store validation error values
@@ -117,16 +136,45 @@ export class FieldGroupContainer extends PureComponent {
     }
 
     surroundEvent(hook, ...args) {
-        const { attr } = this.props;
+        const { attr, returnAsObject } = this.props;
         const fields = getFieldsData(
-            this.groupRef,
+            this.formRef,
             false,
-            [FIELD_TYPE.number, FIELD_TYPE.button]
+            [FIELD_TYPE.number, FIELD_TYPE.button],
+            returnAsObject
         );
 
-        hook(...[...args, { ...attr, formRef: this.groupRef, fields }]);
+        hook(...[...args, { ...attr, formRef: this.formRef, fields }]);
     }
     //#endregion
+
+    async onSubmit(e) {
+        e.preventDefault();
+
+        const {
+            onSubmit,
+            onError,
+            returnAsObject = false,
+            validationRule
+        } = this.props;
+
+        const fields = getFieldsData(
+            this.formRef, false, [FIELD_TYPE.number, FIELD_TYPE.button], returnAsObject
+        );
+        const isValid = validateGroup(this.formRef, validationRule);
+
+        if (isValid !== true) {
+            if (typeof onError === 'function') {
+                onError(this.formRef, fields, isValid);
+            }
+
+            return;
+        }
+
+        if (typeof onSubmit === 'function') {
+            onSubmit(this.formRef, fields);
+        }
+    }
 
     containerProps() {
         const {
@@ -137,18 +185,18 @@ export class FieldGroupContainer extends PureComponent {
             showErrorAsLabel,
             label,
             subLabel,
-            mods
+            mix
         } = this.props;
-        const { validate } = this.containerFunctions;
+        const { validate, onSubmit } = this.containerFunctions;
         const { validationResponse } = this.state;
 
-        // Surrounds events with validation
-        const newEvents = {};
+        const newEvents = { };
         Object.keys(events).forEach((eventName) => {
             const { [eventName]: event } = events;
             newEvents[eventName] = this.surroundEvent.bind(this, event);
         });
 
+        // Surrounds events with validation
         validateOn.forEach((eventName) => {
             const { [eventName]: baseEvent } = events;
             newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
@@ -161,19 +209,22 @@ export class FieldGroupContainer extends PureComponent {
             showErrorAsLabel,
             label,
             subLabel,
-            mods,
-            events: newEvents,
-            setRef: this.setRef.bind(this)
+            mix,
+            events: {
+                ...newEvents,
+                onSubmit
+            }
         };
     }
 
     render() {
         return (
-            <FieldGroup
+            <Form
               { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }
 }
 
-export default FieldGroupContainer;
+export default FormContainer;

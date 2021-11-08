@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { SortDirectionType } from 'Type/Direction.type';
 

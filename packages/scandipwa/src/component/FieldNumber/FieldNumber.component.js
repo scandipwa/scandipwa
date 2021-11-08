@@ -13,16 +13,15 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import AddIcon from 'Component/AddIcon';
+import { FIELD_TYPE } from 'Component/Field/Field.config';
 import MinusIcon from 'Component/MinusIcon';
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { EventsType, FieldAttrType } from 'Type/Field.type';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
 /**
  * Field Number
  * @class FieldNumber
- * @namespace Component/PureForm/FieldNumber/Component
- */
+ * @namespace Component/FieldNumber/Component */
 export class FieldNumber extends PureComponent {
     static propTypes = {
         attr: FieldAttrType.isRequired,

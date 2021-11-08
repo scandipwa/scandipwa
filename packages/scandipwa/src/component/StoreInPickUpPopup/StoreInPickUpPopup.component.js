@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
 import Popup from 'Component/Popup';
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
 import { StoreType } from 'Type/Checkout.type';
 import { CountriesType } from 'Type/Config.type';

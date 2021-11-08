@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionsToSelectTransform } from 'Util/Product/Transform';
 

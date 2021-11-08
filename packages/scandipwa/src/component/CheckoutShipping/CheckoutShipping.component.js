@@ -14,9 +14,9 @@ import { PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
+import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
-import Form from 'Component/PureForm/Form';
 import StoreInPickUpComponent from 'Component/StoreInPickUp';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { Addresstype } from 'Type/Account.type';

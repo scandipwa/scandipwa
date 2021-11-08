@@ -13,21 +13,25 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import FieldFile from 'Component/PureForm/FieldFile';
-import { FieldNumberContainer } from 'Component/PureForm/FieldNumber/FieldNumber.container';
-import FieldSelectContainer from 'Component/PureForm/FieldSelect/FieldSelect.container';
+import FieldFile from 'Component/FieldFile';
+import { FieldNumberContainer } from 'Component/FieldNumber/FieldNumber.container';
+import FieldSelectContainer from 'Component/FieldSelect/FieldSelect.container';
 import { MixType } from 'Type/Common.type';
 import {
-    EventsType, FieldAttrType, LabelType, OptionType
+    EventsType,
+    FieldAttrType,
+    LabelType,
+    OptionType
 } from 'Type/Field.type';
+
+import { FIELD_TYPE } from './Field.config';
 
 import './Field.style';
 
 /**
  * Field
  * @class Field
- * @namespace Component/PureForm/Field/Component
+ * @namespace Component/Field/Component
  */
 export class Field extends PureComponent {
     static propTypes = {

@@ -14,6 +14,8 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
+import FieldContainer from 'Component/Field';
+import { FIELD_TYPE } from 'Component/Field/Field.config';
 import GroupedProductList from 'Component/GroupedProductList';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductBundleOptions from 'Component/ProductBundleOptions';
@@ -26,8 +28,6 @@ import ProductDownloadableSamples from 'Component/ProductDownloadableSamples/Pro
 import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
-import FieldContainer from 'Component/PureForm/Field';
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { RefType } from 'Type/Common.type';

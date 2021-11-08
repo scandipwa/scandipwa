@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/PureForm/Field';
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import FieldGroup from 'Component/PureForm/FieldGroup';
+import Field from 'Component/Field';
+import { FIELD_TYPE } from 'Component/Field/Field.config';
+import FieldGroup from 'Component/FieldGroup';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 

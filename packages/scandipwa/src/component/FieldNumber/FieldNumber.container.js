@@ -20,8 +20,7 @@ import FieldNumber from './FieldNumber.component';
 /**
  * Field Number
  * @class FieldNumberContainer
- * @namespace Component/PureForm/FieldNumber/Container
- */
+ * @namespace Component/FieldNumber/Container */
 export class FieldNumberContainer extends PureComponent {
     static propTypes = {
         // Field attributes

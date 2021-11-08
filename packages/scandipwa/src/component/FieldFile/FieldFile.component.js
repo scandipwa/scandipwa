@@ -12,16 +12,15 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { FIELD_TYPE } from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import UploadIcon from 'Component/UploadIcon';
 import { EventsType, FieldAttrType } from 'Type/Field.type';
 
 /**
  * Field File
  * @class FieldFile
- * @namespace Component/PureForm/FieldFile/Component
- */
+ * @namespace Component/FieldFile/Component */
 export class FieldFile extends PureComponent {
     static propTypes = {
         attr: FieldAttrType.isRequired,

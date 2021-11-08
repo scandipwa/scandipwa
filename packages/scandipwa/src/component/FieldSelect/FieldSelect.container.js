@@ -12,16 +12,19 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { KEY_CODE } from 'Component/PureForm/Field/Keyboard.config';
-import { EventsType, FieldAttrType, FieldOptionsType } from 'Type/Field.type';
+import { KEY_CODE } from 'Component/Field/Keyboard.config';
+import {
+    EventsType,
+    FieldAttrType,
+    FieldOptionsType
+} from 'Type/Field.type';
 
 import FieldSelect from './FieldSelect.component';
 
 /**
  * Field Select
  * @class FieldSelectContainer
- * @namespace Component/PureForm/FieldSelect/Container
- */
+ * @namespace Component/FieldSelect/Container */
 export class FieldSelectContainer extends PureComponent {
     static propTypes = {
         // Field attributes
