@@ -63,7 +63,7 @@ export class FieldSelect extends PureComponent {
 
     renderNativeSelect() {
         const {
-            setRef, attr, events, isDisabled, options
+            setRef, attr, events, isDisabled, options, handleSelectListOptionClick
         } = this.props;
 
         return (
@@ -76,6 +76,7 @@ export class FieldSelect extends PureComponent {
               { ...attr }
               // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
               { ...events }
+              onChange={ handleSelectListOptionClick }
             >
                 { options.map(this.renderNativeOption) }
             </select>

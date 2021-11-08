@@ -169,13 +169,20 @@ export const parseResponse = (promise) => new Promise((resolve, reject) => {
             /** @namespace Util/Request/parseResponse/Promise/promise/then/json/then/resolve */
             (res) => resolve(checkForErrors(res)),
             /** @namespace Util/Request/parseResponse/Promise/promise/then/json/then/catch */
-            () => handleConnectionError('Can not transform JSON!') && reject()
+            () => {
+                handleConnectionError('Can not transform JSON!');
+                return reject();
+            }
         ),
         /** @namespace Util/Request/parseResponse/Promise/promise/then/catch */
-        (err) => handleConnectionError('Can not establish connection!') && reject(err)
+        (err) => {
+            handleConnectionError('Can not establish connection!');
+            return reject(err);
+        }
     );
 });
 
+export const HTTP_503_SERVICE_UNAVAILABLE = 503;
 export const HTTP_410_GONE = 410;
 export const HTTP_201_CREATED = 201;
 
@@ -191,7 +198,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
 
-    return parseResponse(new Promise((resolve) => {
+    return parseResponse(new Promise((resolve, reject) => {
         getFetch(uri, name).then(
             /** @namespace Util/Request/executeGet/parseResponse/getFetch/then */
             (res) => {
@@ -207,6 +214,8 @@ export const executeGet = (queryObject, name, cacheTTL) => {
                             }
                         }
                     );
+                } else if (res.status === HTTP_503_SERVICE_UNAVAILABLE) {
+                    reject(res);
                 } else {
                     resolve(res);
                 }
