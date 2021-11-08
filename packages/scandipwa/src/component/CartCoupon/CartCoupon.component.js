@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import Form from 'Component/Form';
 import Loader from 'Component/Loader';
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import Form from 'Component/PureForm/Form';
 import { MixType } from 'Type/Common';
 
 import './CartCoupon.style';

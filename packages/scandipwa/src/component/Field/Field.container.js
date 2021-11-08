@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
+import { FIELD_TYPE } from 'Component/Field/Field.config';
 import { MixType } from 'Type/Common';
 import { EventsType, ValidationRuleType } from 'Type/Field';
 import { validate } from 'Util/Validator';
@@ -23,7 +23,7 @@ import Field from './Field.component';
 /**
  * Field
  * @class FieldContainer
- * @namespace Component/PureForm/Field/Container
+ * @namespace Component/Field/Container
  */
 export class FieldContainer extends PureComponent {
     static propTypes = {

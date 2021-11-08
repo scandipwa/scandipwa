@@ -13,10 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ExpandableContent from 'Component/ExpandableContent';
+import FieldContainer from 'Component/Field';
+import { FIELD_TYPE } from 'Component/Field/Field.config';
+import FieldGroup from 'Component/FieldGroup';
 import Link from 'Component/Link';
-import FieldContainer from 'Component/PureForm/Field';
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import FieldGroup from 'Component/PureForm/FieldGroup';
 import { formatPrice } from 'Util/Price';
 
 import './ProductDownloadableLinks.style';

@@ -15,11 +15,11 @@ import { PureComponent } from 'react';
 
 import CloseIcon from 'Component/CloseIcon';
 import EditIcon from 'Component/EditIcon';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import { ProductType } from 'Type/ProductList';
 
 import './WishlistItem.style';

@@ -15,8 +15,8 @@ import { PureComponent } from 'react';
 import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import StoreItems from 'Component/StoreItems';
 import { DeviceType } from 'Type/Device';
 

@@ -14,9 +14,9 @@ import { lazy, PureComponent, Suspense } from 'react';
 
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
+import Form from 'Component/Form';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
-import Form from 'Component/PureForm/Form';
 import { Addresstype } from 'Type/Account';
 import {
     CheckoutStepType,

@@ -12,13 +12,13 @@
 
 import { PureComponent } from 'react';
 
-import Field from 'Component/PureForm/Field';
-import FieldGroup from 'Component/PureForm/FieldGroup';
-import Form from 'Component/PureForm/Form';
+import Field from 'Component/Field';
+import FieldGroup from 'Component/FieldGroup';
+import Form from 'Component/Form';
 
 import './FieldForm.style';
 
-/** @namespace Component/PureForm/FieldForm/Component */
+/** @namespace Component/FieldForm/Component */
 export class FieldForm extends PureComponent {
     get fieldMap() {
         return [

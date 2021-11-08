@@ -22,8 +22,7 @@ import './FieldSelect.style';
 /**
  * Field Select
  * @class FieldSelect
- * @namespace Component/PureForm/FieldSelect/Component
- */
+ * @namespace Component/FieldSelect/Component */
 export class FieldSelect extends PureComponent {
     static propTypes = {
         attr: PropTypes.object.isRequired,

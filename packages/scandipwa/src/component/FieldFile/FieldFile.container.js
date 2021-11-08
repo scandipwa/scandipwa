@@ -19,8 +19,7 @@ import FieldFile from './FieldFile.component';
 /**
  * Field File
  * @class FieldFileContainer
- * @namespace Component/PureForm/FieldFile/Container
- */
+ * @namespace Component/FieldFile/Container */
 export class FieldFileContainer extends PureComponent {
     static propTypes = {
         // Field attributes

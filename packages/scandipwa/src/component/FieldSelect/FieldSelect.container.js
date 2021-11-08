@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { KEY_CODE } from 'Component/PureForm/Field/Keyboard.config';
+import { KEY_CODE } from 'Component/Field/Keyboard.config';
 import { EventsType } from 'Type/Field';
 
 import FieldSelect from './FieldSelect.component';

@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import { ChildrenType, MixType } from 'Type/Common';
 import { EventsType, ValidationRuleType } from 'Type/Field';
 import getFieldsData from 'Util/Form/Extract';
@@ -24,8 +24,7 @@ import Form from './Form.component';
 /**
  * Form
  * @class FormContainer
- * @namespace Component/PureForm/Form/Container
- */
+ * @namespace Component/Form/Container */
 export class FormContainer extends PureComponent {
     static propTypes = {
         // Form attributes

@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { FIELD_TYPE } from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';

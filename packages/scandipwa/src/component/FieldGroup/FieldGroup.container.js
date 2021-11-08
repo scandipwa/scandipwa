@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import { ChildrenType } from 'Type/Common';
 import { EventsType, ValidationRuleType } from 'Type/Field';
 import getFieldsData from 'Util/Form/Extract';
@@ -24,8 +24,7 @@ import FieldGroup from './FieldGroup.component';
 /**
  * Field Group
  * @class FieldGroupContainer
- * @namespace Component/PureForm/FieldGroup/Container
- */
+ * @namespace Component/FieldGroup/Container */
 export class FieldGroupContainer extends PureComponent {
     static propTypes = {
         // Group attributes
