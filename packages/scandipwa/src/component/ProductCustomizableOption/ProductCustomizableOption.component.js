@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/PureForm/Field';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import FieldGroup from 'Component/PureForm/FieldGroup';
+import { getYearRangeAttributes } from 'Util/Form/Extract';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
 import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
@@ -34,14 +35,15 @@ export class ProductCustomizableOption extends PureComponent {
         getDropdownOptions: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
         currencyCode: PropTypes.string.isRequired,
-        options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired
+        options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+        yearRange: PropTypes.string.isRequired
     };
 
     renderMap = {
         [CONFIG_FIELD_TYPE.text]: this.renderDefaultValue.bind(this),
         [CONFIG_FIELD_TYPE.textarea]: this.renderDefaultValue.bind(this),
-        [CONFIG_FIELD_TYPE.date]: this.renderDefaultValue.bind(this),
-        [CONFIG_FIELD_TYPE.dateTime]: this.renderDefaultValue.bind(this),
+        [CONFIG_FIELD_TYPE.date]: this.renderDateValue.bind(this),
+        [CONFIG_FIELD_TYPE.dateTime]: this.renderDateValue.bind(this),
         [CONFIG_FIELD_TYPE.time]: this.renderDefaultValue.bind(this),
 
         [CONFIG_FIELD_TYPE.file]: this.renderFileValue.bind(this),
@@ -94,6 +96,38 @@ export class ProductCustomizableOption extends PureComponent {
                   attr={ {
                       id: uid,
                       name: uid
+                  } }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
+                  validateOn={ ['onBlur'] }
+                />
+            </>
+        );
+    }
+
+    renderDateValue(option) {
+        const {
+            updateSelectedValues,
+            title,
+            fieldType,
+            isRequired,
+            uid,
+            yearRange
+        } = this.props;
+
+        const label = this.getLabel(option, title);
+
+        return (
+            <>
+                { this.renderOptionGroupTitle(label) }
+                <Field
+                  type={ fieldType }
+                  validationRule={ { isRequired } }
+                  attr={ {
+                      id: uid,
+                      name: uid,
+                      ...getYearRangeAttributes(yearRange, fieldType)
                   } }
                   events={ {
                       onChange: updateSelectedValues

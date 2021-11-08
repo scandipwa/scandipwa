@@ -49,6 +49,23 @@ export const getDateValue = (value, fieldType = FIELD_TYPE.date) => {
     }
 };
 
+/** @namespace Util/Form/Extract/getYearRangeAttributes */
+export const getYearRangeAttributes = (yearRange, fieldType) => {
+    const [startYear, endYear] = yearRange.split(',');
+
+    if (fieldType === FIELD_TYPE.dateTime) {
+        const minYear = startYear ? { min: `${startYear}-01-01T00:00:00.000` } : {};
+        const maxYear = startYear ? { max: `${endYear}-12-31T23:59:59.999` } : {};
+
+        return { ...minYear, ...maxYear };
+    }
+
+    const minYear = startYear ? { min: `${startYear}-01-01` } : {};
+    const maxYear = startYear ? { max: `${endYear}-12-31` } : {};
+
+    return { ...minYear, ...maxYear };
+};
+
 /**
  * Returns fields values from DOM/Form
  * @param DOM
