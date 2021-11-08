@@ -51,10 +51,12 @@
 
         .Field {
             margin-block-start: 12px;
+            display: flex;
 
             input,
             textarea {
                 width: 100%;
+                margin: auto;
             }
         }
     }

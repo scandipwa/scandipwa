@@ -322,7 +322,9 @@ export class ProductBundleOption extends PureComponent {
         return (
             <>
                 { baseLabel }
-                <strong>{ ` ${priceLabel}` }</strong>
+               <pre>
+                    <strong>{ `  ${priceLabel}` }</strong>
+               </pre>
             </>
         );
     }
