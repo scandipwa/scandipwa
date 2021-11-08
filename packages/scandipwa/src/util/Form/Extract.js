@@ -32,7 +32,7 @@ export const zeroBasedValue = (value, lessThan = 10) => (
 export const getDateValue = (value, fieldType = FIELD_TYPE.date) => {
     try {
         const dateValue = fieldType === FIELD_TYPE.time
-            ? `2000-01-01 ${value}`
+            ? `2000/01/01 ${value}`
             : value;
 
         const date = new Date(dateValue);
