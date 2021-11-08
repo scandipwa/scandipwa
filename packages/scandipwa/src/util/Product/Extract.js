@@ -210,7 +210,7 @@ export const getPrice = (
     const priceExcTaxAcc = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.configurable
         ? 'default_final_price_excl_tax'
         : 'regular_price_excl_tax';
-    const accessRange = type === PRODUCT_TYPE.virtual
+    const accessRange = type === PRODUCT_TYPE.virtual || type === PRODUCT_TYPE.downloadable
         ? 'maximum_price'
         : 'minimum_price';
 
