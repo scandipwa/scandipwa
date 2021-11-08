@@ -11,7 +11,7 @@
  */
 
 import { PRODUCT_TYPE } from 'Component/Product/Product.config';
-import { IN_STOCK, OUT_OF_STOCK } from 'Component/Product/Stock.config';
+import { STOCK_TYPE } from 'Component/Product/Stock.config';
 import { formatPrice } from 'Util/Price';
 
 export const DEFAULT_MIN_PRODUCTS = 1;
@@ -149,7 +149,7 @@ export const getProductInStock = (product, parentProduct = {}) => {
             stock_status: parentStockStatus
         } = parentProduct;
 
-        return parentInStock && parentStockStatus !== OUT_OF_STOCK && getProductInStock(product);
+        return parentInStock && parentStockStatus !== STOCK_TYPE.OUT_OF_STOCK && getProductInStock(product);
     }
 
     if (type === PRODUCT_TYPE.grouped) {
@@ -158,7 +158,7 @@ export const getProductInStock = (product, parentProduct = {}) => {
 
     const { stock_status: stockStatus } = product;
 
-    return stockStatus !== OUT_OF_STOCK && (inStock || stockStatus === IN_STOCK);
+    return stockStatus !== STOCK_TYPE.OUT_OF_STOCK && (inStock || stockStatus === STOCK_TYPE.IN_STOCK);
 };
 
 /**

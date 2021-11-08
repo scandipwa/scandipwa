@@ -12,12 +12,14 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import StoreItems from './StoreItems.component';
+import { StoreItemType } from 'Type/Config.type';
 
-/** @namespace Component/StoreItems/Container */
-export class StoreItemsContainer extends PureComponent {
+import StoreItem from './StoreItem.component';
+
+/** @namespace Component/StoreItem/Container */
+export class StoreItemContainer extends PureComponent {
     static propTypes = {
-        item: PropTypes.object.isRequired,
+        item: StoreItemType.isRequired,
         handleStoreSelect: PropTypes.func.isRequired
     };
 
@@ -39,7 +41,7 @@ export class StoreItemsContainer extends PureComponent {
 
     render() {
         return (
-            <StoreItems
+            <StoreItem
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />
@@ -47,4 +49,4 @@ export class StoreItemsContainer extends PureComponent {
     }
 }
 
-export default StoreItemsContainer;
+export default StoreItemContainer;

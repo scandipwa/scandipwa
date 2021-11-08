@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { ADD_ADDRESS, ADDRESS_POPUP_ID } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { CustomerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 
 import MyAccountAddressBook from './MyAccountAddressBook.component';
 

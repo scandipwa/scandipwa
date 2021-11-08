@@ -11,10 +11,12 @@
 
 import PropTypes from 'prop-types';
 
+import { MetaTitleType } from 'Type/Common.type';
+
 export const PageType = PropTypes.shape({
     title: PropTypes.string,
     content: PropTypes.string,
-    meta_title: PropTypes.string,
+    meta_title: MetaTitleType,
     meta_description: PropTypes.string,
     meta_keywords: PropTypes.string
 });

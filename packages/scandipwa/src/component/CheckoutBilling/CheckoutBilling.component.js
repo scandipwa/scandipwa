@@ -20,9 +20,9 @@ import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import Form from 'Component/PureForm/Form';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { Addresstype } from 'Type/Account';
-import { PaymentMethodsType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
+import { Addresstype } from 'Type/Account.type';
+import { PaymentMethodsType } from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
 import { formatPrice } from 'Util/Price';
 
 import './CheckoutBilling.style';

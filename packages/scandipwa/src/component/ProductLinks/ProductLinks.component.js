@@ -14,7 +14,7 @@ import React, { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
-import { ProductType } from 'Type/ProductList';
+import { ProductCardPropsType, ProductType } from 'Type/ProductList.type';
 
 import './ProductLinks.style';
 
@@ -26,8 +26,8 @@ export class ProductLinks extends PureComponent {
         linkedProducts: PropTypes.objectOf(ProductType).isRequired,
         linkType: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
-        productCardProps: PropTypes.object.isRequired,
-        productCardFunctions: PropTypes.object.isRequired
+        productCardProps: ProductCardPropsType.isRequired,
+        productCardFunctions: PropTypes.objectOf(PropTypes.func).isRequired
     };
 
     renderProductCard = this.renderProductCard.bind(this);

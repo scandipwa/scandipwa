@@ -97,8 +97,6 @@ export class NewProductsContainer extends PureComponent {
             productsPerPage,
             products,
             productCardFunctions: {
-                products,
-                productsPerPage,
                 setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
                 setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
                 setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),

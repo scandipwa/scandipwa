@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import Form from 'Component/PureForm/Form';
-import { SignInStateType } from 'Type/Account';
+import { SignInStateType } from 'Type/Account.type';
 import history from 'Util/History';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 

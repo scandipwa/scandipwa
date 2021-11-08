@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
-import { EventsType } from 'Type/Field';
+import { EventsType, FieldAttrType, FieldOptionsType } from 'Type/Field.type';
 
 import './FieldSelect.style';
 
@@ -26,9 +26,9 @@ import './FieldSelect.style';
  */
 export class FieldSelect extends PureComponent {
     static propTypes = {
-        attr: PropTypes.object.isRequired,
+        attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
-        options: PropTypes.array.isRequired,
+        options: FieldOptionsType.isRequired,
         setRef: PropTypes.func.isRequired,
         isExpanded: PropTypes.bool.isRequired,
         handleSelectListOptionClick: PropTypes.func.isRequired,

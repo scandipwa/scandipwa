@@ -16,7 +16,7 @@ import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
 import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttributeValue.component';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
-import { CategoryFragment } from 'Type/Category';
+import { CategoryFragment } from 'Type/Category.type';
 import { getPriceFilterLabel } from 'Util/Category';
 import { sortBySortOrder } from 'Util/Product';
 

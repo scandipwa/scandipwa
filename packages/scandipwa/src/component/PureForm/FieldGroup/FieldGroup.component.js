@@ -13,8 +13,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType } from 'Type/Common';
-import { EventsType } from 'Type/Field';
+import { ChildrenType, ModsType } from 'Type/Common.type';
+import { EventsType, FieldAttrType } from 'Type/Field.type';
 
 import './FieldGroup.style';
 
@@ -27,7 +27,7 @@ export class FieldGroup extends PureComponent {
     static propTypes = {
         // Group attributes
         children: ChildrenType.isRequired,
-        attr: PropTypes.object.isRequired,
+        attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
 
@@ -42,7 +42,7 @@ export class FieldGroup extends PureComponent {
         label: PropTypes.string.isRequired,
         subLabel: PropTypes.string.isRequired,
 
-        mods: PropTypes.object.isRequired
+        mods: ModsType.isRequired
     };
 
     static defaultProps = {

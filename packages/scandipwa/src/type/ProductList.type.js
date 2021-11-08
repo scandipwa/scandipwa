@@ -11,6 +11,11 @@
 
 import PropTypes from 'prop-types';
 
+import { MetaTitleType } from 'Type/Common.type';
+import { PriceType } from 'Type/Price.type';
+import { UrlRewriteType } from 'Type/Router.type';
+import { StockStatusType } from 'Type/StockStatus.type';
+
 export const AttributeType = PropTypes.shape({
     attribute_code: PropTypes.string,
     attribute_type: PropTypes.string,
@@ -49,6 +54,11 @@ export const BreadcrumbsType = PropTypes.arrayOf(
     })
 );
 
+export const ImageType = PropTypes.shape({
+    path: PropTypes.string,
+    url: PropTypes.string
+});
+
 export const CategoryType = PropTypes.shape({
     name: PropTypes.string,
     url_path: PropTypes.string,
@@ -82,26 +92,6 @@ export const MediaItemType = PropTypes.shape({
 
 export const MediaType = PropTypes.arrayOf(MediaItemType);
 
-export const PriceVariantType = PropTypes.shape({
-    discount: PropTypes.shape({
-        amount_off: PropTypes.number,
-        percent_off: PropTypes.number
-    }),
-    final_price: PropTypes.shape({
-        currency: PropTypes.string,
-        value: PropTypes.number
-    }),
-    regular_price: PropTypes.shape({
-        currency: PropTypes.string,
-        value: PropTypes.number
-    })
-});
-
-export const PriceType = PropTypes.shape({
-    minimum_price: PriceVariantType,
-    maximal_price: PriceVariantType
-});
-
 export const ProductLinksType = PropTypes.arrayOf(
     PropTypes.shape({
         link_type: PropTypes.string,
@@ -110,10 +100,10 @@ export const ProductLinksType = PropTypes.arrayOf(
     })
 );
 
-export const ReviewSummaryType = PropTypes.shape({
+export const ReviewSummaryShape = {
     rating_summary: PropTypes.number,
     review_count: PropTypes.number
-});
+};
 
 export const RatingVoteType = PropTypes.shape({
     vote_id: PropTypes.number,
@@ -131,6 +121,15 @@ export const ReviewsType = PropTypes.arrayOf(
         rating_votes: PropTypes.arrayOf(RatingVoteType)
     })
 );
+
+export const DescriptionType = PropTypes.shape({ html: PropTypes.string });
+
+export const StockItemType = PropTypes.shape({
+    in_stock: PropTypes.bool,
+    min_sale_qty: PropTypes.number,
+    max_sale_qty: PropTypes.number,
+    qty_increments: PropTypes.number
+});
 
 export const OptionValueType = PropTypes.shape({
     option_type_id: PropTypes.number,
@@ -151,7 +150,87 @@ export const OptionsType = PropTypes.arrayOf(
     })
 );
 
-export const ItemsType = PropTypes.arrayOf(PropTypes.shape({}));
+export const ValueType = PropTypes.shape({
+    uid: PropTypes.string,
+    option_type_id: PropTypes.number,
+    price: PropTypes.number,
+    priceInclTax: PropTypes.number,
+    priceExclTax: PropTypes.number,
+    price_type: PropTypes.string,
+    currency: PropTypes.string,
+    sku: PropTypes.string,
+    title: PropTypes.string,
+    sort_order: PropTypes.number
+});
+
+export const PriceTierType = PropTypes.shape({
+    discount: PropTypes.shape({ amount_off: PropTypes.number, percent_off: PropTypes.number }),
+    final_price: PropTypes.shape({ currency: PropTypes.string, value: PropTypes.number }),
+    quantity: PropTypes.number
+});
+
+export const CustomizableOptionShape = {
+    price: PropTypes.number,
+    priceInclTax: PropTypes.number,
+    priceExclTax: PropTypes.number,
+    price_type: PropTypes.string,
+    currency: PropTypes.string,
+    sku: PropTypes.string
+};
+
+export const CustomizableOptionType = PropTypes.shape({
+    ...CustomizableOptionShape,
+    uid: PropTypes.string,
+    option_type_id: PropTypes.number,
+    title: PropTypes.string,
+    sort_order: PropTypes.number
+});
+
+export const InputOptionType = PropTypes.shape({
+    ...CustomizableOptionShape,
+    max_characters: PropTypes.number
+});
+
+export const FileOptionType = PropTypes.shape({
+    ...CustomizableOptionShape,
+    file_extension: PropTypes.string
+});
+
+export const CustomizableOptionsType = PropTypes.oneOfType([
+    FileOptionType,
+    InputOptionType,
+    PropTypes.arrayOf(CustomizableOptionType)
+]);
+
+export const ItemShape = {
+    attributes: AttributesType,
+    configurable_options: AttributesType,
+    id: PropTypes.number,
+    image: ImageType,
+    name: PropTypes.string,
+    options: CustomizableOptionsType,
+    price_range: PriceType,
+    price_tiers: PropTypes.arrayOf(PriceTierType),
+    ...ReviewSummaryShape,
+    review_summary: PropTypes.shape(ReviewSummaryShape),
+    short_description: DescriptionType,
+    sku: PropTypes.string,
+    small_image: ImageType,
+    special_from_date: PropTypes.string,
+    special_to_date: PropTypes.string,
+    stock_item: StockItemType,
+    stock_status: StockStatusType,
+    thumbnail: ImageType,
+    type_id: PropTypes.string,
+    uid: PropTypes.string,
+    url: PropTypes.string,
+    url_rewrites: PropTypes.arrayOf(UrlRewriteType)
+};
+export const ItemType = PropTypes.shape(ItemShape);
+
+export const ItemsType = PropTypes.arrayOf(ItemType);
+
+ItemsType.variants = ItemsType;
 
 export const PagesType = PropTypes.objectOf(ItemsType);
 
@@ -164,9 +243,17 @@ export const ItemOptionsType = PropTypes.arrayOf(
         position: PropTypes.number,
         price: PropTypes.number,
         price_type: PropTypes.string,
-        // eslint-disable-next-line no-use-before-define
-        product: PropTypes.shape({}),
-        quantity: PropTypes.number
+        quantity: PropTypes.number,
+        uid: PropTypes.string,
+        product: PropTypes.shape({
+            name: PropTypes.string,
+            stock_status: PropTypes.string,
+            price_range: PriceType
+        }),
+        regularOptionPrice: PropTypes.number,
+        regularOptionPriceExclTax: PropTypes.number,
+        finalOptionPrice: PropTypes.number,
+        finalOptionPriceExclTax: PropTypes.number
     })
 );
 
@@ -185,41 +272,23 @@ export const ProductItemsType = PropTypes.arrayOf(
 export const ProductType = PropTypes.shape({
     canonical_url: PropTypes.string,
     categories: CategoriesType,
-    description: PropTypes.shape({ html: PropTypes.string }),
-    id: PropTypes.number,
-    image: PropTypes.shape({ url: PropTypes.string }),
-    image_label: PropTypes.string,
+    description: DescriptionType,
     media_gallery_entries: MediaType,
     meta_description: PropTypes.string,
     meta_keyword: PropTypes.string,
-    meta_title: PropTypes.string,
-    name: PropTypes.string,
-    price_range: PriceType,
+    meta_title: MetaTitleType,
     product_links: ProductLinksType,
-    short_description: PropTypes.shape({ html: PropTypes.string }),
-    small_image: PropTypes.shape({ url: PropTypes.string }),
-    small_image_label: PropTypes.shape({ label: PropTypes.string }),
     special_price: PropTypes.number,
-    special_from_date: PropTypes.string,
-    special_to_date: PropTypes.string,
-    thumbnail: PropTypes.shape({ url: PropTypes.string }),
-    thumbnail_label: PropTypes.shape({ label: PropTypes.string }),
-    price_tiers: PropTypes.arrayOf(PropTypes.shape({
-        discount: PropTypes.shape({ amount_off: PropTypes.number, percent_off: PropTypes.number }),
-        final_price: PropTypes.shape({ currency: PropTypes.string, value: PropTypes.number }),
-        quantity: PropTypes.number
-    })),
     url_key: PropTypes.string,
     quantity: PropTypes.number,
-    review_summary: ReviewSummaryType,
-    options: OptionsType,
     items: ProductItemsType,
-    reviews: ReviewsType
+    reviews: ReviewsType,
+    ...ItemShape
 });
 
 export const DownloadableSamplesType = PropTypes.arrayOf(
     PropTypes.shape({
-        sample_url: ProductType.string,
+        sample_url: ProductType,
         sort_order: PropTypes.number,
         title: PropTypes.string
     })
@@ -241,3 +310,21 @@ export const MagentoProductType = PropTypes.shape({
     selected_options: PropTypes.arrayOf(PropTypes.string),
     sku: PropTypes.string
 });
+
+export const ProductCardPropsType = PropTypes.shape({
+    siblingsHaveBrands: PropTypes.bool,
+    siblingsHavePriceBadge: PropTypes.bool,
+    siblingsHaveTierPrice: PropTypes.bool,
+    siblingsHaveConfigurableOptions: PropTypes.bool
+});
+
+export const OptionsListType = PropTypes.arrayOf(
+    PropTypes.shape({
+        value: CustomizableOptionsType,
+        title: PropTypes.string,
+        required: PropTypes.bool,
+        sort_order: PropTypes.number,
+        type: PropTypes.string,
+        uid: PropTypes.string
+    })
+);

@@ -20,7 +20,7 @@ import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 
 import './WishlistItem.style';
 

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { Component, createRef } from 'react';
 
 import ProductCard from 'Component/ProductCard';
-import { ProductType } from 'Type/ProductList';
+import { ProductCardPropsType, ProductType } from 'Type/ProductList.type';
 import CSS from 'Util/CSS';
 
 import './NewProducts.style';
@@ -23,8 +23,8 @@ export class NewProducts extends Component {
     static propTypes = {
         products: PropTypes.arrayOf(ProductType),
         productsPerPage: PropTypes.number.isRequired,
-        productCardProps: PropTypes.object.isRequired,
-        productCardFunctions: PropTypes.object.isRequired
+        productCardProps: ProductCardPropsType.isRequired,
+        productCardFunctions: PropTypes.objectOf(PropTypes.func).isRequired
     };
 
     static defaultProps = {

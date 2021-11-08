@@ -14,8 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { Addresstype } from 'Type/Account';
-import { ShippingMethodsType } from 'Type/Checkout';
+import { Addresstype } from 'Type/Account.type';
+import { ShippingMethodsType } from 'Type/Checkout.type';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 

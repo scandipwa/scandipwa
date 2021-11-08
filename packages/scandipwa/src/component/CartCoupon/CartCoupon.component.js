@@ -16,7 +16,7 @@ import Loader from 'Component/Loader';
 import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import Form from 'Component/PureForm/Form';
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
 
 import './CartCoupon.style';
 

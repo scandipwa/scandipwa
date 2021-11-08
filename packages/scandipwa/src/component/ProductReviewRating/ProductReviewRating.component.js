@@ -19,7 +19,7 @@ import {
 } from 'Component/ProductReviewRating/ProductReviewRating.config';
 import Star from 'Component/StarIcon';
 import { STAR_EMPTY, STAR_FULL, STAR_HALF_FULL } from 'Component/StarIcon/StarIcon.config';
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
 import CSS from 'Util/CSS';
 
 import './ProductReviewRating.style';

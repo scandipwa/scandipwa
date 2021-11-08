@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
-import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout';
+import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout.type';
 
 import './CheckoutDeliveryOptions.style';
 

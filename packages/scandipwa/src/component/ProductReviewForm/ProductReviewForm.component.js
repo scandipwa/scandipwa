@@ -17,7 +17,7 @@ import Field from 'Component/PureForm/Field';
 import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import Form from 'Component/PureForm/Form';
 import ReviewStar from 'Component/ReviewStar';
-import { RatingItemsType } from 'Type/Rating';
+import { RatingItemsType } from 'Type/Rating.type';
 
 import './ProductReviewForm.style';
 

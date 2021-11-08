@@ -19,8 +19,8 @@ import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
-import { ProductType } from 'Type/ProductList';
-import { LinkType } from 'Type/Router';
+import { ProductType } from 'Type/ProductList.type';
+import { LinkType } from 'Type/Router.type';
 import { ADD_TO_WISHLIST } from 'Util/Product';
 import { magentoProductTransform } from 'Util/Product/Transform';
 

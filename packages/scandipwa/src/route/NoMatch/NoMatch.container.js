@@ -19,7 +19,7 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
-import { UrlRewriteType } from 'Type/Router';
+import { UrlRewriteType } from 'Type/Router.type';
 
 import NoMatch from './NoMatch.component';
 

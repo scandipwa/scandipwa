@@ -13,10 +13,12 @@ import PropTypes from 'prop-types';
 
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
+export const LabelType = PropTypes.oneOfType([PropTypes.string, PropTypes.node]);
+
 export const OptionType = PropTypes.shape({
-    id: PropTypes.string,
-    label: PropTypes.string,
-    value: PropTypes.string
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    label: LabelType,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 });
 
 export const CustomErrorMessagesType = PropTypes.shape({
@@ -35,3 +37,13 @@ export const ValidationRuleType = PropTypes.shape({
 });
 
 export const EventsType = PropTypes.objectOf(PropTypes.func);
+
+export const FieldAttrType = PropTypes.object;
+
+export const FieldOptionsType = PropTypes.arrayOf(
+    PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        label: LabelType,
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    })
+);

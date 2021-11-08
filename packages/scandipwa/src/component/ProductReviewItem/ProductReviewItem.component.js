@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ProductReviewRating from 'Component/ProductReviewRating';
+import { ReviewItemType } from 'Type/Rating.type';
 
 import './ProductReviewItem.style';
 
@@ -22,7 +22,7 @@ import './ProductReviewItem.style';
  */
 export class ProductReviewItem extends PureComponent {
     static propTypes = {
-        reviewItem: PropTypes.object.isRequired
+        reviewItem: ReviewItemType.isRequired
     };
 
     getFormattedDate(created_at) {

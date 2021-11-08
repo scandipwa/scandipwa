@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import AddIcon from 'Component/AddIcon';
 import MinusIcon from 'Component/MinusIcon';
 import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import { EventsType } from 'Type/Field';
+import { EventsType, FieldAttrType } from 'Type/Field.type';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
 /**
@@ -25,7 +25,7 @@ import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
  */
 export class FieldNumber extends PureComponent {
     static propTypes = {
-        attr: PropTypes.object.isRequired,
+        attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
         value: PropTypes.number.isRequired,

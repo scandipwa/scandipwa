@@ -23,3 +23,18 @@ export const RatingItemsType = PropTypes.arrayOf(
         rating_options: PropTypes.arrayOf(RatingOptionItemType)
     })
 );
+
+export const VoteType = PropTypes.shape({
+    rating_code: PropTypes.string,
+    value: PropTypes.string,
+    percent: PropTypes.number
+});
+
+export const ReviewItemType = PropTypes.shape({
+    average_rating: PropTypes.number,
+    nickname: PropTypes.string,
+    title: PropTypes.string,
+    detail: PropTypes.string,
+    created_at: PropTypes.string,
+    rating_votes: PropTypes.arrayOf(VoteType)
+});

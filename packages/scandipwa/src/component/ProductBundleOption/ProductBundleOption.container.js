@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { ItemOptionsType } from 'Type/ProductList.type';
 import { bundleOptionsToSelectTransform, getEncodedBundleUid } from 'Util/Product/Transform';
 
 import ProductBundleOption from './ProductBundleOption.component';
@@ -36,7 +37,7 @@ export class ProductBundleOptionContainer extends PureComponent {
         title: PropTypes.string.isRequired,
         isRequired: PropTypes.bool.isRequired,
         type: PropTypes.string.isRequired,
-        options: PropTypes.arrayOf(PropTypes.object).isRequired,
+        options: PropTypes.arrayOf(ItemOptionsType).isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
         currencyCode: PropTypes.string.isRequired
     };

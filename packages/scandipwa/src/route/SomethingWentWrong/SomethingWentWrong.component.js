@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
+import { ErrorDetailsType } from 'Type/Error.type';
 
 import './SomethingWentWrong.style';
 
@@ -22,14 +23,7 @@ import './SomethingWentWrong.style';
 export class SomethingWentWrong extends PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
-        errorDetails: PropTypes.shape({
-            err: PropTypes.shape({
-
-            }),
-            info: PropTypes.shape({
-                componentStack: PropTypes.string
-            })
-        }).isRequired
+        errorDetails: ErrorDetailsType.isRequired
     };
 
     renderErrorDetails() {
