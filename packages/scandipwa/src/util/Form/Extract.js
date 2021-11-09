@@ -50,20 +50,26 @@ export const getDateValue = (value, fieldType = FIELD_TYPE.date) => {
 };
 
 /** @namespace Util/Form/Extract/getYearRangeAttributes */
-export const getYearRangeAttributes = (yearRange, fieldType) => {
+export const getYearRangeAttributes = (yearRange = ',', fieldType) => {
     const [startYear, endYear] = yearRange.split(',');
+    const currentYear = new Date().getFullYear();
+
+    // https://docs.magento.com/user-guide/stores/attribute-date-time-options.html
+    // blank year range defaults to current year
+    const minYear = startYear || currentYear;
+    const maxYear = endYear || currentYear;
 
     if (fieldType === FIELD_TYPE.dateTime) {
-        const minYear = startYear ? { min: `${startYear}-01-01T00:00:00.000` } : {};
-        const maxYear = startYear ? { max: `${endYear}-12-31T23:59:59.999` } : {};
-
-        return { ...minYear, ...maxYear };
+        return {
+            min: `${minYear}-01-01T00:00:00.000`,
+            max: `${maxYear}-12-31T23:59:59.999`
+        };
     }
 
-    const minYear = startYear ? { min: `${startYear}-01-01` } : {};
-    const maxYear = startYear ? { max: `${endYear}-12-31` } : {};
-
-    return { ...minYear, ...maxYear };
+    return {
+        min: `${minYear}-01-01`,
+        max: `${maxYear}-12-31`
+    };
 };
 
 /**
