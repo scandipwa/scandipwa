@@ -18,7 +18,6 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
-import { pauseUntil } from 'Util/Promise';
 import { getErrorMessage } from 'Util/Request';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
@@ -88,7 +87,8 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     containerProps() {
         const {
             isLoading,
-            loadingItemsMap
+            loadingItemsMap,
+            isQtyUpdateInProgress
         } = this.state;
 
         const {
@@ -110,7 +110,8 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             creatorsName,
             wishlistItems,
             isEditingActive,
-            isMobile
+            isMobile,
+            isQtyUpdateInProgress
         };
     }
 
@@ -125,27 +126,13 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     }
 
     async addAllToCart() {
-        const { isQtyUpdateInProgress } = this.state;
-
         if (!isSignedIn()) {
             await Promise.reject();
         }
 
         this.setState({ isLoading: true });
 
-        if (isQtyUpdateInProgress) {
-            // wait for qty update request to finish before moving all items to cart
-            try {
-                await pauseUntil(this.getIsComplete.bind(this), __('Wishlist update failed'));
-            } catch (e) {
-                console.error(e);
-            } finally {
-                // we want to try to add to cart even if wishlist update failed
-                await this.addAllToCartAsync();
-            }
-        } else {
-            await this.addAllToCartAsync();
-        }
+        await this.addAllToCartAsync();
     }
 
     async addAllToCartAsync() {

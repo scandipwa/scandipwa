@@ -38,7 +38,8 @@ export class MyAccountMyWishlist extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         removeSelectedFromWishlist: PropTypes.func.isRequired,
         loadingItemsMap: PropTypes.objectOf(Object).isRequired,
-        setIsQtyUpdateInProgress: PropTypes.func.isRequired
+        setIsQtyUpdateInProgress: PropTypes.func.isRequired,
+        isQtyUpdateInProgress: PropTypes.bool.isRequired
     };
 
     state = {
@@ -177,10 +178,11 @@ export class MyAccountMyWishlist extends PureComponent {
             isActionsDisabled,
             isEditingActive,
             isMobile,
-            isLoading
+            isLoading,
+            isQtyUpdateInProgress
         } = this.props;
 
-        const isDisabled = (isMobile && isEditingActive) || isActionsDisabled || isLoading;
+        const isDisabled = (isMobile && isEditingActive) || isActionsDisabled || isLoading || isQtyUpdateInProgress;
 
         return (
             <button
@@ -219,10 +221,10 @@ export class MyAccountMyWishlist extends PureComponent {
     }
 
     renderRemoveItemsButton() {
-        const { isActionsDisabled, isMobile } = this.props;
+        const { isActionsDisabled, isMobile, isQtyUpdateInProgress } = this.props;
         const { selectedIdMap } = this.state;
 
-        const isDisabled = isActionsDisabled || (isMobile && !selectedIdMap.length);
+        const isDisabled = isActionsDisabled || (isMobile && !selectedIdMap.length) || isQtyUpdateInProgress;
 
         return (
             <button
