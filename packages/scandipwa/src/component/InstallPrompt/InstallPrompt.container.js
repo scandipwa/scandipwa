@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import InstallPrompt from './InstallPrompt.component';

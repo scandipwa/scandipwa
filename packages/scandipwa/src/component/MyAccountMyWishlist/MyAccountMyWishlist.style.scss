@@ -43,15 +43,13 @@
             grid-column-gap: 28px;
             grid-template-columns: 1fr;
             border: 0;
-            margin: 0 calc(-1 * var(--my-account-wrapper-margin-mobile));
+            max-width: 100%;
+            margin: 0 auto;
+            margin-block-end: var(--myaccount-wihslist-products-margin-bottom);
         }
 
         @include desktop {
             grid-column: 2;
-        }
-
-        @include mobile {
-            margin-block-end: var(--myaccount-wihslist-products-margin-bottom);
         }
     }
 

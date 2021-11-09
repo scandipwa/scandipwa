@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { InView } from 'react-intersection-observer';
 
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 
 import './RenderWhenVisible.style';

@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import Overlay from 'Component/Overlay';
 import SearchItem from 'Component/SearchItem';
-import { ItemsType } from 'Type/ProductList';
+import { ItemsType } from 'Type/ProductList.type';
 
 import {
     AMOUNT_OF_PLACEHOLDERS,

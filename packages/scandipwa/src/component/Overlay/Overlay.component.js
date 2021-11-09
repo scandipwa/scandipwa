@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ChildrenType, MixType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common.type';
 import { toggleScroll } from 'Util/Browser';
 
 import './Overlay.style';

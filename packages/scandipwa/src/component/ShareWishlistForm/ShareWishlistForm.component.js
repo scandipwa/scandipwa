@@ -10,7 +10,7 @@
  */
 import PropTypes from 'prop-types';
 
-import FieldForm from 'Component/PureForm/FieldForm';
+import FieldForm from 'Component/FieldForm';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import shareWishlistForm from './ShareWishlistForm.form';

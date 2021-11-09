@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import Popup from 'Component/Popup';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { ChildrenType, MixType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common.type';
 
 import ImageZoomPopup from './ImageZoomPopup.component';
 

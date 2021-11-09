@@ -24,9 +24,11 @@ import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
-import { CategoryTreeType, FilterInputType, FilterType } from 'Type/Category';
-import { SortDirectionType } from 'Type/Direction';
-import { AttributesType } from 'Type/ProductList';
+import {
+    CategoryTreeType, FilterInputType, FilterType, SortFieldsType
+} from 'Type/Category.type';
+import { SortDirectionType } from 'Type/Direction.type';
+import { AttributesType } from 'Type/ProductList.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
@@ -50,9 +52,7 @@ export class CategoryPage extends PureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired,
         filters: AttributesType.isRequired,
-        sortFields: PropTypes.shape({
-            options: PropTypes.array
-        }).isRequired,
+        sortFields: SortFieldsType.isRequired,
         selectedSort: PropTypes.shape({
             sortDirection: SortDirectionType,
             sortKey: PropTypes.string

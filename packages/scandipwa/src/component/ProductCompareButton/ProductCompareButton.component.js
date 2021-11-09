@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import CompareIcon from 'Component/CompareIcon';
 import Loader from 'Component/Loader';
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
 
 import './ProductCompareButton.style';
 

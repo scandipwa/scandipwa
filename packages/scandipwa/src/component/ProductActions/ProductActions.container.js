@@ -19,7 +19,7 @@ import {
     mapStateToProps as sourceMapStateToProps,
     ProductContainer
 } from 'Component/Product/Product.container';
-import { IN_STOCK } from 'Component/Product/Stock.config';
+import { STOCK_TYPE } from 'Component/Product/Stock.config';
 
 import ProductActions from './ProductActions.component';
 
@@ -107,7 +107,7 @@ export class ProductActionsContainer extends ProductContainer {
             stock_status
         } = variants[configurableVariantIndex] || product;
 
-        if (stock_status === IN_STOCK) {
+        if (stock_status === STOCK_TYPE.IN_STOCK) {
             return 'https://schema.org/InStock';
         }
 

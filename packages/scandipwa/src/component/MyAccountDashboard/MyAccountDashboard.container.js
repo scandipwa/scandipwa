@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CustomerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 
 import MyAccountDashboard from './MyAccountDashboard.component';
 

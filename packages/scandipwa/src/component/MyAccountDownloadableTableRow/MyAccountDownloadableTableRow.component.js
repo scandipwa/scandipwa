@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
 import { STATUS_EXPIRED } from 'Component/MyAccountDownloadableTableRow/MyAccountDownloadableTableRow.config';
-import { DownloadableType } from 'Type/Account';
+import { DownloadableType } from 'Type/Account.type';
 
 import './MyAccountDownloadableTableRow.style';
 

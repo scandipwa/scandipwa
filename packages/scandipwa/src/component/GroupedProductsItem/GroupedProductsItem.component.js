@@ -12,13 +12,13 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import FieldContainer from 'Component/Field';
+import { FIELD_TYPE } from 'Component/Field/Field.config';
 import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
-import FieldContainer from 'Component/PureForm/Field';
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 import {
     getMaxQuantity, getMinQuantity, getPrice, getProductInStock, getThumbnailImage
 } from 'Util/Product/Extract';
