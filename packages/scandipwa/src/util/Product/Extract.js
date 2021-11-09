@@ -11,7 +11,7 @@
  */
 
 import { PRODUCT_TYPE } from 'Component/Product/Product.config';
-import { IN_STOCK, OUT_OF_STOCK } from 'Component/Product/Stock.config';
+import { STOCK_TYPE } from 'Component/Product/Stock.config';
 import { formatPrice } from 'Util/Price';
 
 export const DEFAULT_MIN_PRODUCTS = 1;
@@ -149,7 +149,7 @@ export const getProductInStock = (product, parentProduct = {}) => {
             stock_status: parentStockStatus
         } = parentProduct;
 
-        return parentInStock && parentStockStatus !== OUT_OF_STOCK && getProductInStock(product);
+        return parentInStock && parentStockStatus !== STOCK_TYPE.OUT_OF_STOCK && getProductInStock(product);
     }
 
     if (type === PRODUCT_TYPE.grouped) {
@@ -158,7 +158,7 @@ export const getProductInStock = (product, parentProduct = {}) => {
 
     const { stock_status: stockStatus } = product;
 
-    return stockStatus !== OUT_OF_STOCK && (inStock || stockStatus === IN_STOCK);
+    return stockStatus !== STOCK_TYPE.OUT_OF_STOCK && (inStock || stockStatus === STOCK_TYPE.IN_STOCK);
 };
 
 /**
@@ -210,7 +210,7 @@ export const getPrice = (
     const priceExcTaxAcc = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.configurable
         ? 'default_final_price_excl_tax'
         : 'regular_price_excl_tax';
-    const accessRange = type === PRODUCT_TYPE.virtual
+    const accessRange = type === PRODUCT_TYPE.virtual || type === PRODUCT_TYPE.downloadable
         ? 'maximum_price'
         : 'minimum_price';
 

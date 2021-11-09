@@ -19,7 +19,7 @@ import {
     EDIT_CUSTOMER
 } from 'Component/MyAccountCustomerPopup/MyAccountCustomerPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { CustomerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 
 import MyAccountCustomerTable from './MyAccountCustomerTable.component';
 

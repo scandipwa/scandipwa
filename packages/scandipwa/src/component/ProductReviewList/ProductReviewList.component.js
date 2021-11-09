@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import ProductReviewItem from 'Component/ProductReviewItem';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 
 import './ProductReviewList.style';
 

@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CartIcon from 'Component/CartIcon';
-import { MixType } from 'Type/Common';
-import { LayoutType } from 'Type/Layout';
+import { MixType } from 'Type/Common.type';
+import { LayoutType } from 'Type/Layout.type';
 
 import './AddToCart.style';
 

@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { DownloadableLinksType } from 'Type/Downloadable.type';
+
 import ProductDownloadableLinks from './ProductDownloadableLinks.component';
 
 /** @namespace Component/ProductDownloadableLinks/Container/mapStateToProps */
@@ -30,7 +32,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         title: PropTypes.string,
         currencyCode: PropTypes.string.isRequired,
         isRequired: PropTypes.bool,
-        links: PropTypes.array,
+        links: DownloadableLinksType,
         setLinkedDownloadables: PropTypes.func.isRequired,
         isOpenInNewTab: PropTypes.bool.isRequired
     };

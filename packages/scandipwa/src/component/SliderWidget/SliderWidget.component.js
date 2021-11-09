@@ -17,7 +17,7 @@ import Html from 'Component/Html';
 import Image from 'Component/Image';
 import Slider from 'Component/Slider';
 import { DIRECTION_LEFT, DIRECTION_RIGHT } from 'Component/SliderWidget/SliderWidget.config';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 import { debounce } from 'Util/Request';
 
 import './SliderWidget.style';

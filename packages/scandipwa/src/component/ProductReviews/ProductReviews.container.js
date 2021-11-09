@@ -14,8 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { DeviceType } from 'Type/Device';
-import { ProductType } from 'Type/ProductList';
+import { DeviceType } from 'Type/Device.type';
+import { ProductType } from 'Type/ProductList.type';
 
 import ProductReviews from './ProductReviews.component';
 

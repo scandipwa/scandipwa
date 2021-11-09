@@ -15,8 +15,8 @@ import { Children, createRef, PureComponent } from 'react';
 import ChevronIcon from 'Component/ChevronIcon';
 import { LEFT, RIGHT } from 'Component/ChevronIcon/ChevronIcon.config';
 import Draggable from 'Component/Draggable';
-import { ChildrenType, MixType, RefType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
+import { ChildrenType, MixType, RefType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
 import CSS from 'Util/CSS';
 import { isRtl } from 'Util/CSS/CSS';
 

@@ -14,7 +14,7 @@ import { createRef, PureComponent } from 'react';
 import { CAROUSEL_ITEM_GAP } from 'Component/CarouselScroll/CarouselScroll.config';
 import CarouselScrollArrow from 'Component/CarouselScrollArrow';
 import CarouselScrollItem from 'Component/CarouselScrollItem';
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType } from 'Type/Common.type';
 import CSS from 'Util/CSS';
 import { isRtl } from 'Util/CSS/CSS';
 

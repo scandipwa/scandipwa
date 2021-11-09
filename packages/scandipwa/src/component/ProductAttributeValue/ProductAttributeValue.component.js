@@ -14,11 +14,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import Html from 'Component/Html';
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { MixType } from 'Type/Common';
-import { AttributeType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { AttributeType } from 'Type/ProductList.type';
 import { getBooleanLabel } from 'Util/Product';
 
 import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';

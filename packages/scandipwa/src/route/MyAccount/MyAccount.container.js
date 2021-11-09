@@ -27,8 +27,9 @@ import {
     MY_ORDERS,
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION
-} from 'Type/Account';
-import { HistoryType, LocationType, MatchType } from 'Type/Router';
+} from 'Type/Account.type';
+import { ItemType } from 'Type/ProductList.type';
+import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
@@ -83,7 +84,7 @@ export class MyAccountContainer extends PureComponent {
         location: LocationType.isRequired,
         history: HistoryType.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        wishlistItems: PropTypes.object,
+        wishlistItems: PropTypes.objectOf(ItemType),
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         isSignedIn: PropTypes.bool.isRequired,

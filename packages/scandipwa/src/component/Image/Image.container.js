@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { IMAGE_HUNDRED_PERCENT } from 'Component/Image/Image.config';
-import { MixType, RefType } from 'Type/Common';
+import { MixType, RefType } from 'Type/Common.type';
 
 import Image from './Image.component';
 

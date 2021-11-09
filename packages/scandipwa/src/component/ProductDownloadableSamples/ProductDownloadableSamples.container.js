@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DownloadableSamplesType } from 'Type/ProductList';
+import { DownloadableSamplesType } from 'Type/ProductList.type';
 
 import ProductDownloadableSamples from './ProductDownloadableSamples.component';
 
