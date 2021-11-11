@@ -19,9 +19,13 @@ import { formatPrice, roundPrice } from 'Util/Price';
 export class CartItemPrice extends PureComponent {
     static propTypes = {
         price: PropTypes.number.isRequired,
-        subPrice: PropTypes.number.isRequired,
+        subPrice: PropTypes.number,
         currency_code: PropTypes.string.isRequired,
         mix: MixType.isRequired
+    };
+
+    static defaultProps = {
+        subPrice: null
     };
 
     renderPrice() {

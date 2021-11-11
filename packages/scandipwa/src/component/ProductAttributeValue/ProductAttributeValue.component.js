@@ -295,6 +295,10 @@ export class ProductAttributeValue extends PureComponent {
                   defaultChecked: isSelected,
                   checked: isSelected
               } }
+              events={ {
+                  // prevent console error that radio button should have onChange event handler or be readonly
+                  onChange: () => null
+              } }
               label={ this.getCheckboxLabel(value, subLabel) }
               mix={ {
                   block: 'ProductAttributeValue',

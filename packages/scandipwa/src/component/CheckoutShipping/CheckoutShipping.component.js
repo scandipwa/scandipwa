@@ -31,7 +31,7 @@ import './CheckoutShipping.style';
 export class CheckoutShipping extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
@@ -49,7 +49,8 @@ export class CheckoutShipping extends PureComponent {
     };
 
     static defaultProps = {
-        setSelectedShippingMethodCode: null
+        setSelectedShippingMethodCode: null,
+        cartTotalSubPrice: null
     };
 
     renderOrderTotalExclTax() {

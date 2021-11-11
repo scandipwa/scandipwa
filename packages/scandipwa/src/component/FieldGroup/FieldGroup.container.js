@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import FIELD_TYPE from 'Component/Field/Field.config';
-import { ChildrenType, ModsType } from 'Type/Common.type';
+import { ChildrenType, ModsType, RefType } from 'Type/Common.type';
 import { EventsType, FieldAttrType, ValidationRuleType } from 'Type/Field.type';
 import getFieldsData from 'Util/Form/Extract';
 import { validateGroup } from 'Util/Validator';
@@ -31,6 +31,7 @@ export class FieldGroupContainer extends PureComponent {
         children: ChildrenType,
         attr: FieldAttrType,
         events: EventsType,
+        elemRef: RefType,
 
         // Validation
         validationRule: ValidationRuleType,
@@ -53,7 +54,8 @@ export class FieldGroupContainer extends PureComponent {
         label: '',
         subLabel: '',
         children: [],
-        mods: {}
+        mods: {},
+        elemRef: null
     };
 
     state = {
@@ -78,9 +80,14 @@ export class FieldGroupContainer extends PureComponent {
 
     // Adds validation event listener to field
     setRef(elem) {
+        const { validationRule, elemRef } = this.props;
+
         if (elem && this.groupRef !== elem) {
             this.groupRef = elem;
-            const { validationRule } = this.props;
+
+            if (elemRef) {
+                elemRef.current = elem;
+            }
 
             if (!validationRule || Object.keys(validationRule).length === 0) {
                 return;

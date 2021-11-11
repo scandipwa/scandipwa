@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { MixType } from 'Type/Common.type';
+import { MixType, RefType } from 'Type/Common.type';
 import {
     EventsType, FieldAttrType, FieldOptionsType, LabelType, ValidationRuleType
 } from 'Type/Field.type';
@@ -36,6 +36,7 @@ export class FieldContainer extends PureComponent {
         isDisabled: PropTypes.bool,
         mix: MixType,
         options: FieldOptionsType,
+        elemRef: RefType,
 
         // Validation
         validationRule: ValidationRuleType,
@@ -60,7 +61,8 @@ export class FieldContainer extends PureComponent {
         isDisabled: false,
         addRequiredTag: false,
         label: '',
-        subLabel: ''
+        subLabel: '',
+        elemRef: null
     };
 
     state = {
@@ -89,10 +91,14 @@ export class FieldContainer extends PureComponent {
 
     // Adds validation event listener to field
     setRef(elem) {
-        const { validationRule } = this.props;
+        const { validationRule, elemRef } = this.props;
 
         if (elem && this.fieldRef !== elem) {
             this.fieldRef = elem;
+
+            if (elemRef) {
+                elemRef.current = elem;
+            }
 
             elem.addEventListener('resetField', this.resetField.bind(this));
 
