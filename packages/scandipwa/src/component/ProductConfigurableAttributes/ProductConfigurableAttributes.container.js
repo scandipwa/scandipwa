@@ -18,6 +18,7 @@ import {
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import { MixType } from 'Type/Common.type';
 import { AttributesType, ItemsType } from 'Type/ProductList.type';
+import { noopFn } from 'Util/Common';
 import { getBooleanLabel } from 'Util/Product';
 
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';
@@ -39,7 +40,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
     };
 
     static defaultProps = {
-        getLink: () => {},
+        getLink: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true,
         variants: null,

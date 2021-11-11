@@ -140,8 +140,12 @@ export class CheckoutContainer extends PureComponent {
         updateShippingPrice: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         isInStoreActivated: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        cartTotalSubPrice: null
     };
 
     containerFunctions = {

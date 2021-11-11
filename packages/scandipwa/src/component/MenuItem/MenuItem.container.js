@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { ModsType } from 'Type/Common.type';
 import { MenuItemType } from 'Type/Menu.type';
 import { scrollToTop } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 
 import MenuItem from './MenuItem.component';
@@ -42,8 +43,8 @@ export class MenuItemContainer extends PureComponent {
     };
 
     static defaultProps = {
-        closeMenu: () => {},
-        onCategoryHover: () => {},
+        closeMenu: noopFn,
+        onCategoryHover: noopFn,
         itemMods: {},
         isLink: false,
         isExpandable: false

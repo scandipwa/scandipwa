@@ -48,12 +48,16 @@ export class CheckoutBilling extends PureComponent {
         showPopup: PropTypes.func.isRequired,
         paymentMethods: PaymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         shippingAddress: Addresstype.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
         })).isRequired,
         selectedShippingMethod: PropTypes.string.isRequired
+    };
+
+    static defaultProps = {
+        cartTotalSubPrice: null
     };
 
     componentDidMount() {

@@ -21,6 +21,7 @@ import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList.type';
+import { noopFn } from 'Util/Common';
 
 import './WishlistItem.style';
 
@@ -41,11 +42,11 @@ export class WishlistItem extends PureComponent {
     };
 
     static defaultProps = {
-        addToCart: () => {},
-        changeQuantity: () => {},
-        changeDescription: () => {},
-        removeItem: () => {},
-        redirectToProductPage: () => {},
+        addToCart: noopFn,
+        changeQuantity: noopFn,
+        changeDescription: noopFn,
+        removeItem: noopFn,
+        redirectToProductPage: noopFn,
         isLoading: false
     };
 

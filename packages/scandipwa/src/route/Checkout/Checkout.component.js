@@ -108,7 +108,7 @@ export class Checkout extends PureComponent {
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isInStoreActivated: PropTypes.bool.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         selectedStoreAddress: StoreType
@@ -117,7 +117,8 @@ export class Checkout extends PureComponent {
     static defaultProps = {
         paymentTotals: {},
         selectedStoreAddress: {},
-        isLoading: false
+        isLoading: false,
+        cartTotalSubPrice: null
     };
 
     stepMap = {

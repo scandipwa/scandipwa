@@ -21,6 +21,7 @@ import { ChildrenType } from 'Type/Common.type';
 import { CartConfigType } from 'Type/Config.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { getItemsCountLabel } from 'Util/Cart';
+import { noopFn } from 'Util/Common';
 
 import './CheckoutOrderSummary.style';
 
@@ -46,7 +47,7 @@ export class CheckoutOrderSummary extends PureComponent {
 
     static defaultProps = {
         totals: {},
-        renderCmsBlock: () => {},
+        renderCmsBlock: noopFn,
         isExpandable: false,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,

@@ -23,6 +23,7 @@ import {
     LabelType,
     OptionType
 } from 'Type/Field.type';
+import { noopFn } from 'Util/Common';
 
 import { FIELD_TYPE } from './Field.config';
 
@@ -186,12 +187,17 @@ export class Field extends PureComponent {
             setRef,
             attr,
             attr: { id = '' } = {},
+            events: { onChange },
             events,
             isDisabled,
             label
         } = this.props;
 
         const elem = type.charAt(0).toUpperCase() + type.slice(1);
+        const inputEvents = {
+            ...events,
+            onChange: onChange || noopFn
+        };
 
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` }>
@@ -200,7 +206,7 @@ export class Field extends PureComponent {
                   disabled={ isDisabled }
                   type={ type }
                   { ...attr }
-                  { ...events }
+                  { ...inputEvents }
                 />
                 <div block="input-control" />
                 { label }

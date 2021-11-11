@@ -22,6 +22,7 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
+import { noopFn } from 'Util/Common';
 import { withReducers } from 'Util/DynamicReducer';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -97,7 +98,7 @@ export class SearchPageContainer extends CategoryPageContainer {
     static defaultProps = {
         ...this.defaultProps,
         isSearchPage: true,
-        updateMetaFromCategory: () => {}
+        updateMetaFromCategory: noopFn
     };
 
     config = {

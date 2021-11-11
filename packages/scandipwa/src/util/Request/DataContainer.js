@@ -11,6 +11,7 @@
 
 import { PureComponent } from 'react';
 
+import { noopFn } from 'Util/Common';
 import { makeCancelable } from 'Util/Promise';
 import { prepareQuery } from 'Util/Query';
 import { executeGet } from 'Util/Request';
@@ -28,7 +29,7 @@ export class DataContainer extends PureComponent {
         }
     }
 
-    fetchData(rawQueries, onSuccess = () => {}, onError = () => {}) {
+    fetchData(rawQueries, onSuccess = noopFn, onError = noopFn) {
         const preparedQuery = prepareQuery(rawQueries);
         const { query, variables } = preparedQuery;
         const queryHash = hash(query + JSON.stringify(variables));

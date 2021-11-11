@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
 import { ModsType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import './CarouselScrollArrow.style';
 
@@ -25,7 +26,7 @@ export class CarouselScrollArrow extends PureComponent {
 
     static defaultProps = {
         mods: {},
-        onClick: () => {}
+        onClick: noopFn
     };
 
     render() {

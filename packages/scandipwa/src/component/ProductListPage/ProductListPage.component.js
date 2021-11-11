@@ -18,6 +18,7 @@ import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { FilterType } from 'Type/Category.type';
 import { MixType } from 'Type/Common.type';
 import { ProductType } from 'Type/ProductList.type';
+import { noopFn } from 'Util/Common';
 
 import { DEFAULT_PLACEHOLDER_COUNT } from './ProductListPage.config';
 
@@ -44,7 +45,7 @@ export class ProductListPage extends PureComponent {
 
     static defaultProps = {
         numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT,
-        wrapperRef: () => {},
+        wrapperRef: noopFn,
         selectedFilters: {},
         pageNumber: null,
         items: [],
