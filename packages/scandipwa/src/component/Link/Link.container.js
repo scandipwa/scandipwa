@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { LinkType } from 'Type/Router.type';
+import { noopFn } from 'Util/Common';
 import { appendWithStoreCode } from 'Util/Url';
 
 import Link from './Link.component';
@@ -47,7 +48,7 @@ export class LinkContainer extends PureComponent {
     };
 
     static defaultProps = {
-        onClick: () => {}
+        onClick: noopFn
     };
 
     containerFunctions = {

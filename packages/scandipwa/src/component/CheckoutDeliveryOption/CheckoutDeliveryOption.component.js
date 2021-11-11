@@ -152,10 +152,6 @@ export class CheckoutDeliveryOption extends PureComponent {
                           name: `option-${ carrier_title }`,
                           checked: !!isSelected
                       } }
-                      events={ {
-                          // prevent console error that radio button should have onChange event handler or be readonly
-                          onChange: () => null
-                      } }
                     />
                     { this.renderRow() }
                 </button>

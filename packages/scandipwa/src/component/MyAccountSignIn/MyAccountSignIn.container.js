@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
+import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 import { getErrorMessage } from 'Util/Request';
 
@@ -58,8 +59,8 @@ export class MyAccountSignInContainer extends PureComponent {
     static defaultProps = {
         emailValue: '',
         isEmailAvailable: true,
-        setSignInState: () => {},
-        handleEmailInput: () => {}
+        setSignInState: noopFn,
+        handleEmailInput: noopFn
     };
 
     containerFunctions = {

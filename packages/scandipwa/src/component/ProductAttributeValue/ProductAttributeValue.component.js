@@ -19,6 +19,7 @@ import FIELD_TYPE from 'Component/Field/Field.config';
 import Html from 'Component/Html';
 import { MixType } from 'Type/Common.type';
 import { AttributeType } from 'Type/ProductList.type';
+import { noopFn } from 'Util/Common';
 import { getBooleanLabel } from 'Util/Product';
 
 import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
@@ -41,8 +42,8 @@ export class ProductAttributeValue extends PureComponent {
 
     static defaultProps = {
         isSelected: false,
-        onClick: () => {},
-        getLink: () => {},
+        onClick: noopFn,
+        getLink: noopFn,
         mix: {},
         isAvailable: true,
         isFormattedAsText: false,
@@ -294,10 +295,6 @@ export class ProductAttributeValue extends PureComponent {
                   name: value,
                   defaultChecked: isSelected,
                   checked: isSelected
-              } }
-              events={ {
-                  // prevent console error that radio button should have onChange event handler or be readonly
-                  onChange: () => null
               } }
               label={ this.getCheckboxLabel(value, subLabel) }
               mix={ {

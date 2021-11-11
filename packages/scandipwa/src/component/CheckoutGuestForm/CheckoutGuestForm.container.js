@@ -26,6 +26,7 @@ import { SHIPPING_STEP, UPDATE_EMAIL_CHECK_FREQUENCY } from 'Route/Checkout/Chec
 import { updateEmail, updateEmailAvailable } from 'Store/Checkout/Checkout.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 import { debounce, getErrorMessage } from 'Util/Request';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
@@ -82,7 +83,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
     static defaultProps = {
         emailValue: '',
         isGuestEmailSaved: false,
-        onSignIn: () => {}
+        onSignIn: noopFn
     };
 
     state = {

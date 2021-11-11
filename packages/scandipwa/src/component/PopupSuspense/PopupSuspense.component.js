@@ -15,6 +15,7 @@ import { CART_OVERLAY } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import Overlay from 'Component/Overlay';
+import { noopFn } from 'Util/Common';
 
 import { OVERLAY_PLACEHOLDER } from './PopupSuspense.config';
 
@@ -35,7 +36,7 @@ export class PopupSuspense extends PureComponent {
     };
 
     static defaultProps = {
-        onVisible: () => {}
+        onVisible: noopFn
     };
 
     styleMap = {

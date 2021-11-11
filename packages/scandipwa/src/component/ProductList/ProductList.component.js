@@ -19,6 +19,7 @@ import { MixType } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';
 import { PagesType } from 'Type/ProductList.type';
 import { scrollToTop } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
 
 import { observerThreshold } from './ProductList.config';
 
@@ -56,10 +57,10 @@ export class ProductList extends PureComponent {
         isPaginationEnabled: false,
         selectedFilters: {},
         isLoading: false,
-        updatePage: () => {},
+        updatePage: noopFn,
         totalPages: 1,
-        loadPage: () => {},
-        loadPrevPage: () => {},
+        loadPage: noopFn,
+        loadPrevPage: noopFn,
         currentPage: 1,
         isShowLoading: false,
         isVisible: true,

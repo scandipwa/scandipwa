@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { noopFn } from 'Util/Common';
+
 import './ProductTab.style';
 
 /** @namespace Component/ProductTab/Component */
@@ -23,7 +25,7 @@ export class ProductTab extends PureComponent {
     };
 
     static defaultProps = {
-        onClick: () => {},
+        onClick: noopFn,
         isActive: false
     };
 

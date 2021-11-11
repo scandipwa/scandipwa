@@ -16,6 +16,7 @@ import { InView } from 'react-intersection-observer';
 
 import { ChildrenType } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
 
 import './RenderWhenVisible.style';
 
@@ -27,7 +28,7 @@ export class RenderWhenVisible extends PureComponent {
     };
 
     static defaultProps = {
-        fallback: () => {}
+        fallback: noopFn
     };
 
     state = {

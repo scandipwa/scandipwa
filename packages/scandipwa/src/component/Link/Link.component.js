@@ -17,6 +17,7 @@ import { stringify } from 'rebem-classname';
 
 import { ChildrenType, MixType } from 'Type/Common.type';
 import { LinkType } from 'Type/Router.type';
+import { noopFn } from 'Util/Common';
 
 /** @namespace Component/Link/Component */
 export class Link extends PureComponent {
@@ -32,7 +33,7 @@ export class Link extends PureComponent {
     static defaultProps = {
         bemProps: {},
         className: '',
-        onClick: () => {},
+        onClick: noopFn,
         isOpenInNewTab: false
     };
 
