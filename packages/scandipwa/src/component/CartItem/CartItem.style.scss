@@ -93,10 +93,6 @@
     &-Options {
         color: var(--secondary-dark-color);
         font-size: 12px;
-
-        @include mobile {
-            padding-block-end: 12px;
-        }
     }
 
     &-Option {
@@ -123,6 +119,10 @@
 
         &_isMobileLayout {
             width: 90%;
+        }
+
+        @include mobile {
+            margin-block-end: 12px;
         }
     }
 

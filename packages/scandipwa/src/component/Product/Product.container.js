@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FIELD_RADIO_NONE, FIELD_TYPE } from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { RefType } from 'Type/Common.type';
@@ -286,7 +286,9 @@ export class ProductContainer extends PureComponent {
             if (type === FIELD_TYPE.select) {
                 selectedOptions.push(value);
             } else if (type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio) {
-                selectedOptions.push(value);
+                if (value !== FIELD_RADIO_NONE) {
+                    selectedOptions.push(value);
+                }
             } else if (type !== FIELD_TYPE.number) {
                 enteredOptions.push({
                     uid: name,
