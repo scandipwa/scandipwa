@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
+import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 /** @namespace Component/CheckoutAddressForm/Component */
@@ -23,7 +24,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     static defaultProps = {
         ...MyAccountAddressForm.defaultProps,
-        onShippingEstimationFieldsChange: () => {}
+        onShippingEstimationFieldsChange: noopFn
     };
 
     lastRequest = null;

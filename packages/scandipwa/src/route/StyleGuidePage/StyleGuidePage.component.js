@@ -14,10 +14,10 @@ import { PureComponent } from 'react';
 
 import Breadcrumbs from 'Component/Breadcrumbs/Breadcrumbs.component';
 import ContentWrapper from 'Component/ContentWrapper';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import LockIcon from 'Component/LockIcon';
 import Notification from 'Component/Notification';
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 
 import {
     ADDITIONAL_ELEMENTS,

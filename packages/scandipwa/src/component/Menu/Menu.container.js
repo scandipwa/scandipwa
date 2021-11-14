@@ -12,7 +12,7 @@
 import { connect } from 'react-redux';
 
 import MenuQuery from 'Query/Menu.query';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 import history from 'Util/History';
 import MenuHelper from 'Util/Menu';
 import DataContainer from 'Util/Request/DataContainer';

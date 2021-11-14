@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import Breadcrumb from 'Component/Breadcrumb';
 import ContentWrapper from 'Component/ContentWrapper';
-import { BreadcrumbsType } from 'Type/Breadcrumbs';
+import { BreadcrumbsType } from 'Type/Breadcrumbs.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import './Breadcrumbs.style';

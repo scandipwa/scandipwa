@@ -14,7 +14,8 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { MixType, RefType } from 'Type/Common';
+import { MixType, RefType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import {
     IMAGE_LOADED, IMAGE_LOADING, IMAGE_NOT_FOUND, IMAGE_NOT_SPECIFIED
@@ -72,7 +73,7 @@ export class Image extends PureComponent {
         ratio: 'square',
         mix: {},
         showIsLoading: false,
-        imageRef: () => {}
+        imageRef: noopFn
     };
 
     image = createRef();

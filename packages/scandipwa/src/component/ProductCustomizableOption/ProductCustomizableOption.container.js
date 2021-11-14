@@ -13,7 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionsToSelectTransform } from 'Util/Product/Transform';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
@@ -38,7 +39,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         title: PropTypes.string.isRequired,
         isRequired: PropTypes.bool.isRequired,
         type: PropTypes.string.isRequired,
-        options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+        options: CustomizableOptionsType.isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
         currencyCode: PropTypes.string.isRequired
     };

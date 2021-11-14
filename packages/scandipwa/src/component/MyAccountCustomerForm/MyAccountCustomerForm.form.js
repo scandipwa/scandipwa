@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import FIELD_TYPE from 'Component/Field/Field.config';
 
 /**
  * Returns customer forms fields

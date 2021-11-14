@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import NoMatch from 'Route/NoMatch';
-import { ChildrenType } from 'Type/Common';
-import { LocationType } from 'Type/Router';
+import { ChildrenType } from 'Type/Common.type';
+import { LocationType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 
 /** @namespace Route/NoMatchHandler/Component */

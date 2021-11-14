@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { ERROR_TYPE } from 'Component/Notification/Notification.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { LocationType } from 'Type/Router';
+import { LocationType } from 'Type/Router.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 

@@ -15,15 +15,16 @@ import { PureComponent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { stringify } from 'rebem-classname';
 
-import { ChildrenType } from 'Type/Common';
-import { LinkType } from 'Type/Router';
+import { ChildrenType, MixType } from 'Type/Common.type';
+import { LinkType } from 'Type/Router.type';
+import { noopFn } from 'Util/Common';
 
 /** @namespace Component/Link/Component */
 export class Link extends PureComponent {
     static propTypes = {
         to: LinkType.isRequired,
         className: PropTypes.string,
-        bemProps: PropTypes.shape({}),
+        bemProps: MixType,
         children: ChildrenType.isRequired,
         onClick: PropTypes.func,
         isOpenInNewTab: PropTypes.bool
@@ -32,7 +33,7 @@ export class Link extends PureComponent {
     static defaultProps = {
         bemProps: {},
         className: '',
-        onClick: () => {},
+        onClick: noopFn,
         isOpenInNewTab: false
     };
 

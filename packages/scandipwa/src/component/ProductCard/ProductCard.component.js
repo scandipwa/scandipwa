@@ -20,9 +20,10 @@ import { Product } from 'Component/Product/Product.component';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import { DeviceType } from 'Type/Device';
-import { LayoutType } from 'Type/Layout';
-import { LinkType } from 'Type/Router';
+import { MixType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
+import { LayoutType } from 'Type/Layout.type';
+import { LinkType } from 'Type/Router.type';
 
 import './ProductCard.style';
 
@@ -39,12 +40,12 @@ export class ProductCard extends Product {
         isLoading: PropTypes.bool,
         children: PropTypes.element,
         layout: LayoutType,
-        mix: PropTypes.shape({}),
+        mix: MixType,
         renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
         hideWishlistButton: PropTypes.bool,
         isWishlistEnabled: PropTypes.bool.isRequired,
         hideCompareButton: PropTypes.bool,
-        parameters: PropTypes.shape({}).isRequired,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         showSelectOptionsNotification: PropTypes.func.isRequired,
         registerSharedElement: PropTypes.func.isRequired
     };

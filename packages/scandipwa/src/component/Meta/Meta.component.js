@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 
+import { MetaTitleType } from 'Type/Common.type';
+
 /**
  * Page Meta data
  * @class Meta
@@ -34,15 +36,7 @@ export class Meta extends PureComponent {
         default_title: PropTypes.string.isRequired,
         title_prefix: PropTypes.string.isRequired,
         title_suffix: PropTypes.string.isRequired,
-        title: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.shape({
-                TranslatedValue: PropTypes.shape({
-                    value: PropTypes.string,
-                    injectables: PropTypes.array
-                })
-            })
-        ])
+        title: MetaTitleType
     };
 
     static defaultProps = {

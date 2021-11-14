@@ -14,7 +14,7 @@ import { createRef, PureComponent } from 'react';
 
 import Draggable from 'Component/Draggable';
 import Loader from 'Component/Loader';
-import { ChildrenType, MixType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common.type';
 import CSS from 'Util/CSS';
 import { isRtl } from 'Util/CSS/CSS';
 
