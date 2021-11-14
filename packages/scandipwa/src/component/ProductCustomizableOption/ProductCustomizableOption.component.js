@@ -17,7 +17,6 @@ import { FIELD_TYPE } from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
 
@@ -120,7 +119,9 @@ export class ProductCustomizableOption extends PureComponent {
                   type={ FIELD_TYPE.file }
                   validationRule={ {
                       isRequired,
-                      inputType: VALIDATION_INPUT_TYPE.imageFormat
+                      fileExtension: {
+                          accept: fileExtensions
+                      }
                   } }
                   attr={ {
                       id: uid,

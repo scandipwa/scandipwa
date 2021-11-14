@@ -32,8 +32,7 @@ export const VALIDATION_INPUT_TYPE_INPUT = {
     password: 'password',
     date: 'date',
     phone: 'phone',
-    emailList: 'emailList',
-    imageFormat: 'imageFormat'
+    emailList: 'emailList'
 };
 
 export const VALIDATION_INPUT_TYPE = {
@@ -48,6 +47,7 @@ export const VALIDATION_MESSAGES = {
     match: __('Incorrect input!'),
     range: __('Value is out of range!'), // Range values are also in Validator.js as they require args
     group: __('Field contains issues!'),
+    fileExtension: __('Incorrect File extension upload!'),
     //#endregion
 
     //#region VALIDATION RULE MSG
@@ -65,8 +65,7 @@ export const VALIDATION_MESSAGES = {
     [VALIDATION_INPUT_TYPE.emailList]: __('Incorrect list of emails!'),
     [VALIDATION_INPUT_TYPE.date]: __('Incorrect date input!'),
     [VALIDATION_INPUT_TYPE.password]: __('Incorrect password input!'),
-    [VALIDATION_INPUT_TYPE.phone]: __('Incorrect phone input!'),
-    [VALIDATION_INPUT_TYPE.imageFormat]: __('Incorrect Image file extension!')
+    [VALIDATION_INPUT_TYPE.phone]: __('Incorrect phone input!')
     //#endregion
 };
 
@@ -92,6 +91,5 @@ export const VALIDATION_RULES = {
     [VALIDATION_INPUT_TYPE.date]: /\d{4}-\d{1,2}-\d{1,2}/,
     [VALIDATION_INPUT_TYPE.phone]: /^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/im,
     // eslint-disable-next-line max-len
-    [VALIDATION_INPUT_TYPE.emailList]: /^(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+([,\s]+(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/,
-    [VALIDATION_INPUT_TYPE.imageFormat]: /\w+\.png$|\w+\.jpg$/i
+    [VALIDATION_INPUT_TYPE.emailList]: /^(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+([,\s]+(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/
 };
