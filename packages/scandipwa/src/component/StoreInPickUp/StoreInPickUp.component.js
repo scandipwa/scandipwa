@@ -14,8 +14,8 @@ import { PureComponent } from 'react';
 
 import StoreInPickUpPopupComponent from 'Component/StoreInPickUpPopup';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
-import { Addresstype } from 'Type/Account';
-import { ShippingMethodsType, StoreType } from 'Type/Checkout';
+import { Addresstype } from 'Type/Account.type';
+import { ShippingMethodsType, StoreType } from 'Type/Checkout.type';
 
 import './StoreInPickUp.style';
 

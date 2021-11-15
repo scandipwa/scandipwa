@@ -16,8 +16,8 @@ import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
 import ProductReviewList from 'Component/ProductReviewList';
 import ProductReviewRating from 'Component/ProductReviewRating';
-import { DeviceType } from 'Type/Device';
-import { ProductType } from 'Type/ProductList';
+import { DeviceType } from 'Type/Device.type';
+import { ProductType } from 'Type/ProductList.type';
 import { showNewReviewPopup } from 'Util/Product';
 
 import './ProductReviews.style';

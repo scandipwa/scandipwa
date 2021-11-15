@@ -12,11 +12,13 @@
 
 import PropTypes from 'prop-types';
 
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import FieldForm from 'Component/PureForm/FieldForm';
-import { Addresstype } from 'Type/Account';
-import { CountriesType } from 'Type/Config';
-import { trimCustomerAddress } from 'Util/Address';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldForm from 'Component/FieldForm';
+import { Addresstype } from 'Type/Account.type';
+import { CountriesType } from 'Type/Config.type';
+import {
+    trimCustomerAddress
+} from 'Util/Address';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import myAccountAddressForm from './MyAccountAddressForm.form';

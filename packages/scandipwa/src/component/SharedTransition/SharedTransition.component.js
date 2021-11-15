@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { RefType } from 'Type/Common';
+import { RefType } from 'Type/Common.type';
 
 import { SHARED_ELEMENT_TRANSITION } from './SharedTransition.config';
 

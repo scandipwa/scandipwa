@@ -15,8 +15,8 @@ import { PureComponent } from 'react';
 
 import HeartIcon from 'Component/HeartIcon';
 import Loader from 'Component/Loader';
-import { MixType } from 'Type/Common';
-import { MagentoProductType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { MagentoProductType } from 'Type/ProductList.type';
 
 import './ProductWishlistButton.style';
 

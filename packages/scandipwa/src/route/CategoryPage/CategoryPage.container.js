@@ -28,9 +28,9 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
-import { CategoryTreeType, SelectedFiltersType } from 'Type/Category';
-import { AttributesType } from 'Type/ProductList';
-import { HistoryType, LocationType, MatchType } from 'Type/Router';
+import { CategoryTreeType, SelectedFiltersType, SortFieldsType } from 'Type/Category.type';
+import { AttributesType } from 'Type/ProductList.type';
+import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
@@ -132,9 +132,7 @@ export class CategoryPageContainer extends PureComponent {
         updateLoadStatus: PropTypes.func.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
         filters: AttributesType.isRequired,
-        sortFields: PropTypes.shape({
-            options: PropTypes.array
-        }).isRequired,
+        sortFields: SortFieldsType.isRequired,
         currentArgs: PropTypes.shape({
             filter: PropTypes.shape({
                 categoryIds: PropTypes.number

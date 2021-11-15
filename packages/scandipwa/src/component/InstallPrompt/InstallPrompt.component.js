@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import InstallPromptAndroid from 'Component/InstallPromptAndroid';
 import InstallPromptIOS from 'Component/InstallPromptIOS';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 
 import './InstallPrompt.style';
 

@@ -34,6 +34,9 @@
         .ChevronIcon {
             display: none;
         }
+        :link{
+            pointer-events: none;
+        }
     }
 
     &::before {

@@ -10,9 +10,9 @@
  */
 
 import AddToCart from 'Component/AddToCart';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import ProductCard from 'Component/ProductCard';
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 

@@ -15,8 +15,9 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ChildrenType, MixType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common.type';
 import { toggleScroll } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
 
 import './Overlay.style';
 
@@ -38,9 +39,9 @@ export class Overlay extends PureComponent {
     static defaultProps = {
         mix: {},
         children: [],
-        onVisible: () => {},
+        onVisible: noopFn,
         isStatic: false,
-        onHide: () => {},
+        onHide: noopFn,
         isRenderInPortal: true
     };
 

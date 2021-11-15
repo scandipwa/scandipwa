@@ -12,34 +12,20 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
-import CategoryPagination from 'Component/CategoryPagination';
-import CategorySort from 'Component/CategorySort';
+import Breadcrumbs from 'Component/Breadcrumbs/Breadcrumbs.component';
 import ContentWrapper from 'Component/ContentWrapper';
-import GridIcon from 'Component/GridIcon';
-import HeartIcon from 'Component/HeartIcon';
-import Image from 'Component/Image';
-import ListIcon from 'Component/ListIcon';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import LockIcon from 'Component/LockIcon';
 import Notification from 'Component/Notification';
-import ProductCard from 'Component/ProductCard';
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import SearchItem from 'Component/SearchItem';
-import UserIcon from 'Component/UserIcon';
-import { ProductType } from 'Type/ProductList';
 
-import configurableOptions from './configurableOptions.json';
 import {
     ADDITIONAL_ELEMENTS,
-    BUTTONS, ICONS,
-    ICONS_LIST,
+    BUTTONS, COLORS,
     INPUTS,
-    MENU_ITEMS_AND_LINKS,
     NOTIFICATION_ERROR_DATA,
     NOTIFICATION_INFO_DATA,
     NOTIFICATION_SUCCESS_DATA,
-    PRODUCT_POD,
     TEXT_STYLES
 } from './StyleGuidePage.config';
 
@@ -48,19 +34,82 @@ import './StyleGuidePage.style';
 /** @namespace Route/StyleGuidePage/Component */
 export class StyleGuidePageComponent extends PureComponent {
     static propTypes = {
-        product: ProductType.isRequired,
         fakeFunction: PropTypes.func.isRequired
     };
 
     renderMap = {
+        [COLORS]: () => this.renderColors(),
         [BUTTONS]: () => this.renderButtons(),
         [TEXT_STYLES]: () => this.renderTextStyles(),
-        [MENU_ITEMS_AND_LINKS]: () => this.renderMenuItemsAndLinks(),
         [INPUTS]: () => this.renderInputs(),
-        [ICONS]: () => this.renderIcons(),
-        [PRODUCT_POD]: () => this.renderProductPod(),
         [ADDITIONAL_ELEMENTS]: () => this.renderAdditionalElements()
     };
+
+    renderContentWrapper() {
+        return (
+            <>
+            <ContentWrapper wrapperMix={ { block: 'StyleGuidePage', elem: 'DesktopContentWrapper' } }>
+                <h3>{ __('Desktop Content Wrapper Max Width: 1400px') }</h3>
+                <h4>{ __('Padding Right: 32px') }</h4>
+                <h4>{ __('Padding Left: 32px') }</h4>
+            </ContentWrapper>
+            <div block="StyleGuidePage" elem="Mt70" />
+            <ContentWrapper wrapperMix={ { block: 'StyleGuidePage', elem: 'MobileContentWrapper' } }>
+                <h3>{ __('Mobile Content Wrapper Max Width: 810px') }</h3>
+                <h4>{ __('Padding Right: 14px') }</h4>
+                <h4>{ __('Padding Left: 14px') }</h4>
+            </ContentWrapper>
+            </>
+        );
+    }
+
+    renderColors() {
+        return (
+            <div block="StyleGuidePage" elem="Colors">
+                <h4 block="StyleGuidePage" elem="SubHeading">{ __('Color scheme') }</h4>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="primaryBase" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('PRIMARY BASE') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="primaryHover" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('PRIMARY HOVER') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="primaryHighlight" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('PRIMARY HIGHTLIGHT') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="secondaryBase" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('SECONDARY BASE') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="secondaryHover" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('SECONDARY HOVER') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="secondaryHightlight" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('SECONDARY HIGHLIGHT') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="text" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('TEXT') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="error" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('ERROR') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="success" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('SUCCESS') }</span>
+                </div>
+                <div>
+                    <div block="StyleGuidePage" elem="Color" id="info" />
+                    <span block="StyleGuidePage" elem="ColorLabel">{ __('INFO') }</span>
+                </div>
+            </div>
+        );
+    }
 
     renderButtons() {
         return (
@@ -73,6 +122,9 @@ export class StyleGuidePageComponent extends PureComponent {
                     <button block="Button" id="hoverButtons" mods={ { isHovered: true } }>
                         { __('Button text') }
                     </button>
+                    <button block="Button" id="disabledButtons" disabled>
+                        { __('Button text') }
+                    </button>
                 </div>
                 <div>
                     <button block="Button">
@@ -83,12 +135,19 @@ export class StyleGuidePageComponent extends PureComponent {
                         <LockIcon />
                         { __('Button text') }
                     </button>
+                    <button block="Button" disabled>
+                        <LockIcon />
+                        { __('Button text') }
+                    </button>
                 </div>
                 <h4 block="StyleGuidePage" elem="SubHeading">{ __('Supportive [default state + hover]') }</h4>
                 <button block="Button" id="hollowButtons" mods={ { isHollow: true } }>
                     { __('Secondary button') }
                 </button>
                 <button block="Button" id="hollowHoverButtons" mods={ { isHollow: true, isHovered: true } }>
+                    { __('Secondary button') }
+                </button>
+                <button block="Button" id="hollowHoverButtons" mods={ { isHollow: true } } disabled>
                     { __('Secondary button') }
                 </button>
             </div>
@@ -110,9 +169,23 @@ export class StyleGuidePageComponent extends PureComponent {
                         <strong>{ __(' following ') }</strong>
                         { __('business goals:') }
                     </p>
+                    <p id="paragraph">
+                        { __('The ') }
+                        <a block="StyleGuidePage" href="/" elem="ActiveLink">{ __('website') }</a>
+                        { __(' aims to achieve') }
+                        <strong>{ __(' following ') }</strong>
+                        { __('business goals:') }
+                    </p>
                     <p block="caption" id="caption">
                         { __('The ') }
                         <a block="Link" href="/">{ __('website') }</a>
+                        { __(' aims to achieve') }
+                        <strong>{ __(' following ') }</strong>
+                        { __('business goals:') }
+                    </p>
+                    <p block="caption" id="caption">
+                        { __('The ') }
+                        <a block="StyleGuidePage" elem="ActiveLink" href="/">{ __('website') }</a>
                         { __(' aims to achieve') }
                         <strong>{ __(' following ') }</strong>
                         { __('business goals:') }
@@ -130,9 +203,23 @@ export class StyleGuidePageComponent extends PureComponent {
                         <strong>{ __(' following ') }</strong>
                         { __('business goals:') }
                     </p>
+                    <p id="paragraphMobile">
+                        { __('The ') }
+                        <a block="StyleGuidePage" elem="ActiveLink" href="/">{ __('website') }</a>
+                        { __(' aims to achieve') }
+                        <strong>{ __(' following ') }</strong>
+                        { __('business goals:') }
+                    </p>
                     <p block="caption" id="captionMobile">
                         { __('The ') }
                         <a block="Link" href="/">{ __('website') }</a>
+                        { __(' aims to achieve') }
+                        <strong>{ __(' following ') }</strong>
+                        { __('business goals:') }
+                    </p>
+                    <p block="caption" id="captionMobile">
+                        { __('The ') }
+                        <a block="StyleGuidePage" elem="ActiveLink" href="/">{ __('website') }</a>
                         { __(' aims to achieve') }
                         <strong>{ __(' following ') }</strong>
                         { __('business goals:') }
@@ -142,99 +229,202 @@ export class StyleGuidePageComponent extends PureComponent {
         );
     }
 
-    renderMenuItemsAndLinks() {
-        return (
-            <div block="StyleGuidePage" elem="MenuAndLinks">
-                <h4 block="StyleGuidePage" elem="SubHeading">{ __('Default state + hover') }</h4>
-                <div>
-                    <span block="Menu" elem="ItemCaption" mods={ { type: 'main' } }>{ __('PRODUCTS') }</span>
-                    <span block="Menu" elem="ItemCaption" mods={ { type: 'main', active: true } }>
-                        { __('PRODUCTS') }
-                    </span>
-                </div>
-                <div>
-                    <a block="Link" href="/" id="link">
-                        { __('CLICKABLE TEXT') }
-                    </a>
-                    <a block="StyleGuidePage" elem="ActiveLink" href="/" id="linkHover">
-                        { __('CLICKABLE TEXT') }
-                    </a>
-                </div>
-            </div>
-        );
-    }
-
     renderInputs() {
         return (
             <>
+                <h4 block="StyleGuidePage" elem="SubHeading">{ __('Select') }</h4>
                 <Field
                   type={ FIELD_TYPE.select }
+                  label="Color"
                   attr={ {
-                      name: 'testSelect',
                       selectPlaceholder: __('Select color')
+                  } }
+                  addRequiredTag
+                  options={ [{ label: 'Yellow', value: 'yellow' }, { label: 'Orange', value: 'Orange' }] }
+                />
+                <Field
+                  type={ FIELD_TYPE.select }
+                  label="Color"
+                  attr={ {
+                      selectPlaceholder: __('Select color')
+                  } }
+                  isDisabled
+                />
+                <Field
+                  type={ FIELD_TYPE.select }
+                  label="Color"
+                  attr={ {
+                      selectPlaceholder: __('Select color')
+                  } }
+                  options={ [{ label: 'Yellow', value: 'yellow' }, { label: 'Orange', value: 'Orange' }] }
+                />
+                <div block="StyleGuidePage" elem="Mt70" />
+                <Field
+                  type={ FIELD_TYPE.select }
+                  label="Color"
+                  attr={ {
+                      selectPlaceholder: __('Select color'),
+                      isExpanded: true
+                  } }
+                  options={ [
+                      { label: 'Yellow', value: 'yellow', isHovered: true },
+                      { label: 'Orange', value: 'Orange' }
+                  ] }
+                />
+                <div block="StyleGuidePage" elem="Mt150" />
+                <Field
+                  type={ FIELD_TYPE.select }
+                  label="Color"
+                  attr={ {
+                      selectPlaceholder: __('Select color'),
+                      block: 'StyleGuidePage',
+                      elem: 'Select',
+                      mods: { hasError: true }
+                  } }
+                  options={ [
+                      { label: 'Yellow', value: 'yellow' },
+                      { label: 'Orange', value: 'Orange' }
+                  ] }
+                  addRequiredTag
+                />
+                <div block="Field" elem="ErrorMessages">
+                This field is required!
+                </div>
+                <Field
+                  type={ FIELD_TYPE.select }
+                  label="Color"
+                  attr={ {
+                      selectPlaceholder: __('Select color'),
+                      value: 'orange',
+                      block: 'StyleGuidePage',
+                      elem: 'Select',
+                      mods: { isValid: true }
+                  } }
+                  options={ [
+                      { label: 'Yellow', value: 'yellow' },
+                      { label: 'Orange', value: 'orange' }
+                  ] }
+                />
+
+                <h4 block="StyleGuidePage" elem="SubHeading">{ __('Text') }</h4>
+                <Field
+                  type={ FIELD_TYPE.text }
+                  label="Email"
+                  attr={ {
+                      placeholder: __('Your email address')
+                  } }
+                  addRequiredTag
+                />
+                <Field
+                  type={ FIELD_TYPE.text }
+                  label="Email"
+                  attr={ {
+                      placeholder: __('Your email address')
+                  } }
+                  isDisabled
+                />
+                <Field
+                  type={ FIELD_TYPE.text }
+                  label="Email"
+                  attr={ {
+                      placeholder: __('Your email address')
                   } }
                 />
                 <Field
                   type={ FIELD_TYPE.text }
+                  label="Email"
                   attr={ {
-                      name: 'testSelect',
-                      selectPlaceholder: __('Your email address')
+                      placeholder: __('Your email address'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { isFocused: true }
                   } }
-                  validationRule={ {
-                      isRequired: true
+                />
+                <Field
+                  type={ FIELD_TYPE.text }
+                  label="Email"
+                  attr={ {
+                      placeholder: __('Your email address'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { hasError: true }
                   } }
                   addRequiredTag
                 />
-            </>
-        );
-    }
-
-    renderIcon(icon) {
-        const [name, Component] = icon;
-
-        if (typeof Component === 'string') {
-            return (
-                <Image src={ Component } alt={ name } key={ name } />
-            );
-        }
-
-        return <Component />;
-    }
-
-    renderIcons() {
-        return (
-            <div block="StyleGuidePage" elem="Icons">
-                { Object.entries(ICONS_LIST).map(this.renderIcon) }
-                <h4 block="StyleGuidePage" elem="SubHeading">
-                    { __('Icons in header [default state + hover]') }
-                </h4>
-                <div>
-                    <UserIcon />
-                    <UserIcon isActive />
+                <div block="Field" elem="ErrorMessages">
+                This field is required!
                 </div>
-                <div>
-                    <HeartIcon />
-                    <HeartIcon isActive />
-                </div>
-            </div>
-        );
-    }
+                <Field
+                  type={ FIELD_TYPE.text }
+                  label="Email"
+                  attr={ {
+                      placeholder: __('Your email address'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { isValid: true },
+                      value: 'email@example.com'
+                  } }
+                />
 
-    renderProductPod() {
-        const { product } = this.props;
-
-        return (
-            <>
-                <h4 block="StyleGuidePage" elem="SubHeading">
-                    { __('Default state + hover') }
-                </h4>
-                <div block="StyleGuidePage" elem="ProductList">
-                    <ProductCard product={ product } />
+                <h4 block="StyleGuidePage" elem="SubHeading">{ __('Checkbox') }</h4>
+                <Field
+                  type="checkbox"
+                  label="Remember me"
+                  isDisabled
+                />
+                <Field
+                  type="checkbox"
+                  label="Remember me"
+                />
+                <Field
+                  type="checkbox"
+                  label="Remember me"
+                  attr={ { block: 'StyleGuidePage', elem: 'HoveredInput', id: 'hoveredCheckbox' } }
+                />
+                <Field
+                  type="checkbox"
+                  label="Remember me"
+                  attr={ { block: 'StyleGuidePage', elem: 'ErrorInput', id: 'errorCheckbox' } }
+                />
+                <div block="Field" elem="ErrorMessages">
+                    This is an error message
                 </div>
-                <h4 block="StyleGuidePage" elem="SubHeading">
-                    { __('In expanded search') }
-                </h4>
-                <SearchItem product={ product } />
+                <Field
+                  type="checkbox"
+                  label="Remember me"
+                  attr={ {
+                      checked: true
+                  } }
+                />
+
+                <h4 block="StyleGuidePage" elem="SubHeading">{ __('Radio') }</h4>
+                <Field
+                  type="radio"
+                  label="Remember me"
+                  isDisabled
+                />
+                <Field
+                  type="radio"
+                  label="Remember me"
+                />
+                <Field
+                  type="radio"
+                  label="Remember me"
+                  attr={ { block: 'StyleGuidePage', elem: 'HoveredInput', id: 'hoveredRadio' } }
+                />
+                <Field
+                  type="radio"
+                  label="Remember me"
+                  attr={ { block: 'StyleGuidePage', elem: 'ErrorInput', id: 'errorRadio' } }
+                />
+                <div block="Field" elem="ErrorMessages">
+                    This is an error message
+                </div>
+                <Field
+                  type="radio"
+                  label="Remember me"
+                  attr={ { checked: true } }
+                />
             </>
         );
     }
@@ -242,28 +432,20 @@ export class StyleGuidePageComponent extends PureComponent {
     renderAdditionalElements() {
         const { fakeFunction } = this.props;
 
-        const sortData = [
-            {
-                id: 'position',
-                label: 'Position'
-            },
-            {
-                id: 'name',
-                label: 'Product Name'
-            },
-            {
-                id: 'price',
-                label: 'Price'
-            }
-        ];
-
-        const isMatchingInfoFilter = true;
-
-        // eslint-disable-next-line max-len
-        const longText = __('Product badges, also known as product labels or product stickers structuring products in engaging categories e.g. sales, new, popular to initiate purchase journey by highlighting key products.');
-
         return (
             <>
+                <h4 block="StyleGuidePage" elem="SubHeading">
+                    { __('Breadcrumbs') }
+                </h4>
+                <Breadcrumbs
+                  breadcrumbs={ [{ url: '/styleguide', name: 'Style Guide' }] }
+                  areBreadcrumbsVisible
+                />
+                <Breadcrumbs
+                  breadcrumbs={ [{ name: 'Style Guide' }] }
+                  areBreadcrumbsVisible
+                />
+
                 <h4 block="StyleGuidePage" elem="SubHeading">
                     { __('Notification messages') }
                 </h4>
@@ -289,36 +471,6 @@ export class StyleGuidePageComponent extends PureComponent {
                   notification={ NOTIFICATION_INFO_DATA }
                   id="notificationInfo"
                 />
-                <h4 block="StyleGuidePage" elem="SubHeading">
-                    { __('Pagination') }
-                </h4>
-                <CategoryPagination totalPages={ 10 } id="pagination" />
-                <p>
-                    { longText }
-                </p>
-                <h4 block="StyleGuidePage" elem="SubHeading">
-                    { __('Layered navigation') }
-                </h4>
-                <div block="StyleGuidePage" elem="LayeredNavigation">
-                    <CategoryConfigurableAttributes
-                      configurable_options={ configurableOptions }
-                      getLink={ fakeFunction }
-                      updateConfigurableVariant={ fakeFunction }
-                      parameters={ {} }
-                    />
-                    <CategorySort
-                      sortFields={ sortData }
-                      onSortChange={ fakeFunction }
-                      sortKey="name"
-                      sortDirection="ASC"
-                      isMatchingInfoFilter={ isMatchingInfoFilter }
-                    />
-                    <GridIcon isActive />
-                    <ListIcon />
-                </div>
-                <h4 block="StyleGuidePage" elem="SubHeading">
-                    { __('Menu dropdown') }
-                </h4>
             </>
         );
     }
@@ -333,6 +485,7 @@ export class StyleGuidePageComponent extends PureComponent {
     render() {
         return (
             <main block="StyleGuidePage">
+                { this.renderContentWrapper() }
                 <ContentWrapper
                   wrapperMix={ { block: 'StyleGuidePage', elem: 'Wrapper' } }
                   label={ __('Style Guide page') }

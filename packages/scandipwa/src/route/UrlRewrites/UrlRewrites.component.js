@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
-import { HistoryType, LocationType, MatchType } from 'Type/Router';
+import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 
 import {
     TYPE_CATEGORY,

@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { VIDEO_POPUP_ID } from 'Component/VideoPopup/VideoPopup.config';
 import { hideActivePopup } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { MediaItemType } from 'Type/ProductList';
+import { MediaItemType } from 'Type/ProductList.type';
 
 import VideoThumbnail from './VideoThumbnail.component';
 

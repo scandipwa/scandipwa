@@ -23,9 +23,9 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { CustomerType } from 'Type/Account';
-import { TotalsType } from 'Type/MiniCart';
-import { HistoryType } from 'Type/Router';
+import { CustomerType } from 'Type/Account.type';
+import { TotalsType } from 'Type/MiniCart.type';
+import { HistoryType } from 'Type/Router.type';
 import { removeEmptyStreets } from 'Util/Address';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -140,8 +140,12 @@ export class CheckoutContainer extends PureComponent {
         updateShippingPrice: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         isInStoreActivated: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        cartTotalSubPrice: null
     };
 
     containerFunctions = {
@@ -271,7 +275,8 @@ export class CheckoutContainer extends PureComponent {
     }
 
     onShippingMethodSelect(selectedShippingMethod) {
-        this.setState({ selectedShippingMethod });
+        const { method_code } = selectedShippingMethod;
+        this.setState({ selectedShippingMethod: method_code });
     }
 
     onShippingEstimationFieldsChange(address) {
@@ -477,7 +482,7 @@ export class CheckoutContainer extends PureComponent {
         const { updateEmail } = this.props;
         const guestCartId = getGuestQuoteId();
 
-        if (!guestCartId) {
+        if (!guestCartId || !email) {
             return null;
         }
 

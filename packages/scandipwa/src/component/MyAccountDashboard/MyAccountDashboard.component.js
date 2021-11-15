@@ -18,7 +18,7 @@ import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import MyAccountCustomerPopup from 'Component/MyAccountCustomerPopup';
 import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
 import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
-import { ADDRESS_BOOK, CustomerType } from 'Type/Account';
+import { ADDRESS_BOOK, CustomerType } from 'Type/Account.type';
 
 import './MyAccountDashboard.style';
 

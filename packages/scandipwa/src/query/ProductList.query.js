@@ -226,7 +226,8 @@ export class ProductListQuery {
             this._getStockItemField(),
             this._getProductThumbnailField(),
             this._getCartConfigurableProductFragment(),
-            this._getAttributesField(false, true)
+            this._getAttributesField(false, true),
+            this._getProductLinksField()
         ];
     }
 

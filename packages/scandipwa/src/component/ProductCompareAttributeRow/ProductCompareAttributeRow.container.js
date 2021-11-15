@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 
 import ProductCompareAttributeRow from './ProductCompareAttributeRow.component';
 
@@ -29,7 +29,7 @@ export const mapDispatchToProps = () => ({});
 export class ProductCompareAttributeRowContainer extends PureComponent {
     static propTypes = {
         title: PropTypes.string.isRequired,
-        values: PropTypes.array.isRequired,
+        values: PropTypes.arrayOf(PropTypes.string).isRequired,
         device: DeviceType.isRequired
     };
 

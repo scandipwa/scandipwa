@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import GroupedProductsItem from 'Component/GroupedProductsItem';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 
 /**
  * Product description

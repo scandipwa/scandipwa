@@ -16,8 +16,8 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { AttributeType, ProductType } from 'Type/ProductList';
-import { LinkType } from 'Type/Router';
+import { AttributeType, ProductType } from 'Type/ProductList.type';
+import { LinkType } from 'Type/Router.type';
 
 import './SearchItem.style';
 

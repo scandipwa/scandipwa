@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Addresstype } from 'Type/Account';
-import { CountriesType } from 'Type/Config';
+import { Addresstype } from 'Type/Account.type';
+import { CountriesType } from 'Type/Config.type';
 import {
     getAvailableRegions,
     getCityAndRegionFromZipcode,

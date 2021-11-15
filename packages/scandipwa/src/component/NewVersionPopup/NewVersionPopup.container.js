@@ -17,7 +17,7 @@ import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action'
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import history from 'Util/History';
 
@@ -55,6 +55,12 @@ export class NewVersionPopupContainer extends PureComponent {
 
         if (isCrawler() || isSSR()) {
             // disable popup for crawlers so page content is not blocked and page is scrollable
+            return;
+        }
+
+        const { serviceWorker: { controller } = {} } = navigator;
+
+        if (!controller) {
             return;
         }
 

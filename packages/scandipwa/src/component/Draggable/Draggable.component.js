@@ -13,7 +13,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType, MixType, RefType } from 'Type/Common';
+import { ChildrenType, MixType, RefType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import './Draggable.style';
 
@@ -36,7 +37,7 @@ export class Draggable extends PureComponent {
     static defaultProps = {
         shiftX: 0,
         shiftY: 0,
-        onDragStart: () => {},
+        onDragStart: noopFn,
         onDragEnd: (state, callback) => {
             const { translateX, translateY } = state;
 
@@ -47,11 +48,11 @@ export class Draggable extends PureComponent {
                 shiftY: translateY
             });
         },
-        onClick: () => {},
-        onDrag: () => {},
-        handleFocus: () => {},
-        handleKey: () => {},
-        draggableRef: () => {},
+        onClick: noopFn,
+        onDrag: noopFn,
+        handleFocus: noopFn,
+        handleKey: noopFn,
+        draggableRef: noopFn,
         mix: {}
     };
 
