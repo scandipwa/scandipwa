@@ -14,7 +14,7 @@ import HomeIcon from 'Component/HomeIcon';
 import MenuIcon from 'Component/MenuIcon';
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
 import UserIcon from 'Component/UserIcon';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 
 import {
     ACCOUNT_TAB,

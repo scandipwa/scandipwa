@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { CartItemType } from 'Type/MiniCart';
+import { CartItemType } from 'Type/MiniCart.type';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';
@@ -368,7 +368,10 @@ export class CartItemContainer extends PureComponent {
 
         const { attributes = [] } = this.getCurrentProduct() || {};
 
-        return Object.entries(attributes).map(this.getConfigurationOptionLabel).filter((label) => label);
+        return Object.entries(attributes)
+            .filter(([attrKey]) => Object.keys(configurable_options).includes(attrKey))
+            .map(this.getConfigurationOptionLabel)
+            .filter((label) => label);
     }
 
     notifyAboutLoadingStateChange(isLoading) {

@@ -13,14 +13,15 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { FIELD_TYPE } from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { DeviceType } from 'Type/Device';
-import { ProductType } from 'Type/ProductList';
+import { RefType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
+import { ProductType } from 'Type/ProductList.type';
 import fromCache from 'Util/Cache/Cache';
 import getFieldsData from 'Util/Form/Extract';
-import { getNewParameters, getVariantIndex } from 'Util/Product';
+import { ADD_TO_CART, getNewParameters, getVariantIndex } from 'Util/Product';
 import {
     getAdjustedPrice,
     getMaxQuantity,
@@ -63,16 +64,19 @@ export class ProductContainer extends PureComponent {
         product: ProductType.isRequired,
         addProductToCart: PropTypes.func.isRequired,
         showError: PropTypes.func.isRequired,
-        configFormRef: PropTypes.object,
+        configFormRef: RefType,
 
         parameters: PropTypes.objectOf(PropTypes.string),
-        cartId: PropTypes.string.isRequired,
+        cartId: PropTypes.string,
 
         device: DeviceType,
         isWishlistEnabled: PropTypes.bool.isRequired,
 
-        defaultEnteredOptions: PropTypes.array,
-        defaultSelectedOptions: PropTypes.array
+        defaultEnteredOptions: PropTypes.arrayOf(PropTypes.shape({
+            uid: PropTypes.string,
+            value: PropTypes.string
+        })),
+        defaultSelectedOptions: PropTypes.arrayOf(PropTypes.string)
     };
 
     static defaultProps = {
@@ -80,7 +84,8 @@ export class ProductContainer extends PureComponent {
         parameters: {},
         device: {},
         defaultSelectedOptions: [],
-        defaultEnteredOptions: []
+        defaultEnteredOptions: [],
+        cartId: ''
     };
 
     containerFunctions = {
@@ -160,6 +165,7 @@ export class ProductContainer extends PureComponent {
 
         if (typeId === PRODUCT_TYPE.grouped) {
             const { items = [] } = product;
+
             return items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
         }
 
@@ -176,6 +182,11 @@ export class ProductContainer extends PureComponent {
         }
 
         return null;
+    }
+
+    componentDidMount() {
+        this.updateSelectedValues();
+        this.updateAdjustedPrice();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -212,6 +223,7 @@ export class ProductContainer extends PureComponent {
         const { quantity, parameters, adjustedPrice } = this.state;
         const {
             product,
+            product: { options = [] } = {},
             configFormRef,
             device,
             isWishlistEnabled
@@ -230,7 +242,7 @@ export class ProductContainer extends PureComponent {
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
             productName: getName(product),
-            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type])
+            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type, options])
         };
 
         return {
@@ -396,10 +408,11 @@ export class ProductContainer extends PureComponent {
         const configurableOptions = transformParameters(parameters, attributes);
 
         return magentoProductTransform(
+            ADD_TO_CART,
             product,
             quantity,
             enteredOptions,
-            [...selectedOptions, ...downloadableLinks, ...configurableOptions]
+            [...selectedOptions, ...downloadableLinks, ...configurableOptions],
         );
     }
 

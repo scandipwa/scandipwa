@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Notification from 'Component/Notification';
-import { NotificationListType } from 'Type/NotificationList';
+import { NotificationListType } from 'Type/NotificationList.type';
 
 import './NotificationList.style';
 

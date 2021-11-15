@@ -14,12 +14,13 @@ import { PureComponent } from 'react';
 
 import CartItemPrice from 'Component/CartItemPrice';
 import CloseIcon from 'Component/CloseIcon';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { CartItemType } from 'Type/MiniCart';
+import { CartItemType } from 'Type/MiniCart.type';
+import { LinkType } from 'Type/Router.type';
 import { formatPrice } from 'Util/Price';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
@@ -41,17 +42,11 @@ export class CartItem extends PureComponent {
         minSaleQuantity: PropTypes.number.isRequired,
         maxSaleQuantity: PropTypes.number.isRequired,
         handleChangeQuantity: PropTypes.func.isRequired,
-        linkTo: PropTypes.oneOfType([
-            PropTypes.shape({
-                pathname: PropTypes.string,
-                search: PropTypes.string
-            }),
-            PropTypes.string
-        ]).isRequired,
+        linkTo: LinkType.isRequired,
         thumbnail: PropTypes.string.isRequired,
         isProductInStock: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        optionsLabels: PropTypes.array.isRequired,
+        optionsLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
         isMobileLayout: PropTypes.bool,
         showLoader: PropTypes.bool
     };

@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,103 +13,88 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+import FieldGroup from 'Component/FieldGroup';
 import Form from 'Component/Form';
 
 import './FieldForm.style';
 
 /** @namespace Component/FieldForm/Component */
 export class FieldForm extends PureComponent {
-    onFormSuccess() {
-        // TODO: implement
-    }
-
     get fieldMap() {
-        return {
-            // email: {
-            //     label: __('Email'),
-            //     validation: ['notEmpty']
+        return [
+            // // Field
+            // {
+            //     attr: {
+            //         name: __('Email'),
+            //         ...
+            //     },
+            //     events: {
+            //         onChange: handleInput,
+            //         ...
+            //     },
+            //     validateOn: [ 'onChange', ... ],
+            //     validationRules: {
+            //         isRequired: true,
+            //         ...
+            //     },
+            //     ...
+            // },
+            // // FieldGroup
+            // {
+            //     attr: { ... }
+            //     events: { ... }
+            //     fields: [
+            //         // Can contain both fields or field groups
+            //     ],
+            //     ...
             // }
-        };
+        ];
     }
 
-    getDefaultValues([key, props]) {
+    renderSection = (section) => {
         const {
-            type = 'text',
-            onChange = () => {},
-            ...otherProps
-        } = props;
+            fields,
+            attr: {
+                name = ''
+            } = {},
+            name: sectionName
+        } = section;
 
-        return {
-            ...otherProps,
-            key,
-            name: key,
-            id: key,
-            type,
-            onChange
-        };
-    }
+        // If contains attr fields then outputs data as fields
+        if (Array.isArray(fields)) {
+            return (
+                <FieldGroup { ...section } key={ name || sectionName }>
+                    { fields.map(this.renderSection) }
+                </FieldGroup>
+            );
+        }
 
-    renderField = (fieldEntry) => {
-        const {
-            key = null,
-            isSubmitted,
-            id = null,
-            label = null,
-            name = null,
-            onChange = null,
-            placeholder = null,
-            type = null,
-            validateSeparately,
-            validation = [],
-            value = null,
-            selectOptions = [],
-            checked = null,
-            ariaLabel = null
-        } = this.getDefaultValues(fieldEntry);
-
-        return (
-            <Field
-              id={ id }
-              key={ key }
-              label={ label }
-              name={ name }
-              onChange={ onChange }
-              placeholder={ placeholder }
-              type={ type }
-              validateSeparately={ validateSeparately }
-              validation={ validation }
-              value={ value }
-              isSubmitted={ isSubmitted }
-              selectOptions={ selectOptions }
-              checked={ checked }
-              ariaLabel={ ariaLabel }
-            />
-        );
+        return <Field { ...section } key={ name } />;
     };
-
-    renderFields() {
-        return (
-            <div
-              block="FieldForm"
-              elem="Fields"
-            >
-                { Object.entries(this.fieldMap).map(this.renderField) }
-            </div>
-        );
-    }
 
     renderActions() {
         return null;
     }
 
+    renderFormBody() {
+        return (
+            <div block="FieldForm" elem="Body">
+                <div block="FieldForm" elem="Fields">
+                    { this.fieldMap.map(this.renderSection) }
+                </div>
+                { this.renderActions() }
+            </div>
+        );
+    }
+
+    getFormProps() {
+        return { ...this.props };
+    }
+
     render() {
         return (
-            <Form
-              onSubmitSuccess={ this.onFormSuccess }
-              mix={ { block: 'FieldForm' } }
-            >
-                { this.renderFields() }
-                { this.renderActions() }
+            <Form { ...this.getFormProps() } block="FieldForm">
+                { this.renderFormBody() }
             </Form>
         );
     }

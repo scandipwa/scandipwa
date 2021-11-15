@@ -23,8 +23,6 @@
     &-ActiveLink {
         color: var(--link-hover);
         border-block-end: 2px solid var(--link-hover);
-        margin-inline-start: 20px;
-        padding-block-end: 3px;
     }
 
     &-Buttons {
@@ -149,6 +147,130 @@
         margin-block-end: 24px;
         margin-inline: 0;
         padding-block-end: 8px;
+    }
+
+    &-Color{
+        float: inline-start;
+        height: 50px;
+        width: 50px;
+        &#primaryBase{
+            background-color: var(--primary-base-color);
+        }
+        &#primaryHover{
+            background-color: var(--primary-dark-color);
+        }
+        &#primaryHighlight{
+            background-color: var(--primary-light-color);
+        }
+        &#secondaryBase{
+            background-color: var(--secondary-base-color);
+        }
+        &#secondaryHover{
+            background-color: var(--secondary-dark-color);
+        }
+        &#secondaryHightlight{
+            background-color: var(--secondary-light-color);
+        }
+        &#text{
+            background-color: var(--color-black);
+        }
+        &#error{
+            background-color: var(--primary-error-color);
+        }
+        &#success{
+            background-color: var(--primary-success-color);
+        }
+        &#info{
+            background-color: var(--primary-info-color);
+        }
+    }
+
+    &-ColorLabel{
+        line-height: 70px;
+        margin-inline-start: 20px;
+        font-weight: bold;
+    }
+
+    &-Mt70{
+        margin-block-start: 70px;
+    }
+
+    &-Mt150{
+        margin-block-start: 150px;
+    }
+
+    &-Select{
+        min-width: 100%;
+        padding-inline-end: 40px;
+        width: 100%;
+
+        @include desktop {
+            pointer-events: none;
+        }
+
+        &_isExpanded {
+            border-color: var(--input-border-color-focus);
+            opacity: 1;
+        }
+
+        &_hasError{
+            border: 1px solid var(--primary-error-color);
+        }
+
+        &_isValid{
+            border: 1px solid var(--primary-success-color);
+        }
+    }
+
+    &-Text{
+        &_hasError{
+            border: 1px solid var(--primary-error-color);
+        }
+
+        &_isFocused{
+            border: 1px solid var(--input-border-color-focus);
+        }
+
+        &_isValid{
+            border: 1px solid var(--primary-success-color);
+        }
+    }
+
+    &-DesktopContentWrapper{
+        border: 1px solid var(--primary-base-color);
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &-MobileContentWrapper{
+        border: 1px solid var(--primary-base-color);
+        max-width: 810px;
+        padding-inline: 14px;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &-HoveredInput#hoveredCheckbox~.input-control, &-HoveredInput#hoveredRadio~.input-control{
+        @include desktop {
+            --box-color: var(--secondary-light-color);
+
+            border-color: var(--checkbox-border-color-active);
+            &::after {
+                @include desktop {
+                    --checkmark-color: var(--secondary-dark-color);
+                }
+            }
+        }
+    }
+
+    &-ErrorInput#errorCheckbox~.input-control, &-ErrorInput#errorRadio~.input-control{
+        border: 1px solid var(--primary-error-color);
     }
 
     .Button {

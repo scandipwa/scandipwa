@@ -1,0 +1,428 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --checkbox-border-radius: var(--imported_checkboxes_border_radius, 0);
+    --checkbox-border-color: var(--imported_checkboxes_border_color, var(--primary-base-color));
+    --checkbox-border-color-active: var(--imported_checkboxes_border_color, var(--primary-base-color));
+    --checkbox-width: var(--imported_checkboxes_width, 18px);
+    --checkbox-height: var(--imported_checkboxes_height, 18px);
+    --required-text-color: #dc6d6d;
+}
+
+.Field {
+    margin-block-start: 24px;
+
+    @include mobile {
+        margin-block-start: 14px;
+    }
+
+    &-Label {
+        font-size: 12px;
+        padding-block-end: 8px;
+
+        &_isRequired {
+            font-weight: bold;
+            color: var(--required-text-color);
+        }
+    }
+
+    &-LabelContainer {
+        display: flex;
+        align-items: center;
+
+        .ChevronIcon {
+            width: 23px;
+        }
+    }
+
+    &-CheckboxLabel, &-RadioLabel{
+        display: inline-flex;
+        align-items: center;
+
+        span {
+            display: contents;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        .input-control {
+            @include mobile {
+                min-width: 21px;
+                min-height: 21px;
+            }
+        }
+    }
+
+    &-Error {
+        &Messages {
+            color: var(--primary-error-color);
+            font-size: 12px;
+            margin-block-end: -.1em;
+            margin-block-start: 6px;
+        }
+    }
+
+    &-Message {
+        color: var(--primary-error-color);
+        font-size: 12px;
+        margin-block-end: -.1em;
+        margin-block-start: 6px;
+    }
+
+    &-Note {
+        margin-block-end: 2px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--field-note);
+        opacity: 0;
+        height: 0;
+        transition: height .1s ease-in, opacity .1s linear;
+        will-change: height, opacity;
+
+        @include mobile {
+            margin-block-end: 3px;
+            font-size: 14px;
+        }
+
+        &::before {
+            content: '* ';
+        }
+    }
+
+    &_hasError {
+        input:not([type='number']),
+        textarea,
+        select {
+            border: 1px solid var(--primary-error-color);
+        }
+    }
+
+    input::placeholder {
+        color:  var(--input-color);
+        opacity: .5;
+    }
+
+    input:focus + .Field-Note {
+        opacity: 1;
+        height: 100%;
+    }
+
+    &_style {
+        &_inline {
+            $size-mobile: 20px;
+            $size: 28px;
+            $border-color: #000;
+            $input-width-mobile: 35px;
+            $input-width: 35px;
+
+            &.Field {
+                display: flex;
+                margin: 0;
+
+                button {
+                    position: relative;
+                    width: $size-mobile;
+                    height: $size-mobile;
+                    border: solid 1px $border-color;
+
+                    @include desktop {
+                        width: $size;
+                        height: $size;
+                    }
+
+                    &:last-of-type {
+                        order: -1;
+                    }
+                }
+            }
+
+            input {
+                height: $size-mobile;
+                min-height: $size-mobile;
+                width: $input-width-mobile;
+                min-width: $input-width-mobile;
+                border: none;
+                padding: 0;
+                text-align: center;
+
+                @include mobile {
+                    font-size: 14px;
+                }
+
+                @include desktop {
+                    height: $size;
+                    min-height: $size;
+                    width: $input-width;
+                    min-width: $input-width;
+                }
+
+                &:focus {
+                    border: none;
+                }
+            }
+        }
+    }
+
+    &_type {
+        &_checkbox,
+        &_radio {
+            label {
+                &:first-of-type {
+                    display: inline-flex;
+                    vertical-align: middle;
+                    max-width: 100%;
+                }
+            }
+
+            input {
+                width: 100%;
+                height: 100%;
+            }
+
+            .input-control {
+                vertical-align: middle;
+            }
+        }
+
+        &_checkbox {
+            label {
+                &:first-of-type {
+                    max-width: calc(100vw - 24px - 45px);
+
+                    @include mobile {
+                        max-width: calc(100vw - 28px - 45px);
+                    }
+                }
+            }
+        }
+
+        &_number {
+            align-items: center;
+            display: inline-flex;
+
+            .AddButton,
+            .SubtractButton {
+                width: 24px;
+            }
+        }
+
+        &_text,
+        &_textarea,
+        &_email,
+        &_password,
+        &_date,
+        &_time,
+        &_datetime,
+        &_datetime-local,
+        &_file,
+        &_select {
+            &.Field_isValid {
+                input,
+                textarea,
+                select {
+                    border: 1px solid var(--primary-success-color);
+                }
+            }
+        }
+
+        &_file {
+            &.Field {
+                &_isValid {
+                    input {
+                        & + label {
+                            border-color: var(--primary-success-color);
+                        }
+                    }
+                }
+
+                &_hasError {
+                    input {
+                        & + label {
+                            border-color: var(--primary-error-color);
+                        }
+                    }
+                }
+            }
+        }
+
+        &_checkbox, &_radio {
+            span {
+                font-size: 12px;
+            }
+        }
+    }
+
+    select {
+        width: 100%;
+    }
+
+    [type='checkbox'], [type='radio'] {
+        position: absolute;
+        opacity: 0;
+        padding: 0;
+        min-width: 0;
+        min-height: 0;
+        z-index: 10;
+        cursor: pointer;
+
+        + .input-control {
+            --box-color: #{$white};
+
+            background-color: var(--box-color);
+            border: 2px solid var(--input-color);
+            border-radius: var(--checkbox-border-radius);
+            cursor: pointer;
+            display: inline-block;
+            height: 21px;
+            position: relative;
+            padding: 0;
+            transition-duration: .25s;
+            transition-property: background-color, border-color;
+            transition-timing-function: ease-in;
+            width: 21px;
+            will-change: background-color, border-color;
+            margin-inline-end: 11px;
+
+            @include desktop {
+                width: var(--checkbox-width);
+                height: var(--checkbox-height);
+            }
+
+            &::after {
+                --checkmark-color: transparent;
+
+                background: var(--checkmark-color);
+                box-shadow:
+                        2px 0 0 var(--checkmark-color),
+                        4px 0 0 var(--checkmark-color),
+                        4px -2px 0 var(--checkmark-color),
+                        4px -4px 0 var(--checkmark-color),
+                        4px -6px 0 var(--checkmark-color),
+                        4px -8px 0 var(--checkmark-color);
+                content: '';
+                height: 2px;
+                // required for ltr + rtl support, don't change to 'inset-inline-start'
+                left: calc(50% - 5px);
+                pointer-events: none;
+                position: absolute;
+                inset-block-start: calc(50% - 1px);
+                transition-duration: .25s;
+                transition-property: background-color, box-shadow;
+                transition-timing-function: ease-in;
+                transform: rotate(45deg);
+                width: 2px;
+                will-change: background-color, box-shadow;
+            }
+        }
+
+        &:disabled + .input-control {
+            color: var(--color-dark-gray);
+            cursor: auto;
+        }
+
+        &:hover + .input-control {
+            cursor: pointer;
+
+            @include desktop {
+                --box-color: var(--secondary-light-color);
+
+                border-color: var(--checkbox-border-color-active);
+
+                &::after {
+                    @include desktop {
+                        --checkmark-color: var(--secondary-dark-color);
+                    }
+                }
+            }
+        }
+
+        &:checked {
+            + .input-control {
+                border-color: var(--checkbox-border-color-active);
+
+                &::after {
+                    --checkmark-color: var(--primary-base-color);
+
+                    // required for ltr + rtl support, don't change to 'inset-inline-start'
+                    left: calc(50% - 5px);
+                    inset-block-start: calc(50% - 1px);
+                }
+            }
+        }
+    }
+
+    [type='radio'] {
+
+        + .input-control {
+            border-radius: 50%;
+        }
+    }
+
+    [type='file'] {
+        border-style: dashed;
+        cursor: pointer;
+        height: 180px;
+        opacity: 0;
+        max-width: 100%;
+        z-index: 1;
+
+        + label {
+            align-items: center;
+            border: 2px dashed var(--input-border-color);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 180px;
+            position: absolute;
+            inset-block-start: 0;
+            width: 100%;
+
+            p {
+                font-size: 16px;
+                margin-block-end: 0;
+            }
+
+            span {
+                color: var(--primary-base-color);
+                font-size: 18px;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+
+            .UploadIcon {
+                margin-block-end: 10px;
+                height: 50px;
+                width: auto;
+            }
+
+            + p {
+                margin-block-start: 5px;
+                margin-block-end: 0;
+            }
+        }
+    }
+
+    &-Labels {
+        span {
+            letter-spacing: 1px;
+        }
+    }
+
+    &-SubLabel {
+        font-weight: bold;
+        font-size: 12px;
+        white-space: break-spaces;
+    }
+}

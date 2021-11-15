@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ACCOUNT_INFORMATION_EDIT_URL } from 'Route/MyAccount/MyAccount.config';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -23,7 +23,7 @@ import MyAccountCustomerTable from './MyAccountCustomerTable.component';
 export class MyAccountCustomerTableContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         title: PropTypes.string
     };
 

@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 
 // TODO: try SEARCH type
 import { CATEGORY } from 'Component/Header/Header.config';
-import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
+import { LOADING_TIME, SORT_DIRECTION_TYPE } from 'Route/CategoryPage/CategoryPage.config';
 import { CategoryPageContainer } from 'Route/CategoryPage/CategoryPage.container';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -22,6 +22,7 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
+import { noopFn } from 'Util/Common';
 import { withReducers } from 'Util/DynamicReducer';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -97,12 +98,12 @@ export class SearchPageContainer extends CategoryPageContainer {
     static defaultProps = {
         ...this.defaultProps,
         isSearchPage: true,
-        updateMetaFromCategory: () => {}
+        updateMetaFromCategory: noopFn
     };
 
     config = {
         sortKey: 'none',
-        sortDirection: 'ASC'
+        sortDirection: SORT_DIRECTION_TYPE.asc
     };
 
     updateMeta() {
@@ -145,7 +146,7 @@ export class SearchPageContainer extends CategoryPageContainer {
         const search = this.getSearchParam();
 
         // if the search requested is equal to search from URL
-        return search === currentSearch;
+        return super.getIsMatchingListFilter() && search === currentSearch;
     }
 
     getIsMatchingInfoFilter() {

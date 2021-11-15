@@ -16,13 +16,16 @@ import { PureComponent } from 'react';
 import AddIcon from 'Component/AddIcon';
 import Link from 'Component/Link';
 import MinusIcon from 'Component/MinusIcon';
+import { ModsType } from 'Type/Common.type';
+import { MenuItemType } from 'Type/Menu.type';
+import { noopFn } from 'Util/Common';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {
     static propTypes = {
-        activeMenuItemsStack: PropTypes.array.isRequired,
-        item: PropTypes.object.isRequired,
-        itemMods: PropTypes.object.isRequired,
+        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
+        item: MenuItemType.isRequired,
+        itemMods: ModsType.isRequired,
         handleCategoryHover: PropTypes.func.isRequired,
         handleLinkLeave: PropTypes.func.isRequired,
         isLink: PropTypes.bool.isRequired,
@@ -31,7 +34,7 @@ export class MenuItem extends PureComponent {
     };
 
     static defaultProps = {
-        onItemClick: () => {}
+        onItemClick: noopFn
     };
 
     renderPlusMinusIcon() {

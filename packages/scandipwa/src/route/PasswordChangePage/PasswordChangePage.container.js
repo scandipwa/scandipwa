@@ -17,7 +17,7 @@ import { Redirect } from 'react-router';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { LocationType } from 'Type/Common';
+import { LocationType } from 'Type/Router.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import { getQueryParam } from 'Util/Url';
 
@@ -122,11 +122,13 @@ export class PasswordChangePageContainer extends PureComponent {
     }
 
     onPasswordSuccess(form, fields) {
-        const { resetPassword, location } = this.props;
-        const { password, password_confirmation } = transformToNameValuePair(fields);
-        const token = getQueryParam('token', location);
+        this.setState({ isLoading: true }, () => {
+            const { resetPassword, location } = this.props;
+            const { password, password_confirmation } = transformToNameValuePair(fields);
+            const token = getQueryParam('token', location);
 
-        resetPassword({ token, password, password_confirmation });
+            resetPassword({ token, password, password_confirmation });
+        });
     }
 
     onError() {

@@ -14,7 +14,7 @@ import { Component } from 'react';
 
 import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 import { getDefaultAddressLabel } from 'Util/Address';
 
 import './MyAccountAddressBook.style';
@@ -22,7 +22,7 @@ import './MyAccountAddressBook.style';
 /** @namespace Component/MyAccountAddressBook/Component */
 export class MyAccountAddressBook extends Component {
     static propTypes = {
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         showCreateNewPopup: PropTypes.func.isRequired
     };
 

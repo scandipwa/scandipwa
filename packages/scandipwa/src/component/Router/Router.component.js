@@ -23,13 +23,12 @@ import {
 import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
-import Breadcrumbs from 'Component/Breadcrumbs';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 import UrlRewrites from 'Route/UrlRewrites';
 import {
     ADDRESS_BOOK, MY_DOWNLOADABLE, MY_ORDERS, MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
-} from 'Type/Account';
+} from 'Type/Account.type';
 import history from 'Util/History';
 
 import {
@@ -93,6 +92,7 @@ export const LoginAccountPage = lazy(() => import(/* webpackMode: "lazy", webpac
 export const ForgotPasswordPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/ForgotPassword'));
 export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "something-went-wrong" */ 'Route/SomethingWentWrong'));
 export const StyleGuidePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/StyleGuidePage'));
+export const Breadcrumbs = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Breadcrumbs'));
 
 /** @namespace Component/Router/Component/withStoreRegex */
 export const withStoreRegex = (path) => window.storeRegexText.concat(path);

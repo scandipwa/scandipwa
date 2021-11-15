@@ -25,6 +25,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -82,8 +83,8 @@ export class MyAccountOverlayContainer extends PureComponent {
     static defaultProps = {
         isCheckout: false,
         isLoading: false,
-        onSignIn: () => {},
-        goToPreviousHeaderState: () => {}
+        onSignIn: noopFn,
+        goToPreviousHeaderState: noopFn
     };
 
     containerFunctions = {

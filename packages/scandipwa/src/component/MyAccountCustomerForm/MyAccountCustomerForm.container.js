@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { SHOW_VAT_NUMBER_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 
 import MyAccountCustomerForm from './MyAccountCustomerForm.component';
 
@@ -29,7 +29,7 @@ export const mapDispatchToProps = () => ({});
 /** @namespace Component/MyAccountCustomerForm/Container */
 export class MyAccountCustomerFormContainer extends PureComponent {
     static propTypes = {
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         onSave: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.string.isRequired,
         showEmailChangeField: PropTypes.bool.isRequired,
@@ -38,8 +38,19 @@ export class MyAccountCustomerFormContainer extends PureComponent {
         handleChangePasswordCheckbox: PropTypes.func.isRequired
     };
 
+    containerFunctions = {
+        handleEmailInput: this.handleEmailInput.bind(this),
+        handlePasswordInput: this.handlePasswordInput.bind(this)
+    };
+
+    state = {
+        email: null,
+        currentPassword: ''
+    };
+
     containerProps() {
         const {
+            customer: { email: currentCustomerEmail },
             customer,
             onSave,
             showTaxVatNumber,
@@ -48,6 +59,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             handleChangeEmailCheckbox,
             handleChangePasswordCheckbox
         } = this.props;
+        const { email, currentPassword } = this.state;
 
         return {
             customer,
@@ -56,14 +68,25 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             showEmailChangeField,
             showPasswordChangeField,
             handleChangeEmailCheckbox,
-            handleChangePasswordCheckbox
+            handleChangePasswordCheckbox,
+            currentPassword,
+            email: email || currentCustomerEmail
         };
+    }
+
+    handleEmailInput(emailInput) {
+        this.setState({ email: emailInput.target.value });
+    }
+
+    handlePasswordInput(currentPasswordInput) {
+        this.setState({ currentPassword: currentPasswordInput.target.value });
     }
 
     render() {
         return (
             <MyAccountCustomerForm
               { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

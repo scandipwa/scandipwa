@@ -20,8 +20,10 @@ import { Product } from 'Component/Product/Product.component';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import { DeviceType } from 'Type/Device';
-import { LayoutType } from 'Type/Layout';
+import { MixType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
+import { LayoutType } from 'Type/Layout.type';
+import { LinkType } from 'Type/Router.type';
 
 import './ProductCard.style';
 
@@ -32,18 +34,18 @@ import './ProductCard.style';
 export class ProductCard extends Product {
     static propTypes = {
         ...Product.propTypes,
-        linkTo: PropTypes.shape({}),
+        linkTo: LinkType,
         device: DeviceType.isRequired,
         thumbnail: PropTypes.string,
         isLoading: PropTypes.bool,
         children: PropTypes.element,
         layout: LayoutType,
-        mix: PropTypes.shape({}),
+        mix: MixType,
         renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
         hideWishlistButton: PropTypes.bool,
         isWishlistEnabled: PropTypes.bool.isRequired,
         hideCompareButton: PropTypes.bool,
-        parameters: PropTypes.shape({}).isRequired,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         showSelectOptionsNotification: PropTypes.func.isRequired,
         registerSharedElement: PropTypes.func.isRequired
     };
@@ -254,7 +256,8 @@ export class ProductCard extends Product {
         const {
             product: {
                 type_id: type,
-                options = []
+                options = [],
+                links_purchased_separately
             }
         } = this.props;
 
@@ -263,8 +266,9 @@ export class ProductCard extends Product {
             // eslint-disable-next-line max-len
             && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
         const configureCustomize = options.some(({ required = false }) => required);
+        const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
 
-        return configureBundleAndGrouped || configureConfig || configureCustomize;
+        return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
     }
 
     renderAddToCart() {

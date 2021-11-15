@@ -17,6 +17,7 @@ import Router from 'Component/Router';
 import SharedTransition from 'Component/SharedTransition';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import injectStaticReducers from 'Store';
+import { noopFn } from 'Util/Common';
 import getStore from 'Util/Store';
 
 /** @namespace Component/App/Component */
@@ -105,7 +106,7 @@ export class App extends PureComponent {
         if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object') {
             // eslint-disable-next-line no-restricted-syntax, fp/no-loops, no-unused-vars
             for (const [key, value] of Object.entries(window.__REACT_DEVTOOLS_GLOBAL_HOOK__)) {
-                window.__REACT_DEVTOOLS_GLOBAL_HOOK__[key] = typeof value === 'function' ? () => {} : null;
+                window.__REACT_DEVTOOLS_GLOBAL_HOOK__[key] = typeof value === 'function' ? noopFn : null;
             }
         }
     }

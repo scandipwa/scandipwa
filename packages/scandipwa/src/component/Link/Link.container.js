@@ -15,6 +15,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { LinkType } from 'Type/Router.type';
+import { noopFn } from 'Util/Common';
 import { appendWithStoreCode } from 'Util/Url';
 
 import Link from './Link.component';
@@ -42,14 +44,11 @@ export class LinkContainer extends PureComponent {
         baseLinkUrl: PropTypes.string.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
         onClick: PropTypes.func,
-        to: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.object
-        ]).isRequired
+        to: LinkType.isRequired
     };
 
     static defaultProps = {
-        onClick: () => {}
+        onClick: noopFn
     };
 
     containerFunctions = {
@@ -64,6 +63,7 @@ export class LinkContainer extends PureComponent {
             mix,
             baseLinkUrl, // remove this prop
             dispatch, // remove this prop
+            updateNoMatch,
             ...restProps
         } = this.props;
 

@@ -15,13 +15,15 @@ import { PureComponent } from 'react';
 
 import HeartIcon from 'Component/HeartIcon';
 import Loader from 'Component/Loader';
+import { MixType } from 'Type/Common.type';
+import { MagentoProductType } from 'Type/ProductList.type';
 
 import './ProductWishlistButton.style';
 
 /** @namespace Component/ProductWishlistButton/Component */
 export class ProductWishlistButton extends PureComponent {
     static propTypes = {
-        magentoProduct: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+        magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
 
         isLoading: PropTypes.bool,
         isDisabled: PropTypes.bool,
@@ -31,7 +33,7 @@ export class ProductWishlistButton extends PureComponent {
         addToWishlist: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired,
 
-        mix: PropTypes.shape({ block: PropTypes.string, elem: PropTypes.string, mod: PropTypes.string })
+        mix: MixType
     };
 
     static defaultProps = {

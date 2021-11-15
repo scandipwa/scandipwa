@@ -12,12 +12,12 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { signInStateType } from 'Type/Account';
+import { SignInStateType } from 'Type/Account.type';
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Component */
 export class MyAccountForgotPasswordSuccess extends PureComponent {
     static propTypes = {
-        state: signInStateType.isRequired,
+        state: SignInStateType.isRequired,
         handleSignIn: PropTypes.func.isRequired
     };
 

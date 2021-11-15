@@ -22,8 +22,8 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import ProductReducer from 'Store/Product/Product.reducer';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
+import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import { getIsConfigurableParameterSelected } from 'Util/Product';
@@ -56,7 +56,6 @@ export const ProductDispatcher = import(
 export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product,
-    navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
     metaTitle: state.MetaReducer.title,
     isMobile: state.ConfigReducer.device.isMobile,
     store: state.ConfigReducer.code
@@ -100,7 +99,6 @@ export class ProductPageContainer extends PureComponent {
         history: HistoryType.isRequired,
         match: MatchType.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
-        navigation: PropTypes.shape(PropTypes.shape).isRequired,
         metaTitle: PropTypes.string,
         addRecentlyViewedProduct: PropTypes.func.isRequired,
         store: PropTypes.string.isRequired,
@@ -364,10 +362,25 @@ export class ProductPageContainer extends PureComponent {
             isInformationTabEmpty: this.isProductInformationTabEmpty(),
             activeProduct: this.getActiveProductDataSource(),
             dataSource: this.getDataSource(),
+            useEmptyGallerySwitcher: this.getUseEmptyGallerySwitcher(),
+            isVariant: this.getIsVariant(),
             isMobile,
             parameters,
             location
         };
+    }
+
+    getIsVariant() {
+        const { activeProduct } = this.state;
+
+        if (!activeProduct) {
+            return false;
+        }
+
+        const { product: { id } = {} } = this.props;
+        const { id: childId } = activeProduct;
+
+        return id !== childId;
     }
 
     updateUrl(key, value, parameters) {
@@ -389,6 +402,20 @@ export class ProductPageContainer extends PureComponent {
         return dataSource === product;
     }
 
+    getUseEmptyGallerySwitcher() {
+        const { activeProduct } = this.state;
+        const product = this.getDataSource();
+
+        if (!activeProduct || !product) {
+            return false;
+        }
+
+        const { media_gallery_entries: mediaGallery = [] } = product;
+        const { media_gallery_entries: activeMediaGallery = [] } = activeProduct;
+
+        return mediaGallery.length > 1 || activeMediaGallery.length > 1;
+    }
+
     getActiveProductDataSource() {
         const { activeProduct } = this.state;
         const product = this.getDataSource();
@@ -397,8 +424,8 @@ export class ProductPageContainer extends PureComponent {
             return product;
         }
 
-        const { attributes: productAttr = {} } = product;
-        const { attributes: activeAttr = {} } = activeProduct;
+        const { attributes: productAttr = {}, media_gallery_entries: mediaGallery = [] } = product;
+        const { attributes: activeAttr = {}, media_gallery_entries: activeMediaGallery = [] } = activeProduct;
 
         const attributes = {};
         Object.keys(productAttr).forEach((attr) => {
@@ -412,7 +439,8 @@ export class ProductPageContainer extends PureComponent {
 
         return {
             ...product,
-            attributes
+            attributes,
+            media_gallery_entries: activeMediaGallery.length === 0 ? mediaGallery : activeMediaGallery
         };
     }
 

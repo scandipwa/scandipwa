@@ -34,8 +34,8 @@ import SearchField from 'Component/SearchField';
 import ShareIcon from 'Component/ShareIcon';
 import StoreSwitcher from 'Component/StoreSwitcher';
 import UserIcon from 'Component/UserIcon';
-import { DeviceType } from 'Type/Device';
-import { TotalsType } from 'Type/MiniCart';
+import { DeviceType } from 'Type/Device.type';
+import { TotalsType } from 'Type/MiniCart.type';
 import { isSignedIn } from 'Util/Auth';
 import { isCrawler, isSSR } from 'Util/Browser';
 import CSS from 'Util/CSS';
@@ -74,7 +74,11 @@ export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpac
 /** @namespace Component/Header/Component */
 export class Header extends NavigationAbstract {
     static propTypes = {
-        navigationState: PropTypes.object.isRequired,
+        navigationState: PropTypes.shape({
+            name: PropTypes.string,
+            onBackClick: PropTypes.func,
+            title: PropTypes.string
+        }).isRequired,
         cartTotals: TotalsType.isRequired,
         onBackButtonClick: PropTypes.func.isRequired,
         onCloseButtonClick: PropTypes.func.isRequired,

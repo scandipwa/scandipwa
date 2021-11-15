@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import InstallPrompt from './InstallPrompt.component';
@@ -57,15 +57,15 @@ export class InstallPromptContainer extends PureComponent {
     }
 
     handleAppInstall() {
-        if (!window.promt_event) {
+        if (!window.prompt_event) {
             return;
         }
 
         // Show the modal add to home screen dialog
-        window.promt_event.prompt();
+        window.prompt_event.prompt();
 
         // Wait for the user to respond to the prompt
-        window.promt_event.userChoice.then(
+        window.prompt_event.userChoice.then(
             /** @namespace Component/InstallPrompt/Container/InstallPromptContainer/handleAppInstall/then */
             (choice) => {
                 if (choice.outcome === 'accepted') {
@@ -73,7 +73,7 @@ export class InstallPromptContainer extends PureComponent {
                 }
 
                 // Clear the saved prompt since it can't be used again
-                window.promt_event = null;
+                window.prompt_event = null;
                 this.setState({ hasInstallPromptEvent: false });
             }
         );
@@ -88,7 +88,7 @@ export class InstallPromptContainer extends PureComponent {
     listenForInstallPrompt() {
         window.addEventListener('beforeinstallprompt', (event) => {
             event.preventDefault();
-            window.promt_event = Object.assign(event);
+            window.prompt_event = Object.assign(event);
             this.setState({ hasInstallPromptEvent: true });
         });
     }
@@ -97,7 +97,7 @@ export class InstallPromptContainer extends PureComponent {
         return (
             <InstallPrompt
               { ...this.containerProps() }
-              containerFunctions={ this.containerFunctions }
+              { ...this.containerFunctions }
             />
         );
     }

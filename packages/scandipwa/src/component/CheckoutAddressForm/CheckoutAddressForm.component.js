@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
+import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 /** @namespace Component/CheckoutAddressForm/Component */
@@ -23,8 +24,32 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     static defaultProps = {
         ...MyAccountAddressForm.defaultProps,
-        onShippingEstimationFieldsChange: () => {}
+        onShippingEstimationFieldsChange: noopFn
     };
+
+    lastRequest = null;
+
+    componentDidMount() {
+        const {
+            address: {
+                countryId,
+                regionId,
+                region,
+                city,
+                postcode
+            },
+            defaultCountry,
+            onShippingEstimationFieldsChange
+        } = this.props;
+
+        onShippingEstimationFieldsChange({
+            country_id: countryId || defaultCountry,
+            region_id: regionId !== '' ? regionId : null,
+            region,
+            city,
+            postcode
+        });
+    }
 
     get fieldMap() {
         const fieldMap = super.fieldMap;
@@ -38,6 +63,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
                 onLoad: this.onAddressChange
             };
         }
+
         fieldMap.splice(0, 2);
 
         return fieldMap;
@@ -45,9 +71,32 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     onAddressChange = (event, data) => {
         const { fields = {} } = data;
-        const valuePairs = transformToNameValuePair(fields);
+        const {
+            country_id,
+            region_id: regionId,
+            region_string: region,
+            city,
+            postcode
+        } = transformToNameValuePair(fields);
+
         const { onShippingEstimationFieldsChange } = this.props;
-        onShippingEstimationFieldsChange(valuePairs);
+        const request = {
+            country_id,
+            region_id: regionId !== '' ? regionId : null,
+            region,
+            city,
+            postcode
+        };
+
+        // If request hasn't changed, then ignore.
+        if (JSON.stringify(request) === JSON.stringify(this.lastRequest)) {
+            return;
+        }
+
+        onShippingEstimationFieldsChange(request);
+
+        // Caches last request
+        this.lastRequest = request;
     };
 
     renderActions() {

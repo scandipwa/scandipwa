@@ -22,6 +22,7 @@ import PopupReducer from 'Store/Popup/Popup.reducer';
 import ProductCompareReducer from 'Store/ProductCompare/ProductCompare.reducer';
 import ProductListReducer from 'Store/ProductList/ProductList.reducer';
 import ProductListInfoReducer from 'Store/ProductListInfo/ProductListInfo.reducer';
+import StoreInPickUpReducer from 'Store/StoreInPickUp/StoreInPickUp.reducer';
 import UrlRewritesReducer from 'Store/UrlRewrites/UrlRewrites.reducer';
 import WishlistReducer from 'Store/Wishlist/Wishlist.reducer';
 
@@ -42,7 +43,8 @@ export const getStaticReducers = () => ({
     MetaReducer,
     CheckoutReducer,
     ContactFormReducer,
-    ProductCompareReducer
+    ProductCompareReducer,
+    StoreInPickUpReducer
 });
 
 export default function injectStaticReducers(store) {

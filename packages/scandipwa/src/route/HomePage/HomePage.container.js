@@ -19,7 +19,7 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import CmsPage from 'Route/CmsPage';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { LocationType, MatchType } from 'Type/Common';
+import { LocationType, MatchType } from 'Type/Router.type';
 
 import './HomePage.style';
 

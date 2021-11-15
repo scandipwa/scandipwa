@@ -15,14 +15,14 @@ import { Component } from 'react';
 import Loader from 'Component/Loader';
 import MyAccountDownloadableTableRow from 'Component/MyAccountDownloadableTableRow';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
-import { downloadableType } from 'Type/Account';
+import { DownloadableType } from 'Type/Account.type';
 
 import './MyAccountDownloadable.style';
 
 /** @namespace Component/MyAccountDownloadable/Component */
 export class MyAccountDownloadableComponent extends Component {
     static propTypes = {
-        items: PropTypes.arrayOf(downloadableType).isRequired,
+        items: PropTypes.arrayOf(DownloadableType).isRequired,
         isLoading: PropTypes.bool.isRequired
     };
 

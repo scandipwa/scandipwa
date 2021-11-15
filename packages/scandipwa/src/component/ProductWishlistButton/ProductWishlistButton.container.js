@@ -15,9 +15,10 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { MixType } from 'Type/Common';
-import { ProductType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { MagentoProductType, ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
 
@@ -47,7 +48,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/ProductWishlistButton/Container */
 export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
-        magentoProduct: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+        magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
         isAddingWishlistItem: PropTypes.bool.isRequired,
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
@@ -60,7 +61,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
     static defaultProps = {
         mix: {},
-        onProductValidationError: () => {}
+        onProductValidationError: noopFn
     };
 
     state = {
@@ -97,13 +98,12 @@ export class ProductWishlistButtonContainer extends PureComponent {
         return this.setState({ isWishlistButtonLoading: isLoading });
     }
 
-    toggleProductInWishlist(add = true) {
+    async toggleProductInWishlist(add = true) {
         const {
             magentoProduct,
             magentoProduct: [{ sku }] = [],
             isAddingWishlistItem,
             showNotification,
-            productsInWishlist,
             addProductToWishlist,
             removeProductFromWishlist,
             wishlistId
@@ -120,17 +120,26 @@ export class ProductWishlistButtonContainer extends PureComponent {
         this.setWishlistButtonLoading(true);
 
         if (add) {
-            return addProductToWishlist({
+            await addProductToWishlist({
                 items: magentoProduct,
                 wishlistId
             });
+
+            return;
         }
 
-        const { wishlist: { id: item_id } } = Object.values(productsInWishlist).find(
-            ({ wishlist: { sku: wishlistSku } }) => sku === wishlistSku
-        );
+        const wishlistItem = this.getWishlistItem(sku);
+        if (!wishlistItem) {
+            return;
+        }
 
-        return removeProductFromWishlist({ item_id });
+        const {
+            wishlist: {
+                id: itemId
+            }
+        } = wishlistItem;
+
+        return removeProductFromWishlist({ item_id: itemId });
     }
 
     isDisabled = () => {
@@ -138,16 +147,27 @@ export class ProductWishlistButtonContainer extends PureComponent {
         return isAddingWishlistItem || !isSignedIn();
     };
 
+    getWishlistItem = (sku) => {
+        const { productsInWishlist } = this.props;
+        if (!productsInWishlist) {
+            return null;
+        }
+
+        // TODO: After new graphql will need to check by options
+        return Object.values(productsInWishlist).find(
+            ({ sku: wishlistSku }) => sku === wishlistSku
+        );
+    }
+
     isInWishlist = () => {
-        const { productsInWishlist, magentoProduct = [] } = this.props;
+        const { magentoProduct = [] } = this.props;
         const [{ sku: productSku }] = magentoProduct;
 
         if (!productSku) {
             return false;
         }
 
-        // TODO: After new graphql will need to check by options
-        return Object.values(productsInWishlist).findIndex(({ wishlist: { sku } }) => sku === productSku) >= 0;
+        return !!this.getWishlistItem(productSku);
     };
 
     render() {

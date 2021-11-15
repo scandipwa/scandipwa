@@ -9,12 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { IN_STOCK } from 'Component/Product/Stock.config';
+import { STOCK_TYPE } from 'Component/Product/Stock.config';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { isSignedIn } from 'Util/Auth';
 import getStore from 'Util/Store';
+
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
 
 /**
  * Checks whether every option is in attributes
@@ -129,7 +132,7 @@ export const getVariantsIndexes = (variants, options, inStockOnly = false) => {
         }, []);
 
     if (inStockOnly) {
-        return result.filter((n) => variants[n].stock_status === IN_STOCK);
+        return result.filter((n) => variants[n].stock_status === STOCK_TYPE.IN_STOCK);
     }
 
     return result;

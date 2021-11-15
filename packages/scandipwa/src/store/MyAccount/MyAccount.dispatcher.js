@@ -80,13 +80,21 @@ export class MyAccountDispatcher {
         );
     }
 
-    logout(authTokenExpired = false, dispatch) {
+    logout(authTokenExpired = false, isWithNotification = true, dispatch) {
         if (authTokenExpired) {
-            dispatch(showNotification('error', __('Your session is over, you are logged out!')));
+            if (isWithNotification) {
+                dispatch(showNotification('error', __('Your session is over, you are logged out!')));
+            }
+
             this.handleForceRedirectToLoginPage();
         } else {
+            const mutation = MyAccountQuery.getRevokeAccountToken();
+            fetchMutation(mutation);
             deleteAuthorizationToken();
-            dispatch(showNotification('success', __('You are successfully logged out!')));
+
+            if (isWithNotification) {
+                dispatch(showNotification('success', __('You are successfully logged out!')));
+            }
         }
 
         deleteGuestQuoteId();

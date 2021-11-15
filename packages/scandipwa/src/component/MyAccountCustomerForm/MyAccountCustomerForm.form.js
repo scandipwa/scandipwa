@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -108,6 +108,9 @@ export const customerEmailAndPasswordFields = (props) => {
     const {
         showEmailChangeField,
         showPasswordChangeField,
+        handleEmailInput,
+        handlePasswordInput,
+        currentPassword,
         email
     } = props;
 
@@ -118,9 +121,12 @@ export const customerEmailAndPasswordFields = (props) => {
                 label: __('Email'),
                 attr: {
                     name: 'email',
-                    defaultValue: email,
+                    value: email,
                     placeholder: __('Your new email'),
                     'aria-label': __('Current password')
+                },
+                events: {
+                    onChange: handleEmailInput
                 },
                 addRequiredTag: true,
                 validateOn: ['onChange'],
@@ -137,7 +143,11 @@ export const customerEmailAndPasswordFields = (props) => {
                     id: 'currentPassword',
                     name: 'password',
                     placeholder: __('Your current password'),
-                    'aria-label': __('Current password')
+                    'aria-label': __('Current password'),
+                    value: currentPassword
+                },
+                events: {
+                    onChange: handlePasswordInput
                 },
                 addRequiredTag: true,
                 validateOn: ['onChange'],
@@ -168,9 +178,6 @@ export const customerEmailAndPasswordFields = (props) => {
                     },
                     customErrorMessages: {
                         onMatchFail: __('New passwords can\'t be the same as old password!')
-                    },
-                    range: {
-                        min: 8
                     }
                 }
             },

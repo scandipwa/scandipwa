@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { STATE_FORGOT_PASSWORD_SUCCESS } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { signInStateType } from 'Type/Account';
+import { SignInStateType } from 'Type/Account.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import MyAccountForgotPassword from './MyAccountForgotPassword.component';
@@ -36,7 +36,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/MyAccountForgotPassword/Container */
 export class MyAccountForgotPasswordContainer extends PureComponent {
     static propTypes = {
-        state: signInStateType.isRequired,
+        state: SignInStateType.isRequired,
         onFormError: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,

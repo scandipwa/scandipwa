@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import Form from 'Component/PureForm/Form';
-import { signInStateType } from 'Type/Account';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import Form from 'Component/Form';
+import { SignInStateType } from 'Type/Account.type';
 import history from 'Util/History';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
@@ -24,7 +24,7 @@ import './MyAccountCreateAccount.style.scss';
 /** @namespace Component/MyAccountCreateAccount/Component */
 export class MyAccountCreateAccount extends PureComponent {
     static propTypes = {
-        state: signInStateType.isRequired,
+        state: SignInStateType.isRequired,
         onError: PropTypes.func.isRequired,
         onSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,

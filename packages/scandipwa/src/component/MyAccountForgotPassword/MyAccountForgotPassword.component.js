@@ -11,16 +11,16 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import Form from 'Component/PureForm/Form';
-import { signInStateType } from 'Type/Account';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import Form from 'Component/Form';
+import { SignInStateType } from 'Type/Account.type';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /** @namespace Component/MyAccountForgotPassword/Component */
 export class MyAccountForgotPassword extends PureComponent {
     static propTypes = {
-        state: signInStateType.isRequired,
+        state: SignInStateType.isRequired,
         onForgotPasswordSuccess: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,

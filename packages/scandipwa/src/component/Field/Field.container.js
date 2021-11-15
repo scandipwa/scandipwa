@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,443 +11,194 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 
-import validationConfig from 'Component/Form/Form.config';
-import { MixType } from 'Type/Common';
+import { MixType, RefType } from 'Type/Common.type';
+import {
+    EventsType, FieldAttrType, FieldOptionsType, LabelType, ValidationRuleType
+} from 'Type/Field.type';
+import { validate } from 'Util/Validator';
 
 import Field from './Field.component';
-import {
-    CHECKBOX_TYPE,
-    EMAIL_TYPE,
-    ENTER_KEY_CODE,
-    FILE_TYPE,
-    NUMBER_TYPE,
-    PASSWORD_TYPE,
-    RADIO_TYPE,
-    SELECT_TYPE,
-    TEXT_TYPE,
-    TEXTAREA_TYPE,
-    VALIDATION_STATUS
-} from './Field.config';
+import { FIELD_TYPE } from './Field.config';
 
-/** @namespace Component/Field/Container */
+/**
+ * Field
+ * @class FieldContainer
+ * @namespace Component/Field/Container
+ */
 export class FieldContainer extends PureComponent {
     static propTypes = {
-        isControlled: PropTypes.bool,
-        checked: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.string
-        ]),
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-            PropTypes.bool
-        ]),
-        type: PropTypes.oneOf([
-            TEXT_TYPE,
-            NUMBER_TYPE,
-            TEXTAREA_TYPE,
-            PASSWORD_TYPE,
-            RADIO_TYPE,
-            CHECKBOX_TYPE,
-            SELECT_TYPE,
-            FILE_TYPE,
-            EMAIL_TYPE
-        ]).isRequired,
-        onChange: PropTypes.func,
-        onFocus: PropTypes.func,
-        onBlur: PropTypes.func,
-        onClick: PropTypes.func,
-        onKeyPress: PropTypes.func,
-        min: PropTypes.number,
-        max: PropTypes.number,
-        validation: PropTypes.arrayOf(PropTypes.string),
-        message: PropTypes.string,
-        customValidationStatus: PropTypes.oneOf(Object.values(VALIDATION_STATUS)),
-        id: PropTypes.string,
-        formRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]),
-        formRefMap: PropTypes.object,
-        validateSeparately: PropTypes.bool,
-        isSubmitted: PropTypes.bool,
-        disabled: PropTypes.bool,
-        label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-        placeholder: PropTypes.string,
-        subLabel: PropTypes.number,
-        filename: PropTypes.string,
-        fileExtensions: PropTypes.string,
+        // Field attributes
+        type: PropTypes.oneOf(Object.values(FIELD_TYPE)),
+        attr: FieldAttrType,
+        events: EventsType,
+        isDisabled: PropTypes.bool,
         mix: MixType,
-        selectOptions: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
-        })),
-        name: PropTypes.string.isRequired,
-        autocomplete: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]),
-        ariaLabel: PropTypes.string,
-        isLabelWithArrow: PropTypes.bool,
-        step: PropTypes.number
+        options: FieldOptionsType,
+        elemRef: RefType,
+
+        // Validation
+        validationRule: ValidationRuleType,
+        validateOn: PropTypes.arrayOf(PropTypes.string),
+        showErrorAsLabel: PropTypes.bool,
+
+        // Labels
+        label: LabelType,
+        subLabel: PropTypes.string,
+        addRequiredTag: PropTypes.bool
     };
 
     static defaultProps = {
-        min: 1,
-        max: 99,
-        checked: false,
-        value: null,
-        onChange: () => {},
-        onFocus: () => {},
-        onBlur: () => {},
-        onClick: () => {},
-        onKeyPress: () => {},
-        formRef: () => {},
-        isControlled: false,
-        validation: [],
-        message: '',
-        customValidationStatus: null,
-        id: '',
-        formRefMap: {},
-        validateSeparately: false,
-        isSubmitted: false,
-        disabled: false,
-        label: '',
-        placeholder: '',
-        subLabel: null,
-        ariaLabel: '',
+        type: FIELD_TYPE.text,
+        attr: {},
+        events: {},
         mix: {},
-        filename: '',
-        fileExtensions: '',
-        selectOptions: [],
-        autocomplete: 'off',
-        isLabelWithArrow: false,
-        step: 1
+        validationRule: {},
+        validateOn: [],
+        options: [],
+        showErrorAsLabel: true,
+        isDisabled: false,
+        addRequiredTag: false,
+        label: '',
+        subLabel: '',
+        elemRef: null
+    };
+
+    state = {
+        validationResponse: null
     };
 
     containerFunctions = {
-        onChange: this.onChange.bind(this),
-        handleChange: this.handleChange.bind(this),
-        onChangeCheckbox: this.onChangeCheckbox.bind(this),
-        onFocus: this.onFocus.bind(this),
-        onKeyPress: this.onKeyPress.bind(this),
-        onKeyEnterDown: this.onKeyEnterDown.bind(this),
-        onClick: this.onClick.bind(this)
+        validate: this.validate.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
+    fieldRef = createRef();
 
-        const { checked } = props;
-        const value = this.getInitialPropsValue();
+    //#region VALIDATION
+    // Removes event listener for validation from field
+    componentWillUnmount() {
+        const { validationRule } = this.props;
 
-        this.state = {
-            value,
-            checked,
-            validationMessage: '',
-            validationStatus: null,
-            eventId: ''
-        };
-    }
+        if (this.fieldRef) {
+            this.fieldRef.removeEventListener('resetField', this.resetField.bind(this));
 
-    componentDidUpdate(prevProps) {
-        const { value: prevValue, checked: prevChecked, isSubmitted: prevSubmitted } = prevProps;
-        const {
-            value: currentValue,
-            checked: currChecked,
-            type,
-            id,
-            validateSeparately,
-            isSubmitted
-        } = this.props;
-        const { eventId } = this.state;
-
-        if (prevValue !== currentValue) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ value: currentValue });
-        }
-
-        if (type === CHECKBOX_TYPE && currChecked !== prevChecked) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ checked: currChecked });
-        }
-
-        // prevents validating all fields when entering data in only one of them
-        if (eventId === id || prevSubmitted !== isSubmitted || !validateSeparately) {
-            this.updateValidationStatus();
-            this.setValidationMessage(prevProps);
+            if (validationRule && Object.keys(validationRule).length > 0) {
+                this.fieldRef.removeEventListener('validate', this.validate.bind(this));
+            }
         }
     }
 
-    setValidationMessage(prevProps) {
-        const { message: prevMessage = {} } = prevProps;
-        const { message = {} } = this.props;
-        const { validationMessage = {} } = this.state;
+    // Adds validation event listener to field
+    setRef(elem) {
+        const { validationRule, elemRef } = this.props;
 
-        if (message !== validationMessage && !prevMessage && message) {
-            this.setState({ validationMessage: message });
+        if (elem && this.fieldRef !== elem) {
+            this.fieldRef = elem;
+
+            if (elemRef) {
+                elemRef.current = elem;
+            }
+
+            elem.addEventListener('resetField', this.resetField.bind(this));
+
+            if (!validationRule || Object.keys(validationRule).length === 0) {
+                return;
+            }
+            elem.addEventListener('validate', this.validate.bind(this));
         }
     }
 
-    getInitialPropsValue() {
-        const { type, value } = this.props;
-
-        if (value) {
-            return value;
-        }
-
-        switch (type) {
-        case NUMBER_TYPE:
-            return 0;
-        case CHECKBOX_TYPE:
-            return false;
-        default:
-            return '';
-        }
+    resetField() {
+        this.setState({ validationResponse: null });
     }
+
+    validate(data) {
+        const { validationRule, type, attr: { name } = {} } = this.props;
+        const value = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio
+            ? !!this.fieldRef.checked
+            : this.fieldRef.value;
+        const response = validate(value, validationRule);
+        const output = response !== true ? { ...response, type, name } : response;
+
+        // If validation is called from different object you can pass object
+        // to store validation error values
+        if (data && data.detail && response !== true) {
+            if (!data.detail.errors) {
+                // eslint-disable-next-line no-param-reassign
+                data.detail.errors = [];
+            }
+            data.detail.errors.push(output);
+        }
+        this.setState({ validationResponse: output });
+
+        return output;
+    }
+
+    validateOnEvent(hook, ...args) {
+        if (hook) {
+            const { attr, type } = this.props;
+            const { value } = this.fieldRef;
+            hook(...[...args, {
+                ...attr, fieldRef: this.fieldRef, value, type
+            }]);
+        }
+        this.validate();
+    }
+    //#endregion
 
     containerProps() {
         const {
-            autocomplete,
-            checked: propsChecked,
-            customValidationStatus,
-            disabled,
-            fileExtensions,
-            formRef,
-            formRefMap,
-            id,
-            label,
-            placeholder,
-            max,
-            min,
-            mix,
-            name,
-            selectOptions,
-            subLabel,
+            events,
+            validateOn,
             type,
-            validation,
-            ariaLabel,
-            isLabelWithArrow,
-            step
+            attr: {
+                autoComplete,
+                autocomplete,
+                ...attr
+            } = {},
+            isDisabled,
+            mix,
+            options,
+            showErrorAsLabel,
+            label,
+            subLabel,
+            addRequiredTag
         } = this.props;
+        const { validationResponse } = this.state;
+        const { validate } = this.containerFunctions;
 
-        const {
-            checked,
-            value,
-            validationStatus,
-            validationMessage,
-            filename
-        } = this.state;
+        // Surrounds events with validation
+        const newEvents = { ...events };
+        validateOn.forEach((eventName) => {
+            const { [eventName]: baseEvent } = events;
+            newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
+        });
 
         return {
-            autocomplete,
-            checked: type === CHECKBOX_TYPE ? propsChecked : checked,
-            customValidationStatus,
-            disabled,
-            fileExtensions,
-            filename,
-            formRef,
-            formRefMap,
-            id,
-            label,
-            ariaLabel,
-            placeholder,
-            max,
-            message: validationMessage,
-            min,
+            type,
+            attr: {
+                ...attr,
+                autoComplete: autoComplete || autocomplete
+            },
+            isDisabled,
             mix,
-            name,
-            selectOptions,
+            options,
+            showErrorAsLabel,
+            label,
             subLabel,
-            type,
-            validation,
-            validationStatus: customValidationStatus ?? validationStatus,
-            value,
-            isLabelWithArrow,
-            step
+            addRequiredTag,
+            validationResponse,
+            events: newEvents,
+            fieldRef: this.fieldRef,
+            setRef: this.setRef.bind(this)
         };
-    }
-
-    validateField() {
-        const {
-            validation,
-            id,
-            formRef: refMap,
-            formRefMap
-        } = this.props;
-
-        if (!validation || !id || !refMap || !refMap.current) {
-            return {};
-        }
-
-        const { current: inputNode } = refMap || {};
-
-        if (!inputNode) {
-            return {};
-        }
-
-        // we are looking for validation and executing it
-        const rule = validation.find((rule) => {
-            if (!validationConfig[rule]) {
-                return false;
-            }
-
-            const validationRules = validationConfig[rule];
-            const isValid = validationRules.validate(inputNode, formRefMap);
-
-            return !isValid;
-        });
-
-        return validationConfig[rule] || {};
-    }
-
-    updateValidationStatus() {
-        const validationRule = this.validateField();
-
-        this.setState({
-            validationStatus: !validationRule.validate,
-            validationMessage: validationRule.message
-        });
-    }
-
-    onChange(event) {
-        const { type } = this.props;
-        this.setState({ eventId: event?.target?.name });
-
-        if (typeof event === 'string' || typeof event === 'number') {
-            return this.handleChange(event);
-        }
-
-        if (event.currentTarget.value.length <= 0) {
-            this.setState({
-                validationStatus: null
-            });
-        }
-
-        this.updateValidationStatus();
-
-        if (type === FILE_TYPE) {
-            return this.handleChange(event.target.value, false, event.target.files[0]);
-        }
-
-        return this.handleChange(event.target.value);
-    }
-
-    onChangeCheckbox(event) {
-        const { onChange } = this.props;
-        const { target: { checked, value } } = event;
-
-        if (onChange) {
-            onChange(value, checked);
-        }
-
-        this.setState({ checked });
-    }
-
-    onFocus(event) {
-        const { onFocus } = this.props;
-
-        if (onFocus) {
-            onFocus(event);
-        }
-    }
-
-    onBlur(event) {
-        const { onBlur } = this.props;
-
-        if (onBlur) {
-            onBlur(event);
-        }
-    }
-
-    onKeyPress(event) {
-        const { onKeyPress } = this.props;
-
-        if (onKeyPress) {
-            onKeyPress(event);
-        }
-    }
-
-    onKeyEnterDown(event) {
-        if (event.keyCode === ENTER_KEY_CODE) {
-            const value = event.target.value || 1;
-            this.handleChange(value);
-        }
-    }
-
-    onClick(event, selectValue = false) {
-        const { onClick } = this.props;
-
-        if (selectValue) {
-            event.target.select();
-        }
-
-        if (onClick) {
-            onClick(event);
-        }
-    }
-
-    handleChange(value, shouldUpdate = true, fileValue = false) {
-        const {
-            isControlled,
-            onChange,
-            type,
-            min,
-            max
-        } = this.props;
-
-        switch (type) {
-        case NUMBER_TYPE:
-            const isValueNaN = Number.isNaN(parseInt(value, 10));
-
-            if (min > value || value > max || isValueNaN) {
-                break;
-            }
-
-            if (onChange && shouldUpdate) {
-                onChange(value);
-            }
-
-            if (!isControlled) {
-                this.setState({ value });
-            }
-            break;
-        case FILE_TYPE:
-            if (value) {
-                const result = onChange && onChange(fileValue);
-
-                this.setState({
-                    value: result ? value : '',
-                    filename: result ? value.substr(value.lastIndexOf('\\') + 1) : ''
-                });
-            }
-
-            break;
-        default:
-            if (onChange) {
-                onChange(value);
-            }
-
-            if (!isControlled) {
-                this.setState({ value });
-            }
-        }
     }
 
     render() {
         return (
             <Field
               { ...this.containerProps() }
-              { ...this.containerFunctions }
             />
         );
     }

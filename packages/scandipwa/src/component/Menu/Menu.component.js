@@ -18,8 +18,8 @@ import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import { DeviceType } from 'Type/Device';
-import { MenuType } from 'Type/Menu';
+import { DeviceType } from 'Type/Device.type';
+import { MenuType } from 'Type/Menu.type';
 import { getSortedItems } from 'Util/Menu';
 import { debounce } from 'Util/Request';
 
@@ -31,7 +31,7 @@ import './Menu.style';
 export class Menu extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
-        activeMenuItemsStack: PropTypes.array.isRequired,
+        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
         handleSubcategoryClick: PropTypes.func.isRequired,
         closeMenu: PropTypes.func.isRequired,
         onCategoryHover: PropTypes.func.isRequired,

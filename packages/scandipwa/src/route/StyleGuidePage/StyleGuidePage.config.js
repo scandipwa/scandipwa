@@ -30,12 +30,10 @@ import facebook from 'Style/icons/logos/facebook.svg';
 import linkedIn from 'Style/icons/logos/linkedIn.svg';
 import twitter from 'Style/icons/logos/twitter.svg';
 
+export const COLORS = 'colors';
 export const BUTTONS = 'buttons';
 export const TEXT_STYLES = 'text styles';
-export const MENU_ITEMS_AND_LINKS = 'menu items and links';
 export const INPUTS = 'inputs';
-export const ICONS = 'icons';
-export const PRODUCT_POD = 'product pod';
 export const ADDITIONAL_ELEMENTS = 'additional elements';
 export const ICONS_LIST = {
     CartIcon,

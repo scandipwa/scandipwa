@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { baseOrderInfoType } from 'Type/Account';
+import { BaseOrderInfoType } from 'Type/Account.type';
 import { formatPrice } from 'Util/Price';
 
 import './MyAccountOrderTableRow.style';
@@ -21,7 +21,7 @@ import './MyAccountOrderTableRow.style';
 export class MyAccountOrderTableRow extends PureComponent {
     static propTypes = {
         currency_code: PropTypes.string.isRequired,
-        base_order_info: baseOrderInfoType.isRequired,
+        base_order_info: BaseOrderInfoType.isRequired,
         onViewClick: PropTypes.func.isRequired
     };
 

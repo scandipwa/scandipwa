@@ -15,18 +15,18 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import MyAccountQuery from 'Query/MyAccount.query';
-import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { updateCustomerDetails, updateIsLoading } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { customerType } from 'Type/Account';
-import { LocationType } from 'Type/Common';
+import { CustomerType } from 'Type/Account.type';
+import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import { appendWithStoreCode } from 'Util/Url';
+import { appendWithStoreCode, replace } from 'Util/Url';
 
 import MyAccountInformation from './MyAccountInformation.component';
 
@@ -39,7 +39,8 @@ export const MyAccountDispatcher = import(
 export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile,
     customer: state.MyAccountReducer.customer,
-    isLoading: state.MyAccountReducer.isLoading
+    isLoading: state.MyAccountReducer.isLoading,
+    baseLinkUrl: state.ConfigReducer.base_link_url
 });
 
 /** @namespace Component/MyAccountInformation/Container/mapDispatchToProps */
@@ -49,15 +50,16 @@ export const mapDispatchToProps = (dispatch) => ({
     showSuccessNotification: (message) => dispatch(showNotification('success', message)),
     updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
     logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(false, dispatch)
+        ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch)
     )
 });
 
 /** @namespace Component/MyAccountInformation/Container */
 export class MyAccountInformationContainer extends PureComponent {
     static propTypes = {
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         location: LocationType.isRequired,
+        baseLinkUrl: PropTypes.string.isRequired,
 
         isLoading: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
@@ -146,21 +148,36 @@ export class MyAccountInformationContainer extends PureComponent {
     }
 
     afterSubmit() {
-        const { showSuccessNotification, updateCustomerLoadingStatus, logout } = this.props;
-        const { isErrorShow, showEmailChangeField } = this.state;
+        const { showSuccessNotification, updateCustomerLoadingStatus } = this.props;
+        const { isErrorShow, showEmailChangeField, showPasswordChangeField } = this.state;
 
         if (!isErrorShow) {
             updateCustomerLoadingStatus(false);
 
-            if (showEmailChangeField) {
-                logout();
+            if (showEmailChangeField || showPasswordChangeField) {
+                this.handleLogout();
             } else {
                 history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
-                showSuccessNotification('You saved the account information.');
             }
+
+            showSuccessNotification('You saved the account information.');
         } else {
             this.setState({ isErrorShow: false });
         }
+    }
+
+    handleLogout() {
+        const { baseLinkUrl, logout } = this.props;
+
+        const path = baseLinkUrl
+            ? appendWithStoreCode(ACCOUNT_LOGIN_URL)
+            : replace(/\/customer\/account\/.*/, ACCOUNT_LOGIN_URL);
+
+        history.push({
+            pathname: path,
+            state: { isFromEmailChange: true }
+        });
+        logout();
     }
 
     async handlePasswordChange(passwords) {

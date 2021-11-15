@@ -13,7 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { IMAGE_HUNDRED_PERCENT } from 'Component/Image/Image.config';
-import { MixType } from 'Type/Common';
+import { MixType, RefType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import Image from './Image.component';
 
@@ -25,7 +26,10 @@ export class ImageContainer extends PureComponent {
             PropTypes.string,
             PropTypes.bool
         ]),
-        style: PropTypes.shape({}),
+        style: PropTypes.objectOf(PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ])),
         width: PropTypes.string,
         height: PropTypes.string,
         alt: PropTypes.string,
@@ -37,12 +41,10 @@ export class ImageContainer extends PureComponent {
         ]),
         mix: MixType,
         className: PropTypes.string,
-        imageRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]),
+        imageRef: RefType,
         title: PropTypes.string,
-        isPlain: PropTypes.bool
+        isPlain: PropTypes.bool,
+        showIsLoading: PropTypes.bool
     };
 
     static defaultProps = {
@@ -56,8 +58,9 @@ export class ImageContainer extends PureComponent {
         style: {},
         title: null,
         className: '',
-        imageRef: () => {},
-        isPlain: false
+        imageRef: noopFn,
+        isPlain: false,
+        showIsLoading: false
     };
 
     containerProps() {
@@ -69,7 +72,8 @@ export class ImageContainer extends PureComponent {
             ratio,
             mix,
             imageRef,
-            isPlain
+            isPlain,
+            showIsLoading
         } = this.props;
 
         return {
@@ -83,8 +87,35 @@ export class ImageContainer extends PureComponent {
             ratio,
             mix,
             imageRef,
-            isPlain
+            isPlain,
+            showIsLoading,
+            isCached: this._isCached()
         };
+    }
+
+    _isCached() {
+        const { showIsLoading, src } = this.props;
+
+        if (!showIsLoading) {
+            return false;
+        }
+
+        if (
+            window.prefetchedImages
+            && window.prefetchedImages[src]
+            && window.prefetchedImages[src].complete
+        ) {
+            return true;
+        }
+
+        const img = document.createElement('img');
+        img.src = src;
+
+        if (img.complete) {
+            return true;
+        }
+
+        return false;
     }
 
     _parseSize(size) {
@@ -155,7 +186,7 @@ export class ImageContainer extends PureComponent {
         const size = this._getCorrectSize();
         const { height, width } = size;
 
-        if ((!height || height.slice(-1) === '%') && (!width || width.slice(-1) === '%')) {
+        if (!height || (height.slice(-1) === '%' && (!width || width.slice(-1) === '%'))) {
             return {};
         }
 

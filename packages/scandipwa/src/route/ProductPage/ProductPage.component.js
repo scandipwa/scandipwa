@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -28,7 +27,7 @@ import {
     PRODUCT_REVIEWS
 } from 'Route/ProductPage/ProductPage.config';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 
 import './ProductPage.style';
 
@@ -59,7 +58,9 @@ export class ProductPage extends PureComponent {
         areDetailsLoaded: PropTypes.bool.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
-        setActiveProduct: PropTypes.func.isRequired
+        setActiveProduct: PropTypes.func.isRequired,
+        useEmptyGallerySwitcher: PropTypes.bool.isRequired,
+        isVariant: PropTypes.bool.isRequired
     };
 
     tabMap = {
@@ -95,7 +96,10 @@ export class ProductPage extends PureComponent {
             dataSource,
             areDetailsLoaded,
             activeProduct,
-            setActiveProduct
+            setActiveProduct,
+            useEmptyGallerySwitcher,
+            parameters,
+            isVariant
         } = this.props;
 
         return (
@@ -104,11 +108,14 @@ export class ProductPage extends PureComponent {
                     <ProductGallery
                       product={ activeProduct }
                       areDetailsLoaded={ areDetailsLoaded }
+                      isWithEmptySwitcher={ useEmptyGallerySwitcher }
+                      showLoader={ isVariant }
                     />
                 </Suspense>
                 <ProductActions
                   getLink={ getLink }
                   product={ dataSource }
+                  parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
                   setActiveProduct={ setActiveProduct }
                 />

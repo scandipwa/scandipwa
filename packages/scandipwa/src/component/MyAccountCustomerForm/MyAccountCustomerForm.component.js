@@ -11,8 +11,8 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from 'Component/PureForm/FieldForm';
-import { customerType } from 'Type/Account';
+import FieldForm from 'Component/FieldForm';
+import { CustomerType } from 'Type/Account.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import { customerEmailAndPasswordFields, customerInformationFields } from './MyAccountCustomerForm.form';
@@ -20,13 +20,22 @@ import { customerEmailAndPasswordFields, customerInformationFields } from './MyA
 /** @namespace Component/MyAccountCustomerForm/Component */
 export class MyAccountCustomerForm extends FieldForm {
     static propTypes = {
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         onSave: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.bool.isRequired,
         showEmailChangeField: PropTypes.bool.isRequired,
         showPasswordChangeField: PropTypes.bool.isRequired,
         handleChangeEmailCheckbox: PropTypes.func.isRequired,
-        handleChangePasswordCheckbox: PropTypes.func.isRequired
+        handleChangePasswordCheckbox: PropTypes.func.isRequired,
+        handleEmailInput: PropTypes.func.isRequired,
+        handlePasswordInput: PropTypes.func.isRequired,
+        email: PropTypes.string,
+        currentPassword: PropTypes.string
+    };
+
+    static defaultProps = {
+        email: '',
+        currentPassword: ''
     };
 
     onFormSuccess = (form, fields) => {
@@ -66,14 +75,18 @@ export class MyAccountCustomerForm extends FieldForm {
         const {
             showEmailChangeField,
             showPasswordChangeField,
-            customer: {
-                email
-            }
+            handlePasswordInput,
+            handleEmailInput,
+            currentPassword,
+            email
         } = this.props;
 
         return customerEmailAndPasswordFields({
             showEmailChangeField,
             showPasswordChangeField,
+            handlePasswordInput,
+            handleEmailInput,
+            currentPassword,
             email
         });
     }

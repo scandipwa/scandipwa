@@ -102,8 +102,8 @@ export const trimCheckoutAddress = (customerAddress) => {
         postcode = '',
         street = [''],
         telephone = '',
-        region = '',
-        region_id = 1,
+        region_string = '',
+        region_id = 0,
         region_code = null,
         vat_id = null
     } = customerAddress;
@@ -117,8 +117,8 @@ export const trimCheckoutAddress = (customerAddress) => {
         postcode,
         street,
         telephone,
-        region,
-        region_id,
+        region: region_string,
+        region_id: region_id === '' ? 0 : region_id,
         region_code,
         vat_id
     };
@@ -245,4 +245,11 @@ export const getFormattedRegion = (address, countries) => {
         country: label,
         region: name
     };
+};
+
+/** @namespace Util/Address/Index/checkIfStoreIncluded */
+export const checkIfStoreIncluded = (stores, selectedStore) => {
+    const selectedStoreInString = JSON.stringify(selectedStore);
+
+    return stores.find((store) => JSON.stringify(store) === selectedStoreInString);
 };

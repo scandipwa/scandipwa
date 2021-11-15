@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import { getCurrency } from 'Util/Currency';
 
 import './CurrencySwitcher.style';
@@ -63,7 +63,8 @@ export class CurrencySwitcher extends PureComponent {
                       attr={ {
                           id: 'CurrencySwitcherList',
                           name: 'CurrencySwitcherList',
-                          defaultValue: this.getCurrencyValue()
+                          defaultValue: this.getCurrencyValue(),
+                          noPlaceholder: true
                       } }
                       events={ {
                           onChange: handleCurrencySelect

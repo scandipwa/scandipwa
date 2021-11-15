@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_WISHLIST } from 'Component/Header/Header.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -23,11 +24,13 @@ import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ACCOUNT_INFORMATION,
     ADDRESS_BOOK,
-    FIRST_SECTION, MY_ACCOUNT, MY_DOWNLOADABLE, MY_ORDERS,
+    FIRST_SECTION,
+    MY_ACCOUNT, MY_DOWNLOADABLE, MY_ORDERS,
     MY_WISHLIST, NEWSLETTER_SUBSCRIPTION,
     SECOND_SECTION, THIRD_SECTION
-} from 'Type/Account';
-import { LocationType, MatchType } from 'Type/Common';
+} from 'Type/Account.type';
+import { ItemType } from 'Type/ProductList.type';
+import { LocationType, MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
@@ -81,7 +84,7 @@ export class MyAccountContainer extends PureComponent {
         match: MatchType.isRequired,
         location: LocationType.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        wishlistItems: PropTypes.object,
+        wishlistItems: PropTypes.objectOf(ItemType),
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
@@ -441,6 +444,6 @@ export class MyAccountContainer extends PureComponent {
     }
 }
 
-export default withReducers({
+export default withRouter(withReducers({
     OrderReducer
-})(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer));
+})(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer)));

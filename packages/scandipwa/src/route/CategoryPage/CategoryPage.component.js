@@ -24,8 +24,11 @@ import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
-import { CategoryTreeType } from 'Type/Category';
-import { FilterInputType, FilterType } from 'Type/ProductList';
+import {
+    CategoryTreeType, FilterInputType, FilterType, SortFieldsType
+} from 'Type/Category.type';
+import { SortDirectionType } from 'Type/Direction.type';
+import { AttributesType } from 'Type/ProductList.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
@@ -48,15 +51,10 @@ export const CategoryFilterOverlay = lazy(() => import(
 export class CategoryPage extends PureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired,
-        filters: PropTypes.objectOf(PropTypes.shape).isRequired,
-        sortFields: PropTypes.shape({
-            options: PropTypes.array
-        }).isRequired,
+        filters: AttributesType.isRequired,
+        sortFields: SortFieldsType.isRequired,
         selectedSort: PropTypes.shape({
-            sortDirection: PropTypes.oneOf([
-                'ASC',
-                'DESC'
-            ]),
+            sortDirection: SortDirectionType,
             sortKey: PropTypes.string
         }).isRequired,
         onSortChange: PropTypes.func.isRequired,

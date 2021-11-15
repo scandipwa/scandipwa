@@ -15,8 +15,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { UTMOST_PAGES_COUNT } from 'Component/CategoryPagination/CategoryPagination.config';
-import { HistoryType } from 'Type/Common';
-import { LocationType } from 'Type/Router';
+import { HistoryType, LocationType } from 'Type/Router.type';
 import { generateQuery, getQueryParam } from 'Util/Url';
 
 import CategoryPagination from './CategoryPagination.component';
@@ -36,7 +35,6 @@ export const mapDispatchToProps = () => ({});
 export class CategoryPaginationContainer extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
-        onPageSelect: PropTypes.func,
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
         totalPages: PropTypes.number.isRequired,
@@ -49,7 +47,6 @@ export class CategoryPaginationContainer extends PureComponent {
 
     static defaultProps = {
         isLoading: false,
-        onPageSelect: () => {},
         paginationFrame: 5,
         paginationFrameSkip: null,
         anchorTextPrevious: '',
@@ -74,7 +71,6 @@ export class CategoryPaginationContainer extends PureComponent {
             anchorTextPrevious,
             id,
             isLoading,
-            onPageSelect,
             paginationFrame,
             totalPages,
             location: { pathname }
@@ -85,7 +81,6 @@ export class CategoryPaginationContainer extends PureComponent {
             anchorTextPrevious,
             id,
             isLoading,
-            onPageSelect,
             paginationFrame,
             pathname,
             totalPages,

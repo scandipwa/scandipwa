@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import Image from 'Component/Image';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { CategoryTreeType } from 'Type/Category';
+import { CategoryTreeType } from 'Type/Category.type';
 
 import './CategoryDetails.style';
 

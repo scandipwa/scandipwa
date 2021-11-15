@@ -14,14 +14,15 @@ import { PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
+import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
-import Form from 'Component/PureForm/Form';
 import StoreInPickUpComponent from 'Component/StoreInPickUp';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { addressType } from 'Type/Account';
-import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
+import { Addresstype } from 'Type/Account.type';
+import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
+import { getAllCartItemsSku } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 
 import './CheckoutShipping.style';
@@ -30,25 +31,26 @@ import './CheckoutShipping.style';
 export class CheckoutShipping extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
-        selectedShippingMethod: shippingMethodType.isRequired,
+        selectedShippingMethod: ShippingMethodType.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         isSubmitted: PropTypes.bool.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        estimateAddress: addressType.isRequired,
+        estimateAddress: Addresstype.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,
         setSelectedShippingMethodCode: PropTypes.func
     };
 
     static defaultProps = {
-        setSelectedShippingMethodCode: null
+        setSelectedShippingMethodCode: null,
+        cartTotalSubPrice: null
     };
 
     renderOrderTotalExclTax() {
@@ -125,7 +127,8 @@ export class CheckoutShipping extends PureComponent {
             onStoreSelect,
             onShippingMethodSelect,
             estimateAddress,
-            setSelectedShippingMethodCode
+            setSelectedShippingMethodCode,
+            totals: { items }
         } = this.props;
 
         return (
@@ -136,6 +139,7 @@ export class CheckoutShipping extends PureComponent {
               onShippingMethodSelect={ onShippingMethodSelect }
               estimateAddress={ estimateAddress }
               setSelectedShippingMethodCode={ setSelectedShippingMethodCode }
+              cartItemsSku={ getAllCartItemsSku(items) }
             />
         );
     }

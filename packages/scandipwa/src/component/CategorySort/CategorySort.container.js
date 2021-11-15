@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { SortDirectionType } from 'Type/Direction.type';
+
 import CategorySort from './CategorySort.component';
 
 /** @namespace Component/CategorySort/Container */
@@ -27,7 +29,7 @@ export class CategorySortContainer extends PureComponent {
         isMatchingInfoFilter: PropTypes.bool,
         onSortChange: PropTypes.func.isRequired,
         sortKey: PropTypes.string.isRequired,
-        sortDirection: PropTypes.string.isRequired
+        sortDirection: SortDirectionType.isRequired
     };
 
     static defaultProps = {

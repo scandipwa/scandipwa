@@ -11,16 +11,16 @@
 
 import PropTypes from 'prop-types';
 
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import FieldForm from 'Component/PureForm/FieldForm';
-import { customerType } from 'Type/Account';
+import { FIELD_TYPE } from 'Component/Field/Field.config';
+import FieldForm from 'Component/FieldForm';
+import { CustomerType } from 'Type/Account.type';
 
 import './MyAccountNewsletterSubscription.style.scss';
 
 /** @namespace Component/MyAccountNewsletterSubscription/Component */
 export class MyAccountNewsletterSubscription extends FieldForm {
     static propTypes = {
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         onCustomerSave: PropTypes.func.isRequired,
         onError: PropTypes.func.isRequired,
         isSubscriptionSelected: PropTypes.bool.isRequired

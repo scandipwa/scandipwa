@@ -15,14 +15,14 @@ import { PureComponent } from 'react';
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutPayments from 'Component/CheckoutPayments';
 import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import Form from 'Component/PureForm/Form';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import Form from 'Component/Form';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { addressType } from 'Type/Account';
-import { paymentMethodsType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
+import { Addresstype } from 'Type/Account.type';
+import { PaymentMethodsType } from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
 import { formatPrice } from 'Util/Price';
 
 import './CheckoutBilling.style';
@@ -46,14 +46,18 @@ export class CheckoutBilling extends PureComponent {
         onBillingError: PropTypes.func.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
         showPopup: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
+        paymentMethods: PaymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired,
-        shippingAddress: addressType.isRequired,
+        cartTotalSubPrice: PropTypes.number,
+        shippingAddress: Addresstype.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
         })).isRequired,
         selectedShippingMethod: PropTypes.string.isRequired
+    };
+
+    static defaultProps = {
+        cartTotalSubPrice: null
     };
 
     componentDidMount() {

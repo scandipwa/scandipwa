@@ -12,9 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/PureForm/Field';
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import FieldGroup from 'Component/PureForm/FieldGroup';
+import Field from 'Component/Field';
+import { FIELD_TYPE } from 'Component/Field/Field.config';
+import FieldGroup from 'Component/FieldGroup';
+import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
 import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
@@ -34,7 +35,7 @@ export class ProductCustomizableOption extends PureComponent {
         getDropdownOptions: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
         currencyCode: PropTypes.string.isRequired,
-        options: PropTypes.arrayOf(PropTypes.object).isRequired
+        options: CustomizableOptionsType.isRequired
     };
 
     renderMap = {
@@ -65,10 +66,10 @@ export class ProductCustomizableOption extends PureComponent {
         } = customizableOptionToLabel(option, currencyCode);
 
         return (
-            <>
+            <span block="ProductCustomizableItem" elem="Label">
                 { overrideBase || baseLabel }
                 <strong>{ overridePrice || priceLabel }</strong>
-            </>
+            </span>
         );
     }
 

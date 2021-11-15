@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 
 import KeyValueTable from 'Component/KeyValueTable';
 import Loader from 'Component/Loader';
-import { addressType } from 'Type/Account';
-import { MixType } from 'Type/Common';
+import { Addresstype } from 'Type/Account.type';
+import { MixType } from 'Type/Common.type';
 
 import { getAddressTablePairArray } from './MyAccountAddressTable.table';
 
@@ -24,7 +24,8 @@ import './MyAccountAddressTable.style';
 export class MyAccountAddressTable extends KeyValueTable {
     static propTypes = {
         mix: MixType.isRequired,
-        address: addressType.isRequired,
+        getFormatedRegion: PropTypes.func.isRequired,
+        address: Addresstype.isRequired,
         showActions: PropTypes.bool.isRequired,
         showAdditionalFields: PropTypes.bool.isRequired,
         onEditClick: PropTypes.func.isRequired,

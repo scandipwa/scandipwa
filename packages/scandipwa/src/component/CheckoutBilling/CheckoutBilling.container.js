@@ -20,10 +20,15 @@ import {
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { addressType, customerType } from 'Type/Account';
-import { paymentMethodsType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
-import { getFormFields, setAddressesInFormObject, trimCheckoutCustomerAddress } from 'Util/Address';
+import { Addresstype, CustomerType } from 'Type/Account.type';
+import { PaymentMethodsType } from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
+import {
+    getFormFields,
+    setAddressesInFormObject,
+    trimCheckoutAddress,
+    trimCheckoutCustomerAddress
+} from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
 import transformToNameValuePair from 'Util/Form/Transform';
 
@@ -49,11 +54,11 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CheckoutBillingContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
+        paymentMethods: PaymentMethodsType.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
         showPopup: PropTypes.func.isRequired,
-        shippingAddress: addressType.isRequired,
-        customer: customerType.isRequired,
+        shippingAddress: Addresstype.isRequired,
+        customer: CustomerType.isRequired,
         totals: TotalsType.isRequired,
         addressLinesQty: PropTypes.number.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
@@ -252,7 +257,7 @@ export class CheckoutBillingContainer extends PureComponent {
         if (!selectedCustomerAddressId) {
             const joinedStreetAddressFields = setAddressesInFormObject(formFields, addressLinesQty, 'street_');
 
-            return trimCheckoutCustomerAddress(joinedStreetAddressFields);
+            return trimCheckoutAddress(joinedStreetAddressFields);
         }
 
         const { customer: { addresses } } = this.props;
