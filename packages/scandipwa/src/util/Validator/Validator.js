@@ -94,7 +94,7 @@ export const validate = (value, rule) => {
         const acceptedExtensions = accept.split(', ');
         const currentFileExtension = value.split('.').pop();
 
-        if (acceptedExtensions.filter((extension) => extension === currentFileExtension).length === 0) {
+        if (!acceptedExtensions.includes(currentFileExtension)) {
             output.errorMessages.push(onExtensionFail || VALIDATION_MESSAGES.fileExtension);
         }
     }
