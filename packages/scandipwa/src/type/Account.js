@@ -59,7 +59,16 @@ export const CustomerType = PropTypes.shape({
     taxvat: PropTypes.string
 });
 
-export const BaseOrderInfoType = PropTypes.shape({
+export const OrderGrandTotalType = PropTypes.shape({
+    value: PropTypes.number,
+    currency: PropTypes.string
+});
+
+export const OrderTotalType = PropTypes.shape({
+    grand_total: OrderGrandTotalType
+});
+
+export const OrderInfoType = PropTypes.shape({
     id: PropTypes.number,
     increment_id: PropTypes.string,
     created_at: PropTypes.string,
@@ -84,7 +93,10 @@ export const OrderShippingInfo = PropTypes.shape({
 });
 
 export const OrderType = PropTypes.shape({
-    base_order_info: BaseOrderInfoType,
+    id: PropTypes.string,
+    order_date: PropTypes.string,
+    status: PropTypes.string,
+    total: OrderTotalType,
     order_products: PropTypes.array,
     payment_info: OrderPaymentInfo,
     shipping_info: OrderShippingInfo
@@ -104,6 +116,7 @@ export const OrdersType = PropTypes.arrayOf(OrderType);
 
 export const MY_ACCOUNT = 'my-account';
 export const MY_ORDERS = 'my-orders';
+export const MY_ORDER = 'my-order';
 export const MY_DOWNLOADABLE = 'my-downloadable';
 export const MY_WISHLIST = 'my-wishlist';
 export const ADDRESS_BOOK = 'address';

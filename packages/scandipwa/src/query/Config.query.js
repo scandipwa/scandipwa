@@ -140,6 +140,8 @@ export class ConfigQuery {
             'newsletter_subscription_confirm',
             'delivery_instore_active',
             'access_token_lifetime',
+            'is_allowed_reorder',
+            'rss_order_subscribe_allow',
             this.getPriceDisplayTypeField()
         ];
     }

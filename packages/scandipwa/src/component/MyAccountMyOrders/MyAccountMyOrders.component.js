@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 
 import Loader from 'Component/Loader';
-import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
 import { OrdersType } from 'Type/Account';
 import { DeviceType } from 'Type/Device';
@@ -36,10 +35,6 @@ export class MyAccountMyOrders extends Component {
         } = nextProps;
 
         return device !== nextDevice || orderList !== nextOrderList;
-    }
-
-    renderPopup() {
-        return <MyAccountOrderPopup />;
     }
 
     renderNoOrders() {
@@ -78,7 +73,7 @@ export class MyAccountMyOrders extends Component {
     }
 
     renderOrderRow = (order) => {
-        const { base_order_info: { id } } = order;
+        const { id } = order;
 
         return (
             <MyAccountOrderTableRow
@@ -112,7 +107,6 @@ export class MyAccountMyOrders extends Component {
             <div block="MyAccountMyOrders">
                 <Loader isLoading={ isLoading } />
                 { this.renderTable() }
-                { this.renderPopup() }
             </div>
         );
     }

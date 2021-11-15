@@ -21,7 +21,6 @@ import {
     updateIsLoading
 } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { ORDERS } from 'Store/Order/Order.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearComparedProducts } from 'Store/ProductCompare/ProductCompare.action';
 import {
@@ -96,7 +95,6 @@ export class MyAccountDispatcher {
         }
 
         deleteGuestQuoteId();
-        BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         removeUid();
 
@@ -272,7 +270,6 @@ export class MyAccountDispatcher {
             return;
         }
 
-        BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         CartDispatcher.then(
             ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch)

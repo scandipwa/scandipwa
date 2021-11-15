@@ -12,7 +12,12 @@
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { getOrderList } from 'Store/Order/Order.action';
-import { fetchQuery, getErrorMessage } from 'Util/Request';
+import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
 /** @namespace Store/Order/Dispatcher */
 export class OrderDispatcher {
@@ -21,19 +26,44 @@ export class OrderDispatcher {
 
         return fetchQuery(query).then(
             /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then */
-            ({ getOrderList: orders }) => {
-                dispatch(getOrderList(orders, false));
+            ({ customer: { orders: items } }) => {
+                dispatch(getOrderList(items, false));
             },
             /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then/dispatch/catch */
             (error) => dispatch(showNotification('error', getErrorMessage(error)))
         );
     }
 
-    async getOrderById(dispatch, id) {
-        try {
-            const { getOrderById: result } = await fetchQuery(OrderQuery.getOrderByIdQuery(id));
+    async reorder(dispatch, incrementId) {
+        const result = await this.handleReorderMutation(dispatch, incrementId);
+        console.log(result);
+        const cartDispatcher = (await CartDispatcher).default;
+        cartDispatcher.updateInitialCartData(dispatch);
+    }
 
-            return result;
+    handleReorderMutation(dispatch, incrementId) {
+        try {
+            return fetchMutation(OrderQuery.getReorder(incrementId));
+        } catch (error) {
+            return dispatch(showNotification('error', getErrorMessage(error)));
+        }
+    }
+
+    async subscribeToOrderStatus(dispatch, incrementId) {
+        console.log(dispatch, incrementId);
+    }
+
+    async getOrderById(dispatch, orderId) {
+        try {
+            const {
+                customer: {
+                    orders: {
+                        items
+                    }
+                }
+            } = await fetchQuery(OrderQuery.getOrderListQuery({ orderId }));
+
+            return items[0];
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
 

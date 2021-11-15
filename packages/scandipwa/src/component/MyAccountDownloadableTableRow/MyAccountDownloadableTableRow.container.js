@@ -13,8 +13,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.config';
-import { showPopup } from 'Store/Popup/Popup.action';
 import { DownloadableType } from 'Type/Account';
 import { DeviceType } from 'Type/Device';
 
@@ -28,8 +26,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (payload) => dispatch(showPopup(ORDER_POPUP_ID, payload))
+export const mapDispatchToProps = () => ({
 });
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container */
@@ -47,23 +44,6 @@ export class MyAccountDownloadableTableRowContainer extends PureComponent {
     };
 
     onOrderIdClick() {
-        const { showPopup, orderList, order: { order_id } } = this.props;
-
-        const order = orderList.find((order) => {
-            const {
-                base_order_info: {
-                    increment_id
-                }
-            } = order;
-
-            return increment_id === order_id;
-        });
-
-        showPopup({
-            title: __('Order #%s', order_id),
-            increment_id: order_id,
-            order
-        });
     }
 
     containerProps() {

@@ -71,7 +71,6 @@ export class Link extends PureComponent {
                 // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                 <a
                   { ...props }
-                  onClick={ this.scrollToElement }
                   href={ to }
                   rel="noopener noreferrer"
                   target="_blank"
@@ -85,7 +84,6 @@ export class Link extends PureComponent {
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <a
               { ...props }
-              onClick={ this.scrollToElement }
               href={ to }
             >
                 { children }
@@ -135,7 +133,6 @@ export class Link extends PureComponent {
             bemProps,
             children,
             to,
-            isOpenInNewTab,
             ...props
         } = this.props;
 

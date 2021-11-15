@@ -13,15 +13,15 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.config';
-import { showPopup } from 'Store/Popup/Popup.action';
+import { ACCOUNT_ORDER_URL } from 'Route/MyAccount/MyAccount.config';
 import { OrderType } from 'Type/Account';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
 
 /** @namespace Component/MyAccountOrderTableRow/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (payload) => dispatch(showPopup(ORDER_POPUP_ID, payload))
+export const mapDispatchToProps = () => ({
 });
 
 /** @namespace Component/MyAccountOrderTableRow/Container/mapStateToProps */
@@ -46,28 +46,20 @@ export class MyAccountOrderTableRowContainer extends PureComponent {
     };
 
     onViewClick() {
-        const { showPopup, order } = this.props;
-        const { base_order_info: { increment_id } } = order;
+        const { order: { id } } = this.props;
 
-        showPopup({
-            title: __('Order #%s', increment_id),
-            increment_id,
-            order
-        });
+        history.push({ pathname: appendWithStoreCode(`${ACCOUNT_ORDER_URL}/${id}`) });
     }
 
     containerProps() {
         const {
             display_tax_in_shipping_amount,
-            order,
-            order: { base_order_info, base_order_info: { currency_code = '' } }
+            order
         } = this.props;
 
         return {
-            order,
-            base_order_info,
-            currency_code,
-            display_tax_in_shipping_amount
+            display_tax_in_shipping_amount,
+            order
         };
     }
 

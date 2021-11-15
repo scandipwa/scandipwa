@@ -55,6 +55,7 @@ import {
     MY_ACCOUNT_ADDRESS,
     MY_ACCOUNT_DOWNLOADABLE,
     MY_ACCOUNT_NEWSLETTER,
+    MY_ACCOUNT_ORDER,
     MY_ACCOUNT_ORDERS,
     MY_ACCOUNT_WISHLIST,
     NAVIGATION_TABS,
@@ -190,6 +191,11 @@ export class Router extends PureComponent {
             component: <Route path={ withStoreRegex('/customer/account/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
             position: 65,
             name: CONFIRM_ACCOUNT
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_ORDERS } /> } />,
+            position: 70,
+            name: MY_ACCOUNT_ORDER
         },
         {
             component: <Route path={ withStoreRegex('/sales/order/history') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_ORDERS } /> } />,
