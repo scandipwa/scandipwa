@@ -247,24 +247,6 @@ export const myAccountAddressForm = (props, events = {}) => {
             mods: { address: true },
             fields: [
                 {
-                    type: FIELD_TYPE.text,
-                    label: __('City'),
-                    attr: {
-                        name: 'city',
-                        value: currentCity,
-                        defaultValue: city,
-                        placeholder: __('Your city')
-                    },
-                    events: {
-                        onChange: onCityChange
-                    },
-                    addRequiredTag: true,
-                    validateOn: ['onChange'],
-                    validationRule: {
-                        isRequired: true
-                    }
-                },
-                {
                     type: FIELD_TYPE.select,
                     label: __('Country'),
                     attr: {
@@ -298,6 +280,24 @@ export const myAccountAddressForm = (props, events = {}) => {
                     },
                     addRequiredTag: true,
                     validateOn: ['onChange', 'onBlur'],
+                    validationRule: {
+                        isRequired: true
+                    }
+                },
+                {
+                    type: FIELD_TYPE.text,
+                    label: __('City'),
+                    attr: {
+                        name: 'city',
+                        value: currentCity,
+                        defaultValue: city,
+                        placeholder: __('Your city')
+                    },
+                    events: {
+                        onChange: onCityChange
+                    },
+                    addRequiredTag: true,
+                    validateOn: ['onChange'],
                     validationRule: {
                         isRequired: true
                     }
