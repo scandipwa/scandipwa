@@ -15,7 +15,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ChildrenType, MixType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import SwipeToDelete from './SwipeToDelete.component';
 import {
@@ -59,9 +60,9 @@ export class SwipeToDeleteContainer extends PureComponent {
         dragItemRemoveThreshold: DRAG_ITEM_REMOVE_THRESHOLD,
         animationDuration: ANIMATION_DURATION,
         animationDurationOnRemove: ANIMATION_DURATION_ON_REMOVE,
-        renderRightSideContent: () => {},
+        renderRightSideContent: noopFn,
         topElemMix: {},
-        onAheadOfDragItemRemoveThreshold: () => {},
+        onAheadOfDragItemRemoveThreshold: noopFn,
         isLoading: false
     };
 

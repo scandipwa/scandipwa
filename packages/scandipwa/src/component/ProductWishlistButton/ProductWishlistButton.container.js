@@ -15,9 +15,10 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { MixType } from 'Type/Common';
-import { ProductType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { MagentoProductType, ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
 
@@ -47,7 +48,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/ProductWishlistButton/Container */
 export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
-        magentoProduct: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+        magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
         isAddingWishlistItem: PropTypes.bool.isRequired,
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
@@ -60,7 +61,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
     static defaultProps = {
         mix: {},
-        onProductValidationError: () => {}
+        onProductValidationError: noopFn
     };
 
     state = {

@@ -12,22 +12,21 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
+import { ModsType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import './CarouselScrollArrow.style';
 
 /** @namespace Component/CarouselScrollArrow/Component */
 export class CarouselScrollArrow extends PureComponent {
     static propTypes = {
-        mods: PropTypes.shape({
-            isNextArrow: PropTypes.bool,
-            isInvisible: PropTypes.bool
-        }),
+        mods: ModsType,
         onClick: PropTypes.func
     };
 
     static defaultProps = {
         mods: {},
-        onClick: () => {}
+        onClick: noopFn
     };
 
     render() {

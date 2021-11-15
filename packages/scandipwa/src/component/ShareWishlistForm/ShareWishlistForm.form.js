@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
  * Returns fields for share wishlist form
- * @returns {[{addRequiredTag: boolean, validateOn: [string], validationRule: {isRequired: boolean}, label: *, type: string, attr: {name: string, placeholder: *, 'aria-label': *}}, {label: *, type: string, attr: {name: string, placeholder: *, 'aria-label': *}}]}
+ * @returns {Object}
  * @namespace Component/ShareWishlistForm/Form/shareWishlistForm
  */
 export const shareWishlistForm = () => [

@@ -11,8 +11,8 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from 'Component/PureForm/FieldForm';
-import { CustomerType } from 'Type/Account';
+import FieldForm from 'Component/FieldForm';
+import { CustomerType } from 'Type/Account.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import { customerEmailAndPasswordFields, customerInformationFields } from './MyAccountCustomerForm.form';

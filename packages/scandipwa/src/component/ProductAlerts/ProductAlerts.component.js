@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { IN_STOCK } from 'Component/Product/Stock.config';
-import { StockStatusType } from 'Type/StockStatus';
+import { STOCK_TYPE } from 'Component/Product/Stock.config';
+import { StockStatusType } from 'Type/StockStatus.type';
 
 import './ProductAlerts.style';
 
@@ -62,7 +62,7 @@ export class ProductAlerts extends PureComponent {
             return null;
         }
 
-        if (stockStatus === IN_STOCK || !stockStatus) {
+        if (stockStatus === STOCK_TYPE.IN_STOCK || !stockStatus) {
             return null;
         }
 

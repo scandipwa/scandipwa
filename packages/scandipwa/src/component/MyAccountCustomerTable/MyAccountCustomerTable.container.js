@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ACCOUNT_INFORMATION_EDIT_URL } from 'Route/MyAccount/MyAccount.config';
-import { CustomerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 

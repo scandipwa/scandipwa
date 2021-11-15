@@ -18,7 +18,7 @@ import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
-import { ADDRESS_BOOK, CustomerType } from 'Type/Account';
+import { ADDRESS_BOOK, CustomerType } from 'Type/Account.type';
 import { getDefaultAddressLabel } from 'Util/Address';
 import { isSignedIn } from 'Util/Auth';
 

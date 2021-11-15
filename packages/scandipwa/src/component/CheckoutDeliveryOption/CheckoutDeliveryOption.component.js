@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import { ShippingMethodType } from 'Type/Checkout';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import { ShippingMethodType } from 'Type/Checkout.type';
 import { formatPrice } from 'Util/Price';
 
 import { DELIVERY_METHOD_UNAVAILABLE_MESSAGE } from './CheckoutDeliveryOption.config';

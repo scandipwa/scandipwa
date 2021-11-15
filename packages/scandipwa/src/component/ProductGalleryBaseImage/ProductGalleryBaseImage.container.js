@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { withRouter } from 'react-router';
 
-import { LocationType } from 'Type/Router';
+import { LocationType } from 'Type/Router.type';
 import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 import ProductGallery from './ProductGalleryBaseImage.component';

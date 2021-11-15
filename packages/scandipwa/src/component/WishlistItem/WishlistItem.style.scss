@@ -130,6 +130,7 @@
         @include mobile {
             display: flex;
             padding-inline: 0;
+            width: calc(100vw - 32px);
         }
 
         h4 {
@@ -245,6 +246,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            padding-inline: 0;
         }
     }
 
@@ -315,6 +317,10 @@
 
     &-RatingPlaceholder {
         height: 18px;
+
+        @include mobile {
+            height: auto;
+        }
     }
 
     &-Brand {

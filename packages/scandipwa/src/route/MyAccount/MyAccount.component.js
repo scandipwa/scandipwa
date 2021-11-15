@@ -27,7 +27,7 @@ import {
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION,
     TabMapType
-} from 'Type/Account';
+} from 'Type/Account.type';
 import { isSignedIn } from 'Util/Auth';
 
 import './MyAccount.style';

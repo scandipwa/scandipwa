@@ -11,7 +11,7 @@
  */
 import PropTypes from 'prop-types';
 
-import FieldForm from 'Component/PureForm/FieldForm';
+import FieldForm from 'Component/FieldForm';
 
 import customerEmailAndPasswordFields from './PasswordChangeForm.form';
 

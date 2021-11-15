@@ -55,13 +55,15 @@
             align-items: flex-end;
             justify-content: center;
 
-            .Field-Message {
-                position: absolute;
-                width: max-content;
+            .Field {
+                &-ErrorMessages,
+                &-Message {
+                    position: absolute;
+                    width: max-content;
+                }
             }
         }
     }
-
     &-WarningMsg {
         padding-top: 20px;
         text-align: center;

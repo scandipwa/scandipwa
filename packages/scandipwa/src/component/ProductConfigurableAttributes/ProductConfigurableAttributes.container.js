@@ -12,11 +12,13 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { STOCK_TYPE } from 'Component/Product/Stock.config';
 import {
     BIG_PLACEHOLDER_CONFIG
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
-import { MixType } from 'Type/Common';
-import { AttributesType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { AttributesType, ItemsType } from 'Type/ProductList.type';
+import { noopFn } from 'Util/Common';
 import { getBooleanLabel } from 'Util/Product';
 
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';
@@ -25,11 +27,11 @@ import ProductConfigurableAttributes from './ProductConfigurableAttributes.compo
 export class ProductConfigurableAttributesContainer extends PureComponent {
     static propTypes = {
         getLink: PropTypes.func,
-        parameters: PropTypes.shape({}).isRequired,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         isExpandable: PropTypes.bool,
         showProductAttributeAsLink: PropTypes.bool,
-        variants: PropTypes.array,
+        variants: ItemsType,
         mix: MixType,
         isReady: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
@@ -38,7 +40,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
     };
 
     static defaultProps = {
-        getLink: () => {},
+        getLink: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true,
         variants: null,
@@ -146,7 +148,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
                 const { attribute_value: foundValue } = attributes[attribute_code] || {};
 
                 return (
-                    stock_status === 'IN_STOCK'
+                    stock_status === STOCK_TYPE.IN_STOCK
                     // Variant must have currently checked attribute_code and attribute_value
                     && foundValue === attribute_value
                     // Variant must have all currently selected attributes

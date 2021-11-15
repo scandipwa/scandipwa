@@ -11,7 +11,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { StoreType } from 'Type/Checkout';
+import { StoreType } from 'Type/Checkout.type';
 
 import StoreInPickUpStoreComponent from './StoreInPickUpStore.component';
 

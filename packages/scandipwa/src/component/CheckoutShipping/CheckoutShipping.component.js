@@ -14,14 +14,14 @@ import { PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
+import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
-import Form from 'Component/PureForm/Form';
 import StoreInPickUpComponent from 'Component/StoreInPickUp';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { Addresstype } from 'Type/Account';
-import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
+import { Addresstype } from 'Type/Account.type';
+import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
 import { getAllCartItemsSku } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 
@@ -31,7 +31,7 @@ import './CheckoutShipping.style';
 export class CheckoutShipping extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
@@ -49,7 +49,8 @@ export class CheckoutShipping extends PureComponent {
     };
 
     static defaultProps = {
-        setSelectedShippingMethodCode: null
+        setSelectedShippingMethodCode: null,
+        cartTotalSubPrice: null
     };
 
     renderOrderTotalExclTax() {

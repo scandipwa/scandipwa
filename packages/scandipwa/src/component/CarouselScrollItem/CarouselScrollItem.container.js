@@ -11,7 +11,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType, RefType } from 'Type/Common';
+import { ChildrenType, RefType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import CarouselScrollItem from './CarouselScrollItem.component';
 
@@ -27,8 +28,8 @@ export class CarouselScrollItemContainer extends PureComponent {
 
     static defaultProps = {
         isActive: false,
-        itemRef: () => {},
-        onClick: () => {},
+        itemRef: noopFn,
+        onClick: noopFn,
         children: []
     };
 

@@ -22,8 +22,9 @@ import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { DeviceType } from 'Type/Device';
-import { TotalsType } from 'Type/MiniCart';
+import { DeviceType } from 'Type/Device.type';
+import { TotalsType } from 'Type/MiniCart.type';
+import { noopFn } from 'Util/Common';
 
 import './CartPage.style';
 
@@ -41,7 +42,7 @@ export class CartPage extends PureComponent {
 
     static defaultProps = {
         hasOutOfStockProductsInCart: false,
-        onCouponCodeUpdate: () => {},
+        onCouponCodeUpdate: noopFn,
         onCartItemLoading: null,
         isCartItemLoading: false
     };

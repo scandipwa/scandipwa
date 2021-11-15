@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { SortDirectionType } from 'Type/Direction';
+import { SortDirectionType } from 'Type/Direction.type';
 
 import CategorySort from './CategorySort.component';
 

@@ -19,9 +19,9 @@ import {
     EDIT_ADDRESS
 } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { Addresstype } from 'Type/Account';
-import { MixType } from 'Type/Common';
-import { CountriesType } from 'Type/Config';
+import { Addresstype } from 'Type/Account.type';
+import { MixType } from 'Type/Common.type';
+import { CountriesType } from 'Type/Config.type';
 
 import MyAccountAddressTable from './MyAccountAddressTable.component';
 

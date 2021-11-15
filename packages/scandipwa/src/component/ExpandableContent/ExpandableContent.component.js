@@ -16,8 +16,8 @@ import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import MinusIcon from 'Component/MinusIcon';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { ChildrenType, MixType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
+import { ChildrenType, MixType, ModsType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import { getFixedElementHeight } from 'Util/CSS';
 
@@ -28,10 +28,10 @@ export class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         isArrow: PropTypes.bool,
-        heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        heading: PropTypes.string,
         children: ChildrenType,
         mix: MixType.isRequired,
-        mods: PropTypes.object,
+        mods: ModsType,
         device: DeviceType.isRequired,
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];

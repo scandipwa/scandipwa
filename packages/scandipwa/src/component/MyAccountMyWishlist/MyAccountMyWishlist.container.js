@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import { getErrorMessage } from 'Util/Request';
 

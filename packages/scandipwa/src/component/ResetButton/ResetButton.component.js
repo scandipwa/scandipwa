@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 
 import './ResetButton.style';

@@ -17,7 +17,7 @@ import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
 import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
-import { ADDRESS_BOOK, CustomerType } from 'Type/Account';
+import { ADDRESS_BOOK, CustomerType } from 'Type/Account.type';
 
 import './MyAccountDashboard.style';
 

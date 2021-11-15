@@ -11,16 +11,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { Component } from 'react';
+
+import { NavigationStateHistoryType } from 'Type/Router.type';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
 /** @namespace Component/NavigationAbstract/Component */
 export class NavigationAbstract extends Component {
     static propTypes = {
-        // eslint-disable-next-line react/no-unused-prop-types
-        navigationState: PropTypes.object.isRequired
+        navigationState: NavigationStateHistoryType.isRequired
     };
 
     defaultStateName = DEFAULT_STATE_NAME;

@@ -15,11 +15,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
-import { FilterInputType, SelectedFiltersType } from 'Type/Category';
-import { MixType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
-import { PagesType } from 'Type/ProductList';
-import { HistoryType, LocationType } from 'Type/Router';
+import { FilterInputType, SelectedFiltersType } from 'Type/Category.type';
+import { MixType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
+import { PagesType } from 'Type/ProductList.type';
+import { HistoryType, LocationType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
