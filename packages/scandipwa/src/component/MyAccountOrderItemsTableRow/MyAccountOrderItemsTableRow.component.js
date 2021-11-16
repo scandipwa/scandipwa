@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
 import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
-import { OptionsType, OrderProductType } from 'Type/Order';
+import { OptionsType, OrderProductType } from 'Type/Order.type';
 import { getOrderItemQtyToArray, getOrderItemRowDiscount } from 'Util/Orders';
 import { formatPrice } from 'Util/Price';
 

@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { MatchType } from 'Type/Router';
+import { MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 
 import MyAccountOrder from './MyAccountOrder.component';

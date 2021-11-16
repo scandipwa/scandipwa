@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
-import { OptionsType, OrderProductType } from 'Type/Order';
+import { OptionsType, OrderProductType } from 'Type/Order.type';
 
 import MyAccountOrderItemsTableRow from './MyAccountOrderItemsTableRow.component';
 

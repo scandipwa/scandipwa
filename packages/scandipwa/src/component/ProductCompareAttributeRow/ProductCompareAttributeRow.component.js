@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 
 import './ProductCompareAttributeRow.style';
 
@@ -21,7 +21,7 @@ import './ProductCompareAttributeRow.style';
 export class ProductCompareAttributeRow extends PureComponent {
     static propTypes = {
         title: PropTypes.string.isRequired,
-        values: PropTypes.array.isRequired,
+        values: PropTypes.arrayOf(PropTypes.string).isRequired,
         device: DeviceType.isRequired
     };
 

@@ -29,8 +29,8 @@ import {
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION,
     TabMapType
-} from 'Type/Account';
-import { LocationType, MatchType } from 'Type/Router';
+} from 'Type/Account.type';
+import { LocationType, MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 
 import { ACCOUNT_ORDER_URL } from './MyAccount.config';

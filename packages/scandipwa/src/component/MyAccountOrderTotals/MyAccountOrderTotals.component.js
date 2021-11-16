@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ORDER_REFUNDS } from 'Component/MyAccountOrder/MyAccountOrder.config';
-import { OrderTotalType } from 'Type/Order';
+import { OrderTotalType } from 'Type/Order.type';
 import { formatPrice } from 'Util/Price';
 
 import './MyAccountOrderTotals.style';

@@ -15,8 +15,8 @@ import { Component } from 'react';
 import CategoryPagination from 'Component/CategoryPagination';
 import Loader from 'Component/Loader';
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
-import { DeviceType } from 'Type/Device';
-import { OrdersListType } from 'Type/Order';
+import { DeviceType } from 'Type/Device.type';
+import { OrdersListType } from 'Type/Order.type';
 
 import './MyAccountMyOrders.style';
 

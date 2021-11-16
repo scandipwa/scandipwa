@@ -11,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 
+import FieldForm from 'Component/FieldForm';
 import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
 import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
 import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
@@ -22,7 +23,7 @@ import {
     STATE_SIGN_IN
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import MyAccountSignIn from 'Component/MyAccountSignIn';
-import FieldForm from 'Component/PureForm/FieldForm';
+import { noopFn } from 'Util/Common';
 
 import checkoutGuestForm from './CheckoutGuestForm.form';
 
@@ -63,7 +64,7 @@ export class CheckoutGuestForm extends FieldForm {
             render: () => this.renderForgotPasswordSuccess()
         },
         [STATE_LOGGED_IN]: {
-            render: () => {}
+            render: noopFn
         },
         [STATE_CONFIRM_EMAIL]: {
             render: () => this.renderConfirmEmail(),

@@ -14,7 +14,7 @@ import { Component } from 'react';
 
 import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import { CustomerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 import { getDefaultAddressLabel } from 'Util/Address';
 
 import './MyAccountAddressBook.style';

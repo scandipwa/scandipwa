@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType } from 'Type/Common.type';
 
 import './CmsBlock.style';
 

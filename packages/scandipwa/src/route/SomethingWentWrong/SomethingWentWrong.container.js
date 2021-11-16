@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
+import { ErrorDetailsType } from 'Type/Error.type';
 
 import SomethingWentWrong from './SomethingWentWrong.component';
 
@@ -27,14 +28,7 @@ export class SomethingWentWrongContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         onClick: PropTypes.func.isRequired,
-        errorDetails: PropTypes.shape({
-            err: PropTypes.shape({
-
-            }),
-            info: PropTypes.shape({
-                componentStack: PropTypes.string
-            })
-        }).isRequired
+        errorDetails: ErrorDetailsType.isRequired
     };
 
     componentDidMount() {

@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { OrderType } from 'Type/Order';
+import { OrderType } from 'Type/Order.type';
 import { formatPrice } from 'Util/Price';
 
 import './MyAccountOrderTableRow.style';

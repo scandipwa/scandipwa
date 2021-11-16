@@ -28,7 +28,7 @@ import Meta from 'Component/Meta';
 import UrlRewrites from 'Route/UrlRewrites';
 import {
     ADDRESS_BOOK, MY_DOWNLOADABLE, MY_ORDERS, MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
-} from 'Type/Account';
+} from 'Type/Account.type';
 import history from 'Util/History';
 
 import {

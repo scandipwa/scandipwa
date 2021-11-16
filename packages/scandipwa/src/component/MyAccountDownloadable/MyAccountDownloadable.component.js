@@ -14,7 +14,7 @@ import { Component } from 'react';
 
 import Loader from 'Component/Loader';
 import MyAccountDownloadableTableRow from 'Component/MyAccountDownloadableTableRow';
-import { DownloadableType } from 'Type/Order';
+import { DownloadableType } from 'Type/Order.type';
 
 import './MyAccountDownloadable.style';
 

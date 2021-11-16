@@ -13,10 +13,10 @@ import { PureComponent } from 'react';
 import { Redirect } from 'react-router';
 
 import ContentWrapper from 'Component/ContentWrapper';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import Form from 'Component/Form';
 import Loader from 'Component/Loader';
-import Field from 'Component/PureForm/Field';
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
-import Form from 'Component/PureForm/Form';
 import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { isSignedIn } from 'Util/Auth';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';

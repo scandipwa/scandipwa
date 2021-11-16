@@ -13,9 +13,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/PureForm/Field';
-import { FIELD_TYPE } from 'Component/PureForm/Field/Field.config';
-import FieldGroup from 'Component/PureForm/FieldGroup';
+import Field from 'Component/Field';
+import { FIELD_TYPE } from 'Component/Field/Field.config';
+import FieldGroup from 'Component/FieldGroup';
+import { ItemOptionsType } from 'Type/ProductList.type';
 import {
     DEFAULT_MAX_PRODUCTS, DEFAULT_MIN_PRODUCTS,
     getBundleOption, getMaxQuantity, getMinQuantity, getProductInStock
@@ -33,15 +34,19 @@ export class ProductBundleOption extends PureComponent {
         uid: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
-        quantity: PropTypes.array.isRequired,
+        quantity: PropTypes.objectOf(PropTypes.number).isRequired,
         setQuantity: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
-        options: PropTypes.arrayOf(PropTypes.object).isRequired,
+        options: PropTypes.arrayOf(ItemOptionsType).isRequired,
         currencyCode: PropTypes.string.isRequired,
-        activeSelectUid: PropTypes.string.isRequired,
+        activeSelectUid: PropTypes.string,
         setActiveSelectUid: PropTypes.func.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
         updateSelectedValues: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        activeSelectUid: null
     };
 
     renderMap = {

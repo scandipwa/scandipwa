@@ -17,7 +17,8 @@ import {
     PureComponent
 } from 'react';
 
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 /** @namespace Component/ClickOutside/Component */
 export class ClickOutside extends PureComponent {
@@ -27,7 +28,7 @@ export class ClickOutside extends PureComponent {
     };
 
     static defaultProps = {
-        onClick: () => {},
+        onClick: noopFn,
         children: []
     };
 

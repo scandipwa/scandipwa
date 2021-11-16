@@ -13,8 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ActiveTabType, TabMapType } from 'Type/Account';
+import { ActiveTabType, TabMapType } from 'Type/Account.type';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 
 import MyAccountTabList from './MyAccountTabList.component';
 
@@ -44,7 +45,7 @@ export class MyAccountTabListContainer extends PureComponent {
     };
 
     static defaultProps = {
-        onSignOut: () => {}
+        onSignOut: noopFn
     };
 
     state = {

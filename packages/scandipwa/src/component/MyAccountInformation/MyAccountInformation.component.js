@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
 import MyAccountCustomerForm from 'Component/MyAccountCustomerForm';
-import { CustomerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 
 import './MyAccountInformation.style';
 

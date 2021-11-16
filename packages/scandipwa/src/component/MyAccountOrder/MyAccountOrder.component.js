@@ -17,7 +17,7 @@ import Loader from 'Component/Loader';
 import MyAccountOrderInformation from 'Component/MyAccountOrderInformation';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
-import { OrderType } from 'Type/Order';
+import { OrderType } from 'Type/Order.type';
 import { convertStringToDate } from 'Util/Manipulations/Date';
 
 import {

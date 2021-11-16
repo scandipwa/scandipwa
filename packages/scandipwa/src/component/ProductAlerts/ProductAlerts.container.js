@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import ProductAlertsQuery from 'Query/ProductAlerts.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { StockStatusType } from 'Type/StockStatus';
+import { StockStatusType } from 'Type/StockStatus.type';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 
 import ProductAlerts from './ProductAlerts.component';

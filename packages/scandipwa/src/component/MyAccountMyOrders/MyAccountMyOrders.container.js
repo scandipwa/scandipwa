@@ -14,9 +14,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { DeviceType } from 'Type/Device';
-import { OrdersListType } from 'Type/Order';
-import { LocationType } from 'Type/Router';
+import { DeviceType } from 'Type/Device.type';
+import { OrdersListType } from 'Type/Order.type';
+import { LocationType } from 'Type/Router.type';
 import { getQueryParam } from 'Util/Url';
 
 import MyAccountMyOrders from './MyAccountMyOrders.component';

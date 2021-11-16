@@ -19,7 +19,11 @@ import './MyAccountOrderTabs.style';
 /** @namespace Component/MyAccountOrderTabs/Component */
 export class MyAccountOrderTabs extends PureComponent {
     static propTypes = {
-        tabs: PropTypes.array.isRequired,
+        tabs: PropTypes.arrayOf(PropTypes.shape({
+            tabName: PropTypes.string.isRequired,
+            render: PropTypes.func.isRequired,
+            title: PropTypes.string.isRequired
+        })).isRequired,
         handleChangeActiveTab: PropTypes.func.isRequired,
         activeTab: PropTypes.string.isRequired
     };

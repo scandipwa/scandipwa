@@ -13,7 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { IMAGE_HUNDRED_PERCENT } from 'Component/Image/Image.config';
-import { MixType, RefType } from 'Type/Common';
+import { MixType, RefType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import Image from './Image.component';
 
@@ -57,7 +58,7 @@ export class ImageContainer extends PureComponent {
         style: {},
         title: null,
         className: '',
-        imageRef: () => {},
+        imageRef: noopFn,
         isPlain: false,
         showIsLoading: false
     };

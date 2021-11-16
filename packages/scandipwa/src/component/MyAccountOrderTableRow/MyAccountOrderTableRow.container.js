@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ACCOUNT_ORDER_URL } from 'Route/MyAccount/MyAccount.config';
-import { OrderType } from 'Type/Order';
+import { OrderType } from 'Type/Order.type';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 

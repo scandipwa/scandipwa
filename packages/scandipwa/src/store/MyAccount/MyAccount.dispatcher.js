@@ -87,6 +87,8 @@ export class MyAccountDispatcher {
 
             this.handleForceRedirectToLoginPage();
         } else {
+            const mutation = MyAccountQuery.getRevokeAccountToken();
+            fetchMutation(mutation);
             deleteAuthorizationToken();
 
             if (isWithNotification) {

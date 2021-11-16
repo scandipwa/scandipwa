@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 
 import MyAccountDownloadable from './MyAccountDownloadable.component';

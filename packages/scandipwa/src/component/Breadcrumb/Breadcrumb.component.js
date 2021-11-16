@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import ChevronIcon from 'Component/ChevronIcon';
 import Link from 'Component/Link';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { LinkType } from 'Type/Router.type';
 
 import './Breadcrumb.style';
 
@@ -23,10 +24,7 @@ export class Breadcrumb extends PureComponent {
     static propTypes = {
         index: PropTypes.number.isRequired,
         isDisabled: PropTypes.bool.isRequired,
-        url: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.shape({})
-        ]),
+        url: LinkType,
         name: PropTypes.string
     };
 

@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
-import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order';
+import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
 import { getProductFromOrder } from 'Util/Orders';
 
 import './MyAccountOrderItemsTable.style';

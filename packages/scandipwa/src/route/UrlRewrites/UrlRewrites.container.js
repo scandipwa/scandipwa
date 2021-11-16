@@ -18,7 +18,7 @@ import {
     LocationType,
     MatchType,
     UrlRewriteType
-} from 'Type/Router';
+} from 'Type/Router.type';
 
 import UrlRewrites from './UrlRewrites.component';
 import {

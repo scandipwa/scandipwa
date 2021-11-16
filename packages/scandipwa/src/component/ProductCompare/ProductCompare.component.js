@@ -15,8 +15,8 @@ import { Component } from 'react';
 import ProductCompareAttributeRow from 'Component/ProductCompareAttributeRow';
 import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
-import { DeviceType } from 'Type/Device';
-import { ProductItemsType } from 'Type/ProductList';
+import { DeviceType } from 'Type/Device.type';
+import { ProductItemsType } from 'Type/ProductList.type';
 import { getPrice } from 'Util/Product/Extract';
 
 import './ProductCompare.style';

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order';
+import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
 
 import MyAccountOrderItemsTable from './MyAccountOrderItemsTable.component';
 

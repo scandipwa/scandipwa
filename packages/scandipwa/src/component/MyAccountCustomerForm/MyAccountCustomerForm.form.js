@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/PureForm/Field/Field.config';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -186,8 +186,8 @@ export const customerEmailAndPasswordFields = (props) => {
                 label: __('Confirm New Password '),
                 attr: {
                     name: 'confirmNewPassword',
-                    placeholder: __('Confirm new password'),
-                    'aria-label': __('Confirm new password')
+                    placeholder: __('Confirm New password'),
+                    'aria-label': __('Confirm New password')
                 },
                 addRequiredTag: true,
                 validateOn: ['onChange'],

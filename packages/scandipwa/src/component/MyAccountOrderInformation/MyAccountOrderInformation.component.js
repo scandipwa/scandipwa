@@ -13,7 +13,7 @@
 import { PureComponent } from 'react';
 
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import { OrderType } from 'Type/Order';
+import { OrderType } from 'Type/Order.type';
 
 import './MyAccountOrderInformation.style';
 

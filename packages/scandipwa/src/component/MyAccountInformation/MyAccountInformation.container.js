@@ -19,8 +19,8 @@ import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config
 import { updateCustomerDetails, updateIsLoading } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { CustomerType } from 'Type/Account';
-import { LocationType } from 'Type/Router';
+import { CustomerType } from 'Type/Account.type';
+import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
@@ -149,12 +149,12 @@ export class MyAccountInformationContainer extends PureComponent {
 
     afterSubmit() {
         const { showSuccessNotification, updateCustomerLoadingStatus } = this.props;
-        const { isErrorShow, showEmailChangeField } = this.state;
+        const { isErrorShow, showEmailChangeField, showPasswordChangeField } = this.state;
 
         if (!isErrorShow) {
             updateCustomerLoadingStatus(false);
 
-            if (showEmailChangeField) {
+            if (showEmailChangeField || showPasswordChangeField) {
                 this.handleLogout();
             } else {
                 history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });

@@ -14,17 +14,23 @@ import {
     DISPLAY_SHIPPING_PRICES_EXCL_TAX
 } from 'Component/CheckoutDeliveryOption/CheckoutDeliveryOption.config';
 
-export const DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX';
-export const DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX';
-export const DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH = 'DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH';
+export const DISPLAY_CART_TAX_IN_SUBTOTAL = {
+    INCL_TAX: 'DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX',
+    EXCL_TAX: 'DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX',
+    BOTH: 'DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH'
+};
 
-export const DISPLAY_CART_TAX_IN_SHIPPING_INCL_TAX = 'DISPLAY_CART_TAX_IN_SHIPPING_INCL_TAX';
-export const DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX = 'DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX';
-export const DISPLAY_CART_TAX_IN_SHIPPING_BOTH = 'DISPLAY_CART_TAX_IN_SHIPPING_BOTH';
+export const DISPLAY_CART_TAX_IN_SHIPPING = {
+    INCL_TAX: 'DISPLAY_CART_TAX_IN_SHIPPING_INCL_TAX',
+    EXCL_TAX: 'DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX',
+    BOTH: 'DISPLAY_CART_TAX_IN_SHIPPING_BOTH'
+};
 
-export const DISPLAY_CART_TAX_IN_PRICE_INCL_TAX = 'DISPLAY_CART_TAX_IN_PRICE_INCL_TAX';
-export const DISPLAY_CART_TAX_IN_PRICE_EXL_TAX = 'DISPLAY_CART_TAX_IN_PRICE_EXL_TAX';
-export const DISPLAY_CART_TAX_IN_PRICE_BOTH = 'DISPLAY_CART_TAX_IN_PRICE_BOTH';
+export const DISPLAY_CART_TAX_IN_PRICE = {
+    INCL_TAX: 'DISPLAY_CART_TAX_IN_PRICE_INCL_TAX',
+    EXCL_TAX: 'DISPLAY_CART_TAX_IN_PRICE_EXL_TAX',
+    BOTH: 'DISPLAY_CART_TAX_IN_PRICE_BOTH'
+};
 
 /** @namespace Util/Cart/getCartSubtotal */
 export const getCartSubtotal = (state) => {
@@ -42,7 +48,7 @@ export const getCartSubtotal = (state) => {
         } = {}
     } = state;
 
-    if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX) {
+    if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL.EXCL_TAX) {
         return subtotal;
     }
 
@@ -64,7 +70,7 @@ export const getCartSubtotalSubPrice = (state) => {
         } = {}
     } = state;
 
-    if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH) {
+    if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL.BOTH) {
         return subtotal;
     }
 
@@ -86,7 +92,7 @@ export const getCartItemPrice = (state) => (props) => {
         row_total_incl_tax = 0
     } = props;
 
-    if (display_tax_in_price === DISPLAY_CART_TAX_IN_PRICE_EXL_TAX) {
+    if (display_tax_in_price === DISPLAY_CART_TAX_IN_PRICE.EXCL_TAX) {
         return row_total;
     }
 
@@ -107,7 +113,7 @@ export const getCartItemSubPrice = (state) => (props) => {
         row_total = 0
     } = props;
 
-    if (display_tax_in_price === DISPLAY_CART_TAX_IN_PRICE_BOTH) {
+    if (display_tax_in_price === DISPLAY_CART_TAX_IN_PRICE.BOTH) {
         return row_total;
     }
 
@@ -130,7 +136,7 @@ export const getCartShippingPrice = (state) => {
         } = {}
     } = state;
 
-    if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX) {
+    if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.EXCL_TAX) {
         return shipping_amount;
     }
 
@@ -152,7 +158,7 @@ export const getCartShippingSubPrice = (state) => {
         } = {}
     } = state;
 
-    if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_BOTH) {
+    if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.BOTH) {
         return shipping_amount;
     }
 

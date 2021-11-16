@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import SearchBarReducer from 'Store/SearchBar/SearchBar.reducer';
-import { ItemsType } from 'Type/ProductList';
+import { ItemsType } from 'Type/ProductList.type';
 import { withReducers } from 'Util/DynamicReducer';
 
 import SearchOverlay from './SearchOverlay.component';

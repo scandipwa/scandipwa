@@ -12,16 +12,14 @@
 import PropTypes from 'prop-types';
 
 import KeyValueTable from 'Component/KeyValueTable';
-import { CustomerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 
 /** @namespace Component/MyAccountCustomerTable/Component */
 export class MyAccountCustomerTable extends KeyValueTable {
     static propTypes = {
         handleOnEditInformation: PropTypes.func.isRequired,
         handleOnEditPassword: PropTypes.func.isRequired,
-        customer: CustomerType.isRequired,
-        showEditPopup: PropTypes.func.isRequired,
-        showChangePasswordPopup: PropTypes.func.isRequired
+        customer: CustomerType.isRequired
     };
 
     get dataPairArray() {
