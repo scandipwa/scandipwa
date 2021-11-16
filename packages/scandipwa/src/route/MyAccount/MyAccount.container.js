@@ -169,7 +169,6 @@ export class MyAccountContainer extends PureComponent {
         const { activeTab } = state;
 
         if (this.tabMap[selectedTab]) {
-            console.log(selectedTab);
             return { activeTab: selectedTab };
         }
 
