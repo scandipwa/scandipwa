@@ -22,14 +22,6 @@
         text-transform: capitalize;
     }
 
-    &-OrderId {
-        color: var(--link-color);
-        &:hover {
-            cursor: pointer;
-            color: var(--link-hover);
-        }
-    }
-
     &-DownloadLink {
         margin-inline-start: 8px;
     }

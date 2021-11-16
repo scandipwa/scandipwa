@@ -19,7 +19,21 @@
         }
     }
 
-    &-Row {
+    &-QtyList {
+        display: inline-block;
+
+        li {
+            &:before {
+                content: none;
+            }
+
+            &:last-child {
+                margin-block-end: 0;
+            }
+        }
+    }
+
+    &-RowWrapper {
         font-size: 14px;
 
         td {
@@ -27,6 +41,44 @@
 
             &:nth-child(n+3) {
                 text-align: right;
+            }
+        }
+
+        tr {
+            &:first-child {
+                td:first-child {
+                   padding-block-start: 15px; 
+                }
+            }
+
+            &:last-child {
+                td:last-child {
+                    padding-block-end: 15px; 
+                }
+            }
+        }
+
+        @include mobile {
+            border-block-end: var(--my-account-content-border);
+        }
+    }
+
+    &-Row {
+        @include mobile {
+            td {
+                padding: 5px 10px;
+
+                strong {
+                    vertical-align: top;
+                    margin-inline-end: 15px;
+
+                    &:first-child {
+                        &::after {
+                            content:":";
+                            display:inline-block;
+                        }
+                    }
+                }
             }
         }
     }
@@ -52,13 +104,25 @@
 
     &-EnteredLabel {
         td {
-            padding-inline-start: 0;
+            padding-inline-start: 10;
             background-color: var(--color-gray);
+
+            @include desktop {
+                padding-inline-start: 0;
+            }
         }
     }
 
     &-OptionLabel {
-        padding-block-start: 15px;
-        padding-block-end: 10px;
+        padding: 5px 0;
+
+        &:first-child {
+            padding-block-start: 0;
+        }
+
+        @include desktop {
+            padding-block-start: 15px;
+            padding-block-end: 10px;
+        }
     }
 }

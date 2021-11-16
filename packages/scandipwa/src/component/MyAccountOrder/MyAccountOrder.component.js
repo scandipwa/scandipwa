@@ -17,7 +17,7 @@ import Loader from 'Component/Loader';
 import MyAccountOrderInformation from 'Component/MyAccountOrderInformation';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
-import { OrderType } from 'Type/Account';
+import { OrderType } from 'Type/Order';
 import { convertStringToDate } from 'Util/Manipulations/Date';
 
 import {
@@ -41,6 +41,10 @@ export class MyAccountOrder extends PureComponent {
         activeTab: PropTypes.string.isRequired
     };
 
+    renderMap = {
+        renderOrderItemsTable: this.renderOrderItemsTable.bind(this)
+    };
+
     tabMap = {
         [ORDER_ITEMS]: {
             tabName: ORDER_ITEMS,
@@ -53,8 +57,9 @@ export class MyAccountOrder extends PureComponent {
             render: () => {
                 const { order: { items = [], increment_id } } = this.props;
                 const renderArray = [{ items, number: increment_id }];
+                const { renderOrderItemsTable } = this.renderMap;
 
-                return renderArray.map(this.renderOrderItemsTable);
+                return renderArray.map(renderOrderItemsTable);
             }
         },
         [ORDER_INVOICES]: {
@@ -67,8 +72,9 @@ export class MyAccountOrder extends PureComponent {
             },
             render: () => {
                 const { order: { invoices = [] } } = this.props;
+                const { renderOrderItemsTable } = this.renderMap;
 
-                return invoices.map(this.renderOrderItemsTable);
+                return invoices.map(renderOrderItemsTable);
             }
         },
         [ORDER_SHIPMENTS]: {
@@ -81,8 +87,9 @@ export class MyAccountOrder extends PureComponent {
             },
             render: () => {
                 const { order: { shipments = [] } } = this.props;
+                const { renderOrderItemsTable } = this.renderMap;
 
-                return shipments.map(this.renderOrderItemsTable);
+                return shipments.map(renderOrderItemsTable);
             }
         },
         [ORDER_REFUNDS]: {
@@ -95,8 +102,9 @@ export class MyAccountOrder extends PureComponent {
             },
             render: () => {
                 const { order: { credit_memos = [] } } = this.props;
+                const { renderOrderItemsTable } = this.renderMap;
 
-                return credit_memos.map(this.renderOrderItemsTable);
+                return credit_memos.map(renderOrderItemsTable);
             }
         }
     };
@@ -105,18 +113,19 @@ export class MyAccountOrder extends PureComponent {
         return Object.values(this.tabMap).filter(({ shouldTabRender }) => shouldTabRender());
     }
 
-    renderOrderItemsTable = (items) => {
-        const { activeTab, order: { total, items: allOrderItems } } = this.props;
+    renderOrderItemsTable(items) {
+        const { activeTab, order: { total, items: allOrderItems, id } } = this.props;
 
         return (
             <MyAccountOrderItemsTable
+              key={ `${activeTab}-${id}` }
               activeTab={ activeTab }
               items={ items }
               allOrderItems={ allOrderItems }
               total={ total }
             />
         );
-    };
+    }
 
     renderBaseInfo() {
         const { order: { order_date } } = this.props;

@@ -40,7 +40,7 @@ export class OrderQuery {
     }
 
     _getOrdersField(options) {
-        const { orderId } = options || {};
+        const { orderId, page = 1 } = options || {};
         const ordersField = new Field('orders');
 
         if (orderId) {
@@ -50,14 +50,28 @@ export class OrderQuery {
         }
 
         return ordersField
-            // eslint-disable-next-line no-magic-numbers
-            .addArgument('pageSize', 'Int', 60)
+            .addArgument('currentPage', 'Int', page)
             .addFieldList(this._getOrdersFields());
     }
 
     _getOrdersFields(isSingleOrder = false) {
         return [
-            this._getOrderItemsField(isSingleOrder)
+            'total_count',
+            this._getOrderItemsField(isSingleOrder),
+            this._getSearchResultPageInfoField()
+        ];
+    }
+
+    _getSearchResultPageInfoField() {
+        return new Field('page_info')
+            .addFieldList(this._getSearchResultPageInfoFields());
+    }
+
+    _getSearchResultPageInfoFields() {
+        return [
+            'current_page',
+            'page_size',
+            'total_pages'
         ];
     }
 
@@ -465,177 +479,6 @@ export class OrderQuery {
         return new Field('Customer')
             .addArgument('id', 'Int!', orderId)
             .addFieldList(this._getOrderItemsFields());
-    }
-
-    _getOrderProductsField() {
-        return new Field('order_products')
-            .addFieldList(this._getOrderProductsFields());
-    }
-
-    _getOrderProductsFields() {
-        return [
-            ...this._getDefaultFields(),
-            ...this._prepareImageFields(),
-            this._prepareAttributes()
-        ];
-    }
-
-    _prepareImageFields() {
-        return [
-            new Field('thumbnail')
-                .addFieldList(this._prepareThumbnailFields()),
-            new Field('small_image')
-                .addFieldList(this._prepareSmallImageFields())
-        ];
-    }
-
-    _prepareSmallImageFields() {
-        return [
-            'url',
-            'label',
-            'path'
-        ];
-    }
-
-    _prepareThumbnailFields() {
-        return [
-            'url',
-            'label',
-            'path'
-        ];
-    }
-
-    _prepareAttributes() {
-        return new Field('s_attributes')
-            .setAlias('attributes')
-            .addFieldList(this._prepareAttributesFields());
-    }
-
-    _prepareAttributesFields() {
-        return [
-            'attribute_value',
-            'attribute_code',
-            'attribute_type',
-            'attribute_label',
-            this._getAttributeOptions()
-        ];
-    }
-
-    _getAttributeOptions() {
-        return new Field('attribute_options')
-            .addFieldList(this._getAttributeOptionsFields());
-    }
-
-    _getAttributeOptionsFields() {
-        return [
-            'label',
-            'value',
-            new Field('swatch_data')
-                .addField('value')
-        ];
-    }
-
-    _getDefaultFields() {
-        return [
-            'id',
-            'name',
-            (new Field('short_description').addField('html')),
-            'sku',
-            'qty',
-            'row_total',
-            'original_price',
-            'license_key'
-        ];
-    }
-
-    _prepareShippingInfo() {
-        return new Field('shipping_info')
-            .addFieldList(this._prepareShippingInfoFields());
-    }
-
-    _prepareShippingInfoFields() {
-        return [
-            'shipping_method',
-            'shipping_description',
-            'shipping_incl_tax',
-            'shipping_amount',
-            this._prepareOrderCustomerAddressInfo()
-        ];
-    }
-
-    _prepareOrderCustomerAddressInfo() {
-        return new Field('shipping_address')
-            .addFieldList(this._prepareOrderCustomerAddressInfoFields());
-    }
-
-    _prepareOrderCustomerAddressInfoFields() {
-        return [
-            'city',
-            'company',
-            'firstname',
-            'lastname',
-            'telephone',
-            'postcode',
-            'street',
-            'region'
-        ];
-    }
-
-    _getBaseOrderInfoField(isList) {
-        return new Field('base_order_info')
-            .addFieldList(this._getBaseOrderInfoFields(isList));
-    }
-
-    _getBaseOrderInfoFields(isList) {
-        return [
-            'id',
-            'increment_id',
-            'created_at',
-            'status_label',
-            'grand_total',
-            'currency_code',
-            ...(isList ? [] : ['sub_total'])
-        ];
-    }
-
-    _getPaymentInfoField() {
-        return new Field('payment_info')
-            .addFieldList(this._getPaymentInfoFields());
-    }
-
-    _getPaymentInfoFields() {
-        return [
-            'method',
-            this._getAdditionalInformationField()
-        ];
-    }
-
-    _getAdditionalInformationField() {
-        return new Field('additional_information')
-            .addFieldList(this._getAdditionalInformationFields());
-    }
-
-    _getAdditionalInformationFields() {
-        return [
-            'bank',
-            'method_title',
-            'credit_type',
-            'month',
-            this._getCustomerInfoField()
-        ];
-    }
-
-    _getCustomerInfoField() {
-        return new Field('customer_info')
-            .addFieldList(this._getCustomerInfoFields());
-    }
-
-    _getCustomerInfoFields() {
-        return [
-            'first_name',
-            'last_name',
-            'phone'
-        ];
     }
 
     _getDownloadableField() {

@@ -52,9 +52,13 @@ export class MyAccountOrderContainer extends PureComponent {
         display_tax_in_shipping_amount: PropTypes.string.isRequired,
         changeTabName: PropTypes.func.isRequired,
         reorder: PropTypes.func.isRequired,
-        is_allowed_reorder: PropTypes.bool.isRequired,
+        is_allowed_reorder: PropTypes.bool,
         rss_order_subscribe_allow: PropTypes.bool.isRequired,
         setTabSubheading: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        is_allowed_reorder: false
     };
 
     state = {

@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ACCOUNT_ORDER_URL } from 'Route/MyAccount/MyAccount.config';
-import { OrderType } from 'Type/Account';
+import { OrderType } from 'Type/Order';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -32,7 +32,6 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountOrderTableRow/Container */
 export class MyAccountOrderTableRowContainer extends PureComponent {
     static propTypes = {
-        showPopup: PropTypes.func.isRequired,
         order: OrderType.isRequired,
         display_tax_in_shipping_amount: PropTypes.string
     };

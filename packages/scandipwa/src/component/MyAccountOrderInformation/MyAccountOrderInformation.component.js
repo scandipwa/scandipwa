@@ -13,7 +13,7 @@
 import { PureComponent } from 'react';
 
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import { OrderType } from 'Type/Account';
+import { OrderType } from 'Type/Order';
 
 import './MyAccountOrderInformation.style';
 
@@ -69,11 +69,11 @@ export class MyAccountOrderInformation extends PureComponent {
         );
     }
 
-    renderPaymentMethod = (paymentMethod) => {
+    renderPaymentMethod = (paymentMethod, index) => {
         const { name } = paymentMethod;
 
         return (
-            <span>{ name }</span>
+            <span key={ `${name}-${index}` }>{ name }</span>
         )
     }
 

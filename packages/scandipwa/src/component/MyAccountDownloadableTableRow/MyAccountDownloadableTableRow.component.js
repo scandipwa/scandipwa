@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
 import { STATUS_EXPIRED } from 'Component/MyAccountDownloadableTableRow/MyAccountDownloadableTableRow.config';
-import { DownloadableType } from 'Type/Account';
+import { DownloadableType } from 'Type/Order';
 
 import './MyAccountDownloadableTableRow.style';
 
@@ -83,7 +83,7 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
 
         return (
             <tr block="MyAccountOrderTableRow">
-                <td>{ order_id ? `#${order_id}` : '' }</td>
+                <td>{ order_id ? this.renderOrderId() : '' }</td>
                 <td>{ created_at }</td>
                 <td>
                     { title }

@@ -597,5 +597,9 @@
     "Grand Total to be Charged": null,
     "Order # %s": null,
     "Sku": null,
-    "Product name": null
+    "Product name": null,
+    "Items": null,
+    "Invoice": null,
+    "Shipment": null,
+    "Refund": null
 }

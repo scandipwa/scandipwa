@@ -11,8 +11,10 @@
 
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { getOrderList } from 'Store/Order/Order.action';
+import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
+import history from 'Util/History';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import { appendWithStoreCode } from 'Util/Url';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -21,24 +23,38 @@ export const CartDispatcher = import(
 
 /** @namespace Store/Order/Dispatcher */
 export class OrderDispatcher {
-    requestOrders(dispatch) {
-        const query = OrderQuery.getOrderListQuery();
+    requestOrders(dispatch, page = 1) {
+        const query = OrderQuery.getOrderListQuery({ page });
+        dispatch(setLoadingStatus(true));
 
         return fetchQuery(query).then(
             /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then */
-            ({ customer: { orders: items } }) => {
-                dispatch(getOrderList(items, false));
+            ({ customer: { orders } }) => {
+                dispatch(getOrderList(orders, false));
             },
-            /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then/dispatch/catch */
-            (error) => dispatch(showNotification('error', getErrorMessage(error)))
+            /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then/catch */
+            (error) => {
+                dispatch(showNotification('error', getErrorMessage(error)));
+                dispatch(setLoadingStatus(false));
+            }
         );
     }
 
     async reorder(dispatch, incrementId) {
-        const result = await this.handleReorderMutation(dispatch, incrementId);
-        console.log(result);
+        const {
+            reorderItems: {
+                userInputErrors = []
+            } = {}
+        } = await this.handleReorderMutation(dispatch, incrementId);
+
+        if (userInputErrors.length) {
+            return userInputErrors.map(({ message }) => dispatch(showNotification('error', message)));
+        }
+
         const cartDispatcher = (await CartDispatcher).default;
         cartDispatcher.updateInitialCartData(dispatch);
+
+        return history.push(appendWithStoreCode('/cart'));
     }
 
     handleReorderMutation(dispatch, incrementId) {
@@ -47,10 +63,6 @@ export class OrderDispatcher {
         } catch (error) {
             return dispatch(showNotification('error', getErrorMessage(error)));
         }
-    }
-
-    async subscribeToOrderStatus(dispatch, incrementId) {
-        console.log(dispatch, incrementId);
     }
 
     async getOrderById(dispatch, orderId) {

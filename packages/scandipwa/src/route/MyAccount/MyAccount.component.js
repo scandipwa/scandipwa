@@ -75,12 +75,13 @@ export class MyAccount extends Component {
         location: LocationType.isRequired,
         match: MatchType.isRequired,
         changeTabName: PropTypes.func.isRequired,
-        tabName: PropTypes.string.isRequired,
+        tabName: PropTypes.string,
         setTabSubheading: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        subHeading: ''
+        subHeading: '',
+        tabName: null
     };
 
     renderMap = {

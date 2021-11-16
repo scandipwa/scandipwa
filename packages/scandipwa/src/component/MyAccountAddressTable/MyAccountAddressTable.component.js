@@ -24,7 +24,6 @@ import './MyAccountAddressTable.style';
 export class MyAccountAddressTable extends KeyValueTable {
     static propTypes = {
         mix: MixType.isRequired,
-        getFormatedRegion: PropTypes.func.isRequired,
         address: Addresstype.isRequired,
         showActions: PropTypes.bool.isRequired,
         showAdditionalFields: PropTypes.bool.isRequired,

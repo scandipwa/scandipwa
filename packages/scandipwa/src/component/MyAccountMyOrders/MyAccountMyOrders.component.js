@@ -12,29 +12,31 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 
+import CategoryPagination from 'Component/CategoryPagination';
 import Loader from 'Component/Loader';
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
-import { OrdersType } from 'Type/Account';
 import { DeviceType } from 'Type/Device';
+import { OrdersListType } from 'Type/Order';
 
 import './MyAccountMyOrders.style';
 
 /** @namespace Component/MyAccountMyOrders/Component */
 export class MyAccountMyOrders extends Component {
     static propTypes = {
-        orderList: OrdersType.isRequired,
+        orderList: OrdersListType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         device: DeviceType.isRequired
     };
 
     shouldComponentUpdate(nextProps) {
-        const { device, orderList } = this.props;
+        const { device, orderList, isLoading } = this.props;
         const {
             device: nextDevice,
-            orderList: nextOrderList
+            orderList: nextOrderList,
+            isLoading: nextIsLoading
         } = nextProps;
 
-        return device !== nextDevice || orderList !== nextOrderList;
+        return device !== nextDevice || orderList !== nextOrderList || isLoading !== nextIsLoading;
     }
 
     renderNoOrders() {
@@ -84,19 +86,33 @@ export class MyAccountMyOrders extends Component {
     };
 
     renderOrderRows() {
-        const { orderList, isLoading } = this.props;
+        const { orderList: { items = [] }, isLoading } = this.props;
 
-        if (!isLoading && !orderList.length) {
+        if (!isLoading && !items.length) {
             return this.renderNoOrders();
         }
 
-        const orders = orderList.length
-            ? orderList
+        const orders = items.length
+            ? items
             : Array.from({ length: 10 }, (_, id) => ({ base_order_info: { id } }));
 
         return orders.reduceRight(
             (acc, e) => [...acc, this.renderOrderRow(e)],
             []
+        );
+    }
+
+    renderPagination() {
+        const {
+            isLoading,
+            orderList: { pageInfo: { total_pages = 0 } = {} }
+        } = this.props;
+
+        return (
+            <CategoryPagination
+              isLoading={ isLoading }
+              totalPages={ total_pages }
+            />
         );
     }
 
@@ -107,6 +123,7 @@ export class MyAccountMyOrders extends Component {
             <div block="MyAccountMyOrders">
                 <Loader isLoading={ isLoading } />
                 { this.renderTable() }
+                { this.renderPagination() }
             </div>
         );
     }

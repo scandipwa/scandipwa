@@ -33,7 +33,16 @@
         font-weight: bold;
         line-height: 20px;
         margin: 0;
-        padding: 16px 24px;
+        padding: 16px 10px;
         cursor: pointer;
+
+        @include mobile {
+            width: 100%;
+            text-align: left;
+        }
+
+        @include desktop {
+            padding: 16px 24px;
+        }
     }
 }

@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order';
+
 import MyAccountOrderItemsTable from './MyAccountOrderItemsTable.component';
 
 /** @namespace Component/MyAccountOrderItemsTable/Container/mapStateToProps */
@@ -27,10 +29,10 @@ export const mapDispatchToProps = () => ({});
 export class MyAccountOrderItemsTableContainer extends PureComponent {
     static propTypes = {
         isMobile: PropTypes.bool.isRequired,
-        items: PropTypes.object.isRequired,
         activeTab: PropTypes.string.isRequired,
-        total: PropTypes.object.isRequired,
-        allOrderItems: PropTypes.object.isRequired
+        items: OrderTabType.isRequired,
+        total: OrderTotalType.isRequired,
+        allOrderItems: OrderProductsType.isRequired
     };
 
     containerProps() {

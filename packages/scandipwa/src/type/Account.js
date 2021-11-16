@@ -59,61 +59,6 @@ export const CustomerType = PropTypes.shape({
     taxvat: PropTypes.string
 });
 
-export const OrderGrandTotalType = PropTypes.shape({
-    value: PropTypes.number,
-    currency: PropTypes.string
-});
-
-export const OrderTotalType = PropTypes.shape({
-    grand_total: OrderGrandTotalType
-});
-
-export const OrderInfoType = PropTypes.shape({
-    id: PropTypes.number,
-    increment_id: PropTypes.string,
-    created_at: PropTypes.string,
-    status_label: PropTypes.string,
-    grand_total: PropTypes.number,
-    subtotal: PropTypes.string
-});
-
-export const OrderPaymentInfo = PropTypes.shape({
-    method: PropTypes.string,
-    additional_information: {
-        method_title: PropTypes.string
-    }
-});
-
-export const OrderShippingInfo = PropTypes.shape({
-    shipping_method: PropTypes.string,
-    shipping_description: PropTypes.string,
-    shipping_incl_tax: PropTypes.number,
-    shipping_amount: PropTypes.number,
-    shipping_address: Addresstype
-});
-
-export const OrderType = PropTypes.shape({
-    id: PropTypes.string,
-    order_date: PropTypes.string,
-    status: PropTypes.string,
-    total: OrderTotalType,
-    order_products: PropTypes.array,
-    payment_info: OrderPaymentInfo,
-    shipping_info: OrderShippingInfo
-});
-
-export const DownloadableType = PropTypes.shape({
-    id: PropTypes.number,
-    order_id: PropTypes.string,
-    status_label: PropTypes.string,
-    downloads: PropTypes.string,
-    download_url: PropTypes.string,
-    created_at: PropTypes.string,
-    title: PropTypes.string
-});
-
-export const OrdersType = PropTypes.arrayOf(OrderType);
-
 export const MY_ACCOUNT = 'my-account';
 export const MY_ORDERS = 'my-orders';
 export const MY_ORDER = 'my-order';

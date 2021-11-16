@@ -13,8 +13,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DownloadableType } from 'Type/Account';
+import { ACCOUNT_ORDER_URL } from 'Route/MyAccount/MyAccount.config';
 import { DeviceType } from 'Type/Device';
+import { DownloadableType } from 'Type/Order';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountDownloadableTableRow from './MyAccountDownloadableTableRow.component';
 
@@ -44,6 +47,9 @@ export class MyAccountDownloadableTableRowContainer extends PureComponent {
     };
 
     onOrderIdClick() {
+        const { order: { id } } = this.props;
+
+        history.push({ pathname: appendWithStoreCode(`${ACCOUNT_ORDER_URL}/${id}`) });
     }
 
     containerProps() {

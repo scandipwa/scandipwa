@@ -30,7 +30,7 @@ export class MyAccountOrderTabs extends PureComponent {
         return tabs[activeTab].render();
     }
 
-    renderTab = (item, i) => {
+    renderTab(item, i) {
         const { handleChangeActiveTab, activeTab } = this.props;
         const { title, tabName } = item;
 
@@ -43,18 +43,15 @@ export class MyAccountOrderTabs extends PureComponent {
               isActive={ tabName === activeTab }
             />
         );
-    };
+    }
 
     renderTabs() {
         const { tabs } = this.props;
 
         return (
-            <>
-                <ul block="MyAccountOrderTabs">
-                    { tabs.map(this.renderTab) }
-                </ul>
-                { /* { this.renderActiveTab() } */ }
-            </>
+            <ul block="MyAccountOrderTabs">
+                    { tabs.map(this.renderTab.bind(this)) }
+            </ul>
         );
     }
 

@@ -13,6 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
+import { OptionsType, OrderProductType } from 'Type/Order';
+
 import MyAccountOrderItemsTableRow from './MyAccountOrderItemsTableRow.component';
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Container/mapStateToProps */
@@ -26,10 +29,10 @@ export const mapDispatchToProps = () => ({});
 /** @namespace Component/MyAccountOrderItemsTableRow/Container */
 export class MyAccountOrderItemsTableRowContainer extends PureComponent {
     static propTypes = {
-        product: PropTypes.object.isRequired,
+        product: OrderProductType.isRequired,
         activeTab: PropTypes.string.isRequired,
-        selectedOptions: PropTypes.array,
-        enteredOptions: PropTypes.array,
+        selectedOptions: OptionsType,
+        enteredOptions: OptionsType,
         isMobile: PropTypes.bool.isRequired
     };
 
@@ -52,8 +55,25 @@ export class MyAccountOrderItemsTableRowContainer extends PureComponent {
             activeTab,
             enteredOptions,
             selectedOptions,
-            isMobile
+            isMobile,
+            colSpanCount: this.getOrderColumnSpanCount()
         };
+    }
+
+    getOrderColumnSpanCount() {
+        const { activeTab } = this.props;
+
+        switch (activeTab) {
+        case ORDER_REFUNDS: {
+            return '7';
+        }
+        case ORDER_SHIPMENTS: {
+            return '3';
+        }
+        default: {
+            return '5';
+        }
+        }
     }
 
     render() {

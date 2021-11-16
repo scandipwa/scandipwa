@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
+import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order';
 import { getProductFromOrder } from 'Util/Orders';
 
 import './MyAccountOrderItemsTable.style';
@@ -24,18 +25,18 @@ export class MyAccountOrderItemsTable extends PureComponent {
     static propTypes = {
         activeTab: PropTypes.string.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        items: PropTypes.object.isRequired,
-        total: PropTypes.object.isRequired,
-        allOrderItems: PropTypes.object.isRequired
+        items: OrderTabType.isRequired,
+        total: OrderTotalType.isRequired,
+        allOrderItems: OrderProductsType.isRequired
     };
 
     renderItems() {
         const { items: { items: products = [] } } = this.props;
 
-        return products.map(this.renderItemRow);
+        return products.map(this.renderItemRow.bind(this));
     }
 
-    renderItemRow = (product, i) => {
+    renderItemRow(product, i) {
         const { activeTab, allOrderItems } = this.props;
         const { product_sku } = product;
 
@@ -46,23 +47,26 @@ export class MyAccountOrderItemsTable extends PureComponent {
               product={ product }
               selectedOptions={ selected_options }
               enteredOptions={ entered_options }
-              // eslint-disable-next-line react/no-array-index-key
               key={ i }
               activeTab={ activeTab }
             />
         );
-    };
+    }
 
     renderOrderTitle() {
-        const { activeTab, items: { number } } = this.props;
+        const { activeTab, items: { number }, isMobile } = this.props;
 
-        if (activeTab === ORDER_ITEMS) {
-            return null;
+        if (isMobile && activeTab === ORDER_ITEMS) {
+            return (
+                <div block="MyAccountOrderItemsTable" elem="OrderTitle">
+                    { __('Items Ordered') }
+                </div>
+            );
         }
 
         return (
             <div block="MyAccountOrderItemsTable" elem="OrderTitle">
-                { __(`${activeTab} # ${number}`) }
+                { `${activeTab} # ${number}` }
             </div>
         );
     }
@@ -198,6 +202,9 @@ export class MyAccountOrderItemsTable extends PureComponent {
                   block="MyAccountOrderItemsTable"
                   elem="Products"
                 >
+                    <thead>
+                        { this.renderItemsHeading() }
+                    </thead>
                     { this.renderItems() }
                     { this.renderTotals() }
                 </table>

@@ -14,13 +14,21 @@
         background-color: var(--color-gray);
 
         tr {
-            th {
-                font-weight: normal;
+            &:not(.MyAccountOrderTotals-GrandTotal) {
+                th {
+                    font-weight: normal;
+                }
             }
 
             th, td {
-                text-align: right;
+                @include desktop {
+                    text-align: right;
+                }
             }
         }
+    }
+
+    &-GrandTotal {
+        font-weight: bold;
     }
 }
