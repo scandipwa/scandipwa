@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import { FIELD_TYPE } from 'Component/Field/Field.config';
+import FieldDate from 'Component/FieldDate';
 import FieldGroup from 'Component/FieldGroup';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { getYearRangeAttributes } from 'Util/Form/Extract';
@@ -44,7 +45,7 @@ export class ProductCustomizableOption extends PureComponent {
         [CONFIG_FIELD_TYPE.text]: this.renderDefaultValue.bind(this),
         [CONFIG_FIELD_TYPE.textarea]: this.renderDefaultValue.bind(this),
         [CONFIG_FIELD_TYPE.date]: this.renderDateValue.bind(this),
-        [CONFIG_FIELD_TYPE.dateTime]: this.renderDateValue.bind(this),
+        [CONFIG_FIELD_TYPE.dateTime]: this.renderDatePicker.bind(this),
         [CONFIG_FIELD_TYPE.time]: this.renderDefaultValue.bind(this),
 
         [CONFIG_FIELD_TYPE.file]: this.renderFileValue.bind(this),
@@ -103,6 +104,18 @@ export class ProductCustomizableOption extends PureComponent {
                   } }
                   validateOn={ ['onBlur'] }
                 />
+            </>
+        );
+    }
+
+    renderDatePicker(option) {
+        const { title } = this.props;
+        const label = this.getLabel(option, title);
+
+        return (
+            <>
+                { this.renderOptionGroupTitle(label) }
+                <FieldDate type="datetime" />
             </>
         );
     }
