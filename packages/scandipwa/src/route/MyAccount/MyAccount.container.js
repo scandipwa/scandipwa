@@ -427,7 +427,7 @@ export class MyAccountContainer extends PureComponent {
             return;
         }
 
-        if (pathname !== prevPathname) { // do not redirect in case if it is same url as previous
+        if (pathname === prevPathname) { // do not redirect in case if it is same url as previous
             return;
         }
 
