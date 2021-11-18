@@ -105,6 +105,7 @@
                 &_main {
                     @include desktop {
                         margin: 0 0 16px;
+                        line-height: 20px;
                     }
 
                     text-transform: uppercase;
