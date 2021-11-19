@@ -13,7 +13,7 @@
     --price-color: #{$black};
     --price-with-discount-color: #b10d0d;
     --price-discount-color: #808080;
-    --price-discout-new-color: #0a0903;
+    --price-discount-new-color: #0a0903;
 }
 
 .ProductPrice {
@@ -42,14 +42,13 @@
     del {
         font-size: 14px;
         font-weight: 500;
-        opacity: .5;
+        opacity: .48;
         display: inline-block;
         margin-inline-end: 12px;
     }
 
     &-HighPrice {
         color: var(--price-discount-new-color);
-        opacity: 0.48;
         line-height: 18px;
     }
 
