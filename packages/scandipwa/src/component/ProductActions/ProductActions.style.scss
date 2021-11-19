@@ -44,10 +44,6 @@
     &-Title {
         margin-block: 8px;
 
-        @include desktop {
-            line-height: 40px;
-        }
-
         @include mobile {
             font-weight: 400;
             font-size: 14px;
