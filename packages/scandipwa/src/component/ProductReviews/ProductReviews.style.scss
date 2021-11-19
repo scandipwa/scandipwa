@@ -71,8 +71,11 @@
         display: inline-block;
         margin-inline-start: 12px;
         margin-block: auto;
-        font-size: 24px;
-        font-weight: 700;
+        font-size: var(--h2-font-size);
+        font-weight: var(--h2-font-weight);
+        line-height: var(--h2-line-height);
+        text-transform: var(--h2-text-transform);
+        font-style: var(--h2-font-style);
 
         @include mobile {
             margin-inline-start: 14px;

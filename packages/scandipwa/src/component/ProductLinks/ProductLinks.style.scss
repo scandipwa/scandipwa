@@ -42,8 +42,6 @@
     }
 
     &-Title {
-        line-height: 1;
-
         @include mobile {
             padding-block-start: 4px;
             padding-block-end: 18px;
@@ -54,7 +52,6 @@
             padding-block-start: 12px;
             padding-block-end: 36px;
             padding-inline: 0;
-            font-weight: bold;
         }
     }
 

@@ -146,16 +146,11 @@
     }
 
     &-Name {
-        line-height: var(--product-card-name-line-height);
         margin: 5px 0;
         padding-block-end: 2px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-
-        @include desktop {
-            line-height: 1.3;
-        }
     }
 
     &-Brand {
