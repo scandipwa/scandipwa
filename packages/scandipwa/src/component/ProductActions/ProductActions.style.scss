@@ -43,7 +43,7 @@
     }
 
     &-Price {
-        line-height: 28px;
+        line-height: var(--h2-line-height);
     }
 
     &-Title {
