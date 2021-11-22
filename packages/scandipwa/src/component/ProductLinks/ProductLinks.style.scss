@@ -42,6 +42,8 @@
     }
 
     &-Title {
+        font-weight: bold;
+
         @include mobile {
             padding-block-start: 4px;
             padding-block-end: 18px;
