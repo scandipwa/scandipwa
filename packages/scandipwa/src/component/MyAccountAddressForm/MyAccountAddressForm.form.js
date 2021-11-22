@@ -67,16 +67,21 @@ export const getStreetFields = (props) => {
 /**
  * Returns region fields
  * @param props
+ * @param events
  * @returns {[{addRequiredTag: boolean, validateOn: (string[]|*[]), validationRule: {isRequired}, options, label: *, type: string, attr: {defaultValue: number, name: string, selectPlaceholder: *}}]|*[]|[{validateOn: (string[]|*[]), validationRule: {isRequired}, label: *, type: string, attr: {defaultValue, name: string, id: string, placeholder: *}}]}
  * @namespace Component/MyAccountAddressForm/Form/getRegionFields
  */
-export const getRegionFields = (props) => {
+export const getRegionFields = (props, events) => {
     const {
         region: { region, region_id: regionId = 1 } = {},
         regionDisplayAll,
         availableRegions,
-        isStateRequired
+        isStateRequired,
+        currentRegion,
+        currentRegionId
     } = props;
+
+    const { onRegionChange, onRegionIdChange } = events;
 
     if (!regionDisplayAll && !isStateRequired) {
         return [];
@@ -90,8 +95,12 @@ export const getRegionFields = (props) => {
                 attr: {
                     id: 'address-region-id',
                     name: 'region_string',
+                    value: currentRegion,
                     defaultValue: region,
                     placeholder: __('Your state / province')
+                },
+                events: {
+                    onChange: onRegionChange
                 },
                 addRequiredTag: isStateRequired,
                 validateOn: isStateRequired ? ['onChange'] : [],
@@ -108,8 +117,12 @@ export const getRegionFields = (props) => {
             label: __('State / Province'),
             attr: {
                 name: 'region_id',
+                value: currentRegionId,
                 defaultValue: regionId,
                 selectPlaceholder: __('Select region...')
+            },
+            events: {
+                onChange: onRegionIdChange
             },
             options: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
             addRequiredTag: isStateRequired,
@@ -162,12 +175,18 @@ export const myAccountAddressForm = (props, events = {}) => {
         lastname = '',
         city = '',
         countries = [],
-        postcode = '',
+        postcode: zipcode = '',
         telephone = '',
-        addressLinesQty = 1
+        addressLinesQty = 1,
+        currentCity,
+        currentZipcode
     } = props;
 
-    const { onCountryChange, onZipcodeBlur } = events || {};
+    const {
+        onCountryChange,
+        onZipcodeChange,
+        onCityChange
+    } = events || {};
 
     return [
         {
@@ -228,20 +247,6 @@ export const myAccountAddressForm = (props, events = {}) => {
             mods: { address: true },
             fields: [
                 {
-                    type: FIELD_TYPE.text,
-                    label: __('City'),
-                    attr: {
-                        name: 'city',
-                        defaultValue: city,
-                        placeholder: __('Your city')
-                    },
-                    addRequiredTag: true,
-                    validateOn: ['onChange'],
-                    validationRule: {
-                        isRequired: true
-                    }
-                },
-                {
                     type: FIELD_TYPE.select,
                     label: __('Country'),
                     attr: {
@@ -266,14 +271,33 @@ export const myAccountAddressForm = (props, events = {}) => {
                     label: __('Zip / Postal code'),
                     attr: {
                         name: 'postcode',
-                        defaultValue: postcode,
+                        value: currentZipcode,
+                        defaultValue: zipcode,
                         placeholder: __('Your zip / postal code')
                     },
                     events: {
-                        onBlur: onZipcodeBlur
+                        onChange: onZipcodeChange
                     },
                     addRequiredTag: true,
                     validateOn: ['onChange', 'onBlur'],
+                    validationRule: {
+                        isRequired: true
+                    }
+                },
+                {
+                    type: FIELD_TYPE.text,
+                    label: __('City'),
+                    attr: {
+                        name: 'city',
+                        value: currentCity,
+                        defaultValue: city,
+                        placeholder: __('Your city')
+                    },
+                    events: {
+                        onChange: onCityChange
+                    },
+                    addRequiredTag: true,
+                    validateOn: ['onChange'],
                     validationRule: {
                         isRequired: true
                     }
