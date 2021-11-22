@@ -73,7 +73,7 @@ export class TranslateOnCursorMove extends PureComponent {
         CSS.setVariable(this.ref, 'imageOpacity', '1');
     };
 
-    handleMouseMove = ({ pageY: wrapperPageY }) => {
+    handleMouseMove({ pageY: wrapperPageY }) {
         const {
             activeImageId,
             itemSelector,
@@ -109,7 +109,7 @@ export class TranslateOnCursorMove extends PureComponent {
         }
 
         target.style.transform = `translateY(-${translate}px)`;
-    };
+    }
 
     render() {
         const { children, isMobile } = this.props;

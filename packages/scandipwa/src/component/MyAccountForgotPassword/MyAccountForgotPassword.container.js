@@ -50,7 +50,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
         onForgotPasswordSuccess: this.onForgotPasswordSuccess.bind(this)
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             state,
             onFormError,
@@ -66,7 +66,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
             handleCreateAccount,
             isCheckout
         };
-    };
+    }
 
     onForgotPasswordSuccess(form, fields) {
         const { forgotPassword, setSignInState, setLoadingState } = this.props;

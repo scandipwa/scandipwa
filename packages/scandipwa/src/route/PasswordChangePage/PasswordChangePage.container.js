@@ -114,11 +114,11 @@ export class PasswordChangePageContainer extends PureComponent {
         this.toggleBreadcrumbs(false);
     }
 
-    containerProps = () => {
+    containerProps() {
         const { isLoading } = this.state;
 
         return { isLoading };
-    };
+    }
 
     onPasswordSuccess(form, fields) {
         this.setState({ isLoading: true }, () => {

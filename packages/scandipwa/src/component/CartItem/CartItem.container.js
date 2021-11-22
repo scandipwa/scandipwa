@@ -125,7 +125,7 @@ export class CartItemContainer extends PureComponent {
         this.setState({ isLoading: false });
     }
 
-    containerProps = () => {
+    containerProps() {
         const {
             item,
             currency_code,
@@ -152,12 +152,12 @@ export class CartItemContainer extends PureComponent {
             optionsLabels: this.getConfigurableOptionsLabels(),
             isMobileLayout: this.getIsMobileLayout()
         };
-    };
+    }
 
     /**
      * Handle item quantity change. Check that value is <1
-     * @param {Number} value new quantity
      * @return {void}
+     * @param quantity
      */
     handleChangeQuantity(quantity) {
         this.setState({ isLoading: true }, () => {

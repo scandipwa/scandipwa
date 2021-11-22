@@ -61,7 +61,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
         this.requestDownloadable();
     }
 
-    containerProps = () => {
+    containerProps() {
         const { device } = this.props;
         const { isLoading } = this.state;
 
@@ -70,7 +70,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
             isLoading,
             items: this._prepareDownloadableProps()
         };
-    };
+    }
 
     _prepareDownloadableProps() {
         const { items } = this.state;

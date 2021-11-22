@@ -55,7 +55,7 @@ export class LinkContainer extends PureComponent {
         onClick: this.onClick.bind(this)
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             block,
             elem,
@@ -77,7 +77,7 @@ export class LinkContainer extends PureComponent {
                 mix
             }
         };
-    };
+    }
 
     getTo() {
         const { to: toProp } = this.props;
