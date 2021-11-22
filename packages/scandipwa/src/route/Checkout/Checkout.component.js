@@ -26,6 +26,7 @@ import {
 } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
+import { scrollToTop } from 'Util/Browser';
 import scrollToError from 'Util/Form/Form';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -182,6 +183,7 @@ export class Checkout extends PureComponent {
         const { url } = this.stepMap[checkoutStep];
 
         history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        scrollToTop({ behavior: 'smooth' });
     }
 
     renderTitle() {
