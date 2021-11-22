@@ -185,7 +185,7 @@ export class CartItemContainer extends PureComponent {
         this.notifyAboutLoadingStateChange(true);
     }
 
-    handleRemoveItemOnSwipe = (e) => {
+    handleRemoveItemOnSwipe(e) {
         if (e) {
             e.preventDefault();
         }
@@ -193,7 +193,7 @@ export class CartItemContainer extends PureComponent {
         this.setState({ isLoading: true }, () => {
             this.hideLoaderAfterPromise(this.removeProductAndUpdateCrossSell());
         });
-    };
+    }
 
     getIsMobileLayout() {
         // "isMobileLayout" check is required to render mobile content in some additional cases
@@ -324,7 +324,7 @@ export class CartItemContainer extends PureComponent {
         return thumbnail || '';
     }
 
-    getConfigurationOptionLabel = ([key, attribute]) => {
+    getConfigurationOptionLabel([key, attribute]) {
         const {
             item: {
                 product: {
@@ -350,7 +350,7 @@ export class CartItemContainer extends PureComponent {
         } = configurable_options;
 
         return label;
-    };
+    }
 
     getConfigurableOptionsLabels() {
         const {
@@ -382,7 +382,7 @@ export class CartItemContainer extends PureComponent {
         }
     }
 
-    renderRightSideContent = () => {
+    renderRightSideContent() {
         const { handleRemoveItem } = this.containerFunctions;
 
         return (
@@ -395,7 +395,7 @@ export class CartItemContainer extends PureComponent {
                 { __('Delete') }
             </button>
         );
-    };
+    }
 
     render() {
         const { isLoading } = this.state;

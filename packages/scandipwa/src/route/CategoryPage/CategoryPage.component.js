@@ -256,7 +256,7 @@ export class CategoryPage extends PureComponent {
         );
     }
 
-    renderLayoutButton = (type) => {
+    renderLayoutButton(type) {
         const {
             onGridButtonClick,
             onListButtonClick
@@ -290,7 +290,7 @@ export class CategoryPage extends PureComponent {
         default:
             return false;
         }
-    };
+    }
 
     renderLayoutButtons() {
         const { plpTypes } = this.props;
@@ -305,7 +305,7 @@ export class CategoryPage extends PureComponent {
 
         return (
             <div block="CategoryPage" elem="LayoutButtons">
-                { plpTypes.map(this.renderLayoutButton) }
+                { plpTypes.map(this.renderLayoutButton.bind(this)) }
             </div>
         );
     }

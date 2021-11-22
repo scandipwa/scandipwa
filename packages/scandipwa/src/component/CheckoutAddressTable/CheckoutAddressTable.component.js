@@ -29,10 +29,10 @@ export class CheckoutAddressTable extends MyAccountAddressTable {
         isSelected: false
     };
 
-    onAddressClick = () => {
+    onAddressClick() {
         const { address, onClick } = this.props;
         onClick(address);
-    };
+    }
 
     renderTable() {
         const { isSelected } = this.props;

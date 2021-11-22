@@ -91,7 +91,7 @@ export class CheckoutPayments extends PureComponent {
         return <NotSupportedPayment disableButton={ setOrderButtonEnableStatus } />;
     }
 
-    renderPayment = (method) => {
+    renderPayment(method) {
         const {
             selectPaymentMethod,
             selectedPaymentCode
@@ -108,7 +108,7 @@ export class CheckoutPayments extends PureComponent {
               onClick={ selectPaymentMethod }
             />
         );
-    };
+    }
 
     renderPayments() {
         const { paymentMethods } = this.props;

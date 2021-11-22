@@ -76,7 +76,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderItem = (item) => {
+    renderItem(item) {
         const {
             totals: {
                 quote_currency_code
@@ -92,7 +92,7 @@ export class CheckoutOrderSummary extends PureComponent {
               currency_code={ quote_currency_code }
             />
         );
-    };
+    }
 
     renderDiscount() {
         const {
@@ -126,7 +126,7 @@ export class CheckoutOrderSummary extends PureComponent {
             </div>
             <div block="CheckoutOrderSummary" elem="OrderItems">
                 <div block="CheckoutOrderSummary" elem="CartItemList">
-                    { items.map(this.renderItem) }
+                    { items.map(this.renderItem.bind(this)) }
                 </div>
             </div>
             </>

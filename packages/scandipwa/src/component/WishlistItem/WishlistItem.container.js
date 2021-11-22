@@ -90,6 +90,8 @@ export class WishlistItemContainer extends PureComponent {
 
     removeItemOnSwipe = this.removeItem.bind(this, false, true);
 
+    getAttributes = this._getAttributes.bind(this);
+
     changeQuantity = debounce((quantity) => {
         const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
 
@@ -139,7 +141,7 @@ export class WishlistItemContainer extends PureComponent {
 
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
-    getAttributes = () => {
+    _getAttributes = () => {
         const { product: { variants, configurable_options, wishlist: { sku: wishlistSku } } } = this.props;
 
         const { attributes = [] } = variants.find(({ sku }) => sku === wishlistSku) || {};

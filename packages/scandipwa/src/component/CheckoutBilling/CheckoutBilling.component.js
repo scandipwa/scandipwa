@@ -68,25 +68,25 @@ export class CheckoutBilling extends PureComponent {
         }
     }
 
-    setOrderButtonVisibility = (isOrderButtonVisible) => {
+    setOrderButtonVisibility(isOrderButtonVisible) {
         this.setState({ isOrderButtonVisible });
-    };
+    }
 
-    setOrderButtonEnableStatus = (isOrderButtonEnabled) => {
+    setOrderButtonEnableStatus(isOrderButtonEnabled) {
         this.setState({ isOrderButtonEnabled });
-    };
+    }
 
-    setTACAccepted = () => {
+    setTACAccepted() {
         this.setState(({ isTermsAndConditionsAccepted: oldIsTACAccepted }) => ({
             isTermsAndConditionsAccepted: !oldIsTACAccepted
         }));
-    };
+    }
 
-    handleShowPopup = (e) => {
+    handleShowPopup(e) {
         const { showPopup } = this.props;
         e.preventDefault();
         showPopup();
-    };
+    }
 
     renderTermsAndConditions() {
         const {

@@ -26,10 +26,11 @@ export class TranslateOnCursorMove extends PureComponent {
         targetSelector: PropTypes.string.isRequired
     };
 
-    static defaultProps = {
-    };
+    static defaultProps = {};
 
     ref = createRef();
+
+    handleLoad = this.handleLoad.bind(this);
 
     componentDidMount() {
         window.addEventListener('resize', this.handleLoad);
@@ -49,7 +50,7 @@ export class TranslateOnCursorMove extends PureComponent {
         CSS.setVariable(this.ref, 'translateYOnCursorMove', '0');
     }
 
-    handleLoad = () => {
+    _handleLoad() {
         const {
             activeImageId,
             itemSelector,
@@ -71,7 +72,7 @@ export class TranslateOnCursorMove extends PureComponent {
         // (as 2 slider images are shown simultaneously when navigating to next/previous image)
         target.style.transform = `translateY(${translate}px)`;
         CSS.setVariable(this.ref, 'imageOpacity', '1');
-    };
+    }
 
     handleMouseMove({ pageY: wrapperPageY }) {
         const {

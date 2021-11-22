@@ -111,7 +111,7 @@ export class ExpandableContent extends PureComponent {
         window.scrollTo({ behavior: 'smooth', top: scrollTo });
     }
 
-    toggleExpand = () => {
+    toggleExpand() {
         const { onClick } = this.props;
 
         if (onClick) {
@@ -123,7 +123,7 @@ export class ExpandableContent extends PureComponent {
             ({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }),
             () => this.scrollToExpandedContent()
         );
-    };
+    }
 
     renderButton() {
         const { isContentExpanded } = this.state;

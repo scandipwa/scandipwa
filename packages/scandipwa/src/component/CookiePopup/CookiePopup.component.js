@@ -39,13 +39,13 @@ export class CookiePopup extends PureComponent {
         return !!BrowserDatabase.getItem(param);
     }
 
-    acceptCookies = () => {
+    acceptCookies() {
         const { code } = this.props;
         const param = `${ COOKIE_POPUP }_${ code }`;
 
         BrowserDatabase.setItem(true, param, ONE_MONTH_IN_SECONDS);
         this.setState({ isAccepted: true });
-    };
+    }
 
     renderCookieLink() {
         const { cookieLink } = this.props;

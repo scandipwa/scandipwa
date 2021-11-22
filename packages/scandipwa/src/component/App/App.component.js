@@ -123,9 +123,9 @@ export class App extends PureComponent {
         this.commonFunctions.forEach((func) => func());
     }
 
-    handleErrorReset = () => {
+    handleErrorReset() {
         this.setState({ isSomethingWentWrong: false });
-    };
+    }
 
     renderSharedTransition() {
         return (
@@ -154,7 +154,7 @@ export class App extends PureComponent {
         );
     }
 
-    renderSomethingWentWrong = () => {
+    renderSomethingWentWrong() {
         const { errorDetails } = this.state;
 
         return (
@@ -163,7 +163,7 @@ export class App extends PureComponent {
               errorDetails={ errorDetails }
             />
         );
-    };
+    }
 
     render() {
         return this.renderContextProviders();

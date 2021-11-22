@@ -45,7 +45,7 @@ export class CartCoupon extends PureComponent {
 
     handleRemoveCoupon = this._handleRemoveCoupon.bind(this);
 
-    handleFormSubmit = this.handleFormSubmit.bind(this);
+    handleFormSubmit = this._handleFormSubmit.bind(this);
 
     _handleCouponCodeChange(event, field) {
         const { value = '' } = field;
