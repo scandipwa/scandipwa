@@ -121,10 +121,10 @@ export class CategoryPage extends PureComponent {
         return { activeLayoutType };
     }
 
-    onFilterButtonClick = () => {
+    onFilterButtonClick() {
         const { toggleOverlayByKey } = this.props;
         toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
-    };
+    }
 
     displayProducts() {
         const {

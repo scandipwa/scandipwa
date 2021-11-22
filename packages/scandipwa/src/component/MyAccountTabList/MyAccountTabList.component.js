@@ -32,11 +32,13 @@ export class MyAccountTabList extends PureComponent {
         isContentExpanded: false
     };
 
-    toggleExpandableContent = () => {
-        this.setState(({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }));
-    };
+    onTabClick = this._onTabClick.bind(this);
 
-    onTabClick = (key) => {
+    toggleExpandableContent() {
+        this.setState(({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }));
+    }
+
+    _onTabClick(key) {
         const { changeActiveTab } = this.props;
 
         if (!isSignedIn()) {
@@ -44,9 +46,9 @@ export class MyAccountTabList extends PureComponent {
         }
         this.toggleExpandableContent();
         changeActiveTab(key);
-    };
+    }
 
-    renderTabListItem = (tabEntry) => {
+    renderTabListItem(tabEntry) {
         const { activeTab } = this.props;
         const [key] = tabEntry;
 
@@ -58,7 +60,7 @@ export class MyAccountTabList extends PureComponent {
               tabEntry={ tabEntry }
             />
         );
-    };
+    }
 
     renderLogoutTab() {
         const { handleLogout } = this.props;
@@ -86,7 +88,7 @@ export class MyAccountTabList extends PureComponent {
         const { name } = tabMap[activeTab];
 
         const tabs = [
-            ...Object.entries(tabMap).map(this.renderTabListItem),
+            ...Object.entries(tabMap).map(this.renderTabListItem.bind(this)),
             this.renderLogoutTab()
         ];
 

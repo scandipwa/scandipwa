@@ -93,13 +93,13 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         }
     }
 
-    onError = () => {
+    onError() {
         const { showErrorNotification } = this.props;
 
         this.setState({ isLoading: false }, () => {
             showErrorNotification(__('We are experiencing issues, please try again later'));
         });
-    };
+    }
 
     onCustomerSave(form, fields) {
         const {

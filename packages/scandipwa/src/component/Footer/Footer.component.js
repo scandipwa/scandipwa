@@ -85,7 +85,7 @@ export class Footer extends Component {
         );
     }
 
-    renderColumnItemLink = ({ href = '/', title, src }, i) => {
+    renderColumnItemLink({ href = '/', title, src }, i) {
         const mods = src ? { type: 'image' } : {};
 
         return (
@@ -100,9 +100,9 @@ export class Footer extends Component {
                 { this.renderColumnItemContent(src, title) }
             </Link>
         );
-    };
+    }
 
-    renderColumnItem = (item, i) => {
+    renderColumnItem(item, i) {
         const { render } = item;
 
         if (render) {
@@ -110,9 +110,9 @@ export class Footer extends Component {
         }
 
         return this.renderColumnItemLink(item, i);
-    };
+    }
 
-    renderColumn = (column, i) => {
+    renderColumn(column, i) {
         const {
             title,
             columnActiveKey,
@@ -139,11 +139,11 @@ export class Footer extends Component {
                   elem="ColumnContent"
                   mods={ contentMods }
                 >
-                    { items.map(this.renderColumnItem) }
+                    { items.map(this.renderColumnItem.bind(this)) }
                 </div>
             </div>
         );
-    };
+    }
 
     renderColumns() {
         return (
@@ -152,7 +152,7 @@ export class Footer extends Component {
               wrapperMix={ { block: 'Footer', elem: 'Columns' } }
               label=""
             >
-                { COLUMN_MAP.map(this.renderColumn) }
+                { COLUMN_MAP.map(this.renderColumn.bind(this)) }
             </ContentWrapper>
         );
     }

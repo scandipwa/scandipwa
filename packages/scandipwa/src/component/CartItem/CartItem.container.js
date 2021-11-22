@@ -370,7 +370,7 @@ export class CartItemContainer extends PureComponent {
 
         return Object.entries(attributes)
             .filter(([attrKey]) => Object.keys(configurable_options).includes(attrKey))
-            .map(this.getConfigurationOptionLabel)
+            .map(this.getConfigurationOptionLabel.bind(this))
             .filter((label) => label);
     }
 

@@ -101,7 +101,7 @@ export class Menu extends PureComponent {
         e.stopPropagation();
     }
 
-    renderSubLevelItems = (item, isSecondLevel) => {
+    renderSubLevelItems(item, isSecondLevel) {
         const {
             handleSubcategoryClick,
             activeMenuItemsStack,
@@ -157,7 +157,7 @@ export class Menu extends PureComponent {
                 { this.renderDesktopSubLevel(item) }
             </div>
         );
-    };
+    }
 
     renderSubLevel(category, isSecondLevel = false) {
         const { activeMenuItemsStack } = this.props;
@@ -184,7 +184,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderSubMenuDesktopItems = (item) => {
+    renderSubMenuDesktopItems(item) {
         const { item_id, children } = item;
 
         if (!Object.keys(children).length) {
@@ -226,7 +226,7 @@ export class Menu extends PureComponent {
                 />
             </div>
         );
-    };
+    }
 
     renderSubMenuDesktop(itemList) {
         const { device } = this.props;
@@ -237,7 +237,7 @@ export class Menu extends PureComponent {
 
         const childrenArray = getSortedItems(Object.values(itemList));
 
-        return childrenArray.map(this.renderSubMenuDesktopItems);
+        return childrenArray.map(this.renderSubMenuDesktopItems.bind(this));
     }
 
     renderAdditionalInformation(checkMobile = false) {
@@ -305,7 +305,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderFirstLevel = (item) => {
+    renderFirstLevel(item) {
         const { item_id } = item;
 
         return (
@@ -314,10 +314,10 @@ export class Menu extends PureComponent {
               elem="Item"
               key={ item_id }
             >
-                { this.renderFirstLevelItems(item) }
+                { this.renderFirstLevelItems.call(this, item) }
             </li>
         );
-    };
+    }
 
     renderTopLevel() {
         const { menu } = this.props;
@@ -340,7 +340,7 @@ export class Menu extends PureComponent {
                       mods={ { type: 'main' } }
                       aria-label={ mainCategoriesTitle }
                     >
-                        { childrenArray.map(this.renderFirstLevel) }
+                        { childrenArray.map(this.renderFirstLevel.bind(this)) }
                     </ul>
                 </div>
                 { this.renderSubMenuDesktop(children) }

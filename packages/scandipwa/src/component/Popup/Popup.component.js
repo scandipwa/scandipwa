@@ -84,7 +84,7 @@ export class Popup extends Overlay {
         onHide();
     }
 
-    hidePopUp = () => {
+    hidePopUp() {
         const { hideActiveOverlay, goToPreviousNavigationState, onClose } = this.props;
         const isVisible = this.getIsVisible();
 
@@ -94,24 +94,24 @@ export class Popup extends Overlay {
             goToPreviousNavigationState();
             onClose();
         }
-    };
+    }
 
-    hidePopupAndGoBack = () => {
+    hidePopupAndGoBack() {
         this.hidePopUp();
         history.goBack();
-    };
+    }
 
     // Same with click outside
-    handleClickOutside = () => {
+    handleClickOutside() {
         const { clickOutside } = this.props;
 
         if (!clickOutside) {
             return;
         }
         this.hidePopupAndGoBack();
-    };
+    }
 
-    handleKeyDown = (e) => {
+    handleKeyDown(e) {
         switch (e.keyCode) {
         case ESCAPE_KEY:
             this.hidePopupAndGoBack();
@@ -119,7 +119,7 @@ export class Popup extends Overlay {
         default:
             break;
         }
-    };
+    }
 
     renderTitle() {
         const { title } = this.props;

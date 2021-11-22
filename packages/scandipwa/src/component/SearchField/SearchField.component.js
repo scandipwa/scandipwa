@@ -60,6 +60,12 @@ export class SearchField extends PureComponent {
 
     searchBarRef = createRef();
 
+    closeSearch = this._closeSearch.bind(this);
+
+    onSearchEnterPress = this._onSearchEnterPress.bind(this);
+
+    handleChange = this._handleChange.bind(this);
+
     onClearSearchButtonClick(isFocusOnSearchBar = true) {
         const { onClearSearchButtonClick } = this.props;
 
@@ -69,7 +75,7 @@ export class SearchField extends PureComponent {
         onClearSearchButtonClick();
     }
 
-    onSearchEnterPress = (e) => {
+    _onSearchEnterPress(e) {
         const { searchCriteria, hideActiveOverlay, onSearchBarChange } = this.props;
         const search = searchCriteria.trim().replace(/\s/g, '+');
         const trimmedSearch = searchCriteria.trim();
@@ -82,32 +88,32 @@ export class SearchField extends PureComponent {
             this.closeSearch();
             scrollToTop();
         }
-    };
+    }
 
-    onIconClick = () => {
+    onIconClick() {
         this.searchBarRef.current.focus();
-    };
+    }
 
-    openSearch = () => {
+    openSearch() {
         const { onSearchBarFocus } = this.props;
 
         onSearchBarFocus();
-    };
+    }
 
-    closeSearch = () => {
+    _closeSearch() {
         const { onSearchOutsideClick } = this.props;
 
         onSearchOutsideClick();
-    };
+    }
 
-    handleChange = (e) => {
+    _handleChange(e) {
         const { onSearchBarChange } = this.props;
         onSearchBarChange(e);
-    };
+    }
 
-    clearSearch = () => {
+    clearSearch() {
         this.onClearSearchButtonClick(false);
-    };
+    }
 
     renderClearSearch() {
         const { isVisible } = this.props;

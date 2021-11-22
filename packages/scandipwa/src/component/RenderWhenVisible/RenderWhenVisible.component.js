@@ -44,7 +44,7 @@ export class RenderWhenVisible extends PureComponent {
         setTimeout(this.checkIsVisible, 0);
     }
 
-    checkIsVisible = () => {
+    checkIsVisible() {
         if (!this.node) {
             return;
         }
@@ -55,7 +55,7 @@ export class RenderWhenVisible extends PureComponent {
         if (!(rect.bottom < 0 || rect.top - viewHeight >= 0)) {
             this.setState({ wasVisible: true });
         }
-    };
+    }
 
     shouldRender() {
         const { wasVisible } = this.state;

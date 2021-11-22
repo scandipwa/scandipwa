@@ -24,11 +24,15 @@ export class SharedTransitionUnstated extends Container {
 
     _parseRectangle = (val) => JSON.parse(JSON.stringify(val));
 
-    cleanUpTransition = () => {
-        this.setState(sharedTransitionInitialState);
-    };
+    registerSharedElementDestination = this._registerSharedElementDestination.bind(this);
 
-    registerSharedElementDestination = ({ current }) => {
+    registerSharedElement = this._registerSharedElement.bind(this);
+
+    cleanUpTransition() {
+        this.setState(sharedTransitionInitialState);
+    }
+
+    _registerSharedElementDestination({ current }) {
         if (current) {
             this.setState(({ sharedElementDestination }) => {
                 if (sharedElementDestination) {
@@ -41,9 +45,9 @@ export class SharedTransitionUnstated extends Container {
                 };
             });
         }
-    };
+    }
 
-    registerSharedElement = ({ current }) => {
+    _registerSharedElement({ current }) {
         if (current) {
             const clone = current.cloneNode(true);
 
@@ -54,7 +58,7 @@ export class SharedTransitionUnstated extends Container {
                 startingPosition: this._parseRectangle(current.getBoundingClientRect())
             });
         }
-    };
+    }
 }
 
 export default new SharedTransitionUnstated();

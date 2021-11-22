@@ -69,7 +69,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         return fieldMap;
     }
 
-    onAddressChange = (event, data) => {
+    onAddressChange(event, data) {
         const { fields = {} } = data;
         const {
             country_id,
@@ -97,7 +97,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
         // Caches last request
         this.lastRequest = request;
-    };
+    }
 
     renderActions() {
         return null;

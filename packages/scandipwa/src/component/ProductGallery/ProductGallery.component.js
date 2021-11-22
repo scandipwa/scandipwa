@@ -142,7 +142,7 @@ export class ProductGallery extends PureComponent {
         this.setState({ prevZoom });
     }
 
-    calculateGallerySize = () => {
+    calculateGallerySize() {
         const { isMobile } = this.props;
         const ref = this.galleryRef.current;
 
@@ -153,9 +153,9 @@ export class ProductGallery extends PureComponent {
 
         const slidesCount = Math.floor((width - ARROW_SAFE_AREA * 2) / (CAROUSEL_ITEM_WIDTH + CAROUSEL_ITEM_GAP));
         this.setState({ slidesCount });
-    };
+    }
 
-    handleSliderClick = () => {
+    handleSliderClick() {
         const {
             handleImageZoomPopupActiveChange,
             gallery,
@@ -169,7 +169,7 @@ export class ProductGallery extends PureComponent {
         }
 
         handleImageZoomPopupActiveChange(true);
-    };
+    }
 
     updateSharedDestinationElement() {
         const { registerSharedElementDestination } = this.props;
@@ -229,7 +229,7 @@ export class ProductGallery extends PureComponent {
         }, 20);
     }
 
-    onWheel = (zoomState) => {
+    onWheel(zoomState) {
         const { scale } = zoomState;
 
         if (this.timeout) {
@@ -239,7 +239,7 @@ export class ProductGallery extends PureComponent {
         if (scale === 1 || scale === MAX_ZOOM_SCALE) {
             this.stopScrolling();
         }
-    };
+    }
 
     /**
      * Renders a product image to be displayed in the gallery

@@ -74,7 +74,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         return { isLoading, payload };
     }
 
-    handleAfterAction = () => {
+    handleAfterAction() {
         const {
             hideActiveOverlay,
             updateCustomerDetails,
@@ -83,7 +83,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         } = this.props;
 
         updateCustomerDetails().then(
-            /** @namespace Component/MyAccountAddressPopup/Container/MyAccountAddressPopupContainer/updateCustomerDetails/then */
+            /** @namespace Component/MyAccountAddressPopup/Container/MyAccountAddressPopupContainer/handleAfterAction/updateCustomerDetails/then */
             () => {
                 this.setState({ isLoading: false }, () => {
                     hideActiveOverlay();
@@ -91,13 +91,13 @@ export class MyAccountAddressPopupContainer extends PureComponent {
                 });
             }, showErrorNotification
         );
-    };
+    }
 
-    handleError = (error) => {
+    handleError(error) {
         const { showErrorNotification } = this.props;
         showErrorNotification(error);
         this.setState({ isLoading: false });
-    };
+    }
 
     handleAddress(address) {
         const { payload: { address: { id } } } = this.props;

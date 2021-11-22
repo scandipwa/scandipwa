@@ -396,13 +396,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
         hideActiveOverlay();
     }
 
-    closeOverlay = () => {
+    closeOverlay() {
         const { location: { pathname } } = history;
 
         if (pathname.includes(CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
         }
-    };
+    }
 
     onSignIn() {
         const { location: { pathname } } = history;

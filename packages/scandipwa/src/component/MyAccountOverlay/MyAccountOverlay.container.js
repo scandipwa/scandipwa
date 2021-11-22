@@ -218,7 +218,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
-    redirectOrGetState = (props) => {
+    redirectOrGetState(props) {
         const {
             showOverlay,
             setHeaderState,
@@ -260,7 +260,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
 
         return state;
-    };
+    }
 
     onVisible() {
         const { setHeaderState, isCheckout, isMobile } = this.props;
@@ -276,11 +276,11 @@ export class MyAccountOverlayContainer extends PureComponent {
 
     stopLoading = () => this.setState({ isLoading: false });
 
-    stopLoadingAndHideOverlay = () => {
+    stopLoadingAndHideOverlay() {
         const { hideActiveOverlay } = this.props;
         this.stopLoading();
         hideActiveOverlay();
-    };
+    }
 
     handleForgotPassword(e) {
         const { setHeaderState } = this.props;

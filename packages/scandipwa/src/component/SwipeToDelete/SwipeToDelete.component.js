@@ -89,12 +89,12 @@ export class SwipeToDelete extends PureComponent {
         CSS.setVariable(this.draggableRef, 'animation-speed', `${ duration }ms`);
     }
 
-    handleDragStart = () => {
+    handleDragStart() {
         // Remove animation when drag starts
         this.setAnimationSpeedStyle(0);
-    };
+    }
 
-    handleDrag = ({ translateX: translate }) => {
+    handleDrag({ translateX: translate }) {
         const { dragRightOpenThreshold } = this.props;
         const { isRightSideOpen, isAheadRemoveItemThreshold } = this.state;
         const { draggableRemoveThreshold } = this;
@@ -135,9 +135,9 @@ export class SwipeToDelete extends PureComponent {
                 this.setTranslateXStyle(translateX - dragRightOpenThreshold);
             }
         }
-    };
+    }
 
-    handleDragEnd = ({ translateX: translate }) => {
+    handleDragEnd({ translateX: translate }) {
         const {
             dragRightOpenThreshold,
             dragRightOpenTriggerThreshold,
@@ -169,7 +169,7 @@ export class SwipeToDelete extends PureComponent {
         }
 
         this.setTranslateXStyle(-dragRightOpenThreshold);
-    };
+    }
 
     renderRightSideContent() {
         const { renderRightSideContent } = this.props;
@@ -191,9 +191,9 @@ export class SwipeToDelete extends PureComponent {
         );
     }
 
-    stopPropagation = (event) => {
+    stopPropagation(event) {
         event.stopPropagation();
-    };
+    }
 
     renderChildren() {
         const { children } = this.props;

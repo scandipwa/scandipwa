@@ -80,10 +80,12 @@ export class ProductCard extends Product {
 
     className = 'ProductCard';
 
-    registerSharedElement = () => {
+    registerSharedElement = this._registerSharedElement.bind(this);
+
+    _registerSharedElement() {
         const { registerSharedElement } = this.props;
         registerSharedElement(this.imageRef);
-    };
+    }
 
     //#region PRICE
     renderEmptyProductPrice() {

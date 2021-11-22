@@ -264,9 +264,9 @@ export class ProductGalleryContainer extends PureComponent {
         }
     }
 
-    handleImageZoomPopupClose = () => {
+    handleImageZoomPopupClose() {
         this.handleImageZoomPopupActiveChange(false);
-    };
+    }
 
     render() {
         const { isImageZoomPopupActive, activeImage } = this.state;

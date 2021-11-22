@@ -268,9 +268,9 @@ export class Router extends PureComponent {
         );
     }
 
-    handleErrorReset = () => {
+    handleErrorReset() {
         this.setState({ hasError: false });
-    };
+    }
 
     renderComponentsOfType(type) {
         return this.getSortedItems(type)

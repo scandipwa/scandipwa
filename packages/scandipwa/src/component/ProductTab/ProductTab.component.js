@@ -29,10 +29,10 @@ export class ProductTab extends PureComponent {
         isActive: false
     };
 
-    onClick = () => {
+    onClick() {
         const { onClick, tabName } = this.props;
         onClick(tabName);
-    };
+    }
 
     render() {
         const { tabName, isActive } = this.props;

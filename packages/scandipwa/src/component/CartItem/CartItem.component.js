@@ -221,7 +221,7 @@ export class CartItem extends PureComponent {
                     <strong>{ `${label}:` }</strong>
                 </div>
                 <div block="CartItem" elem="BundleGroupValues">
-                    { values.map(this.renderBundleProductOptionValue) }
+                    { values.map(this.renderBundleProductOptionValue.bind(this)) }
                 </div>
             </>
         );
@@ -251,7 +251,7 @@ export class CartItem extends PureComponent {
               block="CartItem"
               elem="Options"
             >
-                { itemOptions.map(this.renderProductBundleOption) }
+                { itemOptions.map(this.renderProductBundleOption.bind(this)) }
             </div>
         );
     }

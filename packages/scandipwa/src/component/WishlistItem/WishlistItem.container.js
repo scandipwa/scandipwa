@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -81,7 +82,7 @@ export class WishlistItemContainer extends PureComponent {
     containerFunctions = {
         addToCart: this.addItemToCart.bind(this),
         removeItem: this.removeItem.bind(this, false, true),
-        redirectToProductPage: this.redirectToProductPage.bind(this)
+        redirectToProductPage: this.redirectToProductPage.bind(this),
     };
 
     state = {
@@ -141,7 +142,7 @@ export class WishlistItemContainer extends PureComponent {
 
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
-    _getAttributes = () => {
+    _getAttributes() {
         const { product: { variants, configurable_options, wishlist: { sku: wishlistSku } } } = this.props;
 
         const { attributes = [] } = variants.find(({ sku }) => sku === wishlistSku) || {};

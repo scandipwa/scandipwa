@@ -80,7 +80,7 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    handleSelectIdChange = (id, isRemoveOnly = false) => {
+    handleSelectIdChange(id, isRemoveOnly = false) {
         const { selectedIdMap: prevSelectedIdMap } = this.state;
         const selectIdIndex = prevSelectedIdMap.findIndex((selectId) => selectId === id);
         const selectedIdMap = Array.from(prevSelectedIdMap);
@@ -102,9 +102,9 @@ export class MyAccountMyWishlist extends PureComponent {
         }
 
         this.setState({ selectedIdMap });
-    };
+    }
 
-    handleRemoveButtonClick = () => {
+    handleRemoveButtonClick() {
         // Removes selected items from wishlist
 
         const { removeSelectedFromWishlist } = this.props;
@@ -113,7 +113,7 @@ export class MyAccountMyWishlist extends PureComponent {
         removeSelectedFromWishlist(selectedIdMap);
 
         this.setState({ selectedIdMap: [] });
-    };
+    }
 
     renderNoProductsFound = () => (
         <div block="MyAccountMyWishlist" elem="NoProducts">
@@ -121,7 +121,7 @@ export class MyAccountMyWishlist extends PureComponent {
         </div>
     );
 
-    renderProduct = ([id, product]) => {
+    renderProduct([id, product]) {
         const { isEditingActive, loadingItemsMap } = this.props;
 
         return (
@@ -133,7 +133,7 @@ export class MyAccountMyWishlist extends PureComponent {
               handleSelectIdChange={ this.handleSelectIdChange }
             />
         );
-    };
+    }
 
     renderProducts() {
         const {
@@ -146,7 +146,7 @@ export class MyAccountMyWishlist extends PureComponent {
             return this.renderPlaceholders();
         }
 
-        return Object.entries(wishlistItems).map(this.renderProduct);
+        return Object.entries(wishlistItems).map(this.renderProduct.bind(this));
     }
 
     renderClearWishlist() {

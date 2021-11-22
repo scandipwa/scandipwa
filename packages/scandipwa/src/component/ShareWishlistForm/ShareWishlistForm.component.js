@@ -25,10 +25,10 @@ export class ShareWishlistForm extends FieldForm {
         return shareWishlistForm();
     }
 
-    onFormSuccess = (form, fields) => {
+    onFormSuccess(form, fields) {
         const { onSave } = this.props;
         onSave(transformToNameValuePair(fields));
-    };
+    }
 
     renderActions() {
         return (

@@ -30,14 +30,14 @@ export class CheckoutPayment extends PureComponent {
         isSelected: false
     };
 
-    onClick = () => {
+    onClick() {
         const {
             onClick,
             method
         } = this.props;
 
         onClick(method);
-    };
+    }
 
     render() {
         const {

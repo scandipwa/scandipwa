@@ -76,7 +76,7 @@ export class SharedTransition extends PureComponent {
         `;
     }
 
-    cleanUpTransition = () => {
+    cleanUpTransition() {
         const { current: wrapper } = this.sharedContainer;
         const { cleanUpTransition } = this.props;
 
@@ -86,7 +86,7 @@ export class SharedTransition extends PureComponent {
 
         this.transitionInAction = false;
         cleanUpTransition();
-    };
+    }
 
     updateSharedElement() {
         const {
