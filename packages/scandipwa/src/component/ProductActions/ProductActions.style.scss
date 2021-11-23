@@ -44,6 +44,11 @@
 
     &-Price {
         line-height: var(--h2-line-height);
+
+        span:nth-child(2),
+        p {
+            margin-top: -8px;
+        }
     }
 
     &-Title {
