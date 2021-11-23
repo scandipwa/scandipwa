@@ -48,6 +48,8 @@ export class SharedTransition extends PureComponent {
 
     setStartingTransform = this.setTransform.bind(this, 'startingPosition');
 
+    cleanUpTransition = this._cleanUpTransition.bind(this);
+
     componentDidUpdate() {
         if (this.transitionInAction) {
             return;
@@ -76,7 +78,7 @@ export class SharedTransition extends PureComponent {
         `;
     }
 
-    cleanUpTransition() {
+    _cleanUpTransition() {
         const { current: wrapper } = this.sharedContainer;
         const { cleanUpTransition } = this.props;
 
@@ -85,6 +87,8 @@ export class SharedTransition extends PureComponent {
         range.deleteContents();
 
         this.transitionInAction = false;
+        // eslint-disable-next-line no-debugger
+        debugger;
         cleanUpTransition();
     }
 

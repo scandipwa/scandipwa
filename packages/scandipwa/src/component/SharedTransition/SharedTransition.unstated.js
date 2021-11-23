@@ -28,9 +28,10 @@ export class SharedTransitionUnstated extends Container {
 
     registerSharedElement = this._registerSharedElement.bind(this);
 
-    cleanUpTransition() {
+    // arrow function required
+    cleanUpTransition = () => {
         this.setState(sharedTransitionInitialState);
-    }
+    };
 
     _registerSharedElementDestination({ current }) {
         if (current) {

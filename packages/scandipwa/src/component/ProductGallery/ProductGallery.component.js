@@ -91,6 +91,10 @@ export class ProductGallery extends PureComponent {
         prevZoom: false
     };
 
+    handleSliderClick = this._handleSliderClick.bind(this);
+
+    calculateGallerySize = this._calculateGallerySize.bind(this);
+
     __construct(props, context) {
         super.__construct(props, context);
         this.renderSlide = this.renderSlide.bind(this);
@@ -142,7 +146,7 @@ export class ProductGallery extends PureComponent {
         this.setState({ prevZoom });
     }
 
-    calculateGallerySize() {
+    _calculateGallerySize() {
         const { isMobile } = this.props;
         const ref = this.galleryRef.current;
 
@@ -155,7 +159,7 @@ export class ProductGallery extends PureComponent {
         this.setState({ slidesCount });
     }
 
-    handleSliderClick() {
+    _handleSliderClick() {
         const {
             handleImageZoomPopupActiveChange,
             gallery,

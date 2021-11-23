@@ -36,8 +36,12 @@ export class Popup extends Overlay {
         title: ''
     };
 
+    hidePopUp = this._hidePopUp.bind(this);
+
+    hidePopupAndGoBack = this._hidePopupAndGoBack.bind(this);
+
     componentDidMount() {
-        document.addEventListener('keydown', this.handleKeyDown);
+        document.addEventListener('keydown', this.handleKeyDown.bind(this));
     }
 
     componentDidUpdate(prevProps) {
@@ -53,7 +57,7 @@ export class Popup extends Overlay {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeyDown);
+        document.removeEventListener('keydown', this.handleKeyDown.bind(this));
     }
 
     onVisible() {
@@ -84,7 +88,7 @@ export class Popup extends Overlay {
         onHide();
     }
 
-    hidePopUp() {
+    _hidePopUp() {
         const { hideActiveOverlay, goToPreviousNavigationState, onClose } = this.props;
         const isVisible = this.getIsVisible();
 
@@ -96,7 +100,7 @@ export class Popup extends Overlay {
         }
     }
 
-    hidePopupAndGoBack() {
+    _hidePopupAndGoBack() {
         this.hidePopUp();
         history.goBack();
     }

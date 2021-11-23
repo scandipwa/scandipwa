@@ -33,6 +33,8 @@ export class ProductTabs extends PureComponent {
         defaultTab: 0
     };
 
+    onTabClick = this._onTabClick.bind(this);
+
     __construct(props) {
         super.__construct(props);
 
@@ -43,7 +45,7 @@ export class ProductTabs extends PureComponent {
         };
     }
 
-    onTabClick(tab) {
+    _onTabClick(tab) {
         const { tabs } = this.props;
         const { activeTab } = this.state;
 
