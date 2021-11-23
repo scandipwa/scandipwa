@@ -21,6 +21,11 @@ $select-arrow-width: 14px !default;
     &-Clickable {
         display: flex;
         align-items: center;
+
+        #storeSwitcher,
+        #CurrencySwitcherList {
+            line-height: 20px;
+        }
     }
 
     .ChevronIcon {
