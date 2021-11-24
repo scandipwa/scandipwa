@@ -274,7 +274,9 @@ export class MyAccountOverlayContainer extends PureComponent {
         this.setState({ isLoading: false });
     }
 
-    stopLoading = () => this.setState({ isLoading: false });
+    stopLoading() {
+        this.setState({ isLoading: false });
+    }
 
     stopLoadingAndHideOverlay() {
         const { hideActiveOverlay } = this.props;

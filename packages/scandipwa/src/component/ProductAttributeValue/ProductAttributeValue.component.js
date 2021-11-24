@@ -269,20 +269,19 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    getCheckboxLabel = (label, subLabel) => (
-        <span
-          block="ProductAttributeValue"
-          elem="Label"
-        >
-            { label }
-            <strong
-              block="ProductAttributeValue"
-              elem="SubLabel"
-            >
-                { `(${subLabel})` }
-            </strong>
-        </span>
-    );
+    getCheckboxLabel(label, subLabel) {
+        return (
+            <span block="ProductAttributeValue" elem="Label">
+                { label }
+                <strong
+                  block="ProductAttributeValue"
+                  elem="SubLabel"
+                >
+                    { `(${subLabel})` }
+                </strong>
+            </span>
+        );
+    }
 
     renderDropdown(value, subLabel) {
         const { isSelected } = this.props;

@@ -160,10 +160,6 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderCouponCode = (code) => (
-        <strong block="CartOverlay" elem="DiscountCoupon">{ code }</strong>
-    );
-
     renderDiscount() {
         const {
             totals: {

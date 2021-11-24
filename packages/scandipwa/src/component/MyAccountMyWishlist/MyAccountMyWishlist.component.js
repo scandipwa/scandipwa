@@ -117,11 +117,13 @@ export class MyAccountMyWishlist extends PureComponent {
         this.setState({ selectedIdMap: [] });
     }
 
-    renderNoProductsFound = () => (
-        <div block="MyAccountMyWishlist" elem="NoProducts">
-            <p>{ __('Wishlist is empty!') }</p>
-        </div>
-    );
+    renderNoProductsFound() {
+        return (
+            <div block="MyAccountMyWishlist" elem="NoProducts">
+                <p>{ __('Wishlist is empty!') }</p>
+            </div>
+        );
+    }
 
     renderProduct([id, product]) {
         const { isEditingActive, loadingItemsMap } = this.props;

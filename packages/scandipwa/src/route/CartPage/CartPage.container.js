@@ -164,9 +164,9 @@ export class CartPageContainer extends PureComponent {
         };
     }
 
-    hasOutOfStockProductsInCartItems = (items) => (
-        items.some(({ product }) => !getProductInStock(product))
-    );
+    hasOutOfStockProductsInCartItems(items) {
+        return items.some(({ product }) => !getProductInStock(product));
+    }
 
     onCheckoutButtonClick(e) {
         const {

@@ -139,14 +139,16 @@ export class App extends PureComponent {
         );
     }
 
-    renderRootComponents = () => this.rootComponents.map((render) => render());
+    renderRootComponents() {
+        return this.rootComponents.map((render) => render());
+    }
 
     renderContextProviders() {
         const { isSomethingWentWrong } = this.state;
 
         const child = isSomethingWentWrong
-            ? this.renderSomethingWentWrong
-            : this.renderRootComponents;
+            ? this.renderSomethingWentWrong.bind(this)
+            : this.renderRootComponents.bind(this);
 
         return this.contextProviders.reduce(
             (acc, render) => render(acc),

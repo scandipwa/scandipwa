@@ -65,7 +65,9 @@ export class ResetAttributesContainer extends PureComponent {
             });
     }
 
-    getFilterOptionsDefault = (values, options) => options.filter((option) => values.includes(option.value_string));
+    getFilterOptionsDefault(values, options) {
+        return options.filter((option) => values.includes(option.value_string));
+    }
 
     getResetData(attrCode, attrValues) {
         const { availableFilters } = this.props;

@@ -159,11 +159,11 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         );
     }
 
-    _getIsWishlistEmpty = () => {
+    _getIsWishlistEmpty() {
         const { wishlistItems } = this.state;
 
         return Object.entries(wishlistItems).length <= 0;
-    };
+    }
 
     getCode() {
         const { match: { params: { code } } } = this.props;

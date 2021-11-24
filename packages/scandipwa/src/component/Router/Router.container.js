@@ -114,6 +114,8 @@ export class RouterContainer extends PureComponent {
         status_code: ''
     };
 
+    handleResize = this.handleResize.bind(this);
+
     __construct(props) {
         super.__construct(props);
 
@@ -165,7 +167,7 @@ export class RouterContainer extends PureComponent {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    handleResize = async () => {
+    async handleResize() {
         const { updateConfigDevice } = this.props;
 
         if (isUsingClientHints) {
@@ -190,7 +192,7 @@ export class RouterContainer extends PureComponent {
                 windows: isMobile.windows()
             });
         }
-    };
+    }
 
     containerProps() {
         const { isBigOffline } = this.props;

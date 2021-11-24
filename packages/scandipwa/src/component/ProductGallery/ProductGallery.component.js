@@ -180,12 +180,14 @@ export class ProductGallery extends PureComponent {
         registerSharedElementDestination(this.imageRef);
     }
 
-    renderAdditionalPicture = (media, index = 0) => (
-        <ProductGalleryThumbnailImage
-          key={ index }
-          media={ media }
-        />
-    );
+    renderAdditionalPicture(media, index = 0) {
+        return (
+            <ProductGalleryThumbnailImage
+              key={ index }
+              media={ media }
+            />
+        );
+    }
 
     /**
      * Renders a video thumbnail which opens popup player on click/tap
@@ -377,7 +379,7 @@ export class ProductGallery extends PureComponent {
                   showedItemCount={ slidesCount }
                   isImageZoomPopupActive={ isImageZoomPopupActive }
                 >
-                    { gallery.map(this.renderAdditionalPicture) }
+                    { gallery.map(this.renderAdditionalPicture.bind(this)) }
                 </CarouselScroll>
             </div>
         );
