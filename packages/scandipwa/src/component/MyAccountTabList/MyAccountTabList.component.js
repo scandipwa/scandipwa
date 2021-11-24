@@ -32,13 +32,13 @@ export class MyAccountTabList extends PureComponent {
         isContentExpanded: false
     };
 
-    onTabClick = this._onTabClick.bind(this);
+    onTabClick = this.onTabClick.bind(this);
 
     toggleExpandableContent() {
         this.setState(({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }));
     }
 
-    _onTabClick(key) {
+    onTabClick(key) {
         const { changeActiveTab } = this.props;
 
         if (!isSignedIn()) {

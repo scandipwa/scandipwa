@@ -24,16 +24,16 @@ export class SharedTransitionUnstated extends Container {
 
     _parseRectangle = (val) => JSON.parse(JSON.stringify(val));
 
-    registerSharedElementDestination = this._registerSharedElementDestination.bind(this);
+    registerSharedElementDestination = this.registerSharedElementDestination.bind(this);
 
-    registerSharedElement = this._registerSharedElement.bind(this);
+    registerSharedElement = this.registerSharedElement.bind(this);
 
     // arrow function required
     cleanUpTransition = () => {
         this.setState(sharedTransitionInitialState);
     };
 
-    _registerSharedElementDestination({ current }) {
+    registerSharedElementDestination({ current }) {
         if (current) {
             this.setState(({ sharedElementDestination }) => {
                 if (sharedElementDestination) {
@@ -48,7 +48,7 @@ export class SharedTransitionUnstated extends Container {
         }
     }
 
-    _registerSharedElement({ current }) {
+    registerSharedElement({ current }) {
         if (current) {
             const clone = current.cloneNode(true);
 

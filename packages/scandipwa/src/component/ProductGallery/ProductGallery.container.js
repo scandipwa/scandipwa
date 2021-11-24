@@ -66,6 +66,8 @@ export class ProductGalleryContainer extends PureComponent {
         handleImageZoomPopupActiveChange: this.handleImageZoomPopupActiveChange.bind(this)
     };
 
+    handleImageZoomPopupClose = this.handleImageZoomPopupClose.bind(this);
+
     __construct(props) {
         super.__construct(props);
 

@@ -32,6 +32,8 @@ export class TranslateOnCursorMove extends PureComponent {
 
     handleLoad = this.handleLoad.bind(this);
 
+    handleMouseMove = this.handleMouseMove.bind(this);
+
     componentDidMount() {
         window.addEventListener('resize', this.handleLoad);
     }
@@ -50,7 +52,7 @@ export class TranslateOnCursorMove extends PureComponent {
         CSS.setVariable(this.ref, 'translateYOnCursorMove', '0');
     }
 
-    _handleLoad() {
+    handleLoad() {
         const {
             activeImageId,
             itemSelector,

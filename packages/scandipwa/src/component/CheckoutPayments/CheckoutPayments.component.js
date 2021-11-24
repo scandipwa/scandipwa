@@ -59,6 +59,8 @@ export class CheckoutPayments extends PureComponent {
         hasError: false
     };
 
+    renderPayment = this.renderPayment.bind(this);
+
     componentDidCatch(error, info) {
         const { showError, setOrderButtonEnableStatus } = this.props;
 

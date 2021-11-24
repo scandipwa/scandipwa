@@ -29,6 +29,8 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     lastRequest = null;
 
+    onAddressChange = this.onAddressChange.bind(this);
+
     componentDidMount() {
         const {
             address: {

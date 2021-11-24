@@ -86,6 +86,8 @@ export class Slider extends PureComponent {
 
     goPrev = this.goPrev.bind(this);
 
+    handleClick = this.handleClick.bind(this);
+
     __construct(props) {
         super.__construct(props);
 

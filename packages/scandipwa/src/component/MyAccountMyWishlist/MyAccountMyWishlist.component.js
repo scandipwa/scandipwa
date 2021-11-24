@@ -48,6 +48,8 @@ export class MyAccountMyWishlist extends PureComponent {
 
     productsRef = createRef();
 
+    handleSelectIdChange = this.handleSelectIdChange.bind(this);
+
     componentDidMount() {
         this.setActionLineHeight();
     }

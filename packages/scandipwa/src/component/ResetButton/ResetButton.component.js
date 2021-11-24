@@ -30,9 +30,9 @@ export class ResetButton extends PureComponent {
         mix: {}
     };
 
-    onClick = this._onClick.bind(this);
+    onClick = this.onClick.bind(this);
 
-    _onClick() {
+    onClick() {
         const { onClick, resetFilters } = this.props;
 
         onClick();

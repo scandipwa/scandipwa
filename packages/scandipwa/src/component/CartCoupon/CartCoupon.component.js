@@ -39,15 +39,15 @@ export class CartCoupon extends PureComponent {
         enteredCouponCode: ''
     };
 
-    handleCouponCodeChange = this._handleCouponCodeChange.bind(this);
+    handleCouponCodeChange = this.handleCouponCodeChange.bind(this);
 
-    handleApplyCoupon = this._handleApplyCoupon.bind(this);
+    handleApplyCoupon = this.handleApplyCoupon.bind(this);
 
-    handleRemoveCoupon = this._handleRemoveCoupon.bind(this);
+    handleRemoveCoupon = this.handleRemoveCoupon.bind(this);
 
-    handleFormSubmit = this._handleFormSubmit.bind(this);
+    handleFormSubmit = this.handleFormSubmit.bind(this);
 
-    _handleCouponCodeChange(event, field) {
+    handleCouponCodeChange(event, field) {
         const { value = '' } = field;
 
         this.setState({
@@ -55,14 +55,14 @@ export class CartCoupon extends PureComponent {
         });
     }
 
-    _handleApplyCoupon() {
+    handleApplyCoupon() {
         const { handleApplyCouponToCart } = this.props;
         const { enteredCouponCode } = this.state;
 
         handleApplyCouponToCart(enteredCouponCode);
     }
 
-    _handleRemoveCoupon() {
+    handleRemoveCoupon() {
         const { handleRemoveCouponFromCart } = this.props;
 
         handleRemoveCouponFromCart();
@@ -74,7 +74,7 @@ export class CartCoupon extends PureComponent {
         });
     }
 
-    _handleFormSubmit() {
+    handleFormSubmit() {
         const { couponCode } = this.props;
 
         if (couponCode) {

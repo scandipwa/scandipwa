@@ -125,7 +125,7 @@ export class ProductPageContainer extends PureComponent {
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
 
-    setOfflineNoticeSize = this._setOfflineNoticeSize.bind(this);
+    setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
 
     static getDerivedStateFromProps(props, state) {
         const {
@@ -323,7 +323,7 @@ export class ProductPageContainer extends PureComponent {
         addRecentlyViewedProduct(productPreview, store);
     }
 
-    _setOfflineNoticeSize() {
+    setOfflineNoticeSize() {
         const { setBigOfflineNotice, productSKU } = this.props;
         const { sku } = this.getDataSource();
 

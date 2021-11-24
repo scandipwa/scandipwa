@@ -50,7 +50,7 @@ export class WishlistItem extends PureComponent {
         isLoading: false
     };
 
-    renderContent = this._renderContent.bind(this);
+    renderContent = this.renderContent.bind(this);
 
     optionRenderMap = {
         [PRODUCT_TYPE.grouped]: this.renderGroupedOption.bind(this),
@@ -355,7 +355,7 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    _renderContent(renderMethods) {
+    renderContent(renderMethods) {
         const { redirectToProductPage } = this.props;
 
         const {

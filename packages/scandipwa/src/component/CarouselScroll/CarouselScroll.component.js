@@ -49,9 +49,9 @@ export class CarouselScroll extends PureComponent {
 
     carouselRef = createRef();
 
-    handleArrowClick = this._handleArrowClick.bind(this);
+    handleArrowClick = this.handleArrowClick.bind(this);
 
-    handleChange = this._handleChange.bind(this);
+    handleChange = this.handleChange.bind(this);
 
     componentDidMount() {
         const { showedItemCount } = this.props;
@@ -139,13 +139,13 @@ export class CarouselScroll extends PureComponent {
             : Math.max(prevFirstCarouselItemId - scrollStep, 0);
     }
 
-    _handleArrowClick(isNextArrow) {
+    handleArrowClick(isNextArrow) {
         const firstCarouselItemId = this.getNewCarouselItemId(isNextArrow);
         this.setTranslate(firstCarouselItemId);
         this.setState({ firstCarouselItemId });
     }
 
-    _handleChange(nextId) {
+    handleChange(nextId) {
         const { onChange, showedItemCount } = this.props;
         const { firstCarouselItemId } = this.state;
         onChange(nextId);

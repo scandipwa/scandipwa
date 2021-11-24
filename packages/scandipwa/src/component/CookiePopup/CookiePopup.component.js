@@ -32,7 +32,7 @@ export class CookiePopup extends PureComponent {
         isAccepted: this.getAcceptCookieValue()
     };
 
-    acceptCookies = this._acceptCookies.bind(this);
+    acceptCookies = this.acceptCookies.bind(this);
 
     getAcceptCookieValue() {
         const { code } = this.props;
@@ -41,7 +41,7 @@ export class CookiePopup extends PureComponent {
         return !!BrowserDatabase.getItem(param);
     }
 
-    _acceptCookies() {
+    acceptCookies() {
         const { code } = this.props;
         const param = `${ COOKIE_POPUP }_${ code }`;
 

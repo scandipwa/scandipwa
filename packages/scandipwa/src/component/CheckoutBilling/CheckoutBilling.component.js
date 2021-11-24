@@ -60,6 +60,10 @@ export class CheckoutBilling extends PureComponent {
         cartTotalSubPrice: null
     };
 
+    setOrderButtonEnableStatus = this.setOrderButtonEnableStatus.bind(this);
+
+    setTACAccepted = this.setTACAccepted.bind(this);
+
     componentDidMount() {
         const { termsAreEnabled } = this.props;
 

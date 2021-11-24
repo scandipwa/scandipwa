@@ -25,6 +25,8 @@ export class MyAccountCustomerForm extends FieldForm {
         showTaxVatNumber: PropTypes.bool.isRequired
     };
 
+    onFormSuccess = this.onFormSuccess.bind(this);
+
     onFormSuccess(form, fields) {
         const { onSave } = this.props;
         onSave(transformToNameValuePair(fields));

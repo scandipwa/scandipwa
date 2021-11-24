@@ -62,6 +62,8 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         isLoading: false
     };
 
+    handleAfterAction = this.handleAfterAction.bind(this);
+
     containerFunctions = {
         handleAddress: this.handleAddress.bind(this),
         handleDeleteAddress: this.handleDeleteAddress.bind(this)

@@ -178,7 +178,7 @@ export class CategoryPageContainer extends PureComponent {
         onListButtonClick: this.onListButtonClick.bind(this)
     };
 
-    setOfflineNoticeSize = this._setOfflineNoticeSize.bind(this);
+    setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
 
     static getDerivedStateFromProps(props, state) {
         const {
@@ -360,7 +360,7 @@ export class CategoryPageContainer extends PureComponent {
         this.updateMeta();
     }
 
-    _setOfflineNoticeSize() {
+    setOfflineNoticeSize() {
         const { setBigOfflineNotice, isInfoLoading } = this.props;
 
         if (isInfoLoading) {

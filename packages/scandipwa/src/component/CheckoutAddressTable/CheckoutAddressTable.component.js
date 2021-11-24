@@ -29,6 +29,8 @@ export class CheckoutAddressTable extends MyAccountAddressTable {
         isSelected: false
     };
 
+    onAddressClick = this.onAddressClick.bind(this);
+
     onAddressClick() {
         const { address, onClick } = this.props;
         onClick(address);

@@ -30,6 +30,8 @@ export class CheckoutPayment extends PureComponent {
         isSelected: false
     };
 
+    onClick = this.onClick.bind(this);
+
     onClick() {
         const {
             onClick,

@@ -29,9 +29,9 @@ export class ProductTab extends PureComponent {
         isActive: false
     };
 
-    onClick = this._onClick.bind(this);
+    onClick = this.onClick.bind(this);
 
-    _onClick() {
+    onClick() {
         const { onClick, tabName } = this.props;
         onClick(tabName);
     }

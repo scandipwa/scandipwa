@@ -26,9 +26,9 @@ export class ReviewStar extends PureComponent {
         onStarRatingClick: PropTypes.func.isRequired
     };
 
-    onStarRatingClick = this._onStarRatingClick.bind(this);
+    onStarRatingClick = this.onStarRatingClick.bind(this);
 
-    _onStarRatingClick() {
+    onStarRatingClick() {
         const {
             rating_id,
             option_id,
