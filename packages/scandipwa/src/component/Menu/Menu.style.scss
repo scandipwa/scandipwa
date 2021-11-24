@@ -113,6 +113,8 @@
                 }
 
                 &_subcategory {
+                    line-height: 20px;
+
                     @include mobile {
                         margin-inline-end: 0;
                     }
