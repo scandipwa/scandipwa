@@ -22,8 +22,7 @@ import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
 
 /** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    currencyCode: state.ConfigReducer.currencyData.current_currency_code,
-    yearRange: state.ConfigReducer.year_range
+    currencyCode: state.ConfigReducer.currencyData.current_currency_code
 });
 
 /** @namespace Component/ProductCustomizableOption/Container/mapDispatchToProps */
@@ -42,8 +41,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         type: PropTypes.string.isRequired,
         options: CustomizableOptionsType.isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
-        currencyCode: PropTypes.string.isRequired,
-        yearRange: PropTypes.string.isRequired
+        currencyCode: PropTypes.string.isRequired
     };
 
     containerFunctions = {
@@ -75,8 +73,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             type,
             options,
             updateSelectedValues,
-            currencyCode,
-            yearRange
+            currencyCode
         } = this.props;
 
         return {
@@ -87,7 +84,6 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             options,
             updateSelectedValues,
             currencyCode,
-            yearRange,
             fieldType: this.getFieldType()
         };
     }

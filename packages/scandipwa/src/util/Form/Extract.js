@@ -10,6 +10,7 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
+import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 
 /**
  * Appends 0 to value if its less than passed attribute;
@@ -50,7 +51,7 @@ export const getDateValue = (value, fieldType = FIELD_TYPE.date) => {
 };
 
 /** @namespace Util/Form/Extract/getYearRangeAttributes */
-export const getYearRangeAttributes = (yearRange = ',', fieldType) => {
+export const getYearRangeAttributes = (yearRange = ',') => {
     const [startYear, endYear] = yearRange.split(',');
     const currentYear = new Date().getFullYear();
 
@@ -59,17 +60,42 @@ export const getYearRangeAttributes = (yearRange = ',', fieldType) => {
     const minYear = startYear || currentYear;
     const maxYear = endYear || currentYear;
 
-    if (fieldType === FIELD_TYPE.dateTime) {
-        return {
-            min: `${minYear}-01-01T00:00:00.000`,
-            max: `${maxYear}-12-31T23:59:59.999`
-        };
+    return {
+        minDate: new Date(`${minYear}-01-01T00:00:00.000`),
+        maxDate: new Date(`${maxYear}-12-31T23:59:59.999`)
+    };
+};
+
+/** @namespace Util/Form/Extract/getTimeFormat */
+export const getTimeFormat = (timeFormat) => (timeFormat === TIME_FORMAT.H12 ? 'h:mm aa' : 'HH:mm');
+
+/** @namespace Util/Form/Extract/getDateFormat */
+export const getDateFormat = (dateFieldsOrder) => {
+    // invalid magento date format handling
+    if (!new RegExp(Array(DATE_FIELDS_COUNT).fill('[dmy]').join(',')).test(dateFieldsOrder)) {
+        return 'dd/MM/yyyy';
     }
 
-    return {
-        min: `${minYear}-01-01`,
-        max: `${maxYear}-12-31`
+    const dateMap = {
+        d: 'dd',
+        m: 'MM',
+        y: 'yyyy'
     };
+
+    return dateFieldsOrder.split(',').map((field) => dateMap[field]).join('/');
+};
+
+/** @namespace Util/Form/Extract/getDateTimeFormat */
+export const getDateTimeFormat = (type, dateFieldsOrder, timeFormat) => {
+    const timePart = type === FIELD_DATE_TYPE.time || type === FIELD_DATE_TYPE.dateTime
+        ? getTimeFormat(timeFormat)
+        : '';
+
+    const datePart = type === FIELD_DATE_TYPE.date || type === FIELD_DATE_TYPE.dateTime
+        ? getDateFormat(dateFieldsOrder)
+        : '';
+
+    return `${datePart } ${ timePart}`.trim();
 };
 
 /**

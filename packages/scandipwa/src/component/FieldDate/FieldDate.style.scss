@@ -23,11 +23,28 @@
 
   // need to override inline style
   &__triangle {
-    left: -6px!important;
+    left: -30%!important;
   }
 
   &__current-month {
     font-size: 14px;
     padding-block-end: 8px;
+  }
+
+  &__time {
+    &-list-item {
+      &:before {
+        content: none;
+      }
+
+      &--selected {
+        background-color: var(--primary-base-color) !important;
+      }
+    }
+  }
+  &-time {
+    &__header {
+      font-size: 14px;
+    }
   }
 }

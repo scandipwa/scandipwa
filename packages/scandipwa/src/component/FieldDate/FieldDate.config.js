@@ -9,9 +9,15 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-// eslint-disable-next-line import/prefer-default-export
 export const FIELD_DATE_TYPE = {
     date: 'date',
     dateTime: 'dateTime',
     time: 'time'
 };
+
+export const TIME_FORMAT = {
+    H12: '12h',
+    H24: '24h'
+};
+
+export const DATE_FIELDS_COUNT = 3;

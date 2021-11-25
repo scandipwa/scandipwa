@@ -18,7 +18,6 @@ import FieldDate from 'Component/FieldDate';
 import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
 import FieldGroup from 'Component/FieldGroup';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
-import { getYearRangeAttributes } from 'Util/Form/Extract';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
 import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
@@ -38,7 +37,6 @@ export class ProductCustomizableOption extends PureComponent {
         getDropdownOptions: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
         currencyCode: PropTypes.string.isRequired,
-        yearRange: PropTypes.string.isRequired,
         options: CustomizableOptionsType.isRequired
     };
 
@@ -117,38 +115,6 @@ export class ProductCustomizableOption extends PureComponent {
             <>
                 { this.renderOptionGroupTitle(label) }
                 <FieldDate type={ type } />
-            </>
-        );
-    }
-
-    renderDateValue(option) {
-        const {
-            updateSelectedValues,
-            title,
-            fieldType,
-            isRequired,
-            uid,
-            yearRange
-        } = this.props;
-
-        const label = this.getLabel(option, title);
-
-        return (
-            <>
-                { this.renderOptionGroupTitle(label) }
-                <Field
-                  type={ fieldType }
-                  validationRule={ { isRequired } }
-                  attr={ {
-                      id: uid,
-                      name: uid,
-                      ...getYearRangeAttributes(yearRange, fieldType)
-                  } }
-                  events={ {
-                      onChange: updateSelectedValues
-                  } }
-                  validateOn={ ['onBlur'] }
-                />
             </>
         );
     }

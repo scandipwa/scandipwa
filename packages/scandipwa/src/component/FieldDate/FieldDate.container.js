@@ -14,11 +14,18 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import FieldDate from 'Component/FieldDate/FieldDate.component';
-import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
+import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
+import {
+    getDateTimeFormat,
+    getTimeFormat,
+    getYearRangeAttributes
+} from 'Util/Form/Extract';
 
 /** @namespace Component/FieldDate/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    yearRange: state.ConfigReducer.year_range,
+    dateFieldsOrder: state.ConfigReducer.date_fields_order,
+    timeFormat: state.ConfigReducer.time_format
 });
 
 /** @namespace Component/FieldDate/Container/mapDispatchToProps */
@@ -27,7 +34,10 @@ export const mapDispatchToProps = () => ({});
 /** @namespace Component/FieldDate/Container */
 export class FieldDateContainer extends PureComponent {
     static propTypes = {
-        type: PropTypes.oneOf(Object.values(FIELD_DATE_TYPE)).isRequired
+        type: PropTypes.oneOf(Object.values(FIELD_DATE_TYPE)).isRequired,
+        timeFormat: PropTypes.oneOf(Object.values(TIME_FORMAT)).isRequired,
+        dateFieldsOrder: PropTypes.string.isRequired,
+        yearRange: PropTypes.string.isRequired
     };
 
     state = {
@@ -40,15 +50,25 @@ export class FieldDateContainer extends PureComponent {
 
     containerProps = () => {
         const { selectedDate } = this.state;
-        const { type } = this.props;
+        const {
+            type,
+            yearRange,
+            timeFormat: magentoTimeFormat,
+            dateFieldsOrder
+        } = this.props;
 
         const showTimeSelect = type === FIELD_DATE_TYPE.dateTime || type === FIELD_DATE_TYPE.time;
         const showTimeSelectOnly = type === FIELD_DATE_TYPE.time;
+        const dateFormat = getDateTimeFormat(type, dateFieldsOrder, magentoTimeFormat);
+        const timeFormat = getTimeFormat(magentoTimeFormat);
 
         return {
             selectedDate,
             showTimeSelect,
-            showTimeSelectOnly
+            showTimeSelectOnly,
+            ...getYearRangeAttributes(yearRange),
+            dateFormat,
+            timeFormat
         };
     };
 

@@ -24,7 +24,11 @@ export class FieldDateComponent extends PureComponent {
         // type: PropTypes.shape(PropTypes.oneOf(Object.values(FIELD_DATE_TYPE))).isRequired,
         onSetDate: PropTypes.func.isRequired,
         showTimeSelect: PropTypes.bool.isRequired,
-        showTimeSelectOnly: PropTypes.bool.isRequired
+        showTimeSelectOnly: PropTypes.bool.isRequired,
+        minDate: PropTypes.instanceOf(Date).isRequired,
+        maxDate: PropTypes.instanceOf(Date).isRequired,
+        dateFormat: PropTypes.string.isRequired,
+        timeFormat: PropTypes.string.isRequired
     };
 
     render() {
@@ -32,7 +36,11 @@ export class FieldDateComponent extends PureComponent {
             selectedDate,
             onSetDate,
             showTimeSelect,
-            showTimeSelectOnly
+            showTimeSelectOnly,
+            minDate,
+            maxDate,
+            dateFormat,
+            timeFormat
         } = this.props;
 
         return (
@@ -41,10 +49,14 @@ export class FieldDateComponent extends PureComponent {
               onChange={ onSetDate }
               showTimeSelect={ showTimeSelect }
               showTimeSelectOnly={ showTimeSelectOnly }
+              timeFormat={ timeFormat }
               // timeFormat="HH:mm"
-              timeFormat="h:mm aa"
+              // timeFormat="h:mm aa"
               timeIntervals={ 15 }
-              dateFormat="dd/MM/yyyy h:mm aa"
+              dateFormat={ dateFormat }
+              // dateFormat="dd/MM/yyyy h:mm aa"
+              minDate={ minDate }
+              maxDate={ maxDate }
             />
         );
     }
