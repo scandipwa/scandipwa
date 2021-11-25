@@ -26,16 +26,11 @@ export const zeroBasedValue = (value, lessThan = 10) => (
 
 /**
  * Converts date to magento supported format
- * @param value
  * @returns {string|*}
  * @namespace Util/Form/Extract/getDateValue
  */
-export const getDateValue = (value, fieldType = FIELD_TYPE.date) => {
+export const getDateValue = (dateValue) => {
     try {
-        const dateValue = fieldType === FIELD_TYPE.time
-            ? `2000/01/01 ${value}`
-            : value;
-
         const date = new Date(dateValue);
         const day = zeroBasedValue(date.getDate());
         const month = zeroBasedValue(date.getMonth() + 1);
@@ -46,7 +41,7 @@ export const getDateValue = (value, fieldType = FIELD_TYPE.date) => {
 
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     } catch {
-        return value;
+        return dateValue;
     }
 };
 
@@ -129,11 +124,8 @@ export const getFieldsData = (DOM, excludeEmpty = false, ignoreTypes = [], asObj
                 ? field.fileData
                 : field.value;
 
-        const formattedValue = (type === FIELD_TYPE.date
-            || type === FIELD_TYPE.dateTime
-            || type === FIELD_TYPE.time)
-            && value
-            ? getDateValue(value, type) : value;
+        const dateValue = field.getAttribute('data-date');
+        const formattedValue = dateValue ? getDateValue(dateValue) : value;
 
         if (!excludeEmpty || value) {
             output.push({

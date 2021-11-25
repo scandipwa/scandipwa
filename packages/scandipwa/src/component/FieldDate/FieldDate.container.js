@@ -37,7 +37,8 @@ export class FieldDateContainer extends PureComponent {
         type: PropTypes.oneOf(Object.values(FIELD_DATE_TYPE)).isRequired,
         timeFormat: PropTypes.oneOf(Object.values(TIME_FORMAT)).isRequired,
         dateFieldsOrder: PropTypes.string.isRequired,
-        yearRange: PropTypes.string.isRequired
+        yearRange: PropTypes.string.isRequired,
+        uid: PropTypes.string.isRequired
     };
 
     state = {
@@ -54,7 +55,8 @@ export class FieldDateContainer extends PureComponent {
             type,
             yearRange,
             timeFormat: magentoTimeFormat,
-            dateFieldsOrder
+            dateFieldsOrder,
+            uid
         } = this.props;
 
         const showTimeSelect = type === FIELD_DATE_TYPE.dateTime || type === FIELD_DATE_TYPE.time;
@@ -68,7 +70,8 @@ export class FieldDateContainer extends PureComponent {
             showTimeSelectOnly,
             ...getYearRangeAttributes(yearRange),
             dateFormat,
-            timeFormat
+            timeFormat,
+            uid
         };
     };
 

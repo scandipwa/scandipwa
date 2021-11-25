@@ -273,6 +273,8 @@ export class ProductContainer extends PureComponent {
 
         const values = getFieldsData(current, true, [FIELD_TYPE.number]);
 
+        console.debug(values);
+
         values.forEach(({ name, value, type }) => {
             if (type === FIELD_TYPE.select) {
                 selectedOptions.push(value);

@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,8 +13,10 @@
 import '../../../../../node_modules/react-datepicker/dist/react-datepicker.css';
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { forwardRef, PureComponent } from 'react';
 import DatePicker from 'react-datepicker';
+
+import FIELD_TYPE from 'Component/Field/Field.config';
 
 import './FieldDate.style.scss';
 
@@ -40,8 +43,38 @@ export class FieldDateComponent extends PureComponent {
             minDate,
             maxDate,
             dateFormat,
-            timeFormat
+            timeFormat,
+            uid
         } = this.props;
+
+        const CustomInput = forwardRef(({ value, onClick, onChange }, ref) => (
+            <input
+                id={uid}
+                name={uid}
+                type={ FIELD_TYPE.text }
+                value={value}
+                onClick={onClick}
+                ref={ref}
+                data-date={selectedDate}
+            />
+        // <Field
+        //     type={ FIELD_TYPE.text }
+        //     validationRule={ {
+        //         isRequired: true
+        //     } }
+        //     attr={{
+        //         value,
+        //         id: uid
+        //         name: uid
+        //         ref
+        //     }}
+        //     events={ {
+        //         onClick
+        //     } }
+        //     validateOn={ ['onBlur'] }
+        //     ref={ref}
+        // />
+        ));
 
         return (
             <DatePicker
@@ -50,13 +83,11 @@ export class FieldDateComponent extends PureComponent {
               showTimeSelect={ showTimeSelect }
               showTimeSelectOnly={ showTimeSelectOnly }
               timeFormat={ timeFormat }
-              // timeFormat="HH:mm"
-              // timeFormat="h:mm aa"
               timeIntervals={ 15 }
               dateFormat={ dateFormat }
-              // dateFormat="dd/MM/yyyy h:mm aa"
               minDate={ minDate }
               maxDate={ maxDate }
+              customInput={ <CustomInput />}
             />
         );
     }

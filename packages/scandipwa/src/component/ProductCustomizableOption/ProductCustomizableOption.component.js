@@ -108,13 +108,13 @@ export class ProductCustomizableOption extends PureComponent {
     }
 
     renderDatePicker(type, option) {
-        const { title } = this.props;
+        const { title, uid } = this.props;
         const label = this.getLabel(option, title);
 
         return (
             <>
                 { this.renderOptionGroupTitle(label) }
-                <FieldDate type={ type } />
+                <FieldDate type={ type } uid={ uid } />
             </>
         );
     }
