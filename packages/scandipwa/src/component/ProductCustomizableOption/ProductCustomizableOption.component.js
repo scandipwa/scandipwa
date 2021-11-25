@@ -165,7 +165,10 @@ export class ProductCustomizableOption extends PureComponent {
                 <Field
                   type={ FIELD_TYPE.file }
                   validationRule={ {
-                      isRequired
+                      isRequired,
+                      fileExtension: {
+                          accept: fileExtensions
+                      }
                   } }
                   attr={ {
                       id: uid,

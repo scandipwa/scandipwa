@@ -31,7 +31,8 @@ export class ProductDownloadableLinks extends PureComponent {
         title: PropTypes.string.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setRef: PropTypes.func.isRequired,
-        isOpenInNewTab: PropTypes.bool.isRequired
+        isOpenInNewTab: PropTypes.bool.isRequired,
+        currencyCode: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -40,7 +41,7 @@ export class ProductDownloadableLinks extends PureComponent {
 
     renderLabel(link) {
         const { title, price } = link;
-        const { isRequired } = this.props;
+        const { isRequired, currencyCode = 'USD' } = this.props;
 
         if (!isRequired) {
             return (
@@ -53,7 +54,7 @@ export class ProductDownloadableLinks extends PureComponent {
         return (
             <span block="ProductDownloadableLink" elem="SampleTitle">
                 { title }
-                <strong>{ ` + ${ formatPrice(price) }` }</strong>
+                <strong>{ ` + ${ formatPrice(price, currencyCode) }` }</strong>
             </span>
         );
     }

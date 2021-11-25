@@ -45,6 +45,7 @@
         text-align: center;
         color: var(--secondary-dark-color);
         padding-inline: 16px;
+        line-height: 16px;
 
         a {
             color: inherit;
@@ -128,6 +129,7 @@
         margin-block-end: 12px;
         font-size: 14px;
         font-weight: 400;
+        line-height: 20px;
 
         &:last-of-type {
             margin: 0;

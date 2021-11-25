@@ -21,6 +21,11 @@ $select-arrow-width: 14px !default;
     &-Clickable {
         display: flex;
         align-items: center;
+
+        #storeSwitcher,
+        #CurrencySwitcherList {
+            line-height: 20px;
+        }
     }
 
     .ChevronIcon {
@@ -83,7 +88,7 @@ $select-arrow-width: 14px !default;
 
         &_isExpanded {
             @include desktop {
-                z-index: 5;
+                z-index: 15;
                 max-height: 200px;
                 border-color: #0a0a0a;
                 border-color: var(--input-border-color);

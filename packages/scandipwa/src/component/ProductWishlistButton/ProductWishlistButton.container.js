@@ -18,6 +18,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { MixType } from 'Type/Common.type';
 import { MagentoProductType, ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
 
@@ -60,7 +61,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
     static defaultProps = {
         mix: {},
-        onProductValidationError: () => {}
+        onProductValidationError: noopFn
     };
 
     state = {

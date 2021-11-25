@@ -15,6 +15,7 @@ import { CAROUSEL_ITEM_GAP } from 'Component/CarouselScroll/CarouselScroll.confi
 import CarouselScrollArrow from 'Component/CarouselScrollArrow';
 import CarouselScrollItem from 'Component/CarouselScrollItem';
 import { ChildrenType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 import CSS from 'Util/CSS';
 import { isRtl } from 'Util/CSS/CSS';
 
@@ -34,7 +35,7 @@ export class CarouselScroll extends PureComponent {
     static defaultProps = {
         showArrow: true,
         showedItemCount: 1,
-        onChange: () => {},
+        onChange: noopFn,
         activeItemId: null,
         isImageZoomPopupActive: false
     };

@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import FIELD_TYPE from 'Component/Field/Field.config';
-import { ChildrenType, MixType } from 'Type/Common.type';
+import { ChildrenType, MixType, RefType } from 'Type/Common.type';
 import { EventsType, FieldAttrType, ValidationRuleType } from 'Type/Field.type';
 import getFieldsData from 'Util/Form/Extract';
 import { validateGroup } from 'Util/Validator';
@@ -34,6 +34,7 @@ export class FormContainer extends PureComponent {
         onSubmit: PropTypes.func,
         onError: PropTypes.func,
         returnAsObject: PropTypes.bool,
+        elemRef: RefType,
 
         // Validation
         validationRule: ValidationRuleType,
@@ -59,7 +60,8 @@ export class FormContainer extends PureComponent {
         onError: null,
         children: [],
         returnAsObject: false,
-        mix: {}
+        mix: {},
+        elemRef: null
     };
 
     state = {
@@ -90,10 +92,14 @@ export class FormContainer extends PureComponent {
 
     // Adds validation event listener to field
     setRef(elem) {
-        const { validationRule } = this.props;
+        const { validationRule, elemRef } = this.props;
 
         if (elem && this.formRef !== elem) {
             this.formRef = elem;
+
+            if (elemRef) {
+                elemRef.current = elem;
+            }
 
             elem.addEventListener('reset', this.resetField.bind(this));
 

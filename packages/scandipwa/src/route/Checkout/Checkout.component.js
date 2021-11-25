@@ -26,6 +26,7 @@ import {
 } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
+import { scrollToTop } from 'Util/Browser';
 import scrollToError from 'Util/Form/Form';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -108,7 +109,7 @@ export class Checkout extends PureComponent {
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isInStoreActivated: PropTypes.bool.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         selectedStoreAddress: StoreType
@@ -117,7 +118,8 @@ export class Checkout extends PureComponent {
     static defaultProps = {
         paymentTotals: {},
         selectedStoreAddress: {},
-        isLoading: false
+        isLoading: false,
+        cartTotalSubPrice: null
     };
 
     stepMap = {
@@ -181,6 +183,7 @@ export class Checkout extends PureComponent {
         const { url } = this.stepMap[checkoutStep];
 
         history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        scrollToTop({ behavior: 'smooth' });
     }
 
     renderTitle() {

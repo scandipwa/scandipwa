@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { CustomerType } from 'Type/Account.type';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 
 import CheckoutAddressBook from './CheckoutAddressBook.component';
 
@@ -49,8 +50,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
 
     static defaultProps = {
         isBilling: false,
-        onAddressSelect: () => {},
-        onShippingEstimationFieldsChange: () => {},
+        onAddressSelect: noopFn,
+        onShippingEstimationFieldsChange: noopFn,
         isSubmitted: false,
         is_virtual: false
     };

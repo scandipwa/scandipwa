@@ -17,6 +17,7 @@ import Popup from 'Component/Popup';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ChildrenType, MixType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import ImageZoomPopup from './ImageZoomPopup.component';
 
@@ -46,7 +47,7 @@ export class ImageZoomPopupContainer extends PureComponent {
     };
 
     static defaultProps = {
-        onClose: () => {},
+        onClose: noopFn,
         mix: {}
     };
 

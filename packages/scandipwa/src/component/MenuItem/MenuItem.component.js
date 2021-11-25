@@ -18,6 +18,7 @@ import Link from 'Component/Link';
 import MinusIcon from 'Component/MinusIcon';
 import { ModsType } from 'Type/Common.type';
 import { MenuItemType } from 'Type/Menu.type';
+import { noopFn } from 'Util/Common';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {
@@ -33,7 +34,7 @@ export class MenuItem extends PureComponent {
     };
 
     static defaultProps = {
-        onItemClick: () => {}
+        onItemClick: noopFn
     };
 
     renderPlusMinusIcon() {

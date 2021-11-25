@@ -19,7 +19,8 @@ import ProductDownloadableLinks from './ProductDownloadableLinks.component';
 
 /** @namespace Component/ProductDownloadableLinks/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window
+    isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window,
+    currencyCode: state.ConfigReducer.currencyData.current_currency_code
 });
 
 /** @namespace Component/ProductDownloadableLinks/Container/mapDispatchToProps */
@@ -29,6 +30,7 @@ export const mapDispatchToProps = () => ({});
 export class ProductDownloadableLinksContainer extends PureComponent {
     static propTypes = {
         title: PropTypes.string,
+        currencyCode: PropTypes.string.isRequired,
         isRequired: PropTypes.bool,
         links: DownloadableLinksType,
         setLinkedDownloadables: PropTypes.func.isRequired,
@@ -92,7 +94,8 @@ export class ProductDownloadableLinksContainer extends PureComponent {
             isOpenInNewTab,
             isRequired,
             links,
-            title
+            title,
+            currencyCode
         } = this.props;
         const { isLoading, selectedLinks } = this.state;
 
@@ -102,7 +105,8 @@ export class ProductDownloadableLinksContainer extends PureComponent {
             links,
             title,
             isLoading,
-            selectedLinks
+            selectedLinks,
+            currencyCode
         };
     }
 

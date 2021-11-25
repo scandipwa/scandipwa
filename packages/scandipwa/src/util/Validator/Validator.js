@@ -25,12 +25,14 @@ export const validate = (value, rule) => {
         inputType,
         match,
         range,
+        fileExtension,
         customErrorMessages: {
             onRequirementFail,
             onInputTypeFail,
             onMatchFail,
             onRangeFailMin,
-            onRangeFailMax
+            onRangeFailMax,
+            onExtensionFail
         } = {}
     } = rule;
 
@@ -84,6 +86,16 @@ export const validate = (value, rule) => {
             if (max && value.length > max) {
                 output.errorMessages.push(onRangeFailMax || __('Maximum %s characters!', max));
             }
+        }
+    }
+
+    if (fileExtension && value !== '') {
+        const { accept } = fileExtension;
+        const acceptedExtensions = accept.split(', ');
+        const currentFileExtension = value.split('.').pop();
+
+        if (!acceptedExtensions.includes(currentFileExtension)) {
+            output.errorMessages.push(onExtensionFail || VALIDATION_MESSAGES.fileExtension);
         }
     }
     //#endregion

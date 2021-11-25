@@ -26,7 +26,8 @@ export const CustomErrorMessagesType = PropTypes.shape({
     onInputTypeFail: PropTypes.string,
     onMatchFail: PropTypes.string,
     onRangeFailMin: PropTypes.string,
-    onRangeFailMax: PropTypes.string
+    onRangeFailMax: PropTypes.string,
+    onExtensionFail: PropTypes.string
 });
 
 export const ValidationRuleType = PropTypes.shape({
