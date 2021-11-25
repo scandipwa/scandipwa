@@ -70,4 +70,11 @@
       font-weight: 900;
     }
   }
+
+  &__input-container {
+    input {
+      caret-color: transparent;
+      cursor: pointer;
+    }
+  }
 }

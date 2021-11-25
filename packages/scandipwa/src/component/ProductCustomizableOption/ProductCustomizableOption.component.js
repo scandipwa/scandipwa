@@ -108,13 +108,20 @@ export class ProductCustomizableOption extends PureComponent {
     }
 
     renderDatePicker(type, option) {
-        const { title, uid, isRequired } = this.props;
+        const {
+            title, uid, isRequired, updateSelectedValues
+        } = this.props;
         const label = this.getLabel(option, title);
 
         return (
             <>
                 { this.renderOptionGroupTitle(label) }
-                <FieldDate type={ type } uid={ uid } isRequired={ isRequired } />
+                <FieldDate
+                  type={ type }
+                  uid={ uid }
+                  isRequired={ isRequired }
+                  updateSelectedValues={ updateSelectedValues }
+                />
             </>
         );
     }

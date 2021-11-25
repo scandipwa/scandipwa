@@ -39,7 +39,8 @@ export class FieldDateContainer extends PureComponent {
         dateFieldsOrder: PropTypes.string.isRequired,
         yearRange: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
-        isRequired: PropTypes.bool
+        isRequired: PropTypes.bool,
+        updateSelectedValues: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -90,7 +91,9 @@ export class FieldDateContainer extends PureComponent {
     };
 
     onSetDate(date) {
-        this.setState({ selectedDate: date });
+        const { updateSelectedValues } = this.props;
+
+        this.setState({ selectedDate: date }, updateSelectedValues);
     }
 
     render() {
