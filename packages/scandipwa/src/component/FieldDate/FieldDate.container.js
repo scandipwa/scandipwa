@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import FieldDate from 'Component/FieldDate/FieldDate.component';
+import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
 
 /** @namespace Component/FieldDate/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -24,6 +26,10 @@ export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/FieldDate/Container */
 export class FieldDateContainer extends PureComponent {
+    static propTypes = {
+        type: PropTypes.oneOf(Object.values(FIELD_DATE_TYPE)).isRequired
+    };
+
     state = {
         selectedDate: new Date()
     };
@@ -34,9 +40,15 @@ export class FieldDateContainer extends PureComponent {
 
     containerProps = () => {
         const { selectedDate } = this.state;
+        const { type } = this.props;
+
+        const showTimeSelect = type === FIELD_DATE_TYPE.dateTime || type === FIELD_DATE_TYPE.time;
+        const showTimeSelectOnly = type === FIELD_DATE_TYPE.time;
 
         return {
-            selectedDate
+            selectedDate,
+            showTimeSelect,
+            showTimeSelectOnly
         };
     };
 

@@ -1,0 +1,33 @@
+.react-datepicker {
+  font-size: 14px;
+
+  &__day {
+    width: 24px;
+    height: 20px;
+    padding-block-start: 1px;
+
+    &--selected {
+      background-color: var(--primary-base-color);
+
+      &:hover {
+        background-color: var(--primary-dark-color);
+      }
+    }
+
+    &-name {
+      width: 24px;
+      height: 20px;
+      padding-block-start: 2px;
+    }
+  }
+
+  // need to override inline style
+  &__triangle {
+    left: -6px!important;
+  }
+
+  &__current-month {
+    font-size: 14px;
+    padding-block-end: 8px;
+  }
+}
