@@ -38,16 +38,28 @@ export class FieldDateContainer extends PureComponent {
         timeFormat: PropTypes.oneOf(Object.values(TIME_FORMAT)).isRequired,
         dateFieldsOrder: PropTypes.string.isRequired,
         yearRange: PropTypes.string.isRequired,
-        uid: PropTypes.string.isRequired
+        uid: PropTypes.string.isRequired,
+        isRequired: PropTypes.bool
     };
 
-    state = {
-        selectedDate: new Date()
+    static defaultProps = {
+        isRequired: false
     };
 
     containerFunctions = {
         onSetDate: this.onSetDate.bind(this)
     };
+
+    __construct(props) {
+        super.__construct(props);
+        const { yearRange } = props;
+
+        const { minDate, maxDate } = getYearRangeAttributes(yearRange);
+        const currentDate = new Date();
+        const validMinDate = minDate > currentDate ? minDate : currentDate;
+        const selectedDate = maxDate < validMinDate ? maxDate : validMinDate;
+        this.state = { selectedDate };
+    }
 
     containerProps = () => {
         const { selectedDate } = this.state;
@@ -56,7 +68,8 @@ export class FieldDateContainer extends PureComponent {
             yearRange,
             timeFormat: magentoTimeFormat,
             dateFieldsOrder,
-            uid
+            uid,
+            isRequired
         } = this.props;
 
         const showTimeSelect = type === FIELD_DATE_TYPE.dateTime || type === FIELD_DATE_TYPE.time;
@@ -71,7 +84,8 @@ export class FieldDateContainer extends PureComponent {
             ...getYearRangeAttributes(yearRange),
             dateFormat,
             timeFormat,
-            uid
+            uid,
+            isClearable: !isRequired
         };
     };
 

@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -31,7 +30,16 @@ export class FieldDateComponent extends PureComponent {
         minDate: PropTypes.instanceOf(Date).isRequired,
         maxDate: PropTypes.instanceOf(Date).isRequired,
         dateFormat: PropTypes.string.isRequired,
-        timeFormat: PropTypes.string.isRequired
+        timeFormat: PropTypes.string.isRequired,
+        uid: PropTypes.string.isRequired,
+        isClearable: PropTypes.bool.isRequired,
+        value: PropTypes.string,
+        onClick: PropTypes.func
+    };
+
+    static defaultProps = {
+        value: '',
+        onClick: () => {}
     };
 
     render() {
@@ -44,18 +52,19 @@ export class FieldDateComponent extends PureComponent {
             maxDate,
             dateFormat,
             timeFormat,
-            uid
+            uid,
+            isClearable
         } = this.props;
 
-        const CustomInput = forwardRef(({ value, onClick, onChange }, ref) => (
+        const CustomInput = forwardRef(({ value, onClick }, ref) => (
             <input
-                id={uid}
-                name={uid}
-                type={ FIELD_TYPE.text }
-                value={value}
-                onClick={onClick}
-                ref={ref}
-                data-date={selectedDate}
+              id={ uid }
+              name={ uid }
+              type={ FIELD_TYPE.text }
+              value={ value }
+              onClick={ onClick }
+              ref={ ref }
+              data-date={ selectedDate }
             />
         // <Field
         //     type={ FIELD_TYPE.text }
@@ -87,7 +96,8 @@ export class FieldDateComponent extends PureComponent {
               dateFormat={ dateFormat }
               minDate={ minDate }
               maxDate={ maxDate }
-              customInput={ <CustomInput />}
+              isClearable={ isClearable }
+              customInput={ <CustomInput /> }
             />
         );
     }

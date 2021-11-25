@@ -1,6 +1,10 @@
 .react-datepicker {
   font-size: 14px;
 
+  &-wrapper {
+    margin-block-start: 8px;
+  }
+
   &__day {
     width: 24px;
     height: 20px;
@@ -45,6 +49,25 @@
   &-time {
     &__header {
       font-size: 14px;
+    }
+  }
+
+  &__close-icon {
+    position: relative;
+    inset-inline-end: 24px;
+    inset-block-start: -5px;
+
+    &:hover {
+      &:after {
+        color: var(--primary-base-color);
+      }
+    }
+
+    &:after {
+      color: gray;
+      background-color: inherit;
+      font-size: 22px;
+      font-weight: 900;
     }
   }
 }
