@@ -52,10 +52,30 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         );
     }
 
+    renderTitle() {
+        const { title, mods: { couponCode } } = this.props;
+
+        if (couponCode) {
+            return (
+            <p block="CheckoutOrderSummary" elem="Text">
+                { title }
+                <b>
+                    { ` ${ couponCode }:` }
+                </b>
+            </p>
+            );
+        }
+
+        return (
+            <p block="CheckoutOrderSummary" elem="Text">
+                { title }
+            </p>
+        );
+    }
+
     render() {
         const {
             price,
-            title,
             mods,
             children
         } = this.props;
@@ -66,9 +86,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
-                <p block="CheckoutOrderSummary" elem="Text">
-                    { title }
-                </p>
+                { this.renderTitle() }
                 <strong block="CheckoutOrderSummary" elem="Text">
                     { this.renderPrice() }
                     { this.renderSubPrice() }

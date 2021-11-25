@@ -161,7 +161,7 @@ export class CartOverlay extends PureComponent {
     }
 
     renderCouponCode = (code) => (
-        <strong block="CartOverlay" elem="DiscountCoupon">{ code }</strong>
+        <strong block="CartOverlay" elem="DiscountCoupon">{ `${code}:` }</strong>
     );
 
     renderDiscount() {
@@ -177,14 +177,17 @@ export class CartOverlay extends PureComponent {
             return null;
         }
 
-        const label = coupon_code ? __('Coupon code discount: ') : __('Discount: ');
+        const label = coupon_code ? __('Coupon code discount ') : __('Discount: ');
 
         return (
             <dl
               block="CartOverlay"
               elem="Discount"
             >
-                <dt>{ label }</dt>
+                <dt>
+                    { label }
+                    { this.renderCouponCode(coupon_code) }
+                </dt>
                 <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
             </dl>
         );

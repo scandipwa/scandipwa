@@ -108,8 +108,8 @@ export class CheckoutOrderSummary extends PureComponent {
         }
 
         const label = coupon_code ? __('Coupon code discount') : __('Discount');
-
-        return this.renderPriceLine(-Math.abs(discount_amount), label);
+        const mods = { couponCode: coupon_code };
+        return this.renderPriceLine(-Math.abs(discount_amount), label, mods);
     }
 
     renderItems() {
