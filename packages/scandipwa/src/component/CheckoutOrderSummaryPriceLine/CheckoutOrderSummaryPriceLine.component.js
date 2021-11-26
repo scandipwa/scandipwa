@@ -35,7 +35,11 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
     renderPrice() {
         const { price, currency } = this.props;
 
-        return formatPrice(price, currency);
+        return (
+            <strong>
+                { formatPrice(price, currency) }
+            </strong>
+        );
     }
 
     renderSubPrice() {
@@ -60,7 +64,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
             <p block="CheckoutOrderSummary" elem="Text">
                 { title }
                 <b>
-                    { ` ${ couponCode }:` }
+                    { ` ${ couponCode.toUpperCase() }:` }
                 </b>
             </p>
             );
@@ -87,10 +91,12 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
                 { this.renderTitle() }
-                <strong block="CheckoutOrderSummary" elem="Text">
-                    { this.renderPrice() }
+                <div block="CheckoutOrderSummary" elem="Price">
+                    <strong>
+                        { this.renderPrice() }
+                    </strong>
                     { this.renderSubPrice() }
-                </strong>
+                </div>
                 { children }
             </li>
         );
