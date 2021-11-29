@@ -10,6 +10,7 @@
  */
 
 import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/DatePicker/DatePicker.config';
+import { HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
 import FIELD_TYPE from 'Component/Field/Field.config';
 
 /**
@@ -23,6 +24,9 @@ import FIELD_TYPE from 'Component/Field/Field.config';
 export const zeroBasedValue = (value, lessThan = 10) => (
     (+value < lessThan) ? `0${value}` : value
 );
+
+/** @namespace Util/Form/Extract/adjustHours */
+export const adjustHours = (hours, timeFormat) => (timeFormat === TIME_FORMAT.H12 ? hours % HOURS_12H_COUNT : hours);
 
 /**
  * Converts date to magento supported format

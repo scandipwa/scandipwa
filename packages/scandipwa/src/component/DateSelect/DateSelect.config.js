@@ -20,7 +20,13 @@ export const TIME_FORMAT = {
     H24: '24h'
 };
 
+export const AMPM_FORMAT = {
+    AM: __('AM'),
+    PM: __('PM')
+};
+
 export const DATE_FIELDS_COUNT = 3;
 
 export const DEFAULT_MONTH_DAYS = 31;
 export const MONTHS_COUNT = 12;
+export const HOURS_12H_COUNT = 12;

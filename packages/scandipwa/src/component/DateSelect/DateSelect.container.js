@@ -15,9 +15,10 @@ import { connect } from 'react-redux';
 
 import DateSelect from 'Component/DateSelect/DateSelect.component';
 import {
-    DEFAULT_MONTH_DAYS, FIELD_DATE_TYPE, TIME_FORMAT
+    AMPM_FORMAT,
+    DEFAULT_MONTH_DAYS, FIELD_DATE_TYPE, HOURS_12H_COUNT, TIME_FORMAT
 } from 'Component/DateSelect/DateSelect.config';
-import { getYearRangeAttributes } from 'Util/Form/Extract';
+import { adjustHours, getYearRangeAttributes } from 'Util/Form/Extract';
 
 /** @namespace Component/DateSelect/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -48,12 +49,15 @@ export class DateSelectContainer extends PureComponent {
     containerFunctions = {
         onSetYear: this.onSetYear.bind(this),
         onSetMonth: this.onSetMonth.bind(this),
-        onSetDay: this.onSetDay.bind(this)
+        onSetDay: this.onSetDay.bind(this),
+        onSetHours: this.onSetHours.bind(this),
+        onSetMinutes: this.onSetMinutes.bind(this),
+        onSetAMPM: this.onSetAMPM.bind(this)
     };
 
     __construct(props) {
         super.__construct(props);
-        const { yearRange } = props;
+        const { yearRange, timeFormat } = props;
 
         const { minDate, maxDate } = getYearRangeAttributes(yearRange);
         const currentDate = new Date();
@@ -65,13 +69,17 @@ export class DateSelectContainer extends PureComponent {
         const selectedYear = selectedDate.getFullYear();
         const selectedMonth = selectedDate.getMonth() + 1;
         const selectedDay = selectedDate.getDate();
-
-        console.debug(selectedMonth);
+        const selectedHours = adjustHours(selectedDate.getHours(), timeFormat);
+        const selectedMinutes = selectedDate.getMinutes();
+        const selectedAMPM = selectedDate.getHours() >= HOURS_12H_COUNT ? AMPM_FORMAT.PM : AMPM_FORMAT.AM;
 
         this.state = {
             selectedYear,
             selectedMonth,
             selectedDay,
+            selectedHours,
+            selectedMinutes,
+            selectedAMPM,
             maxDay: DEFAULT_MONTH_DAYS
         };
     }
@@ -81,6 +89,9 @@ export class DateSelectContainer extends PureComponent {
             selectedYear,
             selectedMonth,
             selectedDay,
+            selectedHours,
+            selectedMinutes,
+            selectedAMPM,
             maxDay
         } = this.state;
 
@@ -100,6 +111,9 @@ export class DateSelectContainer extends PureComponent {
             selectedYear,
             selectedMonth,
             selectedDay,
+            selectedHours,
+            selectedMinutes,
+            selectedAMPM,
             maxDay,
             showTimeSelect,
             showDateSelect,
@@ -144,6 +158,24 @@ export class DateSelectContainer extends PureComponent {
         const { updateSelectedValues } = this.props;
 
         this.setState({ selectedDay: day }, updateSelectedValues);
+    }
+
+    onSetHours(hours) {
+        const { updateSelectedValues } = this.props;
+
+        this.setState({ selectedHours: hours }, updateSelectedValues);
+    }
+
+    onSetMinutes(minutes) {
+        const { updateSelectedValues } = this.props;
+
+        this.setState({ selectedMinutes: minutes }, updateSelectedValues);
+    }
+
+    onSetAMPM(ampm) {
+        const { updateSelectedValues } = this.props;
+
+        this.setState({ selectedAMPM: ampm }, updateSelectedValues);
     }
 
     render() {
