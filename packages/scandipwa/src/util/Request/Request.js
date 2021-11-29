@@ -266,3 +266,26 @@ export const debounce = (callback, delay) => {
         timeout = setTimeout(() => callback.apply(context, args), delay);
     };
 };
+
+/** @namespace Util/Request */
+export class Debouncer {
+    timeout;
+
+    handler = () => {};
+
+    startDebounce = (callback, delay) => (...args) => {
+        const context = this;
+        clearTimeout(this.timeout);
+        this.handler = () => callback.apply(context, args);
+        this.timeout = setTimeout(this.handler, delay);
+    };
+
+    cancelDebounce = () => {
+        clearTimeout(this.timeout);
+    };
+
+    cancelDebounceAndExecuteImmediately = () => {
+        clearTimeout(this.timeout);
+        this.handler();
+    };
+}
