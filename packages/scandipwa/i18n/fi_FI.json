@@ -543,5 +543,17 @@
     "Radio": null,
     "Breadcrumbs": null,
     "Please fill in all rating fields": null,
-    "Save customer": null
+    "Save customer": null,
+    "Incorrect File extension upload!": null,
+    "Select date": null,
+    "Select date & time": null,
+    "Select time": null,
+    "Year": null,
+    "Month": null,
+    "Day": null,
+    "Hours": null,
+    "Minutes": null,
+    "AM/PM": null,
+    "AM": null,
+    "PM": null
 }

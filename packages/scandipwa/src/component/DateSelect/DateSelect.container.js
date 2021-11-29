@@ -16,7 +16,10 @@ import { connect } from 'react-redux';
 import DateSelect from 'Component/DateSelect/DateSelect.component';
 import {
     AMPM_FORMAT,
-    DEFAULT_MONTH_DAYS, FIELD_DATE_TYPE, HOURS_12H_COUNT, TIME_FORMAT
+    DEFAULT_MONTH_DAYS,
+    FIELD_DATE_TYPE,
+    HOURS_12H_COUNT,
+    TIME_FORMAT
 } from 'Component/DateSelect/DateSelect.config';
 import { adjustHours, getYearRangeAttributes } from 'Util/Form/Extract';
 
