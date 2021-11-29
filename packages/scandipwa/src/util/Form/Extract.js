@@ -10,7 +10,7 @@
  */
 
 import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/DatePicker/DatePicker.config';
-import { HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
+import { AMPM_FORMAT, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
 import FIELD_TYPE from 'Component/Field/Field.config';
 
 /**
@@ -105,6 +105,63 @@ export const getDateTimeFormat = (type, dateFieldsOrder, timeFormat) => {
     return `${datePart } ${ timePart}`.trim();
 };
 
+/** @namespace Util/Form/Extract/transformDateFieldsData */
+export const transformDateFieldsData = (datesData) => Object.entries(datesData).reduce((prev, [name, data]) => {
+    const {
+        type, year, month, day, hours, minutes, ampm
+    } = data;
+    const hoursAdjusted = hours > HOURS_12H_COUNT && ampm === AMPM_FORMAT.PM ? hours + HOURS_12H_COUNT : hours;
+
+    if (type === FIELD_DATE_TYPE.date && year && month && day) {
+        return [...prev, {
+            name,
+            type,
+            value: `${year}-${month}-${day} 00:00:00`
+        }];
+    }
+
+    if (type === FIELD_DATE_TYPE.dateTime && year && month && day && hours && minutes && ampm) {
+        return [...prev, {
+            name,
+            type,
+            value: `${year}-${month}-${day} ${hoursAdjusted}:${minutes}:00`
+        }];
+    }
+
+    if (type === FIELD_DATE_TYPE.time && hours && minutes && ampm) {
+        return [...prev, {
+            name,
+            type,
+            value: `2000-01-01 ${hoursAdjusted}:${minutes}:00`
+        }];
+    }
+
+    return prev;
+}, []);
+
+/** @namespace Util/Form/Extract/groupDateFieldsData */
+export const groupDateFieldsData = (fields) => Array.from(fields)
+    .reduce((prev, field) => {
+        const dataType = field.getAttribute('data-type');
+
+        if (!Object.values(FIELD_DATE_TYPE).includes(dataType)) {
+            return prev;
+        }
+
+        const { name, value } = field;
+        const fieldName = field.getAttribute('data-field');
+        const { [name]: prevData } = prev;
+
+        return {
+            ...prev,
+            [name]: {
+                ...prevData,
+                type: dataType,
+                [fieldName]: value
+            }
+        };
+    }, {});
+
 /**
  * Returns fields values from DOM/Form
  * @param DOM
@@ -118,7 +175,14 @@ export const getFieldsData = (DOM, excludeEmpty = false, ignoreTypes = [], asObj
     const fields = DOM.querySelectorAll('input, textarea, select');
     const output = [];
 
+    const dateFieldsGrouped = groupDateFieldsData(fields);
+    output.push(...transformDateFieldsData(dateFieldsGrouped));
+
     fields.forEach((field) => {
+        if (Object.values(FIELD_DATE_TYPE).includes(field.getAttribute('data-type'))) {
+            return;
+        }
+
         const { tagName } = field;
         const tag = tagName.toLowerCase();
         const type = tag === FIELD_TYPE.textarea || tag === FIELD_TYPE.select || tag === FIELD_TYPE.button

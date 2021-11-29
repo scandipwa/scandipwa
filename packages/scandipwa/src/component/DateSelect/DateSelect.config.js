@@ -29,4 +29,6 @@ export const DATE_FIELDS_COUNT = 3;
 
 export const DEFAULT_MONTH_DAYS = 31;
 export const MONTHS_COUNT = 12;
+export const MINUTES_COUNT = 60;
 export const HOURS_12H_COUNT = 12;
+export const HOURS_24H_COUNT = 24;

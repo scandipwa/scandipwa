@@ -64,8 +64,6 @@ export class DateSelectContainer extends PureComponent {
         const validMinDate = minDate > currentDate ? minDate : currentDate;
         const selectedDate = maxDate < validMinDate ? maxDate : validMinDate;
 
-        console.debug(selectedDate);
-
         const selectedYear = selectedDate.getFullYear();
         const selectedMonth = selectedDate.getMonth() + 1;
         const selectedDay = selectedDate.getDate();
