@@ -22,6 +22,7 @@ import {range} from 'Util/Manipulations';
 
 import './DateSelect.style.scss';
 import { DEFAULT_MONTH_DAYS, MONTHS_COUNT } from 'Component/DateSelect/DateSelect.config';
+import { isMagentoDateFormatValid } from 'Util/Form/Extract';
 
 /** @namespace Component/DateSelect/Component */
 export class DateSelectComponent extends PureComponent {
@@ -30,6 +31,12 @@ export class DateSelectComponent extends PureComponent {
         onSetDate: PropTypes.func.isRequired,
         uid: PropTypes.string.isRequired,
         isRequired: PropTypes.bool.isRequired
+    };
+
+    dateMap = {
+        d: this.renderDay.bind(this),
+        m: this.renderMonth.bind(this),
+        y: this.renderYear.bind(this)
     };
 
     getYearOptions() {
@@ -52,25 +59,25 @@ export class DateSelectComponent extends PureComponent {
 
     renderYear() {
         const {
-            onSetDate,
-            // minDate,
-            // maxDate,
-            // dateFormat,
-            // timeFormat,
             uid,
             isRequired,
             type,
             selectedYear,
-            onSetYear
+            onSetYear,
+            showDateSelect
         } = this.props;
+
+        if (!showDateSelect){
+            return null;
+        }
 
         return (
             <Field
               type={ FIELD_TYPE.select }
               label={__('Year')}
               attr={ {
-                  id: `${type}-${ uid }`,
-                  name: `${type}-${ uid }`,
+                  id: `${type}-year-${ uid }`,
+                  name: `${type}-year-${ uid }`,
                   selectPlaceholder: __('Year'),
                   value: selectedYear
               } }
@@ -88,25 +95,25 @@ export class DateSelectComponent extends PureComponent {
 
     renderMonth() {
         const {
-            onSetDate,
-            // minDate,
-            // maxDate,
-            // dateFormat,
-            // timeFormat,
             uid,
             isRequired,
             type,
             selectedMonth,
-            onSetMonth
+            onSetMonth,
+            showDateSelect
         } = this.props;
+
+        if (!showDateSelect){
+            return null;
+        }
 
         return (
             <Field
                 type={ FIELD_TYPE.select }
                 label={__('Month')}
                 attr={ {
-                    id: `${type}-${ uid }`,
-                    name: `${type}-${ uid }`,
+                    id: `${type}-month-${ uid }`,
+                    name: `${type}-month-${ uid }`,
                     selectPlaceholder: __('Month'),
                     value: selectedMonth
                 } }
@@ -128,16 +135,21 @@ export class DateSelectComponent extends PureComponent {
             uid,
             isRequired,
             type,
-            selectedDay
+            selectedDay,
+            showDateSelect
         } = this.props;
+
+        if (!showDateSelect){
+            return null;
+        }
 
         return (
             <Field
                 type={ FIELD_TYPE.select }
                 label={__('Day')}
                 attr={ {
-                    id: `${type}-${ uid }`,
-                    name: `${type}-${ uid }`,
+                    id: `${type}-day-${ uid }`,
+                    name: `${type}-day-${ uid }`,
                     selectPlaceholder: __('Day'),
                     value: selectedDay
                 } }
@@ -153,23 +165,25 @@ export class DateSelectComponent extends PureComponent {
         );
     }
 
-    render() {
-        const {
-            onSetDate,
-            // minDate,
-            // maxDate,
-            // dateFormat,
-            // timeFormat,
-            uid,
-            isRequired,
-            type
-        } = this.props;
+    renderDate(){
+        const { dateFieldsOrder } = this.props;
 
+        if(!isMagentoDateFormatValid(dateFieldsOrder)){
+            return Object.values(this.dateMap).map(renderMethod => renderMethod());
+        }
+
+        return dateFieldsOrder.split(',').map(field => this.dateMap[field]());
+    }
+
+    renderTime(){
+        return null;
+    }
+
+    render() {
         return (
             <div block="DateSelect" elem="Wrapper">
-                {this.renderYear()}
-                {this.renderMonth()}
-                {this.renderDay()}
+                {this.renderDate()}
+                {this.renderTime()}
             </div>
         );
     }

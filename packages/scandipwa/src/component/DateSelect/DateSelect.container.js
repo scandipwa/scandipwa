@@ -17,11 +17,7 @@ import DateSelect from 'Component/DateSelect/DateSelect.component';
 import {
     DEFAULT_MONTH_DAYS, FIELD_DATE_TYPE, TIME_FORMAT
 } from 'Component/DateSelect/DateSelect.config';
-import {
-    getDateTimeFormat,
-    getTimeFormat,
-    getYearRangeAttributes
-} from 'Util/Form/Extract';
+import { getYearRangeAttributes } from 'Util/Form/Extract';
 
 /** @namespace Component/DateSelect/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -91,16 +87,14 @@ export class DateSelectContainer extends PureComponent {
         const {
             type,
             yearRange,
-            timeFormat: magentoTimeFormat,
+            timeFormat,
             dateFieldsOrder,
             uid,
             isRequired
         } = this.props;
 
         const showTimeSelect = type === FIELD_DATE_TYPE.dateTime || type === FIELD_DATE_TYPE.time;
-        const showTimeSelectOnly = type === FIELD_DATE_TYPE.time;
-        const dateFormat = getDateTimeFormat(type, dateFieldsOrder, magentoTimeFormat);
-        const timeFormat = getTimeFormat(magentoTimeFormat);
+        const showDateSelect = type === FIELD_DATE_TYPE.dateTime || type === FIELD_DATE_TYPE.date;
 
         return {
             selectedYear,
@@ -108,38 +102,33 @@ export class DateSelectContainer extends PureComponent {
             selectedDay,
             maxDay,
             showTimeSelect,
-            showTimeSelectOnly,
+            showDateSelect,
             ...getYearRangeAttributes(yearRange, true),
-            dateFormat,
+            dateFieldsOrder,
             timeFormat,
             uid,
-            isClearable: !isRequired,
-            isRequired
+            isRequired,
+            type
         };
     };
 
-    // onSetDate(date) {
-    //     const { updateSelectedValues } = this.props;
-    //
-    //     this.setState({ selectedDate: date }, updateSelectedValues);
-    // }
-
     getMaxDay() {
         const { selectedYear, selectedMonth, selectedDay } = this.state;
+        const { updateSelectedValues } = this.props;
 
         const maxDay = new Date(selectedYear, selectedMonth, 0).getDate();
         this.setState({ maxDay });
 
         if (selectedDay && selectedDay > maxDay) {
-            this.setState({ selectedDay: '' });
+            this.setState({ selectedDay: '' }, updateSelectedValues);
             // TODO make selectedOptions reset on this reset
         }
     }
 
-    updateValue(value) {
+    updateValue() {
         const { updateSelectedValues } = this.props;
 
-        updateSelectedValues(value);
+        updateSelectedValues();
         this.getMaxDay();
     }
 

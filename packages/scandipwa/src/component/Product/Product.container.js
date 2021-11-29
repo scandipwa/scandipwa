@@ -286,7 +286,8 @@ export class ProductContainer extends PureComponent {
             }
         });
 
-        console.debug({ selectedOptions });
+        console.debug(values);
+        console.debug(selectedOptions);
 
         this.setState({
             enteredOptions,

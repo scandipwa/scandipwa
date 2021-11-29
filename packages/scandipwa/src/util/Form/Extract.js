@@ -65,13 +65,17 @@ export const getYearRangeAttributes = (yearRange = ',', isYear = false) => {
     };
 };
 
+/** @namespace Util/Form/Extract/isMagentoDateFormatValid */
+export const isMagentoDateFormatValid = (dateFieldsOrder) => new RegExp(Array(DATE_FIELDS_COUNT)
+    .fill('[dmy]').join(','))
+    .test(dateFieldsOrder);
+
 /** @namespace Util/Form/Extract/getTimeFormat */
 export const getTimeFormat = (timeFormat) => (timeFormat === TIME_FORMAT.H12 ? 'h:mm aa' : 'HH:mm');
 
 /** @namespace Util/Form/Extract/getDateFormat */
 export const getDateFormat = (dateFieldsOrder) => {
-    // invalid magento date format handling
-    if (!new RegExp(Array(DATE_FIELDS_COUNT).fill('[dmy]').join(',')).test(dateFieldsOrder)) {
+    if (!isMagentoDateFormatValid(dateFieldsOrder)) {
         return 'dd/MM/yyyy';
     }
 
