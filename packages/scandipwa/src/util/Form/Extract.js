@@ -46,7 +46,7 @@ export const getDateValue = (dateValue) => {
 };
 
 /** @namespace Util/Form/Extract/getYearRangeAttributes */
-export const getYearRangeAttributes = (yearRange = ',') => {
+export const getYearRangeAttributes = (yearRange = ',', isYear = false) => {
     const [startYear, endYear] = yearRange.split(',');
     const currentYear = new Date().getFullYear();
 
@@ -54,6 +54,10 @@ export const getYearRangeAttributes = (yearRange = ',') => {
     // blank year range defaults to current year
     const minYear = startYear || currentYear;
     const maxYear = endYear || currentYear;
+
+    if (isYear) {
+        return { minYear, maxYear };
+    }
 
     return {
         minDate: new Date(`${minYear}-01-01T00:00:00.000`),

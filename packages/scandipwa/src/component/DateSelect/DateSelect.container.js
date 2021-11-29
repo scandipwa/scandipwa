@@ -14,7 +14,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import DateSelect from 'Component/DateSelect/DateSelect.component';
-import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/DateSelect/DateSelect.config';
+import {
+    DEFAULT_MONTH_DAYS, FIELD_DATE_TYPE, TIME_FORMAT
+} from 'Component/DateSelect/DateSelect.config';
 import {
     getDateTimeFormat,
     getTimeFormat,
@@ -48,7 +50,9 @@ export class DateSelectContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onSetDate: this.onSetDate.bind(this)
+        onSetYear: this.onSetYear.bind(this),
+        onSetMonth: this.onSetMonth.bind(this),
+        onSetDay: this.onSetDay.bind(this)
     };
 
     __construct(props) {
@@ -59,11 +63,31 @@ export class DateSelectContainer extends PureComponent {
         const currentDate = new Date();
         const validMinDate = minDate > currentDate ? minDate : currentDate;
         const selectedDate = maxDate < validMinDate ? maxDate : validMinDate;
-        this.state = { selectedDate };
+
+        console.debug(selectedDate);
+
+        const selectedYear = selectedDate.getFullYear();
+        const selectedMonth = selectedDate.getMonth() + 1;
+        const selectedDay = selectedDate.getDate();
+
+        console.debug(selectedMonth);
+
+        this.state = {
+            selectedYear,
+            selectedMonth,
+            selectedDay,
+            maxDay: DEFAULT_MONTH_DAYS
+        };
     }
 
     containerProps = () => {
-        const { selectedDate } = this.state;
+        const {
+            selectedYear,
+            selectedMonth,
+            selectedDay,
+            maxDay
+        } = this.state;
+
         const {
             type,
             yearRange,
@@ -79,21 +103,58 @@ export class DateSelectContainer extends PureComponent {
         const timeFormat = getTimeFormat(magentoTimeFormat);
 
         return {
-            selectedDate,
+            selectedYear,
+            selectedMonth,
+            selectedDay,
+            maxDay,
             showTimeSelect,
             showTimeSelectOnly,
-            ...getYearRangeAttributes(yearRange),
+            ...getYearRangeAttributes(yearRange, true),
             dateFormat,
             timeFormat,
             uid,
-            isClearable: !isRequired
+            isClearable: !isRequired,
+            isRequired
         };
     };
 
-    onSetDate(date) {
+    // onSetDate(date) {
+    //     const { updateSelectedValues } = this.props;
+    //
+    //     this.setState({ selectedDate: date }, updateSelectedValues);
+    // }
+
+    getMaxDay() {
+        const { selectedYear, selectedMonth, selectedDay } = this.state;
+
+        const maxDay = new Date(selectedYear, selectedMonth, 0).getDate();
+        this.setState({ maxDay });
+
+        if (selectedDay && selectedDay > maxDay) {
+            this.setState({ selectedDay: '' });
+            // TODO make selectedOptions reset on this reset
+        }
+    }
+
+    updateValue(value) {
         const { updateSelectedValues } = this.props;
 
-        this.setState({ selectedDate: date }, updateSelectedValues);
+        updateSelectedValues(value);
+        this.getMaxDay();
+    }
+
+    onSetYear(year) {
+        this.setState({ selectedYear: year }, this.updateValue.bind(this));
+    }
+
+    onSetMonth(month) {
+        this.setState({ selectedMonth: month }, this.updateValue.bind(this));
+    }
+
+    onSetDay(day) {
+        const { updateSelectedValues } = this.props;
+
+        this.setState({ selectedDay: day }, updateSelectedValues);
     }
 
     render() {

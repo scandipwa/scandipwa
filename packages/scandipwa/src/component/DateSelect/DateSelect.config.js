@@ -21,3 +21,6 @@ export const TIME_FORMAT = {
 };
 
 export const DATE_FIELDS_COUNT = 3;
+
+export const DEFAULT_MONTH_DAYS = 31;
+export const MONTHS_COUNT = 12;
