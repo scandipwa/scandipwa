@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/DatePicker/DatePicker.config';
 import FIELD_TYPE from 'Component/Field/Field.config';
-import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 
 /**
  * Appends 0 to value if its less than passed attribute;

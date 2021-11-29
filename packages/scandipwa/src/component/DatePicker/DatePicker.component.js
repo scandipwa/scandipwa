@@ -15,15 +15,16 @@ import PropTypes from 'prop-types';
 import { forwardRef, PureComponent } from 'react';
 import DatePicker from 'react-datepicker';
 
+import { FIELD_DATE_TYPE } from 'Component/DatePicker/DatePicker.config';
 import FIELD_TYPE from 'Component/Field/Field.config';
 
-import './FieldDate.style.scss';
+import './DatePicker.style.scss';
 
-/** @namespace Component/FieldDate/Component */
-export class FieldDateComponent extends PureComponent {
+/** @namespace Component/DatePicker/Component */
+export class DatePickerComponent extends PureComponent {
     static propTypes = {
         selectedDate: PropTypes.instanceOf(Date).isRequired,
-        // type: PropTypes.shape(PropTypes.oneOf(Object.values(FIELD_DATE_TYPE))).isRequired,
+        type: PropTypes.shape(PropTypes.oneOf(Object.values(FIELD_DATE_TYPE))).isRequired,
         onSetDate: PropTypes.func.isRequired,
         showTimeSelect: PropTypes.bool.isRequired,
         showTimeSelectOnly: PropTypes.bool.isRequired,
@@ -32,15 +33,37 @@ export class FieldDateComponent extends PureComponent {
         dateFormat: PropTypes.string.isRequired,
         timeFormat: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
-        isClearable: PropTypes.bool.isRequired,
-        value: PropTypes.string,
-        onClick: PropTypes.func
+        isClearable: PropTypes.bool.isRequired
     };
 
-    static defaultProps = {
-        value: '',
-        onClick: () => {}
+    placeholderMap = {
+        [FIELD_TYPE.date]: __('Select date'),
+        [FIELD_TYPE.dateTime]: __('Select date & time'),
+        [FIELD_TYPE.time]: __('Select time')
     };
+
+    getPlaceholder() {
+        const { type } = this.props;
+
+        return this.placeholderMap[type] || '';
+    }
+
+    renderCustomInput({ value, onClick }, ref) {
+        const { selectedDate, uid } = this.props;
+
+        return (
+            <input
+              id={ uid }
+              name={ uid }
+              type={ FIELD_TYPE.text }
+              value={ value }
+              onClick={ onClick }
+              ref={ ref }
+              data-date={ selectedDate }
+              placeholder={ this.getPlaceholder() }
+            />
+        );
+    }
 
     render() {
         const {
@@ -52,38 +75,10 @@ export class FieldDateComponent extends PureComponent {
             maxDate,
             dateFormat,
             timeFormat,
-            uid,
             isClearable
         } = this.props;
 
-        const CustomInput = forwardRef(({ value, onClick }, ref) => (
-            <input
-              id={ uid }
-              name={ uid }
-              type={ FIELD_TYPE.text }
-              value={ value }
-              onClick={ onClick }
-              ref={ ref }
-              data-date={ selectedDate }
-            />
-        // <Field
-        //     type={ FIELD_TYPE.text }
-        //     validationRule={ {
-        //         isRequired: true
-        //     } }
-        //     attr={{
-        //         value,
-        //         id: uid
-        //         name: uid
-        //         ref
-        //     }}
-        //     events={ {
-        //         onClick
-        //     } }
-        //     validateOn={ ['onBlur'] }
-        //     ref={ref}
-        // />
-        ));
+        const DateInput = forwardRef(this.renderCustomInput.bind(this));
 
         return (
             <DatePicker
@@ -97,10 +92,10 @@ export class FieldDateComponent extends PureComponent {
               minDate={ minDate }
               maxDate={ maxDate }
               isClearable={ isClearable }
-              customInput={ <CustomInput /> }
+              customInput={ <DateInput /> }
             />
         );
     }
 }
 
-export default FieldDateComponent;
+export default DatePickerComponent;

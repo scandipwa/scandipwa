@@ -12,10 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+// import DatePicker from 'Component/DatePicker';
+import { FIELD_DATE_TYPE } from 'Component/DatePicker/DatePicker.config';
+import DateSelect from 'Component/DateSelect';
 import Field from 'Component/Field';
 import { FIELD_TYPE } from 'Component/Field/Field.config';
-import FieldDate from 'Component/FieldDate';
-import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
 import FieldGroup from 'Component/FieldGroup';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
@@ -109,14 +110,24 @@ export class ProductCustomizableOption extends PureComponent {
 
     renderDatePicker(type, option) {
         const {
-            title, uid, isRequired, updateSelectedValues
+            title,
+            uid,
+            isRequired,
+            updateSelectedValues
         } = this.props;
+
         const label = this.getLabel(option, title);
 
         return (
             <>
                 { this.renderOptionGroupTitle(label) }
-                <FieldDate
+                { /* <DatePicker */ }
+                { /*  type={ type } */ }
+                { /*  uid={ uid } */ }
+                { /*  isRequired={ isRequired } */ }
+                { /*  updateSelectedValues={ updateSelectedValues } */ }
+                { /* /> */ }
+                <DateSelect
                   type={ type }
                   uid={ uid }
                   isRequired={ isRequired }

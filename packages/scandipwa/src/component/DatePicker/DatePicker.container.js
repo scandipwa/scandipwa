@@ -13,26 +13,26 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import FieldDate from 'Component/FieldDate/FieldDate.component';
-import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
+import DatePicker from 'Component/DatePicker/DatePicker.component';
+import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/DatePicker/DatePicker.config';
 import {
     getDateTimeFormat,
     getTimeFormat,
     getYearRangeAttributes
 } from 'Util/Form/Extract';
 
-/** @namespace Component/FieldDate/Container/mapStateToProps */
+/** @namespace Component/DatePicker/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     yearRange: state.ConfigReducer.year_range,
     dateFieldsOrder: state.ConfigReducer.date_fields_order,
     timeFormat: state.ConfigReducer.time_format
 });
 
-/** @namespace Component/FieldDate/Container/mapDispatchToProps */
+/** @namespace Component/DatePicker/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
-/** @namespace Component/FieldDate/Container */
-export class FieldDateContainer extends PureComponent {
+/** @namespace Component/DatePicker/Container */
+export class DatePickerContainer extends PureComponent {
     static propTypes = {
         type: PropTypes.oneOf(Object.values(FIELD_DATE_TYPE)).isRequired,
         timeFormat: PropTypes.oneOf(Object.values(TIME_FORMAT)).isRequired,
@@ -98,7 +98,7 @@ export class FieldDateContainer extends PureComponent {
 
     render() {
         return (
-            <FieldDate
+            <DatePicker
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />
@@ -106,4 +106,4 @@ export class FieldDateContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FieldDateContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(DatePickerContainer);
