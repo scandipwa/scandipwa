@@ -25,7 +25,7 @@ import {
 } from 'Component/DateSelect/DateSelect.config';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
-import { isMagentoDateFormatValid } from 'Util/Form/Extract';
+import { isMagentoDateFormatValid, zeroBasedValue } from 'Util/Form/Extract';
 import { range } from 'Util/Manipulations';
 
 import './DateSelect.style.scss';
@@ -87,12 +87,20 @@ export class DateSelectComponent extends PureComponent {
 
         const maxHours = timeFormat.slice(0, -1);
         const hoursRange = range(0, Number(maxHours || HOURS_24H_COUNT));
-        return hoursRange.map((hours) => ({ id: hours, value: hours, label: hours }));
+        return hoursRange.map((hours) => ({
+            id: hours,
+            value: zeroBasedValue(hours),
+            label: zeroBasedValue(hours)
+        }));
     }
 
     getMinutesOptions() {
-        const hoursRange = range(0, MINUTES_COUNT);
-        return hoursRange.map((hours) => ({ id: hours, value: hours, label: hours }));
+        const minutesRange = range(0, MINUTES_COUNT);
+        return minutesRange.map((minutes) => ({
+            id: minutes,
+            value: zeroBasedValue(minutes),
+            label: zeroBasedValue(minutes)
+        }));
     }
 
     getAMPMOptions() {
@@ -122,6 +130,7 @@ export class DateSelectComponent extends PureComponent {
                   'data-field': 'year'
               } }
               options={ this.getYearOptions() }
+              mix={ { block: 'DateSelect', elem: 'Year' } }
               events={ {
                   onChange: onSetYear
               } }
@@ -155,6 +164,7 @@ export class DateSelectComponent extends PureComponent {
                   'data-field': 'month'
               } }
               options={ this.getMonthOptions() }
+              mix={ { block: 'DateSelect', elem: 'Month' } }
               events={ {
                   onChange: onSetMonth
               } }
@@ -188,6 +198,7 @@ export class DateSelectComponent extends PureComponent {
                   'data-field': 'day'
               } }
               options={ this.getDayOptions() }
+              mix={ { block: 'DateSelect', elem: 'Day' } }
               events={ {
                   onChange: onSetDay
               } }
@@ -221,6 +232,7 @@ export class DateSelectComponent extends PureComponent {
                   'data-field': 'hours'
               } }
               options={ this.getHoursOptions() }
+              mix={ { block: 'DateSelect', elem: 'Hours' } }
               events={ {
                   onChange: onSetHours
               } }
@@ -254,6 +266,7 @@ export class DateSelectComponent extends PureComponent {
                   'data-field': 'minutes'
               } }
               options={ this.getMinutesOptions() }
+              mix={ { block: 'DateSelect', elem: 'Minutes' } }
               events={ {
                   onChange: onSetMinutes
               } }
@@ -282,7 +295,7 @@ export class DateSelectComponent extends PureComponent {
         return (
             <Field
               type={ FIELD_TYPE.select }
-              label={ __('AM/PM') }
+              label={ __('AM / PM') }
               attr={ {
                   id: `${type}-ampm-${ uid }`,
                   name: uid,
@@ -292,6 +305,7 @@ export class DateSelectComponent extends PureComponent {
                   'data-field': 'ampm'
               } }
               options={ this.getAMPMOptions() }
+              mix={ { block: 'DateSelect', elem: 'AMPM' } }
               events={ {
                   onChange: onSetAMPM
               } }
@@ -315,9 +329,9 @@ export class DateSelectComponent extends PureComponent {
         }
 
         return (
-<div block="DateSelect" elem="InnerWrapper">
-            { dateFieldsOrder.split(',').map((field) => this.dateMap[field]()) }
-</div>
+            <div block="DateSelect" elem="InnerWrapper">
+                { dateFieldsOrder.split(',').map((field) => this.dateMap[field]()) }
+            </div>
         );
     }
 
@@ -329,11 +343,11 @@ export class DateSelectComponent extends PureComponent {
         }
 
         return (
-<div block="DateSelect" elem="InnerWrapper">
-            { this.renderHours() }
-            { this.renderMinutes() }
-            { this.renderAMPM() }
-</div>
+            <div block="DateSelect" elem="InnerWrapper">
+                { this.renderHours() }
+                { this.renderMinutes() }
+                { this.renderAMPM() }
+            </div>
         );
     }
 

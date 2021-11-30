@@ -6,5 +6,19 @@
 
   &-InnerWrapper {
     display: flex;
+
+    &:not(:last-of-type) {
+      margin-inline-end: 15px;
+    }
+
+    .Field-Wrapper:not(:last-of-type) {
+      margin-inline-end: 15px;
+    }
+
+    .FieldSelect {
+      &-Clickable {
+        min-width: 113px;
+      }
+    }
   }
 }

@@ -10,7 +10,7 @@
  */
 
 import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/DatePicker/DatePicker.config';
-import { AMPM_FORMAT, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
+import { HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
 import FIELD_TYPE from 'Component/Field/Field.config';
 
 /**
@@ -108,9 +108,16 @@ export const getDateTimeFormat = (type, dateFieldsOrder, timeFormat) => {
 /** @namespace Util/Form/Extract/transformDateFieldsData */
 export const transformDateFieldsData = (datesData) => Object.entries(datesData).reduce((prev, [name, data]) => {
     const {
-        type, year, month, day, hours, minutes, ampm
+        type,
+        year,
+        month,
+        day,
+        hours,
+        minutes,
+        ampm
     } = data;
-    const hoursAdjusted = hours > HOURS_12H_COUNT && ampm === AMPM_FORMAT.PM ? hours + HOURS_12H_COUNT : hours;
+
+    const hoursAdjusted = ampm === 'PM' ? Number(hours) + HOURS_12H_COUNT : hours;
 
     if (type === FIELD_DATE_TYPE.date && year && month && day) {
         return [...prev, {
