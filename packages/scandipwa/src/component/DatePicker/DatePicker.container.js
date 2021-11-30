@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import DatePicker from 'Component/DatePicker/DatePicker.component';
-import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/DatePicker/DatePicker.config';
+import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 import {
     getDateTimeFormat,
     getTimeFormat,

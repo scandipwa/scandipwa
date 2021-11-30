@@ -14,13 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import DateSelect from 'Component/DateSelect/DateSelect.component';
-import {
-    AMPM_FORMAT,
-    DEFAULT_MONTH_DAYS,
-    FIELD_DATE_TYPE,
-    HOURS_12H_COUNT,
-    TIME_FORMAT
-} from 'Component/DateSelect/DateSelect.config';
+import { AMPM_FORMAT, DEFAULT_MONTH_DAYS, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
+import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 import { adjustHours, getYearRangeAttributes } from 'Util/Form/Extract';
 
 /** @namespace Component/DateSelect/Container/mapStateToProps */
@@ -136,7 +131,6 @@ export class DateSelectContainer extends PureComponent {
 
         if (selectedDay && selectedDay > maxDay) {
             this.setState({ selectedDay: '' }, updateSelectedValues);
-            // TODO make selectedOptions reset on this reset
         }
     }
 

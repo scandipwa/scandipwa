@@ -14,17 +14,18 @@ import '../../../../../node_modules/react-datepicker/dist/react-datepicker.css';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { FIELD_DATE_TYPE } from 'Component/DatePicker/DatePicker.config';
 import {
     AMPM_FORMAT,
     DEFAULT_MONTH_DAYS,
+    FIELD_NAME_ATTR,
+    FIELD_TYPE_ATTR,
     HOURS_24H_COUNT,
     MINUTES_COUNT,
-    MONTHS_COUNT,
-    TIME_FORMAT
+    MONTHS_COUNT
 } from 'Component/DateSelect/DateSelect.config';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
+import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 import { isMagentoDateFormatValid, zeroBasedValue } from 'Util/Form/Extract';
 import { range } from 'Util/Manipulations';
 
@@ -66,19 +67,19 @@ export class DateSelectComponent extends PureComponent {
     getYearOptions() {
         const { minYear, maxYear } = this.props;
 
-        const yearRange = range(Number(minYear), Number(maxYear));
+        const yearRange = range(+minYear, +maxYear);
         return yearRange.map((year) => ({ id: year, value: year, label: year }));
     }
 
     getMonthOptions() {
-        const monthRange = range(1, Number(MONTHS_COUNT));
+        const monthRange = range(1, +MONTHS_COUNT);
         return monthRange.map((month) => ({ id: month, value: month, label: month }));
     }
 
     getDayOptions() {
         const { maxDay } = this.props;
 
-        const dayRange = range(1, Number(maxDay || DEFAULT_MONTH_DAYS));
+        const dayRange = range(1, +maxDay || DEFAULT_MONTH_DAYS);
         return dayRange.map((day) => ({ id: day, value: day, label: day }));
     }
 
@@ -86,7 +87,7 @@ export class DateSelectComponent extends PureComponent {
         const { timeFormat } = this.props;
 
         const maxHours = timeFormat.slice(0, -1);
-        const hoursRange = range(0, Number(maxHours || HOURS_24H_COUNT));
+        const hoursRange = range(0, +maxHours || HOURS_24H_COUNT);
         return hoursRange.map((hours) => ({
             id: hours,
             value: zeroBasedValue(hours),
@@ -126,8 +127,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   selectPlaceholder: __('Year'),
                   value: selectedYear,
-                  'data-type': type,
-                  'data-field': 'year'
+                  [FIELD_TYPE_ATTR]: type,
+                  [FIELD_NAME_ATTR]: 'year'
               } }
               options={ this.getYearOptions() }
               mix={ { block: 'DateSelect', elem: 'Year' } }
@@ -160,8 +161,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   selectPlaceholder: __('Month'),
                   value: selectedMonth,
-                  'data-type': type,
-                  'data-field': 'month'
+                  [FIELD_TYPE_ATTR]: type,
+                  [FIELD_NAME_ATTR]: 'month'
               } }
               options={ this.getMonthOptions() }
               mix={ { block: 'DateSelect', elem: 'Month' } }
@@ -194,8 +195,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   selectPlaceholder: __('Day'),
                   value: selectedDay,
-                  'data-type': type,
-                  'data-field': 'day'
+                  [FIELD_TYPE_ATTR]: type,
+                  [FIELD_NAME_ATTR]: 'day'
               } }
               options={ this.getDayOptions() }
               mix={ { block: 'DateSelect', elem: 'Day' } }
@@ -228,8 +229,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   selectPlaceholder: __('Hours'),
                   value: selectedHours,
-                  'data-type': type,
-                  'data-field': 'hours'
+                  [FIELD_TYPE_ATTR]: type,
+                  [FIELD_NAME_ATTR]: 'hours'
               } }
               options={ this.getHoursOptions() }
               mix={ { block: 'DateSelect', elem: 'Hours' } }
@@ -262,8 +263,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   selectPlaceholder: __('Minutes'),
                   value: selectedMinutes,
-                  'data-type': type,
-                  'data-field': 'minutes'
+                  [FIELD_TYPE_ATTR]: type,
+                  [FIELD_NAME_ATTR]: 'minutes'
               } }
               options={ this.getMinutesOptions() }
               mix={ { block: 'DateSelect', elem: 'Minutes' } }
@@ -301,8 +302,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   value: selectedAMPM,
                   noPlaceholder: true,
-                  'data-type': type,
-                  'data-field': 'ampm'
+                  [FIELD_TYPE_ATTR]: type,
+                  [FIELD_NAME_ATTR]: 'ampm'
               } }
               options={ this.getAMPMOptions() }
               mix={ { block: 'DateSelect', elem: 'AMPM' } }

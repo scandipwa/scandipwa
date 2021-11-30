@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/DatePicker/DatePicker.config';
-import { HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
+import { FIELD_NAME_ATTR, FIELD_TYPE_ATTR, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
 import FIELD_TYPE from 'Component/Field/Field.config';
+import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 
 /**
  * Appends 0 to value if its less than passed attribute;
@@ -49,15 +49,30 @@ export const getDateValue = (dateValue) => {
     }
 };
 
-/** @namespace Util/Form/Extract/getYearRangeAttributes */
-export const getYearRangeAttributes = (yearRange = ',', isYear = false) => {
-    const [startYear, endYear] = yearRange.split(',');
+/** @namespace Util/Form/Extract/calcYearRangeAttributes */
+export const calcYearRangeAttributes = (startYear, endYear) => {
     const currentYear = new Date().getFullYear();
 
     // https://docs.magento.com/user-guide/stores/attribute-date-time-options.html
     // blank year range defaults to current year
-    const minYear = startYear || currentYear;
-    const maxYear = endYear || currentYear;
+    if (!startYear && !endYear) {
+        return { minYear: currentYear, maxYear: currentYear };
+    }
+
+    // if start or end date is empty it defaults to current year
+    // if it creates an invalid range, the only filled in year is used both as start and end of the range
+    // e.g. `2020,` => `2020,2021`, `,2022` => `2021,2022`, `,2020` => `2020,2020`, `2022,` => `2022,2022`
+    const minYear = startYear || (endYear && currentYear <= endYear ? currentYear : endYear);
+    const maxYear = endYear || (startYear && currentYear >= startYear ? currentYear : startYear);
+
+    return { minYear, maxYear };
+};
+
+/** @namespace Util/Form/Extract/getYearRangeAttributes */
+export const getYearRangeAttributes = (yearRange = ',', isYear = false) => {
+    const [startYear, endYear] = yearRange.split(',');
+
+    const { minYear, maxYear } = calcYearRangeAttributes(startYear, endYear);
 
     if (isYear) {
         return { minYear, maxYear };
@@ -117,7 +132,7 @@ export const transformDateFieldsData = (datesData) => Object.entries(datesData).
         ampm
     } = data;
 
-    const hoursAdjusted = ampm === 'PM' ? Number(hours) + HOURS_12H_COUNT : hours;
+    const hoursAdjusted = ampm === 'PM' ? +hours + HOURS_12H_COUNT : hours;
 
     if (type === FIELD_DATE_TYPE.date && year && month && day) {
         return [...prev, {
@@ -127,7 +142,7 @@ export const transformDateFieldsData = (datesData) => Object.entries(datesData).
         }];
     }
 
-    if (type === FIELD_DATE_TYPE.dateTime && year && month && day && hours && minutes && ampm) {
+    if (type === FIELD_DATE_TYPE.dateTime && year && month && day && hours && minutes) {
         return [...prev, {
             name,
             type,
@@ -135,7 +150,7 @@ export const transformDateFieldsData = (datesData) => Object.entries(datesData).
         }];
     }
 
-    if (type === FIELD_DATE_TYPE.time && hours && minutes && ampm) {
+    if (type === FIELD_DATE_TYPE.time && hours && minutes) {
         return [...prev, {
             name,
             type,
@@ -149,14 +164,14 @@ export const transformDateFieldsData = (datesData) => Object.entries(datesData).
 /** @namespace Util/Form/Extract/groupDateFieldsData */
 export const groupDateFieldsData = (fields) => Array.from(fields)
     .reduce((prev, field) => {
-        const dataType = field.getAttribute('data-type');
+        const dataType = field.getAttribute(FIELD_TYPE_ATTR);
 
         if (!Object.values(FIELD_DATE_TYPE).includes(dataType)) {
             return prev;
         }
 
         const { name, value } = field;
-        const fieldName = field.getAttribute('data-field');
+        const fieldName = field.getAttribute(FIELD_NAME_ATTR);
         const { [name]: prevData } = prev;
 
         return {
@@ -186,7 +201,7 @@ export const getFieldsData = (DOM, excludeEmpty = false, ignoreTypes = [], asObj
     output.push(...transformDateFieldsData(dateFieldsGrouped));
 
     fields.forEach((field) => {
-        if (Object.values(FIELD_DATE_TYPE).includes(field.getAttribute('data-type'))) {
+        if (Object.values(FIELD_DATE_TYPE).includes(field.getAttribute(FIELD_TYPE_ATTR))) {
             return;
         }
 

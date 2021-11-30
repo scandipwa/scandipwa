@@ -15,8 +15,8 @@ import PropTypes from 'prop-types';
 import { forwardRef, PureComponent } from 'react';
 import DatePicker from 'react-datepicker';
 
-import { FIELD_DATE_TYPE } from 'Component/DatePicker/DatePicker.config';
 import FIELD_TYPE from 'Component/Field/Field.config';
+import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
 
 import './DatePicker.style.scss';
 

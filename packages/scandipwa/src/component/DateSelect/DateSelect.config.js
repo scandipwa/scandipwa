@@ -9,26 +9,16 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export const FIELD_DATE_TYPE = {
-    date: 'date',
-    dateTime: 'dateTime',
-    time: 'time'
-};
-
-export const TIME_FORMAT = {
-    H12: '12h',
-    H24: '24h'
-};
-
 export const AMPM_FORMAT = {
     AM: __('AM'),
     PM: __('PM')
 };
-
-export const DATE_FIELDS_COUNT = 3;
 
 export const DEFAULT_MONTH_DAYS = 31;
 export const MONTHS_COUNT = 12;
 export const MINUTES_COUNT = 60;
 export const HOURS_12H_COUNT = 12;
 export const HOURS_24H_COUNT = 24;
+
+export const FIELD_NAME_ATTR = 'data-field';
+export const FIELD_TYPE_ATTR = 'data-type';
