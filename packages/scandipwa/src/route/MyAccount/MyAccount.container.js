@@ -415,6 +415,7 @@ export class MyAccountContainer extends PureComponent {
             isMobile,
             baseLinkUrl,
             showNotification,
+            selectedTab,
             location: { pathname = '' }
         } = this.props;
         const { pathname: prevPathname } = prevLocation || {};
@@ -429,6 +430,10 @@ export class MyAccountContainer extends PureComponent {
 
         if (pathname === prevPathname) { // do not redirect in case if it is same url as previous
             return;
+        }
+
+        if (selectedTab) { // do redirect if it is customer url
+            history.replace({ pathname: ACCOUNT_LOGIN_URL });
         }
 
         const path = baseLinkUrl
