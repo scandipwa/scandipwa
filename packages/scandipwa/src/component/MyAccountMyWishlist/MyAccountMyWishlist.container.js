@@ -72,18 +72,25 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     state = {
         isLoading: false,
-        loadingItemsMap: {}
+        loadingItemsMap: {},
+        isQtyUpdateInProgress: false
     };
 
     containerFunctions = {
         removeAll: this.removeAll.bind(this),
         addAllToCart: this.addAllToCart.bind(this),
         shareWishlist: this.shareWishlist.bind(this),
-        removeSelectedFromWishlist: this.removeSelectedFromWishlist.bind(this)
+        removeSelectedFromWishlist: this.removeSelectedFromWishlist.bind(this),
+        setIsQtyUpdateInProgress: this.setIsQtyUpdateInProgress.bind(this)
     };
 
     containerProps() {
-        const { isLoading, loadingItemsMap } = this.state;
+        const {
+            isLoading,
+            loadingItemsMap,
+            isQtyUpdateInProgress
+        } = this.state;
+
         const {
             isWishlistLoading,
             creatorsName,
@@ -103,18 +110,33 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             creatorsName,
             wishlistItems,
             isEditingActive,
-            isMobile
+            isMobile,
+            isQtyUpdateInProgress
         };
     }
 
-    async addAllToCart() {
-        const { moveWishlistToCart } = this.props;
+    setIsQtyUpdateInProgress(status) {
+        this.setState({ isQtyUpdateInProgress: status });
+    }
 
+    getIsComplete() {
+        const { isQtyUpdateInProgress } = this.state;
+
+        return !isQtyUpdateInProgress;
+    }
+
+    async addAllToCart() {
         if (!isSignedIn()) {
             await Promise.reject();
         }
 
         this.setState({ isLoading: true });
+
+        await this.addAllToCartAsync();
+    }
+
+    async addAllToCartAsync() {
+        const { moveWishlistToCart } = this.props;
 
         try {
             await moveWishlistToCart();

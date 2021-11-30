@@ -40,6 +40,8 @@ export class Popup extends Overlay {
 
     hidePopupAndGoBack = this.hidePopupAndGoBack.bind(this);
 
+    handleClickOutside = this.handleClickOutside.bind(this);
+
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
     }

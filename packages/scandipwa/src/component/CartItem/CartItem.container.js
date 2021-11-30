@@ -83,6 +83,10 @@ export class CartItemContainer extends PureComponent {
 
     setStateNotLoading = this.setStateNotLoading.bind(this);
 
+    renderRightSideContent = this.renderRightSideContent.bind(this);
+
+    handleRemoveItemOnSwipe = this.handleRemoveItemOnSwipe.bind(this);
+
     containerFunctions = {
         handleChangeQuantity: this.handleChangeQuantity.bind(this),
         handleRemoveItem: this.handleRemoveItem.bind(this),

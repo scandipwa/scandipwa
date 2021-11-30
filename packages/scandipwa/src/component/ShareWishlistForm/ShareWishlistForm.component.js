@@ -21,6 +21,8 @@ export class ShareWishlistForm extends FieldForm {
         onSave: PropTypes.func.isRequired
     };
 
+    onFormSuccess = this.onFormSuccess.bind(this);
+
     get fieldMap() {
         return shareWishlistForm();
     }

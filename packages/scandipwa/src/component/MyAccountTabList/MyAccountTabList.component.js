@@ -34,6 +34,8 @@ export class MyAccountTabList extends PureComponent {
 
     onTabClick = this.onTabClick.bind(this);
 
+    toggleExpandableContent = this.toggleExpandableContent.bind(this);
+
     toggleExpandableContent() {
         this.setState(({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }));
     }

@@ -58,6 +58,8 @@ export class ExpandableContent extends PureComponent {
 
     expandableContentRef = createRef();
 
+    toggleExpand = this.toggleExpand.bind(this);
+
     __construct(props) {
         super.__construct(props);
         const { isContentExpanded } = this.props;

@@ -93,6 +93,8 @@ export class CategoryPage extends PureComponent {
 
     state = {};
 
+    onFilterButtonClick = this.onFilterButtonClick.bind(this);
+
     static getDerivedStateFromProps(props) {
         const {
             isMobile,

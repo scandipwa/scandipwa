@@ -46,6 +46,12 @@ export class SwipeToDelete extends PureComponent {
 
     draggableWidth;
 
+    handleDragEnd = this.handleDragEnd.bind(this);
+
+    handleDragStart = this.handleDragStart.bind(this);
+
+    handleDrag = this.handleDrag.bind(this);
+
     componentDidMount() {
         // Sets default style
         this.setTranslateXStyle(0);

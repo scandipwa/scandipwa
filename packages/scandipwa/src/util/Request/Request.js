@@ -1,5 +1,4 @@
-/* eslint-disable @scandipwa/scandipwa-guidelines/create-config-files */
-/* eslint-disable no-console */
+/* eslint-disable @scandipwa/scandipwa-guidelines/no-arrow-functions-in-class */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -266,3 +265,26 @@ export const debounce = (callback, delay) => {
         timeout = setTimeout(() => callback.apply(context, args), delay);
     };
 };
+
+/** @namespace Util/Request */
+export class Debouncer {
+    timeout;
+
+    handler = () => {};
+
+    startDebounce = (callback, delay) => (...args) => {
+        const context = this;
+        clearTimeout(this.timeout);
+        this.handler = () => callback.apply(context, args);
+        this.timeout = setTimeout(this.handler, delay);
+    };
+
+    cancelDebounce = () => {
+        clearTimeout(this.timeout);
+    };
+
+    cancelDebounceAndExecuteImmediately = () => {
+        clearTimeout(this.timeout);
+        this.handler();
+    };
+}

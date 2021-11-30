@@ -95,6 +95,8 @@ export class ProductGallery extends PureComponent {
 
     calculateGallerySize = this._calculateGallerySize.bind(this);
 
+    onWheel = this.onWheel.bind(this);
+
     __construct(props, context) {
         super.__construct(props, context);
         this.renderSlide = this.renderSlide.bind(this);
