@@ -325,7 +325,7 @@ export class ProductContainer extends PureComponent {
 
         const isValid = validateGroup(this.validator);
 
-        if (isValid !== true) {
+        if (isValid !== true && !this.filterAddToCartFileErrors(isValid.values)) {
             const { showError } = this.props;
             this.validator.scrollIntoView();
             showError(__('Incorrect or missing options!'));
@@ -336,6 +336,15 @@ export class ProductContainer extends PureComponent {
         const products = this.getMagentoProduct();
 
         await addProductToCart({ products, cartId });
+    }
+
+    /**
+     * filters error messages by non empty file value
+     * @param errors
+     * @returns {boolean}
+    */
+    filterAddToCartFileErrors(errors) {
+        return errors.filter((e) => (e.type === 'file' && e.value !== '')).length !== 0;
     }
 
     /**

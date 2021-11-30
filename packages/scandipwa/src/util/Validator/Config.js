@@ -47,6 +47,7 @@ export const VALIDATION_MESSAGES = {
     match: __('Incorrect input!'),
     range: __('Value is out of range!'), // Range values are also in Validator.js as they require args
     group: __('Field contains issues!'),
+    fileExtension: __('Incorrect File extension upload!'),
     //#endregion
 
     //#region VALIDATION RULE MSG
