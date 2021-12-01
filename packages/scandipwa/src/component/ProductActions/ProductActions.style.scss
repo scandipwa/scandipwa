@@ -42,14 +42,14 @@
         line-height: 16px;
     }
 
-    &-Price {
-        line-height: var(--h2-line-height);
+    // &-Price {
+    //     line-height: var(--h2-line-height);
 
-        span:nth-child(2),
-        p {
-            line-height: 12px;
-        }
-    }
+    //     span:nth-child(2),
+    //     p {
+    //         line-height: 12px;
+    //     }
+    // }
 
     &-Title {
         margin-block: 8px;
