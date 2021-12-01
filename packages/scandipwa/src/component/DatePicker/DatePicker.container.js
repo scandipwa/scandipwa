@@ -62,7 +62,7 @@ export class DatePickerContainer extends PureComponent {
         this.state = { selectedDate };
     }
 
-    containerProps = () => {
+    containerProps() {
         const { selectedDate } = this.state;
         const {
             type,
@@ -88,7 +88,7 @@ export class DatePickerContainer extends PureComponent {
             uid,
             isClearable: !isRequired
         };
-    };
+    }
 
     onSetDate(date) {
         const { updateSelectedValues } = this.props;

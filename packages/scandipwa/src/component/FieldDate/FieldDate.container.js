@@ -40,7 +40,7 @@ export class FieldDateContainer extends PureComponent {
         isRequired: false
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             type,
             uid,
@@ -54,7 +54,7 @@ export class FieldDateContainer extends PureComponent {
             isRequired,
             updateSelectedValues
         };
-    };
+    }
 
     render() {
         const { useCalendar } = this.props;

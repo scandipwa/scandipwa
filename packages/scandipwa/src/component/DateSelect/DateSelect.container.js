@@ -80,7 +80,7 @@ export class DateSelectContainer extends PureComponent {
         };
     }
 
-    containerProps = () => {
+    containerProps() {
         const {
             selectedYear,
             selectedMonth,
@@ -120,7 +120,7 @@ export class DateSelectContainer extends PureComponent {
             isRequired,
             type
         };
-    };
+    }
 
     getMaxDay() {
         const { selectedYear, selectedMonth, selectedDay } = this.state;

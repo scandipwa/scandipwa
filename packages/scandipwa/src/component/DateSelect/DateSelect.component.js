@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import '../../../../../node_modules/react-datepicker/dist/react-datepicker.css';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
