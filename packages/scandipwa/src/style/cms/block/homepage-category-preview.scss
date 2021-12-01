@@ -81,9 +81,10 @@
         display: inline-block;
         min-height: 48px;
         flex-wrap: wrap;
+        padding-block: 10px;
 
         @include desktop {
-            max-width: 28vw;
+            max-width: 20vw;
         }
 
         @include mobile {
@@ -92,6 +93,7 @@
 
         * {
             overflow-wrap: break-word;
+            word-wrap: break-word;
         }
     }
 }
