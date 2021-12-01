@@ -89,9 +89,11 @@ export class MyAccountDispatcher {
             dispatch(showNotification('error', __('Your session is over, you are logged out!')));
             this.handleForceRedirectToLoginPage();
         } else {
-            const mutation = MyAccountQuery.getRevokeAccountToken();
-            fetchMutation(mutation);
-            deleteAuthorizationToken();
+            if (isSignedIn) {
+                fetchMutation(MyAccountQuery.getRevokeAccountToken());
+                deleteAuthorizationToken();
+            }
+
             dispatch(showNotification('success', __('You are successfully logged out!')));
         }
 
