@@ -21,6 +21,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         currency: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
+        coupon_code: PropTypes.string.isRequired,
         mods: ModsType,
         subPrice: PropTypes.node,
         children: ChildrenType
@@ -57,23 +58,27 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
     }
 
     renderTitle() {
-        const { title, mods: { couponCode } } = this.props;
+        const { title } = this.props;
 
-        if (couponCode) {
-            return (
-            <p block="CheckoutOrderSummary" elem="Text">
-                { title }
-                <b>
-                    { ` ${ couponCode.toUpperCase() }:` }
-                </b>
-            </p>
-            );
+        return (
+        <p block="CheckoutOrderSummary" elem="Text">
+            { title }
+            { this.renderCoupon() }
+        </p>
+        );
+    }
+
+    renderCoupon() {
+        const { coupon_code } = this.props;
+
+        if (!coupon_code) {
+            return null;
         }
 
         return (
-            <p block="CheckoutOrderSummary" elem="Text">
-                { title }
-            </p>
+        <b>
+            { ` ${ coupon_code.toUpperCase() }:` }
+        </b>
         );
     }
 

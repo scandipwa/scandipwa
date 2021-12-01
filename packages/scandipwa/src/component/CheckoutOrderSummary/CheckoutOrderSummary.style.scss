@@ -228,10 +228,8 @@
         flex-direction: column;
         justify-content: flex-end;
         text-align: end;
+        white-space: nowrap;
 
-        strong {
-            white-space: nowrap;
-        }
     }
 
     &-AppendedContent {

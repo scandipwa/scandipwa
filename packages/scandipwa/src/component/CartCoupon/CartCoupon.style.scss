@@ -21,7 +21,7 @@
 
     &-Message {
         word-break: break-word;
-        margin-right: 24px;
+        margin-inline-end: 24px;
         display: inline-block;
     }
 
@@ -39,7 +39,7 @@
 
     &-Input {
         display: inline-block;
-        margin-right: 24px;
+        margin-inline-end: 24px;
 
         input {
             width: 296px;
