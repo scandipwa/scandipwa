@@ -20,7 +20,13 @@
     }
 
     &-Message {
-        display: inline-block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    &-MessageText {
+        margin: 0;
     }
 
     .Field {
@@ -29,6 +35,7 @@
 
     .Form {
         margin-block-start: 24px;
+        display: inline-flex;
     }
 
     input, button {
