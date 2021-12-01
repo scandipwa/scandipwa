@@ -279,7 +279,7 @@ export class ProductAttributeValue extends PureComponent {
               block="ProductAttributeValue"
               elem="SubLabel"
             >
-                { `(${subLabel})` }
+                { subLabel ? `(${subLabel})` : undefined }
             </strong>
         </span>
     );
@@ -307,7 +307,7 @@ export class ProductAttributeValue extends PureComponent {
     }
 
     renderStringValue(value, label, count) {
-        const { isFormattedAsText, isSelected } = this.props;
+        const { isFormattedAsText, isSelected, isProductCountVisible } = this.props;
         const isSwatch = label;
 
         if (isFormattedAsText) {
@@ -315,7 +315,7 @@ export class ProductAttributeValue extends PureComponent {
         }
 
         if (!isSwatch) {
-            return this.renderDropdown(value, count);
+            return this.renderDropdown(value, isProductCountVisible ? count : null);
         }
 
         return (
