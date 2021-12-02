@@ -199,8 +199,16 @@
         align-items: center;
         font-size: 80%;
         font-weight: 700;
-        inset-block-start: -16px;
-        inset-inline-end: -12px;
+
+        @include mobile {
+            inset-block-start: -7px;
+            inset-inline-end: -11px;
+        }
+
+        @include desktop {
+            inset-block-start: -10px;
+            inset-inline-end: -12px;
+        }
     }
 
     &-LogoWrapper {
