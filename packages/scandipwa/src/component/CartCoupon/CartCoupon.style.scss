@@ -20,6 +20,8 @@
     }
 
     &-Message {
+        word-break: break-word;
+        margin-inline-end: 24px;
         display: inline-block;
     }
 
@@ -37,6 +39,7 @@
 
     &-Input {
         display: inline-block;
+        margin-inline-end: 24px;
 
         input {
             width: 296px;
@@ -67,8 +70,6 @@
 
     &-Button {
         @include button;
-
-        margin-inline-start: 24px;
 
         @include mobile {
             width: 100%;
