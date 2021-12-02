@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { showNotification } from 'Store/Notification/Notification.action';
 
@@ -97,12 +98,13 @@ export class NewsletterSubscriptionContainer extends PureComponent {
             <NewsletterSubscription
               { ...this.containerProps() }
               { ...this.containerFunctions }
+              key={ window.location.pathname }
             />
         );
     }
 }
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(NewsletterSubscriptionContainer);
+)(NewsletterSubscriptionContainer));
