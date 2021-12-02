@@ -13,7 +13,7 @@
     },
     "dependencies": {
         "@scandipwa/scandipwa-dev-utils": "0.1.12",
-        "@tilework/eslint-plugin-mosaic": "^0.0.8",
+        "@tilework/eslint-plugin-mosaic": "0.0.9",
         "@tilework/mosaic-dev-utils": "0.0.5",
         "eslint-traverse": "^1.0.0",
         "requireindex": "~1.1.0"
