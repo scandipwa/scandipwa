@@ -381,7 +381,7 @@ export class Menu extends PureComponent {
               block="Menu"
               elem="CompareCountInMenu"
             >
-                { `(${compareTotals})` }
+                { `(${ compareTotals })` }
             </span>
         );
     }
