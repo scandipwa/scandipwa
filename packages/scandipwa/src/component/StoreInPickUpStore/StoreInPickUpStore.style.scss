@@ -22,11 +22,20 @@
 
         &Data {
             padding: 20px 0;
+            max-width: 55%;
+            overflow: auto;
+            word-break: break-all;
 
             > * {
                 font-size: 14px;
                 line-height: 1.8;
                 margin: 0;
+            }
+        }
+
+        &Actions {
+            @include desktop {
+                margin-inline-end: 15px;
             }
         }
     }

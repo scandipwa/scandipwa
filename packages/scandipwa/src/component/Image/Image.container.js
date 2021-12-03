@@ -12,7 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { MixType } from 'Type/Common';
+import { IMAGE_HUNDRED_PERCENT } from 'Component/Image/Image.config';
+import { MixType, RefType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import Image from './Image.component';
 
@@ -24,7 +26,10 @@ export class ImageContainer extends PureComponent {
             PropTypes.string,
             PropTypes.bool
         ]),
-        style: PropTypes.shape({}),
+        style: PropTypes.objectOf(PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ])),
         width: PropTypes.string,
         height: PropTypes.string,
         alt: PropTypes.string,
@@ -36,12 +41,10 @@ export class ImageContainer extends PureComponent {
         ]),
         mix: MixType,
         className: PropTypes.string,
-        imageRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]),
+        imageRef: RefType,
         title: PropTypes.string,
-        isPlain: PropTypes.bool
+        isPlain: PropTypes.bool,
+        showIsLoading: PropTypes.bool
     };
 
     static defaultProps = {
@@ -55,8 +58,9 @@ export class ImageContainer extends PureComponent {
         style: {},
         title: null,
         className: '',
-        imageRef: () => {},
-        isPlain: false
+        imageRef: noopFn,
+        isPlain: false,
+        showIsLoading: false
     };
 
     containerProps() {
@@ -65,11 +69,11 @@ export class ImageContainer extends PureComponent {
             src,
             title,
             alt,
-            className,
             ratio,
             mix,
             imageRef,
-            isPlain
+            isPlain,
+            showIsLoading
         } = this.props;
 
         return {
@@ -79,19 +83,46 @@ export class ImageContainer extends PureComponent {
             src,
             title,
             alt,
-            className,
+            className: this._getCorrectClassNames(),
             ratio,
             mix,
             imageRef,
-            isPlain
+            isPlain,
+            showIsLoading,
+            isCached: this._isCached()
         };
+    }
+
+    _isCached() {
+        const { showIsLoading, src } = this.props;
+
+        if (!showIsLoading) {
+            return false;
+        }
+
+        if (
+            window.prefetchedImages
+            && window.prefetchedImages[src]
+            && window.prefetchedImages[src].complete
+        ) {
+            return true;
+        }
+
+        const img = document.createElement('img');
+        img.src = src;
+
+        if (img.complete) {
+            return true;
+        }
+
+        return false;
     }
 
     _parseSize(size) {
         const trimmedSize = size.trim();
 
         if (!trimmedSize) {
-            return '100%';
+            return IMAGE_HUNDRED_PERCENT;
         }
 
         const PX_LENGTH = -2;
@@ -107,11 +138,40 @@ export class ImageContainer extends PureComponent {
         return `${trimmedSize}px`;
     }
 
+    _getCorrectClassNames() {
+        const { width, height, className } = this.props;
+
+        const trueMap = [
+            this._parseSize(height) === IMAGE_HUNDRED_PERCENT,
+            this._parseSize(width) === IMAGE_HUNDRED_PERCENT
+        ];
+        const classMap = [
+            'Image-WidthFull',
+            'Image-HeightFull'
+        ];
+
+        const classes = classMap.filter((_, index) => trueMap[index]);
+
+        return [className, ...classes].join(' ');
+    }
+
     _getCorrectSize() {
         const { width, height } = this.props;
 
         const correctHeight = this._parseSize(height);
         const correctWidth = this._parseSize(width);
+
+        if (correctHeight === IMAGE_HUNDRED_PERCENT && correctWidth === IMAGE_HUNDRED_PERCENT) {
+            return {};
+        }
+
+        if (correctHeight === IMAGE_HUNDRED_PERCENT && correctWidth) {
+            return { width: correctWidth };
+        }
+
+        if (correctHeight && correctWidth === IMAGE_HUNDRED_PERCENT) {
+            return { height: correctHeight };
+        }
 
         return { width: correctWidth, height: correctHeight };
     }
@@ -126,7 +186,7 @@ export class ImageContainer extends PureComponent {
         const size = this._getCorrectSize();
         const { height, width } = size;
 
-        if (height.slice(-1) === '%' && width.slice(-1) === '%') {
+        if (!height || (height.slice(-1) === '%' && (!width || width.slice(-1) === '%'))) {
             return {};
         }
 

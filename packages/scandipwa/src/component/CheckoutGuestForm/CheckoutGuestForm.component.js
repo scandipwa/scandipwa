@@ -11,8 +11,7 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from 'Component/FieldForm/FieldForm.component';
-import FormPortal from 'Component/FormPortal';
+import FieldForm from 'Component/FieldForm';
 import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
 import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
 import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
@@ -24,6 +23,9 @@ import {
     STATE_SIGN_IN
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import MyAccountSignIn from 'Component/MyAccountSignIn';
+import { noopFn } from 'Util/Common';
+
+import checkoutGuestForm from './CheckoutGuestForm.form';
 
 import './CheckoutGuestForm.style';
 
@@ -62,52 +64,32 @@ export class CheckoutGuestForm extends FieldForm {
             render: () => this.renderForgotPasswordSuccess()
         },
         [STATE_LOGGED_IN]: {
-            render: () => {}
+            render: noopFn
         },
         [STATE_CONFIRM_EMAIL]: {
             render: () => this.renderConfirmEmail(),
             title: __('Confirm the email')
         },
         '': {
-            render: () => this.renderGuestForm(),
             title: __('Enter personal information')
         }
     };
 
-    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
     get fieldMap() {
         const {
             handleEmailInput,
             handlePasswordInput,
-            formId,
             isCreateUser,
             emailValue
         } = this.props;
 
-        const fields = {
-            guest_email: {
-                form: formId,
-                label: __('Email'),
-                type: 'email',
-                validation: ['notEmpty', 'email'],
-                onChange: handleEmailInput,
-                skipValue: true,
-                value: emailValue
-            }
-        };
-
-        if (isCreateUser) {
-            fields.guest_password = {
-                form: formId,
-                label: __('Create Password'),
-                onChange: handlePasswordInput,
-                validation: ['notEmpty', 'password'],
-                type: 'password',
-                skipValue: true
-            };
-        }
-
-        return fields;
+        return checkoutGuestForm({
+            isCreateUser,
+            emailValue
+        }, {
+            handleEmailInput,
+            handlePasswordInput
+        });
     }
 
     renderHeading() {
@@ -216,28 +198,20 @@ export class CheckoutGuestForm extends FieldForm {
         );
     }
 
-    renderGuestForm() {
-        const { formId } = this.props;
-
+    renderFormBody() {
         return (
             <>
-                { this.renderHeading() }
-                <FormPortal
-                  id={ formId }
-                  name="CheckoutGuestForm"
-                >
-                    { this.renderFields() }
-                    <span>{ __('You can create an account after checkout') }</span>
-                </FormPortal>
+                { super.renderFormBody() }
+                <span>{ __('You can create an account after checkout') }</span>
             </>
         );
     }
 
     renderForm() {
         const { signInState } = this.props;
-        const { render } = this.renderMap[signInState];
+        const { render } = this.renderMap[signInState] || {};
 
-        return render();
+        return typeof render === 'function' ? render() : super.render();
     }
 
     render() {

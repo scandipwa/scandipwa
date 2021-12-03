@@ -8,12 +8,15 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
-import { signInStateType } from 'Type/Account';
+import { SignInStateType } from 'Type/Account.type';
+import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 import './MyAccountSignIn.style.scss';
 
@@ -21,57 +24,59 @@ import './MyAccountSignIn.style.scss';
 export class MyAccountSignIn extends PureComponent {
     static propTypes = {
         onSignInSuccess: PropTypes.func.isRequired,
-        onSignInAttempt: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired,
         handleForgotPassword: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
         isCheckout: PropTypes.bool.isRequired,
-        state: signInStateType.isRequired,
-        emailValue: PropTypes.string.isRequired,
-        handleEmailInput: PropTypes.func
-    };
-
-    static defaultProps = {
-        handleEmailInput: () => {}
+        state: SignInStateType.isRequired,
+        emailValue: PropTypes.string.isRequired
     };
 
     renderSignInForm() {
         const {
-            onSignInAttempt,
             onSignInSuccess,
             onFormError,
             handleForgotPassword,
             emailValue,
-            handleEmailInput,
             isCheckout
         } = this.props;
 
         return (
             <Form
               key="sign-in"
-              onSubmit={ onSignInAttempt }
-              onSubmitSuccess={ onSignInSuccess }
-              onSubmitError={ onFormError }
+              onSubmit={ onSignInSuccess }
+              onError={ onFormError }
             >
                 <Field
-                  type="email"
                   label={ __('Email') }
-                  id="email"
-                  name="email"
-                  placeholder={ __('Your email address') }
-                  value={ emailValue }
-                  autocomplete={ isCheckout ? 'off' : 'email' }
-                  validation={ ['notEmpty', 'email'] }
-                  onChange={ handleEmailInput }
+                  type={ FIELD_TYPE.email }
+                  attr={ {
+                      id: 'email',
+                      name: 'email',
+                      placeholder: __('Your email address'),
+                      defaultValue: emailValue,
+                      autocomplete: isCheckout ? 'off' : 'email'
+                  } }
+                  validateOn={ ['onChange'] }
+                  validationRule={ {
+                      isRequired: true,
+                      inputType: VALIDATION_INPUT_TYPE.email
+                  } }
                 />
                 <Field
-                  type="password"
                   label={ __('Password') }
-                  id="password"
-                  name="password"
-                  placeholder={ __('Enter your password') }
-                  autocomplete="current-password"
-                  validation={ ['notEmpty', 'password'] }
+                  type={ FIELD_TYPE.password }
+                  attr={ {
+                      id: 'password',
+                      name: 'password',
+                      placeholder: __('Enter your password'),
+                      autocomplete: 'current-password'
+                  } }
+                  validateOn={ ['onChange'] }
+                  validationRule={ {
+                      isRequired: true,
+                      inputType: VALIDATION_INPUT_TYPE.password
+                  } }
                 />
                 <button
                   type="button"

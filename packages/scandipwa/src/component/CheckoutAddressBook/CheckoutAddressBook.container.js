@@ -13,8 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 
 import CheckoutAddressBook from './CheckoutAddressBook.component';
 
@@ -41,7 +42,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         requestCustomerData: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func,
         onAddressSelect: PropTypes.func,
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         isBilling: PropTypes.bool,
         isSubmitted: PropTypes.bool,
         is_virtual: PropTypes.bool
@@ -49,8 +50,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
 
     static defaultProps = {
         isBilling: false,
-        onAddressSelect: () => {},
-        onShippingEstimationFieldsChange: () => {},
+        onAddressSelect: noopFn,
+        onShippingEstimationFieldsChange: noopFn,
         isSubmitted: false,
         is_virtual: false
     };
@@ -63,6 +64,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         if (defaultAddressId) {
             return +defaultAddressId;
         }
+
         if (addresses && addresses.length) {
             return addresses[0].id;
         }

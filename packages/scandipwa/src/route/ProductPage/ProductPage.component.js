@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -17,7 +16,6 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
 import Popup from 'Component/Popup/Popup.container';
 import ProductActions from 'Component/ProductActions';
-import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviewForm from 'Component/ProductReviewForm/ProductReviewForm.container';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
@@ -29,7 +27,7 @@ import {
     PRODUCT_REVIEWS
 } from 'Route/ProductPage/ProductPage.config';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 
 import './ProductPage.style';
 
@@ -53,25 +51,16 @@ export const ProductAttributes = lazy(() => import(
 /** @namespace Route/ProductPage/Component */
 export class ProductPage extends PureComponent {
     static propTypes = {
-        configurableVariantIndex: PropTypes.number.isRequired,
-        productOrVariant: ProductType.isRequired,
         getLink: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        updateConfigurableVariant: PropTypes.func.isRequired,
         dataSource: ProductType.isRequired,
+        activeProduct: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
-        getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        setLinkedDownloadables: PropTypes.func.isRequired,
-        setLinkedDownloadablesPrice: PropTypes.func.isRequired,
-        productOptionsData: PropTypes.object.isRequired,
-        setBundlePrice: PropTypes.func.isRequired,
-        selectedLinkPrice: PropTypes.number.isRequired,
-        selectedBundlePrice: PropTypes.number.isRequired,
-        isMobile: PropTypes.bool.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
-        selectedBundlePriceExclTax: PropTypes.number.isRequired,
-        selectedInitialBundlePrice: PropTypes.number.isRequired
+        setActiveProduct: PropTypes.func.isRequired,
+        useEmptyGallerySwitcher: PropTypes.bool.isRequired,
+        isVariant: PropTypes.bool.isRequired
     };
 
     tabMap = {
@@ -103,72 +92,34 @@ export class ProductPage extends PureComponent {
 
     renderProductPageContent() {
         const {
-            configurableVariantIndex,
-            parameters,
             getLink,
             dataSource,
-            updateConfigurableVariant,
-            productOrVariant,
             areDetailsLoaded,
-            getSelectedCustomizableOptions,
-            productOptionsData,
-            setBundlePrice,
-            selectedBundlePrice,
-            selectedInitialBundlePrice,
-            selectedBundlePriceExclTax,
-            setLinkedDownloadables,
-            setLinkedDownloadablesPrice,
-            selectedLinkPrice
+            activeProduct,
+            setActiveProduct,
+            useEmptyGallerySwitcher,
+            parameters,
+            isVariant
         } = this.props;
 
         return (
             <>
                 <Suspense fallback={ <Loader /> }>
                     <ProductGallery
-                      product={ productOrVariant }
+                      product={ activeProduct }
                       areDetailsLoaded={ areDetailsLoaded }
+                      isWithEmptySwitcher={ useEmptyGallerySwitcher }
+                      showLoader={ isVariant }
                     />
                 </Suspense>
                 <ProductActions
                   getLink={ getLink }
-                  updateConfigurableVariant={ updateConfigurableVariant }
                   product={ dataSource }
-                  productOrVariant={ productOrVariant }
                   parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
-                  configurableVariantIndex={ configurableVariantIndex }
-                  getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
-                  productOptionsData={ productOptionsData }
-                  setBundlePrice={ setBundlePrice }
-                  selectedBundlePrice={ selectedBundlePrice }
-                  selectedInitialBundlePrice={ selectedInitialBundlePrice }
-                  selectedBundlePriceExclTax={ selectedBundlePriceExclTax }
-                  setLinkedDownloadables={ setLinkedDownloadables }
-                  setLinkedDownloadablesPrice={ setLinkedDownloadablesPrice }
-                  selectedLinkPrice={ selectedLinkPrice }
+                  setActiveProduct={ setActiveProduct }
                 />
             </>
-        );
-    }
-
-    renderCustomizableOptions() {
-        const {
-            dataSource: { options },
-            getSelectedCustomizableOptions,
-            productOptionsData,
-            isMobile
-        } = this.props;
-
-        if (!isMobile) {
-            return null;
-        }
-
-        return (
-            <ProductCustomizableOptions
-              options={ options || [] }
-              getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
-              productOptionsData={ productOptionsData }
-            />
         );
     }
 
@@ -192,15 +143,14 @@ export class ProductPage extends PureComponent {
 
     renderProductAttributesTab(key) {
         const {
-            dataSource,
-            parameters,
+            activeProduct,
             areDetailsLoaded
         } = this.props;
 
         return (
             <Suspense fallback={ <Loader /> } key={ key }>
                 <ProductAttributes
-                  product={ { ...dataSource, parameters } }
+                  product={ activeProduct }
                   areDetailsLoaded={ areDetailsLoaded }
                   key={ key }
                 />
@@ -242,7 +192,6 @@ export class ProductPage extends PureComponent {
 
         return (
             <>
-                { this.renderCustomizableOptions() }
                 { this.renderProductTabs() }
                 <ProductLinks
                   linkType={ RELATED }
@@ -259,14 +208,14 @@ export class ProductPage extends PureComponent {
     }
 
     renderReviewPopup() {
-        const { productOrVariant } = this.props;
+        const { dataSource } = this.props;
 
         return (
             <Popup
               id={ REVIEW_POPUP_ID }
               mix={ { block: 'ProductReviews', elem: 'Popup' } }
             >
-                <ProductReviewForm product={ productOrVariant } />
+                <ProductReviewForm product={ dataSource } />
             </Popup>
         );
     }

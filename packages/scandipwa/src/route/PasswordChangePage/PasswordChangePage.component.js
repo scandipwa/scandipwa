@@ -14,8 +14,10 @@ import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
+import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 import './PasswordChangePage.style';
 
@@ -23,42 +25,60 @@ import './PasswordChangePage.style';
 export class PasswordChangePage extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
-        onPasswordAttempt: PropTypes.func.isRequired,
         onPasswordSuccess: PropTypes.func.isRequired,
         onError: PropTypes.func.isRequired
     };
 
     renderForm() {
         const {
-            onPasswordAttempt,
             onPasswordSuccess,
             onError
         } = this.props;
 
-        // TODO: use FieldForm instead!!!
-
         return (
             <Form
               key="reset-password"
-              onSubmit={ onPasswordAttempt }
-              onSubmitSuccess={ onPasswordSuccess }
-              onSubmitError={ onError }
+              onSubmit={ onPasswordSuccess }
+              onError={ onError }
             >
                 <Field
-                  type="password"
+                  type={ FIELD_TYPE.password }
                   label={ __('New password') }
-                  id="password"
-                  name="password"
-                  autocomplete="new-password"
-                  validation={ ['notEmpty', 'password'] }
+                  attr={ {
+                      id: 'password',
+                      name: 'password',
+                      placeholder: __('Enter your password'),
+                      autocomplete: 'new-password'
+                  } }
+                  validateOn={ ['onChange'] }
+                  validationRule={ {
+                      isRequired: true,
+                      inputType: VALIDATION_INPUT_TYPE.password
+                  } }
+                  addRequiredTag
                 />
                 <Field
-                  type="password"
+                  type={ FIELD_TYPE.password }
                   label={ __('Confirm password') }
-                  id="password_confirmation"
-                  name="password_confirmation"
-                  autocomplete="new-password"
-                  validation={ ['notEmpty', 'password', 'password_match'] }
+                  attr={ {
+                      id: 'password_confirmation',
+                      name: 'password_confirmation',
+                      placeholder: __('Retype your password'),
+                      autocomplete: 'new-password'
+                  } }
+                  validateOn={ ['onChange'] }
+                  validationRule={ {
+                      isRequired: true,
+                      inputType: VALIDATION_INPUT_TYPE.password,
+                      match: (value) => {
+                          const password = document.getElementById('password');
+                          return password.value === value;
+                      },
+                      customErrorMessages: {
+                          onMatchFail: __('Passwords do not match!')
+                      }
+                  } }
+                  addRequiredTag
                 />
                 <div block="MyAccount" elem="Buttons">
                     <button

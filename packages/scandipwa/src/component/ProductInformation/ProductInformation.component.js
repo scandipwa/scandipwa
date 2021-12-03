@@ -16,7 +16,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 
 import './ProductInformation.style';
 
@@ -76,7 +76,9 @@ export class ProductInformation extends PureComponent {
         }
 
         // check if at least one HTML element has content
-        const elementsWithContent = Array.from(document.body.children).filter((element) => element.innerText !== '');
+        const elementsWithContent = Array.from(document.body.children).filter(
+            (element) => element.innerText !== '' || element.nodeName === 'IMG'
+        );
 
         return elementsWithContent.length === 0;
     }

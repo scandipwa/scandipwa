@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { setBigOfflineNotice, showOfflineNotice } from 'Store/Offline/Offline.action';
-import { LocationType } from 'Type/Common';
+import { LocationType } from 'Type/Router.type';
 
 import OfflineNotice from './OfflineNotice.component';
 
@@ -122,6 +122,7 @@ export class OfflineNoticeContainer extends PureComponent {
         } else {
             document.documentElement.classList.add('offline');
             showOfflineNotice(true);
+
             if (isBig) {
                 setBigOfflineNotice(false);
             }

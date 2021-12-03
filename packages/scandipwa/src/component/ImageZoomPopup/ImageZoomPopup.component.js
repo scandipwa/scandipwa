@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import TranslateOnCursorMove from 'Component/TranslateOnCursorMove';
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType } from 'Type/Common.type';
 
 import './ImageZoomPopup.style';
 
@@ -34,7 +34,7 @@ export class ImageZoomPopup extends PureComponent {
             <div block="ImageZoomPopup">
                 <TranslateOnCursorMove
                   activeImageId={ activeImageId }
-                  itemSelector=".ProductGallery-SliderImage"
+                  itemSelector=".ProductGallery-SliderImage, .VideoThumbnail"
                   targetSelector=".Image-Image"
                 >
                     { children }

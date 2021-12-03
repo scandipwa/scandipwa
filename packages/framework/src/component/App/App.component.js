@@ -1,13 +1,13 @@
+import { ErrorDetailsType } from '@scandipwa/scandipwa/src/type/Error.type';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import SomethingWentWrong from '../SomethingWentWrong/SomethingWentWrong.component';
 
-/** @namespace Framework/Component/App/Component/AppComponent */
+/** @namespace Framework/Component/App/Component */
 export class AppComponent extends PureComponent {
     static propTypes = {
-        // eslint-disable-next-line react/forbid-prop-types
-        errorDetails: PropTypes.object.isRequired,
+        errorDetails: ErrorDetailsType.isRequired,
         isSomethingWentWrong: PropTypes.bool.isRequired,
         handleErrorReset: PropTypes.func.isRequired
     };

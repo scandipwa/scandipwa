@@ -13,287 +13,274 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+import { FIELD_TYPE } from 'Component/Field/Field.config';
+import FieldGroup from 'Component/FieldGroup';
+import { CustomizableOptionsType } from 'Type/ProductList.type';
+import { customizableOptionToLabel } from 'Util/Product/Transform';
 
-import {
-    AREA_FIELD, CHECKBOX, DROPDOWN, FILE, TEXT_FIELD
-} from './ProductCustomizableOption.config';
+import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
 
-/** @namespace Component/ProductCustomizableOption/Component */
+/**
+ * Product Customizable Option
+ * @class ProductCustomizableOption
+ * @namespace Component/ProductCustomizableOption/Component
+ */
 export class ProductCustomizableOption extends PureComponent {
     static propTypes = {
-        option: PropTypes.object.isRequired,
-        textValue: PropTypes.string.isRequired,
-        getSelectedCheckboxValue: PropTypes.func.isRequired,
-        renderOptionLabel: PropTypes.func.isRequired,
-        updateTextFieldValue: PropTypes.func.isRequired,
-        textFieldValid: PropTypes.bool.isRequired,
-        processFileUpload: PropTypes.func.isRequired,
-        setDropdownValue: PropTypes.func.isRequired,
-        selectedDropdownValue: PropTypes.number.isRequired,
-        optionType: PropTypes.string.isRequired,
+        uid: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        fieldType: PropTypes.string.isRequired,
+        updateSelectedValues: PropTypes.func.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
-        requiredSelected: PropTypes.bool.isRequired,
-        getIsCheckboxSelected: PropTypes.func
-    };
-
-    static defaultProps = {
-        getIsCheckboxSelected: () => {}
+        isRequired: PropTypes.bool.isRequired,
+        currencyCode: PropTypes.string.isRequired,
+        options: CustomizableOptionsType.isRequired
     };
 
     renderMap = {
-        [CHECKBOX]: {
-            render: () => this.renderCheckboxValues(),
-            title: () => this.renderTitle()
-        },
-        [DROPDOWN]: {
-            render: () => this.renderDropdownValues(),
-            title: () => this.renderTitle()
-        },
-        [TEXT_FIELD]: {
-            render: () => this.renderTextField(),
-            title: () => this.renderTextFieldTitle()
-        },
-        [AREA_FIELD]: {
-            render: () => this.renderTextField(),
-            title: () => this.renderTextFieldTitle()
-        },
-        [FILE]: {
-            render: () => this.renderFileField(),
-            title: () => this.renderTextFieldTitle()
-        }
+        [CONFIG_FIELD_TYPE.text]: this.renderDefaultValue.bind(this),
+        [CONFIG_FIELD_TYPE.textarea]: this.renderDefaultValue.bind(this),
+        [CONFIG_FIELD_TYPE.date]: this.renderDefaultValue.bind(this),
+        [CONFIG_FIELD_TYPE.dateTime]: this.renderDefaultValue.bind(this),
+        [CONFIG_FIELD_TYPE.time]: this.renderDefaultValue.bind(this),
+
+        [CONFIG_FIELD_TYPE.file]: this.renderFileValue.bind(this),
+        [CONFIG_FIELD_TYPE.select]: this.renderSelectValues.bind(this),
+        [CONFIG_FIELD_TYPE.radio]: this.renderRadioValues.bind(this),
+        [CONFIG_FIELD_TYPE.checkbox]: this.renderCheckboxValues.bind(this),
+        [CONFIG_FIELD_TYPE.multi]: this.renderCheckboxValues.bind(this)
     };
 
-    renderRequired(isRequired) {
-        const { requiredSelected } = this.props;
+    componentDidMount() {
+        const { updateSelectedValues } = this.props;
+        updateSelectedValues();
+    }
 
-        // skip undefined and false
-        if (isRequired !== true || requiredSelected) {
-            return null;
-        }
+    getLabel(option, overrideBase = null, overridePrice = null) {
+        const { currencyCode } = this.props;
+
+        const {
+            baseLabel,
+            priceLabel
+        } = customizableOptionToLabel(option, currencyCode);
 
         return (
-            <div
-              block="ProductCustomizableOptions"
-              elem="Required"
-            >
-                { __('This field is required!') }
-            </div>
+            <span block="ProductCustomizableItem" elem="Label">
+                { overrideBase || baseLabel }
+                <strong>{ overridePrice || priceLabel }</strong>
+            </span>
         );
     }
 
-    renderHeading(mainTitle, titleBold) {
+    renderDefaultValue(option) {
+        const {
+            updateSelectedValues, title, fieldType, isRequired, uid
+        } = this.props;
+        const { max_characters } = option;
+        const label = this.getLabel(option, title);
+
         return (
             <>
-                <span
-                  block="ProductCustomizableOptions"
-                  elem="Heading"
-                >
-                    { `${ mainTitle } ` }
-                </span>
-                <span
-                  block="ProductCustomizableOptions"
-                  elem="HeadingPrice"
-                >
-                    { titleBold }
-                </span>
+                { this.renderOptionGroupTitle(label) }
+                <Field
+                  type={ fieldType }
+                  validationRule={ {
+                      isRequired,
+                      range: {
+                          // min: isRequired ? 1 : 0,
+                          max: max_characters > 0 ? max_characters : null
+                      }
+                  } }
+                  attr={ {
+                      id: uid,
+                      name: uid
+                  } }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
+                  validateOn={ ['onBlur'] }
+                />
             </>
         );
     }
 
-    renderOptionCheckboxValue = (item) => {
+    renderFileValue(option) {
         const {
-            getSelectedCheckboxValue,
-            renderOptionLabel,
-            getIsCheckboxSelected
+            title, uid, isRequired, updateSelectedValues
         } = this.props;
-
-        const {
-            option_type_id,
-            title,
-            price,
-            priceInclTax,
-            price_type,
-            currency
-        } = item;
-
-        const priceLabel = renderOptionLabel(price_type, priceInclTax, price, currency);
-        const isCheckBoxSelected = getIsCheckboxSelected(option_type_id);
+        const { file_extension: fileExtensions = '' } = option;
+        const label = this.getLabel(option, title);
 
         return (
-            <Field
-              type="checkbox"
-              label={ this.renderHeading(title, priceLabel) }
-              key={ option_type_id }
-              id={ `option-${ option_type_id }` }
-              name={ `option-${ option_type_id }` }
-              value={ option_type_id }
-              onChange={ getSelectedCheckboxValue }
-              checked={ isCheckBoxSelected }
-            />
+            <>
+                { this.renderOptionGroupTitle(label) }
+                <Field
+                  type={ FIELD_TYPE.file }
+                  validationRule={ {
+                      isRequired,
+                      fileExtension: {
+                          accept: fileExtensions
+                      }
+                  } }
+                  attr={ {
+                      id: uid,
+                      name: uid,
+                      accept: fileExtensions
+                  } }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
+                  validateOn={ ['onChange'] }
+                />
+            </>
+        );
+    }
+
+    renderCheckBox = (option) => {
+        const {
+            uid,
+            is_default: isDefault = false
+        } = option;
+        const { updateSelectedValues } = this.props;
+        const label = this.getLabel(option);
+
+        return (
+            <div key={ uid }>
+                <Field
+                  type={ FIELD_TYPE.checkbox }
+                  label={ label }
+                  attr={ {
+                      id: `option-${ uid }`,
+                      value: uid,
+                      name: `option-${ uid }`,
+                      defaultChecked: isDefault
+                  } }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
+                />
+            </div>
         );
     };
 
-    renderOptionDropdownValues(values) {
+    renderCheckboxValues(options) {
+        const { isRequired } = this.props;
+
+        return (
+            <FieldGroup
+              validationRule={ {
+                  isRequired
+              } }
+              validateOn={ ['onChange'] }
+            >
+                { options.map(this.renderCheckBox) }
+            </FieldGroup>
+        );
+    }
+
+    renderRadio = (name, option) => {
+        const {
+            uid,
+            is_default
+        } = option;
+        const { updateSelectedValues } = this.props;
+        const label = this.getLabel(option);
+
+        return (
+            <div key={ uid }>
+                <Field
+                  type={ FIELD_TYPE.radio }
+                  label={ label }
+                  attr={ {
+                      id: `option-${ uid }`,
+                      value: uid,
+                      name: `option-${ name }`,
+                      checked: is_default
+                  } }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
+                />
+            </div>
+        );
+    };
+
+    renderRadioValues(options) {
+        const { isRequired, uid } = this.props;
+
+        return (
+            <FieldGroup
+              validationRule={ {
+                  isRequired
+              } }
+              validateOn={ ['onChange'] }
+            >
+                { options.map((option) => this.renderRadio(uid, option)) }
+            </FieldGroup>
+        );
+    }
+
+    renderSelectValues() {
         const {
             getDropdownOptions,
-            selectedDropdownValue,
-            setDropdownValue
+            updateSelectedValues,
+            isRequired,
+            uid
         } = this.props;
-        const dropdownOptions = getDropdownOptions(values);
 
         return (
-            <Field
-              id="customizable-options-dropdown"
-              name="customizable-options-dropdown"
-              type="select"
-              mix={ { block: 'CustomizableOptions', elem: 'Select' } }
-              placeholder={ __('Choose Option') }
-              selectOptions={ dropdownOptions }
-              value={ selectedDropdownValue }
-              onChange={ setDropdownValue }
-            />
-        );
-    }
-
-    renderMaxCharacters(max_characters) {
-        if (max_characters <= 0) {
-            return null;
-        }
-
-        return (
-            <div
-              block="ProductCustomizableOptions"
-              elem="Information"
-            >
-                { __('Maximum %s characters', max_characters) }
+            <div block="ProductCustomizableItem" elem="DropdownWrapper">
+                <Field
+                  type={ FIELD_TYPE.select }
+                  attr={ {
+                      id: `customizable-options-dropdown-${ uid }`,
+                      name: `customizable-options-dropdown-${ uid }`,
+                      selectPlaceholder: __('Select option...')
+                  } }
+                  mix={ { block: 'ProductCustomizableItem', elem: 'Select' } }
+                  options={ getDropdownOptions() }
+                  events={ {
+                      onChange: updateSelectedValues
+                  } }
+                  validationRule={ {
+                      isRequired
+                  } }
+                  validateOn={ ['onChange'] }
+                />
             </div>
         );
     }
 
-    renderCheckboxValues() {
-        const { option: { required, data } } = this.props;
+    renderOptionGroupTitle(title) {
+        const { isRequired } = this.props;
 
         return (
-            <>
-                { data.map(this.renderOptionCheckboxValue) }
-                { this.renderRequired(required) }
-            </>
+            <div block="ProductCustomizableItem" elem="Heading">
+                { title }
+                { isRequired && <strong block="ProductCustomizableItem" elem="Required"> *</strong> }
+            </div>
         );
-    }
-
-    renderDropdownValues() {
-        const { option: { required, data } } = this.props;
-
-        return (
-            <>
-                { this.renderOptionDropdownValues(data) }
-                { this.renderRequired(required) }
-            </>
-        );
-    }
-
-    renderTextField() {
-        const {
-            option: {
-                required,
-                data
-            },
-            updateTextFieldValue,
-            textValue,
-            optionType,
-            textFieldValid
-        } = this.props;
-        const [{ max_characters = 0 }] = data;
-        const fieldType = optionType === 'field' ? 'text' : 'textarea';
-
-        return (
-            <>
-                <Field
-                  id={ `customizable-options-${ optionType }` }
-                  name={ `customizable-options-${ optionType }` }
-                  type={ fieldType }
-                  maxLength={ max_characters > 0 ? max_characters : null }
-                  value={ textValue }
-                  onChange={ updateTextFieldValue }
-                  customValidationStatus={ textFieldValid }
-                />
-                { this.renderRequired(required) }
-                { this.renderMaxCharacters(max_characters) }
-            </>
-        );
-    }
-
-    renderFileField() {
-        const {
-            optionType,
-            processFileUpload,
-            option: {
-                required,
-                data: [{ file_extension = '' }] = []
-            } = {}
-        } = this.props;
-
-        return (
-            <>
-                <Field
-                  id={ `customizable-options-${ optionType }` }
-                  name={ `customizable-options-${ optionType }` }
-                  type="file"
-                  onChange={ processFileUpload }
-                  fileExtensions={ file_extension }
-                />
-                { this.renderRequired(required) }
-            </>
-        );
-    }
-
-    renderTitle() {
-        const { option } = this.props;
-        const { title } = option;
-
-        return (
-            <strong>{ title }</strong>
-        );
-    }
-
-    renderTextFieldTitle() {
-        const {
-            renderOptionLabel,
-            option: {
-                title,
-                data: [
-                    {
-                        price_type = 'FIXED',
-                        price = 0,
-                        priceInclTax,
-                        currency
-                    } = {}
-                ] = []
-            }
-        } = this.props;
-
-        const priceLabel = renderOptionLabel(price_type, priceInclTax, price, currency);
-
-        return this.renderHeading(title, priceLabel);
     }
 
     render() {
-        const { optionType } = this.props;
+        const { options, type, title } = this.props;
+        const render = this.renderMap[type];
 
-        const optionRenderMap = this.renderMap[optionType];
-
-        if (!optionRenderMap) {
+        if (!render) {
             return null;
         }
 
-        const { render, title } = optionRenderMap;
+        const renderTitle = title
+            && (type === CONFIG_FIELD_TYPE.select
+            || type === CONFIG_FIELD_TYPE.radio
+            || type === CONFIG_FIELD_TYPE.checkbox
+            || type === CONFIG_FIELD_TYPE.multi);
 
         return (
-            <div block="ProductCustomizableOptions" elem="Wrapper">
-                { title() }
-                <div block="ProductCustomizableOptions" elem="Content">
-                    { render() }
-                </div>
+            <div block="ProductCustomizableItem" elem="Wrapper">
+                { renderTitle && this.renderOptionGroupTitle(title) }
+                { options && render(options) }
             </div>
         );
     }

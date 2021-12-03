@@ -18,11 +18,16 @@ import {
     STORE_IN_PICK_UP_METHOD_CODE
 } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { updateShippingFields } from 'Store/Checkout/Checkout.action';
-import { addressType, customerType } from 'Type/Account';
-import { shippingMethodsType, shippingMethodType, storeType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
-import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { Addresstype, CustomerType } from 'Type/Account.type';
+import { ShippingMethodsType, ShippingMethodType, StoreType } from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
+import {
+    trimAddressFields,
+    trimCheckoutAddress,
+    trimCheckoutCustomerAddress
+} from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
+import transformToNameValuePair from 'Util/Form/Transform';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
@@ -44,12 +49,12 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CheckoutShippingContainer extends PureComponent {
     static propTypes = {
         saveAddressInformation: PropTypes.func.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
-        customer: customerType.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
+        customer: CustomerType.isRequired,
         addressLinesQty: PropTypes.number.isRequired,
         updateShippingFields: PropTypes.func.isRequired,
         cartTotalSubPrice: PropTypes.number,
-        estimateAddress: addressType.isRequired,
+        estimateAddress: Addresstype.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,
@@ -57,10 +62,10 @@ export class CheckoutShippingContainer extends PureComponent {
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        selectedShippingMethod: shippingMethodType,
+        selectedShippingMethod: ShippingMethodType,
         setSelectedShippingMethodCode: PropTypes.func,
         totals: TotalsType.isRequired,
-        selectedStoreAddress: storeType
+        selectedStoreAddress: StoreType
     };
 
     static defaultProps = {
@@ -213,7 +218,7 @@ export class CheckoutShippingContainer extends PureComponent {
         this.setState({ isSubmitted: !isSubmitted });
     }
 
-    onShippingSuccess(fields) {
+    onShippingSuccess(form, fields) {
         const {
             saveAddressInformation,
             updateShippingFields,
@@ -226,7 +231,20 @@ export class CheckoutShippingContainer extends PureComponent {
             selectedShippingMethod
         } = this.state;
 
-        const formFields = getFormFields(fields, addressLinesQty);
+        const formattedFields = transformToNameValuePair(fields);
+
+        // Joins streets into one variable
+        if (addressLinesQty > 1) {
+            formattedFields.street = [];
+            // eslint-disable-next-line fp/no-loops,fp/no-let
+            for (let i = 0; i < addressLinesQty; i++) {
+                if (formattedFields[`street_${i}`]) {
+                    formattedFields.street.push(formattedFields[`street_${i}`]);
+                }
+            }
+        }
+
+        const formFields = trimCheckoutAddress(formattedFields);
 
         const shippingAddress = selectedCustomerAddressId
             ? this._getAddressById(selectedCustomerAddressId)
@@ -248,7 +266,7 @@ export class CheckoutShippingContainer extends PureComponent {
 
         saveAddressInformation(data);
         const shippingMethod = `${shipping_carrier_code}_${shipping_method_code}`;
-        updateShippingFields({ ...fields, shippingMethod });
+        updateShippingFields({ ...formattedFields, shippingMethod });
     }
 
     _getAddressById(addressId) {
@@ -256,7 +274,7 @@ export class CheckoutShippingContainer extends PureComponent {
         const address = addresses.find(({ id }) => id === addressId);
 
         return {
-            ...trimCustomerAddress(address),
+            ...trimCheckoutCustomerAddress(address),
             save_in_address_book: false,
             id: addressId
         };

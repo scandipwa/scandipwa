@@ -13,8 +13,8 @@ import { combineReducers, createStore } from 'redux';
 
 /**
  * Configure the store
- * @namespace Store/Index/configureStore
- * */
+ * @namespace Util/Store/Index/configureStore
+ */
 export function configureStore(store) {
     // Add a dictionary to keep track of the registered async reducers
     store.asyncReducers = {};
@@ -30,6 +30,7 @@ export function configureStore(store) {
     return store;
 }
 
+/** @namespace Util/Store/Index/noopReducer */
 export const noopReducer = (state) => state;
 
 export const getStore = (() => {

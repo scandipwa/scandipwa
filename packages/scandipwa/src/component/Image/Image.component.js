@@ -14,7 +14,8 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { MixType } from 'Type/Common';
+import { MixType, RefType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import {
     IMAGE_LOADED, IMAGE_LOADING, IMAGE_NOT_FOUND, IMAGE_NOT_SPECIFIED
@@ -30,41 +31,49 @@ import './Image.style';
  */
 export class Image extends PureComponent {
     static propTypes = {
-        isPlaceholder: PropTypes.bool.isRequired,
+        isPlaceholder: PropTypes.bool,
         title: PropTypes.string,
         src: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
-        ]).isRequired,
+        ]),
         style: PropTypes.shape({
             width: PropTypes.string,
             height: PropTypes.string
         }),
         alt: PropTypes.string,
-        className: PropTypes.string.isRequired,
+        className: PropTypes.string,
         ratio: PropTypes.oneOf([
             '4x3',
             '16x9',
             'square',
             'custom'
-        ]).isRequired,
+        ]),
         wrapperSize: PropTypes.shape({
             height: PropTypes.string
         }),
-        mix: MixType.isRequired,
-        imageRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]).isRequired,
-        isPlain: PropTypes.bool
+        mix: MixType,
+        imageRef: RefType,
+        isPlain: PropTypes.bool,
+        isCached: PropTypes.bool,
+
+        showIsLoading: PropTypes.bool
     };
 
     static defaultProps = {
+        src: '',
         alt: '',
         wrapperSize: {},
         style: {},
         title: null,
-        isPlain: false
+        isPlain: false,
+        isPlaceholder: false,
+        isCached: false,
+        className: '',
+        ratio: 'square',
+        mix: {},
+        showIsLoading: false,
+        imageRef: noopFn
     };
 
     image = createRef();
@@ -96,10 +105,14 @@ export class Image extends PureComponent {
     }
 
     onImageChange() {
-        const { src } = this.props;
+        const { src, isCached } = this.props;
 
         if (!src) {
             return this.setState({ imageStatus: IMAGE_NOT_SPECIFIED });
+        }
+
+        if (isCached) {
+            return this.setState({ imageStatus: IMAGE_LOADED });
         }
 
         return this.setState({ imageStatus: IMAGE_LOADING });
@@ -204,6 +217,19 @@ export class Image extends PureComponent {
         return render();
     }
 
+    renderLoader() {
+        const { showIsLoading } = this.props;
+        const { imageStatus } = this.state;
+
+        if (imageStatus !== IMAGE_LOADING || !showIsLoading) {
+            return null;
+        }
+
+        return (
+            <div block="Image" elem="Loader" />
+        );
+    }
+
     render() {
         const {
             ratio,
@@ -239,6 +265,7 @@ export class Image extends PureComponent {
               className={ className }
             >
                 { this.renderImage() }
+                { this.renderLoader() }
             </div>
         );
     }

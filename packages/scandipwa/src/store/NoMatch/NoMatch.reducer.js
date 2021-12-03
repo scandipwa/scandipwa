@@ -18,7 +18,7 @@ export const getInitialState = () => ({
     noMatch: false
 });
 
-/** @namespace Store/NoMatch/Reducer */
+/** @namespace Store/NoMatch/Reducer/NoMatchReducer */
 export const NoMatchReducer = (
     state = getInitialState(),
     action

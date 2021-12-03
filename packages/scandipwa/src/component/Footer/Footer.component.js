@@ -17,7 +17,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import NewsletterSubscription from 'Component/NewsletterSubscription';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 
 import { COLUMN_MAP, NEWSLETTER_COLUMN, RENDER_NEWSLETTER } from './Footer.config';
 
@@ -52,17 +52,24 @@ export class Footer extends Component {
             device: {
                 isMobile
             },
-            isVisibleOnMobile
+            isVisibleOnMobile,
+            copyright,
+            newsletterActive
         } = this.props;
 
         const {
             device: {
                 isMobile: nextIsMobile
             },
-            isVisibleOnMobile: nextIsVisibleOnMobile
+            isVisibleOnMobile: nextIsVisibleOnMobile,
+            copyright: nextCopyright,
+            newsletterActive: nextNewsletterActive
         } = nextProps;
 
-        return isMobile !== nextIsMobile || isVisibleOnMobile !== nextIsVisibleOnMobile;
+        return isMobile !== nextIsMobile
+            || isVisibleOnMobile !== nextIsVisibleOnMobile
+            || copyright !== nextCopyright
+            || newsletterActive !== nextNewsletterActive;
     }
 
     renderColumnItemContent(src, title) {
@@ -150,8 +157,8 @@ export class Footer extends Component {
         );
     }
 
-    renderNewsletterSubscriptionBlock(item, i) {
-        return <NewsletterSubscription key={ i } />;
+    renderNewsletterSubscriptionBlock() {
+        return <NewsletterSubscription key="NewsletterSubscription" />;
     }
 
     renderCmsBlockWrapper() {

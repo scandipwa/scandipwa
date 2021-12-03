@@ -22,7 +22,9 @@ import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
 import Loader from 'Component/Loader';
 import SearchIcon from 'Component/SearchIcon';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
+import { scrollToTop } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -53,13 +55,14 @@ export class SearchField extends PureComponent {
         isVisible: true,
         isActive: true,
         searchCriteria: '',
-        hideActiveOverlay: () => {}
+        hideActiveOverlay: noopFn
     };
 
     searchBarRef = createRef();
 
     onClearSearchButtonClick(isFocusOnSearchBar = true) {
         const { onClearSearchButtonClick } = this.props;
+
         if (isFocusOnSearchBar) {
             this.searchBarRef.current.focus();
         }
@@ -77,6 +80,7 @@ export class SearchField extends PureComponent {
             onSearchBarChange({ target: { value: '' } });
             this.searchBarRef.current.blur();
             this.closeSearch();
+            scrollToTop();
         }
     };
 

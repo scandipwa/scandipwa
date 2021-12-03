@@ -21,6 +21,11 @@ $select-arrow-width: 14px !default;
     &-Clickable {
         display: flex;
         align-items: center;
+
+        #storeSwitcher,
+        #CurrencySwitcherList {
+            line-height: 20px;
+        }
     }
 
     .ChevronIcon {
@@ -83,7 +88,7 @@ $select-arrow-width: 14px !default;
 
         &_isExpanded {
             @include desktop {
-                z-index: 5;
+                z-index: 15;
                 max-height: 200px;
                 border-color: #0a0a0a;
                 border-color: var(--input-border-color);
@@ -109,6 +114,10 @@ $select-arrow-width: 14px !default;
             padding-inline-start: 21px;
         }
 
+        &_isPlaceholder {
+            opacity: 0.6;
+        }
+
         &::before {
             content: none;
         }
@@ -119,6 +128,12 @@ $select-arrow-width: 14px !default;
 
         &:hover,
         &:focus {
+            @include desktop {
+                background: var(--secondary-base-color);
+            }
+        }
+
+        &_isHovered{
             @include desktop {
                 background: var(--secondary-base-color);
             }

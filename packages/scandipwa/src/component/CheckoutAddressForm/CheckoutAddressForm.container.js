@@ -9,21 +9,41 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import {
+    mapDispatchToProps,
+    mapStateToProps,
+    MyAccountAddressFormContainer
+} from 'Component/MyAccountAddressForm/MyAccountAddressForm.container';
 
 import CheckoutAddressForm from './CheckoutAddressForm.component';
 
-/** @namespace Component/CheckoutAddressForm/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    countries: state.ConfigReducer.countries,
-    default_country: state.ConfigReducer.default_country,
-    addressLinesQty: state.ConfigReducer.address_lines_quantity,
-    shippingFields: state.CheckoutReducer.shippingFields,
-    showVatNumber: state.ConfigReducer.show_vat_number_on_storefront,
-    regionDisplayAll: state.ConfigReducer.region_display_all
-});
+/** @namespace Component/CheckoutAddressForm/Container */
+export class CheckoutAddressFormContainer extends MyAccountAddressFormContainer {
+    static propTypes = {
+        ...super.propTypes,
+        onShippingEstimationFieldsChange: PropTypes.func.isRequired
+    };
 
-/** @namespace Component/CheckoutAddressForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+    containerProps() {
+        const { onShippingEstimationFieldsChange } = this.props;
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutAddressForm);
+        return {
+            onShippingEstimationFieldsChange,
+            ...super.containerProps()
+        };
+    }
+
+    render() {
+        return (
+            <CheckoutAddressForm
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutAddressFormContainer);

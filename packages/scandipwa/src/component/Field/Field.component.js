@@ -1,4 +1,4 @@
-/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
+/* eslint-disable spaced-comment,@scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,236 +13,200 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import AddIcon from 'Component/AddIcon';
-import ChevronIcon from 'Component/ChevronIcon';
-import { BOTTOM } from 'Component/ChevronIcon/ChevronIcon.config';
-import FieldInput from 'Component/FieldInput';
-import FieldSelect from 'Component/FieldSelect';
-import FieldTextarea from 'Component/FieldTextarea';
-import MinusIcon from 'Component/MinusIcon';
-import UploadIcon from 'Component/UploadIcon';
-import { MixType } from 'Type/Common';
-
+import FieldFile from 'Component/FieldFile';
+import { FieldNumberContainer } from 'Component/FieldNumber/FieldNumber.container';
+import FieldSelectContainer from 'Component/FieldSelect/FieldSelect.container';
+import { MixType } from 'Type/Common.type';
 import {
-    CHECKBOX_TYPE,
-    EMAIL_TYPE,
-    FILE_TYPE,
-    NUMBER_TYPE,
-    PASSWORD_TYPE,
-    RADIO_TYPE,
-    SELECT_TYPE,
-    TEXTAREA_TYPE
-} from './Field.config';
+    EventsType,
+    FieldAttrType,
+    LabelType,
+    OptionType
+} from 'Type/Field.type';
+import { noopFn } from 'Util/Common';
+
+import { FIELD_TYPE } from './Field.config';
 
 import './Field.style';
 
 /**
- * Input fields component
+ * Field
  * @class Field
  * @namespace Component/Field/Component
  */
 export class Field extends PureComponent {
     static propTypes = {
-        id: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        onChange: PropTypes.func.isRequired,
-        handleChange: PropTypes.func.isRequired,
-        onChangeCheckbox: PropTypes.func.isRequired,
-        onFocus: PropTypes.func.isRequired,
-        onKeyPress: PropTypes.func.isRequired,
-        onKeyEnterDown: PropTypes.func.isRequired,
-        onClick: PropTypes.func.isRequired,
-        label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-        message: PropTypes.string,
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-            PropTypes.bool
-        ]),
-        validation: PropTypes.arrayOf(PropTypes.string).isRequired,
-        validationStatus: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.string
-        ]),
-        checked: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.string
-        ]),
-        mix: MixType,
-        min: PropTypes.number,
-        max: PropTypes.number,
-        filename: PropTypes.string,
-        fileExtensions: PropTypes.string,
-        subLabel: PropTypes.number,
-        disabled: PropTypes.bool,
-        isLabelWithArrow: PropTypes.bool,
-        step: PropTypes.number
+        // Field attributes
+        type: PropTypes.oneOf(Object.values(FIELD_TYPE)).isRequired,
+        attr: FieldAttrType.isRequired,
+        events: EventsType.isRequired,
+        isDisabled: PropTypes.bool.isRequired,
+        setRef: PropTypes.func.isRequired,
+        mix: MixType.isRequired,
+        options: PropTypes.arrayOf(OptionType).isRequired,
+
+        // Validation
+        showErrorAsLabel: PropTypes.bool.isRequired,
+        validationResponse: (props, propName, componentName) => {
+            const propValue = props[propName];
+
+            if (propValue === null) {
+                return;
+            }
+
+            if (typeof propValue === 'boolean') {
+                return;
+            }
+
+            if (typeof propValue === 'object' && !Object.keys(propValue).includes('errorMessages')) {
+                throw new Error(
+                    // eslint-disable-next-line max-len
+                    `${componentName} only accepts null, bool or object of "errorMessages" as "validationResponse", received "${JSON.stringify(propValue)}"`
+                );
+            }
+        },
+
+        // Labels
+        label: LabelType.isRequired,
+        subLabel: PropTypes.string.isRequired,
+        addRequiredTag: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        min: 1,
-        max: 99,
-        checked: false,
-        mix: {},
-        label: '',
-        value: null,
-        message: '',
-        validationStatus: null,
-        filename: '',
-        fileExtensions: '',
-        subLabel: null,
-        disabled: false,
-        isLabelWithArrow: false,
-        step: 1
+        validationResponse: null
     };
 
-    renderTextarea() {
-        return (
-            <FieldTextarea
-              { ...this.props }
-            />
-        );
-    }
+    renderMap = {
+        // Checkboxes & Radio
+        [FIELD_TYPE.radio]: this.renderCheckboxOrRadio.bind(this),
+        [FIELD_TYPE.checkbox]: this.renderCheckboxOrRadio.bind(this),
+        [FIELD_TYPE.multi]: this.renderCheckboxOrRadio.bind(this),
 
-    /**
-     * Render Type Text, default value is passed from parent
-     * handleToUpdate used to pass child data to parent
-     */
-    renderTypeText() {
-        return (
-            <FieldInput
-              { ...this.props }
-              type="text"
-            />
-        );
-    }
+        // Default input
+        [FIELD_TYPE.email]: this.renderDefaultInput.bind(this),
+        [FIELD_TYPE.text]: this.renderDefaultInput.bind(this),
+        [FIELD_TYPE.time]: this.renderDefaultInput.bind(this),
+        [FIELD_TYPE.dateTime]: this.renderDefaultInput.bind(this),
+        [FIELD_TYPE.date]: this.renderDefaultInput.bind(this),
+        [FIELD_TYPE.password]: this.renderDefaultInput.bind(this),
+        [FIELD_TYPE.submit]: this.renderDefaultInput.bind(this),
 
-    renderTypeEmail() {
-        return (
-            <FieldInput
-              { ...this.props }
-              type="email"
-            />
-        );
-    }
+        // Custom fields
+        [FIELD_TYPE.file]: this.renderFile.bind(this),
+        [FIELD_TYPE.select]: this.renderSelect.bind(this),
+        [FIELD_TYPE.textarea]: this.renderTextArea.bind(this),
+        [FIELD_TYPE.button]: this.renderButton.bind(this),
+        [FIELD_TYPE.number]: this.renderNumber.bind(this)
 
-    renderTypePassword() {
-        return (
-            <FieldInput
-              { ...this.props }
-              type="password"
-            />
-        );
-    }
+    };
 
-    renderTypeNumber() {
+    //#region INPUT TYPE RENDER
+    renderDefaultInput() {
         const {
-            min,
-            max,
-            value,
-            onKeyEnterDown,
-            handleChange,
-            step
+            type, setRef, attr, events, isDisabled
         } = this.props;
 
         return (
-            <>
-                <FieldInput
-                  { ...this.props }
-                  type="number"
-                  readOnly
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onChange={ (e) => handleChange(e.target.value, false) }
-                  onKeyDown={ onKeyEnterDown }
-                  aria-label={ __('Value') }
-                />
-                <button
-                  disabled={ +value === max }
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onClick={ () => handleChange(+value + step) }
-                  aria-label={ __('Add') }
-                >
-                    <AddIcon block="SubtractButton" isPrimary />
-                </button>
-                <button
-                  disabled={ +value === min }
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onClick={ () => handleChange(+value - step) }
-                  aria-label={ __('Subtract') }
-                >
-                    <MinusIcon block="AddButton" isPrimary />
-                </button>
-            </>
-        );
-    }
-
-    renderCheckbox() {
-        const {
-            id,
-            onChangeCheckbox,
-            label,
-            subLabel,
-            disabled
-        } = this.props;
-
-        return (
-            <label htmlFor={ id } block="Field" elem="CheckboxLabel">
-                <FieldInput
-                  { ...this.props }
-                  type="checkbox"
-                  onChange={ onChangeCheckbox }
-                  isDisabled={ disabled }
-                />
-                <div block="input-control" />
-                <span>
-                    { label }
-                    { subLabel && (
-                        <strong block="Field" elem="SubLabel">
-                            { ` (${subLabel})` }
-                        </strong>
-                    ) }
-                </span>
-            </label>
+            <input
+              ref={ (elem) => setRef(elem) }
+              disabled={ isDisabled }
+              type={ type }
+              { ...attr }
+              { ...events }
+            />
         );
     }
 
     renderFile() {
-        const {
-            filename,
-            id,
-            onChange,
-            fileExtensions
-        } = this.props;
+        const { attr, events, setRef } = this.props;
 
         return (
-            <>
-                <FieldInput
-                  { ...this.props }
-                  type="file"
-                  onChange={ onChange }
-                />
-                { this.renderLabelForFile(id, filename) }
-                <p>
-                    { __('Compatible file extensions to upload: ') }
-                    <b>{ fileExtensions }</b>
-                </p>
-            </>
+            <FieldFile attr={ attr } events={ events } setRef={ setRef } />
         );
     }
 
-    renderRadioButton() {
+    renderNumber() {
         const {
-            id,
-            label,
-            onClick
+            attr,
+            events,
+            setRef,
+            isDisabled = false
         } = this.props;
 
         return (
-            <label htmlFor={ id }>
-                <FieldInput
-                  { ...this.props }
-                  type="radio"
-                  onChange={ onClick }
+            <FieldNumberContainer
+              attr={ attr }
+              events={ events }
+              setRef={ setRef }
+              isDisabled={ isDisabled }
+            />
+        );
+    }
+
+    renderSelect() {
+        const {
+            attr,
+            events,
+            setRef,
+            options,
+            isDisabled = false
+        } = this.props;
+
+        return (
+            <FieldSelectContainer
+              attr={ attr }
+              events={ events }
+              options={ options }
+              setRef={ setRef }
+              isDisabled={ isDisabled }
+            />
+        );
+    }
+
+    renderButton() {
+        const {
+            setRef, attr, events, isDisabled
+        } = this.props;
+        const { value = __('Submit') } = attr;
+
+        return (
+            <button
+              ref={ (elem) => setRef(elem) }
+              disabled={ isDisabled }
+              { ...attr }
+              { ...events }
+            >
+                { value }
+            </button>
+        );
+    }
+
+    renderCheckboxOrRadio() {
+        const {
+            type,
+            setRef,
+            attr,
+            attr: { id = '' } = {},
+            events: { onChange },
+            events,
+            isDisabled,
+            label
+        } = this.props;
+
+        const elem = type.charAt(0).toUpperCase() + type.slice(1);
+        const inputEvents = {
+            ...events,
+            onChange: onChange || noopFn
+        };
+
+        return (
+            <label htmlFor={ id } block="Field" elem={ `${elem}Label` }>
+                <input
+                  ref={ (elem) => setRef(elem) }
+                  disabled={ isDisabled }
+                  type={ type }
+                  { ...attr }
+                  { ...inputEvents }
                 />
                 <div block="input-control" />
                 { label }
@@ -250,130 +214,123 @@ export class Field extends PureComponent {
         );
     }
 
-    renderSelectWithOptions() {
+    renderTextArea() {
+        const {
+            setRef, attr, events, isDisabled
+        } = this.props;
+
         return (
-            <FieldSelect
-              { ...this.props }
+            <textarea
+              ref={ (elem) => setRef(elem) }
+              disabled={ isDisabled }
+              { ...attr }
+              { ...events }
             />
         );
     }
+    //#endregion
 
-    renderInputOfType(type) {
-        switch (type) {
-        case CHECKBOX_TYPE:
-            return this.renderCheckbox();
-        case RADIO_TYPE:
-            return this.renderRadioButton();
-        case NUMBER_TYPE:
-            return this.renderTypeNumber();
-        case TEXTAREA_TYPE:
-            return this.renderTextarea();
-        case PASSWORD_TYPE:
-            return this.renderTypePassword();
-        case SELECT_TYPE:
-            return this.renderSelectWithOptions();
-        case EMAIL_TYPE:
-            return this.renderTypeEmail();
-        case FILE_TYPE:
-            return this.renderFile();
-        default:
-            return this.renderTypeText();
-        }
-    }
+    //#region LABEL/TEXT RENDER
+    // Renders validation error messages under field
+    renderErrorMessage = (message, key) => (
+        <div block="Field" elem="ErrorMessage" key={ key }>{ message }</div>
+    );
 
-    renderLabelForFile(id, filename = '') {
-        if (filename) {
-            return (
-                <label htmlFor={ id }>
-                    <p>{ filename }</p>
-                </label>
-            );
-        }
+    renderErrorMessages() {
+        const {
+            showErrorAsLabel,
+            validationResponse,
+            attr: { name }
+        } = this.props;
 
-        return (
-            <label htmlFor={ id }>
-                <UploadIcon />
-                <p>{ __('Drop files here or') }</p>
-                <span>{ __('Select files') }</span>
-            </label>
-        );
-    }
-
-    renderArrow() {
-        const { isLabelWithArrow } = this.props;
-
-        if (!isLabelWithArrow) {
+        if (!showErrorAsLabel || !validationResponse || validationResponse === true) {
             return null;
         }
 
-        return <ChevronIcon direction={ BOTTOM } />;
+        const { errorMessages } = validationResponse;
+
+        if (!errorMessages) {
+            return null;
+        }
+
+        return (
+            <div block="Field" elem="ErrorMessages">
+                { errorMessages.map((message, index) => this.renderErrorMessage(message, name + index)) }
+            </div>
+        );
     }
 
+    // Renders fields label above field
     renderLabel() {
-        const {
-            id,
-            label,
-            validation,
-            type
-        } = this.props;
-        const isRequired = validation.includes('notEmpty');
-        const noRenderLabel = type === CHECKBOX_TYPE || type === RADIO_TYPE;
+        const { type, label, attr: { name } = {} } = this.props;
 
-        if (!label || noRenderLabel) {
+        if (!label) {
             return null;
         }
 
         return (
             <div block="Field" elem="LabelContainer">
-                <label
-                  block="Field"
-                  elem="Label"
-                  mods={ { isRequired } }
-                  htmlFor={ id }
-                >
+                <label block="Field" elem="Label" htmlFor={ name || `input-${type}` }>
                     { label }
+                    { this.renderRequiredTag() }
                 </label>
-
-                { this.renderArrow() }
             </div>
         );
     }
 
-    renderMessage() {
-        const { message } = this.props;
+    // Renders * for required fields
+    renderRequiredTag() {
+        const { addRequiredTag } = this.props;
 
-        if (!message) {
+        if (!addRequiredTag) {
             return null;
         }
 
         return (
-            <p block="Field" elem="Message">
-                { message }
-            </p>
+            <span block="Field" elem="Label" mods={ { isRequired: true } }>
+                { ' *' }
+            </span>
         );
     }
 
-    render() {
-        const {
-            mix,
-            type,
-            message,
-            validationStatus
-        } = this.props;
+    // Renders fields label under field
+    renderSubLabel() {
+        const { subLabel } = this.props;
+
+        if (!subLabel) {
+            return null;
+        }
 
         return (
-            <div
-              block="Field"
-              mods={ {
-                  type,
-                  hasError: validationStatus === false || !!message,
-                  isValid: validationStatus === true
-              } }
-              mix={ mix }
-            >
-                { this.renderLabel() }
-                { this.renderInputOfType(type) }
-                { this.renderMessage() }
+            <div block="Field" elem="SubLabelContainer">
+                <div block="Field" elem="SubLabel">
+                    { subLabel }
+                </div>
+            </div>
+        );
+    }
+    //#endregion
+
+    render() {
+        const { type, validationResponse, mix } = this.props;
+        const inputRenderer = this.renderMap[type];
+
+        return (
+            <div block="Field" elem="Wrapper" mods={ { type } }>
+                <div
+                  block="Field"
+                  mods={ {
+                      type,
+                      isValid: validationResponse === true,
+                      hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
+                  } }
+                  mix={ mix }
+                >
+                    { type !== FIELD_TYPE.checkbox && type !== FIELD_TYPE.radio && this.renderLabel() }
+                    { inputRenderer && inputRenderer() }
+                </div>
+                { this.renderErrorMessages() }
+                { this.renderSubLabel() }
             </div>
         );
     }

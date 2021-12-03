@@ -17,7 +17,8 @@ import { POPUP } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, hideActivePopup } from 'Store/Overlay/Overlay.action';
-import { ChildrenType, MixType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import Popup from './Popup.component';
 
@@ -54,17 +55,20 @@ export class PopupContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         onVisible: PropTypes.func,
         onClose: PropTypes.func,
+        onHide: PropTypes.func,
         isStatic: PropTypes.bool,
         children: ChildrenType,
         id: PropTypes.string.isRequired,
         shouldPopupClose: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired
+        hideActiveOverlay: PropTypes.func.isRequired,
+        resetHideActivePopup: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        onVisible: () => {},
-        onClose: () => {},
+        onVisible: noopFn,
+        onClose: noopFn,
+        onHide: noopFn,
         mix: {},
         contentMix: {},
         children: [],
@@ -101,8 +105,11 @@ export class PopupContainer extends PureComponent {
             mix,
             contentMix,
             onClose,
+            onHide,
             onVisible,
+            shouldPopupClose,
             hideActiveOverlay,
+            resetHideActivePopup,
             goToPreviousNavigationState
         } = this.props;
 
@@ -116,9 +123,12 @@ export class PopupContainer extends PureComponent {
             isStatic,
             mix,
             contentMix,
+            shouldPopupClose,
             onClose,
+            onHide,
             onVisible,
             hideActiveOverlay,
+            resetHideActivePopup,
             goToPreviousNavigationState,
             title: this._getPopupTitle()
         };

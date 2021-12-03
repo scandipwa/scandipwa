@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType, ModsType } from 'Type/Common.type';
 import { formatPrice } from 'Util/Price';
 
 /** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
@@ -21,7 +21,8 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         currency: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
-        mods: PropTypes.object,
+        coupon_code: PropTypes.string.isRequired,
+        mods: ModsType,
         subPrice: PropTypes.node,
         children: ChildrenType
     };
@@ -35,7 +36,11 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
     renderPrice() {
         const { price, currency } = this.props;
 
-        return formatPrice(price, currency);
+        return (
+            <strong>
+                { formatPrice(price, currency) }
+            </strong>
+        );
     }
 
     renderSubPrice() {
@@ -52,10 +57,34 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         );
     }
 
+    renderTitle() {
+        const { title } = this.props;
+
+        return (
+        <p block="CheckoutOrderSummary" elem="Text">
+            { title }
+            { this.renderCoupon() }
+        </p>
+        );
+    }
+
+    renderCoupon() {
+        const { coupon_code } = this.props;
+
+        if (!coupon_code) {
+            return null;
+        }
+
+        return (
+        <b>
+            { ` ${ coupon_code.toUpperCase() }:` }
+        </b>
+        );
+    }
+
     render() {
         const {
             price,
-            title,
             mods,
             children
         } = this.props;
@@ -66,13 +95,13 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
-                <p block="CheckoutOrderSummary" elem="Text">
-                    { title }
-                </p>
-                <strong block="CheckoutOrderSummary" elem="Text">
-                    { this.renderPrice() }
+                { this.renderTitle() }
+                <div block="CheckoutOrderSummary" elem="Price">
+                    <strong>
+                        { this.renderPrice() }
+                    </strong>
                     { this.renderSubPrice() }
-                </strong>
+                </div>
                 { children }
             </li>
         );

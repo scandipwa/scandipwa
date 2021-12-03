@@ -54,6 +54,10 @@
         width: var(--product-compare-column-width);
         text-align: justify;
 
+        img {
+            height: auto;
+        }
+
         &:last-child {
             padding-inline-end: 0;
         }

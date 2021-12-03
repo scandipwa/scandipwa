@@ -26,13 +26,13 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import LoginAccount from './LoginAccount.component';
 
-/** @namespace Component/LoginAccount/Container/mapDispatchToProps */
+/** @namespace Route/LoginAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     ...sourceMapDispatchToProps(dispatch),
     toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible))
 });
 
-/** @namespace Scandipwa/Route/LoginAccount/Container/LoginAccountContainer */
+/** @namespace Route/LoginAccount/Container */
 export class LoginAccountContainer extends MyAccountOverlayContainer {
     static propTypes = {
         ...MyAccountOverlayContainer.propTypes,
@@ -56,7 +56,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
         const { setHeaderState, toggleBreadcrumbs } = this.props;
 
         if (isSignedIn()) {
-            history.push(appendWithStoreCode('/'));
+            history.replace(appendWithStoreCode('/'));
         }
 
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
@@ -65,7 +65,8 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
 
     componentDidUpdate(prevProps, prevState) {
         if (isSignedIn()) {
-            history.push(appendWithStoreCode('/'));
+            // remove login url from history to skip it when navigating back
+            history.replace(appendWithStoreCode('/'));
 
             return;
         }

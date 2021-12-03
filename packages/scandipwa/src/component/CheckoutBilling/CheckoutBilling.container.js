@@ -20,11 +20,17 @@ import {
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { addressType, customerType } from 'Type/Account';
-import { paymentMethodsType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
-import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { Addresstype, CustomerType } from 'Type/Account.type';
+import { PaymentMethodsType } from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
+import {
+    getFormFields,
+    setAddressesInFormObject,
+    trimCheckoutAddress,
+    trimCheckoutCustomerAddress
+} from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
+import transformToNameValuePair from 'Util/Form/Transform';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
@@ -48,11 +54,11 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CheckoutBillingContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
+        paymentMethods: PaymentMethodsType.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
         showPopup: PropTypes.func.isRequired,
-        shippingAddress: addressType.isRequired,
-        customer: customerType.isRequired,
+        shippingAddress: Addresstype.isRequired,
+        customer: CustomerType.isRequired,
         totals: TotalsType.isRequired,
         addressLinesQty: PropTypes.number.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
@@ -163,12 +169,13 @@ export class CheckoutBillingContainer extends PureComponent {
         this.setState({ paymentMethod: code });
     }
 
-    onBillingSuccess(fields, asyncData) {
+    onBillingSuccess(form, fields, asyncData) {
         const { savePaymentInformation } = this.props;
         const { isSameAsShipping } = this.state;
 
-        const address = this._getAddress(fields);
-        const paymentMethod = this._getPaymentData(fields, asyncData);
+        const extractedFields = transformToNameValuePair(fields);
+        const address = this._getAddress(extractedFields);
+        const paymentMethod = this._getPaymentData(extractedFields, asyncData);
 
         savePaymentInformation({
             billing_address: address,
@@ -177,13 +184,9 @@ export class CheckoutBillingContainer extends PureComponent {
         });
     }
 
-    onBillingError(fields, invalidFields, error) {
+    onBillingError() {
         const { showErrorNotification } = this.props;
-
-        if (error) {
-            const { message = __('Something went wrong!') } = error;
-            showErrorNotification(message);
-        }
+        showErrorNotification(__('Something went wrong!'));
     }
 
     showPopup() {
@@ -252,14 +255,16 @@ export class CheckoutBillingContainer extends PureComponent {
         }
 
         if (!selectedCustomerAddressId) {
-            return trimAddressFields(formFields);
+            const joinedStreetAddressFields = setAddressesInFormObject(formFields, addressLinesQty, 'street_');
+
+            return trimCheckoutAddress(joinedStreetAddressFields);
         }
 
         const { customer: { addresses } } = this.props;
         const address = addresses.find(({ id }) => id === selectedCustomerAddressId);
 
         return {
-            ...trimCustomerAddress(address),
+            ...trimCheckoutCustomerAddress(address),
             save_in_address_book: false
         };
     }

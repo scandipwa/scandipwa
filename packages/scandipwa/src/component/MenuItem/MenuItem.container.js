@@ -13,6 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { ModsType } from 'Type/Common.type';
+import { MenuItemType } from 'Type/Menu.type';
+import { scrollToTop } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 
 import MenuItem from './MenuItem.component';
@@ -26,21 +30,21 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MenuItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
-/** @namespace Component/MenuItem/Container/menuItemContainer */
+/** @namespace Component/MenuItem/Container */
 export class MenuItemContainer extends PureComponent {
     static propTypes = {
         closeMenu: PropTypes.func,
         onCategoryHover: PropTypes.func,
-        item: PropTypes.object.isRequired,
-        activeMenuItemsStack: PropTypes.array.isRequired,
+        item: MenuItemType.isRequired,
+        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
         isExpandable: PropTypes.bool,
-        itemMods: PropTypes.object,
+        itemMods: ModsType,
         isLink: PropTypes.bool
     };
 
     static defaultProps = {
-        closeMenu: () => {},
-        onCategoryHover: () => {},
+        closeMenu: noopFn,
+        onCategoryHover: noopFn,
         itemMods: {},
         isLink: false,
         isExpandable: false
@@ -74,7 +78,7 @@ export class MenuItemContainer extends PureComponent {
 
     onItemClick() {
         const { closeMenu, activeMenuItemsStack } = this.props;
-        window.scrollTo({ top: 0 });
+        scrollToTop();
         closeMenu();
 
         // keep the stack here, so later we can deconstruct menu out of it

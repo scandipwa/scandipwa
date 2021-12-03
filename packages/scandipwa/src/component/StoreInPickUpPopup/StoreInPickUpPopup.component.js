@@ -13,11 +13,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
 import Popup from 'Component/Popup';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
-import { storeType } from 'Type/Checkout';
-import { countriesType } from 'Type/Config';
+import { StoreType } from 'Type/Checkout.type';
+import { CountriesType } from 'Type/Config.type';
 
 import { STORE_IN_PICK_UP_POPUP_ID } from './StoreInPickUpPopup.config';
 
@@ -26,7 +27,7 @@ import './StoreInPickUpPopup.style';
 /** @namespace Component/StoreInPickUpPopup/Component */
 export class StoreInPickUpPopupComponent extends PureComponent {
     static propTypes = {
-        countries: countriesType.isRequired,
+        countries: CountriesType.isRequired,
         selectedCountryId: PropTypes.string.isRequired,
         handleChangeCountry: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
@@ -34,7 +35,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         setStoreSearchCriteria: PropTypes.func.isRequired,
         storeSearchCriteria: PropTypes.string,
         stores: PropTypes.arrayOf(
-            storeType
+            StoreType
         )
     };
 
@@ -43,17 +44,6 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         storeSearchCriteria: '',
         isLoading: true
     };
-
-    renderHeading() {
-        return (
-            <h3
-              block="StoreInPickUpPopup"
-              elem="Heading"
-            >
-                { __('Select Store') }
-            </h3>
-        );
-    }
 
     renderNoResult() {
         return (
@@ -78,23 +68,30 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         return (
             <>
                 <Field
-                  type="select"
-                  id="country_id"
-                  name="country_id"
-                  value={ selectedCountryId }
-                  onChange={ handleChangeCountry }
-                  selectOptions={ countries.map(({ id, label }) => ({ id, label, value: id })) }
+                  type={ FIELD_TYPE.select }
+                  attr={ {
+                      id: 'country_id',
+                      name: 'country_id',
+                      defaultValue: selectedCountryId
+                  } }
+                  events={ {
+                      onChange: handleChangeCountry
+                  } }
+                  options={ countries.map(({ id, label }) => ({ id, label, value: id })) }
                   mix={ { block: 'StoreInPickUpPopup', elem: 'Input' } }
                 />
                 <Field
-                  type="text"
-                  id="store-finder"
-                  name="store-finder"
-                  placeholder={ __('City or Postcode') }
-                  value={ storeSearchCriteria }
-                  onChange={ setStoreSearchCriteria }
+                  type={ FIELD_TYPE.text }
+                  attr={ {
+                      id: 'store-finder',
+                      name: 'store-finder',
+                      defaultValue: storeSearchCriteria,
+                      placeholder: __('City or Postcode')
+                  } }
+                  events={ {
+                      onChange: setStoreSearchCriteria
+                  } }
                   mix={ { block: 'StoreInPickUpPopup', elem: 'Input' } }
-                  validateSeparately
                 />
                 { this.renderInfo() }
             </>
@@ -159,7 +156,6 @@ export class StoreInPickUpPopupComponent extends PureComponent {
               clickOutside={ false }
               mix={ { block: 'StoreInPickUpPopup' } }
             >
-                { this.renderHeading() }
                 { this.renderContent() }
             </Popup>
         );

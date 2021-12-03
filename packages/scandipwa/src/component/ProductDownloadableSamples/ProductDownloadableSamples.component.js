@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import ExpandableContent from 'Component/ExpandableContent';
 import Link from 'Component/Link';
-import { DownloadableSamplesType } from 'Type/ProductList';
+import { DownloadableSamplesType } from 'Type/ProductList.type';
 
 import './ProductDownloadableSamples.style';
 

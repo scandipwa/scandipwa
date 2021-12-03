@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -18,6 +16,7 @@ import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
 import NotificationList from 'Component/NotificationList';
 import Overlay from 'Component/Overlay/Overlay.component';
+import history from 'Util/History';
 
 import { ESCAPE_KEY } from './Popup.config';
 
@@ -88,6 +87,7 @@ export class Popup extends Overlay {
     hidePopUp = () => {
         const { hideActiveOverlay, goToPreviousNavigationState, onClose } = this.props;
         const isVisible = this.getIsVisible();
+
         if (isVisible) {
             this.unfreezeScroll();
             hideActiveOverlay();
@@ -96,19 +96,25 @@ export class Popup extends Overlay {
         }
     };
 
+    hidePopupAndGoBack = () => {
+        this.hidePopUp();
+        history.goBack();
+    };
+
     // Same with click outside
     handleClickOutside = () => {
         const { clickOutside } = this.props;
+
         if (!clickOutside) {
             return;
         }
-        this.hidePopUp();
+        this.hidePopupAndGoBack();
     };
 
     handleKeyDown = (e) => {
         switch (e.keyCode) {
         case ESCAPE_KEY:
-            this.hidePopUp();
+            this.hidePopupAndGoBack();
             break;
         default:
             break;
@@ -117,6 +123,7 @@ export class Popup extends Overlay {
 
     renderTitle() {
         const { title } = this.props;
+
         if (!title) {
             return null;
         }
@@ -134,7 +141,7 @@ export class Popup extends Overlay {
               block="Popup"
               elem="CloseBtn"
               aria-label={ __('Close') }
-              onClick={ this.hidePopUp }
+              onClick={ this.hidePopupAndGoBack }
             >
                 <CloseIcon />
             </button>

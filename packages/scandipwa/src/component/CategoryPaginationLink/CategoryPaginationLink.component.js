@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType } from 'Type/Common.type';
 
 import './CategoryPaginationLink.style';
 
@@ -21,7 +21,6 @@ import './CategoryPaginationLink.style';
 export class CategoryPaginationLink extends PureComponent {
     static propTypes = {
         children: ChildrenType,
-        getPage: PropTypes.func.isRequired,
         label: PropTypes.string.isRequired,
         isCurrent: PropTypes.bool.isRequired,
         url_path: PropTypes.string.isRequired,
@@ -31,11 +30,6 @@ export class CategoryPaginationLink extends PureComponent {
 
     static defaultProps = {
         children: []
-    };
-
-    getPage = () => {
-        const { getPage, pageNumber } = this.props;
-        getPage(pageNumber);
     };
 
     getSearchQueryForPage = () => {
@@ -67,7 +61,6 @@ export class CategoryPaginationLink extends PureComponent {
               block="CategoryPaginationLink"
               mods={ { isCurrent, isArrow: typeof children !== 'string' } }
               aria-current={ isCurrent ? 'page' : 'false' }
-              onClick={ this.getPage }
             >
                 { children }
             </Link>

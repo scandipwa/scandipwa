@@ -18,8 +18,6 @@ import {
     updateCustomerSignInStatus,
     updateIsLoading
 } from 'Store/MyAccount/MyAccount.action';
-import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ORDERS } from 'Store/Order/Order.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
@@ -70,17 +68,18 @@ export class MyAccountDispatcher {
         const query = MyAccountQuery.getCustomerQuery();
 
         const customer = BrowserDatabase.getItem(CUSTOMER) || {};
+
         if (customer.id) {
             dispatch(updateCustomerDetails(customer));
         }
 
         return executePost(prepareQuery([query])).then(
-            /** @namespace Store/MyAccount/Dispatcher/requestCustomerDataExecutePostThen */
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then */
             ({ customer }) => {
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
-            /** @namespace Store/MyAccount/Dispatcher/requestCustomerDataExecutePostError */
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then/dispatch/catch */
             (error) => dispatch(showNotification('error', getErrorMessage(error)))
         );
     }
@@ -90,6 +89,8 @@ export class MyAccountDispatcher {
             dispatch(showNotification('error', __('Your session is over, you are logged out!')));
             this.handleForceRedirectToLoginPage();
         } else {
+            const mutation = MyAccountQuery.getRevokeAccountToken();
+            fetchMutation(mutation);
             deleteAuthorizationToken();
             dispatch(showNotification('success', __('You are successfully logged out!')));
         }
@@ -128,9 +129,9 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
 
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/forgotPassword/fetchMutation/then/dispatch */
             () => dispatch(updateCustomerPasswordForgotStatus()),
-            /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationError */
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/forgotPassword/fetchMutation/then/dispatch/catch */
             (error) => dispatch(showNotification('error', getErrorMessage(error)))
         );
     }
@@ -145,9 +146,9 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getResetPasswordMutation(options);
 
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resetPassword/fetchMutation/then/dispatch */
             ({ s_resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
-            /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationError */
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resetPassword/fetchMutation/then/dispatch/catch */
             (errors) => dispatch(updateCustomerPasswordResetStatus('error', getErrorMessage(errors)))
         );
     }
@@ -163,7 +164,7 @@ export class MyAccountDispatcher {
         dispatch(updateIsLoading(true));
 
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/createAccountFetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/createAccount/fetchMutation/then */
             (data) => {
                 const { createCustomer: { customer } } = data;
                 const { confirmation_required } = customer;
@@ -177,12 +178,10 @@ export class MyAccountDispatcher {
                 return this.signIn({ email, password }, dispatch);
             },
 
-            /** @namespace Store/MyAccount/Dispatcher/createAccountFetchMutationError */
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/createAccount/fetchMutation/then/catch */
             (error) => {
                 dispatch(updateIsLoading(false));
                 dispatch(showNotification('error', getErrorMessage(error)));
-                Promise.reject();
-
                 return false;
             }
         );
@@ -197,9 +196,9 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getConfirmAccountMutation(options);
 
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/confirmAccount/fetchMutation/then/dispatch */
             () => dispatch(showNotification('success', __('Your account is confirmed!'))),
-            /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationError */
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/confirmAccount/fetchMutation/then/dispatch/catch */
             (error) => dispatch(
                 showNotification(
                     'error',
@@ -247,7 +246,6 @@ export class MyAccountDispatcher {
 
         dispatch(updateCustomerSignInStatus(true));
         dispatch(updateIsLoading(false));
-        dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE));
         dispatch(hideActiveOverlay());
         dispatch(showNotification('success', __('You are successfully logged in!')));
 

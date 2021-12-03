@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { TranslatedValue } from '@scandipwa/webpack-i18n-runtime/src/util/__';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
 
 import './TextPlaceholder.style';
 
@@ -27,8 +26,7 @@ export class TextPlaceholder extends PureComponent {
         content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool,
-            PropTypes.number,
-            PropTypes.instanceOf(TranslatedValue)
+            PropTypes.number
         ]),
         length: PropTypes.oneOf([
             'block',
@@ -49,6 +47,7 @@ export class TextPlaceholder extends PureComponent {
 
     render() {
         const { content, length, mix } = this.props;
+
         if (content) {
             return content;
         }

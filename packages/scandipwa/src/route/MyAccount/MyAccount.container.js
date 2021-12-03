@@ -17,15 +17,21 @@ import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_WISHLIST } from 'Comp
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification/Notification.action';
 import OrderReducer from 'Store/Order/Order.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ADDRESS_BOOK,
-    DASHBOARD, MY_DOWNLOADABLE, MY_ORDERS,
-    MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
-} from 'Type/Account';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
+    DASHBOARD,
+    MY_DOWNLOADABLE,
+    MY_ORDERS,
+    MY_WISHLIST,
+    NEWSLETTER_SUBSCRIPTION
+} from 'Type/Account.type';
+import { ItemType } from 'Type/ProductList.type';
+import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
 import { appendWithStoreCode, replace } from 'Util/Url';
@@ -62,7 +68,8 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     ),
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 /** @namespace Route/MyAccount/Container */
@@ -77,11 +84,12 @@ export class MyAccountContainer extends PureComponent {
         location: LocationType.isRequired,
         history: HistoryType.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        wishlistItems: PropTypes.object,
+        wishlistItems: PropTypes.objectOf(ItemType),
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
-        baseLinkUrl: PropTypes.string.isRequired
+        baseLinkUrl: PropTypes.string.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -136,7 +144,8 @@ export class MyAccountContainer extends PureComponent {
                 params: {
                     tab: historyActiveTab
                 } = {}
-            } = {}
+            } = {},
+            isMobile
         } = props;
 
         const { activeTab } = state;
@@ -146,7 +155,7 @@ export class MyAccountContainer extends PureComponent {
             ? historyActiveTab
             : DASHBOARD;
 
-        if (historyActiveTab !== newActiveTab && isSignedIn) {
+        if (historyActiveTab !== newActiveTab && isSignedIn && !isMobile) {
             history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }/${ newActiveTab }`));
         }
 
@@ -190,6 +199,7 @@ export class MyAccountContainer extends PureComponent {
         this.redirectIfNotSignedIn();
         this.onSignIn();
         this.updateBreadcrumbs();
+        scrollToTop();
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -219,6 +229,8 @@ export class MyAccountContainer extends PureComponent {
         if (prevActiveTab !== activeTab) {
             this.updateBreadcrumbs();
             this.changeHeaderState();
+
+            scrollToTop();
         }
 
         if (Object.keys(wishlistItems).length !== Object.keys(prevWishlistItems).length) {
@@ -294,7 +306,7 @@ export class MyAccountContainer extends PureComponent {
         const { toggleOverlayByKey } = this.props;
         this.setState({ activeTab: DASHBOARD });
         toggleOverlayByKey(CUSTOMER_ACCOUNT);
-        history.push(appendWithStoreCode('/'));
+        history.replace(appendWithStoreCode('/'));
     }
 
     onSignIn() {
@@ -337,7 +349,9 @@ export class MyAccountContainer extends PureComponent {
         changeHeaderState({
             title: 'My account',
             name: CUSTOMER_ACCOUNT_PAGE,
-            onBackClick: () => history.push(appendWithStoreCode('/'))
+            onBackClick: () => {
+                history.push(appendWithStoreCode('/'));
+            }
         });
     }
 
@@ -378,7 +392,8 @@ export class MyAccountContainer extends PureComponent {
             history,
             location: { pathname },
             isMobile,
-            baseLinkUrl
+            baseLinkUrl,
+            showNotification
         } = this.props;
 
         if (isSignedIn()) { // do nothing for signed-in users
@@ -399,7 +414,8 @@ export class MyAccountContainer extends PureComponent {
             ? appendWithStoreCode(ACCOUNT_LOGIN_URL)
             : replace(/\/my-account\/.*/, ACCOUNT_LOGIN_URL);
 
-        history.push({ pathname: path });
+        history.replace({ pathname: path });
+        showNotification('info', __('Please, sign in to access this page contents!'));
     }
 
     render() {

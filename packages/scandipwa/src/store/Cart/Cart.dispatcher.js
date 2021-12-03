@@ -14,7 +14,6 @@ import { updateTotals } from 'Store/Cart/Cart.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
-import { getExtensionAttributes } from 'Util/Product';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 
 export const LinkedProductsDispatcher = import(
@@ -35,7 +34,7 @@ export class CartDispatcher {
             const quoteId = await this._getGuestQuoteId(dispatch);
             const { cartData = {} } = await fetchQuery(
                 CartQuery.getCartQuery(
-                    !isSignedIn() && quoteId
+                    quoteId
                 )
             );
 
@@ -85,24 +84,28 @@ export class CartDispatcher {
     }
 
     async changeItemQty(dispatch, options) {
-        const { item_id, quantity, sku } = options;
+        const { uid, quantity = 1, cartId: originalCartId } = options;
+
+        const cartId = !originalCartId ? getGuestQuoteId() : originalCartId;
 
         try {
-            const isCustomerSignedIn = isSignedIn();
-            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
-
-            if (!isCustomerSignedIn && !guestQuoteId) {
+            if (!cartId) {
                 return Promise.reject();
             }
 
-            const { saveCartItem: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getSaveCartItemMutation(
-                    { sku, item_id, quantity },
-                    guestQuoteId
-                )
+            await fetchMutation(
+                CartQuery.getUpdateCartItemsMutation({
+                    cart_id: cartId,
+                    cart_items: [
+                        {
+                            cart_item_uid: uid,
+                            quantity
+                        }
+                    ]
+                })
             );
 
-            return this._updateCartData(cartData, dispatch);
+            return this.updateInitialCartData(dispatch);
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
 
@@ -110,64 +113,41 @@ export class CartDispatcher {
         }
     }
 
-    async addProductToCart(dispatch, options) {
-        const {
-            product,
-            quantity,
-            productOptionsData,
-            buyRequest
-        } = options;
+    async addProductToCart(dispatch, options = {}) {
+        const { products = [], cartId: userCartId } = options;
 
-        const {
-            sku,
-            type_id: product_type
-        } = product;
+        const cartId = userCartId || getGuestQuoteId();
 
-        const {
-            productOptions,
-            productOptionsMulti,
-            downloadableLinks
-        } = productOptionsData || {};
+        if (!Array.isArray(products) || products.length === 0) {
+            dispatch(showNotification('error', __('No product data!')));
+            return Promise.reject();
+        }
 
-        const productToAdd = {
-            sku,
-            product_type,
-            quantity,
-            product_option: {
-                buy_request: buyRequest,
-                extension_attributes: getExtensionAttributes(
-                    {
-                        ...product,
-                        productOptions,
-                        productOptionsMulti,
-                        downloadableLinks
-                    }
-                )
+        try {
+            if (!cartId) {
+                return Promise.reject();
             }
-        };
 
-        if (this._canBeAdded(options)) {
-            try {
-                const isCustomerSignedIn = isSignedIn();
-                const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
+            const { addProductsToCart: { user_errors: errors = [] } = {} } = await fetchMutation(
+                CartQuery.getAddProductToCartMutation(cartId, products)
+            );
 
-                if (!isCustomerSignedIn && !guestQuoteId) {
-                    return Promise.reject();
-                }
-
-                const { saveCartItem: { cartData = {} } = {} } = await fetchMutation(
-                    CartQuery.getSaveCartItemMutation(productToAdd, guestQuoteId)
-                );
-
-                return this._updateCartData(cartData, dispatch);
-            } catch (error) {
-                dispatch(showNotification('error', getErrorMessage(error)));
+            if (Array.isArray(errors) && errors.length > 0) {
+                errors.forEach((error) => {
+                    dispatch(showNotification('error', getErrorMessage(error)));
+                });
 
                 return Promise.reject();
             }
+
+            await this.updateInitialCartData(dispatch);
+            dispatch(showNotification('success', __('Product was added to cart!')));
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+            return Promise.reject();
         }
 
-        return Promise.reject();
+        return Promise.resolve();
     }
 
     async removeProductFromCart(dispatch, item_id) {

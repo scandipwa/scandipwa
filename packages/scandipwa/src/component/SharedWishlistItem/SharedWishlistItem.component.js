@@ -11,9 +11,10 @@
 
 import AddToCart from 'Component/AddToCart';
 import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import ProductCard from 'Component/ProductCard';
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
+import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 
 import './SharedWishlistItem.style';
 
@@ -22,13 +23,16 @@ export class SharedWishlistItem extends SourceWishlistItem {
     renderAddToCart() {
         const {
             product,
-            quantity,
-            changeQuantity,
-            configurableVariantIndex,
             product: {
-                stock_status
-            } = {}
+                id
+            },
+            quantity,
+            changeQuantity
         } = this.props;
+
+        const min = getMinQuantity(product);
+        const max = getMaxQuantity(product);
+        const inStock = getProductInStock(product);
 
         return (
             <div
@@ -37,20 +41,32 @@ export class SharedWishlistItem extends SourceWishlistItem {
               mix={ { block: 'SharedWishlistItem', elem: 'Row' } }
             >
                 <Field
-                  id="item_qty"
-                  name="item_qty"
-                  type="number"
-                  min={ 1 }
-                  value={ quantity }
+                  type={ FIELD_TYPE.number }
+                  attr={ {
+                      id: `item_qty_wishlist_${id}`,
+                      name: `item_qty_wishlist_${id}`,
+                      value: quantity,
+                      defaultValue: quantity,
+                      min,
+                      max
+                  } }
+                  events={ {
+                      onChange: changeQuantity
+                  } }
+                  validationRule={ {
+                      range: {
+                          min,
+                          max
+                      }
+                  } }
+                  validateOn={ ['onChange'] }
                   mix={ { block: 'WishlistItem', elem: 'Quantity' } }
-                  onChange={ changeQuantity }
                 />
                 <AddToCart
                   product={ product }
                   quantity={ quantity }
-                  configurableVariantIndex={ configurableVariantIndex }
                   mix={ { block: 'WishlistItem', elem: 'AddToCart' } }
-                  disabled={ stock_status !== IN_STOCK }
+                  disabled={ !inStock }
                 />
             </div>
         );

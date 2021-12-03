@@ -13,7 +13,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { STATE_FORGOT_PASSWORD_SUCCESS } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { signInStateType } from 'Type/Account';
+import { SignInStateType } from 'Type/Account.type';
+import transformToNameValuePair from 'Util/Form/Transform';
 
 import MyAccountForgotPassword from './MyAccountForgotPassword.component';
 
@@ -35,7 +36,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/MyAccountForgotPassword/Container */
 export class MyAccountForgotPasswordContainer extends PureComponent {
     static propTypes = {
-        state: signInStateType.isRequired,
+        state: SignInStateType.isRequired,
         onFormError: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
@@ -46,7 +47,6 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onForgotPasswordAttempt: this.onForgotPasswordAttempt.bind(this),
         onForgotPasswordSuccess: this.onForgotPasswordSuccess.bind(this)
     };
 
@@ -68,21 +68,17 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
         };
     };
 
-    onForgotPasswordAttempt() {
-        const { setLoadingState } = this.props;
-        setLoadingState(true);
-    }
-
-    onForgotPasswordSuccess(fields) {
+    onForgotPasswordSuccess(form, fields) {
         const { forgotPassword, setSignInState, setLoadingState } = this.props;
+        setLoadingState(true);
 
-        forgotPassword(fields).then(
-            /** @namespace Component/MyAccountOverlay/Container/forgotPasswordThen */
+        forgotPassword(transformToNameValuePair(fields)).then(
+            /** @namespace Component/MyAccountForgotPassword/Container/MyAccountForgotPasswordContainer/onForgotPasswordSuccess/forgotPassword/then */
             () => {
                 setSignInState(STATE_FORGOT_PASSWORD_SUCCESS);
                 setLoadingState(false);
             },
-            /** @namespace Component/MyAccountForgotPassword/Container/forgotPasswordThen */
+            /** @namespace Component/MyAccountForgotPassword/Container/MyAccountForgotPasswordContainer/onForgotPasswordSuccess/forgotPassword/then/setLoadingState/catch */
             () => setLoadingState(false)
         );
     }

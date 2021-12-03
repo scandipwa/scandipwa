@@ -17,6 +17,8 @@ import Loader from 'Component/Loader';
 import Overlay from 'Component/Overlay';
 import ResetAttributes from 'Component/ResetAttributes';
 import ResetButton from 'Component/ResetButton';
+import { SelectedFiltersType } from 'Type/Category.type';
+import { AttributesType } from 'Type/ProductList.type';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
 
@@ -25,7 +27,7 @@ import './CategoryFilterOverlay.style';
 /** @namespace Component/CategoryFilterOverlay/Component */
 export class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
-        availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
+        availableFilters: AttributesType.isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
         isContentFiltered: PropTypes.bool.isRequired,
         isMatchingInfoFilter: PropTypes.bool.isRequired,
@@ -34,11 +36,12 @@ export class CategoryFilterOverlay extends PureComponent {
         onSeeResultsClick: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
         onHide: PropTypes.func.isRequired,
-        customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+        customFiltersValues: SelectedFiltersType.isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired,
         totalPages: PropTypes.number.isRequired,
-        isCategoryAnchor: PropTypes.bool.isRequired
+        isCategoryAnchor: PropTypes.bool.isRequired,
+        isSearchPage: PropTypes.bool.isRequired
     };
 
     renderFilters() {
@@ -47,7 +50,8 @@ export class CategoryFilterOverlay extends PureComponent {
             customFiltersValues,
             toggleCustomFilter,
             isMatchingInfoFilter,
-            getFilterUrl
+            getFilterUrl,
+            isSearchPage
         } = this.props;
 
         return (
@@ -58,6 +62,7 @@ export class CategoryFilterOverlay extends PureComponent {
               getLink={ getFilterUrl }
               parameters={ customFiltersValues }
               updateConfigurableVariant={ toggleCustomFilter }
+              isSearchPage={ isSearchPage }
             />
         );
     }
@@ -198,10 +203,12 @@ export class CategoryFilterOverlay extends PureComponent {
             totalPages,
             isProductsLoading,
             isContentFiltered,
-            isCategoryAnchor
+            isCategoryAnchor,
+            isSearchPage
         } = this.props;
 
-        if ((!isProductsLoading && totalPages === 0 && !isContentFiltered) || !isCategoryAnchor) {
+        // show CategoryFilterOverlay for 1. categories marked as `anchor` in Magento admin 2. Search page
+        if ((!isProductsLoading && totalPages === 0 && !isContentFiltered) || (!isCategoryAnchor && !isSearchPage)) {
             return (
                 <div block="CategoryFilterOverlay" />
             );

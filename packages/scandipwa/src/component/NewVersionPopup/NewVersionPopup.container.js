@@ -17,8 +17,9 @@ import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action'
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 import { isCrawler, isSSR } from 'Util/Browser';
+import history from 'Util/History';
 
 import NewVersionPopup from './NewVersionPopup.component';
 import { NEW_VERSION_POPUP_ID } from './NewVersionPopup.config';
@@ -57,6 +58,12 @@ export class NewVersionPopupContainer extends PureComponent {
             return;
         }
 
+        const { serviceWorker: { controller } = {} } = navigator;
+
+        if (!controller) {
+            return;
+        }
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.addEventListener('controllerchange', () => {
                 showPopup({
@@ -78,6 +85,7 @@ export class NewVersionPopupContainer extends PureComponent {
         const { hideActiveOverlay } = this.props;
 
         hideActiveOverlay();
+        history.goBack();
     }
 
     render() {

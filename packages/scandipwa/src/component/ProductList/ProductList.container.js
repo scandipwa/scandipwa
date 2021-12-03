@@ -15,10 +15,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
-import { HistoryType, MixType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
-import { FilterInputType, PagesType } from 'Type/ProductList';
-import { LocationType } from 'Type/Router';
+import { FilterInputType, SelectedFiltersType } from 'Type/Category.type';
+import { MixType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
+import { PagesType } from 'Type/ProductList.type';
+import { HistoryType, LocationType } from 'Type/Router.type';
+import { scrollToTop } from 'Util/Browser';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import ProductList from './ProductList.component';
@@ -51,7 +53,7 @@ export class ProductListContainer extends PureComponent {
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
-        selectedFilters: PropTypes.objectOf(PropTypes.shape),
+        selectedFilters: SelectedFiltersType,
         isPreventRequest: PropTypes.bool,
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
@@ -105,10 +107,20 @@ export class ProductListContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { sort, search, filter } = this.props;
-        const { sort: prevSort, search: prevSearch, filter: prevFilter } = prevProps;
+        const {
+            sort,
+            search,
+            filter,
+            pages
+        } = this.props;
 
-        const { pages } = this.props;
+        const {
+            sort: prevSort,
+            search: prevSearch,
+            filter: prevFilter,
+            location: prevLocation
+        } = prevProps;
+
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
 
@@ -117,7 +129,11 @@ export class ProductListContainer extends PureComponent {
             this.setState({ pagesCount: pagesLength });
         }
 
+        const prevPage = this._getPageFromUrl(prevLocation);
+        const currentPage = this._getPageFromUrl();
+
         if (search !== prevSearch
+            || currentPage !== prevPage
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
         ) {
@@ -156,7 +172,8 @@ export class ProductListContainer extends PureComponent {
             requestProductListInfo,
             noAttributes,
             noVariants,
-            isWidget
+            isWidget,
+            device
         } = this.props;
 
         /**
@@ -202,6 +219,10 @@ export class ProductListContainer extends PureComponent {
 
         if (!isWidget) {
             requestProductListInfo(infoOptions);
+
+            if (!device.isMobile) {
+                scrollToTop();
+            }
         }
     };
 
@@ -248,8 +269,9 @@ export class ProductListContainer extends PureComponent {
         return false;
     }
 
-    _getPageFromUrl() {
-        const { location } = this.props;
+    _getPageFromUrl(url) {
+        const { location: currentLocation } = this.props;
+        const location = url || currentLocation;
 
         return +(getQueryParam('page', location) || 1);
     }

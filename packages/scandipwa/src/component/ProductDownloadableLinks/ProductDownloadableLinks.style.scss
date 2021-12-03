@@ -14,17 +14,13 @@
         margin-block-end: 1px;
         font-weight: 700;
 
-        &_isRequired {
-            &::after{
-                content: '*';
-                color: var(--primary-base-color);
-                padding: 0 5px;
-            }
-        }
-
         @include mobile {
             display: none;
         }
+    }
+
+    &-Required {
+        color: var(--primary-base-color);
     }
 
     &-ExpandableContent {
@@ -49,6 +45,14 @@
         }
     }
 
+    .FieldGroup {
+        &_hasError {
+            .ProductDownloadableLink {
+                color: var(--primary-error-color);
+            }
+        }
+    }
+
     @include desktop {
         margin-block-end: 30px;
     }
@@ -68,7 +72,6 @@
     }
 
     &-SampleTitle {
-        font-weight: bold;
         flex: 1;
     }
 
@@ -82,12 +85,6 @@
         &::before {
             content: ' '
         }
-    }
-
-    &-Required {
-        color: var(--primary-error-color);
-        padding-block-start: 10px;
-        padding-inline-start: 15px;
     }
 
     @include mobile {

@@ -10,22 +10,19 @@
  */
 
 .FieldForm {
-    label {
-        @include desktop {
-            min-width: calc(100% - 30px);
-        }
-    }
-
-    input {
-        width: 100%;
-
-        &[type='checkbox'],
-        &[type='radio'] {
-            width: 0;
+    &-Body {
+        label {
+            @include desktop {
+                min-width: calc(100% - 30px);
+            }
         }
 
-        + label {
-            min-width: auto;
+        input {
+            width: 100%;
+
+            + label {
+                min-width: auto;
+            }
         }
     }
 

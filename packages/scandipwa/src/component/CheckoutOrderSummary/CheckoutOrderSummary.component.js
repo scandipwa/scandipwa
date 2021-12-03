@@ -16,9 +16,12 @@ import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { ChildrenType } from 'Type/Common';
-import { TotalsType } from 'Type/MiniCart';
+import { CheckoutStepType } from 'Type/Checkout.type';
+import { ChildrenType } from 'Type/Common.type';
+import { CartConfigType } from 'Type/Config.type';
+import { TotalsType } from 'Type/MiniCart.type';
 import { getItemsCountLabel } from 'Util/Cart';
+import { noopFn } from 'Util/Common';
 
 import './CheckoutOrderSummary.style';
 
@@ -29,10 +32,10 @@ import './CheckoutOrderSummary.style';
 export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
-        checkoutStep: PropTypes.string,
+        checkoutStep: CheckoutStepType,
         renderCmsBlock: PropTypes.func,
         isExpandable: PropTypes.bool,
-        cartDisplayConfig: PropTypes.object.isRequired,
+        cartDisplayConfig: CartConfigType.isRequired,
         cartShippingPrice: PropTypes.number,
         cartShippingSubPrice: PropTypes.number,
         cartSubtotal: PropTypes.number,
@@ -44,7 +47,7 @@ export class CheckoutOrderSummary extends PureComponent {
 
     static defaultProps = {
         totals: {},
-        renderCmsBlock: () => {},
+        renderCmsBlock: noopFn,
         isExpandable: false,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
@@ -74,11 +77,7 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderItem = (item) => {
-        const {
-            totals: {
-                quote_currency_code
-            }
-        } = this.props;
+        const { totals: { quote_currency_code } } = this.props;
 
         const { item_id } = item;
 
@@ -105,8 +104,14 @@ export class CheckoutOrderSummary extends PureComponent {
         }
 
         const label = coupon_code ? __('Coupon code discount') : __('Discount');
-
-        return this.renderPriceLine(-Math.abs(discount_amount), label);
+        const discount = -Math.abs(discount_amount);
+        return (
+            <CheckoutOrderSummaryPriceLine
+              price={ discount }
+              title={ label }
+              coupon_code={ coupon_code }
+            />
+        );
     }
 
     renderItems() {

@@ -12,16 +12,20 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
 import { formatPrice, roundPrice } from 'Util/Price';
 
 /** @namespace Component/CartItemPrice/Component */
 export class CartItemPrice extends PureComponent {
     static propTypes = {
         price: PropTypes.number.isRequired,
-        subPrice: PropTypes.number.isRequired,
+        subPrice: PropTypes.number,
         currency_code: PropTypes.string.isRequired,
         mix: MixType.isRequired
+    };
+
+    static defaultProps = {
+        subPrice: null
     };
 
     renderPrice() {

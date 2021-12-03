@@ -18,9 +18,9 @@ import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.com
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    currency_code: state.ConfigReducer.currencyData.current_currency_code,
-    show_product_count: state.ConfigReducer.layered_navigation_product_count_enabled,
-    childrenCategories: state.CategoryReducer.category.children
+    currencyCode: state.ConfigReducer.currencyData.current_currency_code,
+    showProductCount: state.ConfigReducer.layered_navigation_product_count_enabled,
+    childrenCategories: state.CategoryReducer.category.children || []
 });
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapDispatchToProps */
@@ -35,26 +35,34 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
 
     containerProps() {
         const {
-            currency_code,
-            show_product_count,
+            currencyCode,
+            showProductCount,
             childrenCategories
         } = this.props;
 
         return {
-            currency_code,
-            show_product_count,
+            currencyCode,
+            showProductCount,
             childrenCategories,
             ...super.containerProps()
         };
     }
 
-    getSubCategories(option) {
-        const optionWithSubcategories = { ...option };
+    getCategorySubCategories() {
         const { childrenCategories } = this.props;
+        return childrenCategories.map(({ id }) => id.toString());
+    }
+
+    getSubCategories(option) {
+        const { isSearchPage } = this.props;
+        const optionWithSubcategories = { ...option };
         const { attribute_values } = option;
-        const childrenCategoryIds = childrenCategories.map((category) => category.id.toString());
-        const subCategoriesIds = attribute_values.filter((item) => childrenCategoryIds.includes(item));
-        optionWithSubcategories.attribute_values = subCategoriesIds;
+
+        if (!isSearchPage) {
+            const categoryItemsIds = this.getCategorySubCategories();
+            const subCategoriesIds = attribute_values.filter((item) => categoryItemsIds.includes(item));
+            optionWithSubcategories.attribute_values = subCategoriesIds;
+        }
 
         return optionWithSubcategories;
     }

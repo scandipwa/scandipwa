@@ -14,7 +14,7 @@ import { Field } from 'Util/Query';
 /**
  * Category Query
  * @class CategoryQuery
- * @namespace Query/Category
+ * @namespace Query/Category/Query
  */
 export class CategoryQuery {
     __construct() {

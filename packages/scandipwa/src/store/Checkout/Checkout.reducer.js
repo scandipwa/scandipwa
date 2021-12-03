@@ -21,7 +21,7 @@ export const getInitialState = () => ({
     isEmailAvailable: true
 });
 
-/** @namespace Store/Checkout/Reducer/checkoutReducer */
+/** @namespace Store/Checkout/Reducer/CheckoutReducer */
 export const CheckoutReducer = (state = getInitialState(), action) => {
     switch (action.type) {
     case UPDATE_SHIPPING_FIELDS:

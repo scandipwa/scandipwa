@@ -17,9 +17,11 @@ import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action'
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { customerType } from 'Type/Account';
-import { ProductType } from 'Type/ProductList';
-import { RatingItemsType } from 'Type/Rating';
+import { CustomerType } from 'Type/Account.type';
+import { ProductType } from 'Type/ProductList.type';
+import { RatingItemsType } from 'Type/Rating.type';
+import transformToNameValuePair from 'Util/Form/Transform';
+import { getErrorMessage } from 'Util/Request';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
@@ -53,16 +55,12 @@ export class ProductReviewFormContainer extends PureComponent {
         reviewRatings: RatingItemsType.isRequired,
         product: ProductType.isRequired,
         addReview: PropTypes.func.isRequired,
-        customer: customerType.isRequired
+        customer: CustomerType.isRequired
     };
 
     containerFunctions = ({
-        onReviewSubmitAttempt: this._onReviewSubmitAttempt.bind(this),
         onReviewSubmitSuccess: this._onReviewSubmitSuccess.bind(this),
         onStarRatingClick: this._onStarRatingClick.bind(this),
-        handleNicknameChange: this._handleFieldChange.bind(this, 'nickname'),
-        handleSummaryChange: this._handleFieldChange.bind(this, 'summary'),
-        handleDetailChange: this._handleFieldChange.bind(this, 'detail'),
         onReviewError: this._onReviewError.bind(this)
     });
 
@@ -103,68 +101,59 @@ export class ProductReviewFormContainer extends PureComponent {
         const reviewsAreNotValid = invalidFields;
 
         if (reviewsAreNotValid) {
-            showNotification('info', __('Incorrect data! Please check review fields.'));
+            showNotification('info', __('Please fill in all rating fields'));
         }
 
         this.setState({ isLoading: !reviewsAreNotValid });
     }
 
-    _onReviewSubmitAttempt() {
-        const { showNotification, reviewRatings } = this.props;
-        const { ratingData, isSubmitted } = this.state;
-        const reviewsAreNotValid = !reviewRatings.every(({ rating_id }) => ratingData[rating_id]);
-
-        if (reviewsAreNotValid) {
-            showNotification('info', __('Please fill all rating fields.'));
-        }
-
-        this.setState({ isSubmitted: !isSubmitted, isLoading: !reviewsAreNotValid });
-    }
-
-    _onReviewSubmitSuccess(fields) {
+    async _onReviewSubmitSuccess(form, fields) {
         const {
             product,
             addReview,
             hideActiveOverlay,
-            goToPreviousHeaderState
+            goToPreviousHeaderState,
+            showNotification,
+            reviewRatings
         } = this.props;
 
-        const { ratingData: rating_data, isLoading } = this.state;
+        const { ratingData: rating_data } = this.state;
+
+        if (Object.keys(rating_data).length < Object.keys(reviewRatings).length) {
+            showNotification('info', __('Please fill in all rating fields'));
+            return;
+        }
+
+        this.setState({ isLoading: true });
 
         const {
             nickname,
             title,
             detail
-        } = fields;
+        } = transformToNameValuePair(fields);
 
         const { sku: product_sku } = product;
 
-        if (Object.keys(rating_data).length && isLoading) {
-            addReview({
+        try {
+            await addReview({
                 nickname,
                 title,
                 detail,
                 product_sku,
                 rating_data
-            }).then(
-                /** @namespace Component/ProductReviewForm/Container/addReviewThen */
-                (success) => {
-                    if (success) {
-                        this.setState({
-                            ratingData: {},
-                            reviewData: {},
-                            isLoading: false
-                        });
+            });
 
-                        goToPreviousHeaderState();
-                        hideActiveOverlay();
+            this.setState({
+                ratingData: {},
+                reviewData: {}
+            });
 
-                        return;
-                    }
-
-                    this.setState({ isLoading: false });
-                }
-            );
+            goToPreviousHeaderState();
+            hideActiveOverlay();
+        } catch (error) {
+            showNotification('error', getErrorMessage(error));
+        } finally {
+            this.setState({ isLoading: false });
         }
     }
 

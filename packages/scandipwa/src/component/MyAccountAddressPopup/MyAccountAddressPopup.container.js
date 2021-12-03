@@ -18,7 +18,7 @@ import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action'
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { addressType } from 'Type/Account';
+import { Addresstype } from 'Type/Account.type';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 
@@ -54,7 +54,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
         payload: PropTypes.shape({
-            address: addressType
+            address: Addresstype
         }).isRequired
     };
 
@@ -83,7 +83,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         } = this.props;
 
         updateCustomerDetails().then(
-            /** @namespace Component/MyAccountAddressPopup/Container/updateCustomerDetailsThen */
+            /** @namespace Component/MyAccountAddressPopup/Container/MyAccountAddressPopupContainer/updateCustomerDetails/then */
             () => {
                 this.setState({ isLoading: false }, () => {
                     hideActiveOverlay();
@@ -102,6 +102,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
     handleAddress(address) {
         const { payload: { address: { id } } } = this.props;
         this.setState({ isLoading: true });
+
         if (id) {
             return this.handleEditAddress(address);
         }

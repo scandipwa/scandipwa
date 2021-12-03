@@ -14,6 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
+import { noopFn } from 'Util/Common';
+import transformToNameValuePair from 'Util/Form/Transform';
 import { getErrorMessage } from 'Util/Request';
 
 import MyAccountSignIn from './MyAccountSignIn.component';
@@ -28,7 +30,7 @@ export const mapStateToProps = (state) => ({
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable
 });
 
-/** @namespace Component/MyAccountSignIn/Container/mapDispatchtoProps */
+/** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
@@ -57,13 +59,12 @@ export class MyAccountSignInContainer extends PureComponent {
     static defaultProps = {
         emailValue: '',
         isEmailAvailable: true,
-        setSignInState: () => {},
-        handleEmailInput: () => {}
+        setSignInState: noopFn,
+        handleEmailInput: noopFn
     };
 
     containerFunctions = {
-        onSignInSuccess: this.onSignInSuccess.bind(this),
-        onSignInAttempt: this.onSignInAttempt.bind(this)
+        onSignInSuccess: this.onSignInSuccess.bind(this)
     };
 
     componentDidUpdate(prevProps) {
@@ -99,7 +100,7 @@ export class MyAccountSignInContainer extends PureComponent {
         };
     };
 
-    async onSignInSuccess(fields) {
+    async onSignInSuccess(form, fields) {
         const {
             signIn,
             showNotification,
@@ -107,19 +108,17 @@ export class MyAccountSignInContainer extends PureComponent {
             setLoadingState
         } = this.props;
 
+        setLoadingState(true);
+        const fieldPairs = transformToNameValuePair(fields);
+
         try {
-            await signIn(fields);
+            await signIn(fieldPairs);
             onSignIn();
         } catch (error) {
             showNotification('error', getErrorMessage(error));
         }
 
         setLoadingState(false);
-    }
-
-    onSignInAttempt() {
-        const { setLoadingState } = this.props;
-        setLoadingState(true);
     }
 
     render() {

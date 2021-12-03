@@ -12,7 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
+import { scrollToTop } from 'Util/Browser';
 
 import './ResetButton.style';
 
@@ -34,6 +35,7 @@ export class ResetButton extends PureComponent {
 
         onClick();
         resetFilters();
+        scrollToTop();
     };
 
     render() {

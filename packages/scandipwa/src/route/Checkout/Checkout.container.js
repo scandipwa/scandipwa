@@ -23,9 +23,9 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { customerType } from 'Type/Account';
-import { HistoryType } from 'Type/Common';
-import { TotalsType } from 'Type/MiniCart';
+import { CustomerType } from 'Type/Account.type';
+import { TotalsType } from 'Type/MiniCart.type';
+import { HistoryType } from 'Type/Router.type';
 import { removeEmptyStreets } from 'Util/Address';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -114,7 +114,7 @@ export class CheckoutContainer extends PureComponent {
         guest_checkout: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired,
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         countries: PropTypes.arrayOf(
             PropTypes.shape({
                 label: PropTypes.string,
@@ -140,8 +140,12 @@ export class CheckoutContainer extends PureComponent {
         updateShippingPrice: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         isInStoreActivated: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        cartTotalSubPrice: null
     };
 
     containerFunctions = {
@@ -271,7 +275,8 @@ export class CheckoutContainer extends PureComponent {
     }
 
     onShippingMethodSelect(selectedShippingMethod) {
-        this.setState({ selectedShippingMethod });
+        const { method_code } = selectedShippingMethod;
+        this.setState({ selectedShippingMethod: method_code });
     }
 
     onShippingEstimationFieldsChange(address) {
@@ -292,7 +297,7 @@ export class CheckoutContainer extends PureComponent {
             address,
             guestQuoteId
         )).then(
-            /** @namespace Route/Checkout/Container/onShippingEstimationFieldsChangeFetchMutationThen */
+            /** @namespace Route/Checkout/Container/CheckoutContainer/onShippingEstimationFieldsChange/fetchMutation/then */
             ({ estimateShippingCosts: shippingMethods }) => {
                 const { requestsSent } = this.state;
 
@@ -455,7 +460,7 @@ export class CheckoutContainer extends PureComponent {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
             getGuestQuoteId()
         )).then(
-            /** @namespace Route/Checkout/Container/fetchQueryThen */
+            /** @namespace Route/Checkout/Container/CheckoutContainer/_getPaymentMethods/fetchQuery/then */
             ({ getPaymentMethods: paymentMethods }) => {
                 this.setState({ isLoading: false, paymentMethods });
             },
@@ -477,7 +482,7 @@ export class CheckoutContainer extends PureComponent {
         const { updateEmail } = this.props;
         const guestCartId = getGuestQuoteId();
 
-        if (!guestCartId) {
+        if (!guestCartId || !email) {
             return null;
         }
 
@@ -486,7 +491,7 @@ export class CheckoutContainer extends PureComponent {
         updateEmail(email);
 
         return fetchMutation(mutation).then(
-            /** @namespace Route/Checkout/Container/saveGuestEmailFetchMutationThen */
+            /** @namespace Route/Checkout/Container/CheckoutContainer/saveGuestEmail/fetchMutation/then */
             ({ setGuestEmailOnCart: data }) => {
                 if (data) {
                     this.setState({ isGuestEmailSaved: true });
@@ -590,7 +595,7 @@ export class CheckoutContainer extends PureComponent {
             this.prepareAddressInformation(addressInformation),
             getGuestQuoteId()
         )).then(
-            /** @namespace Route/Checkout/Container/saveAddressInformationFetchMutationThen */
+            /** @namespace Route/Checkout/Container/CheckoutContainer/saveAddressInformation/fetchMutation/then */
             ({ saveAddressInformation: data }) => {
                 const { payment_methods, totals } = data;
 
@@ -647,7 +652,7 @@ export class CheckoutContainer extends PureComponent {
         }
 
         await this.saveBillingAddress(paymentInformation).then(
-            /** @namespace Route/Checkout/Container/saveBillingAddressThen */
+            /** @namespace Route/Checkout/Container/CheckoutContainer/savePaymentInformation/saveBillingAddress/then */
             () => this.savePaymentMethodAndPlaceOrder(paymentInformation),
             this._handleError
         );

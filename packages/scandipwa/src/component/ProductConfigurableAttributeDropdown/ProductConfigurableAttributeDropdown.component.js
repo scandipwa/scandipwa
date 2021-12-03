@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 
 import './ProductConfigurableAttributeDropdown.style';
 
@@ -45,14 +46,18 @@ export class ProductConfigurableAttributeDropdown extends PureComponent {
 
         return (
             <Field
-              id={ selectName }
-              name={ selectName }
-              type="select"
-              placeholder={ __('Choose %s', selectLabel.toLowerCase()) }
+              type={ FIELD_TYPE.select }
+              attr={ {
+                  id: selectName,
+                  name: selectName,
+                  defaultValue: selectValue,
+                  selectPlaceholder: __('Choose %s...', selectLabel.toLowerCase())
+              } }
+              events={ {
+                  onChange
+              } }
               mix={ { block: 'ProductConfigurableAttributeDropdown' } }
-              selectOptions={ selectOptions }
-              value={ selectValue }
-              onChange={ onChange }
+              options={ selectOptions }
             />
         );
     }

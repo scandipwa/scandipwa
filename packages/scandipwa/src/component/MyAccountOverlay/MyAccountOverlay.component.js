@@ -20,7 +20,8 @@ import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
 import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
 import MyAccountSignIn from 'Component/MyAccountSignIn';
 import Overlay from 'Component/Overlay';
-import { signInStateType } from 'Type/Account';
+import { SignInStateType } from 'Type/Account.type';
+import { noopFn } from 'Util/Common';
 
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
@@ -40,7 +41,7 @@ export class MyAccountOverlay extends PureComponent {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        state: signInStateType.isRequired,
+        state: SignInStateType.isRequired,
         setSignInState: PropTypes.func.isRequired,
         setLoadingState: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
@@ -74,7 +75,7 @@ export class MyAccountOverlay extends PureComponent {
             title: __('Create new account')
         },
         [STATE_LOGGED_IN]: {
-            render: () => {}
+            render: noopFn
         },
         [STATE_CONFIRM_EMAIL]: {
             render: () => this.renderConfirmEmail(),

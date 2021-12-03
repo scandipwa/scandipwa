@@ -16,8 +16,9 @@ import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 import Field from 'Component/Field';
-import StoreItems from 'Component/StoreItems';
-import { DeviceType } from 'Type/Device';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import StoreItem from 'Component/StoreItem';
+import { DeviceType } from 'Type/Device.type';
 
 import './StoreSwitcher.style';
 
@@ -42,12 +43,12 @@ export class StoreSwitcher extends PureComponent {
         storeLabel: ''
     };
 
-    renderStoreList = (item) => {
+    renderStore = (item) => {
         const { handleStoreSelect } = this.props;
         const { value } = item;
 
         return (
-            <StoreItems
+            <StoreItem
               key={ value }
               item={ item }
               handleStoreSelect={ handleStoreSelect }
@@ -65,12 +66,17 @@ export class StoreSwitcher extends PureComponent {
         return (
             <div block="StoreSwitcher">
                 <Field
-                  id="StoreSwitcher"
-                  name="StoreSwitcher"
-                  type="select"
-                  selectOptions={ storeList }
-                  value={ currentStoreCode }
-                  onChange={ handleStoreSelect }
+                  type={ FIELD_TYPE.select }
+                  attr={ {
+                      id: 'StoreSwitcher',
+                      name: 'StoreSwitcher',
+                      defaultValue: currentStoreCode,
+                      noPlaceholder: true
+                  } }
+                  events={ {
+                      onChange: handleStoreSelect
+                  } }
+                  options={ storeList }
                 />
             </div>
         );
@@ -101,7 +107,7 @@ export class StoreSwitcher extends PureComponent {
                     </button>
 
                     <div block="StoreSwitcher" elem="StoreList" mods={ mods }>
-                        { storeList.map(this.renderStoreList) }
+                        { storeList.map(this.renderStore) }
                     </div>
                 </ClickOutside>
             </div>

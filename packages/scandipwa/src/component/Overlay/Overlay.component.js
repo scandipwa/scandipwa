@@ -15,8 +15,9 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ChildrenType, MixType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common.type';
 import { toggleScroll } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
 
 import './Overlay.style';
 
@@ -38,9 +39,9 @@ export class Overlay extends PureComponent {
     static defaultProps = {
         mix: {},
         children: [],
-        onVisible: () => {},
+        onVisible: noopFn,
         isStatic: false,
-        onHide: () => {},
+        onHide: noopFn,
         isRenderInPortal: true
     };
 
@@ -49,9 +50,11 @@ export class Overlay extends PureComponent {
     componentDidUpdate(prevProps) {
         const prevWasVisible = this.getIsVisible(prevProps);
         const isVisible = this.getIsVisible();
+
         if (isVisible && !prevWasVisible) {
             this.onVisible();
         }
+
         if (!isVisible && prevWasVisible) {
             this.onHide();
         }
@@ -59,21 +62,26 @@ export class Overlay extends PureComponent {
 
     onVisible() {
         const { onVisible, isStatic, isMobile } = this.props;
+
         if (isStatic) {
             return;
         }
+
         if (isMobile) {
             this.freezeScroll();
         }
+
         this.overlayRef.current.focus();
         onVisible();
     }
 
     onHide() {
         const { onHide, isStatic, isMobile } = this.props;
+
         if (isStatic) {
             return;
         }
+
         if (isMobile) {
             this.unfreezeScroll();
         }

@@ -10,6 +10,7 @@
  */
 
 import UrlRewritesQuery from 'Query/UrlRewrites.query';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites/UrlRewrites.action';
 import { QueryDispatcher } from 'Util/Request';
@@ -27,11 +28,13 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
 
     onSuccess({ urlResolver }, dispatch, { urlParam }) {
         dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
+        dispatch(updateNoMatch(!urlResolver));
     }
 
     onError(error, dispatch, { urlParam }) {
         dispatch(setIsUrlRewritesLoading(false));
         dispatch(updateUrlRewrite({ notFound: true }, urlParam));
+        dispatch(updateNoMatch(true));
         dispatch(showNotification('error', __('Error fetching URL-rewrites!'), error));
     }
 

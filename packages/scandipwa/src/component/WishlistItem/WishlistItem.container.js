@@ -13,15 +13,17 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
-import { CONFIGURABLE } from 'Util/Product';
-import { debounce } from 'Util/Request';
+import { ADD_TO_CART } from 'Util/Product';
+import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
+import { Debouncer } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
 import WishlistItem from './WishlistItem.component';
@@ -38,7 +40,8 @@ export const WishlistDispatcher = import(
 
 /** @namespace Component/WishlistItem/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
+    wishlistId: state.WishlistReducer.id
 });
 
 /** @namespace Component/WishlistItem/Container/mapDispatchToProps */
@@ -67,34 +70,71 @@ export class WishlistItemContainer extends PureComponent {
         handleSelectIdChange: PropTypes.func.isRequired,
         isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        isEditingActive: PropTypes.bool.isRequired
+        wishlistId: PropTypes.number.isRequired,
+        isEditingActive: PropTypes.bool.isRequired,
+        setIsQtyUpdateInProgress: PropTypes.func
     };
 
     static defaultProps = {
-        isRemoving: false
+        isRemoving: false,
+        setIsQtyUpdateInProgress: () => {}
     };
 
     containerFunctions = {
         addToCart: this.addItemToCart.bind(this),
         removeItem: this.removeItem.bind(this, false, true),
-        redirectToProductPage: this.redirectToProductPage.bind(this)
-    };
-
-    state = {
-        isLoading: false
+        redirectToProductPage: this.redirectToProductPage.bind(this),
+        setQuantity: this.setQuantity.bind(this)
     };
 
     removeItemOnSwipe = this.removeItem.bind(this, false, true);
 
-    changeQuantity = debounce((quantity) => {
-        const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
-        updateWishlistItem({ item_id, quantity });
+    changeQuantityDebouncer = new Debouncer();
+
+    changeDescriptionDebouncer = new Debouncer();
+
+    changeDescription = this.changeDescriptionDebouncer.startDebounce((description) => {
+        const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+
+        updateWishlistItem({
+            wishlistId,
+            wishlistItems: [{
+                wishlist_item_id: item_id,
+                description
+            }]
+        });
     }, UPDATE_WISHLIST_FREQUENCY);
 
-    changeDescription = debounce((description) => {
-        const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
-        updateWishlistItem({ item_id, description });
+    changeQuantity = this.changeQuantityDebouncer.startDebounce(async (quantity) => {
+        const {
+            wishlistId,
+            product: {
+                wishlist: {
+                    id: item_id
+                }
+            },
+            updateWishlistItem,
+            setIsQtyUpdateInProgress
+        } = this.props;
+
+        await updateWishlistItem({
+            wishlistId,
+            wishlistItems: [{
+                wishlist_item_id: item_id,
+                quantity
+            }]
+        });
+
+        setIsQtyUpdateInProgress(false);
     }, UPDATE_WISHLIST_FREQUENCY);
+
+    __construct(props) {
+        super.__construct(props);
+        this.state = {
+            isLoading: false,
+            currentQty: this.getQuantity()
+        };
+    }
 
     containerProps() {
         const {
@@ -117,6 +157,13 @@ export class WishlistItemContainer extends PureComponent {
             isRemoving,
             product
         };
+    }
+
+    setQuantity(quantity) {
+        const { setIsQtyUpdateInProgress } = this.props;
+        this.setState({ currentQty: quantity });
+
+        setIsQtyUpdateInProgress(true);
     }
 
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
@@ -146,28 +193,74 @@ export class WishlistItemContainer extends PureComponent {
         }, []) : [];
     };
 
-    addItemToCart() {
-        const { product: item, addProductToCart, showNotification } = this.props;
+    getProducts() {
+        const {
+            product: {
+                wishlist: {
+                    buy_request
+                }
+            },
+            product: item
+        } = this.props;
+
+        const { currentQty } = this.state;
+
+        const selectedOptions = getSelectedOptions(buy_request);
+
+        // take input value in case item in wishlist hasn't been updated yet (if you change qty and click "Add to cart" immediately)
+        const quantity = currentQty || this.getQuantity();
+
+        return magentoProductTransform(ADD_TO_CART, item, quantity, [], selectedOptions);
+    }
+
+    getQuantity() {
+        const {
+            product: {
+                type_id: typeId,
+                wishlist: {
+                    quantity,
+                    buy_request: buyRequest
+                }
+            }
+        } = this.props;
+
+        if (typeId !== PRODUCT_TYPE.grouped) {
+            return quantity;
+        }
+
+        const { super_group: superGroup = {} } = JSON.parse(buyRequest);
+
+        return superGroup;
+    }
+
+    async addItemToCart() {
+        const {
+            product: item,
+            addProductToCart,
+            showNotification
+        } = this.props;
+
         const {
             type_id,
             variants,
             wishlist: {
-                id, sku, quantity, buy_request
+                id,
+                sku
             }
         } = item;
 
         if (!isSignedIn()) {
-            return null;
+            return;
         }
 
-        if (type_id === CONFIGURABLE) {
+        if (type_id === PRODUCT_TYPE.configurable) {
             const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
 
             if (!configurableVariantIndex) {
                 history.push({ pathname: appendWithStoreCode(item.url) });
                 showNotification('info', __('Please, select product options!'));
 
-                return Promise.resolve();
+                return;
             }
 
             item.configurableVariantIndex = configurableVariantIndex;
@@ -175,20 +268,16 @@ export class WishlistItemContainer extends PureComponent {
 
         this.setState({ isLoading: true });
 
-        return addProductToCart({ product: item, quantity, buyRequest: buy_request })
-            .then(
-                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
-                () => {
-                    this.removeItem(id);
-                    showNotification('success', __('Product Added To Cart'));
-                },
-                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartCatch */
-                () => this.showNotification('error', __('Error Adding Product To Cart'))
-            )
-            .catch(
-                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThenCatch */
-                () => this.showNotification('error', __('Error cleaning wishlist'))
-            );
+        const products = this.getProducts();
+
+        try {
+            this.changeQuantityDebouncer.cancelDebounceAndExecuteImmediately();
+            this.changeDescriptionDebouncer.cancelDebounceAndExecuteImmediately();
+            await addProductToCart({ products });
+            this.removeItem(id);
+        } catch {
+            this.setState({ isLoading: false }, this.redirectToProductPage);
+        }
     }
 
     showNotification(...args) {
@@ -197,13 +286,17 @@ export class WishlistItemContainer extends PureComponent {
         showNotification(...args);
     }
 
-    removeItem(noMessages = true, isRemoveOnly = false) {
+    async removeItem(noMessages = true, isRemoveOnly = false) {
         const { product: { wishlist: { id: item_id } }, removeFromWishlist, handleSelectIdChange } = this.props;
         this.setState({ isLoading: true });
 
         handleSelectIdChange(item_id, isRemoveOnly);
 
-        return removeFromWishlist({ item_id, noMessages });
+        try {
+            removeFromWishlist({ item_id, noMessages });
+        } catch (e) {
+            this.showNotification('error', __('Error cleaning wishlist'));
+        }
     }
 
     redirectToProductPage() {

@@ -14,8 +14,8 @@ import { PureComponent } from 'react';
 
 import StoreInPickUpPopupComponent from 'Component/StoreInPickUpPopup';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
-import { addressType } from 'Type/Account';
-import { shippingMethodsType, storeType } from 'Type/Checkout';
+import { Addresstype } from 'Type/Account.type';
+import { ShippingMethodsType, StoreType } from 'Type/Checkout.type';
 
 import './StoreInPickUp.style';
 
@@ -25,13 +25,14 @@ export class StoreInPickUpComponent extends PureComponent {
         selectStore: PropTypes.func,
         handleOpenPopup: PropTypes.func.isRequired,
         countryId: PropTypes.string.isRequired,
-        estimateAddress: addressType.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
+        estimateAddress: Addresstype.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
         setSelectedStore: PropTypes.func.isRequired,
         setSelectedShippingMethodCode: PropTypes.func,
-        selectedStore: storeType
+        cartItemsSku: PropTypes.arrayOf(PropTypes.string).isRequired,
+        selectedStore: StoreType
     };
 
     static defaultProps = {
@@ -96,7 +97,8 @@ export class StoreInPickUpComponent extends PureComponent {
             shippingMethods,
             onStoreSelect,
             onShippingMethodSelect,
-            setSelectedStore
+            setSelectedStore,
+            cartItemsSku
         } = this.props;
 
         return (
@@ -107,6 +109,7 @@ export class StoreInPickUpComponent extends PureComponent {
               onStoreSelect={ onStoreSelect }
               onShippingMethodSelect={ onShippingMethodSelect }
               setSelectedStore={ setSelectedStore }
+              cartItemsSku={ cartItemsSku }
             />
         );
     }

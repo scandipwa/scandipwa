@@ -83,7 +83,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-block: 10px;
+        padding-block-start: 10px;
+        padding-block-end: 24px;
     }
 
     &-StepBarTotal {
@@ -148,6 +149,8 @@
     }
 
     &-DeliverySelect {
+        margin-block-start: 15px;
+
         @include mobile {
             margin-block-start: 10px;
         }

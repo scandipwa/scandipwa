@@ -9,17 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { STOCK_TYPE } from 'Component/Product/Stock.config';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { isSignedIn } from 'Util/Auth';
-import {
-    BUNDLE,
-    CONFIGURABLE,
-    DOWNLOADABLE
-} from 'Util/Product';
 import getStore from 'Util/Store';
+
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
 
 /**
  * Checks whether every option is in attributes
@@ -35,6 +33,7 @@ export const checkEveryOption = (attributes, options) => Object.keys(options)
         }
 
         const { attribute_value } = attributes[option];
+
         if (typeof options[option] === 'string') {
             return options[option] === attribute_value;
         }
@@ -45,6 +44,7 @@ export const checkEveryOption = (attributes, options) => Object.keys(options)
 /** @namespace Util/Product/getIndexedAttributeOption */
 export const getIndexedAttributeOption = (option) => {
     const { swatch_data: defaultSwatchData } = option;
+
     if (!defaultSwatchData) {
         return option;
     }
@@ -132,7 +132,7 @@ export const getVariantsIndexes = (variants, options, inStockOnly = false) => {
         }, []);
 
     if (inStockOnly) {
-        return result.filter((n) => variants[n].stock_status === IN_STOCK);
+        return result.filter((n) => variants[n].stock_status === STOCK_TYPE.IN_STOCK);
     }
 
     return result;
@@ -166,35 +166,28 @@ export const getIndexedCustomOption = (option) => {
     if (checkboxValues) {
         const data = Array.isArray(checkboxValues) ? checkboxValues : [checkboxValues];
 
-        return { type: 'checkbox', data, ...otherFields };
+        return { value: data, ...otherFields };
     }
 
     if (dropdownValues) {
         const data = Array.isArray(dropdownValues) ? dropdownValues : [dropdownValues];
 
-        return { type: 'dropdown', data, ...otherFields };
+        return { value: data, ...otherFields };
     }
 
     if (fieldValues) {
-        const data = Array.isArray(fieldValues) ? fieldValues : [fieldValues];
-
-        return { type: 'field', data, ...otherFields };
+        return { value: fieldValues, ...otherFields };
     }
 
     if (areaValues) {
-        const data = Array.isArray(areaValues) ? areaValues : [areaValues];
-
-        return { type: 'area', data, ...otherFields };
+        return { value: areaValues, ...otherFields };
     }
 
     if (fileValues) {
-        const data = Array.isArray(fileValues) ? fileValues : [fileValues];
-
-        return { type: 'file', data, ...otherFields };
+        return { value: fileValues, ...otherFields };
     }
 
-    // skip unsupported types
-    return null;
+    return { value: otherFields, ...otherFields };
 };
 
 /** @namespace Util/Product/getIndexedCustomOptions */
@@ -247,14 +240,27 @@ export const getIndexedReviews = (reviews) => {
     }, []);
 };
 
+/** @namespace Util/Product/getBundleId */
+export const getBundleId = (uid = '') => {
+    const arrayId = atob(uid).split('/');
+
+    if (Array.isArray(arrayId) && arrayId.length > 2) {
+        return +arrayId[2];
+    }
+
+    return 0;
+};
+
 /** @namespace Util/Product/getBundleOptions */
 export const getBundleOptions = (options, items) => {
     const bundleOptions = options.reduce((prev, next) => [...prev, ...next.selection_details], []);
 
     return items.map((item) => ({
         ...item,
-        options: item?.options?.map((option) => {
-            const selection = bundleOptions.find((o) => o.selection_id === option.id) || {};
+        options: item?.options?.filter(({ product }) => product).map((option) => {
+            const id = getBundleId(option.uid);
+            const selection = bundleOptions.find((o) => o.selection_id === id) || {};
+
             const {
                 regular_option_price: regularOptionPrice = 0,
                 regular_option_price_excl_tax: regularOptionPriceExclTax = 0,
@@ -320,71 +326,6 @@ export const getIndexedParameteredProducts = (products) => Object.entries(produc
         ...products,
         [id]: getIndexedProduct(product)
     }), {});
-
-/** @namespace Util/Product/getExtensionAttributes */
-export const getExtensionAttributes = (product) => {
-    const {
-        configurable_options,
-        configurableVariantIndex,
-        productOptions,
-        productOptionsMulti,
-        downloadableLinks,
-        variants,
-        type_id
-    } = product;
-
-    if (type_id === CONFIGURABLE) {
-        const { attributes = {} } = variants[configurableVariantIndex] || {};
-        const properties = {
-            configurable_item_options: Object.values(configurable_options)
-                .reduce((prev, { attribute_id, attribute_code }) => {
-                    const {
-                        attribute_value,
-                        attribute_id: attrId
-                    } = attributes[attribute_code] || {};
-
-                    if (attribute_value) {
-                        return [
-                            ...prev,
-                            {
-                                option_id: attribute_id || attrId,
-                                option_value: attribute_value
-                            }
-                        ];
-                    }
-
-                    return prev;
-                }, [])
-        };
-
-        if (productOptions) {
-            properties.customizable_options = productOptions;
-        }
-        if (productOptionsMulti) {
-            properties.customizable_options_multi = productOptionsMulti;
-        }
-
-        return properties;
-    }
-
-    if (type_id === BUNDLE && (productOptions || productOptionsMulti)) {
-        return { bundle_options: Array.from(productOptions || []) };
-    }
-
-    const customizableOptions = (productOptions || productOptionsMulti) ? {
-        customizable_options: productOptions || [],
-        customizable_options_multi: productOptionsMulti || []
-    } : {};
-
-    const downloadableOptions = (type_id === DOWNLOADABLE && downloadableLinks) ? {
-        downloadable_product_links: downloadableLinks
-    } : {};
-
-    return {
-        ...customizableOptions,
-        ...downloadableOptions
-    };
-};
 
 /** @namespace Util/Product/sortBySortOrder */
 export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort(

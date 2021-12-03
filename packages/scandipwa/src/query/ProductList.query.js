@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { SORT_DIRECTION_TYPE } from 'Route/CategoryPage/CategoryPage.config';
 import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -17,8 +18,7 @@ import { Field, Fragment } from 'Util/Query';
 /**
  * Product List Query
  * @class ProductListQuery
- * @namespace Query/ProductList
- */
+ * @namespace Query/ProductList/Query */
 export class ProductListQuery {
     __construct() {
         super.__construct();
@@ -99,6 +99,7 @@ export class ProductListQuery {
             },
             productsSkuArray: (sku) => ({ sku: { in: sku } }),
             productSKU: (sku) => ({ sku: { eq: sku } }),
+            productID: (id) => ({ id: { eq: id } }),
             productUrlPath: (url) => ({ url_key: { eq: url } }),
             customFilters: this._getCustomFilters,
             newToDate: (date) => ({ news_to_date: { gteq: date } }),
@@ -128,7 +129,7 @@ export class ProductListQuery {
                         return {};
                     }
 
-                    return { [sortKey]: sortDirection || 'ASC' };
+                    return { [sortKey]: sortDirection || SORT_DIRECTION_TYPE.asc };
                 }
             },
             filter: {
@@ -212,6 +213,57 @@ export class ProductListQuery {
         ];
     }
 
+    _getCartProductInterfaceFields() {
+        return [
+            'uid',
+            'id',
+            'sku',
+            'name',
+            'type_id',
+            'stock_status',
+            'url',
+            'salable_qty',
+            this._getStockItemField(),
+            this._getProductThumbnailField(),
+            this._getCartConfigurableProductFragment(),
+            this._getAttributesField(false, true),
+            this._getProductLinksField()
+        ];
+    }
+
+    _getCartConfigurableProductFragment() {
+        return new Fragment('ConfigurableProduct')
+            .addFieldList([
+                this._getConfigurableOptionsField(),
+                this._getCartVariantsField()
+            ]);
+    }
+
+    _getCartVariantsField() {
+        return new Field('variants')
+            .setAlias('variants')
+            .addFieldList(this._getCartVariantFields());
+    }
+
+    _getCartVariantFields() {
+        return [
+            this._getCartProductField()
+        ];
+    }
+
+    _getCartProductField() {
+        return new Field('product')
+            .addFieldList([
+                'id',
+                'sku',
+                'stock_status',
+                'salable_qty',
+                this._getStockItemField(),
+                this._getProductThumbnailField(),
+                this._getAttributesField(true, true)
+            ]);
+    }
+
     _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
         const {
             isPlp = false,
@@ -223,18 +275,20 @@ export class ProductListQuery {
 
         // Basic fields returned always
         const fields = [
+            'uid',
             'id',
             'sku',
             'name',
             'type_id',
             'stock_status',
-            this._getStockItemField()
+            'salable_qty',
+            this._getStockItemField(),
+            this._getPriceRangeField()
         ];
 
         // Additional fields, which we want to return always, except when it's variants on PLP (due to hugh number of items)
         if (!(isPlp && isVariant)) {
             fields.push(
-                this._getPriceRangeField(),
                 this._getProductImageField(),
                 this._getProductThumbnailField(),
                 this._getProductSmallField(),
@@ -265,7 +319,8 @@ export class ProductListQuery {
             if (!noVariants) {
                 fields.push(
                     this._getConfigurableProductFragment(),
-                    this._getBundleProductFragment()
+                    this._getBundleProductFragment(),
+                    this._getGroupedProductItems()
                 );
             }
         }
@@ -279,24 +334,23 @@ export class ProductListQuery {
         if (isSingleProduct) {
             fields.push(
                 'stock_status',
-                'meta_title',
-                'meta_keyword',
-                'canonical_url',
-                'meta_description',
                 this._getDescriptionField(),
                 this._getMediaGalleryField(),
-                this._getSimpleProductFragment(),
-                this._getProductLinksField(),
-                this._getCustomizableProductFragment()
+                this._getSimpleProductFragment()
             );
 
             // for variants of PDP requested product
             if (!isVariant) {
                 fields.push(
+                    'canonical_url',
+                    'meta_title',
+                    'meta_keyword',
+                    'meta_description',
                     this._getCategoriesField(),
                     this._getReviewsField(),
                     this._getVirtualProductFragment(),
-                    this._getCustomizableProductFragment()
+                    this._getCustomizableProductFragment(),
+                    this._getProductLinksField()
                 );
             }
         }
@@ -371,6 +425,7 @@ export class ProductListQuery {
             'sort_order',
             'title',
             'id',
+            'uid',
             'price'
         ];
     }
@@ -395,7 +450,7 @@ export class ProductListQuery {
             .addFieldList(this._getProductInterfaceFields());
 
         if (isSingleProduct) {
-            items.addField(this._getGroupedProductItems());
+            // items.addField(this._getGroupedProductItems());
             items.addField(this._getDownloadableProductFields());
         } else {
             items.addField(this._getDownloadableProductLinksRequired());
@@ -509,7 +564,6 @@ export class ProductListQuery {
         return [
             'path',
             'url'
-            // 'label'
         ];
     }
 
@@ -538,42 +592,56 @@ export class ProductListQuery {
             .addFieldList(this._getProductThumbnailFields());
     }
 
-    _getAttributeOptionField() {
+    _getAttributeOptionField(noSwatches) {
         return [
             'label',
             'value',
-            this._getSwatchDataField()
+            !noSwatches && this._getSwatchDataField()
         ];
     }
 
-    _getAttributeOptionsField() {
+    _getAttributeOptionsField(noSwatches) {
         return new Field('attribute_options')
-            .addFieldList(this._getAttributeOptionField());
+            .addFieldList(this._getAttributeOptionField(noSwatches));
     }
 
-    _getAttributeFields(isVariant) {
+    _getAdditionalAttributeFields(isCart) {
+        if (isCart) {
+            return [];
+        }
+
+        return [
+            'attribute_type',
+            'attribute_group_id',
+            'attribute_group_name'
+        ];
+    }
+
+    _getAttributeOptionsFields(isVariant) {
+        if (isVariant) {
+            return [];
+        }
+
+        return [
+            this._getAttributeOptionsField()
+        ];
+    }
+
+    _getAttributeFields(isVariant = false, isCart = false) {
         return [
             'attribute_id',
             'attribute_value',
             'attribute_code',
-            'attribute_type',
             'attribute_label',
-            'attribute_group_id',
-            'attribute_group_code',
-            'attribute_group_name',
-            ...(!isVariant
-                ? [
-                    this._getAttributeOptionsField()
-                ]
-                : []
-            )
+            ...this._getAdditionalAttributeFields(isCart),
+            ...this._getAttributeOptionsFields(isVariant)
         ];
     }
 
-    _getAttributesField(isVariant) {
+    _getAttributesField(isVariant, isCart) {
         return new Field('s_attributes')
             .setAlias('attributes')
-            .addFieldList(this._getAttributeFields(isVariant));
+            .addFieldList(this._getAttributeFields(isVariant, isCart));
     }
 
     _getMediaGalleryFields() {
@@ -715,7 +783,7 @@ export class ProductListQuery {
 
     _getBundleOptionsFields() {
         return [
-            'id',
+            'uid',
             'label',
             'quantity',
             'position',
@@ -723,7 +791,20 @@ export class ProductListQuery {
             'price',
             'price_type',
             'can_change_quantity',
-            this._getProductField()
+            this._getProductBundleOptionField()
+        ];
+    }
+
+    _getProductBundleOptionField() {
+        return new Field('product')
+            .addFieldList(this._getProductBundleOptionFields());
+    }
+
+    _getProductBundleOptionFields() {
+        return [
+            'name',
+            'stock_status',
+            this._getPriceRangeField()
         ];
     }
 
@@ -734,6 +815,7 @@ export class ProductListQuery {
 
     _getBundleItemsFields() {
         return [
+            'uid',
             'option_id',
             'title',
             'required',
@@ -774,7 +856,6 @@ export class ProductListQuery {
 
     _getBundleProductFragmentFields() {
         return [
-            'price_view',
             'dynamic_price',
             'dynamic_sku',
             'ship_bundle_items',
@@ -885,8 +966,37 @@ export class ProductListQuery {
             .addFieldList([this._getCustomizableFileValueField('fileValues')]);
     }
 
+    _getCustomizableDateValueFields() {
+        return [
+            'price',
+            'priceInclTax',
+            'priceExclTax',
+            'price_type',
+            'currency',
+            'sku'
+        ];
+    }
+
+    _getCustomizableDateValueField() {
+        return new Field('value')
+            .addFieldList(this._getCustomizableDateValueFields());
+    }
+
+    _getCustomizableDateFields(alias) {
+        return [
+            this._getCustomizableDateValueField(alias),
+            'product_sku'
+        ];
+    }
+
+    _getCustomizableDateOption() {
+        return new Fragment('CustomizableDateOption')
+            .addFieldList(this._getCustomizableDateFields());
+    }
+
     _getCustomizableSelectionValueFields() {
         return [
+            'uid',
             'option_type_id',
             'price',
             'priceInclTax',
@@ -934,10 +1044,12 @@ export class ProductListQuery {
             this._getCustomizableFieldOption(),
             this._getCustomizableAreaOption(),
             this._getCustomizableFileOption(),
+            this._getCustomizableDateOption(),
             'title',
             'required',
             'sort_order',
-            'option_id'
+            'type',
+            'uid'
         ];
     }
 

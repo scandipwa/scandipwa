@@ -13,7 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { MixType } from 'Type/Common';
+import { MixType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import CartCoupon from './CartCoupon.component';
 
@@ -48,7 +49,7 @@ export class CartCouponContainer extends PureComponent {
 
     static defaultProps = {
         couponCode: '',
-        onCouponCodeUpdate: () => {},
+        onCouponCodeUpdate: noopFn,
         mix: {},
         title: ''
     };
@@ -78,10 +79,10 @@ export class CartCouponContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         applyCouponToCart(couponCode).then(
-            /** @namespace Component/CartCoupon/Container/applyCouponToCartThen */
+            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally/applyCouponToCart/then/onCouponCodeUpdate */
             () => onCouponCodeUpdate()
         ).finally(
-            /** @namespace Component/CartCoupon/Container/applyCouponToCartFinally */
+            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally */
             () => this.setState({ isLoading: false })
         );
     }
@@ -92,10 +93,10 @@ export class CartCouponContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         removeCouponFromCart().then(
-            /** @namespace Component/CartCoupon/Container/removeCouponFromCartThen */
+            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleRemoveCouponFromCart/then/finally/removeCouponFromCart/then/onCouponCodeUpdate */
             () => onCouponCodeUpdate()
         ).finally(
-            /** @namespace Component/CartCoupon/Container/removeCouponFromCartFinally */
+            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleRemoveCouponFromCart/then/finally */
             () => this.setState({ isLoading: false })
         );
     }

@@ -18,7 +18,9 @@ import { FILTER } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { HistoryType, LocationType } from 'Type/Common';
+import { SelectedFiltersType } from 'Type/Category.type';
+import { FilterAttributeType } from 'Type/ProductList.type';
+import { HistoryType, LocationType } from 'Type/Router.type';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
@@ -45,17 +47,18 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
-        customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+        customFiltersValues: SelectedFiltersType.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
-        availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
+        availableFilters: FilterAttributeType.isRequired,
         isInfoLoading: PropTypes.bool.isRequired,
         isCategoryAnchor: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
         isProductsLoading: PropTypes.bool.isRequired,
+        isSearchPage: PropTypes.bool.isRequired,
         totalPages: PropTypes.number.isRequired
     };
 
@@ -230,6 +233,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             isInfoLoading,
             isMatchingInfoFilter,
             isProductsLoading,
+            isSearchPage,
             totalPages
         } = this.props;
 
@@ -239,6 +243,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             isInfoLoading,
             isProductsLoading,
             isMatchingInfoFilter,
+            isSearchPage,
             totalPages,
             customFiltersValues,
             areFiltersEmpty: this.getAreFiltersEmpty(),

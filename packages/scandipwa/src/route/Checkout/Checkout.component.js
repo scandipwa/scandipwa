@@ -14,12 +14,20 @@ import { lazy, PureComponent, Suspense } from 'react';
 
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
+import Form from 'Component/Form';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
-import { addressType } from 'Type/Account';
-import { paymentMethodsType, shippingMethodsType, storeType } from 'Type/Checkout';
-import { HistoryType } from 'Type/Common';
-import { TotalsType } from 'Type/MiniCart';
+import { Addresstype } from 'Type/Account.type';
+import {
+    CheckoutStepType,
+    PaymentMethodsType,
+    ShippingMethodsType,
+    StoreType
+} from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
+import { HistoryType } from 'Type/Router.type';
+import { scrollToTop } from 'Util/Browser';
+import scrollToError from 'Util/Form/Form';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
@@ -71,17 +79,17 @@ export class Checkout extends PureComponent {
     static propTypes = {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
+        paymentMethods: PaymentMethodsType.isRequired,
         saveAddressInformation: PropTypes.func.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool,
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
-        shippingAddress: addressType.isRequired,
-        billingAddress: addressType.isRequired,
-        estimateAddress: addressType.isRequired,
+        shippingAddress: Addresstype.isRequired,
+        billingAddress: Addresstype.isRequired,
+        estimateAddress: Addresstype.isRequired,
         checkoutTotals: TotalsType.isRequired,
         orderID: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,
@@ -90,11 +98,7 @@ export class Checkout extends PureComponent {
         history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
         paymentTotals: TotalsType,
-        checkoutStep: PropTypes.oneOf([
-            SHIPPING_STEP,
-            BILLING_STEP,
-            DETAILS_STEP
-        ]).isRequired,
+        checkoutStep: CheckoutStepType.isRequired,
         isCreateUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,
@@ -105,15 +109,17 @@ export class Checkout extends PureComponent {
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isInStoreActivated: PropTypes.bool.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        selectedStoreAddress: storeType
+        selectedStoreAddress: StoreType
     };
 
     static defaultProps = {
         paymentTotals: {},
-        selectedStoreAddress: {}
+        selectedStoreAddress: {},
+        isLoading: false,
+        cartTotalSubPrice: null
     };
 
     stepMap = {
@@ -177,6 +183,7 @@ export class Checkout extends PureComponent {
         const { url } = this.stepMap[checkoutStep];
 
         history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        scrollToTop({ behavior: 'smooth' });
     }
 
     renderTitle() {
@@ -389,10 +396,17 @@ export class Checkout extends PureComponent {
             isPickInStoreMethodSelected,
             handleSelectDeliveryMethod,
             checkoutStep,
-            isInStoreActivated
+            isInStoreActivated,
+            totals: {
+                is_in_store_pickup_available: isInStorePickupAvailable
+            }
         } = this.props;
 
         if (checkoutStep !== SHIPPING_STEP || !isInStoreActivated) {
+            return null;
+        }
+
+        if (!isInStorePickupAvailable) {
             return null;
         }
 
@@ -425,6 +439,10 @@ export class Checkout extends PureComponent {
         );
     }
 
+    onError = (_, fields, validation) => {
+        scrollToError(fields, validation);
+    };
+
     render() {
         return (
             <main block="Checkout">
@@ -433,13 +451,20 @@ export class Checkout extends PureComponent {
                   label={ __('Checkout page') }
                 >
                     { this.renderSummary(true) }
-                    <div block="Checkout" elem="Step">
-                        { this.renderTitle() }
-                        { this.renderStoreInPickUpMethod() }
-                        { this.renderGuestForm() }
-                        { this.renderStep() }
-                        { this.renderLoader() }
-                    </div>
+                    <Form
+                      onError={ this.onError }
+                      validationRule={ {
+                          selector: 'input:not([type="password"]), select'
+                      } }
+                    >
+                        <div block="Checkout" elem="Step">
+                            { this.renderTitle() }
+                            { this.renderStoreInPickUpMethod() }
+                            { this.renderGuestForm() }
+                            { this.renderStep() }
+                            { this.renderLoader() }
+                        </div>
+                    </Form>
                     <div>
                         <Suspense fallback={ <Loader /> }>
                             { this.renderSummary() }

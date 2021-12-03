@@ -8,13 +8,13 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // TODO: try SEARCH type
 import { CATEGORY } from 'Component/Header/Header.config';
-import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
+import { LOADING_TIME, SORT_DIRECTION_TYPE } from 'Route/CategoryPage/CategoryPage.config';
 import { CategoryPageContainer } from 'Route/CategoryPage/CategoryPage.container';
-import { updateCurrentCategory } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -22,6 +22,7 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
+import { noopFn } from 'Util/Common';
 import { withReducers } from 'Util/DynamicReducer';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -84,23 +85,25 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
     ),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: (category) => MetaDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
-    ),
-    updateCurrentCategory: (category) => dispatch(updateCurrentCategory(category)),
     updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 /** @namespace Route/SearchPage/Container */
 export class SearchPageContainer extends CategoryPageContainer {
+    static propTypes = {
+        ...this.propTypes,
+        updateMetaFromCategory: PropTypes.func
+    };
+
     static defaultProps = {
         ...this.defaultProps,
-        isSearchPage: true
+        isSearchPage: true,
+        updateMetaFromCategory: noopFn
     };
 
     config = {
         sortKey: 'none',
-        sortDirection: 'ASC'
+        sortDirection: SORT_DIRECTION_TYPE.asc
     };
 
     updateMeta() {
@@ -143,7 +146,7 @@ export class SearchPageContainer extends CategoryPageContainer {
         const search = this.getSearchParam();
 
         // if the search requested is equal to search from URL
-        return search === currentSearch;
+        return super.getIsMatchingListFilter() && search === currentSearch;
     }
 
     getIsMatchingInfoFilter() {

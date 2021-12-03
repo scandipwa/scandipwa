@@ -12,15 +12,16 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field/Field.container';
-import { paymentMethodType } from 'Type/Checkout';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import { PaymentMethodType } from 'Type/Checkout.type';
 
 import './CheckoutPayment.style';
 
 /** @namespace Component/CheckoutPayment/Component */
 export class CheckoutPayment extends PureComponent {
     static propTypes = {
-        method: paymentMethodType.isRequired,
+        method: PaymentMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
         isSelected: PropTypes.bool
     };
@@ -55,11 +56,13 @@ export class CheckoutPayment extends PureComponent {
                   onClick={ this.onClick }
                 >
                     <Field
-                      type="checkbox"
-                      id={ `option-${ title }` }
-                      name={ `option-${ title }` }
-                      checked={ isSelected }
-                      disabled
+                      type={ FIELD_TYPE.checkbox }
+                      attr={ {
+                          id: `option-${ title }`,
+                          name: `option-${ title }`,
+                          checked: isSelected
+                      } }
+                      isDisabled
                     />
                     { title }
                 </button>

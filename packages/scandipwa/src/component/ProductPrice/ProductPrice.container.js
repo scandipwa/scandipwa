@@ -13,18 +13,14 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { MixType } from 'Type/Common';
-import { PriceType } from 'Type/ProductList';
-import {
-    formatPrice,
-    getLowestPriceTiersPrice,
-    roundPrice
-} from 'Util/Price';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { MixType } from 'Type/Common.type';
+import { LabelType } from 'Type/Field.type';
+import { ProductPriceType, TierPricesType } from 'Type/Price.type';
+import { formatPrice } from 'Util/Price';
 
 import ProductPrice from './ProductPrice.component';
 import {
-    DISPLAY_PRODUCT_PRICES_IN_CATALOG_BOTH,
-    DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX,
     DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX
 } from './ProductPrice.config';
 
@@ -43,21 +39,27 @@ export const mapDispatchToProps = () => ({});
  */
 export class ProductPriceContainer extends PureComponent {
     static propTypes = {
+        // Price should be gotten from Util/Product/Extract/getPrice()
+        price: ProductPriceType,
+        isPreview: PropTypes.bool,
+        priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
+
         isSchemaRequired: PropTypes.bool,
-        price: PriceType,
         mix: MixType,
         displayTaxInPrice: PropTypes.string,
-        price_tiers: PropTypes.array,
-        label: PropTypes.string,
+        tierPrices: TierPricesType,
+        label: LabelType,
         variantsCount: PropTypes.number
     };
 
     static defaultProps = {
+        isPreview: false,
         isSchemaRequired: false,
         displayTaxInPrice: DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX,
         mix: {},
         price: {},
-        price_tiers: [],
+        priceType: PRODUCT_TYPE.simple,
+        tierPrices: [],
         label: '',
         variantsCount: 0
     };
@@ -65,128 +67,57 @@ export class ProductPriceContainer extends PureComponent {
     containerProps() {
         const {
             price: {
-                minimum_price: {
+                price,
+                originalPrice,
+                configuration,
+                price: {
+                    finalPrice: {
+                        currency: priceCurrency
+                    },
                     discount: {
-                        percent_off: discountPercentage = 0
-                    } = {},
-                    final_price: {
-                        value: minimalPriceValue = 0,
-                        currency: priceCurrency = ''
-                    } = {},
-                    regular_price: {
-                        value: regularPriceValue = 0
-                    } = {},
-                    default_price: {
-                        value: defaultPriceValue = 0
-                    } = {},
-                    default_final_price_excl_tax: {
-                        value: defaultFinalPriceExclTax = 0
+                        percentOff: discountPercentage = 0
                     } = {}
                 } = {}
-            } = {},
+            },
+            isPreview,
             isSchemaRequired,
             label,
             mix,
-            price,
-            price_tiers,
-            variantsCount
+            variantsCount,
+            priceType
         } = this.props;
 
-        if ((!minimalPriceValue || !regularPriceValue) && !defaultPriceValue) {
+        if (!price || !originalPrice) {
             return {};
         }
 
-        const roundedRegularPrice = this.getRoundedRegularPrice();
-        const formattedFinalPrice = this.getFormattedFinalPrice();
-        const formattedSubPrice = this.getFormattedSubPrice();
-
         return {
-            roundedRegularPrice,
+            price,
+            originalPrice,
+            configuration,
+            tierPrice: this.getMinTierPrice(priceCurrency),
             priceCurrency,
-            defaultFinalPriceExclTax,
             discountPercentage,
-            formattedFinalPrice,
-            formattedSubPrice,
+            isPreview,
             isSchemaRequired,
             label,
             mix,
-            price,
-            price_tiers,
-            variantsCount
+            variantsCount,
+            priceType
         };
     }
 
-    getRoundedRegularPrice() {
-        const {
-            price: {
-                minimum_price: {
-                    regular_price: {
-                        value: regularPriceValue = 0,
-                        currency: priceCurrency
-                    } = {},
-                    regular_price_excl_tax: {
-                        value: regularPriceExclTaxValue = 0
-                    } = {}
-                } = {}
-            } = {},
-            displayTaxInPrice
-        } = this.props;
+    getMinTierPrice(currency) {
+        const { tierPrices } = this.props;
 
-        if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
-            return formatPrice(roundPrice(regularPriceExclTaxValue), priceCurrency);
+        if (tierPrices && tierPrices.length > 0) {
+            const prices = tierPrices.map(({ final_price: { value = 0 } = {} }) => value);
+            const minPrice = Math.min(...prices);
+
+            return formatPrice(minPrice, currency);
         }
 
-        return formatPrice(roundPrice(regularPriceValue), priceCurrency);
-    }
-
-    getFormattedFinalPrice() {
-        const {
-            price: {
-                minimum_price: {
-                    final_price: {
-                        value: minimalPriceValue,
-                        currency: priceCurrency
-                    } = {},
-                    final_price_excl_tax: {
-                        value: minimalPriceExclTaxValue
-                    } = {}
-                } = {}
-            } = {},
-            price_tiers,
-            displayTaxInPrice = ''
-        } = this.props;
-
-        if (price_tiers.length) {
-            return getLowestPriceTiersPrice(price_tiers, priceCurrency);
-        }
-
-        if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
-            return formatPrice(minimalPriceExclTaxValue, priceCurrency);
-        }
-
-        return formatPrice(minimalPriceValue, priceCurrency);
-    }
-
-    getFormattedSubPrice() {
-        const {
-            price: {
-                minimum_price: {
-                    final_price: {
-                        currency: priceCurrency = ''
-                    },
-                    final_price_excl_tax: {
-                        value: minimalPriceExclTaxValue = 0
-                    } = {}
-                } = {}
-            } = {},
-            displayTaxInPrice = ''
-        } = this.props;
-
-        if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_BOTH) {
-            return formatPrice(minimalPriceExclTaxValue, priceCurrency);
-        }
-
-        return null;
+        return '';
     }
 
     render() {

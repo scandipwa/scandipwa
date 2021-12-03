@@ -132,6 +132,7 @@
                 @include button-visible;
 
                 @include desktop {
+                    height: 24px;
                     margin-inline-start: 35px;
                 }
             }
@@ -154,6 +155,7 @@
                 .ChevronIcon {
                     width: 20px;
                     height: 20px;
+                    vertical-align: middle;
                 }
             }
 
@@ -184,6 +186,7 @@
 
     &-CompareButtonWrapper {
         margin-inline-start: 35px;
+        height: 24px;
     }
 
     &-CompareCount {
@@ -274,6 +277,12 @@
         }
     }
 
+    &-MyAccount {
+        @include desktop {
+            height: 24px;
+        }
+    }
+
     &-News {
         align-items: center;
         display: flex;
@@ -330,7 +339,7 @@
         white-space: nowrap;
         max-width: 200px;
         align-self: center;
-        height: 24px;
+        line-height: 16px;
 
         @include wide-desktop {
             display: block;

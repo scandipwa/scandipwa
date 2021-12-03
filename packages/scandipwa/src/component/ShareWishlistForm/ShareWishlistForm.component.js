@@ -11,6 +11,9 @@
 import PropTypes from 'prop-types';
 
 import FieldForm from 'Component/FieldForm';
+import transformToNameValuePair from 'Util/Form/Transform';
+
+import shareWishlistForm from './ShareWishlistForm.form';
 
 /** @namespace Component/ShareWishlistForm/Component */
 export class ShareWishlistForm extends FieldForm {
@@ -18,23 +21,14 @@ export class ShareWishlistForm extends FieldForm {
         onSave: PropTypes.func.isRequired
     };
 
-    onFormSuccess = (fields) => {
-        const { onSave } = this.props;
-        onSave(fields);
-    };
-
     get fieldMap() {
-        return {
-            emails: {
-                label: __('Email addresses, separated by commas'),
-                validation: ['notEmpty', 'emails']
-            },
-            message: {
-                type: 'textarea',
-                label: __('Message')
-            }
-        };
+        return shareWishlistForm();
     }
+
+    onFormSuccess = (form, fields) => {
+        const { onSave } = this.props;
+        onSave(transformToNameValuePair(fields));
+    };
 
     renderActions() {
         return (
@@ -42,6 +36,12 @@ export class ShareWishlistForm extends FieldForm {
                 { __('Share Wishlist') }
             </button>
         );
+    }
+
+    getFormProps() {
+        return {
+            onSubmit: this.onFormSuccess
+        };
     }
 }
 

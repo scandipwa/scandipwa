@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { DeviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device.type';
 
 import './DemoNotice.style';
 
@@ -47,6 +47,7 @@ export class DemoNotice extends PureComponent {
 
     renderText() {
         const { device } = this.props;
+
         if (device.isMobile) {
             return __('This is a demo store');
         }

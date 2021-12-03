@@ -15,8 +15,10 @@ import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import ImageZoomPopup from 'Component/ImageZoomPopup';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
+import { cacheImages } from 'Util/Cache/Cache';
 
 import ProductGallery from './ProductGallery.component';
 import {
@@ -39,11 +41,20 @@ export class ProductGalleryContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        isZoomEnabled: PropTypes.bool,
+        showLoader: PropTypes.bool,
+
+        // Renders empty image switcher, so that when changing active product, transaction
+        // between images is not jumping, when parent has multiple images, but child only one
+        isWithEmptySwitcher: PropTypes.bool
     };
 
     static defaultProps = {
-        areDetailsLoaded: false
+        areDetailsLoaded: false,
+        isZoomEnabled: false,
+        isWithEmptySwitcher: false,
+        showLoader: false
     };
 
     sliderRef = createRef();
@@ -58,7 +69,7 @@ export class ProductGalleryContainer extends PureComponent {
     __construct(props) {
         super.__construct(props);
 
-        const { product: { id } } = props;
+        const { product: { id } = {} } = props;
 
         this.state = {
             activeImage: this.getBaseImage(),
@@ -79,13 +90,48 @@ export class ProductGalleryContainer extends PureComponent {
         return { prevProdId: id, activeImage };
     }
 
-    componentDidUpdate(prevProps) {
-        const { product: { media_gallery_entries: mediaGallery = [] } } = this.props;
-        const { product: { media_gallery_entries: prevMediaGallery = [] } } = prevProps;
+    componentDidMount() {
+        this.cacheImages();
+    }
 
-        if (mediaGallery !== prevMediaGallery) {
+    componentDidUpdate(prevProps) {
+        const {
+            product: { media_gallery_entries: mediaGallery = [] },
+            isZoomEnabled,
+            areDetailsLoaded
+        } = this.props;
+        const { product: { media_gallery_entries: prevMediaGallery = [] }, isZoomEnabled: prevZoomEnabled } = prevProps;
+
+        if (mediaGallery !== prevMediaGallery || isZoomEnabled !== prevZoomEnabled) {
             this.onActiveImageChange(this.getBaseImage());
+
+            if (areDetailsLoaded && mediaGallery.length > 0) {
+                this.cacheImages();
+            }
         }
+    }
+
+    cacheImages() {
+        const {
+            product: {
+                type_id: type,
+                variants = []
+            }
+        } = this.props;
+
+        if (type !== PRODUCT_TYPE.configurable) {
+            return;
+        }
+
+        const urls = [];
+        variants.forEach(({ media_gallery_entries: mediaGallery = [] }) => {
+            if (mediaGallery.length > 0) {
+                const { base: { url } = {} } = mediaGallery[0];
+                urls.push(url);
+            }
+        });
+
+        cacheImages(urls);
     }
 
     handleImageZoomPopupActiveChange(isImageZoomPopupActive) {
@@ -170,7 +216,12 @@ export class ProductGalleryContainer extends PureComponent {
 
     containerProps() {
         const { activeImage, isZoomEnabled, isImageZoomPopupActive } = this.state;
-        const { product: { id }, isMobile } = this.props;
+        const {
+            product: { id },
+            isMobile,
+            isWithEmptySwitcher,
+            showLoader
+        } = this.props;
 
         return {
             gallery: this.getGalleryPictures(),
@@ -180,7 +231,9 @@ export class ProductGalleryContainer extends PureComponent {
             productId: id,
             isMobile,
             isImageZoomPopupActive,
-            sliderRef: this.sliderRef
+            sliderRef: this.sliderRef,
+            isWithEmptySwitcher,
+            showLoader
         };
     }
 
@@ -189,7 +242,7 @@ export class ProductGalleryContainer extends PureComponent {
      * @private
      */
     _getProductName() {
-        const { product: { name } } = this.props;
+        const { product: { name = '' } } = this.props;
 
         return name;
     }

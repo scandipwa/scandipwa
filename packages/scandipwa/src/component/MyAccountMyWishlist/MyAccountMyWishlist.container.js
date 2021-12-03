@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import { getErrorMessage } from 'Util/Request';
 
@@ -72,18 +72,25 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     state = {
         isLoading: false,
-        loadingItemsMap: {}
+        loadingItemsMap: {},
+        isQtyUpdateInProgress: false
     };
 
     containerFunctions = {
         removeAll: this.removeAll.bind(this),
         addAllToCart: this.addAllToCart.bind(this),
         shareWishlist: this.shareWishlist.bind(this),
-        removeSelectedFromWishlist: this.removeSelectedFromWishlist.bind(this)
+        removeSelectedFromWishlist: this.removeSelectedFromWishlist.bind(this),
+        setIsQtyUpdateInProgress: this.setIsQtyUpdateInProgress.bind(this)
     };
 
     containerProps() {
-        const { isLoading, loadingItemsMap } = this.state;
+        const {
+            isLoading,
+            loadingItemsMap,
+            isQtyUpdateInProgress
+        } = this.state;
+
         const {
             isWishlistLoading,
             creatorsName,
@@ -103,40 +110,57 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             creatorsName,
             wishlistItems,
             isEditingActive,
-            isMobile
+            isMobile,
+            isQtyUpdateInProgress
         };
     }
 
-    addAllToCart() {
-        const { moveWishlistToCart } = this.props;
+    setIsQtyUpdateInProgress(status) {
+        this.setState({ isQtyUpdateInProgress: status });
+    }
 
+    getIsComplete() {
+        const { isQtyUpdateInProgress } = this.state;
+
+        return !isQtyUpdateInProgress;
+    }
+
+    async addAllToCart() {
         if (!isSignedIn()) {
-            return null;
+            await Promise.reject();
         }
 
         this.setState({ isLoading: true });
 
-        return moveWishlistToCart().then(
-            /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartThen */
-            () => this.showNotificationAndRemoveLoading('Available items moved to cart'),
-            /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartCatch */
-            (error) => this.showErrorAndRemoveLoading(getErrorMessage(error))
-        );
+        await this.addAllToCartAsync();
     }
 
-    removeAll() {
+    async addAllToCartAsync() {
+        const { moveWishlistToCart } = this.props;
+
+        try {
+            await moveWishlistToCart();
+        } catch (error) {
+            this.showErrorAndRemoveLoading(getErrorMessage(error));
+            await Promise.reject();
+        }
+    }
+
+    async removeAll() {
         const { clearWishlist } = this.props;
 
         if (!isSignedIn()) {
-            return null;
+            return;
         }
 
         this.setState({ isLoading: true });
 
-        return clearWishlist().then(
-            /** @namespace Component/MyAccountMyWishlist/Container/clearWishlistThen */
-            () => this.showNotificationAndRemoveLoading('Wishlist cleared')
-        );
+        try {
+            await clearWishlist();
+            this.showNotificationAndRemoveLoading('Wishlist cleared');
+        } finally {
+            this.setState({ isLoading: false });
+        }
     }
 
     removeSelectedFromWishlist(selectedIdMap) {

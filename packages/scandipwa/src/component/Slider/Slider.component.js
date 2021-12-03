@@ -15,8 +15,9 @@ import { Children, createRef, PureComponent } from 'react';
 import ChevronIcon from 'Component/ChevronIcon';
 import { LEFT, RIGHT } from 'Component/ChevronIcon/ChevronIcon.config';
 import Draggable from 'Component/Draggable';
-import { ChildrenType, MixType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
+import { ChildrenType, MixType, RefType } from 'Type/Common.type';
+import { DeviceType } from 'Type/Device.type';
+import { noopFn } from 'Util/Common';
 import CSS from 'Util/CSS';
 import { isRtl } from 'Util/CSS/CSS';
 
@@ -50,12 +51,12 @@ export class Slider extends PureComponent {
             PropTypes.number,
             PropTypes.string
         ]),
-        sliderRef: PropTypes.object
+        sliderRef: RefType
     };
 
     static defaultProps = {
         activeImage: 0,
-        onActiveImageChange: () => {},
+        onActiveImageChange: noopFn,
         showCrumbs: false,
         showArrows: false,
         isInteractionDisabled: false,
@@ -121,21 +122,32 @@ export class Slider extends PureComponent {
             return;
         }
 
+        const sliderRef = this.getSliderRef();
+        CSS.setVariable(sliderRef, 'sliderOpacity', '0');
+
         // delay setting carousel translate to avoid wrong calculations be made during transition
         setTimeout(() => {
             this.setStyleVariablesOnMount();
         }, 0);
 
-        const sliderRef = this.getSliderRef();
-        const sliderHeight = `${ sliderChildren[0].offsetHeight }px`;
+        const target = sliderChildren[0].querySelector('img') || sliderChildren[0];
 
-        sliderChildren[0].onload = () => {
+        target.onload = () => {
+            const height = target.offsetHeight;
+            const sliderHeight = `${ height }px`;
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         };
 
         setTimeout(() => {
-            CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
+            const height = target.offsetHeight;
+            const sliderHeight = `${ height }px`;
+
+            if (height !== 0) {
+                CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
+            }
         }, ANIMATION_DURATION);
+
+        setTimeout(() => CSS.setVariable(sliderRef, 'sliderOpacity', '1'), 0);
     }
 
     componentDidUpdate(prevProps) {

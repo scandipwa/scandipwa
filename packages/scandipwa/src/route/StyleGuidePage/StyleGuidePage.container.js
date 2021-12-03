@@ -13,8 +13,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateProductDetails } from 'Store/Product/Product.action';
-import { ProductType } from 'Type/ProductList';
+import ProductReducer from 'Store/Product/Product.reducer';
+import { ProductType } from 'Type/ProductList.type';
+import { withReducers } from 'Util/DynamicReducer';
 
 import product from './product.json';
 import StyleGuide from './StyleGuidePage.component';
@@ -24,17 +27,17 @@ export const ProductDispatcher = import(
     'Store/Product/Product.dispatcher'
 );
 
-/** @namespace Route/StyleGuide/Container/mapStateToProps */
+/** @namespace Route/StyleGuidePage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     product: state.ProductReducer.product
 });
 
-/** @namespace Route/StyleGuide/Container/mapDispatchToProps */
+/** @namespace Route/StyleGuidePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateProductDetails: (product) => dispatch(updateProductDetails(product))
 });
 
-/** @namespace Route/StyleGuide/Container/StyleGuidePageContainer */
+/** @namespace Route/StyleGuidePage/Container */
 export class StyleGuidePageContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -73,4 +76,12 @@ export class StyleGuidePageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyleGuidePageContainer);
+export default withReducers({
+    CategoryReducer,
+    ProductReducer
+})(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(StyleGuidePageContainer)
+);

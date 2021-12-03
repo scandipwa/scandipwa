@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { shippingMethodType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
+import { ShippingMethodType } from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
 import { getCartShippingItemPrice, getCartShippingItemSubPrice } from 'Util/Cart';
 
 import CheckoutDeliveryOption from './CheckoutDeliveryOption.component';
@@ -36,7 +36,7 @@ export class CheckoutDeliveryOptionContainer extends PureComponent {
         totals: TotalsType.isRequired,
         getCartShippingItemPrice: PropTypes.func.isRequired,
         getCartShippingItemSubPrice: PropTypes.func.isRequired,
-        option: shippingMethodType.isRequired,
+        option: ShippingMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
         isSelected: PropTypes.bool.isRequired
     };

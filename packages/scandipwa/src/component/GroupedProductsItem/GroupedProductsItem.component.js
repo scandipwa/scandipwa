@@ -12,12 +12,17 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field';
+import FieldContainer from 'Component/Field';
+import { FIELD_TYPE } from 'Component/Field/Field.config';
 import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { ProductType } from 'Type/ProductList';
-import media, { PRODUCT_MEDIA } from 'Util/Media';
+import TierPrices from 'Component/TierPrices';
+import { ProductType } from 'Type/ProductList.type';
+import {
+    getMaxQuantity, getMinQuantity, getPrice, getProductInStock, getThumbnailImage
+} from 'Util/Product/Extract';
+import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
 import './GroupedProductsItem.style';
 
@@ -29,7 +34,7 @@ import './GroupedProductsItem.style';
 export class GroupedProductsItem extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        changeCount: PropTypes.func.isRequired,
+        setQuantity: PropTypes.func.isRequired,
         itemCount: PropTypes.number.isRequired
     };
 
@@ -37,7 +42,9 @@ export class GroupedProductsItem extends PureComponent {
         const {
             product: {
                 name,
-                price_range
+                price_range: priceRange,
+                type_id: type,
+                dynamic_price: dynamicPrice
             }
         } = this.props;
 
@@ -46,44 +53,85 @@ export class GroupedProductsItem extends PureComponent {
                 <p>
                     <TextPlaceholder content={ name } />
                 </p>
-                <ProductPrice price={ price_range } mods={ { type: 'regular' } } />
-            </div>
-        );
-    }
-
-    renderQuantity() {
-        const {
-            changeCount,
-            itemCount
-        } = this.props;
-
-        return (
-            <div block="GroupedProductsItem" elem="Quantity">
-                <Field
-                  type="number"
-                  id="HeaderInput"
-                  name="HeaderInput"
-                  onChange={ changeCount }
-                  value={ itemCount }
-                  min={ 0 }
+                <ProductPrice
+                  price={ getPrice(priceRange, dynamicPrice, {}, type) }
+                  mods={ { type: 'regular' } }
                 />
             </div>
         );
     }
 
-    renderImage() {
+    renderTierPrices() {
+        const { product } = this.props;
+
+        return <TierPrices product={ product } />;
+    }
+
+    getError = (value) => {
         const {
-            product: {
-                thumbnail: {
-                    path: thumb_url
-                }
-            }
+            product = {}
         } = this.props;
+
+        if (!!+value && !getProductInStock(product)) {
+            return __('Product is out of stock');
+        }
+
+        return true;
+    };
+
+    renderQuantity() {
+        const {
+            product = {},
+            product: { id } = {},
+            setQuantity,
+            itemCount = 0
+        } = this.props;
+
+        if (!getProductInStock(product)) {
+            return (
+                <div block="GroupedProductsItem" elem="OutOfStock">
+                    { __('Out of stock') }
+                </div>
+            );
+        }
+
+        const min = getMinQuantity(product);
+        const max = getMaxQuantity(product);
+
+        return (
+            <FieldContainer
+              type={ FIELD_TYPE.number }
+              attr={ {
+                  id: `item_qty_${id}`,
+                  name: `item_qty_${id}`,
+                  defaultValue: itemCount,
+                  value: itemCount,
+                  min: 0
+              } }
+              validationRule={ {
+                  inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
+                  isRequired: true,
+                  match: this.getError,
+                  range: {
+                      min: min === 1 ? 0 : 1,
+                      max
+                  }
+              } }
+              events={ { onChange: setQuantity } }
+              validateOn={ ['onChange', 'onload'] }
+            />
+        );
+    }
+
+    renderImage() {
+        const { product } = this.props;
+        const imageUrl = getThumbnailImage(product);
 
         return (
             <Image
               mix={ { block: 'GroupedProductsItem', elem: 'Image' } }
-              src={ thumb_url && media(thumb_url, PRODUCT_MEDIA) }
+              src={ imageUrl }
+              isPlaceholder={ !imageUrl }
               alt="Product Thumbnail"
             />
         );
@@ -95,6 +143,7 @@ export class GroupedProductsItem extends PureComponent {
                 { this.renderImage() }
                 { this.renderTitle() }
                 { this.renderQuantity() }
+                { this.renderTierPrices() }
             </li>
         );
     }

@@ -17,37 +17,51 @@ import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPic
 import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { addressType } from 'Type/Account';
-import { shippingMethodsType } from 'Type/Checkout';
-import { countriesType } from 'Type/Config';
+import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
+import { Addresstype } from 'Type/Account.type';
+import { ShippingMethodsType, StoreType } from 'Type/Checkout.type';
+import { CountriesType } from 'Type/Config.type';
+import { checkIfStoreIncluded } from 'Util/Address';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
+import transformCountriesToOptions from 'Util/Store/Transform';
 
 import StoreInPickUpComponent from './StoreInPickUpPopup.component';
 import { STORES_SEARCH_TIMEOUT } from './StoreInPickUpPopup.config';
 
-/** @namespace Component/StoreInPickUp/Container/mapDispatchToProps */
+/** @namespace Component/StoreInPickUpPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    clearPickUpStore: () => dispatch(clearPickUpStore())
 });
 
-/** @namespace Component/StoreInPickUp/Container/mapStateToProps */
+/** @namespace Component/StoreInPickUpPopup/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    countries: state.ConfigReducer.countries
+    countries: transformCountriesToOptions(state.ConfigReducer.countries),
+    defaultCountry: state.ConfigReducer.default_country,
+    selectedStore: state.StoreInPickUpReducer.store
 });
 
-/** @namespace Component/StoreInPickUp/Container */
+/** @namespace Component/StoreInPickUpPopup/Container */
 export class StoreInPickUpContainer extends PureComponent {
     static propTypes = {
-        countries: countriesType.isRequired,
+        countries: CountriesType.isRequired,
         countryId: PropTypes.string.isRequired,
-        estimateAddress: addressType.isRequired,
+        estimateAddress: Addresstype.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         setSelectedStore: PropTypes.func.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
-        showNotification: PropTypes.func.isRequired
+        shippingMethods: ShippingMethodsType.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        defaultCountry: PropTypes.string.isRequired,
+        cartItemsSku: PropTypes.arrayOf(PropTypes.string).isRequired,
+        clearPickUpStore: PropTypes.func.isRequired,
+        selectedStore: StoreType
+    };
+
+    static defaultProps = {
+        selectedStore: null
     };
 
     state = {
@@ -65,11 +79,12 @@ export class StoreInPickUpContainer extends PureComponent {
 
     __construct(props) {
         const {
-            countryId
+            countryId,
+            defaultCountry
         } = props;
 
         this.state = {
-            selectedCountryId: countryId
+            selectedCountryId: countryId || defaultCountry
         };
     }
 
@@ -143,34 +158,46 @@ export class StoreInPickUpContainer extends PureComponent {
     }
 
     setStoreSearchCriteria(searchCriteria) {
-        this.setState({ storeSearchCriteria: searchCriteria });
+        this.setState({ storeSearchCriteria: searchCriteria.target.value });
     }
 
     setIsLoading() {
         this.setState({ isLoading: true });
     }
 
-    handleStoresSearch() {
-        const { showNotification } = this.props;
+    async handleStoresSearch() {
+        const {
+            showNotification,
+            cartItemsSku,
+            selectedStore,
+            clearPickUpStore
+        } = this.props;
         const { storeSearchCriteria, selectedCountryId } = this.state;
 
-        fetchQuery(StoreInPickUpQuery.getStores(selectedCountryId, storeSearchCriteria)).then(
-            ({ getStores: { stores } = {} }) => {
-                if (stores) {
-                    this.setState({ stores });
-                }
+        try {
+            const {
+                getStores: {
+                    stores
+                } = {}
+            } = await fetchQuery(StoreInPickUpQuery.getStores(selectedCountryId, storeSearchCriteria, cartItemsSku));
 
-                this.setState({ isLoading: false });
-            },
-            (error) => {
-                this.setState({ stores: [] });
-                showNotification('error', getErrorMessage(error));
+            if (stores) {
+                this.setState({ stores });
             }
-        );
+
+            if (!checkIfStoreIncluded(stores, selectedStore)) {
+                clearPickUpStore();
+            }
+
+            this.setState({ isLoading: false });
+        } catch (e) {
+            this.setState({ stores: [] });
+            showNotification('error', getErrorMessage(e));
+        }
     }
 
     handleChangeCountry(countryId) {
-        this.setState({ selectedCountryId: countryId });
+        this.setState({ selectedCountryId: countryId }, () => this.handleStoresSearch());
     }
 
     render() {

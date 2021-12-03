@@ -14,7 +14,7 @@
 import { PureComponent } from 'react';
 
 import Popup from 'Component/Popup';
-import { MediaItemType } from 'Type/ProductList';
+import { MediaItemType } from 'Type/ProductList.type';
 import { makeCancelable } from 'Util/Promise';
 
 import { VIDEO_POPUP_ID, VIMEO_FORMAT, YOUTUBE_FORMAT } from './VideoPopup.config';
@@ -39,7 +39,7 @@ export class VideoPopup extends PureComponent {
             this.vimeoPromise,
             this.youTubePromise
         ]).then(
-            /** @namespace Component/VideoPopup/Component/videoLibrariesThen */
+            /** @namespace Component/VideoPopup/Component/VideoPopup/componentDidMount/all/then */
             () => this.forceUpdate()
         );
     }
@@ -103,7 +103,7 @@ export class VideoPopup extends PureComponent {
         this.vimeoPromise = makeCancelable(import('react-vimeo'));
 
         this.vimeoPromise.promise.then(
-            /** @namespace Component/VideoPopup/Component/vimeoPromisePromiseThen */
+            /** @namespace Component/VideoPopup/Component/VideoPopup/loadVimeoLibrary/then */
             ({ default: vimeo }) => {
                 this.vimeoComponent = vimeo;
             }
@@ -114,7 +114,7 @@ export class VideoPopup extends PureComponent {
         this.youTubePromise = makeCancelable(import('react-youtube'));
 
         this.youTubePromise.promise.then(
-            /** @namespace Component/VideoPopup/Component/youTubePromisePromiseThen */
+            /** @namespace Component/VideoPopup/Component/VideoPopup/loadYouTubeLibrary/then */
             ({ default: youTube }) => {
                 this.youTubeComponent = youTube;
             }
@@ -140,11 +140,13 @@ export class VideoPopup extends PureComponent {
         }
 
         const [, vimeoId] = VIMEO_FORMAT.exec(video_url) || [];
+
         if (vimeoId) {
             return this._renderVimeoVideo(vimeoId);
         }
 
         const [, youtubeId] = YOUTUBE_FORMAT.exec(video_url);
+
         if (youtubeId) {
             return this._renderYoutubeVideo(youtubeId);
         }

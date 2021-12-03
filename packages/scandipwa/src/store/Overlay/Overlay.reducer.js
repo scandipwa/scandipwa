@@ -22,7 +22,7 @@ export const getInitialState = () => ({
     areOtherOverlaysOpen: false
 });
 
-/** @namespace Store/Overlay/Reducer */
+/** @namespace Store/Overlay/Reducer/OverlayReducer */
 export const OverlayReducer = (
     state = getInitialState(),
     action

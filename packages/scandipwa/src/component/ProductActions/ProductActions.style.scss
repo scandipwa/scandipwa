@@ -107,7 +107,8 @@
             }
 
             &_alerts {
-                inset-block-start: 10px;
+                margin-block-start: 10px;
+                margin-block-end: 10px;
             }
         }
     }
@@ -166,6 +167,18 @@
             margin-inline: 18px 4px;
             margin-block: auto;
         }
+
+        .Field {
+            &-Wrapper {
+                &_type {
+                    &_number {
+                        @include mobile {
+                            display: flex;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     &-AddToCartWrapper {
@@ -196,6 +209,9 @@
             @include mobile {
                 inset-block-end: 0;
             }
+        }
+        .Field-ErrorMessages {
+            position: absolute;
         }
     }
 

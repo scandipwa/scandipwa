@@ -20,6 +20,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import browserHistory from 'Util/History';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -52,7 +53,7 @@ export const mapDispatchToProps = (dispatch) => ({
 
 export const DEFAULT_NAVIGATION_TABS_STATE = { name: MENU_TAB };
 
-/** @namespace Component/NavigationTabsContainer/Container */
+/** @namespace Component/NavigationTabs/Container */
 export class NavigationTabsContainer extends NavigationAbstractContainer {
     default_state = DEFAULT_NAVIGATION_TABS_STATE;
 
@@ -157,6 +158,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     handleScroll = () => {
         const { navigationState: { isVisibleOnScroll } } = this.props;
+
         if (!isVisibleOnScroll) {
             return;
         }
@@ -186,7 +188,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const { pathname } = location;
 
         if (pathname !== appendWithStoreCode(`/${ CART }`)) {
-            window.scrollTo({ top: 0 });
+            scrollToTop();
             browserHistory.push(appendWithStoreCode(`/${ CART }`));
         }
     }
@@ -254,14 +256,8 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         browserHistory.push(appendWithStoreCode('/'));
         hideActiveOverlay();
 
-        if (
-            pathname === appendWithStoreCode('/')
-            || pathname === '/'
-        ) {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+        if (pathname === appendWithStoreCode('/') || pathname === '/') {
+            scrollToTop({ behavior: 'smooth' });
         }
     }
 

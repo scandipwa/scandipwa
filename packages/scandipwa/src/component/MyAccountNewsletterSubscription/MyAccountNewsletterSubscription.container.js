@@ -18,7 +18,7 @@ import MyAccountQuery from 'Query/MyAccount.query';
 import { updateCustomerDetails } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
@@ -42,7 +42,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/MyAccountNewsletterSubscription/Container */
 export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
     static propTypes = {
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         updateCustomer: PropTypes.func.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
         showSuccessNotification: PropTypes.func.isRequired,
@@ -50,6 +50,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
     };
 
     containerFunctions = {
+        onError: this.onError,
         setSubscriptionStatus: this.setSubscriptionStatus.bind(this),
         onCustomerSave: this.onCustomerSave.bind(this)
     };
@@ -100,7 +101,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         });
     };
 
-    onCustomerSave(customer) {
+    onCustomerSave(form, fields) {
         const {
             updateCustomer,
             customer: {
@@ -108,6 +109,13 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
             }
         } = this.props;
 
+        const {
+            isSubscribed: {
+                value = false
+            }
+        } = fields;
+
+        const customer = { is_subscribed: value };
         const mutation = MyAccountQuery.getUpdateInformationMutation(customer);
 
         if (!isSignedIn()) {
@@ -117,7 +125,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         return fetchMutation(mutation).then(
-            /** @namespace Component/MyAccountNewsletterSubscription/Container/fetchMutationThen */
+            /** @namespace Component/MyAccountNewsletterSubscription/Container/MyAccountNewsletterSubscriptionContainer/onCustomerSave/fetchMutation/then */
             ({ updateCustomer: { customer } }) => {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
                 const { is_subscribed } = customer;

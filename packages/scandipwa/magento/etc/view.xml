@@ -20,6 +20,10 @@
             <image id="scandipwa_media_large" type="image">
                 <width>1200</width>
             </image>
+            <image id="product_thumbnail_image" type="thumbnail">
+                <width>75</width>
+                <height>75</height>
+            </image>
         </images>
     </media>
 </view>

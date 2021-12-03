@@ -15,9 +15,9 @@ import { Component } from 'react';
 import ProductCompareAttributeRow from 'Component/ProductCompareAttributeRow';
 import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
-import { DeviceType } from 'Type/Device';
-import { ProductItemsType } from 'Type/ProductList';
-import { getPriceLabel } from 'Util/Price';
+import { DeviceType } from 'Type/Device.type';
+import { ProductItemsType } from 'Type/ProductList.type';
+import { getPrice } from 'Util/Product/Extract';
 
 import './ProductCompare.style';
 
@@ -38,10 +38,10 @@ export class ProductCompare extends Component {
     };
 
     shouldComponentUpdate(nextProps) {
-        const { products } = this.props;
-        const { products: nextProducts } = nextProps;
+        const { products, isLoading } = this.props;
+        const { products: nextProducts, isLoading: nextIsLoading } = nextProps;
 
-        return products !== nextProducts;
+        return products !== nextProducts || isLoading !== nextIsLoading;
     }
 
     renderHeading() {
@@ -102,39 +102,22 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderProductPrice(product) {
-        const { isOutOfStock } = this.props;
-        const {
-            id,
-            price_range,
-            type_id,
-            price_tiers = []
-        } = product;
-
-        if (isOutOfStock(product)) {
-            return (
-                <div block="ProductCompareAttributeRow" elem="Value">
-                    { __('Out of stock') }
-                </div>
-            );
-        }
-
-        const label = getPriceLabel(type_id, price_tiers);
-
-        return (
-            <ProductPrice
-              price={ price_range }
-              price_tiers={ price_tiers }
-              key={ id }
-              label={ label }
-            />
-        );
-    }
-
     renderProductPrices() {
         const { products } = this.props;
 
-        return products.map(this.renderProductPrice.bind(this));
+        return products.map(({
+            id,
+            price_range: priceRange,
+            type_id: type,
+            dynamic_price: dynamicPrice = false
+        }) => (
+            <ProductPrice
+              price={ getPrice(priceRange, dynamicPrice, {}, type) }
+              key={ id }
+              priceType={ type }
+              isPreview
+            />
+        ));
     }
 
     renderAttributes() {

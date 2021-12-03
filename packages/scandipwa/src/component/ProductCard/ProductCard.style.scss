@@ -75,6 +75,19 @@
         }
     }
 
+    .ProductConfigurableAttributes {
+        &-Title {
+            display: none;
+        }
+    }
+
+    &-ConfigurationNotice {
+        opacity: 0.3;
+        font-weight: normal;
+        margin-block-start: -10px;
+        margin-block-end: 10px;
+    }
+
     &-Content {
         background: var(--product-card-background);
         padding-block: 10px 16px;

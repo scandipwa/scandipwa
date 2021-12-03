@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 
 export const history = createBrowserHistory({ basename: '/' });
 
-/** @namespace Router/Component/Router/Component/RouterComponent */
+/** @namespace Router/Component/Router/Component */
 export class RouterComponent extends PureComponent {
     static propTypes = {
     };

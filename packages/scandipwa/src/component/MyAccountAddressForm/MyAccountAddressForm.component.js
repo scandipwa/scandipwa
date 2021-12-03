@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,299 +12,133 @@
 
 import PropTypes from 'prop-types';
 
+import FIELD_TYPE from 'Component/Field/Field.config';
 import FieldForm from 'Component/FieldForm';
-import { addressType } from 'Type/Account';
-import { countriesType } from 'Type/Config';
+import { Addresstype } from 'Type/Account.type';
+import { CountriesType } from 'Type/Config.type';
 import {
-    getAvailableRegions,
-    getCityAndRegionFromZipcode,
-    setAddressesInFormObject
+    trimCustomerAddress
 } from 'Util/Address';
+import transformToNameValuePair from 'Util/Form/Transform';
+
+import myAccountAddressForm from './MyAccountAddressForm.form';
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
     static propTypes = {
-        isSubmitted: PropTypes.bool,
-        address: addressType.isRequired,
-        countries: countriesType.isRequired,
-        default_country: PropTypes.string,
-        onSave: PropTypes.func,
+        address: Addresstype.isRequired,
+        countries: CountriesType.isRequired,
+        defaultCountry: PropTypes.string.isRequired,
         addressLinesQty: PropTypes.number.isRequired,
         showVatNumber: PropTypes.bool.isRequired,
-        regionDisplayAll: PropTypes.bool.isRequired
+        regionDisplayAll: PropTypes.bool.isRequired,
+        onCountryChange: PropTypes.func.isRequired,
+        onZipcodeChange: PropTypes.func.isRequired,
+        onCityChange: PropTypes.func.isRequired,
+        onRegionChange: PropTypes.func.isRequired,
+        onRegionIdChange: PropTypes.func.isRequired,
+        countryId: PropTypes.string.isRequired,
+        isStateRequired: PropTypes.bool,
+        currentCity: PropTypes.string,
+        currentRegion: PropTypes.string,
+        currentZipcode: PropTypes.string,
+        currentRegionId: PropTypes.string
     };
 
     static defaultProps = {
-        default_country: 'US',
-        isSubmitted: false,
-        onSave: () => {}
+        currentZipcode: null,
+        currentCity: null,
+        currentRegion: null,
+        currentRegionId: null,
+        isStateRequired: false
     };
 
-    __construct(props) {
-        super.__construct(props);
-
-        const {
-            countries,
-            shippingFields,
-            address,
-            default_country
-        } = props;
-
-        const {
-            country_id,
-            region_id,
-            city = ''
-        } = shippingFields || address;
-
-        const country = countries.find(({ id }) => id === country_id) || {};
-        const countryId = Object.keys(country).length ? country_id : default_country;
-
-        const { is_state_required = false } = country;
-
-        const availableRegions = getAvailableRegions(countryId, countries);
-        const defaultRegionId = availableRegions.length ? availableRegions[0].id : '';
-        const regionId = region_id || defaultRegionId;
-
-        this.state = {
-            countryId,
-            availableRegions,
-            regionId,
-            isStateRequired: is_state_required,
-            city
-        };
-    }
-
-    onFormSuccess = (fields) => {
-        const { onSave, addressLinesQty } = this.props;
-        const { region_id = 0, region_string: region, ...newAddress } = addressLinesQty > 1
-            ? setAddressesInFormObject(fields, addressLinesQty)
-            : fields;
-
-        newAddress.region = { region_id, region };
-        onSave(newAddress);
-    };
-
-    getRegionFields() {
-        const { address: { region: { region } = {} }, regionDisplayAll } = this.props;
-        const { availableRegions, regionId, isStateRequired } = this.state;
-
-        if (!regionDisplayAll && !isStateRequired) {
-            return null;
-        }
-
-        if (!availableRegions || !availableRegions.length) {
-            return {
-                region_string: {
-                    label: __('State / Province'),
-                    value: region,
-                    validation: isStateRequired ? ['notEmpty'] : []
-                }
-            };
-        }
-
-        return {
-            region_id: {
-                label: __('State / Province'),
-                type: 'select',
-                selectOptions: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
-                onChange: (regionId) => this.setState({ regionId }),
-                value: regionId,
-                validation: isStateRequired ? ['notEmpty'] : []
-            }
-        };
-    }
-
-    onCountryChange = (countryId) => {
-        const { countries } = this.props;
-        const { countryId: prevCountryId } = this.state;
-        const country = countries.find(({ id }) => id === countryId);
-        const { available_regions = [], is_state_required } = country;
-
-        this.setState({
-            countryId,
-            availableRegions: available_regions || [],
-            isStateRequired: is_state_required
-        });
-
-        // avoid region reset when coming back to shipping step
-        if (prevCountryId && prevCountryId !== countryId) {
-            this.setState({
-                regionId: available_regions?.length ? available_regions[0].id : null
-            });
-        }
-    };
-
-    onZipcodeChange = async (e) => {
-        const { value } = e.currentTarget;
-        const { countryId, availableRegions } = this.state;
-
-        const [city, regionCode] = await getCityAndRegionFromZipcode(countryId, value);
-        if (city) {
-            this.setState({
-                city
-            });
-        }
-
-        if (availableRegions.length > 0 && regionCode) {
-            const { id: regionId } = availableRegions
-                .find((r) => r.code.toUpperCase() === regionCode.toUpperCase());
-
-            if (regionId) {
-                this.setState({ regionId });
-            }
-        }
-    };
-
-    getStreetFields(label, placeholder, index) {
-        const { address: { street = [] }, isSubmitted } = this.props;
-
-        return {
-            label,
-            placeholder,
-            value: street[index],
-            validation: index === 0 ? ['notEmpty'] : [],
-            validateSeparately: false,
-            isSubmitted
-        };
-    }
-
-    // returns the address fields in quantity equal to BE
-    getAddressFields() {
-        const { addressLinesQty } = this.props;
-
-        if (addressLinesQty === 1) {
-            return {
-                street: this.getStreetFields(
-                    __('Street address'),
-                    __('Your street address'),
-                    0
-                )
-            };
-        }
-
-        const streets = {};
-
-        // eslint-disable-next-line fp/no-loops, fp/no-let
-        for (let i = 0; i < addressLinesQty; i++) {
-            streets[`street${i}`] = this.getStreetFields(
-                __('Street address line %s', i + 1),
-                __('Your street address line %s', i + 1),
-                i
-            );
-        }
-
-        return streets;
-    }
-
-    getVatField() {
-        const { showVatNumber } = this.props;
-
-        if (!showVatNumber) {
-            return {};
-        }
-
-        return {
-            vat_id: {
-                label: __('VAT Number')
-            }
-        };
-    }
-
+    //#region GETTERS
     get fieldMap() {
-        const { countryId, city } = this.state;
-        const { countries: sourceCountries, address, isSubmitted } = this.props;
-        const { default_billing, default_shipping } = address;
+        const {
+            address,
+            countries,
+            addressLinesQty,
+            regionDisplayAll,
+            showVatNumber,
+            defaultCountry,
+            availableRegions,
+            isStateRequired,
+            countryId,
+            currentRegion,
+            currentCity,
+            currentRegionId,
+            currentZipcode,
+            onCountryChange,
+            onZipcodeChange,
+            onCityChange,
+            onRegionChange,
+            onRegionIdChange
+        } = this.props;
 
-        /*
-        * Map and push empty field to show in case
-        * if no country selected instead of default for myaccount
-        */
-        const countries = sourceCountries.map(({ id, label }) => ({ id, label, value: id }));
-        countries.push({ id: ' ', label: ' ', value: ' ' });
+        return myAccountAddressForm({
+            address,
+            countries,
+            addressLinesQty,
+            regionDisplayAll,
+            showVatNumber,
+            defaultCountry,
+            availableRegions,
+            isStateRequired,
+            countryId,
+            currentRegion,
+            currentCity,
+            currentRegionId,
+            currentZipcode,
+            ...address
+        }, {
+            onCountryChange,
+            onZipcodeChange,
+            onCityChange,
+            onRegionChange,
+            onRegionIdChange
+        });
+    }
 
+    getFormProps() {
         return {
-            default_billing: {
-                type: 'checkbox',
-                label: __('This is default Billing Address'),
-                value: 'default_billing',
-                checked: default_billing
-            },
-            default_shipping: {
-                type: 'checkbox',
-                label: __('This is default Shipping Address'),
-                value: 'default_shipping',
-                checked: default_shipping
-            },
-            firstname: {
-                label: __('First name'),
-                validation: ['notEmpty'],
-                validateSeparately: false,
-                isSubmitted,
-                placeholder: __('Your first name')
-            },
-            lastname: {
-                label: __('Last name'),
-                validation: ['notEmpty'],
-                validateSeparately: false,
-                isSubmitted,
-                placeholder: __('Your last name')
-            },
-            ...this.getAddressFields(),
-            city: {
-                label: __('City'),
-                validation: ['notEmpty'],
-                validateSeparately: false,
-                isSubmitted,
-                value: city,
-                placeholder: __('Your city')
-            },
-            country_id: {
-                type: 'select',
-                label: __('Country'),
-                validation: ['notEmpty'],
-                validateSeparately: false,
-                isSubmitted,
-                value: countryId,
-                selectOptions: countries,
-                onChange: this.onCountryChange
-            },
-            ...this.getRegionFields(),
-            postcode: {
-                label: __('Zip / Postal code'),
-                validation: ['notEmpty'],
-                validateSeparately: false,
-                isSubmitted,
-                onBlur: this.onZipcodeChange,
-                placeholder: __('Your zip / postal code')
-            },
-            ...this.getVatField(),
-            telephone: {
-                label: __('Phone number'),
-                validation: ['notEmpty', 'telephone'],
-                validateSeparately: false,
-                isSubmitted
+            onSubmit: this.onSubmit.bind(this)
+        };
+    }
+
+    /**
+     * Creates / Updates address from entered data
+     * @param form
+     * @param fields
+     */
+    onSubmit(form, fields) {
+        const { onSave, addressLinesQty } = this.props;
+        const newAddress = transformToNameValuePair(fields);
+
+        // Joins streets into one variable
+        if (addressLinesQty > 1) {
+            newAddress.street = [];
+            // eslint-disable-next-line fp/no-loops,fp/no-let
+            for (let i = 0; i < addressLinesQty; i++) {
+                if (newAddress[`street_${i}`]) {
+                    newAddress.street.push(newAddress[`street_${i}`]);
+                }
             }
-            // Will be back with B2B update
-            // company: {
-            //     label: __('Company')
-            // }
-        };
+        }
+
+        // Fixes region variable format
+        const { region_id = 0, region_string: region } = newAddress;
+        newAddress.region = { region_id: +region_id, region };
+
+        // Filters out non-required options and save address
+        onSave(trimCustomerAddress(newAddress));
     }
 
-    getDefaultValues(fieldEntry) {
-        const [key, { value }] = fieldEntry;
-        const { address: { [key]: addressValue } } = this.props;
-
-        return {
-            ...super.getDefaultValues(fieldEntry),
-            value: value !== undefined ? value : addressValue
-        };
-    }
-
+    //#region RENDERERS
     renderActions() {
         return (
             <button
-              type="submit"
+              type={ FIELD_TYPE.submit }
               block="Button"
               mix={ { block: 'MyAccount', elem: 'Button' } }
               mods={ { isHollow: true } }
@@ -312,6 +147,7 @@ export class MyAccountAddressForm extends FieldForm {
             </button>
         );
     }
+    //#endregion
 }
 
 export default MyAccountAddressForm;

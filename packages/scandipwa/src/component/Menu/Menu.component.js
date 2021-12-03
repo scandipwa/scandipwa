@@ -18,8 +18,8 @@ import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import { DeviceType } from 'Type/Device';
-import { MenuType } from 'Type/Menu';
+import { DeviceType } from 'Type/Device.type';
+import { MenuType } from 'Type/Menu.type';
 import { getSortedItems } from 'Util/Menu';
 import { debounce } from 'Util/Request';
 
@@ -32,7 +32,7 @@ export class Menu extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
         compareTotals: PropTypes.number.isRequired,
-        activeMenuItemsStack: PropTypes.array.isRequired,
+        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
         handleSubcategoryClick: PropTypes.func.isRequired,
         closeMenu: PropTypes.func.isRequired,
         onCategoryHover: PropTypes.func.isRequired,
@@ -231,6 +231,7 @@ export class Menu extends PureComponent {
 
     renderSubMenuDesktop(itemList) {
         const { device } = this.props;
+
         if (device.isMobile) {
             return null;
         }
@@ -242,6 +243,7 @@ export class Menu extends PureComponent {
 
     renderAdditionalInformation(checkMobile = false) {
         const { device } = this.props;
+
         if (checkMobile && !device.isMobile) {
             return null;
         }
@@ -349,6 +351,7 @@ export class Menu extends PureComponent {
 
     renderCurrencySwitcher() {
         const { device } = this.props;
+
         if (!device.isMobile) {
             return null;
         }
@@ -358,6 +361,7 @@ export class Menu extends PureComponent {
 
     renderStoreSwitcher() {
         const { device } = this.props;
+
         if (!device.isMobile) {
             return null;
         }
@@ -384,6 +388,7 @@ export class Menu extends PureComponent {
 
     renderComparePageLink() {
         const { device } = this.props;
+
         if (!device.isMobile) {
             return null;
         }

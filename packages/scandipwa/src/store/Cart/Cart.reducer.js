@@ -66,7 +66,7 @@ export const getInitialState = () => ({
     cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {}
 });
 
-/** @namespace Store/Cart/Reducer */
+/** @namespace Store/Cart/Reducer/CartReducer */
 export const CartReducer = (
     state = getInitialState(),
     action

@@ -15,18 +15,23 @@ import { connect } from 'react-redux';
 
 import { CATEGORY } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import { GRID_LAYOUT, LAYOUT_KEY, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
+import {
+    GRID_LAYOUT,
+    LAYOUT_KEY,
+    LIST_LAYOUT,
+    SORT_DIRECTION_TYPE
+} from 'Route/CategoryPage/CategoryPage.config';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import {
-    updateInfoLoadStatus
-} from 'Store/ProductListInfo/ProductListInfo.action';
-import { CategoryTreeType } from 'Type/Category';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
+import { CategoryTreeType, SelectedFiltersType, SortFieldsType } from 'Type/Category.type';
+import { AttributesType } from 'Type/ProductList.type';
+import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
+import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
 import { withReducers } from 'Util/DynamicReducer';
@@ -126,10 +131,8 @@ export class CategoryPageContainer extends PureComponent {
         updateBreadcrumbs: PropTypes.func.isRequired,
         updateLoadStatus: PropTypes.func.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
-        filters: PropTypes.objectOf(PropTypes.shape).isRequired,
-        sortFields: PropTypes.shape({
-            options: PropTypes.array
-        }).isRequired,
+        filters: AttributesType.isRequired,
+        sortFields: SortFieldsType.isRequired,
         currentArgs: PropTypes.shape({
             filter: PropTypes.shape({
                 categoryIds: PropTypes.number
@@ -137,7 +140,7 @@ export class CategoryPageContainer extends PureComponent {
         }),
         selectedInfoFilter: PropTypes.shape({
             categoryIds: PropTypes.number,
-            customFilters: PropTypes.objectOf(PropTypes.array)
+            customFilters: SelectedFiltersType
         }),
         isInfoLoading: PropTypes.bool.isRequired,
         isOffline: PropTypes.bool.isRequired,
@@ -166,7 +169,7 @@ export class CategoryPageContainer extends PureComponent {
 
     config = {
         sortKey: 'name',
-        sortDirection: 'ASC'
+        sortDirection: SORT_DIRECTION_TYPE.asc
     };
 
     containerFunctions = {
@@ -227,7 +230,7 @@ export class CategoryPageContainer extends PureComponent {
             }
         } = this.props;
 
-        window.scrollTo(0, 0);
+        scrollToTop();
 
         /**
          * Ensure transition PLP => homepage => PLP always having proper meta
@@ -426,7 +429,8 @@ export class CategoryPageContainer extends PureComponent {
             sortFields,
             toggleOverlayByKey,
             totalPages,
-            totalItems
+            totalItems,
+            isSearchPage
         } = this.props;
 
         return {
@@ -440,6 +444,7 @@ export class CategoryPageContainer extends PureComponent {
             isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
             isMatchingListFilter: this.getIsMatchingListFilter(),
             isMobile,
+            isSearchPage,
             plpTypes: this.getPlpTypes(),
             selectedFilters: this.getSelectedFiltersFromUrl(),
             selectedSort: this.getSelectedSortFromUrl(),

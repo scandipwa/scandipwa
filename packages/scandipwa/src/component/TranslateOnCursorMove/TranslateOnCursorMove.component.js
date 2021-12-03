@@ -11,7 +11,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType } from 'Type/Common.type';
 import CSS from 'Util/CSS';
 
 import './TranslateOnCursorMove.style';
@@ -30,6 +30,48 @@ export class TranslateOnCursorMove extends PureComponent {
     };
 
     ref = createRef();
+
+    componentDidMount() {
+        window.addEventListener('resize', this.handleLoad);
+    }
+
+    componentDidUpdate(prevProps) {
+        const { activeImageId } = this.props;
+        const { activeImageId: prevActiveImageId } = prevProps;
+
+        if (activeImageId !== prevActiveImageId) {
+            this.handleLoad();
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleLoad);
+        CSS.setVariable(this.ref, 'translateYOnCursorMove', '0');
+    }
+
+    handleLoad = () => {
+        const {
+            activeImageId,
+            itemSelector,
+            targetSelector
+        } = this.props;
+
+        const targets = this.ref.current.querySelectorAll(itemSelector);
+        const target = targets?.[activeImageId]?.querySelector(targetSelector);
+
+        if (!target) {
+            return;
+        }
+
+        const innerHeight = target.getBoundingClientRect().height;
+        const { height: wrapperHeight } = this.ref.current.getBoundingClientRect();
+        const translate = (wrapperHeight - innerHeight) / 2;
+
+        // style set directly (not via `setVariable`) as different translate Y values have to be applied at the same time
+        // (as 2 slider images are shown simultaneously when navigating to next/previous image)
+        target.style.transform = `translateY(${translate}px)`;
+        CSS.setVariable(this.ref, 'imageOpacity', '1');
+    };
 
     handleMouseMove = ({ pageY: wrapperPageY }) => {
         const {
@@ -62,7 +104,11 @@ export class TranslateOnCursorMove extends PureComponent {
         const ratio = (innerHeight - wrapperHeight) / (wrapperHeight - (paddingY * 2));
         const translate = (pageY - paddingY) * ratio;
 
-        CSS.setVariable(this.ref, 'translateYOnCursorMove', `${ -translate }px`);
+        if (innerHeight <= wrapperHeight) {
+            return;
+        }
+
+        target.style.transform = `translateY(-${translate}px)`;
     };
 
     render() {
@@ -73,7 +119,12 @@ export class TranslateOnCursorMove extends PureComponent {
         }
 
         return (
-            <div block="TranslateOnCursorMove" onMouseMove={ this.handleMouseMove } ref={ this.ref }>
+            <div
+              block="TranslateOnCursorMove"
+              onLoad={ this.handleLoad }
+              onMouseMove={ this.handleMouseMove }
+              ref={ this.ref }
+            >
                 { children }
             </div>
         );

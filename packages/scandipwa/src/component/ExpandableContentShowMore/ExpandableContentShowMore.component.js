@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { ChildrenType } from 'Type/Common';
+import { ChildrenType } from 'Type/Common.type';
 
 import './ExpandableContentShowMore.style';
 
@@ -81,10 +81,7 @@ export class ExpandableContentShowMore extends PureComponent {
                 transitionDurationCSStoMS);
         }
 
-        const { children: { length } } = this.props;
-        const { children: { length: prevLength } } = prevProps;
-
-        if (length !== prevLength) {
+        if (nextChildren !== prevChildren) {
             this.getExpandableContentHeight();
         }
     }

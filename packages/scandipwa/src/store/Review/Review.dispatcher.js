@@ -42,15 +42,9 @@ export class ReviewDispatcher {
         };
     }
 
-    submitProductReview(dispatch, options) {
-        return fetchMutation(ReviewQuery.getAddProductReviewMutation(
-            this.prepareReviewData(options)
-        )).then(
-            /** @namespace Store/Review/Dispatcher/submitProductReviewFetchMutationThen */
-            () => dispatch(showNotification('success', 'You submitted your review for moderation.')),
-            /** @namespace Store/Review/Dispatcher/submitProductReviewFetchMutationError */
-            () => dispatch(showNotification('error', __('Error submitting review!')))
-        );
+    async submitProductReview(dispatch, options) {
+        await fetchMutation(ReviewQuery.getAddProductReviewMutation(this.prepareReviewData(options)));
+        dispatch(showNotification('success', 'You submitted your review for moderation.'));
     }
 }
 

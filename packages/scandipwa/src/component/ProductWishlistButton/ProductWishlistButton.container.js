@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -14,19 +15,12 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { MixType } from 'Type/Common';
-import { ProductType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { MagentoProductType, ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
-import {
-    BUNDLE,
-    CONFIGURABLE,
-    DOWNLOADABLE,
-    getExtensionAttributes,
-    GROUPED
-} from 'Util/Product';
+import { noopFn } from 'Util/Common';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
-import { ERROR_CONFIGURABLE_NOT_PROVIDED } from './ProductWishlistButton.config';
 
 export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -36,7 +30,8 @@ export const WishlistDispatcher = import(
 /** @namespace Component/ProductWishlistButton/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     productsInWishlist: state.WishlistReducer.productsInWishlist,
-    isAddingWishlistItem: state.WishlistReducer.isLoading
+    isAddingWishlistItem: state.WishlistReducer.isLoading,
+    wishlistId: state.WishlistReducer.id
 });
 
 /** @namespace Component/ProductWishlistButton/Container/mapDispatchToProps */
@@ -53,27 +48,20 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/ProductWishlistButton/Container */
 export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
-        quantity: PropTypes.number,
-        product: ProductType.isRequired,
+        magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
         isAddingWishlistItem: PropTypes.bool.isRequired,
-        configurableVariantIndex: PropTypes.number,
-        showNotification: PropTypes.func.isRequired,
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
-        onProductValidationError: PropTypes.func,
         removeProductFromWishlist: PropTypes.func.isRequired,
-        productOptionsData: PropTypes.object,
-        groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
+        showNotification: PropTypes.func.isRequired,
+        onProductValidationError: PropTypes.func,
+        wishlistId: PropTypes.number,
         mix: MixType
     };
 
     static defaultProps = {
         mix: {},
-        quantity: 1,
-        onProductValidationError: () => {},
-        configurableVariantIndex: -2,
-        productOptionsData: {},
-        groupedProductQuantity: {}
+        onProductValidationError: noopFn
     };
 
     state = {
@@ -95,15 +83,13 @@ export class ProductWishlistButtonContainer extends PureComponent {
     }
 
     containerProps() {
-        const { quantity, product, mix } = this.props;
+        const { magentoProduct, mix } = this.props;
 
         return {
-            quantity,
             mix,
-            product,
+            magentoProduct,
             isDisabled: this.isDisabled(),
             isInWishlist: this.isInWishlist(),
-            isReady: this._getIsProductReady(),
             isSignedIn: isSignedIn()
         };
     }
@@ -112,16 +98,15 @@ export class ProductWishlistButtonContainer extends PureComponent {
         return this.setState({ isWishlistButtonLoading: isLoading });
     }
 
-    toggleProductInWishlist(add = true) {
+    async toggleProductInWishlist(add = true) {
         const {
-            product: { sku, type_id },
-            quantity,
+            magentoProduct,
+            magentoProduct: [{ sku }] = [],
             isAddingWishlistItem,
             showNotification,
-            productsInWishlist,
             addProductToWishlist,
-            onProductValidationError,
-            removeProductFromWishlist
+            removeProductFromWishlist,
+            wishlistId
         } = this.props;
 
         if (!isSignedIn()) {
@@ -132,118 +117,58 @@ export class ProductWishlistButtonContainer extends PureComponent {
             return null;
         }
 
-        const product = this._getProductVariant();
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
-            onProductValidationError(type_id);
-
-            return showNotification('info', __('Please, select desirable option first!'));
-        }
-
         this.setWishlistButtonLoading(true);
 
-        const { sku: variantSku, product_option } = product;
         if (add) {
-            return addProductToWishlist({ sku, product_option, quantity });
+            await addProductToWishlist({
+                items: magentoProduct,
+                wishlistId
+            });
+
+            return;
         }
 
-        const { wishlist: { id: item_id } } = Object.values(productsInWishlist).find(
-            ({ wishlist: { sku } }) => sku === variantSku
-        );
+        const wishlistItem = this.getWishlistItem(sku);
+        if (!wishlistItem) {
+            return;
+        }
 
-        return removeProductFromWishlist({ item_id, sku: variantSku });
+        const {
+            wishlist: {
+                id: itemId
+            }
+        } = wishlistItem;
+
+        return removeProductFromWishlist({ item_id: itemId });
     }
 
     isDisabled = () => {
         const { isAddingWishlistItem } = this.props;
-        const product = this._getProductVariant();
-
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
-            return true;
-        }
-
         return isAddingWishlistItem || !isSignedIn();
     };
 
-    isInWishlist = () => {
+    getWishlistItem = (sku) => {
         const { productsInWishlist } = this.props;
-        const product = this._getProductVariant();
+        if (!productsInWishlist) {
+            return null;
+        }
 
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
+        // TODO: After new graphql will need to check by options
+        return Object.values(productsInWishlist).find(
+            ({ sku: wishlistSku }) => sku === wishlistSku
+        );
+    }
+
+    isInWishlist = () => {
+        const { magentoProduct = [] } = this.props;
+        const [{ sku: productSku }] = magentoProduct;
+
+        if (!productSku) {
             return false;
         }
 
-        const { sku: productSku } = product;
-
-        return Object.values(productsInWishlist).findIndex(({ wishlist: { sku } }) => sku === productSku) >= 0;
+        return !!this.getWishlistItem(productSku);
     };
-
-    _getIsProductReady() {
-        const { product: { type_id }, configurableVariantIndex } = this.props;
-
-        if (type_id === CONFIGURABLE && configurableVariantIndex < 0) {
-            return false;
-        }
-
-        return true;
-    }
-
-    _getProductVariant() {
-        const {
-            product,
-            product: { type_id },
-            configurableVariantIndex
-        } = this.props;
-
-        if (type_id === CONFIGURABLE) {
-            if (configurableVariantIndex < 0) {
-                return ERROR_CONFIGURABLE_NOT_PROVIDED;
-            }
-
-            const extension_attributes = getExtensionAttributes({ ...product, configurableVariantIndex });
-            const variant = product.variants[configurableVariantIndex];
-
-            return { ...variant, product_option: { extension_attributes } };
-        }
-
-        if (type_id === GROUPED) {
-            const {
-                groupedProductQuantity = {}
-            } = this.props;
-
-            const grouped_product_options = Object.entries(groupedProductQuantity).map((option) => ({
-                option_id: option[0],
-                option_value: option[1]
-            }));
-
-            return { ...product, product_option: { extension_attributes: { grouped_product_options } } };
-        }
-
-        if (type_id === BUNDLE) {
-            const {
-                productOptionsData: {
-                    productOptions
-                }
-            } = this.props;
-
-            const extension_attributes = getExtensionAttributes({ ...product, productOptions });
-
-            return { ...product, product_option: { extension_attributes } };
-        }
-
-        if (type_id === DOWNLOADABLE) {
-            const {
-                productOptionsData: {
-                    downloadableLinks
-                }
-            } = this.props;
-
-            const extension_attributes = getExtensionAttributes({ ...product, downloadableLinks });
-
-            return { ...product, product_option: { extension_attributes } };
-        }
-
-        return product;
-    }
 
     render() {
         const { isWishlistButtonLoading } = this.state;

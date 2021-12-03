@@ -19,7 +19,7 @@ import {
     EDIT_CUSTOMER
 } from 'Component/MyAccountCustomerPopup/MyAccountCustomerPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 
 import MyAccountCustomerTable from './MyAccountCustomerTable.component';
 
@@ -35,7 +35,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountCustomerTableContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
-        customer: customerType.isRequired,
+        customer: CustomerType.isRequired,
         title: PropTypes.string
     };
 

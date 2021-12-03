@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-/** @namespace Query/Config */
+/** @namespace Query/Config/Query */
 export class ConfigQuery {
     getStoreListField() {
         return new Field('storeList')
@@ -139,6 +139,7 @@ export class ConfigQuery {
             'newsletter_subscription_allow_guest_subscribe',
             'newsletter_subscription_confirm',
             'delivery_instore_active',
+            'access_token_lifetime',
             this.getPriceDisplayTypeField()
         ];
     }

@@ -19,7 +19,7 @@ export const getInitialState = () => ({
     shouldPopupClose: false
 });
 
-/** @namespace Store/Popup/Reducer */
+/** @namespace Store/Popup/Reducer/PopupReducer */
 export const PopupReducer = (
     state = getInitialState(),
     action

@@ -11,16 +11,16 @@
 
 .GroupedProductsItem {
     display: grid;
-    align-items: center;
+    align-items: start;
     padding-inline-start: 0;
     margin-block-end: 12px;
     grid-template-columns: 72px 3fr 1fr;
-    grid-gap: 18px;
+    grid-column-gap: 18px;
 
     @include mobile {
         margin-block-end: 14px;
         grid-template-columns: 84px 3fr 1fr;
-        grid-gap: 14px;
+        grid-column-gap: 14px;
     }
 
     &::before {
@@ -35,7 +35,30 @@
         margin-block-end: 24px;
     }
 
+    &-OutOfStock{
+        text-align: end;
+        font-size: 14px;
+        font-weight: bold;
+
+        @include mobile {
+            white-space: nowrap;
+        }
+    }
+
+    .Field {
+        &_type_number {
+            margin-block-start: 0;
+        }
+        &-ErrorMessages {
+            grid-column-start: 1;
+            grid-column-end: 3;
+            margin-block-start: -10px;
+        }
+    }
+
     &-Image {
+        height: auto;
+
         &::after {
             content: '';
             position: absolute;
@@ -55,11 +78,6 @@
         justify-content: space-between;
         flex-wrap: wrap;
         overflow: hidden;
-
-        @include mobile {
-            padding-block-start: 14px;
-            padding-block-end: 14px;
-        }
 
         p {
             margin-block-end: 12px;
@@ -95,5 +113,9 @@
         del {
             display: block;
         }
+    }
+
+    .TierPrices {
+        grid-column: 2 / -1;
     }
 }

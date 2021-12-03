@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DeviceType } from 'Type/Device';
-import { ProductItemsType } from 'Type/ProductList';
+import { DeviceType } from 'Type/Device.type';
+import { ItemType, ProductItemsType } from 'Type/ProductList.type';
 
 import ProductCompare from './ProductCompare.component';
 
@@ -49,8 +49,17 @@ export class ProductCompareContainer extends PureComponent {
         clearCompareList: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
         products: ProductItemsType,
-        items: PropTypes.array,
-        attributes: PropTypes.array,
+        items: PropTypes.arrayOf(PropTypes.shape({
+            products: ItemType,
+            attributes: PropTypes.arrayOf(PropTypes.shape({
+                code: PropTypes.string,
+                value: PropTypes.string
+            }))
+        })),
+        attributes: PropTypes.arrayOf(PropTypes.shape({
+            code: PropTypes.string,
+            label: PropTypes.string
+        })),
         device: DeviceType.isRequired
     };
 
@@ -109,7 +118,21 @@ export class ProductCompareContainer extends PureComponent {
             attribute_code: code,
             attribute_label: label,
             attribute_values: items.map(
-                ({ attributes }) => attributes.find((attribute) => attribute.code === code).value
+                ({ product, attributes }) => {
+                    if (code === 'description' || code === 'short_description') {
+                        const {
+                            [code]: {
+                                html
+                            } = {}
+                        } = product || {};
+
+                        if (html) {
+                            return html;
+                        }
+                    }
+
+                    return attributes.find((attribute) => attribute.code === code).value;
+                }
             )
         }));
     }

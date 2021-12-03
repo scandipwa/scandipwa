@@ -15,85 +15,27 @@ import { PureComponent } from 'react';
 import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
+import { EventsType, FieldAttrType, FieldOptionsType } from 'Type/Field.type';
 
 import './FieldSelect.style';
 
-/** @namespace Component/FieldSelect/Component */
+/**
+ * Field Select
+ * @class FieldSelect
+ * @namespace Component/FieldSelect/Component */
 export class FieldSelect extends PureComponent {
     static propTypes = {
+        attr: FieldAttrType.isRequired,
+        events: EventsType.isRequired,
+        options: FieldOptionsType.isRequired,
+        setRef: PropTypes.func.isRequired,
+        isExpanded: PropTypes.bool.isRequired,
         handleSelectListOptionClick: PropTypes.func.isRequired,
-        handleSelectExpand: PropTypes.func.isRequired,
-        onChange: PropTypes.func.isRequired,
         handleSelectListKeyPress: PropTypes.func.isRequired,
         handleSelectExpandedExpand: PropTypes.func.isRequired,
-        isSelectExpanded: PropTypes.bool.isRequired,
-        selectOptions: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            disabled: PropTypes.bool,
-            label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
-        })).isRequired,
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        formRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]).isRequired,
-        placeholder: PropTypes.string.isRequired,
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-            PropTypes.bool
-        ]).isRequired,
-        autocomplete: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]).isRequired,
-        isDisabled: PropTypes.bool.isRequired,
-        skipValue: PropTypes.bool.isRequired
+        handleSelectExpand: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool.isRequired
     };
-
-    renderNativeSelect() {
-        const {
-            name,
-            id,
-            onChange,
-            selectOptions,
-            formRef,
-            value,
-            isDisabled,
-            isSelectExpanded: isExpanded,
-            autocomplete,
-            skipValue
-        } = this.props;
-
-        return (
-            <select
-              block="FieldSelect"
-              elem="Select"
-              autoComplete={ autocomplete }
-              mods={ { isExpanded } }
-              ref={ formRef }
-              name={ name }
-              id={ id }
-              disabled={ isDisabled }
-              tabIndex="0"
-              value={ value || '' }
-              onChange={ onChange }
-              data-skip-value={ skipValue }
-              aria-label={ __('Select drop-down') }
-            >
-                { this.renderPlaceholder() }
-                { selectOptions.map(this.renderNativeOption) }
-            </select>
-        );
-    }
 
     renderNativeOption = (option) => {
         const {
@@ -104,27 +46,39 @@ export class FieldSelect extends PureComponent {
             subLabel = ''
         } = option;
 
+        const { isDisabled } = this.props;
+
         return (
             <option
               key={ id }
               id={ id }
               value={ value }
-              disabled={ disabled }
+              disabled={ disabled || isDisabled }
             >
                 { `${label} ${subLabel}` }
             </option>
         );
     };
 
-    renderPlaceholder() {
-        const { placeholder } = this.props;
-
-        if (!placeholder) {
-            return null;
-        }
+    renderNativeSelect() {
+        const {
+            setRef, attr, events, isDisabled, options, handleSelectListOptionClick
+        } = this.props;
 
         return (
-            <option value="" label={ placeholder }>{ placeholder }</option>
+            <select
+              block="FieldSelect"
+              elem="Select"
+              ref={ (elem) => setRef(elem) }
+              disabled={ isDisabled }
+              // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+              { ...attr }
+              // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
+              { ...events }
+              onChange={ handleSelectListOptionClick }
+            >
+                { options.map(this.renderNativeOption) }
+            </select>
         );
     }
 
@@ -132,11 +86,13 @@ export class FieldSelect extends PureComponent {
         const {
             id,
             label,
-            subLabel
+            subLabel,
+            isPlaceholder = false,
+            isHovered
         } = option;
 
         const {
-            isSelectExpanded: isExpanded,
+            isExpanded,
             handleSelectListOptionClick
         } = this.props;
 
@@ -144,7 +100,7 @@ export class FieldSelect extends PureComponent {
             <li
               block="FieldSelect"
               elem="Option"
-              mods={ { isExpanded } }
+              mods={ { isExpanded, isPlaceholder, isHovered } }
               key={ id }
               /**
                * Added 'o' as querySelector does not work with
@@ -153,7 +109,9 @@ export class FieldSelect extends PureComponent {
               id={ `o${id}` }
               role="menuitem"
               // eslint-disable-next-line react/jsx-no-bind
-              onClick={ () => handleSelectListOptionClick(option) }
+              onMouseDown={ () => handleSelectListOptionClick(option) }
+              // eslint-disable-next-line react/jsx-no-bind
+              onTouchStart={ () => handleSelectListOptionClick(option) }
               // eslint-disable-next-line react/jsx-no-bind
               onKeyPress={ () => handleSelectListOptionClick(option) }
               tabIndex={ isExpanded ? '0' : '-1' }
@@ -170,8 +128,8 @@ export class FieldSelect extends PureComponent {
 
     renderOptions() {
         const {
-            selectOptions,
-            isSelectExpanded: isExpanded
+            options,
+            isExpanded
         } = this.props;
 
         return (
@@ -181,24 +139,24 @@ export class FieldSelect extends PureComponent {
               role="menu"
               mods={ { isExpanded } }
             >
-                { selectOptions.map(this.renderOption) }
+                { options.map(this.renderOption) }
             </ul>
         );
     }
 
     render() {
         const {
-            isSelectExpanded: isExpanded,
+            attr: { id = '' } = {},
+            isExpanded,
             handleSelectExpand,
             handleSelectListKeyPress,
-            handleSelectExpandedExpand,
-            id
+            handleSelectExpandedExpand
         } = this.props;
 
         return (
             <ClickOutside onClick={ handleSelectExpandedExpand }>
                 <div
-                  id={ `${id}_wrapper` }
+                  id={ `${ id }_wrapper` }
                   block="FieldSelect"
                   mods={ { isExpanded } }
                   onClick={ handleSelectExpand }

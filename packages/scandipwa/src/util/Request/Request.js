@@ -164,18 +164,25 @@ export const handleConnectionError = (err) => console.error(err); // TODO: Add t
  */
 export const parseResponse = (promise) => new Promise((resolve, reject) => {
     promise.then(
-        /** @namespace Util/Request/promiseThen */
+        /** @namespace Util/Request/parseResponse/Promise/promise/then */
         (res) => res.json().then(
-            /** @namespace Util/Request/resJsonThen */
+            /** @namespace Util/Request/parseResponse/Promise/promise/then/json/then/resolve */
             (res) => resolve(checkForErrors(res)),
-            /** @namespace Util/Request/resJsonError */
-            () => handleConnectionError('Can not transform JSON!') && reject()
+            /** @namespace Util/Request/parseResponse/Promise/promise/then/json/then/catch */
+            () => {
+                handleConnectionError('Can not transform JSON!');
+                return reject();
+            }
         ),
-        /** @namespace Util/Request/promiseError */
-        (err) => handleConnectionError('Can not establish connection!') && reject(err)
+        /** @namespace Util/Request/parseResponse/Promise/promise/then/catch */
+        (err) => {
+            handleConnectionError('Can not establish connection!');
+            return reject(err);
+        }
     );
 });
 
+export const HTTP_503_SERVICE_UNAVAILABLE = 503;
 export const HTTP_410_GONE = 410;
 export const HTTP_201_CREATED = 201;
 
@@ -191,22 +198,24 @@ export const executeGet = (queryObject, name, cacheTTL) => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
 
-    return parseResponse(new Promise((resolve) => {
+    return parseResponse(new Promise((resolve, reject) => {
         getFetch(uri, name).then(
-            /** @namespace Util/Request/getFetchThen */
+            /** @namespace Util/Request/executeGet/parseResponse/getFetch/then */
             (res) => {
                 if (res.status === HTTP_410_GONE) {
                     putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL).then(
-                        /** @namespace Util/Request/putPersistedQueryThen */
+                        /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/putPersistedQuery/then */
                         (putResponse) => {
                             if (putResponse.status === HTTP_201_CREATED) {
                                 getFetch(uri, name).then(
-                                    /** @namespace Util/Request/putResponseGetFetchThen */
+                                    /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/putPersistedQuery/then/getFetch/then/resolve */
                                     (res) => resolve(res)
                                 );
                             }
                         }
                     );
+                } else if (res.status === HTTP_503_SERVICE_UNAVAILABLE) {
+                    reject(res);
                 } else {
                     resolve(res);
                 }
@@ -257,3 +266,26 @@ export const debounce = (callback, delay) => {
         timeout = setTimeout(() => callback.apply(context, args), delay);
     };
 };
+
+/** @namespace Util/Request */
+export class Debouncer {
+    timeout;
+
+    handler = () => {};
+
+    startDebounce = (callback, delay) => (...args) => {
+        const context = this;
+        clearTimeout(this.timeout);
+        this.handler = () => callback.apply(context, args);
+        this.timeout = setTimeout(this.handler, delay);
+    };
+
+    cancelDebounce = () => {
+        clearTimeout(this.timeout);
+    };
+
+    cancelDebounceAndExecuteImmediately = () => {
+        clearTimeout(this.timeout);
+        this.handler();
+    };
+}

@@ -8,90 +8,58 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ProductCustomizableOption from 'Component/ProductCustomizableOption';
-import { sortBySortOrder } from 'Util/Product';
+import { OptionsListType } from 'Type/ProductList.type';
 
 import './ProductCustomizableOptions.style';
 
-/** @namespace Component/ProductCustomizableOptions/Component */
+/**
+ * Product Customizable Options
+ * @class ProductCustomizableOptions
+ * @namespace Component/ProductCustomizableOptions/Component
+ */
 export class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        options: PropTypes.array,
-        productOptionsData: PropTypes.object.isRequired,
-        setSelectedDropdownValue: PropTypes.func.isRequired,
-        setSelectedCheckboxValues: PropTypes.func.isRequired,
-        setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
-        setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
-        price_range: PropTypes.object.isRequired,
-        type_id: PropTypes.string.isRequired,
-        maxQuantity: PropTypes.number,
-        selectedCheckboxValues: PropTypes.arrayOf(PropTypes.shape({
-            option_id: PropTypes.number,
-            option_value: PropTypes.string
-        }))
+        options: OptionsListType.isRequired,
+        updateSelectedValues: PropTypes.func.isRequired
     };
 
-    static defaultProps = {
-        options: [],
-        maxQuantity: null,
-        selectedCheckboxValues: []
-    };
-
-    renderContent() {
+    renderOptionGroup = (group) => {
         const {
-            options,
-            productOptionsData,
-            setSelectedCheckboxValues,
-            setCustomizableOptionTextFieldValue,
-            setCustomizableOptionFileFieldValue,
-            setSelectedDropdownValue,
-            price_range,
-            type_id,
-            maxQuantity,
-            selectedCheckboxValues
-        } = this.props;
+            title,
+            value,
+            type,
+            required,
+            uid
+        } = group;
 
-        return sortBySortOrder(options).map((option, key) => (
-            <ProductCustomizableOption
-              option={ option }
-              /* eslint-disable-next-line react/no-array-index-key */
-              key={ key }
-              setSelectedCheckboxValues={ setSelectedCheckboxValues }
-              setCustomizableOptionTextFieldValue={ setCustomizableOptionTextFieldValue }
-              setCustomizableOptionFileFieldValue={ setCustomizableOptionFileFieldValue }
-              setSelectedDropdownValue={ setSelectedDropdownValue }
-              productOptionsData={ productOptionsData }
-              price_range={ price_range }
-              type_id={ type_id }
-              maxQuantity={ maxQuantity }
-              selectedCheckboxValues={ selectedCheckboxValues }
-            />
-        ));
-    }
-
-    renderPlaceholder() {
-        const { isLoading } = this.props;
+        const { updateSelectedValues } = this.props;
 
         return (
-            <div
-              block="ProductCustomizableOptions"
-              mods={ { isLoading, isPlaceholder: true } }
+            <ProductCustomizableOption
+              key={ uid }
+              uid={ uid }
+              title={ title }
+              options={ value }
+              isRequired={ required }
+              type={ type }
+              updateSelectedValues={ updateSelectedValues }
             />
         );
-    }
+    };
 
     render() {
-        const { isLoading } = this.props;
+        const { options = [] } = this.props;
 
-        if (isLoading) {
-            return this.renderPlaceholder();
-        }
-
-        return this.renderContent();
+        return (
+          <div block="ProductCustomizableOptions" elem="Wrapper">
+              { options.map(this.renderOptionGroup) }
+          </div>
+        );
     }
 }
 

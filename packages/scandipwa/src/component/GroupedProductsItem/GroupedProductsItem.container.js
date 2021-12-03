@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 
 import GroupedProductsItem from './GroupedProductsItem.component';
 
@@ -20,20 +20,20 @@ import GroupedProductsItem from './GroupedProductsItem.component';
 export class GroupedProductsItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
-        setGroupedProductQuantity: PropTypes.func.isRequired,
+        quantity: PropTypes.objectOf(PropTypes.number).isRequired,
+        setQuantity: PropTypes.func.isRequired,
         defaultQuantity: PropTypes.number.isRequired
     };
 
     containerFunctions = {
-        changeCount: this.changeCount.bind(this)
+        setQuantity: this.setQuantity.bind(this)
     };
 
     __construct(props) {
         super.__construct(props);
 
         const { defaultQuantity } = this.props;
-        this.changeCount(defaultQuantity);
+        this.setQuantity(defaultQuantity);
     }
 
     containerProps() {
@@ -52,15 +52,15 @@ export class GroupedProductsItemContainer extends PureComponent {
     _getCurrentQuantity() {
         const {
             product: { id },
-            groupedProductQuantity
+            quantity
         } = this.props;
 
-        return groupedProductQuantity[id] || 0;
+        return quantity[id] || 0;
     }
 
-    changeCount(itemCount) {
-        const { setGroupedProductQuantity, product: { id } } = this.props;
-        setGroupedProductQuantity(id, itemCount);
+    setQuantity(itemCount) {
+        const { setQuantity, product: { id } } = this.props;
+        setQuantity({ [id]: itemCount }, true);
     }
 
     render() {

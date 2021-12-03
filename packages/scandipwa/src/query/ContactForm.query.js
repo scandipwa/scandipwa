@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-/** @namespace Query/ContactForm */
+/** @namespace Query/ContactForm/Query */
 export class ContactFormQuery {
     getSendContactFormMutation(options) {
         const mutation = new Field('contactForm');

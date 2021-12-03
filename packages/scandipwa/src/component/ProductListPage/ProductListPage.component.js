@@ -15,8 +15,10 @@ import { withRouter } from 'react-router-dom';
 
 import ProductCard from 'Component/ProductCard';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import { MixType } from 'Type/Common';
-import { FilterType, ProductType } from 'Type/ProductList';
+import { FilterType } from 'Type/Category.type';
+import { MixType } from 'Type/Common.type';
+import { ProductType } from 'Type/ProductList.type';
+import { noopFn } from 'Util/Common';
 
 import { DEFAULT_PLACEHOLDER_COUNT } from './ProductListPage.config';
 
@@ -24,8 +26,8 @@ import './ProductListPage.style';
 
 /**
  * Placeholder for List of category product
- * @namespace Component/ProductListPage/Component
  * @class ProductListPage
+ * @namespace Component/ProductListPage/Component
  */
 export class ProductListPage extends PureComponent {
     static propTypes = {
@@ -43,7 +45,7 @@ export class ProductListPage extends PureComponent {
 
     static defaultProps = {
         numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT,
-        wrapperRef: () => {},
+        wrapperRef: noopFn,
         selectedFilters: {},
         pageNumber: null,
         items: [],

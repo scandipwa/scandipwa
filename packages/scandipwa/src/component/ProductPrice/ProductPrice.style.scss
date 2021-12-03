@@ -48,10 +48,32 @@
 
     &-HighPrice {
         color: var(--price-discount-color);
+        line-height: 18px;
     }
 
     &-PriceValue {
         margin-block-start: 6px;
+    }
+
+    &, &-BundleFrom, &-BundleTo {
+        &_hasDiscount {
+            .ProductPrice {
+                &-PriceBadge {
+                    display: block;
+                    margin-block-start: 5px;
+                    margin-block-end: -5px;
+                }
+            }
+        }
+    }
+
+
+    &-RegularPrice {
+        margin-block-start: 5px;
+
+        &, strong {
+            color: var(--price-discount-color);
+        }
     }
 
     &-Placeholder {

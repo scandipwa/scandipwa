@@ -14,8 +14,7 @@ import { Field } from 'Util/Query';
 /**
  * MyAccount Mutations
  * @class MyAccount
- * @namespace Query/MyAccount
- */
+ * @namespace Query/MyAccount/Query */
 export class MyAccountQuery {
     /**
      * Get ResetPassword mutation
@@ -100,6 +99,11 @@ export class MyAccountQuery {
             .addFieldList(this._getConfirmAccountFields());
     }
 
+    getRevokeAccountToken() {
+        return new Field('revokeCustomerToken')
+            .addFieldList(this.getRevokeAccountTokenFields());
+    }
+
     getCustomerQuery() {
         return this._getCustomerField();
     }
@@ -109,6 +113,12 @@ export class MyAccountQuery {
             'status',
             'token',
             this._getCustomerField()
+        ];
+    }
+
+    getRevokeAccountTokenFields() {
+        return [
+            'result'
         ];
     }
 

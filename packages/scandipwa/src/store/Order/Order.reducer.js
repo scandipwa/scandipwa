@@ -55,7 +55,7 @@ export const getInitialState = () => ({
     isLoading: !orderList.length
 });
 
-/** @namespace Store/Order/Reducer */
+/** @namespace Store/Order/Reducer/OrderReducer */
 export const OrderReducer = (
     state = getInitialState(),
     action

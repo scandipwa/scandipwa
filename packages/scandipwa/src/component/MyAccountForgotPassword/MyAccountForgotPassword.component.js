@@ -12,15 +12,16 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
-import { signInStateType } from 'Type/Account';
+import { SignInStateType } from 'Type/Account.type';
+import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /** @namespace Component/MyAccountForgotPassword/Component */
 export class MyAccountForgotPassword extends PureComponent {
     static propTypes = {
-        state: signInStateType.isRequired,
+        state: SignInStateType.isRequired,
         onForgotPasswordSuccess: PropTypes.func.isRequired,
-        onForgotPasswordAttempt: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
@@ -28,23 +29,29 @@ export class MyAccountForgotPassword extends PureComponent {
     };
 
     renderForgotPasswordForm() {
-        const { onForgotPasswordAttempt, onForgotPasswordSuccess, onFormError } = this.props;
+        const { onForgotPasswordSuccess, onFormError } = this.props;
 
         return (
             <Form
               key="forgot-password"
-              onSubmit={ onForgotPasswordAttempt }
-              onSubmitSuccess={ onForgotPasswordSuccess }
-              onSubmitError={ onFormError }
+              onSubmit={ onForgotPasswordSuccess }
+              onError={ onFormError }
             >
                 <Field
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder={ __('Your email address') }
+                  type={ FIELD_TYPE.email }
                   label={ __('Email') }
-                  autocomplete="email"
-                  validation={ ['notEmpty', 'email'] }
+                  attr={ {
+                      id: 'email',
+                      name: 'email',
+                      placeholder: __('Your email address'),
+                      autocomplete: 'email'
+                  } }
+                  validateOn={ ['onChange'] }
+                  validationRule={ {
+                      isRequired: true,
+                      inputType: VALIDATION_INPUT_TYPE.email
+                  } }
+                  addRequiredTag
                 />
                 <div block="MyAccountOverlay" elem="Buttons">
                     <button

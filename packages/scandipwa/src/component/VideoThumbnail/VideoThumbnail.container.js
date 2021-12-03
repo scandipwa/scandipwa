@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { VIDEO_POPUP_ID } from 'Component/VideoPopup/VideoPopup.config';
 import { hideActivePopup } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { MediaItemType } from 'Type/ProductList';
+import { MediaItemType } from 'Type/ProductList.type';
 
 import VideoThumbnail from './VideoThumbnail.component';
 
@@ -32,14 +32,14 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /**
  * @class VideoThumbnailContainer
- * @namespace Component/VideoThumbnail/Container/videoThumbnailContainer
- */
+ * @namespace Component/VideoThumbnail/Container */
 export class VideoThumbnailContainer extends PureComponent {
     static propTypes = {
         media: MediaItemType.isRequired,
         showPopup: PropTypes.func.isRequired,
         isVideoZoomed: PropTypes.bool.isRequired,
-        hideActivePopup: PropTypes.func.isRequired
+        hideActivePopup: PropTypes.func.isRequired,
+        onZoomedVideoClick: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -62,13 +62,13 @@ export class VideoThumbnailContainer extends PureComponent {
             } = {},
             showPopup,
             isVideoZoomed,
-            hideActivePopup
+            onZoomedVideoClick
         } = this.props;
 
         event.preventDefault();
 
         if (isVideoZoomed) {
-            hideActivePopup();
+            onZoomedVideoClick();
         }
 
         setTimeout(() => {

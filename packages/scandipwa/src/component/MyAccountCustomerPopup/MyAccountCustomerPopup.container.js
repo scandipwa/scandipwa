@@ -20,7 +20,7 @@ import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action'
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { customerType } from 'Type/Account';
+import { CustomerType } from 'Type/Account.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
@@ -56,7 +56,7 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
                 CHANGE_PASSWORD,
                 EDIT_CUSTOMER
             ]),
-            customer: customerType
+            customer: CustomerType
         }).isRequired
     };
 
@@ -100,7 +100,7 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         return fetchMutation(mutation).then(
-            /** @namespace Component/MyAccountCustomerPopup/Container/onCustomerSaveFetchMutationThen */
+            /** @namespace Component/MyAccountCustomerPopup/Container/MyAccountCustomerPopupContainer/onCustomerSave/fetchMutation/then */
             ({ updateCustomer: { customer } }) => {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
                 updateCustomer(customer);
@@ -128,7 +128,7 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         return fetchMutation(mutation).then(
-            /** @namespace Component/MyAccountCustomerPopup/Container/onPasswordChangeFetchMutationThen */
+            /** @namespace Component/MyAccountCustomerPopup/Container/MyAccountCustomerPopupContainer/onPasswordChange/fetchMutation/then */
             () => {
                 showSuccessNotification(__('Your password was successfully updated!'));
                 this.setState({ isLoading: false }, () => {

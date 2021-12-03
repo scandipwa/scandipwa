@@ -15,43 +15,39 @@ import { PureComponent } from 'react';
 
 import HeartIcon from 'Component/HeartIcon';
 import Loader from 'Component/Loader';
-import { ProductType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { MagentoProductType } from 'Type/ProductList.type';
 
 import './ProductWishlistButton.style';
 
 /** @namespace Component/ProductWishlistButton/Component */
 export class ProductWishlistButton extends PureComponent {
     static propTypes = {
-        isReady: PropTypes.bool,
+        magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
+
         isLoading: PropTypes.bool,
-        quantity: PropTypes.number,
         isDisabled: PropTypes.bool,
         isInWishlist: PropTypes.bool,
-        product: ProductType.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+
         addToWishlist: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired,
-        mix: PropTypes.shape({ block: PropTypes.string, elem: PropTypes.string, mod: PropTypes.string }),
-        isSignedIn: PropTypes.bool.isRequired
+
+        mix: MixType
     };
 
     static defaultProps = {
         mix: {},
-        quantity: 1,
-        isReady: true,
         isLoading: false,
         isDisabled: false,
         isInWishlist: false
     };
 
     getTitle = () => {
-        const { isInWishlist, isReady, isSignedIn } = this.props;
+        const { isInWishlist, isSignedIn } = this.props;
 
         if (!isSignedIn) {
             return __('Please sign in first!');
-        }
-
-        if (!isReady) {
-            return __('Please select variant first!');
         }
 
         if (isInWishlist) {
@@ -63,8 +59,7 @@ export class ProductWishlistButton extends PureComponent {
 
     onClick = (e) => {
         const {
-            product,
-            quantity,
+            magentoProduct,
             isInWishlist,
             addToWishlist,
             removeFromWishlist
@@ -73,10 +68,10 @@ export class ProductWishlistButton extends PureComponent {
         e.preventDefault();
 
         if (!isInWishlist) {
-            return addToWishlist(product, quantity);
+            return addToWishlist(magentoProduct);
         }
 
-        return removeFromWishlist(product, quantity);
+        return removeFromWishlist(magentoProduct);
     };
 
     renderButton() {
@@ -114,9 +109,9 @@ export class ProductWishlistButton extends PureComponent {
     }
 
     render() {
-        const { product: { id } = {} } = this.props;
+        const { magentoProduct } = this.props;
 
-        if (id !== -1) {
+        if (Array.isArray(magentoProduct) && magentoProduct.length > 0) {
             return this.renderContent();
         }
 

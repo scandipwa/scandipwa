@@ -15,9 +15,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import Html from 'Component/Html';
-import { MixType } from 'Type/Common';
-import { AttributeType } from 'Type/ProductList';
+import { MixType } from 'Type/Common.type';
+import { AttributeType } from 'Type/ProductList.type';
+import { noopFn } from 'Util/Common';
 import { getBooleanLabel } from 'Util/Product';
 
 import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
@@ -40,8 +42,8 @@ export class ProductAttributeValue extends PureComponent {
 
     static defaultProps = {
         isSelected: false,
-        onClick: () => {},
-        getLink: () => {},
+        onClick: noopFn,
+        getLink: noopFn,
         mix: {},
         isAvailable: true,
         isFormattedAsText: false,
@@ -73,6 +75,7 @@ export class ProductAttributeValue extends PureComponent {
 
         if (attribute_options) {
             const optionValues = attribute_options[value];
+
             if (optionValues) {
                 if (!isProductCountVisible) {
                     const { label } = optionValues;
@@ -121,6 +124,7 @@ export class ProductAttributeValue extends PureComponent {
 
         const labelsArray = attribute_value.split(',').reduce((labels, value) => {
             const { label } = this.getOptionLabel(value);
+
             if (label) {
                 labels.push(label);
             }
@@ -265,23 +269,39 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
+    getCheckboxLabel = (label, subLabel) => (
+        <span
+          block="ProductAttributeValue"
+          elem="Label"
+        >
+            { label }
+            <strong
+              block="ProductAttributeValue"
+              elem="SubLabel"
+            >
+                { `(${subLabel})` }
+            </strong>
+        </span>
+    );
+
     renderDropdown(value, subLabel) {
         const { isSelected } = this.props;
 
         return (
             <Field
-              id={ value }
-              name={ value }
-              type="checkbox"
-              label={ value }
-              value={ value }
-              subLabel={ subLabel }
+              type={ FIELD_TYPE.checkbox }
+              attr={ {
+                  id: value,
+                  name: value,
+                  defaultChecked: isSelected,
+                  checked: isSelected
+              } }
+              label={ this.getCheckboxLabel(value, subLabel) }
               mix={ {
                   block: 'ProductAttributeValue',
                   elem: 'Text',
                   mods: { isSelected }
               } }
-              checked={ isSelected }
             />
         );
     }

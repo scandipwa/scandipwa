@@ -16,8 +16,8 @@ import Image from 'Component/Image';
 import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import Popup from 'Component/Popup';
-import { orderType } from 'Type/Account';
-import { DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX } from 'Util/Cart';
+import { OrderType } from 'Type/Account.type';
+import { DISPLAY_CART_TAX_IN_SHIPPING } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
@@ -27,7 +27,7 @@ import './MyAccountOrderPopup.style';
 /** @namespace Component/MyAccountOrderPopup/Component */
 export class MyAccountOrderPopup extends PureComponent {
     static propTypes = {
-        order: orderType.isRequired,
+        order: OrderType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         currency_code: PropTypes.string.isRequired,
         display_tax_in_shipping_amount: PropTypes.string.isRequired
@@ -91,7 +91,7 @@ export class MyAccountOrderPopup extends PureComponent {
             return null;
         }
 
-        const amount = display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX
+        const amount = display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.EXCL_TAX
             ? shipping_amount
             : shipping_incl_tax;
 
@@ -120,7 +120,6 @@ export class MyAccountOrderPopup extends PureComponent {
             const {
                 name,
                 thumbnail,
-                id,
                 qty,
                 row_total
             } = product;
@@ -129,7 +128,7 @@ export class MyAccountOrderPopup extends PureComponent {
 
             return (
                 <tr
-                  key={ id || i.toString() }
+                  key={ i.toString() }
                   block="MyAccountOrderPopup"
                   elem="Row"
                 >

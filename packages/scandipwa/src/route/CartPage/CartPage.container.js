@@ -22,10 +22,11 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { HistoryType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
-import { TotalsType } from 'Type/MiniCart';
+import { DeviceType } from 'Type/Device.type';
+import { TotalsType } from 'Type/MiniCart.type';
+import { HistoryType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import {
     getCartShippingPrice,
     getCartShippingSubPrice,
@@ -138,6 +139,10 @@ export class CartPageContainer extends PureComponent {
                 title
             });
         }
+
+        if (items_qty !== prevItemsQty) {
+            this._updateCrossSellProducts();
+        }
     }
 
     containerProps = () => {
@@ -170,13 +175,13 @@ export class CartPageContainer extends PureComponent {
             showOverlay,
             showNotification,
             device,
-            totals
+            totals: { items = [] } = {}
         } = this.props;
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        if (this.hasOutOfStockProductsInCartItems(totals.items)) {
+        if (this.hasOutOfStockProductsInCartItems(items)) {
             return;
         }
 
@@ -184,7 +189,7 @@ export class CartPageContainer extends PureComponent {
             history.push({
                 pathname: appendWithStoreCode(CHECKOUT_URL)
             });
-            window.scrollTo({ top: 0 });
+            scrollToTop();
 
             return;
         }
@@ -193,7 +198,7 @@ export class CartPageContainer extends PureComponent {
             history.push({
                 pathname: appendWithStoreCode(CHECKOUT_URL)
             });
-            window.scrollTo({ top: 0 });
+            scrollToTop();
 
             return;
         }

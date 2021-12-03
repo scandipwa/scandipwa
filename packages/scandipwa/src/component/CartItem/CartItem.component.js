@@ -15,10 +15,14 @@ import { PureComponent } from 'react';
 import CartItemPrice from 'Component/CartItemPrice';
 import CloseIcon from 'Component/CloseIcon';
 import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import { CartItemType } from 'Type/MiniCart';
+import { CartItemType } from 'Type/MiniCart.type';
+import { LinkType } from 'Type/Router.type';
+import { formatPrice } from 'Util/Price';
+import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 import './CartItem.style';
 
@@ -38,17 +42,11 @@ export class CartItem extends PureComponent {
         minSaleQuantity: PropTypes.number.isRequired,
         maxSaleQuantity: PropTypes.number.isRequired,
         handleChangeQuantity: PropTypes.func.isRequired,
-        linkTo: PropTypes.oneOfType([
-            PropTypes.shape({
-                pathname: PropTypes.string,
-                search: PropTypes.string
-            }),
-            PropTypes.string
-        ]).isRequired,
+        linkTo: LinkType.isRequired,
         thumbnail: PropTypes.string.isRequired,
         isProductInStock: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        optionsLabels: PropTypes.array.isRequired,
+        optionsLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
         isMobileLayout: PropTypes.bool,
         showLoader: PropTypes.bool
     };
@@ -116,7 +114,7 @@ export class CartItem extends PureComponent {
                 { this.renderOutOfStockMessage() }
                 { this.renderProductConfigurations() }
                 { this.renderProductOptions(customizable_options) }
-                { this.renderProductOptions(bundle_options) }
+                { this.renderProductBundleOptions(bundle_options) }
                 { this.renderProductLinks(downloadable_links) }
             </div>
         );
@@ -180,12 +178,55 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductOption = (option) => {
-        const { label, values = [], id } = option;
+    renderProductOptionLabel = (option) => {
+        const { label, values = [] } = option;
 
-        const labelText = values
-            ? __('%s: %s', label, values.map(({ label, value }) => label || value).join(', '))
-            : label;
+        if (Array.isArray(values) && values.length > 0) {
+            return (
+                <>
+                    <strong>{ `${label}: ` }</strong>
+                    { values.map(({ label, value }) => label || value).join(', ') }
+                </>
+            );
+        }
+
+        return label;
+    };
+
+    renderBundleProductOptionValue = (value) => {
+        const { label, quantity, price } = value;
+        const { currency_code: currencyCode } = this.props;
+        const formattedPrice = formatPrice(price, currencyCode);
+
+        return (
+            <div>
+                { `${quantity} x ${label} ` }
+                <strong>{ formattedPrice }</strong>
+            </div>
+        );
+    };
+
+    renderBundleProductOptionLabel(option) {
+        const { label, values = [] } = option;
+
+        if (values.length === 0) {
+            return null;
+        }
+
+        return (
+            <>
+                <div block="CartItem" elem="BundleGroupTitle">
+                    <strong>{ `${label}:` }</strong>
+                </div>
+                <div block="CartItem" elem="BundleGroupValues">
+                    { values.map(this.renderBundleProductOptionValue) }
+                </div>
+            </>
+        );
+    }
+
+    renderProductBundleOption = (option) => {
+        const { id } = option;
 
         return (
             <div
@@ -193,7 +234,36 @@ export class CartItem extends PureComponent {
               elem="Option"
               key={ id }
             >
-                { labelText }
+                { this.renderBundleProductOptionLabel(option) }
+            </div>
+        );
+    };
+
+    renderProductBundleOptions(itemOptions = []) {
+        if (!itemOptions.length) {
+            return null;
+        }
+
+        return (
+            <div
+              block="CartItem"
+              elem="Options"
+            >
+                { itemOptions.map(this.renderProductBundleOption) }
+            </div>
+        );
+    }
+
+    renderProductOption = (option) => {
+        const { id } = option;
+
+        return (
+            <div
+              block="CartItem"
+              elem="Option"
+              key={ id }
+            >
+                { this.renderProductOptionLabel(option) }
             </div>
         );
     };
@@ -227,7 +297,7 @@ export class CartItem extends PureComponent {
                   block="CartItem"
                   elem="ItemLinks"
                 >
-                    { __('Links:') }
+                    <strong>{ __('Links:') }</strong>
                 </span>
                 <div
                   block="CartItem"
@@ -304,6 +374,7 @@ export class CartItem extends PureComponent {
     renderQuantityChangeField() {
         const {
             item: {
+                sku,
                 qty,
                 product: {
                     stock_item: {
@@ -334,15 +405,28 @@ export class CartItem extends PureComponent {
             >
                 <Field
                   id="item_qty"
-                  name="item_qty"
-                  type="number"
-                  isControlled
-                  min={ minSaleQuantity }
-                  max={ maxSaleQuantity }
+                  type={ FIELD_TYPE.number }
+                  attr={ {
+                      id: `${sku}_item_qty`,
+                      name: `${sku}_item_qty`,
+                      value: qty,
+                      defaultValue: qty,
+                      min: minSaleQuantity,
+                      max: maxSaleQuantity,
+                      step: qtyIncrement
+                  } }
+                  events={ {
+                      onChange: handleChangeQuantity
+                  } }
+                  validationRule={ {
+                      inputType: VALIDATION_INPUT_TYPE.numeric,
+                      range: {
+                          min: minSaleQuantity,
+                          max: maxSaleQuantity
+                      }
+                  } }
+                  validateOn={ ['onChange'] }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
-                  value={ qty }
-                  onChange={ handleChangeQuantity }
-                  step={ qtyIncrement }
                 />
             </div>
         );

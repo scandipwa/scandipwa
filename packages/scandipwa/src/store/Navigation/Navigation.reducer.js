@@ -33,7 +33,7 @@ export const getInitialState = () => ({
     }
 });
 
-/** @namespace Store/Navigation/Reducer */
+/** @namespace Store/Navigation/Reducer/NavigationReducer */
 export const NavigationReducer = (
     state = getInitialState(),
     action

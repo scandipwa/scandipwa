@@ -10,165 +10,129 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 
-import { ENTER_KEY_CODE } from 'Component/Field/Field.config';
-import { sortAlphabetically, sortBySortOrder } from 'Util/Product';
+import { KEY_CODE } from 'Component/Field/Keyboard.config';
+import {
+    EventsType,
+    FieldAttrType,
+    FieldOptionsType
+} from 'Type/Field.type';
 
 import FieldSelect from './FieldSelect.component';
-import {
-    A_KEY_CODE,
-    a_KEY_CODE,
-    Z_KEY_CODE,
-    z_KEY_CODE
-} from './FieldSelect.config';
 
-/** @namespace Component/FieldSelect/Container */
+/**
+ * Field Select
+ * @class FieldSelectContainer
+ * @namespace Component/FieldSelect/Container */
 export class FieldSelectContainer extends PureComponent {
     static propTypes = {
-        id: PropTypes.string.isRequired,
-        selectOptions: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            disabled: PropTypes.bool,
-            label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
-        })),
-        formRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]),
-        onChange: PropTypes.func,
-        isDisabled: PropTypes.bool,
-        skipValue: PropTypes.bool,
-        placeholder: PropTypes.string,
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-            PropTypes.bool
-        ]),
-        autocomplete: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]),
-        name: PropTypes.string.isRequired
+        // Field attributes
+        attr: FieldAttrType.isRequired,
+        events: EventsType.isRequired,
+        options: FieldOptionsType.isRequired,
+        setRef: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool.isRequired,
+        noPlaceholder: PropTypes.bool
     };
 
     static defaultProps = {
-        selectOptions: [],
-        formRef: () => {},
-        onChange: () => {},
-        placeholder: '',
-        value: null,
-        isDisabled: false,
-        autocomplete: 'off',
-        skipValue: false
+        noPlaceholder: false
     };
 
     state = {
         valueIndex: -1,
-        searchString: 'a',
-        isSelectExpanded: false
+        searchString: '',
+        isExpanded: false
     };
 
     containerFunctions = {
         handleSelectExpand: this.handleSelectExpand.bind(this),
         handleSelectExpandedExpand: this.handleSelectExpandedExpand.bind(this),
         handleSelectListOptionClick: this.handleSelectListOptionClick.bind(this),
-        handleSelectListKeyPress: this.handleSelectListKeyPress.bind(this)
+        handleSelectListKeyPress: this.handleSelectListKeyPress.bind(this),
+        setRef: this.setRef.bind(this)
     };
 
-    containerProps() {
-        const {
-            onChange,
-            id,
-            name,
-            formRef,
-            placeholder,
-            value,
-            autocomplete,
-            skipValue
-        } = this.props;
-        const {
-            valueIndex,
-            searchString,
-            isSelectExpanded
-        } = this.state;
+    fieldRef = createRef();
 
-        return {
-            selectOptions: this.sortSelectOptions(),
-            isDisabled: this.isSelectDisabled(),
-            valueIndex,
-            searchString,
-            isSelectExpanded,
-            onChange,
-            id,
-            name,
-            formRef,
-            placeholder,
-            value,
-            autocomplete,
-            skipValue
-        };
+    static getDerivedStateFromProps(props, state) {
+        const { attr: { isExpanded } = {} } = props;
+        const { isExpanded: stateIsExpanded } = state;
+
+        return { isExpanded: isExpanded || stateIsExpanded };
     }
 
-    sortSelectOptions() {
-        const { selectOptions } = this.props;
+    setRef(elem) {
+        const { setRef } = this.props;
+        setRef(elem);
 
-        /**
-         * Trim all null label values.
-         * If options have `sort_order` property, sort by sort order.
-         * Otherwise sort alphabetically.
-         */
-        const options = selectOptions.reduce((acc, a) => (a.label ? [...acc, a] : acc), []);
-        const sortedOptions = options.every((option) => option.sort_order)
-            ? sortBySortOrder(options)
-            : sortAlphabetically(options, 'label');
+        if (elem && this.fieldRef !== elem) {
+            this.fieldRef = elem;
+        }
+    }
 
-        return sortedOptions;
+    getOptions() {
+        const {
+            options,
+            attr: {
+                id = 'select',
+                selectPlaceholder = __('Select item...'),
+                noPlaceholder
+            } = {}
+        } = this.props;
+
+        if (noPlaceholder) {
+            return options;
+        }
+
+        return [
+            {
+                id: `${id}-placeholder`,
+                name: `${id}-placeholder`,
+                label: selectPlaceholder,
+                value: '',
+                sort_order: -100,
+                isPlaceholder: true
+            },
+            ...options
+        ];
+    }
+
+    handleSelectListOptionClick(option) {
+        const { events: { onChange } = {} } = this.props;
+        const { value, target: { value: targetValue } = {} } = option;
+
+        const fieldValue = !value ? targetValue : option.value;
+        this.fieldRef.value = fieldValue;
+
+        if (onChange) {
+            onChange(fieldValue);
+        }
     }
 
     isSelectDisabled() {
-        const { selectOptions } = this.props;
+        const { options } = this.props;
 
-        return selectOptions.length === 0;
+        return options.length === 0;
     }
 
     handleSelectExpand() {
         if (!this.isSelectDisabled()) {
-            this.setState(({ isSelectExpanded }) => ({ isSelectExpanded: !isSelectExpanded }));
+            this.setState(({ isExpanded }) => ({ isExpanded: !isExpanded }));
         }
     }
 
     handleSelectExpandedExpand() {
-        const { isSelectExpanded } = this.state;
+        const { isExpanded } = this.state;
 
-        if (isSelectExpanded) {
+        if (isExpanded) {
             this.handleSelectExpand();
         }
     }
 
-    handleSelectListOptionClick({ value }) {
-        const { formRef, onChange } = this.props;
-
-        if (typeof formRef !== 'function') {
-            formRef.current.value = value;
-
-            // TODO: investigate why this is required
-            const event = new Event('change', { bubbles: true });
-            formRef.current.dispatchEvent(event);
-        } else {
-            onChange(value);
-        }
-    }
-
     _getSelectedValueIndex(keyCode) {
-        const { selectOptions } = this.props;
+        const { options } = this.props;
         const {
             searchString: prevSearchString,
             valueIndex: prevValueIndex
@@ -180,7 +144,7 @@ export class FieldSelectContainer extends PureComponent {
             ? `${prevSearchString}${pressedKeyValue}`
             : pressedKeyValue;
 
-        const nextValueIndex = selectOptions.findIndex(({ label }, i) => (
+        const nextValueIndex = options.findIndex(({ label }, i) => (
             label && label.toLowerCase().startsWith(searchString) && (
                 i > prevValueIndex || prevSearchString !== searchString
             )
@@ -193,7 +157,7 @@ export class FieldSelectContainer extends PureComponent {
         // if no items were found, take only the latest letter of the search string
         const newSearchString = searchString[searchString.length - 1];
 
-        const newValueIndex = selectOptions.findIndex(({ label }) => (
+        const newValueIndex = options.findIndex(({ label }) => (
             label && label.toLowerCase().startsWith(newSearchString)
         ));
 
@@ -206,22 +170,25 @@ export class FieldSelectContainer extends PureComponent {
     }
 
     handleSelectListKeyPress(event) {
-        const { isSelectExpanded } = this.state;
-        const { selectOptions, onChange, id: selectId } = this.props;
+        const { isExpanded } = this.state;
+        const {
+            options,
+            events: { onChange } = {}
+        } = this.props;
         const keyCode = event.which || event.keycode;
 
         // on Enter pressed
-        if (keyCode === ENTER_KEY_CODE) {
+        if (keyCode === KEY_CODE.enter) {
             this.handleSelectExpand();
 
             return;
         }
 
-        if (!isSelectExpanded
+        if (!isExpanded
             || !keyCode
-            || keyCode < A_KEY_CODE
-            || keyCode > z_KEY_CODE
-            || (keyCode > Z_KEY_CODE && keyCode < a_KEY_CODE)
+            || keyCode < KEY_CODE.A
+            || keyCode > KEY_CODE.z
+            || (keyCode > KEY_CODE.Z && keyCode < KEY_CODE.a)
         ) {
             return;
         }
@@ -233,28 +200,69 @@ export class FieldSelectContainer extends PureComponent {
             return;
         }
 
+        this.updateValue(valueIndex);
+
         this.setState({ searchString, valueIndex }, () => {
-            const { id, value } = selectOptions[valueIndex];
+            const { id, value } = options[valueIndex];
+
             // converting to string for avoiding the error with the first select option
-            onChange(value.toString());
-            const selectedElement = document.querySelector(`#${selectId}_wrapper ul #o${id}`);
+            if (onChange && value) {
+                onChange(value.toString());
+            }
+
+            const selectedElement = document.getElementById(`o${id}`);
+
             if (selectedElement) {
                 selectedElement.focus();
             }
         });
     }
 
-    render() {
-        const { selectOptions } = this.containerProps();
+    updateValue(valueIndex) {
+        if (this.fieldRef) {
+            const { options } = this.props;
+            const { value } = options[valueIndex];
 
-        if (!selectOptions) {
-            throw new Error('Prop `selectOptions` is required for Field type `select`');
+            if (value) {
+                this.fieldRef.value = value;
+            }
         }
+    }
 
+    containerProps() {
+        const {
+            attr: {
+                autoComplete,
+                autocomplete,
+                noPlaceholder,
+                selectPlaceholder,
+                ...attr
+            } = {},
+            events,
+            setRef,
+            isDisabled
+        } = this.props;
+
+        const { isExpanded } = this.state;
+
+        return {
+            attr: {
+                ...attr,
+                autoComplete: autoComplete || autocomplete
+            },
+            events,
+            setRef,
+            isDisabled,
+            isExpanded,
+            options: this.getOptions()
+        };
+    }
+
+    render() {
         return (
             <FieldSelect
-              { ...this.containerFunctions }
               { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

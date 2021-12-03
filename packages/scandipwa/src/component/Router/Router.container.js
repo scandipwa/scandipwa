@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
+import { MetaTitleType } from 'Type/Common.type';
 import {
     isMobile,
     isMobileClientHints,
@@ -76,6 +77,9 @@ export const mapDispatchToProps = (dispatch) => ({
         CartDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
+        ProductCompareDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
+        );
     }
 });
 
@@ -93,14 +97,7 @@ export class RouterContainer extends PureComponent {
         title_suffix: PropTypes.string,
         isLoading: PropTypes.bool,
         isBigOffline: PropTypes.bool,
-        meta_title: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.shape({
-                TranslatedValue: PropTypes.string,
-                value: PropTypes.string,
-                injectables: PropTypes.array
-            })
-        ]),
+        meta_title: MetaTitleType,
         status_code: PropTypes.string
     };
 
@@ -170,6 +167,7 @@ export class RouterContainer extends PureComponent {
 
     handleResize = async () => {
         const { updateConfigDevice } = this.props;
+
         if (isUsingClientHints) {
             const { platform, model } = await isMobileClientHints.getDeviceData();
             updateConfigDevice({

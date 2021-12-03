@@ -12,8 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field/Field.container';
-import { shippingMethodType } from 'Type/Checkout';
+import Field from 'Component/Field';
+import FIELD_TYPE from 'Component/Field/Field.config';
+import { ShippingMethodType } from 'Type/Checkout.type';
 import { formatPrice } from 'Util/Price';
 
 import { DELIVERY_METHOD_UNAVAILABLE_MESSAGE } from './CheckoutDeliveryOption.config';
@@ -23,7 +24,7 @@ import './CheckoutDeliveryOption.style';
 /** @namespace Component/CheckoutDeliveryOption/Component */
 export class CheckoutDeliveryOption extends PureComponent {
     static propTypes = {
-        option: shippingMethodType.isRequired,
+        option: ShippingMethodType.isRequired,
         currency: PropTypes.string.isRequired,
         isSelected: PropTypes.bool,
         optionPrice: PropTypes.number,
@@ -134,7 +135,6 @@ export class CheckoutDeliveryOption extends PureComponent {
             isSelected
         } = this.props;
 
-        // disable checkbox in order to skip direct clicks on checkbox and handle clicks on entire button instead
         return (
             <li block="CheckoutDeliveryOption" mods={ { isDisabled: !available } }>
                 <button
@@ -146,11 +146,12 @@ export class CheckoutDeliveryOption extends PureComponent {
                   disabled={ !available }
                 >
                     <Field
-                      type="checkbox"
-                      id={ `option-${ carrier_title }` }
-                      name={ `option-${ carrier_title }` }
-                      checked={ isSelected }
-                      disabled
+                      type={ FIELD_TYPE.radio }
+                      attr={ {
+                          id: `option-${ carrier_title }`,
+                          name: `option-${ carrier_title }`,
+                          checked: !!isSelected
+                      } }
                     />
                     { this.renderRow() }
                 </button>

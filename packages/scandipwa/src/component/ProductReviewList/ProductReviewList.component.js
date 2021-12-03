@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import ProductReviewItem from 'Component/ProductReviewItem';
-import { ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList.type';
 
 import './ProductReviewList.style';
 
@@ -40,6 +40,7 @@ export class ProductReviewList extends PureComponent {
     render() {
         const { product } = this.props;
         const hasReviews = product.reviews && Object.keys(product.reviews).length > 0;
+
         if (!hasReviews) {
             return null;
         }
