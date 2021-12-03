@@ -199,7 +199,6 @@
         align-items: center;
         font-size: 80%;
         font-weight: 700;
-        top: -20px;
 
         @include mobile {
             inset-block-start: -7px;
@@ -207,7 +206,7 @@
         }
 
         @include desktop {
-            inset-block-start: -10px;
+            inset-block-start: -20px;
             inset-inline-end: -12px;
         }
     }
