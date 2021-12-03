@@ -369,7 +369,7 @@ export class Menu extends PureComponent {
         return <StoreSwitcher />;
     }
 
-    renderCompareCountInMenu() {
+    renderCompareCount() {
         const { compareTotals } = this.props;
 
         if (compareTotals < 1) {
@@ -381,7 +381,7 @@ export class Menu extends PureComponent {
               block="Menu"
               elem="CompareCountInMenu"
             >
-                { compareTotals }
+                { `(${compareTotals})` }
             </span>
         );
     }
@@ -398,7 +398,7 @@ export class Menu extends PureComponent {
                 <Link to="compare" block="Menu" elem="CompareLink">
                     <CompareIcon />
                     <h4>{ __('Compare products') }</h4>
-                    { `(${this.renderCompareCountInMenu()})` }
+                    { this.renderCompareCount() }
                 </Link>
             </div>
         );
