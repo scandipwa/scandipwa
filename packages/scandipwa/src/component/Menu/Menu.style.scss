@@ -196,6 +196,7 @@
 
         &Menu {
             display: none;
+            margin-block-end: 60px;
 
             &_isVisible {
                 background: var(--color-gray);
