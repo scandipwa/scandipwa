@@ -154,6 +154,11 @@ export const getVatFields = (props) => {
             attr: {
                 name: 'vat_number',
                 defaultValue: vatID
+            },
+            addRequiredTag: false,
+            validateOn: ['onChange'],
+            validationRule: {
+                isRequired: false
             }
         }
     ];
