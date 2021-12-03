@@ -21,7 +21,9 @@ import Menu from './Menu.component';
 
 /** @namespace Component/Menu/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    compareTotals: state.ProductCompareReducer.count
+
 });
 
 /** @namespace Component/Menu/Container/mapDispatchToProps */

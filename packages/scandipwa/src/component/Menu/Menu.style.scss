@@ -31,6 +31,15 @@
         display: flex;
         align-items: center;
 
+        &-CompareCountInMenu{
+            font-family: Mulish;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 12px;
+            line-height: 16px;
+            text-align: end;
+        }
+
         .CompareIcon {
             margin-inline-end: 12px;
 

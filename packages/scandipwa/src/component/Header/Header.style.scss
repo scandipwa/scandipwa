@@ -200,11 +200,6 @@
         font-size: 75%;
         font-weight: 700;
 
-        @include mobile {
-            inset-block-start: -7px;
-            inset-inline-end: -11px;
-        }
-
         @include desktop {
             inset-block-start: -20px;
             inset-inline-end: -12px;
