@@ -32,3 +32,8 @@ runtime-packages/csa
 # build specifc files
 lerna-debug.log
 .eslintcache
+*.json
+*.json
+*.json
+*.json
+packages/scandipwa/i18n/fr_FR.json
