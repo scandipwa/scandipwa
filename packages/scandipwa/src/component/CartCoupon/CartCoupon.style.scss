@@ -36,6 +36,11 @@
     .Form {
         margin-block-start: 12px;
         display: inline-flex;
+
+        @include mobile {
+            width: 100%;
+            display: inline-block;
+        }
     }
 
     input, button {
