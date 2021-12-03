@@ -76,13 +76,17 @@ export class MenuContainer extends DataContainer {
     }
 
     containerProps() {
-        const { device } = this.props;
+        const {
+            device,
+            compareTotals
+        } = this.props;
         const { activeMenuItemsStack, menu } = this.state;
 
         return {
             activeMenuItemsStack,
             menu,
-            device
+            device,
+            compareTotals
         };
     }
 
