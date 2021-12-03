@@ -138,6 +138,10 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     async addAllToCartAsync() {
         const { moveWishlistToCart } = this.props;
 
+        if (!isSignedIn) {
+            return;
+        }
+
         try {
             await moveWishlistToCart();
         } catch (error) {
