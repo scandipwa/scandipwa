@@ -352,7 +352,7 @@ export class ProductPageContainer extends PureComponent {
         return `${pathname}${query}`;
     }
 
-    containerProps = () => {
+    containerProps() {
         const { isMobile, location } = this.props;
         const { parameters } = this.state;
 
@@ -368,7 +368,7 @@ export class ProductPageContainer extends PureComponent {
             parameters,
             location
         };
-    };
+    }
 
     getIsVariant() {
         const { activeProduct } = this.state;

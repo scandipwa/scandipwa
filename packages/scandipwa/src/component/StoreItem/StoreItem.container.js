@@ -27,11 +27,11 @@ export class StoreItemContainer extends PureComponent {
         getStoreCode: this.getStoreCode.bind(this)
     };
 
-    containerProps = () => {
+    containerProps() {
         const { item } = this.props;
 
         return { item };
-    };
+    }
 
     getStoreCode() {
         const { item: { value }, handleStoreSelect } = this.props;

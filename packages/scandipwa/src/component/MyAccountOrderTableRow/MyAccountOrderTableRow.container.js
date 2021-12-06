@@ -56,7 +56,7 @@ export class MyAccountOrderTableRowContainer extends PureComponent {
         });
     }
 
-    containerProps = () => {
+    containerProps() {
         const {
             display_tax_in_shipping_amount,
             order,
@@ -69,7 +69,7 @@ export class MyAccountOrderTableRowContainer extends PureComponent {
             currency_code,
             display_tax_in_shipping_amount
         };
-    };
+    }
 
     render() {
         return (

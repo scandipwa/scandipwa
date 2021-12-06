@@ -38,7 +38,8 @@ export class WishlistItem extends PureComponent {
         isRemoving: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
-        handleSelectIdChange: PropTypes.func.isRequired
+        handleSelectIdChange: PropTypes.func.isRequired,
+        setQuantity: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -71,7 +72,7 @@ export class WishlistItem extends PureComponent {
                   defaultValue: description
               } }
               events={ {
-                  onChange: changeDescription
+                  onChange: ({ target: { value } = {} }) => changeDescription(value)
               } }
               mix={ { block: 'WishlistItem', elem: 'CommentField' } }
             />
@@ -81,7 +82,8 @@ export class WishlistItem extends PureComponent {
     renderQuantityFieldInput() {
         const {
             product: { wishlist: { quantity } },
-            changeQuantity
+            changeQuantity,
+            setQuantity
         } = this.props;
 
         return (
@@ -94,7 +96,10 @@ export class WishlistItem extends PureComponent {
                   min: 1
               } }
               events={ {
-                  onChange: changeQuantity
+                  onChange: (quantity) => {
+                      changeQuantity(quantity);
+                      setQuantity(quantity);
+                  }
               } }
               mix={ { block: 'WishlistItem', elem: 'QuantityInput' } }
             />
