@@ -152,7 +152,7 @@ export const getVatFields = (props) => {
             type: FIELD_TYPE.text,
             label: __('VAT Number'),
             attr: {
-                name: 'vat_number',
+                name: 'vat_id',
                 defaultValue: vatID
             },
             addRequiredTag: false,
