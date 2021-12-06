@@ -40,6 +40,10 @@
         transition-duration: .25s;
         color: var(--color-white);
 
+        @include mobile {
+            line-height: 20px;
+        }
+
         &:last-child {
             inset-inline-start: 0;
             transform: translateY(0);
