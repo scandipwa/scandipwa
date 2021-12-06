@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { REGISTER } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
+import { ACCOUNT_REGISTRATION_URL } from 'Route/MyAccount/MyAccount.config';
 import { isSignedIn } from 'Util/Auth';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -65,7 +65,7 @@ export class CheckoutSuccess extends PureComponent {
                 </p>
                 <Link
                   to={ {
-                      pathname: appendWithStoreCode(`${ REGISTER }`),
+                      pathname: appendWithStoreCode(`${ ACCOUNT_REGISTRATION_URL }`),
                       state: {
                           firstName,
                           lastName,

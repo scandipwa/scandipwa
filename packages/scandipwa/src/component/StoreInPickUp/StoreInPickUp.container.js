@@ -61,7 +61,7 @@ export class StoreInPickUpContainer extends PureComponent {
         setSelectedStore: this.setSelectedStore.bind(this)
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             countryId,
             estimateAddress,
@@ -83,7 +83,7 @@ export class StoreInPickUpContainer extends PureComponent {
             setSelectedShippingMethodCode,
             cartItemsSku
         };
-    };
+    }
 
     handleOpenPopup() {
         const { showPopup } = this.props;

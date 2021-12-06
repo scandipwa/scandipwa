@@ -74,7 +74,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         return { isLoading, payload };
     }
 
-    handleAfterAction = () => {
+    async handleAfterAction() {
         const {
             hideActiveOverlay,
             updateCustomerDetails,
@@ -82,16 +82,16 @@ export class MyAccountAddressPopupContainer extends PureComponent {
             goToPreviousHeaderState
         } = this.props;
 
-        updateCustomerDetails().then(
-            /** @namespace Component/MyAccountAddressPopup/Container/MyAccountAddressPopupContainer/updateCustomerDetails/then */
-            () => {
-                this.setState({ isLoading: false }, () => {
-                    hideActiveOverlay();
-                    goToPreviousHeaderState();
-                });
-            }, showErrorNotification
-        );
-    };
+        try {
+            await updateCustomerDetails();
+            this.setState({ isLoading: false }, () => {
+                hideActiveOverlay();
+                goToPreviousHeaderState();
+            });
+        } catch (e) {
+            showErrorNotification(e);
+        }
+    }
 
     handleError = (error) => {
         const { showErrorNotification } = this.props;
@@ -110,7 +110,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         return this.handleCreateAddress(address);
     }
 
-    handleEditAddress(address) {
+    async handleEditAddress(address) {
         const { payload: { address: { id } } } = this.props;
         const query = MyAccountQuery.getUpdateAddressMutation(id, address);
 
@@ -118,10 +118,15 @@ export class MyAccountAddressPopupContainer extends PureComponent {
             return;
         }
 
-        fetchMutation(query).then(this.handleAfterAction, this.handleError);
+        try {
+            await fetchMutation(query);
+            this.handleAfterAction();
+        } catch (e) {
+            this.handleError(e);
+        }
     }
 
-    handleDeleteAddress() {
+    async handleDeleteAddress() {
         const { payload: { address: { id } } } = this.props;
 
         if (!isSignedIn()) {
@@ -130,16 +135,28 @@ export class MyAccountAddressPopupContainer extends PureComponent {
 
         this.setState({ isLoading: true });
         const query = MyAccountQuery.getDeleteAddressMutation(id);
-        fetchMutation(query).then(this.handleAfterAction, this.handleError);
+
+        try {
+            await fetchMutation(query);
+            this.handleAfterAction();
+        } catch (e) {
+            this.handleError(e);
+        }
     }
 
-    handleCreateAddress(address) {
+    async handleCreateAddress(address) {
         if (!isSignedIn()) {
             return;
         }
 
         const query = MyAccountQuery.getCreateAddressMutation(address);
-        fetchMutation(query).then(this.handleAfterAction, this.handleError);
+
+        try {
+            await fetchMutation(query);
+            this.handleAfterAction();
+        } catch (e) {
+            this.handleError(e);
+        }
     }
 
     render() {
