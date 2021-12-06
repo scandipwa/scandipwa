@@ -127,7 +127,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     async addAllToCart() {
         if (!isSignedIn()) {
-            await Promise.reject();
+            return;
         }
 
         this.setState({ isLoading: true });
@@ -138,11 +138,14 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     async addAllToCartAsync() {
         const { moveWishlistToCart } = this.props;
 
+        if (!isSignedIn) {
+            return;
+        }
+
         try {
             await moveWishlistToCart();
         } catch (error) {
             this.showErrorAndRemoveLoading(getErrorMessage(error));
-            await Promise.reject();
         }
     }
 
