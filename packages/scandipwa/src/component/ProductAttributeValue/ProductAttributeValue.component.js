@@ -269,20 +269,34 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    getCheckboxLabel = (label, subLabel) => (
-        <span
-          block="ProductAttributeValue"
-          elem="Label"
-        >
-            { label }
+    renderSublabel = (subLabel) => {
+        if (!subLabel) {
+            return null;
+        }
+
+        return (
             <strong
               block="ProductAttributeValue"
               elem="SubLabel"
             >
-                { subLabel ? `(${subLabel})` : undefined }
+              { `(${subLabel})` }
             </strong>
-        </span>
-    );
+        );
+    };
+
+    getCheckboxLabel = (label) => {
+        const { isProductCountVisible } = this.props;
+
+        return (
+            <span
+              block="ProductAttributeValue"
+              elem="Label"
+            >
+                { label }
+                { isProductCountVisible && this.renderSublabel() }
+            </span>
+        );
+    };
 
     renderDropdown(value, subLabel) {
         const { isSelected } = this.props;
@@ -307,7 +321,7 @@ export class ProductAttributeValue extends PureComponent {
     }
 
     renderStringValue(value, label, count) {
-        const { isFormattedAsText, isSelected, isProductCountVisible } = this.props;
+        const { isFormattedAsText, isSelected } = this.props;
         const isSwatch = label;
 
         if (isFormattedAsText) {
@@ -315,7 +329,7 @@ export class ProductAttributeValue extends PureComponent {
         }
 
         if (!isSwatch) {
-            return this.renderDropdown(value, isProductCountVisible ? count : null);
+            return this.renderDropdown(value, count);
         }
 
         return (
