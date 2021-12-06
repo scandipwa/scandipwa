@@ -64,6 +64,8 @@ export class CheckoutBilling extends PureComponent {
 
     setTACAccepted = this.setTACAccepted.bind(this);
 
+    handleShowPopup = this.handleShowPopup.bind(this);
+
     componentDidMount() {
         const { termsAreEnabled } = this.props;
 
@@ -136,6 +138,7 @@ export class CheckoutBilling extends PureComponent {
                       block="CheckoutBilling"
                       elem="TACLink"
                       onClick={ this.handleShowPopup }
+                      type="button"
                     >
                         { __('read more') }
                     </button>

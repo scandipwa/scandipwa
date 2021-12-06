@@ -33,7 +33,7 @@ export class MyAccountPasswordForm extends FieldForm {
 
     getFormProps() {
         return {
-            onSubmit: this.onFormSuccess
+            onSubmit: this.onFormSuccess.bind(this)
         };
     }
 
