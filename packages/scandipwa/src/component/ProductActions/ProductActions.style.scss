@@ -220,7 +220,7 @@
             &:not([disabled]) {
                 cursor: pointer;
             }
-            &disabled {
+            &:disabled {
                 cursor: default;
             }
             &:hover {
