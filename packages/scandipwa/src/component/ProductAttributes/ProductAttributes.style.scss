@@ -72,6 +72,10 @@
         grid-template-columns: 1fr 1fr;
         justify-content: center;
         align-items: flex-start;
+
+        @include mobile {
+            line-height: 20px;
+        }
     }
 
     &-ValueLabel,
