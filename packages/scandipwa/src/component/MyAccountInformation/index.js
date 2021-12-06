@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const CUSTOMER_POPUP_ID = 'MyAccountCustomerPopup';
-export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
-export const EDIT_CUSTOMER = 'EDIT_CUSTOMER';
+export { default } from './MyAccountInformation.container';

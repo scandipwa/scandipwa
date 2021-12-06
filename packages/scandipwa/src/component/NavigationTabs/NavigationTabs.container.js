@@ -11,10 +11,11 @@
 
 import { connect } from 'react-redux';
 
-import { CART, MY_ACCOUNT } from 'Component/Header/Header.config';
+import { CART } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import {
-    ACCOUNT_LOGIN_URL
+    ACCOUNT_LOGIN_URL,
+    ACCOUNT_URL
 } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -60,8 +61,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     scrollPosition = 0;
 
     routeMap = {
-        '/account': { name: ACCOUNT_TAB },
-        '/my-account': { name: ACCOUNT_TAB },
+        '/customer/account': { name: ACCOUNT_TAB },
         '/checkout': { name: CHECKOUT_TAB },
         '/cart': { name: CART_TAB },
         '/': { name: HOME_TAB },
@@ -195,7 +195,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     onMyAccountButtonClick() {
         const { pathname } = location;
-        const url = appendWithStoreCode(isSignedIn() ? `/${ MY_ACCOUNT }` : ACCOUNT_LOGIN_URL);
+        const url = appendWithStoreCode(isSignedIn() ? `${ ACCOUNT_URL }` : ACCOUNT_LOGIN_URL);
 
         if (pathname !== url) {
             browserHistory.push(url);

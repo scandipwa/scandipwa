@@ -60,7 +60,7 @@ export const isSignedIn = () => {
 
         const MyAccountDispatcher = import('../../store/MyAccount/MyAccount.dispatcher');
         MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.logout(true, dispatch)
+            ({ default: dispatcher }) => dispatcher.logout(true, true, dispatch)
         );
     } else if (_isSignedIn && isCustomerSignedIn) {
         refreshAuthorizationToken();

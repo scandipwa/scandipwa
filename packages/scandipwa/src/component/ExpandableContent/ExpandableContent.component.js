@@ -43,6 +43,7 @@ export class ExpandableContent extends PureComponent {
             if (typeof propValue === 'function') {
                 return;
             }
+
             throw new Error(`${componentName} only accepts null or string`);
         }
     };
