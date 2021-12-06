@@ -84,6 +84,15 @@
 
         @include mobile {
             margin-inline-start: 14px;
+
+            color: var(--h2-color-mobile);
+            font-size: 18px;
+            font-style: var(--h2-font-style-mobile);
+            font-weight: var(--h2-font-weight-mobile);
+            line-height: 24px;
+            margin-block-end: 21px;
+            margin-block-start: 25px;
+            text-transform: var(--h2-text-transform-mobile);
         }
 
         span {
