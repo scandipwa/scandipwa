@@ -58,6 +58,10 @@
         font-size: 14px;
         line-height: 20px;
         margin-block: 16px;
+        
+        div[itemprop="description"] li:before{
+            position: static;
+        }
     }
 
     &-Stock {
