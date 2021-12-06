@@ -552,7 +552,8 @@ export class ProductListQuery {
     }
 
     _getPriceRangeField() {
-        return new Field('price_range')
+        return new Field('s_price_range')
+            .setAlias('price_range')
             .addFieldList(this._getPriceRangeFields());
     }
 
