@@ -308,6 +308,7 @@
             @include mobile {
                 opacity: 1;
                 max-width: calc(100% - 80px);
+                line-height: 28px;
             }
         }
     }
