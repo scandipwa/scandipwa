@@ -49,10 +49,18 @@
     &-HighPrice {
         color: var(--price-color);
         line-height: 18px;
+
+        @include desktop {
+            line-height: 14px;
+        }
     }
 
     &-PriceValue {
         margin-block-start: 6px;
+
+        @include desktop {
+            line-height: 28px;
+        }
     }
 
     &, &-BundleFrom, &-BundleTo {
@@ -79,6 +87,10 @@
         font-size: 12px;
         line-height: 16px;
         margin-block-start: 4px;
+
+        @include desktop {
+            line-height: 16px;
+        }
     }
 
     &-PriceBadge {
@@ -86,5 +98,9 @@
         font-weight: 400;
         margin-inline-end: 4px;
         white-space: nowrap;
+
+        @include desktop {
+            line-height: 20px;
+        }
     }
 }
