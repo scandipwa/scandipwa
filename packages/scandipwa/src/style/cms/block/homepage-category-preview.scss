@@ -82,6 +82,7 @@
         min-height: 48px;
         flex-wrap: wrap;
         padding-block: 10px;
+        overflow-wrap: break-word;
 
         @include desktop {
             max-width: 20vw;
