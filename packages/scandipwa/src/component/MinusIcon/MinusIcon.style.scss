@@ -12,7 +12,7 @@
 .MinusIcon {
     @include icon-black-hover-effect;
 
-    cursor: default;
+    cursor: pointer;
     height: var(--plus-minus-icon-size);
     width: var(--plus-minus-icon-size);
 

@@ -129,7 +129,8 @@ textarea {
         }
 
         &:disabled {
-            @include button-disabled;
+            opacity: .25;
+            cursor: default;
         }
 
         span {
