@@ -101,7 +101,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         });
     };
 
-    onCustomerSave(form, fields) {
+    async onCustomerSave(form, fields) {
         const {
             updateCustomer,
             customer: {
@@ -119,24 +119,23 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         const mutation = MyAccountQuery.getUpdateInformationMutation(customer);
 
         if (!isSignedIn()) {
-            return null;
+            return;
         }
 
         this.setState({ isLoading: true });
 
-        return fetchMutation(mutation).then(
-            /** @namespace Component/MyAccountNewsletterSubscription/Container/MyAccountNewsletterSubscriptionContainer/onCustomerSave/fetchMutation/then */
-            ({ updateCustomer: { customer } }) => {
-                BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
-                const { is_subscribed } = customer;
+        try {
+            const { updateCustomerV2: { customer } } = await fetchMutation(mutation);
+            BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
+            const { is_subscribed } = customer;
 
-                this.setState({ isLoading: false }, () => {
-                    updateCustomer(customer);
-                    this.showSubscriptionUpdateNotification(is_subscribed, wasSubscribed);
-                });
-            },
-            this.onError
-        );
+            this.setState({ isLoading: false }, () => {
+                updateCustomer(customer);
+                this.showSubscriptionUpdateNotification(is_subscribed, wasSubscribed);
+            });
+        } catch (e) {
+            this.onError(e);
+        }
     }
 
     render() {

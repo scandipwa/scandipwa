@@ -37,7 +37,7 @@ export class CarouselScrollItemContainer extends PureComponent {
         onClick: this.onClick.bind(this)
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             isActive,
             itemRef,
@@ -49,7 +49,7 @@ export class CarouselScrollItemContainer extends PureComponent {
             itemRef,
             children
         };
-    };
+    }
 
     onClick() {
         const { onClick, position } = this.props;

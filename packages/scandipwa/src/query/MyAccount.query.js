@@ -48,16 +48,25 @@ export class MyAccountQuery {
     }
 
     getUpdateInformationMutation(options) {
-        return new Field('updateCustomer')
-            .addArgument('input', 'CustomerInput!', options)
+        return new Field('updateCustomerV2')
+            .addArgument('input', 'CustomerUpdateInput!', options)
+            .addField(this._getCustomerField());
+    }
+
+    getUpdateEmailMutation(options) {
+        const { email, password } = options;
+
+        return new Field('updateCustomerEmail')
+            .addArgument('email', 'String!', email)
+            .addArgument('password', 'String!', password)
             .addField(this._getCustomerField());
     }
 
     getChangeCustomerPasswordMutation(options) {
-        const { currentPassword, newPassword } = options;
+        const { password, newPassword } = options;
 
         return new Field('changeCustomerPassword')
-            .addArgument('currentPassword', 'String!', currentPassword)
+            .addArgument('currentPassword', 'String!', password)
             .addArgument('newPassword', 'String!', newPassword)
             .addField('id')
             .addField('email');
