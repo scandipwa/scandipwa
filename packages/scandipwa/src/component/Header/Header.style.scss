@@ -200,7 +200,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 11px;
+        font-size: 80%;
         font-weight: 700;
 
         @include desktop{
@@ -249,7 +249,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 11px;
+            font-size: 80%;
             font-weight: 700;
 
             @include mobile {
