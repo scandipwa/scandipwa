@@ -136,11 +136,12 @@
     &-Total,
     &-Tax,
     &-Discount {
+        word-wrap: break-word;
         display: flex;
         justify-content: space-between;
         padding-block-start: 12px;
         padding-block-end: 6px;
-        padding-inline: 12px;
+        padding-inline: 16px;
 
         background: var(--cart-overlay-totals-background);
 
@@ -152,6 +153,10 @@
 
         dd {
             text-align: end;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            white-space: nowrap;
 
             span {
                 display: block;
@@ -159,6 +164,10 @@
                 font-weight: 400;
             }
         }
+    }
+
+    &-DiscountCoupon {
+        word-break: break-word;
     }
 
     &-Total {

@@ -77,11 +77,7 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderItem = (item) => {
-        const {
-            totals: {
-                quote_currency_code
-            }
-        } = this.props;
+        const { totals: { quote_currency_code } } = this.props;
 
         const { item_id } = item;
 
@@ -108,8 +104,14 @@ export class CheckoutOrderSummary extends PureComponent {
         }
 
         const label = coupon_code ? __('Coupon code discount') : __('Discount');
-
-        return this.renderPriceLine(-Math.abs(discount_amount), label);
+        const discount = -Math.abs(discount_amount);
+        return (
+            <CheckoutOrderSummaryPriceLine
+              price={ discount }
+              title={ label }
+              coupon_code={ coupon_code }
+            />
+        );
     }
 
     renderItems() {

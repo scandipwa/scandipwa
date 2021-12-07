@@ -109,9 +109,12 @@
 
                     text-transform: uppercase;
                     font-weight: 700;
+                    line-height: 20px;
                 }
 
                 &_subcategory {
+                    line-height: 20px;
+
                     @include mobile {
                         margin-inline-end: 0;
                     }

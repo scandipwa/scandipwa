@@ -232,7 +232,8 @@ export class MyAccountContainer extends PureComponent {
     componentDidUpdate(prevProps, prevState) {
         const {
             wishlistItems: prevWishlistItems,
-            isSignedIn: prevIsSignedIn
+            isSignedIn: prevIsSignedIn,
+            location: prevLocation
         } = prevProps;
 
         const {
@@ -243,7 +244,7 @@ export class MyAccountContainer extends PureComponent {
         const { activeTab: prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
-        this.redirectIfNotSignedIn();
+        this.redirectIfNotSignedIn(prevLocation);
 
         if (prevIsSignedIn !== currIsSignedIn) {
             this.changeMyAccountHeaderState();
@@ -409,12 +410,15 @@ export class MyAccountContainer extends PureComponent {
         updateBreadcrumbs(breadcrumbs);
     }
 
-    redirectIfNotSignedIn() {
+    redirectIfNotSignedIn(prevLocation) {
         const {
             isMobile,
             baseLinkUrl,
-            showNotification
+            showNotification,
+            selectedTab,
+            location: { pathname = '' }
         } = this.props;
+        const { pathname: prevPathname } = prevLocation || {};
 
         if (isSignedIn()) { // do nothing for signed-in users
             return;
@@ -424,9 +428,17 @@ export class MyAccountContainer extends PureComponent {
             return;
         }
 
+        if (pathname === prevPathname) { // do not redirect in case if it is same url as previous
+            return;
+        }
+
+        if (selectedTab) { // do redirect if it is customer url
+            history.replace({ pathname: ACCOUNT_LOGIN_URL });
+        }
+
         const path = baseLinkUrl
             ? appendWithStoreCode(ACCOUNT_LOGIN_URL)
-            : replace(/\/customer\/account\/.*/, ACCOUNT_LOGIN_URL);
+            : replace(/\/customer\/account\/?.*/i, ACCOUNT_LOGIN_URL);
 
         history.replace({ pathname: path });
         showNotification('info', __('Please, sign in to access this page contents!'));

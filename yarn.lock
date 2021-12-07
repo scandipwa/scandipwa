@@ -2803,41 +2803,41 @@
   dependencies:
     "@tilework/mosaic-dev-utils" "0.1.6"
 
-"@tilework/eslint-plugin-mosaic@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@tilework/eslint-plugin-mosaic/-/eslint-plugin-mosaic-0.0.8.tgz#1325ced067560d34f56b4f4ffd60729a952eefdf"
-  integrity sha512-V36zB3D9OBpfzLCgfsvne512mNI3yoEiccl0FDmBXbn90jb+PZh1MQL8c/i2zOQaiwGgwVWMbIdjKbG63A9qGA==
+"@tilework/eslint-plugin-mosaic@0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@tilework/eslint-plugin-mosaic/-/eslint-plugin-mosaic-0.0.9.tgz#55389cf14514e704534278700b0e46e83bec7cd2"
+  integrity sha512-hFGqZo40iNA2g710Vnlv9sC78dZtwd0or+XqmevWQ7pK99pqjqmTJmQUNE6sS0vGyt0aydSBwH08aItgNIQdXg==
   dependencies:
     eslint-traverse "^1.0.0"
     requireindex "~1.1.0"
 
-"@tilework/mosaic-config-injectors@0.1.15":
-  version "0.1.15"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-config-injectors/-/mosaic-config-injectors-0.1.15.tgz#5963f0a7a535a10db840a71ab1d377c5dafc14d9"
-  integrity sha512-EQeCQV9oXQ/M8CKp+4Tk2YGpCUIJegSlL+vgYrIbZfaKFedeFfe8AdBrKNjkaqsW6zg+Cy+qQsbSAQ51N4Znvg==
+"@tilework/mosaic-config-injectors@0.1.17":
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-config-injectors/-/mosaic-config-injectors-0.1.17.tgz#44c4a05c1fe423a235ee9ff2f2c85d576a2e2dc2"
+  integrity sha512-7pYEdALgki6D6QNPwL21YCS50IYJMiURkPzC1EXyZ3HqJ139l0J1UrM7DNyc9D1xU/f9bE1sL+K7dYM8oHkKGQ==
   dependencies:
     "@babel/plugin-transform-arrow-functions" "7.13.0"
     "@babel/plugin-transform-async-to-generator" "7.13.0"
     "@tilework/babel-plugin-mosaic-middleware-decorator" "0.0.14"
     "@tilework/mosaic-craco" "0.0.5"
     "@tilework/mosaic-dev-utils" "0.1.6"
-    "@tilework/mosaic-webpack-fallback-plugin" "0.0.12"
+    "@tilework/mosaic-webpack-fallback-plugin" "0.0.13"
     "@tilework/mosaic-webpack-import-loader" "0.0.12"
     babel-loader "8.1.0"
     babel-plugin-module-resolver "^4.1.0"
     deepmerge "^4.2.2"
     globby "^11.0.2"
 
-"@tilework/mosaic-cra-scripts@0.1.17":
-  version "0.1.17"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-cra-scripts/-/mosaic-cra-scripts-0.1.17.tgz#ab08f3a6ac39419933ce75139c85d1f6744019d6"
-  integrity sha512-ASofnREXeS/sDs8Bos63l3gVemWNe3hQT71YG/dAGelMfMfRLnVVv2b82yP69m+x3F32NkEHnGk8rsORfsWgGQ==
+"@tilework/mosaic-cra-scripts@0.1.19":
+  version "0.1.19"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-cra-scripts/-/mosaic-cra-scripts-0.1.19.tgz#fed7e2a918dfe2db01f182bfae0e764998edf3b9"
+  integrity sha512-nscHoMSHKYO+WjuxrVU9XlFwzYW/cbH8WloAga84OTCMalYJu77nTf6+OWJqVVb+rKdcLtlF6zUSZigKodm6Lw==
   dependencies:
-    "@tilework/mosaic-config-injectors" "0.1.15"
+    "@tilework/mosaic-config-injectors" "0.1.17"
     "@tilework/mosaic-craco" "0.0.5"
     "@tilework/mosaic-dev-utils" "0.1.6"
-    "@tilework/mosaic-test-utils" "0.0.26"
-    "@tilework/mosaic-webpack-fallback-plugin" "0.0.12"
+    "@tilework/mosaic-test-utils" "0.0.28"
+    "@tilework/mosaic-webpack-fallback-plugin" "0.0.13"
     babel-jest "26.6.3"
     babel-plugin-module-resolver "^4.0.0"
     babel-plugin-transform-rebem-jsx "^0.3.3"
@@ -2897,16 +2897,16 @@
     memoizee "^0.4.15"
     node-fetch "^2.6.1"
 
-"@tilework/mosaic-nextjs-scripts@0.1.18":
-  version "0.1.18"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-nextjs-scripts/-/mosaic-nextjs-scripts-0.1.18.tgz#529ab6d774e7f0125b0580642b9cddd236aa8709"
-  integrity sha512-y2pGZU7eg7d6R+G/CvTkfcARzjlO3e/lpErNORV4rajjyDYCiuhpTaAOVdek93leT25OTbw7s44I54+7pNliXQ==
+"@tilework/mosaic-nextjs-scripts@0.1.20":
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-nextjs-scripts/-/mosaic-nextjs-scripts-0.1.20.tgz#9bdc3ed865e8d7052ea38fe0c6dba2ffdd812293"
+  integrity sha512-KTjeNnysmSJv6XWluPK2zhZr2oGy0it5pm9LqeJwSKaorMchZiCzolETAi2rU+S20GtCBa0Pr7fLE2bERLreig==
   dependencies:
     "@babel/core" "^7.14.0"
     "@babel/preset-react" "^7.13.13"
-    "@tilework/mosaic-config-injectors" "0.1.15"
+    "@tilework/mosaic-config-injectors" "0.1.17"
     "@tilework/mosaic-dev-utils" "0.1.6"
-    "@tilework/mosaic-test-utils" "0.0.26"
+    "@tilework/mosaic-test-utils" "0.0.28"
     chokidar "^3.5.1"
     cross-spawn "^7.0.0"
     debounce "^1.2.0"
@@ -2918,17 +2918,17 @@
     resolve "^1.20.0"
     tree-kill "^1.2.2"
 
-"@tilework/mosaic-test-utils@0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-test-utils/-/mosaic-test-utils-0.0.26.tgz#5187e569db63e6168503ed827b3ff3df7e477723"
-  integrity sha512-CzFDalNI27nWZIC90c/QyHvInnybtGVvTKGoFxcYmRPzBI6KUjEEs5cxI3PZpJ+JKYT2ATl+kM4Gohq+vxbgDw==
+"@tilework/mosaic-test-utils@0.0.28":
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-test-utils/-/mosaic-test-utils-0.0.28.tgz#fb8ad19d4a349f21acc61b62ff064357c9471283"
+  integrity sha512-G+0+QtXtO7IJOVT7GvgBwnP2AwmHBlniElROwuvMp9ODhJCUmT2EVnQieKe5qttcjz6HV0PIxxh+BAYtW8BMMw==
   dependencies:
     "@testing-library/jest-dom" "^5.11.4"
     "@testing-library/react" "^11.2.6"
     "@tilework/mosaic" "0.1.4"
-    "@tilework/mosaic-config-injectors" "0.1.15"
+    "@tilework/mosaic-config-injectors" "0.1.17"
     "@tilework/mosaic-dev-utils" "0.1.6"
-    "@tilework/mosaic-nextjs-scripts" "0.1.18"
+    "@tilework/mosaic-nextjs-scripts" "0.1.20"
     babel-jest "26.6.3"
     babel-preset-react-app "10.0.0"
     react "17.0.1"
@@ -2940,10 +2940,10 @@
   dependencies:
     "@tilework/mosaic-dev-utils" "^0.1.4"
 
-"@tilework/mosaic-webpack-fallback-plugin@0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-fallback-plugin/-/mosaic-webpack-fallback-plugin-0.0.12.tgz#cb080eec97674eada097e489dbc1bb8e1247bcbb"
-  integrity sha512-4PBQokeZ08uI6yzAzZmR0R+kMLU+/Z+4sPj6r3YNYTrcCDcOdnZSD4rREeXlHlUUfcj6c71v7ImE3LP7dk4Etw==
+"@tilework/mosaic-webpack-fallback-plugin@0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-fallback-plugin/-/mosaic-webpack-fallback-plugin-0.0.13.tgz#d14c997a286d565b26c1661443d762ddff9278d2"
+  integrity sha512-Bn+I/NDYzzWQjyvm/IR9NsPJkM3UzM83hYjPQZ0GXCfogYyzLh67qaK9cH1qDO1tAUBxRR0466OP8c3Ura6boQ==
   dependencies:
     "@tilework/mosaic-dev-utils" "0.1.6"
 

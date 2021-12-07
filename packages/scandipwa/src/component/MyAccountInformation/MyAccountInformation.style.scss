@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
- .MyAccountInformation {    
+ .MyAccountInformation {
     &-Wrapper {
         .Form {
             .FieldForm {
@@ -51,7 +51,7 @@
         min-width: 110px;
 
         @include desktop {
-            margin-block-start: 30px; 
+            margin-block-start: 30px;
         }
     }
 }

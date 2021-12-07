@@ -121,10 +121,12 @@ export class CartCoupon extends PureComponent {
 
         return (
             <>
-                <p block="CartCoupon" elem="Message">
-                    { __('Applied coupon code: ') }
-                    <strong>{ couponCode.toUpperCase() }</strong>
-                </p>
+                <div block="CartCoupon" elem="Message">
+                    <p block="CartCoupon" elem="MessageText">
+                        { __('Applied coupon code: ') }
+                        <strong>{ couponCode.toUpperCase() }</strong>
+                    </p>
+                </div>
                 <button
                   block="CartCoupon"
                   elem="Button"
