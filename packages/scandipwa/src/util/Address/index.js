@@ -135,14 +135,7 @@ export const removeEmptyStreets = (street) => (
 );
 
 /** @namespace Util/Address/Index/trimAddressFields */
-export const trimAddressFields = (fields) => {
-    const {
-        region_string: region,
-        ...fieldsData
-    } = fields;
-
-    return { ...fieldsData, region };
-};
+export const trimAddressFields = (fields) => fields;
 
 /** transforming "street[index]" entries into a single "street" object
     for checkout/billing/myAccoutAddress form fields object */
