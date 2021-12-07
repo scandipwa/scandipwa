@@ -119,6 +119,10 @@
     &-ReviewAuthor {
         margin-block: 15px 0;
         font-size: 12px;
+
+        @include mobile {
+            line-height: 20px;
+        }
     }
 
     &-ReviewDetails {
@@ -127,6 +131,7 @@
 
         @include mobile {
             margin-block-end: 14px;
+            line-height: 20px;
         }
 
         .TextPlaceholder {
@@ -149,5 +154,9 @@
 
     &-RatingItem {
         margin-block: auto;
+
+        @include mobile {
+            line-height: 20px;
+        }
     }
 }

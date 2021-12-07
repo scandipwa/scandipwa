@@ -24,6 +24,10 @@
     align-items: flex-end;
     line-height: normal;
 
+    @include mobile {
+        line-height: 20px;
+    }
+
     &_isLoading {
         &::before {
             background-image: var(--placeholder-image);
