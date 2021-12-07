@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 
-import CategoryPagination from 'Component/CategoryPagination';
 import Loader from 'Component/Loader';
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
+import Pagination from 'Component/Pagination';
 import { DeviceType } from 'Type/Device.type';
 import { OrdersListType } from 'Type/Order.type';
 
@@ -74,7 +74,7 @@ export class MyAccountMyOrders extends Component {
         );
     }
 
-    renderOrderRow = (order) => {
+    renderOrderRow(order) {
         const { id } = order;
 
         return (
@@ -83,7 +83,7 @@ export class MyAccountMyOrders extends Component {
               order={ order }
             />
         );
-    };
+    }
 
     renderOrderRows() {
         const { orderList: { items = [] }, isLoading } = this.props;
@@ -109,7 +109,7 @@ export class MyAccountMyOrders extends Component {
         } = this.props;
 
         return (
-            <CategoryPagination
+            <Pagination
               isLoading={ isLoading }
               totalPages={ total_pages }
             />

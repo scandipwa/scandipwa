@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ORDER_REFUNDS } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { OrderTotalType } from 'Type/Order.type';
 import { formatPrice } from 'Util/Price';
 
@@ -22,17 +21,18 @@ import './MyAccountOrderTotals.style';
 export class MyAccountOrderTotals extends PureComponent {
     static propTypes = {
         total: OrderTotalType.isRequired,
-        activeTab: PropTypes.string.isRequired
+        colSpanPriceCount: PropTypes.string.isRequired,
+        colSpanLabelCount: PropTypes.string.isRequired
     };
 
     renderTax(tax) {
-        const { activeTab } = this.props;
+        const { colSpanPriceCount, colSpanLabelCount } = this.props;
         const { amount: { value, currency }, title, rate } = tax;
 
         return (
             <tr key={ `${title}-${rate}` }>
-                <th colSpan={ activeTab === ORDER_REFUNDS ? '6' : '4' }>{ `${title} (${rate})` }</th>
-                <td>{ formatPrice(value, currency) }</td>
+                <th colSpan={ colSpanLabelCount }>{ `${title} (${rate})` }</th>
+                <td colSpan={ colSpanPriceCount }>{ formatPrice(value, currency) }</td>
             </tr>
         );
     }
@@ -82,14 +82,16 @@ export class MyAccountOrderTotals extends PureComponent {
     }
 
     renderPriceLine(title, price, mix = {}) {
-        const { total: { grand_total: { currency } }, activeTab } = this.props;
-
-        const colSpanCount = activeTab === ORDER_REFUNDS ? '6' : '4';
+        const {
+            total: { grand_total: { currency } },
+            colSpanLabelCount,
+            colSpanPriceCount
+        } = this.props;
 
         return (
             <tr mix={ mix }>
-                <th colSpan={ colSpanCount }>{ title }</th>
-                <td>{ formatPrice(price, currency) }</td>
+                <th colSpan={ colSpanLabelCount }>{ title }</th>
+                <td colSpan={ colSpanPriceCount }>{ formatPrice(price, currency) }</td>
             </tr>
         );
     }

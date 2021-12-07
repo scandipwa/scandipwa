@@ -24,7 +24,7 @@ export const getFormattedDate = (rawDate = '') => {
 };
 
 /** @namespace Util/Orders/formatOrders */
-export const formatOrders = (orders) => orders.reduce((acc, order) => {
+export const formatOrders = (orders) => orders.reduceRight((acc, order) => {
     const { order_date, id: uid } = order;
     const formattedDate = getFormattedDate(order_date);
 

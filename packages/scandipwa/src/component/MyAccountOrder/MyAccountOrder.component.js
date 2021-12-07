@@ -66,7 +66,7 @@ export class MyAccountOrder extends PureComponent {
             tabName: ORDER_INVOICES,
             title: __('Invoices'),
             shouldTabRender: () => {
-                const { order: { invoices = {} } } = this.props;
+                const { order: { invoices = [] } } = this.props;
 
                 return invoices.length;
             },
@@ -81,7 +81,7 @@ export class MyAccountOrder extends PureComponent {
             tabName: ORDER_SHIPMENTS,
             title: __('Order Shipments'),
             shouldTabRender: () => {
-                const { order: { shipments = {} } } = this.props;
+                const { order: { shipments = [] } } = this.props;
 
                 return shipments.length;
             },

@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export { default } from './MyAccountOrderTotals.component';
+export { default } from './MyAccountOrderTotals.container';

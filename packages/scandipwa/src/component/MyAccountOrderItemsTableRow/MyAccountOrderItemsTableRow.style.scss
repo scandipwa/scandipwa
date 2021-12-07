@@ -47,13 +47,13 @@
         tr {
             &:first-child {
                 td:first-child {
-                   padding-block-start: 15px; 
+                   padding-block-start: 15px;
                 }
             }
 
             &:last-child {
                 td:last-child {
-                    padding-block-end: 15px; 
+                    padding-block-end: 15px;
                 }
             }
         }
@@ -104,7 +104,7 @@
 
     &-EnteredLabel {
         td {
-            padding-inline-start: 10;
+            padding-inline-start: 10px;
             background-color: var(--color-gray);
 
             @include desktop {
