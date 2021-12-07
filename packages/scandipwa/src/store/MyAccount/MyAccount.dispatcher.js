@@ -87,9 +87,10 @@ export class MyAccountDispatcher {
 
             this.handleForceRedirectToLoginPage();
         } else {
-            const mutation = MyAccountQuery.getRevokeAccountToken();
-            fetchMutation(mutation);
-            deleteAuthorizationToken();
+            if (isSignedIn) {
+                fetchMutation(MyAccountQuery.getRevokeAccountToken());
+                deleteAuthorizationToken();
+            }
 
             if (isWithNotification) {
                 dispatch(showNotification('success', __('You are successfully logged out!')));

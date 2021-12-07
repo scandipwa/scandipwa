@@ -10,4 +10,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_WISHLIST_FREQUENCY = 800; // (ms)
+export const UPDATE_ZIPCODE_FREQUENCY = 500;

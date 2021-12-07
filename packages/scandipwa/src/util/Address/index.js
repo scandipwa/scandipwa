@@ -183,15 +183,16 @@ export const getFormFields = (fields, addressLinesQty) => {
 
 /** @namespace Util/Address/Index/getCityAndRegionFromZipcode */
 export const getCityAndRegionFromZipcode = async (countryId, value) => {
-    const response = await fetch(`https://api.zippopotam.us/${countryId}/${value.split(' ')[0]}`);
+    const response = await fetch(`https://api.zippopotam.us/${countryId}/${value}`);
     const data = await response.json();
 
     return data && Object.entries(data).length > 0
-        ? [
-            data.places[0]['place name'],
-            data.places[0]['state abbreviation']
-        ]
-        : [null, null];
+        ? {
+            city: data.places[0]['place name'],
+            region: data.places[0].state,
+            regionAbbr: data.places[0]['state abbreviation']
+        }
+        : null;
 };
 
 /** @namespace Util/Address/Index/getDefaultAddressLabel */
@@ -245,6 +246,16 @@ export const getFormattedRegion = (address, countries) => {
         country: label,
         region: name
     };
+};
+
+/** @namespace Util/Address/Index/getRegionIdFromAvailableRegions */
+export const getRegionIdFromAvailableRegions = (availableRegions, cityAndRegion) => {
+    const { region, regionAbbr } = cityAndRegion;
+    const { id: regionId = 1 } = availableRegions.find(
+        ({ name, code }) => name === region || code === regionAbbr
+    ) || {};
+
+    return regionId;
 };
 
 /** @namespace Util/Address/Index/checkIfStoreIncluded */

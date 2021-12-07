@@ -589,5 +589,7 @@
     "Shipment": null,
     "Refund": null,
     "SKU": null,
-    "Confirm New password": null
+    "Confirm New password": null,
+    "Incorrect File extension upload!": null,
+    "Coupon code discount ": null
 }

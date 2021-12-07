@@ -100,7 +100,7 @@
         &_menu,
         &_search,
         &_menu_subcategory {
-            border-block-end: none;
+            border-block-end: 1px solid var(--primary-divider-color);
         }
 
         &_category {
