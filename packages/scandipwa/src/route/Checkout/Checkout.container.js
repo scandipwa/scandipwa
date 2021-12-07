@@ -14,8 +14,10 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
+import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
 import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
@@ -67,7 +69,8 @@ export const mapStateToProps = (state) => ({
     countries: state.ConfigReducer.countries,
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
     isMobile: state.ConfigReducer.device.isMobile,
-    isInStoreActivated: state.ConfigReducer.delivery_instore_active
+    isInStoreActivated: state.ConfigReducer.delivery_instore_active,
+    isGuestNotAllowDownloadable: state.ConfigReducer.downloadable_disable_guest_checkout
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
@@ -141,7 +144,8 @@ export class CheckoutContainer extends PureComponent {
         setHeaderState: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
         cartTotalSubPrice: PropTypes.number,
-        isInStoreActivated: PropTypes.bool.isRequired
+        isInStoreActivated: PropTypes.bool.isRequired,
+        isGuestNotAllowDownloadable: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -210,6 +214,7 @@ export class CheckoutContainer extends PureComponent {
             showInfoNotification,
             guest_checkout,
             updateMeta,
+            isGuestNotAllowDownloadable,
             totals: {
                 items = []
             }
@@ -223,6 +228,11 @@ export class CheckoutContainer extends PureComponent {
         // if guest checkout is disabled and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
             history.push(appendWithStoreCode('/'));
+        }
+
+        // if guest is not allowed to checkout with downloadable => redirect to login page
+        if (!isSignedIn() && isGuestNotAllowDownloadable) {
+            this.handleRedirectIfDownloadableInCart();
         }
 
         updateMeta({ title: __('Checkout') });
@@ -309,6 +319,19 @@ export class CheckoutContainer extends PureComponent {
             },
             this._handleError
         );
+    }
+
+    handleRedirectIfDownloadableInCart() {
+        const { totals: { items }, showInfoNotification } = this.props;
+
+        const isDownloadable = items.find(({ product }) => product.type_id === PRODUCT_TYPE.downloadable);
+
+        if (!isDownloadable) {
+            return;
+        }
+
+        showInfoNotification(__('Please sign in or remove downloadable products from cart!'));
+        history.push(appendWithStoreCode(ACCOUNT_LOGIN_URL));
     }
 
     handleSelectDeliveryMethod() {
