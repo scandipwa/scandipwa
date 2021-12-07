@@ -80,6 +80,12 @@
     &-Sku {
         order: 1;
 
+        @include mobile {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+        }
+
         & + .ProductActions-Sku {
             margin-inline-start: 1ex;
         }
