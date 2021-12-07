@@ -134,9 +134,6 @@ export const removeEmptyStreets = (street) => (
     Array.isArray(street) ? street.filter((line) => line) : street
 );
 
-/** @namespace Util/Address/Index/trimAddressFields */
-export const trimAddressFields = (fields) => fields;
-
 /** transforming "street[index]" entries into a single "street" object
     for checkout/billing/myAccoutAddress form fields object */
 /** @namespace Util/Address/Index/setAddressesInFormObject */
