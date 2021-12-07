@@ -12,7 +12,7 @@
 :root {
     --price-color: #{$black};
     --price-with-discount-color: #b10d0d;
-    --price-discount-color: #808080;
+    --price-discount-color: #0A0903;
 }
 
 .ProductPrice {
@@ -41,13 +41,10 @@
     del {
         font-size: 14px;
         font-weight: 500;
-        opacity: .50;
+        opacity: .48;
         display: inline-block;
         margin-inline-end: 12px;
-
-        @include desktop {
-            opacity: 0.48;
-        }
+        
     }
 
     &-HighPrice {
@@ -56,7 +53,6 @@
 
         @include desktop {
             line-height: 14px;
-            color: #0A0903;
         }
     }
 
