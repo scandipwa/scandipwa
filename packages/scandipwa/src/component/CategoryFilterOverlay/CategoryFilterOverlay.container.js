@@ -195,7 +195,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         );
     }
 
-    historyBackHook = () => {
+    historyBackHook() {
         const {
             goToPreviousNavigationState,
             customFiltersValues,
@@ -210,7 +210,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             hideActiveOverlay();
             goToPreviousHeaderState();
         }
-    };
+    }
 
     onHide() {
         window.removeEventListener('popstate', this.historyBackHook);

@@ -475,12 +475,14 @@ export class StyleGuidePageComponent extends PureComponent {
         );
     }
 
-    renderItem = (title, render) => (
-        <div block="StyleGuidePage" elem="Component" key={ title }>
-            <h1 block="StyleGuidePage" elem="Heading">{ title }</h1>
-            { render() }
-        </div>
-    );
+    renderItem(title, render) {
+        return (
+            <div block="StyleGuidePage" elem="Component" key={ title }>
+                <h1 block="StyleGuidePage" elem="Heading">{ title }</h1>
+                { render() }
+            </div>
+        );
+    }
 
     render() {
         return (

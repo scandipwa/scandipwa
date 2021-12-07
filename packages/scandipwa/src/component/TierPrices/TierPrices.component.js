@@ -27,7 +27,7 @@ export class TierPrices extends PureComponent {
         isLowestPrice: false
     };
 
-    renderDetailedTierPrice = ({
+    renderDetailedTierPrice({
         discount: {
             percent_off
         },
@@ -36,7 +36,7 @@ export class TierPrices extends PureComponent {
             currency
         },
         quantity
-    }) => {
+    }) {
         const {
             product: {
                 price_range: {
@@ -71,7 +71,7 @@ export class TierPrices extends PureComponent {
                 </strong>
             </li>
         );
-    };
+    }
 
     renderLowestTierPrice() {
         const {
@@ -102,7 +102,7 @@ export class TierPrices extends PureComponent {
     renderDetailedTierPriceList() {
         const { product: { price_tiers } } = this.props;
 
-        return price_tiers.map(this.renderDetailedTierPrice);
+        return price_tiers.map(this.renderDetailedTierPrice.bind(this));
     }
 
     renderTierPrice() {

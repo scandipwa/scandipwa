@@ -44,12 +44,14 @@ export class CategorySort extends PureComponent {
         isMatchingInfoFilter: PropTypes.bool.isRequired
     };
 
-    onChange = (value) => {
+    onChange = this.onChange.bind(this);
+
+    onChange(value) {
         const { onSortChange } = this.props;
         const [direction, ...key] = value.split(' ');
 
         onSortChange(direction, key);
-    };
+    }
 
     renderPlaceholder() {
         return (

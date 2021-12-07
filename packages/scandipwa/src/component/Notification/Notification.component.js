@@ -67,7 +67,7 @@ export class Notification extends PureComponent {
      * Remove notification from screen
      * @return {void
      */
-    hideNotification = () => {
+    hideNotification() {
         const { onHideNotification, notificationId } = this.props;
         this.setState({ isNotificationVisible: false });
 
@@ -75,7 +75,7 @@ export class Notification extends PureComponent {
         this.CSSHideTimeout = setTimeout(() => {
             onHideNotification(notificationId);
         }, ANIMATION_DURATION);
-    };
+    }
 
     renderDebug() {
         const { notification: { msgDebug } } = this.props;
