@@ -30,9 +30,7 @@
     }
 
     &-AttributeLabel {
-        @include desktop {
-            font-weight: bold;
-        }
+        font-weight: bold;
     }
 
     &-CloseIcon {
