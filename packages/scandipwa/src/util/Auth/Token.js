@@ -67,8 +67,6 @@ export const isSignedIn = () => {
         MyAccountDispatcher.then(
             ({ default: dispatcher }) => dispatcher.logout(true, true, dispatch)
         );
-    } else if (_isSignedIn && isCustomerSignedIn) {
-        refreshAuthorizationToken();
     }
 
     return _isSignedIn;
