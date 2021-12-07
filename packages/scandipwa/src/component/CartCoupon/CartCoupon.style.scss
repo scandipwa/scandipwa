@@ -20,6 +20,13 @@
     }
 
     &-Message {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    &-MessageText {
+        margin: 0;
         word-break: break-word;
         margin-inline-end: 24px;
         display: inline-block;
@@ -30,7 +37,13 @@
     }
 
     .Form {
-        margin-block-start: 24px;
+        margin-block-start: 12px;
+        display: inline-flex;
+
+        @include mobile {
+            width: 100%;
+            display: inline-block;
+        }
     }
 
     input, button {

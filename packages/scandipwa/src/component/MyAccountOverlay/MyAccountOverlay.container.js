@@ -17,9 +17,9 @@ import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import {
     ACCOUNT_LOGIN_URL,
-    ACCOUNT_URL,
-    MY_ACCOUNT_URL
+    ACCOUNT_URL
 } from 'Route/MyAccount/MyAccount.config';
+import { updateIsLoading } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -56,25 +56,28 @@ export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status))
 });
 
 /** @namespace Component/MyAccountOverlay/Container */
 export class MyAccountOverlayContainer extends PureComponent {
     static propTypes = {
+        isCheckout: PropTypes.bool,
+        isLoading: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
+        isOverlayVisible: PropTypes.bool.isRequired,
         isPasswordForgotSend: PropTypes.bool.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        isOverlayVisible: PropTypes.bool.isRequired,
-        showOverlay: PropTypes.func.isRequired,
-        setHeaderState: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func,
+
         goToPreviousHeaderState: PropTypes.func,
-        isCheckout: PropTypes.bool,
         hideActiveOverlay: PropTypes.func.isRequired,
-        isMobile: PropTypes.bool.isRequired,
+        onSignIn: PropTypes.func,
         redirectToDashboard: PropTypes.bool.isRequired,
-        isLoading: PropTypes.bool
+        setHeaderState: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        showOverlay: PropTypes.func.isRequired,
+        updateCustomerLoadingStatus: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -129,7 +132,6 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         if (myAccountState !== STATE_LOGGED_IN && customerIsSignedIn) {
-            stateToBeUpdated.isLoading = false;
             stateToBeUpdated.state = STATE_LOGGED_IN;
         }
 
@@ -138,7 +140,6 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
-            stateToBeUpdated.isLoading = false;
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
             // eslint-disable-next-line max-len
             showNotification('success', __('If there is an account associated with the provided address you will receive an email with a link to reset your password.'));
@@ -174,7 +175,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             }
         }
 
-        if (newMyAccountState !== STATE_LOGGED_IN && pathname.includes(MY_ACCOUNT_URL)) {
+        if (newMyAccountState !== STATE_LOGGED_IN && pathname.includes(ACCOUNT_URL)) {
             history.push({ pathname: appendWithStoreCode(ACCOUNT_LOGIN_URL) });
         }
 
@@ -182,7 +183,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             if (pathname.includes(ACCOUNT_URL)) {
                 history.push({ pathname: appendWithStoreCode('/') });
             } else if (!pathname.includes(CHECKOUT_URL) && redirectToDashboard) {
-                history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
+                history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
             }
         }
     }
@@ -195,14 +196,13 @@ export class MyAccountOverlayContainer extends PureComponent {
             onSignIn
         } = this.props;
         const {
-            isLoading: stateIsLoading,
             state,
             isCheckout
         } = this.state;
 
         return {
             isCheckout,
-            isLoading: propIsLoading || stateIsLoading,
+            isLoading: propIsLoading,
             isMobile,
             isOverlayVisible,
             onSignIn,
@@ -215,7 +215,9 @@ export class MyAccountOverlayContainer extends PureComponent {
     }
 
     setLoadingState(isLoading) {
-        this.setState({ isLoading });
+        const { updateCustomerLoadingStatus } = this.props;
+
+        updateCustomerLoadingStatus(isLoading);
     }
 
     redirectOrGetState(props) {
@@ -246,13 +248,13 @@ export class MyAccountOverlayContainer extends PureComponent {
             name: CUSTOMER_SUB_ACCOUNT,
             title: 'Forgot password',
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode('/my-account') });
+                history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
                 this.handleSignIn(e);
             }
         });
 
         if (isMobile) {
-            history.push({ pathname: appendWithStoreCode('/my-account'), state: { isForgotPassword: true } });
+            history.push({ pathname: appendWithStoreCode(ACCOUNT_URL), state: { isForgotPassword: true } });
 
             return state;
         }
@@ -271,16 +273,14 @@ export class MyAccountOverlayContainer extends PureComponent {
     }
 
     onFormError() {
-        this.setState({ isLoading: false });
-    }
+        const { updateCustomerLoadingStatus } = this.props;
 
-    stopLoading() {
-        this.setState({ isLoading: false });
+        updateCustomerLoadingStatus(false);
     }
 
     stopLoadingAndHideOverlay() {
-        const { hideActiveOverlay } = this.props;
-        this.stopLoading();
+        const { hideActiveOverlay, updateCustomerLoadingStatus } = this.props;
+        updateCustomerLoadingStatus(false);
         hideActiveOverlay();
     }
 

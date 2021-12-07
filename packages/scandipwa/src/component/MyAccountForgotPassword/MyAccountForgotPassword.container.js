@@ -68,19 +68,17 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
         };
     }
 
-    onForgotPasswordSuccess(form, fields) {
+    async onForgotPasswordSuccess(form, fields) {
         const { forgotPassword, setSignInState, setLoadingState } = this.props;
         setLoadingState(true);
 
-        forgotPassword(transformToNameValuePair(fields)).then(
-            /** @namespace Component/MyAccountForgotPassword/Container/MyAccountForgotPasswordContainer/onForgotPasswordSuccess/forgotPassword/then */
-            () => {
-                setSignInState(STATE_FORGOT_PASSWORD_SUCCESS);
-                setLoadingState(false);
-            },
-            /** @namespace Component/MyAccountForgotPassword/Container/MyAccountForgotPasswordContainer/onForgotPasswordSuccess/forgotPassword/then/setLoadingState/catch */
-            () => setLoadingState(false)
-        );
+        try {
+            await forgotPassword(transformToNameValuePair(fields));
+            setSignInState(STATE_FORGOT_PASSWORD_SUCCESS);
+            setLoadingState(false);
+        } catch {
+            setLoadingState(false);
+        }
     }
 
     render() {
