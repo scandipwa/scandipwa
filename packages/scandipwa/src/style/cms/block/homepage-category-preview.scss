@@ -86,6 +86,7 @@
 
         @include desktop {
             max-width: 20vw;
+            word-break: break-all;
         }
 
         @include mobile {
