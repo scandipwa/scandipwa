@@ -190,7 +190,7 @@
     }
 
     &-CompareCount {
-        background: var(--primary-base-color);
+        background: #0A0903;
         border-radius: 50%;
         color: var(--color-white);
         height: 17px;
@@ -205,6 +205,7 @@
 
         @include desktop{
             top: -23px;
+            right: -12px;
         }
     }
 

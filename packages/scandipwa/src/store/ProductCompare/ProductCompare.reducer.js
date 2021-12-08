@@ -21,14 +21,18 @@ import {
 export const COMPARE_LIST_PRODUCTS = 'compare_list_products';
 
 /** @namespace Store/ProductCompare/Reducer/getInitialState */
-export const getInitialState = () => ({
-    isLoading: false,
-    count: 0,
-    attributes: [],
-    products: [],
-    productIds: BrowserDatabase.getItem(COMPARE_LIST_PRODUCTS) || [],
-    items: []
-});
+export const getInitialState = () => {
+    const compareListProducts = BrowserDatabase.getItem(COMPARE_LIST_PRODUCTS) || [];
+
+    return {
+        isLoading: false,
+        count: compareListProducts.length,
+        attributes: [],
+        products: [],
+        productIds: compareListProducts,
+        items: []
+    };
+};
 
 /** @namespace Store/ProductCompare/Reducer/ProductCompareReducer */
 export const ProductCompareReducer = (state = getInitialState(), action) => {

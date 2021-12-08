@@ -343,7 +343,7 @@ export class Header extends NavigationAbstract {
     renderCompareCount() {
         const { compareTotals } = this.props;
 
-        if (compareTotals < 1) {
+        if (!compareTotals) {
             return null;
         }
 
