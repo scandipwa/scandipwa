@@ -168,7 +168,7 @@ export class MyAccountContainer extends PureComponent {
         } = props;
         const { activeTab } = state;
 
-        if (this.tabMap[selectedTab]) {
+        if (this.tabMap[selectedTab] && isSignedIn) {
             return { activeTab: selectedTab };
         }
 
