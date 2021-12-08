@@ -23,6 +23,10 @@ export const TOKEN_REFRESH_DELAY = 2000;
 
 /** @namespace Util/Auth/Token/setAuthorizationToken */
 export const setAuthorizationToken = (token) => {
+    if (!token) {
+        return;
+    }
+
     const state = getStore().getState();
     const {
         access_token_lifetime = ONE_HOUR
