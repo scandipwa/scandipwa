@@ -195,7 +195,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         );
     }
 
-    historyBackHook = () => {
+    historyBackHook() {
         const {
             goToPreviousNavigationState,
             customFiltersValues,
@@ -210,7 +210,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             hideActiveOverlay();
             goToPreviousHeaderState();
         }
-    };
+    }
 
     onHide() {
         window.removeEventListener('popstate', this.historyBackHook);
@@ -225,7 +225,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         );
     }
 
-    containerProps = () => {
+    containerProps() {
         const {
             availableFilters,
             customFiltersValues,
@@ -249,7 +249,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             areFiltersEmpty: this.getAreFiltersEmpty(),
             isContentFiltered: this.isContentFiltered()
         };
-    };
+    }
 
     isContentFiltered() {
         const { customFilters, priceMin, priceMax } = this.urlStringToObject();

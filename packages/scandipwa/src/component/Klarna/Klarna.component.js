@@ -114,17 +114,17 @@ export class Klarna extends PureComponent {
         this.renderScript();
     }
 
-    loadPaymentMethodPayLater = () => {
+    loadPaymentMethodPayLater() {
         this.loadPaymentMethod('pay_later');
-    };
+    }
 
-    loadPaymentMethodPayNow = () => {
+    loadPaymentMethodPayNow() {
         this.loadPaymentMethod('pay_now');
-    };
+    }
 
-    loadPaymentMethodPayOverTime = () => {
+    loadPaymentMethodPayOverTime() {
         this.loadPaymentMethod('pay_over_time');
-    };
+    }
 
     renderPaymentSelector() {
         const { canShowPaymentSelector } = this.state;

@@ -43,6 +43,7 @@ export class ExpandableContent extends PureComponent {
             if (typeof propValue === 'function') {
                 return;
             }
+
             throw new Error(`${componentName} only accepts null or string`);
         }
     };
@@ -57,6 +58,8 @@ export class ExpandableContent extends PureComponent {
     };
 
     expandableContentRef = createRef();
+
+    toggleExpand = this.toggleExpand.bind(this);
 
     __construct(props) {
         super.__construct(props);
@@ -111,7 +114,7 @@ export class ExpandableContent extends PureComponent {
         window.scrollTo({ behavior: 'smooth', top: scrollTo });
     }
 
-    toggleExpand = () => {
+    toggleExpand() {
         const { onClick } = this.props;
 
         if (onClick) {
@@ -123,7 +126,7 @@ export class ExpandableContent extends PureComponent {
             ({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }),
             () => this.scrollToExpandedContent()
         );
-    };
+    }
 
     renderButton() {
         const { isContentExpanded } = this.state;

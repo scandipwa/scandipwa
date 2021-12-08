@@ -31,7 +31,7 @@ export class AppComponent extends PureComponent {
         );
     }
 
-    renderSomethingWentWrong = () => {
+    renderSomethingWentWrong() {
         const {
             handleErrorReset,
             errorDetails
@@ -43,7 +43,7 @@ export class AppComponent extends PureComponent {
               errorDetails={ errorDetails }
             />
         );
-    };
+    }
 
     render() {
         return this.renderContextProviders();

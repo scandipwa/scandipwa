@@ -37,7 +37,7 @@ export class FieldSelect extends PureComponent {
         isDisabled: PropTypes.bool.isRequired
     };
 
-    renderNativeOption = (option) => {
+    renderNativeOption(option) {
         const {
             id,
             value,
@@ -58,7 +58,7 @@ export class FieldSelect extends PureComponent {
                 { `${label} ${subLabel}` }
             </option>
         );
-    };
+    }
 
     renderNativeSelect() {
         const {
@@ -77,12 +77,12 @@ export class FieldSelect extends PureComponent {
               { ...events }
               onChange={ handleSelectListOptionClick }
             >
-                { options.map(this.renderNativeOption) }
+                { options.map(this.renderNativeOption.bind(this)) }
             </select>
         );
     }
 
-    renderOption = (option) => {
+    renderOption(option) {
         const {
             id,
             label,
@@ -124,7 +124,7 @@ export class FieldSelect extends PureComponent {
                 ) }
             </li>
         );
-    };
+    }
 
     renderOptions() {
         const {
@@ -139,7 +139,7 @@ export class FieldSelect extends PureComponent {
               role="menu"
               mods={ { isExpanded } }
             >
-                { options.map(this.renderOption) }
+                { options.map(this.renderOption.bind(this)) }
             </ul>
         );
     }

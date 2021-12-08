@@ -223,7 +223,7 @@ export class ProductList extends PureComponent {
             return this.renderPage();
         }
 
-        const pageRenders = Object.entries(pages).map(this.renderProductPage);
+        const pageRenders = Object.entries(pages).map(this.renderProductPage.bind(this));
 
         if (isVisible && isInfiniteLoaderEnabled) { // add placeholders to the end of pages if needed
             const key = Math.max(Object.keys(pages)) + 1; // the key should match next page key
@@ -282,7 +282,7 @@ export class ProductList extends PureComponent {
         );
     }
 
-    renderProductPage = ([key, items = []]) => {
+    renderProductPage([key, items = []]) {
         const { selectedFilters } = this.props;
 
         const pageNumber = +key;
@@ -296,7 +296,7 @@ export class ProductList extends PureComponent {
                 this.nodes[pageNumber] = node;
             }
         });
-    };
+    }
 
     renderPagination() {
         const {

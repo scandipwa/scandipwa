@@ -26,6 +26,9 @@ import { Route, Switch } from 'react-router-dom';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 import UrlRewrites from 'Route/UrlRewrites';
+import {
+    ADDRESS_BOOK, MY_DOWNLOADABLE, MY_ORDERS, MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
+} from 'Type/Account.type';
 import history from 'Util/History';
 
 import {
@@ -44,12 +47,16 @@ import {
     CREATE_ACCOUNT,
     DEMO_NOTICE,
     FOOTER,
-    FORGOT_PASSWORD,
     HEADER,
     HOME,
     LOGIN,
     MENU,
     MY_ACCOUNT,
+    MY_ACCOUNT_ADDRESS,
+    MY_ACCOUNT_DOWNLOADABLE,
+    MY_ACCOUNT_NEWSLETTER,
+    MY_ACCOUNT_ORDERS,
+    MY_ACCOUNT_WISHLIST,
     NAVIGATION_TABS,
     NEW_VERSION_POPUP,
     NOTIFICATION_LIST,
@@ -160,39 +167,59 @@ export class Router extends PureComponent {
             name: CHECKOUT
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/createPassword/') } render={ (props) => <PasswordChangePage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/createPassword/') } render={ (props) => <PasswordChangePage { ...props } /> } />,
             position: 60,
             name: CHANGE_PASSWORD
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/create/') } render={ (props) => <CreateAccountPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/create/') } render={ (props) => <CreateAccountPage { ...props } /> } />,
             position: 61,
             name: CREATE_ACCOUNT
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/login/') } render={ (props) => <LoginAccountPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/login/') } render={ (props) => <LoginAccountPage { ...props } /> } />,
             position: 62,
             name: LOGIN
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/forgotpassword/') } render={ (props) => <ForgotPasswordPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/forgotpassword/') } render={ (props) => <ForgotPasswordPage { ...props } /> } />,
             position: 63,
             name: ACCOUNT_FORGOT_PASSWORD
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
             position: 65,
             name: CONFIRM_ACCOUNT
         },
         {
-            component: <Route path={ withStoreRegex('/my-account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/history') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_ORDERS } /> } />,
             position: 70,
-            name: MY_ACCOUNT
+            name: MY_ACCOUNT_ORDERS
         },
         {
-            component: <Route path={ withStoreRegex('/forgot-password') } render={ (props) => <MyAccount { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/downloadable/customer/products') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_DOWNLOADABLE } /> } />,
             position: 71,
-            name: FORGOT_PASSWORD
+            name: MY_ACCOUNT_DOWNLOADABLE
+        },
+        {
+            component: <Route path={ withStoreRegex('/wishlist') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_WISHLIST } /> } />,
+            position: 72,
+            name: MY_ACCOUNT_WISHLIST
+        },
+        {
+            component: <Route path={ withStoreRegex('/customer/address') } render={ (props) => <MyAccount { ...props } selectedTab={ ADDRESS_BOOK } /> } />,
+            position: 73,
+            name: MY_ACCOUNT_ADDRESS
+        },
+        {
+            component: <Route path={ withStoreRegex('/newsletter/manage') } render={ (props) => <MyAccount { ...props } selectedTab={ NEWSLETTER_SUBSCRIPTION } /> } />,
+            position: 74,
+            name: MY_ACCOUNT_NEWSLETTER
+        },
+        {
+            component: <Route path={ withStoreRegex('/customer/account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
+            position: 75,
+            name: MY_ACCOUNT
         },
         {
             component: <Route path={ withStoreRegex('/menu') } render={ (props) => <MenuPage { ...props } /> } />,
@@ -268,9 +295,9 @@ export class Router extends PureComponent {
         );
     }
 
-    handleErrorReset = () => {
+    handleErrorReset() {
         this.setState({ hasError: false });
-    };
+    }
 
     renderComponentsOfType(type) {
         return this.getSortedItems(type)

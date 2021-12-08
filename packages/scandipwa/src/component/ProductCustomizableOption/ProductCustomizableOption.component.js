@@ -137,7 +137,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderCheckBox = (option) => {
+    renderCheckBox(option) {
         const {
             uid,
             is_default: isDefault = false
@@ -162,7 +162,7 @@ export class ProductCustomizableOption extends PureComponent {
                 />
             </div>
         );
-    };
+    }
 
     renderCheckboxValues(options) {
         const { isRequired } = this.props;
@@ -174,12 +174,12 @@ export class ProductCustomizableOption extends PureComponent {
               } }
               validateOn={ ['onChange'] }
             >
-                { options.map(this.renderCheckBox) }
+                { options.map(this.renderCheckBox.bind(this)) }
             </FieldGroup>
         );
     }
 
-    renderRadio = (name, option) => {
+    renderRadio(name, option) {
         const {
             uid,
             is_default
@@ -204,7 +204,7 @@ export class ProductCustomizableOption extends PureComponent {
                 />
             </div>
         );
-    };
+    }
 
     renderRadioValues(options) {
         const { isRequired, uid } = this.props;

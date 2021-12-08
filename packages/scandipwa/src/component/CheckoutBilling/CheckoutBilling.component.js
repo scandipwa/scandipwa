@@ -60,6 +60,12 @@ export class CheckoutBilling extends PureComponent {
         cartTotalSubPrice: null
     };
 
+    setOrderButtonEnableStatus = this.setOrderButtonEnableStatus.bind(this);
+
+    setTACAccepted = this.setTACAccepted.bind(this);
+
+    handleShowPopup = this.handleShowPopup.bind(this);
+
     componentDidMount() {
         const { termsAreEnabled } = this.props;
 
@@ -68,25 +74,25 @@ export class CheckoutBilling extends PureComponent {
         }
     }
 
-    setOrderButtonVisibility = (isOrderButtonVisible) => {
+    setOrderButtonVisibility(isOrderButtonVisible) {
         this.setState({ isOrderButtonVisible });
-    };
+    }
 
-    setOrderButtonEnableStatus = (isOrderButtonEnabled) => {
+    setOrderButtonEnableStatus(isOrderButtonEnabled) {
         this.setState({ isOrderButtonEnabled });
-    };
+    }
 
-    setTACAccepted = () => {
+    setTACAccepted() {
         this.setState(({ isTermsAndConditionsAccepted: oldIsTACAccepted }) => ({
             isTermsAndConditionsAccepted: !oldIsTACAccepted
         }));
-    };
+    }
 
-    handleShowPopup = (e) => {
+    handleShowPopup(e) {
         const { showPopup } = this.props;
         e.preventDefault();
         showPopup();
-    };
+    }
 
     renderTermsAndConditions() {
         const {
@@ -132,6 +138,7 @@ export class CheckoutBilling extends PureComponent {
                       block="CheckoutBilling"
                       elem="TACLink"
                       onClick={ this.handleShowPopup }
+                      type="button"
                     >
                         { __('read more') }
                     </button>

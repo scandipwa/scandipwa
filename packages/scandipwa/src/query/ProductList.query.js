@@ -60,25 +60,26 @@ export class ProductListQuery {
         };
     }
 
-    _getCustomFilters = (filters = {}) => (
-        Object.entries(filters).reduce((acc, [key, attribute]) => {
-            if (!attribute.length) {
-                return acc;
-            }
+    _getCustomFilters(filters = {}) {
+        return Object.entries(filters)
+            .reduce((acc, [key, attribute]) => {
+                if (!attribute.length) {
+                    return acc;
+                }
 
-            if (key === 'price') {
+                if (key === 'price') {
+                    return {
+                        ...acc,
+                        ...this._getPriceFilter(key, attribute)
+                    };
+                }
+
                 return {
                     ...acc,
-                    ...this._getPriceFilter(key, attribute)
+                    [key]: { in: attribute }
                 };
-            }
-
-            return {
-                ...acc,
-                [key]: { in: attribute }
-            };
-        }, {})
-    );
+            }, {});
+    }
 
     _getFilterArgumentMap() {
         return {
@@ -101,7 +102,7 @@ export class ProductListQuery {
             productSKU: (sku) => ({ sku: { eq: sku } }),
             productID: (id) => ({ id: { eq: id } }),
             productUrlPath: (url) => ({ url_key: { eq: url } }),
-            customFilters: this._getCustomFilters,
+            customFilters: this._getCustomFilters.bind(this),
             newToDate: (date) => ({ news_to_date: { gteq: date } }),
             conditions: (conditions) => ({ conditions: { eq: conditions } }),
             customerGroupId: (id) => ({ customer_group_id: { eq: id } })
