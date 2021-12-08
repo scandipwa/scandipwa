@@ -14,6 +14,7 @@
 import { getAuthorizationToken } from 'Util/Auth';
 import { getCurrency } from 'Util/Currency';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+
 import { hash } from './Hash';
 
 export const GRAPHQL_URI = '/graphql';
