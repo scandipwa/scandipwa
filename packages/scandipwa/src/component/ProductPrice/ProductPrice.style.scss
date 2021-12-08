@@ -57,21 +57,12 @@
 
     &-PriceValue {
         margin-block-start: 6px;
+        line-height: 24px;
 
         @include desktop {
             line-height: 28px;
         }
 
-        @include mobile {
-            color: var(--h2-color-mobile);
-            font-size: var(--h2-font-size-mobile);
-            font-style: var(--h2-font-style-mobile);
-            font-weight: var(--h2-font-weight-mobile);
-            line-height: var(--h2-line-height-mobile);
-            margin-block-end: 21px;
-            margin-block-start: 25px;
-            text-transform: var(--h2-text-transform-mobile);
-        }
     }
 
     &, &-BundleFrom, &-BundleTo {
