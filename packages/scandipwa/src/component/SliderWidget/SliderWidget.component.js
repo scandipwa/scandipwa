@@ -53,6 +53,8 @@ export class SliderWidget extends PureComponent {
         carouselDirection: DIRECTION_RIGHT
     };
 
+    onActiveImageChange = this.onActiveImageChange.bind(this);
+
     componentDidUpdate(prevProps, prevState) {
         const { slider: { slideSpeed, slides } } = this.props;
         const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
