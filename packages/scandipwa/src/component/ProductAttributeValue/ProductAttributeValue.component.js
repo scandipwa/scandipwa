@@ -53,7 +53,11 @@ export class ProductAttributeValue extends PureComponent {
 
     clickHandler = this.clickHandler.bind(this);
 
+    renderSublabel = this.renderSublabel.bind(this);
+
     getOptionLabel = this.getOptionLabel.bind(this);
+
+    getCheckboxLabel = this.getCheckboxLabel.bind(this);
 
     getIsColorLight(hex) {
         const color = (hex.charAt(0) === '#') ? hex.substring(1, 7) : hex;
@@ -269,8 +273,10 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderSublabel = (subLabel) => {
-        if (!subLabel) {
+    renderSublabel(subLabel) {
+        const { isProductCountVisible } = this.props;
+
+        if (!subLabel || !isProductCountVisible) {
             return null;
         }
 
@@ -282,21 +288,19 @@ export class ProductAttributeValue extends PureComponent {
               { `(${subLabel})` }
             </strong>
         );
-    };
+    }
 
-    getCheckboxLabel = (label) => {
-        const { isProductCountVisible } = this.props;
-
+    getCheckboxLabel(value, subLabel) {
         return (
             <span
               block="ProductAttributeValue"
               elem="Label"
             >
-                { label }
-                { isProductCountVisible && this.renderSublabel() }
+                { value }
+                { this.renderSublabel(subLabel) }
             </span>
         );
-    };
+    }
 
     renderDropdown(value, subLabel) {
         const { isSelected } = this.props;
