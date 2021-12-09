@@ -32,11 +32,11 @@ export class PaginationLink extends PureComponent {
         children: []
     };
 
-    getSearchQueryForPage = () => {
+    getSearchQueryForPage() {
         const { getSearchQueryForPage, pageNumber } = this.props;
 
         return getSearchQueryForPage(pageNumber);
-    };
+    }
 
     render() {
         const {

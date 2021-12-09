@@ -83,6 +83,10 @@ export class CartItemContainer extends PureComponent {
 
     setStateNotLoading = this.setStateNotLoading.bind(this);
 
+    renderRightSideContent = this.renderRightSideContent.bind(this);
+
+    handleRemoveItemOnSwipe = this.handleRemoveItemOnSwipe.bind(this);
+
     containerFunctions = {
         handleChangeQuantity: this.handleChangeQuantity.bind(this),
         handleRemoveItem: this.handleRemoveItem.bind(this),
@@ -156,8 +160,8 @@ export class CartItemContainer extends PureComponent {
 
     /**
      * Handle item quantity change. Check that value is <1
-     * @param {Number} value new quantity
      * @return {void}
+     * @param quantity
      */
     handleChangeQuantity(quantity) {
         this.setState({ isLoading: true }, () => {
@@ -185,7 +189,7 @@ export class CartItemContainer extends PureComponent {
         this.notifyAboutLoadingStateChange(true);
     }
 
-    handleRemoveItemOnSwipe = (e) => {
+    handleRemoveItemOnSwipe(e) {
         if (e) {
             e.preventDefault();
         }
@@ -193,7 +197,7 @@ export class CartItemContainer extends PureComponent {
         this.setState({ isLoading: true }, () => {
             this.hideLoaderAfterPromise(this.removeProductAndUpdateCrossSell());
         });
-    };
+    }
 
     getIsMobileLayout() {
         // "isMobileLayout" check is required to render mobile content in some additional cases
@@ -324,7 +328,7 @@ export class CartItemContainer extends PureComponent {
         return thumbnail || '';
     }
 
-    getConfigurationOptionLabel = ([key, attribute]) => {
+    getConfigurationOptionLabel([key, attribute]) {
         const {
             item: {
                 product: {
@@ -350,7 +354,7 @@ export class CartItemContainer extends PureComponent {
         } = configurable_options;
 
         return label;
-    };
+    }
 
     getConfigurableOptionsLabels() {
         const {
@@ -370,7 +374,7 @@ export class CartItemContainer extends PureComponent {
 
         return Object.entries(attributes)
             .filter(([attrKey]) => Object.keys(configurable_options).includes(attrKey))
-            .map(this.getConfigurationOptionLabel)
+            .map(this.getConfigurationOptionLabel.bind(this))
             .filter((label) => label);
     }
 
@@ -382,7 +386,7 @@ export class CartItemContainer extends PureComponent {
         }
     }
 
-    renderRightSideContent = () => {
+    renderRightSideContent() {
         const { handleRemoveItem } = this.containerFunctions;
 
         return (
@@ -395,7 +399,7 @@ export class CartItemContainer extends PureComponent {
                 { __('Delete') }
             </button>
         );
-    };
+    }
 
     render() {
         const { isLoading } = this.state;

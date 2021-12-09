@@ -51,6 +51,8 @@ export class WishlistItem extends PureComponent {
         isLoading: false
     };
 
+    renderContent = this.renderContent.bind(this);
+
     optionRenderMap = {
         [PRODUCT_TYPE.grouped]: this.renderGroupedOption.bind(this),
         [PRODUCT_TYPE.bundle]: this.renderBundleOption.bind(this)
@@ -358,7 +360,7 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    renderContent = (renderMethods) => {
+    renderContent(renderMethods) {
         const { redirectToProductPage } = this.props;
 
         const {
@@ -408,7 +410,7 @@ export class WishlistItem extends PureComponent {
                 </div>
             </>
         );
-    };
+    }
 
     render() {
         const { isLoading, isRemoving } = this.props;

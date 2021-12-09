@@ -323,11 +323,11 @@ export class MyAccountContainer extends PureComponent {
         return length;
     }
 
-    getMyWishlistHeaderTitle = () => {
+    getMyWishlistHeaderTitle() {
         const count = this.getWishlistItemsCount();
 
         return `${ count } ${ count === 1 ? __('item') : __('items') }`;
-    };
+    }
     // #endregion
 
     // #region HANDLE TABS

@@ -168,6 +168,8 @@ export class CheckoutContainer extends PureComponent {
         checkEmailAvailability(email);
     }, UPDATE_EMAIL_CHECK_FREQUENCY);
 
+    _handleError = this._handleError.bind(this);
+
     __construct(props) {
         super.__construct(props);
 
@@ -362,7 +364,7 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
-    setShippingAddress = async (isDefaultShipping = false) => {
+    async setShippingAddress(isDefaultShipping = false) {
         const { shippingAddress } = this.state;
         const { region, region_id, ...address } = shippingAddress;
 
@@ -384,7 +386,7 @@ export class CheckoutContainer extends PureComponent {
         }
 
         return true;
-    };
+    }
 
     containerProps() {
         const {
@@ -443,7 +445,7 @@ export class CheckoutContainer extends PureComponent {
         };
     }
 
-    _handleError = (error) => {
+    _handleError(error) {
         const { showErrorNotification } = this.props;
 
         this.setState({
@@ -454,7 +456,7 @@ export class CheckoutContainer extends PureComponent {
         });
 
         return false;
-    };
+    }
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(

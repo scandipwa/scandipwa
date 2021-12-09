@@ -160,9 +160,9 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderCouponCode = (code) => (
-        <strong block="CartOverlay" elem="DiscountCoupon">{ `${code.toUpperCase()}:` }</strong>
-    );
+    renderCouponCode(code) {
+        return <strong block="CartOverlay" elem="DiscountCoupon">{ `${code.toUpperCase()}:` }</strong>;
+    }
 
     renderDiscount() {
         const {

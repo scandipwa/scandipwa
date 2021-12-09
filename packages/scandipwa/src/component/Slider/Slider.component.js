@@ -86,6 +86,8 @@ export class Slider extends PureComponent {
 
     goPrev = this.goPrev.bind(this);
 
+    handleClick = this.handleClick.bind(this);
+
     __construct(props) {
         super.__construct(props);
 
@@ -398,11 +400,11 @@ export class Slider extends PureComponent {
         });
     }
 
-    handleClick = (state, callback, e) => {
+    handleClick(state, callback, e) {
         if (e.type === 'contextmenu') {
             this.handleDragEnd(state, callback);
         }
-    };
+    }
 
     handleInteraction(callback, ...args) {
         const { isInteractionDisabled } = this.props;

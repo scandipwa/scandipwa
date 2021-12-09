@@ -57,7 +57,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
         handleSelectDeliveryMethod();
     }
 
-    renderDeliveryOption = (option) => {
+    renderDeliveryOption(option) {
         const {
             selectShippingMethod,
             selectedShippingMethod: { method_code: selectedMethodCode }
@@ -74,7 +74,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
               onClick={ selectShippingMethod }
             />
         );
-    };
+    }
 
     renderNoDeliveryOptions() {
         return (
@@ -91,7 +91,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
             return this.renderNoDeliveryOptions();
         }
 
-        return shippingMethods.map(this.renderDeliveryOption);
+        return shippingMethods.map(this.renderDeliveryOption.bind(this));
     }
 
     renderSelectedShippingMethod() {
