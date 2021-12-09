@@ -12,6 +12,7 @@
 
 import { getAuthorizationToken } from 'Util/Auth';
 import { getCurrency } from 'Util/Currency';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import { hash } from './Hash';
 
@@ -113,7 +114,7 @@ export const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ grap
         body: JSON.stringify(query),
         headers: {
             'Content-Type': 'application/json',
-            'SW-Cache-Age': cacheTTL
+            'SW-Cache-Age': Number.isInteger(cacheTTL) ? cacheTTL : ONE_MONTH_IN_SECONDS
         }
     });
 
