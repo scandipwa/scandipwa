@@ -455,14 +455,12 @@
     "From %s": null,
     "From %s to %s": null,
     "Please fill in all rating fields": null,
-<<<<<<< HEAD
     "My Orders": null,
     "My Downloadable": null,
     "My Wish List": null,
     "Address Book": null,
     "Account Information": null,
     "Edit Account Information": null,
-=======
     "Product %s thumbnail.": null,
     "County": null,
     "State/Province": null,
@@ -483,7 +481,6 @@
     "Nickname": null,
     "Your nickname": null,
     "Review": null,
->>>>>>> master
     "Save": null,
     "Street address": null,
     "Your street address": null,
