@@ -88,9 +88,20 @@
 			"editor/title": [
 				{
 					"command": "extension.goToChildTheme",
-					"group": "navigation"
+					"group": "navigation",
+					"when": "editorLangId in extension.scandipwaSupportedLangs"
 				}
 			]
+		},
+		"configuration": {
+			"title": "ScandiPWA",
+			"properties": {
+				"scandipwa.stylePostfix": {
+					"type": ["string", "null"],
+					"default": null,
+					"description": "Styles postfix to use when creating style overrides"
+				}
+			}
 		}
 	},
 	"dependencies": {

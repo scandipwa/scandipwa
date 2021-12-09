@@ -39,6 +39,15 @@ export function activate(context: vscode.ExtensionContext) {
 			)
 		);
 	});
+
+	vscode.commands.executeCommand('setContext', 'extension.scandipwaSupportedLangs', [
+		'javascript',
+		'javascriptreact',
+		'typescript',
+		'typescriptreact',
+		'scss',
+		'css'
+	]);
 }
 
 export function deactivate() {}

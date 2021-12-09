@@ -1,5 +1,6 @@
 import path from 'path';
 import { extend, ResourceType } from "@scandipwa/scandipwa-development-toolkit-core";
+import * as vscode from 'vscode';
 
 import logger from '../../util/logger';
 import ui from '../../util/ui';
@@ -11,7 +12,6 @@ export type ExtendConfig = {
 	relativePath: string;
 	originalPath: string;
 };
-
 
 const getFileType = (pathname: string): ResourceType | null => {
 	const possiblePaths = ['route', 'component', 'store', 'query'];
@@ -27,6 +27,21 @@ const getResourceName = (pathname: string) => {
     }
 
     return name;
+};
+
+const getConfig = () => {
+    if (vscode.workspace.workspaceFolders) {
+        const config = vscode.workspace.getConfiguration('scandipwa');
+        const stylePostfix = config.get('stylePostfix');
+
+        if (!stylePostfix) {
+            return {};
+        }
+
+        return { stylePostfix };
+    }
+
+    return {};
 };
 
 export const suggestExtension = async (extendConfig: ExtendConfig | undefined) => {
@@ -52,5 +67,6 @@ export const suggestExtension = async (extendConfig: ExtendConfig | undefined) =
         logger,
         ui,
         sourceModulePathname,
+        getConfig()
     );
 }
