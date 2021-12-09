@@ -176,12 +176,20 @@ export class ProductPage extends PureComponent {
     }
 
     shouldTabsRender() {
-        return Object.values(this.tabMap).filter(({ shouldTabRender }) => shouldTabRender());
+        return Object.entries(this.tabMap)
+            .map(([id, values]) => ({ id, ...values }))
+            .filter(({ shouldTabRender }) => shouldTabRender());
     }
 
     renderProductTabs() {
+        const tabs = this.shouldTabsRender();
+
+        if (!tabs) {
+            return null;
+        }
+
         return (
-            <ProductTabs tabs={ this.shouldTabsRender() } />
+            <ProductTabs tabs={ tabs } />
         );
     }
 
