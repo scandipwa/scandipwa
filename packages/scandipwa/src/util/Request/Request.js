@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getAuthorizationToken } from 'Util/Auth';
+import { getAuthorizationToken, isSignedIn, refreshAuthorizationToken } from 'Util/Auth';
 import { getCurrency } from 'Util/Currency';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
@@ -198,6 +198,10 @@ export const executeGet = (queryObject, name, cacheTTL) => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
 
+    if (isSignedIn()) {
+        refreshAuthorizationToken();
+    }
+
     return parseResponse(new Promise((resolve, reject) => {
         getFetch(uri, name).then(
             /** @namespace Util/Request/executeGet/parseResponse/getFetch/then */
@@ -232,6 +236,10 @@ export const executeGet = (queryObject, name, cacheTTL) => {
  */
 export const executePost = (queryObject) => {
     const { query, variables } = queryObject;
+
+    if (isSignedIn()) {
+        refreshAuthorizationToken();
+    }
 
     return parseResponse(postFetch(getGraphqlEndpoint(), query, variables));
 };
