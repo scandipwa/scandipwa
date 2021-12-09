@@ -8,6 +8,7 @@ import { creator } from './commands/create';
 import { extender } from './commands/extend';
 
 import extensionCreator from './commands/extension/create';
+import { goToChildTheme } from './commands/go-to-child-theme';
 
 const commandMap = {
 	'extension.createComponent': creator(ResourceType.Component),
@@ -21,13 +22,15 @@ const commandMap = {
 	'extension.extendStore': extender(ResourceType.Store),
 
 	'extension.extensionCreate': extensionCreator,
+
+	'extension.goToChildTheme': goToChildTheme,
 };
 
 export function activate(context: vscode.ExtensionContext) {
 	Object.entries(commandMap).forEach(([ name, handler ]) => {
 		context.subscriptions.push(
 			vscode.commands.registerCommand(
-				name, 
+				name,
 				() => {
 					ContextManager.createInstance(context);
 
