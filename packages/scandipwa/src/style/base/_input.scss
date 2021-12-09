@@ -131,6 +131,7 @@ textarea {
         &:disabled {
             opacity: .25;
             cursor: default;
+            pointer-events: none;
         }
 
         span {
