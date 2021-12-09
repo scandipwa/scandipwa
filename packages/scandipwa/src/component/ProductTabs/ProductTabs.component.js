@@ -62,6 +62,10 @@ export class ProductTabs extends PureComponent {
         const { tabs } = this.props;
         const { activeTab } = this.state;
 
+        if (!activeTab) {
+            return null;
+        }
+
         return tabs[activeTab].render();
     }
 
