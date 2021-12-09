@@ -157,7 +157,6 @@ export class MyAccountContainer extends PureComponent {
 
     static navigateToSelectedTab(props, state = {}) {
         const {
-            isSignedIn,
             match: {
                 params: {
                     tab: historyActiveTab
@@ -168,7 +167,7 @@ export class MyAccountContainer extends PureComponent {
         } = props;
         const { activeTab } = state;
 
-        if (this.tabMap[selectedTab] && isSignedIn) {
+        if (this.tabMap[selectedTab] && isSignedIn()) {
             return { activeTab: selectedTab };
         }
 
@@ -178,7 +177,7 @@ export class MyAccountContainer extends PureComponent {
             : MY_ACCOUNT;
         const { url: activeTabUrl } = this.tabMap[newActiveTab];
 
-        if (historyActiveTab !== newActiveTab && activeTab !== MY_ACCOUNT && isSignedIn && !isMobile) {
+        if (historyActiveTab !== newActiveTab && activeTab !== MY_ACCOUNT && isSignedIn() && !isMobile) {
             history.push(appendWithStoreCode(`${ ACCOUNT_URL }${ activeTabUrl }`));
         }
 
