@@ -15,6 +15,10 @@
 }
 
 .ProductCustomizableItem {
+    &-PriceLabel {
+        white-space: nowrap;
+    }
+    
     &-Wrapper {
         margin-block-start: 26px;
 

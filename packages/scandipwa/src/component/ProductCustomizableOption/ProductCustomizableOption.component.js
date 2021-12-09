@@ -66,10 +66,10 @@ export class ProductCustomizableOption extends PureComponent {
         } = customizableOptionToLabel(option, currencyCode);
 
         return (
-            <span block="ProductCustomizableItem" elem="Label">
+            <div>
                 { overrideBase || baseLabel }
-                <strong>{ overridePrice || priceLabel }</strong>
-            </span>
+                <strong block="ProductCustomizableItem" elem="PriceLabel">{ ` ${overridePrice || priceLabel}` }</strong>
+            </div>
         );
     }
 
