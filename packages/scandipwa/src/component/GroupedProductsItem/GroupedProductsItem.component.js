@@ -67,7 +67,7 @@ export class GroupedProductsItem extends PureComponent {
         return <TierPrices product={ product } />;
     }
 
-    getError = (value) => {
+    getError(value) {
         const {
             product = {}
         } = this.props;
@@ -77,7 +77,7 @@ export class GroupedProductsItem extends PureComponent {
         }
 
         return true;
-    };
+    }
 
     renderQuantity() {
         const {

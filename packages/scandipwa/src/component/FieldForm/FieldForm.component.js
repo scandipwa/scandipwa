@@ -51,7 +51,7 @@ export class FieldForm extends PureComponent {
         ];
     }
 
-    renderSection = (section) => {
+    renderSection(section) {
         const {
             fields,
             attr: {
@@ -64,13 +64,13 @@ export class FieldForm extends PureComponent {
         if (Array.isArray(fields)) {
             return (
                 <FieldGroup { ...section } key={ name || sectionName }>
-                    { fields.map(this.renderSection) }
+                    { fields.map(this.renderSection.bind(this)) }
                 </FieldGroup>
             );
         }
 
         return <Field { ...section } key={ name } />;
-    };
+    }
 
     renderActions() {
         return null;
@@ -80,7 +80,7 @@ export class FieldForm extends PureComponent {
         return (
             <div block="FieldForm" elem="Body">
                 <div block="FieldForm" elem="Fields">
-                    { this.fieldMap.map(this.renderSection) }
+                    { this.fieldMap.map(this.renderSection.bind(this)) }
                 </div>
                 { this.renderActions() }
             </div>

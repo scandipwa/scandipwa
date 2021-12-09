@@ -8,7 +8,7 @@ export class RouterContainer extends PureComponent {
 
     containerFunctions = {};
 
-    containerProps = () => ({});
+    containerProps() {}
 
     render() {
         return (

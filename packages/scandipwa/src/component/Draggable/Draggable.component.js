@@ -66,6 +66,22 @@ export class Draggable extends PureComponent {
         lastTranslateY: 0
     };
 
+    handleTouchStart = this.handleTouchStart.bind(this);
+
+    handleMouseDown = this.handleMouseDown.bind(this);
+
+    handleTouchMove = this.handleTouchMove.bind(this);
+
+    handleClick = this.handleClick.bind(this);
+
+    handleTouchEnd = this.handleTouchEnd.bind(this);
+
+    handleMouseUp = this.handleMouseUp.bind(this);
+
+    handleMouseMove = this.handleMouseMove.bind(this);
+
+    handleDragEnd = this.handleDragEnd.bind(this);
+
     static getDerivedStateFromProps(props, state) {
         const { shiftX, shiftY } = props;
         const { lastTranslateX, lastTranslateY } = state;
@@ -87,30 +103,30 @@ export class Draggable extends PureComponent {
         window.removeEventListener('touchend', this.handleTouchEnd);
     }
 
-    handleTouchStart = ({ touches }) => {
+    handleTouchStart({ touches }) {
         window.addEventListener('touchmove', this.handleTouchMove);
         window.addEventListener('touchend', this.handleTouchEnd);
 
         if (touches.length === 1) {
-            this._handleDragStart(touches[0]);
+            this.handleDragStart(touches[0]);
         }
-    };
+    }
 
-    handleMouseDown = (event) => {
+    handleMouseDown(event) {
         window.addEventListener('mousemove', this.handleMouseMove);
         window.addEventListener('mouseup', this.handleMouseUp);
 
         event.preventDefault();
-        this._handleDragStart(event);
-    };
+        this.handleDragStart(event);
+    }
 
-    handleTouchMove = ({ touches }) => {
+    handleTouchMove({ touches }) {
         if (touches.length === 1) {
             this.handleMouseMove(touches[0]);
         }
-    };
+    }
 
-    handleMouseMove = ({ clientX, clientY }) => {
+    handleMouseMove({ clientX, clientY }) {
         const { isDragging } = this.state;
         const { shiftX, shiftY } = this.props;
 
@@ -131,23 +147,23 @@ export class Draggable extends PureComponent {
                 onDrag({ ...this.state, clientX, clientY });
             }
         });
-    };
+    }
 
-    handleTouchEnd = () => {
+    handleTouchEnd() {
         window.removeEventListener('touchmove', this.handleTouchMove);
         window.removeEventListener('touchend', this.handleTouchEnd);
 
-        this._handleDragEnd();
-    };
+        this.handleDragEnd();
+    }
 
-    handleMouseUp = () => {
+    handleMouseUp() {
         window.removeEventListener('mousemove', this.handleMouseMove);
         window.removeEventListener('mouseup', this.handleMouseUp);
 
-        this._handleDragEnd();
-    };
+        this.handleDragEnd();
+    }
 
-    handleClick = (e) => {
+    handleClick(event) {
         const { onClick } = this.props;
 
         if (onClick) {
@@ -159,12 +175,12 @@ export class Draggable extends PureComponent {
                     translateX: 0,
                     translateY: 0
                 }),
-                e
+                event
             );
         }
-    };
+    }
 
-    _handleDragStart({
+    handleDragStart({
         clientX,
         clientY
     }) {
@@ -181,7 +197,7 @@ export class Draggable extends PureComponent {
         });
     }
 
-    _handleDragEnd() {
+    handleDragEnd() {
         const { onDragEnd } = this.props;
 
         onDragEnd(this.state, (newState) => this.setState({

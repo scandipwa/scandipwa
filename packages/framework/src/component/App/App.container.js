@@ -31,7 +31,7 @@ export class AppContainer extends PureComponent {
         this.setState({ isSomethingWentWrong: false });
     }
 
-    containerProps = () => {
+    containerProps() {
         const {
             isSomethingWentWrong,
             errorDetails
@@ -41,7 +41,7 @@ export class AppContainer extends PureComponent {
             isSomethingWentWrong,
             errorDetails
         };
-    };
+    }
 
     __construct(props) {
         super.__construct(props);

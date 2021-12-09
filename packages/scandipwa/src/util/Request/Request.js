@@ -1,5 +1,4 @@
-/* eslint-disable @scandipwa/scandipwa-guidelines/create-config-files */
-/* eslint-disable no-console */
+/* eslint-disable @scandipwa/scandipwa-guidelines/no-arrow-functions-in-class */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,8 +10,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getAuthorizationToken } from 'Util/Auth';
+import { getAuthorizationToken, isSignedIn, refreshAuthorizationToken } from 'Util/Auth';
 import { getCurrency } from 'Util/Currency';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import { hash } from './Hash';
 
@@ -114,7 +114,7 @@ export const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ grap
         body: JSON.stringify(query),
         headers: {
             'Content-Type': 'application/json',
-            'SW-Cache-Age': cacheTTL
+            'SW-Cache-Age': Number.isInteger(cacheTTL) ? cacheTTL : ONE_MONTH_IN_SECONDS
         }
     });
 
@@ -198,6 +198,10 @@ export const executeGet = (queryObject, name, cacheTTL) => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
 
+    if (isSignedIn()) {
+        refreshAuthorizationToken();
+    }
+
     return parseResponse(new Promise((resolve, reject) => {
         getFetch(uri, name).then(
             /** @namespace Util/Request/executeGet/parseResponse/getFetch/then */
@@ -232,6 +236,10 @@ export const executeGet = (queryObject, name, cacheTTL) => {
  */
 export const executePost = (queryObject) => {
     const { query, variables } = queryObject;
+
+    if (isSignedIn()) {
+        refreshAuthorizationToken();
+    }
 
     return parseResponse(postFetch(getGraphqlEndpoint(), query, variables));
 };

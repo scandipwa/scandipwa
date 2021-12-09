@@ -119,10 +119,12 @@ export class UrlRewritesContainer extends PureComponent {
         }
     }
 
-    containerProps = () => ({
-        type: this.getType(),
-        props: this.getProps()
-    });
+    containerProps() {
+        return {
+            type: this.getType(),
+            props: this.getProps()
+        };
+    }
 
     getTypeSpecificProps() {
         const {

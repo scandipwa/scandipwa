@@ -95,7 +95,7 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         };
     }
 
-    collectAdditionalData = () => {
+    collectAdditionalData() {
         const { selectedShippingMethod: { method_code } } = this.props;
         const additionalDataGetter = this.dataMap[method_code];
 
@@ -104,7 +104,7 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         }
 
         return additionalDataGetter();
-    };
+    }
 
     selectShippingMethod(shippingMethod) {
         const { onShippingMethodSelect } = this.props;

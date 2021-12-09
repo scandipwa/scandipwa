@@ -38,10 +38,12 @@ export class MyAccountCustomerForm extends FieldForm {
         currentPassword: ''
     };
 
-    onFormSuccess = (form, fields) => {
+    onFormSuccess = this.onFormSuccess.bind(this);
+
+    onFormSuccess(form, fields) {
         const { onSave } = this.props;
         onSave(transformToNameValuePair(fields));
-    };
+    }
 
     get customerInformationFieldMap() {
         const {
