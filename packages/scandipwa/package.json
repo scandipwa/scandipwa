@@ -458,5 +458,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "http://localhost:81"
+    "proxy": "https://demo100-ors-1588667385-csa-qnb.scandipwa.cloud/"
 }
