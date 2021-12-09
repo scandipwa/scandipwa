@@ -39,14 +39,11 @@
         font-weight: bold;
         opacity: .48;
         font-size: 12px;
+        line-height: 16px;
     }
 
     &-Title {
         margin-block: 8px;
-
-        @include desktop {
-            line-height: 40px;
-        }
 
         @include mobile {
             font-weight: 400;
