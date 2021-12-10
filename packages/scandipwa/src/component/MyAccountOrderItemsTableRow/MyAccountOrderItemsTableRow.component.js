@@ -174,13 +174,13 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
         return (
             <td>
-                    <span
-                      block="MyAccountOrderItemsTableRow"
-                      elem="Name"
-                    >
-                        { product_name }
-                    </span>
-                    { this.renderSelectedAndEnteredOptions() }
+                <span
+                  block="MyAccountOrderItemsTableRow"
+                  elem="Name"
+                >
+                    { product_name }
+                </span>
+                { this.renderSelectedAndEnteredOptions() }
             </td>
         );
     }
