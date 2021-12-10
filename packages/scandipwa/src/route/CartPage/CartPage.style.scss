@@ -104,13 +104,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid var(--cart-page-divider-background);
+            border: 1px solid var(--cart-page-table-head-background);
             padding: 24px 12px;
 
             @include mobile {
                 margin-block: 12px;
                 padding: 14px;
-                border: 1px solid var(--primary-divider-color);
             }
         }
 

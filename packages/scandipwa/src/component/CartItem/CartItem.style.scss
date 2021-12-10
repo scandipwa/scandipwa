@@ -143,6 +143,7 @@
     &-Heading {
         color: var(--color-black);
         overflow: hidden;
+        line-height: 20px;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
@@ -204,6 +205,7 @@
     }
 
     &-Delete {
+        align-items: center;
         display: flex;
         z-index: 5;
         font-size: 14px;
@@ -224,7 +226,7 @@
     }
 
     &-DeleteButtonText {
-        line-height: 24px;
+        line-height: 20px;
         margin-inline-start: 4px;
 
         &_isMobileLayout {

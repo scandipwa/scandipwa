@@ -78,9 +78,9 @@ export class ProductPrice extends PureComponent {
         const { mix } = this.props;
 
         return (
-            <p block="ProductPrice" aria-label="Product Price" mix={ mix }>
+            <h3 block="ProductPrice" aria-label="Product Price" mix={ mix }>
                 <TextPlaceholder mix={ { block: 'ProductPrice', elem: 'Placeholder' } } length="custom" />
-            </p>
+            </h3>
         );
     }
 
