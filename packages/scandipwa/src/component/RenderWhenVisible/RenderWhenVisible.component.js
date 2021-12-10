@@ -35,6 +35,8 @@ export class RenderWhenVisible extends PureComponent {
         wasVisible: false
     };
 
+    handleVisibilityToggle = this.handleVisibilityToggle.bind(this);
+
     __construct(props) {
         super.__construct(props);
 
@@ -42,7 +44,7 @@ export class RenderWhenVisible extends PureComponent {
         setTimeout(this.checkIsVisible, 0);
     }
 
-    checkIsVisible = () => {
+    checkIsVisible() {
         if (!this.node) {
             return;
         }
@@ -53,7 +55,7 @@ export class RenderWhenVisible extends PureComponent {
         if (!(rect.bottom < 0 || rect.top - viewHeight >= 0)) {
             this.setState({ wasVisible: true });
         }
-    };
+    }
 
     shouldRender() {
         const { wasVisible } = this.state;
@@ -61,13 +63,13 @@ export class RenderWhenVisible extends PureComponent {
         return !wasVisible && !isSSR() && !isCrawler();
     }
 
-    handleVisibilityToggle = (isVisible) => {
+    handleVisibilityToggle(isVisible) {
         const { wasVisible } = this.state;
 
         if (!wasVisible && isVisible) {
             this.setState({ wasVisible: true });
         }
-    };
+    }
 
     renderFallback() {
         const { fallback } = this.props;

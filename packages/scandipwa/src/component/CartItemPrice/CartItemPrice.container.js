@@ -36,7 +36,7 @@ export class CartItemPriceContainer extends PureComponent {
         mix: MixType.isRequired
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             getCartItemPrice,
             getCartItemSubPrice,
@@ -51,7 +51,7 @@ export class CartItemPriceContainer extends PureComponent {
             price: getCartItemPrice(rest),
             subPrice: getCartItemSubPrice(rest)
         };
-    };
+    }
 
     render() {
         return (

@@ -43,6 +43,7 @@ export class MyAccountForgotPassword extends PureComponent {
                   attr={ {
                       id: 'email',
                       name: 'email',
+                      class: 'ForgotPassword-Input_type_email',
                       placeholder: __('Your email address'),
                       autocomplete: 'email'
                   } }

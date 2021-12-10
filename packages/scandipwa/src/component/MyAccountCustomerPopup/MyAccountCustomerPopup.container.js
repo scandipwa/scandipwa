@@ -79,11 +79,11 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
         };
     }
 
-    onError = (error) => {
+    onError(error) {
         const { showErrorNotification } = this.props;
         this.setState({ isLoading: false });
         showErrorNotification(error);
-    };
+    }
 
     onCustomerSave(customer) {
         const {

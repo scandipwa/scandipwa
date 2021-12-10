@@ -17,6 +17,8 @@ import { CustomerType } from 'Type/Account.type';
 /** @namespace Component/MyAccountCustomerTable/Component */
 export class MyAccountCustomerTable extends KeyValueTable {
     static propTypes = {
+        handleOnEditInformation: PropTypes.func.isRequired,
+        handleOnEditPassword: PropTypes.func.isRequired,
         customer: CustomerType.isRequired,
         showEditPopup: PropTypes.func.isRequired,
         showChangePasswordPopup: PropTypes.func.isRequired
@@ -45,21 +47,21 @@ export class MyAccountCustomerTable extends KeyValueTable {
     }
 
     renderActions() {
-        const { showChangePasswordPopup, showEditPopup } = this.props;
+        const { handleOnEditInformation, handleOnEditPassword } = this.props;
 
         return (
             <>
                 <button
                   block="Button"
                   mods={ { isHollow: true } }
-                  onClick={ showEditPopup }
+                  onClick={ handleOnEditInformation }
                 >
                     { __('Edit details') }
                 </button>
                 <button
                   block="Button"
                   mods={ { isHollow: true, isWithoutBorder: true } }
-                  onClick={ showChangePasswordPopup }
+                  onClick={ handleOnEditPassword }
                 >
                     { __('Change password') }
                 </button>

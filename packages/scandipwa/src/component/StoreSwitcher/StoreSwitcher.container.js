@@ -49,7 +49,7 @@ export class StoreSwitcherContainer extends DataContainer {
     };
 
     containerFunctions = {
-        handleStoreSelect: this._handleStoreSelect.bind(this),
+        handleStoreSelect: this.handleStoreSelect.bind(this),
         onStoreSwitcherClick: this.onStoreSwitcherClick.bind(this),
         onStoreSwitcherOutsideClick: this.onStoreSwitcherOutsideClick.bind(this)
     };
@@ -72,7 +72,7 @@ export class StoreSwitcherContainer extends DataContainer {
         }
     }
 
-    containerProps = () => {
+    containerProps() {
         const { currentStoreCode, device } = this.props;
         const { storeList, isOpened, storeLabel } = this.state;
 
@@ -83,7 +83,7 @@ export class StoreSwitcherContainer extends DataContainer {
             storeLabel,
             storeList
         };
-    };
+    }
 
     onStoreSwitcherClick() {
         const { isOpened } = this.state;
@@ -141,7 +141,7 @@ export class StoreSwitcherContainer extends DataContainer {
         this.setState({ storeLabel: label });
     }
 
-    _handleStoreSelect(storeCode) {
+    handleStoreSelect(storeCode) {
         const { showErrorNotification } = this.props;
         const { storeList } = this.state;
 
