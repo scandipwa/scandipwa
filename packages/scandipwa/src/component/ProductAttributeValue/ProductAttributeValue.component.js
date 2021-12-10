@@ -298,8 +298,9 @@ export class ProductAttributeValue extends PureComponent {
             >
                 { value }
                 { this.renderSublabel(subLabel) }
-     }
-
+            </span>
+        );
+    }
     renderDropdown(value, subLabel) {
         const { isSelected } = this.props;
 
