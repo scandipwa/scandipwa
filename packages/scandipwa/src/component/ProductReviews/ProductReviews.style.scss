@@ -84,6 +84,8 @@
 
         @include mobile {
             margin-inline-start: 14px;
+            line-height: 24px;
+            font-size: 18px;
         }
 
         span {
