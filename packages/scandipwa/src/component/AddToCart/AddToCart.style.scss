@@ -20,6 +20,7 @@
 
     @include mobile {
         min-width: 168px;
+        line-height: 20px;
     }
 
     &_layout_list {
