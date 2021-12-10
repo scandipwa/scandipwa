@@ -92,10 +92,5 @@
         @include mobile {
             max-width: 80vw;
         }
-
-        * {
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-        }
     }
 }
