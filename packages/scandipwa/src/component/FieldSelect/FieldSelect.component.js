@@ -88,7 +88,8 @@ export class FieldSelect extends PureComponent {
             label,
             subLabel,
             isPlaceholder = false,
-            isHovered
+            isHovered,
+            isAvailable = true
         } = option;
 
         const {
@@ -96,14 +97,12 @@ export class FieldSelect extends PureComponent {
             handleSelectListOptionClick
         } = this.props;
 
-        const isDisabled = option.isAvailable !== undefined ? !option.isAvailable : false;
-
         return (
             <li
               block="FieldSelect"
               elem="Option"
               mods={ {
-                  isDisabled,
+                  isDisabled: !isAvailable,
                   isExpanded,
                   isPlaceholder,
                   isHovered
