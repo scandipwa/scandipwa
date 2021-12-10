@@ -17,6 +17,7 @@ import { getModuleInformation } from '../util/module';
 import { ExportData, StylesOption } from '../types/extend-component.types';
 import { ILogger, IUserInteraction, ResourceType } from '../types';
 import validateResourceExistance from './validate-resource-existance';
+import { ConfigType, setConfig } from './config';
 
 /**
  * @param resourceType Type of resource to extend
@@ -31,8 +32,11 @@ const extend = async (
     targetModulePath: string,
     logger: ILogger,
     userInteraction: IUserInteraction,
-    optionalSourceModulePath?: string
+    optionalSourceModulePath?: string,
+    config?: ConfigType
 ): Promise<string[]> => {
+    setConfig(config);
+
     const relativeResourceDirectory = getRelativeResourceDirectory(resourceName, resourceType);
 
     // Resolve the source resource using the target module as CWD
