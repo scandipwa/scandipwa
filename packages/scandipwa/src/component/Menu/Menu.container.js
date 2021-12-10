@@ -63,13 +63,13 @@ export class MenuContainer extends DataContainer {
         }
     }
 
-    historyBackHook = () => {
+    historyBackHook() {
         const { activeMenuItemsStack } = this.state;
 
         if (activeMenuItemsStack.length) {
             this.setState({ activeMenuItemsStack: activeMenuItemsStack.slice(1) });
         }
-    };
+    }
 
     componentWillUnmount() {
         window.removeEventListener('popstate', this.historyBackHook);

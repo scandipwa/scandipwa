@@ -53,6 +53,8 @@ export class SliderWidget extends PureComponent {
         carouselDirection: DIRECTION_RIGHT
     };
 
+    onActiveImageChange = this.onActiveImageChange.bind(this);
+
     componentDidUpdate(prevProps, prevState) {
         const { slider: { slideSpeed, slides } } = this.props;
         const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
@@ -65,7 +67,7 @@ export class SliderWidget extends PureComponent {
         }
 
         if (slideSpeed !== prevSlideSpeed && slides.length !== 1) {
-            this.changeSlideDebounced = debounce(this.changeSlide, slideSpeed);
+            this.changeSlideDebounced = debounce(this.changeSlide.bind(this), slideSpeed);
             this.changeSlideDebounced();
         }
 
@@ -74,15 +76,15 @@ export class SliderWidget extends PureComponent {
         }
     }
 
-    changeSlide = () => {
+    changeSlide() {
         const imageToShow = this.getImageToShow();
         this.onActiveImageChange(imageToShow);
-    };
+    }
 
-    onActiveImageChange = (activeImage) => {
+    onActiveImageChange(activeImage) {
         this.setState({ activeImage });
         this.changeDirection(activeImage);
-    };
+    }
 
     changeDirection(activeImage) {
         const { slider: { slides } } = this.props;
@@ -120,7 +122,7 @@ export class SliderWidget extends PureComponent {
         return `/${desktop_image}`;
     }
 
-    renderSlide = (slide, i) => {
+    renderSlide(slide, i) {
         const {
             slide_text,
             isPlaceholder,
@@ -148,7 +150,7 @@ export class SliderWidget extends PureComponent {
                 </figcaption>
             </figure>
         );
-    };
+    }
 
     render() {
         const { activeImage } = this.state;
@@ -161,7 +163,7 @@ export class SliderWidget extends PureComponent {
               activeImage={ activeImage }
               onActiveImageChange={ this.onActiveImageChange }
             >
-                { slides.map(this.renderSlide) }
+                { slides.map(this.renderSlide.bind(this)) }
             </Slider>
         );
     }

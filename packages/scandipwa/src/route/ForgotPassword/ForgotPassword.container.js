@@ -10,21 +10,35 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { CUSTOMER_SUB_ACCOUNT, LOGIN, REGISTER } from 'Component/Header/Header.config';
+import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
 import {
-    mapDispatchToProps,
+    mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps,
     MyAccountOverlayContainer
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
+import { ACCOUNT_LOGIN_URL, ACCOUNT_REGISTRATION_URL } from 'Route/MyAccount/MyAccount.config';
+import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import ForgotPassword from './ForgotPassword.component';
 
+/** @namespace Route/ForgotPassword/Container/mapDispatchToProps */
+export const mapDispatchToProps = (dispatch) => ({
+    ...sourceMapDispatchToProps(dispatch),
+    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible))
+});
+
 /** @namespace Route/ForgotPassword/Container */
 export class ForgotPasswordContainer extends MyAccountOverlayContainer {
+    static propTypes = {
+        ...MyAccountOverlayContainer.propTypes,
+        updateBreadcrumbs: PropTypes.func.isRequired
+    };
+
     containerProps() {
         const { device } = this.props;
 
@@ -41,24 +55,25 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
     };
 
     componentDidMount() {
-        const { setHeaderState } = this.props;
+        const { setHeaderState, toggleBreadcrumbs } = this.props;
 
+        toggleBreadcrumbs(false);
         setHeaderState({
             name: CUSTOMER_SUB_ACCOUNT,
-            title: 'Forgot password',
+            title: __('Forgot password'),
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode(`${ LOGIN }`) });
+                history.push({ pathname: appendWithStoreCode(`${ ACCOUNT_LOGIN_URL }`) });
                 this.handleSignIn(e);
             }
         });
     }
 
     onLoginClick() {
-        history.replace(appendWithStoreCode(`${ LOGIN }`));
+        history.replace(appendWithStoreCode(`${ ACCOUNT_LOGIN_URL }`));
     }
 
     onCreateAccountClick() {
-        history.replace(appendWithStoreCode(`${ REGISTER }`));
+        history.replace(appendWithStoreCode(`${ ACCOUNT_REGISTRATION_URL }`));
     }
 
     render() {

@@ -43,7 +43,9 @@ export class ProductWishlistButton extends PureComponent {
         isInWishlist: false
     };
 
-    getTitle = () => {
+    onClick = this.onClick.bind(this);
+
+    getTitle() {
         const { isInWishlist, isSignedIn } = this.props;
 
         if (!isSignedIn) {
@@ -55,9 +57,9 @@ export class ProductWishlistButton extends PureComponent {
         }
 
         return __('Add to Wishlist');
-    };
+    }
 
-    onClick = (e) => {
+    onClick(e) {
         const {
             magentoProduct,
             isInWishlist,
@@ -72,7 +74,7 @@ export class ProductWishlistButton extends PureComponent {
         }
 
         return removeFromWishlist(magentoProduct);
-    };
+    }
 
     renderButton() {
         const { isInWishlist, isDisabled, mix } = this.props;

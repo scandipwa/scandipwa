@@ -108,7 +108,7 @@ export class ProductDownloadableLinks extends PureComponent {
 
         return (
             <div block="ProductDownloadableLink" key={ id }>
-                { this.renderCheckBox(link) }
+                { this.renderCheckBox.call(this, link) }
                 { this.renderLabel(link) }
                 { this.renderLink(link) }
             </div>

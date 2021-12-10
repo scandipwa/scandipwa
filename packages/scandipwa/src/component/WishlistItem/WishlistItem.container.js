@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -87,7 +88,13 @@ export class WishlistItemContainer extends PureComponent {
         setQuantity: this.setQuantity.bind(this)
     };
 
+    state = {
+        isLoading: false
+    };
+
     removeItemOnSwipe = this.removeItem.bind(this, false, true);
+
+    getAttributes = this.getAttributes.bind(this);
 
     changeQuantityDebouncer = new Debouncer();
 
@@ -95,6 +102,10 @@ export class WishlistItemContainer extends PureComponent {
 
     changeDescription = this.changeDescriptionDebouncer.startDebounce((description) => {
         const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+
+        if (!isSignedIn()) {
+            return;
+        }
 
         updateWishlistItem({
             wishlistId,
@@ -116,6 +127,10 @@ export class WishlistItemContainer extends PureComponent {
             updateWishlistItem,
             setIsQtyUpdateInProgress
         } = this.props;
+
+        if (!isSignedIn()) {
+            return;
+        }
 
         await updateWishlistItem({
             wishlistId,
@@ -168,7 +183,7 @@ export class WishlistItemContainer extends PureComponent {
 
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
-    getAttributes = () => {
+    getAttributes() {
         const { product: { variants, configurable_options, wishlist: { sku: wishlistSku } } } = this.props;
 
         const { attributes = [] } = variants.find(({ sku }) => sku === wishlistSku) || {};
@@ -288,6 +303,11 @@ export class WishlistItemContainer extends PureComponent {
 
     async removeItem(noMessages = true, isRemoveOnly = false) {
         const { product: { wishlist: { id: item_id } }, removeFromWishlist, handleSelectIdChange } = this.props;
+
+        if (!isSignedIn()) {
+            return;
+        }
+
         this.setState({ isLoading: true });
 
         handleSelectIdChange(item_id, isRemoveOnly);

@@ -28,7 +28,13 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
             <div block="ForgotPassword" elem="SignInWrapper">
                 <h3>{ __('Registered Customers') }</h3>
                 <p>{ __('If you have an account, sign in with your email address.') }</p>
-                <button block="Button" onClick={ onLoginClick }>{ __('Sign In') }</button>
+                <button
+                  block="Button"
+                  mix={ { block: 'ForgotPassword', elem: 'SignInButton' } }
+                  onClick={ onLoginClick }
+                >
+                { __('Sign In') }
+                </button>
             </div>
         );
     }
@@ -43,7 +49,13 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
                     { __('Creating an account has many benefits:') }
                     { __(' check out faster, keep more than one address, track orders and more.') }
                 </p>
-                <button block="Button" onClick={ onCreateAccountClick }>{ __('Create an Account') }</button>
+                <button
+                  block="Button"
+                  mix={ { block: 'ForgotPassword', elem: 'CreateAccountButton' } }
+                  onClick={ onCreateAccountClick }
+                >
+                { __('Create an Account') }
+                </button>
             </div>
         );
     }

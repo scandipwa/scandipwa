@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ERROR_TYPE } from 'Component/Notification/Notification.config';
+import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router.type';
@@ -36,11 +37,7 @@ export const mapStateToProps = () => ({});
 
 /** @namespace Route/ConfirmAccountPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
-        );
-    },
+    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     confirmAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.confirmAccount(options, dispatch)
@@ -59,7 +56,7 @@ export class ConfirmAccountPageContainer extends PureComponent {
         updateMeta: PropTypes.func.isRequired,
         confirmAccount: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired
+        toggleBreadcrumbs: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -77,10 +74,10 @@ export class ConfirmAccountPageContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const { updateMeta } = this.props;
-        updateMeta({ title: __('Confirm account') });
+        const { updateMeta, toggleBreadcrumbs } = this.props;
 
-        this._updateBreadcrumbs();
+        updateMeta({ title: __('Confirm account') });
+        toggleBreadcrumbs(false);
     }
 
     containerProps() {
@@ -148,18 +145,6 @@ export class ConfirmAccountPageContainer extends PureComponent {
 
     onFormError() {
         this.setState({ isLoading: false });
-    }
-
-    _updateBreadcrumbs() {
-        const { updateBreadcrumbs } = this.props;
-        const breadcrumbs = [
-            {
-                url: '/account/confirmAccount',
-                name: __('Confirm Account')
-            }
-        ];
-
-        updateBreadcrumbs(breadcrumbs);
     }
 
     render() {

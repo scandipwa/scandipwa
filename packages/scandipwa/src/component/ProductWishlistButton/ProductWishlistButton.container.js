@@ -142,12 +142,12 @@ export class ProductWishlistButtonContainer extends PureComponent {
         return removeProductFromWishlist({ item_id: itemId });
     }
 
-    isDisabled = () => {
+    isDisabled() {
         const { isAddingWishlistItem } = this.props;
         return isAddingWishlistItem || !isSignedIn();
     };
 
-    getWishlistItem = (sku) => {
+    getWishlistItem(sku) {
         const { productsInWishlist } = this.props;
         if (!productsInWishlist) {
             return null;
@@ -159,7 +159,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         );
     }
 
-    isInWishlist = () => {
+    isInWishlist() {
         const { magentoProduct = [] } = this.props;
         const [{ sku: productSku }] = magentoProduct;
 
