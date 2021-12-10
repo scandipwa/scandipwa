@@ -30,6 +30,11 @@
                         width: 100%;
                     }
                 }
+
+                &-Legend {
+                    font-size: 18px;
+                    border-block-end: 1px solid var(--input-border-color);
+                }
             }
 
             .Field {

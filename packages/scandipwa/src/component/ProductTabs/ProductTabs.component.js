@@ -33,6 +33,8 @@ export class ProductTabs extends PureComponent {
         defaultTab: 0
     };
 
+    onTabClick = this.onTabClick.bind(this);
+
     __construct(props) {
         super.__construct(props);
 
@@ -43,7 +45,7 @@ export class ProductTabs extends PureComponent {
         };
     }
 
-    onTabClick = (tab) => {
+    onTabClick(tab) {
         const { tabs } = this.props;
         const { activeTab } = this.state;
 
@@ -54,7 +56,7 @@ export class ProductTabs extends PureComponent {
                 activeTab: currentTab
             });
         }
-    };
+    }
 
     renderActiveTab() {
         const { tabs } = this.props;
@@ -69,7 +71,7 @@ export class ProductTabs extends PureComponent {
         return tabs.map(({ render, name }) => render(name));
     }
 
-    renderTab = (item, i) => {
+    renderTab(item, i) {
         const { activeTab } = this.state;
 
         return (
@@ -80,7 +82,7 @@ export class ProductTabs extends PureComponent {
               isActive={ i === activeTab }
             />
         );
-    };
+    }
 
     renderTabs() {
         const { tabs } = this.props;
@@ -92,7 +94,7 @@ export class ProductTabs extends PureComponent {
         return (
             <>
                 <ul block="ProductTabs">
-                    { tabs.map(this.renderTab) }
+                    { tabs.map(this.renderTab.bind(this)) }
                 </ul>
                 { this.renderActiveTab() }
             </>

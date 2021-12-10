@@ -77,7 +77,7 @@ export class MyAccountMyOrders extends Component {
         );
     }
 
-    renderOrderRow = (order) => {
+    renderOrderRow(order) {
         const { base_order_info: { id } } = order;
 
         return (
@@ -86,7 +86,7 @@ export class MyAccountMyOrders extends Component {
               order={ order }
             />
         );
-    };
+    }
 
     renderOrderRows() {
         const { orderList, isLoading } = this.props;

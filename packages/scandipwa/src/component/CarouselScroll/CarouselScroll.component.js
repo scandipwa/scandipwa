@@ -49,6 +49,10 @@ export class CarouselScroll extends PureComponent {
 
     carouselRef = createRef();
 
+    handleArrowClick = this.handleArrowClick.bind(this);
+
+    handleChange = this.handleChange.bind(this);
+
     componentDidMount() {
         const { showedItemCount } = this.props;
 
@@ -119,10 +123,10 @@ export class CarouselScroll extends PureComponent {
         CSS.setVariable(this.carouselRef, 'translateX', translate);
     }
 
-    getMaxFirstItemId = () => {
+    getMaxFirstItemId() {
         const { children: { length: childrenLength }, showedItemCount } = this.props;
         return Math.max(childrenLength - showedItemCount, 0);
-    };
+    }
 
     getNewCarouselItemId(isNextArrow) {
         const { showedItemCount } = this.props;
@@ -135,13 +139,13 @@ export class CarouselScroll extends PureComponent {
             : Math.max(prevFirstCarouselItemId - scrollStep, 0);
     }
 
-    handleArrowClick = (isNextArrow) => {
+    handleArrowClick(isNextArrow) {
         const firstCarouselItemId = this.getNewCarouselItemId(isNextArrow);
         this.setTranslate(firstCarouselItemId);
         this.setState({ firstCarouselItemId });
-    };
+    }
 
-    handleChange = (nextId) => {
+    handleChange(nextId) {
         const { onChange, showedItemCount } = this.props;
         const { firstCarouselItemId } = this.state;
         onChange(nextId);
@@ -152,7 +156,7 @@ export class CarouselScroll extends PureComponent {
             this.setTranslate(newId);
             this.setState({ firstCarouselItemId: newId });
         }
-    };
+    }
 
     handleReset() {
         const { onChange } = this.props;
@@ -186,7 +190,7 @@ export class CarouselScroll extends PureComponent {
         );
     }
 
-    renderContentItem = (child, key) => {
+    renderContentItem(child, key) {
         const { activeItemId } = this.state;
 
         return (
@@ -200,7 +204,7 @@ export class CarouselScroll extends PureComponent {
                 { child }
             </CarouselScrollItem>
         );
-    };
+    }
 
     renderContent() {
         const { children, isImageZoomPopupActive } = this.props;
@@ -208,7 +212,7 @@ export class CarouselScroll extends PureComponent {
         return (
             <div block="CarouselScroll" elem="ContentWrapper" mods={ { isImageZoomPopupActive } }>
                 <div block="CarouselScroll" elem="Content">
-                    { children.map(this.renderContentItem) }
+                    { children.map(this.renderContentItem.bind(this)) }
                 </div>
             </div>
         );

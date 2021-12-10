@@ -30,13 +30,15 @@ export class ResetButton extends PureComponent {
         mix: {}
     };
 
-    onClick = () => {
+    onClick = this.onClick.bind(this);
+
+    onClick() {
         const { onClick, resetFilters } = this.props;
 
         onClick();
         resetFilters();
         scrollToTop();
-    };
+    }
 
     render() {
         const { mix, isContentFiltered } = this.props;

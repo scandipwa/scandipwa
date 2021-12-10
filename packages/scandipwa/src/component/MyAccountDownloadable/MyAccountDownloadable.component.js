@@ -76,7 +76,7 @@ export class MyAccountDownloadableComponent extends Component {
         );
     }
 
-    renderOrderRow = (order) => {
+    renderOrderRow(order) {
         const { id } = order;
 
         return (
@@ -85,7 +85,7 @@ export class MyAccountDownloadableComponent extends Component {
               order={ order }
             />
         );
-    };
+    }
 
     renderOrderRows() {
         const { items, isLoading } = this.props;

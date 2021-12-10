@@ -91,6 +91,12 @@ export class ProductGallery extends PureComponent {
         prevZoom: false
     };
 
+    handleSliderClick = this.handleSliderClick.bind(this);
+
+    calculateGallerySize = this._calculateGallerySize.bind(this);
+
+    onWheel = this.onWheel.bind(this);
+
     __construct(props, context) {
         super.__construct(props, context);
         this.renderSlide = this.renderSlide.bind(this);
@@ -142,7 +148,7 @@ export class ProductGallery extends PureComponent {
         this.setState({ prevZoom });
     }
 
-    calculateGallerySize = () => {
+    _calculateGallerySize() {
         const { isMobile } = this.props;
         const ref = this.galleryRef.current;
 
@@ -153,9 +159,9 @@ export class ProductGallery extends PureComponent {
 
         const slidesCount = Math.floor((width - ARROW_SAFE_AREA * 2) / (CAROUSEL_ITEM_WIDTH + CAROUSEL_ITEM_GAP));
         this.setState({ slidesCount });
-    };
+    }
 
-    handleSliderClick = () => {
+    handleSliderClick() {
         const {
             handleImageZoomPopupActiveChange,
             gallery,
@@ -169,19 +175,21 @@ export class ProductGallery extends PureComponent {
         }
 
         handleImageZoomPopupActiveChange(true);
-    };
+    }
 
     updateSharedDestinationElement() {
         const { registerSharedElementDestination } = this.props;
         registerSharedElementDestination(this.imageRef);
     }
 
-    renderAdditionalPicture = (media, index = 0) => (
-        <ProductGalleryThumbnailImage
-          key={ index }
-          media={ media }
-        />
-    );
+    renderAdditionalPicture(media, index = 0) {
+        return (
+            <ProductGalleryThumbnailImage
+              key={ index }
+              media={ media }
+            />
+        );
+    }
 
     /**
      * Renders a video thumbnail which opens popup player on click/tap
@@ -229,7 +237,7 @@ export class ProductGallery extends PureComponent {
         }, 20);
     }
 
-    onWheel = (zoomState) => {
+    onWheel(zoomState) {
         const { scale } = zoomState;
 
         if (this.timeout) {
@@ -239,7 +247,7 @@ export class ProductGallery extends PureComponent {
         if (scale === 1 || scale === MAX_ZOOM_SCALE) {
             this.stopScrolling();
         }
-    };
+    }
 
     /**
      * Renders a product image to be displayed in the gallery
@@ -373,7 +381,7 @@ export class ProductGallery extends PureComponent {
                   showedItemCount={ slidesCount }
                   isImageZoomPopupActive={ isImageZoomPopupActive }
                 >
-                    { gallery.map(this.renderAdditionalPicture) }
+                    { gallery.map(this.renderAdditionalPicture.bind(this)) }
                 </CarouselScroll>
             </div>
         );

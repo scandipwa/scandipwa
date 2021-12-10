@@ -83,6 +83,8 @@ export class CmsPageContainer extends DataContainer {
         isPageLoaded: false
     };
 
+    setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
+
     __construct(props) {
         super.__construct(props);
 
@@ -151,7 +153,7 @@ export class CmsPageContainer extends DataContainer {
         }
     }
 
-    setOfflineNoticeSize = () => {
+    setOfflineNoticeSize() {
         const { setBigOfflineNotice } = this.props;
         const { isLoading } = this.state;
 
@@ -160,9 +162,9 @@ export class CmsPageContainer extends DataContainer {
         } else {
             setBigOfflineNotice(false);
         }
-    };
+    }
 
-    onPageLoad = ({ cmsPage: page }) => {
+    onPageLoad({ cmsPage: page }) {
         const {
             location: { pathname },
             updateMeta,
@@ -197,7 +199,7 @@ export class CmsPageContainer extends DataContainer {
         }
 
         this.setState({ page, isLoading: false, isPageLoaded: true });
-    };
+    }
 
     getRequestQueryParams() {
         const {
@@ -234,7 +236,7 @@ export class CmsPageContainer extends DataContainer {
 
         this.fetchData(
             [CmsPageQuery.getQuery(params)],
-            this.onPageLoad,
+            this.onPageLoad.bind(this),
             () => this.setState({ isLoading: false })
         );
     }

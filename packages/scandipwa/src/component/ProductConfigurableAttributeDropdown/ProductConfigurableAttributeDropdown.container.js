@@ -48,7 +48,7 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
         };
     }
 
-    _getSelectOptions = () => {
+    _getSelectOptions() {
         const {
             option: {
                 attribute_options,
@@ -82,14 +82,14 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
                     id: value
                 }];
             }, []);
-    };
+    }
 
-    _getSelectValue = () => {
+    _getSelectValue() {
         const { option: { attribute_code } } = this.props;
         const { parameters = {} } = this.props;
 
         return parameters[attribute_code];
-    };
+    }
 
     render() {
         return (

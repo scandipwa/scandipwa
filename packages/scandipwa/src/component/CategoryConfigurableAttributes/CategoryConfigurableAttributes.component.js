@@ -121,7 +121,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         );
     }
 
-    renderConfigurableOption = (option) => {
+    renderConfigurableOption(option) {
         const { attribute_code } = option;
 
         switch (attribute_code) {
@@ -132,13 +132,13 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         default:
             return this.renderDropdownOrSwatch(option);
         }
-    };
+    }
 
     renderConfigurableAttributes() {
         const { configurable_options } = this.props;
 
         return sortBySortOrder(Object.values(configurable_options), 'attribute_position')
-            .map(this.renderConfigurableOption);
+            .map(this.renderConfigurableOption.bind(this));
     }
 
     renderDropdown(option) {

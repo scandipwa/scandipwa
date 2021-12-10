@@ -81,7 +81,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const SCROLL_DEBOUNCE_DELAY = 10;
         const { name } = this.getNavigationState();
         this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
-        window.addEventListener('scroll', debounce(this.handleScroll, SCROLL_DEBOUNCE_DELAY));
+        window.addEventListener('scroll', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY));
 
         super.componentDidMount();
     }
@@ -156,7 +156,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         }
     }
 
-    handleScroll = () => {
+    handleScroll() {
         const { navigationState: { isVisibleOnScroll } } = this.props;
 
         if (!isVisibleOnScroll) {
@@ -166,7 +166,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const windowY = window.pageYOffset;
         this.handleNavVisibilityOnScroll(windowY);
         this.scrollPosition = windowY;
-    };
+    }
 
     onMenuButtonClick() {
         const { navigationState: { name } } = this.props;

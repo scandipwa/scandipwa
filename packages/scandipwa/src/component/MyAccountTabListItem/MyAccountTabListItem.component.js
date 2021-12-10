@@ -34,11 +34,13 @@ export class MyAccountTabListItem extends PureComponent {
         isActive: false
     };
 
-    changeActiveTab = () => {
+    changeActiveTab = this.changeActiveTab.bind(this);
+
+    changeActiveTab() {
         const { changeActiveTab, tabEntry: [key] } = this.props;
 
         changeActiveTab(key);
-    };
+    }
 
     render() {
         const { tabEntry: [, { tabName }], isActive } = this.props;
