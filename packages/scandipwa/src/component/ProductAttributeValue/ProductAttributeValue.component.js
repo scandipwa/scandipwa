@@ -301,7 +301,7 @@ export class ProductAttributeValue extends PureComponent {
             </span>
         );
     }
-    
+
     renderDropdown(value, subLabel) {
         const { isSelected } = this.props;
 
