@@ -16,9 +16,8 @@ $select-arrow-height: 14px !default;
 $select-arrow-width: 14px !default;
 
 .FieldSelect {
-    cursor: pointer;
-
     &-Clickable {
+        cursor: pointer;
         display: flex;
         align-items: center;
 
@@ -99,6 +98,7 @@ $select-arrow-width: 14px !default;
     }
 
     &-Option {
+        cursor: pointer;
         padding: 0;
         margin: 0;
         z-index: 1;
@@ -137,6 +137,11 @@ $select-arrow-width: 14px !default;
             @include desktop {
                 background: var(--secondary-base-color);
             }
+        }
+
+        &_isDisabled {
+            pointer-events: none;
+            opacity: 0.6;
         }
     }
 }

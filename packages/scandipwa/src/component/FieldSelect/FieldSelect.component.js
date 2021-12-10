@@ -96,11 +96,18 @@ export class FieldSelect extends PureComponent {
             handleSelectListOptionClick
         } = this.props;
 
+        const isDisabled = option.isAvailable !== undefined ? !option.isAvailable : false;
+
         return (
             <li
               block="FieldSelect"
               elem="Option"
-              mods={ { isExpanded, isPlaceholder, isHovered } }
+              mods={ {
+                  isDisabled,
+                  isExpanded,
+                  isPlaceholder,
+                  isHovered
+              } }
               key={ id }
               /**
                * Added 'o' as querySelector does not work with
