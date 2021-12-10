@@ -54,7 +54,7 @@ export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     wishlistItems: state.WishlistReducer.productsInWishlist,
-    isSignedIn: state.MyAccountReducer.isSignedIn,
+    IsSignedInFromState: state.MyAccountReducer.isSignedIn,
     newsletterActive: state.ConfigReducer.newsletter_general_active,
     baseLinkUrl: state.ConfigReducer.base_link_url
 });
@@ -87,7 +87,7 @@ export class MyAccountContainer extends PureComponent {
         wishlistItems: PropTypes.objectOf(ItemType),
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool.isRequired,
+        IsSignedInFromState: PropTypes.bool.isRequired,
         baseLinkUrl: PropTypes.string.isRequired,
         showNotification: PropTypes.func.isRequired,
         selectedTab: PropTypes.string
@@ -231,13 +231,13 @@ export class MyAccountContainer extends PureComponent {
     componentDidUpdate(prevProps, prevState) {
         const {
             wishlistItems: prevWishlistItems,
-            isSignedIn: prevIsSignedIn,
+            IsSignedInFromState: prevIsSignedInFromState,
             location: prevLocation
         } = prevProps;
 
         const {
             wishlistItems,
-            isSignedIn: currIsSignedIn
+            IsSignedInFromState: currIsSignedInFromState
         } = this.props;
 
         const { activeTab: prevActiveTab } = prevState;
@@ -245,7 +245,7 @@ export class MyAccountContainer extends PureComponent {
 
         this.redirectIfNotSignedIn(prevLocation);
 
-        if (prevIsSignedIn !== currIsSignedIn) {
+        if (prevIsSignedInFromState !== currIsSignedInFromState) {
             this.changeMyAccountHeaderState();
         }
 
