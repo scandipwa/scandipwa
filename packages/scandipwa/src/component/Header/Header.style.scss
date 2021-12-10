@@ -301,8 +301,12 @@
         white-space: nowrap;
         width: 100%;
         text-transform: inherit;
-        line-height: 28px;
+        line-height: 30px;
         height: 30px;
+
+        @include mobile {
+            line-height: 28px;
+        }
 
         &_isVisible {
             @include mobile {
