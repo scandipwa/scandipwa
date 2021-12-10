@@ -15,6 +15,7 @@ import { Component, lazy, Suspense } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
 import MyAccountInformation from 'Component/MyAccountInformation';
+import MyAccountOrder from 'Component/MyAccountOrder';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
 import {
@@ -23,12 +24,16 @@ import {
     ADDRESS_BOOK,
     MY_ACCOUNT,
     MY_DOWNLOADABLE,
+    MY_ORDER,
     MY_ORDERS,
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION,
     TabMapType
 } from 'Type/Account.type';
+import { LocationType, MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
+
+import { ACCOUNT_ORDER_URL } from './MyAccount.config';
 
 import './MyAccount.style';
 
@@ -66,15 +71,22 @@ export class MyAccount extends Component {
         tabMap: TabMapType.isRequired,
         changeActiveTab: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
-        onSignOut: PropTypes.func.isRequired
+        onSignOut: PropTypes.func.isRequired,
+        location: LocationType.isRequired,
+        match: MatchType.isRequired,
+        changeTabName: PropTypes.func.isRequired,
+        tabName: PropTypes.string,
+        setTabSubheading: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        subHeading: ''
+        subHeading: '',
+        tabName: null
     };
 
     renderMap = {
         [MY_ACCOUNT]: MyAccountDashboard,
+        [MY_ORDER]: MyAccountOrder,
         [MY_ORDERS]: MyAccountMyOrders,
         [MY_WISHLIST]: MyAccountMyWishlist,
         [ADDRESS_BOOK]: MyAccountAddressBook,
@@ -84,10 +96,37 @@ export class MyAccount extends Component {
     };
 
     shouldComponentUpdate(nextProps) {
-        const { activeTab } = this.props;
-        const { activeTab: nextActiveTab } = nextProps;
+        const {
+            activeTab,
+            location: { pathname },
+            tabName,
+            subHeading
+        } = this.props;
+        const {
+            activeTab: nextActiveTab,
+            location: {
+                pathname: nextPathname
+            },
+            tabName: nextTabName,
+            subHeading: nextSubHeading
+        } = nextProps;
 
-        return activeTab !== nextActiveTab;
+        return (
+            activeTab !== nextActiveTab
+            || pathname !== nextPathname
+            || tabName !== nextTabName
+            || subHeading !== nextSubHeading
+        );
+    }
+
+    getTabContent() {
+        const { activeTab, location: { pathname } } = this.props;
+
+        if (activeTab === MY_ORDERS && pathname.includes(ACCOUNT_ORDER_URL)) {
+            return this.renderMap[MY_ORDER];
+        }
+
+        return this.renderMap[activeTab];
     }
 
     renderLoginOverlay() {
@@ -116,15 +155,19 @@ export class MyAccount extends Component {
             tabMap,
             changeActiveTab,
             onSignOut,
-            isEditingActive
+            isEditingActive,
+            match,
+            changeTabName,
+            tabName,
+            setTabSubheading
         } = this.props;
 
         if (!isSignedIn()) {
             return this.renderLoginOverlay();
         }
 
-        const TabContent = this.renderMap[activeTab];
-        const { tabName, title } = tabMap[activeTab];
+        const TabContent = this.getTabContent();
+        const { title } = tabMap[activeTab];
 
         return (
             <ContentWrapper
@@ -137,13 +180,22 @@ export class MyAccount extends Component {
                   changeActiveTab={ changeActiveTab }
                   onSignOut={ onSignOut }
                 />
-                <div block="MyAccount" elem="TabContent">
+                <div
+                  block="MyAccount"
+                  elem="TabContent"
+                  mods={ { activeTab } }
+                >
                     <h2 block="MyAccount" elem="Heading">
                         { title || tabName }
                         { this.renderSubHeading() }
                     </h2>
                     <Suspense fallback={ <Loader /> }>
-                        <TabContent isEditingActive={ isEditingActive } />
+                        <TabContent
+                          isEditingActive={ isEditingActive }
+                          match={ match }
+                          changeTabName={ changeTabName }
+                          setTabSubheading={ setTabSubheading }
+                        />
                     </Suspense>
                 </div>
             </ContentWrapper>

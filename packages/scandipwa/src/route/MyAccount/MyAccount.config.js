@@ -16,3 +16,5 @@ export const ACCOUNT_FORGOT_PASSWORD_URL = 'customer/account/forgotpassword';
 export const ACCOUNT_REGISTRATION_URL = '/customer/account/create';
 export const ACCOUNT_LOGIN_URL = '/customer/account/login';
 export const ACCOUNT_URL = '/customer/account';
+export const ACCOUNT_ORDER_URL = '/sales/order/view/order_id';
+export const ACCOUNT_ORDER_PRINT_URL = 'sales/order/print/order_id';

@@ -186,8 +186,8 @@ export const customerEmailAndPasswordFields = (props) => {
                 label: __('Confirm New Password '),
                 attr: {
                     name: 'confirmNewPassword',
-                    placeholder: __('Confirm new password'),
-                    'aria-label': __('Confirm new password')
+                    placeholder: __('Confirm New password'),
+                    'aria-label': __('Confirm New password')
                 },
                 addRequiredTag: true,
                 validateOn: ['onChange'],

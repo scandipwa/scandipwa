@@ -12,16 +12,16 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CategoryPaginationLink from 'Component/CategoryPaginationLink';
 import ChevronIcon from 'Component/ChevronIcon';
 import { LEFT, RIGHT } from 'Component/ChevronIcon/ChevronIcon.config';
+import PaginationLink from 'Component/PaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { range } from 'Util/Manipulations';
 
-import './CategoryPagination.style';
+import './Pagination.style';
 
-/** @namespace Component/CategoryPagination/Component */
-export class CategoryPagination extends PureComponent {
+/** @namespace Component/Pagination/Component */
+export class Pagination extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         pathname: PropTypes.string.isRequired,
@@ -56,7 +56,7 @@ export class CategoryPagination extends PureComponent {
          */
         if (currentPage <= 1 || paginationFrame >= totalPages) {
             return (
-                <li block="CategoryPagination" elem="ListItem" />
+                <li block="Pagination" elem="ListItem" />
             );
         }
 
@@ -103,7 +103,7 @@ export class CategoryPagination extends PureComponent {
          */
         if (currentPage > totalPages - 1 || paginationFrame >= totalPages) {
             return (
-                <li block="CategoryPagination" elem="ListItem" />
+                <li block="Pagination" elem="ListItem" />
             );
         }
 
@@ -128,10 +128,10 @@ export class CategoryPagination extends PureComponent {
         return (
             <li
               key={ pageNumber }
-              block="CategoryPagination"
+              block="Pagination"
               elem="ListItem"
             >
-                <CategoryPaginationLink
+                <PaginationLink
                   label={ label }
                   url_path={ pathname }
                   isCurrent={ isCurrent }
@@ -139,7 +139,7 @@ export class CategoryPagination extends PureComponent {
                   getSearchQueryForPage={ getSearchQuery }
                 >
                     { children }
-                </CategoryPaginationLink>
+                </PaginationLink>
             </li>
         );
     }
@@ -204,11 +204,11 @@ export class CategoryPagination extends PureComponent {
 
     renderPlaceholder() {
         return (
-            <ul block="CategoryPagination" mods={ { isLoading: true } }>
+            <ul block="Pagination" mods={ { isLoading: true } }>
                 { Array.from({ length: 4 }, (_, i) => (
                     <li
                       key={ i }
-                      block="CategoryPagination"
+                      block="Pagination"
                       elem="ListItem"
                     >
                         <TextPlaceholder length="block" />
@@ -222,7 +222,7 @@ export class CategoryPagination extends PureComponent {
         const { isLoading, totalPages, id } = this.props;
 
         if (totalPages === 1) { // do not show pagination, if there are less then one page
-            return <ul block="CategoryPagination" />;
+            return <ul block="Pagination" />;
         }
 
         if (isLoading) {
@@ -231,7 +231,7 @@ export class CategoryPagination extends PureComponent {
 
         return (
             <nav aria-label={ __('Product list navigation') }>
-                <ul block="CategoryPagination" id={ id }>
+                <ul block="Pagination" id={ id }>
                     { this.renderPreviousPageLink() }
                     { this.renderFirstPageLink() }
                     { this.renderPreviousJump() }
@@ -245,4 +245,4 @@ export class CategoryPagination extends PureComponent {
     }
 }
 
-export default CategoryPagination;
+export default Pagination;

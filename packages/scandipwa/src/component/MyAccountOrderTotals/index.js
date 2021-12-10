@@ -6,7 +6,7 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-export { default } from './CategoryPaginationLink.component';
+export { default } from './MyAccountOrderTotals.container';

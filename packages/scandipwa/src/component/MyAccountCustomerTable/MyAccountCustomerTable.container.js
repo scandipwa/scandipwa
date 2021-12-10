@@ -22,7 +22,6 @@ import MyAccountCustomerTable from './MyAccountCustomerTable.component';
 /** @namespace Component/MyAccountCustomerTable/Container */
 export class MyAccountCustomerTableContainer extends PureComponent {
     static propTypes = {
-        showPopup: PropTypes.func.isRequired,
         customer: CustomerType.isRequired,
         title: PropTypes.string
     };

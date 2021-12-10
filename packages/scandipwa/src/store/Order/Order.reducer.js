@@ -9,50 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import BrowserDatabase from 'Util/BrowserDatabase';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { formatOrders } from 'Util/Orders';
 
-import { GET_ORDER_LIST } from './Order.action';
-
-export const ORDERS = 'orders';
-
-/** @namespace Store/Order/Reducer/getFormattedDate */
-export const getFormattedDate = (rawDate = '') => {
-    const date = new Date(rawDate.replace(/\s/, 'T'));
-    const RADIX = 10;
-
-    const addLeadingZero = (value) => (value < RADIX ? `0${value}` : value);
-
-    const day = addLeadingZero(date.getDate());
-    const month = addLeadingZero(date.getMonth() + 1);
-
-    return `${date.getFullYear()}-${month}-${day}`;
-};
-
-/** @namespace Store/Order/Reducer/formatOrders */
-export const formatOrders = (orders) => orders.reduce((acc, order) => {
-    const { base_order_info } = order;
-    const { created_at } = base_order_info;
-    const formattedDate = getFormattedDate(created_at);
-
-    return [
-        ...acc,
-        {
-            ...order,
-            base_order_info: {
-                ...order.base_order_info,
-                created_at: formattedDate
-            }
-        }
-    ];
-}, []);
-
-export const orderList = BrowserDatabase.getItem(ORDERS) || [];
+import { GET_ORDER_LIST, SET_ORDER_LOADING_STATUS } from './Order.action';
 
 /** @namespace Store/Order/Reducer/getInitialState */
 export const getInitialState = () => ({
-    orderList,
-    isLoading: !orderList.length
+    orderList: {},
+    isLoading: true
 });
 
 /** @namespace Store/Order/Reducer/OrderReducer */
@@ -68,17 +32,19 @@ export const OrderReducer = (
 
     switch (type) {
     case GET_ORDER_LIST:
-        const { items = [] } = orderList;
+        const { items = [], page_info } = orderList;
         const formattedOrders = formatOrders(items);
-
-        BrowserDatabase.setItem(formattedOrders, ORDERS, ONE_MONTH_IN_SECONDS);
 
         return {
             ...state,
             isLoading: status,
-            orderList: formattedOrders
+            orderList: { items: formattedOrders, pageInfo: page_info }
         };
-
+    case SET_ORDER_LOADING_STATUS:
+        return {
+            ...state,
+            isLoading: status
+        };
     default:
         return state;
     }
