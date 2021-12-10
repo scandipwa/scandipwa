@@ -15,7 +15,8 @@ import {
     CLEAR_COMPARED_PRODUCTS,
     SET_COMPARE_LIST,
     SET_COMPARED_PRODUCT_IDS,
-    TOGGLE_COMPARE_LIST_LOADER
+    TOGGLE_COMPARE_LIST_LOADER,
+    UPDATE_COMPARE_TOTALS
 } from './ProductCompare.action';
 
 export const COMPARE_LIST_PRODUCTS = 'compare_list_products';
@@ -26,7 +27,7 @@ export const getInitialState = () => {
 
     return {
         isLoading: false,
-        count: compareListProducts.length,
+        count: 0,
         attributes: [],
         products: [],
         productIds: compareListProducts,
@@ -69,6 +70,15 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
             products,
             productIds,
             items
+        };
+    }
+
+    case UPDATE_COMPARE_TOTALS: {
+        const { compareTotals = 0 } = action;
+
+        return {
+            ...state,
+            count: compareTotals
         };
     }
 
