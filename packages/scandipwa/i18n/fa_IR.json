@@ -519,8 +519,6 @@
     "Confirm new password": null,
     "Change %s": null,
     "Manage Addresses": null,
-    "Incorrect File extension upload!": null,
-    "Coupon code discount ": null,
     "Product tabs": null,
     "Select option...": null,
     "Min quantity %s!": null,
@@ -551,5 +549,8 @@
     "Please sign in to subscribe for notification": null,
     "You saved the alert subscription": null,
     "Notify me when the price drops": null,
-    "Notify me when this product is in stock": null
+    "Notify me when this product is in stock": null,
+    "Please sign in or remove downloadable products from cart!": null,
+    "Your VAT number": null,
+    "Password should be at least 8 characters long": null
 }

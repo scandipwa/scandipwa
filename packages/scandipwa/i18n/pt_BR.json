@@ -559,5 +559,8 @@
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
-    "Coupon code discount ": null
+    "Coupon code discount ": null,
+    "Please sign in or remove downloadable products from cart!": null,
+    "Your VAT number": null,
+    "Password should be at least 8 characters long": null
 }
