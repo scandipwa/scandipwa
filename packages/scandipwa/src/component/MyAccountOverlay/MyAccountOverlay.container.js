@@ -176,7 +176,8 @@ export class MyAccountOverlayContainer extends PureComponent {
             }
         }
 
-        if (newMyAccountState !== STATE_LOGGED_IN
+        if (
+            newMyAccountState !== STATE_LOGGED_IN
             && pathname.includes(ACCOUNT_URL)
             && !isOverlayVisible
         ) {
