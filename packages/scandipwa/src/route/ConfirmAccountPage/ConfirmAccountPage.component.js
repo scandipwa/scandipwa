@@ -77,6 +77,7 @@ export class ConfirmAccountPage extends PureComponent {
                       name: 'email'
                   } }
                   mix={ { block: 'ConfirmAccountPage', elem: 'EmailInput' } }
+                  addRequiredTag
                 />
                 <Field
                   type={ FIELD_TYPE.password }

@@ -11,29 +11,71 @@
 
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { getOrderList } from 'Store/Order/Order.action';
-import { fetchQuery, getErrorMessage } from 'Util/Request';
+import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
+import history from 'Util/History';
+import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import { appendWithStoreCode } from 'Util/Url';
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
 /** @namespace Store/Order/Dispatcher */
 export class OrderDispatcher {
-    requestOrders(dispatch) {
-        const query = OrderQuery.getOrderListQuery();
+    requestOrders(dispatch, page = 1) {
+        const query = OrderQuery.getOrderListQuery({ page });
+        dispatch(setLoadingStatus(true));
 
         return fetchQuery(query).then(
             /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then */
-            ({ getOrderList: orders }) => {
+            ({ customer: { orders } }) => {
                 dispatch(getOrderList(orders, false));
             },
-            /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then/dispatch/catch */
-            (error) => dispatch(showNotification('error', getErrorMessage(error)))
+            /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then/catch */
+            (error) => {
+                dispatch(showNotification('error', getErrorMessage(error)));
+                dispatch(setLoadingStatus(false));
+            }
         );
     }
 
-    async getOrderById(dispatch, id) {
-        try {
-            const { getOrderById: result } = await fetchQuery(OrderQuery.getOrderByIdQuery(id));
+    async reorder(dispatch, incrementId) {
+        const {
+            reorderItems: {
+                userInputErrors = []
+            } = {}
+        } = await this.handleReorderMutation(dispatch, incrementId);
 
-            return result;
+        if (userInputErrors.length) {
+            return userInputErrors.map(({ message }) => dispatch(showNotification('error', message)));
+        }
+
+        const cartDispatcher = (await CartDispatcher).default;
+        cartDispatcher.updateInitialCartData(dispatch);
+
+        return history.push(appendWithStoreCode('/cart'));
+    }
+
+    handleReorderMutation(dispatch, incrementId) {
+        try {
+            return fetchMutation(OrderQuery.getReorder(incrementId));
+        } catch (error) {
+            return dispatch(showNotification('error', getErrorMessage(error)));
+        }
+    }
+
+    async getOrderById(dispatch, orderId) {
+        try {
+            const {
+                customer: {
+                    orders: {
+                        items
+                    }
+                }
+            } = await fetchQuery(OrderQuery.getOrderListQuery({ orderId }));
+
+            return items[0];
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
 

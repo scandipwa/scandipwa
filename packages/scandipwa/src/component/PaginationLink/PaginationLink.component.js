@@ -15,10 +15,10 @@ import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import { ChildrenType } from 'Type/Common.type';
 
-import './CategoryPaginationLink.style';
+import './PaginationLink.style';
 
-/** @namespace Component/CategoryPaginationLink/Component */
-export class CategoryPaginationLink extends PureComponent {
+/** @namespace Component/PaginationLink/Component */
+export class PaginationLink extends PureComponent {
     static propTypes = {
         children: ChildrenType,
         label: PropTypes.string.isRequired,
@@ -58,7 +58,7 @@ export class CategoryPaginationLink extends PureComponent {
                   state
               } }
               aria-label={ label }
-              block="CategoryPaginationLink"
+              block="PaginationLink"
               mods={ { isCurrent, isArrow: typeof children !== 'string' } }
               aria-current={ isCurrent ? 'page' : 'false' }
             >
@@ -68,4 +68,4 @@ export class CategoryPaginationLink extends PureComponent {
     }
 }
 
-export default CategoryPaginationLink;
+export default PaginationLink;

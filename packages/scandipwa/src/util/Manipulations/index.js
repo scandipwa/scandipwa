@@ -11,3 +11,4 @@
  */
 
 export { range } from './Array';
+export * from './Date';

@@ -150,6 +150,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        @include desktop {
+            line-height: 20px;
+        }
     }
 
     &-Brand {
@@ -162,6 +166,10 @@
         min-height: var(--product-card-brand-line-height);
         line-height: var(--product-card-brand-line-height);
         font-size: 12px;
+
+        @include desktop {
+            line-height: 16px;
+        }
     }
 
     &-BrandAttributeValue {

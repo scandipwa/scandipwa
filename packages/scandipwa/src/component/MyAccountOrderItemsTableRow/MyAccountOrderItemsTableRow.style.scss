@@ -1,0 +1,128 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
+ */
+
+.MyAccountOrderItemsTableRow {
+    &-Qty {
+        display: flex;
+        flex-direction: column;
+
+        span {
+            margin-block-end: 5px;
+        }
+    }
+
+    &-QtyList {
+        display: inline-block;
+
+        li {
+            &:before {
+                content: none;
+            }
+
+            &:last-child {
+                margin-block-end: 0;
+            }
+        }
+    }
+
+    &-RowWrapper {
+        font-size: 14px;
+
+        td {
+            padding: 16px 10px 15px;
+
+            &:nth-child(n+3) {
+                text-align: right;
+            }
+        }
+
+        tr {
+            &:first-child {
+                td:first-child {
+                   padding-block-start: 15px;
+                }
+            }
+
+            &:last-child {
+                td:last-child {
+                    padding-block-end: 15px;
+                }
+            }
+        }
+
+        @include mobile {
+            border-block-end: var(--my-account-content-border);
+        }
+    }
+
+    &-Row {
+        @include mobile {
+            td {
+                padding: 5px 10px;
+
+                strong {
+                    vertical-align: top;
+                    margin-inline-end: 15px;
+
+                    &:first-child {
+                        &::after {
+                            content:":";
+                            display:inline-block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-Name {
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    &-EnteredRow {
+        td {
+            padding: 16px 10px 15px;
+
+            &:nth-child(n+3) {
+                text-align: right;
+            }
+
+            &:first-child {
+                padding-left: 0;
+            }
+        }
+    }
+
+    &-EnteredLabel {
+        td {
+            padding-inline-start: 10px;
+            background-color: var(--color-gray);
+
+            @include desktop {
+                padding-inline-start: 0;
+            }
+        }
+    }
+
+    &-OptionLabel {
+        padding: 5px 0;
+
+        &:first-child {
+            padding-block-start: 0;
+        }
+
+        @include desktop {
+            padding-block-start: 15px;
+            padding-block-end: 10px;
+        }
+    }
+}
