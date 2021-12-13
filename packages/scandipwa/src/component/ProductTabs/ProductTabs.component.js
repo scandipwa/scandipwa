@@ -46,9 +46,7 @@ export class ProductTabs extends PureComponent {
 
         if (prevTabs.length !== tabs.length) {
             const [{ id }] = tabs;
-
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ activeTab: id });
+            this.setActiveTab(id);
         }
     }
 
@@ -59,10 +57,12 @@ export class ProductTabs extends PureComponent {
         const { id: currentTab } = tabs.find(({ name }) => name === tab);
 
         if (activeTab !== currentTab) {
-            this.setState({
-                activeTab: currentTab
-            });
+            this.setActiveTab(currentTab);
         }
+    }
+
+    setActiveTab(activeTab) {
+        this.setState({ activeTab });
     }
 
     renderActiveTab() {
