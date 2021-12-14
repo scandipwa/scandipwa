@@ -595,5 +595,18 @@
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
-    "Coupon code discount ": null
+    "Coupon code discount ": null,
+    "Please sign in or remove downloadable products from cart!": null,
+    "AM": null,
+    "PM": null,
+    "Your VAT number": null,
+    "Year": null,
+    "Month": null,
+    "Day": null,
+    "Hours": null,
+    "Minutes": null,
+    "AM / PM": null,
+    "Select date": null,
+    "Select date & time": null,
+    "Select time": null
 }
