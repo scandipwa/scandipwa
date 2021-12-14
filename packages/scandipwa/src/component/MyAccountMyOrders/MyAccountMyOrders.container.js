@@ -12,9 +12,12 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
-import { OrdersType } from 'Type/Account.type';
 import { DeviceType } from 'Type/Device.type';
+import { OrdersListType } from 'Type/Order.type';
+import { LocationType } from 'Type/Router.type';
+import { getQueryParam } from 'Util/Url';
 
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 
@@ -32,8 +35,8 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/MyAccountMyOrders/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    getOrderList: () => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch)
+    getOrderList: (page) => OrderDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch, page)
     )
 });
 
@@ -41,20 +44,40 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountMyOrdersContainer extends PureComponent {
     static propTypes = {
         getOrderList: PropTypes.func.isRequired,
-        orderList: OrdersType.isRequired,
+        orderList: OrdersListType.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        location: LocationType.isRequired
     };
 
     componentDidMount() {
         const { getOrderList } = this.props;
-        getOrderList();
+        getOrderList(this._getPageFromUrl());
+    }
+
+    componentDidUpdate(prevProps) {
+        const { getOrderList } = this.props;
+        const { location: prevLocation } = prevProps;
+
+        const prevPage = this._getPageFromUrl(prevLocation);
+        const currentPage = this._getPageFromUrl();
+
+        if (currentPage !== prevPage) {
+            getOrderList(this._getPageFromUrl());
+        }
     }
 
     containerProps() {
         const { orderList, isLoading, device } = this.props;
 
         return { orderList, isLoading, device };
+    }
+
+    _getPageFromUrl(url) {
+        const { location: currentLocation } = this.props;
+        const location = url || currentLocation;
+
+        return +(getQueryParam('page', location) || 1);
     }
 
     render() {
@@ -66,4 +89,4 @@ export class MyAccountMyOrdersContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountMyOrdersContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyAccountMyOrdersContainer));

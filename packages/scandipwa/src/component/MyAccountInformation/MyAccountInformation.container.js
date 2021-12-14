@@ -77,6 +77,8 @@ export class MyAccountInformationContainer extends PureComponent {
         handleChangePasswordCheckbox: this.handleChangePasswordCheckbox.bind(this)
     };
 
+    onError = this.onError.bind(this);
+
     __construct(props) {
         super.__construct(props);
 
@@ -108,13 +110,13 @@ export class MyAccountInformationContainer extends PureComponent {
         };
     }
 
-    onError = (error) => {
+    onError(error) {
         const { showErrorNotification, updateCustomerLoadingStatus } = this.props;
 
         updateCustomerLoadingStatus(false);
         showErrorNotification(error);
         this.setState({ isErrorShow: true });
-    };
+    }
 
     async onCustomerSave(fields) {
         const { updateCustomerLoadingStatus } = this.props;

@@ -28,6 +28,8 @@ export class ExpandableContentShowMore extends PureComponent {
         showElemCount: 3
     };
 
+    handleShowAllButtonClick = this.handleShowAllButtonClick.bind(this);
+
     __construct(props) {
         super.__construct(props);
 
@@ -105,13 +107,13 @@ export class ExpandableContentShowMore extends PureComponent {
         });
     }
 
-    handleShowAllButtonClick = () => {
+    handleShowAllButtonClick() {
         const { isExpanding } = this.state;
 
         if (!isExpanding) {
             this.setState(({ isOpen }) => ({ isOpen: !isOpen, isExpanding: true }));
         }
-    };
+    }
 
     renderShowAllButton() {
         const { showElemCount, children: { length } } = this.props;

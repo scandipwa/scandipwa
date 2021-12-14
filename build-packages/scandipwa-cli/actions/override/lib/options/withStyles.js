@@ -6,6 +6,12 @@ const withStyles = (yargs) => yargs
         alias: 'S',
         type: 'string',
         choices: Object.values(StylesOption)
+    })
+    .option('style-postfix', {
+        describe: 'Styles postfix (default: "override")',
+        alias: 'P',
+        type: 'string',
+        default: 'override'
     });
 
 module.exports = withStyles;

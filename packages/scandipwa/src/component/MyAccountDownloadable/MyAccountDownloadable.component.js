@@ -14,8 +14,7 @@ import { Component } from 'react';
 
 import Loader from 'Component/Loader';
 import MyAccountDownloadableTableRow from 'Component/MyAccountDownloadableTableRow';
-import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
-import { DownloadableType } from 'Type/Account.type';
+import { DownloadableType } from 'Type/Order.type';
 
 import './MyAccountDownloadable.style';
 
@@ -31,10 +30,6 @@ export class MyAccountDownloadableComponent extends Component {
         const { items: nextItems } = nextProps;
 
         return items !== nextItems;
-    }
-
-    renderPopup() {
-        return <MyAccountOrderPopup />;
     }
 
     renderNoOrders() {
@@ -76,7 +71,7 @@ export class MyAccountDownloadableComponent extends Component {
         );
     }
 
-    renderOrderRow = (order) => {
+    renderOrderRow(order) {
         const { id } = order;
 
         return (
@@ -85,7 +80,7 @@ export class MyAccountDownloadableComponent extends Component {
               order={ order }
             />
         );
-    };
+    }
 
     renderOrderRows() {
         const { items, isLoading } = this.props;
@@ -116,7 +111,6 @@ export class MyAccountDownloadableComponent extends Component {
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderTable() }
-                { this.renderPopup() }
             </div>
         );
     }

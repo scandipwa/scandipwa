@@ -112,7 +112,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         );
     }
 
-    renderStore = (store) => {
+    renderStore(store) {
         const { selectStore } = this.props;
         const { pickup_location_code } = store;
 
@@ -123,7 +123,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
               key={ pickup_location_code }
             />
         );
-    };
+    }
 
     renderResult() {
         const { stores, isLoading } = this.props;
@@ -135,7 +135,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         return (
             <div block="StoreInPickUpPopup" elem="Results">
                 <Loader isLoading={ isLoading } />
-                { stores.map(this.renderStore) }
+                { stores.map(this.renderStore.bind(this)) }
             </div>
         );
     }

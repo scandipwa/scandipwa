@@ -55,20 +55,22 @@ export class ProductAttributes extends PureComponent {
         );
     }
 
-    renderAttribute = (attribute) => (
-        <Fragment key={ attribute.attribute_label }>
-            <dt block="ProductAttributes" elem="AttributeLabel">
-                { attribute.attribute_label }
-            </dt>
-            <dd block="ProductAttributes" elem="ValueLabel">
-                <ProductAttributeValue
-                  key={ attribute.attribute_label }
-                  attribute={ attribute }
-                  isFormattedAsText
-                />
-            </dd>
-        </Fragment>
-    );
+    renderAttribute(attribute) {
+        return (
+            <Fragment key={ attribute.attribute_label }>
+                <dt block="ProductAttributes" elem="AttributeLabel">
+                    { attribute.attribute_label }
+                </dt>
+                <dd block="ProductAttributes" elem="ValueLabel">
+                    <ProductAttributeValue
+                      key={ attribute.attribute_label }
+                      attribute={ attribute }
+                      isFormattedAsText
+                    />
+                </dd>
+            </Fragment>
+        );
+    }
 
     renderAttributes(attribute_group_id) {
         const { attributesWithValues } = this.props;
@@ -87,7 +89,7 @@ export class ProductAttributes extends PureComponent {
 
         return (
             <dl block="ProductAttributes" elem="Attributes">
-                { filteredAttributesWithValues.map(this.renderAttribute) }
+                { filteredAttributesWithValues.map(this.renderAttribute.bind(this)) }
             </dl>
         );
     }

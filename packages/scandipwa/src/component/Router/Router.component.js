@@ -55,6 +55,7 @@ import {
     MY_ACCOUNT_ADDRESS,
     MY_ACCOUNT_DOWNLOADABLE,
     MY_ACCOUNT_NEWSLETTER,
+    MY_ACCOUNT_ORDER,
     MY_ACCOUNT_ORDERS,
     MY_ACCOUNT_WISHLIST,
     NAVIGATION_TABS,
@@ -192,33 +193,38 @@ export class Router extends PureComponent {
             name: CONFIRM_ACCOUNT
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/history') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_ORDERS } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_ORDERS } /> } />,
             position: 70,
+            name: MY_ACCOUNT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/history') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_ORDERS } /> } />,
+            position: 71,
             name: MY_ACCOUNT_ORDERS
         },
         {
             component: <Route path={ withStoreRegex('/downloadable/customer/products') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_DOWNLOADABLE } /> } />,
-            position: 71,
+            position: 72,
             name: MY_ACCOUNT_DOWNLOADABLE
         },
         {
             component: <Route path={ withStoreRegex('/wishlist') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_WISHLIST } /> } />,
-            position: 72,
+            position: 73,
             name: MY_ACCOUNT_WISHLIST
         },
         {
             component: <Route path={ withStoreRegex('/customer/address') } render={ (props) => <MyAccount { ...props } selectedTab={ ADDRESS_BOOK } /> } />,
-            position: 73,
+            position: 74,
             name: MY_ACCOUNT_ADDRESS
         },
         {
             component: <Route path={ withStoreRegex('/newsletter/manage') } render={ (props) => <MyAccount { ...props } selectedTab={ NEWSLETTER_SUBSCRIPTION } /> } />,
-            position: 74,
+            position: 75,
             name: MY_ACCOUNT_NEWSLETTER
         },
         {
             component: <Route path={ withStoreRegex('/customer/account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
-            position: 75,
+            position: 76,
             name: MY_ACCOUNT
         },
         {
@@ -295,9 +301,9 @@ export class Router extends PureComponent {
         );
     }
 
-    handleErrorReset = () => {
+    handleErrorReset() {
         this.setState({ hasError: false });
-    };
+    }
 
     renderComponentsOfType(type) {
         return this.getSortedItems(type)

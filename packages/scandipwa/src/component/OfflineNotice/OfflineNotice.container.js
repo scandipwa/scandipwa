@@ -109,7 +109,7 @@ export class OfflineNoticeContainer extends PureComponent {
         };
     }
 
-    handleNetworkChange = () => {
+    handleNetworkChange() {
         const {
             isBig,
             showOfflineNotice,
@@ -127,7 +127,7 @@ export class OfflineNoticeContainer extends PureComponent {
                 setBigOfflineNotice(false);
             }
         }
-    };
+    }
 
     render() {
         return (

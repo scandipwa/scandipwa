@@ -99,7 +99,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
         return { asyncData: KlarnaContainer.authorize() };
     }
 
-    collectAdditionalData = () => {
+    collectAdditionalData() {
         const { selectedPaymentCode } = this.state;
         const additionalDataGetter = this.dataMap[selectedPaymentCode];
 
@@ -108,7 +108,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
         }
 
         return additionalDataGetter();
-    };
+    }
 
     selectPaymentMethod({ code }) {
         const {

@@ -62,6 +62,8 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         isLoading: false
     };
 
+    handleAfterAction = this.handleAfterAction.bind(this);
+
     containerFunctions = {
         handleAddress: this.handleAddress.bind(this),
         handleDeleteAddress: this.handleDeleteAddress.bind(this)
@@ -93,11 +95,11 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         }
     }
 
-    handleError = (error) => {
+    handleError(error) {
         const { showErrorNotification } = this.props;
         showErrorNotification(error);
         this.setState({ isLoading: false });
-    };
+    }
 
     handleAddress(address) {
         const { payload: { address: { id } } } = this.props;

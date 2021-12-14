@@ -190,9 +190,11 @@ export class MyAccountContainer extends PureComponent {
 
     containerFunctions = {
         changeActiveTab: this.changeActiveTab.bind(this),
+        changeTabName: this.changeTabName.bind(this),
         onSignIn: this.onSignIn.bind(this),
         onSignOut: this.onSignOut.bind(this),
-        getMyWishlistSubHeading: this.getMyWishlistSubHeading.bind(this)
+        getMyWishlistSubHeading: this.getMyWishlistSubHeading.bind(this),
+        setTabSubheading: this.setTabSubheading.bind(this)
     };
 
     subHeadingRenderMap = {
@@ -209,7 +211,9 @@ export class MyAccountContainer extends PureComponent {
 
         this.state = {
             ...MyAccountContainer.navigateToSelectedTab(this.props),
-            isEditingActive: false
+            isEditingActive: false,
+            tabName: '',
+            stateSubHeading: ''
         };
 
         if (!isSignedIn()) {
@@ -266,26 +270,42 @@ export class MyAccountContainer extends PureComponent {
     }
 
     containerProps() {
+        const { location, match } = this.props;
         const { activeTab, isEditingActive } = this.state;
 
         return {
             activeTab,
             isEditingActive,
+            location,
+            match,
+            tabName: this.getTabName(),
             subHeading: this.getSubHeading()
         };
     }
 
     // #region GETTERS
     getSubHeading() {
-        const { activeTab } = this.state;
+        const { activeTab, stateSubHeading } = this.state;
 
         const subHeadingFunc = this.subHeadingRenderMap[activeTab];
 
         if (!subHeadingFunc) {
-            return null;
+            return stateSubHeading;
         }
 
         return subHeadingFunc();
+    }
+
+    getTabName() {
+        const { location: { pathname } } = this.props;
+        const { tabName: stateTabName, activeTab } = this.state;
+        const { tabName, url } = MyAccountContainer.tabMap[activeTab];
+
+        if (!pathname.includes(url)) {
+            return stateTabName;
+        }
+
+        return tabName;
     }
 
     getMyWishlistSubHeading() {
@@ -302,14 +322,18 @@ export class MyAccountContainer extends PureComponent {
         return length;
     }
 
-    getMyWishlistHeaderTitle = () => {
+    getMyWishlistHeaderTitle() {
         const count = this.getWishlistItemsCount();
 
         return `${ count } ${ count === 1 ? __('item') : __('items') }`;
-    };
+    }
     // #endregion
 
     // #region HANDLE TABS
+    setTabSubheading(subHeading) {
+        this.setState({ stateSubHeading: subHeading });
+    }
+
     isTabEnabled(tabName) {
         const { isWishlistEnabled, newsletterActive } = this.props;
 
@@ -389,6 +413,10 @@ export class MyAccountContainer extends PureComponent {
         }
 
         this.changeWishlistHeaderState();
+    }
+
+    changeTabName(newTabName) {
+        this.setState({ tabName: newTabName });
     }
 
     updateBreadcrumbs() {
