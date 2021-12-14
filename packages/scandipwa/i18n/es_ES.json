@@ -543,7 +543,6 @@
     "Radio": null,
     "Breadcrumbs": null,
     "Please fill in all rating fields": null,
-<<<<<<< HEAD
     "Save customer": null,
     "My Orders": null,
     "My Downloadable": null,
@@ -595,8 +594,4 @@
     "Confirm new password": null,
     "Change %s": null,
     "Manage Addresses": null,
-    "Incorrect File extension upload!": null
-=======
-    "Save customer": null
->>>>>>> updated with some necessary changes
 }
