@@ -18,6 +18,7 @@
     --popup-content-background: #{$white};
     --popup-min-width: 100%;
     --popup-content-padding: 12px;
+    --popup-max-height: 80%;
 
     @include desktop {
         --popup-min-width: 490px;
@@ -73,7 +74,7 @@
         padding: var(--popup-content-padding);
         min-width: var(--popup-min-width);
         max-width: calc(var(--content-wrapper-width) * .8);
-        max-height: 80%;
+        max-height: var(--popup-max-height);
         overflow-y: auto;
 
         @include mobile {
