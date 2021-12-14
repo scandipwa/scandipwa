@@ -95,11 +95,4 @@
             margin-inline-start: 5px;
         }
     }
-
-    &-SignInWrapper {
-        @include desktop {
-            max-width: 400px;
-        }
-    }
 }
-
