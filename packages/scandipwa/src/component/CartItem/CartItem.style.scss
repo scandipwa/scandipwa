@@ -244,6 +244,7 @@
     & &-Qty { // hack to obtain required specificity
         margin-block-start: 0;
         display: flex;
+        cursor: default;
 
         @include mobile {
             align-items: center;
@@ -261,9 +262,6 @@
         button {
             &:not([disabled]) {
                 cursor: pointer;
-            }
-            &:disabled {
-                cursor: default;
             }
         }
     }
