@@ -39,7 +39,7 @@
                 &_date, &_datetime-local, &_time {
                     input {
                         max-width: 100%;
-                        width: 250px;
+                        min-width: 250px;
                         height: 44.6px;
                     }
                 }
