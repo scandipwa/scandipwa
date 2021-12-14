@@ -3,6 +3,7 @@ import * as fs from 'fs-extra';
 
 import { ILogger, IUserInteraction, StylesOption } from "../types";
 import { createNewFileFromTemplate } from '../util/file';
+import { getConfigByKey } from './config';
 
 // Initial paths' calculation
 const templateDirectory = path.join(__dirname, '..', 'templates');
@@ -12,8 +13,10 @@ export const getStyleFileName = (
     resourceName: string, 
     stylesOption: StylesOption
 ) => {
+    const postfix = getConfigByKey('stylePostfix', 'override');
+
     if (stylesOption === StylesOption.extend) {
-        return `${resourceName}.override.style.scss`;
+        return `${resourceName}.${postfix}.style.scss`;
     }
 
     return `${resourceName}.style.scss`;

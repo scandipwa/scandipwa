@@ -13,7 +13,7 @@ export class SomethingWentWrongContainer extends PureComponent {
 
     containerFunctions = {};
 
-    containerProps = () => {
+    containerProps() {
         const { onClick } = this.props;
         const { trace, error } = this.parseError();
 
@@ -22,7 +22,7 @@ export class SomethingWentWrongContainer extends PureComponent {
             trace,
             error
         };
-    };
+    }
 
     parseError() {
         const {

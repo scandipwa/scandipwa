@@ -439,9 +439,9 @@ export class Checkout extends PureComponent {
         );
     }
 
-    onError = (_, fields, validation) => {
+    onError(_, fields, validation) {
         scrollToError(fields, validation);
-    };
+    }
 
     render() {
         return (

@@ -22,13 +22,20 @@ export const sharedTransitionInitialState = {
 export class SharedTransitionUnstated extends Container {
     state = sharedTransitionInitialState;
 
-    _parseRectangle = (val) => JSON.parse(JSON.stringify(val));
+    _parseRectangle(val) {
+        return JSON.parse(JSON.stringify(val));
+    }
 
+    registerSharedElementDestination = this.registerSharedElementDestination.bind(this);
+
+    registerSharedElement = this.registerSharedElement.bind(this);
+
+    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/no-arrow-functions-in-class
     cleanUpTransition = () => {
         this.setState(sharedTransitionInitialState);
     };
 
-    registerSharedElementDestination = ({ current }) => {
+    registerSharedElementDestination({ current }) {
         if (current) {
             this.setState(({ sharedElementDestination }) => {
                 if (sharedElementDestination) {
@@ -41,9 +48,9 @@ export class SharedTransitionUnstated extends Container {
                 };
             });
         }
-    };
+    }
 
-    registerSharedElement = ({ current }) => {
+    registerSharedElement({ current }) {
         if (current) {
             const clone = current.cloneNode(true);
 
@@ -54,7 +61,7 @@ export class SharedTransitionUnstated extends Container {
                 startingPosition: this._parseRectangle(current.getBoundingClientRect())
             });
         }
-    };
+    }
 }
 
 export default new SharedTransitionUnstated();

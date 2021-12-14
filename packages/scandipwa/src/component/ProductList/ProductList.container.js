@@ -162,7 +162,7 @@ export class ProductListContainer extends PureComponent {
         return validFilters.length > 0;
     }
 
-    requestPage = (currentPage = 1, isNext = false) => {
+    requestPage(currentPage = 1, isNext = false) {
         const {
             sort,
             search,
@@ -224,7 +224,7 @@ export class ProductListContainer extends PureComponent {
                 scrollToTop();
             }
         }
-    };
+    }
 
     containerProps() {
         const {

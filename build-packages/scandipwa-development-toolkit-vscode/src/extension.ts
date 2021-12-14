@@ -8,6 +8,8 @@ import { creator } from './commands/create';
 import { extender } from './commands/extend';
 
 import extensionCreator from './commands/extension/create';
+import { goToChildTheme } from './commands/go-to-child-theme';
+import { onDidSave } from './commands/warn-in-source';
 
 const commandMap = {
 	'extension.createComponent': creator(ResourceType.Component),
@@ -21,13 +23,15 @@ const commandMap = {
 	'extension.extendStore': extender(ResourceType.Store),
 
 	'extension.extensionCreate': extensionCreator,
+
+	'extension.goToChildTheme': goToChildTheme,
 };
 
 export function activate(context: vscode.ExtensionContext) {
 	Object.entries(commandMap).forEach(([ name, handler ]) => {
 		context.subscriptions.push(
 			vscode.commands.registerCommand(
-				name, 
+				name,
 				() => {
 					ContextManager.createInstance(context);
 
@@ -36,6 +40,17 @@ export function activate(context: vscode.ExtensionContext) {
 			)
 		);
 	});
+
+	vscode.commands.executeCommand('setContext', 'extension.scandipwaSupportedLangs', [
+		'javascript',
+		'javascriptreact',
+		'typescript',
+		'typescriptreact',
+		'scss',
+		'css'
+	]);
+
+	vscode.workspace.onDidSaveTextDocument(onDidSave);
 }
 
 export function deactivate() {}

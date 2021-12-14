@@ -46,7 +46,7 @@ export class KeyValueTable extends PureComponent {
         return Array.isArray(value) ? value.join(', ') : value;
     }
 
-    renderTableRow = (data) => {
+    renderTableRow(data) {
         const { key, label } = data;
         const value = this.getValueFromSource(data);
 
@@ -60,7 +60,7 @@ export class KeyValueTable extends PureComponent {
                 <td>{ value }</td>
             </tr>
         );
-    };
+    }
 
     renderHeading() {
         const { title, isSelected } = this.props;
@@ -91,7 +91,7 @@ export class KeyValueTable extends PureComponent {
                         { this.renderHeading() }
                     </thead>
                     <tbody>
-                        { this.dataPairArray.map(this.renderTableRow) }
+                        { this.dataPairArray.map(this.renderTableRow.bind(this)) }
                     </tbody>
                 </table>
             </div>

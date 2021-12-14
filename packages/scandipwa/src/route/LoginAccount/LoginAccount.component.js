@@ -62,7 +62,13 @@ export class LoginAccountComponent extends MyAccountOverlay {
                     { __('Creating an account has many benefits:') }
                     { __(' check out faster, keep more than one address, track orders and more.') }
                 </p>
-                <button block="Button" onClick={ onCreateAccountClick }>{ __('Create an Account') }</button>
+                <button
+                  block="Button"
+                  mix={ { block: 'LoginAccount', elem: 'CreateAccountButton' } }
+                  onClick={ onCreateAccountClick }
+                >
+                { __('Create an Account') }
+                </button>
             </div>
         );
     }

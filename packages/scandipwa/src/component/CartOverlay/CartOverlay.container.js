@@ -135,13 +135,9 @@ export class CartOverlayContainer extends PureComponent {
         };
     }
 
-    hasOutOfStockProductsInCartItems = (items = []) => (
-        items.some(({ product }) => !getProductInStock(product))
-    );
-
-    hasOutOfStockProductsInCartItems = (items) => (
-        items.some(({ product }) => !getProductInStock(product))
-    );
+    hasOutOfStockProductsInCartItems(items = []) {
+        return items.some(({ product }) => !getProductInStock(product));
+    }
 
     handleCheckoutClick(e) {
         const {
