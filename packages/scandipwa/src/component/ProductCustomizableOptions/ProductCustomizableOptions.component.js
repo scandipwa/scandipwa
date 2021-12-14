@@ -28,7 +28,7 @@ export class ProductCustomizableOptions extends PureComponent {
         updateSelectedValues: PropTypes.func.isRequired
     };
 
-    renderOptionGroup = (group) => {
+    renderOptionGroup(group) {
         const {
             title,
             value,
@@ -50,14 +50,14 @@ export class ProductCustomizableOptions extends PureComponent {
               updateSelectedValues={ updateSelectedValues }
             />
         );
-    };
+    }
 
     render() {
         const { options = [] } = this.props;
 
         return (
           <div block="ProductCustomizableOptions" elem="Wrapper">
-              { options.map(this.renderOptionGroup) }
+              { options.map(this.renderOptionGroup.bind(this)) }
           </div>
         );
     }

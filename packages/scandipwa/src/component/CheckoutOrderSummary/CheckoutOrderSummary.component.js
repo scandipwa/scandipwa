@@ -76,12 +76,8 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderItem = (item) => {
-        const {
-            totals: {
-                quote_currency_code
-            }
-        } = this.props;
+    renderItem(item) {
+        const { totals: { quote_currency_code } } = this.props;
 
         const { item_id } = item;
 
@@ -92,7 +88,7 @@ export class CheckoutOrderSummary extends PureComponent {
               currency_code={ quote_currency_code }
             />
         );
-    };
+    }
 
     renderDiscount() {
         const {
@@ -108,8 +104,14 @@ export class CheckoutOrderSummary extends PureComponent {
         }
 
         const label = coupon_code ? __('Coupon code discount') : __('Discount');
-
-        return this.renderPriceLine(-Math.abs(discount_amount), label);
+        const discount = -Math.abs(discount_amount);
+        return (
+            <CheckoutOrderSummaryPriceLine
+              price={ discount }
+              title={ label }
+              coupon_code={ coupon_code }
+            />
+        );
     }
 
     renderItems() {
@@ -126,7 +128,7 @@ export class CheckoutOrderSummary extends PureComponent {
             </div>
             <div block="CheckoutOrderSummary" elem="OrderItems">
                 <div block="CheckoutOrderSummary" elem="CartItemList">
-                    { items.map(this.renderItem) }
+                    { items.map(this.renderItem.bind(this)) }
                 </div>
             </div>
             </>

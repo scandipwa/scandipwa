@@ -10,10 +10,17 @@
  */
 
 export const GET_ORDER_LIST = 'GET_ORDER_LIST';
+export const SET_ORDER_LOADING_STATUS = 'SET_ORDER_LOADING_STATUS';
 
 /** @namespace Store/Order/Action/getOrderList */
 export const getOrderList = (orderList, status) => ({
     type: GET_ORDER_LIST,
     orderList,
+    status
+});
+
+/** @namespace Store/Order/Action/setLoadingStatus */
+export const setLoadingStatus = (status) => ({
+    type: SET_ORDER_LOADING_STATUS,
     status
 });

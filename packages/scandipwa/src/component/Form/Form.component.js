@@ -48,9 +48,9 @@ export class Form extends PureComponent {
 
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under form
-    renderErrorMessage = (message) => (
-        <div block="Field" elem="ErrorMessage">{ message }</div>
-    );
+    renderErrorMessage(message) {
+        return <div block="Field" elem="ErrorMessage">{ message }</div>;
+    }
 
     renderErrorMessages() {
         const {
@@ -70,7 +70,7 @@ export class Form extends PureComponent {
 
         return (
             <div block="Form" elem="ErrorMessages">
-                { errorMessages.map(this.renderErrorMessage) }
+                { errorMessages.map(this.renderErrorMessage.bind(this)) }
             </div>
         );
     }

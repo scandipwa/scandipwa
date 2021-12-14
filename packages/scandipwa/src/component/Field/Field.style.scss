@@ -70,6 +70,7 @@
             font-size: 12px;
             margin-block-end: -.1em;
             margin-block-start: 6px;
+            text-align: left;
         }
     }
 
@@ -241,6 +242,8 @@
                 &_isValid {
                     input {
                         & + label {
+                            word-break: break-word;
+                            text-align: center;
                             border-color: var(--primary-success-color);
                         }
                     }
@@ -249,6 +252,8 @@
                 &_hasError {
                     input {
                         & + label {
+                            word-break: break-word;
+                            text-align: center;
                             border-color: var(--primary-error-color);
                         }
                     }

@@ -18,6 +18,7 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -89,11 +90,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     routeMap = {
         // eslint-disable-next-line max-len
-        '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push(appendWithStoreCode('/')) },
+        '/customer/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push(appendWithStoreCode('/')) },
         '/category': { name: CATEGORY },
         '/checkout/success': { name: CHECKOUT_SUCCESS },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push(appendWithStoreCode('/cart')) },
-        '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push(appendWithStoreCode('/')) },
+        '/customer/account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push(appendWithStoreCode('/')) },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/menu': { name: MENU },
@@ -361,7 +362,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         } = this.props;
 
         if (isSignedIn()) {
-            history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
+            history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
 
             return;
         }
@@ -396,13 +397,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
         hideActiveOverlay();
     }
 
-    closeOverlay = () => {
+    closeOverlay() {
         const { location: { pathname } } = history;
 
         if (pathname.includes(CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
         }
-    };
+    }
 
     onSignIn() {
         const { location: { pathname } } = history;

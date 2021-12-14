@@ -111,8 +111,6 @@ export class ConfigQuery {
             'default_country',
             'downloadable_links_target_new_window',
             'secure_base_media_url',
-            // 'paypal_sandbox_flag',
-            // 'paypal_client_id',
             'logo_alt',
             'logo_height',
             'logo_width',
@@ -149,6 +147,9 @@ export class ConfigQuery {
             'newsletter_subscription_confirm',
             'delivery_instore_active',
             'access_token_lifetime',
+            'is_allowed_reorder',
+            'rss_order_subscribe_allow',
+            'downloadable_disable_guest_checkout',
             ...this._getTimeDateFormatFields(),
             this.getPriceDisplayTypeField()
         ];

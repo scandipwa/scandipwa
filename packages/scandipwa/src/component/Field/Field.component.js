@@ -232,9 +232,9 @@ export class Field extends PureComponent {
 
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under field
-    renderErrorMessage = (message, key) => (
-        <div block="Field" elem="ErrorMessage" key={ key }>{ message }</div>
-    );
+    renderErrorMessage(message, key) {
+        return <div block="Field" elem="ErrorMessage" key={ key }>{ message }</div>;
+    }
 
     renderErrorMessages() {
         const {
@@ -255,7 +255,7 @@ export class Field extends PureComponent {
 
         return (
             <div block="Field" elem="ErrorMessages">
-                { errorMessages.map((message, index) => this.renderErrorMessage(message, name + index)) }
+                { errorMessages.map((message, index) => this.renderErrorMessage.call(this, message, name + index)) }
             </div>
         );
     }

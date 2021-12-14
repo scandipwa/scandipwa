@@ -37,7 +37,7 @@ export class Link extends PureComponent {
         isOpenInNewTab: false
     };
 
-    scrollToElement = (e) => {
+    scrollToElement(e) {
         const {
             to: cssIdentifier,
             onClick
@@ -57,7 +57,7 @@ export class Link extends PureComponent {
         elem.focus();
 
         onClick(e);
-    };
+    }
 
     renderRelativePathLink() {
         const {
@@ -94,7 +94,7 @@ export class Link extends PureComponent {
         );
     }
 
-    renderAbsolutePathLink = (classNameConverted) => {
+    renderAbsolutePathLink(classNameConverted) {
         const {
             isOpenInNewTab,
             children,
@@ -128,7 +128,7 @@ export class Link extends PureComponent {
                 { children }
             </a>
         );
-    };
+    }
 
     render() {
         const {

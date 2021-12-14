@@ -34,13 +34,16 @@ export class MyAccountTabListItem extends PureComponent {
         isActive: false
     };
 
-    changeActiveTab = () => {
+    changeActiveTab = this.changeActiveTab.bind(this);
+
+    changeActiveTab() {
         const { changeActiveTab, tabEntry: [key] } = this.props;
+
         changeActiveTab(key);
-    };
+    }
 
     render() {
-        const { tabEntry: [, { name }], isActive } = this.props;
+        const { tabEntry: [, { tabName }], isActive } = this.props;
 
         return (
             <li
@@ -53,7 +56,7 @@ export class MyAccountTabListItem extends PureComponent {
                   onClick={ this.changeActiveTab }
                   role="link"
                 >
-                    { name }
+                    { tabName }
                     <ChevronIcon />
                 </button>
             </li>

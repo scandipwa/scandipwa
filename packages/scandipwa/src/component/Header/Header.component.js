@@ -152,8 +152,7 @@ export class Header extends NavigationAbstract {
         },
         [CUSTOMER_WISHLIST]: {
             share: true,
-            title: true,
-            ok: true
+            title: true
         },
         [MENU]: {
             search: true

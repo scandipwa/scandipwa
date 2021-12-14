@@ -123,9 +123,9 @@ export class App extends PureComponent {
         this.commonFunctions.forEach((func) => func());
     }
 
-    handleErrorReset = () => {
+    handleErrorReset() {
         this.setState({ isSomethingWentWrong: false });
-    };
+    }
 
     renderSharedTransition() {
         return (
@@ -139,14 +139,16 @@ export class App extends PureComponent {
         );
     }
 
-    renderRootComponents = () => this.rootComponents.map((render) => render());
+    renderRootComponents() {
+        return this.rootComponents.map((render) => render());
+    }
 
     renderContextProviders() {
         const { isSomethingWentWrong } = this.state;
 
         const child = isSomethingWentWrong
-            ? this.renderSomethingWentWrong
-            : this.renderRootComponents;
+            ? this.renderSomethingWentWrong.bind(this)
+            : this.renderRootComponents.bind(this);
 
         return this.contextProviders.reduce(
             (acc, render) => render(acc),
@@ -154,7 +156,7 @@ export class App extends PureComponent {
         );
     }
 
-    renderSomethingWentWrong = () => {
+    renderSomethingWentWrong() {
         const { errorDetails } = this.state;
 
         return (
@@ -163,7 +165,7 @@ export class App extends PureComponent {
               errorDetails={ errorDetails }
             />
         );
-    };
+    }
 
     render() {
         return this.renderContextProviders();

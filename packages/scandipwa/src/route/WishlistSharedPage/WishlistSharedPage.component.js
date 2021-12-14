@@ -31,12 +31,14 @@ export class WishlistSharedPage extends SourceWishlist {
         );
     }
 
-    renderProduct = ([id, product]) => (
-        <SharedWishlistItem
-          key={ id }
-          product={ product }
-        />
-    );
+    renderProduct([id, product]) {
+        return (
+            <SharedWishlistItem
+              key={ id }
+              product={ product }
+            />
+        );
+    }
 
     renderCreatorsInfo() {
         const { creatorsName } = this.props;
