@@ -17,6 +17,8 @@ import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device.type';
 import { ProductType } from 'Type/ProductList.type';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import ProductCompareItem from './ProductCompareItem.component';
 
@@ -56,7 +58,8 @@ export class ProductCompareItemContainer extends PureComponent {
         removeComparedProduct: this.removeComparedProduct.bind(this),
         getGroupedProductQuantity: this.getGroupedProductQuantity.bind(this),
         getProductOptionsData: this.getProductOptionsData.bind(this),
-        overriddenAddToCartBtnHandler: this.overriddenAddToCartBtnHandler.bind(this)
+        overriddenAddToCartBtnHandler: this.overriddenAddToCartBtnHandler.bind(this),
+        handleRedirect: this.handleRedirect.bind(this)
     };
 
     containerProps() {
@@ -149,6 +152,20 @@ export class ProductCompareItemContainer extends PureComponent {
     overriddenAddToCartBtnHandler() {
         const { showNotification } = this.props;
         showNotification('info', __('Please, select required options!'));
+    }
+
+    redirectToProductPage() {
+        const { product: { url } } = this.props;
+
+        history.push({ pathname: appendWithStoreCode(url) });
+    }
+
+    handleRedirect() {
+        const { product: { type_id } } = this.props;
+
+        if (type_id === PRODUCT_TYPE.downloadable) {
+            this.setState({ isLoading: false }, this.redirectToProductPage);
+        }
     }
 
     render() {

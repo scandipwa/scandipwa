@@ -31,6 +31,7 @@ export class ProductCompareItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         product: ProductType.isRequired,
+        handleRedirect: PropTypes.func.isRequired,
         removeComparedProduct: PropTypes.func.isRequired,
         imgUrl: PropTypes.string.isRequired,
         overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
@@ -104,14 +105,19 @@ export class ProductCompareItem extends PureComponent {
 
     renderAddToCartBtnEnabled() {
         const {
-            product
+            product,
+            handleRedirect
         } = this.props;
 
         return (
+            <button
+              onClick={ handleRedirect }
+            >
             <AddToCart
               product={ product }
               mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
             />
+            </button>
         );
     }
 
