@@ -35,7 +35,7 @@ export class MyAccountDownloadableComponent extends Component {
     renderNoOrders() {
         return (
             <tr block="MyAccountMyOrders" elem="NoOrders">
-                <td>{ __('You have no orders.') }</td>
+                <td>{ __('You have not purchased any downloadable products yet.') }</td>
             </tr>
         );
     }
