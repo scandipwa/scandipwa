@@ -47,6 +47,7 @@
         --button-padding: 40px;
         --hollow-button-background: var(--color-white);
         --hollow-button-hover-background: var(--color-white);
+        --hollow-button-hover-height: none;
 
         position: absolute;
         inset-block-end: 24px;
@@ -73,5 +74,23 @@
 
     a {
         display: block;
+    }
+
+    &-Button {
+        height: max-content;
+        display: inline-block;
+        min-height: 48px;
+        flex-wrap: wrap;
+        padding-block: 10px;
+        overflow-wrap: break-word;
+
+        @include desktop {
+            max-width: 20vw;
+            word-break: break-all;
+        }
+
+        @include mobile {
+            max-width: 80vw;
+        }
     }
 }

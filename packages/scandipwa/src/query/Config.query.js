@@ -83,6 +83,15 @@ export class ConfigQuery {
             .addFieldList(this._getStoreConfigFields());
     }
 
+    _getTimeDateFormatFields() {
+        return [
+            'use_calendar',
+            'year_range',
+            'date_fields_order',
+            'time_format'
+        ];
+    }
+
     _getStoreConfigFields() {
         return [
             'code',
@@ -141,6 +150,7 @@ export class ConfigQuery {
             'is_allowed_reorder',
             'rss_order_subscribe_allow',
             'downloadable_disable_guest_checkout',
+            ...this._getTimeDateFormatFields(),
             this.getPriceDisplayTypeField()
         ];
     }
