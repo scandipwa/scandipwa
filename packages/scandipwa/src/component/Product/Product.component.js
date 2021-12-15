@@ -20,8 +20,8 @@ import GroupedProductList from 'Component/GroupedProductList';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductBundleOptions from 'Component/ProductBundleOptions';
 import ProductCompareButton from 'Component/ProductCompareButton';
-import ProductConfigurableAttributes
-    from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
+// eslint-disable-next-line max-len
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductDownloadableLinks from 'Component/ProductDownloadableLinks';
 import ProductDownloadableSamples from 'Component/ProductDownloadableSamples/ProductDownloadableSamples.component';

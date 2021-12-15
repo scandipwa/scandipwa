@@ -29,6 +29,10 @@
         font-size: 14px;
     }
 
+    &-AttributeLabel {
+        font-weight: bold;
+    }
+
     &-CloseIcon {
         .CloseIcon {
             height: var(--checkbox-height);

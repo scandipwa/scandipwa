@@ -21,6 +21,10 @@
         }
     }
 
+    &-CreateAccountButton {
+        width: 100%;
+    }
+
     &-InnerWrapper {
         @include desktop() {
             display: grid;

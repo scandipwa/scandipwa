@@ -111,15 +111,55 @@ export class MyAccountCustomerForm extends FieldForm {
         };
     }
 
+    renderEmailAndPasswordFields() {
+        const { showEmailChangeField, showPasswordChangeField } = this.props;
+
+        if (!showEmailChangeField && !showPasswordChangeField) {
+            return null;
+        }
+
+        return (
+            <>
+                <legend
+                  block="FieldForm"
+                  elem="Legend"
+                >
+                    { __('Change %s', this.getLegendString()) }
+                </legend>
+                { this.emailAndPasswordFieldMap.map(this.renderSection) }
+            </>
+        );
+    }
+
+    getLegendString() {
+        const { showEmailChangeField, showPasswordChangeField } = this.props;
+
+        if (showEmailChangeField && !showPasswordChangeField) {
+            return 'Email';
+        }
+
+        if (!showEmailChangeField && showPasswordChangeField) {
+            return 'Password';
+        }
+
+        return 'Email and Password';
+    }
+
     renderFormBody() {
         return (
             <div block="FieldForm" elem="Body">
                 <div block="FieldForm" elem="Fields">
                     <div block="FieldForm" elem="Section">
+                    <legend
+                      block="FieldForm"
+                      elem="Legend"
+                    >
+                        { __('Account Information') }
+                    </legend>
                         { this.customerInformationFieldMap.map(this.renderSection) }
                     </div>
                     <div block="FieldForm" elem="Section">
-                        { this.emailAndPasswordFieldMap.map(this.renderSection) }
+                        { this.renderEmailAndPasswordFields() }
                     </div>
                 </div>
                 { this.renderActions() }
