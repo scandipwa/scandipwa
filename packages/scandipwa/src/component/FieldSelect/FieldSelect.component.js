@@ -43,7 +43,8 @@ export class FieldSelect extends PureComponent {
             value,
             disabled,
             label,
-            subLabel = ''
+            subLabel = '',
+            isAvailable = true
         } = option;
 
         const { isDisabled } = this.props;
@@ -53,7 +54,7 @@ export class FieldSelect extends PureComponent {
               key={ id }
               id={ id }
               value={ value }
-              disabled={ disabled || isDisabled }
+              disabled={ disabled || isDisabled || !isAvailable }
             >
                 { `${label} ${subLabel}` }
             </option>
