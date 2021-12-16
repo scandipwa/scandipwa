@@ -16,6 +16,8 @@ import Loader from 'Component/Loader';
 import MyAccountDownloadableTableRow from 'Component/MyAccountDownloadableTableRow';
 import { DownloadableType } from 'Type/Order.type';
 
+import { NUMBER_OF_COLUMNS_IN_DOWNLOADABLE_TABLE } from './MyAccountDownloadable.config';
+
 import './MyAccountDownloadable.style';
 
 /** @namespace Component/MyAccountDownloadable/Component */
@@ -34,8 +36,14 @@ export class MyAccountDownloadableComponent extends Component {
 
     renderNoOrders() {
         return (
-            <tr block="MyAccountMyOrders" elem="NoOrders">
-                <td>{ __('You have no orders.') }</td>
+            <tr
+              block="MyAccountMyOrders"
+              elem="NoOrders"
+              mix={ { block: 'MyDownloadableOrders', elem: 'NoOrders' } }
+            >
+                <td colSpan={ NUMBER_OF_COLUMNS_IN_DOWNLOADABLE_TABLE }>
+                    <p>{ __('You have not purchased any downloadable products yet.') }</p>
+                </td>
             </tr>
         );
     }
