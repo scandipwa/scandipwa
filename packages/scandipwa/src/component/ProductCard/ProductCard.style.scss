@@ -326,6 +326,16 @@
         }
     }
 
+    &-OutOfStock {
+        align-items: center;
+        display: flex;
+        height: 48px;
+
+        p {
+            margin: 0;
+        }
+    }
+
     &-VisibleOnHover {
         display: flex;
         flex-direction: column;

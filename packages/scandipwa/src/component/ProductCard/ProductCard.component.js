@@ -274,9 +274,11 @@ export class ProductCard extends Product {
 
         if (!inStock) {
             return (
-                <p>
-                    { __('Out of stock') }
-                </p>
+                <div block="ProductCard" elem="OutOfStock">
+                    <p>
+                        { __('Out of stock') }
+                    </p>
+                </div>
             );
         }
 
