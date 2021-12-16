@@ -30,6 +30,7 @@ import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
 import { removeEmptyStreets } from 'Util/Address';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteGuestQuoteId, getCartTotalSubPrice, getGuestQuoteId } from 'Util/Cart';
 import history from 'Util/History';
@@ -601,6 +602,7 @@ export class CheckoutContainer extends PureComponent {
     async saveAddressInformation(addressInformation) {
         const { updateShippingPrice } = this.props;
         const { shipping_address, shipping_method_code } = addressInformation;
+        scrollToTop({ behavior: 'smooth' });
 
         this.setState({
             isLoading: true,
@@ -667,6 +669,7 @@ export class CheckoutContainer extends PureComponent {
         }
 
         this.setState({ isLoading: true, billingAddress });
+        scrollToTop({ behavior: 'smooth' });
 
         if (!isSignedIn()) {
             if (!await this.createUserOrSaveGuest()) {
