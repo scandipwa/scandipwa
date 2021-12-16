@@ -43,7 +43,11 @@ export class HomePageContainer extends PureComponent {
         pageIdentifiers: PropTypes.string.isRequired,
         location: LocationType.isRequired,
         match: MatchType.isRequired,
-        subscriptionConfirmed: PropTypes.bool.isRequired
+        subscriptionConfirmed: PropTypes.bool
+    };
+
+    static defaultProps = {
+        subscriptionConfirmed: false
     };
 
     componentDidMount() {
