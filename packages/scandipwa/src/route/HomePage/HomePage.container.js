@@ -19,6 +19,7 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import CmsPage from 'Route/CmsPage';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType, MatchType } from 'Type/Router.type';
 
 import './HomePage.style';
@@ -30,20 +31,31 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Route/HomePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    showNotification: () => dispatch(showNotification('success', 'Your subscription has been confirmed.'))
 });
 
 /** @namespace Route/HomePage/Container */
 export class HomePageContainer extends PureComponent {
     static propTypes = {
         changeHeaderState: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
         pageIdentifiers: PropTypes.string.isRequired,
         location: LocationType.isRequired,
-        match: MatchType.isRequired
+        match: MatchType.isRequired,
+        subscriptionConfirmed: PropTypes.bool.isRequired
     };
 
     componentDidMount() {
-        const { changeHeaderState } = this.props;
+        const {
+            subscriptionConfirmed,
+            showNotification,
+            changeHeaderState
+        } = this.props;
+
+        if (subscriptionConfirmed) {
+            showNotification();
+        }
 
         changeHeaderState({
             name: DEFAULT_STATE_NAME,

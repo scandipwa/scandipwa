@@ -42,6 +42,7 @@ import {
     CMS_PAGE,
     COMPARE,
     CONFIRM_ACCOUNT,
+    CONFIRM_NEWSLETTER,
     CONTACT_PAGE,
     COOKIE_POPUP,
     CREATE_ACCOUNT,
@@ -146,6 +147,11 @@ export class Router extends PureComponent {
             component: <Route path={ withStoreRegex('/') } exact render={ (props) => <HomePage { ...props } /> } />,
             position: 10,
             name: HOME
+        },
+        {
+            component: <Route path={ withStoreRegex('/Confirm/id/:id/code/:code') } render={ (props) => <HomePage { ...props } subscriptionConfirmed /> } />,
+            position: 66,
+            name: CONFIRM_NEWSLETTER
         },
         {
             component: <Route path={ withStoreRegex('/search/:query/') } render={ (props) => <SearchPage { ...props } /> } />,
