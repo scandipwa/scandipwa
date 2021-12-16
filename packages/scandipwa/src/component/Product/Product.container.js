@@ -364,7 +364,11 @@ export class ProductContainer extends PureComponent {
     updateConfigurableVariant(key, value) {
         const { parameters: prevParameters } = this.state;
 
-        const parameters = getNewParameters(prevParameters, key, value);
+        const newParameters = getNewParameters(prevParameters, key, value);
+
+        const { [key]: oldValue, ...currentParameters } = newParameters;
+        const parameters = oldValue === 'default' ? currentParameters : newParameters;
+
         this.setState({ parameters });
 
         const { product: { variants, configurable_options } } = this.props;
