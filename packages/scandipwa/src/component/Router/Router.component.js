@@ -149,7 +149,7 @@ export class Router extends PureComponent {
             name: HOME
         },
         {
-            component: <Route path={ withStoreRegex('/Confirm/id/:id/code/:code') } render={ (props) => <HomePage { ...props } subscriptionConfirmed /> } />,
+            component: <Route path={ withStoreRegex('/newsletter/confirm/id/:id/code/:code') } render={ (props) => <HomePage { ...props } subscriptionConfirmed /> } />,
             position: 66,
             name: CONFIRM_NEWSLETTER
         },
