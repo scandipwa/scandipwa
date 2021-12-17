@@ -139,6 +139,7 @@ export class ConfigQuery {
             'delivery_instore_active',
             'access_token_lifetime',
             'downloadable_disable_guest_checkout',
+            'minimum_password_length',
             this.getPriceDisplayTypeField()
         ];
     }

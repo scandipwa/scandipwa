@@ -562,5 +562,7 @@
     "Coupon code discount ": null,
     "Please sign in or remove downloadable products from cart!": null,
     "Your VAT number": null,
-    "Password should be at least 8 characters long": null
+    "Password should be at least 8 characters long": null,
+    "Password should be at least characters long": null,
+    "Password should be at leastcharacters long": null
 }

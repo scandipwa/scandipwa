@@ -106,6 +106,7 @@ export const customerInformationFields = (props) => {
  * @namespace Component/MyAccountCustomerForm/Form/customerEmailAndPasswordFields */
 export const customerEmailAndPasswordFields = (props) => {
     const {
+        minimumPasswordLength,
         showEmailChangeField,
         showPasswordChangeField,
         handleEmailInput,
@@ -153,14 +154,7 @@ export const customerEmailAndPasswordFields = (props) => {
                 validateOn: ['onChange'],
                 validationRule: {
                     inputType: VALIDATION_INPUT_TYPE.password,
-                    isRequired: true,
-                    showErrorAsLabel: true,
-                    customErrorMessages: {
-                        onRangeFailMin: __('Password should be at least 8 characters long')
-                    },
-                    range: {
-                        min: 8
-                    }
+                    isRequired: true
                 }
             }
         ] : []),
@@ -183,8 +177,13 @@ export const customerEmailAndPasswordFields = (props) => {
                         const password = document.getElementById('currentPassword');
                         return value && password.value !== value;
                     },
+                    showErrorAsLabel: true,
                     customErrorMessages: {
+                        onRangeFailMin: __('Password should be at least 8 characters long'),
                         onMatchFail: __('New passwords can\'t be the same as old password!')
+                    },
+                    range: {
+                        min: minimumPasswordLength
                     }
                 }
             },

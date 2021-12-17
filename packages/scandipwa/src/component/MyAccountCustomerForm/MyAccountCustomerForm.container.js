@@ -20,7 +20,8 @@ import MyAccountCustomerForm from './MyAccountCustomerForm.component';
 
 /** @namespace Component/MyAccountCustomerForm/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    showTaxVatNumber: state.ConfigReducer.show_tax_vat_number
+    showTaxVatNumber: state.ConfigReducer.show_tax_vat_number,
+    minimumPasswordLength: state.ConfigReducer.minimum_password_length
 });
 
 /** @namespace Component/MyAccountCustomerForm/Container/mapDispatchToProps */
@@ -32,6 +33,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
         customer: CustomerType.isRequired,
         onSave: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.string.isRequired,
+        minimumPasswordLength: PropTypes.number.isRequired,
         showEmailChangeField: PropTypes.bool.isRequired,
         showPasswordChangeField: PropTypes.bool.isRequired,
         handleChangeEmailCheckbox: PropTypes.func.isRequired,
@@ -54,6 +56,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             customer,
             onSave,
             showTaxVatNumber,
+            minimumPasswordLength,
             showEmailChangeField,
             showPasswordChangeField,
             handleChangeEmailCheckbox,
@@ -65,6 +68,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             customer,
             onSave,
             showTaxVatNumber: showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED,
+            minimumPasswordLength,
             showEmailChangeField,
             showPasswordChangeField,
             handleChangeEmailCheckbox,
