@@ -367,7 +367,7 @@ export class ProductContainer extends PureComponent {
         const newParameters = getNewParameters(prevParameters, key, value);
 
         const { [key]: oldValue, ...currentParameters } = newParameters;
-        const parameters = oldValue === 'default' ? currentParameters : newParameters;
+        const parameters = oldValue === '' ? currentParameters : newParameters;
 
         this.setState({ parameters });
 
