@@ -81,6 +81,7 @@ export class Header extends NavigationAbstract {
         }).isRequired,
         cartTotals: TotalsType.isRequired,
         compareTotals: PropTypes.number.isRequired,
+        Loading: PropTypes.bool.isRequired,
         onBackButtonClick: PropTypes.func.isRequired,
         onCloseButtonClick: PropTypes.func.isRequired,
         onSearchBarFocus: PropTypes.func.isRequired,
@@ -340,9 +341,9 @@ export class Header extends NavigationAbstract {
     }
 
     renderCompareCount() {
-        const { compareTotals } = this.props;
+        const { compareTotals, Loading } = this.props;
 
-        if (!compareTotals) {
+        if (!compareTotals || Loading === true) {
             return null;
         }
 

@@ -205,11 +205,8 @@
         justify-content: center;
         align-items: center;
         font-weight: 700;
-
-        @include desktop {
-            top: -22px;
-            right: -12px;
-        }
+        inset-block-start: -22px;
+        inset-inline-end: -12px;
     }
 
     &-LogoWrapper {
