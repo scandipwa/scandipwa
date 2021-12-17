@@ -226,6 +226,7 @@
     &-DeleteButtonText {
         line-height: 24px;
         margin-inline-start: 4px;
+        cursor: pointer;
 
         &_isMobileLayout {
             display: none;
@@ -243,6 +244,7 @@
     & &-Qty { // hack to obtain required specificity
         margin-block-start: 0;
         display: flex;
+        cursor: default;
 
         @include mobile {
             align-items: center;
@@ -258,7 +260,9 @@
         }
 
         button {
-            cursor: pointer;
+            &:not([disabled]) {
+                cursor: pointer;
+            }
         }
     }
 

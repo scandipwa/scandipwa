@@ -87,7 +87,7 @@ export class MyAccountDispatcher {
 
             this.handleForceRedirectToLoginPage();
         } else {
-            if (isSignedIn) {
+            if (isSignedIn()) {
                 fetchMutation(MyAccountQuery.getRevokeAccountToken());
                 deleteAuthorizationToken();
             }

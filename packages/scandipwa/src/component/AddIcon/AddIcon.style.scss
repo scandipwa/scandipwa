@@ -12,7 +12,6 @@
 .AddIcon {
     @include icon-black-hover-effect;
 
-    cursor: pointer;
     height: var(--plus-minus-icon-size);
     width: var(--plus-minus-icon-size);
 
