@@ -91,7 +91,7 @@ export class FieldSelectContainer extends PureComponent {
                 id: `${id}-placeholder`,
                 name: `${id}-placeholder`,
                 label: selectPlaceholder,
-                value: '',
+                value: 'default',
                 sort_order: -100,
                 isPlaceholder: true
             },
@@ -104,7 +104,7 @@ export class FieldSelectContainer extends PureComponent {
         const { value, target: { value: targetValue } = {} } = option;
 
         const fieldValue = !value ? targetValue : option.value;
-        this.fieldRef.value = fieldValue;
+        this.fieldRef.value = this.fieldRef.value === value ? 'default' : fieldValue;
 
         if (onChange) {
             onChange(fieldValue);
