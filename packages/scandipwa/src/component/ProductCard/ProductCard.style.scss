@@ -126,6 +126,12 @@
                     }
                 }
 
+                &-OutOfStock {
+                    p {
+                        margin-inline-end: 10px;
+                    }
+                }
+
                 &-PriceWrapper {
                     flex-grow: unset;
                 }
