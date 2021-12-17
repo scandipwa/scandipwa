@@ -29,6 +29,7 @@ export class MyAccountCustomerForm extends FieldForm {
         handleChangePasswordCheckbox: PropTypes.func.isRequired,
         handleEmailInput: PropTypes.func.isRequired,
         handlePasswordInput: PropTypes.func.isRequired,
+        minimumPasswordLength: PropTypes.string.isRequired,
         email: PropTypes.string,
         currentPassword: PropTypes.string
     };
@@ -80,6 +81,7 @@ export class MyAccountCustomerForm extends FieldForm {
             handlePasswordInput,
             handleEmailInput,
             currentPassword,
+            minimumPasswordLength,
             email
         } = this.props;
 
@@ -89,6 +91,7 @@ export class MyAccountCustomerForm extends FieldForm {
             handlePasswordInput,
             handleEmailInput,
             currentPassword,
+            minimumPasswordLength,
             email
         });
     }

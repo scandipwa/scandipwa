@@ -138,8 +138,8 @@ export class ConfigQuery {
             'newsletter_subscription_confirm',
             'delivery_instore_active',
             'access_token_lifetime',
-            'downloadable_disable_guest_checkout',
             'minimum_password_length',
+            'downloadable_disable_guest_checkout',
             this.getPriceDisplayTypeField()
         ];
     }

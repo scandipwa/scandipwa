@@ -83,7 +83,7 @@ export class MyAccountSignIn extends PureComponent {
                           onRangeFailMin: `Password should be at least ${minimumPasswordLength}`
                       },
                       range: {
-                          min: 8
+                          min: minimumPasswordLength
                       }
                   } }
                 />

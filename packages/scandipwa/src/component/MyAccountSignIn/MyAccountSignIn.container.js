@@ -28,7 +28,7 @@ export const MyAccountDispatcher = import(
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
-    minimumPasswordLength: state.ConfigReducer.timezone
+    minimumPasswordLength: state.ConfigReducer.minimum_password_length
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
@@ -90,8 +90,6 @@ export class MyAccountSignInContainer extends PureComponent {
             emailValue,
             handleEmailInput
         } = this.props;
-
-        console.log(minimumPasswordLength);
 
         return {
             state,

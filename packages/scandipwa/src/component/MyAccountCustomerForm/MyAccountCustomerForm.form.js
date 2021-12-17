@@ -154,7 +154,14 @@ export const customerEmailAndPasswordFields = (props) => {
                 validateOn: ['onChange'],
                 validationRule: {
                     inputType: VALIDATION_INPUT_TYPE.password,
-                    isRequired: true
+                    isRequired: true,
+                    showErrorAsLabel: true,
+                    customErrorMessages: {
+                        onRangeFailMin: `Password should be at least ${minimumPasswordLength}`
+                    },
+                    range: {
+                        min: minimumPasswordLength
+                    }
                 }
             }
         ] : []),
@@ -179,7 +186,7 @@ export const customerEmailAndPasswordFields = (props) => {
                     },
                     showErrorAsLabel: true,
                     customErrorMessages: {
-                        onRangeFailMin: __('Password should be at least 8 characters long'),
+                        onRangeFailMin: `Password should be at least ${minimumPasswordLength}`,
                         onMatchFail: __('New passwords can\'t be the same as old password!')
                     },
                     range: {

@@ -33,7 +33,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
         customer: CustomerType.isRequired,
         onSave: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.string.isRequired,
-        minimumPasswordLength: PropTypes.number.isRequired,
+        minimumPasswordLength: PropTypes.string.isRequired,
         showEmailChangeField: PropTypes.bool.isRequired,
         showPasswordChangeField: PropTypes.bool.isRequired,
         handleChangeEmailCheckbox: PropTypes.func.isRequired,
