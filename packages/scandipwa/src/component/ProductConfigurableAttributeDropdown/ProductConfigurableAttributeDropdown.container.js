@@ -34,7 +34,7 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
             option: { attribute_code }
         } = this.props;
 
-        updateConfigurableVariant(attribute_code, value);
+        updateConfigurableVariant(attribute_code, value, true);
     }
 
     containerProps() {

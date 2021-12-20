@@ -44,6 +44,7 @@ export class Field extends PureComponent {
         setRef: PropTypes.func.isRequired,
         mix: MixType.isRequired,
         options: PropTypes.arrayOf(OptionType).isRequired,
+        changeValueOnDoubleClick: PropTypes.bool,
 
         // Validation
         showErrorAsLabel: PropTypes.bool.isRequired,
@@ -73,7 +74,8 @@ export class Field extends PureComponent {
     };
 
     static defaultProps = {
-        validationResponse: null
+        validationResponse: null,
+        changeValueOnDoubleClick: false
     };
 
     renderMap = {
@@ -149,7 +151,8 @@ export class Field extends PureComponent {
             events,
             setRef,
             options,
-            isDisabled = false
+            isDisabled = false,
+            changeValueOnDoubleClick
         } = this.props;
 
         return (
@@ -159,6 +162,7 @@ export class Field extends PureComponent {
               options={ options }
               setRef={ setRef }
               isDisabled={ isDisabled }
+              changeValueOnDoubleClick={ changeValueOnDoubleClick }
             />
         );
     }
