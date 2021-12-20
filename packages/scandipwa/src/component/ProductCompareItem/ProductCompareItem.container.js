@@ -18,6 +18,8 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device.type';
 import { ProductType } from 'Type/ProductList.type';
 import history from 'Util/History';
+import { ADD_TO_CART } from 'Util/Product';
+import { magentoProductTransform } from 'Util/Product/Transform';
 import { appendWithStoreCode } from 'Util/Url';
 
 import ProductCompareItem from './ProductCompareItem.component';
@@ -25,6 +27,10 @@ import ProductCompareItem from './ProductCompareItem.component';
 export const ProductCompareDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/ProductCompare/ProductCompare.dispatcher'
+);
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
 );
 
 /** @namespace Component/ProductCompareItem/Container/mapStateToProps */
@@ -37,6 +43,9 @@ export const mapDispatchToProps = (dispatch) => ({
     removeComparedProduct: (productId) => ProductCompareDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch)
     ),
+    addProductToCart: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    ),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
@@ -44,6 +53,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class ProductCompareItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
+        addProductToCart: PropTypes.func.isRequired,
         removeComparedProduct: PropTypes.func.isRequired,
         device: DeviceType.isRequired,
         showNotification: PropTypes.func.isRequired,
@@ -59,7 +69,7 @@ export class ProductCompareItemContainer extends PureComponent {
         getGroupedProductQuantity: this.getGroupedProductQuantity.bind(this),
         getProductOptionsData: this.getProductOptionsData.bind(this),
         overriddenAddToCartBtnHandler: this.overriddenAddToCartBtnHandler.bind(this),
-        handleRedirect: this.handleRedirect.bind(this)
+        addItemToCart: this.addItemToCart.bind(this)
     };
 
     containerProps() {
@@ -160,10 +170,28 @@ export class ProductCompareItemContainer extends PureComponent {
         history.push({ pathname: appendWithStoreCode(url) });
     }
 
-    handleRedirect() {
-        const { product: { type_id } } = this.props;
+    getProducts() {
+        const {
+            product: item
+        } = this.props;
+        const { currentQty } = this.state;
 
-        if (type_id === PRODUCT_TYPE.downloadable) {
+        return magentoProductTransform(ADD_TO_CART, item, currentQty);
+    }
+
+    async addItemToCart() {
+        const {
+            addProductToCart
+        } = this.props;
+
+        this.setState({ isLoading: true });
+
+        const products = this.getProducts();
+
+        try {
+            await addProductToCart({ products });
+            this.setState({ isLoading: false });
+        } catch {
             this.setState({ isLoading: false }, this.redirectToProductPage);
         }
     }
