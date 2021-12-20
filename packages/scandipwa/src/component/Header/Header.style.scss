@@ -304,6 +304,10 @@
         line-height: 30px;
         height: 30px;
 
+        @include mobile {
+            line-height: 28px;
+        }
+
         &_isVisible {
             @include mobile {
                 opacity: 1;
