@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './MyAccountOrderPopup.container';
+export { default } from './DatePicker.container';

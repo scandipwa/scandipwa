@@ -15,4 +15,13 @@
         -webkit-overflow-scrolling: touch;
         width: calc(100vw - 24px);
     }
+
+    &-NoOrders {
+        p {
+            @include mobile {
+                margin: 0;
+                max-width: calc(100vw - 10px - var(--my-account-wrapper-margin-mobile) * 2);
+            }
+        }
+    }
 }

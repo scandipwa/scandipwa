@@ -9,8 +9,40 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.MyAccountOrderPopup {
-    font-size: 14px;
+.MyAccountOrder {
+    &-CreationDate {
+        font-size: 16px;
+        margin-block-end: 18px;
+    }
+
+    &-Buttons {
+        display: flex;
+        margin-block-end: 25px;
+    }
+
+    &-Reorder {
+        margin-inline-end: 20px;
+    }
+
+    &-Reorder,
+    &-SubscribeToStatus {
+        font-weight: normal;
+        width: max-content;
+
+        &:hover {
+            text-decoration: none;
+            color: var(--link-hover);
+        }
+    }
+
+    &-PrintOrder {
+        display: none;
+
+        @include desktop {
+            display: block;
+            margin-inline-start: auto;
+        }
+    }
 
     &-Address,
     &-Products {

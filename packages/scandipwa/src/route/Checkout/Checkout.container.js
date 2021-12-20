@@ -333,7 +333,7 @@ export class CheckoutContainer extends PureComponent {
         }
 
         showInfoNotification(__('Please sign in or remove downloadable products from cart!'));
-        history.push(appendWithStoreCode(ACCOUNT_LOGIN_URL));
+        history.replace(appendWithStoreCode(ACCOUNT_LOGIN_URL));
     }
 
     handleSelectDeliveryMethod() {

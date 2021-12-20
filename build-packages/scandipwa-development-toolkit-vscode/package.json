@@ -35,7 +35,9 @@
 		"onCommand:extension.extendRoute",
 		"onCommand:extension.extendQuery",
 		"onCommand:extension.extendStore",
-		"onCommand:extension.extensionCreate"
+		"onCommand:extension.extensionCreate",
+		"onCommand:extension.goToChildTheme",
+		"onStartupFinished"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -75,8 +77,32 @@
 			{
 				"command": "extension.extensionCreate",
 				"title": "ScandiPWA: Create an extension"
+			},
+			{
+				"command": "extension.goToChildTheme",
+				"title": "ScandiPWA: Go to child theme",
+				"icon": "$(symbol-null)"
 			}
-		]
+		],
+		"menus": {
+			"editor/title": [
+				{
+					"command": "extension.goToChildTheme",
+					"group": "navigation",
+					"when": "editorLangId in extension.scandipwaSupportedLangs"
+				}
+			]
+		},
+		"configuration": {
+			"title": "ScandiPWA",
+			"properties": {
+				"scandipwa.stylePostfix": {
+					"type": ["string", "null"],
+					"default": null,
+					"description": "Styles postfix to use when creating style overrides"
+				}
+			}
+		}
 	},
 	"dependencies": {
 		"@babel/generator": "^7.9.6",

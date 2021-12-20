@@ -12,7 +12,7 @@
 :root {
     --price-color: #{$black};
     --price-with-discount-color: #b10d0d;
-    --price-discount-color: #808080;
+    --price-discount-color: #0A0903;
 }
 
 .ProductPrice {
@@ -49,10 +49,20 @@
     &-HighPrice {
         color: var(--price-color);
         line-height: 18px;
+
+        @include desktop {
+            line-height: 14px;
+        }
     }
 
     &-PriceValue {
         margin-block-start: 6px;
+        line-height: 24px;
+
+        @include desktop {
+            line-height: 28px;
+        }
+
     }
 
     &, &-BundleFrom, &-BundleTo {
@@ -79,6 +89,10 @@
         font-size: 12px;
         line-height: 16px;
         margin-block-start: 4px;
+
+        @include desktop {
+            line-height: 16px;
+        }
     }
 
     &-PriceBadge {
@@ -86,5 +100,9 @@
         font-weight: 400;
         margin-inline-end: 4px;
         white-space: nowrap;
+
+        @include desktop {
+            line-height: 20px;
+        }
     }
 }
