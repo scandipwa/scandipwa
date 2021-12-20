@@ -30,7 +30,8 @@ export class MyAccountCreateAccount extends PureComponent {
         handleSignIn: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.bool.isRequired,
         vatNumberRequired: PropTypes.bool.isRequired,
-        newsletterActive: PropTypes.bool.isRequired
+        newsletterActive: PropTypes.bool.isRequired,
+        minimumPasswordLength: PropTypes.string.isRequired
     };
 
     renderVatNumberField() {
@@ -122,6 +123,7 @@ export class MyAccountCreateAccount extends PureComponent {
 
     renderCreateAccountSignUpInfoFields() {
         const { location: { state: { email = '' } = {} } } = history;
+        const { minimumPasswordLength } = this.props;
 
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
@@ -162,10 +164,11 @@ export class MyAccountCreateAccount extends PureComponent {
                               return value && email.value !== value;
                           },
                           customErrorMessages: {
-                              onMatchFail: __('Passwords can\'t be the same as email!')
+                              onMatchFail: __('Passwords can\'t be the same as email!'),
+                              onRangeFailMin: `Password should be at least ${minimumPasswordLength}`
                           },
                           range: {
-                              min: 8
+                              min: minimumPasswordLength
                           }
                       } }
                       addRequiredTag
