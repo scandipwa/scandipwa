@@ -26,6 +26,7 @@ import './ConfirmAccountPage.style';
 /** @namespace Route/ConfirmAccountPage/Component */
 export class ConfirmAccountPage extends PureComponent {
     static propTypes = {
+        minimumPasswordLength: PropTypes.string.isRequired,
         redirect: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
         shouldDisplayWarning: PropTypes.bool.isRequired,
@@ -55,7 +56,8 @@ export class ConfirmAccountPage extends PureComponent {
     renderForm() {
         const {
             onConfirmSuccess,
-            onFormError
+            onFormError,
+            minimumPasswordLength
         } = this.props;
 
         return (
@@ -93,10 +95,10 @@ export class ConfirmAccountPage extends PureComponent {
                       inputType: VALIDATION_INPUT_TYPE.password,
                       showErrorAsLabel: true,
                       customErrorMessages: {
-                          onRangeFailMin: __('Password should be at least 8 characters long')
+                          onRangeFailMin: `Password should be at least ${minimumPasswordLength}`
                       },
                       range: {
-                          min: 8
+                          min: minimumPasswordLength
                       }
                   } }
                   addRequiredTag

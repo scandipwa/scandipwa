@@ -17,7 +17,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/PasswordChangeForm/Form/customerEmailAndPasswordFields */
-export const customerEmailAndPasswordFields = () => [
+export const customerEmailAndPasswordFields = (props) => [
     {
         type: FIELD_TYPE.password,
         label: __('New password'),
@@ -33,10 +33,10 @@ export const customerEmailAndPasswordFields = () => [
             inputType: VALIDATION_INPUT_TYPE.password,
             showErrorAsLabel: true,
             customErrorMessages: {
-                onRangeFailMin: __('Password should be at least 8 characters long')
+                onRangeFailMin: `Password should be at least ${props.minimumPasswordLength}`
             },
             range: {
-                min: 8
+                min: props.minimumPasswordLength
             }
         },
         addRequiredTag: true

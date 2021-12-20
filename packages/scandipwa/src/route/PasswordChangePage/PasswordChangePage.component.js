@@ -21,13 +21,19 @@ import './PasswordChangePage.style';
 /** @namespace Route/PasswordChangePage/Component */
 export class PasswordChangePage extends PureComponent {
     static propTypes = {
+        minimumPasswordLength: PropTypes.string.isRequired,
         isLoading: PropTypes.bool.isRequired,
         onPasswordSuccess: PropTypes.func.isRequired,
         onError: PropTypes.func.isRequired
     };
 
     renderContent() {
-        const { isLoading, onError, onPasswordSuccess } = this.props;
+        const {
+            isLoading,
+            onError,
+            onPasswordSuccess,
+            minimumPasswordLength
+        } = this.props;
 
         return (
             <ContentWrapper
@@ -40,6 +46,7 @@ export class PasswordChangePage extends PureComponent {
                 <PasswordChangeForm
                   onFormError={ onError }
                   onFormSubmit={ onPasswordSuccess }
+                  minimumPasswordLength={ minimumPasswordLength }
                 />
             </ContentWrapper>
         );

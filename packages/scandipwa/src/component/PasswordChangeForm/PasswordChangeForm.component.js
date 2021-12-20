@@ -21,19 +21,21 @@ import './PasswordChangeForm.style';
 export class PasswordChangeForm extends FieldForm {
     static propsTypes = {
         onFormSubmit: PropTypes.func.isRequired,
-        onFormError: PropTypes.func.isRequired
+        onFormError: PropTypes.func.isRequired,
+        minimumPasswordLength: PropTypes.string.isRequired
     };
 
     get fieldMap() {
-        return customerEmailAndPasswordFields();
+        return customerEmailAndPasswordFields(this.getFormProps());
     }
 
     getFormProps() {
-        const { onFormSubmit, onFormError } = this.props;
+        const { onFormSubmit, onFormError, minimumPasswordLength } = this.props;
 
         return {
             onSubmit: onFormSubmit,
-            onError: onFormError
+            onError: onFormError,
+            minimumPasswordLength
         };
     }
 

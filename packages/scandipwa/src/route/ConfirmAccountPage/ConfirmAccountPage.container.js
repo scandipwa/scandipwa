@@ -33,7 +33,9 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Route/ConfirmAccountPage/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    minimumPasswordLength: state.ConfigReducer.minimum_password_length
+});
 
 /** @namespace Route/ConfirmAccountPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -51,6 +53,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Route/ConfirmAccountPage/Container */
 export class ConfirmAccountPageContainer extends PureComponent {
     static propTypes = {
+        minimumPasswordLength: PropTypes.string.isRequired,
         location: LocationType.isRequired,
         signIn: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
@@ -81,11 +84,16 @@ export class ConfirmAccountPageContainer extends PureComponent {
     }
 
     containerProps() {
-        const { redirect, isLoading } = this.state;
+        const {
+            redirect,
+            isLoading,
+            minimumPasswordLength
+        } = this.state;
 
         return {
             redirect,
             isLoading,
+            minimumPasswordLength,
             shouldDisplayWarning: this.shouldDisplayWarning()
         };
     }
