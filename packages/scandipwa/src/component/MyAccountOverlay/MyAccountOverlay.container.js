@@ -69,6 +69,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         isOverlayVisible: PropTypes.bool.isRequired,
         isPasswordForgotSend: PropTypes.bool.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
+        isForgotPasswordPage: PropTypes.bool,
 
         goToPreviousHeaderState: PropTypes.func,
         hideActiveOverlay: PropTypes.func.isRequired,
@@ -83,6 +84,7 @@ export class MyAccountOverlayContainer extends PureComponent {
     static defaultProps = {
         isCheckout: false,
         isLoading: false,
+        isForgotPasswordPage: false,
         onSignIn: noopFn,
         goToPreviousHeaderState: noopFn
     };
@@ -106,8 +108,10 @@ export class MyAccountOverlayContainer extends PureComponent {
     static getDerivedStateFromProps(props, state) {
         const {
             isPasswordForgotSend,
+            showNotification,
             isOverlayVisible,
-            isMobile
+            isMobile,
+            isForgotPasswordPage
         } = props;
 
         const {
@@ -138,9 +142,10 @@ export class MyAccountOverlayContainer extends PureComponent {
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
 
-        if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
+        if (isPasswordForgotSend !== currentIsPasswordForgotSend && isForgotPasswordPage && !isOverlayVisible) {
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
             // eslint-disable-next-line max-len
+            showNotification('success', __('If there is an account associated with the provided address you will receive an email with a link to reset your password.'));
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
 

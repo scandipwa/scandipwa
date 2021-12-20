@@ -36,15 +36,21 @@ export const mapDispatchToProps = (dispatch) => ({
 export class ForgotPasswordContainer extends MyAccountOverlayContainer {
     static propTypes = {
         ...MyAccountOverlayContainer.propTypes,
-        updateBreadcrumbs: PropTypes.func.isRequired
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        isForgotPasswordPage: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isForgotPasswordPage: true
     };
 
     containerProps() {
-        const { device } = this.props;
+        const { device, isForgotPasswordPage } = this.props;
 
         return {
             ...super.containerProps(),
-            device
+            device,
+            isForgotPasswordPage
         };
     }
 

@@ -61,7 +61,7 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
     }
 
     renderForgotPasswordWrapper() {
-        const { device } = this.props;
+        const { device, isForgotPasswordPage } = this.props;
 
         if (device.isMobile) {
             return this.renderForgotPassword();
@@ -73,7 +73,7 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
                 <p>
                     { __('Please enter your email address below to receive a password reset link.') }
                 </p>
-                { this.renderForgotPassword() }
+                { this.renderForgotPassword(isForgotPasswordPage) }
             </div>
         );
     }
