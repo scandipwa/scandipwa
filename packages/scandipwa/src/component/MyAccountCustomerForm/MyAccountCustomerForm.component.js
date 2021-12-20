@@ -31,7 +31,8 @@ export class MyAccountCustomerForm extends FieldForm {
         handlePasswordInput: PropTypes.func.isRequired,
         minimumPasswordLength: PropTypes.string.isRequired,
         email: PropTypes.string,
-        currentPassword: PropTypes.string
+        currentPassword: PropTypes.string,
+        vatNumberRequired: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -53,6 +54,7 @@ export class MyAccountCustomerForm extends FieldForm {
             handleChangePasswordCheckbox,
             showEmailChangeField,
             showPasswordChangeField,
+            vatNumberRequired,
             customer: {
                 firstname = '',
                 lastname = '',
@@ -70,7 +72,8 @@ export class MyAccountCustomerForm extends FieldForm {
             handleChangePasswordCheckbox,
             handleChangeEmailCheckbox,
             showEmailChangeField,
-            showPasswordChangeField
+            showPasswordChangeField,
+            vatNumberRequired
         });
     }
 

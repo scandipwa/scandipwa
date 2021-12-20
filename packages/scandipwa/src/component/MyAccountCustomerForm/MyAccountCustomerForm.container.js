@@ -13,7 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { SHOW_VAT_NUMBER_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
+import {
+    SHOW_VAT_NUMBER_OPTIONAL,
+    SHOW_VAT_NUMBER_REQUIRED
+} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import { CustomerType } from 'Type/Account.type';
 
 import MyAccountCustomerForm from './MyAccountCustomerForm.component';
@@ -55,7 +58,6 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             customer: { email: currentCustomerEmail },
             customer,
             onSave,
-            showTaxVatNumber,
             minimumPasswordLength,
             showEmailChangeField,
             showPasswordChangeField,
@@ -67,7 +69,8 @@ export class MyAccountCustomerFormContainer extends PureComponent {
         return {
             customer,
             onSave,
-            showTaxVatNumber: showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED,
+            showTaxVatNumber: this.getIsShowVatNumber(),
+            vatNumberRequired: this.getVatNumberRequired(),
             minimumPasswordLength,
             showEmailChangeField,
             showPasswordChangeField,
@@ -76,6 +79,19 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             currentPassword,
             email: email || currentCustomerEmail
         };
+    }
+
+    getIsShowVatNumber() {
+        const { showTaxVatNumber } = this.props;
+
+        return showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED
+            || showTaxVatNumber === SHOW_VAT_NUMBER_OPTIONAL;
+    }
+
+    getVatNumberRequired() {
+        const { showTaxVatNumber } = this.props;
+
+        return showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED;
     }
 
     handleEmailInput(emailInput) {

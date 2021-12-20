@@ -64,6 +64,7 @@ export class MyAccountSignIn extends PureComponent {
                       isRequired: true,
                       inputType: VALIDATION_INPUT_TYPE.email
                   } }
+                  addRequiredTag
                 />
                 <Field
                   label={ __('Password') }
@@ -86,6 +87,7 @@ export class MyAccountSignIn extends PureComponent {
                           min: minimumPasswordLength
                       }
                   } }
+                  addRequiredTag
                 />
                 <button
                   type="button"
