@@ -23,12 +23,12 @@
     &-Title {
         font-weight: 700;
         margin-block: 24px 12px;
+    }
 
-        &_selectedOption {
-            font-weight: normal;
-            opacity: 0.7;
-            padding-left: 17px;
-        }
+    &-SelectedOptionLabel {
+        font-weight: normal;
+        opacity: 0.7;
+        padding-inline-start: 17px;
     }
 
     &-SwatchList {

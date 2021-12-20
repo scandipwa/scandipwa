@@ -167,7 +167,7 @@ export class ProductConfigurableAttributes extends PureComponent {
                     <p block="ProductConfigurableAttributes" elem="Title">
                         { attribute_label }
                         { isSwatch && (
-                            <span block="ProductConfigurableAttributes" elem="Title" mods={ { selectedOption: true } }>
+                            <span block="ProductConfigurableAttributes" elem="SelectedOptionLabel">
                                 { selectedOptionLabel }
                             </span>
                         ) }
