@@ -17,7 +17,7 @@ export const convertStringToDate = (stringDate, options) => {
         month: 'long',
         day: 'numeric'
     };
-    const date = new Date(stringDate);
+    const date = new Date(stringDate.replace(/\s/, 'T'));
     const language = navigator.languages ? navigator.languages[0] : navigator.language;
 
     return date.toLocaleDateString(language, options || defaultOptions);

@@ -264,7 +264,8 @@ export class OrderQuery {
         return [
             'id',
             'number',
-            this._getRefundsItemsProductsField()
+            this._getRefundsItemsProductsField(),
+            this._getOrderItemTotalField()
         ];
     }
 
@@ -314,7 +315,8 @@ export class OrderQuery {
         return [
             'id',
             'number',
-            this._getInvoiceItemsProductsField()
+            this._getInvoiceItemsProductsField(),
+            this._getOrderItemTotalField()
         ];
     }
 

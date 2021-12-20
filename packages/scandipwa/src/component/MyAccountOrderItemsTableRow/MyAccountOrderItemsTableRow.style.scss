@@ -95,21 +95,12 @@
             &:nth-child(n+3) {
                 text-align: right;
             }
-
-            &:first-child {
-                padding-left: 0;
-            }
         }
     }
 
     &-EnteredLabel {
         td {
             padding-inline-start: 10px;
-            background-color: var(--color-gray);
-
-            @include desktop {
-                padding-inline-start: 0;
-            }
         }
     }
 

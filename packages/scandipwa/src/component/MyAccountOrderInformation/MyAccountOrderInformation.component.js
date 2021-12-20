@@ -26,6 +26,10 @@ export class MyAccountOrderInformation extends PureComponent {
     renderShippingMethod() {
         const { order: { shipping_method } } = this.props;
 
+        if (!shipping_method) {
+            return null;
+        }
+
         return (
             <div
               block="MyAccountOrderInformation"
@@ -46,6 +50,10 @@ export class MyAccountOrderInformation extends PureComponent {
 
     renderBillingAddress() {
         const { order: { billing_address } = {} } = this.props;
+
+        if (!billing_address) {
+            return null;
+        }
 
         return (
             <div
@@ -69,7 +77,7 @@ export class MyAccountOrderInformation extends PureComponent {
         );
     }
 
-    renderPaymentMethod = (paymentMethod, index) => {
+    renderPaymentMethod(paymentMethod, index) {
         const { name } = paymentMethod;
 
         return (
@@ -100,6 +108,10 @@ export class MyAccountOrderInformation extends PureComponent {
 
     renderShippingAddress() {
         const { order: { shipping_address } = {} } = this.props;
+
+        if (!shipping_address) {
+            return null;
+        }
 
         return (
             <div
@@ -146,6 +158,8 @@ export class MyAccountOrderInformation extends PureComponent {
     }
 
     render() {
+        const { order } = this.props;
+
         return (
             <div
               block="MyAccountOrderInformation"

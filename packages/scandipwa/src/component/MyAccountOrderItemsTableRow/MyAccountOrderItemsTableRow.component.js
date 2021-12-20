@@ -186,12 +186,15 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
     }
 
     renderOptionItem(item) {
-        const { product: { product_sale_price: { currency } }, isMobile } = this.props;
+        const { product, product: { product_sale_price: { currency } }, isMobile } = this.props;
         const { qty, title, price } = item;
 
         if (isMobile) {
             return this.renderMobileOptionItem(item);
         }
+
+        const qtyArray = getOrderItemQtyToArray(product);
+        const highestQty = Object.values(qtyArray).reduce((highestQty, qty) => Math.max(highestQty, qty));
 
         return (
             <tr
@@ -212,7 +215,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                   block="MyAccountOrderItemsTableRow"
                   elem="EnteredQty"
                 >
-                    { qty }
+                    { highestQty }
                 </td>
             </tr>
         );
