@@ -29,7 +29,9 @@ export class ProductCompare extends Component {
         isOutOfStock: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
         products: ProductItemsType,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        handleScroll: PropTypes.func.isRequired,
+        handleBlockScroll: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -42,6 +44,30 @@ export class ProductCompare extends Component {
         const { products: nextProducts, isLoading: nextIsLoading } = nextProps;
 
         return products !== nextProducts || isLoading !== nextIsLoading;
+    }
+
+    renderScroll() {
+        const { handleScroll } = this.props;
+
+        return (
+            <div block="ProductCompare" elem="Scroller">
+                <div block="ProductCompare" elem="ScrollerInner">
+                    <div
+                      id="scrollerScroll"
+                      block="ProductCompare"
+                      elem="ScrollerScroll"
+                      // eslint-disable-next-line react/jsx-no-bind
+                      onScroll={ () => handleScroll() }
+                    >
+                        <div
+                          id="scrollerContent"
+                          block="ProductCompare"
+                          elem="ScrollerContent"
+                        />
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     renderHeading() {
@@ -134,9 +160,18 @@ export class ProductCompare extends Component {
     }
 
     renderProducts() {
+        const { handleBlockScroll } = this.props;
+
         return (
-            <div block="ProductCompare">
+            <div
+              id="productCompare"
+              block="ProductCompare"
+              // eslint-disable-next-line react/jsx-no-bind
+              onScroll={ () => handleBlockScroll() }
+            >
+                { this.renderScroll() }
                 <div
+                  id="productCompareRow"
                   block="ProductCompare"
                   elem="Row"
                   mix={ { block: 'ProductCardRow' } }
