@@ -182,6 +182,7 @@ export class Menu extends PureComponent {
                         <MenuItem
                           activeMenuItemsStack={ activeMenuItemsStack }
                           item={ { ...category, title: __('All %s', title) } }
+                          itemMods={ { ...subcategoryMods, isSecondLevel } }
                           isLink
                         />
                     ) }
