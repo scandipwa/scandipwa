@@ -608,5 +608,7 @@
     "AM / PM": null,
     "Select date": null,
     "Select date & time": null,
-    "Select time": null
+    "Select time": null,
+    "Discount (%s)": null,
+    "Purchase Order Number: %s": null
 }
