@@ -23,6 +23,7 @@ import { ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
+import { getProductInStock } from 'Util/Product/Extract';
 import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { Debouncer } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -162,6 +163,7 @@ export class WishlistItemContainer extends PureComponent {
         const { isLoading } = this.state;
 
         return {
+            inStock: this.productIsInStock(),
             changeQuantity: this.changeQuantity,
             changeDescription: this.changeDescription,
             attributes: this.getAttributes(),
@@ -172,6 +174,12 @@ export class WishlistItemContainer extends PureComponent {
             isRemoving,
             product
         };
+    }
+
+    productIsInStock() {
+        const { product } = this.props;
+
+        return getProductInStock(product);
     }
 
     setQuantity(quantity) {
