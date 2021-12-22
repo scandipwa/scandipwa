@@ -53,18 +53,19 @@
 
     &:hover {
         .input-control {
-          border-color: var(--checkbox-border-color-active);
-          transition-duration: unset;
-          &::after {
-            @include desktop {
-              --checkmark-color: var(--secondary-dark-color);
+            border-color: var(--checkbox-border-color-active);
+            transition-duration: unset;
+
+            &::after {
+                @include desktop {
+                    --checkmark-color: var(--secondary-dark-color);
+                }
             }
-          }
         }
         .CheckoutDeliveryOption-Row * {
-          color: var(--primary-base-color);
+            color: var(--primary-base-color);
         }
-      }
+    }
 
     &-Row {
         strong {
