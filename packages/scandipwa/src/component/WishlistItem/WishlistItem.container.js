@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -23,6 +22,7 @@ import { ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
+import { getMaxQuantity, getMinQuantity } from 'Util/Product/Extract';
 import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { Debouncer } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -164,6 +164,8 @@ export class WishlistItemContainer extends PureComponent {
         return {
             changeQuantity: this.changeQuantity,
             changeDescription: this.changeDescription,
+            minSaleQuantity: getMinQuantity(product),
+            maxSaleQuantity: getMaxQuantity(product),
             attributes: this.getAttributes(),
             isLoading,
             handleSelectIdChange,
@@ -181,7 +183,9 @@ export class WishlistItemContainer extends PureComponent {
         setIsQtyUpdateInProgress(true);
     }
 
-    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
+    getConfigurableVariantIndex(sku, variants) {
+        return Object.keys(variants).find((i) => variants[i].sku === sku);
+    }
 
     getAttributes() {
         const { product: { variants, configurable_options, wishlist: { sku: wishlistSku } } } = this.props;
@@ -206,7 +210,7 @@ export class WishlistItemContainer extends PureComponent {
 
             return acc;
         }, []) : [];
-    };
+    }
 
     getProducts() {
         const {
@@ -325,16 +329,18 @@ export class WishlistItemContainer extends PureComponent {
         history.push({ pathname: appendWithStoreCode(url) });
     }
 
-    renderRightSideContent = () => (
-        <button
-          block="WishlistItem"
-          elem="SwipeToDeleteRightSide"
-          onClick={ this.removeItemOnSwipe }
-          aria-label={ __('Remove') }
-        >
-            { __('Delete') }
-        </button>
-    );
+    renderRightSideContent() {
+        return (
+            <button
+              block="WishlistItem"
+              elem="SwipeToDeleteRightSide"
+              onClick={ this.removeItemOnSwipe }
+              aria-label={ __('Remove') }
+            >
+                { __('Delete') }
+            </button>
+        );
+    }
 
     render() {
         const { isLoading } = this.state;

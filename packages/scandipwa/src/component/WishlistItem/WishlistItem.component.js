@@ -39,7 +39,9 @@ export class WishlistItem extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
         handleSelectIdChange: PropTypes.func.isRequired,
-        setQuantity: PropTypes.func.isRequired
+        setQuantity: PropTypes.func.isRequired,
+        minSaleQuantity: PropTypes.number.isRequired,
+        maxSaleQuantity: PropTypes.number.isRequired
     };
 
     static defaultProps = {
@@ -85,7 +87,9 @@ export class WishlistItem extends PureComponent {
         const {
             product: { wishlist: { quantity } },
             changeQuantity,
-            setQuantity
+            setQuantity,
+            minSaleQuantity,
+            maxSaleQuantity
         } = this.props;
 
         return (
@@ -95,7 +99,8 @@ export class WishlistItem extends PureComponent {
                   id: 'item_qty',
                   name: 'item_qty',
                   defaultValue: quantity,
-                  min: 1
+                  min: minSaleQuantity,
+                  max: maxSaleQuantity
               } }
               events={ {
                   onChange: (quantity) => {
