@@ -22,7 +22,6 @@
         font-size: 14px;
         font-weight: 400;
         line-height: 14px;
-        margin-inline-start: 10px;
         margin: 3px 0 0;
         padding: 5px 10px;
         text-transform: uppercase;
@@ -32,6 +31,8 @@
 
     &-OrderId {
         margin: 10px 0;
+        display: flex;
+        flex-direction: column;
     }
 
     &-Buttons {

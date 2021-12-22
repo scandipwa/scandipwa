@@ -377,12 +377,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
     renderDesktopTableRow() {
         const {
             product: {
-                product_sku,
-                entered_options = []
-            }
+                product_sku
+            },
+            enteredOptions = []
         } = this.props;
 
-        const isWithEnteredItems = !!entered_options[0]?.items;
+        const isWithEnteredItems = !!enteredOptions[0]?.items;
 
         return (
             <>
