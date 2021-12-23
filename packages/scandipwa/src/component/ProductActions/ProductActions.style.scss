@@ -56,9 +56,11 @@
         line-height: 20px;
         margin-block: 16px;
 
-        p,
-        li {
-            line-height: 20px;
+        @include mobile {
+            p,
+            li {
+                line-height: 20px;
+            }
         }
 
         div[itemprop="description"] li:before{
