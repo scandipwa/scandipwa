@@ -135,11 +135,11 @@ export const getDateTimeFormat = (type, dateFieldsOrder, timeFormat) => {
 /** @namespace Util/Form/Extract/adjustAmpmHours */
 export const adjustAmpmHours = (hours, ampm) => {
     if (ampm === 'PM') {
-        return (+hours % HOURS_12H_COUNT) + HOURS_12H_COUNT;
+        return (hours % HOURS_12H_COUNT) + HOURS_12H_COUNT;
     }
 
     if (ampm === 'AM') {
-        return +hours % HOURS_12H_COUNT;
+        return hours % HOURS_12H_COUNT;
     }
 
     return hours;
@@ -157,7 +157,7 @@ export const transformDateFieldsData = (datesData) => Object.entries(datesData).
         ampm
     } = data;
 
-    const hoursAdjusted = adjustAmpmHours(hours, ampm);
+    const hoursAdjusted = adjustAmpmHours(Number(hours), ampm);
 
     if (type === FIELD_DATE_TYPE.date && year && month && day) {
         return [...prev, {
