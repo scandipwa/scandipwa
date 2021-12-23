@@ -37,6 +37,11 @@ export class MyAccountCustomerTable extends KeyValueTable {
                 source: customer
             },
             {
+                key: 'taxvat',
+                label: __('Tax/VAT Number'),
+                source: customer
+            },
+            {
                 key: 'email',
                 label: __('Email'),
                 source: customer

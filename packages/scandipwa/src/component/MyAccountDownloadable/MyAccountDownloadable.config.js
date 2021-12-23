@@ -9,13 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.MinusIcon {
-    @include icon-black-hover-effect;
+export const NUMBER_OF_COLUMNS_IN_DOWNLOADABLE_TABLE = 5;
 
-    height: var(--plus-minus-icon-size);
-    width: var(--plus-minus-icon-size);
-
-    &_isPrimary {
-        @include icon-primary;
-    }
-}
+export default NUMBER_OF_COLUMNS_IN_DOWNLOADABLE_TABLE;

@@ -26,7 +26,8 @@ export const customerInformationFields = (props) => {
         handleChangeEmailCheckbox,
         handleChangePasswordCheckbox,
         showEmailChangeField,
-        showPasswordChangeField
+        showPasswordChangeField,
+        vatNumberRequired
     } = props;
 
     return [
@@ -67,10 +68,10 @@ export const customerInformationFields = (props) => {
                     defaultValue: taxvat,
                     placeholder: __('Your tax/VAT number')
                 },
-                addRequiredTag: true,
+                addRequiredTag: vatNumberRequired,
                 validateOn: ['onChange'],
                 validationRule: {
-                    isRequired: true
+                    isRequired: vatNumberRequired
                 }
             }
         ] : []),

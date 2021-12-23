@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import DateSelect from 'Component/DateSelect/DateSelect.component';
 import { AMPM_FORMAT, DEFAULT_MONTH_DAYS, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
 import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
-import { adjustHours, getYearRangeAttributes } from 'Util/Form/Extract';
+import { adjustHours, getYearRangeAttributes, zeroBasedValue } from 'Util/Form/Extract';
 
 /** @namespace Component/DateSelect/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -65,8 +65,8 @@ export class DateSelectContainer extends PureComponent {
         const selectedYear = selectedDate.getFullYear();
         const selectedMonth = selectedDate.getMonth() + 1;
         const selectedDay = selectedDate.getDate();
-        const selectedHours = adjustHours(selectedDate.getHours(), timeFormat);
-        const selectedMinutes = selectedDate.getMinutes();
+        const selectedHours = zeroBasedValue(adjustHours(selectedDate.getHours(), timeFormat));
+        const selectedMinutes = zeroBasedValue(selectedDate.getMinutes());
         const selectedAMPM = selectedDate.getHours() >= HOURS_12H_COUNT ? AMPM_FORMAT.PM : AMPM_FORMAT.AM;
 
         this.state = {

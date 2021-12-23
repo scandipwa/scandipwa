@@ -55,7 +55,7 @@
         font-size: 14px;
         line-height: 20px;
         margin-block: 16px;
-        
+
         div[itemprop="description"] li:before{
             position: static;
         }
@@ -71,11 +71,18 @@
 
         @include mobile {
             margin-block-end: 10px;
+            font-style: normal;
+            font-size: 12px;
         }
     }
 
     &-Sku {
         order: 1;
+
+        @include mobile {
+            font-weight: normal;
+            font-size: 12px;
+        }
 
         & + .ProductActions-Sku {
             margin-inline-start: 1ex;
@@ -234,7 +241,13 @@
         }
 
         button {
-            cursor: pointer;
+            &:not([disabled]) {
+                cursor: pointer;
+            }
+
+            &:disabled {
+                cursor: default;
+            }
 
             &:hover {
                 border-color: var(--primary-dark-color);

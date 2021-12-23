@@ -69,6 +69,7 @@
             position: relative;
             width: 100%;
             margin-block-start: 18px;
+            line-height: 20px;
         }
     }
 
@@ -83,6 +84,8 @@
 
         @include mobile {
             margin-inline-start: 14px;
+            line-height: 24px;
+            font-size: 18px;
         }
 
         span {

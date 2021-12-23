@@ -126,6 +126,12 @@
                     }
                 }
 
+                &-OutOfStock {
+                    p {
+                        margin-inline-end: 10px;
+                    }
+                }
+
                 &-PriceWrapper {
                     flex-grow: unset;
                 }
@@ -323,6 +329,16 @@
 
         > * {
             margin-inline-end: 5px;
+        }
+    }
+
+    &-OutOfStock {
+        align-items: center;
+        display: flex;
+        height: 48px;
+
+        p {
+            margin: 0;
         }
     }
 
