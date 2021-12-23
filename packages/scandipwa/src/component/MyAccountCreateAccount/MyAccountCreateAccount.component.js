@@ -165,7 +165,7 @@ export class MyAccountCreateAccount extends PureComponent {
                           },
                           customErrorMessages: {
                               onMatchFail: __('Passwords can\'t be the same as email!'),
-                              onRangeFailMin: `Password should be at least ${minimumPasswordLength}`
+                              onRangeFailMin: `Password should be at least ${minimumPasswordLength} characters`
                           },
                           range: {
                               min: minimumPasswordLength

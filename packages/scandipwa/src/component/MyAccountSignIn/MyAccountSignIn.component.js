@@ -81,7 +81,7 @@ export class MyAccountSignIn extends PureComponent {
                       inputType: VALIDATION_INPUT_TYPE.password,
                       showErrorAsLabel: true,
                       customErrorMessages: {
-                          onRangeFailMin: `Password should be at least ${minimumPasswordLength}`
+                          onRangeFailMin: `Password should be at least ${minimumPasswordLength} characters`
                       },
                       range: {
                           min: minimumPasswordLength

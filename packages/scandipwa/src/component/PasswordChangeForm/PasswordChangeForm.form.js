@@ -33,7 +33,7 @@ export const customerEmailAndPasswordFields = (props) => [
             inputType: VALIDATION_INPUT_TYPE.password,
             showErrorAsLabel: true,
             customErrorMessages: {
-                onRangeFailMin: `Password should be at least ${props.minimumPasswordLength}`
+                onRangeFailMin: `Password should be at least ${props.minimumPasswordLength} characters`
             },
             range: {
                 min: props.minimumPasswordLength

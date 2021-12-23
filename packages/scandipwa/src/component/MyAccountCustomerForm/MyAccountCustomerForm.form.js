@@ -158,7 +158,7 @@ export const customerEmailAndPasswordFields = (props) => {
                     isRequired: true,
                     showErrorAsLabel: true,
                     customErrorMessages: {
-                        onRangeFailMin: `Password should be at least ${minimumPasswordLength}`
+                        onRangeFailMin: `Password should be at least ${minimumPasswordLength} characters`
                     },
                     range: {
                         min: minimumPasswordLength
@@ -187,7 +187,7 @@ export const customerEmailAndPasswordFields = (props) => {
                     },
                     showErrorAsLabel: true,
                     customErrorMessages: {
-                        onRangeFailMin: `Password should be at least ${minimumPasswordLength}`,
+                        onRangeFailMin: `Password should be at least ${minimumPasswordLength} characters`,
                         onMatchFail: __('New passwords can\'t be the same as old password!')
                     },
                     range: {
