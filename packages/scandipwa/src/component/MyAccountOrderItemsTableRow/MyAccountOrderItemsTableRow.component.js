@@ -205,12 +205,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                     { `${qty} x ${title}` }
                 </td>
                 <td>{ title }</td>
-                <td
-                  block="MyAccountOrderItemsTableRow"
-                  elem="EnteredPrice"
-                >
-                    <strong>{ formatPrice(price, currency) }</strong>
-                </td>
+                { this.renderEnteredOptionPrice(formatPrice(price, currency)) }
                 <td
                   block="MyAccountOrderItemsTableRow"
                   elem="EnteredQty"
@@ -218,6 +213,23 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                     { highestQty }
                 </td>
             </tr>
+        );
+    }
+
+    renderEnteredOptionPrice(price) {
+        const { activeTab } = this.props;
+
+        if (activeTab === ORDER_SHIPMENTS) {
+            return null;
+        }
+
+        return (
+            <td
+              block="MyAccountOrderItemsTableRow"
+              elem="EnteredPrice"
+            >
+                <strong>{ price }</strong>
+            </td>
         );
     }
 

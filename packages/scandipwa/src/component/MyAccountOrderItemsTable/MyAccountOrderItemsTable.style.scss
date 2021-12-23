@@ -14,7 +14,6 @@
         font-size: 22px;
         padding-block-end: 10px;
         margin-block-start: 20px;
-        border-block-end: var(--my-account-content-border);
 
         @include desktop {
             margin-block-start: 30px;
@@ -42,26 +41,36 @@
         }
 
         tbody {
+            tr {
+                border-block-start: var(--table-body-border);
+                border-block-end: none;
+
+                &:first-of-type {
+                    border-block-start: none;
+                }
+            }
+
             .MyAccountOrderItemsTableRow {
                 &-RowWrapper {
                     &_isWithEnteredItems {
-                        border-block-end: none;
+                        border-block: unset;
                     }
                 }
 
                 &-Row {
                     @include mobile {
-                        border-block-end: none;
+                        border-block: unset;
                     }
                 }
 
-                &-EnteredLabel {
-                    border-block-end: none;
+                &-EnteredLabel,
+                &-EnteredRow {
+                    border-block: unset;
                 }
 
                 @include mobile {
                     &-Name {
-                        border-block-end: none;
+                        border-block: unset;
                     }
                 }
             }
