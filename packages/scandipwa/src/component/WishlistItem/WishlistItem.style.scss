@@ -25,6 +25,7 @@
         margin-block-start: 10px;
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
 
     &-InformationWrapper {
@@ -196,6 +197,16 @@
             @include desktop {
                 width: 100%;
             }
+        }
+    }
+
+    &-OutOfStock {
+        align-items: center;
+        display: flex;
+        height: 48px;
+
+        p {
+            margin: 0;
         }
     }
 

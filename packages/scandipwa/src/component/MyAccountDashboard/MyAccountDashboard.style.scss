@@ -40,6 +40,10 @@
         @include desktop {
             grid-column: span 2;
         }
+
+        td {
+            word-break: break-word;
+        }
     }
 
     &-DefaultAddress {

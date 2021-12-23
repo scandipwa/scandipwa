@@ -105,7 +105,7 @@ export class FieldSelectContainer extends PureComponent {
         const { changeValueOnDoubleClick, events: { onChange } = {} } = this.props;
         const { value, target: { value: targetValue } = {} } = option;
 
-        const fieldValue = !value ? targetValue : option.value;
+        const fieldValue = value || targetValue || '';
 
         if (changeValueOnDoubleClick) {
             this.fieldRef.value = this.fieldRef.value === value ? '' : fieldValue;
