@@ -61,6 +61,8 @@ export class DatePickerComponent extends PureComponent {
               ref={ ref }
               data-date={ selectedDate }
               placeholder={ this.getPlaceholder() }
+              inputMode="none"
+              readOnly
             />
         );
     }
