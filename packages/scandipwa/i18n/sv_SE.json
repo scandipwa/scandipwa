@@ -608,6 +608,8 @@
     "Select date": null,
     "Select date & time": null,
     "Select time": null,
+    "Discount (%s)": null,
+    "Purchase Order Number: %s": null,
     "You have not purchased any downloadable products yet.": null,
     "All %s": null
 }

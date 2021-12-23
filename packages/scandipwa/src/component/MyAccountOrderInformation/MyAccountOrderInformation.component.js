@@ -64,17 +64,33 @@ export class MyAccountOrderInformation extends PureComponent {
                 <MyAccountAddressTable
                 address={ billing_address }
                 mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
+                showAdditionalFields
                 />
             </div>
         );
     }
 
     renderPaymentMethod = (paymentMethod, index) => {
-        const { name } = paymentMethod;
+        const { name, purchase_number } = paymentMethod;
 
         return (
-            <span key={ `${name}-${index}` }>{ name }</span>
+            <div
+                key={ `${name}-${index}` }
+                block="MyAccountOrderInformation"
+                elem="PaymentMethod"
+            >
+                <span>{ name }</span>
+                { this.renderPurchaseNumber(purchase_number) }
+            </div>
         )
+    }
+
+    renderPurchaseNumber(purchaseNumber) {
+        if (!purchaseNumber) {
+            return null;
+        }
+
+        return <span>{ __('Purchase Order Number: %s', purchaseNumber) }</span>
     }
 
     renderPaymentMethods() {
@@ -118,6 +134,7 @@ export class MyAccountOrderInformation extends PureComponent {
                 <MyAccountAddressTable
                 address={ shipping_address }
                 mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
+                showAdditionalFields
                 />
             </div>
         );
