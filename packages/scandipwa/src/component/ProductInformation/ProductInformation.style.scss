@@ -70,7 +70,8 @@
         @include mobile {
             line-height: 20px;
 
-            p {
+            p,
+            li {
                 line-height: 20px;
             }
         }
