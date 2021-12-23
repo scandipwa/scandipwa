@@ -92,7 +92,7 @@ export class WishlistItemContainer extends PureComponent {
         isLoading: false
     };
 
-    removeItemOnSwipe = this.removeItem.bind(this, false, true);
+    renderRightSideContent = this.renderRightSideContent.bind(this);
 
     getAttributes = this.getAttributes.bind(this);
 
@@ -330,11 +330,13 @@ export class WishlistItemContainer extends PureComponent {
     }
 
     renderRightSideContent() {
+        const { removeItem } = this.containerFunctions;
+
         return (
             <button
               block="WishlistItem"
               elem="SwipeToDeleteRightSide"
-              onClick={ this.removeItemOnSwipe }
+              onClick={ removeItem }
               aria-label={ __('Remove') }
             >
                 { __('Delete') }
