@@ -287,6 +287,12 @@ export class WishlistItem extends PureComponent {
     }
 
     renderPrice(productPrice) {
+        const { inStock } = this.props;
+
+        if (!inStock) {
+            return null;
+        }
+
         return (
             <div
               block="WishlistItem"
