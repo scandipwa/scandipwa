@@ -11,8 +11,8 @@
 
 .MyAccountOrderItemsTableRow {
     &-Qty {
-        display: flex;
-        flex-direction: column;
+        display: table-cell;
+        vertical-align: top;
 
         span {
             margin-block-end: 5px;

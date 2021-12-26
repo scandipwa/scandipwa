@@ -43,10 +43,14 @@
         tbody {
             tr {
                 border-block-start: var(--table-body-border);
-                border-block-end: none;
 
                 &:first-of-type {
                     border-block-start: none;
+                }
+
+
+                &:not(:last-child) {
+                    border-block-end: none;
                 }
             }
 
