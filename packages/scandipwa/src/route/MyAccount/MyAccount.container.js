@@ -235,8 +235,7 @@ export class MyAccountContainer extends PureComponent {
     componentDidUpdate(prevProps, prevState) {
         const {
             wishlistItems: prevWishlistItems,
-            IsSignedInFromState: prevIsSignedInFromState,
-            location: prevLocation
+            IsSignedInFromState: prevIsSignedInFromState
         } = prevProps;
 
         const {
@@ -247,7 +246,7 @@ export class MyAccountContainer extends PureComponent {
         const { activeTab: prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
-        this.redirectIfNotSignedIn(prevLocation);
+        this.redirectIfNotSignedIn();
 
         if (prevIsSignedInFromState !== currIsSignedInFromState) {
             this.changeMyAccountHeaderState();
@@ -368,6 +367,20 @@ export class MyAccountContainer extends PureComponent {
 
         this.changeMyAccountHeaderState();
     }
+
+    handleCheckIfSelectedTab() {
+        const {
+            selectedTab,
+            location: { pathname = '' }
+        } = this.props;
+
+        if (selectedTab) {
+            return true;
+        }
+
+        return Object.values(MyAccountContainer.tabMap)
+            .find(({ url }) => pathname.includes(url));
+    }
     // #endregion
 
     // #region EVENT
@@ -437,15 +450,12 @@ export class MyAccountContainer extends PureComponent {
         updateBreadcrumbs(breadcrumbs);
     }
 
-    redirectIfNotSignedIn(prevLocation) {
+    redirectIfNotSignedIn() {
         const {
             isMobile,
             baseLinkUrl,
-            showNotification,
-            selectedTab,
-            location: { pathname = '' }
+            showNotification
         } = this.props;
-        const { pathname: prevPathname } = prevLocation || {};
 
         if (isSignedIn()) { // do nothing for signed-in users
             return;
@@ -455,11 +465,7 @@ export class MyAccountContainer extends PureComponent {
             return;
         }
 
-        if (pathname === prevPathname) { // do not redirect in case if it is same url as previous
-            return;
-        }
-
-        if (selectedTab) { // do redirect if it is customer url
+        if (this.handleCheckIfSelectedTab()) { // do redirect if it is customer url
             history.replace({ pathname: ACCOUNT_LOGIN_URL });
         }
 
