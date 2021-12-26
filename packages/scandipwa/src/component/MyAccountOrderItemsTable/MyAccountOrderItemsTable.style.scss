@@ -36,7 +36,7 @@
                     &:nth-child(n+3) {
                         text-align: right;
                     }
-                }
+                }   
             }
         }
 
@@ -55,12 +55,6 @@
             }
 
             .MyAccountOrderItemsTableRow {
-                &-RowWrapper {
-                    &_isWithEnteredItems {
-                        border-block: unset;
-                    }
-                }
-
                 &-Row {
                     @include mobile {
                         border-block: unset;
