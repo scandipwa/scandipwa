@@ -31,7 +31,7 @@
         "scandipwa/customer-downloadable-graphql": "1.0.3",
         "scandipwa/directory-graphql": "1.0.1",
         "scandipwa/product-alerts-graphql": "1.0.0",
-        "scandipwa/sales-graphql": "1.0.1",
+        "scandipwa/sales-graphql": "1.0.2",
         "scandipwa/catalog-customer-graphql": "1.0.0"
     },
     "autoload": {

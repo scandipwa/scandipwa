@@ -43,7 +43,8 @@ export class FieldSelect extends PureComponent {
             value,
             disabled,
             label,
-            subLabel = ''
+            subLabel = '',
+            isAvailable = true
         } = option;
 
         const { isDisabled } = this.props;
@@ -53,7 +54,7 @@ export class FieldSelect extends PureComponent {
               key={ id }
               id={ id }
               value={ value }
-              disabled={ disabled || isDisabled }
+              disabled={ disabled || isDisabled || !isAvailable }
             >
                 { `${label} ${subLabel}` }
             </option>
@@ -88,7 +89,8 @@ export class FieldSelect extends PureComponent {
             label,
             subLabel,
             isPlaceholder = false,
-            isHovered
+            isHovered,
+            isAvailable = true
         } = option;
 
         const {
@@ -100,7 +102,12 @@ export class FieldSelect extends PureComponent {
             <li
               block="FieldSelect"
               elem="Option"
-              mods={ { isExpanded, isPlaceholder, isHovered } }
+              mods={ {
+                  isDisabled: !isAvailable,
+                  isExpanded,
+                  isPlaceholder,
+                  isHovered
+              } }
               key={ id }
               /**
                * Added 'o' as querySelector does not work with

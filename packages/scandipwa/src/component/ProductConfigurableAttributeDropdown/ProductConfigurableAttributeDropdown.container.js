@@ -34,7 +34,7 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
             option: { attribute_code }
         } = this.props;
 
-        updateConfigurableVariant(attribute_code, value);
+        updateConfigurableVariant(attribute_code, value, true);
     }
 
     containerProps() {
@@ -73,13 +73,10 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
                     attribute_value: value
                 });
 
-                if (!isAvailable) {
-                    return acc;
-                }
-
                 return [...acc, {
                     ...option,
-                    id: value
+                    id: value,
+                    isAvailable
                 }];
             }, []);
     }

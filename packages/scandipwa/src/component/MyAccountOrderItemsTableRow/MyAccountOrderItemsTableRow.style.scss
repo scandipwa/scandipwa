@@ -90,7 +90,7 @@
 
     &-EnteredRow {
         td {
-            padding: 16px 10px 15px;
+            margin: 16px 10px 15px;
 
             &:nth-child(n+3) {
                 text-align: right;
@@ -100,20 +100,31 @@
 
     &-EnteredLabel {
         td {
-            padding-inline-start: 10px;
+            margin-inline-start: 10px;
         }
     }
 
     &-OptionLabel {
-        padding: 5px 0;
+        margin: 5px 0;
 
         &:first-child {
-            padding-block-start: 0;
+            margin-block-start: 0;
         }
 
         @include desktop {
-            padding-block-start: 15px;
-            padding-block-end: 10px;
+            margin-block-start: 15px;
+            margin-block-end: 5px;
         }
+    }
+
+    &-OptionValue {
+        @include desktop {
+            margin-block-end: 5px;
+        }
+    }
+
+    &-OptionValue,
+    &-OptionLabel {
+        margin-inline-start: 10px;
     }
 }
