@@ -41,18 +41,25 @@
 
         &_activeTab {
             &_my-orders {
-                .MyAccount-SubHeading {
-                    border-radius: 3px;
-                    border: var(--my-account-order-subheading-border);
-                    bottom: 4px;
-                    color: var(--my-account-order-subheading-color);
-                    font-size: 14px;
-                    font-weight: 400;
-                    margin-inline-start: 10px;
-                    margin: 3px 0 0;
-                    padding: 5px 10px;
-                    line-height: 14px;
-                    text-transform: uppercase;
+                .MyAccount {
+                    &-Heading {
+                        display: flex;
+                    }
+
+                    &-SubHeading {
+                        display: block;
+                        border-radius: 3px;
+                        border: var(--my-account-order-subheading-border);
+                        bottom: 4px;
+                        color: var(--my-account-order-subheading-color);
+                        font-size: 14px;
+                        font-weight: 400;
+                        margin-inline-start: 10px;
+                        margin: 3px 0 0;
+                        padding: 5px 10px;
+                        line-height: 13px;
+                        text-transform: uppercase;
+                    }
                 }
             }
         }

@@ -314,10 +314,22 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         } = option;
 
         if (linkItems && linkItems.length) {
-            return linkItems.map((title) => <dd key={ title }>{ title }</dd>);
+            return linkItems.map(this.renderLink.bind(this));
         }
 
         return <dd block="MyAccountOrderItemsTableRow" elem="OptionValue"><Html content={ value } /></dd>;
+    }
+
+    renderLink(title, index) {
+        return (
+            <dd
+              block="MyAccountOrderItemsTableRow"
+              elem="DownloadableLink"
+              key={ `${title}-${index}` }
+            >
+                { title }
+            </dd>
+        );
     }
 
     renderDiscountAndRowTotal() {

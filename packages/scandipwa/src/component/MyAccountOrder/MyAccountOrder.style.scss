@@ -16,6 +16,7 @@
     }
 
     &-OrderStatus {
+        display: block;
         border-radius: 3px;
         border: var(--my-account-order-subheading-border);
         color: var(--my-account-order-subheading-color);
@@ -26,7 +27,7 @@
         padding: 5px 10px;
         text-transform: uppercase;
         top: -1px;
-        width: max-content;
+        width: min-content;
     }
 
     &-OrderId {
