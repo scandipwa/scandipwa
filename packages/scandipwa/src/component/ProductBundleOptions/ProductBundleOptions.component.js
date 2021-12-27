@@ -28,7 +28,7 @@ export class ProductBundleOptions extends PureComponent {
         updateSelectedValues: PropTypes.func.isRequired
     };
 
-    renderOptionGroup = (group) => {
+    renderOptionGroup(group) {
         const {
             title,
             options,
@@ -52,14 +52,14 @@ export class ProductBundleOptions extends PureComponent {
               uid={ uid }
             />
         );
-    };
+    }
 
     render() {
         const { options = [] } = this.props;
 
         return (
           <div block="ProductBundleOptions" elem="Wrapper">
-              { options.map(this.renderOptionGroup) }
+              { options.map(this.renderOptionGroup.bind(this)) }
           </div>
         );
     }

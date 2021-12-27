@@ -37,7 +37,7 @@ export class MyAccountAddressBook extends Component {
         return <MyAccountAddressPopup />;
     }
 
-    renderAddress = (address, index) => {
+    renderAddress(address, index) {
         const addressNumber = index + 1;
         const postfix = getDefaultAddressLabel(address);
 
@@ -49,7 +49,7 @@ export class MyAccountAddressBook extends Component {
               key={ addressNumber }
             />
         );
-    };
+    }
 
     renderNoAddresses() {
         return (

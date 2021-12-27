@@ -13,10 +13,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.config';
-import { showPopup } from 'Store/Popup/Popup.action';
-import { DownloadableType, OrdersType } from 'Type/Account.type';
+import { ACCOUNT_ORDER_URL } from 'Route/MyAccount/MyAccount.config';
 import { DeviceType } from 'Type/Device.type';
+import { DownloadableType, OrdersType } from 'Type/Order.type';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountDownloadableTableRow from './MyAccountDownloadableTableRow.component';
 
@@ -28,8 +29,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (payload) => dispatch(showPopup(ORDER_POPUP_ID, payload))
+export const mapDispatchToProps = () => ({
 });
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container */
@@ -47,23 +47,9 @@ export class MyAccountDownloadableTableRowContainer extends PureComponent {
     };
 
     onOrderIdClick() {
-        const { showPopup, orderList, order: { order_id } } = this.props;
+        const { order: { id } } = this.props;
 
-        const order = orderList.find((order) => {
-            const {
-                base_order_info: {
-                    increment_id
-                }
-            } = order;
-
-            return increment_id === order_id;
-        });
-
-        showPopup({
-            title: __('Order #%s', order_id),
-            increment_id: order_id,
-            order
-        });
+        history.push({ pathname: appendWithStoreCode(`${ACCOUNT_ORDER_URL}/${id}`) });
     }
 
     containerProps() {

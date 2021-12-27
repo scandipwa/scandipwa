@@ -97,10 +97,13 @@
     }
 
     &_name {
-        &_menu,
+        &_menu {
+            border-block-end: none;
+        }
+
         &_search,
         &_menu_subcategory {
-            border-block-end: none;
+            border-block-end: 1px solid var(--primary-divider-color);
         }
 
         &_category {
@@ -300,6 +303,10 @@
         text-transform: inherit;
         line-height: 30px;
         height: 30px;
+
+        @include mobile {
+            line-height: 28px;
+        }
 
         &_isVisible {
             @include mobile {

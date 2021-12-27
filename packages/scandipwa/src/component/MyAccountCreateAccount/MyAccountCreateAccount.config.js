@@ -11,3 +11,4 @@
 
 export const SHOW_VAT_NUMBER_REQUIRED = 'req';
 export const SHOW_VAT_NUMBER_OPTIONAL = 'opt';
+export const CONFIRMATION_REQUIRED = 'confirmation_required';

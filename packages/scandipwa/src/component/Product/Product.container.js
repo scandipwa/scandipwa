@@ -261,7 +261,7 @@ export class ProductContainer extends PureComponent {
      * Fetches form data for customizable and bundle options.
      * (Should be called when value is changed)
      */
-    updateSelectedValues() {
+    updateSelectedValues(data = {}) {
         const { configFormRef: { current } = {} } = this.props;
 
         if (!current) {
@@ -270,6 +270,15 @@ export class ProductContainer extends PureComponent {
 
         const enteredOptions = [];
         const selectedOptions = [];
+
+        const { uid, value } = data;
+
+        if (uid && value) {
+            enteredOptions.push({
+                uid,
+                value
+            });
+        }
 
         const values = getFieldsData(current, true, [FIELD_TYPE.number]);
 
@@ -352,10 +361,14 @@ export class ProductContainer extends PureComponent {
      * @param key
      * @param value
      */
-    updateConfigurableVariant(key, value) {
+    updateConfigurableVariant(key, value, checkEmptyValue = false) {
         const { parameters: prevParameters } = this.state;
 
-        const parameters = getNewParameters(prevParameters, key, value);
+        const newParameters = getNewParameters(prevParameters, key, value);
+
+        const { [key]: oldValue, ...currentParameters } = newParameters;
+        const parameters = oldValue === '' && checkEmptyValue ? currentParameters : newParameters;
+
         this.setState({ parameters });
 
         const { product: { variants, configurable_options } } = this.props;

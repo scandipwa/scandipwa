@@ -12,6 +12,7 @@
 :root {
     @include desktop {
         --my-account-tab-list-background: #{$white};
+        --my-account-tab-list-separator-color: rgba(10, 9, 3, 0.16);
     }
 }
 
@@ -51,5 +52,12 @@
                 inset-inline-end: 28px;
             }
         }
+    }
+
+    &-Separator {
+        width: 90%;
+        margin: auto;
+        height: 1px;
+        background-color: var(--my-account-tab-list-separator-color);
     }
 }

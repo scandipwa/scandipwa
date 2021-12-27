@@ -8,7 +8,8 @@ const invokeGenerator = require('../../../common/invoke-generator');
 const extender = (resourceType) => async ({
     name,
     targetModule = process.cwd(),
-    sourceModule
+    sourceModule,
+    stylePostfix
 }) => {
     const isExtendedSuccessfully = await invokeGenerator(
         targetModule,
@@ -18,7 +19,8 @@ const extender = (resourceType) => async ({
             resolvedTargetModule,
             logger,
             userInteraction,
-            sourceModule
+            sourceModule,
+            { stylePostfix }
         )
     );
 

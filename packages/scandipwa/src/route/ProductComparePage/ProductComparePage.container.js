@@ -17,6 +17,7 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { scrollToTop } from 'Util/Browser';
 import DataContainer from 'Util/Request/DataContainer';
 
 import ProductComparePage from './ProductComparePage.component';
@@ -57,6 +58,7 @@ export class ProductComparePageContainer extends DataContainer {
     };
 
     componentDidMount() {
+        scrollToTop();
         this.updateMeta();
         this.updateBreadcrumbs();
         this.updateHeaderState();

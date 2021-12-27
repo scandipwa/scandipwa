@@ -185,7 +185,7 @@
         }
 
         @include desktop {
-            margin-block-start: 24px;
+            margin-block-start: 32px;
         }
     }
 
@@ -226,7 +226,7 @@
         z-index: 10;
 
         .ProductCard-ProductActions {
-            display: none;
+            display: flex;
         }
 
         .AddToCart {

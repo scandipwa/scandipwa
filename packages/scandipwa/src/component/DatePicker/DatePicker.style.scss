@@ -1,0 +1,94 @@
+.react-datepicker {
+  font-size: 14px;
+
+  &-popper {
+    z-index: 10;
+  }
+
+  &-wrapper {
+    margin-block-start: 8px;
+  }
+
+  &__day {
+    width: 24px;
+    height: 20px;
+    padding-block-start: 1px;
+
+    &--selected {
+      background-color: var(--primary-base-color);
+
+      &:hover {
+        background-color: var(--primary-dark-color);
+      }
+    }
+
+    &-name {
+      width: 24px;
+      height: 20px;
+      padding-block-start: 2px;
+    }
+  }
+
+  // need to override inline style
+  &__triangle {
+    left: -30%!important;
+  }
+
+  &__current-month {
+    font-size: 14px;
+    padding-block-end: 8px;
+  }
+
+  &__time {
+    &-list-item {
+      &:before {
+        content: none;
+      }
+
+      &--selected {
+        background-color: var(--primary-base-color) !important;
+      }
+    }
+
+    &-list {
+      min-width: fit-content;
+    }
+  }
+  &-time {
+    &__header {
+      font-size: 14px;
+    }
+  }
+
+  &__close-icon {
+    position: absolute;
+    inset-inline-end: 5px;
+    inset-block-start: -3px;
+
+    @include desktop {
+      position: relative;
+      inset-inline-end: 28px;
+      inset-block-start: -5px;
+    }
+
+    &:hover {
+      &:after {
+        color: var(--primary-base-color);
+      }
+    }
+
+    &:after {
+      color: gray;
+      background-color: inherit;
+      font-size: 22px;
+      font-weight: 900;
+    }
+  }
+
+  &__input-container {
+    input {
+      caret-color: transparent;
+      cursor: pointer;
+    }
+  }
+}

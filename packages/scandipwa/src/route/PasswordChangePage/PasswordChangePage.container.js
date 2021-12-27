@@ -69,7 +69,8 @@ export class PasswordChangePageContainer extends PureComponent {
         ]).isRequired,
         passwordResetMessage: PropTypes.string.isRequired,
         resetPassword: PropTypes.func.isRequired,
-        location: LocationType.isRequired
+        location: LocationType.isRequired,
+        isLoading: PropTypes.bool.isRequired
     };
 
     state = {
@@ -114,11 +115,11 @@ export class PasswordChangePageContainer extends PureComponent {
         this.toggleBreadcrumbs(false);
     }
 
-    containerProps = () => {
+    containerProps() {
         const { isLoading } = this.state;
 
         return { isLoading };
-    };
+    }
 
     onPasswordSuccess(form, fields) {
         this.setState({ isLoading: true }, () => {
@@ -130,20 +131,19 @@ export class PasswordChangePageContainer extends PureComponent {
         });
     }
 
-    onPasswordAttempt() {
-    }
-
     onError() {
         this.setState({ isLoading: false });
     }
 
     updateMeta() {
         const { updateMeta } = this.props;
+
         updateMeta({ title: __('Password Change Page') });
     }
 
     toggleBreadcrumbs(visibility) {
         const { toggleBreadcrumbs } = this.props;
+
         toggleBreadcrumbs(visibility);
     }
 

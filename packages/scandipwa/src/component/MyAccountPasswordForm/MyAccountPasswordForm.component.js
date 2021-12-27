@@ -22,10 +22,10 @@ export class MyAccountPasswordForm extends FieldForm {
         onPasswordChange: PropTypes.func.isRequired
     };
 
-    onFormSuccess = (form, fields) => {
+    onFormSuccess(form, fields) {
         const { onPasswordChange } = this.props;
         onPasswordChange(transformToNameValuePair(fields));
-    };
+    }
 
     get fieldMap() {
         return myAccountPasswordForm();
@@ -33,7 +33,7 @@ export class MyAccountPasswordForm extends FieldForm {
 
     getFormProps() {
         return {
-            onSubmit: this.onFormSuccess
+            onSubmit: this.onFormSuccess.bind(this)
         };
     }
 

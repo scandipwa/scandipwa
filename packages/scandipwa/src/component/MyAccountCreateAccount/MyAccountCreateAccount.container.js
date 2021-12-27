@@ -19,7 +19,7 @@ import { SignInStateType } from 'Type/Account.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import MyAccountCreateAccount from './MyAccountCreateAccount.component';
-import { SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
+import { CONFIRMATION_REQUIRED, SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -139,7 +139,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             );
 
             // if user needs confirmation
-            if (code === 2) {
+            if (code === CONFIRMATION_REQUIRED) {
                 setSignInState(STATE_CONFIRM_EMAIL);
 
                 if (isLandingPage || isMobile) {

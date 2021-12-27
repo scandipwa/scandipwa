@@ -76,7 +76,7 @@ export class MyAccountSignInContainer extends PureComponent {
         }
     }
 
-    containerProps = () => {
+    containerProps() {
         const {
             state,
             onFormError,
@@ -98,7 +98,7 @@ export class MyAccountSignInContainer extends PureComponent {
             emailValue,
             handleEmailInput
         };
-    };
+    }
 
     async onSignInSuccess(form, fields) {
         const {

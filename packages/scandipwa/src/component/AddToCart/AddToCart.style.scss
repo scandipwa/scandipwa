@@ -14,12 +14,17 @@
     padding: 0;
     vertical-align: middle;
 
+    @include desktop {
+        line-height: 20px;
+    }
+
     &:hover, :focus {
         --button-hover-padding: 0;
     }
 
     @include mobile {
         min-width: 168px;
+        line-height: 20px;
     }
 
     &_layout_list {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -22,8 +23,9 @@ import { ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
+import { getProductInStock } from 'Util/Product/Extract';
 import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
-import { debounce } from 'Util/Request';
+import { Debouncer } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
 import WishlistItem from './WishlistItem.component';
@@ -71,17 +73,20 @@ export class WishlistItemContainer extends PureComponent {
         isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         wishlistId: PropTypes.number.isRequired,
-        isEditingActive: PropTypes.bool.isRequired
+        isEditingActive: PropTypes.bool.isRequired,
+        setIsQtyUpdateInProgress: PropTypes.func
     };
 
     static defaultProps = {
-        isRemoving: false
+        isRemoving: false,
+        setIsQtyUpdateInProgress: () => {}
     };
 
     containerFunctions = {
         addToCart: this.addItemToCart.bind(this),
         removeItem: this.removeItem.bind(this, false, true),
-        redirectToProductPage: this.redirectToProductPage.bind(this)
+        redirectToProductPage: this.redirectToProductPage.bind(this),
+        setQuantity: this.setQuantity.bind(this)
     };
 
     state = {
@@ -90,20 +95,18 @@ export class WishlistItemContainer extends PureComponent {
 
     removeItemOnSwipe = this.removeItem.bind(this, false, true);
 
-    changeQuantity = debounce((quantity) => {
+    getAttributes = this.getAttributes.bind(this);
+
+    changeQuantityDebouncer = new Debouncer();
+
+    changeDescriptionDebouncer = new Debouncer();
+
+    changeDescription = this.changeDescriptionDebouncer.startDebounce((description) => {
         const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
 
-        updateWishlistItem({
-            wishlistId,
-            wishlistItems: [{
-                wishlist_item_id: item_id,
-                quantity
-            }]
-        });
-    }, UPDATE_WISHLIST_FREQUENCY);
-
-    changeDescription = debounce((description) => {
-        const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+        if (!isSignedIn()) {
+            return;
+        }
 
         updateWishlistItem({
             wishlistId,
@@ -113,6 +116,41 @@ export class WishlistItemContainer extends PureComponent {
             }]
         });
     }, UPDATE_WISHLIST_FREQUENCY);
+
+    changeQuantity = this.changeQuantityDebouncer.startDebounce(async (quantity) => {
+        const {
+            wishlistId,
+            product: {
+                wishlist: {
+                    id: item_id
+                }
+            },
+            updateWishlistItem,
+            setIsQtyUpdateInProgress
+        } = this.props;
+
+        if (!isSignedIn()) {
+            return;
+        }
+
+        await updateWishlistItem({
+            wishlistId,
+            wishlistItems: [{
+                wishlist_item_id: item_id,
+                quantity
+            }]
+        });
+
+        setIsQtyUpdateInProgress(false);
+    }, UPDATE_WISHLIST_FREQUENCY);
+
+    __construct(props) {
+        super.__construct(props);
+        this.state = {
+            isLoading: false,
+            currentQty: this.getQuantity()
+        };
+    }
 
     containerProps() {
         const {
@@ -125,6 +163,7 @@ export class WishlistItemContainer extends PureComponent {
         const { isLoading } = this.state;
 
         return {
+            inStock: this.productIsInStock(),
             changeQuantity: this.changeQuantity,
             changeDescription: this.changeDescription,
             attributes: this.getAttributes(),
@@ -137,9 +176,22 @@ export class WishlistItemContainer extends PureComponent {
         };
     }
 
+    productIsInStock() {
+        const { product } = this.props;
+
+        return getProductInStock(product);
+    }
+
+    setQuantity(quantity) {
+        const { setIsQtyUpdateInProgress } = this.props;
+        this.setState({ currentQty: quantity });
+
+        setIsQtyUpdateInProgress(true);
+    }
+
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
-    getAttributes = () => {
+    getAttributes() {
         const { product: { variants, configurable_options, wishlist: { sku: wishlistSku } } } = this.props;
 
         const { attributes = [] } = variants.find(({ sku }) => sku === wishlistSku) || {};
@@ -174,8 +226,12 @@ export class WishlistItemContainer extends PureComponent {
             product: item
         } = this.props;
 
+        const { currentQty } = this.state;
+
         const selectedOptions = getSelectedOptions(buy_request);
-        const quantity = this.getQuantity();
+
+        // take input value in case item in wishlist hasn't been updated yet (if you change qty and click "Add to cart" immediately)
+        const quantity = currentQty || this.getQuantity();
 
         return magentoProductTransform(ADD_TO_CART, item, quantity, [], selectedOptions);
     }
@@ -238,6 +294,8 @@ export class WishlistItemContainer extends PureComponent {
         const products = this.getProducts();
 
         try {
+            this.changeQuantityDebouncer.cancelDebounceAndExecuteImmediately();
+            this.changeDescriptionDebouncer.cancelDebounceAndExecuteImmediately();
             await addProductToCart({ products });
             this.removeItem(id);
         } catch {
@@ -253,6 +311,11 @@ export class WishlistItemContainer extends PureComponent {
 
     async removeItem(noMessages = true, isRemoveOnly = false) {
         const { product: { wishlist: { id: item_id } }, removeFromWishlist, handleSelectIdChange } = this.props;
+
+        if (!isSignedIn()) {
+            return;
+        }
+
         this.setState({ isLoading: true });
 
         handleSelectIdChange(item_id, isRemoveOnly);
