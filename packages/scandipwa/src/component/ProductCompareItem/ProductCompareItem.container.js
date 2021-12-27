@@ -45,7 +45,7 @@ export class ProductCompareItemContainer extends PureComponent {
         removeComparedProduct: PropTypes.func.isRequired,
         device: DeviceType.isRequired,
         showNotification: PropTypes.func.isRequired,
-        isOutOfStock: PropTypes.func.isRequired
+        inStock: PropTypes.func.isRequired
     };
 
     state = {
@@ -60,7 +60,7 @@ export class ProductCompareItemContainer extends PureComponent {
     };
 
     containerProps() {
-        const { product, isOutOfStock } = this.props;
+        const { product, inStock } = this.props;
         const { isLoading } = this.state;
 
         return {
@@ -69,7 +69,7 @@ export class ProductCompareItemContainer extends PureComponent {
             imgUrl: this.getProductImage(),
             overrideAddToCartBtnBehavior: this.getOverrideAddToCartBtnBehavior(),
             linkTo: this.getLinkTo(),
-            isOutOfStock
+            inStock
         };
     }
 
