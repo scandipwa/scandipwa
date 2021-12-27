@@ -108,7 +108,20 @@ export class OrderQuery {
             this._getOrderShippingAddressField(),
             this._getOrderBillingAddressField(),
             this._getOrderPaymentMethodsField(),
-            this._getOrderShippingMethodField()
+            this._getOrderShippingMethodField(),
+            this._getOrderCommentsField()
+        ];
+    }
+
+    _getOrderCommentsField() {
+        return new Field('comments')
+            .addFieldList(this._getOrderCommentsFields());
+    }
+
+    _getOrderCommentsFields() {
+        return [
+            'timestamp',
+            'message'
         ];
     }
 

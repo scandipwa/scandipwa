@@ -149,11 +149,40 @@ export class MyAccountOrder extends PureComponent {
                     { this.renderReorderButton() }
                     { this.renderSubscriptionButton() }
                 </div>
+                { this.renderOrderComments() }
                 <MyAccountOrderTabs
                   tabs={ this.shouldTabsRender() }
                   handleChangeActiveTab={ handleChangeActiveTab }
                   activeTab={ activeTab }
                 />
+            </div>
+        );
+    }
+
+    renderOrderComments() {
+        const { order: { comments = [] } } = this.props;
+
+        if (!comments.length) {
+            return null;
+        }
+
+        return (
+            <div block="MyAccountOrder" elem="Comments">
+                <div
+                  block="MyAccountOrder"
+                  elem="CommentsTitle"
+                >
+                    { __('About Your Order') }
+                </div>
+                { comments.map(({ timestamp, message }) => (
+                    <dl
+                      block="MyAccountOrder"
+                      elem="Comment"
+                    >
+                        <dt>{ timestamp }</dt>
+                        <dd>{ message }</dd>
+                    </dl>
+                )) }
             </div>
         );
     }

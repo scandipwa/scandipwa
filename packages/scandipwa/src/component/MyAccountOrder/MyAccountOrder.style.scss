@@ -134,4 +134,48 @@
             overflow-x: unset;
         }
     }
+
+    &-Comments {
+        margin-block-end: 40px;
+
+        @include mobile {
+            margin-block-end: 25px;
+        }
+
+        &Title {
+            border-block-end: var(--my-account-content-border);
+            font-size: 22px;
+            margin-block-end: 25px;
+            padding-block-end: 10px;
+        }
+    }
+
+    &-Comment {
+        display: flex;
+
+        @include mobile {
+            flex-direction: column;
+        }
+
+        dt {
+            font-weight: bold;
+            margin-block-end: 10px;
+            margin-inline-end: 30px;
+            min-width: 90px;
+            width: 90px;
+
+            @include mobile {
+                margin-block-end: 5px;
+                width: auto;
+            }
+        }
+
+        dd {
+            &:not(&:last-of-type) {
+                @include mobile {
+                    margin-block-end: 15px;
+                }
+            }
+        }
+    }
 }
