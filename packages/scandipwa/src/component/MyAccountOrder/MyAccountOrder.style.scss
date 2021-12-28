@@ -26,7 +26,7 @@
         margin: 3px 0 0;
         padding: 5px 10px;
         text-transform: uppercase;
-        top: -1px;
+        inset-block-start: -1px;
         width: min-content;
     }
 
@@ -53,6 +53,11 @@
         &:hover {
             text-decoration: none;
             color: var(--link-hover);
+        }
+
+        &:focus {
+            color: var(--primary-base-color);
+            text-decoration: none;
         }
     }
 

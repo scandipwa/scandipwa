@@ -95,12 +95,20 @@
             &:nth-child(n+3) {
                 text-align: right;
             }
+
+            &:first-of-type {
+                padding-inline-start: 15px;
+            }
         }
     }
 
     &-EnteredLabel {
         td {
-            padding: 5px 10px;
+            padding: 10px;
+
+            @include desktop {
+                padding: 5px 15px;
+            }
         }
     }
 
@@ -109,16 +117,12 @@
             margin-block-start: 0;
         }
 
-        @include desktop {
-            margin-block-start: 15px;
-            margin-block-end: 5px;
-        }
+        margin-block-start: 15px;
+        margin-block-end: 5px;
     }
 
     &-OptionValue {
-        @include desktop {
-            margin-block-end: 5px;
-        }
+        margin-block-end: 5px;
     }
 
     &-OptionValue,

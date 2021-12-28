@@ -47,14 +47,14 @@ export class OrderDispatcher {
             } = {}
         } = await this.handleReorderMutation(dispatch, incrementId);
 
-        if (userInputErrors.length) {
-            return userInputErrors.map(({ message }) => dispatch(showNotification('error', message)));
-        }
-
         const cartDispatcher = (await CartDispatcher).default;
         cartDispatcher.updateInitialCartData(dispatch);
 
-        return history.push(appendWithStoreCode('/cart'));
+        history.push(appendWithStoreCode('/cart'));
+
+        if (userInputErrors.length) {
+            userInputErrors.map(({ message }) => dispatch(showNotification('error', message)));
+        }
     }
 
     handleReorderMutation(dispatch, incrementId) {
