@@ -204,6 +204,7 @@
     }
 
     &-Delete {
+        align-items: center;
         display: flex;
         z-index: 5;
         font-size: 14px;
@@ -224,7 +225,7 @@
     }
 
     &-DeleteButtonText {
-        line-height: 24px;
+        color: inherit;
         margin-inline-start: 4px;
         cursor: pointer;
 
