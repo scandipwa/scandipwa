@@ -58,6 +58,7 @@ export class ProductConfigurableAttributeDropdown extends PureComponent {
               } }
               mix={ { block: 'ProductConfigurableAttributeDropdown' } }
               options={ selectOptions }
+              changeValueOnDoubleClick
             />
         );
     }

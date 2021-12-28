@@ -347,7 +347,7 @@ export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort
 export const getIsConfigurableParameterSelected = (parameters, key, value) => Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
 
 /** @namespace Util/Product/getNewParameters */
-export const getNewParameters = (parameters, key, value) => {
+export const getNewParameters = (parameters, key, value = '') => {
     // If value is already selected, than we remove the key to achieve deselection
     if (getIsConfigurableParameterSelected(parameters, key, value)) {
         const { [key]: oldValue, ...newParameters } = parameters;

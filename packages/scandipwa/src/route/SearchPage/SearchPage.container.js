@@ -63,7 +63,8 @@ export const mapStateToProps = (state) => ({
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
     totalItems: state.ProductListReducer.totalItems,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
+    plpType: state.ConfigReducer.plp_list_mode
 });
 
 /** @namespace Route/SearchPage/Container/mapDispatchToProps */

@@ -21,14 +21,16 @@ export class ShareWishlistForm extends FieldForm {
         onSave: PropTypes.func.isRequired
     };
 
+    onFormSuccess = this.onFormSuccess.bind(this);
+
     get fieldMap() {
         return shareWishlistForm();
     }
 
-    onFormSuccess = (form, fields) => {
+    onFormSuccess(form, fields) {
         const { onSave } = this.props;
         onSave(transformToNameValuePair(fields));
-    };
+    }
 
     renderActions() {
         return (

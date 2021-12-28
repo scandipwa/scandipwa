@@ -57,6 +57,8 @@ export class CartItem extends PureComponent {
         showLoader: true
     };
 
+    renderProductOption = this._renderProductOption.bind(this);
+
     renderProductConfigurations() {
         const { optionsLabels } = this.props;
 
@@ -178,7 +180,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductOptionLabel = (option) => {
+    renderProductOptionLabel(option) {
         const { label, values = [] } = option;
 
         if (Array.isArray(values) && values.length > 0) {
@@ -191,9 +193,9 @@ export class CartItem extends PureComponent {
         }
 
         return label;
-    };
+    }
 
-    renderBundleProductOptionValue = (value) => {
+    renderBundleProductOptionValue(value) {
         const { label, quantity, price } = value;
         const { currency_code: currencyCode } = this.props;
         const formattedPrice = formatPrice(price, currencyCode);
@@ -204,7 +206,7 @@ export class CartItem extends PureComponent {
                 <strong>{ formattedPrice }</strong>
             </div>
         );
-    };
+    }
 
     renderBundleProductOptionLabel(option) {
         const { label, values = [] } = option;
@@ -219,13 +221,13 @@ export class CartItem extends PureComponent {
                     <strong>{ `${label}:` }</strong>
                 </div>
                 <div block="CartItem" elem="BundleGroupValues">
-                    { values.map(this.renderBundleProductOptionValue) }
+                    { values.map(this.renderBundleProductOptionValue.bind(this)) }
                 </div>
             </>
         );
     }
 
-    renderProductBundleOption = (option) => {
+    renderProductBundleOption(option) {
         const { id } = option;
 
         return (
@@ -237,7 +239,7 @@ export class CartItem extends PureComponent {
                 { this.renderBundleProductOptionLabel(option) }
             </div>
         );
-    };
+    }
 
     renderProductBundleOptions(itemOptions = []) {
         if (!itemOptions.length) {
@@ -249,12 +251,12 @@ export class CartItem extends PureComponent {
               block="CartItem"
               elem="Options"
             >
-                { itemOptions.map(this.renderProductBundleOption) }
+                { itemOptions.map(this.renderProductBundleOption.bind(this)) }
             </div>
         );
     }
 
-    renderProductOption = (option) => {
+    _renderProductOption(option) {
         const { id } = option;
 
         return (
@@ -266,7 +268,7 @@ export class CartItem extends PureComponent {
                 { this.renderProductOptionLabel(option) }
             </div>
         );
-    };
+    }
 
     renderProductOptions(itemOptions = []) {
         if (!itemOptions.length) {

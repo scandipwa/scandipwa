@@ -46,7 +46,7 @@ export class ResetAttributesContainer extends PureComponent {
         };
     }
 
-    getFilterOptionsForPrice = (values, options) => {
+    getFilterOptionsForPrice(values, options) {
         // no multiselect for price, always 1 selected value
         const [fromValue, toValue] = values[0].split('_');
 
@@ -63,11 +63,13 @@ export class ResetAttributesContainer extends PureComponent {
 
                 return { value_string, label };
             });
-    };
+    }
 
-    getFilterOptionsDefault = (values, options) => options.filter((option) => values.includes(option.value_string));
+    getFilterOptionsDefault(values, options) {
+        return options.filter((option) => values.includes(option.value_string));
+    }
 
-    getResetData = (attrCode, attrValues) => {
+    getResetData(attrCode, attrValues) {
         const { availableFilters } = this.props;
         const filterData = availableFilters[attrCode];
 
@@ -82,7 +84,9 @@ export class ResetAttributesContainer extends PureComponent {
             attribute_code
         } = filterData;
 
-        const func = attribute_code === 'price' ? this.getFilterOptionsForPrice : this.getFilterOptionsDefault;
+        const func = attribute_code === 'price'
+            ? this.getFilterOptionsForPrice.bind(this)
+            : this.getFilterOptionsDefault.bind(this);
 
         return {
             [attribute_label]: func(attrValues, Object.values(attribute_options))
@@ -95,7 +99,7 @@ export class ResetAttributesContainer extends PureComponent {
                     })
                 )
         };
-    };
+    }
 
     filterResetItems() {
         const { customFiltersValues } = this.props;

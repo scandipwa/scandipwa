@@ -25,42 +25,56 @@ export class ProductTabs extends PureComponent {
         tabs: PropTypes.arrayOf(PropTypes.shape({
             name: PropTypes.string.isRequired,
             render: PropTypes.func.isRequired
-        })).isRequired,
-        defaultTab: PropTypes.number
+        })).isRequired
     };
 
-    static defaultProps = {
-        defaultTab: 0
-    };
+    onTabClick = this.onTabClick.bind(this);
 
     __construct(props) {
         super.__construct(props);
 
-        const { defaultTab } = this.props;
+        const { tabs: [{ id }] } = this.props;
 
         this.state = {
-            activeTab: defaultTab
+            activeTab: id
         };
     }
 
-    onTabClick = (tab) => {
+    componentDidUpdate(prevProps) {
+        const { tabs: prevTabs } = prevProps;
+        const { tabs } = this.props;
+
+        if (prevTabs.length !== tabs.length) {
+            const [{ id }] = tabs;
+            this.setActiveTab(id);
+        }
+    }
+
+    onTabClick(tab) {
         const { tabs } = this.props;
         const { activeTab } = this.state;
 
-        const currentTab = tabs.findIndex(({ name }) => name === tab);
+        const { id: currentTab } = tabs.find(({ name }) => name === tab);
 
         if (activeTab !== currentTab) {
-            this.setState({
-                activeTab: currentTab
-            });
+            this.setActiveTab(currentTab);
         }
-    };
+    }
+
+    setActiveTab(activeTab) {
+        this.setState({ activeTab });
+    }
 
     renderActiveTab() {
         const { tabs } = this.props;
         const { activeTab } = this.state;
+        const { render } = tabs.find(({ id }) => id === activeTab) || {};
 
-        return tabs[activeTab].render();
+        if (!render) {
+            return null;
+        }
+
+        return render();
     }
 
     renderAllTabs() {
@@ -69,18 +83,19 @@ export class ProductTabs extends PureComponent {
         return tabs.map(({ render, name }) => render(name));
     }
 
-    renderTab = (item, i) => {
+    renderTab(item) {
         const { activeTab } = this.state;
+        const { id, name } = item;
 
         return (
             <ProductTab
-              tabName={ item.name }
-              key={ i }
+              tabName={ name }
+              key={ id }
               onClick={ this.onTabClick }
-              isActive={ i === activeTab }
+              isActive={ id === activeTab }
             />
         );
-    };
+    }
 
     renderTabs() {
         const { tabs } = this.props;
@@ -92,7 +107,7 @@ export class ProductTabs extends PureComponent {
         return (
             <>
                 <ul block="ProductTabs">
-                    { tabs.map(this.renderTab) }
+                    { tabs.map(this.renderTab.bind(this)) }
                 </ul>
                 { this.renderActiveTab() }
             </>

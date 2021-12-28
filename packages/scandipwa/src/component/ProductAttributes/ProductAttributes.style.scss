@@ -83,6 +83,10 @@
         text-overflow: ellipsis;
         height: 100%;
 
+        @include mobile {
+            line-height: 20px;
+        }
+
         &:last-of-type {
             border: none;
         }

@@ -81,19 +81,19 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         this.setState({ isWishlistLoading: isLoading, isLoading });
     }
 
-    addAllToCart = () => {
+    addAllToCart() {
         const { showError, moveWishlistToCart } = this.props;
         const sharingCode = this.getCode();
 
         this.setState({ isLoading: true });
 
         return moveWishlistToCart(sharingCode).then(
-            /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/moveWishlistToCart/then */
+            /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/addAllToCart/moveWishlistToCart/then */
             () => this.showNotificationAndRemoveLoading('Wishlist moved to cart'),
-            /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/moveWishlistToCart/then/showError/catch */
+            /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/addAllToCart/moveWishlistToCart/then/showError/catch */
             (error) => showError(getErrorMessage(error))
         );
-    };
+    }
 
     requestWishlist() {
         const { showError, showNoMatch, updateBreadcrumbs } = this.props;
@@ -159,11 +159,11 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         );
     }
 
-    _getIsWishlistEmpty = () => {
+    _getIsWishlistEmpty() {
         const { wishlistItems } = this.state;
 
         return Object.entries(wishlistItems).length <= 0;
-    };
+    }
 
     getCode() {
         const { match: { params: { code } } } = this.props;

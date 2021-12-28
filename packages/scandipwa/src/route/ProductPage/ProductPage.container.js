@@ -125,6 +125,8 @@ export class ProductPageContainer extends PureComponent {
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
 
+    setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
+
     static getDerivedStateFromProps(props, state) {
         const {
             product: {
@@ -321,7 +323,7 @@ export class ProductPageContainer extends PureComponent {
         addRecentlyViewedProduct(productPreview, store);
     }
 
-    setOfflineNoticeSize = () => {
+    setOfflineNoticeSize() {
         const { setBigOfflineNotice, productSKU } = this.props;
         const { sku } = this.getDataSource();
 
@@ -335,7 +337,7 @@ export class ProductPageContainer extends PureComponent {
         } else {
             setBigOfflineNotice(false);
         }
-    };
+    }
 
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
@@ -352,7 +354,7 @@ export class ProductPageContainer extends PureComponent {
         return `${pathname}${query}`;
     }
 
-    containerProps = () => {
+    containerProps() {
         const { isMobile, location } = this.props;
         const { parameters } = this.state;
 
@@ -368,7 +370,7 @@ export class ProductPageContainer extends PureComponent {
             parameters,
             location
         };
-    };
+    }
 
     getIsVariant() {
         const { activeProduct } = this.state;

@@ -43,7 +43,7 @@ export class StoreSwitcher extends PureComponent {
         storeLabel: ''
     };
 
-    renderStore = (item) => {
+    renderStore(item) {
         const { handleStoreSelect } = this.props;
         const { value } = item;
 
@@ -54,7 +54,7 @@ export class StoreSwitcher extends PureComponent {
               handleStoreSelect={ handleStoreSelect }
             />
         );
-    };
+    }
 
     renderMobileStoreSwitcher() {
         const {
@@ -107,7 +107,7 @@ export class StoreSwitcher extends PureComponent {
                     </button>
 
                     <div block="StoreSwitcher" elem="StoreList" mods={ mods }>
-                        { storeList.map(this.renderStore) }
+                        { storeList.map(this.renderStore.bind(this)) }
                     </div>
                 </ClickOutside>
             </div>

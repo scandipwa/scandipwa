@@ -38,7 +38,9 @@ export class WishlistItem extends PureComponent {
         isRemoving: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
-        handleSelectIdChange: PropTypes.func.isRequired
+        handleSelectIdChange: PropTypes.func.isRequired,
+        setQuantity: PropTypes.func.isRequired,
+        inStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -50,6 +52,8 @@ export class WishlistItem extends PureComponent {
         isLoading: false
     };
 
+    renderContent = this.renderContent.bind(this);
+
     optionRenderMap = {
         [PRODUCT_TYPE.grouped]: this.renderGroupedOption.bind(this),
         [PRODUCT_TYPE.bundle]: this.renderBundleOption.bind(this)
@@ -58,7 +62,8 @@ export class WishlistItem extends PureComponent {
     renderCommentField() {
         const {
             product: { wishlist: { description } },
-            changeDescription
+            changeDescription,
+            inStock
         } = this.props;
 
         return (
@@ -71,9 +76,10 @@ export class WishlistItem extends PureComponent {
                   defaultValue: description
               } }
               events={ {
-                  onChange: changeDescription
+                  onChange: ({ target: { value } = {} }) => changeDescription(value)
               } }
               mix={ { block: 'WishlistItem', elem: 'CommentField' } }
+              isDisabled={ !inStock }
             />
         );
     }
@@ -81,7 +87,9 @@ export class WishlistItem extends PureComponent {
     renderQuantityFieldInput() {
         const {
             product: { wishlist: { quantity } },
-            changeQuantity
+            changeQuantity,
+            setQuantity,
+            inStock
         } = this.props;
 
         return (
@@ -94,9 +102,13 @@ export class WishlistItem extends PureComponent {
                   min: 1
               } }
               events={ {
-                  onChange: changeQuantity
+                  onChange: (quantity) => {
+                      changeQuantity(quantity);
+                      setQuantity(quantity);
+                  }
               } }
               mix={ { block: 'WishlistItem', elem: 'QuantityInput' } }
+              isDisabled={ !inStock }
             />
         );
     }
@@ -126,8 +138,13 @@ export class WishlistItem extends PureComponent {
         const {
             addToCart,
             isEditingActive,
-            isMobile
+            isMobile,
+            inStock
         } = this.props;
+
+        if (!inStock) {
+            return null;
+        }
 
         const mods = isMobile ? { isEditingActive } : {};
 
@@ -140,6 +157,22 @@ export class WishlistItem extends PureComponent {
             >
                 { __('Add to cart') }
             </button>
+        );
+    }
+
+    renderOutOfStockMessage() {
+        const { inStock } = this.props;
+
+        if (inStock) {
+            return null;
+        }
+
+        return (
+            <div block="WishlistItem" elem="OutOfStock">
+                <p>
+                    { __('Out of stock') }
+                </p>
+            </div>
         );
     }
 
@@ -292,6 +325,7 @@ export class WishlistItem extends PureComponent {
                 { this.renderCommentField() }
                 <div block="WishlistItem" elem="ActionWrapper">
                     { this.renderAddToCartButton() }
+                    { this.renderOutOfStockMessage() }
                     <button
                       key="edit"
                       block="WislistItem"
@@ -353,7 +387,7 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    renderContent = (renderMethods) => {
+    renderContent(renderMethods) {
         const { redirectToProductPage } = this.props;
 
         const {
@@ -392,6 +426,7 @@ export class WishlistItem extends PureComponent {
                     { this.renderCommentField() }
                     <div block="WishlistItem" elem="ActionWrapper">
                         { this.renderAddToCartButton() }
+                        { this.renderOutOfStockMessage() }
                         <div
                           block="WishlistItem"
                           elem="EditIcon"
@@ -403,7 +438,7 @@ export class WishlistItem extends PureComponent {
                 </div>
             </>
         );
-    };
+    }
 
     render() {
         const { isLoading, isRemoving } = this.props;
