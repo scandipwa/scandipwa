@@ -43,7 +43,9 @@
             &_my-orders {
                 .MyAccount {
                     &-Heading {
-                        display: flex;
+                        @include desktop {
+                            display: flex;
+                        }
                     }
 
                     &-SubHeading {

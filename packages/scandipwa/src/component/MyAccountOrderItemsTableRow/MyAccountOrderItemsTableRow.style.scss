@@ -90,7 +90,7 @@
 
     &-EnteredRow {
         td {
-            margin: 16px 10px 15px;
+            padding: 0 10px 5px;
 
             &:nth-child(n+3) {
                 text-align: right;
@@ -100,13 +100,11 @@
 
     &-EnteredLabel {
         td {
-            margin-inline-start: 10px;
+            padding: 5px 10px;
         }
     }
 
     &-OptionLabel {
-        margin: 5px 0;
-
         &:first-child {
             margin-block-start: 0;
         }

@@ -70,9 +70,9 @@ export class MyAccountOrderInformation extends PureComponent {
                     </strong>
                 </div>
                 <MyAccountAddressTable
-                address={ billing_address }
-                mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
-                showAdditionalFields
+                    address={ billing_address }
+                    mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
+                    showAdditionalFields
                 />
             </div>
         );
@@ -144,9 +144,9 @@ export class MyAccountOrderInformation extends PureComponent {
                     </strong>
                 </div>
                 <MyAccountAddressTable
-                address={ shipping_address }
-                mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
-                showAdditionalFields
+                    address={ shipping_address }
+                    mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
+                    showAdditionalFields
                 />
             </div>
         );
