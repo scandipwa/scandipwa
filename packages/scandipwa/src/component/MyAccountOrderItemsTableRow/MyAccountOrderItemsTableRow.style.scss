@@ -97,7 +97,7 @@
             }
 
             &:first-of-type {
-                padding-inline-start: 15px;
+                padding-inline-start: 20px;
             }
         }
     }
@@ -107,7 +107,7 @@
             padding: 10px;
 
             @include desktop {
-                padding: 5px 15px;
+                padding: 5px 20px;
             }
         }
     }
