@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -8,7 +6,7 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-export const ORDER_POPUP_ID = 'MyAccountOrderPopup';
+export { default } from './MyAccountOrderTotals.container';

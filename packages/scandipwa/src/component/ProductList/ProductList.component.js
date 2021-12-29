@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CategoryPagination from 'Component/CategoryPagination';
+import Pagination from 'Component/Pagination';
 import ProductListPage from 'Component/ProductListPage';
 import { FilterType } from 'Type/Category.type';
 import { MixType } from 'Type/Common.type';
@@ -310,7 +310,7 @@ export class ProductList extends PureComponent {
         }
 
         return (
-            <CategoryPagination
+            <Pagination
               isLoading={ isLoading }
               totalPages={ totalPages }
             />

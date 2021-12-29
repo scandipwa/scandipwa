@@ -10,8 +10,6 @@
  */
 import PropTypes from 'prop-types';
 
-import { ItemsType } from 'Type/ProductList.type';
-
 export const RegionType = PropTypes.oneOfType([
     PropTypes.shape({
         region_code: PropTypes.string,
@@ -61,51 +59,9 @@ export const CustomerType = PropTypes.shape({
     taxvat: PropTypes.string
 });
 
-export const BaseOrderInfoType = PropTypes.shape({
-    id: PropTypes.number,
-    increment_id: PropTypes.string,
-    created_at: PropTypes.string,
-    status_label: PropTypes.string,
-    grand_total: PropTypes.number,
-    subtotal: PropTypes.string
-});
-
-export const OrderPaymentInfo = PropTypes.shape({
-    method: PropTypes.string,
-    additional_information: {
-        method_title: PropTypes.string
-    }
-});
-
-export const OrderShippingInfo = PropTypes.shape({
-    shipping_method: PropTypes.string,
-    shipping_description: PropTypes.string,
-    shipping_incl_tax: PropTypes.number,
-    shipping_amount: PropTypes.number,
-    shipping_address: Addresstype
-});
-
-export const OrderType = PropTypes.shape({
-    base_order_info: BaseOrderInfoType,
-    order_products: ItemsType,
-    payment_info: OrderPaymentInfo,
-    shipping_info: OrderShippingInfo
-});
-
-export const DownloadableType = PropTypes.shape({
-    id: PropTypes.number,
-    order_id: PropTypes.string,
-    status_label: PropTypes.string,
-    downloads: PropTypes.string,
-    download_url: PropTypes.string,
-    created_at: PropTypes.string,
-    title: PropTypes.string
-});
-
-export const OrdersType = PropTypes.arrayOf(OrderType);
-
 export const MY_ACCOUNT = 'my-account';
 export const MY_ORDERS = 'my-orders';
+export const MY_ORDER = 'my-order';
 export const MY_DOWNLOADABLE = 'my-downloadable';
 export const MY_WISHLIST = 'my-wishlist';
 export const ADDRESS_BOOK = 'address';

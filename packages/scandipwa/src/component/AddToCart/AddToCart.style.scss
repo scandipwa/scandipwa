@@ -14,6 +14,10 @@
     padding: 0;
     vertical-align: middle;
 
+    @include desktop {
+        line-height: 20px;
+    }
+
     &:hover, :focus {
         --button-hover-padding: 0;
     }

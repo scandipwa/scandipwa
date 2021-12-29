@@ -47,7 +47,8 @@ export class ResetAttributes extends PureComponent {
                     <CloseIcon />
                 </div>
                 <div block="ResetAttributes" elem="AttributeText">
-                    { `${attribute_label}: ${selectedOption.label}` }
+                    <span block="ResetAttributes" elem="AttributeLabel">{ `${attribute_label}: ` }</span>
+                    <span block="ResetAttributes" elem="AttributeOption">{ `${selectedOption.label}` }</span>
                 </div>
             </div>
         );

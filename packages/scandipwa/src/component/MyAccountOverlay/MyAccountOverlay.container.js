@@ -153,6 +153,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         const { isSignedIn: prevIsSignedIn } = prevProps;
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
+        const { isOverlayVisible } = this.props;
         const { location: { pathname } } = history;
 
         const {
@@ -175,7 +176,11 @@ export class MyAccountOverlayContainer extends PureComponent {
             }
         }
 
-        if (newMyAccountState !== STATE_LOGGED_IN && pathname.includes(ACCOUNT_URL)) {
+        if (
+            newMyAccountState !== STATE_LOGGED_IN
+            && pathname.includes(ACCOUNT_URL)
+            && !isOverlayVisible
+        ) {
             history.push({ pathname: appendWithStoreCode(ACCOUNT_LOGIN_URL) });
         }
 

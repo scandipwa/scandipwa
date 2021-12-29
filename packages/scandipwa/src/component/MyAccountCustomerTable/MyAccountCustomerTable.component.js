@@ -19,9 +19,7 @@ export class MyAccountCustomerTable extends KeyValueTable {
     static propTypes = {
         handleOnEditInformation: PropTypes.func.isRequired,
         handleOnEditPassword: PropTypes.func.isRequired,
-        customer: CustomerType.isRequired,
-        showEditPopup: PropTypes.func.isRequired,
-        showChangePasswordPopup: PropTypes.func.isRequired
+        customer: CustomerType.isRequired
     };
 
     get dataPairArray() {
@@ -36,6 +34,11 @@ export class MyAccountCustomerTable extends KeyValueTable {
             {
                 key: 'lastname',
                 label: __('Last name'),
+                source: customer
+            },
+            {
+                key: 'taxvat',
+                label: __('Tax/VAT Number'),
                 source: customer
             },
             {

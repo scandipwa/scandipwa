@@ -14,6 +14,8 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import { FIELD_TYPE } from 'Component/Field/Field.config';
+import FieldDate from 'Component/FieldDate';
+import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
 import FieldGroup from 'Component/FieldGroup';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
@@ -41,9 +43,9 @@ export class ProductCustomizableOption extends PureComponent {
     renderMap = {
         [CONFIG_FIELD_TYPE.text]: this.renderDefaultValue.bind(this),
         [CONFIG_FIELD_TYPE.textarea]: this.renderDefaultValue.bind(this),
-        [CONFIG_FIELD_TYPE.date]: this.renderDefaultValue.bind(this),
-        [CONFIG_FIELD_TYPE.dateTime]: this.renderDefaultValue.bind(this),
-        [CONFIG_FIELD_TYPE.time]: this.renderDefaultValue.bind(this),
+        [CONFIG_FIELD_TYPE.date]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.date),
+        [CONFIG_FIELD_TYPE.dateTime]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.dateTime),
+        [CONFIG_FIELD_TYPE.time]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.time),
 
         [CONFIG_FIELD_TYPE.file]: this.renderFileValue.bind(this),
         [CONFIG_FIELD_TYPE.select]: this.renderSelectValues.bind(this),
@@ -100,6 +102,29 @@ export class ProductCustomizableOption extends PureComponent {
                       onChange: updateSelectedValues
                   } }
                   validateOn={ ['onBlur'] }
+                />
+            </>
+        );
+    }
+
+    renderDatePicker(type, option) {
+        const {
+            title,
+            uid,
+            isRequired,
+            updateSelectedValues
+        } = this.props;
+
+        const label = this.getLabel(option, title);
+
+        return (
+            <>
+                { this.renderOptionGroupTitle(label) }
+                <FieldDate
+                  type={ type }
+                  uid={ uid }
+                  isRequired={ isRequired }
+                  updateSelectedValues={ updateSelectedValues }
                 />
             </>
         );

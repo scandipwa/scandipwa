@@ -21,7 +21,9 @@ export const StoreInPickUpReducer = (
     state = getInitialState(),
     action
 ) => {
-    switch (action.type) {
+    const { type } = action;
+
+    switch (type) {
     case SET_PICK_UP_STORE:
         const { store } = action;
 

@@ -14,13 +14,13 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { UTMOST_PAGES_COUNT } from 'Component/CategoryPagination/CategoryPagination.config';
+import { UTMOST_PAGES_COUNT } from 'Component/Pagination/Pagination.config';
 import { HistoryType, LocationType } from 'Type/Router.type';
 import { generateQuery, getQueryParam } from 'Util/Url';
 
-import CategoryPagination from './CategoryPagination.component';
+import Pagination from './Pagination.component';
 
-/** @namespace Component/CategoryPagination/Container/mapStateToProps */
+/** @namespace Component/Pagination/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     paginationFrame: state.ConfigReducer.pagination_frame,
     paginationFrameSkip: state.ConfigReducer.pagination_frame_skip,
@@ -28,11 +28,11 @@ export const mapStateToProps = (state) => ({
     anchorTextNext: state.ConfigReducer.anchor_text_for_next
 });
 
-/** @namespace Component/CategoryPagination/Container/mapDispatchToProps */
+/** @namespace Component/Pagination/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
-/** @namespace Component/CategoryPagination/Container */
-export class CategoryPaginationContainer extends PureComponent {
+/** @namespace Component/Pagination/Container */
+export class PaginationContainer extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         history: HistoryType.isRequired,
@@ -156,7 +156,7 @@ export class CategoryPaginationContainer extends PureComponent {
 
     render() {
         return (
-            <CategoryPagination
+            <Pagination
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />
@@ -165,5 +165,5 @@ export class CategoryPaginationContainer extends PureComponent {
 }
 
 export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(CategoryPaginationContainer)
+    connect(mapStateToProps, mapDispatchToProps)(PaginationContainer)
 );

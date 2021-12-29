@@ -248,7 +248,13 @@
         }
 
         button {
-            cursor: pointer;
+            &:not([disabled]) {
+                cursor: pointer;
+            }
+
+            &:disabled {
+                cursor: default;
+            }
 
             &:hover {
                 border-color: var(--primary-dark-color);

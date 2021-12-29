@@ -126,6 +126,12 @@
                     }
                 }
 
+                &-OutOfStock {
+                    p {
+                        margin-inline-end: 10px;
+                    }
+                }
+
                 &-PriceWrapper {
                     flex-grow: unset;
                 }
@@ -150,6 +156,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        @include desktop {
+            line-height: 20px;
+        }
     }
 
     &-Brand {
@@ -162,6 +172,10 @@
         min-height: var(--product-card-brand-line-height);
         line-height: var(--product-card-brand-line-height);
         font-size: 12px;
+
+        @include desktop {
+            line-height: 16px;
+        }
     }
 
     &-BrandAttributeValue {
@@ -315,6 +329,16 @@
 
         > * {
             margin-inline-end: 5px;
+        }
+    }
+
+    &-OutOfStock {
+        align-items: center;
+        display: flex;
+        height: 48px;
+
+        p {
+            margin: 0;
         }
     }
 

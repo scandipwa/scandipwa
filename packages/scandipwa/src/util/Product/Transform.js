@@ -72,6 +72,11 @@ export const getCustomizableOptions = (buyRequest) => {
             return [...prev, ...variant.map((id) => btoa(`custom-option/${option}/${id}`))];
         }
 
+        if (typeof variant === 'object' && (variant.date_internal || variant.date)) {
+            const { date_internal, date } = variant;
+            return [...prev, btoa(`custom-option/${option}/${date_internal || date}`)];
+        }
+
         // Handle case when we need to pass previously uploaded file as selected option
         // Normally files are passed via entered_options, but when customer adds product with attachment from wishlist,
         // we need to reference data of the already uploaded file
