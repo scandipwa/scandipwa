@@ -112,7 +112,7 @@ export class ProductCompare extends Component {
               priceType={ product.type_id }
               isPreview
             />
-            ) : <div block="ProductCompareAttributeRow" elem="Value">{ __('Out of stock') }</div>
+            ) : <div block="ProductCompareAttributeRow" elem="OutOfStock">{ __('Out of stock') }</div>
         ));
     }
 
