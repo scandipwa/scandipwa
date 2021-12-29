@@ -53,20 +53,16 @@
 
     &-ShortDescription {
         font-size: 14px;
-        line-height: 20px;
         margin-block: 16px;
-
-        @include mobile {
-            p,
-            li {
-                line-height: 20px;
-            }
-        }
 
         div[itemprop="description"] li:before{
             position: static;
         }
-    }
+
+        * :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+            line-height: 20px;
+        }
+    } 
 
     &-Stock {
         font-weight: bold;

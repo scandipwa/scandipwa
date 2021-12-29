@@ -65,15 +65,13 @@
     }
 
     &-Description {
-        @include default-list;
+      
+        li:before {
+            position: static;
+        }
 
-        @include mobile {
+        * :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
             line-height: 20px;
-
-            p,
-            li {
-                line-height: 20px;
-            }
         }
     }
 }
