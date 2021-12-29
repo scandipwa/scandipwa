@@ -186,7 +186,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
     }
 
     renderOptionItem(item) {
-        const { product: { product_sale_price: { currency, quantity_ordered } }, isMobile } = this.props;
+        const { product: { quantity_ordered = 1, product_sale_price: { currency } }, isMobile } = this.props;
         const { qty, title, price } = item;
 
         if (isMobile) {
