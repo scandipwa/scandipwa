@@ -186,15 +186,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
     }
 
     renderOptionItem(item) {
-        const { product, product: { product_sale_price: { currency } }, isMobile } = this.props;
+        const { product: { product_sale_price: { currency, quantity_ordered } }, isMobile } = this.props;
         const { qty, title, price } = item;
 
         if (isMobile) {
             return this.renderMobileOptionItem(item);
         }
-
-        const qtyArray = getOrderItemQtyToArray(product);
-        const highestQty = Object.values(qtyArray).reduce((highestQty, qty) => Math.max(highestQty, qty));
 
         return (
             <tr
@@ -210,7 +207,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                   block="MyAccountOrderItemsTableRow"
                   elem="EnteredQty"
                 >
-                    { highestQty }
+                    { quantity_ordered * qty }
                 </td>
             </tr>
         );
@@ -341,7 +338,8 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                     currency
                 } = {},
                 discounts = []
-            }
+            },
+            isMobile
         } = this.props;
 
         if (activeTab !== ORDER_REFUNDS) {
@@ -349,6 +347,23 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         }
 
         const totalDiscount = discounts.length ? getOrderItemRowDiscount(discounts) : 0;
+
+        if (isMobile) {
+            return (
+                <>
+                    { this.renderPrice(
+                        totalDiscount,
+                        currency,
+                        __('Discount Amount')
+                    ) }
+                    { this.renderPrice(
+                        row_subtotal - totalDiscount,
+                        currency,
+                        __('Row Total')
+                    ) }
+                </>
+            );
+        }
 
         return (
             <>
@@ -393,6 +408,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                 { this.renderItemPrice() }
                 { this.renderMobileBodyContentRow(__('Qty'), this.renderRowQty()) }
                 { this.renderRowSubtotal() }
+                { this.renderDiscountAndRowTotal() }
                 { this.renderEnteredOptionsAsRow() }
             </tbody>
         );
