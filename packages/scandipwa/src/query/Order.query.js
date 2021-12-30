@@ -431,13 +431,14 @@ export class OrderQuery {
     _getOrderAddressFields() {
         return [
             'city',
-            'country_code',
+            'country_id',
             'firstname',
             'lastname',
             'postcode',
             'region',
             'region_id',
             'telephone',
+            'vat_id',
             this._getOrderAddressStreetField()
         ];
     }
@@ -453,7 +454,22 @@ export class OrderQuery {
 
     _getOrderPaymentMethodsFields() {
         return [
-            'name'
+            'name',
+            'type',
+            'purchase_number',
+            this._getOrderPaymentMethodAdditionalField()
+        ];
+    }
+
+    _getOrderPaymentMethodAdditionalField() {
+        return new Field('additional_data')
+            .addFieldList(this._getOrderPaymentMethodAdditionalFields());
+    }
+
+    _getOrderPaymentMethodAdditionalFields() {
+        return [
+            'name',
+            'value'
         ];
     }
 
