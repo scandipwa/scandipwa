@@ -14,11 +14,14 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { CUSTOMER_ORDER } from 'Component/Header/Header.config';
+import { ACCOUNT_ORDER_HISTORY } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountOrder from './MyAccountOrder.component';
 import { ORDER_ITEMS } from './MyAccountOrder.config';
@@ -162,6 +165,8 @@ export class MyAccountOrderContainer extends PureComponent {
         const order = await getOrderById(orderId);
 
         if (!order) {
+            history.replace(appendWithStoreCode(`${ ACCOUNT_ORDER_HISTORY }`));
+
             return;
         }
 

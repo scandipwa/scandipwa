@@ -234,9 +234,11 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         const { product: { product_sale_price: { currency } } } = this.props;
         const { qty, title, price } = item;
 
+        const nameRowMix = { block: 'MyAccountOrderItemsTableRow', elem: 'Name' };
+
         return (
             <>
-                { this.renderMobileBodyContentRow(__('Product name'), `${qty} x ${title}`) }
+                { this.renderMobileBodyContentRow(__('Product name'), `${qty} x ${title}`, nameRowMix) }
                 { this.renderMobileBodyContentRow(__('SKU'), title) }
                 { this.renderMobileBodyContentRow(__('Price'), formatPrice(price, currency)) }
             </>
@@ -355,13 +357,14 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderMobileBodyContentRow(label, value) {
+    renderMobileBodyContentRow(label, value, mix = {}) {
         const { colSpanCount } = this.props;
 
         return (
             <tr
               block="MyAccountOrderItemsTableRow"
               elem="Row"
+              mix={ mix }
             >
                 <td colSpan={ colSpanCount }>
                     <strong>{ label }</strong>
@@ -379,12 +382,14 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
             }
         } = this.props;
 
+        const nameRowMix = { block: 'MyAccountOrderItemsTableRow', elem: 'Name' };
+
         return (
             <tbody
               block="MyAccountOrderItemsTableRow"
               elem="RowWrapper"
             >
-                { this.renderMobileBodyContentRow(__('Product name'), product_name) }
+                { this.renderMobileBodyContentRow(__('Product name'), product_name, nameRowMix) }
                 { this.renderSelectedAndEnteredOptions() }
                 { this.renderMobileBodyContentRow(__('SKU'), product_sku) }
                 { this.renderItemPrice() }

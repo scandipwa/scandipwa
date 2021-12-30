@@ -43,7 +43,12 @@ export class MyAccountOrderInformation extends PureComponent {
                         <span>{ __('Shipping Method') }</span>
                     </strong>
                 </div>
-                { shipping_method }
+                <span
+                    block="MyAccountOrderInformation"
+                    elem="ShippingMethod"
+                >
+                    { shipping_method }
+                </span>
             </div>
         )
     }
