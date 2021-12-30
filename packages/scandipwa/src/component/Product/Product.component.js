@@ -63,6 +63,7 @@ export class Product extends PureComponent {
         setActiveProduct: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
 
+        isWishlistEnabled: PropTypes.bool.isRequired,
         configFormRef: RefType
     };
 
@@ -273,9 +274,9 @@ export class Product extends PureComponent {
     }
 
     renderWishlistButton() {
-        const { magentoProduct } = this.props;
+        const { magentoProduct, isWishlistEnabled } = this.props;
 
-        if (magentoProduct.length === 0) {
+        if (magentoProduct.length === 0 || !isWishlistEnabled) {
             return null;
         }
 
