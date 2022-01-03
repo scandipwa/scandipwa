@@ -22,6 +22,8 @@ import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList.type';
 import { noopFn } from 'Util/Common';
+import { getMaxQuantity, getMinQuantity } from 'Util/Product/Extract';
+import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
 import './WishlistItem.style';
 
@@ -31,6 +33,7 @@ export class WishlistItem extends PureComponent {
         addToCart: PropTypes.func,
         changeQuantity: PropTypes.func,
         product: ProductType.isRequired,
+        wishlistProduct: ProductType.isRequired,
         changeDescription: PropTypes.func,
         removeItem: PropTypes.func,
         redirectToProductPage: PropTypes.func,
@@ -89,8 +92,12 @@ export class WishlistItem extends PureComponent {
             product: { wishlist: { quantity } },
             changeQuantity,
             setQuantity,
-            inStock
+            inStock,
+            wishlistProduct
         } = this.props;
+
+        const minQty = getMinQuantity(wishlistProduct);
+        const maxQty = getMaxQuantity(wishlistProduct);
 
         return (
             <Field
@@ -99,12 +106,21 @@ export class WishlistItem extends PureComponent {
                   id: 'item_qty',
                   name: 'item_qty',
                   defaultValue: quantity,
-                  min: 1
+                  min: minQty,
+                  max: maxQty
               } }
               events={ {
                   onChange: (quantity) => {
                       changeQuantity(quantity);
                       setQuantity(quantity);
+                  }
+              } }
+              validationRule={ {
+                  inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
+                  isRequired: true,
+                  range: {
+                      min: minQty,
+                      max: maxQty
                   }
               } }
               mix={ { block: 'WishlistItem', elem: 'QuantityInput' } }
@@ -189,31 +205,6 @@ export class WishlistItem extends PureComponent {
                 <CloseIcon />
             </button>
         );
-    }
-
-    getWishlistProduct() {
-        const {
-            product,
-            product: { url, type_id }
-        } = this.props;
-
-        if (type_id !== PRODUCT_TYPE.configurable) {
-            return product;
-        }
-
-        const wishedVariant = product.variants.find(({ sku }) => sku === product.wishlist.sku);
-
-        if (!wishedVariant) {
-            return {
-                ...product,
-                url
-            };
-        }
-
-        return {
-            ...wishedVariant,
-            url
-        };
     }
 
     renderGroupedOption(option) {
@@ -441,16 +432,15 @@ export class WishlistItem extends PureComponent {
     }
 
     render() {
-        const { isLoading, isRemoving } = this.props;
-        const product = this.getWishlistProduct();
+        const { isLoading, isRemoving, wishlistProduct } = this.props;
 
-        if (!product) {
+        if (!wishlistProduct) {
             return null;
         }
 
         return (
             <ProductCard
-              product={ product }
+              product={ wishlistProduct }
               mix={ { block: 'WishlistItem', elem: 'ProductCard' } }
               isLoading={ isLoading || isRemoving }
               renderContent={ this.renderContent }

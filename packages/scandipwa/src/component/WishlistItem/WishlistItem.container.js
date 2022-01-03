@@ -101,6 +101,31 @@ export class WishlistItemContainer extends PureComponent {
 
     changeDescriptionDebouncer = new Debouncer();
 
+    getWishlistProduct() {
+        const {
+            product,
+            product: { url, type_id }
+        } = this.props;
+
+        if (type_id !== PRODUCT_TYPE.configurable) {
+            return product;
+        }
+
+        const wishedVariant = product.variants.find(({ sku }) => sku === product.wishlist.sku);
+
+        if (!wishedVariant) {
+            return {
+                ...product,
+                url
+            };
+        }
+
+        return {
+            ...wishedVariant,
+            url
+        };
+    }
+
     changeDescription = this.changeDescriptionDebouncer.startDebounce((description) => {
         const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
 
@@ -172,7 +197,8 @@ export class WishlistItemContainer extends PureComponent {
             isEditingActive,
             isMobile,
             isRemoving,
-            product
+            product,
+            wishlistProduct: this.getWishlistProduct()
         };
     }
 
