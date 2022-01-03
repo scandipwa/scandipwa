@@ -26,7 +26,7 @@ export class ProductCompare extends Component {
     static propTypes = {
         clearCompareList: PropTypes.func.isRequired,
         getAttributes: PropTypes.func.isRequired,
-        inStock: PropTypes.func.isRequired,
+        isInStock: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
         products: ProductItemsType,
         device: DeviceType.isRequired
@@ -79,13 +79,13 @@ export class ProductCompare extends Component {
     }
 
     renderProductCards() {
-        const { products, inStock } = this.props;
+        const { products, isInStock } = this.props;
 
         return products.map((product) => (
             <div block="ProductCompare" elem="Item" key={ product.id }>
                 <ProductCompareItem
                   product={ product }
-                  inStock={ inStock }
+                  isInStock={ isInStock }
                 />
             </div>
         ));
@@ -103,9 +103,9 @@ export class ProductCompare extends Component {
     }
 
     renderProductPrice(product) {
-        const { inStock } = this.props;
+        const { isInStock } = this.props;
 
-        if (!inStock(product)) {
+        if (!isInStock(product)) {
             return (
                 <div block="ProductCompareAttributeRow" elem="OutOfStock">{ __('Out of stock') }</div>
             );

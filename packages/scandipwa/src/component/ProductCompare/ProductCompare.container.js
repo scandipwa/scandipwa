@@ -74,7 +74,7 @@ export class ProductCompareContainer extends PureComponent {
     containerFunctions = {
         getAttributes: this.getAttributes.bind(this),
         clearCompareList: this.clearCompareList.bind(this),
-        inStock: getProductInStock.bind(this)
+        isInStock: getProductInStock.bind(this)
     };
 
     componentDidMount() {
