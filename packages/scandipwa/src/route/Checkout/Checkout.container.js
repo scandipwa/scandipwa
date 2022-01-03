@@ -70,7 +70,8 @@ export const mapStateToProps = (state) => ({
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
     isMobile: state.ConfigReducer.device.isMobile,
     isInStoreActivated: state.ConfigReducer.delivery_instore_active,
-    isGuestNotAllowDownloadable: state.ConfigReducer.downloadable_disable_guest_checkout
+    isGuestNotAllowDownloadable: state.ConfigReducer.downloadable_disable_guest_checkout,
+    savedEmail: state.CheckoutReducer.email
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
@@ -181,7 +182,8 @@ export class CheckoutContainer extends PureComponent {
             toggleBreadcrumbs,
             totals: {
                 is_virtual
-            }
+            },
+            savedEmail
         } = props;
 
         toggleBreadcrumbs(false);
@@ -198,7 +200,7 @@ export class CheckoutContainer extends PureComponent {
             checkoutStep: is_virtual ? BILLING_STEP : SHIPPING_STEP,
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
-            email: '',
+            email: savedEmail || '',
             isGuestEmailSaved: false,
             isCreateUser: false,
             estimateAddress: {},
@@ -546,6 +548,9 @@ export class CheckoutContainer extends PureComponent {
             }
         } = this.state;
 
+        // eslint-disable-next-line no-debugger
+        debugger;
+
         if (!isCreateUser || !isEmailAvailable) {
             return this.saveGuestEmail();
         }
@@ -607,6 +612,9 @@ export class CheckoutContainer extends PureComponent {
             shippingAddress: shipping_address,
             selectedShippingMethod: shipping_method_code
         });
+
+        // eslint-disable-next-line no-debugger
+        debugger;
 
         if (!isSignedIn()) {
             if (!await this.createUserOrSaveGuest()) {
