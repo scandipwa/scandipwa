@@ -102,18 +102,37 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderProductPrices() {
-        const { products, inStock } = this.props;
-        return products.map((product) => (
-            inStock(product) ? (
+    renderProductPrice(product) {
+        const { inStock } = this.props;
+
+        if (!inStock(product)) {
+            return (
+                <div block="ProductCompareAttributeRow" elem="OutOfStock">{ __('Out of stock') }</div>
+            );
+        }
+
+        const {
+            price_range,
+            dynamic_price,
+            type_id,
+            id
+        } = product;
+
+        const price = getPrice(price_range, dynamic_price, {}, type_id);
+
+        return (
             <ProductPrice
-              price={ getPrice(product.price_range, product.dynamic_price, {}, product.type_id) }
-              key={ product.id }
-              priceType={ product.type_id }
+              price={ price }
+              key={ id }
+              priceType={ type_id }
               isPreview
             />
-            ) : <div block="ProductCompareAttributeRow" elem="OutOfStock">{ __('Out of stock') }</div>
-        ));
+        );
+    }
+
+    renderProductPrices() {
+        const { products } = this.props;
+        return products.map((product) => this.renderProductPrice(product));
     }
 
     renderAttributes() {
@@ -187,8 +206,8 @@ export class ProductCompare extends Component {
     render() {
         return (
             <>
-            { this.renderHeading() }
-            { this.renderContent() }
+                { this.renderHeading() }
+                { this.renderContent() }
             </>
         );
     }
