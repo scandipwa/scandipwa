@@ -548,9 +548,6 @@ export class CheckoutContainer extends PureComponent {
             }
         } = this.state;
 
-        // eslint-disable-next-line no-debugger
-        debugger;
-
         if (!isCreateUser || !isEmailAvailable) {
             return this.saveGuestEmail();
         }
@@ -612,9 +609,6 @@ export class CheckoutContainer extends PureComponent {
             shippingAddress: shipping_address,
             selectedShippingMethod: shipping_method_code
         });
-
-        // eslint-disable-next-line no-debugger
-        debugger;
 
         if (!isSignedIn()) {
             if (!await this.createUserOrSaveGuest()) {
