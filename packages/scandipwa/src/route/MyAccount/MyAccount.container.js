@@ -348,7 +348,7 @@ export class MyAccountContainer extends PureComponent {
 
     tabsFilterEnabled() {
         return Object.fromEntries(Object.entries(MyAccountContainer.tabMap)
-            .filter(([tabName]) => this.isTabEnabled(this.props, tabName)));
+            .filter(([tabName]) => this.isTabEnabled(tabName)));
     }
 
     changeActiveTab(activeTab) {

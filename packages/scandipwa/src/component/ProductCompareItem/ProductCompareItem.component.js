@@ -35,6 +35,7 @@ export class ProductCompareItem extends PureComponent {
         imgUrl: PropTypes.string.isRequired,
         overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
         linkTo: LinkType,
+        isWishlistEnabled: PropTypes.bool.isRequired,
         overriddenAddToCartBtnHandler: PropTypes.func.isRequired // ,
         // isOutOfStock: PropTypes.func.isRequired
     };
@@ -92,7 +93,11 @@ export class ProductCompareItem extends PureComponent {
     }
 
     renderWishlistButton() {
-        const { product } = this.props;
+        const { product, isWishlistEnabled } = this.props;
+
+        if (!isWishlistEnabled) {
+            return null;
+        }
 
         return (
             <ProductWishlistButton

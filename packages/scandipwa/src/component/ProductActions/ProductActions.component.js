@@ -42,7 +42,6 @@ export class ProductActions extends Product {
         metaLink: PropTypes.string.isRequired,
         isPriceAlertEnabled: PropTypes.bool.isRequired,
         isInStockAlertEnabled: PropTypes.bool.isRequired,
-        isWishlistEnabled: PropTypes.bool.isRequired,
         displayProductStockStatus: PropTypes.bool.isRequired,
         areReviewsEnabled: PropTypes.bool.isRequired,
         isPricePreview: PropTypes.bool.isRequired
