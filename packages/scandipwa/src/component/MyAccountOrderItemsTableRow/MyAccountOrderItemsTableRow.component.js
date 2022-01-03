@@ -185,7 +185,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderOptionItem(item) {
+    renderOptionItem(item, isLastOptionItem) {
         const { product: { quantity_ordered = 1, product_sale_price: { currency } }, isMobile } = this.props;
         const { qty, title, price } = item;
 
@@ -197,6 +197,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
             <tr
               block="MyAccountOrderItemsTableRow"
               elem="EnteredRow"
+              mods={ { isLastOptionItem } }
             >
                 <td>
                     { `${qty} x ${title}` }
@@ -244,13 +245,15 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
     }
 
     renderEnteredOptionAsRow(option, index) {
-        const { colSpanCount } = this.props;
+        const { colSpanCount, enteredOptions } = this.props;
         const { label, items } = option;
         const { renderOptionItem } = this.renderMap;
 
         if (!items) {
             return null;
         }
+
+        const isLastOptionItem = enteredOptions.length - 1 === index;
 
         return (
             <>
@@ -265,7 +268,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                         <strong>{ label }</strong>
                     </td>
                 </tr>
-                { items.map(renderOptionItem) }
+                { items.map((item) => renderOptionItem(item, isLastOptionItem)) }
             </>
         );
     }
