@@ -44,7 +44,7 @@
         }
     }
 
-    &-CheckboxLabel, &-RadioLabel{
+    &-CheckboxLabel, &-RadioLabel {
         display: inline-flex;
         align-items: center;
 
@@ -110,7 +110,7 @@
     }
 
     input::placeholder {
-        color:  var(--input-color);
+        color: var(--input-color);
         opacity: .5;
     }
 
@@ -178,6 +178,10 @@
     &_type {
         &_checkbox,
         &_radio {
+            span {
+                font-size: 12px;
+            }
+
             label {
                 &:first-of-type {
                     display: inline-flex;
@@ -193,6 +197,7 @@
 
             .input-control {
                 vertical-align: middle;
+                margin-inline-end: 11px;
             }
         }
 
@@ -260,12 +265,6 @@
                 }
             }
         }
-
-        &_checkbox, &_radio {
-            span {
-                font-size: 12px;
-            }
-        }
     }
 
     select {
@@ -308,17 +307,15 @@
                 --checkmark-color: transparent;
 
                 background: var(--checkmark-color);
-                box-shadow:
-                        2px 0 0 var(--checkmark-color),
-                        4px 0 0 var(--checkmark-color),
-                        4px -2px 0 var(--checkmark-color),
-                        4px -4px 0 var(--checkmark-color),
-                        4px -6px 0 var(--checkmark-color),
-                        4px -8px 0 var(--checkmark-color);
+                box-shadow: 2px 0 0 var(--checkmark-color),
+                    4px 0 0 var(--checkmark-color),
+                    4px -2px 0 var(--checkmark-color),
+                    4px -4px 0 var(--checkmark-color),
+                    4px -6px 0 var(--checkmark-color),
+                    4px -8px 0 var(--checkmark-color);
                 content: '';
                 height: 2px;
-                // required for ltr + rtl support, don't change to 'inset-inline-start'
-                left: calc(50% - 5px);
+                inset-inline-start: calc(50% - 5px);
                 pointer-events: none;
                 position: absolute;
                 inset-block-start: calc(50% - 1px);
@@ -359,8 +356,7 @@
                 &::after {
                     --checkmark-color: var(--primary-base-color);
 
-                    // required for ltr + rtl support, don't change to 'inset-inline-start'
-                    left: calc(50% - 5px);
+                    inset-inline-start: calc(50% - 5px);
                     inset-block-start: calc(50% - 1px);
                 }
             }
@@ -368,7 +364,6 @@
     }
 
     [type='radio'] {
-
         + .input-control {
             border-radius: 50%;
         }

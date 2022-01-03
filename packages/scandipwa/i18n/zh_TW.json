@@ -55,9 +55,13 @@
     "Create Password": "創建密碼",
     "Create an account": "創建一個帳戶",
     "Create new account": "建立新帳戶",
+<<<<<<< HEAD
 
     "Current product price": "當前產品價格",
 
+=======
+    "Current product price": "當前產品價格",
+>>>>>>> added stylelint package locally
     "Date": "日期",
     "Default %s address": "預設地址",
     "Delete": "刪除",
@@ -109,9 +113,13 @@
     "My Account page": "我的帳戶頁面",
     "My account": "我的帳戶",
     "My billing and shipping are the same": "我的帳單和配送地址相同",
+<<<<<<< HEAD
 
     "My profile": "我的帳戶",
 
+=======
+    "My profile": "我的帳戶",
+>>>>>>> added stylelint package locally
     "N/A": "不適用",
     "Name": "名稱",
     "Name: A to Z": "名稱：A到Z",
@@ -165,7 +173,10 @@
     "Product list navigation": "產品列表導航",
     "Products are loading...": "產品正在加載中...",
     "Purchase Order Number": "订购单号码",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Rate: ": "比率: ",
     "Recommended for you": "為你推薦",
     "Reload the page": "重新載入頁面",
@@ -181,7 +192,10 @@
     "Secure checkout": "安全結帳",
     "Send reset link": "發送重置鏈接",
     "Shipping": "配送",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping address": "配送地址",
     "Shopping Options": "購物選項",
     "Shopping cart": "購物車",
@@ -246,7 +260,10 @@
     "Your account is confirmed!": "您的帳戶已確認！",
     "Your order # is: %s": "您的訂單#是: %s",
     "Your password and confirmation password do not match.": "您的密碼和確認密碼不匹配。",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "billing": "帳單",
     "item": "項目",
     "save %s%": "保存 %s%",
@@ -552,8 +569,12 @@
     "Change Email": null,
     "Change Password": null,
     "Your new email": null,
+<<<<<<< HEAD
     "Confirm New Password ": null,
 
+=======
+    "Ordered: %s": null,
+>>>>>>> added stylelint package locally
     "Product Name": null,
     "SKU": null,
     "Qty": null,
@@ -568,7 +589,10 @@
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -584,12 +608,19 @@
     "Order # %s": null,
 
     "Product name": null,
+<<<<<<< HEAD
 
 
 
 
     "Confirm New password": null,
 
+=======
+    "Items": null,
+    "Invoice": null,
+    "Shipment": null,
+    "Refund": null,
+>>>>>>> added stylelint package locally
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
@@ -610,5 +641,12 @@
     "Discount (%s)": null,
     "Purchase Order Number: %s": null,
     "You have not purchased any downloadable products yet.": null,
+<<<<<<< HEAD
     "All %s": null
 }
+=======
+    "All %s": null,
+    "Confirm New Password ": null,
+    "Confirm New password": null
+}
+>>>>>>> added stylelint package locally

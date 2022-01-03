@@ -25,9 +25,12 @@
     "Your password and confirmation password do not match.": null,
     "Password Change Page": null,
     "Change password": null,
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> added stylelint package locally
     "Newsletter Subscription": null,
     "item": null,
     "items": null,
@@ -180,8 +183,12 @@
     "Please, select product options!": null,
     "Please, select required options!": null,
     "You must login or register to review products.": null,
+<<<<<<< HEAD
 
 
+=======
+    "Order #%s": null,
+>>>>>>> added stylelint package locally
     "Edit address": null,
     "Confirm delete": null,
 
@@ -222,6 +229,7 @@
     "Go to Address Book to configure them!": null,
     "Use custom address": null,
     "Order details": null,
+<<<<<<< HEAD
 
 
 
@@ -232,6 +240,15 @@
 
 
 
+=======
+    "Status: ": null,
+    "Payment Information": null,
+    "Method: ": null,
+    "Shipping address": null,
+    "Description: ": null,
+    "Price: ": null,
+    "Image": null,
+>>>>>>> added stylelint package locally
     "Items Ordered": null,
 
 

@@ -56,9 +56,13 @@
     "Create Password": null,
     "Create an account": "Ustvari račun",
     "Create new account": "Ustvari nov račun",
+<<<<<<< HEAD
 
     "Current product price": "Aktualna cena artikla.",
 
+=======
+    "Current product price": "Aktualna cena artikla.",
+>>>>>>> added stylelint package locally
     "Date": "Datum",
     "Default %s address": "Privzet naslov",
     "Delete": "Izbriši",
@@ -111,9 +115,13 @@
     "My Account page": "Mein Konto Seite",
     "My account": null,
     "My billing and shipping are the same": "Naslov za račun in dostavo je enak",
+<<<<<<< HEAD
 
     "My profile": "Moj profil",
 
+=======
+    "My profile": "Moj profil",
+>>>>>>> added stylelint package locally
     "N/A": "Ni na voljo",
     "Name": "Ime",
     "Name: A to Z": null,
@@ -167,7 +175,10 @@
     "Product list navigation": "Navigacija artiklov",
     "Products are loading...": "Artikli se nalagajo ...",
     "Purchase Order Number": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Rate: ": null,
     "Recommended for you": null,
     "Reload the page": null,
@@ -185,7 +196,10 @@
     "Share Wishlist": null,
     "Shared Wishlist": null,
     "Shipping": "Dostava",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping address": "Naslov za dostavo",
     "Shopping Options": "Možnosti Nakupa",
     "Shopping cart": "Košarica",
@@ -252,7 +266,10 @@
     "Your account is confirmed!": null,
     "Your order # is: %s": "Vaša številka naročila je: %s",
     "Your password and confirmation password do not match.": "Vaše geslo se ne ujema.",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "billing": "Račun",
     "item": "Artikel",
     "save %s%": null,
@@ -568,7 +585,10 @@
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -589,7 +609,10 @@
 
 
     "Confirm New password": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,

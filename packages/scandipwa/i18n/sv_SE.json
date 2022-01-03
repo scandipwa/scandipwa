@@ -55,9 +55,13 @@
     "Create Password": null,
     "Create an account": "Skapa ett konto",
     "Create new account": null,
+<<<<<<< HEAD
 
     "Current product price": "Aktuellt produktpris",
 
+=======
+    "Current product price": "Aktuellt produktpris",
+>>>>>>> added stylelint package locally
     "Date": null,
     "Default %s address": "Standardadress",
     "Delete": "Ta bort",
@@ -111,9 +115,13 @@
     "My Account page": "Sida för Mitt konto",
     "My account": null,
     "My billing and shipping are the same": "Min faktura- och leveransadress är densamma",
+<<<<<<< HEAD
 
     "My profile": "Mitt konto",
 
+=======
+    "My profile": "Mitt konto",
+>>>>>>> added stylelint package locally
     "N/A": "Ej tillgängligt",
     "Name": "Namn",
     "Name: A to Z": null,
@@ -167,7 +175,10 @@
     "Product list navigation": "Navigering av produktlista",
     "Products are loading...": "Produkter laddar ...",
     "Purchase Order Number": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Rate: ": null,
     "Recommended for you": null,
     "Reload the page": null,
@@ -185,7 +196,10 @@
     "Share Wishlist": null,
     "Shared Wishlist": null,
     "Shipping": "Frakt",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping address": "Leveransadress",
     "Shopping Options": "Shoppingalternativ",
     "Shopping cart": "Kundvagn",
@@ -251,7 +265,10 @@
     "Your account is confirmed!": null,
     "Your order # is: %s": "Ditt ordernummer är: %s",
     "Your password and confirmation password do not match.": "Ditt lösenord och ditt bekräftelseslösenord matchar inte.",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "billing": "Fakturering",
     "item": "Artikel",
     "save %s%": null,
@@ -567,7 +584,10 @@
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -588,7 +608,10 @@
 
 
     "Confirm New password": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,

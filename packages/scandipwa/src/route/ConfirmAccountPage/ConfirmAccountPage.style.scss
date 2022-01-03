@@ -64,8 +64,9 @@
             }
         }
     }
+
     &-WarningMsg {
-        padding-top: 20px;
+        padding-block-start: 20px;
         text-align: center;
         color: var(--primary-error-color);
         font-size: 15px;

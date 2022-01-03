@@ -56,9 +56,13 @@
     "Create Password": null,
     "Create an account": null,
     "Create new account": null,
+<<<<<<< HEAD
 
     "Current product price": null,
 
+=======
+    "Current product price": null,
+>>>>>>> added stylelint package locally
     "Date": null,
     "Default %s address": null,
     "Delete": null,
@@ -112,9 +116,13 @@
     "My Account page": null,
     "My account": null,
     "My billing and shipping are the same": null,
+<<<<<<< HEAD
 
     "My profile": null,
 
+=======
+    "My profile": null,
+>>>>>>> added stylelint package locally
     "N/A": null,
     "Name": null,
     "Name: A to Z": null,
@@ -168,7 +176,10 @@
     "Product list navigation": null,
     "Products are loading...": null,
     "Purchase Order Number": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Rate: ": null,
     "Recommended for you": null,
     "Reload the page": null,
@@ -186,7 +197,10 @@
     "Share Wishlist": null,
     "Shared Wishlist": null,
     "Shipping": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping address": null,
     "Shopping Options": null,
     "Shopping cart": null,
@@ -252,7 +266,10 @@
     "Your account is confirmed!": null,
     "Your order # is: %s": null,
     "Your password and confirmation password do not match.": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "billing": null,
     "item": null,
     "save %s%": null,
@@ -568,7 +585,10 @@
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -589,7 +609,10 @@
 
 
     "Confirm New password": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,

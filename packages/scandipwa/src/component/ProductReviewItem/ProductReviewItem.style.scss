@@ -16,13 +16,12 @@
 .ProductReviewItem {
     @include desktop {
         display: grid;
-        grid-template-areas:
-            "title ."
+        grid-template-areas: "title ."
             "content ratings";
         grid-template-rows: repeat(1, min-content);
         grid-template-columns: 2fr 1fr;
         grid-column-gap: 24px;
-    };
+    }
 
     margin: 0;
     word-break: break-word;

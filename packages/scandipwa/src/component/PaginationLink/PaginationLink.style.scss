@@ -41,6 +41,7 @@
 
     &_isCurrent {
         --color-pagination-link-text: var(--color-pagination-link-active-text);
+
         border-color: var(--color-pagination-link-active-text);
     }
 }

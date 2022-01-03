@@ -25,9 +25,12 @@
     "Your password and confirmation password do not match.": "Salasanasi ja vahvistus salasanasi eivät täsmää.",
     "Password Change Page": "Salasanan vaihtosivu",
     "Change password": "Salasanan vaihtaminen",
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> added stylelint package locally
     "Newsletter Subscription": "Uutiskirjeen Tilaus",
     "item": "kohde",
     "items": "kohdetta",
@@ -179,8 +182,12 @@
     "Please, select product options!": "Valitse tuotevaihtoehdot!",
     "Please, select required options!": "Valitse vaadittu vaihtoehto!",
     "You must login or register to review products.": "Sinun on kirjauduttava sisään tai rekisteröidyttävä tarkistamaan tuotteita.",
+<<<<<<< HEAD
 
 
+=======
+    "Order #%s": "Tilaus #%s",
+>>>>>>> added stylelint package locally
     "Edit address": "Muokkaa osoitetta",
     "Confirm delete": "Vahvista poistaminen",
 
@@ -221,6 +228,7 @@
     "Go to Address Book to configure them!": "Määritä ne siirtymällä Osoitekirjaan!",
     "Use custom address": "Käytä mukautettua osoitetta",
     "Order details": "Tilauksen tiedot",
+<<<<<<< HEAD
 
 
 
@@ -231,6 +239,15 @@
 
 
 
+=======
+    "Status: ": "Tila: ",
+    "Payment Information": "Maksutiedot",
+    "Method: ": "Menetelmä: ",
+    "Shipping address": "Toimitusosoite",
+    "Description: ": "Kuvaus: ",
+    "Price: ": "Hinta: ",
+    "Image": "Kuva",
+>>>>>>> added stylelint package locally
     "Items Ordered": "Tilatut nimikkeet",
 
 
@@ -551,8 +568,12 @@
     "Change Email": null,
     "Change Password": null,
     "Your new email": null,
+<<<<<<< HEAD
     "Confirm New Password ": null,
 
+=======
+    "Ordered: %s": null,
+>>>>>>> added stylelint package locally
     "Product Name": null,
     "Qty": null,
     "Reorder": null,
@@ -566,7 +587,10 @@
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -588,7 +612,10 @@
 
     "SKU": null,
     "Confirm New password": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
@@ -609,5 +636,11 @@
     "Discount (%s)": null,
     "Purchase Order Number: %s": null,
     "You have not purchased any downloadable products yet.": null,
+<<<<<<< HEAD
     "All %s": null
 }
+=======
+    "All %s": null,
+    "Confirm New Password ": null
+}
+>>>>>>> added stylelint package locally

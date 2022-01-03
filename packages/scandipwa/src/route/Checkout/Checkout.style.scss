@@ -165,9 +165,9 @@
         padding: 0 16px;
     }
 
-     .CheckoutOrderSummary-ButtonWrapper {
-         @include mobile {
-             display: none;
-         }
-     }
+    .CheckoutOrderSummary-ButtonWrapper {
+        @include mobile {
+            display: none;
+        }
+    }
 }

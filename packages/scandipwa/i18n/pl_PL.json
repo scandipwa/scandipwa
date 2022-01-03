@@ -56,9 +56,13 @@
     "Create Password": "Utwórz hasło",
     "Create an account": "Utwórz konto",
     "Create new account": "Utwórz nowe konto",
+<<<<<<< HEAD
 
     "Current product price": "Aktualna cena produktu",
 
+=======
+    "Current product price": "Aktualna cena produktu",
+>>>>>>> added stylelint package locally
     "Date": "Data",
     "Default %s address": "Domyślny adres %s",
     "Delete": "Usuń",
@@ -111,9 +115,13 @@
     "My Account page": "Strona Moje konto",
     "My account": "Moje konto",
     "My billing and shipping are the same": "Moje rozliczenia i wysyłka są takie same",
+<<<<<<< HEAD
 
     "My profile": "Mój profil",
 
+=======
+    "My profile": "Mój profil",
+>>>>>>> added stylelint package locally
     "N/A": "Nie dotyczy",
     "Name": "Nazwa",
     "Name: A to Z": "Nazwy: A do Z",
@@ -167,7 +175,10 @@
     "Product list navigation": "Nawigacja po liście produktów",
     "Products are loading...": "Produkty są ładowane...",
     "Purchase Order Number": "Numer zamówienia",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Rate: ": "Stawka: ",
     "Recommended for you": "Polecany dla Ciebie",
     "Reload the page": "Odśwież stronę",
@@ -185,7 +196,10 @@
     "Share Wishlist": null,
     "Shared Wishlist": null,
     "Shipping": "Wysyłka",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping address": "Adres wysyłki",
     "Shopping Options": "Opcje zakupów",
     "Shopping cart": "Koszyk",
@@ -251,7 +265,10 @@
     "Your account is confirmed!": "Twoje konto zostało potwierdzone!",
     "Your order # is: %s": "Twój numer zamówienia to: %s",
     "Your password and confirmation password do not match.": "Hasło i hasło potwierdzające nie są zgodne.",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "billing": "dane rozliczeniowe",
     "item": "element",
     "save %s%": "zaoszczędź %s%",
@@ -568,7 +585,10 @@
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -589,7 +609,10 @@
 
 
     "Confirm New password": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,

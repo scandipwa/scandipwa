@@ -15,13 +15,7 @@
 
     --header-height: 60px;
     --header-nav-height: 60px;
-    --header-total-height:
-        calc(
-            var(--header-height)
-            + var(--offline-notice-height)
-            + var(--demo-notice-height)
-            + env(safe-area-inset-top)
-        );
+    --header-total-height: calc(var(--header-height) + var(--offline-notice-height) + var(--demo-notice-height) + env(safe-area-inset-top));
 
     @include desktop {
         --header-top-menu-height: 32px;
@@ -185,6 +179,8 @@
 
     &-MinicartButtonWrapper {
         cursor: pointer;
+        height: 100%;
+        width: 100%;
     }
 
     &-CompareButtonWrapper {
@@ -247,11 +243,6 @@
     }
 
     &-Minicart {
-        &ButtonWrapper {
-            height: 100%;
-            width: 100%;
-        }
-
         &ItemCount {
             background: var(--primary-base-color);
             border-radius: 50%;

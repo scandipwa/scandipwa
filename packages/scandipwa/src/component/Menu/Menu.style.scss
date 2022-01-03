@@ -27,7 +27,6 @@
         font-size: 14px;
         font-weight: 400;
         text-transform: none;
-
         display: flex;
         align-items: center;
 
@@ -169,7 +168,7 @@
     &-MainCategories {
         margin: 0 auto;
 
-        @include desktop{
+        @include desktop {
             width: fit-content;
 
             .Menu-Link {

@@ -56,9 +56,13 @@
     "Create Password": null,
     "Create an account": "Создать учетную запись",
     "Create new account": null,
+<<<<<<< HEAD
 
     "Current product price": "Текущая цена продукта",
 
+=======
+    "Current product price": "Текущая цена продукта",
+>>>>>>> added stylelint package locally
     "Date": null,
     "Default %s address": "Адрес по умолчанию %s",
     "Delete": "Удалить",
@@ -112,9 +116,13 @@
     "My Account page": "Страница личного кабинета",
     "My account": null,
     "My billing and shipping are the same": "Мой адрес доставки совпадает с платёжным.",
+<<<<<<< HEAD
 
     "My profile": "Мой профиль",
 
+=======
+    "My profile": "Мой профиль",
+>>>>>>> added stylelint package locally
     "N/A": "Н/Д",
     "Name": "Название",
     "Name: A to Z": null,
@@ -168,7 +176,10 @@
     "Product list navigation": "Навигация по списку товаров",
     "Products are loading...": "Продукты заргужаются...",
     "Purchase Order Number": "Номер заказа на поставку",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Rate: ": null,
     "Recommended for you": null,
     "Reload the page": null,
@@ -186,7 +197,10 @@
     "Share Wishlist": null,
     "Shared Wishlist": null,
     "Shipping": "Доставка",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping address": "Адрес доставки",
     "Shopping Options": "Варианты покупок",
     "Shopping cart": "Корзина",
@@ -252,7 +266,10 @@
     "Your account is confirmed!": null,
     "Your order # is: %s": "Номер Вашего заказа: %s",
     "Your password and confirmation password do not match.": "Пароли не совпадают!",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "billing": "Выставление счетов",
     "item": "Элемент",
     "save %s%": null,
@@ -568,7 +585,10 @@
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -589,7 +609,10 @@
 
 
     "Confirm New password": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,

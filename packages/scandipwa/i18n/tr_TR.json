@@ -56,9 +56,13 @@
     "Create Password": null,
     "Create an account": "Bir Hesap Oluştur",
     "Create new account": null,
+<<<<<<< HEAD
 
     "Current product price": "Mevcut ürün fiyatı",
 
+=======
+    "Current product price": "Mevcut ürün fiyatı",
+>>>>>>> added stylelint package locally
     "Date": null,
     "Default %s address": "Varsayılan Adres",
     "Delete": "Sil",
@@ -112,9 +116,13 @@
     "My Account page": "Hesabım sayfası",
     "My account": null,
     "My billing and shipping are the same": "Fatura ve teslim adresi aynıdır",
+<<<<<<< HEAD
 
     "My profile": "Hesabım",
 
+=======
+    "My profile": "Hesabım",
+>>>>>>> added stylelint package locally
     "N/A": "Mevcut Değil",
     "Name": "Adı",
     "Name: A to Z": null,
@@ -168,7 +176,10 @@
     "Product list navigation": "Ürün listesi navigasyonu",
     "Products are loading...": "Ürünler yükleniyor ...",
     "Purchase Order Number": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Rate: ": null,
     "Recommended for you": null,
     "Reload the page": null,
@@ -186,7 +197,10 @@
     "Share Wishlist": null,
     "Shared Wishlist": null,
     "Shipping": "Kargo",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping address": "Teslimat Adresi",
     "Shopping Options": "Alışveriş Seçenekleri",
     "Shopping cart": "Alışveriş Sepeti",
@@ -252,7 +266,10 @@
     "Your account is confirmed!": null,
     "Your order # is: %s": "Sipariş numaranız: %s",
     "Your password and confirmation password do not match.": "Şifreniz ve onay şifreniz uyuşmuyor.",
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "billing": "Fatura",
     "item": "Ürün",
     "save %s%": null,
@@ -568,7 +585,10 @@
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
+<<<<<<< HEAD
 
+=======
+>>>>>>> added stylelint package locally
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -584,12 +604,19 @@
     "Order # %s": null,
 
     "Product name": null,
+<<<<<<< HEAD
 
 
 
 
     "Confirm New password": null,
 
+=======
+    "Items": null,
+    "Invoice": null,
+    "Shipment": null,
+    "Refund": null,
+>>>>>>> added stylelint package locally
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
@@ -610,5 +637,11 @@
     "Discount (%s)": null,
     "Purchase Order Number: %s": null,
     "You have not purchased any downloadable products yet.": null,
+<<<<<<< HEAD
     "All %s": null
 }
+=======
+    "All %s": null,
+    "Confirm New password": null
+}
+>>>>>>> added stylelint package locally
