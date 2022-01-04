@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ProductType } from 'Type/ProductList.type';
+import { getAttributesWithValues } from 'Util/Product';
 
 import ProductAttributes from './ProductAttributes.component';
 
@@ -24,34 +25,12 @@ export class ProductAttributesContainer extends PureComponent {
     };
 
     containerProps() {
-        const { areDetailsLoaded } = this.props;
+        const { areDetailsLoaded, product } = this.props;
 
         return {
             areDetailsLoaded,
-            attributesWithValues: this._getAttributesWithValues()
+            attributesWithValues: getAttributesWithValues(product)
         };
-    }
-
-    _getAttributesWithValues() {
-        const { product: { attributes = {}, parameters = {} } } = this.props;
-
-        const allAttribsWithValues = Object.entries(attributes).reduce((acc, [key, val]) => {
-            const { attribute_label, attribute_value } = val;
-
-            if (attribute_value) {
-                return { ...acc, [attribute_label]: val };
-            }
-
-            const valueIndexFromParameter = parameters[key];
-
-            if (valueIndexFromParameter) {
-                return { ...acc, [attribute_label]: { ...val, attribute_value: valueIndexFromParameter } };
-            }
-
-            return acc;
-        }, {});
-
-        return allAttribsWithValues;
     }
 
     render() {
