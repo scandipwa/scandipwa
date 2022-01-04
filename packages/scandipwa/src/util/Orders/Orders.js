@@ -64,6 +64,5 @@ export const getProductFromOrder = (allProducts, requiredProductSku) => allProdu
     .find(({ product_sku }) => product_sku === requiredProductSku);
 
 /** @namespace Util/Orders/getOrderItemRowDiscount */
-export const getOrderItemRowDiscount = (discounts) => {
-    discounts.reduce(({ amount: { value } }, currentValue) => value + currentValue);
-};
+export const getOrderItemRowDiscount = (discounts) => discounts
+    .reduce((currentValue, { amount: { value } }) => value + currentValue, 0);

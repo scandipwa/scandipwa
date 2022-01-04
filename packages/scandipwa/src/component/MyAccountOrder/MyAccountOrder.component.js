@@ -40,7 +40,8 @@ export class MyAccountOrder extends PureComponent {
         is_allowed_reorder: PropTypes.bool.isRequired,
         rss_order_subscribe_allow: PropTypes.bool.isRequired,
         handleChangeActiveTab: PropTypes.func.isRequired,
-        activeTab: PropTypes.string.isRequired
+        activeTab: PropTypes.string.isRequired,
+        isMobile: PropTypes.bool.isRequired
     };
 
     renderMap = {
@@ -115,16 +116,17 @@ export class MyAccountOrder extends PureComponent {
         return Object.values(this.tabMap).filter(({ shouldTabRender }) => shouldTabRender());
     }
 
-    renderOrderItemsTable(items) {
-        const { activeTab, order: { total, items: allOrderItems, id } } = this.props;
+    renderOrderItemsTable(items, index) {
+        const { activeTab, order: { total: orderTotal, items: allOrderItems, id } } = this.props;
+        const { total: itemsTotal } = items;
 
         return (
             <MyAccountOrderItemsTable
-              key={ `${activeTab}-${id}` }
+              key={ `${activeTab}-${id}-${index}` }
               activeTab={ activeTab }
               items={ items }
               allOrderItems={ allOrderItems }
-              total={ total }
+              total={ itemsTotal || orderTotal }
             />
         );
     }
@@ -134,8 +136,26 @@ export class MyAccountOrder extends PureComponent {
 
         return (
             <div block="MyAccountOrder" elem="CreationDate">
+                { this.renderOrderIncrementIdAndStatus() }
                 <span>{ convertStringToDate(order_date) }</span>
             </div>
+        );
+    }
+
+    renderOrderIncrementIdAndStatus() {
+        const { order: { increment_id, status }, isMobile } = this.props;
+
+        if (!isMobile) {
+            return null;
+        }
+
+        return (
+            <h2 block="MyAccountOrder" elem="OrderId">
+                { __('Order # %s', increment_id) }
+                <span block="MyAccountOrder" elem="OrderStatus">
+                    { status }
+                </span>
+            </h2>
         );
     }
 
