@@ -367,17 +367,14 @@ export class ProductPrice extends PureComponent {
 
     renderDefaultPrice(defaultLabel = null) {
         const {
-            originalPrice: { minFinalPriceExclTax = {} } = {},
             price: { finalPrice = {}, finalPriceExclTax = {} } = {},
             label
         } = this.props;
 
-        const priceExclTax = finalPriceExclTax.value === 0 ? minFinalPriceExclTax : finalPriceExclTax;
-
         return (
             <>
                 { this.renderOldPrice() }
-                { this.renderPriceWithTax(finalPrice, priceExclTax, defaultLabel || label) }
+                { this.renderPriceWithTax(finalPrice, finalPriceExclTax, defaultLabel || label) }
                 { this.renderSchema() }
             </>
         );
