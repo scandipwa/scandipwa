@@ -17,8 +17,10 @@ import Loader from 'Component/Loader';
 import MyAccountOrderInformation from 'Component/MyAccountOrderInformation';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
+import { ACCOUNT_ORDER_PRINT_URL } from 'Route/MyAccount/MyAccount.config';
 import { OrderType } from 'Type/Order.type';
 import { convertStringToDate } from 'Util/Manipulations/Date';
+import { appendWithStoreCode } from 'Util/Url';
 
 import {
     ORDER_INVOICES,
@@ -146,8 +148,11 @@ export class MyAccountOrder extends PureComponent {
         return (
             <div block="MyAccountOrder" elem="Actions">
                 <div block="MyAccountOrder" elem="Buttons">
-                    { this.renderReorderButton() }
-                    { this.renderSubscriptionButton() }
+                    <div>
+                        { this.renderReorderButton() }
+                        { this.renderSubscriptionButton() }
+                    </div>
+                    { this.renderPrintOrder() }
                 </div>
                 <MyAccountOrderTabs
                   tabs={ this.shouldTabsRender() }
@@ -155,6 +160,21 @@ export class MyAccountOrder extends PureComponent {
                   activeTab={ activeTab }
                 />
             </div>
+        );
+    }
+
+    renderPrintOrder() {
+        const { order: { id } } = this.props;
+
+        return (
+            <Link
+              block="MyAccountOrder"
+              elem="SubscribeToStatus"
+              to={ appendWithStoreCode(`${ACCOUNT_ORDER_PRINT_URL}/${id}`) }
+              isOpenInNewTab
+            >
+                { __('Print Order') }
+            </Link>
         );
     }
 

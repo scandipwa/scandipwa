@@ -94,6 +94,7 @@ export const ForgotPasswordPage = lazy(() => import(/* webpackMode: "lazy", webp
 export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "something-went-wrong" */ 'Route/SomethingWentWrong'));
 export const StyleGuidePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/StyleGuidePage'));
 export const Breadcrumbs = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Breadcrumbs'));
+export const OrderPrintPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "print-order" */ 'Route/OrderPrintPage'));
 
 /** @namespace Component/Router/Component/withStoreRegex */
 export const withStoreRegex = (path) => window.storeRegexText.concat(path);
@@ -253,6 +254,11 @@ export class Router extends PureComponent {
             name: STYLE_GUIDE
         },
         {
+            component: <Route path={ withStoreRegex('/sales/order/print/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } /> } />,
+            position: 90,
+            name: STYLE_GUIDE
+        },
+        {
             component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
             position: 1000,
             name: URL_REWRITES
@@ -353,6 +359,10 @@ export class Router extends PureComponent {
 
     renderDefaultRouterContent() {
         if (location.pathname.match('/styleguide')) {
+            return this.renderMainItems();
+        }
+
+        if (location.pathname.includes('/sales/order/print/order_id')) {
             return this.renderMainItems();
         }
 

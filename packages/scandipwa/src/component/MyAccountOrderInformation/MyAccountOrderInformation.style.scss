@@ -13,13 +13,14 @@
     &-Wrapper {
         margin-block-start: 40px;
     }
+
     &-Information {
         display: flex;
         justify-content: space-between;
-        flex-direction: column;
+        flex-direction: row;
 
-        @include desktop {
-            flex-direction: row;
+        @include mobile {
+            flex-direction: column;
         }
     }
 

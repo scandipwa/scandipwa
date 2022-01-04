@@ -144,7 +144,11 @@ export class MyAccountOrderContainer extends PureComponent {
             return;
         }
 
-        const { increment_id, status } = order;
+        const { increment_id, status, id: uid } = order;
+
+        // decode uid of order before setting into state
+        order.id = atob(uid);
+
         changeTabName((__('Order # %s', increment_id)));
         setTabSubheading(status);
         this.setState({ order, isLoading: false });

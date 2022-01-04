@@ -32,13 +32,15 @@ export class Footer extends Component {
     static propTypes = {
         copyright: PropTypes.string,
         isVisibleOnMobile: PropTypes.bool,
+        isVisible: PropTypes.bool,
         device: DeviceType.isRequired,
         newsletterActive: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         copyright: '',
-        isVisibleOnMobile: false
+        isVisibleOnMobile: false,
+        isVisible: true
     };
 
     renderMap = {
@@ -220,7 +222,11 @@ export class Footer extends Component {
     }
 
     render() {
-        const { isVisibleOnMobile, device } = this.props;
+        const { isVisibleOnMobile, isVisible, device } = this.props;
+
+        if (!isVisible) {
+            return null;
+        }
 
         if (!isVisibleOnMobile && device.isMobile) {
             return null;
