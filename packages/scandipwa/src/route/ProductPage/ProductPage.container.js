@@ -281,8 +281,7 @@ export class ProductPageContainer extends PureComponent {
         const { description: { html = '' } = {} } = this.getDataSource();
         // handling cases when empty html tag is received
         const htmlElement = new DOMParser().parseFromString(html, 'text/html');
-        const text = htmlElement?.body?.innerText;
-        return text.length === 0;
+        return !htmlElement?.body?.innerText;
     }
 
     isProductAttributesTabEmpty() {
