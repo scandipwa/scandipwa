@@ -37,7 +37,9 @@
         font-size: 14px;
 
         td {
-            padding: 16px 10px 15px;
+            padding-block-start: 16px;
+            padding-block-end: 15px;
+            padding-inline: 10px;
 
             &:nth-child(n+3) {
                 text-align: right;
@@ -90,7 +92,9 @@
 
     &-EnteredRow {
         td {
-            padding: 0 10px 5px;
+            padding-block-start: 0;
+            padding-block-end: 5px;
+            padding-inline: 10px;
 
             &:nth-child(n+3) {
                 text-align: right;
