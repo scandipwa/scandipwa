@@ -26,6 +26,10 @@ export class MyAccountOrderInformation extends PureComponent {
     renderShippingMethod() {
         const { order: { shipping_method } } = this.props;
 
+        if (!shipping_method) {
+            return null;
+        }
+
         return (
             <div
               block="MyAccountOrderInformation"
@@ -47,6 +51,10 @@ export class MyAccountOrderInformation extends PureComponent {
     renderBillingAddress() {
         const { order: { billing_address } = {} } = this.props;
 
+        if (!billing_address) {
+            return null;
+        }
+
         return (
             <div
               block="MyAccountOrderInformation"
@@ -62,15 +70,15 @@ export class MyAccountOrderInformation extends PureComponent {
                     </strong>
                 </div>
                 <MyAccountAddressTable
-                address={ billing_address }
-                mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
-                showAdditionalFields
+                    address={ billing_address }
+                    mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
+                    showAdditionalFields
                 />
             </div>
         );
     }
 
-    renderPaymentMethod = (paymentMethod, index) => {
+    renderPaymentMethod (paymentMethod, index) {
         const { name, purchase_number } = paymentMethod;
 
         return (
@@ -109,13 +117,17 @@ export class MyAccountOrderInformation extends PureComponent {
                         <span>{ __('Payment Method') }</span>
                     </strong>
                 </div>
-                { payment_methods.map(this.renderPaymentMethod) }
+                { payment_methods.map(this.renderPaymentMethod.bind(this)) }
             </div>
         )
     }
 
     renderShippingAddress() {
         const { order: { shipping_address } = {} } = this.props;
+
+        if (!shipping_address) {
+            return null;
+        }
 
         return (
             <div
@@ -132,9 +144,9 @@ export class MyAccountOrderInformation extends PureComponent {
                     </strong>
                 </div>
                 <MyAccountAddressTable
-                address={ shipping_address }
-                mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
-                showAdditionalFields
+                    address={ shipping_address }
+                    mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
+                    showAdditionalFields
                 />
             </div>
         );
@@ -163,6 +175,8 @@ export class MyAccountOrderInformation extends PureComponent {
     }
 
     render() {
+        const { order } = this.props;
+
         return (
             <div
               block="MyAccountOrderInformation"
