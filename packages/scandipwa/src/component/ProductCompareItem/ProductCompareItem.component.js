@@ -36,7 +36,7 @@ export class ProductCompareItem extends PureComponent {
         overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
         linkTo: LinkType,
         overriddenAddToCartBtnHandler: PropTypes.func.isRequired,
-        inStock: PropTypes.func.isRequired
+        isInStock: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -152,10 +152,10 @@ export class ProductCompareItem extends PureComponent {
         const {
             overrideAddToCartBtnBehavior,
             product,
-            inStock
+            isInStock
         } = this.props;
 
-        if (!inStock(product)) {
+        if (!isInStock(product)) {
             return this.renderAddToCartBtnDisabled();
         }
 
