@@ -114,7 +114,7 @@ export class SearchPageContainer extends CategoryPageContainer {
 
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
-        const search = this.getSearchParam();
+        const search = decodeURIComponent(this.getSearchParam());
 
         updateBreadcrumbs([{
             url: '',
@@ -217,7 +217,7 @@ export class SearchPageContainer extends CategoryPageContainer {
             <SearchPage
               { ...this.containerFunctions }
               { ...this.containerProps() }
-              // addded here to not override the container props
+              // added here to not override the container props
               search={ this.getSearchParam() }
               sortFields={ this.getSortFields() }
             />
