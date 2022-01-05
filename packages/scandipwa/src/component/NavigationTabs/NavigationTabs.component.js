@@ -130,7 +130,7 @@ export class NavigationTabs extends NavigationAbstract {
             <span
               aria-label="Items in cart"
               block="Header"
-              elem="MinicartItemCount"
+              elem="ItemCount"
             >
                 { items_qty }
             </span>

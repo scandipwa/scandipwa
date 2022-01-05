@@ -81,6 +81,7 @@ export class Header extends NavigationAbstract {
             title: PropTypes.string
         }).isRequired,
         cartTotals: TotalsType.isRequired,
+        compareListQty: Number.isRequired,
         onBackButtonClick: PropTypes.func.isRequired,
         onCloseButtonClick: PropTypes.func.isRequired,
         onSearchBarFocus: PropTypes.func.isRequired,
@@ -370,6 +371,7 @@ export class Header extends NavigationAbstract {
                   aria-label={ __('Compare Page') }
                 >
                     <CompareIcon />
+                    { this.renderCompareItemsQty() }
                 </Link>
             </div>
         );
@@ -537,9 +539,27 @@ export class Header extends NavigationAbstract {
             <span
               aria-label="Items in cart"
               block="Header"
-              elem="MinicartItemCount"
+              elem="ItemCount"
             >
                 { items_qty }
+            </span>
+        );
+    }
+
+    renderCompareItemsQty() {
+        const { compareListQty } = this.props;
+
+        if (!compareListQty) {
+            return null;
+        }
+
+        return (
+            <span
+              aria-label="Items in compare list"
+              block="Header"
+              elem="ItemCount"
+            >
+                { compareListQty }
             </span>
         );
     }
