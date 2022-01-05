@@ -251,6 +251,10 @@
             background-color: var(--color-white);
             border-block-start: 1px solid var(--primary-divider-color);
             z-index: 80;
+
+            .hideOnScroll & {
+                transform: translateY(var(--footer-nav-height));
+            }
         }
 
         &_isEmpty {
