@@ -172,7 +172,7 @@ export const customerEmailAndPasswordFields = (props) => {
                     'aria-label': __('New password')
                 },
                 addRequiredTag: true,
-                validateOn: ['onSubmit'],
+                validateOn: ['onChange'],
                 validationRule: {
                     inputType: VALIDATION_INPUT_TYPE.password,
                     isRequired: true,
