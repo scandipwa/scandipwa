@@ -40,7 +40,10 @@ export class MyAccountOrderItemsTable extends PureComponent {
         const { activeTab, allOrderItems } = this.props;
         const { product_sku } = product;
 
-        const { entered_options, selected_options } = getProductFromOrder(allOrderItems, product_sku);
+        const {
+            entered_options = [],
+            selected_options = []
+        } = getProductFromOrder(allOrderItems, product_sku) || {};
 
         return (
             <MyAccountOrderItemsTableRow

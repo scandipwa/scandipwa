@@ -279,7 +279,8 @@ export class OrderQuery {
             'id',
             'number',
             this._getOrderCommentsField(),
-            this._getRefundsItemsProductsField()
+            this._getRefundsItemsProductsField(),
+            this._getOrderItemTotalField()
         ];
     }
 
@@ -330,7 +331,8 @@ export class OrderQuery {
             'id',
             'number',
             this._getOrderCommentsField(),
-            this._getInvoiceItemsProductsField()
+            this._getInvoiceItemsProductsField(),
+            this._getOrderItemTotalField()
         ];
     }
 
@@ -520,6 +522,7 @@ export class OrderQuery {
 
     _getDownloadableFields() {
         return [
+            'order_id',
             'order_increment_id',
             'date',
             'status',
