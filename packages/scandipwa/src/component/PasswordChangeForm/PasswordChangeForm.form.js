@@ -10,6 +10,9 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
+import {
+    MIN_CHARACTER_SETS_IN_PASSWORD
+} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -30,7 +33,23 @@ export const customerEmailAndPasswordFields = () => [
         validateOn: ['onChange'],
         validationRule: {
             isRequired: true,
-            inputType: VALIDATION_INPUT_TYPE.password
+            inputType: VALIDATION_INPUT_TYPE.password,
+            match: (value) => {
+                const counter = !!(value.match(/\d+/))
+                  + !!(value.match(/[a-z]+/))
+                  + !!(value.match(/[A-Z]+/))
+                  + !!(value.match(/[^a-zA-Z0-9]+/));
+
+                return counter >= MIN_CHARACTER_SETS_IN_PASSWORD;
+            },
+            customErrorMessages: {
+                onMatchFail: __('Minimum of different classes of characters in password is %s.',
+                    MIN_CHARACTER_SETS_IN_PASSWORD)
+                    + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.')
+            },
+            range: {
+                min: 8
+            }
         },
         addRequiredTag: true
     },

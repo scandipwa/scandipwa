@@ -15,6 +15,9 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
+import {
+    MIN_CHARACTER_SETS_IN_PASSWORD
+} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import { SignInStateType } from 'Type/Account.type';
 import history from 'Util/History';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
@@ -159,10 +162,23 @@ export class MyAccountCreateAccount extends PureComponent {
                           inputType: VALIDATION_INPUT_TYPE.password,
                           match: (value) => {
                               const email = document.getElementById('email');
-                              return value && email.value !== value;
-                          },
-                          customErrorMessages: {
-                              onMatchFail: __('Passwords can\'t be the same as email!')
+
+                              if (value && email.value === value) {
+                                  return __('Passwords can\'t be the same as email!');
+                              }
+
+                              const counter = !!(value.match(/\d+/))
+                                + !!(value.match(/[a-z]+/))
+                                + !!(value.match(/[A-Z]+/))
+                                + !!(value.match(/[^a-zA-Z0-9]+/));
+
+                              if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
+                                  return __('Minimum of different classes of characters in password is %s.',
+                                      MIN_CHARACTER_SETS_IN_PASSWORD)
+                                    + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
+                              }
+
+                              return true;
                           },
                           range: {
                               min: 8

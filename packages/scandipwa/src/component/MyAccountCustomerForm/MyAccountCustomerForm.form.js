@@ -10,6 +10,9 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
+import {
+    MIN_CHARACTER_SETS_IN_PASSWORD
+} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -169,16 +172,32 @@ export const customerEmailAndPasswordFields = (props) => {
                     'aria-label': __('New password')
                 },
                 addRequiredTag: true,
-                validateOn: ['onChange'],
+                validateOn: ['onSubmit'],
                 validationRule: {
                     inputType: VALIDATION_INPUT_TYPE.password,
                     isRequired: true,
                     match: (value) => {
                         const password = document.getElementById('currentPassword');
-                        return value && password.value !== value;
+
+                        if (value && password.value === value) {
+                            return __('New passwords can\'t be the same as old password!');
+                        }
+
+                        const counter = !!(value.match(/\d+/))
+                                + !!(value.match(/[a-z]+/))
+                                + !!(value.match(/[A-Z]+/))
+                                + !!(value.match(/[^a-zA-Z0-9]+/));
+
+                        if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
+                            return __('Minimum of different classes of characters in password is %s.',
+                                MIN_CHARACTER_SETS_IN_PASSWORD)
+                                    + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
+                        }
+
+                        return true;
                     },
-                    customErrorMessages: {
-                        onMatchFail: __('New passwords can\'t be the same as old password!')
+                    range: {
+                        min: 8
                     }
                 }
             },

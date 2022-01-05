@@ -10,6 +10,9 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
+import {
+    MIN_CHARACTER_SETS_IN_PASSWORD
+} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -50,10 +53,23 @@ export const myAccountPasswordForm = () => [
             isRequired: true,
             match: (value) => {
                 const password = document.getElementById('my-account-currentPassword');
-                return value && password.value !== value;
-            },
-            customErrorMessages: {
-                onMatchFail: __('New passwords can\'t be the same as old password!')
+
+                if (value && password.value === value) {
+                    return __('New passwords can\'t be the same as old password!');
+                }
+
+                const counter = !!(value.match(/\d+/))
+                                + !!(value.match(/[a-z]+/))
+                                + !!(value.match(/[A-Z]+/))
+                                + !!(value.match(/[^a-zA-Z0-9]+/));
+
+                if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
+                    return __('Minimum of different classes of characters in password is %s.',
+                        MIN_CHARACTER_SETS_IN_PASSWORD)
+                                    + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
+                }
+
+                return true;
             },
             range: {
                 min: 8
