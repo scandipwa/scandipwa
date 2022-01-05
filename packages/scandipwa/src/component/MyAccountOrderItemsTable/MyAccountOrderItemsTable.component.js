@@ -171,6 +171,34 @@ export class MyAccountOrderItemsTable extends PureComponent {
         return <MyAccountOrderTotals activeTab={ activeTab } total={ total } />;
     }
 
+    renderComments() {
+        const { items: { comments = [] }, activeTab } = this.props;
+
+        if (activeTab === ORDER_ITEMS || !comments.length) {
+            return null;
+        }
+
+        return (
+            <div block="MyAccountOrderItemsTable" elem="Comments">
+                <div
+                  block="MyAccountOrderItemsTable"
+                  elem="CommentsTitle"
+                >
+                    { __('About Your %s', activeTab) }
+                </div>
+                { comments.map(({ timestamp, message }) => (
+                    <dl
+                      block="MyAccountOrderItemsTable"
+                      elem="Comment"
+                    >
+                        <dt>{ timestamp }</dt>
+                        <dd>{ message }</dd>
+                    </dl>
+                )) }
+            </div>
+        );
+    }
+
     renderDesktopTable() {
         return (
             <div block="MyAccountOrderItemsTable" elem="ProductsWrapper">
@@ -190,6 +218,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
                     </tbody>
                     { this.renderTotals() }
                 </table>
+                { this.renderComments() }
             </div>
         );
     }
@@ -208,6 +237,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
                     { this.renderItems() }
                     { this.renderTotals() }
                 </table>
+                { this.renderComments() }
             </div>
         );
     }

@@ -612,5 +612,9 @@
     "Purchase Order Number: %s": null,
     "You have not purchased any downloadable products yet.": null,
     "All %s": null,
-    "About Your Order": null
+    "Not all characters!": null,
+    "Minimum of different classes of characters in password is %s.": null,
+    "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null,
+    "About Your Order": null,
+    "About Your %s": null
 }

@@ -238,6 +238,7 @@ export class OrderQuery {
         return [
             'id',
             'number',
+            this._getOrderCommentsField(),
             this._getOrderShipmentTrackingField(),
             this._getShipmentsItemsProductsField()
         ];
@@ -277,6 +278,7 @@ export class OrderQuery {
         return [
             'id',
             'number',
+            this._getOrderCommentsField(),
             this._getRefundsItemsProductsField()
         ];
     }
@@ -327,6 +329,7 @@ export class OrderQuery {
         return [
             'id',
             'number',
+            this._getOrderCommentsField(),
             this._getInvoiceItemsProductsField()
         ];
     }

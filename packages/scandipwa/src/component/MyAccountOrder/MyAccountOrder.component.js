@@ -160,9 +160,9 @@ export class MyAccountOrder extends PureComponent {
     }
 
     renderOrderComments() {
-        const { order: { comments = [] } } = this.props;
+        const { activeTab, order: { comments = [] } } = this.props;
 
-        if (!comments.length) {
+        if (activeTab !== ORDER_ITEMS || !comments.length) {
             return null;
         }
 
