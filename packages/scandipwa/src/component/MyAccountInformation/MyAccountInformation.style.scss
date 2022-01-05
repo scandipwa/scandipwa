@@ -26,6 +26,12 @@
                 &-Section {
                     width: 48%;
 
+                    &:nth-child(2) {
+                        @include mobile {
+                            margin-block-start: 16px;
+                        }
+                    }
+
                     @include mobile {
                         width: 100%;
                     }
