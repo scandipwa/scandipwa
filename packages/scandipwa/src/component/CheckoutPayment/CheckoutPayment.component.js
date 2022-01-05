@@ -66,7 +66,9 @@ export class CheckoutPayment extends PureComponent {
                       } }
                       isDisabled
                     />
-                    { title }
+                    <label elem="Label" htmlFor={ `option-${ title }` }>
+                        { title }
+                    </label>
                 </button>
             </li>
         );
