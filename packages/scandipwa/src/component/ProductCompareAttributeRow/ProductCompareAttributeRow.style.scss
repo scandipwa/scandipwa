@@ -62,4 +62,14 @@
             padding-inline-end: 0;
         }
     }
+
+    &-OutOfStock {
+        @extend .ProductCompareAttributeRow-Value;
+
+        padding-top: 15px;
+
+        @include mobile {
+            padding-top: 39px;
+        }
+    }
 }

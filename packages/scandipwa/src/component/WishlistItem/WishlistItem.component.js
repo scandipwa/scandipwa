@@ -39,7 +39,10 @@ export class WishlistItem extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
         handleSelectIdChange: PropTypes.func.isRequired,
-        setQuantity: PropTypes.func.isRequired
+        setQuantity: PropTypes.func.isRequired,
+        minSaleQuantity: PropTypes.number.isRequired,
+        maxSaleQuantity: PropTypes.number.isRequired,
+        inStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -61,7 +64,8 @@ export class WishlistItem extends PureComponent {
     renderCommentField() {
         const {
             product: { wishlist: { description } },
-            changeDescription
+            changeDescription,
+            inStock
         } = this.props;
 
         return (
@@ -77,6 +81,7 @@ export class WishlistItem extends PureComponent {
                   onChange: ({ target: { value } = {} }) => changeDescription(value)
               } }
               mix={ { block: 'WishlistItem', elem: 'CommentField' } }
+              isDisabled={ !inStock }
             />
         );
     }
@@ -85,7 +90,10 @@ export class WishlistItem extends PureComponent {
         const {
             product: { wishlist: { quantity } },
             changeQuantity,
-            setQuantity
+            setQuantity,
+            minSaleQuantity,
+            maxSaleQuantity,
+            inStock
         } = this.props;
 
         return (
@@ -95,7 +103,8 @@ export class WishlistItem extends PureComponent {
                   id: 'item_qty',
                   name: 'item_qty',
                   defaultValue: quantity,
-                  min: 1
+                  min: minSaleQuantity,
+                  max: maxSaleQuantity
               } }
               events={ {
                   onChange: (quantity) => {
@@ -104,6 +113,7 @@ export class WishlistItem extends PureComponent {
                   }
               } }
               mix={ { block: 'WishlistItem', elem: 'QuantityInput' } }
+              isDisabled={ !inStock }
             />
         );
     }
@@ -133,8 +143,13 @@ export class WishlistItem extends PureComponent {
         const {
             addToCart,
             isEditingActive,
-            isMobile
+            isMobile,
+            inStock
         } = this.props;
+
+        if (!inStock) {
+            return null;
+        }
 
         const mods = isMobile ? { isEditingActive } : {};
 
@@ -147,6 +162,22 @@ export class WishlistItem extends PureComponent {
             >
                 { __('Add to cart') }
             </button>
+        );
+    }
+
+    renderOutOfStockMessage() {
+        const { inStock } = this.props;
+
+        if (inStock) {
+            return null;
+        }
+
+        return (
+            <div block="WishlistItem" elem="OutOfStock">
+                <p>
+                    { __('Out of stock') }
+                </p>
+            </div>
         );
     }
 
@@ -261,6 +292,12 @@ export class WishlistItem extends PureComponent {
     }
 
     renderPrice(productPrice) {
+        const { inStock } = this.props;
+
+        if (!inStock) {
+            return null;
+        }
+
         return (
             <div
               block="WishlistItem"
@@ -299,6 +336,7 @@ export class WishlistItem extends PureComponent {
                 { this.renderCommentField() }
                 <div block="WishlistItem" elem="ActionWrapper">
                     { this.renderAddToCartButton() }
+                    { this.renderOutOfStockMessage() }
                     <button
                       key="edit"
                       block="WislistItem"
@@ -399,6 +437,7 @@ export class WishlistItem extends PureComponent {
                     { this.renderCommentField() }
                     <div block="WishlistItem" elem="ActionWrapper">
                         { this.renderAddToCartButton() }
+                        { this.renderOutOfStockMessage() }
                         <div
                           block="WishlistItem"
                           elem="EditIcon"

@@ -34,10 +34,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountDownloadable/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
-    getOrderList: () => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch)
-    )
+    showSuccessNotification: (message) => dispatch(showNotification('success', message))
 });
 
 /** @namespace Component/MyAccountDownloadable/Container */
@@ -55,9 +52,6 @@ export class MyAccountDownloadableContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { getOrderList } = this.props;
-
-        getOrderList();
         this.requestDownloadable();
     }
 
@@ -82,7 +76,8 @@ export class MyAccountDownloadableContainer extends PureComponent {
         return items.reduce((acc, item, index) => {
             acc.push({
                 id: index,
-                order_id: item.order_increment_id,
+                order_id: item.order_id,
+                order_increment_id: item.order_increment_id,
                 status_label: item.status,
                 created_at: item.date,
                 download_url: item.download_url,

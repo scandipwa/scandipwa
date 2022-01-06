@@ -18,6 +18,7 @@ import {
 } from 'Component/ProductCompare/ProductCompare.config';
 import { DeviceType } from 'Type/Device.type';
 import { ItemType, ProductItemsType } from 'Type/ProductList.type';
+import { getProductInStock } from 'Util/Product/Extract';
 
 import ProductCompare from './ProductCompare.component';
 
@@ -76,7 +77,7 @@ export class ProductCompareContainer extends PureComponent {
     containerFunctions = {
         getAttributes: this.getAttributes.bind(this),
         clearCompareList: this.clearCompareList.bind(this),
-        isOutOfStock: this.isOutOfStock.bind(this),
+        isInStock: getProductInStock.bind(this),
         handleScroll: this.handleScroll.bind(this),
         handleBlockScroll: this.handleBlockScroll.bind(this)
     };
@@ -169,26 +170,6 @@ export class ProductCompareContainer extends PureComponent {
                 }
             )
         }));
-    }
-
-    isOutOfStock(product) {
-        const {
-            price_range: {
-                minimum_price: {
-                    final_price: {
-                        value: minimalPriceValue = 0
-                    } = {},
-                    regular_price: {
-                        value: regularPriceValue = 0
-                    } = {},
-                    default_price: {
-                        value: defaultPriceValue = 0
-                    } = {}
-                } = {}
-            } = {}
-        } = product;
-
-        return (!minimalPriceValue || !regularPriceValue) && !defaultPriceValue;
     }
 
     render() {

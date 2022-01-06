@@ -26,7 +26,19 @@ export const zeroBasedValue = (value, lessThan = 10) => (
 );
 
 /** @namespace Util/Form/Extract/adjustHours */
-export const adjustHours = (hours, timeFormat) => (timeFormat === TIME_FORMAT.H12 ? hours % HOURS_12H_COUNT : hours);
+export const adjustHours = (hours, timeFormat) => {
+    if (timeFormat === TIME_FORMAT.H12) {
+        if (hours > HOURS_12H_COUNT) {
+            return hours % HOURS_12H_COUNT;
+        }
+
+        if (hours === 0) {
+            return HOURS_12H_COUNT;
+        }
+    }
+
+    return hours;
+};
 
 /**
  * Converts date to magento supported format
@@ -120,6 +132,19 @@ export const getDateTimeFormat = (type, dateFieldsOrder, timeFormat) => {
     return `${datePart } ${ timePart}`.trim();
 };
 
+/** @namespace Util/Form/Extract/adjustAmpmHours */
+export const adjustAmpmHours = (hours, ampm) => {
+    if (ampm === 'PM') {
+        return (hours % HOURS_12H_COUNT) + HOURS_12H_COUNT;
+    }
+
+    if (ampm === 'AM') {
+        return hours % HOURS_12H_COUNT;
+    }
+
+    return hours;
+};
+
 /** @namespace Util/Form/Extract/transformDateFieldsData */
 export const transformDateFieldsData = (datesData) => Object.entries(datesData).reduce((prev, [name, data]) => {
     const {
@@ -132,7 +157,7 @@ export const transformDateFieldsData = (datesData) => Object.entries(datesData).
         ampm
     } = data;
 
-    const hoursAdjusted = ampm === 'PM' ? +hours + HOURS_12H_COUNT : hours;
+    const hoursAdjusted = adjustAmpmHours(Number(hours), ampm);
 
     if (type === FIELD_DATE_TYPE.date && year && month && day) {
         return [...prev, {

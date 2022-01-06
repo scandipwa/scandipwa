@@ -160,8 +160,8 @@ export class Menu extends PureComponent {
     }
 
     renderSubLevel(category, isSecondLevel = false) {
-        const { activeMenuItemsStack } = this.props;
-        const { item_id, children } = category;
+        const { activeMenuItemsStack, device } = this.props;
+        const { item_id, children, title } = category;
         const childrenArray = getSortedItems(Object.values(children));
         const isVisible = activeMenuItemsStack.includes(item_id);
         const subcategoryMods = { type: 'subcategory' };
@@ -178,6 +178,14 @@ export class Menu extends PureComponent {
                   elem="ItemList"
                   mods={ { ...subcategoryMods } }
                 >
+                    { device.isMobile && (
+                        <MenuItem
+                          activeMenuItemsStack={ activeMenuItemsStack }
+                          item={ { ...category, title: __('All %s', title) } }
+                          itemMods={ { ...subcategoryMods, isSecondLevel } }
+                          isLink
+                        />
+                    ) }
                     { childrenArray.map((item) => this.renderSubLevelItems(item, isSecondLevel)) }
                 </div>
             </div>

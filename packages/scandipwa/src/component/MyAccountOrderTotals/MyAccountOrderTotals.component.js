@@ -43,6 +43,20 @@ export class MyAccountOrderTotals extends PureComponent {
         return taxes.map(this.renderTax.bind(this));
     }
 
+    renderDiscounts() {
+        const { total: { discounts = [] } } = this.props;
+
+        if (!discounts.length) {
+            return null;
+        }
+
+        return discounts.map(this.renderDiscount.bind(this));
+    }
+
+    renderDiscount({ label, amount: { value } }, index) {
+        return this.renderPriceLine(__('Discount (%s)', label), value, null, {}, `discount-${index}`);
+    }
+
     renderContent() {
         const {
             total: {
@@ -61,7 +75,8 @@ export class MyAccountOrderTotals extends PureComponent {
                     value: totalTaxPrice
                 },
                 base_grand_total: {
-                    value: baseGrandTotalPrice
+                    value: baseGrandTotalPrice,
+                    currency: baseGrandTotalCurrency
                 }
             }
         } = this.props;
@@ -71,27 +86,33 @@ export class MyAccountOrderTotals extends PureComponent {
         return (
             <>
                 { this.renderPriceLine(__('Subtotal'), subtotalPrice) }
+                { this.renderDiscounts() }
                 { this.renderPriceLine(__('Shipping & Handling'), shippingHandlingPrice) }
-                { this.renderPriceLine(__('Grand Total (Excl.Tax)'), grandTotalPrice - totalTaxPrice, grandTotalMix) }
+                { this.renderPriceLine(
+                    __('Grand Total (Excl.Tax)'),
+                    grandTotalPrice - totalTaxPrice,
+                    null,
+                    grandTotalMix
+                ) }
                 { this.renderTaxes() }
                 { this.renderPriceLine(__('Tax'), totalTaxPrice) }
-                { this.renderPriceLine(__('Grand Total (Incl.Tax)'), grandTotalPrice, grandTotalMix) }
-                { this.renderPriceLine(__('Grand Total to be Charged'), baseGrandTotalPrice) }
+                { this.renderPriceLine(__('Grand Total (Incl.Tax)'), grandTotalPrice, null, grandTotalMix) }
+                { this.renderPriceLine(__('Grand Total to be Charged'), baseGrandTotalPrice, baseGrandTotalCurrency) }
             </>
         );
     }
 
-    renderPriceLine(title, price, mix = {}) {
+    renderPriceLine(title, price, currency, mix = {}, key) {
         const {
-            total: { grand_total: { currency } },
+            total: { grand_total: { currency: defaultCurrency } },
             colSpanLabelCount,
             colSpanPriceCount
         } = this.props;
 
         return (
-            <tr mix={ mix }>
+            <tr mix={ mix } key={ key }>
                 <th colSpan={ colSpanLabelCount }>{ title }</th>
-                <td colSpan={ colSpanPriceCount }>{ formatPrice(price, currency) }</td>
+                <td colSpan={ colSpanPriceCount }>{ formatPrice(price, currency || defaultCurrency) }</td>
             </tr>
         );
     }
