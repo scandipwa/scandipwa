@@ -185,29 +185,6 @@ export class MyAccountOrderItemsTable extends PureComponent {
                     <thead>
                         { this.renderItemsHeading() }
                     </thead>
-                    <tbody
-                      block="MyAccountOrderItemsTable"
-                      elem="TableRows"
-                    >
-                        { this.renderItems() }
-                    </tbody>
-                    { this.renderTotals() }
-                </table>
-            </div>
-        );
-    }
-
-    renderMobileTable() {
-        return (
-            <div block="MyAccountOrderItemsTable" elem="ProductsWrapper">
-                { this.renderOrderTitle() }
-                <table
-                  block="MyAccountOrderItemsTable"
-                  elem="Products"
-                >
-                    <thead>
-                        { this.renderItemsHeading() }
-                    </thead>
                     { this.renderItems() }
                     { this.renderTotals() }
                 </table>
@@ -216,13 +193,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
     }
 
     render() {
-        const { isMobile } = this.props;
-
-        if (!isMobile) {
-            return this.renderDesktopTable();
-        }
-
-        return this.renderMobileTable();
+        return this.renderDesktopTable();
     }
 }
 

@@ -173,7 +173,9 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         const { product: { product_name } } = this.props;
 
         return (
-            <td>
+            <td
+              data-th={ __('Product Name') }
+            >
                 <span
                   block="MyAccountOrderItemsTableRow"
                   elem="Name"
@@ -358,46 +360,6 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderMobileBodyContentRow(label, value) {
-        const { colSpanCount } = this.props;
-
-        return (
-            <tr
-              block="MyAccountOrderItemsTableRow"
-              elem="Row"
-            >
-                <td colSpan={ colSpanCount }>
-                    <strong>{ label }</strong>
-                    { value }
-                </td>
-            </tr>
-        );
-    }
-
-    renderMobileTableRow() {
-        const {
-            product: {
-                product_sku,
-                product_name
-            }
-        } = this.props;
-
-        return (
-            <tbody
-              block="MyAccountOrderItemsTableRow"
-              elem="RowWrapper"
-            >
-                { this.renderMobileBodyContentRow(__('Product name'), product_name) }
-                { this.renderSelectedAndEnteredOptions() }
-                { this.renderMobileBodyContentRow(__('SKU'), product_sku) }
-                { this.renderItemPrice() }
-                { this.renderMobileBodyContentRow(__('Qty'), this.renderRowQty()) }
-                { this.renderRowSubtotal() }
-                { this.renderEnteredOptionsAsRow() }
-            </tbody>
-        );
-    }
-
     renderDesktopTableRow() {
         const {
             product: {
@@ -409,7 +371,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         const isWithEnteredItems = !!enteredOptions[0]?.items;
 
         return (
-            <>
+            <tbody>
                 <tr
                   block="MyAccountOrderItemsTableRow"
                   elem="RowWrapper"
@@ -428,18 +390,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                     { this.renderDiscountAndRowTotal() }
                 </tr>
                 { this.renderEnteredOptionsAsRow() }
-            </>
+            </tbody>
         );
     }
 
     render() {
-        const { isMobile } = this.props;
-
-        if (!isMobile) {
-            return this.renderDesktopTableRow();
-        }
-
-        return this.renderMobileTableRow();
+        return this.renderDesktopTableRow();
     }
 }
 

@@ -17,10 +17,10 @@
     &-Information {
         display: flex;
         justify-content: space-between;
-        flex-direction: row;
+        flex-direction: column;
 
-        @include mobile {
-            flex-direction: column;
+        @include desktop {
+            flex-direction: row;
         }
     }
 

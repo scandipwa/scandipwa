@@ -17,7 +17,7 @@ import './MyAccountOrderPrint.style';
 /** @namespace Component/MyAccountOrderPrint/Component */
 export class MyAccountOrderPrint extends MyAccountOrder {
     componentDidMount() {
-        window.print();
+        print();
     }
 
     renderOrderIncrementIdAndStatus() {
