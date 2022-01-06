@@ -29,13 +29,11 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({
-});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container */
 export class MyAccountDownloadableTableRowContainer extends PureComponent {
     static propTypes = {
-        showPopup: PropTypes.func.isRequired,
         orderList: OrdersType.isRequired,
         order: DownloadableType.isRequired,
         device: DeviceType.isRequired,
@@ -47,9 +45,9 @@ export class MyAccountDownloadableTableRowContainer extends PureComponent {
     };
 
     onOrderIdClick() {
-        const { order: { id } } = this.props;
+        const { order: { order_id } } = this.props;
 
-        history.push({ pathname: appendWithStoreCode(`${ACCOUNT_ORDER_URL}/${id}`) });
+        history.push({ pathname: appendWithStoreCode(`${ACCOUNT_ORDER_URL}/${order_id}`) });
     }
 
     containerProps() {

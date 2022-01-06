@@ -30,6 +30,11 @@ export const getAddressAdditionalTableFields = (address, countries) => {
             key: 'city',
             label: __('City'),
             source: address
+        },
+        {
+            key: 'vat_id',
+            label: __('VAT Number'),
+            source: address
         }
     ];
 };

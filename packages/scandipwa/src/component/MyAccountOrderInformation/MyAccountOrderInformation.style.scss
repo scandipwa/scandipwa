@@ -82,4 +82,13 @@
         font-weight: 600;
         margin-block-end: 15px;
     }
+
+    &-PaymentMethod {
+        display: flex;
+        flex-direction: column;
+
+        span:not(:last-child) {
+            margin-block-end: 10px;
+        }
+    }
 }
