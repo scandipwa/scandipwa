@@ -75,14 +75,13 @@ export class CartPage extends PureComponent {
                     <span>{ __('subtotal') }</span>
                 </p>
                 <div block="CartPage" elem="Items" aria-label="List of items in cart">
-                    <Loader isLoading={ isCartItemLoading } />
                     { items.map((item) => (
                         <CartItem
                           key={ item.item_id }
                           item={ item }
                           currency_code={ quote_currency_code }
                           onCartItemLoading={ onCartItemLoading }
-                          showLoader={ false }
+                          showLoader={ isCartItemLoading }
                           isEditing
                           updateCrossSellsOnRemove
                         />
