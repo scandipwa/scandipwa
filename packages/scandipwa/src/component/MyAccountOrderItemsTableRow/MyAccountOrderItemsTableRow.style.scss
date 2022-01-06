@@ -11,8 +11,8 @@
 
 .MyAccountOrderItemsTableRow {
     &-Qty {
-        display: flex;
-        flex-direction: column;
+        display: table-cell;
+        vertical-align: top;
 
         span {
             margin-block-end: 5px;
@@ -37,7 +37,9 @@
         font-size: 14px;
 
         td {
-            padding: 16px 10px 15px;
+            padding-block-start: 16px;
+            padding-block-end: 15px;
+            padding-inline: 10px;
 
             &:nth-child(n+3) {
                 text-align: right;
@@ -90,50 +92,52 @@
 
     &-EnteredRow {
         td {
-            margin: 16px 10px 15px;
+            padding-block-start: 0;
+            padding-block-end: 5px;
+            padding-inline: 10px;
 
             &:nth-child(n+3) {
                 text-align: right;
             }
 
-            &:first-child {
-                padding-left: 0;
+            &:first-of-type {
+                padding-inline-start: 20px;
+            }
+        }
+
+        &_isLastOptionItem {
+            td {
+                padding-block-end: 15px;
             }
         }
     }
 
     &-EnteredLabel {
         td {
-            margin-inline-start: 10px;
-            background-color: var(--color-gray);
+            padding: 10px;
 
             @include desktop {
-                margin-inline-start: 0;
+                padding: 5px 20px;
             }
         }
     }
 
     &-OptionLabel {
-        margin: 5px 0;
-
         &:first-child {
             margin-block-start: 0;
         }
 
-        @include desktop {
-            margin-block-start: 15px;
-            margin-block-end: 5px;
-        }
+        margin-block-start: 15px;
+        margin-block-end: 5px;
     }
 
     &-OptionValue {
-        @include desktop {
-            margin-block-end: 5px;
-        }
+        margin-block-end: 5px;
     }
 
     &-OptionValue,
-    &-OptionLabel {
+    &-OptionLabel,
+    &-DownloadableLink {
         margin-inline-start: 10px;
     }
 }

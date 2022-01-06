@@ -33,7 +33,8 @@ export const getPriceRange = (product, price, priceWithoutTax) => {
         final_price: priceCurrencyValue,
         regular_price: priceCurrencyValue,
         final_price_excl_tax: priceCurrencyValueExclTax,
-        regular_price_excl_tax: priceCurrencyValueExclTax
+        regular_price_excl_tax: priceCurrencyValueExclTax,
+        default_final_price_excl_tax: priceCurrencyValueExclTax
     };
 
     return {

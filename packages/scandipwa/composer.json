@@ -16,7 +16,7 @@
         "scandipwa/cms-graphql": "1.4.4",
         "scandipwa/catalog-graphql": "3.2.11",
         "scandipwa/route717": "2.0.2",
-        "scandipwa/performance": "1.5.3",
+        "scandipwa/performance": "1.5.5",
         "scandipwa/customer-graph-ql": "3.1.9",
         "scandipwa/quote-graphql": "2.19.21",
         "scandipwa/wishlist-graphql": "2.0.15",
@@ -28,10 +28,10 @@
         "scandipwa/contact-graphql": "1.0.0",
         "scandipwa/klarna-graphql": "1.1.2",
         "scandipwa/compare-graphql": "1.0.9",
-        "scandipwa/customer-downloadable-graphql": "1.0.3",
+        "scandipwa/customer-downloadable-graphql": "1.0.4",
         "scandipwa/directory-graphql": "1.0.1",
         "scandipwa/product-alerts-graphql": "1.0.0",
-        "scandipwa/sales-graphql": "1.0.3",
+        "scandipwa/sales-graphql": "1.0.4",
         "scandipwa/catalog-customer-graphql": "1.0.0"
     },
     "autoload": {
