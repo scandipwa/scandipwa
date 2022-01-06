@@ -90,8 +90,10 @@ export class MyAccountAddressPopup extends PureComponent {
               clickOutside={ false }
               mix={ { block: 'MyAccountAddressPopup' } }
             >
-                <Loader isLoading={ isLoading } />
-                { this.renderContent() }
+                <div>
+                    <Loader isLoading={ isLoading } />
+                    { this.renderContent() }
+                </div>
             </Popup>
         );
     }

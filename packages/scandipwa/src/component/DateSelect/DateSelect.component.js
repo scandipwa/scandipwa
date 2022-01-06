@@ -17,6 +17,7 @@ import {
     DEFAULT_MONTH_DAYS,
     FIELD_NAME_ATTR,
     FIELD_TYPE_ATTR,
+    HOURS_12H_COUNT,
     HOURS_24H_COUNT,
     MINUTES_COUNT,
     MONTHS_COUNT
@@ -84,8 +85,8 @@ export class DateSelectComponent extends PureComponent {
     getHoursOptions() {
         const { timeFormat } = this.props;
 
-        const maxHours = timeFormat.slice(0, -1);
-        const hoursRange = range(0, +maxHours || HOURS_24H_COUNT);
+        const maxHours = timeFormat === TIME_FORMAT.H12 ? HOURS_12H_COUNT : HOURS_24H_COUNT - 1;
+        const hoursRange = range(timeFormat === TIME_FORMAT.H12 ? 1 : 0, maxHours);
         return hoursRange.map((hours) => ({
             id: hours,
             value: zeroBasedValue(hours),
@@ -94,7 +95,7 @@ export class DateSelectComponent extends PureComponent {
     }
 
     getMinutesOptions() {
-        const minutesRange = range(0, MINUTES_COUNT);
+        const minutesRange = range(0, MINUTES_COUNT - 1);
         return minutesRange.map((minutes) => ({
             id: minutes,
             value: zeroBasedValue(minutes),

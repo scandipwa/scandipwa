@@ -132,6 +132,7 @@ export const customerEmailAndPasswordFields = (props) => {
                 addRequiredTag: true,
                 validateOn: ['onChange'],
                 validationRule: {
+                    inputType: VALIDATION_INPUT_TYPE.email,
                     isRequired: true
                 }
             }

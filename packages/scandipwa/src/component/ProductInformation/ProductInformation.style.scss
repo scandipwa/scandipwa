@@ -66,5 +66,9 @@
 
     &-Description {
         @include default-list;
+
+        @include mobile {
+            line-height: 20px;
+        }
     }
 }

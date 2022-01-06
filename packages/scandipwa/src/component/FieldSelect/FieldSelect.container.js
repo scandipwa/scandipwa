@@ -33,11 +33,13 @@ export class FieldSelectContainer extends PureComponent {
         options: FieldOptionsType.isRequired,
         setRef: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired,
-        noPlaceholder: PropTypes.bool
+        noPlaceholder: PropTypes.bool,
+        changeValueOnDoubleClick: PropTypes.bool
     };
 
     static defaultProps = {
-        noPlaceholder: false
+        noPlaceholder: false,
+        changeValueOnDoubleClick: false
     };
 
     state = {
@@ -91,7 +93,7 @@ export class FieldSelectContainer extends PureComponent {
                 id: `${id}-placeholder`,
                 name: `${id}-placeholder`,
                 label: selectPlaceholder,
-                value: 'default',
+                value: '',
                 sort_order: -100,
                 isPlaceholder: true
             },
@@ -100,11 +102,16 @@ export class FieldSelectContainer extends PureComponent {
     }
 
     handleSelectListOptionClick(option) {
-        const { events: { onChange } = {} } = this.props;
+        const { changeValueOnDoubleClick, events: { onChange } = {} } = this.props;
         const { value, target: { value: targetValue } = {} } = option;
 
-        const fieldValue = !value ? targetValue : option.value;
-        this.fieldRef.value = this.fieldRef.value === value ? 'default' : fieldValue;
+        const fieldValue = value || targetValue || '';
+
+        if (changeValueOnDoubleClick) {
+            this.fieldRef.value = this.fieldRef.value === value ? '' : fieldValue;
+        } else {
+            this.fieldRef.value = fieldValue;
+        }
 
         if (onChange) {
             onChange(fieldValue);
