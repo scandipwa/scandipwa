@@ -16,7 +16,6 @@
     "Add website to your home screen for the full-screen browsing experience!": null,
     "Adding...": "Dodajanje...",
     "Address #%s%s": "Naslov #%s%s",
-    "Address book": "Seznam naslovov",
     "Address details": "Podrobnosti naslova",
     "Already have an account?": "Če že imate račun, se lahko vpišite z vašim E-naslovom.",
     "Applied coupon code: ": "Uporabljen kupon:",
@@ -41,7 +40,6 @@
     "City": "Mesto",
     "Close": null,
     "Complete order": "Zaključi naročilo",
-    "Confirm Account": null,
     "Confirm Account Action": null,
     "Confirm Account Page": null,
     "Confirm account": null,
@@ -58,15 +56,15 @@
     "Create Password": null,
     "Create an account": "Ustvari račun",
     "Create new account": "Ustvari nov račun",
-    "Created at: ": "Ustvarjeno: ",
+
     "Current product price": "Aktualna cena artikla.",
-    "Dashboard": "Nadzorna plošča",
+
     "Date": "Datum",
     "Default %s address": "Privzet naslov",
     "Delete": "Izbriši",
-    "Description: ": "Opis: ",
+
     "Edit address": "Popravi naslov",
-    "Edit customer details": "Uredi podrobnosti računa",
+
     "Edit details": "Uredi podrobnosti",
     "Email": "E-Naslov",
     "Email addresses, separated by commas": null,
@@ -87,14 +85,14 @@
     "Go to Address Book to configure them!": "Pojdi v imenik, za nastavitve",
     "Good": "Vredu",
     "Got it": "OK",
-    "Grand total: ": "Vse skupaj:",
+
     "Guests can not subscribe to the newsletter. You must create an account or login to subscribe.": null,
     "Have a discount code?": "Imate kodo za popust?",
     "Home": "Domov",
     "I agree to terms and conditions": null,
     "If there is an account associated with the provided address you will receive an email with a link to reset your password": "V kolikor je vaš račun povezan z e-naslovom, vam poslali povezavo za ponastavitev vašega gesla",
     "If there is an account associated with the provided address you will receive an email with a link to reset your password.": null,
-    "Image": "Slika",
+
     "Image not found": "Slike ni mogoče najti.",
     "Image not specified": "Slika ni definirana",
     "Incorrect data! Please resolve all field validation errors.": "Nepravilni podatki! Popravite označena polja.",
@@ -108,14 +106,14 @@
     "Maybe later": null,
     "Menu": null,
     "Message": null,
-    "Method: ": "Metoda: ",
+
     "My Account": "Moj Račun",
     "My Account page": "Mein Konto Seite",
     "My account": null,
     "My billing and shipping are the same": "Naslov za račun in dostavo je enak",
-    "My orders": "Moja naročila",
+
     "My profile": "Moj profil",
-    "My wishlist": "Moje želje",
+
     "N/A": "Ni na voljo",
     "Name": "Ime",
     "Name: A to Z": null,
@@ -135,8 +133,8 @@
     "Old product price": "Stara cena",
     "Ooops!": "Ooops!",
     "Order": "Naroči",
-    "Order #%s": "Št.Naročila %s",
-    "Order Total": "Naročilo skupaj",
+
+
     "Order details": "Podrobnosti naročila",
     "Order total": "Naročilo skupaj",
     "Order total:": "Naročilo skupaj:",
@@ -148,7 +146,7 @@
     "Password Change Actions": "Spremenite geslo",
     "Password Change Page": "Spremenite geslo",
     "Password has been successfully updated!": "Vaše geslo je bilo uspešno spremenjeno",
-    "Payment Information": "Informacije plačila",
+
     "Personal Information": "Osebni podatki",
     "Phone number": "Kontaktna številka",
     "Play video": "Predvajaj video",
@@ -160,7 +158,7 @@
     "Postal code": "Poštna koda",
     "Previous page": "Prejšna",
     "Price": "Cena",
-    "Price: ": "Cena:",
+
     "Proceed to billing": "Nadaljuj na blagajno",
     "Product %s thumbnail.": "Predstavna %s slikica.",
     "Product Price": "Cena Artikla",
@@ -169,7 +167,7 @@
     "Product list navigation": "Navigacija artiklov",
     "Products are loading...": "Artikli se nalagajo ...",
     "Purchase Order Number": null,
-    "Quantity": "Količina",
+
     "Rate: ": null,
     "Recommended for you": null,
     "Reload the page": null,
@@ -187,7 +185,7 @@
     "Share Wishlist": null,
     "Shared Wishlist": null,
     "Shipping": "Dostava",
-    "Shipping & Handling Information": "Informacije za dostavo & handling",
+
     "Shipping address": "Naslov za dostavo",
     "Shopping Options": "Možnosti Nakupa",
     "Shopping cart": "Košarica",
@@ -200,13 +198,13 @@
     "Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.": null,
     "State/Province": "Država/Provinca",
     "Status": "Status",
-    "Status: ": "Status: ",
+
     "Street": "Ulica",
     "Street address": "Hišna številka",
     "Submit": "Pošlji",
     "Submit Review": "Oddaj mnenje",
     "Subscribe to newsletter": null,
-    "Subtotal: ": "Vse skupaj: ",
+
     "Summary": "Skupaj",
     "Tap:": null,
     "Tax": "Davek",
@@ -254,7 +252,7 @@
     "Your account is confirmed!": null,
     "Your order # is: %s": "Vaša številka naročila je: %s",
     "Your password and confirmation password do not match.": "Vaše geslo se ne ujema.",
-    "Your password was successfully updated!": "Vaše geslo je bilo uspešno posodobljeno.",
+
     "billing": "Račun",
     "item": "Artikel",
     "save %s%": null,
@@ -277,7 +275,7 @@
     "Product Compare": null,
     "Compare": null,
     "items": null,
-    "My downloadable": null,
+
     "Please add at least one product to cart!": null,
     "Your account has been created successfully!": null,
     "Transactional [default state + hover]": null,
@@ -428,7 +426,7 @@
     "Your Tax/VAT Number": null,
     "Sign In": null,
     "Retype your password": null,
-    "Coupon code discount: ": null,
+
     "Discount: ": null,
     "The minimum amount you can purchase is %s": null,
     "The maximum amount you can purchase is %s": null,
@@ -543,7 +541,7 @@
     "Radio": null,
     "Breadcrumbs": null,
     "Please fill in all rating fields": null,
-    "Save customer": null,
+
     "My Orders": null,
     "My Downloadable": null,
     "My Wish List": null,
@@ -555,7 +553,7 @@
     "Change Password": null,
     "Your new email": null,
     "Confirm New Password ": null,
-    "Ordered: %s": null,
+
     "Product Name": null,
     "SKU": null,
     "Qty": null,
@@ -563,14 +561,14 @@
     "Subscribe to Order Status": null,
     "Invoices": null,
     "Order Shipments": null,
-    "Print Order": null,
+
     "Refunds": null,
     "Discount Amount": null,
     "Row Total": null,
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
-    "Shipping Methods": null,
+
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -584,14 +582,14 @@
     "Grand Total (Incl.Tax)": null,
     "Grand Total to be Charged": null,
     "Order # %s": null,
-    "Sku": null,
+
     "Product name": null,
-    "Items": null,
-    "Invoice": null,
-    "Shipment": null,
-    "Refund": null,
+
+
+
+
     "Confirm New password": null,
-    "Confirm new password": null,
+
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
@@ -609,6 +607,8 @@
     "Select date": null,
     "Select date & time": null,
     "Select time": null,
+    "Discount (%s)": null,
+    "Purchase Order Number: %s": null,
     "You have not purchased any downloadable products yet.": null,
     "All %s": null
 }

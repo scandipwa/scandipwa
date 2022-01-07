@@ -40,6 +40,8 @@ export class WishlistItem extends PureComponent {
         isEditingActive: PropTypes.bool.isRequired,
         handleSelectIdChange: PropTypes.func.isRequired,
         setQuantity: PropTypes.func.isRequired,
+        minSaleQuantity: PropTypes.number.isRequired,
+        maxSaleQuantity: PropTypes.number.isRequired,
         inStock: PropTypes.bool.isRequired
     };
 
@@ -89,6 +91,8 @@ export class WishlistItem extends PureComponent {
             product: { wishlist: { quantity } },
             changeQuantity,
             setQuantity,
+            minSaleQuantity,
+            maxSaleQuantity,
             inStock
         } = this.props;
 
@@ -99,7 +103,8 @@ export class WishlistItem extends PureComponent {
                   id: 'item_qty',
                   name: 'item_qty',
                   defaultValue: quantity,
-                  min: 1
+                  min: minSaleQuantity,
+                  max: maxSaleQuantity
               } }
               events={ {
                   onChange: (quantity) => {
@@ -287,6 +292,12 @@ export class WishlistItem extends PureComponent {
     }
 
     renderPrice(productPrice) {
+        const { inStock } = this.props;
+
+        if (!inStock) {
+            return null;
+        }
+
         return (
             <div
               block="WishlistItem"
