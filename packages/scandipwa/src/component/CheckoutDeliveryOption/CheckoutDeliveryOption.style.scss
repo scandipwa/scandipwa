@@ -52,15 +52,15 @@
     }
 
     &:hover {
-         &:not(.CheckoutDeliveryOption_isDisabled):not(.CheckoutDeliveryOption_isActive) {
+         &:not(.CheckoutDeliveryOption_isHoverExcluded){
             .input-control {
                 border-color: var(--checkbox-border-color-active);
                 transition-duration: unset;
-                    &::after {
-                        @include desktop {
-                            --checkmark-color: var(--secondary-dark-color);
-                        }
+                &::after {
+                 @include desktop {
+                --checkmark-color: var(--secondary-dark-color);
                     }
+                }
             }
             .CheckoutDeliveryOption-Row * {
                 color: var(--primary-base-color);
