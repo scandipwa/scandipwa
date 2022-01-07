@@ -10,6 +10,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+ @mixin alltags {
+     li,
+     span,
+     div,
+     p,
+     dt,
+     dd,
+     dl {
+         @content
+     }
+ }
+
 .ProductInformation {
     font-size: 14px;
     line-height: 20px;
@@ -23,7 +35,7 @@
     }
 
     &-ExpandableContentContent {
-        line-height: 18px;
+        line-height: 20px;
         text-align: justify;
 
          + div {
@@ -70,7 +82,7 @@
             position: static;
         }
 
-        * :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+        @include alltags {
             line-height: 20px;
         }
     }
