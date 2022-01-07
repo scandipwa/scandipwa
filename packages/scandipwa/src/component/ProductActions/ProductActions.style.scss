@@ -82,6 +82,7 @@
         @include mobile {
             font-weight: normal;
             font-size: 12px;
+            text-align: end;
         }
 
         & + .ProductActions-Sku {
