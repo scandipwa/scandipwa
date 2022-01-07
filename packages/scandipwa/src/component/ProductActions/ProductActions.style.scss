@@ -187,6 +187,10 @@
                 }
             }
         }
+
+        .hideOnScroll & {
+            transform: translateY(var(--footer-nav-height));
+        }
     }
 
     &-AddToCartWrapper {

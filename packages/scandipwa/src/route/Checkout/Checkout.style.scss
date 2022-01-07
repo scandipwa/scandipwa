@@ -44,6 +44,10 @@
             inset-block-end: var(--footer-total-height);
             background-color: var(--color-white);
             padding: 16px;
+
+            .hideOnScroll & {
+                transform: translateY(var(--footer-nav-height));
+            }
         }
 
         .Button {
