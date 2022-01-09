@@ -190,6 +190,10 @@
     &-CompareButtonWrapper {
         margin-inline-start: 35px;
         height: 24px;
+
+        a {
+            all: initial;
+        }
     }
 
     &-CompareCount {
@@ -205,8 +209,17 @@
         justify-content: center;
         align-items: center;
         font-weight: 700;
-        inset-block-start: -22px;
-        inset-inline-end: -12px;
+        font-family: "Muli", sans-serif;
+
+        @include mobile {
+            inset-block-start: -7px;
+            inset-inline-end: -11px;
+        }
+
+        @include desktop {
+            inset-block-start: -10px;
+            inset-inline-end: -12px;
+        }
     }
 
     &-LogoWrapper {
