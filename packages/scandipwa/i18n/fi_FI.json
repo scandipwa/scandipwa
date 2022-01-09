@@ -25,17 +25,15 @@
     "Your password and confirmation password do not match.": "Salasanasi ja vahvistus salasanasi eivät täsmää.",
     "Password Change Page": "Salasanan vaihtosivu",
     "Change password": "Salasanan vaihtaminen",
-    "Dashboard": "Kojelauta",
-    "Address book": "Osoitekirja",
-    "My orders": "Tilaukseni",
-    "My wishlist": "Toivelistani",
+
+
+
     "Newsletter Subscription": "Uutiskirjeen Tilaus",
     "item": "kohde",
     "items": "kohdetta",
     "My account": "Tilini",
     "My Account": "Tilini",
     "Search": "Etsi",
-    "Confirm Account": "Vahvista Tili",
     "Menu": "Valikko",
     "Contact Us": "Ota meihin yhteyttä",
     "Shared Wishlist": "Jaettu toivelista",
@@ -181,11 +179,11 @@
     "Please, select product options!": "Valitse tuotevaihtoehdot!",
     "Please, select required options!": "Valitse vaadittu vaihtoehto!",
     "You must login or register to review products.": "Sinun on kirjauduttava sisään tai rekisteröidyttävä tarkistamaan tuotteita.",
-    "Order #%s": "Tilaus #%s",
-    "Your password was successfully updated!": "Salasanasi päivitys onnistui!",
+
+
     "Edit address": "Muokkaa osoitetta",
     "Confirm delete": "Vahvista poistaminen",
-    "Edit customer details": "Muokkaa asiakastietoja",
+
     "Personal Information": "Henkilökohtaisia Tietoja",
     "First Name": "Etunimi",
     "Last Name": "Sukunimi",
@@ -223,20 +221,20 @@
     "Go to Address Book to configure them!": "Määritä ne siirtymällä Osoitekirjaan!",
     "Use custom address": "Käytä mukautettua osoitetta",
     "Order details": "Tilauksen tiedot",
-    "Created at: ": "Luotu: ",
-    "Status: ": "Tila: ",
-    "Payment Information": "Maksutiedot",
-    "Method: ": "Menetelmä: ",
+
+
+
+
     "Shipping address": "Toimitusosoite",
-    "Shipping & Handling Information": "Toimitus- ja käsittelytiedot",
-    "Description: ": "Kuvaus: ",
-    "Price: ": "Hinta: ",
-    "Image": "Kuva",
-    "Quantity": "Määrä",
+
+
+
+
+
     "Items Ordered": "Tilatut nimikkeet",
-    "Order Total": "Tilauksen kokonaissumma",
-    "Subtotal: ": "Välisumma: ",
-    "Grand total: ": "Loppusumma: ",
+
+
+
     "Load previous": "Lataa edellinen",
     "We are sorry!": "Olemme pahoillamme!",
     "There were no products found matching your request.": "Ei löytynyt tuotteita, jotka vastaavat pyyntöäsi.",
@@ -304,7 +302,7 @@
     "None": null,
     "1 item": null,
     "%s items": null,
-    "My downloadable": null,
+
     "Product Compare": null,
     "Compare": null,
     "Compare Page": null,
@@ -405,7 +403,7 @@
     "Reviews": null,
     "Title": null,
     "Remaining Downloads": null,
-    "Coupon code discount: ": null,
+
     "Discount: ": null,
     "Wishlist has been shared": null,
     "Links:": null,
@@ -554,21 +552,21 @@
     "Change Password": null,
     "Your new email": null,
     "Confirm New Password ": null,
-    "Ordered: %s": null,
+
     "Product Name": null,
     "Qty": null,
     "Reorder": null,
     "Subscribe to Order Status": null,
     "Invoices": null,
     "Order Shipments": null,
-    "Print Order": null,
+
     "Refunds": null,
     "Discount Amount": null,
     "Row Total": null,
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
-    "Shipping Methods": null,
+
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -582,15 +580,15 @@
     "Grand Total (Incl.Tax)": null,
     "Grand Total to be Charged": null,
     "Order # %s": null,
-    "Sku": null,
+
     "Product name": null,
-    "Items": null,
-    "Invoice": null,
-    "Shipment": null,
-    "Refund": null,
+
+
+
+
     "SKU": null,
     "Confirm New password": null,
-    "Confirm new password": null,
+
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
@@ -608,5 +606,8 @@
     "Select date": null,
     "Select date & time": null,
     "Select time": null,
-    "You have not purchased any downloadable products yet.": null
+    "Discount (%s)": null,
+    "Purchase Order Number: %s": null,
+    "You have not purchased any downloadable products yet.": null,
+    "All %s": null
 }

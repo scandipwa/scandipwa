@@ -1,6 +1,10 @@
 .react-datepicker {
   font-size: 14px;
 
+  &-popper {
+    z-index: 10;
+  }
+
   &-wrapper {
     margin-block-start: 8px;
   }
@@ -45,6 +49,10 @@
         background-color: var(--primary-base-color) !important;
       }
     }
+
+    &-list {
+      min-width: fit-content;
+    }
   }
   &-time {
     &__header {
@@ -53,9 +61,15 @@
   }
 
   &__close-icon {
-    position: relative;
-    inset-inline-end: 24px;
-    inset-block-start: -5px;
+    position: absolute;
+    inset-inline-end: 5px;
+    inset-block-start: -3px;
+
+    @include desktop {
+      position: relative;
+      inset-inline-end: 28px;
+      inset-block-start: -5px;
+    }
 
     &:hover {
       &:after {

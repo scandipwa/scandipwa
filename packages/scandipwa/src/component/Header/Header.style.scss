@@ -321,6 +321,10 @@
         line-height: 30px;
         height: 30px;
 
+        @include mobile {
+            line-height: 28px;
+        }
+
         &_isVisible {
             @include mobile {
                 opacity: 1;
@@ -439,6 +443,6 @@
 
     &-MyAccountContainer {
         display: flex;
-        margin-inline-start: auto;
+        margin-inline-start: 40px;
     }
 }

@@ -46,6 +46,10 @@
         margin-block-end: 20px;
     }
 
+    &-PriceLabel {
+        white-space: nowrap;
+    }
+
     &-Radio, &-Checkbox {
         &_customQuantity {
             display: flex;

@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Redirect } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
 import ContentWrapper from 'Component/ContentWrapper';
@@ -16,6 +17,8 @@ import Loader from 'Component/Loader';
 import {
     MyAccountOverlay
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { isSignedIn } from 'Util/Auth';
 
 import './ForgotPassword.style';
 
@@ -97,6 +100,10 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
         const {
             isLoading
         } = this.props;
+
+        if (isSignedIn()) {
+            return <Redirect to={ ACCOUNT_URL } />;
+        }
 
         return (
             <ContentWrapper

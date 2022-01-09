@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/eslint-plugin-scandipwa-guidelines",
     "description": "ESLint plugin used by CSA.",
-    "version": "2.0.32",
+    "version": "2.0.33",
     "keywords": [
         "eslint",
         "eslintplugin",

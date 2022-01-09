@@ -18,10 +18,13 @@
 .ProductPrice {
     color: var(--price-color);
     font-weight: 700;
-    font-size: 24px;
+    font-size: 18px;
+    font-style: normal;
     vertical-align: middle;
-    line-height: 28px;
+    line-height: 24px;
     margin-block-end: 0;
+    margin-block-start: 0;
+    vertical-align: middle;
 
     @include desktop {
         min-height: 40px;
@@ -69,7 +72,6 @@
         &_hasDiscount {
             .ProductPrice {
                 &-PriceBadge {
-                    display: block;
                     margin-block-start: 5px;
                     margin-block-end: -5px;
                 }

@@ -15,7 +15,6 @@
     "Add website to your home screen for the full-screen browsing experience!": null,
     "Adding...": "Lägger till...",
     "Address #%s%s": "Adress #%s%s",
-    "Address book": "Adressbok",
     "Address details": "Adressinformation",
     "Already have an account?": "Om du har ett konto, logga in med din e-postadress.",
     "Applied coupon code: ": null,
@@ -40,7 +39,6 @@
     "City": "Stad",
     "Close": null,
     "Complete order": "Beställ",
-    "Confirm Account": null,
     "Confirm Account Action": null,
     "Confirm Account Page": null,
     "Confirm account": null,
@@ -57,16 +55,16 @@
     "Create Password": null,
     "Create an account": "Skapa ett konto",
     "Create new account": null,
-    "Created at: ": null,
+
     "Current product price": "Aktuellt produktpris",
-    "Dashboard": "Översikt",
+
     "Date": null,
     "Default %s address": "Standardadress",
     "Delete": "Ta bort",
-    "Description: ": null,
+
     "Don't have an account?": "Har du inte ett konto?",
     "Edit address": "Redigera adress",
-    "Edit customer details": "Redigera kontoinformation",
+
     "Edit details": "Redigera detaljer",
     "Email": "E-post",
     "Email addresses, separated by commas": null,
@@ -87,14 +85,14 @@
     "Go to Address Book to configure them!": "Redigera adress",
     "Good": "Bra",
     "Got it": "OK",
-    "Grand total: ": "Grand Total:",
+
     "Guests can not subscribe to the newsletter. You must create an account or login to subscribe.": null,
     "Have a discount code?": "Har du en rabattkod?",
     "Home": "Hem",
     "I agree to terms and conditions": null,
     "If there is an account associated with the provided address you will receive an email with a link to reset your password": "Om det finns ett konto kopplat till den angivna adressen får du ett e-postmeddelande med en länk för att återställa ditt lösenord",
     "If there is an account associated with the provided address you will receive an email with a link to reset your password.": null,
-    "Image": "Bild",
+
     "Image not found": "Bilden finns inte.",
     "Image not specified": "Ingen bild",
     "Incorrect data! Please resolve all field validation errors.": "Felaktiga data! Lös alla fältvalideringsfel.",
@@ -108,14 +106,14 @@
     "Maybe later": null,
     "Menu": null,
     "Message": null,
-    "Method: ": null,
+
     "My Account": "Mitt konto",
     "My Account page": "Sida för Mitt konto",
     "My account": null,
     "My billing and shipping are the same": "Min faktura- och leveransadress är densamma",
-    "My orders": "Mina beställningar",
+
     "My profile": "Mitt konto",
-    "My wishlist": "Min önskelista",
+
     "N/A": "Ej tillgängligt",
     "Name": "Namn",
     "Name: A to Z": null,
@@ -135,8 +133,8 @@
     "Old product price": "Gammalt produktpris",
     "Ooops!": "Ooops!",
     "Order": null,
-    "Order #%s": "Beställ #%s",
-    "Order Total": "Ordersumma",
+
+
     "Order details": "Orderdetaljer",
     "Order total": "Ordersumma",
     "Order total:": "Ordersumma:",
@@ -148,7 +146,7 @@
     "Password Change Actions": "Ändra Lösenord",
     "Password Change Page": "Ändra Lösenord",
     "Password has been successfully updated!": "Du uppdaterade ditt lösenord.",
-    "Payment Information": "Betalinformation",
+
     "Personal Information": "Personlig information",
     "Phone number": "Telefonnummer",
     "Play video": "Spela video",
@@ -160,7 +158,7 @@
     "Postal code": "Postnummer",
     "Previous page": "föregående sida",
     "Price": null,
-    "Price: ": "Pris:",
+
     "Proceed to billing": "Fortsätt till Faktureringsinformation",
     "Product %s thumbnail.": "Produkt %s miniatyrbild.",
     "Product Price": "Produktens pris",
@@ -169,7 +167,7 @@
     "Product list navigation": "Navigering av produktlista",
     "Products are loading...": "Produkter laddar ...",
     "Purchase Order Number": null,
-    "Quantity": "Antal",
+
     "Rate: ": null,
     "Recommended for you": null,
     "Reload the page": null,
@@ -187,7 +185,7 @@
     "Share Wishlist": null,
     "Shared Wishlist": null,
     "Shipping": "Frakt",
-    "Shipping & Handling Information": "Frakt & hantering",
+
     "Shipping address": "Leveransadress",
     "Shopping Options": "Shoppingalternativ",
     "Shopping cart": "Kundvagn",
@@ -200,12 +198,12 @@
     "Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.": null,
     "State/Province": "Län",
     "Status": null,
-    "Status: ": null,
+
     "Street": "Gatuadress",
     "Street address": "Gatuadress",
     "Submit": "Skicka",
     "Submit Review": "Skicka recension",
-    "Subtotal: ": "Delsumma: ",
+
     "Summary": "Översikt",
     "Tap:": null,
     "Tax": "Skatt",
@@ -253,7 +251,7 @@
     "Your account is confirmed!": null,
     "Your order # is: %s": "Ditt ordernummer är: %s",
     "Your password and confirmation password do not match.": "Ditt lösenord och ditt bekräftelseslösenord matchar inte.",
-    "Your password was successfully updated!": "Du uppdaterade ditt lösenord.",
+
     "billing": "Fakturering",
     "item": "Artikel",
     "save %s%": null,
@@ -276,7 +274,7 @@
     "Product Compare": null,
     "Compare": null,
     "items": null,
-    "My downloadable": null,
+
     "Please add at least one product to cart!": null,
     "Your account has been created successfully!": null,
     "Transactional [default state + hover]": null,
@@ -428,7 +426,7 @@
     "Your Tax/VAT Number": null,
     "Sign In": null,
     "Retype your password": null,
-    "Coupon code discount: ": null,
+
     "Discount: ": null,
     "The minimum amount you can purchase is %s": null,
     "The maximum amount you can purchase is %s": null,
@@ -543,7 +541,7 @@
     "Radio": null,
     "Breadcrumbs": null,
     "Please fill in all rating fields": null,
-    "Save customer": null,
+
     "My Orders": null,
     "My Downloadable": null,
     "My Wish List": null,
@@ -562,14 +560,14 @@
     "Subscribe to Order Status": null,
     "Invoices": null,
     "Order Shipments": null,
-    "Print Order": null,
+
     "Refunds": null,
     "Discount Amount": null,
     "Row Total": null,
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
-    "Shipping Methods": null,
+
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -583,14 +581,14 @@
     "Grand Total (Incl.Tax)": null,
     "Grand Total to be Charged": null,
     "Order # %s": null,
-    "Sku": null,
+
     "Product name": null,
-    "Items": null,
-    "Invoice": null,
-    "Shipment": null,
-    "Refund": null,
+
+
+
+
     "Confirm New password": null,
-    "Confirm new password": null,
+
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
@@ -608,5 +606,8 @@
     "Select date": null,
     "Select date & time": null,
     "Select time": null,
-    "You have not purchased any downloadable products yet.": null
+    "Discount (%s)": null,
+    "Purchase Order Number: %s": null,
+    "You have not purchased any downloadable products yet.": null,
+    "All %s": null
 }

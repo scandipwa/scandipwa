@@ -161,6 +161,10 @@ export class CartOverlay extends PureComponent {
     }
 
     renderCouponCode(code) {
+        if (!code) {
+            return null;
+        }
+
         return <strong block="CartOverlay" elem="DiscountCoupon">{ `${code.toUpperCase()}:` }</strong>;
     }
 

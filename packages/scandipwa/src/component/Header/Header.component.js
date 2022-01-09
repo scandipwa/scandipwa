@@ -54,6 +54,7 @@ import {
     CONTACT_US,
     CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE,
+    CUSTOMER_ORDER,
     CUSTOMER_SUB_ACCOUNT,
     CUSTOMER_WISHLIST,
     FILTER,
@@ -155,6 +156,10 @@ export class Header extends NavigationAbstract {
         [CUSTOMER_WISHLIST]: {
             share: true,
             title: true
+        },
+        [CUSTOMER_ORDER]: {
+            title: true,
+            back: true
         },
         [MENU]: {
             search: true
