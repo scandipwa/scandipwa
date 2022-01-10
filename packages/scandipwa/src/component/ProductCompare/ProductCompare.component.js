@@ -56,8 +56,7 @@ export class ProductCompare extends Component {
                       id="scrollerScroll"
                       block="ProductCompare"
                       elem="ScrollerScroll"
-                      // eslint-disable-next-line react/jsx-no-bind
-                      onScroll={ () => handleScroll() }
+                      onScroll={ handleScroll }
                     >
                         <div
                           id="scrollerContent"
@@ -181,8 +180,7 @@ export class ProductCompare extends Component {
             <div
               id="productCompare"
               block="ProductCompare"
-              // eslint-disable-next-line react/jsx-no-bind
-              onScroll={ () => handleBlockScroll() }
+              onScroll={ handleBlockScroll }
             >
                 { this.renderScroll() }
                 <div
