@@ -190,6 +190,36 @@
     &-CompareButtonWrapper {
         margin-inline-start: 35px;
         height: 24px;
+
+        a {
+            all: initial;
+        }
+    }
+
+    &-CompareCount {
+        background: #0A0903;
+        border-radius: 50%;
+        color: var(--color-white);
+        height: 17px;
+        padding: 2px;
+        position: absolute;
+        width: 17px;
+        display: flex;
+        font-size: 11px;
+        justify-content: center;
+        align-items: center;
+        font-weight: 700;
+        font-family: "Muli", sans-serif;
+
+        @include mobile {
+            inset-block-start: -7px;
+            inset-inline-end: -11px;
+        }
+
+        @include desktop {
+            inset-block-start: -10px;
+            inset-inline-end: -12px;
+        }
     }
 
     &-LogoWrapper {
@@ -231,9 +261,9 @@
             position: absolute;
             width: 17px;
             display: flex;
+            font-size: 11px;
             justify-content: center;
             align-items: center;
-            font-size: 80%;
             font-weight: 700;
 
             @include mobile {

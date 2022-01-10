@@ -52,6 +52,15 @@
         }
     }
 
+    &-CompareCountInMenu {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 16px;
+        top: -1px;
+        margin-left: auto;
+    }
+
     &-ExpandedState {
         --plus-minus-icon-size: 18px;
 
