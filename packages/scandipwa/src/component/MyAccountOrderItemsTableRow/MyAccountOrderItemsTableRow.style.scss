@@ -41,8 +41,20 @@
             padding-block-end: 15px;
             padding-inline: 10px;
 
-            &:nth-child(n+3) {
-                text-align: right;
+            @include desktop {
+                &:nth-child(n+3) {
+                    text-align: right;
+                }
+            }
+
+            @include mobile {
+                &::before {
+                    padding-right: 10px;
+                    content: attr(data-th) ': ';
+                    display: inline-block;
+                    color: #111111;
+                    font-weight: 700;
+                }
             }
         }
 
@@ -63,6 +75,10 @@
         @include mobile {
             border-block-end: var(--my-account-content-border);
         }
+
+        @media print {
+            break-inside: avoid;
+        }
     }
 
     &-Row {
@@ -73,12 +89,13 @@
                 strong {
                     vertical-align: top;
                     margin-inline-end: 15px;
+                }
+            }
 
-                    &:first-child {
-                        &::after {
-                            content:":";
-                            display:inline-block;
-                        }
+            &_isOptions {
+                td {
+                    &::before {
+                        content: none;
                     }
                 }
             }
@@ -96,12 +113,12 @@
             padding-block-end: 5px;
             padding-inline: 10px;
 
-            &:nth-child(n+3) {
-                text-align: right;
-            }
-
             &:first-of-type {
                 padding-inline-start: 20px;
+            }
+
+            &:nth-child(n+3) {
+                text-align: right;
             }
         }
 

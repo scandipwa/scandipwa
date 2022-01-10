@@ -18,17 +18,15 @@
     }
 }
 
-.MyAccountOrderPrint {
-    &-Wrapper {
-        * {
-            background-color: #{$white};
-        }
-    }
-}
-
 .MyAccountOrder {
     &-OrderId {
         flex-direction: row;
+    }
+
+    &Totals {
+        &-Wrapper {
+            border-block-start: var(--table-body-border);
+        }
     }
 
     &-OrderStatus {
@@ -86,6 +84,14 @@
 
         &-Title {
             border-block-end: var(--table-body-border);
+        }
+    }
+
+    &Print {
+        &-Wrapper {
+            * {
+                background-color: #{$white};
+            }
         }
     }
 }

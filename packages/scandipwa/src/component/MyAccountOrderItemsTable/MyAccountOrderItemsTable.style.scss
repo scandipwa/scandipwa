@@ -38,6 +38,10 @@
                     }
                 }
             }
+
+            @include mobile {
+                display: block;
+            }
         }
 
         tbody {
@@ -56,9 +60,7 @@
 
             .MyAccountOrderItemsTableRow {
                 &-Row {
-                    @include mobile {
-                        border-block: unset;
-                    }
+                    border-block-start: none;
                 }
 
                 &-EnteredLabel,
@@ -74,12 +76,21 @@
             }
 
             @include mobile {
+                display: block;
+
                 tr {
+                    display: block;
+
                     td {
+                        display: block;
                         width: 100%;
                     }
                 }
             }
+        }
+
+        @include mobile {
+            display: block;
         }
     }
 

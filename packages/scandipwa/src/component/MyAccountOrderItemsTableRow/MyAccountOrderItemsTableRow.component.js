@@ -119,8 +119,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                   block="MyAccountOrderItemsTableRow"
                   elem="Row"
                 >
-                    <td colSpan={ colSpanCount }>
-                        <strong>{ title }</strong>
+                    <td colSpan={ colSpanCount } data-th={ title }>
                         <strong>{ formatPrice(value, currency) }</strong>
                     </td>
                 </tr>
@@ -152,6 +151,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                 <tr
                   block="MyAccountOrderItemsTableRow"
                   elem="Row"
+                  mods={ { isOptions: true } }
                 >
                     <td colSpan={ colSpanCount }>
                         { selectedOptions.map(renderOption) }
@@ -230,19 +230,6 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
             >
                 <strong>{ price }</strong>
             </td>
-        );
-    }
-
-    renderMobileOptionItem(item) {
-        const { product: { product_sale_price: { currency } } } = this.props;
-        const { qty, title, price } = item;
-
-        return (
-            <>
-                { this.renderMobileBodyContentRow(__('Product name'), `${qty} x ${title}`) }
-                { this.renderMobileBodyContentRow(__('SKU'), title) }
-                { this.renderMobileBodyContentRow(__('Price'), formatPrice(price, currency)) }
-            </>
         );
     }
 
@@ -360,7 +347,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderDesktopTableRow() {
+    renderTableRow() {
         const {
             product: {
                 product_sku
@@ -378,11 +365,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                   mods={ { isWithEnteredItems } }
                 >
                     { this.renderNameAndOptions() }
-                    <td>{ product_sku }</td>
+                    <td data-th={ __('SKU') }>{ product_sku }</td>
                     { this.renderItemPrice() }
                     <td
                       block="MyAccountOrderItemsTableRow"
                       elem="Qty"
+                      data-th={ __('Qty') }
                     >
                         { this.renderRowQty() }
                     </td>
@@ -395,7 +383,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
     }
 
     render() {
-        return this.renderDesktopTableRow();
+        return this.renderTableRow();
     }
 }
 
