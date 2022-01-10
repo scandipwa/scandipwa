@@ -167,10 +167,11 @@ export class MyAccountCreateAccount extends PureComponent {
                                   return __('Passwords can\'t be the same as email!');
                               }
 
-                              const counter = !!(value.match(/\d+/))
-                                + !!(value.match(/[a-z]+/))
-                                + !!(value.match(/[A-Z]+/))
-                                + !!(value.match(/[^a-zA-Z0-9]+/));
+                              // Number of different character classes in a password
+                              const counter = Number(/\d+/.test(value))
+                                + Number(/[a-z]+/.test(value))
+                                + Number(/[A-Z]+/.test(value))
+                                + Number(/[^a-zA-Z0-9]+/.test(value));
 
                               if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
                                   return __('Minimum of different classes of characters in password is %s.',

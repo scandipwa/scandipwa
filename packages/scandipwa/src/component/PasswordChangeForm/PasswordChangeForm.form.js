@@ -35,10 +35,11 @@ export const customerEmailAndPasswordFields = () => [
             isRequired: true,
             inputType: VALIDATION_INPUT_TYPE.password,
             match: (value) => {
-                const counter = !!(value.match(/\d+/))
-                  + !!(value.match(/[a-z]+/))
-                  + !!(value.match(/[A-Z]+/))
-                  + !!(value.match(/[^a-zA-Z0-9]+/));
+                // Number of different character classes in a password
+                const counter = Number(/\d+/.test(value))
+                  + Number(/[a-z]+/.test(value))
+                  + Number(/[A-Z]+/.test(value))
+                  + Number(/[^a-zA-Z0-9]+/.test(value));
 
                 return counter >= MIN_CHARACTER_SETS_IN_PASSWORD;
             },
