@@ -312,11 +312,7 @@ export class ProductPrice extends PureComponent {
         } = this.props;
         const { [priceType]: label } = this.priceLabelTypeMap;
 
-        return (
-            <>
-                { this.renderPriceWithOrWithoutTax(minFinalPrice, minFinalPriceExclTax, label) }
-            </>
-        );
+        return this.renderPriceWithOrWithoutTax(minFinalPrice, minFinalPriceExclTax, label);
     }
 
     renderCustomisablePrice() {
@@ -336,11 +332,7 @@ export class ProductPrice extends PureComponent {
 
         const { [priceType]: label } = this.priceLabelTypeMap;
 
-        return (
-            <>
-                { this.renderPriceWithOrWithoutTax(minFinalPrice, minFinalPriceExclTax, label) }
-            </>
-        );
+        return this.renderPriceWithOrWithoutTax(minFinalPrice, minFinalPriceExclTax, label);
     }
 
     renderConfigurablePrice() {
@@ -365,11 +357,7 @@ export class ProductPrice extends PureComponent {
 
         const { [priceType]: label } = this.priceLabelTypeMap;
 
-        return (
-            <>
-                { this.renderPriceWithOrWithoutTax(finalPrice, finalPriceExclTax, label) }
-            </>
-        );
+        return this.renderPriceWithOrWithoutTax(finalPrice, finalPriceExclTax, label);
     }
 
     renderDefaultPrice(defaultLabel = null) {
@@ -391,19 +379,11 @@ export class ProductPrice extends PureComponent {
         const { displayTaxInPrice } = this.props;
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX) {
-            return (
-                <>
-                    { this.renderPrice(basePrice, label) }
-                </>
-            );
+            return this.renderPrice(basePrice, label);
         }
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
-            return (
-                <>
-                    { this.renderPrice(taxPrice, label) }
-                </>
-            );
+            return this.renderPrice(taxPrice, label);
         }
 
         return (
