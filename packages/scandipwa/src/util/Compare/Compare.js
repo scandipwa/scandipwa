@@ -9,7 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import {
+    isSignedIn, ONE_HOUR, ONE_HOUR_IN_SECONDS, TOKEN_REFRESH_DELAY
+} from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { debounce } from 'Util/Request';
+import getStore from 'Util/Store';
 
 /**
  *
@@ -30,7 +35,14 @@ export const ONE_DAY = 86400;
  * @namespace Util/Compare/setUid
  */
 export const setUid = (uid) => {
-    BrowserDatabase.setItem(uid, COMPARE_UID, ONE_DAY);
+    const state = getStore().getState();
+    const {
+        access_token_lifetime = ONE_HOUR
+    } = state.ConfigReducer;
+
+    const uidExpirationTimeInStorage = isSignedIn() ? access_token_lifetime * ONE_HOUR_IN_SECONDS : ONE_DAY;
+
+    BrowserDatabase.setItem(uid, COMPARE_UID, uidExpirationTimeInStorage);
 };
 
 /**
@@ -51,3 +63,9 @@ export const getUid = () => {
 export const removeUid = () => {
     BrowserDatabase.deleteItem(COMPARE_UID);
 };
+
+/** @namespace Util/Compare/refreshUid */
+export const refreshUid = debounce(
+    () => setUid(getUid()),
+    TOKEN_REFRESH_DELAY
+);
