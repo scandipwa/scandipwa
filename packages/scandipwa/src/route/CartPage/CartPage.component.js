@@ -36,15 +36,13 @@ export class CartPage extends PureComponent {
         hasOutOfStockProductsInCart: PropTypes.bool,
         onCouponCodeUpdate: PropTypes.func,
         onCartItemLoading: PropTypes.func,
-        isCartItemLoading: PropTypes.bool,
         device: DeviceType.isRequired
     };
 
     static defaultProps = {
         hasOutOfStockProductsInCart: false,
         onCouponCodeUpdate: noopFn,
-        onCartItemLoading: null,
-        isCartItemLoading: false
+        onCartItemLoading: null
     };
 
     renderCartItems() {
@@ -53,7 +51,6 @@ export class CartPage extends PureComponent {
                 items,
                 quote_currency_code
             },
-            isCartItemLoading,
             onCartItemLoading
         } = this.props;
 
@@ -81,7 +78,7 @@ export class CartPage extends PureComponent {
                           item={ item }
                           currency_code={ quote_currency_code }
                           onCartItemLoading={ onCartItemLoading }
-                          showLoader={ isCartItemLoading }
+                          showLoader
                           isEditing
                           updateCrossSellsOnRemove
                         />

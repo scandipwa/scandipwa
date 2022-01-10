@@ -38,14 +38,12 @@ export class CartOverlay extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         cartDisplaySettings: CartDisplayType.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        onCartItemLoading: PropTypes.func,
-        isCartItemLoading: PropTypes.bool
+        onCartItemLoading: PropTypes.func
     };
 
     static defaultProps = {
         hasOutOfStockProductsInCart: false,
         onCartItemLoading: null,
-        isCartItemLoading: false,
         currencyCode: null,
         cartTotalSubPrice: null
     };
@@ -70,7 +68,6 @@ export class CartOverlay extends PureComponent {
                 items = [],
                 quote_currency_code
             },
-            isCartItemLoading,
             onCartItemLoading
         } = this.props;
 
@@ -86,7 +83,7 @@ export class CartOverlay extends PureComponent {
                       item={ item }
                       currency_code={ quote_currency_code }
                       onCartItemLoading={ onCartItemLoading }
-                      showLoader={ isCartItemLoading }
+                      showLoader
                       isCartOverlay
                     />
                 )) }
