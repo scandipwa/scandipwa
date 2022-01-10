@@ -11,6 +11,7 @@
  */
 
 import { getAuthorizationToken, isSignedIn, refreshAuthorizationToken } from 'Util/Auth';
+import { refreshUid } from 'Util/Compare';
 import { getCurrency } from 'Util/Currency';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
@@ -201,6 +202,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
 
     if (isSignedIn()) {
         refreshAuthorizationToken();
+        refreshUid();
     }
 
     return parseResponse(new Promise((resolve, reject) => {
@@ -240,6 +242,7 @@ export const executePost = (queryObject) => {
 
     if (isSignedIn()) {
         refreshAuthorizationToken();
+        refreshUid();
     }
 
     return parseResponse(postFetch(getGraphqlEndpoint(), query, variables));

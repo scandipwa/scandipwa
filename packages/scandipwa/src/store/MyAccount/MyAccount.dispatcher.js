@@ -30,7 +30,6 @@ import {
 } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteGuestQuoteId, getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
-import { removeUid } from 'Util/Compare';
 import history from 'Util/History';
 import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
@@ -99,7 +98,6 @@ export class MyAccountDispatcher {
 
         deleteGuestQuoteId();
         BrowserDatabase.deleteItem(CUSTOMER);
-        removeUid();
 
         dispatch(updateCustomerSignInStatus(false));
         dispatch(updateCustomerDetails({}));
