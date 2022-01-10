@@ -43,6 +43,12 @@
 
     &-Reorder {
         margin-inline-end: 20px;
+
+        &.Button {
+            &:hover {
+                color: var(--link-hover);
+            }
+        }
     }
 
     &-Reorder,

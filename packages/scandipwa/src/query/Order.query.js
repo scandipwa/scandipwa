@@ -506,6 +506,7 @@ export class OrderQuery {
 
     _getDownloadableFields() {
         return [
+            'order_id',
             'order_increment_id',
             'date',
             'status',

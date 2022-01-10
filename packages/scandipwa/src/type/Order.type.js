@@ -133,7 +133,8 @@ export const OrderType = PropTypes.shape({
 
 export const DownloadableType = PropTypes.shape({
     id: PropTypes.number,
-    order_id: PropTypes.string,
+    order_id: PropTypes.number,
+    order_increment_id: PropTypes.string,
     status_label: PropTypes.string,
     downloads: PropTypes.string,
     download_url: PropTypes.string,
