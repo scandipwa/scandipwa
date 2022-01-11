@@ -70,12 +70,13 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
     };
 
     containerProps() {
-        const { payload } = this.props;
+        const { payload, showErrorNotification } = this.props;
         const { isLoading } = this.state;
 
         return {
             payload,
-            isLoading
+            isLoading,
+            showErrorNotification
         };
     }
 

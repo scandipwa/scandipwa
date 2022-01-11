@@ -31,7 +31,8 @@ export class MyAccountCustomerForm extends FieldForm {
         handlePasswordInput: PropTypes.func.isRequired,
         email: PropTypes.string,
         currentPassword: PropTypes.string,
-        vatNumberRequired: PropTypes.bool.isRequired
+        vatNumberRequired: PropTypes.bool.isRequired,
+        showErrorNotification: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -78,6 +79,7 @@ export class MyAccountCustomerForm extends FieldForm {
 
     get emailAndPasswordFieldMap() {
         const {
+            showErrorNotification,
             showEmailChangeField,
             showPasswordChangeField,
             handlePasswordInput,
@@ -87,6 +89,7 @@ export class MyAccountCustomerForm extends FieldForm {
         } = this.props;
 
         return customerEmailAndPasswordFields({
+            showErrorNotification,
             showEmailChangeField,
             showPasswordChangeField,
             handlePasswordInput,

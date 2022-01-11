@@ -17,6 +17,7 @@ import {
     SHOW_VAT_NUMBER_OPTIONAL,
     SHOW_VAT_NUMBER_REQUIRED
 } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { CustomerType } from 'Type/Account.type';
 
 import MyAccountCustomerForm from './MyAccountCustomerForm.component';
@@ -27,7 +28,9 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/MyAccountCustomerForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (dispatch) => ({
+    showErrorNotification: (error) => dispatch(showNotification('error', error))
+});
 
 /** @namespace Component/MyAccountCustomerForm/Container */
 export class MyAccountCustomerFormContainer extends PureComponent {
@@ -36,6 +39,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
         onSave: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.string.isRequired,
         showEmailChangeField: PropTypes.bool.isRequired,
+        showErrorNotification: PropTypes.func.isRequired,
         showPasswordChangeField: PropTypes.bool.isRequired,
         handleChangeEmailCheckbox: PropTypes.func.isRequired,
         handleChangePasswordCheckbox: PropTypes.func.isRequired
@@ -57,6 +61,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             customer,
             onSave,
             showEmailChangeField,
+            showErrorNotification,
             showPasswordChangeField,
             handleChangeEmailCheckbox,
             handleChangePasswordCheckbox
@@ -69,6 +74,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             showTaxVatNumber: this.getIsShowVatNumber(),
             vatNumberRequired: this.getVatNumberRequired(),
             showEmailChangeField,
+            showErrorNotification,
             showPasswordChangeField,
             handleChangeEmailCheckbox,
             handleChangePasswordCheckbox,

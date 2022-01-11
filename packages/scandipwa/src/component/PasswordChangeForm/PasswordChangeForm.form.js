@@ -13,6 +13,7 @@ import FIELD_TYPE from 'Component/Field/Field.config';
 import {
     MIN_CHARACTER_SETS_IN_PASSWORD
 } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
+import { getNumberOfCharacterClasses } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -20,63 +21,73 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/PasswordChangeForm/Form/customerEmailAndPasswordFields */
-export const customerEmailAndPasswordFields = () => [
-    {
-        type: FIELD_TYPE.password,
-        label: __('New password'),
-        attr: {
-            id: 'password',
-            name: 'password',
-            placeholder: __('Enter your password'),
-            autocomplete: 'new-password'
-        },
-        validateOn: ['onChange'],
-        validationRule: {
-            isRequired: true,
-            inputType: VALIDATION_INPUT_TYPE.password,
-            match: (value) => {
-                // Number of different character classes in a password
-                const counter = Number(/\d+/.test(value))
-                  + Number(/[a-z]+/.test(value))
-                  + Number(/[A-Z]+/.test(value))
-                  + Number(/[^a-zA-Z0-9]+/.test(value));
+export const customerEmailAndPasswordFields = (props) => {
+    const {
+        showNotification
+    } = props;
 
-                return counter >= MIN_CHARACTER_SETS_IN_PASSWORD;
+    return [
+        {
+            type: FIELD_TYPE.password,
+            label: __('New password'),
+            attr: {
+                id: 'password',
+                name: 'password',
+                placeholder: __('Enter your password'),
+                autocomplete: 'new-password'
             },
-            customErrorMessages: {
-                onMatchFail: __('Minimum of different classes of characters in password is %s.',
-                    MIN_CHARACTER_SETS_IN_PASSWORD)
-                    + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.')
+            validateOn: ['onChange', 'onSubmit'],
+            validationRule: {
+                isRequired: true,
+                inputType: VALIDATION_INPUT_TYPE.password,
+                match: (value) => {
+                    if (event.type === 'submit') {
+                        const counter = getNumberOfCharacterClasses(value);
+
+                        if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
+                            showNotification(
+                                'error',
+                                __('Minimum of different classes of characters in password is %s.',
+                                    MIN_CHARACTER_SETS_IN_PASSWORD)
+                                + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.')
+                            );
+
+                            return '';
+                        }
+                    }
+
+                    return true;
+                },
+                range: {
+                    min: 8
+                }
             },
-            range: {
-                min: 8
-            }
+            addRequiredTag: true
         },
-        addRequiredTag: true
-    },
-    {
-        type: FIELD_TYPE.password,
-        label: __('Confirm password'),
-        attr: {
-            id: 'password_confirmation',
-            name: 'password_confirmation',
-            placeholder: __('Retype your password'),
-            autocomplete: 'new-password'
-        },
-        validateOn: ['onChange'],
-        validationRule: {
-            isRequired: true,
-            inputType: VALIDATION_INPUT_TYPE.password,
-            match: (value) => {
-                const password = document.getElementById('password');
-                return password.value === value;
+        {
+            type: FIELD_TYPE.password,
+            label: __('Confirm password'),
+            attr: {
+                id: 'password_confirmation',
+                name: 'password_confirmation',
+                placeholder: __('Retype your password'),
+                autocomplete: 'new-password'
             },
-            customErrorMessages: {
-                onMatchFail: __('Passwords do not match!')
-            }
-        },
-        addRequiredTag: true
-    }
-];
+            validateOn: ['onChange'],
+            validationRule: {
+                isRequired: true,
+                inputType: VALIDATION_INPUT_TYPE.password,
+                match: (value) => {
+                    const password = document.getElementById('password');
+                    return password.value === value;
+                },
+                customErrorMessages: {
+                    onMatchFail: __('Passwords do not match!')
+                }
+            },
+            addRequiredTag: true
+        }
+    ];
+};
 
 export default customerEmailAndPasswordFields;

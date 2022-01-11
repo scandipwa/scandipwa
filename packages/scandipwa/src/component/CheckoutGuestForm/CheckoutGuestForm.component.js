@@ -38,7 +38,8 @@ export class CheckoutGuestForm extends FieldForm {
         isEmailAvailable: PropTypes.bool.isRequired,
         emailValue: PropTypes.string.isRequired,
         signInState: PropTypes.string.isRequired,
-        setSignInState: PropTypes.func.isRequired
+        setSignInState: PropTypes.func.isRequired,
+        showErrorNotification: PropTypes.func.isRequired
     };
 
     // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
@@ -80,7 +81,8 @@ export class CheckoutGuestForm extends FieldForm {
             handleEmailInput,
             handlePasswordInput,
             isCreateUser,
-            emailValue
+            emailValue,
+            showErrorNotification
         } = this.props;
 
         return checkoutGuestForm({
@@ -88,7 +90,8 @@ export class CheckoutGuestForm extends FieldForm {
             emailValue
         }, {
             handleEmailInput,
-            handlePasswordInput
+            handlePasswordInput,
+            showErrorNotification
         });
     }
 

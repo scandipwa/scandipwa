@@ -10,6 +10,10 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
+import {
+    MIN_CHARACTER_SETS_IN_PASSWORD
+} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
+import { getNumberOfCharacterClasses } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -21,7 +25,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  */
 export const checkoutGuestForm = (props, events) => {
     const { emailValue, isCreateUser } = props;
-    const { handleEmailInput, handlePasswordInput } = events;
+    const { handleEmailInput, handlePasswordInput, showErrorNotification } = events;
 
     return [
         {
@@ -56,10 +60,30 @@ export const checkoutGuestForm = (props, events) => {
             events: {
                 onChange: handlePasswordInput
             },
-            validateOn: ['onChange'],
+            validateOn: ['onChange', 'onSubmit'],
             validationRule: {
                 inputType: VALIDATION_INPUT_TYPE.password,
-                isRequired: true
+                isRequired: true,
+                match: (value) => {
+                    if (event.type === 'submit') {
+                        const counter = getNumberOfCharacterClasses(value);
+
+                        if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
+                            showErrorNotification(
+                                __('Minimum of different classes of characters in password is %s.',
+                                    MIN_CHARACTER_SETS_IN_PASSWORD)
+                                + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.')
+                            );
+
+                            return '';
+                        }
+                    }
+
+                    return true;
+                },
+                range: {
+                    min: 8
+                }
             }
         }] : [])
     ];
