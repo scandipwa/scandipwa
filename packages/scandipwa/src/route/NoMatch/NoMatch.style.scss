@@ -12,7 +12,6 @@
 .NoMatch {
     opacity: 0;
     animation: appear 100ms 300ms forwards;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +50,6 @@
         @include mobile {
             font-size: 42px;
             line-height: 64px;
-
         }
     }
 

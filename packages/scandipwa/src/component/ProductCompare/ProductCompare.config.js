@@ -11,3 +11,4 @@
 
 export const MAX_DISPLAY_ITEMS_BEFORE_OVERFLOW = 4;
 export const ATTR_MULTISELECT = 'multiselect';
+export const PRODUCT_COMPARE_FIRST_COLUMN_WIDTH = 330;

@@ -12,9 +12,9 @@
 %loader {
     position: relative;
     width: 40px;
-    height: 23.09px;
+    height: 23px;
     background-color: #fff;
-    margin: 11.55px 0;
+    margin: 12px 0;
     border-inline-start: solid 5px var(--primary-base-color);
     border-inline-end: solid 5px var(--primary-base-color);
     box-sizing: border-box;
@@ -26,33 +26,33 @@
         content: '';
         position: absolute;
         z-index: 1;
-        width: 28.28px;
-        height: 28.28px;
+        width: 28px;
+        height: 28px;
         transform: scaleY(.5774) rotate(-45deg);
         background-color: inherit;
-        inset-inline-start: 0.8579px;
+        inset-inline-start: 1px;
         box-sizing: border-box;
     }
 
     // ltr + rtl adjusted, don't replace 'left' and 'right' here
+
     &::before {
-        top: -14.1421px;
-        border-top: solid 7.0711px var(--primary-base-color);
-        border-right: solid 7.0711px var(--primary-base-color);
+        inset-block-start: -14px;
+        border-top: solid 7px var(--primary-base-color);
+        border-right: solid 7px var(--primary-base-color);
     }
 
     &::after {
-        bottom: -14.1421px;
-        border-bottom: solid 7.0711px var(--primary-base-color);
-        border-left: solid 7.0711px var(--primary-base-color);
+        inset-block-end: -14px;
+        border-bottom: solid 7px var(--primary-base-color);
+        border-left: solid 7px var(--primary-base-color);
     }
 
     span {
         position: absolute;
-        top: 0;
+        inset-block: 0;
         inset-inline-start: 0;
         inset-inline-end: 0;
-        bottom: 0;
         margin: auto;
         width: 18px;
         height: 18px;

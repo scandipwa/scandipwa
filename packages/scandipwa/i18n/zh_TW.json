@@ -16,7 +16,6 @@
     "Add website to your home screen for the full-screen browsing experience!": "將網站添加到您的主屏幕以獲得全屏瀏覽體驗！",
     "Adding...": "新增...",
     "Address #%s%s": "地址 #%s%s",
-    "Address book": "地址簿",
     "Address details": "詳細地址",
     "Already have an account?": "如果您有帳戶，請使用您的電子郵件地址登錄。",
     "Applied coupon code: ": "優惠券代碼：",
@@ -40,7 +39,6 @@
     "Checkout page": "訂單摘要頁面",
     "City": "城市",
     "Complete order": "完成訂單",
-    "Confirm Account": "確認帳號",
     "Confirm Account Action": "確認帳戶操作",
     "Confirm Account Page": "確認帳戶頁面",
     "Confirm account": "確認帳號",
@@ -57,16 +55,16 @@
     "Create Password": "創建密碼",
     "Create an account": "創建一個帳戶",
     "Create new account": "建立新帳戶",
-    "Created at: ": "訂單建立時間:",
+
     "Current product price": "當前產品價格",
-    "Dashboard": "總覽",
+
     "Date": "日期",
     "Default %s address": "預設地址",
     "Delete": "刪除",
-    "Description: ": "描述:",
+
     "Don't have an account?": "還沒有帳號？",
     "Edit address": "編輯地址",
-    "Edit customer details": "編輯客戶詳細信息",
+
     "Edit details": "編輯詳細資料",
     "Email": "Email",
     "Enter personal information": "輸入個人信息",
@@ -86,14 +84,14 @@
     "Go to Address Book to configure them!": "更改地址",
     "Good": "好",
     "Got it": "好",
-    "Grand total: ": "累計:",
+
     "Guests can not subscribe to the newsletter. You must create an account or login to subscribe.": "来宾不能订阅新闻通讯。您必须创建一个帐户或登录才能订阅。",
     "Have a discount code?": "有優惠碼嗎？",
     "Home": "Home",
     "I agree to terms and conditions": "我同意條款和條件",
     "If there is an account associated with the provided address you will receive an email with a link to reset your password": "如果我們的資料庫內有您的email",
     "If there is an account associated with the provided address you will receive an email with a link to reset your password.": "如果我們的資料庫內有您的email",
-    "Image": "圖片",
+
     "Image not found": "找不到圖片",
     "Image not specified": "未指定圖片",
     "Incorrect data! Please resolve all field validation errors.": "數據不正確！ 請解決所有字段驗證錯誤。",
@@ -106,14 +104,14 @@
     "Main product details": "主要產品細節",
     "Maybe later": "也許以後",
     "Menu": "菜單",
-    "Method: ": "方法",
+
     "My Account": "我的帳戶",
     "My Account page": "我的帳戶頁面",
     "My account": "我的帳戶",
     "My billing and shipping are the same": "我的帳單和配送地址相同",
-    "My orders": "我的訂單",
+
     "My profile": "我的帳戶",
-    "My wishlist": "我的收藏",
+
     "N/A": "不適用",
     "Name": "名稱",
     "Name: A to Z": "名稱：A到Z",
@@ -133,8 +131,8 @@
     "Old product price": "舊產品價格",
     "Ooops!": "哎呀！",
     "Order": "訂購",
-    "Order #%s": "訂購 #%s",
-    "Order Total": "訂單總計",
+
+
     "Order details": "訂單詳細信息",
     "Order total": "訂單總計",
     "Order total:": "訂單總計:",
@@ -146,7 +144,7 @@
     "Password Change Actions": "更改密碼",
     "Password Change Page": "密碼更改頁面",
     "Password has been successfully updated!": "密碼已成功更新！",
-    "Payment Information": "付款資訊",
+
     "Personal Information": "個人資訊",
     "Phone number": "電話號碼",
     "Play video": "播放視頻",
@@ -158,7 +156,7 @@
     "Postal code": "郵遞區號",
     "Previous page": "上一頁",
     "Price": "價格",
-    "Price: ": "價格:",
+
     "Proceed to billing": "繼續計費",
     "Product %s thumbnail.": "產品 %s 的縮略圖。",
     "Product Price": "商品價格",
@@ -167,7 +165,7 @@
     "Product list navigation": "產品列表導航",
     "Products are loading...": "產品正在加載中...",
     "Purchase Order Number": "订购单号码",
-    "Quantity": "數量",
+
     "Rate: ": "比率: ",
     "Recommended for you": "為你推薦",
     "Reload the page": "重新載入頁面",
@@ -183,7 +181,7 @@
     "Secure checkout": "安全結帳",
     "Send reset link": "發送重置鏈接",
     "Shipping": "配送",
-    "Shipping & Handling Information": "運費和手續費",
+
     "Shipping address": "配送地址",
     "Shopping Options": "購物選項",
     "Shopping cart": "購物車",
@@ -196,12 +194,12 @@
     "Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.": "抱歉，我們找不到您要尋找的頁面！ 請按下面的按鈕返回首頁。",
     "State/Province": "請輸入州/省。",
     "Status": "狀態",
-    "Status: ": "狀態:",
+
     "Street": "街道地址",
     "Street address": "街道地址",
     "Submit": "提交",
     "Submit Review": "提交評論",
-    "Subtotal: ": "小計:",
+
     "Summary": "摘要",
     "Tap:": "點按",
     "Tax": "稅",
@@ -248,7 +246,7 @@
     "Your account is confirmed!": "您的帳戶已確認！",
     "Your order # is: %s": "您的訂單#是: %s",
     "Your password and confirmation password do not match.": "您的密碼和確認密碼不匹配。",
-    "Your password was successfully updated!": "您的密碼已成功更新！",
+
     "billing": "帳單",
     "item": "項目",
     "save %s%": "保存 %s%",
@@ -273,7 +271,7 @@
     "Product Compare": null,
     "Compare": null,
     "items": null,
-    "My downloadable": null,
+
     "Please add at least one product to cart!": null,
     "Your account has been created successfully!": null,
     "Transactional [default state + hover]": null,
@@ -428,7 +426,7 @@
     "Your Tax/VAT Number": null,
     "Sign In": null,
     "Retype your password": null,
-    "Coupon code discount: ": null,
+
     "Discount: ": null,
     "The minimum amount you can purchase is %s": null,
     "The maximum amount you can purchase is %s": null,
@@ -543,7 +541,7 @@
     "Radio": null,
     "Breadcrumbs": null,
     "Please fill in all rating fields": null,
-    "Save customer": null,
+
     "My Orders": null,
     "My Downloadable": null,
     "My Wish List": null,
@@ -555,7 +553,7 @@
     "Change Password": null,
     "Your new email": null,
     "Confirm New Password ": null,
-    "Ordered: %s": null,
+
     "Product Name": null,
     "SKU": null,
     "Qty": null,
@@ -563,14 +561,14 @@
     "Subscribe to Order Status": null,
     "Invoices": null,
     "Order Shipments": null,
-    "Print Order": null,
+
     "Refunds": null,
     "Discount Amount": null,
     "Row Total": null,
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
-    "Shipping Methods": null,
+
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -584,14 +582,14 @@
     "Grand Total (Incl.Tax)": null,
     "Grand Total to be Charged": null,
     "Order # %s": null,
-    "Sku": null,
+
     "Product name": null,
-    "Items": null,
-    "Invoice": null,
-    "Shipment": null,
-    "Refund": null,
+
+
+
+
     "Confirm New password": null,
-    "Confirm new password": null,
+
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,

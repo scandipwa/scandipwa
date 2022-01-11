@@ -36,9 +36,9 @@
     }
 
     &-Heading {
-        font-size: 24px;
+        font-size: 36px;
         margin-block-end: 12px;
-        margin-block-start: 24px;
+        padding-block-start: 24px;
         text-align: center;
 
         @include mobile {
@@ -64,8 +64,9 @@
             }
         }
     }
+
     &-WarningMsg {
-        padding-top: 20px;
+        padding-block-start: 20px;
         text-align: center;
         color: var(--primary-error-color);
         font-size: 15px;

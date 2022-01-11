@@ -32,9 +32,10 @@
 
         .KeyValueTable-Heading {
             .RadioButtonIcon {
-                float: inline-end;
+                position: absolute;
+                inset-inline-end: 10px;
+                inset-block-start: 12px;
                 display: inline-block;
-                inset-block-start: 3px;
             }
         }
 

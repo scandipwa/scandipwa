@@ -70,6 +70,7 @@
 
         &_isTotal {
             font-size: 16px;
+            line-height: 24px;
             padding-inline-start: 0;
 
             @include desktop {
@@ -79,6 +80,11 @@
             & p {
                 font-size: 16px;
                 font-weight: 700;
+                line-height: 24px;
+            }
+
+            & div {
+                line-height: 24px;
             }
         }
     }
@@ -230,6 +236,9 @@
         text-align: end;
         white-space: nowrap;
 
+        span {
+            line-height: 16px;
+        }
     }
 
     &-AppendedContent {
@@ -251,6 +260,10 @@
             background-color: var(--color-white);
             border-block-start: 1px solid var(--primary-divider-color);
             z-index: 80;
+
+            .hideOnScroll & {
+                transform: translateY(var(--footer-nav-height));
+            }
         }
 
         &_isEmpty {

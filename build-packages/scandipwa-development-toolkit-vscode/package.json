@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"version": "1.0.23",
+	"version": "1.0.24",
 	"name": "scandipwa-development-toolkit-vscode",
 	"publisher": "ScandiPWA",
 	"displayName": "ScandiPWA devtools",
@@ -97,7 +97,10 @@
 			"title": "ScandiPWA",
 			"properties": {
 				"scandipwa.stylePostfix": {
-					"type": ["string", "null"],
+					"type": [
+						"string",
+						"null"
+					],
 					"default": null,
 					"description": "Styles postfix to use when creating style overrides"
 				}
@@ -109,7 +112,7 @@
 		"@babel/parser": "^7.9.6",
 		"@babel/traverse": "^7.9.6",
 		"@babel/types": "^7.9.6",
-		"@scandipwa/scandipwa-development-toolkit-core": "1.0.23",
+		"@scandipwa/scandipwa-development-toolkit-core": "1.0.24",
 		"@tilework/mosaic-dev-utils": "0.0.5"
 	},
 	"devDependencies": {

@@ -15,6 +15,7 @@
 
 .CartItem {
     --header-color: var(--color-black);
+
     border-block-end: 1px solid var(--primary-divider-color);
 
     &-OutOfStock {
@@ -143,6 +144,7 @@
     &-Heading {
         color: var(--color-black);
         overflow: hidden;
+        line-height: 20px;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
@@ -182,6 +184,7 @@
 
         &_isCartOverlay data {
             font-size: 14px;
+            line-height: 20px;
         }
     }
 
@@ -204,6 +207,7 @@
     }
 
     &-Delete {
+        align-items: center;
         display: flex;
         z-index: 5;
         font-size: 14px;
@@ -224,7 +228,8 @@
     }
 
     &-DeleteButtonText {
-        line-height: 24px;
+        color: inherit;
+        line-height: 1.1;
         margin-inline-start: 4px;
         cursor: pointer;
 
@@ -287,7 +292,6 @@
 
     .CartItem-QuantityWrapper {
         &_isCartOverlay {
-
             & button {
                 width: 36px;
                 height: 36px;

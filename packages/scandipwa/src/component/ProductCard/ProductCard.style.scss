@@ -37,8 +37,8 @@
     &:hover {
         @include desktop {
             box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .1),
-            0 6px 16px rgba(0, 0, 0, .1),
-            0 9px 28px 8px rgba(0, 0, 0, .1);
+                0 6px 16px rgba(0, 0, 0, .1),
+                0 9px 28px 8px rgba(0, 0, 0, .1);
             z-index: 4;
 
             .ProductCard-VisibleOnHover {
@@ -46,8 +46,8 @@
                 width: inherit;
                 opacity: 1;
                 box-shadow: 0 3px 6px rgba(0, 0, 0, .1),
-                0 6px 16px rgba(0, 0, 0, .1),
-                0 9px 28px 8px rgba(0, 0, 0, .1);
+                    0 6px 16px rgba(0, 0, 0, .1),
+                    0 9px 28px 8px rgba(0, 0, 0, .1);
                 z-index: -1;
                 display: flex;
                 flex-direction: column;
@@ -215,6 +215,7 @@
     &-Reviews {
         --product-rating-size: 16px;
         --product-rating-background: #ffff;
+
         width: 100%;
         border-radius: 10px;
         letter-spacing: normal;
@@ -343,7 +344,6 @@
     }
 
     &-VisibleOnHover {
-        display: flex;
         flex-direction: column;
         justify-content: flex-end;
         flex-grow: 1;

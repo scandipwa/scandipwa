@@ -21,7 +21,8 @@ import Menu from './Menu.component';
 
 /** @namespace Component/Menu/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    compareTotals: state.ProductCompareReducer.count
 });
 
 /** @namespace Component/Menu/Container/mapDispatchToProps */
@@ -75,13 +76,17 @@ export class MenuContainer extends DataContainer {
     }
 
     containerProps() {
-        const { device } = this.props;
+        const {
+            device,
+            compareTotals
+        } = this.props;
         const { activeMenuItemsStack, menu } = this.state;
 
         return {
             activeMenuItemsStack,
             menu,
-            device
+            device,
+            compareTotals
         };
     }
 

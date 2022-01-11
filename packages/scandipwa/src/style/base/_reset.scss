@@ -141,11 +141,7 @@ main {
     max-width: 100vw;
 
     @include mobile {
-        min-height: calc(
-                100vh
-                - var(--header-total-height)
-                - var(--navigation-tabs-height)
-                + 2 * var(--border-width));
+        min-height: calc(100vh - var(--header-total-height) - var(--navigation-tabs-height) + 2 * var(--border-width));
         margin-block-start: var(--header-total-height);
         margin-block-end: var(--footer-total-height);
     }
@@ -310,9 +306,10 @@ li {
     margin-block-end: 6px;
 
     // override default blue color for lists in Safari since iOS15
-     & * {
-         color: var(--color-black);
-     }
+
+    & * {
+        color: var(--color-black);
+    }
 
     ol & {
         counter-increment: list;

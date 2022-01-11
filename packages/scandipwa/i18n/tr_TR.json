@@ -16,7 +16,6 @@
     "Add website to your home screen for the full-screen browsing experience!": null,
     "Adding...": "Ekleniyor...",
     "Address #%s%s": "Adres #%s%s",
-    "Address book": "Adres Defteri",
     "Address details": "Adres detayları",
     "Already have an account?": "Eğer bir hesabınız varsa, e-posta adresinizle oturum açın.",
     "Applied coupon code: ": null,
@@ -41,7 +40,6 @@
     "City": "Şehir",
     "Close": null,
     "Complete order": "Sipariş Ver",
-    "Confirm Account": null,
     "Confirm Account Action": null,
     "Confirm Account Page": null,
     "Confirm account": null,
@@ -58,16 +56,16 @@
     "Create Password": null,
     "Create an account": "Bir Hesap Oluştur",
     "Create new account": null,
-    "Created at: ": null,
+
     "Current product price": "Mevcut ürün fiyatı",
-    "Dashboard": "Panel",
+
     "Date": null,
     "Default %s address": "Varsayılan Adres",
     "Delete": "Sil",
-    "Description: ": null,
+
     "Don't have an account?": "Hesabınız yok mu?",
     "Edit address": "Adresi Düzenle",
-    "Edit customer details": "Hesap Bilgisini Düzenle",
+
     "Edit details": "Detayları düzenle",
     "Email": "E-posta",
     "Email addresses, separated by commas": null,
@@ -88,14 +86,14 @@
     "Go to Address Book to configure them!": "Adresi Düzenle",
     "Good": "İyi",
     "Got it": "OK",
-    "Grand total: ": "Genel Toplam:",
+
     "Guests can not subscribe to the newsletter. You must create an account or login to subscribe.": null,
     "Have a discount code?": "İndirim kodunuz var mı?",
     "Home": "Ana Sayfa",
     "I agree to terms and conditions": null,
     "If there is an account associated with the provided address you will receive an email with a link to reset your password": "Girilen adresle ilişkilendirilmiş bir hesap varsa, şifrenizi sıfırlamak için link içeren bir e-posta alacaksınız.",
     "If there is an account associated with the provided address you will receive an email with a link to reset your password.": null,
-    "Image": "Resim",
+
     "Image not found": "Resim mevcut değil.",
     "Image not specified": "Resim Yok",
     "Incorrect data! Please resolve all field validation errors.": "Yanlış veri! Lütfen tüm alan doğrulama hatalarını çözün.",
@@ -109,14 +107,14 @@
     "Maybe later": null,
     "Menu": null,
     "Message": null,
-    "Method: ": "Yöntem:",
+
     "My Account": "Hesabım",
     "My Account page": "Hesabım sayfası",
     "My account": null,
     "My billing and shipping are the same": "Fatura ve teslim adresi aynıdır",
-    "My orders": "Siparişlerim",
+
     "My profile": "Hesabım",
-    "My wishlist": "Benim dilek listem",
+
     "N/A": "Mevcut Değil",
     "Name": "Adı",
     "Name: A to Z": null,
@@ -136,8 +134,8 @@
     "Old product price": "Eski ürün fiyatı",
     "Ooops!": "Ooops!",
     "Order": null,
-    "Order #%s": "Sipariş #%s",
-    "Order Total": "Sipariş Toplamı",
+
+
     "Order details": "Sipariş ayrıntıları",
     "Order total": "Sipariş Toplamı",
     "Order total:": "Sipariş Toplamı:",
@@ -149,7 +147,7 @@
     "Password Change Actions": "Şifre Değiştir",
     "Password Change Page": "Şifre Değiştir",
     "Password has been successfully updated!": "Parolanızı güncellediniz.",
-    "Payment Information": "Ödeme Bilgisi",
+
     "Personal Information": "Kişisel Bilgi",
     "Phone number": "Telefon Numarası",
     "Play video": "Video oynatmak",
@@ -161,7 +159,7 @@
     "Postal code": "Posta kodu",
     "Previous page": "önceki sayfa",
     "Price": null,
-    "Price: ": "Fiyat:",
+
     "Proceed to billing": "Fatura Bilgilerine Devam Et",
     "Product %s thumbnail.": "Ürün %s küçük resmi.",
     "Product Price": "Ürün Fiyatı",
@@ -170,7 +168,7 @@
     "Product list navigation": "Ürün listesi navigasyonu",
     "Products are loading...": "Ürünler yükleniyor ...",
     "Purchase Order Number": null,
-    "Quantity": "Miktar",
+
     "Rate: ": null,
     "Recommended for you": null,
     "Reload the page": null,
@@ -188,7 +186,7 @@
     "Share Wishlist": null,
     "Shared Wishlist": null,
     "Shipping": "Kargo",
-    "Shipping & Handling Information": "Teslimat & Teslim Alma",
+
     "Shipping address": "Teslimat Adresi",
     "Shopping Options": "Alışveriş Seçenekleri",
     "Shopping cart": "Alışveriş Sepeti",
@@ -201,12 +199,12 @@
     "Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.": null,
     "State/Province": "Eyalet/Şehir",
     "Status": null,
-    "Status: ": null,
+
     "Street": "Sokak",
     "Street address": "Adres",
     "Submit": "Gönder",
     "Submit Review": "Yorum Gönder",
-    "Subtotal: ": "Ara Toplam: ",
+
     "Summary": "Özet",
     "Tap:": null,
     "Tax": "Vergi",
@@ -254,7 +252,7 @@
     "Your account is confirmed!": null,
     "Your order # is: %s": "Sipariş numaranız: %s",
     "Your password and confirmation password do not match.": "Şifreniz ve onay şifreniz uyuşmuyor.",
-    "Your password was successfully updated!": "Parolanızı güncellediniz.",
+
     "billing": "Fatura",
     "item": "Ürün",
     "save %s%": null,
@@ -277,7 +275,7 @@
     "Product Compare": null,
     "Compare": null,
     "items": null,
-    "My downloadable": null,
+
     "Please add at least one product to cart!": null,
     "Your account has been created successfully!": null,
     "Transactional [default state + hover]": null,
@@ -428,7 +426,7 @@
     "Your Tax/VAT Number": null,
     "Sign In": null,
     "Retype your password": null,
-    "Coupon code discount: ": null,
+
     "Discount: ": null,
     "The minimum amount you can purchase is %s": null,
     "The maximum amount you can purchase is %s": null,
@@ -543,7 +541,7 @@
     "Radio": null,
     "Breadcrumbs": null,
     "Please fill in all rating fields": null,
-    "Save customer": null,
+
     "My Orders": null,
     "My Downloadable": null,
     "My Wish List": null,
@@ -555,7 +553,7 @@
     "Change Password": null,
     "Your new email": null,
     "Confirm New Password ": null,
-    "Ordered: %s": null,
+
     "Product Name": null,
     "SKU": null,
     "Qty": null,
@@ -563,14 +561,14 @@
     "Subscribe to Order Status": null,
     "Invoices": null,
     "Order Shipments": null,
-    "Print Order": null,
+
     "Refunds": null,
     "Discount Amount": null,
     "Row Total": null,
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
-    "Shipping Methods": null,
+
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -584,14 +582,14 @@
     "Grand Total (Incl.Tax)": null,
     "Grand Total to be Charged": null,
     "Order # %s": null,
-    "Sku": null,
+
     "Product name": null,
-    "Items": null,
-    "Invoice": null,
-    "Shipment": null,
-    "Refund": null,
+
+
+
+
     "Confirm New password": null,
-    "Confirm new password": null,
+
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
