@@ -137,9 +137,12 @@ export class CheckoutGuestFormContainer extends PureComponent {
             emailValue,
             isEmailAvailable,
             isLoading,
-            signInState
+            signInState,
+            onSignIn: this.handleOnMyAccountSignIn
         });
     }
+
+    handleOnMyAccountSignIn() {}
 
     onFormError() {
         this.setState({ isLoading: false });
