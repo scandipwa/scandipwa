@@ -26,14 +26,14 @@
                 &-Section {
                     width: 48%;
 
-                    &:nth-child(2) {
+                    @include mobile {
+                        width: 100%;
+                    }
+
+                    &WithSpace {
                         @include mobile {
                             margin-block-start: 16px;
                         }
-                    }
-
-                    @include mobile {
-                        width: 100%;
                     }
                 }
 
