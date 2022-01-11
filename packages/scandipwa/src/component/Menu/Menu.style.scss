@@ -56,8 +56,8 @@
         font-weight: bold;
         font-size: 12px;
         line-height: 16px;
-        top: -1px;
-        margin-left: auto;
+        inset-block-start: -1px;
+        margin-inline-start: auto;
     }
 
     &-ExpandedState {
