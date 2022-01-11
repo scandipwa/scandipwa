@@ -18,7 +18,7 @@
     &-PriceLabel {
         white-space: nowrap;
     }
-    
+
     &-Wrapper {
         margin-block-start: 26px;
 
@@ -115,6 +115,12 @@
         &Bold {
             font-size: 14px;
             font-weight: bold;
+
+            .ProductCustomizableItem {
+                &-Label {
+                    display: inline-block;
+                }
+            }
         }
 
         &Price {
