@@ -58,13 +58,17 @@
     "Create account": "Crea account",
     "Create an account": "Crea un Account",
     "Create new account": "Crea nuovo account",
+
     "Current product price": "Prezzo attuale del prodotto",
+
     "Date": "Data",
     "Default %s address": "Indirizzo predefinito",
     "Delete": "Elimina",
+
     "Dismiss": "Annulla",
     "Don't have an account?": "Non hai un account?",
     "Edit address": "Modifica l'indirizzo",
+
     "Edit details": "Modifica i dettagli",
     "Email": "Email",
     "Email addresses, separated by commas": "Indirizzi email, separati da virgola",
@@ -86,12 +90,14 @@
     "Go to Address Book to configure them!": "Modifica l'indirizzo",
     "Good": "Buono",
     "Got it": "OK",
+
     "Guests can not subscribe to the newsletter. You must create an account or login to subscribe.": "Gli ospiti non possono iscriversi alla newsletter. Devi creare un account o effettuare il login per iscriverti.",
     "Have a discount code?": "Hai un codice sconto?",
     "Home": "Home",
     "I agree to terms and conditions": "Accetto i termini e condizioni",
     "If there is an account associated with the provided address you will receive an email with a link to reset your password": "Se è presente un account associato all'indirizzo fornito, riceverai un'email con un link per reimpostare la password",
     "If there is an account associated with the provided address you will receive an email with a link to reset your password.": "Se è presente un account associato all'indirizzo fornito, riceverai un'email con un link per reimpostare la password.",
+
     "Image not found": "L'immagine non esiste.",
     "Image not specified": "Nessuna immagine",
     "Incorrect data! Please resolve all field validation errors.": "Dati errati! Risolvi tutti gli errori di convalida del campo.",
@@ -105,11 +111,14 @@
     "Maybe later": "Forse più tardi",
     "Menu": "Menù",
     "Message": "Messaggio",
+
     "My Account": "Il mio Account",
     "My Account page": "Pagina Il mio account",
     "My account": "Il mio Account",
     "My billing and shipping are the same": "Gli indirizzi di spedizione e di fatturazione coincidono",
+
     "My profile": "Il mio Account",
+
     "N/A": "N/D",
     "Name": "Nome",
     "Name: A to Z": "Nome: dalla A alla Z",
@@ -129,6 +138,8 @@
     "Old product price": "Prezzo del vecchio prodotto",
     "Ooops!": "Ooops!",
     "Order": "Ordine",
+
+
     "Order details": "Dettagli dell'ordine",
     "Order total": "Totale ordine",
     "Order total:": "Totale ordine:",
@@ -140,6 +151,7 @@
     "Password Change Actions": "Cambia Password",
     "Password Change Page": "Cambia Password",
     "Password has been successfully updated!": "Hai aggiornato la tua password.",
+
     "Personal Information": "Informazioni personali",
     "Phone number": "Numero di telefono",
     "Play video": "Riproduci video",
@@ -152,6 +164,7 @@
     "Postal code": "Codice postale",
     "Previous page": "pagina precedente",
     "Price": "Prezzo",
+
     "Proceed to billing": "Continua alle informazioni di fatturazione",
     "Product %s thumbnail.": "Miniatura del prodotto %s.",
     "Product Price": "Prezzo del prodotto",
@@ -161,6 +174,7 @@
     "Product list navigation": "Navigazione elenco prodotti",
     "Products are loading...": "Caricamento prodotti in corso ...",
     "Purchase Order Number": "Numero dell'ordine d'acquisto",
+
     "Rate: ": "Valutazioni: ",
     "Recommended for you": "Consigliati",
     "Reload the page": "Ricarica la pagina",
@@ -178,6 +192,7 @@
     "Share Wishlist": "Condividi la lista dei desideri",
     "Shared Wishlist": "Lista dei desideri condivisa",
     "Shipping": "Spedizione",
+
     "Shipping address": "Indirizzo di Spedizione",
     "Shopping Options": "Opzioni",
     "Shopping cart": "Carrello",
@@ -190,11 +205,13 @@
     "Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.": "Siamo spiacenti, non riusciamo a trovare la pagina che stai cercando! Per favore premi il bottone qui sotto o torna alla home page",
     "State/Province": "Provincia/Regione",
     "Status": "Stato",
+
     "Street": "Via",
     "Street address": "Indirizzo",
     "Street address line %s": "Indirizzo %s",
     "Submit": "Invia",
     "Submit Review": "Invia recensione",
+
     "Summary": "Riepilogo",
     "Tap:": "Premi",
     "Tax": "Tassa",
@@ -243,6 +260,7 @@
     "Your account is confirmed!": "Il tuo account è stato confermato!",
     "Your order # is: %s": "Il numero d'ordine è: %s",
     "Your password and confirmation password do not match.": "Immetti nuovamente lo stesso valore.",
+
     "billing": "Fatturazione",
     "item": "Oggetto",
     "save %s%": "salva %s%",
@@ -263,6 +281,7 @@
     "Product Compare": null,
     "Compare": null,
     "items": null,
+
     "Transactional [default state + hover]": null,
     "Button text": null,
     "Supportive [default state + hover]": null,
@@ -407,6 +426,7 @@
     "Your Tax/VAT Number": null,
     "Sign In": null,
     "Retype your password": null,
+
     "Discount: ": null,
     "The minimum amount you can purchase is %s": null,
     "The maximum amount you can purchase is %s": null,
@@ -521,6 +541,7 @@
     "Radio": null,
     "Breadcrumbs": null,
     "Please fill in all rating fields": null,
+
     "My Orders": null,
     "My Downloadable": null,
     "My Wish List": null,
@@ -532,6 +553,7 @@
     "Change Password": null,
     "Your new email": null,
     "Confirm New Password ": null,
+
     "Product Name": null,
     "SKU": null,
     "Qty": null,
@@ -539,12 +561,14 @@
     "Subscribe to Order Status": null,
     "Invoices": null,
     "Order Shipments": null,
+
     "Refunds": null,
     "Discount Amount": null,
     "Row Total": null,
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
+
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -558,8 +582,14 @@
     "Grand Total (Incl.Tax)": null,
     "Grand Total to be Charged": null,
     "Order # %s": null,
+
     "Product name": null,
+
+
+
+
     "Confirm New password": null,
+
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
@@ -580,6 +610,5 @@
     "Discount (%s)": null,
     "Purchase Order Number: %s": null,
     "You have not purchased any downloadable products yet.": null,
-    "All %s": null,
-    "Please specify product option(s)!": null
+    "All %s": null
 }
