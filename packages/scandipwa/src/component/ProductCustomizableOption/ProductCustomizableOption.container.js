@@ -18,7 +18,7 @@ import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionsToSelectTransform, nonRequiredRadioOptions } from 'Util/Product/Transform';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
-import { CONFIG_FIELD_TYPE, NONE_RADIO_OPTION } from './ProductCustomizableOption.config';
+import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
 
 /** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -86,24 +86,6 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             currencyCode,
             fieldType: this.getFieldType()
         };
-    }
-
-    getOptions(type) {
-        const { options, isRequired } = this.props;
-
-        if (type !== CONFIG_FIELD_TYPE.radio || isRequired) {
-            return options;
-        }
-
-        const hasDefault = options.find(({ is_default }) => is_default);
-
-        return [
-            {
-                ...NONE_RADIO_OPTION,
-                is_default: !hasDefault
-            },
-            ...options
-        ];
     }
 
     render() {
