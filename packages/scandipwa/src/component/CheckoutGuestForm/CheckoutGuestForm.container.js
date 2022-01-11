@@ -129,7 +129,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
     }
 
     containerProps() {
-        const { emailValue, isEmailAvailable } = this.props;
+        const { emailValue, isEmailAvailable, onSignIn } = this.props;
         const { isLoading, signInState } = this.state;
 
         return ({
@@ -138,11 +138,9 @@ export class CheckoutGuestFormContainer extends PureComponent {
             isEmailAvailable,
             isLoading,
             signInState,
-            onSignIn: this.handleOnMyAccountSignIn
+            onSignIn
         });
     }
-
-    handleOnMyAccountSignIn() {}
 
     onFormError() {
         this.setState({ isLoading: false });
