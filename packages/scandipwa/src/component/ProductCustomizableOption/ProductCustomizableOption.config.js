@@ -25,8 +25,11 @@ export const CONFIG_FIELD_TYPE = {
 
 export const NONE_RADIO_OPTION = {
     title: __('None'),
+    label: __('None'),
     uid: FIELD_RADIO_NONE,
     price: 0,
+    finalOptionPrice: 0,
+    can_change_quantity: false,
     priceInclTax: 0
 };
 

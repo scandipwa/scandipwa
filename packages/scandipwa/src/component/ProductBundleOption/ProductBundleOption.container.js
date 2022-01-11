@@ -14,7 +14,11 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ItemOptionsType } from 'Type/ProductList.type';
-import { bundleOptionsToSelectTransform, getEncodedBundleUid } from 'Util/Product/Transform';
+import {
+    bundleOptionsToSelectTransform,
+    getEncodedBundleUid,
+    nonRequiredRadioOptions
+} from 'Util/Product/Transform';
 
 import ProductBundleOption from './ProductBundleOption.component';
 
@@ -116,7 +120,7 @@ export class ProductBundleOptionContainer extends PureComponent {
             title,
             isRequired,
             type,
-            options,
+            options: nonRequiredRadioOptions(options, isRequired, type),
             updateSelectedValues,
             currencyCode,
             activeSelectUid,

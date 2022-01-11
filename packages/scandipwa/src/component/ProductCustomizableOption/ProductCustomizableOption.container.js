@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import FIELD_TYPE from 'Component/Field/Field.config';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
-import { customizableOptionsToSelectTransform } from 'Util/Product/Transform';
+import { customizableOptionsToSelectTransform, nonRequiredRadioOptions } from 'Util/Product/Transform';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 import { CONFIG_FIELD_TYPE, NONE_RADIO_OPTION } from './ProductCustomizableOption.config';
@@ -72,7 +72,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             isRequired,
             type,
             updateSelectedValues,
-            currencyCode
+            currencyCode,
+            options
         } = this.props;
 
         return {
@@ -80,7 +81,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             title,
             isRequired,
             type,
-            options: this.getOptions(type),
+            options: nonRequiredRadioOptions(options, isRequired, type),
             updateSelectedValues,
             currencyCode,
             fieldType: this.getFieldType()

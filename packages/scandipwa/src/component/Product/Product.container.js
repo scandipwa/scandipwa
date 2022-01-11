@@ -335,9 +335,9 @@ export class ProductContainer extends PureComponent {
         this.updateSelectedValues();
 
         const isValid = validateGroup(this.validator);
+        const { showError } = this.props;
 
         if (isValid !== true && !this.filterAddToCartFileErrors(isValid.values)) {
-            const { showError } = this.props;
             this.validator.scrollIntoView();
             showError(__('Incorrect or missing options!'));
             return;
@@ -346,7 +346,15 @@ export class ProductContainer extends PureComponent {
         const { addProductToCart, cartId } = this.props;
         const products = this.getMagentoProduct();
 
-        await addProductToCart({ products, cartId });
+        await addProductToCart({ products, cartId })
+            .catch(
+                /** @namespace Component/Product/Container/ProductContainer/addToCart/addProductToCart/catch */
+                (error) => {
+                    if (error) {
+                        showError(error);
+                    }
+                }
+            );
     }
 
     /**
