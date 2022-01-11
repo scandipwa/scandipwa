@@ -72,8 +72,8 @@
         @include mobile {
             font-style: normal;
             font-size: 12px;
-            line-height: 18px;
-            margin-block-start: 12px;
+            line-height: 22px;
+            margin-block-start: 8px;
         }
     }
 
@@ -95,20 +95,21 @@
     &-Review {
         order: 2;
         font-weight: 700;
-        color: var(--primary-base-color);
         cursor: pointer;
         inset-block-end: -2px;
         font-size: 14px;
-
-        &:hover {
-            color: var(--primary-dark-color);
-        }
 
         @include mobile {
             inset-block-end: 0;
         }
 
         &Text {
+            color: var(--primary-base-color);
+
+            &:hover {
+                color: var(--primary-dark-color);
+            }
+
             &_isNotSafariOrIos {
                 @include mobile {
                     vertical-align: -webkit-baseline-middle;
