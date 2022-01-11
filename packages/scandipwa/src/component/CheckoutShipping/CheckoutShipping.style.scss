@@ -10,26 +10,26 @@
  */
 
 .Checkout {
-  .CheckoutShipping {
-    &-Button {
-      @include desktop {
-        width: 294px;
-      }
+    .CheckoutShipping {
+        &-Button {
+            @include desktop {
+                width: 294px;
+            }
 
-      @include mobile {
-        width: 100%;
-      }
+            @include mobile {
+                width: 100%;
+            }
+        }
     }
-  }
 
-  &-TotalValue {
-    text-align: end;
-  }
+    &-TotalValue {
+        text-align: end;
+    }
 
-  &-SubPrice {
-    white-space: nowrap;
-    display: block;
-    font-weight: 400;
-    font-size: 12px;
-  }
+    &-SubPrice {
+        white-space: nowrap;
+        display: block;
+        font-weight: 400;
+        font-size: 12px;
+    }
 }

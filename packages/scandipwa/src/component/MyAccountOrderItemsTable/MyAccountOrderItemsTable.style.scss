@@ -34,7 +34,7 @@
             tr {
                 th, td {
                     &:nth-child(n+3) {
-                        text-align: right;
+                        text-align: end;
                     }
                 }
             }

@@ -57,6 +57,7 @@ button {
     background-color: transparent;
 
     // override default blue color for lists in Safari since iOS15
+
     & * {
         color: var(--color-black);
     }

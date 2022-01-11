@@ -22,12 +22,12 @@
 
             th, td {
                 @include desktop {
-                    text-align: right;
+                    text-align: end;
                 }
             }
 
             td {
-                text-align: right;
+                text-align: end;
             }
         }
     }

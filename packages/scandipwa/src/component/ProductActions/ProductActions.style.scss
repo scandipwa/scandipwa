@@ -56,7 +56,7 @@
         line-height: 20px;
         margin-block: 16px;
 
-        div[itemprop="description"] li:before{
+        div[itemprop="description"] li::before {
             position: static;
         }
     }
@@ -223,6 +223,7 @@
                 inset-block-end: 0;
             }
         }
+
         .Field-ErrorMessages {
             position: absolute;
         }
@@ -241,7 +242,7 @@
 
                 input {
                     min-width: 36px;
-                };
+                }
             }
         }
 
