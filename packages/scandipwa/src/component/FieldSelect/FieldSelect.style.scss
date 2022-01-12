@@ -73,16 +73,16 @@ $select-arrow-width: 14px !default;
 
         // Firefox support
         /* stylelint-disable-next-line declaration-no-important */
-        scrollbar-width: none !important;
+        scrollbar-width: 10px !important;
         /* stylelint-disable-next-line declaration-no-important */
-        scrollbar-color: none !important;
+        scrollbar-color: gray !important;
 
         &::-webkit-scrollbar {
-            display: none;
+            display: auto;
         }
 
         &::-webkit-scrollbar-thumb {
-            display: none;
+            display: auto;
         }
 
         &_isExpanded {
@@ -93,6 +93,11 @@ $select-arrow-width: 14px !default;
                 overflow-y: auto;
                 background-color: #{$white};
             }
+        }
+
+        &_openUpDirection {
+            inset-block-start: auto;
+            inset-block-end: 100%;
         }
     }
 

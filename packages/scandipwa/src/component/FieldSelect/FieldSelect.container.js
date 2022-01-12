@@ -45,7 +45,8 @@ export class FieldSelectContainer extends PureComponent {
     state = {
         valueIndex: -1,
         searchString: '',
-        isExpanded: false
+        isExpanded: false,
+        openUpDirection: false
     };
 
     containerFunctions = {
@@ -128,6 +129,7 @@ export class FieldSelectContainer extends PureComponent {
         if (!this.isSelectDisabled()) {
             this.setState(({ isExpanded }) => ({ isExpanded: !isExpanded }));
         }
+        this.handleOpenDirection();
     }
 
     handleSelectExpandedExpand() {
@@ -236,6 +238,19 @@ export class FieldSelectContainer extends PureComponent {
         }
     }
 
+    handleOpenDirection() {
+        const windowHeight = document.documentElement.clientHeight;
+        const rect = this.fieldRef.getBoundingClientRect();
+        const bottomPosition = Math.round(windowHeight - rect.bottom);
+        const minimunDistance = 200;
+
+        if (bottomPosition < minimunDistance) {
+            this.setState({ openUpDirection: true });
+        } else {
+            this.setState({ openUpDirection: false });
+        }
+    }
+
     containerProps() {
         const {
             attr: {
@@ -250,7 +265,7 @@ export class FieldSelectContainer extends PureComponent {
             isDisabled
         } = this.props;
 
-        const { isExpanded } = this.state;
+        const { isExpanded, openUpDirection } = this.state;
 
         return {
             attr: {
@@ -261,6 +276,7 @@ export class FieldSelectContainer extends PureComponent {
             setRef,
             isDisabled,
             isExpanded,
+            openUpDirection,
             options: this.getOptions()
         };
     }
