@@ -15,6 +15,7 @@ export const REMOVE_COMPARED_PRODUCT = 'REMOVE_COMPARED_PRODUCT';
 export const CLEAR_COMPARED_PRODUCTS = 'CLEAR_COMPARED_PRODUCTS';
 export const SET_COMPARED_PRODUCT_IDS = 'SET_COMPARED_PRODUCT_IDS';
 export const ADD_COMPARED_PRODUCT_ID = 'ADD_COMPARED_PRODUCT_ID';
+export const UPDATE_COMPARE_TOTALS = 'UPDATE_COMPARE_TOTALS';
 
 /** @namespace Store/ProductCompare/Action/toggleLoader */
 export const toggleLoader = (isLoading) => ({
@@ -49,4 +50,10 @@ export const setCompareListIds = (productIds) => ({
 export const addComparedProductIds = (productId) => ({
     type: ADD_COMPARED_PRODUCT_ID,
     productId
+});
+
+/** @namespace Store/ProductCompare/Action/updateCompareTotals */
+export const updateCompareTotals = (compareTotals) => ({
+    type: UPDATE_COMPARE_TOTALS,
+    compareTotals
 });

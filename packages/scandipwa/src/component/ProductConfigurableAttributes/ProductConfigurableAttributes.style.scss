@@ -51,7 +51,7 @@
         height: var(--option-size);
         width: var(--option-size);
         margin-block: var(--option-margin-block);
-        margin-inside: var(--option-margin-inline);
+        margin-inline: var(--option-margin-inline);
     }
 
     &-Expandable:first-of-type {

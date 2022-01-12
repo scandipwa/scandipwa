@@ -82,11 +82,9 @@
 @mixin ios-plus {
     $color-storm-grey: #7b7b86;
 
-    background:
-        linear-gradient($white, $white),
+    background: linear-gradient($white, $white),
         linear-gradient($white, $white),
         $color-storm-grey;
-
     background-position: center;
     background-repeat: no-repeat;
     background-size: 52% 1px, 1px 48%;

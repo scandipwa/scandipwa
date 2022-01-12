@@ -15,6 +15,7 @@
 
 .CartItem {
     --header-color: var(--color-black);
+
     border-block-end: 1px solid var(--primary-divider-color);
 
     &-OutOfStock {
@@ -183,6 +184,7 @@
 
         &_isCartOverlay data {
             font-size: 14px;
+            line-height: 20px;
         }
     }
 
@@ -226,7 +228,8 @@
     }
 
     &-DeleteButtonText {
-        line-height: 20px;
+        color: inherit;
+        line-height: 1.1;
         margin-inline-start: 4px;
         cursor: pointer;
 
@@ -289,7 +292,6 @@
 
     .CartItem-QuantityWrapper {
         &_isCartOverlay {
-
             & button {
                 width: 36px;
                 height: 36px;

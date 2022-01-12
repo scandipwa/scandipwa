@@ -34,7 +34,8 @@
         .ChevronIcon {
             display: none;
         }
-        :link{
+
+        :link {
             pointer-events: none;
         }
     }
@@ -49,5 +50,13 @@
         display: inline-block;
         font-weight: 400;
         font-size: 12px;
+
+        &:hover {
+            color: var(--link-color);
+        }
+
+        span {
+            color: inherit;
+        }
     }
 }

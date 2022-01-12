@@ -12,6 +12,7 @@
 import { updateCustomerSignInStatus } from 'Store/MyAccount/MyAccount.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteGuestQuoteId } from 'Util/Cart';
+import { removeUid } from 'Util/Compare';
 import { debounce } from 'Util/Request';
 import getStore from 'Util/Store';
 
@@ -62,10 +63,11 @@ export const isSignedIn = () => {
     const { dispatch } = store;
 
     if (!_isSignedIn && isCustomerSignedIn) {
-        // since logout is async and slow, remove cart id
+        // since logout is async and slow, remove cart id / compare uid
         // and set customer sign in status here on auth token expiration
         deleteGuestQuoteId();
         dispatch(updateCustomerSignInStatus(false));
+        removeUid();
 
         const MyAccountDispatcher = import('../../store/MyAccount/MyAccount.dispatcher');
         MyAccountDispatcher.then(

@@ -20,7 +20,6 @@
     font-weight: 700;
     font-size: 18px;
     font-style: normal;
-    vertical-align: middle;
     line-height: 24px;
     margin-block-end: 0;
     margin-block-start: 0;
@@ -65,14 +64,12 @@
         @include desktop {
             line-height: 28px;
         }
-
     }
 
     &, &-BundleFrom, &-BundleTo {
         &_hasDiscount {
             .ProductPrice {
                 &-PriceBadge {
-                    display: block;
                     margin-block-start: 5px;
                     margin-block-end: -5px;
                 }
