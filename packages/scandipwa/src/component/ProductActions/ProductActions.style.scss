@@ -8,7 +8,8 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-@import "../ProductInformation/ProductInformation.style.scss";
+
+@import "../../style/abstract/abstract";
 
 @keyframes shake {
     10%,
@@ -60,11 +61,9 @@
         div[itemprop="description"] li:before{
             position: static;
         }
+        
+        @include description-tag-line-height
     }
-
-    @include alltags {
-        line-height: 20px;
-    } 
 
     &-Stock {
         font-weight: bold;

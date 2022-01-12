@@ -31,3 +31,15 @@
         }
     }
 }
+
+@mixin description-tag-line-height {
+    li,
+    span,
+    div,
+    p,
+    dt,
+    dd,
+    dl {
+        line-height: 20px;
+    }
+}
