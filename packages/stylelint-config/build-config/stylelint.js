@@ -2,7 +2,7 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 
 module.exports = {
     plugin: {
-        overrideCracoConfig: async ({
+        overrideCracoConfig: ({
             cracoConfig
         }) => {
             cracoConfig.webpack.plugins.push(new StylelintPlugin({
