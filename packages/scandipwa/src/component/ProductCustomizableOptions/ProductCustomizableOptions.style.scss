@@ -117,6 +117,12 @@
         &Bold {
             font-size: 14px;
             font-weight: bold;
+
+            .ProductCustomizableItem {
+                &-Label {
+                    display: inline-block;
+                }
+            }
         }
 
         &Price {
