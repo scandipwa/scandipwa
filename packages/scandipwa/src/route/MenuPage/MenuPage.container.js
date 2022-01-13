@@ -19,7 +19,7 @@ import Menu from 'Component/Menu';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { HistoryType } from 'Type/Router.type';
+import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 /** @namespace Route/MenuPage/Container/mapStateToProps */
@@ -37,7 +37,6 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MenuPageContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
-        history: HistoryType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired
     };
@@ -46,8 +45,7 @@ export class MenuPageContainer extends PureComponent {
         const {
             updateMeta,
             changeHeaderState,
-            isMobile,
-            history
+            isMobile
         } = this.props;
 
         if (isMobile) {
