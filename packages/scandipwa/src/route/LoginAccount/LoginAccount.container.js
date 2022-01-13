@@ -58,7 +58,6 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     }
 
     componentDidMount() {
-        scrollToTop({ behavior: 'smooth' });
         const {
             setHeaderState,
             toggleBreadcrumbs,
@@ -75,6 +74,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
 
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
         toggleBreadcrumbs(false);
+        scrollToTop({ behavior: 'smooth' });
     }
 
     componentDidUpdate(prevProps, prevState) {
