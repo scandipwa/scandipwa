@@ -50,16 +50,18 @@ export class MenuPageContainer extends PureComponent {
             history
         } = this.props;
 
-        updateMeta({ title: __('Menu') });
+        if (isMobile) {
+            updateMeta({ title: __('Menu') });
 
-        if (!isMobile) {
-            history.push(appendWithStoreCode('/'));
+            changeHeaderState({
+                name: MENU,
+                onBackClick: () => history.goBack()
+            });
+
+            return;
         }
 
-        changeHeaderState({
-            name: MENU,
-            onBackClick: () => history.goBack()
-        });
+        history.push(appendWithStoreCode('/'));
     }
 
     render() {
