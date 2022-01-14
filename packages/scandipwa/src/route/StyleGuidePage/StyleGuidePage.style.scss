@@ -149,57 +149,67 @@
         padding-block-end: 8px;
     }
 
-    &-Color{
+    &-Color {
         float: inline-start;
         height: 50px;
         width: 50px;
-        &#primaryBase{
+
+        &#primaryBase {
             background-color: var(--primary-base-color);
         }
-        &#primaryHover{
+
+        &#primaryHover {
             background-color: var(--primary-dark-color);
         }
-        &#primaryHighlight{
+
+        &#primaryHighlight {
             background-color: var(--primary-light-color);
         }
-        &#secondaryBase{
+
+        &#secondaryBase {
             background-color: var(--secondary-base-color);
         }
-        &#secondaryHover{
+
+        &#secondaryHover {
             background-color: var(--secondary-dark-color);
         }
-        &#secondaryHightlight{
+
+        &#secondaryHightlight {
             background-color: var(--secondary-light-color);
         }
-        &#text{
+
+        &#text {
             background-color: var(--color-black);
         }
-        &#error{
+
+        &#error {
             background-color: var(--primary-error-color);
         }
-        &#success{
+
+        &#success {
             background-color: var(--primary-success-color);
         }
-        &#info{
+
+        &#info {
             background-color: var(--primary-info-color);
         }
     }
 
-    &-ColorLabel{
+    &-ColorLabel {
         line-height: 70px;
         margin-inline-start: 20px;
         font-weight: bold;
     }
 
-    &-Mt70{
+    &-Mt70 {
         margin-block-start: 70px;
     }
 
-    &-Mt150{
+    &-Mt150 {
         margin-block-start: 150px;
     }
 
-    &-Select{
+    &-Select {
         min-width: 100%;
         padding-inline-end: 40px;
         width: 100%;
@@ -213,30 +223,30 @@
             opacity: 1;
         }
 
-        &_hasError{
+        &_hasError {
             border: 1px solid var(--primary-error-color);
         }
 
-        &_isValid{
+        &_isValid {
             border: 1px solid var(--primary-success-color);
         }
     }
 
-    &-Text{
-        &_hasError{
+    &-Text {
+        &_hasError {
             border: 1px solid var(--primary-error-color);
         }
 
-        &_isFocused{
+        &_isFocused {
             border: 1px solid var(--input-border-color-focus);
         }
 
-        &_isValid{
+        &_isValid {
             border: 1px solid var(--primary-success-color);
         }
     }
 
-    &-DesktopContentWrapper{
+    &-DesktopContentWrapper {
         border: 1px solid var(--primary-base-color);
         height: 400px;
         display: flex;
@@ -245,7 +255,7 @@
         justify-content: center;
     }
 
-    &-MobileContentWrapper{
+    &-MobileContentWrapper {
         border: 1px solid var(--primary-base-color);
         max-width: 810px;
         padding-inline: 14px;
@@ -256,11 +266,12 @@
         justify-content: center;
     }
 
-    &-HoveredInput#hoveredCheckbox~.input-control, &-HoveredInput#hoveredRadio~.input-control{
+    &-HoveredInput#hoveredCheckbox~.input-control, &-HoveredInput#hoveredRadio~.input-control {
         @include desktop {
             --box-color: var(--secondary-light-color);
 
             border-color: var(--checkbox-border-color-active);
+
             &::after {
                 @include desktop {
                     --checkmark-color: var(--secondary-dark-color);
@@ -269,7 +280,7 @@
         }
     }
 
-    &-ErrorInput#errorCheckbox~.input-control, &-ErrorInput#errorRadio~.input-control{
+    &-ErrorInput#errorCheckbox~.input-control, &-ErrorInput#errorRadio~.input-control {
         border: 1px solid var(--primary-error-color);
     }
 

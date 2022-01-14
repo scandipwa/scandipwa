@@ -30,6 +30,7 @@
 
         .Field {
             color: var(--primary-error-color);
+
             [type="checkbox"], [type="radio"] {
                 + .input-control {
                     border-color: var(--primary-error-color);

@@ -38,7 +38,8 @@ export class CheckoutGuestForm extends FieldForm {
         isEmailAvailable: PropTypes.bool.isRequired,
         emailValue: PropTypes.string.isRequired,
         signInState: PropTypes.string.isRequired,
-        setSignInState: PropTypes.func.isRequired
+        setSignInState: PropTypes.func.isRequired,
+        onSignIn: PropTypes.func.isRequired
     };
 
     // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component

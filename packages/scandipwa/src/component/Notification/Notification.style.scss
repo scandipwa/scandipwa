@@ -26,7 +26,6 @@
     --animation-duration: 0; /* to sync CSS animation and JS callback */
 
     will-change: max-height, opacity, transform, padding, margin;
-
     align-items: center;
     background: var(--notification-background);
     border-radius: 2px;
