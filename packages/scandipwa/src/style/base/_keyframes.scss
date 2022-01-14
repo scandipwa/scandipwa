@@ -26,3 +26,21 @@
 
     to { transform: rotate(360deg); }
 }
+
+@keyframes shake {
+    0% {
+        transform: translateX(0px);
+    }
+
+    25% {
+        transform: translateX(4px);
+    }
+
+    75% {
+        transform: translateX(-4px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}

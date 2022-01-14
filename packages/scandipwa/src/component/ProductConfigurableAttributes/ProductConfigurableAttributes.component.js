@@ -33,6 +33,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         isReady: PropTypes.bool,
         mix: MixType,
         getIsConfigurableAttributeAvailable: PropTypes.func,
+        handleIsOptionUnselected: PropTypes.func,
         handleOptionClick: PropTypes.func.isRequired,
         isSelected: PropTypes.func.isRequired,
         getLink: PropTypes.func.isRequired,
@@ -46,6 +47,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         mix: {},
         numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
         getIsConfigurableAttributeAvailable: () => true,
+        handleIsOptionUnselected: () => false,
         isExpandable: true,
         showProductAttributeAsLink: true
     };
@@ -76,12 +78,14 @@ export class ProductConfigurableAttributes extends PureComponent {
     }
 
     renderSwatch(option) {
+        const { handleIsOptionUnselected } = this.props;
         const { attribute_values, attribute_code } = option;
-
+        const isUnselected = handleIsOptionUnselected(attribute_code);
         return (
             <div
               block="ProductConfigurableAttributes"
               elem="SwatchList"
+              mods={ { isUnselected } }
               key={ attribute_code }
             >
                 { attribute_values.map((attribute_value) => (
@@ -135,16 +139,18 @@ export class ProductConfigurableAttributes extends PureComponent {
         const {
             configurable_options,
             isExpandable,
-            inStock
+            inStock,
+            handleIsOptionUnselected
         } = this.props;
 
         return Object.values(configurable_options).map((option) => {
             const {
                 attribute_label,
                 attribute_options,
-                attribute_id
+                attribute_id,
+                attribute_code
             } = option;
-
+            const isUnselected = handleIsOptionUnselected(attribute_code);
             const [{ swatch_data }] = attribute_options ? Object.values(attribute_options) : [{}];
             const isSwatch = !!swatch_data;
 
@@ -159,7 +165,13 @@ export class ProductConfigurableAttributes extends PureComponent {
 
             return (
                 <div key={ attribute_id }>
-                    <p block="ProductConfigurableAttributes" elem="Title">{ attribute_label }</p>
+                    <p
+                      block="ProductConfigurableAttributes"
+                      elem="Title"
+                      mods={ { isUnselected } }
+                    >
+                            { attribute_label }
+                    </p>
                     { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
                 </div>
             );

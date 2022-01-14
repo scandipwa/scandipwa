@@ -100,14 +100,15 @@ export class ProductContainer extends PureComponent {
         getActiveProduct: this.getActiveProduct.bind(this),
         setActiveProduct: this.updateConfigurableVariant.bind(this),
         getMagentoProduct: this.getMagentoProduct.bind(this),
-        setValidator: this.setValidator.bind(this)
+        setValidator: this.setValidator.bind(this),
+        validateConfigurableProduct: this.validateConfigurableProduct.bind(this)
     };
 
     state = {
         // Used for customizable & bundle options
         enteredOptions: this.setDefaultProductOptions('defaultEnteredOptions', 'enteredOptions'),
         selectedOptions: this.setDefaultProductOptions('defaultSelectedOptions', 'selectedOptions'),
-
+        unselectedOptions: [],
         // Used for downloadable
         downloadableLinks: [],
 
@@ -190,7 +191,11 @@ export class ProductContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { enteredOptions, selectedOptions, downloadableLinks } = this.state;
+        const {
+            enteredOptions,
+            selectedOptions,
+            downloadableLinks
+        } = this.state;
         const {
             enteredOptions: prevEnteredOptions,
             selectedOptions: prevSelectedOptions,
@@ -220,7 +225,12 @@ export class ProductContainer extends PureComponent {
     }
 
     containerProps() {
-        const { quantity, parameters, adjustedPrice } = this.state;
+        const {
+            quantity,
+            parameters,
+            adjustedPrice,
+            unselectedOptions
+        } = this.state;
         const {
             product,
             product: { options = [] } = {},
@@ -247,6 +257,7 @@ export class ProductContainer extends PureComponent {
 
         return {
             isWishlistEnabled,
+            unselectedOptions,
             quantity,
             product,
             configFormRef,
@@ -325,16 +336,33 @@ export class ProductContainer extends PureComponent {
         });
     }
 
+    validateConfigurableProduct() {
+        const {
+            parameters,
+            unselectedOptions
+        } = this.state;
+        const { product: { configurable_options } } = this.props;
+        const newUnselectedOptions = [];
+
+        Object.keys(configurable_options).forEach((key) => {
+            if (!parameters[key] && !unselectedOptions.includes(key)) {
+                newUnselectedOptions.push(key);
+            }
+        });
+        this.setState({ unselectedOptions: newUnselectedOptions });
+        return newUnselectedOptions.length > 0;
+    }
+
     /**
      * Event that validates and invokes product adding into cart
      * @returns {*}
      */
     async addToCart() {
         this.updateSelectedValues();
-
         const isValid = validateGroup(this.validator);
 
-        if (isValid !== true && !this.filterAddToCartFileErrors(isValid.values)) {
+        if ((isValid !== true && !this.filterAddToCartFileErrors(isValid.values))
+            || this.validateConfigurableProduct()) {
             const { showError } = this.props;
             this.validator.scrollIntoView();
             showError(__('Incorrect or missing options!'));

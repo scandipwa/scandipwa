@@ -23,6 +23,12 @@
     &-Title {
         font-weight: 700;
         margin-block: 24px 12px;
+
+        &_isUnselected {
+            animation: var(--shake-animation);
+            animation-duration: 500ms;
+            animation-iteration-count: 2;
+        }
     }
 
     &-SwatchList {
@@ -32,6 +38,12 @@
         align-items: center;
         padding-inline-start: 3px;
         padding-block-start: 3px;
+
+        &_isUnselected {
+            animation: var(--shake-animation);
+            animation-duration: 500ms;
+            animation-iteration-count: 2;
+        }
     }
 
     &-DropDownList {
@@ -54,5 +66,25 @@
 
     &-Expandable.ExpandableContent:last-of-type {
         border-block-end: none;
+    }
+
+   
+
+    @keyframes shake {
+        0% {
+            transform: translateX(0px);
+        }
+    
+        25% {
+            transform: translateX(4px);
+        }
+    
+        75% {
+            transform: translateX(-4px);
+        }
+    
+        100% {
+            transform: translateX(0px);
+        }
     }
 }

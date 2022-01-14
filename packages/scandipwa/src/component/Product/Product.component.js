@@ -56,6 +56,7 @@ export class Product extends PureComponent {
 
         addToCart: PropTypes.func.isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
+        unselectedOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
         setAdjustedPrice: PropTypes.func.isRequired,
         setDownloadableLinks: PropTypes.func.isRequired,
 
@@ -184,7 +185,8 @@ export class Product extends PureComponent {
             setActiveProduct,
             parameters,
             product: { type_id: type, variants = {} },
-            inStock
+            inStock,
+            unselectedOptions
         } = this.props;
 
         if (type !== PRODUCT_TYPE.configurable) {
@@ -205,6 +207,7 @@ export class Product extends PureComponent {
                   updateConfigurableVariant={ setActiveProduct }
                   configurable_options={ this.getConfigurableAttributes() }
                   isContentExpanded
+                  unselectedOptions={ unselectedOptions }
                   inStock={ inStock }
                 />
             </div>

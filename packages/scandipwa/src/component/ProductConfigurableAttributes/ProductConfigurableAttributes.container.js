@@ -36,6 +36,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         isReady: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
         configurable_options: AttributesType.isRequired,
+        unselectedOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
         inStock: PropTypes.bool
     };
 
@@ -55,7 +56,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         getSubHeading: this.getSubHeading.bind(this),
         isSelected: this.isSelected.bind(this),
         getLink: this.getLink.bind(this),
-        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
+        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
+        handleIsOptionUnselected: this.handleIsOptionUnselected.bind(this)
     };
 
     containerProps() {
@@ -68,6 +70,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             parameters,
             showProductAttributeAsLink,
             updateConfigurableVariant,
+            unselectedOptions,
             inStock
         } = this.props;
 
@@ -80,6 +83,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             parameters,
             showProductAttributeAsLink,
             updateConfigurableVariant,
+            unselectedOptions,
             inStock
         };
     }
@@ -119,6 +123,11 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         }
 
         return parameter === attribute_value;
+    }
+
+    handleIsOptionUnselected(attributeCode) {
+        const { unselectedOptions } = this.props;
+        return unselectedOptions.length > 0 && unselectedOptions.includes(attributeCode);
     }
 
     getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {
