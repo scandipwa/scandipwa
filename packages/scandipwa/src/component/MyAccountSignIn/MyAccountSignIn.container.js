@@ -27,7 +27,8 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isEmailAvailable: state.CheckoutReducer.isEmailAvailable
+    isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
+    minimumPasswordLength: state.ConfigReducer.minimum_password_length
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
@@ -49,6 +50,7 @@ export class MyAccountSignInContainer extends PureComponent {
         signIn: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
+        minimumPasswordLength: PropTypes.string.isRequired,
         setLoadingState: PropTypes.func.isRequired,
         emailValue: PropTypes.string,
         isEmailAvailable: PropTypes.bool,
@@ -85,6 +87,7 @@ export class MyAccountSignInContainer extends PureComponent {
             isCheckout,
             setLoadingState,
             emailValue,
+            minimumPasswordLength,
             handleEmailInput
         } = this.props;
 
@@ -96,6 +99,7 @@ export class MyAccountSignInContainer extends PureComponent {
             isCheckout,
             setLoadingState,
             emailValue,
+            minimumPasswordLength,
             handleEmailInput
         };
     }

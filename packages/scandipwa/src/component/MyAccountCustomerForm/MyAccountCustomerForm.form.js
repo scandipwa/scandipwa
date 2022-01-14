@@ -112,6 +112,7 @@ export const customerEmailAndPasswordFields = (props) => {
         handleEmailInput,
         handlePasswordInput,
         currentPassword,
+        minimumPasswordLength,
         email
     } = props;
 
@@ -155,7 +156,14 @@ export const customerEmailAndPasswordFields = (props) => {
                 validateOn: ['onChange'],
                 validationRule: {
                     inputType: VALIDATION_INPUT_TYPE.password,
-                    isRequired: true
+                    isRequired: true,
+                    showErrorAsLabel: true,
+                    customErrorMessages: {
+                        onRangeFailMin: `Password should be at least ${minimumPasswordLength} characters`
+                    },
+                    range: {
+                        min: minimumPasswordLength
+                    }
                 }
             }
         ] : []),
@@ -178,8 +186,13 @@ export const customerEmailAndPasswordFields = (props) => {
                         const password = document.getElementById('currentPassword');
                         return value && password.value !== value;
                     },
+                    showErrorAsLabel: true,
                     customErrorMessages: {
+                        onRangeFailMin: `Password should be at least ${minimumPasswordLength} characters`,
                         onMatchFail: __('New passwords can\'t be the same as old password!')
+                    },
+                    range: {
+                        min: minimumPasswordLength
                     }
                 }
             },

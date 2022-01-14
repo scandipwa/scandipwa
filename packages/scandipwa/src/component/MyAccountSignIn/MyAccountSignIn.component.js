@@ -29,7 +29,8 @@ export class MyAccountSignIn extends PureComponent {
         handleCreateAccount: PropTypes.func.isRequired,
         isCheckout: PropTypes.bool.isRequired,
         state: SignInStateType.isRequired,
-        emailValue: PropTypes.string.isRequired
+        emailValue: PropTypes.string.isRequired,
+        minimumPasswordLength: PropTypes.string.isRequired
     };
 
     renderSignInForm() {
@@ -38,7 +39,8 @@ export class MyAccountSignIn extends PureComponent {
             onFormError,
             handleForgotPassword,
             emailValue,
-            isCheckout
+            isCheckout,
+            minimumPasswordLength
         } = this.props;
 
         return (
@@ -76,7 +78,14 @@ export class MyAccountSignIn extends PureComponent {
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: VALIDATION_INPUT_TYPE.password
+                      inputType: VALIDATION_INPUT_TYPE.password,
+                      showErrorAsLabel: true,
+                      customErrorMessages: {
+                          onRangeFailMin: __(`Password should be at least ${minimumPasswordLength} characters`)
+                      },
+                      range: {
+                          min: minimumPasswordLength
+                      }
                   } }
                   addRequiredTag
                 />

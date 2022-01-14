@@ -35,7 +35,8 @@ export const MyAccountDispatcher = import(
 /** @namespace Route/PasswordChangePage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus,
-    passwordResetMessage: state.MyAccountReducer.passwordResetMessage
+    passwordResetMessage: state.MyAccountReducer.passwordResetMessage,
+    minimumPasswordLength: state.ConfigReducer.minimum_password_length
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
@@ -67,6 +68,7 @@ export class PasswordChangePageContainer extends PureComponent {
             PropTypes.string,
             PropTypes.bool
         ]).isRequired,
+        minimumPasswordLength: PropTypes.string.isRequired,
         passwordResetMessage: PropTypes.string.isRequired,
         resetPassword: PropTypes.func.isRequired,
         location: LocationType.isRequired,
@@ -117,8 +119,12 @@ export class PasswordChangePageContainer extends PureComponent {
 
     containerProps() {
         const { isLoading } = this.state;
+        const { minimumPasswordLength } = this.props;
 
-        return { isLoading };
+        return {
+            isLoading,
+            minimumPasswordLength
+        };
     }
 
     onPasswordSuccess(form, fields) {
