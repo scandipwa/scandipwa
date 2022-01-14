@@ -68,7 +68,7 @@
 
     &-Required {
         color: var(--customizable-options-required-text-color);
-        margin-block-start: 6px;
+        margin-inline-start: 4px;
 
         @include mobile {
             margin-block-start: 7px;
@@ -113,6 +113,8 @@
 
     &-Heading {
         font-size: 14px;
+        width: auto;
+        display: inline-flex;
 
         &Bold {
             font-size: 14px;
@@ -128,6 +130,10 @@
         &Price {
             font-size: 12px;
             font-weight: bold;
+        }
+
+        &>div{
+            width: auto;
         }
     }
 

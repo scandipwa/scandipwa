@@ -283,7 +283,7 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <div block="ProductCustomizableItem" elem="HeadingBold">
                 { title }
-                { isRequired && <strong block="ProductCustomizableItem" elem="Required"> *</strong> }
+                { isRequired && <strong block="ProductCustomizableItem" elem="Required">*</strong> }
             </div>
         );
     }
