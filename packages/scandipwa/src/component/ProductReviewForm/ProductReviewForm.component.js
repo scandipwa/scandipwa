@@ -38,7 +38,8 @@ export class ProductReviewForm extends PureComponent {
             nickname: PropTypes.string,
             summary: PropTypes.string,
             detail: PropTypes.string
-        }).isRequired
+        }).isRequired,
+        missingReview: PropTypes.bool.isRequired
     };
 
     ratingTitleMap = {
@@ -68,6 +69,21 @@ export class ProductReviewForm extends PureComponent {
         );
     }
 
+    renderReviewRatingError(ratingId) {
+        const { ratingData, missingReview } = this.props;
+        const missingReviewMessage = 'This field is required';
+
+        if (missingReview && !Object.keys(ratingData).includes(ratingId)) {
+            return (
+            <div block="ProductReviewForm" elem="ErrorMessage" key={ ratingId }>
+                    { missingReviewMessage }
+            </div>
+            );
+        }
+
+        return null;
+    }
+
     renderReviewRating() {
         const { reviewRatings } = this.props;
 
@@ -82,6 +98,7 @@ export class ProductReviewForm extends PureComponent {
                     { rating_options
                         .sort(({ value }, { value: nextValue }) => nextValue - value)
                         .map((option) => this.renderReviewStar(option, rating_id)) }
+                    { this.renderReviewRatingError(rating_id) }
                 </fieldset>
             );
         });

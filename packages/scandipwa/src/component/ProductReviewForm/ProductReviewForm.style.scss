@@ -82,6 +82,22 @@
         }
     }
 
+    &-Legend::before {
+        content: '*';
+        font-weight: bold;
+        color: var(--required-text-color);
+    }
+    
+    &-ErrorMessage {
+        color: var(--primary-error-color);
+        font-size: 12px;
+        text-align: start;
+    }
+
+    &-ErrorMessage::before {
+        content: '!';
+    }
+
     & &-Button {
         margin-block-start: 12px;
 

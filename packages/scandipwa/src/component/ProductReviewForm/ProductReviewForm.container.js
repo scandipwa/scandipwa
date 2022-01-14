@@ -74,7 +74,8 @@ export class ProductReviewFormContainer extends PureComponent {
             isLoading: false,
             ratingData: {},
             reviewData,
-            isSubmitted: false
+            isSubmitted: false,
+            missingReview: false
         };
     }
 
@@ -84,7 +85,8 @@ export class ProductReviewFormContainer extends PureComponent {
             isLoading,
             ratingData,
             reviewData,
-            isSubmitted
+            isSubmitted,
+            missingReview
         } = this.state;
 
         return {
@@ -92,7 +94,8 @@ export class ProductReviewFormContainer extends PureComponent {
             isSubmitted,
             ratingData,
             reviewData,
-            reviewRatings
+            reviewRatings,
+            missingReview
         };
     }
 
@@ -102,6 +105,7 @@ export class ProductReviewFormContainer extends PureComponent {
 
         if (reviewsAreNotValid) {
             showNotification('info', __('Please fill in all rating fields'));
+            this.setState({ missingReview: true });
         }
 
         this.setState({ isLoading: !reviewsAreNotValid });
@@ -121,6 +125,7 @@ export class ProductReviewFormContainer extends PureComponent {
 
         if (Object.keys(rating_data).length < Object.keys(reviewRatings).length) {
             showNotification('info', __('Please fill in all rating fields'));
+            this.setState({ missingReview: true });
             return;
         }
 
