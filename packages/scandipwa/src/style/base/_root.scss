@@ -31,6 +31,8 @@
     --placeholder-size: 1200px 100%;
     --placeholder-animation: placeholderAnimation 2s linear infinite;
 
+    --shake-animation: shake .5s linear;
+
     // Declare imported primary colors to change the theme's colors
     // "imported_..." variables are set up in Admin panel -> Stores -> Configuration -> Scandipwa -> Color Configuration
     // They have higher priority than "default_..." variables defined in code.

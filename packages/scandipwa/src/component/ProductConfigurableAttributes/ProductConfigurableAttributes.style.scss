@@ -26,7 +26,6 @@
 
         &_isUnselected {
             animation: var(--shake-animation);
-            animation-duration: 500ms;
             animation-iteration-count: 2;
         }
     }
@@ -41,7 +40,6 @@
 
         &_isUnselected {
             animation: var(--shake-animation);
-            animation-duration: 500ms;
             animation-iteration-count: 2;
         }
     }
@@ -66,25 +64,5 @@
 
     &-Expandable.ExpandableContent:last-of-type {
         border-block-end: none;
-    }
-
-   
-
-    @keyframes shake {
-        0% {
-            transform: translateX(0px);
-        }
-    
-        25% {
-            transform: translateX(4px);
-        }
-    
-        75% {
-            transform: translateX(-4px);
-        }
-    
-        100% {
-            transform: translateX(0px);
-        }
     }
 }
