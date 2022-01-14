@@ -19,7 +19,7 @@ import Menu from 'Component/Menu';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { history } from 'Util/Browser';
+import history from 'Util/History';
 
 /** @namespace Route/MenuPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -33,41 +33,42 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/MenuPage/Container */
+
 export class MenuPageContainer extends PureComponent {
-    static propTypes = {
-        updateMeta: PropTypes.func.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
-        isMobile: PropTypes.bool.isRequired
-    };
+     static propTypes = {
+         updateMeta: PropTypes.func.isRequired,
+         changeHeaderState: PropTypes.func.isRequired,
+         isMobile: PropTypes.bool.isRequired
+     };
 
-    componentDidMount() {
-        const {
-            updateMeta,
-            changeHeaderState,
-            isMobile
-        } = this.props;
+     componentDidMount() {
+         const {
+             updateMeta,
+             changeHeaderState,
+             isMobile
+         } = this.props;
 
-        if (isMobile) {
-            updateMeta({ title: __('Menu') });
+         if (isMobile) {
+             updateMeta({ title: __('Menu') });
 
-            changeHeaderState({
-                name: MENU,
-                onBackClick: () => history.goBack()
-            });
+             changeHeaderState({
+                 name: MENU,
+                 onBackClick: () => history.goBack()
+             });
 
-            return;
-        }
+             return;
+         }
 
-        history.push('/');
-    }
+         history.push('/');
+     }
 
-    render() {
-        return (
-            <main block="MenuPage">
-                <Menu />
-            </main>
-        );
-    }
+     render() {
+         return (
+             <main block="MenuPage">
+                 <Menu />
+             </main>
+         );
+     }
 }
 
 export default withRouter(
