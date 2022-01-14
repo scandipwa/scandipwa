@@ -19,8 +19,7 @@ import Menu from 'Component/Menu';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import history from 'Util/History';
-import { appendWithStoreCode } from 'Util/Url';
+import { history } from 'Util/Browser';
 
 /** @namespace Route/MenuPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -55,11 +54,9 @@ export class MenuPageContainer extends PureComponent {
                 name: MENU,
                 onBackClick: () => history.goBack()
             });
-
-            return;
         }
 
-        history.push(appendWithStoreCode('/'));
+        history.push('/');
     }
 
     render() {
