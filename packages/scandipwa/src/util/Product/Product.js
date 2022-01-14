@@ -457,3 +457,24 @@ export const validateProductQuantity = (quantity, stockItem) => {
 
     return [true];
 };
+
+/** @namespace Util/Product/getAttributesWithValues */
+export const getAttributesWithValues = (product) => {
+    const { attributes = {}, parameters = {} } = product;
+
+    return Object.entries(attributes).reduce((acc, [key, val]) => {
+        const { attribute_label, attribute_value } = val;
+
+        if (attribute_value) {
+            return { ...acc, [attribute_label]: val };
+        }
+
+        const valueIndexFromParameter = parameters[key];
+
+        if (valueIndexFromParameter) {
+            return { ...acc, [attribute_label]: { ...val, attribute_value: valueIndexFromParameter } };
+        }
+
+        return acc;
+    }, {});
+};

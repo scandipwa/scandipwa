@@ -43,6 +43,12 @@
 
     &-Reorder {
         margin-inline-end: 20px;
+
+        &.Button {
+            &:hover {
+                color: var(--link-hover);
+            }
+        }
     }
 
     &-Reorder,
@@ -80,6 +86,7 @@
 
         @include mobile {
             margin-block-end: 28px;
+            /* stylelint-disable-next-line declaration-no-important */
             overflow-x: unset!important;
         }
     }

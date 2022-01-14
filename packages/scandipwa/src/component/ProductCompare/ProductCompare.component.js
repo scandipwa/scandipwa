@@ -26,10 +26,12 @@ export class ProductCompare extends Component {
     static propTypes = {
         clearCompareList: PropTypes.func.isRequired,
         getAttributes: PropTypes.func.isRequired,
-        isOutOfStock: PropTypes.func.isRequired,
+        isInStock: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
         products: ProductItemsType,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        handleScroll: PropTypes.func.isRequired,
+        handleBlockScroll: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -42,6 +44,29 @@ export class ProductCompare extends Component {
         const { products: nextProducts, isLoading: nextIsLoading } = nextProps;
 
         return products !== nextProducts || isLoading !== nextIsLoading;
+    }
+
+    renderScroll() {
+        const { handleScroll } = this.props;
+
+        return (
+            <div block="ProductCompare" elem="Scroller">
+                <div block="ProductCompare" elem="ScrollerInner">
+                    <div
+                      id="scrollerScroll"
+                      block="ProductCompare"
+                      elem="ScrollerScroll"
+                      onScroll={ handleScroll }
+                    >
+                        <div
+                          id="scrollerContent"
+                          block="ProductCompare"
+                          elem="ScrollerContent"
+                        />
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     renderHeading() {
@@ -79,13 +104,13 @@ export class ProductCompare extends Component {
     }
 
     renderProductCards() {
-        const { products, isOutOfStock } = this.props;
+        const { products, isInStock } = this.props;
 
         return products.map((product) => (
             <div block="ProductCompare" elem="Item" key={ product.id }>
                 <ProductCompareItem
                   product={ product }
-                  isOutOfStock={ isOutOfStock }
+                  isInStock={ isInStock }
                 />
             </div>
         ));
@@ -102,22 +127,37 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderProductPrices() {
-        const { products } = this.props;
+    renderProductPrice(product) {
+        const { isInStock } = this.props;
 
-        return products.map(({
-            id,
-            price_range: priceRange,
-            type_id: type,
-            dynamic_price: dynamicPrice = false
-        }) => (
+        if (!isInStock(product)) {
+            return (
+                <div block="ProductCompareAttributeRow" elem="OutOfStock">{ __('Out of stock') }</div>
+            );
+        }
+
+        const {
+            price_range,
+            dynamic_price,
+            type_id,
+            id
+        } = product;
+
+        const price = getPrice(price_range, dynamic_price, {}, type_id);
+
+        return (
             <ProductPrice
-              price={ getPrice(priceRange, dynamicPrice, {}, type) }
+              price={ price }
               key={ id }
-              priceType={ type }
+              priceType={ type_id }
               isPreview
             />
-        ));
+        );
+    }
+
+    renderProductPrices() {
+        const { products } = this.props;
+        return products.map((product) => this.renderProductPrice(product));
     }
 
     renderAttributes() {
@@ -134,9 +174,17 @@ export class ProductCompare extends Component {
     }
 
     renderProducts() {
+        const { handleBlockScroll } = this.props;
+
         return (
-            <div block="ProductCompare">
+            <div
+              id="productCompare"
+              block="ProductCompare"
+              onScroll={ handleBlockScroll }
+            >
+                { this.renderScroll() }
                 <div
+                  id="productCompareRow"
                   block="ProductCompare"
                   elem="Row"
                   mix={ { block: 'ProductCardRow' } }
@@ -191,8 +239,8 @@ export class ProductCompare extends Component {
     render() {
         return (
             <>
-            { this.renderHeading() }
-            { this.renderContent() }
+                { this.renderHeading() }
+                { this.renderContent() }
             </>
         );
     }

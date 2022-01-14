@@ -44,7 +44,9 @@ select {
     }
 
     &:-webkit-autofill {
+        /* stylelint-disable-next-line declaration-no-important */
         box-shadow: 0 0 0 30px var(--input-background-color) inset !important;
+        /* stylelint-disable-next-line declaration-no-important */
         background-color: var(--input-background-color) !important;
     }
 }
@@ -65,7 +67,6 @@ textarea {
 
 [type='number'] {
     -moz-appearance: textfield;
-
     color: var(--color-black);
     border: 0;
     font-size: 18px;

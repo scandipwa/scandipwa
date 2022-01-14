@@ -11,6 +11,7 @@
  */
 
 import { getAuthorizationToken, isSignedIn, refreshAuthorizationToken } from 'Util/Auth';
+import { refreshUid } from 'Util/Compare';
 import { getCurrency } from 'Util/Currency';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
@@ -154,6 +155,7 @@ export const checkForErrors = (res) => new Promise((resolve, reject) => {
  * @return {void} Simply console error
  * @namespace Util/Request/handleConnectionError
  */
+// eslint-disable-next-line no-console
 export const handleConnectionError = (err) => console.error(err); // TODO: Add to logs pool
 
 /**
@@ -200,6 +202,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
 
     if (isSignedIn()) {
         refreshAuthorizationToken();
+        refreshUid();
     }
 
     return parseResponse(new Promise((resolve, reject) => {
@@ -239,6 +242,7 @@ export const executePost = (queryObject) => {
 
     if (isSignedIn()) {
         refreshAuthorizationToken();
+        refreshUid();
     }
 
     return parseResponse(postFetch(getGraphqlEndpoint(), query, variables));

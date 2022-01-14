@@ -26,7 +26,7 @@ import { ProductType } from 'Type/ProductList.type';
 import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
-import { getIsConfigurableParameterSelected } from 'Util/Product';
+import { getAttributesWithValues, getIsConfigurableParameterSelected } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
     convertQueryStringToKeyValuePairs,
@@ -278,15 +278,16 @@ export class ProductPageContainer extends PureComponent {
     }
 
     isProductInformationTabEmpty() {
-        const dataSource = this.getDataSource();
-
-        return dataSource?.description?.html?.length === 0;
+        const { description: { html = '' } = {} } = this.getDataSource();
+        // handling cases when empty html tag is received
+        const htmlElement = new DOMParser().parseFromString(html, 'text/html');
+        return !htmlElement?.body?.innerText;
     }
 
     isProductAttributesTabEmpty() {
         const dataSource = this.getDataSource();
 
-        return Object.keys(dataSource?.attributes || {}).length === 0;
+        return Object.keys(getAttributesWithValues(dataSource) || {}).length === 0;
     }
 
     _addToRecentlyViewedProducts() {

@@ -15,6 +15,10 @@
 }
 
 .ProductCustomizableItem {
+    &-PriceLabel {
+        white-space: nowrap;
+    }
+
     &-Wrapper {
         margin-block-start: 26px;
 
@@ -31,16 +35,18 @@
                         width: 100%;
                     }
                 }
+
                 &_text {
                     input {
                         width: 100%;
                     }
                 }
+
                 &_date, &_datetime-local, &_time {
                     input {
                         max-width: 100%;
                         min-width: 250px;
-                        height: 44.6px;
+                        height: 45px;
                     }
                 }
             }

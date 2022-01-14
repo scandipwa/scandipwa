@@ -81,6 +81,8 @@ export class Header extends NavigationAbstract {
             title: PropTypes.string
         }).isRequired,
         cartTotals: TotalsType.isRequired,
+        compareTotals: PropTypes.number.isRequired,
+        Loading: PropTypes.bool.isRequired,
         onBackButtonClick: PropTypes.func.isRequired,
         onCloseButtonClick: PropTypes.func.isRequired,
         onSearchBarFocus: PropTypes.func.isRequired,
@@ -343,6 +345,24 @@ export class Header extends NavigationAbstract {
         );
     }
 
+    renderCompareCount() {
+        const { compareTotals, Loading } = this.props;
+
+        if (!compareTotals || Loading === true) {
+            return null;
+        }
+
+        return (
+            <span
+              aria-label="Items in cart"
+              block="Header"
+              elem="CompareCount"
+            >
+                { compareTotals }
+            </span>
+        );
+    }
+
     renderComparePageButton() {
         const {
             device: {
@@ -370,6 +390,7 @@ export class Header extends NavigationAbstract {
                   aria-label={ __('Compare Page') }
                 >
                     <CompareIcon />
+                    { this.renderCompareCount() }
                 </Link>
             </div>
         );

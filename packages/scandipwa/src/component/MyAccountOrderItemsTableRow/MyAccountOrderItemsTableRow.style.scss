@@ -23,7 +23,7 @@
         display: inline-block;
 
         li {
-            &:before {
+            &::before {
                 content: none;
             }
 
@@ -37,17 +37,19 @@
         font-size: 14px;
 
         td {
-            padding: 16px 10px 15px;
+            padding-block-start: 16px;
+            padding-block-end: 15px;
+            padding-inline: 10px;
 
             &:nth-child(n+3) {
-                text-align: right;
+                text-align: end;
             }
         }
 
         tr {
             &:first-child {
                 td:first-child {
-                   padding-block-start: 15px;
+                    padding-block-start: 15px;
                 }
             }
 
@@ -74,8 +76,8 @@
 
                     &:first-child {
                         &::after {
-                            content:":";
-                            display:inline-block;
+                            content: ":";
+                            display: inline-block;
                         }
                     }
                 }
@@ -90,14 +92,22 @@
 
     &-EnteredRow {
         td {
-            padding: 0 10px 5px;
+            padding-block-start: 0;
+            padding-block-end: 5px;
+            padding-inline: 10px;
 
             &:nth-child(n+3) {
-                text-align: right;
+                text-align: end;
             }
 
             &:first-of-type {
                 padding-inline-start: 20px;
+            }
+        }
+
+        &_isLastOptionItem {
+            td {
+                padding-block-end: 15px;
             }
         }
     }

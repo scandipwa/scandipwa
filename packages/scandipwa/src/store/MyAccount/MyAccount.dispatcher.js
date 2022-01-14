@@ -30,7 +30,6 @@ import {
 } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteGuestQuoteId, getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
-import { removeUid } from 'Util/Compare';
 import history from 'Util/History';
 import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
@@ -99,7 +98,6 @@ export class MyAccountDispatcher {
 
         deleteGuestQuoteId();
         BrowserDatabase.deleteItem(CUSTOMER);
-        removeUid();
 
         dispatch(updateCustomerSignInStatus(false));
         dispatch(updateCustomerDetails({}));
@@ -222,6 +220,10 @@ export class MyAccountDispatcher {
 
         setAuthorizationToken(token);
 
+        ProductCompareDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.assignCompareList(dispatch)
+        );
+
         const cartDispatcher = (await CartDispatcher).default;
         const guestCartToken = getGuestQuoteId();
         // if customer is authorized, `createEmptyCart` mutation returns customer cart token
@@ -237,10 +239,6 @@ export class MyAccountDispatcher {
 
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
-        );
-
-        ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.assignCompareList(dispatch)
         );
 
         await this.requestCustomerData(dispatch);

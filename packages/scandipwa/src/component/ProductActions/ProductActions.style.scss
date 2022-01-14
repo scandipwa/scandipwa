@@ -56,7 +56,7 @@
         line-height: 20px;
         margin-block: 16px;
 
-        div[itemprop="description"] li:before{
+        div[itemprop="description"] li::before {
             position: static;
         }
     }
@@ -82,6 +82,7 @@
         @include mobile {
             font-weight: normal;
             font-size: 12px;
+            text-align: end;
         }
 
         & + .ProductActions-Sku {
@@ -187,6 +188,10 @@
                 }
             }
         }
+
+        .hideOnScroll & {
+            transform: translateY(var(--footer-nav-height));
+        }
     }
 
     &-AddToCartWrapper {
@@ -218,6 +223,7 @@
                 inset-block-end: 0;
             }
         }
+
         .Field-ErrorMessages {
             position: absolute;
         }
@@ -236,7 +242,7 @@
 
                 input {
                     min-width: 36px;
-                };
+                }
             }
         }
 

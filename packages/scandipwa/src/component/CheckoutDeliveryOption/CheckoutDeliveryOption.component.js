@@ -28,13 +28,35 @@ export class CheckoutDeliveryOption extends PureComponent {
         currency: PropTypes.string.isRequired,
         isSelected: PropTypes.bool,
         optionPrice: PropTypes.number,
+        optionSubPrice: PropTypes.number,
         onOptionClick: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         isSelected: false,
-        optionPrice: 0
+        optionPrice: 0,
+        optionSubPrice: 0
     };
+
+    renderSubPrice() {
+        const {
+            currency,
+            optionSubPrice
+        } = this.props;
+
+        if (!optionSubPrice) {
+            return null;
+        }
+
+        return (
+            <span
+              block="CheckoutDeliveryOption"
+              elem="SubPrice"
+            >
+                { __('Excl. tax: %s', formatPrice(optionSubPrice, currency)) }
+            </span>
+        );
+    }
 
     getOptionPrice() {
         const {
@@ -59,6 +81,7 @@ export class CheckoutDeliveryOption extends PureComponent {
         return (
             <strong>
                 { ` - ${ this.getOptionPrice() }` }
+                { this.renderSubPrice() }
             </strong>
         );
     }

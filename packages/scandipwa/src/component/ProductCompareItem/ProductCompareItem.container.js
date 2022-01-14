@@ -27,7 +27,8 @@ export const ProductCompareDispatcher = import(
 
 /** @namespace Component/ProductCompareItem/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
 /** @namespace Component/ProductCompareItem/Container/mapDispatchToProps */
@@ -45,7 +46,8 @@ export class ProductCompareItemContainer extends PureComponent {
         removeComparedProduct: PropTypes.func.isRequired,
         device: DeviceType.isRequired,
         showNotification: PropTypes.func.isRequired,
-        isOutOfStock: PropTypes.func.isRequired
+        isInStock: PropTypes.func.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired
     };
 
     state = {
@@ -60,7 +62,7 @@ export class ProductCompareItemContainer extends PureComponent {
     };
 
     containerProps() {
-        const { product, isOutOfStock } = this.props;
+        const { product, isInStock, isWishlistEnabled } = this.props;
         const { isLoading } = this.state;
 
         return {
@@ -69,7 +71,8 @@ export class ProductCompareItemContainer extends PureComponent {
             imgUrl: this.getProductImage(),
             overrideAddToCartBtnBehavior: this.getOverrideAddToCartBtnBehavior(),
             linkTo: this.getLinkTo(),
-            isOutOfStock
+            isInStock,
+            isWishlistEnabled
         };
     }
 

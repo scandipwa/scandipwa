@@ -15,20 +15,25 @@ import {
     CLEAR_COMPARED_PRODUCTS,
     SET_COMPARE_LIST,
     SET_COMPARED_PRODUCT_IDS,
-    TOGGLE_COMPARE_LIST_LOADER
+    TOGGLE_COMPARE_LIST_LOADER,
+    UPDATE_COMPARE_TOTALS
 } from './ProductCompare.action';
 
 export const COMPARE_LIST_PRODUCTS = 'compare_list_products';
 
 /** @namespace Store/ProductCompare/Reducer/getInitialState */
-export const getInitialState = () => ({
-    isLoading: false,
-    count: 0,
-    attributes: [],
-    products: [],
-    productIds: BrowserDatabase.getItem(COMPARE_LIST_PRODUCTS) || [],
-    items: []
-});
+export const getInitialState = () => {
+    const compareListProducts = BrowserDatabase.getItem(COMPARE_LIST_PRODUCTS) || [];
+
+    return {
+        isLoading: false,
+        count: 0,
+        attributes: [],
+        products: [],
+        productIds: compareListProducts,
+        items: []
+    };
+};
 
 /** @namespace Store/ProductCompare/Reducer/ProductCompareReducer */
 export const ProductCompareReducer = (state = getInitialState(), action) => {
@@ -65,6 +70,15 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
             products,
             productIds,
             items
+        };
+    }
+
+    case UPDATE_COMPARE_TOTALS: {
+        const { compareTotals = 0 } = action;
+
+        return {
+            ...state,
+            count: compareTotals
         };
     }
 

@@ -27,10 +27,10 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
         isOpenInNewTab: PropTypes.bool.isRequired
     };
 
-    renderOrderId() {
+    renderOrderIncrementId() {
         const {
             order: {
-                order_id
+                order_increment_id
             },
             onOrderIdClick
         } = this.props;
@@ -38,7 +38,7 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
         return (
             <div onClick={ onOrderIdClick } block="MyAccountDownloadTableRow" elem="OrderId">
                 #
-                { order_id }
+                { order_increment_id }
             </div>
         );
     }
@@ -73,7 +73,7 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
     render() {
         const {
             order: {
-                order_id,
+                order_increment_id,
                 downloads,
                 created_at,
                 title,
@@ -83,7 +83,7 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
 
         return (
             <tr block="MyAccountOrderTableRow">
-                <td>{ order_id ? this.renderOrderId() : '' }</td>
+                <td>{ order_increment_id ? this.renderOrderIncrementId() : '' }</td>
                 <td>{ created_at }</td>
                 <td>
                     { title }
