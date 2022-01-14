@@ -54,6 +54,8 @@ export class MenuPageContainer extends PureComponent {
                 name: MENU,
                 onBackClick: () => history.goBack()
             });
+
+            return;
         }
 
         history.push('/');
