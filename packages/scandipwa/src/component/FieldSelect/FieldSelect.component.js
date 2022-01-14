@@ -151,7 +151,7 @@ export class FieldSelect extends PureComponent {
               mods={ {
                   isExpanded,
                   isUpDirection,
-                  isScrollable
+                  isNotScrollable: !isScrollable
               } }
             >
                 { options.map(this.renderOption.bind(this)) }
