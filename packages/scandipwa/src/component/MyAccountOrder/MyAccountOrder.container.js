@@ -142,7 +142,7 @@ export class MyAccountOrderContainer extends PureComponent {
         changeHeaderState({
             name: CUSTOMER_ORDER,
             title: __('Order'),
-            onBackClick: () => history.back()
+            onBackClick: () => history.goBack()
         });
     }
 
