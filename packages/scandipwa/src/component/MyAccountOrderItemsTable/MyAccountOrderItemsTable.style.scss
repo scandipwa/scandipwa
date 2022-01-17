@@ -10,7 +10,7 @@
  */
 
 :root {
-    --my-account-order-items-comment-border-color: #979797;
+    --my-account-order-items-comment-border: 1px solid #979797;
 }
 
 .MyAccountOrderItemsTable {
@@ -119,7 +119,7 @@
     }
 
     &-Comment {
-        border-inline-start: 1px solid var(--my-account-order-items-comment-border-color);
+        border-inline-start: var(--my-account-order-items-comment-border);
         margin-block-end: 30px;
 
         dt {

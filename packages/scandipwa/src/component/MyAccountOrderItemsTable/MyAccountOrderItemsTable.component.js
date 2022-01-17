@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -17,6 +16,7 @@ import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccount
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
 import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
+import { getTimeInCurrentTimezone } from 'Util/Form/Extract';
 import { getProductFromOrder } from 'Util/Orders';
 
 import './MyAccountOrderItemsTable.style';
@@ -28,8 +28,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         items: OrderTabType.isRequired,
         total: OrderTotalType.isRequired,
-        allOrderItems: OrderProductsType.isRequired,
-        getTimeInCurrentTimezone: PropTypes.func.isRequired
+        allOrderItems: OrderProductsType.isRequired
     };
 
     renderItems() {
@@ -177,7 +176,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
     }
 
     renderComments() {
-        const { items: { comments = [] }, activeTab, getTimeInCurrentTimezone } = this.props;
+        const { items: { comments = [] }, activeTab } = this.props;
 
         if (activeTab === ORDER_ITEMS || !comments.length) {
             return null;

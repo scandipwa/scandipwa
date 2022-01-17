@@ -19,10 +19,9 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { showNotification } from 'Store/Notification/Notification.action';
 import { MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
-import { getDateValue } from 'Util/Form/Extract';
 
 import MyAccountOrder from './MyAccountOrder.component';
-import { MILLISECONDS_PER_MINUTE, ORDER_ITEMS } from './MyAccountOrder.config';
+import { ORDER_ITEMS } from './MyAccountOrder.config';
 
 export const OrderDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -71,10 +70,15 @@ export class MyAccountOrderContainer extends PureComponent {
         is_allowed_reorder: false
     };
 
+    state = {
+        order: {},
+        isLoading: true,
+        activeTab: ORDER_ITEMS
+    };
+
     containerFunctions = {
         handleReorder: this.handleReorder.bind(this),
-        handleChangeActiveTab: this.handleChangeActiveTab.bind(this),
-        getTimeInCurrentTimezone: this.getTimeInCurrentTimezone.bind(this)
+        handleChangeActiveTab: this.handleChangeActiveTab.bind(this)
     };
 
     __construct(props) {
@@ -85,16 +89,6 @@ export class MyAccountOrderContainer extends PureComponent {
         if (orderId) {
             this.requestOrderDetails();
         }
-
-        const currentDate = new Date();
-        const timezone = currentDate.getTimezoneOffset() * MILLISECONDS_PER_MINUTE;
-
-        this.state = {
-            order: {},
-            isLoading: true,
-            activeTab: ORDER_ITEMS,
-            timezone
-        };
     }
 
     componentWillUnmount() {
@@ -176,14 +170,6 @@ export class MyAccountOrderContainer extends PureComponent {
         setTabSubheading(status);
         this.handleChangeHeaderState();
         this.setState({ order, isLoading: false });
-    }
-
-    getTimeInCurrentTimezone(timestamp) {
-        const { timezone } = this.state;
-
-        const timeInCurrentTimezone = new Date(timestamp).getTime() - timezone;
-
-        return getDateValue(timeInCurrentTimezone);
     }
 
     render() {

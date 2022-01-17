@@ -13,9 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { MILLISECONDS_PER_MINUTE } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
-import { getDateValue } from 'Util/Form/Extract';
 
 import MyAccountOrderItemsTable from './MyAccountOrderItemsTable.component';
 
@@ -37,19 +35,6 @@ export class MyAccountOrderItemsTableContainer extends PureComponent {
         allOrderItems: OrderProductsType.isRequired
     };
 
-    containerFunctions = {
-        getTimeInCurrentTimezone: this.getTimeInCurrentTimezone.bind(this)
-    };
-
-    __construct(props) {
-        super.__construct(props);
-
-        const currentDate = new Date();
-        const timezone = currentDate.getTimezoneOffset() * MILLISECONDS_PER_MINUTE;
-
-        this.state = { timezone };
-    }
-
     containerProps() {
         const {
             isMobile,
@@ -68,19 +53,10 @@ export class MyAccountOrderItemsTableContainer extends PureComponent {
         };
     }
 
-    getTimeInCurrentTimezone(timestamp) {
-        const { timezone } = this.state;
-
-        const timeInCurrentTimezone = new Date(timestamp).getTime() - timezone;
-
-        return getDateValue(timeInCurrentTimezone);
-    }
-
     render() {
         return (
             <MyAccountOrderItemsTable
               { ...this.containerProps() }
-              { ...this.containerFunctions }
             />
         );
     }
