@@ -107,6 +107,11 @@
             margin-block-end: 10px;
             margin-block-start: 20px;
         }
+
+        &List {
+            display: flex;
+            flex-direction: column-reverse;
+        }
     }
 
     &-Comment {

@@ -191,15 +191,17 @@ export class MyAccountOrderItemsTable extends PureComponent {
                 >
                     { __('About Your %s', activeTab) }
                 </div>
-                { comments.map(({ timestamp, message }) => (
-                    <dl
-                      block="MyAccountOrderItemsTable"
-                      elem="Comment"
-                    >
-                        <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
-                        <dd>{ message }</dd>
-                    </dl>
-                )) }
+                <div block="MyAccountOrderItemsTable" elem="CommentsList">
+                    { comments.map(({ timestamp, message }) => (
+                        <dl
+                          block="MyAccountOrderItemsTable"
+                          elem="Comment"
+                        >
+                            <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
+                            <dd>{ message }</dd>
+                        </dl>
+                    )) }
+                </div>
             </div>
         );
     }

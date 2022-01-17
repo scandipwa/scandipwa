@@ -195,15 +195,17 @@ export class MyAccountOrder extends PureComponent {
                 >
                     { __('About Your Order') }
                 </div>
-                { comments.map(({ timestamp, message }) => (
-                    <dl
-                      block="MyAccountOrder"
-                      elem="Comment"
-                    >
-                        <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
-                        <dd>{ message }</dd>
-                    </dl>
-                )) }
+                <div block="MyAccountOrder" elem="CommentsList">
+                    { comments.map(({ timestamp, message }) => (
+                        <dl
+                          block="MyAccountOrder"
+                          elem="Comment"
+                        >
+                            <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
+                            <dd>{ message }</dd>
+                        </dl>
+                    )) }
+                </div>
             </div>
         );
     }

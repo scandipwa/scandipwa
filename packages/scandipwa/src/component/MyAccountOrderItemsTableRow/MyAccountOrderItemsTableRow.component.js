@@ -400,6 +400,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
     renderDesktopTableRow() {
         const {
+            activeTab,
             product: {
                 product_sku
             },
@@ -407,13 +408,14 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         } = this.props;
 
         const isWithEnteredItems = !!enteredOptions[0]?.items;
+        const lineBefore = activeTab === ORDER_SHIPMENTS;
 
         return (
             <>
                 <tr
                   block="MyAccountOrderItemsTableRow"
                   elem="RowWrapper"
-                  mods={ { isWithEnteredItems } }
+                  mods={ { isWithEnteredItems, lineBefore } }
                 >
                     { this.renderNameAndOptions() }
                     <td>{ product_sku }</td>
