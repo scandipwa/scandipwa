@@ -248,8 +248,10 @@ export class CartPageContainer extends PureComponent {
                 items = []
             } = {}
         } = this.props;
+        const list = items.filter((product, index) => index
+        === items.findIndex((products) => products.id === product.id));
 
-        updateCrossSellProducts(items);
+        updateCrossSellProducts(list);
     }
 
     render() {
