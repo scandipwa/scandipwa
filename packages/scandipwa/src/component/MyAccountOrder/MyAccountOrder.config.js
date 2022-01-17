@@ -15,3 +15,4 @@ export const ORDER_ITEMS = 'Items';
 export const ORDER_INVOICES = 'Invoice';
 export const ORDER_SHIPMENTS = 'Shipment';
 export const ORDER_REFUNDS = 'Refund';
+export const MILLISECONDS_PER_MINUTE = 60000;

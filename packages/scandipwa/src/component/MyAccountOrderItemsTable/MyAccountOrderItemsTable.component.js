@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -27,7 +28,8 @@ export class MyAccountOrderItemsTable extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         items: OrderTabType.isRequired,
         total: OrderTotalType.isRequired,
-        allOrderItems: OrderProductsType.isRequired
+        allOrderItems: OrderProductsType.isRequired,
+        getTimeInCurrentTimezone: PropTypes.func.isRequired
     };
 
     renderItems() {
@@ -175,7 +177,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
     }
 
     renderComments() {
-        const { items: { comments = [] }, activeTab } = this.props;
+        const { items: { comments = [] }, activeTab, getTimeInCurrentTimezone } = this.props;
 
         if (activeTab === ORDER_ITEMS || !comments.length) {
             return null;
@@ -194,7 +196,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
                       block="MyAccountOrderItemsTable"
                       elem="Comment"
                     >
-                        <dt>{ timestamp }</dt>
+                        <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
                         <dd>{ message }</dd>
                     </dl>
                 )) }

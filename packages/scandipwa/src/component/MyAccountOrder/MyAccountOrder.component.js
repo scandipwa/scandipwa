@@ -39,7 +39,8 @@ export class MyAccountOrder extends PureComponent {
         rss_order_subscribe_allow: PropTypes.bool.isRequired,
         handleChangeActiveTab: PropTypes.func.isRequired,
         activeTab: PropTypes.string.isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        getTimeInCurrentTimezone: PropTypes.func.isRequired
     };
 
     renderMap = {
@@ -180,7 +181,7 @@ export class MyAccountOrder extends PureComponent {
     }
 
     renderOrderComments() {
-        const { activeTab, order: { comments = [] } } = this.props;
+        const { activeTab, order: { comments = [] }, getTimeInCurrentTimezone } = this.props;
 
         if (activeTab !== ORDER_ITEMS || !comments.length) {
             return null;
@@ -199,7 +200,7 @@ export class MyAccountOrder extends PureComponent {
                       block="MyAccountOrder"
                       elem="Comment"
                     >
-                        <dt>{ timestamp }</dt>
+                        <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
                         <dd>{ message }</dd>
                     </dl>
                 )) }
