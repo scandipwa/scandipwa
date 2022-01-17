@@ -303,6 +303,14 @@
             "react/button-has-type": 0,
             "react/jsx-indent": 0,
             "react/jsx-indent-props": 2,
+            "react/forbid-elements": [
+                1,
+                {
+                    "forbid": [
+                        { "element": "a", "message": "use <Link> instead" }
+                    ]
+                }
+            ],
             "react/jsx-no-bind": [
                 2,
                 {
