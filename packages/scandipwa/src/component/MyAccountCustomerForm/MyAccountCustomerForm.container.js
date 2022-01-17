@@ -73,7 +73,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             handleChangeEmailCheckbox,
             handleChangePasswordCheckbox,
             currentPassword,
-            email: email || currentCustomerEmail
+            email: email === null ? currentCustomerEmail : email
         };
     }
 
