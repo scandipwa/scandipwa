@@ -29,6 +29,7 @@ import './ProductCompareItem.style';
 /** @namespace Component/ProductCompareItem/Component */
 export class ProductCompareItem extends PureComponent {
     static propTypes = {
+        addItemToCart: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         product: ProductType.isRequired,
         removeComparedProduct: PropTypes.func.isRequired,
@@ -109,14 +110,17 @@ export class ProductCompareItem extends PureComponent {
 
     renderAddToCartBtnEnabled() {
         const {
-            product
+            addItemToCart
         } = this.props;
 
         return (
-            <AddToCart
-              product={ product }
-              mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
-            />
+            <button
+              onClick={ addItemToCart }
+            >
+                <AddToCart
+                  mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
+                />
+            </button>
         );
     }
 
