@@ -1,10 +1,10 @@
 .CarouselScrollArrow {
     $arrow-size: 25px;
+
     z-index: 1;
     transition: opacity 200ms;
     cursor: pointer;
     transform: rotate(-180deg);
-
     width: $arrow-size;
     height: $arrow-size;
 

@@ -12,9 +12,17 @@
         "scandipwa"
     ],
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": true,
+        "source.fixAll.stylelint": true
     },
     "search.exclude": {
         "**/Magento_Theme": true
-    }
+    },
+    "stylelint.validate": [
+        "css",
+        "scss"
+    ],
+    "stylelint.enable": true,
+    "css.validate": false,
+    "scss.validate": false
 }

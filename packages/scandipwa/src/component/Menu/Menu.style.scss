@@ -27,7 +27,6 @@
         font-size: 14px;
         font-weight: 400;
         text-transform: none;
-
         display: flex;
         align-items: center;
 
@@ -57,8 +56,8 @@
         font-weight: bold;
         font-size: 12px;
         line-height: 16px;
-        top: -1px;
-        margin-left: auto;
+        inset-block-start: -1px;
+        margin-inline-start: auto;
     }
 
     &-ExpandedState {
@@ -169,7 +168,7 @@
     &-MainCategories {
         margin: 0 auto;
 
-        @include desktop{
+        @include desktop {
             width: fit-content;
 
             .Menu-Link {
@@ -211,6 +210,10 @@
                 background: var(--color-gray);
                 display: block;
                 padding-inline: 16px;
+
+                @include mobile {
+                    margin-block-end: 0;
+                }
             }
 
             @include desktop {

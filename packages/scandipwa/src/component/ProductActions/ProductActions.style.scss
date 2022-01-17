@@ -56,7 +56,7 @@
         line-height: 20px;
         margin-block: 16px;
 
-        div[itemprop="description"] li:before{
+        div[itemprop="description"] li::before {
             position: static;
         }
     }
@@ -70,9 +70,10 @@
         }
 
         @include mobile {
-            margin-block-end: 10px;
             font-style: normal;
             font-size: 12px;
+            line-height: 22px;
+            margin-block-start: 8px;
         }
     }
 
@@ -82,6 +83,7 @@
         @include mobile {
             font-weight: normal;
             font-size: 12px;
+            margin-block-start: 4px;
             text-align: end;
         }
 
@@ -93,13 +95,26 @@
     &-Review {
         order: 2;
         font-weight: 700;
-        color: var(--primary-base-color);
         cursor: pointer;
         inset-block-end: -2px;
         font-size: 14px;
 
-        &:hover {
-            color: var(--primary-dark-color);
+        @include mobile {
+            inset-block-end: 0;
+        }
+
+        &Text {
+            color: var(--primary-base-color);
+
+            &:hover {
+                color: var(--primary-dark-color);
+            }
+
+            &_isNotSafariOrIos {
+                @include mobile {
+                    vertical-align: -webkit-baseline-middle;
+                }
+            }
         }
     }
 
@@ -112,6 +127,10 @@
                     flex: 1;
                     align-items: flex-end;
                     flex-direction: column;
+                }
+
+                .TextPlaceholder {
+                    line-height: 30px;
                 }
             }
 
@@ -145,6 +164,18 @@
         justify-content: space-between;
         align-items: center;
         margin-block-end: 12px;
+
+        &:nth-child(2) {
+            @include mobile {
+                align-items: start;
+            }
+        }
+
+        &:nth-child(3) {
+            @include mobile {
+                margin-block-end: 22px;
+            }
+        }
 
         @include desktop {
             margin-block: 18px;
@@ -223,6 +254,7 @@
                 inset-block-end: 0;
             }
         }
+
         .Field-ErrorMessages {
             position: absolute;
         }
@@ -241,7 +273,7 @@
 
                 input {
                     min-width: 36px;
-                };
+                }
             }
         }
 
@@ -277,6 +309,10 @@
     &-Reviews {
         margin-block-end: 10px;
         display: flex;
+
+        @include mobile {
+            margin-block-end: 0;
+        }
 
         .ProductReviewRating {
             margin-inline-end: 24px;

@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
- .ImageZoomPopup {
-   height: 100%;
+.ImageZoomPopup {
+    height: 100%;
 
     &.Popup {
         height: 100%;
@@ -23,18 +23,18 @@
         width: 100%;
         padding: 0;
 
-      .Popup-CloseBtn {
-        inset-inline-end: 10px;
-        inset-block-start: 10px;
-      }
+        .Popup-CloseBtn {
+            inset-inline-end: 10px;
+            inset-block-start: 10px;
+        }
     }
 
     .ProductGallery {
         height: 100%;
 
-      &-SliderWrapper {
-        height: 100%;
-      }
+        &-SliderWrapper {
+            height: 100%;
+        }
     }
 
     .Slider-Arrow {

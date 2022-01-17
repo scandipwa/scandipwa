@@ -1,3 +1,4 @@
+/* stylelint-disable declaration-no-important */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -28,6 +29,7 @@
         inset-block-start: var(--header-total-height);
         inset-inline-start: 0;
     }
+
     &_isVisible {
         @include mobile {
             pointer-events: all;
@@ -41,17 +43,14 @@
         margin: 0 !important;
         inset-inline-start: 0 !important;
         inset-block-start: 0 !important;
-
         width: var(--shared-element-width, 0) !important;
         height: var(--shared-element-height, 0) !important;
         margin-block-start: var(--shared-element-top, 0) !important;
         margin-inline-start: var(--shared-element-start, 0) !important;
-
         will-change: width, height, margin-inline-start, margin-block-start;
         transition-property: width, height, margin-inline-start, margin-block-start;
         transition-timing-function: cubic-bezier(.215, .61, .355, 1);
         transition-duration: var(--shared-element-animation-speed, 150ms);
-
         backface-visibility: hidden;
         transform: translate3d(0, 0, 0);
         perspective: 1000px;

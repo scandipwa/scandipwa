@@ -45,6 +45,7 @@
     }
 
     // make attribute value cell content narrower than table header
+
     &-Value {
         @include default-list;
 
@@ -64,12 +65,13 @@
     }
 
     &-OutOfStock {
+        /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
         @extend .ProductCompareAttributeRow-Value;
 
-        padding-top: 15px;
+        padding-block-start: 15px;
 
         @include mobile {
-            padding-top: 39px;
+            padding-block-start: 39px;
         }
     }
 }

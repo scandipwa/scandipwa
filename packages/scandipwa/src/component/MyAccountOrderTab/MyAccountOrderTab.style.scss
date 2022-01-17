@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
- .MyAccountOrderTab {
+.MyAccountOrderTab {
     &-Item {
         margin: 0;
         padding-inline-start: 0;
@@ -38,7 +38,7 @@
 
         @include mobile {
             width: 100%;
-            text-align: left;
+            text-align: start;
         }
 
         @include desktop {
