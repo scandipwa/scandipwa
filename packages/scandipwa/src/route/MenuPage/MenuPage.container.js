@@ -20,7 +20,6 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { HistoryType } from 'Type/Router.type';
-import { appendWithStoreCode } from 'Util/Url';
 
 /** @namespace Route/MenuPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -52,15 +51,11 @@ export class MenuPageContainer extends PureComponent {
         });
     }
 
-    componentDidUpdate() {
-        this.redirectIfNotOnMobile();
-    }
-
     redirectIfNotOnMobile() {
         const { history, isMobile } = this.props;
 
         if (!isMobile) {
-            history.push(appendWithStoreCode('/'));
+            history.push('/');
         }
     }
 
