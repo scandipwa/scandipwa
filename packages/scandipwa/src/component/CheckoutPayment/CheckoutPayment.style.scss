@@ -39,6 +39,7 @@
 
     &-Button {
         --check-mark-opacity: 0;
+
         width: 100%;
         display: flex;
         align-items: flex-start;
@@ -48,6 +49,5 @@
 
     .Field_type_checkbox {
         margin-block-start: 0;
-        pointer-events: none;
     }
 }

@@ -39,6 +39,7 @@ export class CheckoutGuestForm extends FieldForm {
         emailValue: PropTypes.string.isRequired,
         signInState: PropTypes.string.isRequired,
         setSignInState: PropTypes.func.isRequired,
+        onSignIn: PropTypes.func.isRequired,
         showErrorNotification: PropTypes.func.isRequired
     };
 

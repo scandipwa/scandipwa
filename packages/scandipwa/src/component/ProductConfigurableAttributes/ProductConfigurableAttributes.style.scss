@@ -23,7 +23,12 @@
     &-Title {
         font-weight: 700;
         margin-block: 24px 12px;
+    }
 
+    &-SelectedOptionLabel {
+        font-weight: normal;
+        opacity: 0.7;
+        padding-inline-start: 17px;
     }
 
     &-SwatchList {
@@ -46,7 +51,7 @@
         height: var(--option-size);
         width: var(--option-size);
         margin-block: var(--option-margin-block);
-        margin-inside: var(--option-margin-inline);
+        margin-inline: var(--option-margin-inline);
     }
 
     &-Expandable:first-of-type {

@@ -40,6 +40,7 @@
 
     &-Button {
         --check-mark-opacity: 0;
+
         font-size: 14px;
         width: 100%;
         text-align: start;
@@ -63,7 +64,7 @@
         font-weight: 400;
         text-align: end;
         position: absolute;
-        inset-inline-start: 0;
+        inset-inline-end: 0;
         inset-block-start: 1.5em;
         white-space: nowrap;
     }

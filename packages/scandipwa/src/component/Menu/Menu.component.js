@@ -31,6 +31,7 @@ import './Menu.style';
 export class Menu extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
+        compareTotals: PropTypes.number.isRequired,
         activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
         handleSubcategoryClick: PropTypes.func.isRequired,
         closeMenu: PropTypes.func.isRequired,
@@ -376,6 +377,23 @@ export class Menu extends PureComponent {
         return <StoreSwitcher />;
     }
 
+    renderCompareCount() {
+        const { compareTotals } = this.props;
+
+        if (compareTotals < 1) {
+            return null;
+        }
+
+        return (
+            <span
+              block="Menu"
+              elem="CompareCountInMenu"
+            >
+                { `(${ compareTotals })` }
+            </span>
+        );
+    }
+
     renderComparePageLink() {
         const { device } = this.props;
 
@@ -388,6 +406,7 @@ export class Menu extends PureComponent {
                 <Link to="compare" block="Menu" elem="CompareLink">
                     <CompareIcon />
                     <h4>{ __('Compare products') }</h4>
+                    { this.renderCompareCount() }
                 </Link>
             </div>
         );

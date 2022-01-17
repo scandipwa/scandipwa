@@ -8,6 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 .ResetAttributes {
     @include desktop {
         margin-block-end: 20px;
@@ -24,7 +25,7 @@
         align-items: center;
     }
 
-    &-AttributeText{
+    &-AttributeText {
         inset-inline-start: 10px;
         font-size: 14px;
     }

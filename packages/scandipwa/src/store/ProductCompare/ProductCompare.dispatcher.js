@@ -15,7 +15,8 @@ import {
     clearComparedProducts,
     setCompareList,
     setCompareListIds,
-    toggleLoader
+    toggleLoader,
+    updateCompareTotals
 } from 'Store/ProductCompare/ProductCompare.action';
 import { getUid, removeUid, setUid } from 'Util/Compare';
 import { fetchMutation, fetchQuery } from 'Util/Request';
@@ -232,6 +233,7 @@ export class ProductCompareDispatcher {
 
             dispatch(toggleLoader(false));
             dispatch(setCompareListIds(compareIds));
+            dispatch(updateCompareTotals(compareIds.length));
         } catch (error) {
             dispatch(toggleLoader(false));
             dispatch(showNotification('error', __('Unable to fetch compare list'), error));

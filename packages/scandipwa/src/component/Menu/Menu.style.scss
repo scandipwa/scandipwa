@@ -27,7 +27,6 @@
         font-size: 14px;
         font-weight: 400;
         text-transform: none;
-
         display: flex;
         align-items: center;
 
@@ -50,6 +49,15 @@
                 padding: 13px 0;
             }
         }
+    }
+
+    &-CompareCountInMenu {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 16px;
+        inset-block-start: -1px;
+        margin-inline-start: auto;
     }
 
     &-ExpandedState {
@@ -160,7 +168,7 @@
     &-MainCategories {
         margin: 0 auto;
 
-        @include desktop{
+        @include desktop {
             width: fit-content;
 
             .Menu-Link {
@@ -202,6 +210,10 @@
                 background: var(--color-gray);
                 display: block;
                 padding-inline: 16px;
+
+                @include mobile {
+                    margin-block-end: 0;
+                }
             }
 
             @include desktop {

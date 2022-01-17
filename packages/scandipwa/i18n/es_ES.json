@@ -56,12 +56,16 @@
     "Create Password": null,
     "Create an account": null,
     "Create new account": null,
+
     "Current product price": null,
+
     "Date": null,
     "Default %s address": null,
     "Delete": null,
+
     "Don't have an account?": "¿No tienes una cuenta?",
     "Edit address": null,
+
     "Edit details": null,
     "Email": null,
     "Email addresses, separated by commas": null,
@@ -82,12 +86,14 @@
     "Go to Address Book to configure them!": null,
     "Good": null,
     "Got it": null,
+
     "Guests can not subscribe to the newsletter. You must create an account or login to subscribe.": null,
     "Have a discount code?": null,
     "Home": null,
     "I agree to terms and conditions": null,
     "If there is an account associated with the provided address you will receive an email with a link to reset your password": null,
     "If there is an account associated with the provided address you will receive an email with a link to reset your password.": null,
+
     "Image not found": null,
     "Image not specified": null,
     "Incorrect data! Please resolve all field validation errors.": null,
@@ -101,11 +107,14 @@
     "Maybe later": null,
     "Menu": null,
     "Message": null,
+
     "My Account": null,
     "My Account page": null,
     "My account": null,
     "My billing and shipping are the same": null,
+
     "My profile": null,
+
     "N/A": null,
     "Name": null,
     "Name: A to Z": null,
@@ -125,6 +134,8 @@
     "Old product price": null,
     "Ooops!": null,
     "Order": null,
+
+
     "Order details": null,
     "Order total": null,
     "Order total:": null,
@@ -136,6 +147,7 @@
     "Password Change Actions": null,
     "Password Change Page": null,
     "Password has been successfully updated!": null,
+
     "Personal Information": null,
     "Phone number": null,
     "Play video": null,
@@ -148,6 +160,7 @@
     "Postal code": null,
     "Previous page": null,
     "Price": "Precio",
+
     "Proceed to billing": null,
     "Product %s thumbnail.": null,
     "Product Price": null,
@@ -156,6 +169,7 @@
     "Product list navigation": null,
     "Products are loading...": null,
     "Purchase Order Number": null,
+
     "Rate: ": null,
     "Recommended for you": null,
     "Reload the page": null,
@@ -173,6 +187,7 @@
     "Share Wishlist": null,
     "Shared Wishlist": null,
     "Shipping": null,
+
     "Shipping address": null,
     "Shopping Options": null,
     "Shopping cart": null,
@@ -185,10 +200,12 @@
     "Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.": null,
     "State/Province": null,
     "Status": null,
+
     "Street": null,
     "Street address": null,
     "Submit": null,
     "Submit Review": null,
+
     "Summary": null,
     "Tap:": null,
     "Tax": null,
@@ -236,6 +253,7 @@
     "Your account is confirmed!": null,
     "Your order # is: %s": null,
     "Your password and confirmation password do not match.": null,
+
     "billing": null,
     "item": null,
     "save %s%": null,
@@ -285,6 +303,7 @@
     "Error fetching LinkedProducts!": null,
     "Product Compare": null,
     "Compare": null,
+
     "Transactional [default state + hover]": null,
     "Button text": null,
     "Supportive [default state + hover]": null,
@@ -407,6 +426,7 @@
     "Your Tax/VAT Number": null,
     "Sign In": null,
     "Retype your password": null,
+
     "Discount: ": null,
     "The minimum amount you can purchase is %s": null,
     "The maximum amount you can purchase is %s": null,
@@ -521,6 +541,7 @@
     "Radio": null,
     "Breadcrumbs": null,
     "Please fill in all rating fields": null,
+
     "My Orders": null,
     "My Downloadable": null,
     "My Wish List": null,
@@ -532,6 +553,7 @@
     "Change Password": null,
     "Your new email": null,
     "Confirm New Password ": null,
+
     "Product Name": null,
     "SKU": null,
     "Qty": null,
@@ -539,12 +561,14 @@
     "Subscribe to Order Status": null,
     "Invoices": null,
     "Order Shipments": null,
+
     "Refunds": null,
     "Discount Amount": null,
     "Row Total": null,
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
+
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -558,8 +582,14 @@
     "Grand Total (Incl.Tax)": null,
     "Grand Total to be Charged": null,
     "Order # %s": null,
+
     "Product name": null,
+
+
+
+
     "Confirm New password": null,
+
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
@@ -581,6 +611,8 @@
     "Purchase Order Number: %s": null,
     "You have not purchased any downloadable products yet.": null,
     "All %s": null,
+    "About Your Order": null,
+    "About Your %s": null,
     "Minimum of different classes of characters in password is %s.": null,
     "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null
 }

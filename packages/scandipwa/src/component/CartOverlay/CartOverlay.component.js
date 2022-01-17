@@ -16,7 +16,6 @@ import CartItem from 'Component/CartItem';
 import CmsBlock from 'Component/CmsBlock';
 import { CART_OVERLAY } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
-import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
@@ -39,14 +38,12 @@ export class CartOverlay extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         cartDisplaySettings: CartDisplayType.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        onCartItemLoading: PropTypes.func,
-        isCartItemLoading: PropTypes.bool
+        onCartItemLoading: PropTypes.func
     };
 
     static defaultProps = {
         hasOutOfStockProductsInCart: false,
         onCartItemLoading: null,
-        isCartItemLoading: false,
         currencyCode: null,
         cartTotalSubPrice: null
     };
@@ -71,7 +68,6 @@ export class CartOverlay extends PureComponent {
                 items = [],
                 quote_currency_code
             },
-            isCartItemLoading,
             onCartItemLoading
         } = this.props;
 
@@ -81,14 +77,13 @@ export class CartOverlay extends PureComponent {
 
         return (
             <div block="CartOverlay" elem="Items" aria-label="List of items in cart">
-                <Loader isLoading={ isCartItemLoading } />
                 { items.map((item) => (
                     <CartItem
                       key={ item.item_id }
                       item={ item }
                       currency_code={ quote_currency_code }
                       onCartItemLoading={ onCartItemLoading }
-                      showLoader={ false }
+                      showLoader
                       isCartOverlay
                     />
                 )) }

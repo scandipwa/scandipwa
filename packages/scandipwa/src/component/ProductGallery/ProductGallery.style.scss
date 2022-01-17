@@ -10,6 +10,7 @@
  */
 
 // util class, is applied on <html> on fullscreen image
+
 .overscrollPrevented {
     overscroll-behavior: contain;
 }
@@ -25,7 +26,7 @@
     }
 
     @include mobile {
-        height: calc(100vh/2);
+        height: calc(100vh / 2);
         margin-block-end: 16px;
     }
 

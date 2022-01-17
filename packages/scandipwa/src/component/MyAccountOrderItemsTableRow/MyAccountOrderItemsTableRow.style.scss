@@ -23,7 +23,7 @@
         display: inline-block;
 
         li {
-            &:before {
+            &::before {
                 content: none;
             }
 
@@ -42,14 +42,14 @@
             padding-inline: 10px;
 
             &:nth-child(n+3) {
-                text-align: right;
+                text-align: end;
             }
         }
 
         tr {
             &:first-child {
                 td:first-child {
-                   padding-block-start: 15px;
+                    padding-block-start: 15px;
                 }
             }
 
@@ -76,8 +76,8 @@
 
                     &:first-child {
                         &::after {
-                            content:":";
-                            display:inline-block;
+                            content: ":";
+                            display: inline-block;
                         }
                     }
                 }
@@ -97,7 +97,7 @@
             padding-inline: 10px;
 
             &:nth-child(n+3) {
-                text-align: right;
+                text-align: end;
             }
 
             &:first-of-type {
