@@ -111,9 +111,9 @@ export class ProductCompareItem extends PureComponent {
             <button
               onClick={ addItemToCart }
             >
-            <AddToCart
-              mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
-            />
+                <AddToCart
+                  mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
+                />
             </button>
         );
     }
