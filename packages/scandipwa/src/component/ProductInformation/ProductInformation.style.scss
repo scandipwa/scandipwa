@@ -65,11 +65,12 @@
     }
 
     &-Description {
+        @include description-tags {
+            line-height: 20px;
+        }
       
         li:before {
             position: static;
         }
-
-        @include description-tag-line-height
     }
 }

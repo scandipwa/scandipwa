@@ -32,7 +32,7 @@
     }
 }
 
-@mixin description-tag-line-height {
+@mixin description-tags {
     li,
     span,
     div,
@@ -40,6 +40,6 @@
     dt,
     dd,
     dl {
-        line-height: 20px;
+        @content
     }
 }

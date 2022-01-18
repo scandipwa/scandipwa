@@ -52,6 +52,10 @@
     }
 
     &-ShortDescription {
+        @include description-tags {
+            line-height: 20px;
+        }
+        
         font-size: 14px;
         margin-block: 16px;
         line-height: 20px;
@@ -59,8 +63,6 @@
         div[itemprop="description"] li:before{
             position: static;
         }
-        
-        @include description-tag-line-height
     }
 
     &-Stock {
