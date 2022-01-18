@@ -147,6 +147,7 @@
             height: 20px;
             margin-inline-start: var(--product-compare-sidebar-width);
             overflow-x: auto;
+            scroll-behavior: smooth;
 
             @include mobile {
                 margin-inline-start: 0
