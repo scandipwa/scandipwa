@@ -47,7 +47,8 @@
         margin-block-start: 12px;
         margin-block-end: 16px;
         margin-inline: 0;
-        text-align: start;
+        /* stylelint-disable-next-line csstools/use-logical */
+        text-align: left;
         direction: rtl;
         border: 0;
         /* stylelint-disable-next-line unknownProperties, property-no-unknown */
@@ -83,7 +84,8 @@
     }
 
     &-Legend::before {
-        content: '*';
+        content: '* ';
+        white-space: pre;
         font-weight: bold;
         color: var(--required-text-color);
     }
