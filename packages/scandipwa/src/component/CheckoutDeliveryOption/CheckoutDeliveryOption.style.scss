@@ -64,8 +64,10 @@
                 }
             }
             
-            .CheckoutDeliveryOption-Row * {
+            .CheckoutDeliveryOption {
+                &-Row * {
                 color: var(--primary-base-color);
+                }
             }
         }
     }
