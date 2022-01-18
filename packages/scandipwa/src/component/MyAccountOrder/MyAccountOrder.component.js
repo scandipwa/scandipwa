@@ -18,8 +18,7 @@ import MyAccountOrderInformation from 'Component/MyAccountOrderInformation';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
 import { OrderType } from 'Type/Order.type';
-import { getTimeInCurrentTimezone } from 'Util/Form/Extract';
-import { convertStringToDate } from 'Util/Manipulations/Date';
+import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 
 import {
     ORDER_INVOICES,

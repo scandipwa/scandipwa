@@ -13,8 +13,6 @@ import { FIELD_NAME_ATTR, FIELD_TYPE_ATTR, HOURS_12H_COUNT } from 'Component/Dat
 import FIELD_TYPE from 'Component/Field/Field.config';
 import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 
-export const MILLISECONDS_PER_MINUTE = 60000;
-
 /**
  * Appends 0 to value if its less than passed attribute;
  * @param value
@@ -273,15 +271,6 @@ export const getFieldsData = (DOM, excludeEmpty = false, ignoreTypes = [], asObj
     }
 
     return output;
-};
-
-/** @namespace Util/Form/Extract/getTimeInCurrentTimezone */
-export const getTimeInCurrentTimezone = (timestamp) => {
-    const currentDate = new Date();
-    const timezone = currentDate.getTimezoneOffset() * MILLISECONDS_PER_MINUTE;
-    const timeInCurrentTimezone = new Date(timestamp).getTime() - timezone;
-
-    return getDateValue(timeInCurrentTimezone);
 };
 
 export default getFieldsData;

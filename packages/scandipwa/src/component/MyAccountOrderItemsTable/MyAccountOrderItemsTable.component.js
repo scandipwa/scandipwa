@@ -16,7 +16,7 @@ import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccount
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
 import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
-import { getTimeInCurrentTimezone } from 'Util/Form/Extract';
+import { getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { getProductFromOrder } from 'Util/Orders';
 
 import './MyAccountOrderItemsTable.style';
