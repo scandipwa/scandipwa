@@ -281,24 +281,24 @@ export class ProductAttributeValue extends PureComponent {
         }
 
         return (
-            <strong
+            <span
               block="ProductAttributeValue"
               elem="SubLabel"
             >
               { `(${subLabel})` }
-            </strong>
+            </span>
         );
     }
 
     getCheckboxLabel(value, subLabel) {
         return (
-            <span
+            <div
               block="ProductAttributeValue"
               elem="Label"
             >
                 { value }
                 { this.renderSublabel(subLabel) }
-            </span>
+            </div>
         );
     }
 
