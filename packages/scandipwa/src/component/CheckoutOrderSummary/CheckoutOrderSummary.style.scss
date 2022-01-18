@@ -19,10 +19,9 @@
     @include desktop {
         border: 1px solid var(--secondary-base-color);
         border-radius: 2px;
-        padding-block-start: 24px;
-        padding-block-end: 0;
+        padding-block: 24px 0;
         padding-inline: 16px;
-        margin-bottom: 15px;
+        margin: 0 0 15px 0;
     }
 
     &-Header {
