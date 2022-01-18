@@ -36,8 +36,9 @@ export class ProductCompareItem extends PureComponent {
         imgUrl: PropTypes.string.isRequired,
         overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
         linkTo: LinkType,
-        overriddenAddToCartBtnHandler: PropTypes.func.isRequired
-
+        overriddenAddToCartBtnHandler: PropTypes.func.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        isInStock: PropTypes.func.isRequired
     };
 
     static defaultProps = {
