@@ -36,7 +36,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         isReady: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
         configurable_options: AttributesType.isRequired,
-        unselectedOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+        unselectedOptions: PropTypes.arrayOf(PropTypes.string),
         inStock: PropTypes.bool
     };
 
@@ -48,7 +48,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         isReady: true,
         mix: {},
         numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
-        inStock: true
+        inStock: true,
+        unselectedOptions: []
     };
 
     containerFunctions = {
