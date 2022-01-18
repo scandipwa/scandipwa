@@ -16,9 +16,8 @@ $select-arrow-height: 14px !default;
 $select-arrow-width: 14px !default;
 
 .FieldSelect {
-    cursor: pointer;
-
     &-Clickable {
+        cursor: pointer;
         display: flex;
         align-items: center;
 
@@ -33,7 +32,6 @@ $select-arrow-width: 14px !default;
         width: $select-arrow-width;
         height: $select-arrow-height;
         pointer-events: none;
-
         position: absolute;
         inset-inline-end: 12px;
     }
@@ -66,7 +64,6 @@ $select-arrow-width: 14px !default;
         border-width: 0 1px 1px;
         border-style: solid;
         border-color: transparent;
-
         overflow-y: auto;
         transition: 200ms max-height;
         will-change: max-height;
@@ -75,7 +72,9 @@ $select-arrow-width: 14px !default;
         min-width: 100%;
 
         // Firefox support
+        /* stylelint-disable-next-line declaration-no-important */
         scrollbar-width: none !important;
+        /* stylelint-disable-next-line declaration-no-important */
         scrollbar-color: none !important;
 
         &::-webkit-scrollbar {
@@ -90,7 +89,6 @@ $select-arrow-width: 14px !default;
             @include desktop {
                 z-index: 15;
                 max-height: 200px;
-                border-color: #0a0a0a;
                 border-color: var(--input-border-color);
                 overflow-y: auto;
                 background-color: #{$white};
@@ -99,6 +97,7 @@ $select-arrow-width: 14px !default;
     }
 
     &-Option {
+        cursor: pointer;
         padding: 0;
         margin: 0;
         z-index: 1;
@@ -133,10 +132,15 @@ $select-arrow-width: 14px !default;
             }
         }
 
-        &_isHovered{
+        &_isHovered {
             @include desktop {
                 background: var(--secondary-base-color);
             }
+        }
+
+        &_isDisabled {
+            pointer-events: none;
+            opacity: 0.6;
         }
     }
 }

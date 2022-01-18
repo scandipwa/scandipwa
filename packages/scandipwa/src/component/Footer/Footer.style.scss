@@ -10,7 +10,6 @@
  */
 
 :root {
-    --footer-height: calc(var(--footer-content-height) + var(--footer-copyright-height));
     --footer-content-height: 220px;
     --footer-copyright-height: 50px;
     --footer-nav-height: 48px;
@@ -125,6 +124,7 @@
     }
 
     &-ColumnItem {
+        border-radius: 2px;
         color: inherit;
         margin-block-end: 12px;
         font-size: 14px;
@@ -147,6 +147,7 @@
             img {
                 // important required as default 100% width is passed as inline style
                 // + you can't achieve same centering with just passing '16px' as inline style for the case
+                /* stylelint-disable-next-line declaration-no-important */
                 width: 16px!important;
                 inset-block-start: 50%;
                 inset-inline-start: 50%;

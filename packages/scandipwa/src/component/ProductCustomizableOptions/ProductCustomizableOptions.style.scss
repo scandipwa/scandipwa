@@ -15,6 +15,10 @@
 }
 
 .ProductCustomizableItem {
+    &-PriceLabel {
+        white-space: nowrap;
+    }
+
     &-Wrapper {
         margin-block-start: 26px;
 
@@ -31,15 +35,18 @@
                         width: 100%;
                     }
                 }
+
                 &_text {
                     input {
                         width: 100%;
                     }
                 }
+
                 &_date, &_datetime-local, &_time {
                     input {
                         max-width: 100%;
-                        width: 250px;
+                        min-width: 250px;
+                        height: 45px;
                     }
                 }
             }
@@ -61,7 +68,7 @@
 
     &-Required {
         color: var(--customizable-options-required-text-color);
-        margin-block-start: 6px;
+        margin-inline-start: 4px;
 
         @include mobile {
             margin-block-start: 7px;
@@ -106,15 +113,27 @@
 
     &-Heading {
         font-size: 14px;
+        width: auto;
+        display: inline-flex;
 
         &Bold {
             font-size: 14px;
             font-weight: bold;
+
+            .ProductCustomizableItem {
+                &-Label {
+                    display: inline-block;
+                }
+            }
         }
 
         &Price {
             font-size: 12px;
             font-weight: bold;
+        }
+
+        &>div {
+            width: auto;
         }
     }
 

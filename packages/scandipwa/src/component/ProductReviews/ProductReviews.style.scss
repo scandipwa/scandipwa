@@ -51,6 +51,11 @@
         &_isContentExpanded {
             padding-block-start: 0;
         }
+
+        .ProductReviewRating {
+            align-items: center;
+            margin-block-start: -5px;
+        }
     }
 
     & &-Button {
@@ -64,6 +69,7 @@
             position: relative;
             width: 100%;
             margin-block-start: 18px;
+            line-height: 20px;
         }
     }
 
@@ -73,9 +79,13 @@
         margin-block: auto;
         font-size: 24px;
         font-weight: 700;
+        line-height: 28px;
+        font-style: normal;
 
         @include mobile {
             margin-inline-start: 14px;
+            line-height: 24px;
+            font-size: 18px;
         }
 
         span {

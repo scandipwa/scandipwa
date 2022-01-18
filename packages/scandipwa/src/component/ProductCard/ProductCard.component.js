@@ -80,10 +80,12 @@ export class ProductCard extends Product {
 
     className = 'ProductCard';
 
-    registerSharedElement = () => {
+    registerSharedElement = this.registerSharedElement.bind(this);
+
+    registerSharedElement() {
         const { registerSharedElement } = this.props;
         registerSharedElement(this.imageRef);
-    };
+    }
 
     //#region PRICE
     renderEmptyProductPrice() {
@@ -99,7 +101,6 @@ export class ProductCard extends Product {
     renderPrice() {
         const {
             getActiveProduct,
-            inStock,
             product: {
                 type_id: baseType
             } = {}
@@ -112,25 +113,6 @@ export class ProductCard extends Product {
 
         if (!priceRange) {
             return this.renderTextPlaceholder();
-        }
-
-        if (!inStock) {
-            // If configurable, do not render price
-            if (typeId === PRODUCT_TYPE.configurable) {
-                return null;
-            }
-
-            // If bundle is out of stock, show out of stock msg
-            if (typeId === PRODUCT_TYPE.bundle) {
-                return (
-                    <div
-                      block={ this.className }
-                      elem="PriceWrapper"
-                    >
-                        { __('Out of stock') }
-                    </div>
-                );
-            }
         }
 
         // If product is not a variant.
@@ -287,6 +269,16 @@ export class ProductCard extends Product {
                 >
                     { __('Add to cart') }
                 </button>
+            );
+        }
+
+        if (!inStock) {
+            return (
+                <div block="ProductCard" elem="OutOfStock">
+                    <p>
+                        { __('Out of stock') }
+                    </p>
+                </div>
             );
         }
 

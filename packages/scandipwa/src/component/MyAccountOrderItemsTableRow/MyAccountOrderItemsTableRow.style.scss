@@ -1,0 +1,143 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
+ */
+
+.MyAccountOrderItemsTableRow {
+    &-Qty {
+        display: table-cell;
+        vertical-align: top;
+
+        span {
+            margin-block-end: 5px;
+        }
+    }
+
+    &-QtyList {
+        display: inline-block;
+
+        li {
+            &::before {
+                content: none;
+            }
+
+            &:last-child {
+                margin-block-end: 0;
+            }
+        }
+    }
+
+    &-RowWrapper {
+        font-size: 14px;
+
+        td {
+            padding-block-start: 16px;
+            padding-block-end: 15px;
+            padding-inline: 10px;
+
+            &:nth-child(n+3) {
+                text-align: end;
+            }
+        }
+
+        tr {
+            &:first-child {
+                td:first-child {
+                    padding-block-start: 15px;
+                }
+            }
+
+            &:last-child {
+                td:last-child {
+                    padding-block-end: 15px;
+                }
+            }
+        }
+
+        @include mobile {
+            border-block-end: var(--my-account-content-border);
+        }
+    }
+
+    &-Row {
+        @include mobile {
+            td {
+                padding: 5px 10px;
+
+                strong {
+                    vertical-align: top;
+                    margin-inline-end: 15px;
+
+                    &:first-child {
+                        &::after {
+                            content: ":";
+                            display: inline-block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-Name {
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    &-EnteredRow {
+        td {
+            padding-block-start: 0;
+            padding-block-end: 5px;
+            padding-inline: 10px;
+
+            &:nth-child(n+3) {
+                text-align: end;
+            }
+
+            &:first-of-type {
+                padding-inline-start: 20px;
+            }
+        }
+
+        &_isLastOptionItem {
+            td {
+                padding-block-end: 15px;
+            }
+        }
+    }
+
+    &-EnteredLabel {
+        td {
+            padding: 10px;
+
+            @include desktop {
+                padding: 5px 20px;
+            }
+        }
+    }
+
+    &-OptionLabel {
+        &:first-child {
+            margin-block-start: 0;
+        }
+
+        margin-block-start: 15px;
+        margin-block-end: 5px;
+    }
+
+    &-OptionValue {
+        margin-block-end: 5px;
+    }
+
+    &-OptionValue,
+    &-OptionLabel,
+    &-DownloadableLink {
+        margin-inline-start: 10px;
+    }
+}

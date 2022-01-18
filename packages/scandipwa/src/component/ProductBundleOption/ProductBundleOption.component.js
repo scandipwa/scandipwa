@@ -126,7 +126,7 @@ export class ProductBundleOption extends PureComponent {
     //#endregion
 
     //#region CHECKBOXES
-    renderCheckBox = (option) => {
+    renderCheckBox(option) {
         const {
             uid,
             can_change_quantity: canChangeQuantity,
@@ -167,7 +167,7 @@ export class ProductBundleOption extends PureComponent {
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
         );
-    };
+    }
 
     renderCheckBoxValues(options) {
         const { isRequired } = this.props;
@@ -180,14 +180,14 @@ export class ProductBundleOption extends PureComponent {
               } }
               validateOn={ ['onChange'] }
             >
-                { options.map(this.renderCheckBox) }
+                { options.map(this.renderCheckBox.bind(this)) }
             </FieldGroup>
         );
     }
     //#endregion
 
     //#region RADIO
-    renderRadio = (name, option) => {
+    renderRadio(name, option) {
         const {
             uid,
             can_change_quantity: canChangeQuantity,
@@ -226,7 +226,7 @@ export class ProductBundleOption extends PureComponent {
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
         );
-    };
+    }
 
     renderRadioValues(options) {
         const { isRequired, uid } = this.props;
@@ -325,10 +325,10 @@ export class ProductBundleOption extends PureComponent {
         } = bundleOptionToLabel(option, currencyCode);
 
         return (
-            <>
+            <div block="ProductBundleItem" elem="Label">
                 { baseLabel }
-                <strong>{ ` ${priceLabel}` }</strong>
-            </>
+                <strong block="ProductBundleItem" elem="PriceLabel">{ ` ${priceLabel}` }</strong>
+            </div>
         );
     }
     //#endregion

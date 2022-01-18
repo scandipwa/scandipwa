@@ -37,7 +37,7 @@
             transform: rotate(45deg);
             background-color: var(--primary-base-color);
             border-block-start: 1px solid var(--primary-base-color);
-            border-inline-start:  1px solid var(--primary-base-color);
+            border-inline-start: 1px solid var(--primary-base-color);
         }
     }
 
@@ -136,12 +136,12 @@
     &-Total,
     &-Tax,
     &-Discount {
+        word-wrap: break-word;
         display: flex;
         justify-content: space-between;
         padding-block-start: 12px;
         padding-block-end: 6px;
         padding-inline: 16px;
-
         background: var(--cart-overlay-totals-background);
 
         @include mobile {
@@ -152,6 +152,10 @@
 
         dd {
             text-align: end;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            white-space: nowrap;
 
             span {
                 display: block;
@@ -159,6 +163,10 @@
                 font-weight: 400;
             }
         }
+    }
+
+    &-DiscountCoupon {
+        word-break: break-word;
     }
 
     &-Total {

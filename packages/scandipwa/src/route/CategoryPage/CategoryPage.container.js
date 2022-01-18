@@ -178,6 +178,8 @@ export class CategoryPageContainer extends PureComponent {
         onListButtonClick: this.onListButtonClick.bind(this)
     };
 
+    setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
+
     static getDerivedStateFromProps(props, state) {
         const {
             currentCategoryIds,
@@ -358,7 +360,7 @@ export class CategoryPageContainer extends PureComponent {
         this.updateMeta();
     }
 
-    setOfflineNoticeSize = () => {
+    setOfflineNoticeSize() {
         const { setBigOfflineNotice, isInfoLoading } = this.props;
 
         if (isInfoLoading) {
@@ -366,7 +368,7 @@ export class CategoryPageContainer extends PureComponent {
         } else {
             setBigOfflineNotice(false);
         }
-    };
+    }
 
     getIsMatchingListFilter() {
         const {
@@ -631,10 +633,7 @@ export class CategoryPageContainer extends PureComponent {
     updateNavigationState() {
         const { changeNavigationState } = this.props;
 
-        changeNavigationState({
-            name: MENU_TAB,
-            isVisibleOnScroll: true
-        });
+        changeNavigationState({ name: MENU_TAB });
     }
 
     updateHeaderState(isUnmatchedCategory = false) {

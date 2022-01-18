@@ -21,7 +21,8 @@ import Menu from './Menu.component';
 
 /** @namespace Component/Menu/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    compareTotals: state.ProductCompareReducer.count
 });
 
 /** @namespace Component/Menu/Container/mapDispatchToProps */
@@ -62,26 +63,30 @@ export class MenuContainer extends DataContainer {
         }
     }
 
-    historyBackHook = () => {
+    historyBackHook() {
         const { activeMenuItemsStack } = this.state;
 
         if (activeMenuItemsStack.length) {
             this.setState({ activeMenuItemsStack: activeMenuItemsStack.slice(1) });
         }
-    };
+    }
 
     componentWillUnmount() {
         window.removeEventListener('popstate', this.historyBackHook);
     }
 
     containerProps() {
-        const { device } = this.props;
+        const {
+            device,
+            compareTotals
+        } = this.props;
         const { activeMenuItemsStack, menu } = this.state;
 
         return {
             activeMenuItemsStack,
             menu,
-            device
+            device,
+            compareTotals
         };
     }
 

@@ -134,16 +134,6 @@ export const removeEmptyStreets = (street) => (
     Array.isArray(street) ? street.filter((line) => line) : street
 );
 
-/** @namespace Util/Address/Index/trimAddressFields */
-export const trimAddressFields = (fields) => {
-    const {
-        region_string: region,
-        ...fieldsData
-    } = fields;
-
-    return { ...fieldsData, region };
-};
-
 /** transforming "street[index]" entries into a single "street" object
     for checkout/billing/myAccoutAddress form fields object */
 /** @namespace Util/Address/Index/setAddressesInFormObject */
@@ -221,6 +211,31 @@ export const getAvailableRegions = (country_id, countries) => {
 
     // need to handle null value
     return available_regions || [];
+};
+
+/** @namespace Util/Address/Index/getFormattedRegion */
+export const getFormattedRegion = (address, countries) => {
+    const { country_id, region: regionData } = address;
+
+    if (!regionData) {
+        return {};
+    }
+
+    const { region_id, region } = regionData;
+    const country = countries.find(({ id }) => id === country_id);
+
+    if (!country) {
+        return {};
+    }
+
+    const { label, available_regions } = country;
+    const regions = available_regions || [];
+    const { name } = regions.find(({ id }) => id === region_id) || { name: region };
+
+    return {
+        country: label,
+        region: name
+    };
 };
 
 /** @namespace Util/Address/Index/getRegionIdFromAvailableRegions */

@@ -128,8 +128,8 @@ export class CheckoutGuestFormContainer extends PureComponent {
         );
     }
 
-    containerProps = () => {
-        const { emailValue, isEmailAvailable } = this.props;
+    containerProps() {
+        const { emailValue, isEmailAvailable, onSignIn } = this.props;
         const { isLoading, signInState } = this.state;
 
         return ({
@@ -137,9 +137,10 @@ export class CheckoutGuestFormContainer extends PureComponent {
             emailValue,
             isEmailAvailable,
             isLoading,
-            signInState
+            signInState,
+            onSignIn
         });
-    };
+    }
 
     onFormError() {
         this.setState({ isLoading: false });

@@ -43,7 +43,7 @@ export class VideoThumbnailContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onPlayClick: this._onPlayClick.bind(this)
+        onPlayClick: this.onPlayClick.bind(this)
     };
 
     /**
@@ -52,7 +52,7 @@ export class VideoThumbnailContainer extends PureComponent {
      * @param event
      * @private
      */
-    _onPlayClick(event) {
+    onPlayClick(event) {
         const {
             media,
             media: {

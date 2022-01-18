@@ -26,16 +26,16 @@
         line-height: 18px;
         text-align: justify;
 
-         + div {
-             margin-block-end: 12px;
-         }
+        + div {
+            margin-block-end: 12px;
+        }
 
         &_isContentExpanded {
             margin-block-end: 16px;
         }
     }
 
-    &-ExpandableContentHeading{
+    &-ExpandableContentHeading {
         @include desktop {
             display: none;
         }
@@ -66,5 +66,9 @@
 
     &-Description {
         @include default-list;
+
+        @include mobile {
+            line-height: 20px;
+        }
     }
 }

@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"version": "1.0.23",
+	"version": "1.0.24",
 	"name": "scandipwa-development-toolkit-vscode",
 	"publisher": "ScandiPWA",
 	"displayName": "ScandiPWA devtools",
@@ -35,7 +35,9 @@
 		"onCommand:extension.extendRoute",
 		"onCommand:extension.extendQuery",
 		"onCommand:extension.extendStore",
-		"onCommand:extension.extensionCreate"
+		"onCommand:extension.extensionCreate",
+		"onCommand:extension.goToChildTheme",
+		"onStartupFinished"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -75,15 +77,42 @@
 			{
 				"command": "extension.extensionCreate",
 				"title": "ScandiPWA: Create an extension"
+			},
+			{
+				"command": "extension.goToChildTheme",
+				"title": "ScandiPWA: Go to child theme",
+				"icon": "$(symbol-null)"
 			}
-		]
+		],
+		"menus": {
+			"editor/title": [
+				{
+					"command": "extension.goToChildTheme",
+					"group": "navigation",
+					"when": "editorLangId in extension.scandipwaSupportedLangs"
+				}
+			]
+		},
+		"configuration": {
+			"title": "ScandiPWA",
+			"properties": {
+				"scandipwa.stylePostfix": {
+					"type": [
+						"string",
+						"null"
+					],
+					"default": null,
+					"description": "Styles postfix to use when creating style overrides"
+				}
+			}
+		}
 	},
 	"dependencies": {
 		"@babel/generator": "^7.9.6",
 		"@babel/parser": "^7.9.6",
 		"@babel/traverse": "^7.9.6",
 		"@babel/types": "^7.9.6",
-		"@scandipwa/scandipwa-development-toolkit-core": "1.0.23",
+		"@scandipwa/scandipwa-development-toolkit-core": "1.0.24",
 		"@tilework/mosaic-dev-utils": "0.0.5"
 	},
 	"devDependencies": {

@@ -10,7 +10,9 @@
  */
 
 import { CHECKOUT, MY_ACCOUNT } from 'Component/Header/Header.config';
+import { CONFIRMATION_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import MyAccountQuery from 'Query/MyAccount.query';
+import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
 import {
     updateCustomerDetails,
     updateCustomerPasswordForgotStatus,
@@ -19,7 +21,6 @@ import {
     updateIsLoading
 } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { ORDERS } from 'Store/Order/Order.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearComparedProducts } from 'Store/ProductCompare/ProductCompare.action';
 import {
@@ -67,12 +68,6 @@ export class MyAccountDispatcher {
     requestCustomerData(dispatch) {
         const query = MyAccountQuery.getCustomerQuery();
 
-        const customer = BrowserDatabase.getItem(CUSTOMER) || {};
-
-        if (customer.id) {
-            dispatch(updateCustomerDetails(customer));
-        }
-
         return executePost(prepareQuery([query])).then(
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then */
             ({ customer }) => {
@@ -84,19 +79,25 @@ export class MyAccountDispatcher {
         );
     }
 
-    logout(authTokenExpired = false, dispatch) {
+    logout(authTokenExpired = false, isWithNotification = true, dispatch) {
         if (authTokenExpired) {
-            dispatch(showNotification('error', __('Your session is over, you are logged out!')));
+            if (isWithNotification) {
+                dispatch(showNotification('error', __('Your session is over, you are logged out!')));
+            }
+
             this.handleForceRedirectToLoginPage();
         } else {
-            const mutation = MyAccountQuery.getRevokeAccountToken();
-            fetchMutation(mutation);
-            deleteAuthorizationToken();
-            dispatch(showNotification('success', __('You are successfully logged out!')));
+            if (isSignedIn()) {
+                fetchMutation(MyAccountQuery.getRevokeAccountToken());
+                deleteAuthorizationToken();
+            }
+
+            if (isWithNotification) {
+                dispatch(showNotification('success', __('You are successfully logged out!')));
+            }
         }
 
         deleteGuestQuoteId();
-        BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         removeUid();
 
@@ -172,7 +173,7 @@ export class MyAccountDispatcher {
                 if (confirmation_required) {
                     dispatch(updateIsLoading(false));
 
-                    return 2;
+                    return CONFIRMATION_REQUIRED;
                 }
 
                 return this.signIn({ email, password }, dispatch);
@@ -221,6 +222,10 @@ export class MyAccountDispatcher {
 
         setAuthorizationToken(token);
 
+        ProductCompareDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.assignCompareList(dispatch)
+        );
+
         const cartDispatcher = (await CartDispatcher).default;
         const guestCartToken = getGuestQuoteId();
         // if customer is authorized, `createEmptyCart` mutation returns customer cart token
@@ -236,10 +241,6 @@ export class MyAccountDispatcher {
 
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
-        );
-
-        ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.assignCompareList(dispatch)
         );
 
         await this.requestCustomerData(dispatch);
@@ -263,7 +264,7 @@ export class MyAccountDispatcher {
         }, false);
 
         if (doRedirect) {
-            history.push({ pathname: '/account/login' });
+            history.push({ pathname: ACCOUNT_LOGIN_URL });
         }
     }
 
@@ -272,7 +273,6 @@ export class MyAccountDispatcher {
             return;
         }
 
-        BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         CartDispatcher.then(
             ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch)

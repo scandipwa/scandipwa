@@ -1,0 +1,126 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
+ */
+
+.MyAccountOrderItemsTable {
+    &-OrderTitle {
+        font-size: 22px;
+        padding-block-end: 10px;
+        margin-block-start: 20px;
+
+        @include desktop {
+            margin-block-start: 30px;
+        }
+    }
+
+    &-Headings {
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-Products {
+        width: 100%;
+        font-size: 14px;
+
+        thead {
+            tr {
+                th, td {
+                    &:nth-child(n+3) {
+                        text-align: end;
+                    }
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                border-block-start: var(--table-body-border);
+
+                &:first-of-type {
+                    border-block-start: none;
+                }
+
+
+                &:not(:last-child) {
+                    border-block-end: none;
+                }
+            }
+
+            .MyAccountOrderItemsTableRow {
+                &-Row {
+                    @include mobile {
+                        border-block: unset;
+                    }
+                }
+
+                &-EnteredLabel,
+                &-EnteredRow {
+                    border-block: unset;
+                }
+
+                @include mobile {
+                    &-Name {
+                        border-block: unset;
+                    }
+                }
+            }
+
+            @include mobile {
+                tr {
+                    td {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    @include mobile {
+        table {
+            tbody {
+                tr, td {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+
+    &-Quantity,
+    &-Subtotal,
+    &-Price {
+        width: 15%;
+    }
+
+    &-Comments {
+        &Title {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-block-end: 10px;
+            margin-block-start: 20px;
+        }
+    }
+
+    &-Comment {
+        margin-block-end: 20px;
+
+        dt {
+            font-weight: bold;
+            margin-block-end: 5px;
+            margin-inline-start: 10px;
+        }
+
+        dd {
+            margin-block-end: 10px;
+            margin-inline-start: 10px;
+        }
+    }
+}

@@ -44,6 +44,10 @@
             inset-block-end: var(--footer-total-height);
             background-color: var(--color-white);
             padding: 16px;
+
+            .hideOnScroll & {
+                transform: translateY(var(--footer-nav-height));
+            }
         }
 
         .Button {
@@ -161,9 +165,9 @@
         padding: 0 16px;
     }
 
-     .CheckoutOrderSummary-ButtonWrapper {
-         @include mobile {
-             display: none;
-         }
-     }
+    .CheckoutOrderSummary-ButtonWrapper {
+        @include mobile {
+            display: none;
+        }
+    }
 }

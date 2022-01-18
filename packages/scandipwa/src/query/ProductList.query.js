@@ -60,25 +60,26 @@ export class ProductListQuery {
         };
     }
 
-    _getCustomFilters = (filters = {}) => (
-        Object.entries(filters).reduce((acc, [key, attribute]) => {
-            if (!attribute.length) {
-                return acc;
-            }
+    _getCustomFilters(filters = {}) {
+        return Object.entries(filters)
+            .reduce((acc, [key, attribute]) => {
+                if (!attribute.length) {
+                    return acc;
+                }
 
-            if (key === 'price') {
+                if (key === 'price') {
+                    return {
+                        ...acc,
+                        ...this._getPriceFilter(key, attribute)
+                    };
+                }
+
                 return {
                     ...acc,
-                    ...this._getPriceFilter(key, attribute)
+                    [key]: { in: attribute }
                 };
-            }
-
-            return {
-                ...acc,
-                [key]: { in: attribute }
-            };
-        }, {})
-    );
+            }, {});
+    }
 
     _getFilterArgumentMap() {
         return {
@@ -101,7 +102,7 @@ export class ProductListQuery {
             productSKU: (sku) => ({ sku: { eq: sku } }),
             productID: (id) => ({ id: { eq: id } }),
             productUrlPath: (url) => ({ url_key: { eq: url } }),
-            customFilters: this._getCustomFilters,
+            customFilters: this._getCustomFilters.bind(this),
             newToDate: (date) => ({ news_to_date: { gteq: date } }),
             conditions: (conditions) => ({ conditions: { eq: conditions } }),
             customerGroupId: (id) => ({ customer_group_id: { eq: id } })
@@ -264,7 +265,7 @@ export class ProductListQuery {
             ]);
     }
 
-    _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
+    _getProductInterfaceFields(isVariant, isForLinkedProducts = false, isForWishlist = false) {
         const {
             isPlp = false,
             isSingleProduct,
@@ -272,6 +273,11 @@ export class ProductListQuery {
             noVariants = false,
             noVariantAttributes = false
         } = this.options;
+
+        // set option to always request images for product variants if they're requested for wishlist
+        if (isForWishlist) {
+            this.options.isForWishlist = true;
+        }
 
         // Basic fields returned always
         const fields = [
@@ -287,7 +293,7 @@ export class ProductListQuery {
         ];
 
         // Additional fields, which we want to return always, except when it's variants on PLP (due to hugh number of items)
-        if (!(isPlp && isVariant)) {
+        if (!(isPlp && isVariant) || isForWishlist) {
             fields.push(
                 this._getProductImageField(),
                 this._getProductThumbnailField(),
@@ -460,10 +466,10 @@ export class ProductListQuery {
     }
 
     _getProductField() {
-        const { isForLinkedProducts } = this.options;
+        const { isForLinkedProducts, isForWishlist = false } = this.options;
 
         return new Field('product')
-            .addFieldList(this._getProductInterfaceFields(true, isForLinkedProducts));
+            .addFieldList(this._getProductInterfaceFields(true, isForLinkedProducts, isForWishlist));
     }
 
     _getShortDescriptionFields() {
@@ -895,10 +901,10 @@ export class ProductListQuery {
     }
 
     _getVariantsField() {
-        const { isPlp = false } = this.options;
+        const { isPlp = false, isForWishlist = false } = this.options;
 
         // For PLP page we have optimized variants graphql field
-        const variantsField = isPlp ? 'variants_plp' : 'variants';
+        const variantsField = isPlp && !isForWishlist ? 'variants_plp' : 'variants';
 
         return new Field(variantsField)
             .setAlias('variants')

@@ -50,9 +50,9 @@ export class FieldGroup extends PureComponent {
 
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under group
-    renderErrorMessage = (message) => (
-        <div block="Field" elem="ErrorMessage">{ message }</div>
-    );
+    renderErrorMessage(message) {
+        return <div block="Field" elem="ErrorMessage">{ message }</div>;
+    }
 
     renderErrorMessages() {
         const {
@@ -72,7 +72,7 @@ export class FieldGroup extends PureComponent {
 
         return (
             <div block="FieldGroup" elem="ErrorMessages">
-                { errorMessages.map(this.renderErrorMessage) }
+                { errorMessages.map(this.renderErrorMessage.bind(this)) }
             </div>
         );
     }

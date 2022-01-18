@@ -164,6 +164,7 @@
     &-SignInLink {
         width: auto;
         margin-block-start: 0;
+        line-height: 20px;
     }
 
     &-ResetPassword {
@@ -272,7 +273,6 @@
 
         section {
             display: flex;
-
             padding-block-start: 20px;
 
             &:first-of-type {
@@ -418,9 +418,5 @@
 
     &-Checkbox {
         margin-block: 11px 24px;
-    }
-
-    &-ResetPassword {
-        margin-block-start: 24px;
     }
 }

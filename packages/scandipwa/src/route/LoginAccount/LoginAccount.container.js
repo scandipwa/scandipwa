@@ -12,15 +12,19 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
-import { CUSTOMER_ACCOUNT, FORGOT_PASSWORD, REGISTER } from 'Component/Header/Header.config';
+import { CUSTOMER_ACCOUNT } from 'Component/Header/Header.config';
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps,
     MyAccountOverlayContainer
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
+import { ACCOUNT_FORGOT_PASSWORD_URL, ACCOUNT_REGISTRATION_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -36,7 +40,8 @@ export const mapDispatchToProps = (dispatch) => ({
 export class LoginAccountContainer extends MyAccountOverlayContainer {
     static propTypes = {
         ...MyAccountOverlayContainer.propTypes,
-        toggleBreadcrumbs: PropTypes.func.isRequired
+        toggleBreadcrumbs: PropTypes.func.isRequired,
+        location: LocationType.isRequired
     };
 
     containerFunctions = {
@@ -45,28 +50,37 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     };
 
     onCreateAccountClick() {
-        history.replace(appendWithStoreCode(`${ REGISTER }`));
+        history.replace(appendWithStoreCode(`${ ACCOUNT_REGISTRATION_URL }`));
     }
 
     handleForgotPassword() {
-        history.replace(appendWithStoreCode(`${ FORGOT_PASSWORD }`));
+        history.replace(appendWithStoreCode(`${ ACCOUNT_FORGOT_PASSWORD_URL }`));
     }
 
     componentDidMount() {
-        const { setHeaderState, toggleBreadcrumbs } = this.props;
+        const {
+            setHeaderState,
+            toggleBreadcrumbs,
+            location: {
+                state: {
+                    isFromEmailChange = false
+                } = {}
+            }
+        } = this.props;
 
-        if (isSignedIn()) {
-            history.replace(appendWithStoreCode('/'));
+        if (isSignedIn() && !isFromEmailChange) {
+            history.replace(appendWithStoreCode(ACCOUNT_URL));
         }
 
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
         toggleBreadcrumbs(false);
+        scrollToTop({ behavior: 'smooth' });
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (isSignedIn()) {
             // remove login url from history to skip it when navigating back
-            history.replace(appendWithStoreCode('/'));
+            history.replace(appendWithStoreCode(ACCOUNT_URL));
 
             return;
         }
@@ -77,12 +91,13 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     render() {
         return (
             <LoginAccount
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginAccountContainer);
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(LoginAccountContainer)
+);

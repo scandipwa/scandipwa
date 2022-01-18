@@ -17,6 +17,7 @@ import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
+import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { isSignedIn } from 'Util/Auth';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
@@ -76,6 +77,7 @@ export class ConfirmAccountPage extends PureComponent {
                       name: 'email'
                   } }
                   mix={ { block: 'ConfirmAccountPage', elem: 'EmailInput' } }
+                  addRequiredTag
                 />
                 <Field
                   type={ FIELD_TYPE.password }
@@ -128,7 +130,7 @@ export class ConfirmAccountPage extends PureComponent {
         } = this.props;
 
         if (redirect || isSignedIn()) {
-            return <Redirect to="/my-account/dashboard" />;
+            return <Redirect to={ ACCOUNT_URL } />;
         }
 
         return (

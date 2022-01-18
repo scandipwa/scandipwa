@@ -31,6 +31,7 @@ import './Menu.style';
 export class Menu extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
+        compareTotals: PropTypes.number.isRequired,
         activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
         handleSubcategoryClick: PropTypes.func.isRequired,
         closeMenu: PropTypes.func.isRequired,
@@ -101,7 +102,7 @@ export class Menu extends PureComponent {
         e.stopPropagation();
     }
 
-    renderSubLevelItems = (item, isSecondLevel) => {
+    renderSubLevelItems(item, isSecondLevel) {
         const {
             handleSubcategoryClick,
             activeMenuItemsStack,
@@ -157,11 +158,11 @@ export class Menu extends PureComponent {
                 { this.renderDesktopSubLevel(item) }
             </div>
         );
-    };
+    }
 
     renderSubLevel(category, isSecondLevel = false) {
-        const { activeMenuItemsStack } = this.props;
-        const { item_id, children } = category;
+        const { activeMenuItemsStack, device } = this.props;
+        const { item_id, children, title } = category;
         const childrenArray = getSortedItems(Object.values(children));
         const isVisible = activeMenuItemsStack.includes(item_id);
         const subcategoryMods = { type: 'subcategory' };
@@ -178,13 +179,21 @@ export class Menu extends PureComponent {
                   elem="ItemList"
                   mods={ { ...subcategoryMods } }
                 >
+                    { device.isMobile && (
+                        <MenuItem
+                          activeMenuItemsStack={ activeMenuItemsStack }
+                          item={ { ...category, title: __('All %s', title) } }
+                          itemMods={ { ...subcategoryMods, isSecondLevel } }
+                          isLink
+                        />
+                    ) }
                     { childrenArray.map((item) => this.renderSubLevelItems(item, isSecondLevel)) }
                 </div>
             </div>
         );
     }
 
-    renderSubMenuDesktopItems = (item) => {
+    renderSubMenuDesktopItems(item) {
         const { item_id, children } = item;
 
         if (!Object.keys(children).length) {
@@ -226,7 +235,7 @@ export class Menu extends PureComponent {
                 />
             </div>
         );
-    };
+    }
 
     renderSubMenuDesktop(itemList) {
         const { device } = this.props;
@@ -237,7 +246,7 @@ export class Menu extends PureComponent {
 
         const childrenArray = getSortedItems(Object.values(itemList));
 
-        return childrenArray.map(this.renderSubMenuDesktopItems);
+        return childrenArray.map(this.renderSubMenuDesktopItems.bind(this));
     }
 
     renderAdditionalInformation(checkMobile = false) {
@@ -305,7 +314,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderFirstLevel = (item) => {
+    renderFirstLevel(item) {
         const { item_id } = item;
 
         return (
@@ -314,10 +323,10 @@ export class Menu extends PureComponent {
               elem="Item"
               key={ item_id }
             >
-                { this.renderFirstLevelItems(item) }
+                { this.renderFirstLevelItems.call(this, item) }
             </li>
         );
-    };
+    }
 
     renderTopLevel() {
         const { menu } = this.props;
@@ -340,7 +349,7 @@ export class Menu extends PureComponent {
                       mods={ { type: 'main' } }
                       aria-label={ mainCategoriesTitle }
                     >
-                        { childrenArray.map(this.renderFirstLevel) }
+                        { childrenArray.map(this.renderFirstLevel.bind(this)) }
                     </ul>
                 </div>
                 { this.renderSubMenuDesktop(children) }
@@ -368,6 +377,23 @@ export class Menu extends PureComponent {
         return <StoreSwitcher />;
     }
 
+    renderCompareCount() {
+        const { compareTotals } = this.props;
+
+        if (compareTotals < 1) {
+            return null;
+        }
+
+        return (
+            <span
+              block="Menu"
+              elem="CompareCountInMenu"
+            >
+                { `(${ compareTotals })` }
+            </span>
+        );
+    }
+
     renderComparePageLink() {
         const { device } = this.props;
 
@@ -380,6 +406,7 @@ export class Menu extends PureComponent {
                 <Link to="compare" block="Menu" elem="CompareLink">
                     <CompareIcon />
                     <h4>{ __('Compare products') }</h4>
+                    { this.renderCompareCount() }
                 </Link>
             </div>
         );

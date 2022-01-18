@@ -68,9 +68,9 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
         };
     }
 
-    changeQuantity = (quantity) => {
+    changeQuantity(quantity) {
         this.setState({ quantity });
-    };
+    }
 
     render() {
         return (

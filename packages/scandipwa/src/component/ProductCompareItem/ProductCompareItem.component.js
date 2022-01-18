@@ -37,6 +37,7 @@ export class ProductCompareItem extends PureComponent {
         overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
         linkTo: LinkType,
         overriddenAddToCartBtnHandler: PropTypes.func.isRequired
+
     };
 
     static defaultProps = {
@@ -92,7 +93,11 @@ export class ProductCompareItem extends PureComponent {
     }
 
     renderWishlistButton() {
-        const { product } = this.props;
+        const { product, isWishlistEnabled } = this.props;
+
+        if (!isWishlistEnabled) {
+            return null;
+        }
 
         return (
             <ProductWishlistButton
@@ -146,22 +151,21 @@ export class ProductCompareItem extends PureComponent {
               groupedProductQuantity={ {} }
               productOptionsData={ {} }
               mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
-              disabled
+              isDisabled
             />
         );
     }
 
     renderAddToCartBtn() {
         const {
-            overrideAddToCartBtnBehavior // ,
-            // product,
-            // isOutOfStock
+            overrideAddToCartBtnBehavior,
+            product,
+            isInStock
         } = this.props;
 
-        // TODO fix this in 5.0.4 when stock status fix will be merged
-        // if (isOutOfStock(product)) {
-        //     return this.renderAddToCartBtnDisabled();
-        // }
+        if (!isInStock(product)) {
+            return this.renderAddToCartBtnDisabled();
+        }
 
         if (overrideAddToCartBtnBehavior) {
             return this.renderAddToCartButtonWithLink();

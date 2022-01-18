@@ -22,7 +22,6 @@ import { Addresstype, CustomerType } from 'Type/Account.type';
 import { ShippingMethodsType, ShippingMethodType, StoreType } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import {
-    trimAddressFields,
     trimCheckoutAddress,
     trimCheckoutCustomerAddress
 } from 'Util/Address';
@@ -248,7 +247,7 @@ export class CheckoutShippingContainer extends PureComponent {
 
         const shippingAddress = selectedCustomerAddressId
             ? this._getAddressById(selectedCustomerAddressId)
-            : trimAddressFields(formFields);
+            : formFields;
 
         const {
             carrier_code: shipping_carrier_code,

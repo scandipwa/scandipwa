@@ -37,6 +37,7 @@ export class FieldContainer extends PureComponent {
         mix: MixType,
         options: FieldOptionsType,
         elemRef: RefType,
+        changeValueOnDoubleClick: PropTypes.bool,
 
         // Validation
         validationRule: ValidationRuleType,
@@ -62,7 +63,8 @@ export class FieldContainer extends PureComponent {
         addRequiredTag: false,
         label: '',
         subLabel: '',
-        elemRef: null
+        elemRef: null,
+        changeValueOnDoubleClick: false
     };
 
     state = {
@@ -163,7 +165,8 @@ export class FieldContainer extends PureComponent {
             showErrorAsLabel,
             label,
             subLabel,
-            addRequiredTag
+            addRequiredTag,
+            changeValueOnDoubleClick
         } = this.props;
         const { validationResponse } = this.state;
         const { validate } = this.containerFunctions;
@@ -188,6 +191,7 @@ export class FieldContainer extends PureComponent {
             label,
             subLabel,
             addRequiredTag,
+            changeValueOnDoubleClick,
             validationResponse,
             events: newEvents,
             fieldRef: this.fieldRef,

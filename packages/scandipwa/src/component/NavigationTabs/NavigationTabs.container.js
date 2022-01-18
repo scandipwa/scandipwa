@@ -11,10 +11,11 @@
 
 import { connect } from 'react-redux';
 
-import { CART, MY_ACCOUNT } from 'Component/Header/Header.config';
+import { CART } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import {
-    ACCOUNT_LOGIN_URL
+    ACCOUNT_LOGIN_URL,
+    ACCOUNT_URL
 } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -60,8 +61,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     scrollPosition = 0;
 
     routeMap = {
-        '/account': { name: ACCOUNT_TAB },
-        '/my-account': { name: ACCOUNT_TAB },
+        '/customer/account': { name: ACCOUNT_TAB },
         '/checkout': { name: CHECKOUT_TAB },
         '/cart': { name: CART_TAB },
         '/': { name: HOME_TAB },
@@ -81,14 +81,18 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const SCROLL_DEBOUNCE_DELAY = 10;
         const { name } = this.getNavigationState();
         this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
-        window.addEventListener('scroll', debounce(this.handleScroll, SCROLL_DEBOUNCE_DELAY));
+        window.addEventListener('scroll', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY));
 
         super.componentDidMount();
     }
 
     componentDidUpdate(prevProps) {
-        this.handleNavVisibility();
-        this.handleVisibleOnScrollChange(prevProps);
+        const { navigationState: { isHidden } } = this.props;
+        const { navigationState: { isHidden: prevHidden } } = prevProps;
+
+        if (isHidden !== prevHidden) {
+            this.handleNavVisibility();
+        }
     }
 
     containerProps() {
@@ -109,20 +113,18 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         document.documentElement.classList.remove('hiddenNavigationTabs');
     }
 
-    handleVisibleOnScrollChange(prevProps) {
-        const { navigationState: { isVisibleOnScroll } } = this.props;
-        const { navigationState: { isVisibleOnScroll: prevIsVisible } } = prevProps;
+    hideNavigationTabs() {
+        document.documentElement.classList.add('hideOnScroll');
+    }
 
-        if (isVisibleOnScroll !== prevIsVisible) {
-            this.scrollPosition = window.pageYOffset;
-            document.documentElement.classList.remove('hideOnScroll');
-        }
+    showNavigationTabs() {
+        document.documentElement.classList.remove('hideOnScroll');
     }
 
     handleNavVisibilityOnScroll(windowY) {
         const ERROR_TOP_OFFSET = 10;
         const ERROR_BOTTOM_OFFSET = 20;
-        const TOP_MIN_OFFSET = 100;
+        const TOP_MIN_OFFSET = 70;
 
         const doc = document.body;
         const offset = window.innerHeight + window.pageYOffset;
@@ -130,14 +132,14 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         if (windowY < TOP_MIN_OFFSET) {
             // We are on top
-            document.documentElement.classList.remove('hideOnScroll');
+            this.showNavigationTabs();
 
             return;
         }
 
         if (offset >= (height - ERROR_BOTTOM_OFFSET)) {
             // We are on the bottom
-            document.documentElement.classList.remove('hideOnScroll');
+            this.showNavigationTabs();
 
             return;
         }
@@ -149,24 +151,18 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         if (windowY < this.scrollPosition) {
             // Scrolling UP
-            document.documentElement.classList.remove('hideOnScroll');
+            this.showNavigationTabs();
         } else {
             // Scrolling DOWN
-            document.documentElement.classList.add('hideOnScroll');
+            this.hideNavigationTabs();
         }
     }
 
-    handleScroll = () => {
-        const { navigationState: { isVisibleOnScroll } } = this.props;
-
-        if (!isVisibleOnScroll) {
-            return;
-        }
-
+    handleScroll() {
         const windowY = window.pageYOffset;
         this.handleNavVisibilityOnScroll(windowY);
         this.scrollPosition = windowY;
-    };
+    }
 
     onMenuButtonClick() {
         const { navigationState: { name } } = this.props;
@@ -195,7 +191,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     onMyAccountButtonClick() {
         const { pathname } = location;
-        const url = appendWithStoreCode(isSignedIn() ? `/${ MY_ACCOUNT }` : ACCOUNT_LOGIN_URL);
+        const url = appendWithStoreCode(isSignedIn() ? `${ ACCOUNT_URL }` : ACCOUNT_LOGIN_URL);
 
         if (pathname !== url) {
             browserHistory.push(url);

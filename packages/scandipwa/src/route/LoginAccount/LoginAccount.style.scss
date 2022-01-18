@@ -21,6 +21,10 @@
         }
     }
 
+    &-CreateAccountButton {
+        width: 100%;
+    }
+
     &-InnerWrapper {
         @include desktop() {
             display: grid;
@@ -91,11 +95,4 @@
             margin-inline-start: 5px;
         }
     }
-
-    &-SignInWrapper {
-        @include desktop {
-            max-width: 400px;
-        }
-    }
 }
-

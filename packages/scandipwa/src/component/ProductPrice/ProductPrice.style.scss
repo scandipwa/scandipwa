@@ -12,16 +12,18 @@
 :root {
     --price-color: #{$black};
     --price-with-discount-color: #b10d0d;
-    --price-discount-color: #808080;
+    --price-discount-color: #0A0903;
 }
 
 .ProductPrice {
     color: var(--price-color);
     font-weight: 700;
-    font-size: 24px;
-    line-height: 1;
-    vertical-align: middle;
+    font-size: 18px;
+    font-style: normal;
+    line-height: 24px;
     margin-block-end: 0;
+    margin-block-start: 0;
+    vertical-align: middle;
 
     @include desktop {
         min-height: 40px;
@@ -41,38 +43,37 @@
     del {
         font-size: 14px;
         font-weight: 500;
-        opacity: .5;
+        opacity: .48;
         display: inline-block;
         margin-inline-end: 12px;
     }
 
     &-HighPrice {
-        color: var(--price-discount-color);
+        color: var(--price-color);
         line-height: 18px;
+
+        @include desktop {
+            line-height: 14px;
+        }
     }
 
     &-PriceValue {
         margin-block-start: 6px;
+        line-height: 24px;
+
+        @include desktop {
+            line-height: 28px;
+        }
     }
 
     &, &-BundleFrom, &-BundleTo {
         &_hasDiscount {
             .ProductPrice {
                 &-PriceBadge {
-                    display: block;
                     margin-block-start: 5px;
                     margin-block-end: -5px;
                 }
             }
-        }
-    }
-
-
-    &-RegularPrice {
-        margin-block-start: 5px;
-
-        &, strong {
-            color: var(--price-discount-color);
         }
     }
 
@@ -86,7 +87,12 @@
         display: block;
         font-weight: 400;
         font-size: 12px;
+        line-height: 16px;
         margin-block-start: 4px;
+
+        @include desktop {
+            line-height: 16px;
+        }
     }
 
     &-PriceBadge {
@@ -94,5 +100,9 @@
         font-weight: 400;
         margin-inline-end: 4px;
         white-space: nowrap;
+
+        @include desktop {
+            line-height: 20px;
+        }
     }
 }

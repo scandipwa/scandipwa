@@ -39,14 +39,11 @@
         font-weight: bold;
         opacity: .48;
         font-size: 12px;
+        line-height: 16px;
     }
 
     &-Title {
         margin-block: 8px;
-
-        @include desktop {
-            line-height: 40px;
-        }
 
         @include mobile {
             font-weight: 400;
@@ -58,6 +55,10 @@
         font-size: 14px;
         line-height: 20px;
         margin-block: 16px;
+
+        div[itemprop="description"] li::before {
+            position: static;
+        }
     }
 
     &-Stock {
@@ -69,12 +70,22 @@
         }
 
         @include mobile {
-            margin-block-end: 10px;
+            font-style: normal;
+            font-size: 12px;
+            line-height: 22px;
+            margin-block-start: 8px;
         }
     }
 
     &-Sku {
         order: 1;
+
+        @include mobile {
+            font-weight: normal;
+            font-size: 12px;
+            margin-block-start: 4px;
+            text-align: end;
+        }
 
         & + .ProductActions-Sku {
             margin-inline-start: 1ex;
@@ -84,13 +95,26 @@
     &-Review {
         order: 2;
         font-weight: 700;
-        color: var(--primary-base-color);
         cursor: pointer;
         inset-block-end: -2px;
         font-size: 14px;
 
-        &:hover {
-            color: var(--primary-dark-color);
+        @include mobile {
+            inset-block-end: 0;
+        }
+
+        &Text {
+            color: var(--primary-base-color);
+
+            &:hover {
+                color: var(--primary-dark-color);
+            }
+
+            &_isNotSafariOrIos {
+                @include mobile {
+                    vertical-align: -webkit-baseline-middle;
+                }
+            }
         }
     }
 
@@ -103,6 +127,10 @@
                     flex: 1;
                     align-items: flex-end;
                     flex-direction: column;
+                }
+
+                .TextPlaceholder {
+                    line-height: 30px;
                 }
             }
 
@@ -136,6 +164,18 @@
         justify-content: space-between;
         align-items: center;
         margin-block-end: 12px;
+
+        &:nth-child(2) {
+            @include mobile {
+                align-items: start;
+            }
+        }
+
+        &:nth-child(3) {
+            @include mobile {
+                margin-block-end: 22px;
+            }
+        }
 
         @include desktop {
             margin-block: 18px;
@@ -179,6 +219,10 @@
                 }
             }
         }
+
+        .hideOnScroll & {
+            transform: translateY(var(--footer-nav-height));
+        }
     }
 
     &-AddToCartWrapper {
@@ -210,6 +254,7 @@
                 inset-block-end: 0;
             }
         }
+
         .Field-ErrorMessages {
             position: absolute;
         }
@@ -228,12 +273,18 @@
 
                 input {
                     min-width: 36px;
-                };
+                }
             }
         }
 
         button {
-            cursor: pointer;
+            &:not([disabled]) {
+                cursor: pointer;
+            }
+
+            &:disabled {
+                cursor: default;
+            }
 
             &:hover {
                 border-color: var(--primary-dark-color);
@@ -258,6 +309,10 @@
     &-Reviews {
         margin-block-end: 10px;
         display: flex;
+
+        @include mobile {
+            margin-block-end: 0;
+        }
 
         .ProductReviewRating {
             margin-inline-end: 24px;

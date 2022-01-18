@@ -37,13 +37,14 @@ export class FieldSelect extends PureComponent {
         isDisabled: PropTypes.bool.isRequired
     };
 
-    renderNativeOption = (option) => {
+    renderNativeOption(option) {
         const {
             id,
             value,
             disabled,
             label,
-            subLabel = ''
+            subLabel = '',
+            isAvailable = true
         } = option;
 
         const { isDisabled } = this.props;
@@ -53,12 +54,12 @@ export class FieldSelect extends PureComponent {
               key={ id }
               id={ id }
               value={ value }
-              disabled={ disabled || isDisabled }
+              disabled={ disabled || isDisabled || !isAvailable }
             >
                 { `${label} ${subLabel}` }
             </option>
         );
-    };
+    }
 
     renderNativeSelect() {
         const {
@@ -77,18 +78,19 @@ export class FieldSelect extends PureComponent {
               { ...events }
               onChange={ handleSelectListOptionClick }
             >
-                { options.map(this.renderNativeOption) }
+                { options.map(this.renderNativeOption.bind(this)) }
             </select>
         );
     }
 
-    renderOption = (option) => {
+    renderOption(option) {
         const {
             id,
             label,
             subLabel,
             isPlaceholder = false,
-            isHovered
+            isHovered,
+            isAvailable = true
         } = option;
 
         const {
@@ -100,7 +102,12 @@ export class FieldSelect extends PureComponent {
             <li
               block="FieldSelect"
               elem="Option"
-              mods={ { isExpanded, isPlaceholder, isHovered } }
+              mods={ {
+                  isDisabled: !isAvailable,
+                  isExpanded,
+                  isPlaceholder,
+                  isHovered
+              } }
               key={ id }
               /**
                * Added 'o' as querySelector does not work with
@@ -124,7 +131,7 @@ export class FieldSelect extends PureComponent {
                 ) }
             </li>
         );
-    };
+    }
 
     renderOptions() {
         const {
@@ -139,7 +146,7 @@ export class FieldSelect extends PureComponent {
               role="menu"
               mods={ { isExpanded } }
             >
-                { options.map(this.renderOption) }
+                { options.map(this.renderOption.bind(this)) }
             </ul>
         );
     }

@@ -26,7 +26,7 @@ export class Field {
         this.name = name;
     }
 
-    addField = (field) => {
+    addField(field) {
         if (typeof field === 'string') {
             this.children.push(new Field(field));
         } else if (field instanceof Field) {
@@ -34,7 +34,7 @@ export class Field {
         }
 
         return this;
-    };
+    }
 
     setAlias(alias) {
         this.alias = `${alias}:`;
@@ -43,7 +43,7 @@ export class Field {
     }
 
     addFieldList(fieldList) {
-        fieldList.forEach(this.addField);
+        fieldList.forEach(this.addField.bind(this));
 
         return this;
     }

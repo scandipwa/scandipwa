@@ -20,8 +20,8 @@ import GroupedProductList from 'Component/GroupedProductList';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductBundleOptions from 'Component/ProductBundleOptions';
 import ProductCompareButton from 'Component/ProductCompareButton';
-import ProductConfigurableAttributes
-    from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
+// eslint-disable-next-line max-len
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductDownloadableLinks from 'Component/ProductDownloadableLinks';
 import ProductDownloadableSamples from 'Component/ProductDownloadableSamples/ProductDownloadableSamples.component';
@@ -63,6 +63,7 @@ export class Product extends PureComponent {
         setActiveProduct: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
 
+        isWishlistEnabled: PropTypes.bool.isRequired,
         configFormRef: RefType
     };
 
@@ -273,9 +274,9 @@ export class Product extends PureComponent {
     }
 
     renderWishlistButton() {
-        const { magentoProduct } = this.props;
+        const { magentoProduct, isWishlistEnabled } = this.props;
 
-        if (magentoProduct.length === 0) {
+        if (magentoProduct.length === 0 || !isWishlistEnabled) {
             return null;
         }
 

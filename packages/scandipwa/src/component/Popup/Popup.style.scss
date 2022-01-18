@@ -11,6 +11,7 @@
 
 :root {
     --popup-background: #0003;
+
     @include mobile {
         --popup-content-padding: 14px;
     }
@@ -18,6 +19,7 @@
     --popup-content-background: #{$white};
     --popup-min-width: 100%;
     --popup-content-padding: 12px;
+    --popup-max-height: 80%;
 
     @include desktop {
         --popup-min-width: 490px;
@@ -33,7 +35,6 @@
     background-color: var(--popup-background);
     inset-inline-start: 0;
     inset-block-start: var(--header-total-height);
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,7 +74,7 @@
         padding: var(--popup-content-padding);
         min-width: var(--popup-min-width);
         max-width: calc(var(--content-wrapper-width) * .8);
-        max-height: 80%;
+        max-height: var(--popup-max-height);
         overflow-y: auto;
 
         @include mobile {

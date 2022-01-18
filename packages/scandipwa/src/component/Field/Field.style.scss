@@ -44,7 +44,7 @@
         }
     }
 
-    &-CheckboxLabel, &-RadioLabel{
+    &-CheckboxLabel, &-RadioLabel {
         display: inline-flex;
         align-items: center;
 
@@ -54,6 +54,10 @@
 
         &:hover {
             cursor: pointer;
+            
+            @include desktop {
+                color: var(--primary-base-color);
+            }
         }
 
         .input-control {
@@ -70,6 +74,7 @@
             font-size: 12px;
             margin-block-end: -.1em;
             margin-block-start: 6px;
+            text-align: start;
         }
     }
 
@@ -109,7 +114,7 @@
     }
 
     input::placeholder {
-        color:  var(--input-color);
+        color: var(--input-color);
         opacity: .5;
     }
 
@@ -177,6 +182,10 @@
     &_type {
         &_checkbox,
         &_radio {
+            span {
+                font-size: 12px;
+            }
+
             label {
                 &:first-of-type {
                     display: inline-flex;
@@ -192,6 +201,7 @@
 
             .input-control {
                 vertical-align: middle;
+                margin-inline-end: 11px;
             }
         }
 
@@ -201,7 +211,7 @@
                     max-width: calc(100vw - 24px - 45px);
 
                     @include mobile {
-                        max-width: calc(100vw - 28px - 45px);
+                        max-width: 100%;
                     }
                 }
             }
@@ -241,6 +251,8 @@
                 &_isValid {
                     input {
                         & + label {
+                            word-break: break-word;
+                            text-align: center;
                             border-color: var(--primary-success-color);
                         }
                     }
@@ -249,16 +261,12 @@
                 &_hasError {
                     input {
                         & + label {
+                            word-break: break-word;
+                            text-align: center;
                             border-color: var(--primary-error-color);
                         }
                     }
                 }
-            }
-        }
-
-        &_checkbox, &_radio {
-            span {
-                font-size: 12px;
             }
         }
     }
@@ -303,17 +311,15 @@
                 --checkmark-color: transparent;
 
                 background: var(--checkmark-color);
-                box-shadow:
-                        2px 0 0 var(--checkmark-color),
-                        4px 0 0 var(--checkmark-color),
-                        4px -2px 0 var(--checkmark-color),
-                        4px -4px 0 var(--checkmark-color),
-                        4px -6px 0 var(--checkmark-color),
-                        4px -8px 0 var(--checkmark-color);
+                box-shadow: 2px 0 0 var(--checkmark-color),
+                    4px 0 0 var(--checkmark-color),
+                    4px -2px 0 var(--checkmark-color),
+                    4px -4px 0 var(--checkmark-color),
+                    4px -6px 0 var(--checkmark-color),
+                    4px -8px 0 var(--checkmark-color);
                 content: '';
                 height: 2px;
-                // required for ltr + rtl support, don't change to 'inset-inline-start'
-                left: calc(50% - 5px);
+                inset-inline-start: calc(50% - 5px);
                 pointer-events: none;
                 position: absolute;
                 inset-block-start: calc(50% - 1px);
@@ -354,8 +360,7 @@
                 &::after {
                     --checkmark-color: var(--primary-base-color);
 
-                    // required for ltr + rtl support, don't change to 'inset-inline-start'
-                    left: calc(50% - 5px);
+                    inset-inline-start: calc(50% - 5px);
                     inset-block-start: calc(50% - 1px);
                 }
             }
@@ -363,7 +368,6 @@
     }
 
     [type='radio'] {
-
         + .input-control {
             border-radius: 50%;
         }

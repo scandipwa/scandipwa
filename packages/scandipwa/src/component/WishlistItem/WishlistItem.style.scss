@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
- :root {
+:root {
     --whislist-swipe-to-delete-color: #fff;
     --whislist-qty-button-size: 20px;
 }
@@ -17,7 +17,7 @@
 .WishlistItem {
     @include mobile {
         padding-block: 14px;
-        margin-inline: var(--my-account-wrapper-margin-mobile);;
+        margin-inline: var(--my-account-wrapper-margin-mobile);
         border-block-start: 1px solid var(--wishlist-item-border-color);
     }
 
@@ -25,6 +25,7 @@
         margin-block-start: 10px;
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
 
     &-InformationWrapper {
@@ -196,6 +197,16 @@
             @include desktop {
                 width: 100%;
             }
+        }
+    }
+
+    &-OutOfStock {
+        align-items: center;
+        display: flex;
+        height: 48px;
+
+        p {
+            margin: 0;
         }
     }
 

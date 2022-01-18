@@ -111,7 +111,7 @@ export class StoreInPickUpContainer extends PureComponent {
         }
     }
 
-    containerProps = () => {
+    containerProps() {
         const { countries } = this.props;
         const {
             isLoading,
@@ -127,7 +127,7 @@ export class StoreInPickUpContainer extends PureComponent {
             stores,
             storeSearchCriteria
         };
-    };
+    }
 
     clearStores() {
         this.setState({ stores: [] });

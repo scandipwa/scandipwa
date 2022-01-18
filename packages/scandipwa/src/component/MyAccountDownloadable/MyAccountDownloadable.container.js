@@ -34,10 +34,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountDownloadable/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
-    getOrderList: () => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch)
-    )
+    showSuccessNotification: (message) => dispatch(showNotification('success', message))
 });
 
 /** @namespace Component/MyAccountDownloadable/Container */
@@ -55,13 +52,10 @@ export class MyAccountDownloadableContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { getOrderList } = this.props;
-
-        getOrderList();
         this.requestDownloadable();
     }
 
-    containerProps = () => {
+    containerProps() {
         const { device } = this.props;
         const { isLoading } = this.state;
 
@@ -70,7 +64,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
             isLoading,
             items: this._prepareDownloadableProps()
         };
-    };
+    }
 
     _prepareDownloadableProps() {
         const { items } = this.state;
@@ -82,7 +76,8 @@ export class MyAccountDownloadableContainer extends PureComponent {
         return items.reduce((acc, item, index) => {
             acc.push({
                 id: index,
-                order_id: item.order_increment_id,
+                order_id: item.order_id,
+                order_increment_id: item.order_increment_id,
                 status_label: item.status,
                 created_at: item.date,
                 download_url: item.download_url,
@@ -95,27 +90,23 @@ export class MyAccountDownloadableContainer extends PureComponent {
         }, []);
     }
 
-    requestDownloadable() {
+    async requestDownloadable() {
         const { showErrorNotification } = this.props;
 
         this.setState({ isLoading: true });
 
-        fetchQuery(
-            OrderQuery.getDownloadableQuery()
-        ).then(
-            /** @namespace Component/MyAccountDownloadable/Container/requestDownloadable/success */
-            (
-            /** @namespace Component/MyAccountDownloadable/Container/MyAccountDownloadableContainer/requestDownloadable/fetchQuery/then */
-                (data) => {
-                    const { customerDownloadableProducts: { items = [] } = {} } = data;
-                    this.setState({ items, isLoading: false });
-                }),
-            /** @namespace Component/MyAccountDownloadable/Container/MyAccountDownloadableContainer/requestDownloadable/fetchQuery/then/catch */
-            (err) => {
-                showErrorNotification(getErrorMessage(err));
-                this.setState({ isLoading: false });
-            }
-        );
+        try {
+            const {
+                customerDownloadableProducts: {
+                    items = []
+                } = {}
+            } = await fetchQuery(OrderQuery.getDownloadableQuery());
+
+            this.setState({ items, isLoading: false });
+        } catch (e) {
+            showErrorNotification(getErrorMessage(e));
+            this.setState({ isLoading: false });
+        }
     }
 
     render() {

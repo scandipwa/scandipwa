@@ -26,7 +26,7 @@ import { ProductType } from 'Type/ProductList.type';
 import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
-import { getIsConfigurableParameterSelected } from 'Util/Product';
+import { getAttributesWithValues, getIsConfigurableParameterSelected } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
     convertQueryStringToKeyValuePairs,
@@ -124,6 +124,8 @@ export class ProductPageContainer extends PureComponent {
         isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
+
+    setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
 
     static getDerivedStateFromProps(props, state) {
         const {
@@ -276,15 +278,16 @@ export class ProductPageContainer extends PureComponent {
     }
 
     isProductInformationTabEmpty() {
-        const dataSource = this.getDataSource();
-
-        return dataSource?.description?.html?.length === 0;
+        const { description: { html = '' } = {} } = this.getDataSource();
+        // handling cases when empty html tag is received
+        const htmlElement = new DOMParser().parseFromString(html, 'text/html');
+        return !htmlElement?.body?.innerText;
     }
 
     isProductAttributesTabEmpty() {
         const dataSource = this.getDataSource();
 
-        return Object.keys(dataSource?.attributes || {}).length === 0;
+        return Object.keys(getAttributesWithValues(dataSource) || {}).length === 0;
     }
 
     _addToRecentlyViewedProducts() {
@@ -321,7 +324,7 @@ export class ProductPageContainer extends PureComponent {
         addRecentlyViewedProduct(productPreview, store);
     }
 
-    setOfflineNoticeSize = () => {
+    setOfflineNoticeSize() {
         const { setBigOfflineNotice, productSKU } = this.props;
         const { sku } = this.getDataSource();
 
@@ -335,7 +338,7 @@ export class ProductPageContainer extends PureComponent {
         } else {
             setBigOfflineNotice(false);
         }
-    };
+    }
 
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
@@ -352,7 +355,7 @@ export class ProductPageContainer extends PureComponent {
         return `${pathname}${query}`;
     }
 
-    containerProps = () => {
+    containerProps() {
         const { isMobile, location } = this.props;
         const { parameters } = this.state;
 
@@ -368,7 +371,7 @@ export class ProductPageContainer extends PureComponent {
             parameters,
             location
         };
-    };
+    }
 
     getIsVariant() {
         const { activeProduct } = this.state;

@@ -347,7 +347,7 @@ export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort
 export const getIsConfigurableParameterSelected = (parameters, key, value) => Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
 
 /** @namespace Util/Product/getNewParameters */
-export const getNewParameters = (parameters, key, value) => {
+export const getNewParameters = (parameters, key, value = '') => {
     // If value is already selected, than we remove the key to achieve deselection
     if (getIsConfigurableParameterSelected(parameters, key, value)) {
         const { [key]: oldValue, ...newParameters } = parameters;
@@ -456,4 +456,25 @@ export const validateProductQuantity = (quantity, stockItem) => {
     }
 
     return [true];
+};
+
+/** @namespace Util/Product/getAttributesWithValues */
+export const getAttributesWithValues = (product) => {
+    const { attributes = {}, parameters = {} } = product;
+
+    return Object.entries(attributes).reduce((acc, [key, val]) => {
+        const { attribute_label, attribute_value } = val;
+
+        if (attribute_value) {
+            return { ...acc, [attribute_label]: val };
+        }
+
+        const valueIndexFromParameter = parameters[key];
+
+        if (valueIndexFromParameter) {
+            return { ...acc, [attribute_label]: { ...val, attribute_value: valueIndexFromParameter } };
+        }
+
+        return acc;
+    }, {});
 };

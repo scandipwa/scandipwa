@@ -70,6 +70,7 @@
 
         &_isTotal {
             font-size: 16px;
+            line-height: 24px;
             padding-inline-start: 0;
 
             @include desktop {
@@ -79,6 +80,11 @@
             & p {
                 font-size: 16px;
                 font-weight: 700;
+                line-height: 24px;
+            }
+
+            & div {
+                line-height: 24px;
             }
         }
     }
@@ -211,13 +217,27 @@
     }
 
     &-Text {
-        text-align: end;
+        flex-direction: column;
+        word-break: break-word;
         margin-block-end: 0;
 
         span {
             display: block;
             font-size: 12px;
             font-weight: 400;
+        }
+    }
+
+    &-Price {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        text-align: end;
+        white-space: nowrap;
+
+        span {
+            line-height: 16px;
         }
     }
 
@@ -240,6 +260,10 @@
             background-color: var(--color-white);
             border-block-start: 1px solid var(--primary-divider-color);
             z-index: 80;
+
+            .hideOnScroll & {
+                transform: translateY(var(--footer-nav-height));
+            }
         }
 
         &_isEmpty {

@@ -23,15 +23,59 @@
         grid-gap: 48px;
     }
 
-    &-DefaultAddress {
+    &-AddressesWrapper {
         @include desktop {
-            grid-row: 2;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    &-Addresses {
+        @include desktop {
+            grid-column: span 2;
         }
     }
 
     &-CustomerData {
         @include desktop {
             grid-column: span 2;
+        }
+
+        td {
+            word-break: break-word;
+        }
+    }
+
+    &-DefaultAddress {
+        width: 100%;
+
+        &:nth-child(2) {
+            @include mobile {
+                margin-block-start: 48px;
+            }
+
+            @include desktop {
+                margin-inline-start: 48px;
+            }
+        }
+    }
+
+    &-BlockTitle {
+        border-bottom: var(--my-account-content-border);
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        padding-block-end: 6px;
+        width: 100%;
+        margin-block-end: 25px;
+
+        a {
+            margin-inline-start: 15px;
+            margin-block-start: 4px;
+        }
+
+        @include desktop {
+            justify-content: unset;
         }
     }
 

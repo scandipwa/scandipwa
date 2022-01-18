@@ -1,0 +1,95 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.MyAccountOrderInformation {
+    &-Wrapper {
+        margin-block-start: 40px;
+    }
+
+    &-Information {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+
+        @include desktop {
+            flex-direction: row;
+        }
+    }
+
+    &-Title {
+        font-size: 22px;
+        padding-block-end: 10px;
+        margin-block-end: 25px;
+        border-block-end: var(--my-account-content-border);
+    }
+
+    &-AddressWrapper {
+        margin-block-start: 20px;
+    }
+
+    &-Address {
+        .KeyValueTable {
+            width: 90%;
+
+            &-Wrapper {
+                width: 90%;
+            }
+
+            th,
+            td {
+                padding-inline-start: 0;
+                word-break: break-word;
+            }
+
+            tbody {
+                tr {
+                    &:first-of-type {
+                        td, th {
+                            padding-block-start: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-Column {
+        flex: 1 1 0;
+        font-size: 14px;
+        margin-block-end: 20px;
+
+        &_type {
+            &_billingAddress,
+            &_shippingAddress {
+                margin-inline-end: 25px;
+            }
+        }
+
+        @include desktop {
+            margin-block-end: 0;
+        }
+    }
+
+    &-ColumnTitle {
+        font-size: 16px;
+        font-weight: 600;
+        margin-block-end: 15px;
+    }
+
+    &-PaymentMethod {
+        display: flex;
+        flex-direction: column;
+
+        span:not(:last-child) {
+            margin-block-end: 10px;
+        }
+    }
+}

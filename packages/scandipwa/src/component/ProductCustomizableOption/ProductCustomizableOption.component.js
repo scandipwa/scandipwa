@@ -14,6 +14,8 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import { FIELD_TYPE } from 'Component/Field/Field.config';
+import FieldDate from 'Component/FieldDate';
+import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
 import FieldGroup from 'Component/FieldGroup';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
@@ -41,9 +43,9 @@ export class ProductCustomizableOption extends PureComponent {
     renderMap = {
         [CONFIG_FIELD_TYPE.text]: this.renderDefaultValue.bind(this),
         [CONFIG_FIELD_TYPE.textarea]: this.renderDefaultValue.bind(this),
-        [CONFIG_FIELD_TYPE.date]: this.renderDefaultValue.bind(this),
-        [CONFIG_FIELD_TYPE.dateTime]: this.renderDefaultValue.bind(this),
-        [CONFIG_FIELD_TYPE.time]: this.renderDefaultValue.bind(this),
+        [CONFIG_FIELD_TYPE.date]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.date),
+        [CONFIG_FIELD_TYPE.dateTime]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.dateTime),
+        [CONFIG_FIELD_TYPE.time]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.time),
 
         [CONFIG_FIELD_TYPE.file]: this.renderFileValue.bind(this),
         [CONFIG_FIELD_TYPE.select]: this.renderSelectValues.bind(this),
@@ -66,10 +68,10 @@ export class ProductCustomizableOption extends PureComponent {
         } = customizableOptionToLabel(option, currencyCode);
 
         return (
-            <span block="ProductCustomizableItem" elem="Label">
+            <div block="ProductCustomizableItem" elem="Label">
                 { overrideBase || baseLabel }
-                <strong>{ overridePrice || priceLabel }</strong>
-            </span>
+                <strong block="ProductCustomizableItem" elem="PriceLabel">{ ` ${overridePrice || priceLabel}` }</strong>
+            </div>
         );
     }
 
@@ -100,6 +102,29 @@ export class ProductCustomizableOption extends PureComponent {
                       onChange: updateSelectedValues
                   } }
                   validateOn={ ['onBlur'] }
+                />
+            </>
+        );
+    }
+
+    renderDatePicker(type, option) {
+        const {
+            title,
+            uid,
+            isRequired,
+            updateSelectedValues
+        } = this.props;
+
+        const label = this.getLabel(option, title);
+
+        return (
+            <>
+                { this.renderOptionGroupTitle(label) }
+                <FieldDate
+                  type={ type }
+                  uid={ uid }
+                  isRequired={ isRequired }
+                  updateSelectedValues={ updateSelectedValues }
                 />
             </>
         );
@@ -137,7 +162,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderCheckBox = (option) => {
+    renderCheckBox(option) {
         const {
             uid,
             is_default: isDefault = false
@@ -162,7 +187,7 @@ export class ProductCustomizableOption extends PureComponent {
                 />
             </div>
         );
-    };
+    }
 
     renderCheckboxValues(options) {
         const { isRequired } = this.props;
@@ -174,12 +199,12 @@ export class ProductCustomizableOption extends PureComponent {
               } }
               validateOn={ ['onChange'] }
             >
-                { options.map(this.renderCheckBox) }
+                { options.map(this.renderCheckBox.bind(this)) }
             </FieldGroup>
         );
     }
 
-    renderRadio = (name, option) => {
+    renderRadio(name, option) {
         const {
             uid,
             is_default
@@ -204,7 +229,7 @@ export class ProductCustomizableOption extends PureComponent {
                 />
             </div>
         );
-    };
+    }
 
     renderRadioValues(options) {
         const { isRequired, uid } = this.props;
@@ -256,9 +281,9 @@ export class ProductCustomizableOption extends PureComponent {
         const { isRequired } = this.props;
 
         return (
-            <div block="ProductCustomizableItem" elem="Heading">
+            <div block="ProductCustomizableItem" elem="HeadingBold">
                 { title }
-                { isRequired && <strong block="ProductCustomizableItem" elem="Required"> *</strong> }
+                { isRequired && <strong block="ProductCustomizableItem" elem="Required">*</strong> }
             </div>
         );
     }
