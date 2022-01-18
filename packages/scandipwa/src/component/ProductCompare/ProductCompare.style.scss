@@ -49,6 +49,7 @@
         @include mobile {
             flex: 0 0 auto;
             margin-block-start: 0;
+            will-change: transform;
         }
     }
 
@@ -78,6 +79,10 @@
 
     &-AttributeTable {
         min-width: fit-content;
+
+        @include mobile {
+            will-change: transform;
+        }
     }
 
     &-Empty {
