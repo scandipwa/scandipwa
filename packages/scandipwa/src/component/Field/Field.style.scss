@@ -326,14 +326,22 @@
                 width: 2px;
                 will-change: background-color, box-shadow;
             }
+
+            &:disabled {
+                color: var(--color-dark-gray);
+                cursor: default;
+                opacity: 0.5;
+            }
         }
 
-        &:disabled + .input-control {
+        &:disabled {
             color: var(--color-dark-gray);
-            cursor: auto;
+            cursor: default;
+            opacity: 0.5;
+            border: none;
         }
 
-        &:hover + .input-control {
+        &:hover:not(:disabled) + .input-control {
             cursor: pointer;
 
             @include desktop {

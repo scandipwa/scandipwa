@@ -211,8 +211,9 @@ export class Field extends PureComponent {
                   type={ type }
                   { ...attr }
                   { ...inputEvents }
+                  checked={ !isDisabled }
                 />
-                <div block="input-control" />
+                <div block="input-control" disabled={ isDisabled } />
                 { label }
             </label>
         );
