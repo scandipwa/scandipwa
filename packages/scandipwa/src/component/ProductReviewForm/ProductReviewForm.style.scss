@@ -43,13 +43,11 @@
             display: flex;
             flex-direction: row-reverse;
         }
-
+        
         margin-block-start: 12px;
         margin-block-end: 16px;
         margin-inline: 0;
-        /* stylelint-disable-next-line csstools/use-logical */
-        text-align: left;
-        direction: rtl;
+        text-align: start;
         border: 0;
         /* stylelint-disable-next-line unknownProperties, property-no-unknown */
         white-space-collapse: discard; // alternative of `font-size: 0`
@@ -83,8 +81,8 @@
         }
     }
 
-    &-Legend::before {
-        content: '* ';
+    &-Legend::after {
+        content: ' *';
         white-space: pre;
         font-weight: bold;
         color: var(--required-text-color);
@@ -96,7 +94,7 @@
         text-align: start;
     }
 
-    &-ErrorMessage::before {
+    &-ErrorMessage::after {
         content: '!';
     }
 
