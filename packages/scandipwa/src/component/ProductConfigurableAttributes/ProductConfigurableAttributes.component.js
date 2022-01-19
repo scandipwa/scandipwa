@@ -160,6 +160,7 @@ export class ProductConfigurableAttributes extends PureComponent {
 
         return Object.values(configurable_options).map((option) => {
             const {
+                attribute_code,
                 attribute_label,
                 attribute_options,
                 attribute_id,
@@ -178,8 +179,12 @@ export class ProductConfigurableAttributes extends PureComponent {
                 return null;
             }
 
+            const selectedOption = parameters[attribute_code];
+            const selectedOptionLabel = selectedOption ? attribute_options[selectedOption]?.label : '';
+
             return (
                 <div key={ attribute_id }>
+
                     <p
                       block="ProductConfigurableAttributes"
                       elem="Title"
@@ -187,6 +192,7 @@ export class ProductConfigurableAttributes extends PureComponent {
                       onAnimationEnd={ handleShakeAnimationEnd }
                     >
                             { attribute_label }
+
                     </p>
                     { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
                 </div>

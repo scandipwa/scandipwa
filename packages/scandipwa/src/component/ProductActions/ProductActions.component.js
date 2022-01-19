@@ -65,11 +65,13 @@ export class ProductActions extends Product {
     }
 
     renderReviewButton() {
-        const { areReviewsEnabled } = this.props;
+        const { device, areReviewsEnabled } = this.props;
 
         if (!areReviewsEnabled) {
             return null;
         }
+
+        const isNotSafariOrIos = !device.ios && !device.safari;
 
         return (
             <button
@@ -77,7 +79,13 @@ export class ProductActions extends Product {
               elem="Review"
               onClick={ showNewReviewPopup }
             >
-                { __('Write a review') }
+                <span
+                  block="ProductActions"
+                  elem="ReviewText"
+                  mods={ { isNotSafariOrIos } }
+                >
+                    { __('Write a review') }
+                </span>
             </button>
         );
     }
