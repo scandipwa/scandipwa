@@ -249,8 +249,20 @@ export class CartPageContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        const list = items.filter((product, index) => index
-        === items.findIndex((products) => products.id === product.id));
+        const list = items.filter(
+            (item, index, array) => {
+                if (index === 0) {
+                    return true;
+                }
+
+                if (item.product.variants.length === 0) {
+                    return true;
+                }
+
+                const duplicate = array.find((element) => element.product.id === item.product.id);
+                return (duplicate.product.id === item.product.id && duplicate.sku === item.sku);
+            }
+        );
 
         updateCrossSellProducts(list);
     }
