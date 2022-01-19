@@ -9,10 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-:root {
-    --my-account-order-items-comment-border: 1px solid #979797;
-}
-
 .MyAccountOrderItemsTable {
     &-OrderTitle {
         font-size: 22px;
@@ -119,7 +115,7 @@
     }
 
     &-Comment {
-        border-inline-start: var(--my-account-order-items-comment-border);
+        border-inline-start: var(--my-account-content-border);
         margin-block-end: 30px;
 
         dt {

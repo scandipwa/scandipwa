@@ -30,7 +30,7 @@ export const convertStringToDate = (stringDate, options) => {
 export const getTimeInCurrentTimezone = (timestamp) => {
     const currentDate = new Date();
     const timezone = currentDate.getTimezoneOffset() * MILLISECONDS_PER_MINUTE;
-    const timeInCurrentTimezone = new Date(timestamp).getTime() - timezone;
+    const timeInCurrentTimezone = new Date(timestamp) - new Date(timezone);
 
     return getDateValue(timeInCurrentTimezone);
 };
