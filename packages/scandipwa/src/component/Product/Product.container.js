@@ -101,7 +101,9 @@ export class ProductContainer extends PureComponent {
         setActiveProduct: this.updateConfigurableVariant.bind(this),
         getMagentoProduct: this.getMagentoProduct.bind(this),
         setValidator: this.setValidator.bind(this),
-        validateConfigurableProduct: this.validateConfigurableProduct.bind(this)
+        validateConfigurableProduct: this.validateConfigurableProduct.bind(this),
+        resetUnselectedOptions: this.resetUnselectedOptions.bind(this),
+        handleShakeAnimationEnd: this.handleShakeAnimationEnd.bind(this)
     };
 
     state = {
@@ -338,19 +340,35 @@ export class ProductContainer extends PureComponent {
 
     validateConfigurableProduct() {
         const {
-            parameters,
-            unselectedOptions
+            parameters
         } = this.state;
-        const { product: { configurable_options } } = this.props;
-        const newUnselectedOptions = [];
 
+        const { product: { configurable_options } } = this.props;
+        const unselectedOptions = [];
         Object.keys(configurable_options).forEach((key) => {
-            if (!parameters[key] && !unselectedOptions.includes(key)) {
-                newUnselectedOptions.push(key);
+            if (!parameters[key]) {
+                unselectedOptions.push(key);
             }
         });
-        this.setState({ unselectedOptions: newUnselectedOptions });
-        return newUnselectedOptions.length > 0;
+
+        return unselectedOptions.length > 0;
+    }
+
+    resetUnselectedOptions() {
+        this.setState({ unselectedOptions: [] });
+    }
+
+    handleShakeAnimationEnd(e) {
+        e.preventDefault();
+        const { currentTarget } = e;
+        currentTarget.classList.forEach((className, id) => {
+            if (className.includes('_isUnselected')) {
+                const removeClass = currentTarget.classList[id];
+                currentTarget.classList.remove(removeClass);
+            }
+        });
+
+        this.resetUnselectedOptions();
     }
 
     /**
@@ -361,10 +379,10 @@ export class ProductContainer extends PureComponent {
         this.updateSelectedValues();
         const isValid = validateGroup(this.validator);
 
-        if ((isValid !== true && !this.filterAddToCartFileErrors(isValid.values))
-            || this.validateConfigurableProduct()) {
+        if (this.validateConfigurableProduct()
+        || (isValid !== true && !this.filterAddToCartFileErrors(isValid.values))) {
             const { showError } = this.props;
-            this.validator.scrollIntoView();
+            this.validator.scrollIntoView({ block: 'center' });
             showError(__('Incorrect or missing options!'));
             return;
         }

@@ -37,6 +37,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
         configurable_options: AttributesType.isRequired,
         unselectedOptions: PropTypes.arrayOf(PropTypes.string),
+        handleShakeAnimationEnd: PropTypes.func.isRequired,
         inStock: PropTypes.bool
     };
 
@@ -72,7 +73,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             showProductAttributeAsLink,
             updateConfigurableVariant,
             unselectedOptions,
-            inStock
+            inStock,
+            handleShakeAnimationEnd
         } = this.props;
 
         return {
@@ -85,7 +87,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             showProductAttributeAsLink,
             updateConfigurableVariant,
             unselectedOptions,
-            inStock
+            inStock,
+            handleShakeAnimationEnd
         };
     }
 
@@ -130,6 +133,20 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         const { unselectedOptions } = this.props;
         return unselectedOptions.length > 0 && unselectedOptions.includes(attributeCode);
     }
+
+    /* handleShakeAnimationEnd(e) {
+        const { resetUnselectedOptions } = this.props;
+        e.preventDefault();
+        const { currentTarget } = e;
+        currentTarget.classList.forEach((className, id) => {
+            if (className.includes('_isUnselected')) {
+                const removeClass = currentTarget.classList[id];
+                currentTarget.classList.remove(removeClass);
+            }
+        });
+
+        resetUnselectedOptions();
+    } */
 
     getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {
         const { parameters, variants } = this.props;

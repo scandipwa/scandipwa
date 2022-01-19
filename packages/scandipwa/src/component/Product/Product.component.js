@@ -57,6 +57,7 @@ export class Product extends PureComponent {
         addToCart: PropTypes.func.isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
         unselectedOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+        handleShakeAnimationEnd: PropTypes.func.isRequired,
         setAdjustedPrice: PropTypes.func.isRequired,
         setDownloadableLinks: PropTypes.func.isRequired,
 
@@ -111,13 +112,17 @@ export class Product extends PureComponent {
             product: {
                 options
             },
-            updateSelectedValues
+            updateSelectedValues,
+            unselectedOptions,
+            handleShakeAnimationEnd
         } = this.props;
 
         return (
             <ProductCustomizableOptions
               updateSelectedValues={ updateSelectedValues }
               options={ options }
+              unselectedOptions={ unselectedOptions }
+              handleShakeAnimationEnd={ handleShakeAnimationEnd }
             />
         );
     }
@@ -186,7 +191,8 @@ export class Product extends PureComponent {
             parameters,
             product: { type_id: type, variants = {} },
             inStock,
-            unselectedOptions
+            unselectedOptions,
+            handleShakeAnimationEnd
         } = this.props;
 
         if (type !== PRODUCT_TYPE.configurable) {
@@ -208,6 +214,7 @@ export class Product extends PureComponent {
                   configurable_options={ this.getConfigurableAttributes() }
                   isContentExpanded
                   unselectedOptions={ unselectedOptions }
+                  handleShakeAnimationEnd={ handleShakeAnimationEnd }
                   inStock={ inStock }
                 />
             </div>

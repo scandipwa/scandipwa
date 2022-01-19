@@ -20,6 +20,7 @@ import {
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import { MixType } from 'Type/Common.type';
 import { AttributesType } from 'Type/ProductList.type';
+import { noopFn } from 'Util/Common';
 
 import './ProductConfigurableAttributes.style';
 
@@ -33,24 +34,36 @@ export class ProductConfigurableAttributes extends PureComponent {
         isReady: PropTypes.bool,
         mix: MixType,
         getIsConfigurableAttributeAvailable: PropTypes.func,
+        handleShakeAnimationEnd: PropTypes.func,
         handleIsOptionUnselected: PropTypes.func,
         handleOptionClick: PropTypes.func.isRequired,
         isSelected: PropTypes.func.isRequired,
         getLink: PropTypes.func.isRequired,
         isExpandable: PropTypes.bool,
         showProductAttributeAsLink: PropTypes.bool,
-        inStock: PropTypes.bool.isRequired
+        inStock: PropTypes.bool.isRequired,
+        unselectedOptions: PropTypes.arrayOf(PropTypes.string)
     };
 
     static defaultProps = {
         isReady: true,
         mix: {},
+        unselectedOptions: [],
         numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
         getIsConfigurableAttributeAvailable: () => true,
+        handleShakeAnimationEnd: noopFn,
         handleIsOptionUnselected: () => false,
         isExpandable: true,
         showProductAttributeAsLink: true
     };
+
+    componentDidUpdate(prevProps) {
+        const { unselectedOptions } = prevProps;
+
+        if (unselectedOptions.length > 0) {
+            this.renderConfigurableAttributes();
+        }
+    }
 
     renderConfigurableAttributeValue(attribute) {
         const {
@@ -78,7 +91,7 @@ export class ProductConfigurableAttributes extends PureComponent {
     }
 
     renderSwatch(option) {
-        const { handleIsOptionUnselected } = this.props;
+        const { handleIsOptionUnselected, handleShakeAnimationEnd } = this.props;
         const { attribute_values, attribute_code } = option;
         const isUnselected = handleIsOptionUnselected(attribute_code);
         return (
@@ -87,6 +100,7 @@ export class ProductConfigurableAttributes extends PureComponent {
               elem="SwatchList"
               mods={ { isUnselected } }
               key={ attribute_code }
+              onAnimationEnd={ handleShakeAnimationEnd }
             >
                 { attribute_values.map((attribute_value) => (
                     this.renderConfigurableAttributeValue({ ...option, attribute_value })
@@ -140,6 +154,7 @@ export class ProductConfigurableAttributes extends PureComponent {
             configurable_options,
             isExpandable,
             inStock,
+            handleShakeAnimationEnd,
             handleIsOptionUnselected
         } = this.props;
 
@@ -169,6 +184,7 @@ export class ProductConfigurableAttributes extends PureComponent {
                       block="ProductConfigurableAttributes"
                       elem="Title"
                       mods={ { isUnselected } }
+                      onAnimationEnd={ handleShakeAnimationEnd }
                     >
                             { attribute_label }
                     </p>
