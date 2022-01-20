@@ -164,8 +164,7 @@ export class ProductConfigurableAttributes extends PureComponent {
                 attribute_code,
                 attribute_label,
                 attribute_options,
-                attribute_id,
-                attribute_code
+                attribute_id
             } = option;
             const isUnselected = handleIsOptionUnselected(attribute_code);
             const [{ swatch_data }] = attribute_options ? Object.values(attribute_options) : [{}];
