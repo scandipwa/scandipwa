@@ -29,7 +29,10 @@ export const AttributeType = PropTypes.shape({
     is_boolean: PropTypes.bool
 });
 
-export const AttributesType = PropTypes.objectOf(AttributeType);
+export const AttributesType = PropTypes.oneOfType([
+    PropTypes.objectOf(AttributeType),
+    PropTypes.arrayOf(PropTypes.objectOf(AttributeType))
+]);
 
 export const FilterAttributeType = PropTypes.shape({
     attribute_code: PropTypes.string,
