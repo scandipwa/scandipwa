@@ -43,13 +43,14 @@
             margin-block: 0;
 
             @include mobile {
-                margin-inline-end: 14px;
+                margin-inline-end: 2px;
             }
         }
     }
 
     &-TACLabel {
-        display: inline;
+        display: flex;
+        align-items: center;
 
         &:hover {
             cursor: pointer;
@@ -65,6 +66,7 @@
         font-weight: 700;
         color: var(--link-color);
         margin-inline-start: .5em;
+        display: flex;
         cursor: pointer;
 
         &:hover {

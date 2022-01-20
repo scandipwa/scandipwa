@@ -115,24 +115,25 @@ export class CheckoutBilling extends PureComponent {
               block="CheckoutBilling"
               elem="TermsAndConditions"
             >
-                <Field
-                  type={ FIELD_TYPE.checkbox }
-                  attr={ {
-                      id: 'termsAndConditions',
-                      name: 'termsAndConditions',
-                      value: 'termsAndConditions',
-                      checked: isTermsAndConditionsAccepted
-                  } }
-                  events={ {
-                      onChange: this.setTACAccepted
-                  } }
-                  mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
-                />
+
                 <label
                   block="CheckoutBilling"
                   elem="TACLabel"
                   htmlFor="termsAndConditions"
                 >
+                    <Field
+                      type={ FIELD_TYPE.checkbox }
+                      attr={ {
+                          id: 'termsAndConditions',
+                          name: 'termsAndConditions',
+                          value: 'termsAndConditions',
+                          checked: isTermsAndConditionsAccepted
+                      } }
+                      events={ {
+                          onChange: this.setTACAccepted
+                      } }
+                      mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
+                    />
                     { `${checkbox_text } - ` }
                 </label>
                 <button
