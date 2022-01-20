@@ -39,13 +39,10 @@
     }
 
     &-Rating {
-        [dir="rtl"] & {
-            display: flex;
-            flex-direction: row-reverse;
-        }
-        
+        flex-direction: row-reverse;
+        display: flex;
         margin-block-start: 12px;
-        margin-block-end: 16px;
+        // margin-block-end: 16px;
         margin-inline: 0;
         text-align: start;
         border: 0;

@@ -91,6 +91,7 @@ export class ProductReviewForm extends PureComponent {
             const { rating_id, rating_code, rating_options } = rating;
 
             return (
+                <>
                 <fieldset block="ProductReviewForm" elem="Rating" key={ rating_id }>
                     <legend block="ProductReviewForm" elem="Legend">
                         { rating_code }
@@ -98,8 +99,9 @@ export class ProductReviewForm extends PureComponent {
                     { rating_options
                         .sort(({ value }, { value: nextValue }) => nextValue - value)
                         .map((option) => this.renderReviewStar(option, rating_id)) }
-                    { this.renderReviewRatingError(rating_id) }
                 </fieldset>
+                    { this.renderReviewRatingError(rating_id) }
+                </>
             );
         });
     }
