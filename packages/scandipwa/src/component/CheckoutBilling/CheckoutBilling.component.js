@@ -134,15 +134,15 @@ export class CheckoutBilling extends PureComponent {
                   htmlFor="termsAndConditions"
                 >
                     { `${checkbox_text } - ` }
-                    <button
-                      block="CheckoutBilling"
-                      elem="TACLink"
-                      onClick={ this.handleShowPopup }
-                      type="button"
-                    >
-                        { __('read more') }
-                    </button>
                 </label>
+                <button
+                  block="CheckoutBilling"
+                  elem="TACLink"
+                  onClick={ this.handleShowPopup }
+                  type="button"
+                >
+                        { __('read more') }
+                </button>
             </div>
         );
     }
