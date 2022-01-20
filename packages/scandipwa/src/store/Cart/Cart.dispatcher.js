@@ -10,7 +10,7 @@
  */
 
 import CartQuery from 'Query/Cart.query';
-import { updateTotals } from 'Store/Cart/Cart.action';
+import { updateIsLoading, updateTotals } from 'Store/Cart/Cart.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
@@ -38,6 +38,7 @@ export class CartDispatcher {
                 )
             );
 
+            this._updateCartIsLoading(false, dispatch);
             return this._updateCartData(cartData, dispatch);
         } catch (error) {
             return this.createGuestEmptyCart(dispatch);
@@ -52,6 +53,7 @@ export class CartDispatcher {
 
             setGuestQuoteId(quoteId);
             this._updateCartData({}, dispatch);
+            this._updateCartIsLoading(true, dispatch);
 
             return quoteId;
         } catch (error) {
@@ -251,6 +253,10 @@ export class CartDispatcher {
 
     _updateCartData(cartData, dispatch) {
         dispatch(updateTotals(cartData));
+    }
+
+    _updateCartIsLoading(isLoading, dispatch) {
+        dispatch(updateIsLoading(isLoading));
     }
 
     /**

@@ -23,12 +23,15 @@ import CheckoutOrderSummary from './CheckoutOrderSummary.component';
 
 /** @namespace Component/CheckoutOrderSummary/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
+
     cartDisplayConfig: state.ConfigReducer.cartDisplayConfig,
     cartSubtotal: getCartSubtotal(state),
     cartSubtotalSubPrice: getCartSubtotalSubPrice(state),
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state),
-    cartTotalSubPrice: getCartTotalSubPrice(state)
+    cartTotalSubPrice: getCartTotalSubPrice(state),
+    isLoading: state.CartReducer.isLoading
+
 });
 
 /** @namespace Component/CheckoutOrderSummary/Container/mapDispatchToProps */

@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
+import Loader from 'Component/Loader';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { CheckoutStepType } from 'Type/Checkout.type';
 import { ChildrenType } from 'Type/Common.type';
@@ -42,11 +43,13 @@ export class CheckoutOrderSummary extends PureComponent {
         cartSubtotalSubPrice: PropTypes.number,
         cartTotalSubPrice: PropTypes.number,
         showItems: PropTypes.bool,
-        children: ChildrenType
+        children: ChildrenType,
+        isLoading: PropTypes.bool
     };
 
     static defaultProps = {
         totals: {},
+        isLoading: false,
         renderCmsBlock: noopFn,
         isExpandable: false,
         cartShippingPrice: 0,
@@ -322,12 +325,19 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
+    renderLoader() {
+        const { isLoading } = this.props;
+
+        return <Loader isLoading={ isLoading } />;
+    }
+
     renderExpandableContent() {
         return (
             <ExpandableContent
               heading={ __('Summary') }
               mix={ { block: 'CheckoutOrderSummary', elem: 'ExpandableContent' } }
             >
+                { this.renderLoader() }
                 { this.renderItems() }
                 { this.renderCmsBlock() }
                 { this.renderTotals() }
@@ -336,10 +346,14 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderContent() {
-        const { isExpandable } = this.props;
+        const { isExpandable, isLoading } = this.props;
 
         if (isExpandable) {
             return this.renderExpandableContent();
+        }
+
+        if (isLoading) {
+            return (<Loader isLoading={ isLoading } />);
         }
 
         return (

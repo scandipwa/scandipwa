@@ -358,6 +358,7 @@ export class Checkout extends PureComponent {
         }
 
         return (
+
             <CheckoutOrderSummary
               checkoutStep={ checkoutStep }
               totals={ checkoutTotals }
@@ -367,6 +368,7 @@ export class Checkout extends PureComponent {
               renderCmsBlock={ () => this.renderPromo(true) }
               showItems
             />
+
         );
     }
 
