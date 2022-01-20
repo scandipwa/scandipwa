@@ -203,6 +203,8 @@ export class Field extends PureComponent {
             onChange: onChange || noopFn
         };
 
+        const disableCheckbox = isDisabled ? !isDisabled : null;
+
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` }>
                 <input
@@ -211,7 +213,7 @@ export class Field extends PureComponent {
                   type={ type }
                   { ...attr }
                   { ...inputEvents }
-                  checked={ !isDisabled }
+                  checked={ disableCheckbox }
                 />
                 <div block="input-control" disabled={ isDisabled } />
                 { label }
