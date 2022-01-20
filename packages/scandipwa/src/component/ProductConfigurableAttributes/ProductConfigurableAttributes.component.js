@@ -184,7 +184,7 @@ export class ProductConfigurableAttributes extends PureComponent {
 
             return (
                 <div key={ attribute_id }>
-                    <p 
+                    <p
                       block="ProductConfigurableAttributes"
                       elem="Title"
                       mods={ { isUnselected } }
