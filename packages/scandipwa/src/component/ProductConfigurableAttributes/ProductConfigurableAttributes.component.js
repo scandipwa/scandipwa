@@ -155,11 +155,13 @@ export class ProductConfigurableAttributes extends PureComponent {
             isExpandable,
             inStock,
             handleShakeAnimationEnd,
-            handleIsOptionUnselected
+            handleIsOptionUnselected,
+            parameters
         } = this.props;
 
         return Object.values(configurable_options).map((option) => {
             const {
+                attribute_code,
                 attribute_label,
                 attribute_options,
                 attribute_id,
@@ -178,15 +180,23 @@ export class ProductConfigurableAttributes extends PureComponent {
                 return null;
             }
 
+            const selectedOption = parameters[attribute_code];
+            const selectedOptionLabel = selectedOption ? attribute_options[selectedOption]?.label : '';
+
             return (
                 <div key={ attribute_id }>
-                    <p
+                    <p 
                       block="ProductConfigurableAttributes"
                       elem="Title"
                       mods={ { isUnselected } }
                       onAnimationEnd={ handleShakeAnimationEnd }
                     >
-                            { attribute_label }
+                        { attribute_label }
+                        { isSwatch && (
+                            <span block="ProductConfigurableAttributes" elem="SelectedOptionLabel">
+                                { selectedOptionLabel }
+                            </span>
+                        ) }
                     </p>
                     { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
                 </div>

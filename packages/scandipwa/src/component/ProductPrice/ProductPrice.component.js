@@ -18,6 +18,11 @@ import { MixType } from 'Type/Common.type';
 import { OriginalPriceType, ProductPriceType } from 'Type/Price.type';
 import { PriceConfiguration } from 'Type/ProductList.type';
 
+import {
+    DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX,
+    DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX
+} from './ProductPrice.config';
+
 import './ProductPrice.style';
 
 /**
@@ -38,7 +43,8 @@ export class ProductPrice extends PureComponent {
         isSchemaRequired: PropTypes.bool,
         label: PropTypes.string,
         variantsCount: PropTypes.number,
-        mix: MixType
+        mix: MixType,
+        displayTaxInPrice: PropTypes.string
     };
 
     static defaultProps = {
@@ -53,7 +59,8 @@ export class ProductPrice extends PureComponent {
         mix: {},
         tierPrice: '',
         label: '',
-        configuration: {}
+        configuration: {},
+        displayTaxInPrice: DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX
     };
 
     pricePreviewRenderMap = {
@@ -253,7 +260,7 @@ export class ProductPrice extends PureComponent {
         if (minValue === maxValue) {
             const renderer = (minValue === 0)
                 ? this.renderDefaultPrice()
-                : this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax);
+                : this.renderPriceWithOrWithoutTax(minFinalPrice, minFinalPriceExclTax);
 
             return (
                 <>
@@ -269,12 +276,12 @@ export class ProductPrice extends PureComponent {
                 <div block="ProductPrice" elem="BundleFrom" mods={ { hasDiscount: minValue < minRegularValue } }>
                     { minValue > 0 && this.renderPriceBadge(__('from')) }
                     { minValue < minRegularValue && this.renderRegularPrice(minRegularPrice) }
-                    { this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax) }
+                    { this.renderPriceWithOrWithoutTax(minFinalPrice, minFinalPriceExclTax) }
                 </div>
                 <div block="ProductPrice" elem="BundleTo" mods={ { hasDiscount: maxValue < maxRegularValue } }>
                     { maxValue > 0 && this.renderPriceBadge(__('to')) }
                     { maxValue < maxRegularValue && this.renderRegularPrice(maxRegularPrice) }
-                    { this.renderPriceWithTax(maxFinalPrice, maxFinalPriceExclTax) }
+                    { this.renderPriceWithOrWithoutTax(maxFinalPrice, maxFinalPriceExclTax) }
                 </div>
             </>
         );
@@ -305,11 +312,7 @@ export class ProductPrice extends PureComponent {
         } = this.props;
         const { [priceType]: label } = this.priceLabelTypeMap;
 
-        return (
-            <>
-                { this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax, label) }
-            </>
-        );
+        return this.renderPriceWithOrWithoutTax(minFinalPrice, minFinalPriceExclTax, label);
     }
 
     renderCustomisablePrice() {
@@ -329,11 +332,7 @@ export class ProductPrice extends PureComponent {
 
         const { [priceType]: label } = this.priceLabelTypeMap;
 
-        return (
-            <>
-                { this.renderPriceWithTax(minFinalPrice, minFinalPriceExclTax, label) }
-            </>
-        );
+        return this.renderPriceWithOrWithoutTax(minFinalPrice, minFinalPriceExclTax, label);
     }
 
     renderConfigurablePrice() {
@@ -358,11 +357,7 @@ export class ProductPrice extends PureComponent {
 
         const { [priceType]: label } = this.priceLabelTypeMap;
 
-        return (
-            <>
-                { this.renderPriceWithTax(finalPrice, finalPriceExclTax, label) }
-            </>
-        );
+        return this.renderPriceWithOrWithoutTax(finalPrice, finalPriceExclTax, label);
     }
 
     renderDefaultPrice(defaultLabel = null) {
@@ -374,13 +369,23 @@ export class ProductPrice extends PureComponent {
         return (
             <>
                 { this.renderOldPrice() }
-                { this.renderPriceWithTax(finalPrice, finalPriceExclTax, defaultLabel || label) }
+                { this.renderPriceWithOrWithoutTax(finalPrice, finalPriceExclTax, defaultLabel || label) }
                 { this.renderSchema() }
             </>
         );
     }
 
-    renderPriceWithTax(basePrice, taxPrice, label) {
+    renderPriceWithOrWithoutTax(basePrice, taxPrice, label) {
+        const { displayTaxInPrice } = this.props;
+
+        if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX) {
+            return this.renderPrice(basePrice, label);
+        }
+
+        if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
+            return this.renderPrice(taxPrice, label);
+        }
+
         return (
             <>
                 { this.renderPrice(basePrice, label) }
