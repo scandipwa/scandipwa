@@ -291,7 +291,7 @@ export const ProductType = PropTypes.shape({
 
 export const DownloadableSamplesType = PropTypes.arrayOf(
     PropTypes.shape({
-        sample_url: ProductType,
+        sample_url: PropTypes.oneOfType([ProductType, PropTypes.string]),
         sort_order: PropTypes.number,
         title: PropTypes.string
     })
