@@ -112,6 +112,7 @@ export class Product extends PureComponent {
             product: {
                 options
             },
+
             updateSelectedValues,
             unselectedOptions,
             handleShakeAnimationEnd
