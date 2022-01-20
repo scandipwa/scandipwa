@@ -136,6 +136,7 @@ export class FieldSelectContainer extends PureComponent {
         if (!this.isSelectDisabled()) {
             this.setState(({ isExpanded }) => ({ isExpanded: !isExpanded }));
         }
+
         this.handleOpenDirection();
     }
 
