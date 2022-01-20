@@ -343,7 +343,8 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                     currency
                 } = {},
                 discounts = []
-            }
+            },
+            isMobile
         } = this.props;
 
         if (activeTab !== ORDER_REFUNDS) {
@@ -351,6 +352,23 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         }
 
         const totalDiscount = discounts.length ? getOrderItemRowDiscount(discounts) : 0;
+
+        if (isMobile) {
+            return (
+                <>
+                    { this.renderPrice(
+                        totalDiscount,
+                        currency,
+                        __('Discount Amount')
+                    ) }
+                    { this.renderPrice(
+                        row_subtotal - totalDiscount,
+                        currency,
+                        __('Row Total')
+                    ) }
+                </>
+            );
+        }
 
         return (
             <>
@@ -398,6 +416,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                 { this.renderItemPrice() }
                 { this.renderMobileBodyContentRow(__('Qty'), this.renderRowQty()) }
                 { this.renderRowSubtotal() }
+                { this.renderDiscountAndRowTotal() }
                 { this.renderEnteredOptionsAsRow() }
             </tbody>
         );
