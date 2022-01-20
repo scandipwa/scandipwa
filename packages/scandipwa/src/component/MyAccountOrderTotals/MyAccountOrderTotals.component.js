@@ -54,11 +54,9 @@ export class MyAccountOrderTotals extends PureComponent {
     }
 
     renderDiscount({ label, amount: { value } }, index) {
-        if (!label) {
-            return this.renderPriceLine(__('Discount'), -value, null, {}, `discount-${index}`);
-        }
+        const discountLabel = label ? __('Discount (%s)', label) : __('Discount');
 
-        return this.renderPriceLine(__('Discount (%s)', label), -value, null, {}, `discount-${index}`);
+        return this.renderPriceLine(discountLabel, -value, null, {}, `discount-${index}`);
     }
 
     renderContent() {
