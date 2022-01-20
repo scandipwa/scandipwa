@@ -27,8 +27,7 @@ export class MyAccountInformation extends PureComponent {
         showEmailChangeField: PropTypes.bool.isRequired,
         showPasswordChangeField: PropTypes.bool.isRequired,
         handleChangeEmailCheckbox: PropTypes.func.isRequired,
-        handleChangePasswordCheckbox: PropTypes.func.isRequired,
-        onSubmitSuccess: PropTypes.func.isRequired
+        handleChangePasswordCheckbox: PropTypes.func.isRequired
     };
 
     renderCustomerForm() {
@@ -38,8 +37,7 @@ export class MyAccountInformation extends PureComponent {
             showEmailChangeField,
             showPasswordChangeField,
             handleChangeEmailCheckbox,
-            handleChangePasswordCheckbox,
-            onSubmitSuccess
+            handleChangePasswordCheckbox
         } = this.props;
 
         return (
@@ -50,7 +48,6 @@ export class MyAccountInformation extends PureComponent {
               showPasswordChangeField={ showPasswordChangeField }
               handleChangeEmailCheckbox={ handleChangeEmailCheckbox }
               handleChangePasswordCheckbox={ handleChangePasswordCheckbox }
-              onSubmitSuccess={ onSubmitSuccess }
             />
         );
     }

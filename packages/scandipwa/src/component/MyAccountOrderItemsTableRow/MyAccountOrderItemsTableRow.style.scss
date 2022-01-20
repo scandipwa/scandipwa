@@ -44,6 +44,17 @@
             &:nth-child(n+3) {
                 text-align: end;
             }
+
+            dl {
+                dt {
+                    padding-block-start: 15px;
+                    line-height: 15px;
+                }
+
+                dd {
+                    line-height: 15px;
+                }
+            }
         }
 
         tr {

@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 import Field from 'Component/Field';
 import FieldGroup from 'Component/FieldGroup';
@@ -19,7 +19,7 @@ import Form from 'Component/Form';
 import './FieldForm.style';
 
 /** @namespace Component/FieldForm/Component */
-export class FieldForm extends PureComponent {
+export class FieldForm extends Component {
     get fieldMap() {
         return [
             // // Field

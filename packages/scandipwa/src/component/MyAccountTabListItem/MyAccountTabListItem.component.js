@@ -14,12 +14,14 @@ import { PureComponent } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
 import { TabType } from 'Type/Account.type';
+import { ChildrenType } from 'Type/Common.type';
 
 import './MyAccountTabListItem.style';
 
 /** @namespace Component/MyAccountTabListItem/Component */
 export class MyAccountTabListItem extends PureComponent {
     static propTypes = {
+        children: ChildrenType,
         tabEntry: PropTypes.arrayOf(
             PropTypes.oneOfType([
                 PropTypes.string,
@@ -31,7 +33,8 @@ export class MyAccountTabListItem extends PureComponent {
     };
 
     static defaultProps = {
-        isActive: false
+        isActive: false,
+        children: []
     };
 
     changeActiveTab = this.changeActiveTab.bind(this);
@@ -43,7 +46,7 @@ export class MyAccountTabListItem extends PureComponent {
     }
 
     render() {
-        const { tabEntry: [, { tabName }], isActive } = this.props;
+        const { children, tabEntry: [, { tabName }], isActive } = this.props;
 
         return (
             <li
@@ -59,6 +62,7 @@ export class MyAccountTabListItem extends PureComponent {
                     { tabName }
                     <ChevronIcon />
                 </button>
+                { children }
             </li>
         );
     }

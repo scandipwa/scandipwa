@@ -71,14 +71,15 @@ export class WishlistItemContainer extends PureComponent {
         handleSelectIdChange: PropTypes.func.isRequired,
         isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        wishlistId: PropTypes.number.isRequired,
+        wishlistId: PropTypes.number,
         isEditingActive: PropTypes.bool.isRequired,
         setIsQtyUpdateInProgress: PropTypes.func
     };
 
     static defaultProps = {
         isRemoving: false,
-        setIsQtyUpdateInProgress: () => {}
+        setIsQtyUpdateInProgress: () => {},
+        wishlistId: 0
     };
 
     containerFunctions = {

@@ -287,7 +287,8 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
     renderOption(option) {
         const {
             label,
-            items
+            items,
+            value
         } = option || [];
 
         if (items) {
@@ -295,7 +296,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         }
 
         return (
-            <>
+            <dl key={ `${ label }-${ value }` }>
                 <dt
                   block="MyAccountOrderItemsTableRow"
                   elem="OptionLabel"
@@ -303,7 +304,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                     <strong>{ label }</strong>
                 </dt>
                 { this.renderOptionContent(option) }
-            </>
+            </dl>
         );
     }
 
