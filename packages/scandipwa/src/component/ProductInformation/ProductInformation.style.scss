@@ -23,7 +23,7 @@
     }
 
     &-ExpandableContentContent {
-        line-height: 18px;
+        line-height: 20px;
         text-align: justify;
 
         + div {
@@ -65,10 +65,12 @@
     }
 
     &-Description {
-        @include default-list;
-
-        @include mobile {
+        @include description-tags {
             line-height: 20px;
+        }
+      
+        li:before {
+            position: static;
         }
     }
 }
