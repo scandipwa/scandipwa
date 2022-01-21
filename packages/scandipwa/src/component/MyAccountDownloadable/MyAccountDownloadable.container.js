@@ -27,7 +27,6 @@ export const OrderDispatcher = import(
 
 /** @namespace Component/MyAccountDownloadable/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    orderList: state.OrderReducer.orderList,
     device: state.ConfigReducer.device
 });
 
@@ -42,8 +41,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
     static propTypes = {
         device: DeviceType.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired,
-        getOrderList: PropTypes.func.isRequired
+        showSuccessNotification: PropTypes.func.isRequired
     };
 
     state = {

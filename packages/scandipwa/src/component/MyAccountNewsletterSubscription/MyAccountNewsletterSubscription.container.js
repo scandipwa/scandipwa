@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Loader from 'Component/Loader';
@@ -40,7 +40,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container */
-export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
+export class MyAccountNewsletterSubscriptionContainer extends Component {
     static propTypes = {
         customer: CustomerType.isRequired,
         updateCustomer: PropTypes.func.isRequired,
@@ -63,6 +63,13 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
             isLoading: false,
             isSubscriptionSelected: is_subscribed
         };
+    }
+
+    shouldComponentUpdate(_, nextState) {
+        const { isSubscriptionSelected } = this.state;
+        const { isSubscriptionSelected: nextIsSubscriptionSelected } = nextState;
+
+        return isSubscriptionSelected !== nextIsSubscriptionSelected;
     }
 
     containerProps() {
