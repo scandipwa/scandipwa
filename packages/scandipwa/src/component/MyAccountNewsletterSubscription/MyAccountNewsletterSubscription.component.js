@@ -26,13 +26,6 @@ export class MyAccountNewsletterSubscription extends FieldForm {
         isSubscriptionSelected: PropTypes.bool.isRequired
     };
 
-    shouldComponentUpdate(nextProps) {
-        const { isSubscriptionSelected } = this.props;
-        const { isSubscriptionSelected: nextIsSubscriptionSelected } = nextProps;
-
-        return isSubscriptionSelected !== nextIsSubscriptionSelected;
-    }
-
     get fieldMap() {
         const { setSubscriptionStatus, isSubscriptionSelected } = this.props;
 
