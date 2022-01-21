@@ -63,6 +63,10 @@ export class MyAccountSignInContainer extends PureComponent {
         handleEmailInput: noopFn
     };
 
+    state = {
+        range: { min: 8, max: 64 }
+    };
+
     containerFunctions = {
         onSignInSuccess: this.onSignInSuccess.bind(this)
     };
@@ -88,6 +92,8 @@ export class MyAccountSignInContainer extends PureComponent {
             handleEmailInput
         } = this.props;
 
+        const { range } = this.state;
+
         return {
             state,
             onFormError,
@@ -96,7 +102,8 @@ export class MyAccountSignInContainer extends PureComponent {
             isCheckout,
             setLoadingState,
             emailValue,
-            handleEmailInput
+            handleEmailInput,
+            range
         };
     }
 

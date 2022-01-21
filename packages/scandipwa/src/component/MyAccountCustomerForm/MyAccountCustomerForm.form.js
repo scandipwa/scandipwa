@@ -112,7 +112,8 @@ export const customerEmailAndPasswordFields = (props) => {
         handleEmailInput,
         handlePasswordInput,
         currentPassword,
-        email
+        email,
+        range
     } = props;
 
     return [
@@ -155,7 +156,8 @@ export const customerEmailAndPasswordFields = (props) => {
                 validateOn: ['onChange'],
                 validationRule: {
                     inputType: VALIDATION_INPUT_TYPE.password,
-                    isRequired: true
+                    isRequired: true,
+                    range
                 }
             }
         ] : []),
@@ -174,6 +176,7 @@ export const customerEmailAndPasswordFields = (props) => {
                 validationRule: {
                     inputType: VALIDATION_INPUT_TYPE.password,
                     isRequired: true,
+                    range,
                     match: (value) => {
                         const password = document.getElementById('currentPassword');
                         return value && password.value !== value;
@@ -196,6 +199,7 @@ export const customerEmailAndPasswordFields = (props) => {
                 validationRule: {
                     isRequired: true,
                     inputType: VALIDATION_INPUT_TYPE.password,
+                    range,
                     match: (value) => {
                         const password = document.getElementById('newPassword');
                         return password.value === value;
