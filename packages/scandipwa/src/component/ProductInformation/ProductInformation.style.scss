@@ -69,7 +69,7 @@
             line-height: 20px;
         }
       
-        li:before {
+        li::before {
             position: static;
         }
     }

@@ -53,7 +53,7 @@
     }
 
     &:hover {
-         &:not(.CheckoutDeliveryOption_isHoverExcluded){
+        &:not(.CheckoutDeliveryOption_isHoverExcluded) {
             .input-control {
                 border-color: var(--checkbox-border-color-active);
                 transition-duration: unset;
