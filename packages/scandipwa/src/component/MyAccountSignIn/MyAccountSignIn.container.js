@@ -67,6 +67,10 @@ export class MyAccountSignInContainer extends PureComponent {
         onSignInSuccess: this.onSignInSuccess.bind(this)
     };
 
+    state = {
+        range: { min: 8, max: 64 }
+    };
+
     componentDidUpdate(prevProps) {
         const { isCheckout, isEmailAvailable, setSignInState } = this.props;
         const { isEmailAvailable: prevIsEmailAvailable } = prevProps;
@@ -88,6 +92,10 @@ export class MyAccountSignInContainer extends PureComponent {
             handleEmailInput
         } = this.props;
 
+        const {
+            range
+        } = this.state;
+
         return {
             state,
             onFormError,
@@ -96,7 +104,8 @@ export class MyAccountSignInContainer extends PureComponent {
             isCheckout,
             setLoadingState,
             emailValue,
-            handleEmailInput
+            handleEmailInput,
+            range
         };
     }
 

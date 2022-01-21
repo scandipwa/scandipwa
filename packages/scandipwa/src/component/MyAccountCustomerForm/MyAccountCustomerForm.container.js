@@ -48,7 +48,8 @@ export class MyAccountCustomerFormContainer extends PureComponent {
 
     state = {
         email: null,
-        currentPassword: ''
+        currentPassword: '',
+        range: { min: 8, max: 64 }
     };
 
     containerProps() {
@@ -61,7 +62,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             handleChangeEmailCheckbox,
             handleChangePasswordCheckbox
         } = this.props;
-        const { email, currentPassword } = this.state;
+        const { email, currentPassword, range } = this.state;
 
         return {
             customer,
@@ -73,7 +74,8 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             handleChangeEmailCheckbox,
             handleChangePasswordCheckbox,
             currentPassword,
-            email: email || currentCustomerEmail
+            email: email || currentCustomerEmail,
+            range
         };
     }
 

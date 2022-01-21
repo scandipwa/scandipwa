@@ -31,7 +31,8 @@ export class MyAccountCustomerForm extends FieldForm {
         handlePasswordInput: PropTypes.func.isRequired,
         email: PropTypes.string,
         currentPassword: PropTypes.string,
-        vatNumberRequired: PropTypes.bool.isRequired
+        vatNumberRequired: PropTypes.bool.isRequired,
+        range: PropTypes.objectOf(PropTypes.number).isRequired
     };
 
     static defaultProps = {
@@ -83,7 +84,8 @@ export class MyAccountCustomerForm extends FieldForm {
             handlePasswordInput,
             handleEmailInput,
             currentPassword,
-            email
+            email,
+            range
         } = this.props;
 
         return customerEmailAndPasswordFields({
@@ -92,7 +94,8 @@ export class MyAccountCustomerForm extends FieldForm {
             handlePasswordInput,
             handleEmailInput,
             currentPassword,
-            email
+            email,
+            range
         });
     }
 
