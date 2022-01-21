@@ -52,7 +52,6 @@ export class CartDispatcher {
             } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
 
             setGuestQuoteId(quoteId);
-            this._updateCartData({}, dispatch);
             this._updateCartIsLoading(true, dispatch);
 
             return quoteId;

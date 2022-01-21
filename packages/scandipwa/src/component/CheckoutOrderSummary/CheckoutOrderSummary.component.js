@@ -346,14 +346,10 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderContent() {
-        const { isExpandable, isLoading } = this.props;
+        const { isExpandable } = this.props;
 
         if (isExpandable) {
             return this.renderExpandableContent();
-        }
-
-        if (isLoading) {
-            return (<Loader isLoading={ isLoading } />);
         }
 
         return (
@@ -366,8 +362,10 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     render() {
+        const { isLoading } = this.props;
         return (
             <article block="CheckoutOrderSummary" aria-label="Order Summary">
+                <Loader isLoading={ isLoading } />
                 { this.renderContent() }
             </article>
         );
