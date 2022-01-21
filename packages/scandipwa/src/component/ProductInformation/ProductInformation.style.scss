@@ -68,9 +68,11 @@
         @include description-tags {
             line-height: 20px;
         }
-      
-        li:before {
-            position: static;
+
+        li {
+            &::before {
+                position: static;
+            }
         }
     }
 }
