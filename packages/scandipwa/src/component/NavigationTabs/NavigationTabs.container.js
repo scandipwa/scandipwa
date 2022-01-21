@@ -62,6 +62,11 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     routeMap = {
         '/customer/account': { name: ACCOUNT_TAB },
+        '/sales/order/history': { name: ACCOUNT_TAB },
+        '/downloadable/customer/products': { name: ACCOUNT_TAB },
+        '/customer/address': { name: ACCOUNT_TAB },
+        '/newsletter/manage': { name: ACCOUNT_TAB },
+        '/wishlist': { name: ACCOUNT_TAB },
         '/checkout': { name: CHECKOUT_TAB },
         '/cart': { name: CART_TAB },
         '/': { name: HOME_TAB },
