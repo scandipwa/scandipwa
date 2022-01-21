@@ -39,8 +39,8 @@
     }
 
     &-Rating {
-        flex-direction: row-reverse;
         display: flex;
+        flex-flow: row-reverse nowrap;
         margin-block-start: 12px;
         // margin-block-end: 16px;
         margin-inline: 0;
@@ -53,6 +53,7 @@
             margin-block-start: 14px;
             margin-block-end: 18px;
             margin-inline: 0;
+            max-width: 75%;
         }
 
         &:first-child {
@@ -91,9 +92,6 @@
         text-align: start;
     }
 
-    &-ErrorMessage::after {
-        content: '!';
-    }
 
     & &-Button {
         margin-block-start: 12px;
