@@ -22,6 +22,7 @@ import { ProductType } from 'Type/ProductList.type';
 import { RatingItemsType } from 'Type/Rating.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import { getErrorMessage } from 'Util/Request';
+import { validate } from 'Util/Validator';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
@@ -75,7 +76,7 @@ export class ProductReviewFormContainer extends PureComponent {
             ratingData: {},
             reviewData,
             isSubmitted: false,
-            missingReview: false
+            reviewStarsMissing: {}
         };
     }
 
@@ -86,7 +87,7 @@ export class ProductReviewFormContainer extends PureComponent {
             ratingData,
             reviewData,
             isSubmitted,
-            missingReview
+            reviewStarsMissing
         } = this.state;
 
         return {
@@ -95,17 +96,47 @@ export class ProductReviewFormContainer extends PureComponent {
             ratingData,
             reviewData,
             reviewRatings,
-            missingReview
+            reviewStarsMissing
         };
+    }
+
+    validateStarRating() {
+        const { ratingData } = this.state;
+        const { reviewRatings } = this.props;
+        const errors = [];
+        const validateObj = reviewRatings.map(({ rating_id }) => {
+            const obj = {};
+            obj.rating_id = rating_id;
+
+            if (!ratingData[rating_id]) {
+                obj.value = null;
+            } else {
+                obj.value = ratingData[rating_id];
+            }
+
+            return obj;
+        });
+
+        validateObj.forEach(({ rating_id, value }) => {
+            const { errorMessages } = validate(value, { isRequired: true });
+
+            if (errorMessages) {
+                const errorMessage = errorMessages[0].value;
+                errors.push({ errorMessage, rating_id });
+            }
+        });
+
+        return errors.length ? errors : null;
     }
 
     _onReviewError(_, invalidFields) {
         const { showNotification } = this.props;
         const reviewsAreNotValid = invalidFields;
+        const errors = this.validateStarRating();
 
         if (reviewsAreNotValid) {
             showNotification('info', __('Please fill in all rating fields'));
-            this.setState({ missingReview: true });
+            this.setState({ reviewStarsMissing: errors });
         }
 
         this.setState({ isLoading: !reviewsAreNotValid });
@@ -117,15 +148,15 @@ export class ProductReviewFormContainer extends PureComponent {
             addReview,
             hideActiveOverlay,
             goToPreviousHeaderState,
-            showNotification,
-            reviewRatings
+            showNotification
         } = this.props;
 
         const { ratingData: rating_data } = this.state;
+        const reviewStarsMissing = this.validateStarRating();
 
-        if (Object.keys(rating_data).length < Object.keys(reviewRatings).length) {
+        if (reviewStarsMissing) {
             showNotification('info', __('Please fill in all rating fields'));
-            this.setState({ missingReview: true });
+            this.setState({ reviewStarsMissing });
             return;
         }
 

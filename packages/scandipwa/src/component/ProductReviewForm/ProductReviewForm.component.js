@@ -39,7 +39,7 @@ export class ProductReviewForm extends PureComponent {
             summary: PropTypes.string,
             detail: PropTypes.string
         }).isRequired,
-        missingReview: PropTypes.bool.isRequired
+        reviewStarsMissing: PropTypes.objectOf(PropTypes.string).isRequired
     };
 
     ratingTitleMap = {
@@ -70,23 +70,18 @@ export class ProductReviewForm extends PureComponent {
     }
 
     renderReviewRatingError(ratingId) {
-        const { ratingData, missingReview } = this.props;
-        const missingReviewMessage = 'This field is required';
+        const { reviewStarsMissing } = this.props;
 
-        if (missingReview && !Object.keys(ratingData).includes(ratingId)) {
-            return (
-            <div block="ProductReviewForm" elem="ErrorMessage" key={ ratingId }>
-                    { missingReviewMessage }
-            </div>
-            );
-        }
-
-        return null;
+        return reviewStarsMissing.map(({ errorMessage, rating_id }) => (rating_id === ratingId ? (
+                <div block="ProductReviewForm" elem="ErrorMessage" key={ ratingId }>
+                        { errorMessage }
+                </div>
+        ) : null
+        ));
     }
 
     renderReviewRating() {
-        const { reviewRatings } = this.props;
-
+        const { reviewRatings, reviewStarsMissing } = this.props;
         return reviewRatings.map((rating) => {
             const { rating_id, rating_code, rating_options } = rating;
 
@@ -100,7 +95,7 @@ export class ProductReviewForm extends PureComponent {
                         .sort(({ value }, { value: nextValue }) => nextValue - value)
                         .map((option) => this.renderReviewStar(option, rating_id)) }
                 </fieldset>
-                    { this.renderReviewRatingError(rating_id) }
+                    { reviewStarsMissing.length ? this.renderReviewRatingError(rating_id) : null }
                 </>
             );
         });
