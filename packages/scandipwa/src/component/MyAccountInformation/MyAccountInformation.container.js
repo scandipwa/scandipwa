@@ -93,7 +93,8 @@ export class MyAccountInformationContainer extends PureComponent {
         this.state = {
             showEmailChangeField: false,
             showPasswordChangeField: editPassword,
-            isErrorShow: false
+            isErrorShow: false,
+            isLocked: false
         };
     }
 
@@ -112,9 +113,13 @@ export class MyAccountInformationContainer extends PureComponent {
 
     onError(error) {
         const { showErrorNotification, updateCustomerLoadingStatus } = this.props;
+        const { isLocked } = this.state;
 
         updateCustomerLoadingStatus(false);
-        showErrorNotification(error);
+
+        if (!isLocked) {
+            showErrorNotification(error);
+        }
         this.setState({ isErrorShow: true });
     }
 
@@ -137,13 +142,16 @@ export class MyAccountInformationContainer extends PureComponent {
         updateCustomerLoadingStatus(true);
 
         await this.handleInformationChange({ firstname, lastname, taxvat });
+        const { isLocked } = this.state;
 
-        if (showPasswordChangeField) {
-            await this.handlePasswordChange({ password, newPassword });
-        }
+        if (!isLocked) {
+            if (showPasswordChangeField) {
+                await this.handlePasswordChange({ password, newPassword });
+            }
 
-        if (showEmailChangeField) {
-            await this.handleEmailChange({ email, password });
+            if (showEmailChangeField) {
+                await this.handleEmailChange({ email, password });
+            }
         }
 
         this.afterSubmit();
@@ -151,13 +159,15 @@ export class MyAccountInformationContainer extends PureComponent {
 
     afterSubmit() {
         const { showSuccessNotification, updateCustomerLoadingStatus } = this.props;
-        const { isErrorShow, showEmailChangeField, showPasswordChangeField } = this.state;
+        const {
+            isErrorShow, isLocked, showEmailChangeField, showPasswordChangeField
+        } = this.state;
 
         if (!isErrorShow) {
             updateCustomerLoadingStatus(false);
 
             if (showEmailChangeField || showPasswordChangeField) {
-                this.handleLogout();
+                this.handleLogout({ isFromEmailChange: true });
             } else {
                 history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
             }
@@ -165,10 +175,14 @@ export class MyAccountInformationContainer extends PureComponent {
             showSuccessNotification('You saved the account information.');
         } else {
             this.setState({ isErrorShow: false });
+
+            if (isLocked) {
+                this.handleLogout({ isFromLocked: true });
+            }
         }
     }
 
-    handleLogout() {
+    handleLogout(state) {
         const { baseLinkUrl, logout } = this.props;
 
         const path = baseLinkUrl
@@ -177,7 +191,7 @@ export class MyAccountInformationContainer extends PureComponent {
 
         history.push({
             pathname: path,
-            state: { isFromEmailChange: true }
+            state
         });
         logout();
     }
@@ -204,6 +218,9 @@ export class MyAccountInformationContainer extends PureComponent {
             BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             updateCustomer(customer);
         } catch (e) {
+            if (e[0].extensions.category === 'graphql-authentication') {
+                this.setState({ isLocked: true });
+            }
             this.onError(e);
         }
     }

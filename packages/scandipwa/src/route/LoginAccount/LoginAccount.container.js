@@ -22,6 +22,7 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { ACCOUNT_FORGOT_PASSWORD_URL, ACCOUNT_REGISTRATION_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
@@ -32,7 +33,8 @@ import LoginAccount from './LoginAccount.component';
 /** @namespace Route/LoginAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     ...sourceMapDispatchToProps(dispatch),
-    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible))
+    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
+    showErrorNotification: (message) => dispatch(showNotification('error', message))
 });
 
 /** @namespace Route/LoginAccount/Container */
@@ -40,6 +42,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     static propTypes = {
         ...MyAccountOverlayContainer.propTypes,
         toggleBreadcrumbs: PropTypes.func.isRequired,
+        showErrorNotification: PropTypes.func.isRequired,
         location: LocationType.isRequired
     };
 
@@ -60,14 +63,21 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
         const {
             setHeaderState,
             toggleBreadcrumbs,
+            showErrorNotification,
             location: {
                 state: {
-                    isFromEmailChange = false
+                    isFromEmailChange = false,
+                    isFromLocked = false
                 } = {}
             }
         } = this.props;
 
-        if (isSignedIn() && !isFromEmailChange) {
+        if (isFromLocked) {
+            const message = 'The account sign-in was incorrect or your account is disabled temporarily.'
+            + 'Please wait and try again later.';
+
+            showErrorNotification(message);
+        } else if (isSignedIn() && !isFromEmailChange) {
             history.replace(appendWithStoreCode(ACCOUNT_URL));
         }
 
