@@ -67,6 +67,7 @@
     z-index: 100;
     border-block-end: 1px solid var(--primary-divider-color);
     inset-block-start: var(--demo-notice-height);
+    
 
     > * {
         max-width: var(--content-wrapper-width);
@@ -411,7 +412,7 @@
     }
 
     &-Wrapper {
-        display: flex;
+        display: block;
         justify-content: center;
         margin-block-end: var(--header-total-height);
 
@@ -443,6 +444,7 @@
 
     &_name_popup {
         z-index: 400;
+        overflow-y: scroll;
     }
 
     &-MyAccountContainer {
