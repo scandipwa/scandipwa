@@ -473,5 +473,6 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://demo100-ors-1588667385-csa-hcx.scandipwa.cloud/"
+    "proxy": "https://demo100-ors-1588667385-csa-hcx.scandipwa.cloud/",
+    "gitHead": "8e951bbd0f753dfd2fba83410775dd2fabe69a8a"
 }
