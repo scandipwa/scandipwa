@@ -47,6 +47,7 @@
     &-CheckboxLabel, &-RadioLabel {
         display: inline-flex;
         align-items: center;
+        flex-shrink: 0;
 
         span {
             display: contents;
@@ -300,7 +301,7 @@
             transition-timing-function: ease-in;
             width: 21px;
             will-change: background-color, border-color;
-            margin-inline-end: 11px;
+            margin-inline-end: 9px;
 
             @include desktop {
                 width: var(--checkbox-width);

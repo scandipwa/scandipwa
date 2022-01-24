@@ -156,7 +156,6 @@
 
         label {
             &:first-of-type {
-                max-width: 93%;
                 padding-block-end: 0;
                 order: 1;
                 text-align: start;
@@ -229,13 +228,6 @@
                 background-color: var(--option-check-mark-background);
             }
         }
-    }
-
-    &-SubLabel {
-        font-weight: bold;
-        font-size: 12px;
-        white-space: break-spaces;
-        padding-inline-start: 4px;
     }
 }
 
