@@ -11,6 +11,10 @@
 
 .MyAccountOverlay {
     &-Legend {
+        .Legend {
+            padding-block: 28px 8px;
+        }
+
         legend {
             padding: 8px 0;
         }
