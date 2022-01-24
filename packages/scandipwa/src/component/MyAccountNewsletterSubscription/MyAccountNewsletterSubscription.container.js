@@ -81,12 +81,13 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
             showSuccessNotification,
             newsletterConfirmStatus
         } = this.props;
+        const { isSubscriptionSelected } = this.state;
 
         if (!isSubscribed && wasSubscribed) {
             showSuccessNotification(__('We have removed your newsletter subscription.'));
         } else if (isSubscribed && !newsletterConfirmStatus && !wasSubscribed) {
             showSuccessNotification(__('We have saved your subscription'));
-        } else if (!isSubscribed && newsletterConfirmStatus) {
+        } else if (!isSubscribed && newsletterConfirmStatus && isSubscriptionSelected) {
             showSuccessNotification(__('A subscription confirmation email has been sent!'));
         } else {
             showSuccessNotification(__('We have updated your subscription.'));

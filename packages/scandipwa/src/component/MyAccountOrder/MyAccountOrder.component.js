@@ -169,11 +169,40 @@ export class MyAccountOrder extends PureComponent {
                     { this.renderReorderButton() }
                     { this.renderSubscriptionButton() }
                 </div>
+                { this.renderOrderComments() }
                 <MyAccountOrderTabs
                   tabs={ this.shouldTabsRender() }
                   handleChangeActiveTab={ handleChangeActiveTab }
                   activeTab={ activeTab }
                 />
+            </div>
+        );
+    }
+
+    renderOrderComments() {
+        const { activeTab, order: { comments = [] } } = this.props;
+
+        if (activeTab !== ORDER_ITEMS || !comments.length) {
+            return null;
+        }
+
+        return (
+            <div block="MyAccountOrder" elem="Comments">
+                <div
+                  block="MyAccountOrder"
+                  elem="CommentsTitle"
+                >
+                    { __('About Your Order') }
+                </div>
+                { comments.map(({ timestamp, message }) => (
+                    <dl
+                      block="MyAccountOrder"
+                      elem="Comment"
+                    >
+                        <dt>{ timestamp }</dt>
+                        <dd>{ message }</dd>
+                    </dl>
+                )) }
             </div>
         );
     }
@@ -217,7 +246,11 @@ export class MyAccountOrder extends PureComponent {
     }
 
     renderOrderInformation() {
-        const { order } = this.props;
+        const { order, activeTab } = this.props;
+
+        if (activeTab === ORDER_REFUNDS) {
+            return null;
+        }
 
         return <MyAccountOrderInformation order={ order } />;
     }

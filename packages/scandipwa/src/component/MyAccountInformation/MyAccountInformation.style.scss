@@ -29,6 +29,12 @@
                     @include mobile {
                         width: 100%;
                     }
+
+                    &WithSpace {
+                        @include mobile {
+                            margin-block-start: 16px;
+                        }
+                    }
                 }
 
                 &-Legend {

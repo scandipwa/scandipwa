@@ -64,9 +64,9 @@ export class CheckoutPayment extends PureComponent {
                           name: `option-${ title }`,
                           checked: isSelected
                       } }
-                      isDisabled
+                      label={ title }
+                      isDisabled={ false }
                     />
-                    { title }
                 </button>
             </li>
         );

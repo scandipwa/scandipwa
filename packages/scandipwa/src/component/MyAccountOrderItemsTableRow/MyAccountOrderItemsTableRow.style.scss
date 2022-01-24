@@ -35,6 +35,7 @@
 
     &-RowWrapper {
         font-size: 14px;
+        word-break: break-word;
 
         td {
             padding-block-start: 16px;
@@ -72,7 +73,7 @@
 
                 strong {
                     vertical-align: top;
-                    margin-inline-end: 15px;
+                    margin-inline-end: 10px;
 
                     &:first-child {
                         &::after {
@@ -86,8 +87,16 @@
     }
 
     &-Name {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
+
+        strong {
+            font-size: 14px;
+        }
+
+        @include desktop {
+            font-size: 18px;
+        }
     }
 
     &-EnteredRow {
