@@ -18,7 +18,8 @@ import {
     updateCustomerPasswordForgotStatus,
     updateCustomerPasswordResetStatus,
     updateCustomerSignInStatus,
-    updateIsLoading
+    updateIsLoading,
+    updateIsLocked
 } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
@@ -70,11 +71,17 @@ export class MyAccountDispatcher {
         return executePost(prepareQuery([query])).then(
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then */
             ({ customer }) => {
+                dispatch(updateIsLocked(false));
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
-            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then/dispatch/catch */
-            (error) => dispatch(showNotification('error', getErrorMessage(error)))
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then/catch */
+            (error) => {
+                if (error[0].extensions.category === 'graphql-authentication') {
+                    dispatch(updateIsLocked(true));
+                }
+                dispatch(showNotification('error', getErrorMessage(error)));
+            }
         );
     }
 

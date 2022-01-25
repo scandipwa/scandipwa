@@ -40,6 +40,7 @@ export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile,
     customer: state.MyAccountReducer.customer,
     isLoading: state.MyAccountReducer.isLoading,
+    isLocked: state.MyAccountReducer.isLocked,
     baseLinkUrl: state.ConfigReducer.base_link_url
 });
 
@@ -62,6 +63,7 @@ export class MyAccountInformationContainer extends PureComponent {
         baseLinkUrl: PropTypes.string.isRequired,
 
         isLoading: PropTypes.bool.isRequired,
+        isLocked: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
 
         showErrorNotification: PropTypes.func.isRequired,
