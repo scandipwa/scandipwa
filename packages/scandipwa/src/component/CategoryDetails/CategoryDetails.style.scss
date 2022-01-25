@@ -48,7 +48,15 @@
         justify-content: center;
         font-size: 14px;
         font-weight: 400;
-
+        
+        
+        li::before {
+            position: relative;
+            margin-inline-start: 7px;
+            margin-inline-end: 7px;
+            inset-block-start: -1px;
+        }
+        
         @include mobile {
             padding: 28px;
         }
