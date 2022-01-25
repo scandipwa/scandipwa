@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { updateIsLocked } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
@@ -27,7 +28,8 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isEmailAvailable: state.CheckoutReducer.isEmailAvailable
+    isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
+    isLocked: state.MyAccountReducer.isLocked
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
@@ -35,7 +37,8 @@ export const mapDispatchToProps = (dispatch) => ({
     signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    updateCustomerLockedStatus: (status) => dispatch(updateIsLocked(status))
 });
 
 /** @namespace Component/MyAccountSignIn/Container */
@@ -53,7 +56,9 @@ export class MyAccountSignInContainer extends PureComponent {
         emailValue: PropTypes.string,
         isEmailAvailable: PropTypes.bool,
         setSignInState: PropTypes.func,
-        handleEmailInput: PropTypes.func
+        handleEmailInput: PropTypes.func,
+        isLocked: PropTypes.bool.isRequired,
+        updateCustomerLockedStatus: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -105,17 +110,25 @@ export class MyAccountSignInContainer extends PureComponent {
             signIn,
             showNotification,
             onSignIn,
-            setLoadingState
+            setLoadingState,
+            isLocked,
+            updateCustomerLockedStatus
         } = this.props;
 
         setLoadingState(true);
         const fieldPairs = transformToNameValuePair(fields);
+        const { email } = fieldPairs;
 
-        try {
-            await signIn(fieldPairs);
-            onSignIn();
-        } catch (error) {
-            showNotification('error', getErrorMessage(error));
+        if (isLocked === email) {
+            showNotification('error', 'Maximum Login Failures to Lockout Account');
+            updateCustomerLockedStatus(false);
+        } else {
+            try {
+                await signIn(fieldPairs);
+                onSignIn();
+            } catch (error) {
+                showNotification('error', getErrorMessage(error));
+            }
         }
 
         setLoadingState(false);

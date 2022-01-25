@@ -16,7 +16,7 @@ import { withRouter } from 'react-router';
 
 import MyAccountQuery from 'Query/MyAccount.query';
 import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
-import { updateCustomerDetails, updateIsLoading } from 'Store/MyAccount/MyAccount.action';
+import { updateCustomerDetails, updateIsLoading, updateIsLocked } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CustomerType } from 'Type/Account.type';
@@ -50,6 +50,7 @@ export const mapDispatchToProps = (dispatch) => ({
     showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
     showSuccessNotification: (message) => dispatch(showNotification('success', message)),
     updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
+    updateCustomerLockedStatus: (status) => dispatch(updateIsLocked(status)),
     logout: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch)
     )
@@ -70,6 +71,7 @@ export class MyAccountInformationContainer extends PureComponent {
         showSuccessNotification: PropTypes.func.isRequired,
         updateCustomer: PropTypes.func.isRequired,
         updateCustomerLoadingStatus: PropTypes.func.isRequired,
+        updateCustomerLockedStatus: PropTypes.func.isRequired,
         logout: PropTypes.func.isRequired
     };
 
@@ -95,8 +97,7 @@ export class MyAccountInformationContainer extends PureComponent {
         this.state = {
             showEmailChangeField: false,
             showPasswordChangeField: editPassword,
-            isErrorShow: false,
-            isLocked: false
+            isErrorShow: false
         };
     }
 
@@ -114,12 +115,11 @@ export class MyAccountInformationContainer extends PureComponent {
     }
 
     onError(error) {
-        const { showErrorNotification, updateCustomerLoadingStatus } = this.props;
-        const { isLocked } = this.state;
+        const { showErrorNotification, updateCustomerLoadingStatus, isLocked } = this.props;
 
         updateCustomerLoadingStatus(false);
 
-        if (!isLocked) {
+        if (isLocked === '') {
             showErrorNotification(error);
         }
         this.setState({ isErrorShow: true });
@@ -144,9 +144,9 @@ export class MyAccountInformationContainer extends PureComponent {
         updateCustomerLoadingStatus(true);
 
         await this.handleInformationChange({ firstname, lastname, taxvat });
-        const { isLocked } = this.state;
+        const { isLocked } = this.props;
 
-        if (!isLocked) {
+        if (isLocked === '') {
             if (showPasswordChangeField) {
                 await this.handlePasswordChange({ password, newPassword });
             }
@@ -160,9 +160,11 @@ export class MyAccountInformationContainer extends PureComponent {
     }
 
     afterSubmit() {
-        const { showSuccessNotification, updateCustomerLoadingStatus } = this.props;
         const {
-            isErrorShow, isLocked, showEmailChangeField, showPasswordChangeField
+            showSuccessNotification, updateCustomerLoadingStatus, updateCustomerLockedStatus, isLocked
+        } = this.props;
+        const {
+            isErrorShow, showEmailChangeField, showPasswordChangeField
         } = this.state;
 
         if (!isErrorShow) {
@@ -178,7 +180,8 @@ export class MyAccountInformationContainer extends PureComponent {
         } else {
             this.setState({ isErrorShow: false });
 
-            if (isLocked) {
+            if (isLocked !== '') {
+                updateCustomerLockedStatus(true);
                 this.handleLogout({ isFromLocked: true });
             }
         }
@@ -210,7 +213,7 @@ export class MyAccountInformationContainer extends PureComponent {
 
     async handleInformationChange(passwords) {
         const {
-            updateCustomer
+            updateCustomer, updateCustomerLockedStatus
         } = this.props;
 
         const mutation = MyAccountQuery.getUpdateInformationMutation(passwords);
@@ -221,7 +224,7 @@ export class MyAccountInformationContainer extends PureComponent {
             updateCustomer(customer);
         } catch (e) {
             if (e[0].extensions.category === 'graphql-authentication') {
-                this.setState({ isLocked: true });
+                updateCustomerLockedStatus(true);
             }
             this.onError(e);
         }

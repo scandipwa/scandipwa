@@ -275,10 +275,7 @@ export class MyAccountContainer extends PureComponent {
         }
 
         if (isLocked) {
-            console.log('account locked');
             this.handleLocked();
-        } else {
-            console.log('account unlocked');
         }
     }
 
