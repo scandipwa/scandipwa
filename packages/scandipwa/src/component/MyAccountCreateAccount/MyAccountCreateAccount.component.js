@@ -79,7 +79,7 @@ export class MyAccountCreateAccount extends PureComponent {
 
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
-                <legend>{ __('Personal Information') }</legend>
+                <legend block="MyAccountOverlay" elem="PersonalInfoLegend">{ __('Personal Information') }</legend>
                 <Field
                   type={ FIELD_TYPE.text }
                   label={ __('First Name') }
@@ -125,7 +125,7 @@ export class MyAccountCreateAccount extends PureComponent {
 
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
-                <legend block="Legend">{ __('Sign-Up Information') }</legend>
+                <legend block="MyAccountOverlay" elem="SignUpLegend">{ __('Sign-Up Information') }</legend>
                 <Field
                   type={ FIELD_TYPE.email }
                   label={ __('Email') }
