@@ -64,7 +64,7 @@ export class MyAccountInformationContainer extends PureComponent {
         baseLinkUrl: PropTypes.string.isRequired,
 
         isLoading: PropTypes.bool.isRequired,
-        isLocked: PropTypes.bool.isRequired,
+        isLocked: PropTypes.string.isRequired,
         isMobile: PropTypes.bool.isRequired,
 
         showErrorNotification: PropTypes.func.isRequired,
@@ -161,7 +161,7 @@ export class MyAccountInformationContainer extends PureComponent {
 
     afterSubmit() {
         const {
-            showSuccessNotification, updateCustomerLoadingStatus, updateCustomerLockedStatus, isLocked
+            showSuccessNotification, updateCustomerLoadingStatus, isLocked
         } = this.props;
         const {
             isErrorShow, showEmailChangeField, showPasswordChangeField
@@ -181,7 +181,6 @@ export class MyAccountInformationContainer extends PureComponent {
             this.setState({ isErrorShow: false });
 
             if (isLocked !== '') {
-                updateCustomerLockedStatus(true);
                 this.handleLogout({ isFromLocked: true });
             }
         }
@@ -224,7 +223,8 @@ export class MyAccountInformationContainer extends PureComponent {
             updateCustomer(customer);
         } catch (e) {
             if (e[0].extensions.category === 'graphql-authentication') {
-                updateCustomerLockedStatus(true);
+                const { email } = BrowserDatabase.getItem(CUSTOMER);
+                updateCustomerLockedStatus(email);
             }
             this.onError(e);
         }

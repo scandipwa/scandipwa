@@ -92,7 +92,7 @@ export class MyAccountContainer extends PureComponent {
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         IsSignedInFromState: PropTypes.bool.isRequired,
-        isLocked: PropTypes.bool.isRequired,
+        isLocked: PropTypes.string.isRequired,
         baseLinkUrl: PropTypes.string.isRequired,
         showNotification: PropTypes.func.isRequired,
         selectedTab: PropTypes.string,
@@ -274,7 +274,7 @@ export class MyAccountContainer extends PureComponent {
             this.changeMyAccountHeaderState();
         }
 
-        if (isLocked) {
+        if (isLocked !== '') {
             this.handleLocked();
         }
     }

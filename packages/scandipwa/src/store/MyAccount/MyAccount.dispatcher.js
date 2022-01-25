@@ -71,14 +71,15 @@ export class MyAccountDispatcher {
         return executePost(prepareQuery([query])).then(
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then */
             ({ customer }) => {
-                dispatch(updateIsLocked(false));
+                dispatch(updateIsLocked(''));
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then/catch */
             (error) => {
                 if (error[0].extensions.category === 'graphql-authentication') {
-                    dispatch(updateIsLocked(true));
+                    const { email } = BrowserDatabase.getItem(CUSTOMER);
+                    dispatch(updateIsLocked(email));
                 }
                 dispatch(showNotification('error', getErrorMessage(error)));
             }

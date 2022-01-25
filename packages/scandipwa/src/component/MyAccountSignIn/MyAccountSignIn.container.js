@@ -57,7 +57,7 @@ export class MyAccountSignInContainer extends PureComponent {
         isEmailAvailable: PropTypes.bool,
         setSignInState: PropTypes.func,
         handleEmailInput: PropTypes.func,
-        isLocked: PropTypes.bool.isRequired,
+        isLocked: PropTypes.string.isRequired,
         updateCustomerLockedStatus: PropTypes.func.isRequired
     };
 
@@ -121,7 +121,7 @@ export class MyAccountSignInContainer extends PureComponent {
 
         if (isLocked === email) {
             showNotification('error', 'Maximum Login Failures to Lockout Account');
-            updateCustomerLockedStatus(false);
+            updateCustomerLockedStatus('');
         } else {
             try {
                 await signIn(fieldPairs);
