@@ -131,7 +131,6 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
 
     handleIsOptionUnselected(attributeCode) {
         const { unselectedOptions } = this.props;
-        console.log(unselectedOptions);
         return unselectedOptions.length > 0 && unselectedOptions.includes(attributeCode);
     }
 
