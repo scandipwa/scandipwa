@@ -14,12 +14,16 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
+import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router.type';
 import transformToNameValuePair from 'Util/Form/Transform';
-import { getQueryParam } from 'Util/Url';
+import history from 'Util/History';
+import { appendWithStoreCode, getQueryParam } from 'Util/Url';
 
 import PasswordChangePage from './PasswordChangePage.component';
 import {
@@ -35,13 +39,16 @@ export const MyAccountDispatcher = import(
 /** @namespace Route/PasswordChangePage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus,
-    passwordResetMessage: state.MyAccountReducer.passwordResetMessage
+    passwordResetMessage: state.MyAccountReducer.passwordResetMessage,
+    isMobile: state.ConfigReducer.device.isMobile
+
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (visibility) => dispatch(toggleBreadcrumbs(visibility)),
+    setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState)),
     resetPassword(options) {
         MyAccountDispatcher.then(
             ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch)
@@ -70,7 +77,9 @@ export class PasswordChangePageContainer extends PureComponent {
         passwordResetMessage: PropTypes.string.isRequired,
         resetPassword: PropTypes.func.isRequired,
         location: LocationType.isRequired,
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        isMobile: PropTypes.bool.isRequired
     };
 
     state = {
@@ -111,14 +120,23 @@ export class PasswordChangePageContainer extends PureComponent {
     };
 
     componentDidMount() {
+        const { setHeaderState } = this.props;
         this.updateMeta();
         this.toggleBreadcrumbs(false);
+        setHeaderState({
+            name: CUSTOMER_SUB_ACCOUNT,
+            title: __('Change My Password'),
+            onBackClick: () => {
+                history.push({ pathname: appendWithStoreCode('/') });
+            }
+        });
     }
 
     containerProps() {
         const { isLoading } = this.state;
+        const { isMobile } = this.props;
 
-        return { isLoading };
+        return { isLoading, isMobile };
     }
 
     onPasswordSuccess(form, fields) {
