@@ -66,6 +66,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         '/downloadable/customer/products': { name: ACCOUNT_TAB },
         '/customer/address': { name: ACCOUNT_TAB },
         '/newsletter/manage': { name: ACCOUNT_TAB },
+        '/sales/order/view': { name: ACCOUNT_TAB },
         '/wishlist': { name: ACCOUNT_TAB },
         '/checkout': { name: CHECKOUT_TAB },
         '/cart': { name: CART_TAB },
