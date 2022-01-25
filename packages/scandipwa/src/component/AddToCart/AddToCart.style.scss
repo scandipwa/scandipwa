@@ -47,20 +47,6 @@
         }
     }
 
-    &_isPlaceholder {
-        height: 48px;
-        display: inline-block;
-        padding: var(--button-padding);
-        background-image: var(--placeholder-image);
-        background-size: var(--placeholder-size);
-        animation: var(--placeholder-animation);
-        will-change: background-position;
-
-        @include mobile {
-            height: 56px;
-        }
-    }
-
     &_isLoading {
         span {
             &:first-child {
@@ -92,5 +78,13 @@
         &:hover {
             fill: var(--color-white);
         }
+    }
+
+    &-Placeholder {
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
+        height: var(--button-height);
+        width: 100%;
     }
 }

@@ -84,14 +84,29 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
     containerProps() {
         const { magentoProduct, mix } = this.props;
+        const { isWishlistButtonLoading } = this.state;
 
         return {
             mix,
             magentoProduct,
             isDisabled: this.isDisabled(),
             isInWishlist: this.isInWishlist(),
-            isSignedIn: isSignedIn()
+            isSignedIn: isSignedIn(),
+            isLoading: isWishlistButtonLoading,
+            isPlaceholder: this.isPlaceholder()
         };
+    }
+
+    isPlaceholder() {
+        const { magentoProduct } = this.props;
+
+        if (!Array.isArray(magentoProduct)) {
+            return true;
+        }
+
+        const { sku } = magentoProduct[0];
+
+        return !sku;
     }
 
     setWishlistButtonLoading(isLoading) {
@@ -171,11 +186,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
     };
 
     render() {
-        const { isWishlistButtonLoading } = this.state;
-
         return (
             <ProductWishlistButton
-              isLoading={ isWishlistButtonLoading }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

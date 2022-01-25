@@ -28,6 +28,7 @@ export class AddToCart extends PureComponent {
         addProductToCart: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         isAdding: PropTypes.bool.isRequired,
+        isPlaceholder: PropTypes.bool.isRequired,
 
         // Customization
         isIconEnabled: PropTypes.bool.isRequired,
@@ -45,14 +46,25 @@ export class AddToCart extends PureComponent {
         return <CartIcon />;
     }
 
+    renderPlaceholder() {
+        return (
+            <div block="AddToCart" elem="Placeholder" />
+        );
+    }
+
     render() {
         const {
             mix,
             addProductToCart,
             layout,
             isDisabled,
-            isAdding
+            isAdding,
+            isPlaceholder
         } = this.props;
+
+        if (isPlaceholder) {
+            return this.renderPlaceholder();
+        }
 
         return (
             <button

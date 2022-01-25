@@ -42,6 +42,7 @@ export class ProductCompareButtonContainer extends PureComponent {
     static propTypes = {
         mix: MixType,
         productId: PropTypes.number,
+        isLoading: PropTypes.bool,
         addProductToCompare: PropTypes.func.isRequired,
         removeComparedProduct: PropTypes.func.isRequired,
         comparedProducts: PropTypes.arrayOf(PropTypes.number).isRequired
@@ -49,6 +50,7 @@ export class ProductCompareButtonContainer extends PureComponent {
 
     static defaultProps = {
         productId: null,
+        isLoading: false,
         mix: {}
     };
 
@@ -61,13 +63,14 @@ export class ProductCompareButtonContainer extends PureComponent {
     };
 
     containerProps() {
-        const { mix } = this.props;
-        const { isLoading } = this.state;
+        const { mix, isLoading, productId } = this.props;
+        const { isLoading: isLoadingState } = this.state;
 
         return {
             mix,
-            isLoading,
-            isActive: this.isActive()
+            isLoading: isLoading || isLoadingState,
+            isActive: this.isActive(),
+            isPlaceholder: !productId
         };
     }
 

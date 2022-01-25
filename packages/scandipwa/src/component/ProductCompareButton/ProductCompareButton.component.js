@@ -24,20 +24,51 @@ export class ProductCompareButton extends PureComponent {
         handleClick: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
         isActive: PropTypes.bool,
+        isPlaceholder: PropTypes.bool,
         mix: MixType.isRequired
     };
 
     static defaultProps = {
         isLoading: false,
-        isActive: false
+        isActive: false,
+        isPlaceholder: true
     };
 
-    render() {
+    renderButton() {
         const {
             handleClick,
             isLoading,
+            isActive
+        } = this.props;
+
+        return (
+            <button
+              block="ProductCompareButton"
+              elem="Button"
+              onClick={ handleClick }
+              mix={ { block: 'Button' } }
+              aria-label={ __('Compare') }
+            >
+                <CompareIcon isActive={ isActive } />
+                <Loader isLoading={ isLoading } />
+            </button>
+        );
+    }
+
+    renderPlaceholder() {
+        return (
+            <div
+              block="ProductCompareButton"
+              elem="Placeholder"
+            />
+        );
+    }
+
+    render() {
+        const {
             isActive,
-            mix
+            mix,
+            isPlaceholder
         } = this.props;
 
         return (
@@ -46,16 +77,7 @@ export class ProductCompareButton extends PureComponent {
               mods={ { isActive } }
               mix={ mix }
             >
-                <button
-                  block="ProductCompareButton"
-                  elem="Button"
-                  onClick={ handleClick }
-                  mix={ { block: 'Button' } }
-                  aria-label={ __('Compare') }
-                >
-                    <CompareIcon isActive={ isActive } />
-                    <Loader isLoading={ isLoading } />
-                </button>
+                { isPlaceholder ? this.renderPlaceholder() : this.renderButton() }
             </div>
         );
     }

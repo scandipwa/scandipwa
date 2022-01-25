@@ -28,6 +28,7 @@ export class ProductWishlistButton extends PureComponent {
         isLoading: PropTypes.bool,
         isDisabled: PropTypes.bool,
         isInWishlist: PropTypes.bool,
+        isPlaceholder: PropTypes.bool,
         isSignedIn: PropTypes.bool.isRequired,
 
         addToWishlist: PropTypes.func.isRequired,
@@ -40,7 +41,8 @@ export class ProductWishlistButton extends PureComponent {
         mix: {},
         isLoading: false,
         isDisabled: false,
-        isInWishlist: false
+        isInWishlist: false,
+        isPlaceholder: true
     };
 
     onClick = this.onClick.bind(this);
@@ -101,6 +103,12 @@ export class ProductWishlistButton extends PureComponent {
         );
     }
 
+    renderPlaceholder() {
+        return (
+            <div block="ProductWishlistButton" elem="Placeholder" />
+        );
+    }
+
     renderContent() {
         return (
             <div block="ProductWishlistButton">
@@ -111,7 +119,11 @@ export class ProductWishlistButton extends PureComponent {
     }
 
     render() {
-        const { magentoProduct } = this.props;
+        const { magentoProduct, isPlaceholder } = this.props;
+
+        if (isPlaceholder) {
+            return this.renderPlaceholder();
+        }
 
         if (Array.isArray(magentoProduct) && magentoProduct.length > 0) {
             return this.renderContent();

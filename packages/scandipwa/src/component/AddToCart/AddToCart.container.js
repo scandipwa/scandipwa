@@ -214,7 +214,8 @@ export class AddToCartContainer extends PureComponent {
             isDisabled,
             isIconEnabled,
             mix,
-            layout
+            layout,
+            product: { id } = {}
         } = this.props;
 
         const {
@@ -226,7 +227,8 @@ export class AddToCartContainer extends PureComponent {
             isIconEnabled,
             mix,
             layout,
-            isAdding
+            isAdding,
+            isPlaceholder: !id
         };
     }
 

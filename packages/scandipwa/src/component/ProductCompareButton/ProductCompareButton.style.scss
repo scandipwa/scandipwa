@@ -31,4 +31,12 @@
             padding: 0;
         }
     }
+
+    &-Placeholder {
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
+        height: var(--compare-button-size);
+        width: var(--compare-button-size);
+    }
 }

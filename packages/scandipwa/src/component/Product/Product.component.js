@@ -292,11 +292,7 @@ export class Product extends PureComponent {
     }
 
     renderCompareButton() {
-        const { product: { id } } = this.props;
-
-        if (!id) {
-            return null;
-        }
+        const { product: { id } = {} } = this.props;
 
         return (
             <ProductCompareButton
