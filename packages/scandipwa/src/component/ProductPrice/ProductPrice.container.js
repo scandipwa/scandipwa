@@ -84,7 +84,8 @@ export class ProductPriceContainer extends PureComponent {
             label,
             mix,
             variantsCount,
-            priceType
+            priceType,
+            displayTaxInPrice
         } = this.props;
 
         if (!price || !originalPrice) {
@@ -103,7 +104,8 @@ export class ProductPriceContainer extends PureComponent {
             label,
             mix,
             variantsCount,
-            priceType
+            priceType,
+            displayTaxInPrice
         };
     }
 

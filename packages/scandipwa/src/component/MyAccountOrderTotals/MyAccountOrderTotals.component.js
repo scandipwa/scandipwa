@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { ORDER_ITEMS } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { OrderTotalType } from 'Type/Order.type';
 import { formatPrice } from 'Util/Price';
 
@@ -21,6 +22,7 @@ import './MyAccountOrderTotals.style';
 export class MyAccountOrderTotals extends PureComponent {
     static propTypes = {
         total: OrderTotalType.isRequired,
+        activeTab: PropTypes.string.isRequired,
         colSpanPriceCount: PropTypes.string.isRequired,
         colSpanLabelCount: PropTypes.string.isRequired
     };
@@ -73,10 +75,6 @@ export class MyAccountOrderTotals extends PureComponent {
                 },
                 total_tax: {
                     value: totalTaxPrice
-                },
-                base_grand_total: {
-                    value: baseGrandTotalPrice,
-                    currency: baseGrandTotalCurrency
                 }
             }
         } = this.props;
@@ -97,9 +95,27 @@ export class MyAccountOrderTotals extends PureComponent {
                 { this.renderTaxes() }
                 { this.renderPriceLine(__('Tax'), totalTaxPrice) }
                 { this.renderPriceLine(__('Grand Total (Incl.Tax)'), grandTotalPrice, null, grandTotalMix) }
-                { this.renderPriceLine(__('Grand Total to be Charged'), baseGrandTotalPrice, baseGrandTotalCurrency) }
+                { this.renderBaseGrandTotal() }
             </>
         );
+    }
+
+    renderBaseGrandTotal() {
+        const {
+            activeTab,
+            total: {
+                base_grand_total: {
+                    value: baseGrandTotalPrice,
+                    currency: baseGrandTotalCurrency
+                }
+            }
+        } = this.props;
+
+        if (activeTab !== ORDER_ITEMS) {
+            return null;
+        }
+
+        return this.renderPriceLine(__('Grand Total to be Charged'), baseGrandTotalPrice, baseGrandTotalCurrency);
     }
 
     renderPriceLine(title, price, currency, mix = {}, key) {
