@@ -159,7 +159,14 @@ export class CheckoutDeliveryOption extends PureComponent {
         } = this.props;
 
         return (
-            <li block="CheckoutDeliveryOption" mods={ { isDisabled: !available } }>
+            <li
+              block="CheckoutDeliveryOption"
+              mods={ {
+                  isDisabled: !available,
+                  isActive: isSelected,
+                  isHoverExcluded: !available || isSelected
+              } }
+            >
                 <button
                   block="CheckoutDeliveryOption"
                   mods={ { isDisabled: !available } }
