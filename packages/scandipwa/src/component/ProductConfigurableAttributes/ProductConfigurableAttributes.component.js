@@ -94,6 +94,9 @@ export class ProductConfigurableAttributes extends PureComponent {
         const { handleIsOptionUnselected, handleShakeAnimationEnd } = this.props;
         const { attribute_values, attribute_code } = option;
         const isUnselected = handleIsOptionUnselected(attribute_code);
+
+        console.log(isUnselected);
+
         return (
             <div
               block="ProductConfigurableAttributes"

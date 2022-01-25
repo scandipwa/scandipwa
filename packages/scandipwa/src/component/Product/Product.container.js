@@ -351,6 +351,8 @@ export class ProductContainer extends PureComponent {
             }
         });
 
+        this.setState({ unselectedOptions });
+
         return unselectedOptions.length > 0;
     }
 

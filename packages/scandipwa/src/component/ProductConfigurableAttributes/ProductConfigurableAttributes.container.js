@@ -131,22 +131,9 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
 
     handleIsOptionUnselected(attributeCode) {
         const { unselectedOptions } = this.props;
+        console.log(unselectedOptions);
         return unselectedOptions.length > 0 && unselectedOptions.includes(attributeCode);
     }
-
-    /* handleShakeAnimationEnd(e) {
-        const { resetUnselectedOptions } = this.props;
-        e.preventDefault();
-        const { currentTarget } = e;
-        currentTarget.classList.forEach((className, id) => {
-            if (className.includes('_isUnselected')) {
-                const removeClass = currentTarget.classList[id];
-                currentTarget.classList.remove(removeClass);
-            }
-        });
-
-        resetUnselectedOptions();
-    } */
 
     getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {
         const { parameters, variants } = this.props;
