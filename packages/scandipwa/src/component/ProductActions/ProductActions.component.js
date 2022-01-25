@@ -179,6 +179,7 @@ export class ProductActions extends Product {
                 { this.renderOfferCount() }
                 <meta itemProp="availability" content={ stockMeta } />
                 <meta itemProp="url" content={ metaLink } />
+                { /* eslint-disable-next-line react/forbid-elements */ }
                 <a
                   block="ProductActions"
                   elem="SchemaUrl"
