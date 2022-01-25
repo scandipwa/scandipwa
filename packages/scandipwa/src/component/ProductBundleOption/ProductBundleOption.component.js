@@ -205,8 +205,6 @@ export class ProductBundleOption extends PureComponent {
         const label = this.getLabel(option);
         const stock = getProductInStock(product);
 
-        console.log(option, getProductInStock(product), 'radio');
-
         return (
             <div block="ProductBundleItem" elem="Radio" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
                 <Field
