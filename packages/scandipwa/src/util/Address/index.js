@@ -221,7 +221,6 @@ export const getFormattedRegion = (address, countries) => {
         return {};
     }
 
-    const { region_id, region } = regionData;
     const country = countries.find(({ id }) => id === country_id);
 
     if (!country) {
@@ -229,7 +228,16 @@ export const getFormattedRegion = (address, countries) => {
     }
 
     const { label, available_regions } = country;
+
+    if (typeof regionData === 'string') {
+        return {
+            country: label,
+            region: regionData
+        };
+    }
+
     const regions = available_regions || [];
+    const { region_id, region } = regionData;
     const { name } = regions.find(({ id }) => id === region_id) || { name: region };
 
     return {

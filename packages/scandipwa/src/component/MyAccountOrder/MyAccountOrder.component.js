@@ -246,7 +246,11 @@ export class MyAccountOrder extends PureComponent {
     }
 
     renderOrderInformation() {
-        const { order } = this.props;
+        const { order, activeTab } = this.props;
+
+        if (activeTab === ORDER_REFUNDS) {
+            return null;
+        }
 
         return <MyAccountOrderInformation order={ order } />;
     }
