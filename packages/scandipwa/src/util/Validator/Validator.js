@@ -196,4 +196,15 @@ export const validateGroup = (DOM, rule = null) => {
     return errorMessages.length === 0 && errorFields.length === 0 ? true : output;
 };
 
+/**
+ * Get number of different character classes
+ * @param value
+ * @return int
+ * @namespace Util/Validator/getNumberOfCharacterClasses
+ */
+export const getNumberOfCharacterClasses = (value) => Number(/\d+/.test(value))
+    + Number(/[a-z]+/.test(value))
+    + Number(/[A-Z]+/.test(value))
+    + Number(/[^a-zA-Z0-9]+/.test(value));
+
 export default validate;
