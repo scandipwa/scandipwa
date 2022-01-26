@@ -10,6 +10,10 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
+import {
+    MIN_CHARACTER_SETS_IN_PASSWORD
+} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
+import { getNumberOfCharacterClasses } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -17,46 +21,79 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/PasswordChangeForm/Form/customerEmailAndPasswordFields */
-export const customerEmailAndPasswordFields = () => [
-    {
-        type: FIELD_TYPE.password,
-        label: __('New password'),
-        attr: {
-            id: 'password',
-            name: 'password',
-            placeholder: __('Enter your password'),
-            autocomplete: 'new-password'
-        },
-        validateOn: ['onChange'],
-        validationRule: {
-            isRequired: true,
-            inputType: VALIDATION_INPUT_TYPE.password
-        },
-        addRequiredTag: true
-    },
-    {
-        type: FIELD_TYPE.password,
-        label: __('Confirm password'),
-        attr: {
-            id: 'password_confirmation',
-            name: 'password_confirmation',
-            placeholder: __('Retype your password'),
-            autocomplete: 'new-password'
-        },
-        validateOn: ['onChange'],
-        validationRule: {
-            isRequired: true,
-            inputType: VALIDATION_INPUT_TYPE.password,
-            match: (value) => {
-                const password = document.getElementById('password');
-                return password.value === value;
+export const customerEmailAndPasswordFields = (props) => {
+    const {
+        showNotification
+    } = props;
+
+    return [
+        {
+            type: FIELD_TYPE.password,
+            label: __('New password'),
+            attr: {
+                id: 'password',
+                name: 'password',
+                placeholder: __('Enter your password'),
+                autocomplete: 'new-password'
             },
-            customErrorMessages: {
-                onMatchFail: __('Passwords do not match!')
-            }
+            validateOn: ['onSubmit'],
+            validationRule: {
+                isRequired: true,
+                inputType: VALIDATION_INPUT_TYPE.password,
+                match: (value) => {
+                    console.log(event.type);
+                    console.log(Event.value);
+
+                    if (event.type === 'submit') {
+                        const counter = getNumberOfCharacterClasses(value);
+
+                        if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
+                            showNotification(
+                                'error',
+                                __('Minimum of different classes of characters in password is %s.',
+                                    MIN_CHARACTER_SETS_IN_PASSWORD)
+                                + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.')
+                            );
+
+                            return '';
+                        }
+                    }
+
+                    return true;
+                },
+                customErrorMessages: {
+                    onMatchFail: __('Passwords do not match!')
+                },
+                range: {
+                    min: 8
+                }
+            },
+            addRequiredTag: true
         },
-        addRequiredTag: true
-    }
-];
+        {
+            type: FIELD_TYPE.password,
+            label: __('Confirm password'),
+            attr: {
+                id: 'password_confirmation',
+                name: 'password_confirmation',
+                placeholder: __('Retype your password'),
+                autocomplete: 'new-password'
+            },
+            validateOn: ['onChange'],
+            validationRule: {
+                isRequired: true,
+                inputType: VALIDATION_INPUT_TYPE.password,
+                match: (value) => {
+                    const password = document.getElementById('password');
+                    return password.value === value;
+                },
+                customErrorMessages: {
+                    onMatchFail: __('Passwords do not match!')
+                }
+            },
+            addRequiredTag: true
+        }
+    ];
+};
 
 export default customerEmailAndPasswordFields;
