@@ -13,7 +13,7 @@
     --cookie-popup-bottom-margin: 10px;
 
     background-color: black;
-    position: fixed;
+    position: sticky;
     inset-block-end: var(--cookie-popup-bottom-margin);
     display: flex;
     opacity: 0.9;
