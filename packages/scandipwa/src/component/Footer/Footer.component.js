@@ -211,6 +211,7 @@ export class Footer extends Component {
                 <span block="Footer" elem="Copyright">
                     { copyright }
                     { ' Powered by ' }
+                    { /* eslint-disable-next-line react/forbid-elements */ }
                     <a href="https://scandipwa.com">
                         ScandiPWA
                     </a>

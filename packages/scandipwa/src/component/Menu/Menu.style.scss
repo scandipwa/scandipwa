@@ -210,6 +210,10 @@
                 background: var(--color-gray);
                 display: block;
                 padding-inline: 16px;
+
+                @include mobile {
+                    margin-block-end: 0;
+                }
             }
 
             @include desktop {
