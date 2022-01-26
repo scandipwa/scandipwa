@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import FieldGroup from 'Component//FieldGroup';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
@@ -38,8 +39,7 @@ export class ProductReviewForm extends PureComponent {
             nickname: PropTypes.string,
             summary: PropTypes.string,
             detail: PropTypes.string
-        }).isRequired,
-        reviewStarsMissing: PropTypes.objectOf(PropTypes.string).isRequired
+        }).isRequired
     };
 
     ratingTitleMap = {
@@ -69,34 +69,25 @@ export class ProductReviewForm extends PureComponent {
         );
     }
 
-    renderReviewRatingError(ratingId) {
-        const { reviewStarsMissing } = this.props;
-
-        return reviewStarsMissing.map(({ errorMessage, rating_id }) => (rating_id === ratingId ? (
-                <div block="ProductReviewForm" elem="ErrorMessage" key={ ratingId }>
-                        { errorMessage }
-                </div>
-        ) : null
-        ));
-    }
-
     renderReviewRating() {
-        const { reviewRatings, reviewStarsMissing } = this.props;
+        const { reviewRatings } = this.props;
         return reviewRatings.map((rating) => {
             const { rating_id, rating_code, rating_options } = rating;
 
             return (
-                <>
-                <fieldset block="ProductReviewForm" elem="Rating" key={ rating_id }>
-                    <legend block="ProductReviewForm" elem="Legend">
-                        { rating_code }
-                    </legend>
-                    { rating_options
-                        .sort(({ value }, { value: nextValue }) => nextValue - value)
-                        .map((option) => this.renderReviewStar(option, rating_id)) }
-                </fieldset>
-                    { reviewStarsMissing.length ? this.renderReviewRatingError(rating_id) : null }
-                </>
+                <FieldGroup
+                  validationRule={ { isRequired: true, selector: '[type="radio"]' } }
+                  validateOn={ ['onChange'] }
+                >
+                    <fieldset block="ProductReviewForm" elem="Rating" key={ rating_id }>
+                        <legend block="ProductReviewForm" elem="Legend">
+                            { rating_code }
+                        </legend>
+                        { rating_options
+                            .sort(({ value }, { value: nextValue }) => nextValue - value)
+                            .map((option) => this.renderReviewStar(option, rating_id)) }
+                    </fieldset>
+                </FieldGroup>
             );
         });
     }
