@@ -64,6 +64,10 @@
         @include desktop {
             line-height: 28px;
         }
+
+        @include mobile {
+            margin-block-start: 4px;
+        }
     }
 
     &, &-BundleFrom, &-BundleTo {
