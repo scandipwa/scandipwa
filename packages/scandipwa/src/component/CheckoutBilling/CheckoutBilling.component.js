@@ -43,7 +43,6 @@ export class CheckoutBilling extends PureComponent {
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
         onBillingSuccess: PropTypes.func.isRequired,
-        onBillingError: PropTypes.func.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
         showPopup: PropTypes.func.isRequired,
         paymentMethods: PaymentMethodsType.isRequired,
@@ -318,7 +317,7 @@ export class CheckoutBilling extends PureComponent {
     }
 
     render() {
-        const { onBillingSuccess, onBillingError } = this.props;
+        const { onBillingSuccess } = this.props;
 
         return (
             <Form
@@ -326,7 +325,6 @@ export class CheckoutBilling extends PureComponent {
                   id: BILLING_STEP
               } }
               mix={ { block: 'CheckoutBilling' } }
-              onError={ onBillingError }
               onSubmit={ onBillingSuccess }
             >
                 { this.renderAddresses() }
