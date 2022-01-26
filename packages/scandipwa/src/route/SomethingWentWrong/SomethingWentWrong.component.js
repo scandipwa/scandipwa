@@ -54,6 +54,7 @@ export class SomethingWentWrong extends PureComponent {
                 <ContentWrapper label="Something went wrong on the page.">
                     <h1 block="SomethingWentWrong" elem="Heading">{ __('Ooops!') }</h1>
                     <h2 block="SomethingWentWrong" elem="SubHeading">{ __('Something went wrong!') }</h2>
+                    { /* eslint-disable-next-line react/forbid-elements */ }
                     <a
                       href="/"
                       block="SomethingWentWrong"
