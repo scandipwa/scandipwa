@@ -21,11 +21,18 @@ import './PasswordChangeForm.style';
 export class PasswordChangeForm extends FieldForm {
     static propsTypes = {
         onFormSubmit: PropTypes.func.isRequired,
-        onFormError: PropTypes.func.isRequired
+        onFormError: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
     get fieldMap() {
-        return customerEmailAndPasswordFields();
+        const {
+            showNotification
+        } = this.props;
+
+        return customerEmailAndPasswordFields({
+            showNotification
+        });
     }
 
     getFormProps() {
