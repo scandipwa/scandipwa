@@ -39,7 +39,7 @@ export class ProductDownloadableLinks extends PureComponent {
         links: []
     };
 
-    renderLabel(link) {
+    getLabel(link) {
         const { title, price } = link;
         const { isRequired, currencyCode = 'USD' } = this.props;
 
@@ -62,6 +62,7 @@ export class ProductDownloadableLinks extends PureComponent {
     renderCheckBox(link) {
         const { setSelectedCheckboxValues, isRequired } = this.props;
         const { uid } = link;
+        const label = this.getLabel(link);
 
         if (!isRequired) {
             return null;
@@ -79,6 +80,7 @@ export class ProductDownloadableLinks extends PureComponent {
               events={ {
                   onChange: setSelectedCheckboxValues
               } }
+              label={ label }
             />
         );
     }
@@ -109,7 +111,6 @@ export class ProductDownloadableLinks extends PureComponent {
         return (
             <div block="ProductDownloadableLink" key={ id }>
                 { this.renderCheckBox.call(this, link) }
-                { this.renderLabel(link) }
                 { this.renderLink(link) }
             </div>
         );
