@@ -17,6 +17,7 @@ import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay
 import { showNotification } from 'Store/Notification/Notification.action';
 import { SignInStateType } from 'Type/Account.type';
 import transformToNameValuePair from 'Util/Form/Transform';
+import history from 'Util/History';
 
 import MyAccountCreateAccount from './MyAccountCreateAccount.component';
 import { CONFIRMATION_REQUIRED, SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
@@ -148,6 +149,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
                         // eslint-disable-next-line max-len
                         __('The email confirmation link has been sent to your email. Please confirm your account to proceed.')
                     );
+                    history.push('/default/customer/account/login');
                 }
             } else if (code !== false) {
                 onSignIn();
