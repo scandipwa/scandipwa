@@ -62,7 +62,7 @@
         }
 
         @include mobile {
-            border-block-end: var(--my-account-content-border);
+            border-block-start: var(--my-account-content-border);
         }
     }
 
