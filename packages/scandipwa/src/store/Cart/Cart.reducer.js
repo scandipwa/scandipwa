@@ -12,7 +12,7 @@
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 
-import { UPDATE_SHIPPING_PRICE, UPDATE_TOTALS, UPDATE_TOTALS_IS_LOADING } from './Cart.action';
+import { UPDATE_IS_LOADING_CART, UPDATE_SHIPPING_PRICE, UPDATE_TOTALS } from './Cart.action';
 
 export const CART_TOTALS = 'cart_totals';
 
@@ -79,8 +79,9 @@ export const CartReducer = (
         return updateCartTotals(action, state);
     case UPDATE_SHIPPING_PRICE:
         return updateShippingPrice(action, state);
-    case UPDATE_TOTALS_IS_LOADING:
+    case UPDATE_IS_LOADING_CART:
         const { isLoading } = action;
+
         return {
             ...state,
             isLoading

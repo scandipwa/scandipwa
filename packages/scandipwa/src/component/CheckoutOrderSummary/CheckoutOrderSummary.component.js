@@ -325,19 +325,15 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderLoader() {
+    renderExpandableContent() {
         const { isLoading } = this.props;
 
-        return <Loader isLoading={ isLoading } />;
-    }
-
-    renderExpandableContent() {
         return (
             <ExpandableContent
               heading={ __('Summary') }
               mix={ { block: 'CheckoutOrderSummary', elem: 'ExpandableContent' } }
             >
-                { this.renderLoader() }
+                <Loader isLoading={ isLoading } />
                 { this.renderItems() }
                 { this.renderCmsBlock() }
                 { this.renderTotals() }
@@ -363,6 +359,7 @@ export class CheckoutOrderSummary extends PureComponent {
 
     render() {
         const { isLoading } = this.props;
+
         return (
             <article block="CheckoutOrderSummary" aria-label="Order Summary">
                 <Loader isLoading={ isLoading } />
