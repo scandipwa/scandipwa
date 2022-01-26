@@ -34,7 +34,8 @@ import {
     getCartSubtotal,
     getCartSubtotalSubPrice,
     getCartTotalSubPrice,
-    getItemsCountLabel
+    getItemsCountLabel,
+    trimCrossSellDuplicateItems
 } from 'Util/Cart';
 import history from 'Util/History';
 import { getProductInStock } from 'Util/Product/Extract';
@@ -249,20 +250,7 @@ export class CartPageContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        const list = items.filter(
-            (item, index, array) => {
-                if (index === 0) {
-                    return true;
-                }
-
-                if (item.product.variants.length === 0) {
-                    return true;
-                }
-
-                const duplicate = array.find((element) => element.product.id === item.product.id);
-                return (duplicate.product.id === item.product.id && duplicate.sku === item.sku);
-            }
-        );
+        const list = trimCrossSellDuplicateItems(items);
 
         updateCrossSellProducts(list);
     }

@@ -240,3 +240,22 @@ export const getAllCartItemsSku = (cartItems) => cartItems.reduce((acc, item) =>
 
     return acc;
 }, []);
+
+/** @namespace Util/Cart/trimCrossSellDuplicateItems */
+export const trimCrossSellDuplicateItems = (items) => items.filter(
+    ({
+        sku: itemSku,
+        product: { variants: itemVariants, id: itemId }
+    }, index, array) => {
+        if (index === 0 || itemVariants.length === 0) {
+            return true;
+        }
+
+        const {
+            sku: duplicateSku,
+            product: { id: duplicateId }
+        } = array.find(({ product: { id: elementId } }) => elementId === itemId);
+
+        return (duplicateId === itemId && duplicateSku === itemSku);
+    }
+);
