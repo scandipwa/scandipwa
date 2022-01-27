@@ -98,13 +98,11 @@ export class Overlay extends PureComponent {
         this.YoffsetWhenScrollDisabled = window.pageYOffset || document.body.scrollTop;
         toggleScroll(false);
         document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
-        document.body.style.overflowY = 'scroll';
     }
 
     unfreezeScroll() {
         toggleScroll(true);
         document.body.style.marginTop = 0;
-        document.body.style.overflowY = '';
         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }
 
