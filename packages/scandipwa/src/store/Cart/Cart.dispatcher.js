@@ -143,6 +143,11 @@ export class CartDispatcher {
             await this.updateInitialCartData(dispatch);
             dispatch(showNotification('success', __('Product was added to cart!')));
         } catch (error) {
+            if (!navigator.onLine) {
+                dispatch(showNotification('error', __('Not possible to fetch while offline')));
+                return Promise.reject();
+            }
+
             dispatch(showNotification('error', getErrorMessage(error)));
             return Promise.reject();
         }
