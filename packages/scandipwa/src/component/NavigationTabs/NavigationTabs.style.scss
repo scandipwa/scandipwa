@@ -27,7 +27,6 @@
     background-color: var(--header-background);
     padding-block-end: env(safe-area-inset-bottom);
     transform: translateY(0);
-    transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
     .hideOnScroll & {
         transform: translateY(100%);
