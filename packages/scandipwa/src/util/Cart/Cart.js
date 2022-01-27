@@ -247,7 +247,7 @@ export const trimCrossSellDuplicateItems = (items) => items.filter(
         sku: itemSku,
         product: { variants: itemVariants, id: itemId }
     }, index, array) => {
-        if (index === 0 || itemVariants.length === 0) {
+        if (!index || !itemVariants.length) {
             return true;
         }
 
