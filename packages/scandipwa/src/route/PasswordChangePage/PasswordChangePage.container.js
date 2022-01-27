@@ -41,7 +41,6 @@ export const mapStateToProps = (state) => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus,
     passwordResetMessage: state.MyAccountReducer.passwordResetMessage,
     isMobile: state.ConfigReducer.device.isMobile
-
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
