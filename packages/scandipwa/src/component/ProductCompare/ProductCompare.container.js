@@ -116,21 +116,17 @@ export class ProductCompareContainer extends PureComponent {
     }
 
     handleScroll() {
-        window.requestAnimationFrame(() => {
-            const scrollerScroll = document.getElementById('scrollerScroll');
-            const productCompare = document.getElementById('productCompare');
+        const scrollerScroll = document.getElementById('scrollerScroll');
+        const productCompare = document.getElementById('productCompare');
 
-            productCompare.scrollLeft = scrollerScroll.scrollLeft;
-        });
+        productCompare.scrollLeft = scrollerScroll.scrollLeft;
     }
 
     handleBlockScroll() {
-        window.requestAnimationFrame(() => {
-            const scrollerScroll = document.getElementById('scrollerScroll');
-            const productCompare = document.getElementById('productCompare');
+        const scrollerScroll = document.getElementById('scrollerScroll');
+        const productCompare = document.getElementById('productCompare');
 
-            scrollerScroll.scrollLeft = productCompare.scrollLeft;
-        });
+        scrollerScroll.scrollLeft = productCompare.scrollLeft;
     }
 
     fetchCompareList() {

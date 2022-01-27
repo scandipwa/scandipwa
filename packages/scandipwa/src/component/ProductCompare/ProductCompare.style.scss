@@ -45,11 +45,11 @@
         display: flex;
         align-items: stretch;
         margin-block-start: 20px;
+        will-change: transform;
 
         @include mobile {
             flex: 0 0 auto;
             margin-block-start: 0;
-            will-change: transform;
         }
     }
 
@@ -79,10 +79,7 @@
 
     &-AttributeTable {
         min-width: fit-content;
-
-        @include mobile {
-            will-change: transform;
-        }
+        will-change: transform;
     }
 
     &-Empty {
@@ -143,6 +140,7 @@
     &-Scroller {
         inset-inline-start: 0;
         position: sticky;
+        will-change: transform;
 
         &Inner {
             margin: auto;
