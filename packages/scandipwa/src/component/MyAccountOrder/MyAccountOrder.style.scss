@@ -204,6 +204,8 @@
         }
 
         dd {
+            word-break: break-word;
+
             &:not(&:last-of-type) {
                 @include mobile {
                     margin-block-end: 15px;

@@ -16,6 +16,7 @@ import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccount
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
 import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
+import { getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { getProductFromOrder } from 'Util/Orders';
 
 import './MyAccountOrderItemsTable.style';
@@ -189,15 +190,17 @@ export class MyAccountOrderItemsTable extends PureComponent {
                 >
                     { __('About Your %s', activeTab) }
                 </div>
-                { comments.map(({ timestamp, message }) => (
-                    <dl
-                      block="MyAccountOrderItemsTable"
-                      elem="Comment"
-                    >
-                        <dt>{ timestamp }</dt>
-                        <dd>{ message }</dd>
-                    </dl>
-                )) }
+                <div block="MyAccountOrderItemsTable" elem="CommentsList">
+                    { comments.map(({ timestamp, message }) => (
+                        <dl
+                          block="MyAccountOrderItemsTable"
+                          elem="Comment"
+                        >
+                            <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
+                            <dd>{ message }</dd>
+                        </dl>
+                    )) }
+                </div>
             </div>
         );
     }
