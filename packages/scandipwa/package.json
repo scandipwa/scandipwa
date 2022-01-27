@@ -20,6 +20,7 @@
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
         "intersection-observer": "^0.12.0",
+        "postcss": "^8.4.5",
         "prop-types": "^15.6.2",
         "react": "^16.13.1",
         "react-datepicker": "^4.3.0",
@@ -307,7 +308,10 @@
                 1,
                 {
                     "forbid": [
-                        { "element": "a", "message": "Use the <Link> component instead of <a>." }
+                        {
+                            "element": "a",
+                            "message": "Use the <Link> component instead of <a>."
+                        }
                     ]
                 }
             ],
