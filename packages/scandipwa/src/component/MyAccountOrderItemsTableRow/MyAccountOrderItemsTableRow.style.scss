@@ -60,10 +60,6 @@
                 }
             }
         }
-
-        @include mobile {
-            border-block-end: var(--my-account-content-border);
-        }
     }
 
     &-Row {
