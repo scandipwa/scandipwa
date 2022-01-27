@@ -10,7 +10,7 @@
  */
 
 import CartQuery from 'Query/Cart.query';
-import { updateTotals } from 'Store/Cart/Cart.action';
+import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
@@ -38,6 +38,8 @@ export class CartDispatcher {
                 )
             );
 
+            dispatch(updateIsLoadingCart(false));
+
             return this._updateCartData(cartData, dispatch);
         } catch (error) {
             return this.createGuestEmptyCart(dispatch);
@@ -51,7 +53,7 @@ export class CartDispatcher {
             } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
 
             setGuestQuoteId(quoteId);
-            this._updateCartData({}, dispatch);
+            dispatch(updateIsLoadingCart(true));
 
             return quoteId;
         } catch (error) {
