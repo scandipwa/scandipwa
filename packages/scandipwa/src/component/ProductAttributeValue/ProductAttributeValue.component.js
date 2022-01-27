@@ -425,16 +425,19 @@ export class ProductAttributeValue extends PureComponent {
         }
 
         return (
-            <a
-              href={ href }
-              block="ProductAttributeValue"
-              mods={ { isNotAvailable } }
-              onClick={ this.clickHandler }
-              aria-hidden={ isNotAvailable }
-              mix={ mix }
-            >
-                { this.renderAttributeByType() }
-            </a>
+            <>
+                { /* eslint-disable-next-line react/forbid-elements */ }
+                <a
+                  href={ href }
+                  block="ProductAttributeValue"
+                  mods={ { isNotAvailable } }
+                  onClick={ this.clickHandler }
+                  aria-hidden={ isNotAvailable }
+                  mix={ mix }
+                >
+                    { this.renderAttributeByType() }
+                </a>
+            </>
         );
     }
 }

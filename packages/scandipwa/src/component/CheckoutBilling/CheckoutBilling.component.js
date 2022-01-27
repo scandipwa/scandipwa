@@ -43,7 +43,6 @@ export class CheckoutBilling extends PureComponent {
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
         onBillingSuccess: PropTypes.func.isRequired,
-        onBillingError: PropTypes.func.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
         showPopup: PropTypes.func.isRequired,
         paymentMethods: PaymentMethodsType.isRequired,
@@ -115,34 +114,35 @@ export class CheckoutBilling extends PureComponent {
               block="CheckoutBilling"
               elem="TermsAndConditions"
             >
-                <Field
-                  type={ FIELD_TYPE.checkbox }
-                  attr={ {
-                      id: 'termsAndConditions',
-                      name: 'termsAndConditions',
-                      value: 'termsAndConditions',
-                      checked: isTermsAndConditionsAccepted
-                  } }
-                  events={ {
-                      onChange: this.setTACAccepted
-                  } }
-                  mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
-                />
+
                 <label
                   block="CheckoutBilling"
                   elem="TACLabel"
                   htmlFor="termsAndConditions"
                 >
+                    <Field
+                      type={ FIELD_TYPE.checkbox }
+                      attr={ {
+                          id: 'termsAndConditions',
+                          name: 'termsAndConditions',
+                          value: 'termsAndConditions',
+                          checked: isTermsAndConditionsAccepted
+                      } }
+                      events={ {
+                          onChange: this.setTACAccepted
+                      } }
+                      mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
+                    />
                     { `${checkbox_text } - ` }
-                    <button
-                      block="CheckoutBilling"
-                      elem="TACLink"
-                      onClick={ this.handleShowPopup }
-                      type="button"
-                    >
-                        { __('read more') }
-                    </button>
                 </label>
+                <button
+                  block="CheckoutBilling"
+                  elem="TACLink"
+                  onClick={ this.handleShowPopup }
+                  type="button"
+                >
+                        { __('read more') }
+                </button>
             </div>
         );
     }
@@ -318,7 +318,7 @@ export class CheckoutBilling extends PureComponent {
     }
 
     render() {
-        const { onBillingSuccess, onBillingError } = this.props;
+        const { onBillingSuccess } = this.props;
 
         return (
             <Form
@@ -326,7 +326,6 @@ export class CheckoutBilling extends PureComponent {
                   id: BILLING_STEP
               } }
               mix={ { block: 'CheckoutBilling' } }
-              onError={ onBillingError }
               onSubmit={ onBillingSuccess }
             >
                 { this.renderAddresses() }
