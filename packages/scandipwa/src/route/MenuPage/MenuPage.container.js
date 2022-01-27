@@ -41,16 +41,14 @@ export class MenuPageContainer extends PureComponent {
         isMobile: PropTypes.bool.isRequired
     };
 
-    state = {
-        isMounted: false
-    };
+    __construct() {
+        this.redirectIfNotOnMobile();
+    }
 
     componentDidMount() {
         const { updateMeta, changeHeaderState } = this.props;
 
-        this.setState({ isMounted: true });
         updateMeta({ title: __('Menu') });
-        this.redirectIfNotOnMobile();
         changeHeaderState({
             name: MENU,
             onBackClick: () => history.goBack()
@@ -58,11 +56,7 @@ export class MenuPageContainer extends PureComponent {
     }
 
     componentDidUpdate() {
-        const { isMounted } = this.state;
-
-        if (isMounted) {
-            this.redirectIfNotOnMobile();
-        }
+        this.redirectIfNotOnMobile();
     }
 
     redirectIfNotOnMobile() {
