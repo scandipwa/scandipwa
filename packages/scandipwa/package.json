@@ -21,6 +21,7 @@
         "html-react-parser": "^0.13.0",
         "intersection-observer": "^0.12.0",
         "prop-types": "^15.6.2",
+        "postcss": "8.4.5",
         "react": "^16.13.1",
         "react-datepicker": "^4.3.0",
         "react-dom": "^16.13.1",
