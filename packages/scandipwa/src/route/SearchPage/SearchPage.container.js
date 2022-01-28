@@ -114,7 +114,7 @@ export class SearchPageContainer extends CategoryPageContainer {
 
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
-        const search = this.getSearchParam();
+        const search = decodeURIComponent(this.getSearchParam());
 
         updateBreadcrumbs([{
             url: '',
