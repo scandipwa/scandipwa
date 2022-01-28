@@ -74,8 +74,7 @@ export class ProductReviewFormContainer extends PureComponent {
             isLoading: false,
             ratingData: {},
             reviewData,
-            isSubmitted: false,
-            reviewStarsMissing: {}
+            isSubmitted: false
         };
     }
 
