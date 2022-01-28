@@ -329,6 +329,12 @@
                 transform: rotate(45deg);
                 width: 2px;
                 will-change: background-color, box-shadow;
+
+                @at-root {
+                    :dir(rtl)#{&} {
+                        inset-inline-start: calc(50% + 3px);
+                    }
+                }
             }
         }
 
@@ -348,6 +354,12 @@
                 &::after {
                     @include desktop {
                         --checkmark-color: var(--secondary-dark-color);
+                    }
+
+                    @at-root {
+                        :dir(rtl)#{&} {
+                            inset-inline-start: calc(50% + 3px);
+                        }
                     }
                 }
             }
