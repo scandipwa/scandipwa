@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-elements */
 /* eslint-disable react/forbid-dom-props */
 /**
  * ScandiPWA - Progressive Web App for Magento

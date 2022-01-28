@@ -61,6 +61,12 @@
             }
         }
 
+        &_lineBefore {
+            @include desktop {
+                border-block-end: var(--my-account-content-border);
+            }
+        }
+
         @include mobile {
             border-block-end: var(--my-account-content-border);
         }
@@ -142,6 +148,12 @@
 
     &-OptionValue {
         margin-block-end: 5px;
+
+        &>* {
+            display: block;
+            position: relative;
+            word-break: break-all;
+        }
     }
 
     &-OptionValue,

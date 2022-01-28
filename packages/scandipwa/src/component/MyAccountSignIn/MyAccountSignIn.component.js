@@ -30,7 +30,7 @@ export class MyAccountSignIn extends PureComponent {
         isCheckout: PropTypes.bool.isRequired,
         state: SignInStateType.isRequired,
         emailValue: PropTypes.string.isRequired,
-        range: PropTypes.objectOf(PropTypes.number).isRequired
+        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired
     };
 
     renderSignInForm() {
@@ -39,8 +39,7 @@ export class MyAccountSignIn extends PureComponent {
             onFormError,
             handleForgotPassword,
             emailValue,
-            isCheckout,
-            range
+            isCheckout
         } = this.props;
 
         return (
@@ -78,8 +77,7 @@ export class MyAccountSignIn extends PureComponent {
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: VALIDATION_INPUT_TYPE.password,
-                      range
+                      inputType: VALIDATION_INPUT_TYPE.password
                   } }
                   addRequiredTag
                 />

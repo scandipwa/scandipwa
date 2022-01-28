@@ -75,7 +75,8 @@ export class PasswordChangePageContainer extends PureComponent {
 
     state = {
         passwordResetStatus: '',
-        isLoading: false
+        isLoading: false,
+        range: { min: 8, max: 64 }
     };
 
     static getDerivedStateFromProps(props) {
@@ -116,9 +117,9 @@ export class PasswordChangePageContainer extends PureComponent {
     }
 
     containerProps() {
-        const { isLoading } = this.state;
+        const { isLoading, range } = this.state;
 
-        return { isLoading };
+        return { isLoading, range };
     }
 
     onPasswordSuccess(form, fields) {
