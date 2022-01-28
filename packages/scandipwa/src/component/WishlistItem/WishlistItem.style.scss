@@ -166,6 +166,7 @@
         @include mobile {
             inset-block-start: -4px;
             inset-inline-end: -4px;
+            margin-block-start: -4px;
 
             .CloseIcon {
                 width: 24px;
