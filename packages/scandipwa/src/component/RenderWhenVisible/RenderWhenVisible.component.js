@@ -40,7 +40,7 @@ export class RenderWhenVisible extends PureComponent {
     __construct(props) {
         super.__construct(props);
 
-        // a hack to determine if the element is on screen or not imidiatelly
+        // a hack to determine if the element is on screen or not immediately
         setTimeout(this.checkIsVisible, 0);
     }
 
