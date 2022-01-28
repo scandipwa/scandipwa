@@ -34,7 +34,8 @@ import {
     getCartSubtotal,
     getCartSubtotalSubPrice,
     getCartTotalSubPrice,
-    getItemsCountLabel
+    getItemsCountLabel,
+    trimCrossSellDuplicateItems
 } from 'Util/Cart';
 import history from 'Util/History';
 import { getProductInStock } from 'Util/Product/Extract';
@@ -249,7 +250,9 @@ export class CartPageContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        updateCrossSellProducts(items);
+        const list = trimCrossSellDuplicateItems(items);
+
+        updateCrossSellProducts(list);
     }
 
     render() {
