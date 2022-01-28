@@ -9,9 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const DROPDOWNLIST_CONFIG = {
-    scrollMinItems: 5,
-    minimunHeight: 200
-};
+const DROPDOWN_SCROLL_MIN_ITEMS = 5;
+const DROPDOWN_MIN_HEIGHT = 200;
 
-export default DROPDOWNLIST_CONFIG;
+export default { DROPDOWN_SCROLL_MIN_ITEMS, DROPDOWN_MIN_HEIGHT };

@@ -20,7 +20,7 @@ import {
 } from 'Type/Field.type';
 
 import FieldSelect from './FieldSelect.component';
-import { DROPDOWNLIST_CONFIG } from './FieldSelect.config';
+import { DROPDOWN_MIN_HEIGHT, DROPDOWN_SCROLL_MIN_ITEMS } from './FieldSelect.config';
 
 /**
  * Field Select
@@ -252,7 +252,7 @@ export class FieldSelectContainer extends PureComponent {
         const rect = this.fieldRef.getBoundingClientRect();
         const bottomPosition = Math.round(windowHeight - rect.bottom);
 
-        if (bottomPosition < DROPDOWNLIST_CONFIG.minimunHeight) {
+        if (bottomPosition < DROPDOWN_MIN_HEIGHT) {
             this.setState({ isDropdownOpenUpwards: true });
         } else {
             this.setState({ isDropdownOpenUpwards: false });
@@ -262,7 +262,7 @@ export class FieldSelectContainer extends PureComponent {
     handleIsScrollableList() {
         const options = this.getOptions();
 
-        if (options.length > DROPDOWNLIST_CONFIG.scrollMinItems) {
+        if (options.length > DROPDOWN_SCROLL_MIN_ITEMS) {
             this.setState({ isScrollable: true });
         } else {
             this.setState({ isScrollable: false });
