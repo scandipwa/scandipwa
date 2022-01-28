@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ProductType } from 'Type/ProductList.type';
-import { formatPrice, getLowestPriceTiersPrice } from 'Util/Price';
+import { getLowestPriceTiersPrice } from 'Util/Price';
 
 import './TierPrices.style';
 
@@ -32,8 +32,7 @@ export class TierPrices extends PureComponent {
             percent_off
         },
         final_price: {
-            value,
-            currency
+            value
         },
         quantity
     }) {
@@ -54,14 +53,11 @@ export class TierPrices extends PureComponent {
             return null;
         }
 
-        const formattedPrice = formatPrice(value, currency);
-
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
                 { __(
-                    'Buy %s for %s each and ',
-                    quantity,
-                    formattedPrice
+                    'Buy %s and ',
+                    quantity
                 ) }
                 <strong>
                     { __(
