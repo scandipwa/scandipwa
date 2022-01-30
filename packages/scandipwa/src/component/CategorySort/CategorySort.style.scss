@@ -59,17 +59,41 @@
             }
         }
 
+        &-Options {
+            @include mobile {
+                width: 180px;
+                inset-block-start: 14px;
+            }
+
+            &_isExpanded {
+                @include mobile {
+                    z-index: 15;
+                    max-height: 200px;
+                    border-color: var(--input-border-color);
+                    overflow-y: auto;
+                    background-color: #{$white};
+                }
+            }
+        }
+
+        &-Clickable {
+            @include mobile {
+                position: absolute;
+                inset-block-start: -29px;
+                width: calc( 100% + 17px );
+            }
+        }
+
         &-Select {
             background: none;
             border: none;
             color: var(--color-black);
             padding-block: 13px;
-            padding-inline: 20px 40px;
 
             @include mobile {
-                position: absolute;
-                inset-block-start: -35px;
                 opacity: 0;
+                pointer-events: none;
+                padding-inline: 0;
             }
 
             &_isExpanded {
@@ -85,7 +109,7 @@
 
         .ChevronIcon {
             @include mobile {
-                display: none;
+                inset-inline-end: 0;
             }
         }
     }
