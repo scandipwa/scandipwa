@@ -47,10 +47,8 @@ export const customerEmailAndPasswordFields = (props) => {
 
                         if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
                             showNotification(
-                                'error',
-                                __('Minimum of different classes of characters in password is %s.',
-                                    MIN_CHARACTER_SETS_IN_PASSWORD)
-                                + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.')
+                                'info',
+                                __('Incorrect data! Please resolve all field validation errors.')
                             );
 
                             return '';
