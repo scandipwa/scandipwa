@@ -241,6 +241,10 @@
                 input,
                 textarea,
                 select {
+                    &:placeholder-shown {
+                        border: 1px solid var(--color-dark-gray);
+                    }
+
                     border: 1px solid var(--primary-success-color);
                 }
             }

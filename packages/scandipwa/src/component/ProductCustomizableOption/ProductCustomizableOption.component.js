@@ -96,12 +96,13 @@ export class ProductCustomizableOption extends PureComponent {
                   } }
                   attr={ {
                       id: uid,
-                      name: uid
+                      name: uid,
+                      placeholder: ''
                   } }
                   events={ {
                       onChange: updateSelectedValues
                   } }
-                  validateOn={ ['onBlur'] }
+                  validateOn={ ['onBlur', 'onChange'] }
                 />
             </>
         );
