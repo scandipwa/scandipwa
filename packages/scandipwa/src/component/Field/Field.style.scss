@@ -54,6 +54,10 @@
 
         &:hover {
             cursor: pointer;
+            
+            @include desktop {
+                color: var(--primary-base-color);
+            }
         }
 
         .input-control {

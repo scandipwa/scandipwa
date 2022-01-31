@@ -37,16 +37,15 @@
 
     &-Address {
         .KeyValueTable {
-            width: 90%;
-
-            &-Wrapper {
-                width: 90%;
-            }
+            margin-block-end: 0;
 
             th,
             td {
-                padding-inline-start: 0;
                 word-break: break-word;
+
+                @include desktop {
+                    padding-inline-start: 0;
+                }
             }
 
             tbody {
@@ -61,15 +60,23 @@
         }
     }
 
+    &-ShippingMethod {
+        @include mobile {
+            padding-inline-start: 10px;
+        }
+    }
+
     &-Column {
         flex: 1 1 0;
         font-size: 14px;
-        margin-block-end: 20px;
+        margin-block-end: 30px;
 
         &_type {
             &_billingAddress,
             &_shippingAddress {
-                margin-inline-end: 25px;
+                @include desktop {
+                    margin-inline-end: 25px;
+                }
             }
         }
 
@@ -82,6 +89,12 @@
         font-size: 16px;
         font-weight: 600;
         margin-block-end: 15px;
+
+        @include mobile {
+            background-color: var(--color-gray);
+            border-radius: 2px;
+            padding: 10px;
+        }
     }
 
     &-PaymentMethod {
@@ -90,6 +103,10 @@
 
         span:not(:last-child) {
             margin-block-end: 10px;
+        }
+
+        @include mobile {
+            padding-inline-start: 10px;
         }
     }
 }

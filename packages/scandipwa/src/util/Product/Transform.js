@@ -223,7 +223,7 @@ export const customizableOptionToLabel = (option, currencyCode = 'USD') => {
         title
     } = option || {};
     const noPrice = price === 0 && priceInclTax === 0;
-    const priceLabel = noPrice ? '' : ` + ${ formatPrice(priceInclTax, currencyCode) }`;
+    const priceLabel = noPrice ? '' : `+ ${ formatPrice(priceInclTax, currencyCode) }`;
     const percentLabel = (noPrice || price_type !== PRICE_TYPE_PERCENT) ? '' : ` (${ price }%)`;
 
     return {
@@ -244,7 +244,8 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
         const {
             uid,
             title,
-            position
+            position,
+            sort_order = 0
         } = option;
 
         const {
@@ -258,7 +259,7 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
             value: uid,
             label: baseLabel,
             subLabel: priceLabel,
-            sort_order: position
+            sort_order: position || sort_order
         });
 
         return result;

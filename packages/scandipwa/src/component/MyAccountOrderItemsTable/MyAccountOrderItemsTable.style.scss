@@ -98,4 +98,35 @@
     &-Price {
         width: 15%;
     }
+
+    &-Comments {
+        &Title {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-block-end: 10px;
+            margin-block-start: 20px;
+        }
+
+        &List {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+
+    &-Comment {
+        border-inline-start: var(--my-account-content-border);
+        margin-block-end: 30px;
+
+        dt {
+            font-weight: bold;
+            margin-block-end: 5px;
+            margin-inline-start: 10px;
+        }
+
+        dd {
+            margin-inline-start: 10px;
+            word-break: break-word;
+        }
+    }
 }

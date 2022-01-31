@@ -8,7 +8,12 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
+import { DeviceType } from 'Type/Device.type';
+import { scrollToTop } from 'Util/Browser';
 
 import Footer from './Footer.component';
 
@@ -22,4 +27,52 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/Footer/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+/** @namespace Component/Footer/Container */
+export class FooterContainer extends PureComponent {
+    static propTypes = {
+        copyright: PropTypes.string,
+        isVisibleOnMobile: PropTypes.bool,
+        device: DeviceType.isRequired,
+        newsletterActive: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        copyright: '',
+        isVisibleOnMobile: false
+    };
+
+    containerFunctions = {
+        onItemClick: this.onItemClick.bind(this)
+    };
+
+    containerProps() {
+        const {
+            copyright,
+            isVisibleOnMobile,
+            device,
+            newsletterActive
+        } = this.props;
+
+        return {
+            copyright,
+            isVisibleOnMobile,
+            device,
+            newsletterActive
+        };
+    }
+
+    onItemClick() {
+        scrollToTop();
+    }
+
+    render() {
+        return (
+            <Footer
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FooterContainer);
