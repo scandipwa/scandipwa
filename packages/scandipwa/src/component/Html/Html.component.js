@@ -216,7 +216,7 @@ export class Html extends PureComponent {
 
     replaceStyle(elem) {
         const { children } = elem;
-        const elemHash = hash(elem);
+        const elemHash = hash(children[0].data);
 
         if (this.createdOutsideElements[elemHash]) {
             return <></>;

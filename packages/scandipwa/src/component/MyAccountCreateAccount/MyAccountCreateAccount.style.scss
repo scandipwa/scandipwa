@@ -10,10 +10,12 @@
  */
 
 .MyAccountOverlay {
-    &-Legend {
-        legend {
-            padding: 8px 0;
-        }
+    &-PersonalInfoLegend {
+        padding-block: 8px;
+    }
+
+    &-SignUpLegend {
+        padding-block: 28px 8px;
     }
 
     &-SignUpButton {
