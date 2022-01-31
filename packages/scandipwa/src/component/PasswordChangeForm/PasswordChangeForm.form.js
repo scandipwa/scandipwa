@@ -41,7 +41,6 @@ export const customerEmailAndPasswordFields = (props) => {
                 isRequired: true,
                 inputType: VALIDATION_INPUT_TYPE.password,
                 match: (value) => {
-
                     if (event.type === 'submit') {
                         const counter = getNumberOfCharacterClasses(value);
 
