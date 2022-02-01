@@ -37,15 +37,14 @@ export class MyAccountTabList extends PureComponent {
         const { section: nextTabSection = section } = nextTab[1] || {};
 
         return (
-            <>
-                <MyAccountTabListItem
-                  key={ key }
-                  isActive={ activeTab === key }
-                  changeActiveTab={ onTabClick }
-                  tabEntry={ tabEntry }
-                />
+            <MyAccountTabListItem
+              key={ key }
+              isActive={ activeTab === key }
+              changeActiveTab={ onTabClick }
+              tabEntry={ tabEntry }
+            >
                 { nextTabSection !== section ? this.renderLine() : null }
-            </>
+            </MyAccountTabListItem>
         );
     }
 
