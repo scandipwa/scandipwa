@@ -19,6 +19,7 @@ export const DEMO_NOTICE = 'DEMO_NOTICE';
 export const HEADER = 'HEADER';
 export const BREADCRUMBS = 'BREADCRUMBS';
 export const NEW_VERSION_POPUP = 'NEW_VERSION_POPUP';
+export const PAGE_LOADER = 'PAGE_LOADER';
 
 // SWITCH_ITEMS_TYPE
 export const HOME = 'HOME';

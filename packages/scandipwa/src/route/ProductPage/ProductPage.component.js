@@ -13,7 +13,9 @@ import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
-import Loader from 'Component/Loader/Loader.component';
+import Loader from 'Component/Loader';
+import LoaderGroup from 'Component/LoaderGroup';
+import GROUP_CODE from 'Component/LoaderGroup/LoaderGroup.config';
 import Popup from 'Component/Popup/Popup.container';
 import ProductActions from 'Component/ProductActions';
 import ProductLinks from 'Component/ProductLinks';
@@ -104,7 +106,7 @@ export class ProductPage extends PureComponent {
 
         return (
             <>
-                <Suspense fallback={ <Loader /> }>
+                <Suspense fallback={ <Loader subscribeTo={ GROUP_CODE.body } isLoading /> }>
                     <ProductGallery
                       product={ activeProduct }
                       areDetailsLoaded={ areDetailsLoaded }
@@ -123,6 +125,10 @@ export class ProductPage extends PureComponent {
         );
     }
 
+    renderTabFallback() {
+        return <Loader subscribeTo={ GROUP_CODE.body } isLoading mix={ { block: 'Loader', elem: 'Tab' } } />;
+    }
+
     renderProductInformationTab(key) {
         const {
             dataSource,
@@ -131,7 +137,7 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> } key={ key }>
+            <Suspense fallback={ this.renderTabFallback() } key={ key }>
                 <ProductInformation
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
@@ -148,7 +154,7 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> } key={ key }>
+            <Suspense fallback={ this.renderTabFallback() } key={ key }>
                 <ProductAttributes
                   product={ activeProduct }
                   areDetailsLoaded={ areDetailsLoaded }
@@ -165,7 +171,7 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> } key={ key }>
+            <Suspense fallback={ this.renderTabFallback() } key={ key }>
                 <ProductReviews
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
@@ -237,6 +243,12 @@ export class ProductPage extends PureComponent {
                   itemScope
                   itemType="http://schema.org/Product"
                 >
+                    <LoaderGroup
+                      groupCode={ GROUP_CODE.body }
+                      subscribeTo={ GROUP_CODE.page }
+                      loadingElementThreshold={ 0 }
+                      mix={ { block: 'Loader', elem: 'Body' } }
+                    />
                     <ContentWrapper
                       wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
                       label={ __('Main product details') }

@@ -24,6 +24,8 @@ import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import Loader from 'Component/Loader';
+import LoaderGroup from 'Component/LoaderGroup';
+import GROUP_CODE from 'Component/LoaderGroup/LoaderGroup.config';
 import Meta from 'Component/Meta';
 import UrlRewrites from 'Route/UrlRewrites';
 import {
@@ -61,6 +63,7 @@ import {
     NAVIGATION_TABS,
     NEW_VERSION_POPUP,
     NOTIFICATION_LIST,
+    PAGE_LOADER,
     SEARCH,
     SHARED_WISHLIST,
     STYLE_GUIDE,
@@ -109,6 +112,11 @@ export class Router extends PureComponent {
     };
 
     [BEFORE_ITEMS_TYPE] = [
+        {
+            component: <LoaderGroup groupCode={ GROUP_CODE.page } mix={ { block: 'Loader', elem: 'Page' } } />,
+            position: 40,
+            name: PAGE_LOADER
+        },
         {
             component: <NotificationList />,
             position: 10,
@@ -312,7 +320,7 @@ export class Router extends PureComponent {
 
     renderSectionOfType(type) {
         return (
-            <Suspense fallback={ <Loader isLoading /> }>
+            <Suspense fallback={ <Loader isLoading subscribeTo={ GROUP_CODE.page } /> }>
                 { this.renderComponentsOfType(type) }
             </Suspense>
         );

@@ -21,6 +21,7 @@ import {
 import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
 import Loader from 'Component/Loader';
+import GROUP_CODE from 'Component/LoaderGroup/LoaderGroup.config';
 import SearchIcon from 'Component/SearchIcon';
 import { DeviceType } from 'Type/Device.type';
 import { scrollToTop } from 'Util/Browser';
@@ -133,7 +134,7 @@ export class SearchField extends PureComponent {
     }
 
     renderOverlayFallback() {
-        return <Loader isLoading />;
+        return <Loader isLoading subscribeTo={ GROUP_CODE.page } />;
     }
 
     renderSearch() {

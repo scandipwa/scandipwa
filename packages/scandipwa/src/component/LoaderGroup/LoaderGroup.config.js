@@ -9,4 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './Loader.container';
+export const GROUP_CODE = {
+    page: 'PAGE',
+    header: 'HEADER',
+    body: 'BODY',
+    footer: 'FOOTER'
+};
+
+export default GROUP_CODE;
