@@ -167,7 +167,6 @@ module.exports = {
                         const isMatch = match.test(fileName);
 
                         if (name === 'main' && isMatch) {
-                            console.log(isMainChunkStyle(styleChunks, fileName), name, isMatch, fileName);
                             return isMainChunkStyle(styleChunks, fileName);
                         }
 
