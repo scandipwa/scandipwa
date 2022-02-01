@@ -104,6 +104,13 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        display: flex;
+        gap: 4px;
+
+        &_isBundle {
+            flex-direction: column;
+            gap: 0;
+        }
     }
 
     &-ItemLinks {
