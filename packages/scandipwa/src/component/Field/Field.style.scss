@@ -300,7 +300,7 @@
             transition-timing-function: ease-in;
             width: 21px;
             will-change: background-color, border-color;
-            margin-inline-end: 9px;
+            margin-inline-end: 11px;
 
             @include desktop {
                 width: var(--checkbox-width);

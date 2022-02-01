@@ -229,5 +229,12 @@
             }
         }
     }
+
+    &-SubLabel {
+        font-weight: bold;
+        font-size: 12px;
+        white-space: break-spaces;
+        padding-inline-start: 4px;
+    }
 }
 

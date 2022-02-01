@@ -285,7 +285,7 @@ export class ProductAttributeValue extends PureComponent {
               block="ProductAttributeValue"
               elem="SubLabel"
             >
-              { ` (${subLabel})` }
+              { `(${subLabel})` }
             </strong>
         );
     }
