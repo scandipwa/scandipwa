@@ -76,12 +76,12 @@ const isChunkOptimizationDisabled = (module) => {
             'g'
         );
 
-        return !!match.exec(value);
+        return match.test(value);
     });
 };
 
 // Check whenever file can be included into other style chunks except main
-const isMainChunkStyle = (styleChunks, fileName) => styleChunks.find(({ name, match }) => {
+const isMainChunkStyle = (styleChunks, fileName) => !styleChunks.find(({ name, match }) => {
     if (name === 'main') {
         return false;
     }
@@ -167,6 +167,7 @@ module.exports = {
                         const isMatch = match.test(fileName);
 
                         if (name === 'main' && isMatch) {
+                            console.log(isMainChunkStyle(styleChunks, fileName), name, isMatch, fileName);
                             return isMainChunkStyle(styleChunks, fileName);
                         }
 
