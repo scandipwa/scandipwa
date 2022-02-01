@@ -468,6 +468,7 @@ export class Checkout extends PureComponent {
                     <div>
                         <Suspense fallback={ <Loader /> }>
                             { this.renderSummary() }
+                            <CartCoupon />
                             { this.renderPromo() }
                         </Suspense>
                     </div>
