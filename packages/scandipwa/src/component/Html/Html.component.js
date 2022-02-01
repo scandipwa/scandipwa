@@ -236,7 +236,13 @@ export class Html extends PureComponent {
 
     replaceScript(elem) {
         const { attribs, children } = elem;
-        const elemHash = children[0] !== undefined ? hash(children[0].data) : null;
+
+        if (!children[0]) {
+            return <></>;
+        }
+
+        const { data } = children[0];
+        const elemHash = hash(data);
 
         if (this.createdOutsideElements[elemHash]) {
             return <></>;
