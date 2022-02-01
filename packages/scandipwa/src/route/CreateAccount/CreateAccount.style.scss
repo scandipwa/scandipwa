@@ -7,6 +7,10 @@
         @include desktop() {
             padding-block-start: 25px;
         }
+
+        @supports (-webkit-touch-callout: none) {
+            padding-block-end: 80px;
+        }
     }
 
     &-InnerWrapper {
