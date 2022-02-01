@@ -66,10 +66,6 @@
                 border-block-end: var(--my-account-content-border);
             }
         }
-
-        @include mobile {
-            border-block-end: var(--my-account-content-border);
-        }
     }
 
     &-Row {
