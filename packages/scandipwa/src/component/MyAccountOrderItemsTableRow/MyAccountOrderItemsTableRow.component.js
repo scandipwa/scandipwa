@@ -397,6 +397,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
     renderMobileTableRow() {
         const {
+            activeTab,
             product: {
                 product_sku,
                 product_name
@@ -404,11 +405,13 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         } = this.props;
 
         const nameRowMix = { block: 'MyAccountOrderItemsTableRow', elem: 'Name' };
+        const lineBefore = activeTab === ORDER_SHIPMENTS;
 
         return (
             <tbody
               block="MyAccountOrderItemsTableRow"
               elem="RowWrapper"
+              mods={ { lineBefore } }
             >
                 { this.renderMobileBodyContentRow(__('Product name'), product_name, nameRowMix) }
                 { this.renderSelectedAndEnteredOptions() }

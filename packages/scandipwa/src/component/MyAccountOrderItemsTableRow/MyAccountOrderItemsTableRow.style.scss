@@ -66,9 +66,7 @@
         }
         
         &_lineBefore {
-            @include desktop {
-                border-block-end: var(--my-account-content-border);
-            }
+            border-block-end: var(--my-account-content-border);
         }
     }
 
