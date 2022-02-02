@@ -582,5 +582,6 @@
     "You have not purchased any downloadable products yet.": null,
     "All %s": null,
     "About Your Order": null,
-    "About Your %s": null
+    "About Your %s": null,
+    "Not possible to fetch while offline": null
 }
