@@ -104,8 +104,10 @@ export class ProductWishlistButton extends PureComponent {
     }
 
     renderPlaceholder() {
+        const { mix } = this.props;
+
         return (
-            <div block="ProductWishlistButton" elem="Placeholder" />
+            <div block="ProductWishlistButton" elem="Placeholder" mix={ mix } />
         );
     }
 

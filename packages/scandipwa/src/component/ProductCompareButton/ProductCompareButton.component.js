@@ -56,10 +56,13 @@ export class ProductCompareButton extends PureComponent {
     }
 
     renderPlaceholder() {
+        const { mix } = this.props;
+
         return (
             <div
               block="ProductCompareButton"
               elem="Placeholder"
+              mix={ mix }
             />
         );
     }
@@ -71,13 +74,17 @@ export class ProductCompareButton extends PureComponent {
             isPlaceholder
         } = this.props;
 
+        if (isPlaceholder) {
+            return this.renderPlaceholder();
+        }
+
         return (
             <div
               block="ProductCompareButton"
               mods={ { isActive } }
               mix={ mix }
             >
-                { isPlaceholder ? this.renderPlaceholder() : this.renderButton() }
+                { this.renderButton() }
             </div>
         );
     }

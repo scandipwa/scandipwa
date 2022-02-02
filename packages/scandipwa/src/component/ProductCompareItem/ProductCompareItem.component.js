@@ -63,6 +63,7 @@ export class ProductCompareItem extends PureComponent {
                       src={ imgUrl }
                       alt={ name }
                       isPlaceholder={ !id }
+                      showIsLoading
                     />
                 </Link>
             </figure>
@@ -110,17 +111,16 @@ export class ProductCompareItem extends PureComponent {
 
     renderAddToCartBtnEnabled() {
         const {
-            addItemToCart
+            addItemToCart,
+            product
         } = this.props;
 
         return (
-            <button
-              onClick={ addItemToCart }
-            >
-                <AddToCart
-                  mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
-                />
-            </button>
+            <AddToCart
+              mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
+              product={ product }
+              addToCart={ addItemToCart }
+            />
         );
     }
 

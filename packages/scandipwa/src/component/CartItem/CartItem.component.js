@@ -479,6 +479,7 @@ export class CartItem extends PureComponent {
               } }
               ratio="custom"
               alt={ `Product ${name} thumbnail.` }
+              showIsLoading
             />
                 <img
                   style={ { display: 'none' } }

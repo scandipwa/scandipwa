@@ -133,6 +133,7 @@ export class ProductCard extends Product {
               ratio="custom"
               mix={ { block: 'ProductCard', elem: 'Picture', mix } }
               isPlaceholder={ !id }
+              showIsLoading
             />
         );
 
