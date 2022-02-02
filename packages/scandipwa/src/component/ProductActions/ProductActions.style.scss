@@ -206,6 +206,7 @@
         padding: 12px 16px;
         border-block-start: 1px solid var(--primary-divider-color);
         inset-inline-start: 0;
+        transition: transform 250ms cubic-bezier(.47, 0, .745, .715);
 
         .ProductWishlistButton {
             margin-inline: 18px 4px;
@@ -226,6 +227,7 @@
 
         .hideOnScroll & {
             transform: translateY(var(--footer-nav-height));
+            transition-duration: 200ms;
         }
     }
 

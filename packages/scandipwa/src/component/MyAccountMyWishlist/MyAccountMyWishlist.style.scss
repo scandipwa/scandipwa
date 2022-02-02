@@ -86,9 +86,11 @@
             width: 100%;
             border-block-start: 1px solid var(--primary-divider-color);
             z-index: 10;
+            transition: transform 250ms cubic-bezier(.47, 0, .745, .715);
 
             .hideOnScroll & {
                 transform: translateY(var(--footer-nav-height));
+                transition-duration: 200ms;
             }
         }
 

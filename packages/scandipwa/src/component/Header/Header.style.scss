@@ -73,6 +73,10 @@
         width: 100%;
     }
 
+    @include mobile {
+        margin-block-start: -2px;
+    }
+
     &_menu,
     &_menu_subcategory {
         .Header-Button_type {
