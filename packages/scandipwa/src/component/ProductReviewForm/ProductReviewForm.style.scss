@@ -39,16 +39,11 @@
     }
 
     &-Rating {
-        [dir="rtl"] & {
-            display: flex;
-            flex-direction: row-reverse;
-        }
-
+        display: flex;
+        flex-flow: row-reverse nowrap;
         margin-block-start: 12px;
-        margin-block-end: 16px;
         margin-inline: 0;
         text-align: start;
-        direction: rtl;
         border: 0;
         /* stylelint-disable-next-line unknownProperties, property-no-unknown */
         white-space-collapse: discard; // alternative of `font-size: 0`
@@ -57,6 +52,7 @@
             margin-block-start: 14px;
             margin-block-end: 18px;
             margin-inline: 0;
+            max-width: 75%;
         }
 
         &:first-child {
@@ -80,6 +76,19 @@
             padding-block-end: 4px;
             font-size: 15px;
         }
+    }
+
+    &-Legend::after {
+        content: ' *';
+        white-space: pre;
+        font-weight: bold;
+        color: var(--required-text-color);
+    }
+    
+    &-ErrorMessage {
+        color: var(--primary-error-color);
+        font-size: 12px;
+        text-align: start;
     }
 
     & &-Button {

@@ -24,7 +24,8 @@ export class PasswordChangePage extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         onPasswordSuccess: PropTypes.func.isRequired,
         onError: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        isMobile: PropTypes.bool.isRequired
     };
 
     renderContent() {
@@ -32,7 +33,8 @@ export class PasswordChangePage extends PureComponent {
             onError,
             isLoading,
             showNotification,
-            onPasswordSuccess
+            onPasswordSuccess,
+            isMobile
         } = this.props;
 
         return (
@@ -42,7 +44,7 @@ export class PasswordChangePage extends PureComponent {
               label={ __('Password Change Actions') }
             >
                 <Loader isLoading={ isLoading } />
-                <h1>{ __('Change My Password') }</h1>
+                { !isMobile && <h1>{ __('Change My Password') }</h1> }
                 <PasswordChangeForm
                   onFormError={ onError }
                   onFormSubmit={ onPasswordSuccess }
