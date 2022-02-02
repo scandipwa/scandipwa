@@ -452,16 +452,11 @@ export class MyAccountContainer extends PureComponent {
 
     redirectIfNotSignedIn() {
         const {
-            isMobile,
             baseLinkUrl,
             showNotification
         } = this.props;
 
         if (isSignedIn()) { // do nothing for signed-in users
-            return;
-        }
-
-        if (isMobile) { // do not redirect on mobile
             return;
         }
 
