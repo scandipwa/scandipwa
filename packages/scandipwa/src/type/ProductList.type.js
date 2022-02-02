@@ -29,7 +29,10 @@ export const AttributeType = PropTypes.shape({
     is_boolean: PropTypes.bool
 });
 
-export const AttributesType = PropTypes.objectOf(AttributeType);
+export const AttributesType = PropTypes.oneOfType([
+    PropTypes.objectOf(AttributeType),
+    PropTypes.arrayOf(PropTypes.objectOf(AttributeType))
+]);
 
 export const FilterAttributeType = PropTypes.shape({
     attribute_code: PropTypes.string,
@@ -288,7 +291,7 @@ export const ProductType = PropTypes.shape({
 
 export const DownloadableSamplesType = PropTypes.arrayOf(
     PropTypes.shape({
-        sample_url: ProductType,
+        sample_url: PropTypes.oneOfType([ProductType, PropTypes.string]),
         sort_order: PropTypes.number,
         title: PropTypes.string
     })
