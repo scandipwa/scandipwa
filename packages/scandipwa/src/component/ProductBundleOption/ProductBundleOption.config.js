@@ -9,4 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './CategorySubcategories.container';
+export const DEFAULT_SORT_FIELD = 'position';
+
+export default DEFAULT_SORT_FIELD;
