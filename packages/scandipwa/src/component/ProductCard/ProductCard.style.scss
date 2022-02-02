@@ -291,7 +291,9 @@
     }
 
     .ProductPrice-BundleTo {
-        margin-block-start: 6px;
+        @include mobile {
+            margin-block-start: 6px;
+        }
     }
 
     &-Figure {
