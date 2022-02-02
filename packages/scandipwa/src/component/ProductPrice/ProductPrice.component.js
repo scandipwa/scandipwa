@@ -35,6 +35,7 @@ export class ProductPrice extends PureComponent {
         price: ProductPriceType,
         priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
         originalPrice: OriginalPriceType,
+        tierPrice: PropTypes.string,
         configuration: PriceConfiguration,
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
@@ -56,6 +57,7 @@ export class ProductPrice extends PureComponent {
         isSchemaRequired: false,
         variantsCount: 0,
         mix: {},
+        tierPrice: '',
         label: '',
         configuration: {},
         displayTaxInPrice: DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX
@@ -391,6 +393,28 @@ export class ProductPrice extends PureComponent {
         );
     }
 
+    renderTierPrice() {
+        const {
+            tierPrice,
+            price: {
+                finalPrice: {
+                    valueFormatted = 0
+                } = {}
+            } = {}
+        } = this.props;
+
+        if (!tierPrice || tierPrice === valueFormatted) {
+            return null;
+        }
+
+        return (
+            <p block="ProductPrice" elem="TierPrice">
+                { __('As low as') }
+                <strong>{ ` ${tierPrice}` }</strong>
+            </p>
+        );
+    }
+
     render() {
         const {
             price: {
@@ -421,6 +445,7 @@ export class ProductPrice extends PureComponent {
             >
                 { isPreview && renderer && renderer() }
                 { (!isPreview || !renderer) && this.renderDefaultPrice() }
+                { priceType !== PRODUCT_TYPE.bundle && this.renderTierPrice() }
             </div>
         );
     }

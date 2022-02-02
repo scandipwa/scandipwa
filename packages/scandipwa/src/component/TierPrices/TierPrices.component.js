@@ -11,8 +11,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { ProductType } from 'Type/ProductList.type';
-import { getLowestPriceTiersPrice } from 'Util/Price';
+import { formatPrice, getLowestPriceTiersPrice } from 'Util/Price';
 
 import './TierPrices.style';
 
@@ -32,7 +33,8 @@ export class TierPrices extends PureComponent {
             percent_off
         },
         final_price: {
-            value
+            value,
+            currency
         },
         quantity
     }) {
@@ -44,7 +46,8 @@ export class TierPrices extends PureComponent {
                             value: minPriceForOneUnit
                         }
                     }
-                }
+                },
+                type_id
             }
         } = this.props;
 
@@ -52,20 +55,49 @@ export class TierPrices extends PureComponent {
         if (value >= minPriceForOneUnit) {
             return null;
         }
+        const formattedPrice = formatPrice(value, currency);
 
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
-                { __(
-                    'Buy %s and ',
-                    quantity
-                ) }
+                { type_id === PRODUCT_TYPE.bundle
+                    ? this.renderBundleTierPrice(quantity, percent_off)
+                    : this.renderProductTierPrice(quantity, formattedPrice, percent_off) }
+            </li>
+        );
+    }
+
+    renderProductTierPrice(quantity, formattedPrice, percent_off) {
+        return (
+            <>
+            { __(
+                'Buy %s for %s each and ',
+                quantity,
+                formattedPrice
+            ) }
                 <strong>
                     { __(
                         'save %s%',
                         Math.round(percent_off)
                     ) }
                 </strong>
-            </li>
+            </>
+        );
+    }
+
+    renderBundleTierPrice(quantity, percent_off) {
+        return (
+            <>
+            { __(
+                'Buy %s with ',
+                quantity
+            ) }
+            <strong>
+                { __(
+                    '%s% each',
+                    Math.round(percent_off)
+                ) }
+            </strong>
+            </>
         );
     }
 
