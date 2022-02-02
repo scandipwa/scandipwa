@@ -107,7 +107,8 @@ export class MyAccountOverlayContainer extends PureComponent {
         const {
             isPasswordForgotSend,
             isOverlayVisible,
-            isMobile
+            isMobile,
+            showNotification
         } = props;
 
         const {
@@ -140,6 +141,12 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
+
+            if (!isOverlayVisible) {
+                showNotification('success',
+                // eslint-disable-next-line max-len
+                    __('If there is an account associated with the provided address you will receive an email with a link to reset your password.'));
+            }
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
 
