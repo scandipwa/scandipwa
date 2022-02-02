@@ -41,6 +41,8 @@
 
     @include mobile {
         align-items: stretch;
+        margin-block-start: -1px;
+        overscroll-behavior: none;
     }
 
     &_isVisible {
