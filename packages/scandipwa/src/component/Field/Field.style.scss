@@ -113,7 +113,11 @@
         }
     }
 
-    input::placeholder {
+    textarea {
+        font-size: 14px;
+    }
+
+    input::placeholder, textarea::placeholder {
         color: var(--input-color);
         opacity: .5;
     }
