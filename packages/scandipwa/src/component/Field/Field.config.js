@@ -27,4 +27,6 @@ export const FIELD_TYPE = {
     button: 'button'
 };
 
+export const FIELD_RADIO_NONE = 'none';
+
 export default FIELD_TYPE;

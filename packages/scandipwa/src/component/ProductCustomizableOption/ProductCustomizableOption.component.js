@@ -70,7 +70,11 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <div block="ProductCustomizableItem" elem="Label">
                 { overrideBase || baseLabel }
-                <strong block="ProductCustomizableItem" elem="PriceLabel">{ ` ${overridePrice || priceLabel}` }</strong>
+                { (overridePrice || priceLabel) && (
+                    <strong block="ProductCustomizableItem" elem="PriceLabel">
+                        { ` ${overridePrice || priceLabel}` }
+                    </strong>
+                ) }
             </div>
         );
     }
@@ -221,7 +225,7 @@ export class ProductCustomizableOption extends PureComponent {
                       id: `option-${ uid }`,
                       value: uid,
                       name: `option-${ name }`,
-                      checked: is_default
+                      defaultChecked: is_default
                   } }
                   events={ {
                       onChange: updateSelectedValues
