@@ -255,6 +255,7 @@ export class Html extends PureComponent {
         if (!Number.isNaN(Number(script))) {
             document.head.appendChild(script);
         }
+
         this.createdOutsideElements[elemHash] = true;
 
         return <></>;
