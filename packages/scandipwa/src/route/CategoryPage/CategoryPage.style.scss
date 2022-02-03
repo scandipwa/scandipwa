@@ -109,6 +109,7 @@
         justify-content: space-between;
         align-items: center;
         transform: translateY(0);
+        margin-block-start: -2px;
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
         @include desktop {
