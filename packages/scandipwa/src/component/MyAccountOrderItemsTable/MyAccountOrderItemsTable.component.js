@@ -38,9 +38,8 @@ export class MyAccountOrderItemsTable extends PureComponent {
     }
 
     renderItemRow(product, i) {
-        const { activeTab, allOrderItems } = this.props;
+        const { activeTab, allOrderItems, items: { comments = [] } } = this.props;
         const { product_sku } = product;
-
         const {
             entered_options = [],
             selected_options = []
@@ -53,6 +52,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
               enteredOptions={ entered_options }
               key={ i }
               activeTab={ activeTab }
+              comments={ comments }
             />
         );
     }
