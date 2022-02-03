@@ -161,7 +161,11 @@ export class MyAccountCustomerForm extends FieldForm {
                     </legend>
                         { this.customerInformationFieldMap.map(this.renderSection) }
                     </div>
-                    <div block="FieldForm" elem="Section">
+                    <div
+                      block="FieldForm"
+                      elem="Section"
+                      mix={ { block: 'FieldForm', elem: 'SectionWithSpace' } }
+                    >
                         { this.renderEmailAndPasswordFields() }
                     </div>
                 </div>

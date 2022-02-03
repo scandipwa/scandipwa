@@ -16,6 +16,7 @@ import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccount
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
 import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
+import { getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { getProductFromOrder } from 'Util/Orders';
 
 import './MyAccountOrderItemsTable.style';
@@ -174,6 +175,36 @@ export class MyAccountOrderItemsTable extends PureComponent {
         return <MyAccountOrderTotals activeTab={ activeTab } total={ total } />;
     }
 
+    renderComments() {
+        const { items: { comments = [] }, activeTab } = this.props;
+
+        if (activeTab === ORDER_ITEMS || !comments.length) {
+            return null;
+        }
+
+        return (
+            <div block="MyAccountOrderItemsTable" elem="Comments">
+                <div
+                  block="MyAccountOrderItemsTable"
+                  elem="CommentsTitle"
+                >
+                    { __('About Your %s', activeTab) }
+                </div>
+                <div block="MyAccountOrderItemsTable" elem="CommentsList">
+                    { comments.map(({ timestamp, message }) => (
+                        <dl
+                          block="MyAccountOrderItemsTable"
+                          elem="Comment"
+                        >
+                            <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
+                            <dd>{ message }</dd>
+                        </dl>
+                    )) }
+                </div>
+            </div>
+        );
+    }
+
     renderDesktopTable() {
         return (
             <div block="MyAccountOrderItemsTable" elem="ProductsWrapper">
@@ -193,6 +224,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
                     </tbody>
                     { this.renderTotals() }
                 </table>
+                { this.renderComments() }
             </div>
         );
     }
@@ -211,6 +243,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
                     { this.renderItems() }
                     { this.renderTotals() }
                 </table>
+                { this.renderComments() }
             </div>
         );
     }

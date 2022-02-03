@@ -23,7 +23,7 @@
         display: inline-block;
 
         li {
-            &:before {
+            &::before {
                 content: none;
             }
 
@@ -35,6 +35,7 @@
 
     &-RowWrapper {
         font-size: 14px;
+        word-break: break-word;
 
         td {
             padding-block-start: 16px;
@@ -42,14 +43,14 @@
             padding-inline: 10px;
 
             &:nth-child(n+3) {
-                text-align: right;
+                text-align: end;
             }
         }
 
         tr {
             &:first-child {
                 td:first-child {
-                   padding-block-start: 15px;
+                    padding-block-start: 15px;
                 }
             }
 
@@ -60,8 +61,10 @@
             }
         }
 
-        @include mobile {
-            border-block-end: var(--my-account-content-border);
+        &_lineBefore {
+            @include desktop {
+                border-block-end: var(--my-account-content-border);
+            }
         }
     }
 
@@ -72,12 +75,12 @@
 
                 strong {
                     vertical-align: top;
-                    margin-inline-end: 15px;
+                    margin-inline-end: 10px;
 
                     &:first-child {
                         &::after {
-                            content:":";
-                            display:inline-block;
+                            content: ":";
+                            display: inline-block;
                         }
                     }
                 }
@@ -86,8 +89,16 @@
     }
 
     &-Name {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
+
+        strong {
+            font-size: 14px;
+        }
+
+        @include desktop {
+            font-size: 18px;
+        }
     }
 
     &-EnteredRow {
@@ -97,7 +108,7 @@
             padding-inline: 10px;
 
             &:nth-child(n+3) {
-                text-align: right;
+                text-align: end;
             }
 
             &:first-of-type {
@@ -133,6 +144,12 @@
 
     &-OptionValue {
         margin-block-end: 5px;
+
+        &>* {
+            display: block;
+            position: relative;
+            word-break: break-all;
+        }
     }
 
     &-OptionValue,

@@ -108,7 +108,20 @@ export class OrderQuery {
             this._getOrderShippingAddressField(),
             this._getOrderBillingAddressField(),
             this._getOrderPaymentMethodsField(),
-            this._getOrderShippingMethodField()
+            this._getOrderShippingMethodField(),
+            this._getOrderCommentsField()
+        ];
+    }
+
+    _getOrderCommentsField() {
+        return new Field('comments')
+            .addFieldList(this._getOrderCommentsFields());
+    }
+
+    _getOrderCommentsFields() {
+        return [
+            'timestamp',
+            'message'
         ];
     }
 
@@ -225,6 +238,7 @@ export class OrderQuery {
         return [
             'id',
             'number',
+            this._getOrderCommentsField(),
             this._getOrderShipmentTrackingField(),
             this._getShipmentsItemsProductsField()
         ];
@@ -264,6 +278,7 @@ export class OrderQuery {
         return [
             'id',
             'number',
+            this._getOrderCommentsField(),
             this._getRefundsItemsProductsField(),
             this._getOrderItemTotalField()
         ];
@@ -315,6 +330,7 @@ export class OrderQuery {
         return [
             'id',
             'number',
+            this._getOrderCommentsField(),
             this._getInvoiceItemsProductsField(),
             this._getOrderItemTotalField()
         ];

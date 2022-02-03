@@ -109,7 +109,6 @@
             &::before {
                 @include desktop {
                     content: '\2022';
-
                     margin-inline-end: 12px;
                     margin-inline-start: 2px;
                 }
@@ -132,6 +131,7 @@
         @include mobile {
             --option-margin-block: 7px;
             --option-margin-inline: 7px;
+
             padding: 16px;
         }
 
@@ -139,11 +139,11 @@
             --option-margin-block: 0 12px;
             --option-margin-inline: 0 12px;
 
-            .ExpandableContent:not(:last-child)  {
+            .ExpandableContent:not(:last-child) {
                 border-block-end: 1px solid var(--expandable-content-divider-color);
             }
 
-            .ExpandableContent  {
+            .ExpandableContent {
                 padding-block-start: 24px;
                 padding-block-end: 12px;
                 padding-inline: 0;

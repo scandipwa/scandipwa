@@ -77,11 +77,12 @@ export class MyAccountOrderTotalsContainer extends PureComponent {
     }
 
     containerProps() {
-        const { total } = this.props;
+        const { total, activeTab } = this.props;
         const { colSpanPriceCount, colSpanLabelCount } = this.state;
 
         return {
             total,
+            activeTab,
             colSpanPriceCount,
             colSpanLabelCount
         };

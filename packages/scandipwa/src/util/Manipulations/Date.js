@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,6 +8,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
+import { getDateValue } from 'Util/Form/Extract';
+
+export const MILLISECONDS_PER_MINUTE = 60000;
 
 /** @namespace Util/Manipulations/Date/convertStringToDate */
 export const convertStringToDate = (stringDate, options) => {
@@ -21,4 +24,13 @@ export const convertStringToDate = (stringDate, options) => {
     const language = navigator.languages ? navigator.languages[0] : navigator.language;
 
     return date.toLocaleDateString(language, options || defaultOptions);
+};
+
+/** @namespace Util/Manipulations/Date/getTimeInCurrentTimezone */
+export const getTimeInCurrentTimezone = (timestamp) => {
+    const currentDate = new Date();
+    const timezone = currentDate.getTimezoneOffset() * MILLISECONDS_PER_MINUTE;
+    const timeInCurrentTimezone = new Date(timestamp.replace(/-/g, '/')) - new Date(timezone);
+
+    return getDateValue(timeInCurrentTimezone);
 };

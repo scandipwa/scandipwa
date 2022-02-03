@@ -56,7 +56,7 @@
     &-NoProducts {
         @include tablet {
             position: relative;
-            top: 60px;
+            inset-block-start: 60px;
         }
     }
 
@@ -81,7 +81,7 @@
             inset-block-end: var(--footer-total-height);
             display: block;
             inset-inline-start: 0;
-            padding: 14px 14px;
+            padding: 14px;
             position: fixed;
             width: 100%;
             border-block-start: 1px solid var(--primary-divider-color);

@@ -65,13 +65,13 @@
         display: flex;
         justify-content: space-between;
         font-size: 18px;
-        padding-bottom: 6px;
+        padding-block-end: 6px;
         width: 100%;
         margin-block-end: 25px;
 
         a {
             margin-inline-start: 15px;
-            margin-block-start: 4px;
+            margin-block-start: 3px;
         }
 
         @include desktop {

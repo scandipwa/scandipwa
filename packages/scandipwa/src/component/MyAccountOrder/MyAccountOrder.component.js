@@ -18,7 +18,7 @@ import MyAccountOrderInformation from 'Component/MyAccountOrderInformation';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
 import { OrderType } from 'Type/Order.type';
-import { convertStringToDate } from 'Util/Manipulations/Date';
+import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 
 import {
     ORDER_INVOICES,
@@ -169,11 +169,42 @@ export class MyAccountOrder extends PureComponent {
                     { this.renderReorderButton() }
                     { this.renderSubscriptionButton() }
                 </div>
+                { this.renderOrderComments() }
                 <MyAccountOrderTabs
                   tabs={ this.shouldTabsRender() }
                   handleChangeActiveTab={ handleChangeActiveTab }
                   activeTab={ activeTab }
                 />
+            </div>
+        );
+    }
+
+    renderOrderComments() {
+        const { activeTab, order: { comments = [] } } = this.props;
+
+        if (activeTab !== ORDER_ITEMS || !comments.length) {
+            return null;
+        }
+
+        return (
+            <div block="MyAccountOrder" elem="Comments">
+                <div
+                  block="MyAccountOrder"
+                  elem="CommentsTitle"
+                >
+                    { __('About Your Order') }
+                </div>
+                <div block="MyAccountOrder" elem="CommentsList">
+                    { comments.map(({ timestamp, message }) => (
+                        <dl
+                          block="MyAccountOrder"
+                          elem="Comment"
+                        >
+                            <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
+                            <dd>{ message }</dd>
+                        </dl>
+                    )) }
+                </div>
             </div>
         );
     }
@@ -217,7 +248,11 @@ export class MyAccountOrder extends PureComponent {
     }
 
     renderOrderInformation() {
-        const { order } = this.props;
+        const { order, activeTab } = this.props;
+
+        if (activeTab === ORDER_REFUNDS) {
+            return null;
+        }
 
         return <MyAccountOrderInformation order={ order } />;
     }

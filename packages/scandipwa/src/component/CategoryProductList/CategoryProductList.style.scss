@@ -48,6 +48,7 @@
                 }
 
                 // remove margin from top to other pages
+
                 ~ .CategoryProductList-Page {
                     @include desktop {
                         margin-block-start: 0;
@@ -86,6 +87,7 @@
         }
 
         // remove margin from top to other pages
+
         ~ .CategoryProductList-Page {
             @include desktop {
                 margin-block-start: 0;

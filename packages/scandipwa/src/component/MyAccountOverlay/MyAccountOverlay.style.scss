@@ -273,7 +273,6 @@
 
         section {
             display: flex;
-
             padding-block-start: 20px;
 
             &:first-of-type {
@@ -418,10 +417,6 @@
     }
 
     &-Checkbox {
-        margin-block: 11px 24px;
-    }
-
-    &-ResetPassword {
-        margin-block-start: 24px;
+        margin-block: 11px 4px;
     }
 }
