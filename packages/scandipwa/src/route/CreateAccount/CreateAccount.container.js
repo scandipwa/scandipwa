@@ -21,6 +21,7 @@ import {
 import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -77,6 +78,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
                 this.handleSignIn(e);
             }
         });
+        scrollToTop({ behavior: 'smooth' });
     }
 
     onLoginClick() {
