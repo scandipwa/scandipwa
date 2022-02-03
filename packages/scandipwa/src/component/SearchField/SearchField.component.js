@@ -77,11 +77,11 @@ export class SearchField extends PureComponent {
 
     onSearchEnterPress(e) {
         const { searchCriteria, hideActiveOverlay, onSearchBarChange } = this.props;
-        const search = searchCriteria.trim().replace('%', '%25');
+        const search = encodeURIComponent(searchCriteria.trim().replace('%', '%25'));
         const trimmedSearch = searchCriteria.trim().replace('+', '');
 
         if (e.key === 'Enter' && trimmedSearch !== '') {
-            history.push(appendWithStoreCode(`/search/${ encodeURIComponent(search) }`));
+            history.push(appendWithStoreCode(`/search/${ search }`));
             hideActiveOverlay();
             onSearchBarChange({ target: { value: '' } });
             this.searchBarRef.current.blur();
