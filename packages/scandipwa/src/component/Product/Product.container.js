@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FIELD_RADIO_NONE, FIELD_TYPE } from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { RefType } from 'Type/Common.type';
@@ -286,7 +286,9 @@ export class ProductContainer extends PureComponent {
             if (type === FIELD_TYPE.select) {
                 selectedOptions.push(value);
             } else if (type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio) {
-                selectedOptions.push(value);
+                if (value !== FIELD_RADIO_NONE) {
+                    selectedOptions.push(value);
+                }
             } else if (type !== FIELD_TYPE.number) {
                 enteredOptions.push({
                     uid: name,
@@ -333,9 +335,9 @@ export class ProductContainer extends PureComponent {
         this.updateSelectedValues();
 
         const isValid = validateGroup(this.validator);
+        const { showError } = this.props;
 
         if (isValid !== true && !this.filterAddToCartFileErrors(isValid.values)) {
-            const { showError } = this.props;
             this.validator.scrollIntoView();
             showError(__('Incorrect or missing options!'));
             return;
@@ -344,7 +346,15 @@ export class ProductContainer extends PureComponent {
         const { addProductToCart, cartId } = this.props;
         const products = this.getMagentoProduct();
 
-        await addProductToCart({ products, cartId });
+        await addProductToCart({ products, cartId })
+            .catch(
+                /** @namespace Component/Product/Container/ProductContainer/addToCart/addProductToCart/catch */
+                (error) => {
+                    if (error) {
+                        showError(error);
+                    }
+                }
+            );
     }
 
     /**
