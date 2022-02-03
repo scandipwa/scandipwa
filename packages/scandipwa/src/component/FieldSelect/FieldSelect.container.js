@@ -20,6 +20,7 @@ import {
 } from 'Type/Field.type';
 
 import FieldSelect from './FieldSelect.component';
+import { DROPDOWN_MIN_HEIGHT, DROPDOWN_SCROLL_MIN_ITEMS } from './FieldSelect.config';
 
 /**
  * Field Select
@@ -45,7 +46,9 @@ export class FieldSelectContainer extends PureComponent {
     state = {
         valueIndex: -1,
         searchString: '',
-        isExpanded: false
+        isExpanded: false,
+        isDropdownOpenUpwards: false,
+        isScrollable: false
     };
 
     containerFunctions = {
@@ -53,7 +56,9 @@ export class FieldSelectContainer extends PureComponent {
         handleSelectExpandedExpand: this.handleSelectExpandedExpand.bind(this),
         handleSelectListOptionClick: this.handleSelectListOptionClick.bind(this),
         handleSelectListKeyPress: this.handleSelectListKeyPress.bind(this),
-        setRef: this.setRef.bind(this)
+        setRef: this.setRef.bind(this),
+        handleIsScrollableList: this.handleIsScrollableList.bind(this),
+        handleDropdownOpenDirection: this.handleDropdownOpenDirection.bind(this)
     };
 
     fieldRef = createRef();
@@ -63,6 +68,10 @@ export class FieldSelectContainer extends PureComponent {
         const { isExpanded: stateIsExpanded } = state;
 
         return { isExpanded: isExpanded || stateIsExpanded };
+    }
+
+    componentDidMount() {
+        this.handleIsScrollableList();
     }
 
     setRef(elem) {
@@ -128,6 +137,8 @@ export class FieldSelectContainer extends PureComponent {
         if (!this.isSelectDisabled()) {
             this.setState(({ isExpanded }) => ({ isExpanded: !isExpanded }));
         }
+
+        this.handleDropdownOpenDirection();
     }
 
     handleSelectExpandedExpand() {
@@ -236,6 +247,28 @@ export class FieldSelectContainer extends PureComponent {
         }
     }
 
+    handleDropdownOpenDirection() {
+        const windowHeight = document.documentElement.clientHeight;
+        const rect = this.fieldRef.getBoundingClientRect();
+        const bottomPosition = Math.round(windowHeight - rect.bottom);
+
+        if (bottomPosition < DROPDOWN_MIN_HEIGHT) {
+            this.setState({ isDropdownOpenUpwards: true });
+        } else {
+            this.setState({ isDropdownOpenUpwards: false });
+        }
+    }
+
+    handleIsScrollableList() {
+        const options = this.getOptions();
+
+        if (options.length > DROPDOWN_SCROLL_MIN_ITEMS) {
+            this.setState({ isScrollable: true });
+        } else {
+            this.setState({ isScrollable: false });
+        }
+    }
+
     containerProps() {
         const {
             attr: {
@@ -250,7 +283,7 @@ export class FieldSelectContainer extends PureComponent {
             isDisabled
         } = this.props;
 
-        const { isExpanded } = this.state;
+        const { isExpanded, isDropdownOpenUpwards, isScrollable } = this.state;
 
         return {
             attr: {
@@ -261,6 +294,8 @@ export class FieldSelectContainer extends PureComponent {
             setRef,
             isDisabled,
             isExpanded,
+            isDropdownOpenUpwards,
+            isScrollable,
             options: this.getOptions()
         };
     }
