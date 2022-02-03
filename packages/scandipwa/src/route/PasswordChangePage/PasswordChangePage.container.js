@@ -40,7 +40,8 @@ export const MyAccountDispatcher = import(
 export const mapStateToProps = (state) => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus,
     passwordResetMessage: state.MyAccountReducer.passwordResetMessage,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
+    minimunPasswordLength: state.ConfigReducer.minimun_password_length
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
@@ -78,13 +79,13 @@ export class PasswordChangePageContainer extends PureComponent {
         location: LocationType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         setHeaderState: PropTypes.func.isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        minimunPasswordLength: PropTypes.number.isRequired
     };
 
     state = {
         passwordResetStatus: '',
-        isLoading: false,
-        range: { min: 8, max: 64 }
+        isLoading: false
     };
 
     static getDerivedStateFromProps(props) {
@@ -133,8 +134,13 @@ export class PasswordChangePageContainer extends PureComponent {
     }
 
     containerProps() {
-        const { isLoading, range } = this.state;
-        const { isMobile } = this.props;
+        const { isLoading } = this.state;
+        const { isMobile, minimunPasswordLength } = this.props;
+
+        const range = {
+            min: minimunPasswordLength,
+            max: 64
+        };
 
         return { isLoading, isMobile, range };
     }
