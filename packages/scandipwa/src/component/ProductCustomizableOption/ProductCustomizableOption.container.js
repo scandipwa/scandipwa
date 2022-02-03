@@ -83,8 +83,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             isRequired,
             type,
             updateSelectedValues,
-            currencyCode,
-            options
+            currencyCode
         } = this.props;
 
         return {
