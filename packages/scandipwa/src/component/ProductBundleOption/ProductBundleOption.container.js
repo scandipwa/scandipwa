@@ -14,9 +14,15 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ItemOptionsType } from 'Type/ProductList.type';
-import { bundleOptionsToSelectTransform, getEncodedBundleUid } from 'Util/Product/Transform';
+import { sortBySortOrder } from 'Util/Product';
+import {
+    bundleOptionsToSelectTransform,
+    getEncodedBundleUid,
+    nonRequiredRadioOptions
+} from 'Util/Product/Transform';
 
 import ProductBundleOption from './ProductBundleOption.component';
+import DEFAULT_SORT_FIELD from './ProductBundleOption.config';
 
 /** @namespace Component/ProductBundleOption/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -92,7 +98,17 @@ export class ProductBundleOptionContainer extends PureComponent {
         const { options, currencyCode } = this.props;
         const { quantity } = this.state;
 
-        return bundleOptionsToSelectTransform(options, currencyCode, quantity);
+        return sortBySortOrder(bundleOptionsToSelectTransform(options, currencyCode, quantity));
+    }
+
+    getSortedOptions() {
+        const { options = {} } = this.props;
+
+        if (!Array.isArray(options)) {
+            return options;
+        }
+
+        return sortBySortOrder(options, DEFAULT_SORT_FIELD);
     }
 
     containerProps() {
@@ -101,7 +117,6 @@ export class ProductBundleOptionContainer extends PureComponent {
             title,
             isRequired,
             type,
-            options,
             updateSelectedValues,
             currencyCode
         } = this.props;
@@ -116,7 +131,7 @@ export class ProductBundleOptionContainer extends PureComponent {
             title,
             isRequired,
             type,
-            options,
+            options: nonRequiredRadioOptions(this.getSortedOptions(), isRequired, type),
             updateSelectedValues,
             currencyCode,
             activeSelectUid,

@@ -15,7 +15,8 @@ import { connect } from 'react-redux';
 
 import FIELD_TYPE from 'Component/Field/Field.config';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
-import { customizableOptionsToSelectTransform } from 'Util/Product/Transform';
+import { sortBySortOrder } from 'Util/Product';
+import { customizableOptionsToSelectTransform, nonRequiredRadioOptions } from 'Util/Product/Transform';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
@@ -62,7 +63,17 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             return null;
         }
 
-        return customizableOptionsToSelectTransform(options, currencyCode);
+        return sortBySortOrder(customizableOptionsToSelectTransform(options, currencyCode));
+    }
+
+    getSortedOptions() {
+        const { options = {} } = this.props;
+
+        if (!Array.isArray(options)) {
+            return options;
+        }
+
+        return sortBySortOrder(options);
     }
 
     containerProps() {
@@ -71,7 +82,6 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             title,
             isRequired,
             type,
-            options,
             updateSelectedValues,
             currencyCode
         } = this.props;
@@ -81,7 +91,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             title,
             isRequired,
             type,
-            options,
+            options: nonRequiredRadioOptions(this.getSortedOptions(), isRequired, type),
             updateSelectedValues,
             currencyCode,
             fieldType: this.getFieldType()
