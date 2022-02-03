@@ -204,7 +204,6 @@ export class Field extends PureComponent {
         };
 
         const disableCheckbox = isDisabled ? !isDisabled : null;
-        console.log(isDisabled);
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
                 <input
