@@ -29,8 +29,7 @@ export class MyAccountSignIn extends PureComponent {
         handleCreateAccount: PropTypes.func.isRequired,
         isCheckout: PropTypes.bool.isRequired,
         state: SignInStateType.isRequired,
-        emailValue: PropTypes.string.isRequired,
-        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired
+        emailValue: PropTypes.string.isRequired
     };
 
     renderSignInForm() {
