@@ -19,10 +19,6 @@
     }
 
     &-Content {
-        .cms-content {
-            @include default-list;
-        }
-
         h2 {
             @include mobile {
                 text-align: center;
