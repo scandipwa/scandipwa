@@ -52,7 +52,7 @@
             display: contents;
         }
 
-        &:hover {
+        &:not([class*='_isDisabled']):hover {
             cursor: pointer;
             
             @include desktop {
