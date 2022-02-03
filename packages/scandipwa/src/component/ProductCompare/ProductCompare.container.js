@@ -18,6 +18,7 @@ import {
 } from 'Component/ProductCompare/ProductCompare.config';
 import { DeviceType } from 'Type/Device.type';
 import { ItemType, ProductItemsType } from 'Type/ProductList.type';
+import { scrollToTop } from 'Util/Browser';
 import { getProductInStock } from 'Util/Product/Extract';
 
 import ProductCompare from './ProductCompare.component';
@@ -84,6 +85,7 @@ export class ProductCompareContainer extends PureComponent {
 
     componentDidMount() {
         this.fetchCompareList();
+        scrollToTop({ behavior: 'smooth' });
     }
 
     componentDidUpdate() {
