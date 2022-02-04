@@ -77,7 +77,7 @@ export class SearchField extends PureComponent {
 
     onSearchEnterPress(e) {
         const { searchCriteria, hideActiveOverlay, onSearchBarChange } = this.props;
-        const search = encodeURIComponent(searchCriteria.trim().replace(/%/g, '%2525'));
+        const search = encodeURIComponent(searchCriteria.trim().replace(/%/g, '%25'));
         const trimmedSearch = searchCriteria.trim();
 
         if (e.key === 'Enter' && trimmedSearch !== '') {
