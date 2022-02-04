@@ -84,8 +84,10 @@ export class LoaderContainer extends PureComponent {
     }
 
     shouldRender(renderSeparately) {
-        this.setState({ shouldRender: renderSeparately });
-        this.state.shouldRender = renderSeparately;
+        const { isLoading } = this.props;
+        const render = renderSeparately && isLoading;
+        this.setState({ shouldRender: render });
+        this.state.shouldRender = render;
     }
 
     render() {

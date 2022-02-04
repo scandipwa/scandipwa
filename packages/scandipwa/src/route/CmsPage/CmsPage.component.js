@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
+import LoaderGroup from 'Component/LoaderGroup';
+import GROUP_CODE from 'Component/LoaderGroup/LoaderGroup.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import NoMatch from 'Route/NoMatch';
 import { BlockListType } from 'Type/CMS.type';
@@ -87,6 +89,12 @@ export class CmsPage extends PureComponent {
               block="CmsPage"
               mods={ { isBreadcrumbsHidden: !isBreadcrumbsActive } }
             >
+                <LoaderGroup
+                  groupCode={ GROUP_CODE.body }
+                  subscribeTo={ GROUP_CODE.page }
+                  loadingElementThreshold={ 0 }
+                  mix={ { block: 'Loader', elem: 'Body' } }
+                />
                 <div block="CmsPage" elem="Wrapper" mods={ { page_width } }>
                     { this.renderHeading() }
                     <div block="CmsPage" elem="Content">

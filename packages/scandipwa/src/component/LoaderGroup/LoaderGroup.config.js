@@ -10,10 +10,14 @@
  */
 
 export const GROUP_CODE = {
+    // Main page sections:
     page: 'PAGE',
     header: 'HEADER',
     body: 'BODY',
-    footer: 'FOOTER'
+    footer: 'FOOTER',
+
+    // Misc sections:
+    checkout: 'CHECKOUT'
 };
 
 export default GROUP_CODE;

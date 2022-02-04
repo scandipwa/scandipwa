@@ -16,6 +16,7 @@ import CheckoutAddressForm from 'Component/CheckoutAddressForm';
 import CheckoutAddressTable from 'Component/CheckoutAddressTable';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
+import GROUP_CODE from 'Component/LoaderGroup/LoaderGroup.config';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { ADDRESS_BOOK, CustomerType } from 'Type/Account.type';
@@ -79,7 +80,7 @@ export class CheckoutAddressBook extends PureComponent {
 
     renderLoading() {
         return (
-            <Loader isLoading />
+            <Loader isLoading subscribeTo={ GROUP_CODE.body } />
         );
     }
 

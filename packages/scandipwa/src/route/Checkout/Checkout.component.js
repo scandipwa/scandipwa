@@ -17,6 +17,8 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Form from 'Component/Form';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
+import LoaderGroup from 'Component/LoaderGroup';
+import GROUP_CODE from 'Component/LoaderGroup/LoaderGroup.config';
 import { Addresstype } from 'Type/Account.type';
 import {
     CheckoutStepType,
@@ -237,6 +239,10 @@ export class Checkout extends PureComponent {
         );
     }
 
+    renderStepFallback() {
+        return <Loader isLoading subscribeTo={ GROUP_CODE.body } />;
+    }
+
     renderShippingStep() {
         const {
             shippingMethods,
@@ -257,7 +263,7 @@ export class Checkout extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
+            <Suspense fallback={ this.renderStepFallback() }>
                 <CheckoutShipping
                   isLoading={ isDeliveryOptionsLoading }
                   shippingMethods={ shippingMethods }
@@ -290,7 +296,7 @@ export class Checkout extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
+            <Suspense fallback={ this.renderStepFallback() }>
                 <CheckoutBilling
                   setLoading={ setLoading }
                   paymentMethods={ paymentMethods }
@@ -315,7 +321,7 @@ export class Checkout extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
+            <Suspense fallback={ this.renderStepFallback() }>
                 <CheckoutSuccess
                   email={ email }
                   firstName={ firstname }
@@ -341,7 +347,7 @@ export class Checkout extends PureComponent {
     renderLoader() {
         const { isLoading } = this.props;
 
-        return <Loader isLoading={ isLoading } />;
+        return <Loader isLoading={ isLoading } subscribeTo={ GROUP_CODE.body } />;
     }
 
     renderSummary(showOnMobile = false) {
@@ -446,6 +452,12 @@ export class Checkout extends PureComponent {
     render() {
         return (
             <main block="Checkout">
+                <LoaderGroup
+                  groupCode={ GROUP_CODE.body }
+                  subscribeTo={ GROUP_CODE.page }
+                  loadingElementThreshold={ 0 }
+                  mix={ { block: 'Loader', elem: 'Body' } }
+                />
                 <ContentWrapper
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                   label={ __('Checkout page') }
@@ -466,7 +478,7 @@ export class Checkout extends PureComponent {
                         </div>
                     </Form>
                     <div>
-                        <Suspense fallback={ <Loader /> }>
+                        <Suspense fallback={ this.renderStepFallback() }>
                             { this.renderSummary() }
                             { this.renderPromo() }
                         </Suspense>

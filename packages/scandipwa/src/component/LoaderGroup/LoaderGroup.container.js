@@ -65,7 +65,7 @@ export class LoaderGroup extends PureComponent {
             return;
         }
 
-        const isLoading = !!this.getRendererCount();
+        const isLoading = this.getRendererCount() > 0;
         this.poolUid = subscribe(
             subscribeTo,
             this.shouldRender.bind(this),
@@ -97,6 +97,7 @@ export class LoaderGroup extends PureComponent {
 
     shouldRender(renderSeparately) {
         this.setState({ shouldRender: renderSeparately });
+        this.state.shouldRender = renderSeparately;
     }
 
     shouldChildrenRender(data) {
@@ -105,11 +106,12 @@ export class LoaderGroup extends PureComponent {
 
         this.registerLoader(uid, isLoading);
 
-        const shouldChildrenRenderSeparate = this.getRendererCount() <= loadingElementThreshold;
+        const loaderCount = this.getRendererCount();
+        const shouldChildrenRenderSeparate = loaderCount <= loadingElementThreshold;
         this.setState({ shouldChildrenRenderSeparate });
 
         if (subscribeTo) {
-            invoke(subscribeTo, [this.poolUid, !!this.getRendererCount()]);
+            invoke(subscribeTo, [this.poolUid, loaderCount > 0]);
         }
 
         const { shouldRender } = this.state;

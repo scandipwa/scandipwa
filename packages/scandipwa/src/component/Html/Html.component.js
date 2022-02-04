@@ -21,7 +21,8 @@ import { lazy, PureComponent, Suspense } from 'react';
 
 import Image from 'Component/Image';
 import Link from 'Component/Link';
-import Loader from 'Component/Loader/Loader.component';
+import Loader from 'Component/Loader';
+import GROUP_CODE from 'Component/LoaderGroup/LoaderGroup.config';
 import { hash } from 'Util/Request/Hash';
 
 export const WidgetFactory = lazy(() => import(
@@ -208,7 +209,7 @@ export class Html extends PureComponent {
      */
     replaceWidget({ attribs }) {
         return (
-            <Suspense fallback={ <Loader isLoading /> }>
+            <Suspense fallback={ <Loader isLoading subscribeTo={ GROUP_CODE.body } /> }>
                 <WidgetFactory { ...this.attributesToProps(attribs) } />
             </Suspense>
         );
