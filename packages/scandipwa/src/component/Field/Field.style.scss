@@ -113,7 +113,11 @@
         }
     }
 
-    input::placeholder {
+    textarea {
+        font-size: 14px;
+    }
+
+    input::placeholder, textarea::placeholder {
         color: var(--input-color);
         opacity: .5;
     }
@@ -241,6 +245,10 @@
                 input,
                 textarea,
                 select {
+                    &:placeholder-shown {
+                        border: 1px solid var(--color-dark-gray);
+                    }
+
                     border: 1px solid var(--primary-success-color);
                 }
             }

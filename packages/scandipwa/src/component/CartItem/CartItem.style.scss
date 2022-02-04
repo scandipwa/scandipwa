@@ -94,16 +94,13 @@
     &-Options {
         color: var(--secondary-dark-color);
         font-size: 12px;
-
-        @include mobile {
-            padding-block-end: 12px;
-        }
     }
 
     &-Option {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        line-height: 16px;
         display: flex;
         gap: 4px;
 
@@ -131,6 +128,10 @@
 
         &_isMobileLayout {
             width: 90%;
+        }
+
+        @include mobile {
+            margin-block-end: 12px;
         }
     }
 

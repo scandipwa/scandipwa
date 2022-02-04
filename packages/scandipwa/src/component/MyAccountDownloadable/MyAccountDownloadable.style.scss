@@ -13,7 +13,7 @@
     @include mobile {
         overflow-x: scroll;
         -webkit-overflow-scrolling: touch;
-        width: calc(100vw - 24px);
+        width: calc(100vw - 32px);
     }
 
     &-NoOrders {
