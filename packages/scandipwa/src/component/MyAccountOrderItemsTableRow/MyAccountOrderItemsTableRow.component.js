@@ -437,11 +437,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
             product: {
                 product_sku
             },
-            enteredOptions = []
+            enteredOptions = [],
+            comments
         } = this.props;
 
         const isWithEnteredItems = !!enteredOptions[0]?.items;
-        const lineBefore = activeTab === ORDER_SHIPMENTS;
+        const lineBefore = !!((activeTab === ORDER_SHIPMENTS) && (comments.length));
 
         return (
             <>
