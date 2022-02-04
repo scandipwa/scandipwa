@@ -145,7 +145,8 @@ export class MyAccountOverlayContainer extends PureComponent {
             if (!isOverlayVisible) {
                 showNotification('success',
                 // eslint-disable-next-line max-len
-                    __('If there is an account associated with the provided address you will receive an email with a link to reset your password.'));
+                    __('If there is an account associated with the provided address you will receive an email with a link to reset your password.')
+                );
             }
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
