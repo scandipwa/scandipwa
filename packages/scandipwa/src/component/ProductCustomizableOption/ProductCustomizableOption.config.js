@@ -8,6 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { FIELD_RADIO_NONE } from 'Component/Field/Field.config';
 
 export const CONFIG_FIELD_TYPE = {
     text: 'field',
@@ -20,6 +21,16 @@ export const CONFIG_FIELD_TYPE = {
     dateTime: 'date_time',
     time: 'time',
     multi: 'multiple'
+};
+
+export const NONE_RADIO_OPTION = {
+    title: __('None'),
+    label: __('None'),
+    uid: FIELD_RADIO_NONE,
+    price: 0,
+    finalOptionPrice: 0,
+    can_change_quantity: false,
+    priceInclTax: 0
 };
 
 export default CONFIG_FIELD_TYPE;
