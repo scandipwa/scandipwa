@@ -27,6 +27,7 @@ import {
 import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
 import scrollToError from 'Util/Form/Form';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -112,14 +113,16 @@ export class Checkout extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        selectedStoreAddress: StoreType
+        selectedStoreAddress: StoreType,
+        onCouponCodeUpdate: PropTypes.func
     };
 
     static defaultProps = {
         paymentTotals: {},
         selectedStoreAddress: {},
         isLoading: false,
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
+        onCouponCodeUpdate: noopFn
     };
 
     stepMap = {
@@ -237,6 +240,31 @@ export class Checkout extends PureComponent {
         );
     }
 
+    renderDiscountCode() {
+        const {
+            totals: { coupon_code, items },
+            checkoutStep
+        } = this.props;
+
+        if (!items || items.length < 1) {
+            return null;
+        }
+
+        if (checkoutStep === SHIPPING_STEP) {
+            return null;
+        }
+
+        return (
+            <ExpandableContent
+              heading={ __('Have a discount code?') }
+              mix={ { block: 'CartPage', elem: 'Discount' } }
+              isArrow
+            >
+                <CartCoupon couponCode={ coupon_code } />
+            </ExpandableContent>
+        );
+    }
+
     renderShippingStep() {
         const {
             shippingMethods,
@@ -349,7 +377,8 @@ export class Checkout extends PureComponent {
             checkoutTotals,
             checkoutStep,
             paymentTotals,
-            isMobile
+            isMobile,
+            onCouponCodeUpdate
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
@@ -363,6 +392,7 @@ export class Checkout extends PureComponent {
               totals={ checkoutTotals }
               paymentTotals={ paymentTotals }
               isExpandable={ isMobile }
+              onCouponCodeUpdate={ onCouponCodeUpdate }
               // eslint-disable-next-line react/jsx-no-bind
               renderCmsBlock={ () => this.renderPromo(true) }
               showItems
@@ -468,7 +498,7 @@ export class Checkout extends PureComponent {
                     <div>
                         <Suspense fallback={ <Loader /> }>
                             { this.renderSummary() }
-                            <CartCoupon />
+                            { this.renderDiscountCode() }
                             { this.renderPromo() }
                         </Suspense>
                     </div>
