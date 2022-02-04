@@ -148,6 +148,7 @@ export class MyAccountOverlayContainer extends PureComponent {
                     // eslint-disable-next-line max-len
                     __('If there is an account associated with the provided address you will receive an email with a link to reset your password.')
                 );
+                history.push({ pathname: appendWithStoreCode(ACCOUNT_LOGIN_URL) });
             }
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
