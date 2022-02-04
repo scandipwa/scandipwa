@@ -66,13 +66,23 @@
 
     &-Description {
         @include description-tags {
+            font-size: 14px;
             line-height: 20px;
         }
 
         li {
             &::before {
-                position: static;
+                position: relative;
+                margin-inline-start: 10px;
+                margin-inline-end: -25px;
+                inset-block-start: -1px;
             }
+        }
+
+        @include default-list;
+
+        @include mobile {
+            line-height: 20px;
         }
     }
 }
