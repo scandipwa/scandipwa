@@ -17,7 +17,7 @@ import { withRouter } from 'react-router';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { updateCustomerDetails, updateIsLoading } from 'Store/MyAccount/MyAccount.action';
-import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
+import { CUSTOMER, LOCKEDEMAIL, TEN_MINUTE_IN_SECONDS } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CustomerType } from 'Type/Account.type';
 import { LocationType } from 'Type/Router.type';
@@ -40,6 +40,7 @@ export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile,
     customer: state.MyAccountReducer.customer,
     isLoading: state.MyAccountReducer.isLoading,
+    isLocked: state.MyAccountReducer.isLocked,
     baseLinkUrl: state.ConfigReducer.base_link_url
 });
 
@@ -62,6 +63,7 @@ export class MyAccountInformationContainer extends PureComponent {
         baseLinkUrl: PropTypes.string.isRequired,
 
         isLoading: PropTypes.bool.isRequired,
+        isLocked: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
 
         showErrorNotification: PropTypes.func.isRequired,
@@ -93,7 +95,8 @@ export class MyAccountInformationContainer extends PureComponent {
         this.state = {
             showEmailChangeField: false,
             showPasswordChangeField: editPassword,
-            isErrorShow: false
+            isErrorShow: false,
+            isLocked: false
         };
     }
 
@@ -112,9 +115,13 @@ export class MyAccountInformationContainer extends PureComponent {
 
     onError(error) {
         const { showErrorNotification, updateCustomerLoadingStatus } = this.props;
+        const { isLocked } = this.state;
 
         updateCustomerLoadingStatus(false);
-        showErrorNotification(error);
+
+        if (!isLocked) {
+            showErrorNotification(error);
+        }
         this.setState({ isErrorShow: true });
     }
 
@@ -137,13 +144,16 @@ export class MyAccountInformationContainer extends PureComponent {
         updateCustomerLoadingStatus(true);
 
         await this.handleInformationChange({ firstname, lastname, taxvat });
+        const { isLocked } = this.state;
 
-        if (showPasswordChangeField) {
-            await this.handlePasswordChange({ password, newPassword });
-        }
+        if (!isLocked) {
+            if (showPasswordChangeField) {
+                await this.handlePasswordChange({ password, newPassword });
+            }
 
-        if (showEmailChangeField) {
-            await this.handleEmailChange({ email, password });
+            if (showEmailChangeField) {
+                await this.handleEmailChange({ email, password });
+            }
         }
 
         this.afterSubmit();
@@ -151,13 +161,15 @@ export class MyAccountInformationContainer extends PureComponent {
 
     afterSubmit() {
         const { showSuccessNotification, updateCustomerLoadingStatus } = this.props;
-        const { isErrorShow, showEmailChangeField, showPasswordChangeField } = this.state;
+        const {
+            isErrorShow, isLocked, showEmailChangeField, showPasswordChangeField
+        } = this.state;
 
         if (!isErrorShow) {
             updateCustomerLoadingStatus(false);
 
             if (showEmailChangeField || showPasswordChangeField) {
-                this.handleLogout();
+                this.handleLogout({ isFromEmailChange: true });
             } else {
                 history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
             }
@@ -165,10 +177,14 @@ export class MyAccountInformationContainer extends PureComponent {
             showSuccessNotification('You saved the account information.');
         } else {
             this.setState({ isErrorShow: false });
+
+            if (isLocked) {
+                this.handleLogout({ isFromLocked: true });
+            }
         }
     }
 
-    handleLogout() {
+    handleLogout(state) {
         const { baseLinkUrl, logout } = this.props;
 
         const path = baseLinkUrl
@@ -177,7 +193,7 @@ export class MyAccountInformationContainer extends PureComponent {
 
         history.push({
             pathname: path,
-            state: { isFromEmailChange: true }
+            state
         });
         logout();
     }
@@ -204,6 +220,11 @@ export class MyAccountInformationContainer extends PureComponent {
             BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             updateCustomer(customer);
         } catch (e) {
+            if (e[0].extensions.category === 'graphql-authentication') {
+                this.setState({ isLocked: true });
+                const { email } = BrowserDatabase.getItem(CUSTOMER);
+                BrowserDatabase.setItem(email, LOCKEDEMAIL, TEN_MINUTE_IN_SECONDS);
+            }
             this.onError(e);
         }
     }

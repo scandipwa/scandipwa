@@ -13,7 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { LOCKEDEMAIL } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 import { getErrorMessage } from 'Util/Request';
@@ -110,12 +112,21 @@ export class MyAccountSignInContainer extends PureComponent {
 
         setLoadingState(true);
         const fieldPairs = transformToNameValuePair(fields);
+        const { email } = fieldPairs;
+        const lockedEmail = BrowserDatabase.getItem(LOCKEDEMAIL);
 
-        try {
-            await signIn(fieldPairs);
-            onSignIn();
-        } catch (error) {
-            showNotification('error', getErrorMessage(error));
+        console.log(`${lockedEmail } : ${email}`);
+
+        if (lockedEmail === email) {
+            showNotification('error', 'Maximum Login Failures to Lockout Account');
+            BrowserDatabase.deleteItem(LOCKEDEMAIL);
+        } else {
+            try {
+                await signIn(fieldPairs);
+                onSignIn();
+            } catch (error) {
+                showNotification('error', getErrorMessage(error));
+            }
         }
 
         setLoadingState(false);
