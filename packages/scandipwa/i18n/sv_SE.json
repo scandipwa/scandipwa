@@ -151,7 +151,6 @@
     "Product Price": "Produktens pris",
     "Product added to wish-list!": null,
     "Product has been removed from your Wish List!": "Produkten har tagits bort från din önskelista!",
-    "Product list navigation": "Navigering av produktlista",
     "Products are loading...": "Produkter laddar ...",
     "Purchase Order Number": null,
     "Rate: ": null,
@@ -583,5 +582,6 @@
     "All %s": null,
     "About Your Order": null,
     "About Your %s": null,
+    "List navigation": null,
     "Not possible to fetch while offline": null
 }

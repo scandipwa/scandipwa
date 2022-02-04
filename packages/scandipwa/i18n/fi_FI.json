@@ -257,7 +257,6 @@
     "Previous page": "Edellinen sivu",
     "Page %s": "Sivu %s",
     "Next page": "Seuraava sivu",
-    "Product list navigation": "Tuoteluettelossa liikkuminen",
     "Play video": "Toista video",
     "Play video %s": "Toista video %s",
     "Please sign in first!": "Kirjaudu sisään ensin!",
@@ -583,5 +582,6 @@
     "All %s": null,
     "About Your Order": null,
     "About Your %s": null,
+    "List navigation": null,
     "Not possible to fetch while offline": null
 }

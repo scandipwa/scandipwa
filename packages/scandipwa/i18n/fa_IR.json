@@ -498,7 +498,6 @@
     "Previous page": null,
     "Page %s": null,
     "Next page": null,
-    "Product list navigation": null,
     "Compatible file extensions to upload:": null,
     "Drop files here or": null,
     "Drop file here or": null,
@@ -583,5 +582,6 @@
     "All %s": null,
     "About Your Order": null,
     "About Your %s": null,
+    "List navigation": null,
     "Not possible to fetch while offline": null
 }
