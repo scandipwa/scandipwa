@@ -26,7 +26,7 @@ export const getInitialState = () => ({
     passwordResetStatus: false,
     isPasswordForgotSend: false,
     isLoading: false,
-    isLocked: '',
+    isLocked: false,
     customer: {},
     message: ''
 });

@@ -13,8 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { updateIsLocked } from 'Store/MyAccount/MyAccount.action';
+import { LOCKEDEMAIL } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 import { getErrorMessage } from 'Util/Request';
@@ -37,8 +38,7 @@ export const mapDispatchToProps = (dispatch) => ({
     signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
-    updateCustomerLockedStatus: (status) => dispatch(updateIsLocked(status))
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 /** @namespace Component/MyAccountSignIn/Container */
@@ -110,18 +110,17 @@ export class MyAccountSignInContainer extends PureComponent {
             signIn,
             showNotification,
             onSignIn,
-            setLoadingState,
-            isLocked,
-            updateCustomerLockedStatus
+            setLoadingState
         } = this.props;
 
         setLoadingState(true);
         const fieldPairs = transformToNameValuePair(fields);
         const { email } = fieldPairs;
+        const lockedEmail = BrowserDatabase.getItem(LOCKEDEMAIL);
 
-        if (isLocked === email) {
+        if (lockedEmail === email) {
             showNotification('error', 'Maximum Login Failures to Lockout Account');
-            updateCustomerLockedStatus('');
+            BrowserDatabase.deleteItem(LOCKEDEMAIL);
         } else {
             try {
                 await signIn(fieldPairs);

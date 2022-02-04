@@ -51,8 +51,10 @@ export const ProductCompareDispatcher = import(
 );
 
 export const CUSTOMER = 'customer';
+export const LOCKEDEMAIL = 'locked_email';
 
 export const ONE_MONTH_IN_SECONDS = 2628000;
+export const TEN_MINUTE_IN_SECONDS = 600;
 
 /**
  * My account actions
@@ -71,15 +73,16 @@ export class MyAccountDispatcher {
         return executePost(prepareQuery([query])).then(
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then */
             ({ customer }) => {
-                dispatch(updateIsLocked(''));
+                dispatch(updateIsLocked(false));
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then/catch */
             (error) => {
                 if (error[0].extensions.category === 'graphql-authentication') {
+                    dispatch(updateIsLocked(true));
                     const { email } = BrowserDatabase.getItem(CUSTOMER);
-                    dispatch(updateIsLocked(email));
+                    BrowserDatabase.setItem(email, LOCKEDEMAIL, TEN_MINUTE_IN_SECONDS);
                 }
                 dispatch(showNotification('error', getErrorMessage(error)));
             }

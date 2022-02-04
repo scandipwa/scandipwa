@@ -16,7 +16,6 @@ import { withRouter } from 'react-router';
 
 import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_WISHLIST } from 'Component/Header/Header.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { updateIsLocked } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -75,8 +74,7 @@ export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     logout: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch)
-    ),
-    updateCustomerLockedStatus: (status) => dispatch(updateIsLocked(status))
+    )
 });
 
 /** @namespace Route/MyAccount/Container */
@@ -94,12 +92,11 @@ export class MyAccountContainer extends PureComponent {
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         IsSignedInFromState: PropTypes.bool.isRequired,
-        isLocked: PropTypes.string.isRequired,
+        isLocked: PropTypes.bool.isRequired,
         baseLinkUrl: PropTypes.string.isRequired,
         showNotification: PropTypes.func.isRequired,
         selectedTab: PropTypes.string,
-        logout: PropTypes.func.isRequired,
-        updateCustomerLockedStatus: PropTypes.func.isRequired
+        logout: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -277,7 +274,7 @@ export class MyAccountContainer extends PureComponent {
             this.changeMyAccountHeaderState();
         }
 
-        if (isLocked !== '') {
+        if (isLocked) {
             this.handleLocked();
         }
     }
@@ -407,13 +404,11 @@ export class MyAccountContainer extends PureComponent {
 
     onSignIn() {
         const {
-            requestCustomerData,
-            updateCustomerLockedStatus
+            requestCustomerData
         } = this.props;
 
         if (isSignedIn()) {
             requestCustomerData();
-            updateCustomerLockedStatus('');
         }
 
         this.changeMyAccountHeaderState();
