@@ -62,6 +62,7 @@ export class ProductDownloadableLinks extends PureComponent {
     renderCheckBox(link) {
         const { setSelectedCheckboxValues, isRequired } = this.props;
         const { uid } = link;
+        const label = this.renderLabel(link);
 
         if (!isRequired) {
             return null;
@@ -79,6 +80,7 @@ export class ProductDownloadableLinks extends PureComponent {
               events={ {
                   onChange: setSelectedCheckboxValues
               } }
+              label={ label }
             />
         );
     }
@@ -104,12 +106,12 @@ export class ProductDownloadableLinks extends PureComponent {
     }
 
     renderDownloadableLink(link) {
+        const { isRequired } = this.props;
         const { id } = link;
 
         return (
             <div block="ProductDownloadableLink" key={ id }>
-                { this.renderCheckBox.call(this, link) }
-                { this.renderLabel(link) }
+                { isRequired ? this.renderCheckBox.call(this, link) : this.renderLabel(link) }
                 { this.renderLink(link) }
             </div>
         );

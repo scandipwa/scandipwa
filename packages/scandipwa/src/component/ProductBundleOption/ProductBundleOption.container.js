@@ -15,7 +15,11 @@ import { connect } from 'react-redux';
 
 import { ItemOptionsType } from 'Type/ProductList.type';
 import { sortBySortOrder } from 'Util/Product';
-import { bundleOptionsToSelectTransform, getEncodedBundleUid } from 'Util/Product/Transform';
+import {
+    bundleOptionsToSelectTransform,
+    getEncodedBundleUid,
+    nonRequiredRadioOptions
+} from 'Util/Product/Transform';
 
 import ProductBundleOption from './ProductBundleOption.component';
 import DEFAULT_SORT_FIELD from './ProductBundleOption.config';
@@ -127,7 +131,7 @@ export class ProductBundleOptionContainer extends PureComponent {
             title,
             isRequired,
             type,
-            options: this.getSortedOptions(),
+            options: nonRequiredRadioOptions(this.getSortedOptions(), isRequired, type),
             updateSelectedValues,
             currencyCode,
             activeSelectUid,
