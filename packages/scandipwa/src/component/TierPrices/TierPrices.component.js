@@ -55,6 +55,7 @@ export class TierPrices extends PureComponent {
         if (value >= minPriceForOneUnit) {
             return null;
         }
+
         const formattedPrice = formatPrice(value, currency);
 
         return (
@@ -69,11 +70,11 @@ export class TierPrices extends PureComponent {
     renderProductTierPrice(quantity, formattedPrice, percent_off) {
         return (
             <>
-            { __(
-                'Buy %s for %s each and ',
-                quantity,
-                formattedPrice
-            ) }
+                { __(
+                    'Buy %s for %s each and ',
+                    quantity,
+                    formattedPrice
+                ) }
                 <strong>
                     { __(
                         'save %s%',
@@ -87,16 +88,16 @@ export class TierPrices extends PureComponent {
     renderBundleTierPrice(quantity, percent_off) {
         return (
             <>
-            { __(
-                'Buy %s with ',
-                quantity
-            ) }
-            <strong>
                 { __(
-                    '%s% discount each',
-                    Math.round(percent_off)
+                    'Buy %s with ',
+                    quantity
                 ) }
-            </strong>
+                <strong>
+                    { __(
+                        '%s% discount each',
+                        Math.round(percent_off)
+                    ) }
+                </strong>
             </>
         );
     }
