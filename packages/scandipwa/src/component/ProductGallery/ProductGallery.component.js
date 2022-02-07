@@ -429,7 +429,7 @@ export class ProductGallery extends PureComponent {
                 <Slider
                   sliderRef={ sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider', mods } }
-                  showCrumbs={ isMobile && isMoreThanOnePhoto }
+                  showCounter={ isMobile }
                   showArrows={ !isMobile && isMoreThanOnePhoto }
                   activeImage={ activeImage }
                   onActiveImageChange={ onActiveImageChange }

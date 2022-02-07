@@ -283,11 +283,6 @@
             justify-content: unset;
             padding-inline: 32px;
         }
-        
-        @include mobile {
-            // stylelint-disable declaration-no-important
-            border-bottom: 1px solid var(--primary-divider-color) !important;
-        }
     }
 
     &-MyAccount {
@@ -451,7 +446,7 @@
     }
 
     &_name_popup {
-        z-index: 400;
+        z-index: 450;
     }
 
     &-MyAccountContainer {

@@ -152,7 +152,6 @@
     "Product Price": "Ürün Fiyatı",
     "Product added to wish-list!": null,
     "Product has been removed from your Wish List!": "Ürün İstek Listenizden çıkarıldı!",
-    "Product list navigation": "Ürün listesi navigasyonu",
     "Products are loading...": "Ürünler yükleniyor ...",
     "Purchase Order Number": null,
     "Rate: ": null,
@@ -583,5 +582,7 @@
     "All %s": null,
     "About Your Order": null,
     "About Your %s": null,
-    "Not possible to fetch while offline": null
+    "List navigation": null,
+    "Not possible to fetch while offline": null,
+    "Product list navigation": null
 }

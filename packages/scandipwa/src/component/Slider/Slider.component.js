@@ -38,6 +38,7 @@ export class Slider extends PureComponent {
     static propTypes = {
         showCrumbs: PropTypes.bool,
         showArrows: PropTypes.bool,
+        showCounter: PropTypes.bool,
         activeImage: PropTypes.number,
         onActiveImageChange: PropTypes.func,
         mix: MixType,
@@ -59,6 +60,7 @@ export class Slider extends PureComponent {
         onActiveImageChange: noopFn,
         showCrumbs: false,
         showArrows: false,
+        showCounter: false,
         isInteractionDisabled: false,
         mix: {},
         onClick: null,
@@ -81,6 +83,8 @@ export class Slider extends PureComponent {
     handleDragEnd = this.handleInteraction.bind(this, this.handleDragEnd);
 
     renderCrumb = this.renderCrumb.bind(this);
+
+    renderCounter = this.renderCounter.bind(this);
 
     goNext = this.goNext.bind(this);
 
@@ -438,6 +442,25 @@ export class Slider extends PureComponent {
         }
     }
 
+    renderCounter() {
+        const { children, showCounter, activeImage } = this.props;
+
+        if (!showCounter || children.length <= 1) {
+            return null;
+        }
+
+        return (
+            <div
+              block="Slider"
+              elem="Counter"
+            >
+                { activeImage + 1 }
+                /
+                { children.length }
+            </div>
+        );
+    }
+
     renderCrumbs() {
         const { children, showCrumbs } = this.props;
 
@@ -546,6 +569,7 @@ export class Slider extends PureComponent {
                 >
                     { this.renderSliderContent() }
                     { this.renderCrumbs() }
+                    { this.renderCounter() }
                 </div>
                 { this.renderArrows() }
             </>

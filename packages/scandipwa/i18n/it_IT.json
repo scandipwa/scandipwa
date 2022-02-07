@@ -158,7 +158,6 @@
     "Product added to wish-list!": "Prodotto aggiungo alla lista dei desideri!",
     "Product has been removed from your Wish List!": "Il prodotto è stato rimosso dalla tua lista dei desideri!",
     "Product is out of stock": "Il prodotto è esaurito",
-    "Product list navigation": "Navigazione elenco prodotti",
     "Products are loading...": "Caricamento prodotti in corso ...",
     "Purchase Order Number": "Numero dell'ordine d'acquisto",
     "Rate: ": "Valutazioni: ",
@@ -583,5 +582,7 @@
     "All %s": null,
     "About Your Order": null,
     "About Your %s": null,
-    "Not possible to fetch while offline": null
+    "List navigation": null,
+    "Not possible to fetch while offline": null,
+    "Product list navigation": null
 }

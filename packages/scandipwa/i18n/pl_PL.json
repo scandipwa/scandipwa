@@ -151,7 +151,6 @@
     "Product Price": "Cena produktu",
     "Product added to wish-list!": "Produkt dodany do listy życzeń!",
     "Product has been removed from your Wish List!": "Produkt został usunięty z listy życzeń!",
-    "Product list navigation": "Nawigacja po liście produktów",
     "Products are loading...": "Produkty są ładowane...",
     "Purchase Order Number": "Numer zamówienia",
     "Rate: ": "Stawka: ",
@@ -583,5 +582,7 @@
     "All %s": null,
     "About Your Order": null,
     "About Your %s": null,
-    "Not possible to fetch while offline": null
+    "List navigation": null,
+    "Not possible to fetch while offline": null,
+    "Product list navigation": null
 }

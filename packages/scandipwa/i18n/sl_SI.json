@@ -151,7 +151,6 @@
     "Product Price": "Cena Artikla",
     "Product added to wish-list!": null,
     "Product has been removed from your Wish List!": "Artikel odstranjen iz seznama želja!",
-    "Product list navigation": "Navigacija artiklov",
     "Products are loading...": "Artikli se nalagajo ...",
     "Purchase Order Number": null,
     "Rate: ": null,
@@ -583,5 +582,7 @@
     "All %s": null,
     "About Your Order": null,
     "About Your %s": null,
-    "Not possible to fetch while offline": null
+    "List navigation": null,
+    "Not possible to fetch while offline": null,
+    "Product list navigation": null
 }
