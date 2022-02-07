@@ -17,6 +17,7 @@ import { withRouter } from 'react-router';
 import { DeviceType } from 'Type/Device.type';
 import { OrdersListType } from 'Type/Order.type';
 import { LocationType } from 'Type/Router.type';
+import { scrollToTop } from 'Util/Browser';
 import { getQueryParam } from 'Util/Url';
 
 import MyAccountMyOrders from './MyAccountMyOrders.component';
@@ -64,6 +65,7 @@ export class MyAccountMyOrdersContainer extends PureComponent {
 
         if (currentPage !== prevPage) {
             getOrderList(this._getPageFromUrl());
+            scrollToTop();
         }
     }
 
