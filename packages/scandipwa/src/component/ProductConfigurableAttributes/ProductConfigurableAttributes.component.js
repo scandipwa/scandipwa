@@ -110,15 +110,18 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderDropdown(option) {
+    renderDropdown(option, isUnselected) {
         const {
             updateConfigurableVariant,
             getIsConfigurableAttributeAvailable,
-            parameters
+            parameters,
+            handleShakeAnimationEnd
         } = this.props;
 
         return (
             <ProductConfigurableAttributeDropdown
+              handleShakeAnimationEnd={ handleShakeAnimationEnd }
+              isUnselected={ isUnselected }
               option={ option }
               updateConfigurableVariant={ updateConfigurableVariant }
               getIsConfigurableAttributeAvailable={ getIsConfigurableAttributeAvailable }
@@ -198,7 +201,7 @@ export class ProductConfigurableAttributes extends PureComponent {
                             </span>
                         ) }
                     </p>
-                    { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
+                    { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option, isUnselected) }
                 </div>
             );
         });
