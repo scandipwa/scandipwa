@@ -197,7 +197,6 @@ export const customerEmailAndPasswordFields = (props) => {
                 validationRule: {
                     isRequired: true,
                     inputType: VALIDATION_INPUT_TYPE.password,
-                    range,
                     match: (value) => {
                         const password = document.getElementById('newPassword');
                         return password.value === value;
