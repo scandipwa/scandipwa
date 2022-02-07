@@ -86,6 +86,11 @@ export const mapDispatchToProps = (dispatch) => ({
             dispatcher.createGuestEmptyCart(dispatch);
         }
     ),
+    updateCart: () => CartDispatcher.then(
+        ({ default: dispatcher }) => {
+            dispatcher.updateInitialCartData(dispatch);
+        }
+    ),
     toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
     showInfoNotification: (message) => dispatch(showNotification('info', message)),
@@ -114,6 +119,7 @@ export class CheckoutContainer extends PureComponent {
         createAccount: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
+        updateCart: PropTypes.func.isRequired,
         resetGuestCart: PropTypes.func.isRequired,
         guest_checkout: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
@@ -601,7 +607,7 @@ export class CheckoutContainer extends PureComponent {
     }
 
     async saveAddressInformation(addressInformation) {
-        const { updateShippingPrice } = this.props;
+        const { updateShippingPrice, updateCart } = this.props;
         const { shipping_address, shipping_method_code } = addressInformation;
 
         this.setState({
@@ -627,6 +633,7 @@ export class CheckoutContainer extends PureComponent {
                 const { payment_methods, totals } = data;
 
                 updateShippingPrice(totals);
+                updateCart();
 
                 BrowserDatabase.setItem(
                     totals,

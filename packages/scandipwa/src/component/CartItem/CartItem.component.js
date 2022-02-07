@@ -332,10 +332,17 @@ export class CartItem extends PureComponent {
 
     renderProductPrice() {
         const {
-            currency_code,
+            currency_code: currencyCodeFallback,
             item: {
-                row_total,
-                row_total_incl_tax
+                prices: {
+                    row_total: {
+                        value: rowTotalValue = 0,
+                        currency_code: currencyCode
+                    } = {},
+                    row_total_including_tax: {
+                        value: rowTotalInclTaxValue = 0
+                    } = {}
+                }
             },
             isCartOverlay,
             isMobileLayout
@@ -343,9 +350,9 @@ export class CartItem extends PureComponent {
 
         return (
             <CartItemPrice
-              row_total={ row_total }
-              row_total_incl_tax={ row_total_incl_tax }
-              currency_code={ currency_code }
+              row_total={ rowTotalValue }
+              row_total_incl_tax={ rowTotalInclTaxValue }
+              currency_code={ currencyCode || currencyCodeFallback }
               mix={ {
                   block: 'CartItem',
                   elem: 'Price',
@@ -376,9 +383,9 @@ export class CartItem extends PureComponent {
     renderQuantityChangeField() {
         const {
             item: {
-                sku,
-                qty,
+                quantity,
                 product: {
+                    sku,
                     stock_item: {
                         qty_increments: qtyIncrement = 1
                     } = {}
@@ -411,8 +418,8 @@ export class CartItem extends PureComponent {
                   attr={ {
                       id: `${sku}_item_qty`,
                       name: `${sku}_item_qty`,
-                      value: qty,
-                      defaultValue: qty,
+                      value: quantity,
+                      defaultValue: quantity,
                       min: minSaleQuantity,
                       max: maxSaleQuantity,
                       step: qtyIncrement
@@ -504,14 +511,14 @@ export class CartItem extends PureComponent {
     }
 
     renderQuantity() {
-        const { item: { qty } } = this.props;
+        const { item: { quantity } } = this.props;
 
         return (
             <p
               block="CartItem"
               elem="Quantity"
             >
-                { __('Quantity: %s', qty) }
+                { __('Quantity: %s', quantity) }
             </p>
         );
     }

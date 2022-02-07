@@ -10,9 +10,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductListQuery from 'Query/ProductList.query';
 import { isSignedIn } from 'Util/Auth';
-import { Field } from 'Util/Query';
+import { Field, Fragment } from 'Util/Query';
 
 /** @namespace Query/Cart/Query */
 export class CartQuery {
@@ -21,7 +20,7 @@ export class CartQuery {
         return new Field('addProductsToCart')
             .addArgument('cartId', 'String!', cartId)
             .addArgument('cartItems', '[CartItemInput!]!', cartItems)
-            .addField(this._getUserErrorsField());
+            .addField(this._getCartField());
     }
 
     getUpdateCartItemsMutation(input) {
@@ -37,13 +36,10 @@ export class CartQuery {
 
     //#region QUERIES
     getCartQuery(quoteId) {
-        const query = new Field('getCartForCustomer')
-            .addFieldList(this._getCartTotalsFields())
+        const query = new Field('cart')
+            .addArgument('cart_id', 'String!', isSignedIn() ? '' : quoteId)
+            .addFieldList(this._getCartFields())
             .setAlias('cartData');
-
-        if (!isSignedIn()) {
-            query.addArgument('guestCartId', 'String', quoteId);
-        }
 
         return query;
     }
@@ -57,8 +53,301 @@ export class CartQuery {
         ];
     }
 
+    //#region ITEMS
+    _getProductPricesFields() {
+        return [
+            this._getMoneyField('row_total'),
+            this._getMoneyField('row_total_including_tax'),
+            this._getMoneyField('total_item_discount')
+        ];
+    }
+
+    _getProductPricesField() {
+        return new Field('prices')
+            .addFieldList(this._getProductPricesFields());
+    }
+
+    _getConfigOptionsField() {
+        return new Field('configurable_options')
+            .addFieldList([
+                'option_label',
+                'value_label',
+                'configurable_product_option_value_uid',
+                'configurable_product_option_uid'
+            ]);
+    }
+
+    _getConfigOptionsFragmentFields() {
+        return [
+            this._getConfigOptionsField(),
+            this._getCustomizableOptionsField('customizable_options_config')
+        ];
+    }
+
+    _getConfigOptionsFragmentField() {
+        return new Fragment('ConfigurableCartItem')
+            .addFieldList(this._getConfigOptionsFragmentFields());
+    }
+
+    _getBundleOptionsValueField() {
+        return new Field('values')
+            .addFieldList([
+                'uid',
+                'label',
+                'quantity'
+            ]);
+    }
+
+    _getBundleOptionsField() {
+        return new Field('bundle_options')
+            .addFieldList([
+                'uid',
+                'label',
+                this._getBundleOptionsValueField()
+            ]);
+    }
+
+    _getBundleOptionsFragmentFields() {
+        return [
+            this._getBundleOptionsField(),
+            this._getCustomizableOptionsField('customizable_options_bundle')
+        ];
+    }
+
+    _getBundleOptionsFragmentField() {
+        return new Fragment('BundleCartItem')
+            .addFieldList(this._getBundleOptionsFragmentFields());
+    }
+
+    _getDownloadableLinkTitleField() {
+        return new Field('title')
+            .setAlias('label');
+    }
+
+    _getDownloadableLinkField() {
+        return new Field('links')
+            .addFieldList([
+                'uid',
+                this._getDownloadableLinkTitleField()
+            ]).setAlias('downloadable_links');
+    }
+
+    _getDownloadableOptionsFragmentFields() {
+        return [
+            this._getDownloadableLinkField(),
+            this._getCustomizableOptionsField('customizable_options_downloadable')
+        ];
+    }
+
+    _getDownloadableOptionsFragmentField() {
+        return new Fragment('DownloadableCartItem')
+            .addFieldList(this._getDownloadableOptionsFragmentFields());
+    }
+
+    _getSimpleOptionsFragmentField() {
+        return new Fragment('SimpleCartItem')
+            .addField(this._getCustomizableOptionsField('customizable_options_simple'));
+    }
+
+    _getVirtualOptionsFragmentField() {
+        return new Fragment('VirtualCartItem')
+            .addField(this._getCustomizableOptionsField('customizable_options_virtual'));
+    }
+
+    _getCustomizableOptionsValueField() {
+        return new Field('values')
+            .addFieldList([
+                'customizable_option_value_uid',
+                'label',
+                'value'
+            ]);
+    }
+
+    _getCustomizableOptionsFields() {
+        return [
+            'customizable_option_uid',
+            'label',
+            this._getCustomizableOptionsValueField()
+        ];
+    }
+
+    _getCustomizableOptionsField(alias = 'customizable_options') {
+        return new Field('customizable_options')
+            .addFieldList(this._getCustomizableOptionsFields())
+            .setAlias(alias);
+    }
+
+    _getItemImageField() {
+        return new Field('thumbnail').addFieldList(['url']);
+    }
+
+    _getConfigurableProductFields() {
+        return new Field('configurable_options')
+            .addFieldList(['uid', 'attribute_code']);
+    }
+
+    _getConfigurableProductField() {
+        return new Fragment('ConfigurableProduct')
+            .addField(this._getConfigurableProductFields());
+    }
+
+    _getStockItemFields() {
+        return [
+            'min_sale_qty',
+            'max_sale_qty',
+            'qty_increments'
+        ];
+    }
+
+    _getStockItemField() {
+        return new Field('stock_item')
+            .addFieldList(this._getStockItemFields());
+    }
+
+    _getItemProductFields() {
+        return [
+            'name',
+            'sku',
+            'url',
+            this._getStockItemField(),
+            this._getItemImageField(),
+            this._getConfigurableProductField()
+        ];
+    }
+
+    _getItemProductField() {
+        return new Field('product')
+            .addFieldList(this._getItemProductFields());
+    }
+
+    _getItemsFields() {
+        return [
+            'uid',
+            'quantity',
+            'status',
+            this._getProductPricesField(),
+            this._getItemProductField(),
+            this._getConfigOptionsFragmentField(),
+            this._getDownloadableOptionsFragmentField(),
+            this._getBundleOptionsFragmentField(),
+            this._getVirtualOptionsFragmentField(),
+            this._getSimpleOptionsFragmentField()
+        ];
+    }
+
+    _getItemsField() {
+        return new Field('items')
+            .addFieldList(this._getItemsFields());
+    }
+    //#endregion
+
+    //#region PRICE
+    _getMoneyFields() {
+        return [
+            'value',
+            'currency'
+        ];
+    }
+
+    _getMoneyField(fieldName) {
+        return new Field(fieldName)
+            .addFieldList(this._getMoneyFields());
+    }
+
+    _getPriceGroupFields(extraFields = []) {
+        return [
+            'label',
+            this._getMoneyField('amount'),
+            ...extraFields
+        ];
+    }
+
+    _getPriceGroupField(fieldName, extraFields = []) {
+        return new Field(fieldName)
+            .addFieldList(this._getPriceGroupFields(extraFields));
+    }
+
+    _getPricesFields() {
+        return [
+            this._getMoneyField('grand_total'),
+            this._getMoneyField('subtotal_excluding_tax'),
+            this._getMoneyField('subtotal_including_tax'),
+            this._getPriceGroupField('discounts'),
+            this._getPriceGroupField('applied_taxes', ['title', 'percent'])
+        ];
+    }
+
+    _getPricesField() {
+        return new Field('prices')
+            .addFieldList(this._getPricesFields());
+    }
+    //#endregion
+
+    //#region COUPONS
+    _getAppliedCouponsFields() {
+        return [
+            'code'
+        ];
+    }
+
+    _getAppliedCouponsField() {
+        return new Field('applied_coupons')
+            .addFieldList(this._getAppliedCouponsFields());
+    }
+    //#endregion
+
+    //#region SHIPPING ADDRESSES
+    _getSelectedShippingMethodFields() {
+        return [
+            'method_code',
+            // 'carrier_code',
+            'carrier_title',
+            'method_title',
+            this._getMoneyField('amount'),
+            this._getMoneyField('amount_with_tax')
+        ];
+    }
+
+    _getSelectedShippingMethodField() {
+        return new Field('selected_shipping_method')
+            .addFieldList(this._getSelectedShippingMethodFields());
+    }
+
+    _getShippingAddressesFields() {
+        return [
+            this._getSelectedShippingMethodField()
+        ];
+    }
+
+    _getShippingAddressesField() {
+        return new Field('shipping_addresses')
+            .addFieldList(this._getShippingAddressesFields());
+    }
+    //#endregion
+
+    //#region CART
+    _getTotalQuantityField() {
+        return new Field('total_quantity').setAlias('items_qty');
+    }
+
+    _getCartFields() {
+        return [
+            this._getTotalQuantityField(),
+            this._getPricesField(),
+            this._getAppliedCouponsField(),
+            this._getItemsField(),
+            this._getShippingAddressesField()
+        ];
+    }
+
+    _getCartField() {
+        return new Field('cart')
+            .addFieldList(this._getCartFields());
+    }
+    //#endregion
+
     _getUserErrorsField() {
-        return new Field('user_errors')
+        return new Field('cart')
             .addFieldList(this._getUserErrorsFields());
     }
     //#endregion
@@ -116,133 +405,10 @@ export class CartQuery {
             .addField('id');
     }
 
-    _getSaveCartItemFields(quoteId) {
-        return [
-            this.getCartQuery(quoteId)
-        ];
-    }
-
     _getRemoveCartItemFields(quoteId) {
         return [
             this.getCartQuery(quoteId)
         ];
-    }
-
-    _getCartTotalsFields() {
-        return [
-            'id',
-            'subtotal',
-            'subtotal_incl_tax',
-            'items_qty',
-            'tax_amount',
-            'grand_total',
-            'discount_amount',
-            'quote_currency_code',
-            'subtotal_with_discount',
-            'coupon_code',
-            'shipping_amount',
-            'shipping_incl_tax',
-            'shipping_tax_amount',
-            'is_virtual',
-            'applied_rule_ids',
-            'shipping_amount',
-            'shipping_incl_tax',
-            'shipping_tax_amount',
-            'shipping_method',
-            'is_in_store_pickup_available',
-            this._getCartItemsField(),
-            this._getAppliedTaxesField()
-        ];
-    }
-
-    _getBundleOptionValuesFields() {
-        return [
-            'id',
-            'label',
-            'quantity',
-            'price'
-        ];
-    }
-
-    _getBundleOptionValuesField() {
-        return new Field('values')
-            .addFieldList(this._getBundleOptionValuesFields());
-    }
-
-    _getBundleOptionsFields() {
-        return [
-            'id',
-            'label',
-            this._getBundleOptionValuesField()
-        ];
-    }
-
-    _getBundleOptionsField() {
-        return new Field('bundle_options')
-            .addFieldList(this._getBundleOptionsFields());
-    }
-
-    _getCustomizableOptionValueFields() {
-        return [
-            'id',
-            'label',
-            'value'
-        ];
-    }
-
-    _getCustomizableOptionValueField() {
-        return new Field('values')
-            .addFieldList(this._getCustomizableOptionValueFields());
-    }
-
-    _getCustomizableOptionsFields() {
-        return new Field('customizable_options')
-            .addFieldList([
-                'id',
-                'label',
-                this._getCustomizableOptionValueField()
-            ]);
-    }
-
-    _getDownloadableLinksField() {
-        return new Field('downloadable_links')
-            .addFieldList(this._getDownloadableLinksFields());
-    }
-
-    _getDownloadableLinksFields() {
-        return [
-            'id',
-            'label'
-        ];
-    }
-
-    _getCartItemFields() {
-        return [
-            'qty',
-            'sku',
-            'price',
-            'item_id',
-            'row_total',
-            'row_total_incl_tax',
-            'tax_amount',
-            'tax_percent',
-            'discount_amount',
-            'discount_percent',
-            this._getCustomizableOptionsFields(),
-            this._getDownloadableLinksField(),
-            this._getBundleOptionsField(),
-            this._getProductField()
-        ];
-    }
-
-    _getProductField() {
-        return new Field('product')
-            .addFieldList(ProductListQuery._getCartProductInterfaceFields());
-    }
-
-    _getCartItemsField() {
-        return new Field('items')
-            .addFieldList(this._getCartItemFields());
     }
 
     _getCartDisplayConfigFields() {
@@ -253,23 +419,6 @@ export class CartQuery {
             'include_tax_in_order_total',
             'display_full_tax_summary',
             'display_zero_tax_subtotal'
-        ];
-    }
-
-    _getAppliedTaxesField() {
-        return new Field('applied_taxes')
-            .addField(this._getAppliedTaxesRatesField());
-    }
-
-    _getAppliedTaxesRatesField() {
-        return new Field('rates')
-            .addFieldList(this._getAppliedTaxesRatesFields());
-    }
-
-    _getAppliedTaxesRatesFields() {
-        return [
-            'percent',
-            'title'
         ];
     }
 }

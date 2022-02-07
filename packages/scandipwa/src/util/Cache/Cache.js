@@ -10,6 +10,27 @@
  */
 
 /**
+ * Prefetches image
+ * - By fetching one image at time, this allows us to inject request between caching.
+ * @param curr
+ * @param next
+ * @namespace Util/Cache/cacheImage
+ */
+export const cacheImage = (curr, next = []) => {
+    const img = new Image();
+
+    if (next.length > 0) {
+        img.onload = () => {
+            cacheImage(next[0], next.slice(1, next.length - 1));
+        };
+    }
+
+    img.importance = 'low';
+    img.src = curr;
+    window.prefetchedImages[curr] = img;
+};
+
+/**
  * Prefetches images
  * @param urls
  * @returns {Promise<void>}
@@ -27,11 +48,7 @@ export const cacheImages = (urls = []) => {
     }
 
     const filteredUrls = urls.filter((url) => !window.prefetchedImages[url]);
-    filteredUrls.forEach((url) => {
-        const img = new Image();
-        img.src = url;
-        window.prefetchedImages[url] = img;
-    });
+    cacheImage(filteredUrls[0], filteredUrls.slice(1, filteredUrls.length - 1));
 };
 
 /**

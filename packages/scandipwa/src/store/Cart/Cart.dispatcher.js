@@ -128,7 +128,7 @@ export class CartDispatcher {
                 return Promise.reject();
             }
 
-            const { addProductsToCart: { user_errors: errors = [] } = {} } = await fetchMutation(
+            const { addProductsToCart: { cart: cartData, user_errors: errors = [] } = {} } = await fetchMutation(
                 CartQuery.getAddProductToCartMutation(cartId, products)
             );
 
@@ -140,8 +140,10 @@ export class CartDispatcher {
                 return Promise.reject();
             }
 
-            await this.updateInitialCartData(dispatch);
-            dispatch(showNotification('success', __('Product was added to cart!')));
+            if (cartData) {
+                await this._updateCartData(cartData, dispatch);
+                dispatch(showNotification('success', __('Product was added to cart!')));
+            }
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
             return Promise.reject();
