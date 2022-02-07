@@ -149,7 +149,6 @@
     "Product Price": "商品價格",
     "Product added to wish-list!": "產品已添加到願望清單!",
     "Product has been removed from your Wish List!": "產品已從您的願望清單中刪除！",
-    "Product list navigation": "產品列表導航",
     "Products are loading...": "產品正在加載中...",
     "Purchase Order Number": "订购单号码",
     "Rate: ": "比率: ",
@@ -583,5 +582,9 @@
     "All %s": null,
     "About Your Order": null,
     "About Your %s": null,
-    "Not possible to fetch while offline": null
+    "List navigation": null,
+    "Not possible to fetch while offline": null,
+    "Buy %s with ": null,
+    "%s% discount each": null,
+    "Product list navigation": null
 }
