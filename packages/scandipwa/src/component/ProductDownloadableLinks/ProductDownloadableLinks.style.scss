@@ -60,6 +60,7 @@
 
 .ProductDownloadableLink {
     display: flex;
+    justify-content: space-between;
     padding-block-start: 15px;
     padding-block-end: 10px;
     padding-inline: 0;
@@ -69,11 +70,10 @@
         display: inline-block;
         margin-inline-end: 10px;
         margin-block-start: 0;
-    }
-
-    &-SampleTitle {
-        flex: 1;
-        margin: auto;
+        
+        .ProductDownloadableLink-SampleTitle {
+            display: block;
+        }
     }
 
     &-SampleLink {
