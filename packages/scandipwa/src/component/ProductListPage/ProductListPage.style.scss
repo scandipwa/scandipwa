@@ -23,6 +23,7 @@
         grid-column-gap: 14px;
         grid-template-columns: 1fr 1fr;
         border: 0;
+        padding-inline: 10px;
     }
 
     @include desktop {
