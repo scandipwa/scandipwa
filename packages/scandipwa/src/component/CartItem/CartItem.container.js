@@ -171,8 +171,6 @@ export class CartItemContainer extends PureComponent {
                 return;
             }
 
-            console.debug([this.props]);
-
             this.hideLoaderAfterPromise(changeItemQty({
                 uid,
                 quantity,
