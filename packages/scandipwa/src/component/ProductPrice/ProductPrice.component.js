@@ -266,7 +266,6 @@ export class ProductPrice extends PureComponent {
                 <>
                     { minValue < minRegularValue && this.renderRegularPrice(minRegularPrice) }
                     { renderer }
-                    { this.renderTierPrice() }
                 </>
             );
         }
