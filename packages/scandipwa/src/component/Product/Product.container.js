@@ -347,9 +347,9 @@ export class ProductContainer extends PureComponent {
 
         const { product: { configurable_options } } = this.props;
         const unselectedOptions = [];
-        Object.keys(configurable_options).forEach((key) => {
-            if (!parameters[key]) {
-                unselectedOptions.push(key);
+        Object.keys(configurable_options).forEach((option) => {
+            if (!parameters[option]) {
+                unselectedOptions.push(option);
             }
         });
 
@@ -364,12 +364,8 @@ export class ProductContainer extends PureComponent {
 
     handleShakeAnimationEnd(e) {
         e.preventDefault();
-        const { currentTarget } = e;
-        currentTarget.classList.forEach((className, id) => {
-            if (className.includes('_isUnselected')) {
-                const removeClass = currentTarget.classList[id];
-                currentTarget.classList.remove(removeClass);
-            }
+        document.querySelectorAll('[class*=_isUnselected]').forEach((el) => {
+            el.classList.remove('[class*=_isUnselected]');
         });
 
         this.resetUnselectedOptions();
