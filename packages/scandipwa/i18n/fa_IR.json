@@ -498,8 +498,7 @@
     "Previous page": null,
     "Page %s": null,
     "Next page": null,
-    "Product list navigation": null,
-
+    
     "Compatible file extensions to upload:": null,
     "Drop files here or": null,
     "Drop file here or": null,
@@ -516,20 +515,17 @@
     "Your new password": null,
     "New passwords can't be the same as old password!": null,
     "Confirm New Password ": null,
-
     "Product Name": null,
     "Reorder": null,
     "Subscribe to Order Status": null,
     "Invoices": null,
     "Order Shipments": null,
-
     "Refunds": null,
     "Discount Amount": null,
     "Row Total": null,
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
-
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -543,16 +539,10 @@
     "Grand Total (Incl.Tax)": null,
     "Grand Total to be Charged": null,
     "Order # %s": null,
-
     "Product name": null,
-
-
-
-
     "SKU": null,
     "Qty": null,
     "Confirm New password": null,
-
     "Change %s": null,
     "Manage Addresses": null,
     "Product tabs": null,
@@ -564,19 +554,7 @@
     "Are you sure you want to delete this address?": null,
     "Address details": null,
     "Yes, delete address": null,
-
-
-
-
-
-
-
-
-
     "Items Ordered": null,
-
-
-
     "Written by ": null,
     ", written at %s": null,
     "Buy %s for %s each and ": null,
@@ -604,5 +582,6 @@
     "You have not purchased any downloadable products yet.": null,
     "All %s": null,
     "About Your Order": null,
-    "About Your %s": null
+    "About Your %s": null,
+    "List navigation": null
 }

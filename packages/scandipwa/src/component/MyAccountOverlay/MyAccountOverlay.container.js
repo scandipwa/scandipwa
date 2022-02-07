@@ -106,9 +106,9 @@ export class MyAccountOverlayContainer extends PureComponent {
     static getDerivedStateFromProps(props, state) {
         const {
             isPasswordForgotSend,
-            showNotification,
             isOverlayVisible,
-            isMobile
+            isMobile,
+            showNotification
         } = props;
 
         const {
@@ -141,8 +141,14 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
-            // eslint-disable-next-line max-len
-            showNotification('success', __('If there is an account associated with the provided address you will receive an email with a link to reset your password.'));
+
+            if (!isOverlayVisible) {
+                showNotification(
+                    'success',
+                    // eslint-disable-next-line max-len
+                    __('If there is an account associated with the provided address you will receive an email with a link to reset your password.')
+                );
+            }
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
 
