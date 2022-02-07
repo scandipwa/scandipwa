@@ -240,8 +240,6 @@ export class Html extends PureComponent {
         const scriptContent = children[0] ? children[0].data : '';
         const elemHash = hash(src + scriptContent);
 
-        console.debug([src, elemHash]);
-
         if (this.createdOutsideElements[elemHash]) {
             return <></>;
         }
