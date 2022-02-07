@@ -250,19 +250,19 @@ export class Checkout extends PureComponent {
             return null;
         }
 
-        if (checkoutStep === SHIPPING_STEP) {
-            return null;
+        if (checkoutStep === BILLING_STEP) {
+            return (
+                <ExpandableContent
+                  heading={ __('Have a discount code?') }
+                  mix={ { block: 'CartPage', elem: 'Discount' } }
+                  isArrow
+                >
+                    <CartCoupon couponCode={ coupon_code } />
+                </ExpandableContent>
+            );
         }
 
-        return (
-            <ExpandableContent
-              heading={ __('Have a discount code?') }
-              mix={ { block: 'CartPage', elem: 'Discount' } }
-              isArrow
-            >
-                <CartCoupon couponCode={ coupon_code } />
-            </ExpandableContent>
-        );
+        return null;
     }
 
     renderShippingStep() {
