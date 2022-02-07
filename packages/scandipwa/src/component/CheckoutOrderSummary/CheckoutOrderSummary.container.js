@@ -28,7 +28,8 @@ export const mapStateToProps = (state) => ({
     cartSubtotalSubPrice: getCartSubtotalSubPrice(state),
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state),
-    cartTotalSubPrice: getCartTotalSubPrice(state)
+    cartTotalSubPrice: getCartTotalSubPrice(state),
+    isLoading: state.CartReducer.isLoading
 });
 
 /** @namespace Component/CheckoutOrderSummary/Container/mapDispatchToProps */

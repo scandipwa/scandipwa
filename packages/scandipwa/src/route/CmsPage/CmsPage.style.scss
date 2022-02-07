@@ -119,7 +119,10 @@
 
         li {
             &::before {
-                inset-inline-start: -20px;
+                position: relative;
+                margin-inline-start: 10px;
+                margin-inline-end: -25px;
+                inset-block-start: -1px;
             }
         }
     }
