@@ -406,7 +406,7 @@ export class Header extends NavigationAbstract {
               elem="Title"
               mods={ { isVisible } }
             >
-                { title }
+                { title ? (<span>{ title.replace(/\+/g, ' ') }</span>) : (<span>{ title }</span>) }
             </h1>
         );
     }

@@ -11,6 +11,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { ProductType } from 'Type/ProductList.type';
 import { formatPrice, getLowestPriceTiersPrice } from 'Util/Price';
 
@@ -45,7 +46,8 @@ export class TierPrices extends PureComponent {
                             value: minPriceForOneUnit
                         }
                     }
-                }
+                },
+                type_id
             }
         } = this.props;
 
@@ -58,6 +60,16 @@ export class TierPrices extends PureComponent {
 
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
+                { type_id === PRODUCT_TYPE.bundle
+                    ? this.renderBundleTierPrice(quantity, percent_off)
+                    : this.renderProductTierPrice(quantity, formattedPrice, percent_off) }
+            </li>
+        );
+    }
+
+    renderProductTierPrice(quantity, formattedPrice, percent_off) {
+        return (
+            <>
                 { __(
                     'Buy %s for %s each and ',
                     quantity,
@@ -69,7 +81,24 @@ export class TierPrices extends PureComponent {
                         Math.round(percent_off)
                     ) }
                 </strong>
-            </li>
+            </>
+        );
+    }
+
+    renderBundleTierPrice(quantity, percent_off) {
+        return (
+            <>
+                { __(
+                    'Buy %s with ',
+                    quantity
+                ) }
+                <strong>
+                    { __(
+                        '%s% discount each',
+                        Math.round(percent_off)
+                    ) }
+                </strong>
+            </>
         );
     }
 

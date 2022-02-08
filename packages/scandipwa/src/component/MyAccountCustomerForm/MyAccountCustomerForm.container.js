@@ -52,7 +52,8 @@ export class MyAccountCustomerFormContainer extends PureComponent {
 
     state = {
         email: null,
-        currentPassword: ''
+        currentPassword: '',
+        isEmailEdit: false
     };
 
     containerProps() {
@@ -66,7 +67,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             handleChangeEmailCheckbox,
             handleChangePasswordCheckbox
         } = this.props;
-        const { email, currentPassword } = this.state;
+        const { email, currentPassword, isEmailEdit } = this.state;
 
         return {
             customer,
@@ -79,7 +80,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             handleChangeEmailCheckbox,
             handleChangePasswordCheckbox,
             currentPassword,
-            email: email || currentCustomerEmail
+            email: !isEmailEdit ? currentCustomerEmail : email
         };
     }
 
@@ -97,7 +98,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
     }
 
     handleEmailInput(emailInput) {
-        this.setState({ email: emailInput.target.value });
+        this.setState({ email: emailInput.target.value, isEmailEdit: true });
     }
 
     handlePasswordInput(currentPasswordInput) {

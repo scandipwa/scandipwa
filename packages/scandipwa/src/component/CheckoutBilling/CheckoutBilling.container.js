@@ -97,7 +97,6 @@ export class CheckoutBillingContainer extends PureComponent {
 
     containerFunctions = {
         onBillingSuccess: this.onBillingSuccess.bind(this),
-        onBillingError: this.onBillingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),
         onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this),
@@ -182,11 +181,6 @@ export class CheckoutBillingContainer extends PureComponent {
             paymentMethod,
             same_as_shipping: isSameAsShipping
         });
-    }
-
-    onBillingError() {
-        const { showErrorNotification } = this.props;
-        showErrorNotification(__('Something went wrong!'));
     }
 
     showPopup() {
