@@ -317,12 +317,12 @@ export class Field extends PureComponent {
 
     render() {
         const {
-            type, validationResponse, mix, mix: { mods: { _isUnselected } = false }
+            type, validationResponse, mix
         } = this.props;
         const inputRenderer = this.renderMap[type];
 
         return (
-            <div block="Field" elem="Wrapper" mods={ { type, _isUnselected } }>
+            <div block="Field" elem="Wrapper">
                 <div
                   block="Field"
                   mods={ {
