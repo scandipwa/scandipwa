@@ -30,7 +30,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         selectedOptions: OptionsType.isRequired,
         enteredOptions: OptionsType.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        colSpanCount: PropTypes.string.isRequired
+        colSpanCount: PropTypes.string.isRequired,
+        comments: PropTypes.arrayOf(PropTypes.string)
+    };
+
+    static defaultProps = {
+        comments: []
     };
 
     renderMap = {
@@ -397,18 +402,22 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
     renderMobileTableRow() {
         const {
+            activeTab,
             product: {
                 product_sku,
                 product_name
-            }
+            },
+            comments
         } = this.props;
 
         const nameRowMix = { block: 'MyAccountOrderItemsTableRow', elem: 'Name' };
+        const lineBefore = !!((activeTab === ORDER_SHIPMENTS) && (comments.length));
 
         return (
             <tbody
               block="MyAccountOrderItemsTableRow"
               elem="RowWrapper"
+              mods={ { lineBefore } }
             >
                 { this.renderMobileBodyContentRow(__('Product name'), product_name, nameRowMix) }
                 { this.renderSelectedAndEnteredOptions() }
@@ -428,11 +437,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
             product: {
                 product_sku
             },
-            enteredOptions = []
+            enteredOptions = [],
+            comments
         } = this.props;
 
         const isWithEnteredItems = !!enteredOptions[0]?.items;
-        const lineBefore = activeTab === ORDER_SHIPMENTS;
+        const lineBefore = !!((activeTab === ORDER_SHIPMENTS) && (comments.length));
 
         return (
             <>
