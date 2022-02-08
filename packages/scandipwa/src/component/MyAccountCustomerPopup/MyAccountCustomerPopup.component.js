@@ -23,7 +23,6 @@ import { CHANGE_PASSWORD, CUSTOMER_POPUP_ID, EDIT_CUSTOMER } from './MyAccountCu
 /** @namespace Component/MyAccountCustomerPopup/Component */
 export class MyAccountCustomerPopup extends PureComponent {
     static propTypes = {
-        showErrorNotification: PropTypes.func.isRequired,
         onCustomerSave: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -37,12 +36,11 @@ export class MyAccountCustomerPopup extends PureComponent {
     };
 
     renderChangePasswordForm() {
-        const { onPasswordChange, showErrorNotification } = this.props;
+        const { onPasswordChange } = this.props;
 
         return (
             <MyAccountPasswordForm
               onPasswordChange={ onPasswordChange }
-              showErrorNotification={ showErrorNotification }
             />
         );
     }

@@ -19,8 +19,7 @@ import myAccountPasswordForm from './MyAccountPasswordForm.form';
 /** @namespace Component/MyAccountPasswordForm/Component */
 export class MyAccountPasswordForm extends FieldForm {
     static propTypes = {
-        onPasswordChange: PropTypes.func.isRequired,
-        showErrorNotification: PropTypes.func.isRequired
+        onPasswordChange: PropTypes.func.isRequired
     };
 
     onFormSuccess(form, fields) {
@@ -29,13 +28,7 @@ export class MyAccountPasswordForm extends FieldForm {
     }
 
     get fieldMap() {
-        const {
-            showErrorNotification
-        } = this.props;
-
-        return myAccountPasswordForm({
-            showErrorNotification
-        });
+        return myAccountPasswordForm();
     }
 
     getFormProps() {

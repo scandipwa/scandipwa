@@ -13,3 +13,4 @@ export const SHOW_VAT_NUMBER_REQUIRED = 'req';
 export const SHOW_VAT_NUMBER_OPTIONAL = 'opt';
 export const CONFIRMATION_REQUIRED = 'confirmation_required';
 export const MIN_CHARACTER_SETS_IN_PASSWORD = 3;
+export const MIN_PASSWORD_LENGTH = 8;

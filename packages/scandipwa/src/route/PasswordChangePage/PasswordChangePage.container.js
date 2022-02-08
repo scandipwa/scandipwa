@@ -133,13 +133,9 @@ export class PasswordChangePageContainer extends PureComponent {
 
     containerProps() {
         const { isLoading } = this.state;
-        const { isMobile, showNotification } = this.props;
+        const { isMobile } = this.props;
 
-        return {
-            isMobile,
-            isLoading,
-            showNotification
-        };
+        return { isLoading, isMobile };
     }
 
     onPasswordSuccess(form, fields) {

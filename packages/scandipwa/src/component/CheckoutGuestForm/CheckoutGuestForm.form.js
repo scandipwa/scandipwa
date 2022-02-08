@@ -11,7 +11,8 @@
 
 import FIELD_TYPE from 'Component/Field/Field.config';
 import {
-    MIN_CHARACTER_SETS_IN_PASSWORD
+    MIN_CHARACTER_SETS_IN_PASSWORD,
+    MIN_PASSWORD_LENGTH
 } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import { getNumberOfCharacterClasses } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
@@ -25,7 +26,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  */
 export const checkoutGuestForm = (props, events) => {
     const { emailValue, isCreateUser } = props;
-    const { handleEmailInput, handlePasswordInput, showErrorNotification } = events;
+    const { handleEmailInput, handlePasswordInput } = events;
 
     return [
         {
@@ -60,29 +61,24 @@ export const checkoutGuestForm = (props, events) => {
             events: {
                 onChange: handlePasswordInput
             },
-            validateOn: ['onChange', 'onSubmit'],
+            validateOn: ['onChange'],
             validationRule: {
                 inputType: VALIDATION_INPUT_TYPE.password,
                 isRequired: true,
                 match: (value) => {
-                    if (event.type === 'submit') {
-                        const counter = getNumberOfCharacterClasses(value);
+                    if (value.length < MIN_PASSWORD_LENGTH) {
+                        return __('Minimum %s characters!', MIN_PASSWORD_LENGTH);
+                    }
 
-                        if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
-                            showErrorNotification(
-                                __('Minimum of different classes of characters in password is %s.',
-                                    MIN_CHARACTER_SETS_IN_PASSWORD)
-                                + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.')
-                            );
+                    const counter = getNumberOfCharacterClasses(value);
 
-                            return '';
-                        }
+                    if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
+                        return __('Minimum of different classes of characters in password is %s.',
+                            MIN_CHARACTER_SETS_IN_PASSWORD)
+                            + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
                     }
 
                     return true;
-                },
-                range: {
-                    min: 8
                 }
             }
         }] : [])

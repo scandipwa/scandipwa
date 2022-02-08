@@ -74,8 +74,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             state,
             handleSignIn,
             showTaxVatNumber,
-            newsletterActive,
-            showNotification
+            newsletterActive
         } = this.props;
 
         return {
@@ -83,7 +82,6 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             handleSignIn,
             showTaxVatNumber,
             newsletterActive,
-            showNotification,
             vatNumberRequired: this.getVatNumberRequired()
         };
     }

@@ -454,7 +454,6 @@
     "Up to %s": null,
     "From %s": null,
     "From %s to %s": null,
-    "Please fill in all rating fields": null,
     "Product %s thumbnail.": null,
     "County": null,
     "State/Province": null,
@@ -582,5 +581,10 @@
     "All %s": null,
     "About Your Order": null,
     "About Your %s": null,
-    "List navigation": null
+    "List navigation": null,
+    "Not possible to fetch while offline": null,
+    "Minimum of different classes of characters in password is %s.": null,
+    "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null,
+    "Buy %s with ": null,
+    "%s% discount each": null
 }
