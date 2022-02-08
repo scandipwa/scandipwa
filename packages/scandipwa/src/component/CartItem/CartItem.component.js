@@ -234,6 +234,7 @@ export class CartItem extends PureComponent {
             <div
               block="CartItem"
               elem="Option"
+              mods={ { isBundle: true } }
               key={ id }
             >
                 { this.renderBundleProductOptionLabel(option) }
