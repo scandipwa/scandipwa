@@ -101,6 +101,13 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         line-height: 16px;
+        display: flex;
+        gap: 4px;
+
+        &_isBundle {
+            flex-direction: column;
+            gap: 0;
+        }
     }
 
     &-ItemLinks {
