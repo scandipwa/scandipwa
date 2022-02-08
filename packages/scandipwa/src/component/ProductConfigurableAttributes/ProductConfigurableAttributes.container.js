@@ -36,8 +36,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         isReady: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
         configurable_options: AttributesType.isRequired,
-        unselectedOptions: PropTypes.arrayOf(PropTypes.string),
-        handleShakeAnimationEnd: PropTypes.func.isRequired,
+        addToCartTriggeredWithError: PropTypes.bool.isRequired,
+        updateAddToCartTriggeredWithError: PropTypes.func.isRequired,
         inStock: PropTypes.bool
     };
 
@@ -49,8 +49,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         isReady: true,
         mix: {},
         numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
-        inStock: true,
-        unselectedOptions: []
+        inStock: true
     };
 
     containerFunctions = {
@@ -59,7 +58,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         isSelected: this.isSelected.bind(this),
         getLink: this.getLink.bind(this),
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
-        handleIsOptionUnselected: this.handleIsOptionUnselected.bind(this)
+        handleShakeAnimationEnd: this.handleShakeAnimationEnd.bind(this)
     };
 
     containerProps() {
@@ -72,9 +71,9 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             parameters,
             showProductAttributeAsLink,
             updateConfigurableVariant,
-            unselectedOptions,
             inStock,
-            handleShakeAnimationEnd
+            addToCartTriggeredWithError,
+            updateAddToCartTriggeredWithError
         } = this.props;
 
         return {
@@ -86,9 +85,9 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             parameters,
             showProductAttributeAsLink,
             updateConfigurableVariant,
-            unselectedOptions,
             inStock,
-            handleShakeAnimationEnd
+            addToCartTriggeredWithError,
+            updateAddToCartTriggeredWithError
         };
     }
 
@@ -129,9 +128,12 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         return parameter === attribute_value;
     }
 
-    handleIsOptionUnselected(attributeCode) {
-        const { unselectedOptions } = this.props;
-        return unselectedOptions.length > 0 && unselectedOptions.includes(attributeCode);
+    handleShakeAnimationEnd(e) {
+        e.preventDefault();
+        const { updateAddToCartTriggeredWithError } = this.props;
+        e.target.classList.remove('[class*=_isUnselected]');
+
+        updateAddToCartTriggeredWithError();
     }
 
     getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {

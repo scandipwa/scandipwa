@@ -35,35 +35,24 @@ export class ProductConfigurableAttributes extends PureComponent {
         mix: MixType,
         getIsConfigurableAttributeAvailable: PropTypes.func,
         handleShakeAnimationEnd: PropTypes.func,
-        handleIsOptionUnselected: PropTypes.func,
         handleOptionClick: PropTypes.func.isRequired,
         isSelected: PropTypes.func.isRequired,
         getLink: PropTypes.func.isRequired,
         isExpandable: PropTypes.bool,
         showProductAttributeAsLink: PropTypes.bool,
         inStock: PropTypes.bool.isRequired,
-        unselectedOptions: PropTypes.arrayOf(PropTypes.string)
+        addToCartTriggeredWithError: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         isReady: true,
         mix: {},
-        unselectedOptions: [],
         numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
         getIsConfigurableAttributeAvailable: () => true,
         handleShakeAnimationEnd: noopFn,
-        handleIsOptionUnselected: () => false,
         isExpandable: true,
         showProductAttributeAsLink: true
     };
-
-    componentDidUpdate(prevProps) {
-        const { unselectedOptions } = prevProps;
-
-        if (unselectedOptions.length > 0) {
-            this.renderConfigurableAttributes();
-        }
-    }
 
     renderConfigurableAttributeValue(attribute) {
         const {
@@ -90,10 +79,11 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderSwatch(option) {
-        const { handleIsOptionUnselected, handleShakeAnimationEnd } = this.props;
+    renderSwatch(option, isUnselected) {
+        const {
+            handleShakeAnimationEnd
+        } = this.props;
         const { attribute_values, attribute_code } = option;
-        const isUnselected = handleIsOptionUnselected(attribute_code);
 
         return (
             <div
@@ -159,7 +149,7 @@ export class ProductConfigurableAttributes extends PureComponent {
             isExpandable,
             inStock,
             handleShakeAnimationEnd,
-            handleIsOptionUnselected,
+            addToCartTriggeredWithError,
             parameters
         } = this.props;
 
@@ -170,7 +160,7 @@ export class ProductConfigurableAttributes extends PureComponent {
                 attribute_options,
                 attribute_id
             } = option;
-            const isUnselected = handleIsOptionUnselected(attribute_code);
+            const isUnselected = addToCartTriggeredWithError ? !parameters[attribute_code] : null;
             const [{ swatch_data }] = attribute_options ? Object.values(attribute_options) : [{}];
             const isSwatch = !!swatch_data;
 
@@ -201,7 +191,7 @@ export class ProductConfigurableAttributes extends PureComponent {
                             </span>
                         ) }
                     </p>
-                    { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option, isUnselected) }
+                    { isSwatch ? this.renderSwatch(option, isUnselected) : this.renderDropdown(option, isUnselected) }
                 </div>
             );
         });

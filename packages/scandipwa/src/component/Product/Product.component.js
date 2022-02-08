@@ -56,10 +56,10 @@ export class Product extends PureComponent {
 
         addToCart: PropTypes.func.isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
-        unselectedOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
-        handleShakeAnimationEnd: PropTypes.func.isRequired,
         setAdjustedPrice: PropTypes.func.isRequired,
         setDownloadableLinks: PropTypes.func.isRequired,
+        addToCartTriggeredWithError: PropTypes.bool.isRequired,
+        updateAddToCartTriggeredWithError: PropTypes.func.isRequired,
 
         getActiveProduct: PropTypes.func.isRequired,
         setActiveProduct: PropTypes.func.isRequired,
@@ -101,8 +101,8 @@ export class Product extends PureComponent {
 
         return (
             <ProductBundleOptions
-              updateSelectedValues={ updateSelectedValues }
               options={ items }
+              updateSelectedValues={ updateSelectedValues }
             />
         );
     }
@@ -113,17 +113,14 @@ export class Product extends PureComponent {
                 options
             },
 
-            updateSelectedValues,
-            unselectedOptions,
-            handleShakeAnimationEnd
+            updateSelectedValues
         } = this.props;
 
         return (
             <ProductCustomizableOptions
-              updateSelectedValues={ updateSelectedValues }
               options={ options }
-              unselectedOptions={ unselectedOptions }
-              handleShakeAnimationEnd={ handleShakeAnimationEnd }
+              updateSelectedValues={ updateSelectedValues }
+
             />
         );
     }
@@ -192,8 +189,8 @@ export class Product extends PureComponent {
             parameters,
             product: { type_id: type, variants = {} },
             inStock,
-            unselectedOptions,
-            handleShakeAnimationEnd
+            addToCartTriggeredWithError,
+            updateAddToCartTriggeredWithError
         } = this.props;
 
         if (type !== PRODUCT_TYPE.configurable) {
@@ -208,14 +205,14 @@ export class Product extends PureComponent {
                 <ProductConfigurableAttributes
                     // eslint-disable-next-line no-magic-numbers
                   numberOfPlaceholders={ [2, 4] }
+                  updateAddToCartTriggeredWithError={ updateAddToCartTriggeredWithError }
+                  addToCartTriggeredWithError={ addToCartTriggeredWithError }
                   mix={ { block: this.className, elem: 'Attributes' } }
                   parameters={ parameters }
                   variants={ variants }
                   updateConfigurableVariant={ setActiveProduct }
                   configurable_options={ this.getConfigurableAttributes() }
                   isContentExpanded
-                  unselectedOptions={ unselectedOptions }
-                  handleShakeAnimationEnd={ handleShakeAnimationEnd }
                   inStock={ inStock }
                 />
             </div>

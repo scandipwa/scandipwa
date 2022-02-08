@@ -101,17 +101,15 @@ export class ProductContainer extends PureComponent {
         setActiveProduct: this.updateConfigurableVariant.bind(this),
         getMagentoProduct: this.getMagentoProduct.bind(this),
         setValidator: this.setValidator.bind(this),
-        validateConfigurableProduct: this.validateConfigurableProduct.bind(this),
-        resetUnselectedOptions: this.resetUnselectedOptions.bind(this),
-        handleShakeAnimationEnd: this.handleShakeAnimationEnd.bind(this),
-        scrollAttributesIntoView: this.scrollAttributesIntoView.bind(this)
+        scrollAttributesIntoView: this.scrollAttributesIntoView.bind(this),
+        updateAddToCartTriggeredWithError: this.updateAddToCartTriggeredWithError.bind(this)
     };
 
     state = {
         // Used for customizable & bundle options
         enteredOptions: this.setDefaultProductOptions('defaultEnteredOptions', 'enteredOptions'),
         selectedOptions: this.setDefaultProductOptions('defaultSelectedOptions', 'selectedOptions'),
-        unselectedOptions: [],
+        addToCartTriggeredWithError: false,
         // Used for downloadable
         downloadableLinks: [],
 
@@ -232,7 +230,8 @@ export class ProductContainer extends PureComponent {
             quantity,
             parameters,
             adjustedPrice,
-            unselectedOptions
+            unselectedOptions,
+            addToCartTriggeredWithError
         } = this.state;
         const {
             product,
@@ -267,6 +266,7 @@ export class ProductContainer extends PureComponent {
             parameters,
             device,
             magentoProduct,
+            addToCartTriggeredWithError,
             ...output
         };
     }
@@ -359,19 +359,16 @@ export class ProductContainer extends PureComponent {
         return unselectedOptions.length > 0;
     }
 
-    resetUnselectedOptions() {
-        this.setState({ unselectedOptions: [] });
-    }
-
-    handleShakeAnimationEnd(e) {
-        e.preventDefault();
-        e.target.classList.remove('[class*=_isUnselected]');
-        this.resetUnselectedOptions();
+    updateAddToCartTriggeredWithError() {
+        this.setState({ addToCartTriggeredWithError: false });
     }
 
     scrollAttributesIntoView() {
         const attributes = this.validator.querySelector('[class$=-AttributesWrapper]');
-        attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
+
+        if (attributes) {
+            attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
+        }
     }
 
     /**
@@ -386,6 +383,8 @@ export class ProductContainer extends PureComponent {
         if (this.validateConfigurableProduct()
         || (isValid !== true && !this.filterAddToCartFileErrors(isValid.values))) {
             const { showError } = this.props;
+            this.setState({ addToCartTriggeredWithError: true });
+            this.validator.scrollIntoView();
             this.scrollAttributesIntoView();
             showError(__('Incorrect or missing options!'));
             return;
