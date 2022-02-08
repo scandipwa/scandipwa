@@ -61,10 +61,12 @@
             }
         }
 
+        @include mobile {
+            border-block-start: var(--my-account-content-border);
+        }
+        
         &_lineBefore {
-            @include desktop {
-                border-block-end: var(--my-account-content-border);
-            }
+            border-block-end: var(--my-account-content-border);
         }
     }
 
