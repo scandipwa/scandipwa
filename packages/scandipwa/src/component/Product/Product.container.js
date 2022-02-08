@@ -103,7 +103,8 @@ export class ProductContainer extends PureComponent {
         setValidator: this.setValidator.bind(this),
         validateConfigurableProduct: this.validateConfigurableProduct.bind(this),
         resetUnselectedOptions: this.resetUnselectedOptions.bind(this),
-        handleShakeAnimationEnd: this.handleShakeAnimationEnd.bind(this)
+        handleShakeAnimationEnd: this.handleShakeAnimationEnd.bind(this),
+        scrollAttributesIntoView: this.scrollAttributesIntoView.bind(this)
     };
 
     state = {
@@ -364,11 +365,13 @@ export class ProductContainer extends PureComponent {
 
     handleShakeAnimationEnd(e) {
         e.preventDefault();
-        document.querySelectorAll('[class*=_isUnselected]').forEach((el) => {
-            el.classList.remove('[class*=_isUnselected]');
-        });
-
+        e.target.classList.remove('[class*=_isUnselected]');
         this.resetUnselectedOptions();
+    }
+
+    scrollAttributesIntoView() {
+        const attributes = this.validator.querySelector('[class$=-AttributesWrapper]');
+        attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
     }
 
     /**
@@ -383,7 +386,7 @@ export class ProductContainer extends PureComponent {
         if (this.validateConfigurableProduct()
         || (isValid !== true && !this.filterAddToCartFileErrors(isValid.values))) {
             const { showError } = this.props;
-            this.validator.scrollIntoView({ block: 'center' });
+            this.scrollAttributesIntoView();
             showError(__('Incorrect or missing options!'));
             return;
         }
