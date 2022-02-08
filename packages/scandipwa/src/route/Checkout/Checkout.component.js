@@ -240,13 +240,18 @@ export class Checkout extends PureComponent {
         );
     }
 
-    renderDiscountCode() {
+    renderDiscountCode(showOnMobile = false) {
         const {
             totals: { coupon_code, items },
-            checkoutStep
+            checkoutStep,
+            isMobile
         } = this.props;
 
         if (!items || items.length < 1) {
+            return null;
+        }
+
+        if ((showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
             return null;
         }
 
@@ -481,6 +486,7 @@ export class Checkout extends PureComponent {
                   label={ __('Checkout page') }
                 >
                     { this.renderSummary(true) }
+                    { this.renderDiscountCode(true) }
                     <Form
                       onError={ this.onError }
                       validationRule={ {
