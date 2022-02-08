@@ -48,6 +48,12 @@
         overflow: hidden;
     }
 
+    @include mobile {
+        position: fixed;
+        height: 100vh;
+        -webkit-overflow-scrolling: touch;
+    }
+
     &_isVisible {
         pointer-events: all;
         touch-action: pan-y;
@@ -62,9 +68,5 @@
 
     > * {
         background-color: var(--overlay-content-background);
-    }
-    
-    @media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0) {
-        transition: transform 0s cubic-bezier(.47, 0, .745, .715);      
     }
 }
