@@ -15,13 +15,9 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
-import {
-    MIN_CHARACTER_SETS_IN_PASSWORD,
-    MIN_PASSWORD_LENGTH
-} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import { SignInStateType } from 'Type/Account.type';
 import history from 'Util/History';
-import { getNumberOfCharacterClasses } from 'Util/Validator';
+import { validatePassword } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 import './MyAccountCreateAccount.style.scss';
@@ -36,7 +32,8 @@ export class MyAccountCreateAccount extends PureComponent {
         showTaxVatNumber: PropTypes.bool.isRequired,
         vatNumberRequired: PropTypes.bool.isRequired,
         newsletterActive: PropTypes.bool.isRequired,
-        minimunPasswordLength: PropTypes.number.isRequired
+        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
+        minimunPasswordCharacter: PropTypes.number.isRequired
     };
 
     renderVatNumberField() {
@@ -128,7 +125,7 @@ export class MyAccountCreateAccount extends PureComponent {
 
     renderCreateAccountSignUpInfoFields() {
         const { location: { state: { email = '' } = {} } } = history;
-        const { minimunPasswordLength } = this.props;
+        const { range, minimunPasswordCharacter } = this.props;
 
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
@@ -166,31 +163,12 @@ export class MyAccountCreateAccount extends PureComponent {
                           inputType: VALIDATION_INPUT_TYPE.password,
                           match: (value) => {
                               const email = document.getElementById('email');
-                              return value && email.value !== value;
-                          },
-                          customErrorMessages: {
-                              onMatchFail: __('Passwords can\'t be the same as email!')
-                          },
-                          range: {
-                              min: minimunPasswordLength
-
-                              if (value.length < MIN_PASSWORD_LENGTH) {
-                                  return __('Minimum %s characters!', MIN_PASSWORD_LENGTH);
-                              }
 
                               if (value && email.value === value) {
                                   return __('Passwords can\'t be the same as email!');
                               }
 
-                              const counter = getNumberOfCharacterClasses(value);
-
-                              if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
-                                  return __('Minimum of different classes of characters in password is %s.',
-                                      MIN_CHARACTER_SETS_IN_PASSWORD)
-                                    + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
-                              }
-
-                              return true;
+                              return validatePassword(value, range, minimunPasswordCharacter);
                           }
                       } }
                       addRequiredTag

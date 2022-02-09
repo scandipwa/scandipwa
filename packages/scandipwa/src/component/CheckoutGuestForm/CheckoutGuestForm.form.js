@@ -10,11 +10,7 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
-import {
-    MIN_CHARACTER_SETS_IN_PASSWORD,
-    MIN_PASSWORD_LENGTH
-} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
-import { getNumberOfCharacterClasses } from 'Util/Validator';
+import { validatePassword } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -25,7 +21,9 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @namespace Component/CheckoutGuestForm/Form/checkoutGuestForm
  */
 export const checkoutGuestForm = (props, events) => {
-    const { emailValue, isCreateUser } = props;
+    const {
+        emailValue, isCreateUser, range, minimunPasswordCharacter
+    } = props;
     const { handleEmailInput, handlePasswordInput } = events;
 
     return [
@@ -65,21 +63,7 @@ export const checkoutGuestForm = (props, events) => {
             validationRule: {
                 inputType: VALIDATION_INPUT_TYPE.password,
                 isRequired: true,
-                match: (value) => {
-                    if (value.length < MIN_PASSWORD_LENGTH) {
-                        return __('Minimum %s characters!', MIN_PASSWORD_LENGTH);
-                    }
-
-                    const counter = getNumberOfCharacterClasses(value);
-
-                    if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
-                        return __('Minimum of different classes of characters in password is %s.',
-                            MIN_CHARACTER_SETS_IN_PASSWORD)
-                            + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
-                    }
-
-                    return true;
-                }
+                match: (value) => validatePassword(value, range, minimunPasswordCharacter)
             }
         }] : [])
     ];

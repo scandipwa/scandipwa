@@ -33,7 +33,8 @@ export const mapStateToProps = (state) => ({
     showTaxVatNumber: !!state.ConfigReducer.show_tax_vat_number,
     newsletterActive: state.ConfigReducer.newsletter_general_active,
     isMobile: state.ConfigReducer.device.isMobile,
-    minimunPasswordLength: state.ConfigReducer.minimun_password_length
+    minimunPasswordLength: state.ConfigReducer.minimun_password_length,
+    minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
@@ -59,7 +60,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         handleSignIn: PropTypes.func.isRequired,
         state: SignInStateType.isRequired,
         newsletterActive: PropTypes.bool.isRequired,
-        minimunPasswordLength: PropTypes.number.isRequired
+        minimunPasswordLength: PropTypes.number.isRequired,
+        minimunPasswordCharacter: PropTypes.number.isRequired
     };
 
     static defaultProps = {
@@ -77,8 +79,11 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             handleSignIn,
             showTaxVatNumber,
             newsletterActive,
-            minimunPasswordLength
+            minimunPasswordLength,
+            minimunPasswordCharacter
         } = this.props;
+
+        const range = { min: minimunPasswordLength, max: 64 };
 
         return {
             state,
@@ -86,7 +91,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             showTaxVatNumber,
             newsletterActive,
             vatNumberRequired: this.getVatNumberRequired(),
-            minimunPasswordLength
+            range,
+            minimunPasswordCharacter
         };
     }
 

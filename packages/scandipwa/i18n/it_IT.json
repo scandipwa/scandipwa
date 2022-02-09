@@ -587,6 +587,6 @@
     "Buy %s with ": null,
     "%s% discount each": null,
     "Product list navigation": null,
-    "Minimum of different classes of characters in password is %s.": null,
+    "Minimum of different classes of characters in password is %s. ": null,
     "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null
 }

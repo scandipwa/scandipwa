@@ -8,12 +8,9 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 import FIELD_TYPE from 'Component/Field/Field.config';
-import {
-    MIN_CHARACTER_SETS_IN_PASSWORD,
-    MIN_PASSWORD_LENGTH
-} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
-import { getNumberOfCharacterClasses } from 'Util/Validator';
+import { validatePassword } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -111,6 +108,7 @@ export const customerInformationFields = (props) => {
  * @namespace Component/MyAccountCustomerForm/Form/customerEmailAndPasswordFields */
 export const customerEmailAndPasswordFields = (props) => {
     const {
+        minimunPasswordCharacter,
         showEmailChangeField,
         showPasswordChangeField,
         handleEmailInput,
@@ -179,27 +177,14 @@ export const customerEmailAndPasswordFields = (props) => {
                 validationRule: {
                     inputType: VALIDATION_INPUT_TYPE.password,
                     isRequired: true,
-                    range,
                     match: (value) => {
                         const password = document.getElementById('currentPassword');
-
-                        if (value.length < MIN_PASSWORD_LENGTH) {
-                            return __('Minimum %s characters!', MIN_PASSWORD_LENGTH);
-                        }
 
                         if (value && password.value === value) {
                             return __('New passwords can\'t be the same as old password!');
                         }
 
-                        const counter = getNumberOfCharacterClasses(value);
-
-                        if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
-                            return __('Minimum of different classes of characters in password is %s.',
-                                MIN_CHARACTER_SETS_IN_PASSWORD)
-                                + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
-                        }
-
-                        return true;
+                        return validatePassword(value, range, minimunPasswordCharacter);
                     }
                 }
             },

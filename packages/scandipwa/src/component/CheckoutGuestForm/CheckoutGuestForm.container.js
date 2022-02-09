@@ -44,7 +44,9 @@ export const CheckoutDispatcher = import(
 export const mapStateToProps = (state) => ({
     isEmailConfirmationRequired: state.ConfigReducer.is_email_confirmation_required,
     emailValue: state.CheckoutReducer.email,
-    isEmailAvailable: state.CheckoutReducer.isEmailAvailable
+    isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
+    minimunPasswordLength: state.ConfigReducer.minimun_password_length,
+    minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number
 });
 
 /** @namespace Component/CheckoutGuestForm/Container/mapDispatchToProps */
@@ -77,7 +79,9 @@ export class CheckoutGuestFormContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         signIn: PropTypes.func.isRequired,
         checkEmailAvailability: PropTypes.func.isRequired,
-        updateEmail: PropTypes.func.isRequired
+        updateEmail: PropTypes.func.isRequired,
+        minimunPasswordLength: PropTypes.number.isRequired,
+        minimunPasswordCharacter: PropTypes.number.isRequired
     };
 
     static defaultProps = {
@@ -129,8 +133,16 @@ export class CheckoutGuestFormContainer extends PureComponent {
     }
 
     containerProps() {
-        const { emailValue, isEmailAvailable, onSignIn } = this.props;
+        const {
+            emailValue,
+            isEmailAvailable,
+            onSignIn,
+            minimunPasswordLength,
+            minimunPasswordCharacter
+        } = this.props;
         const { isLoading, signInState } = this.state;
+
+        const range = { min: minimunPasswordLength, max: 64 };
 
         return ({
             formId: SHIPPING_STEP,
@@ -138,7 +150,9 @@ export class CheckoutGuestFormContainer extends PureComponent {
             isEmailAvailable,
             isLoading,
             signInState,
-            onSignIn
+            onSignIn,
+            range,
+            minimunPasswordCharacter
         });
     }
 

@@ -10,11 +10,7 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
-import {
-    MIN_CHARACTER_SETS_IN_PASSWORD,
-    MIN_PASSWORD_LENGTH
-} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
-import { getNumberOfCharacterClasses } from 'Util/Validator';
+import { validatePassword } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -22,7 +18,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/PasswordChangeForm/Form/customerEmailAndPasswordFields */
-export const customerEmailAndPasswordFields = (range) => [
+export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) => [
     {
         type: FIELD_TYPE.password,
         label: __('New password'),
@@ -36,22 +32,7 @@ export const customerEmailAndPasswordFields = (range) => [
         validationRule: {
             isRequired: true,
             inputType: VALIDATION_INPUT_TYPE.password,
-            range,
-            match: (value) => {
-                if (value.length < MIN_PASSWORD_LENGTH) {
-                    return __('Minimum %s characters!', MIN_PASSWORD_LENGTH);
-                }
-
-                const counter = getNumberOfCharacterClasses(value);
-
-                if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
-                    return __('Minimum of different classes of characters in password is %s.',
-                        MIN_CHARACTER_SETS_IN_PASSWORD)
-                            + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
-                }
-
-                return true;
-            }
+            match: (value) => validatePassword(value, range, minimunPasswordCharacter)
         },
         addRequiredTag: true
     },

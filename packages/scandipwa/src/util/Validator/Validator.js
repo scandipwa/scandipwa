@@ -208,3 +208,35 @@ export const getNumberOfCharacterClasses = (value) => Number(/\d+/.test(value))
       + Number(/[^a-zA-Z0-9]+/.test(value));
 
 export default validate;
+
+/**
+ * Validates password
+ * @param value
+ * @param range
+ * @param range
+ * @returns {string|boolean}
+ * @namespace Util/Validator/validatePassword
+ */
+export const validatePassword = (value, range, minCharacter) => {
+    if (value.length === 0) {
+        return true;
+    }
+
+    if (value.length < range.min) {
+        return __('Minimum %s characters!', range.min);
+    }
+
+    if (value.length > range.max) {
+        return __('Maximum %s characters!', range.max);
+    }
+
+    const counter = getNumberOfCharacterClasses(value);
+
+    if (counter < minCharacter) {
+        return __('Minimum of different classes of characters in password is %s. ',
+            minCharacter)
+            + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
+    }
+
+    return true;
+};

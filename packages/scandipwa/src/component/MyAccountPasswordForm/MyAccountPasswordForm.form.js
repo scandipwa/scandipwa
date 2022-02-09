@@ -10,11 +10,7 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
-import {
-    MIN_CHARACTER_SETS_IN_PASSWORD,
-    MIN_PASSWORD_LENGTH
-} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
-import { getNumberOfCharacterClasses } from 'Util/Validator';
+import { validatePassword } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -22,7 +18,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @returns {[{addRequiredTag: boolean, validateOn: [string], validationRule: {isRequired: boolean, inputType: string}, label: *, type: string, attr: {name: string, id: string, placeholder: *, 'aria-label': *}}, {addRequiredTag: boolean, validateOn: [string], validationRule: {isRequired: boolean, match: (function(*=)), range: {min: number}, inputType: string, customErrorMessages: {onMatchFail: *}}, label: *, type: string, attr: {name: string, id: string, placeholder: *, 'aria-label': *}}]}
  * @namespace Component/MyAccountPasswordForm/Form/myAccountPasswordForm
  */
-export const myAccountPasswordForm = (range) => [
+export const myAccountPasswordForm = (range, minimunPasswordCharacter) => [
     {
         label: __('Current password'),
         type: FIELD_TYPE.password,
@@ -55,30 +51,12 @@ export const myAccountPasswordForm = (range) => [
             isRequired: true,
             match: (value) => {
                 const password = document.getElementById('my-account-currentPassword');
-                return value && password.value !== value;
-            },
-            customErrorMessages: {
-                onMatchFail: __('New passwords can\'t be the same as old password!')
-            },
-            range
-
-                if (value.length < MIN_PASSWORD_LENGTH) {
-                    return __('Minimum %s characters!', MIN_PASSWORD_LENGTH);
-                }
 
                 if (value && password.value === value) {
                     return __('New passwords can\'t be the same as old password!');
                 }
 
-                const counter = getNumberOfCharacterClasses(value);
-
-                if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
-                    return __('Minimum of different classes of characters in password is %s.',
-                        MIN_CHARACTER_SETS_IN_PASSWORD)
-                            + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
-                }
-
-                return true;
+                return validatePassword(value, range, minimunPasswordCharacter);
             }
         }
     }
