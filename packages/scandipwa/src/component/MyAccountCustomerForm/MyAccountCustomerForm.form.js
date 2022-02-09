@@ -8,7 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
 import FIELD_TYPE from 'Component/Field/Field.config';
 import {
     MIN_CHARACTER_SETS_IN_PASSWORD,
@@ -117,7 +116,8 @@ export const customerEmailAndPasswordFields = (props) => {
         handleEmailInput,
         handlePasswordInput,
         currentPassword,
-        email
+        email,
+        range
     } = props;
 
     return [
@@ -179,6 +179,7 @@ export const customerEmailAndPasswordFields = (props) => {
                 validationRule: {
                     inputType: VALIDATION_INPUT_TYPE.password,
                     isRequired: true,
+                    range,
                     match: (value) => {
                         const password = document.getElementById('currentPassword');
 

@@ -22,7 +22,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/PasswordChangeForm/Form/customerEmailAndPasswordFields */
-export const customerEmailAndPasswordFields = () => [
+export const customerEmailAndPasswordFields = (range) => [
     {
         type: FIELD_TYPE.password,
         label: __('New password'),
@@ -36,6 +36,7 @@ export const customerEmailAndPasswordFields = () => [
         validationRule: {
             isRequired: true,
             inputType: VALIDATION_INPUT_TYPE.password,
+            range,
             match: (value) => {
                 if (value.length < MIN_PASSWORD_LENGTH) {
                     return __('Minimum %s characters!', MIN_PASSWORD_LENGTH);

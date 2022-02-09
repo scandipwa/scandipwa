@@ -17,6 +17,7 @@ import {
     mapStateToProps,
     MyAccountAddressFormContainer
 } from 'Component/MyAccountAddressForm/MyAccountAddressForm.container';
+import { noopFn } from 'Util/Common';
 
 import CheckoutAddressForm from './CheckoutAddressForm.component';
 
@@ -24,7 +25,12 @@ import CheckoutAddressForm from './CheckoutAddressForm.component';
 export class CheckoutAddressFormContainer extends MyAccountAddressFormContainer {
     static propTypes = {
         ...super.propTypes,
-        onShippingEstimationFieldsChange: PropTypes.func.isRequired
+        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
+        onSave: PropTypes.func
+    };
+
+    static defaultProps = {
+        onSave: noopFn
     };
 
     containerProps() {

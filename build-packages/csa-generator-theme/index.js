@@ -124,6 +124,7 @@ const run = async (options) => {
     let mosaicVersion = '0.0.0';
     let eslintConfigVersion = '0.0.0';
     let mosaicCracoVersion = '0.0.0';
+    const postcssVersion = '8.4.5';
 
     try {
         scandipwaVersion = await getLatestVersion('@scandipwa/scandipwa');
@@ -171,6 +172,7 @@ const run = async (options) => {
         name,
         mosaicVersion,
         mosaicCracoVersion,
+        postcssVersion,
         proxy: DEFAULT_PROXY,
         eslintConfigVersion
     };

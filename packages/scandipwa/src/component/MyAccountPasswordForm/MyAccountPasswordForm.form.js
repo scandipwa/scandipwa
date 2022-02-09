@@ -22,7 +22,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @returns {[{addRequiredTag: boolean, validateOn: [string], validationRule: {isRequired: boolean, inputType: string}, label: *, type: string, attr: {name: string, id: string, placeholder: *, 'aria-label': *}}, {addRequiredTag: boolean, validateOn: [string], validationRule: {isRequired: boolean, match: (function(*=)), range: {min: number}, inputType: string, customErrorMessages: {onMatchFail: *}}, label: *, type: string, attr: {name: string, id: string, placeholder: *, 'aria-label': *}}]}
  * @namespace Component/MyAccountPasswordForm/Form/myAccountPasswordForm
  */
-export const myAccountPasswordForm = () => [
+export const myAccountPasswordForm = (range) => [
     {
         label: __('Current password'),
         type: FIELD_TYPE.password,
@@ -55,6 +55,12 @@ export const myAccountPasswordForm = () => [
             isRequired: true,
             match: (value) => {
                 const password = document.getElementById('my-account-currentPassword');
+                return value && password.value !== value;
+            },
+            customErrorMessages: {
+                onMatchFail: __('New passwords can\'t be the same as old password!')
+            },
+            range
 
                 if (value.length < MIN_PASSWORD_LENGTH) {
                     return __('Minimum %s characters!', MIN_PASSWORD_LENGTH);
