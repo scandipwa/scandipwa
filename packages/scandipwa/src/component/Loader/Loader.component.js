@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { MixType } from '../../type/Common.type';
+
 import './Loader.style';
 
 /**
@@ -23,7 +25,7 @@ import './Loader.style';
 export class Loader extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
-        mix: PropTypes.shape({ block: PropTypes.string, elem: PropTypes.string })
+        mix: MixType
     };
 
     static defaultProps = {
