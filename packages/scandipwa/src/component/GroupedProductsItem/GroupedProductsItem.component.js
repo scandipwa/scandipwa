@@ -111,7 +111,7 @@ export class GroupedProductsItem extends PureComponent {
               validationRule={ {
                   inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
                   isRequired: true,
-                  match: this.getError,
+                  match: this.getError.bind(this),
                   range: {
                       min: min === 1 ? 0 : 1,
                       max
