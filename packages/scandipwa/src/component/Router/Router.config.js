@@ -45,6 +45,7 @@ export const CONTACT_PAGE = 'CONTACT_PAGE';
 export const COMPARE = 'COMPARE';
 export const STYLE_GUIDE = 'STYLE_GUIDE';
 export const URL_REWRITES = 'URL_REWRITES';
+export const PRINT_ORDER = 'PRINT_ORDER';
 
 // AFTER_ITEMS_TYPE
 export const FOOTER = 'FOOTER';

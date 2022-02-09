@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,4 +10,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export { default } from './OrderPrintPage.component';
+export const PRINT_ORDER = 'print_order';
+export const PRINT_ALL_INVOICES = 'print_all_invoices';
+export const PRINT_ALL_SHIPMENT = 'print_all_shipment';
+export const PRINT_ALL_REFUNDS = 'print_all_refunds';

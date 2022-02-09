@@ -106,6 +106,13 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
+
+    @media print {
+        background: transparent !important;
+        color: #000000 !important;
+        filter: none !important;
+        text-shadow: none !important;
+    }
 }
 
 article,

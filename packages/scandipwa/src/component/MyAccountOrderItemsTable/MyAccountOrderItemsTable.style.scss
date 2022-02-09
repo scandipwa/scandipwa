@@ -10,14 +10,20 @@
  */
 
 .MyAccountOrderItemsTable {
+    &-OrderActions {
+        display: flex;
+        align-items: center;
+        padding-block-end: 10px;
+        margin-block-start: 10px;
+    }
+
     &-OrderTitle {
         font-size: 22px;
-        padding-block-end: 10px;
-        margin-block-start: 20px;
+    }
 
-        @include desktop {
-            margin-block-start: 30px;
-        }
+    &-PrintOrder {
+        color: black;
+        margin-inline-start: 10px;
     }
 
     &-Headings {
@@ -45,14 +51,14 @@
         }
 
         tbody {
+            border-block-start: var(--table-body-border);
+
+            &:first-of-type {
+                border-block-start: none;
+            }
+
+
             tr {
-                border-block-start: var(--table-body-border);
-
-                &:first-of-type {
-                    border-block-start: none;
-                }
-
-
                 &:not(:last-child) {
                     border-block-end: none;
                 }

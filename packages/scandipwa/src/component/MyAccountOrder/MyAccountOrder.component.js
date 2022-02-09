@@ -23,6 +23,7 @@ import { convertStringToDate } from 'Util/Manipulations/Date';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
+    ORDER_ACTION_LABELS,
     ORDER_INVOICES,
     ORDER_ITEMS,
     ORDER_REFUNDS,
@@ -118,7 +119,7 @@ export class MyAccountOrder extends PureComponent {
 
     renderOrderItemsTable(items, index) {
         const { activeTab, order: { total: orderTotal, items: allOrderItems, id } } = this.props;
-        const { total: itemsTotal } = items;
+        const { total: itemsTotal, id: itemId } = items;
 
         return (
             <MyAccountOrderItemsTable
@@ -127,6 +128,7 @@ export class MyAccountOrder extends PureComponent {
               items={ items }
               allOrderItems={ allOrderItems }
               total={ itemsTotal || orderTotal }
+              id={ activeTab !== ORDER_ITEMS ? atob(itemId) : itemId }
             />
         );
     }
@@ -159,6 +161,27 @@ export class MyAccountOrder extends PureComponent {
         );
     }
 
+    renderPrintAllAction() {
+        const { activeTab, order: { id } } = this.props;
+
+        const { printAllUrl, printAll } = ORDER_ACTION_LABELS[activeTab] || {};
+
+        if (!printAllUrl) {
+            return null;
+        }
+
+        return (
+            <Link
+              block="MyAccountOrder"
+              elem="PrintOrder"
+              to={ appendWithStoreCode(`${printAllUrl}/${id}`) }
+              isOpenInNewTab
+            >
+                { printAll }
+            </Link>
+        );
+    }
+
     renderActions() {
         const {
             handleChangeActiveTab,
@@ -179,6 +202,7 @@ export class MyAccountOrder extends PureComponent {
                   handleChangeActiveTab={ handleChangeActiveTab }
                   activeTab={ activeTab }
                 />
+                { this.renderPrintAllAction() }
             </div>
         );
     }

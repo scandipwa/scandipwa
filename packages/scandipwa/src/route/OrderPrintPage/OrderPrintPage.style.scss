@@ -11,19 +11,30 @@
  */
  :root {
     --print-content-wrapper-width: 1280px;
-    --header-logo-width: 186px;
-    --header-logo-height: 46px;
+    --logo-width: 186px;
+    --logo-height: 46px;
 }
 
 .OrderPrintPage {
+    min-height: 100vh;
     max-width: var(--print-content-wrapper-width);
     margin: auto;
     padding-inline: 20px;
 
     &-LogoWrapper {
-        width: var(--header-logo-width);
-        height: var(--header-logo-height);
+        width: var(--logo-width);
+        height: var(--logo-height);
         margin-block: 20px;
         display: block;
+    }
+
+    &-Copyright {
+        display: block;
+        text-align: center;
+        width: 100%;
+        font-size: 12px;
+        padding: 10px;
+        background: var(--secondary-base-color);
+        margin-top: 30px;
     }
 }

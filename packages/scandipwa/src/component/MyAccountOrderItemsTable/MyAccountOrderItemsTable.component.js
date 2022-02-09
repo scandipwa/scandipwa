@@ -12,11 +12,15 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
+import Link from 'Component/Link';
+import {
+    ORDER_ACTION_LABELS, ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS
+} from 'Component/MyAccountOrder/MyAccountOrder.config';
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
 import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
 import { getProductFromOrder } from 'Util/Orders';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './MyAccountOrderItemsTable.style';
 
@@ -27,7 +31,9 @@ export class MyAccountOrderItemsTable extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         items: OrderTabType.isRequired,
         total: OrderTotalType.isRequired,
-        allOrderItems: OrderProductsType.isRequired
+        allOrderItems: OrderProductsType.isRequired,
+        id: PropTypes.number.isRequired,
+        isPrintPage: PropTypes.bool.isRequired
     };
 
     renderItems() {
@@ -56,7 +62,28 @@ export class MyAccountOrderItemsTable extends PureComponent {
         );
     }
 
-    renderOrderTitle() {
+    renderPrintAction() {
+        const { activeTab, id, isPrintPage } = this.props;
+
+        const { print: printLabel, printUrl } = ORDER_ACTION_LABELS[activeTab] || {};
+
+        if (!printLabel || isPrintPage) {
+            return null;
+        }
+
+        return (
+            <Link
+              block="MyAccountOrderItemsTable"
+              elem="PrintOrder"
+              to={ appendWithStoreCode(`${printUrl}/${id}`) }
+              isOpenInNewTab
+            >
+                { printLabel }
+            </Link>
+        );
+    }
+
+    renderOrderTitleAndActions() {
         const { activeTab, items: { number }, isMobile } = this.props;
 
         if (isMobile && activeTab === ORDER_ITEMS) {
@@ -68,8 +95,11 @@ export class MyAccountOrderItemsTable extends PureComponent {
         }
 
         return (
-            <div block="MyAccountOrderItemsTable" elem="OrderTitle">
-                { `${activeTab} # ${number}` }
+            <div block="MyAccountOrderItemsTable" elem="OrderActions">
+                <div block="MyAccountOrderItemsTable" elem="OrderTitle">
+                    { `${activeTab} # ${number}` }
+                </div>
+                { this.renderPrintAction() }
             </div>
         );
     }
@@ -174,10 +204,10 @@ export class MyAccountOrderItemsTable extends PureComponent {
         return <MyAccountOrderTotals activeTab={ activeTab } total={ total } />;
     }
 
-    renderDesktopTable() {
+    render() {
         return (
             <div block="MyAccountOrderItemsTable" elem="ProductsWrapper">
-                { this.renderOrderTitle() }
+                { this.renderOrderTitleAndActions() }
                 <table
                   block="MyAccountOrderItemsTable"
                   elem="Products"
@@ -190,10 +220,6 @@ export class MyAccountOrderItemsTable extends PureComponent {
                 </table>
             </div>
         );
-    }
-
-    render() {
-        return this.renderDesktopTable();
     }
 }
 

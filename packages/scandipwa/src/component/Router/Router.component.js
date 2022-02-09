@@ -25,6 +25,12 @@ import { Route, Switch } from 'react-router-dom';
 
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
+import {
+    PRINT_ALL_INVOICES,
+    PRINT_ALL_REFUNDS,
+    PRINT_ALL_SHIPMENT,
+    PRINT_ORDER as PRINT_ORDER_REQUEST
+} from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
 import UrlRewrites from 'Route/UrlRewrites';
 import {
     ADDRESS_BOOK, MY_DOWNLOADABLE, MY_ORDERS, MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
@@ -61,6 +67,7 @@ import {
     NAVIGATION_TABS,
     NEW_VERSION_POPUP,
     NOTIFICATION_LIST,
+    PRINT_ORDER,
     SEARCH,
     SHARED_WISHLIST,
     STYLE_GUIDE,
@@ -254,9 +261,24 @@ export class Router extends PureComponent {
             name: STYLE_GUIDE
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/print/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/print/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ORDER_REQUEST } /> } />,
             position: 90,
-            name: STYLE_GUIDE
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printInvoice/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ALL_INVOICES } /> } />,
+            position: 91,
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printShipment/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ALL_SHIPMENT } /> } />,
+            position: 92,
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ALL_REFUNDS } /> } />,
+            position: 93,
+            name: PRINT_ORDER
         },
         {
             component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
@@ -358,11 +380,10 @@ export class Router extends PureComponent {
     }
 
     renderDefaultRouterContent() {
-        if (location.pathname.match('/styleguide')) {
-            return this.renderMainItems();
-        }
+        const { pathname } = location;
 
-        if (location.pathname.includes('/sales/order/print/order_id')) {
+        if (pathname.match('/styleguide')
+            || pathname.includes('/sales/order/print')) {
             return this.renderMainItems();
         }
 

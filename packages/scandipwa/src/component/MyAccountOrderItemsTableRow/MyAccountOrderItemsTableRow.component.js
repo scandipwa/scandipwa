@@ -29,7 +29,6 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         product: OrderProductType.isRequired,
         selectedOptions: OptionsType.isRequired,
         enteredOptions: OptionsType.isRequired,
-        isMobile: PropTypes.bool.isRequired,
         colSpanCount: PropTypes.string.isRequired
     };
 
@@ -111,23 +110,8 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
     }
 
     renderPrice(value, currency, title) {
-        const { isMobile, colSpanCount } = this.props;
-
-        if (isMobile) {
-            return (
-                <tr
-                  block="MyAccountOrderItemsTableRow"
-                  elem="Row"
-                >
-                    <td colSpan={ colSpanCount } data-th={ title }>
-                        <strong>{ formatPrice(value, currency) }</strong>
-                    </td>
-                </tr>
-            );
-        }
-
         return (
-            <td>
+            <td data-th={ title }>
                 <strong>{ formatPrice(value, currency) }</strong>
             </td>
         );
@@ -136,29 +120,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
     renderSelectedAndEnteredOptions() {
         const {
             selectedOptions,
-            enteredOptions,
-            isMobile,
-            colSpanCount
+            enteredOptions
         } = this.props;
         const { renderOption } = this.renderMap;
 
         if (!selectedOptions.length && !enteredOptions.length) {
             return null;
-        }
-
-        if (isMobile) {
-            return (
-                <tr
-                  block="MyAccountOrderItemsTableRow"
-                  elem="Row"
-                  mods={ { isOptions: true } }
-                >
-                    <td colSpan={ colSpanCount }>
-                        { selectedOptions.map(renderOption) }
-                        { enteredOptions.map(renderOption) }
-                    </td>
-                </tr>
-            );
         }
 
         return (
@@ -188,12 +155,8 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
     }
 
     renderOptionItem(item, isLastOptionItem) {
-        const { product: { quantity_ordered = 1, product_sale_price: { currency } }, isMobile } = this.props;
+        const { product: { quantity_ordered = 1, product_sale_price: { currency } } } = this.props;
         const { qty, title, price } = item;
-
-        if (isMobile) {
-            return this.renderMobileOptionItem(item);
-        }
 
         return (
             <tr
@@ -212,6 +175,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                 >
                     { quantity_ordered * qty }
                 </td>
+                <td />
             </tr>
         );
     }

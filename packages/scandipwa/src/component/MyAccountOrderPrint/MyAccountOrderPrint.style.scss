@@ -10,11 +10,13 @@
  */
 
 :root {
-    --order-status-border: 2px solid #ccc;
+    --order-status-border: 1px solid #ccc;
     --order-status-color: #333;
+    --header-logo-width: 186px;
+    --header-logo-height: 46px;
 
     @media print {
-        --table-body-border: 2px solid rgba(10, 9, 3, 0.16);
+        --table-body-border: 1px solid rgba(10, 9, 3, 0.16);
     }
 }
 
@@ -47,13 +49,34 @@
     &ItemsTable {
         &-ProductsWrapper {
             border: var(--table-body-border);
-            padding: 15px
+            padding: 15px;
+            break-inside: avoid;
+
+            &:not(:first-of-type) {
+                margin-block-start: 20px;
+            }
         }
 
         &-Products {
             thead {
                 border-block-start: var(--table-body-border);
                 border-block-end: var(--table-body-border);
+            }
+        }
+
+        &-Quantity,
+        &-Subtotal,
+        &-Price {
+            width: unset;
+        }
+
+        &Row {
+            &-RowWrapper {
+                td {
+                    &:nth-child(n+3) {
+                        text-align: right;
+                    }
+                }
             }
         }
     }
@@ -90,8 +113,25 @@
     &Print {
         &-Wrapper {
             * {
-                background-color: #{$white};
+                background: transparent;
             }
+        }
+
+        &-LogoWrapper {
+            width: var(--header-logo-width);
+            height: var(--header-logo-height);
+            margin-block: 20px;
+            display: block;
+        }
+
+        &-Copyright {
+            display: block;
+            text-align: center;
+            width: 100%;
+            font-size: 12px;
+            padding: 10px;
+            background: var(--secondary-base-color);
+            margin-top: 30px;
         }
     }
 }
