@@ -15,6 +15,8 @@ import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { ProductType } from 'Type/ProductList.type';
 import { formatPrice, getLowestPriceTiersPrice } from 'Util/Price';
 
+import { calculateTierDiscountOverSpecialPrice } from '../../util/Price/Price';
+
 import './TierPrices.style';
 
 /** @namespace Component/TierPrices/Component */
@@ -44,6 +46,9 @@ export class TierPrices extends PureComponent {
                     minimum_price: {
                         final_price: {
                             value: minPriceForOneUnit
+                        },
+                        discount: {
+                            percent_off: discountForOneUnit
                         }
                     }
                 },
@@ -56,18 +61,23 @@ export class TierPrices extends PureComponent {
             return null;
         }
 
+        // If the product already has Special price, calculate % off over special price and not old price
+        const percentOff = discountForOneUnit > 0
+            ? calculateTierDiscountOverSpecialPrice(minPriceForOneUnit, value)
+            : percent_off;
+
         const formattedPrice = formatPrice(value, currency);
 
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
                 { type_id === PRODUCT_TYPE.bundle
-                    ? this.renderBundleTierPrice(quantity, percent_off)
-                    : this.renderProductTierPrice(quantity, formattedPrice, percent_off) }
+                    ? this.renderBundleTierPrice(quantity, percentOff)
+                    : this.renderProductTierPrice(quantity, formattedPrice, percentOff) }
             </li>
         );
     }
 
-    renderProductTierPrice(quantity, formattedPrice, percent_off) {
+    renderProductTierPrice(quantity, formattedPrice, percentOff) {
         return (
             <>
                 { __(
@@ -78,14 +88,14 @@ export class TierPrices extends PureComponent {
                 <strong>
                     { __(
                         'save %s%',
-                        Math.round(percent_off)
+                        Math.round(percentOff)
                     ) }
                 </strong>
             </>
         );
     }
 
-    renderBundleTierPrice(quantity, percent_off) {
+    renderBundleTierPrice(quantity, percentOff) {
         return (
             <>
                 { __(
@@ -95,7 +105,7 @@ export class TierPrices extends PureComponent {
                 <strong>
                     { __(
                         '%s% discount each',
-                        Math.round(percent_off)
+                        Math.round(percentOff)
                     ) }
                 </strong>
             </>
