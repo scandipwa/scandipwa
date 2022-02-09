@@ -270,4 +270,10 @@
             display: none;
         }
     }
+
+    article {
+        @include desktop {
+            margin-block-end: 10px;
+        }
+    }
 }

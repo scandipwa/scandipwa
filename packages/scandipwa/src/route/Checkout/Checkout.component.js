@@ -240,36 +240,6 @@ export class Checkout extends PureComponent {
         );
     }
 
-    renderDiscountCode(showOnMobile = false) {
-        const {
-            totals: { coupon_code, items },
-            checkoutStep,
-            isMobile
-        } = this.props;
-
-        if (!items || items.length < 1) {
-            return null;
-        }
-
-        if ((showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
-            return null;
-        }
-
-        if (checkoutStep === BILLING_STEP) {
-            return (
-                <ExpandableContent
-                  heading={ __('Have a discount code?') }
-                  mix={ { block: 'CartPage', elem: 'Discount' } }
-                  isArrow
-                >
-                    <CartCoupon couponCode={ coupon_code } />
-                </ExpandableContent>
-            );
-        }
-
-        return null;
-    }
-
     renderShippingStep() {
         const {
             shippingMethods,
@@ -486,7 +456,6 @@ export class Checkout extends PureComponent {
                   label={ __('Checkout page') }
                 >
                     { this.renderSummary(true) }
-                    { this.renderDiscountCode(true) }
                     <Form
                       onError={ this.onError }
                       validationRule={ {
@@ -504,7 +473,6 @@ export class Checkout extends PureComponent {
                     <div>
                         <Suspense fallback={ <Loader /> }>
                             { this.renderSummary() }
-                            { this.renderDiscountCode() }
                             { this.renderPromo() }
                         </Suspense>
                     </div>

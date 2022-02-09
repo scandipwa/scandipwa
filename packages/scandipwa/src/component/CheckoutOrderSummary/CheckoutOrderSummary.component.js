@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { lazy, PureComponent } from 'react';
 
 import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
@@ -25,6 +25,11 @@ import { getItemsCountLabel } from 'Util/Cart';
 import { noopFn } from 'Util/Common';
 
 import './CheckoutOrderSummary.style';
+
+export const CartCoupon = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-info" */
+    'Component/CartCoupon'
+));
 
 /**
  * Checkout Order Summary component
@@ -115,6 +120,36 @@ export class CheckoutOrderSummary extends PureComponent {
               coupon_code={ coupon_code }
             />
         );
+    }
+
+    renderDiscountCode() {
+        const {
+            totals: { coupon_code, items },
+            checkoutStep
+            // isMobile
+        } = this.props;
+
+        if (!items || items.length < 1) {
+            return null;
+        }
+
+        /* if ((showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
+            return null;
+        } */
+
+        if (checkoutStep === BILLING_STEP) {
+            return (
+                <ExpandableContent
+                  heading={ __('Have a discount code?') }
+                  mix={ { block: 'CartPage', elem: 'Discount' } }
+                  isArrow
+                >
+                    <CartCoupon couponCode={ coupon_code } />
+                </ExpandableContent>
+            );
+        }
+
+        return null;
     }
 
     renderItems() {
@@ -337,6 +372,7 @@ export class CheckoutOrderSummary extends PureComponent {
                 { this.renderItems() }
                 { this.renderCmsBlock() }
                 { this.renderTotals() }
+                { this.renderDiscountCode() }
             </ExpandableContent>
         );
     }
@@ -353,6 +389,7 @@ export class CheckoutOrderSummary extends PureComponent {
                 { this.renderHeading() }
                 { this.renderItems() }
                 { this.renderTotals() }
+                { this.renderDiscountCode() }
             </>
         );
     }
