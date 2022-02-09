@@ -347,12 +347,13 @@ export class ProductContainer extends PureComponent {
         } = this.state;
 
         const { product: { configurable_options } } = this.props;
-        const unselectedOptions = [];
-        Object.keys(configurable_options).forEach((option) => {
-            if (!parameters[option]) {
-                unselectedOptions.push(option);
+        const unselectedOptions = Object.keys(configurable_options).reduce((accumulator, value) => {
+            if (!parameters[value]) {
+                accumulator.push(value);
             }
-        });
+
+            return accumulator;
+        }, []);
 
         this.setState({ unselectedOptions });
 
