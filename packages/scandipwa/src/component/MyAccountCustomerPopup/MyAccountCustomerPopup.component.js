@@ -32,15 +32,17 @@ export class MyAccountCustomerPopup extends PureComponent {
                 EDIT_CUSTOMER
             ]),
             customer: CustomerType
-        }).isRequired
+        }).isRequired,
+        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired
     };
 
     renderChangePasswordForm() {
-        const { onPasswordChange } = this.props;
+        const { onPasswordChange, range } = this.props;
 
         return (
             <MyAccountPasswordForm
               onPasswordChange={ onPasswordChange }
+              range={ range }
             />
         );
     }

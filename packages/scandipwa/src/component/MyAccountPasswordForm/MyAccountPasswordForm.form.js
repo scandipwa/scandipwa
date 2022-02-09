@@ -17,7 +17,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @returns {[{addRequiredTag: boolean, validateOn: [string], validationRule: {isRequired: boolean, inputType: string}, label: *, type: string, attr: {name: string, id: string, placeholder: *, 'aria-label': *}}, {addRequiredTag: boolean, validateOn: [string], validationRule: {isRequired: boolean, match: (function(*=)), range: {min: number}, inputType: string, customErrorMessages: {onMatchFail: *}}, label: *, type: string, attr: {name: string, id: string, placeholder: *, 'aria-label': *}}]}
  * @namespace Component/MyAccountPasswordForm/Form/myAccountPasswordForm
  */
-export const myAccountPasswordForm = () => [
+export const myAccountPasswordForm = (range) => [
     {
         label: __('Current password'),
         type: FIELD_TYPE.password,
@@ -55,9 +55,7 @@ export const myAccountPasswordForm = () => [
             customErrorMessages: {
                 onMatchFail: __('New passwords can\'t be the same as old password!')
             },
-            range: {
-                min: 8
-            }
+            range
         }
     }
 ];

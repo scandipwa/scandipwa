@@ -19,7 +19,8 @@ import myAccountPasswordForm from './MyAccountPasswordForm.form';
 /** @namespace Component/MyAccountPasswordForm/Component */
 export class MyAccountPasswordForm extends FieldForm {
     static propTypes = {
-        onPasswordChange: PropTypes.func.isRequired
+        onPasswordChange: PropTypes.func.isRequired,
+        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired
     };
 
     onFormSuccess(form, fields) {
@@ -28,7 +29,9 @@ export class MyAccountPasswordForm extends FieldForm {
     }
 
     get fieldMap() {
-        return myAccountPasswordForm();
+        const { range } = this.props;
+
+        return myAccountPasswordForm(range);
     }
 
     getFormProps() {
