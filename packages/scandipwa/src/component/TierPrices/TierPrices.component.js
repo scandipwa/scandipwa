@@ -32,7 +32,7 @@ export class TierPrices extends PureComponent {
 
     renderDetailedTierPrice({
         discount: {
-            percent_off
+            percent_off: tierDiscount
         },
         final_price: {
             value,
@@ -62,16 +62,17 @@ export class TierPrices extends PureComponent {
         }
 
         // If the product already has Special price, calculate % off over special price and not old price
+        // Bundle product always shows discount over old price
         const percentOff = discountForOneUnit > 0
             ? calculateTierDiscountOverSpecialPrice(minPriceForOneUnit, value)
-            : percent_off;
+            : tierDiscount;
 
         const formattedPrice = formatPrice(value, currency);
 
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
                 { type_id === PRODUCT_TYPE.bundle
-                    ? this.renderBundleTierPrice(quantity, percentOff)
+                    ? this.renderBundleTierPrice(quantity, tierDiscount)
                     : this.renderProductTierPrice(quantity, formattedPrice, percentOff) }
             </li>
         );
