@@ -71,21 +71,7 @@ $select-arrow-width: 14px !default;
         -webkit-overflow-scrolling: touch;
         min-width: 100%;
 
-        // Firefox support
-        /* stylelint-disable-next-line declaration-no-important */
-        scrollbar-width: 10px !important;
-        /* stylelint-disable-next-line declaration-no-important */
-        scrollbar-color: gray !important;
-
-        &::-webkit-scrollbar {
-            /* stylelint-disable-next-line declaration-no-important */
-            display: auto !important;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            /* stylelint-disable-next-line declaration-no-important */
-            display: auto !important;
-        }
+   
 
         &_isExpanded {
             @include desktop {
