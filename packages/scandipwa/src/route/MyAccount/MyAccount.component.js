@@ -189,7 +189,7 @@ export class MyAccount extends Component {
                         { title || tabName }
                         { this.renderSubHeading() }
                     </h2>
-                    <Suspense fallback={ <Loader /> }>
+                    <Suspense fallback={ <Loader mix={ { block: 'MyAccount', elem: 'Loader' } } /> }>
                         <TabContent
                           isEditingActive={ isEditingActive }
                           match={ match }
