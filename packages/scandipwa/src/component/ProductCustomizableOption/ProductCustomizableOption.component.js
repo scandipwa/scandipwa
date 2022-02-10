@@ -85,6 +85,7 @@ export class ProductCustomizableOption extends PureComponent {
         } = this.props;
         const { max_characters } = option;
         const label = this.getLabel(option, title);
+        const subLabel = max_characters > 0 ? `Maximum ${max_characters} characters.` : null;
 
         return (
             <>
@@ -103,6 +104,7 @@ export class ProductCustomizableOption extends PureComponent {
                       name: uid,
                       placeholder: ''
                   } }
+                  subLabel={ subLabel }
                   events={ {
                       onChange: updateSelectedValues
                   } }
