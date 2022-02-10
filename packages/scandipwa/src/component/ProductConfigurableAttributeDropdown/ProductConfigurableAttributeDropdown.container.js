@@ -21,7 +21,8 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
         option: AttributeType.isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         getIsConfigurableAttributeAvailable: PropTypes.func.isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        isUnselected: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
@@ -38,13 +39,14 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
     }
 
     containerProps() {
-        const { option: { attribute_code, attribute_label } } = this.props;
+        const { option: { attribute_code, attribute_label }, isUnselected } = this.props;
 
         return {
             selectValue: this._getSelectValue(),
             selectOptions: this._getSelectOptions(),
             selectName: attribute_code,
-            selectLabel: attribute_label
+            selectLabel: attribute_label,
+            isUnselected
         };
     }
 
