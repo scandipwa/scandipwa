@@ -330,6 +330,31 @@ export class Checkout extends PureComponent {
         );
     }
 
+    renderDiscountCode() {
+        const {
+            totals: { coupon_code, items },
+            checkoutStep
+        } = this.props;
+
+        if (!items || items.length < 1) {
+            return null;
+        }
+
+        if (checkoutStep === BILLING_STEP) {
+            return (
+                <ExpandableContent
+                  heading={ __('Have a discount code?') }
+                  mix={ { block: 'CartPage', elem: 'Discount' } }
+                  isArrow
+                >
+                    <CartCoupon couponCode={ coupon_code } />
+                </ExpandableContent>
+            );
+        }
+
+        return null;
+    }
+
     renderStep() {
         const { checkoutStep } = this.props;
         const { render } = this.stepMap[checkoutStep];
@@ -362,6 +387,7 @@ export class Checkout extends PureComponent {
         }
 
         return (
+            <>
             <CheckoutOrderSummary
               checkoutStep={ checkoutStep }
               totals={ checkoutTotals }
@@ -372,6 +398,8 @@ export class Checkout extends PureComponent {
               renderCmsBlock={ () => this.renderPromo(true) }
               showItems
             />
+            { !showOnMobile && this.renderDiscountCode() }
+            </>
         );
     }
 
