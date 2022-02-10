@@ -20,6 +20,8 @@ import FieldGroup from 'Component/FieldGroup';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
+// eslint-disable-next-line no-unused-vars
+import { getSubLabelFromMaxCharacters } from '../../util/Product/Extract';
 import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
 
 /**
@@ -54,6 +56,10 @@ export class ProductCustomizableOption extends PureComponent {
         [CONFIG_FIELD_TYPE.multi]: this.renderCheckboxValues.bind(this)
     };
 
+    state = {
+        value: ''
+    };
+
     componentDidMount() {
         const { updateSelectedValues } = this.props;
         updateSelectedValues();
@@ -79,13 +85,20 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
+    updateValues({ currentTarget: { value } }) {
+        const { updateSelectedValues } = this.props;
+        this.setState({ value });
+        updateSelectedValues();
+    }
+
     renderDefaultValue(option) {
         const {
-            updateSelectedValues, title, fieldType, isRequired, uid
+            title, fieldType, isRequired, uid
         } = this.props;
+        const { value } = this.state;
         const { max_characters } = option;
         const label = this.getLabel(option, title);
-        const subLabel = max_characters > 0 ? `Maximum ${max_characters} characters.` : null;
+        const { subLabel, isValid } = getSubLabelFromMaxCharacters(max_characters, value);
 
         return (
             <>
@@ -94,19 +107,16 @@ export class ProductCustomizableOption extends PureComponent {
                   type={ fieldType }
                   validationRule={ {
                       isRequired,
-                      range: {
-                          // min: isRequired ? 1 : 0,
-                          max: max_characters > 0 ? max_characters : null
-                      }
+                      range: { max: max_characters > 0 ? max_characters : null }
                   } }
                   attr={ {
                       id: uid,
                       name: uid,
                       placeholder: ''
                   } }
-                  subLabel={ subLabel }
+                  subLabel={ isValid ? subLabel : null }
                   events={ {
-                      onChange: updateSelectedValues
+                      onChange: this.updateValues.bind(this)
                   } }
                   validateOn={ ['onBlur', 'onChange'] }
                 />

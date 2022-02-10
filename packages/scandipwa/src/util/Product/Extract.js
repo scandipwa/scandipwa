@@ -479,6 +479,36 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
     return adjustedPrice;
 };
 
+//#region SubLabel
+/**
+ * Returns ProductCustomizable Text/TextArea Option Sublabel based on Maximum characters setup in BE
+ * @param maxCharacters
+ * @param value
+ * @namespace Util/Product/Extract/getSubLabelFromMaxCharacters
+ */
+
+export const getSubLabelFromMaxCharacters = (maxCharacters, value = '') => {
+    const valueLength = value.length;
+    const remainingCharacters = maxCharacters - valueLength;
+
+    if (maxCharacters > 0) {
+        if (valueLength <= maxCharacters) {
+            return {
+                subLabel: `Maximum ${maxCharacters} characters (${remainingCharacters} remaining)`,
+                isValid: true
+            };
+        }
+
+        if (valueLength >= maxCharacters) {
+            return { subLabel: null, isValid: false };
+        }
+
+        return { subLabel: `Maximum ${maxCharacters} characters`, isValid: true };
+    }
+
+    return { subLabel: null, isValid: null };
+};
+
 //#region IMAGE
 /**
  * Returns product image based on variable field, on fail placeholder

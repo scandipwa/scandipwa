@@ -586,5 +586,8 @@
     "Not possible to fetch while offline": null,
     "Buy %s with ": null,
     "%s% discount each": null,
-    "Product list navigation": null
+    "Product list navigation": null,
+    "works": null,
+    "remain": null,
+    "Message about max chars": null
 }
