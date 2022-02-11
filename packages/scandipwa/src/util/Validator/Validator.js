@@ -199,7 +199,7 @@ export const validateGroup = (DOM, rule = null) => {
 /**
  * Get number of different character classes
  * @param value
- * @return int
+ * @return {number}
  * @namespace Util/Validator/getNumberOfCharacterClasses
  */
 export const getNumberOfCharacterClasses = (value) => Number(/\d+/.test(value))
@@ -213,7 +213,7 @@ export default validate;
  * Validates password
  * @param value
  * @param range
- * @param range
+ * @param minCharacter
  * @returns {string|boolean}
  * @namespace Util/Validator/validatePassword
  */
