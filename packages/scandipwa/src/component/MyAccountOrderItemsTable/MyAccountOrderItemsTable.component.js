@@ -182,7 +182,9 @@ export class MyAccountOrderItemsTable extends PureComponent {
             return null;
         }
 
-        const commentOrder = comments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        const commentOrder = comments.sort(
+            ({ timestamp: first }, { timestamp: second }) => new Date(second) - new Date(first)
+        );
 
         return (
             <div block="MyAccountOrderItemsTable" elem="Comments">
