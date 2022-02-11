@@ -8,4 +8,8 @@
     @include tablet {
         width: 60%;
     }
+
+    &_isUnselected {
+        animation: var(--shake-animation);
+    }
 }
