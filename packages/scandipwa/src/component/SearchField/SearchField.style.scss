@@ -30,6 +30,7 @@
         display: block;
         width: 90%;
         max-width: 600px;
+        grid-column: 2 / 3;
     }
 
     &_isVisible {

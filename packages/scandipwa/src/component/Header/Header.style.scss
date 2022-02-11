@@ -238,6 +238,9 @@
         }
 
         @include desktop {
+            position: absolute;
+            grid-column: 1 / 2;
+
             @include logo-visible;
         }
 
@@ -283,7 +286,7 @@
 
         @include desktop {
             display: grid;
-            grid-template-columns: 1fr minmax(auto, 660px) 1fr;
+            grid-template-columns: minmax(var(--header-logo-width), 1fr) minmax(auto, 660px) 1fr;
             justify-content: unset;
             padding-inline: 32px;
         }
