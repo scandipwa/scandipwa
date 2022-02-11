@@ -51,8 +51,10 @@ export const ProductCompareDispatcher = import(
 );
 
 export const CUSTOMER = 'customer';
+export const ISLOCKED = 'islocked';
 
 export const ONE_MONTH_IN_SECONDS = 2628000;
+export const TEN_MINUTE_IN_SECONDS = 600;
 
 /**
  * My account actions

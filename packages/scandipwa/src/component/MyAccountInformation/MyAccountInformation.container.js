@@ -17,7 +17,7 @@ import { withRouter } from 'react-router';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { updateCustomerDetails, updateIsLoading } from 'Store/MyAccount/MyAccount.action';
-import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
+import { CUSTOMER, ISLOCKED, TEN_MINUTE_IN_SECONDS } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CustomerType } from 'Type/Account.type';
 import { LocationType } from 'Type/Router.type';
@@ -222,6 +222,7 @@ export class MyAccountInformationContainer extends PureComponent {
         } catch (e) {
             if (e[0].extensions.category === 'graphql-authentication') {
                 this.setState({ isLocked: true });
+                BrowserDatabase.setItem(true, ISLOCKED, TEN_MINUTE_IN_SECONDS);
             }
             this.onError(e);
         }

@@ -22,9 +22,11 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { ACCOUNT_FORGOT_PASSWORD_URL, ACCOUNT_REGISTRATION_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { ISLOCKED } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -72,14 +74,19 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
             }
         } = this.props;
 
-        if (isFromLocked) {
+        const isLocked = BrowserDatabase.getItem(ISLOCKED);
+
+        if (isLocked || isFromLocked) {
+            console.log('called');
             const message = 'The account sign-in was incorrect or your account is disabled temporarily.'
             + 'Please wait and try again later.';
 
             showErrorNotification(message);
+            BrowserDatabase.deleteItem(ISLOCKED);
         } else if (isSignedIn() && !isFromEmailChange) {
             history.replace(appendWithStoreCode(ACCOUNT_URL));
         }
+        console.log('component is mounted');
 
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
         toggleBreadcrumbs(false);
