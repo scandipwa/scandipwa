@@ -587,7 +587,9 @@
     "Buy %s with ": null,
     "%s% discount each": null,
     "Product list navigation": null,
-    "works": null,
-    "remain": null,
-    "Message about max chars": null
+    "Maximum %s characters. Field required": null,
+    "Maximum %s characters (%s remaining)": null,
+    "Maximum %s characters (%s too many!)": null,
+    "Maximum %s characters": null,
+    "Field required": null
 }
