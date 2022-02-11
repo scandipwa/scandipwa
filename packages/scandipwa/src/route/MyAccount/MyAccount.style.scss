@@ -66,6 +66,14 @@
                     }
                 }
             }
+
+            &_my-wishlist {
+                .Loader-Scale {
+                    @include mobile {
+                        inset-block-start: 35vh;
+                    }
+                }
+            }
         }
 
         @include mobile {
@@ -93,11 +101,5 @@
     &-SubHeading {
         color: var(--secondary-dark-color);
         font-size: 16px;
-    }
-
-    &-Loader {
-        @include mobile {
-            inset-block-start: 35vh;
-        }
     }
 }
