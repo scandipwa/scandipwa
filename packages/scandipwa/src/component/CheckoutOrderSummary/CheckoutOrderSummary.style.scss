@@ -11,6 +11,7 @@
 
 :root {
     --footer-totals-height: 0;
+    --loader-scale: 1;
 }
 
 .CheckoutOrderSummary {
@@ -19,9 +20,9 @@
     @include desktop {
         border: 1px solid var(--secondary-base-color);
         border-radius: 2px;
-        padding-block-start: 24px;
-        padding-block-end: 0;
+        padding-block: 24px 0;
         padding-inline: 16px;
+        margin-block-end: 15px;
     }
 
     &-Header {
@@ -268,6 +269,14 @@
 
         &_isEmpty {
             display: none;
+        }
+    }
+
+    .Loader {
+        &-Scale {
+            @media screen {
+                inset-block-start: calc(35% - (3px * var(--loader-scale)));
+            }
         }
     }
 }

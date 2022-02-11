@@ -9,7 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import FIELD_TYPE from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
 import { formatPrice } from 'Util/Price';
 
 import { ADD_TO_CART } from './Product';
@@ -161,7 +163,7 @@ export const bundleOptionToLabel = (option, currencyCode = 'USD') => {
     const renderLabel = label ?? fallbackLabel;
 
     return {
-        baseLabel: !canChangeQuantity ? `${ quantity } x ${ renderLabel } ` : `${ renderLabel } `,
+        baseLabel: !canChangeQuantity && quantity >= 0 ? `${ quantity } x ${ renderLabel } ` : `${ renderLabel } `,
         priceLabel: `${ priceLabel } ${ percentLabel }`
     };
 };
@@ -178,7 +180,8 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
         const {
             uid: sourceUid = '',
             quantity: defaultQuantity = 1,
-            position
+            position,
+            is_default
         } = option;
 
         const {
@@ -195,7 +198,8 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
             value: uid,
             label: baseLabel,
             subLabel: priceLabel,
-            sort_order: position
+            sort_order: position,
+            isDefault: is_default
         });
 
         return result;
@@ -218,7 +222,7 @@ export const customizableOptionToLabel = (option, currencyCode = 'USD') => {
         title
     } = option || {};
     const noPrice = price === 0 && priceInclTax === 0;
-    const priceLabel = noPrice ? '' : ` + ${ formatPrice(priceInclTax, currencyCode) }`;
+    const priceLabel = noPrice ? '' : `+ ${ formatPrice(priceInclTax, currencyCode) }`;
     const percentLabel = (noPrice || price_type !== PRICE_TYPE_PERCENT) ? '' : ` (${ price }%)`;
 
     return {
@@ -239,7 +243,8 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
         const {
             uid,
             title,
-            position
+            position,
+            sort_order = 0
         } = option;
 
         const {
@@ -253,7 +258,7 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
             value: uid,
             label: baseLabel,
             subLabel: priceLabel,
-            sort_order: position
+            sort_order: position || sort_order
         });
 
         return result;
@@ -312,6 +317,32 @@ export const magentoProductTransform = (
     }
 
     return productData;
+};
+
+/**
+ *
+ * @param options
+ * @param isRequired
+ * @param type
+ * @returns {[{uid: string, price: number, priceInclTax: number, title: *, is_default: boolean},...*]|*}
+ * @namespace Util/Product/Transform/nonRequiredRadioOptions
+ */
+export const nonRequiredRadioOptions = (
+    options, isRequired = false, type = FIELD_TYPE.radio
+) => {
+    if (isRequired || type !== FIELD_TYPE.radio) {
+        return options;
+    }
+
+    const hasDefault = options.find(({ is_default }) => is_default);
+
+    return [
+        {
+            ...NONE_RADIO_OPTION,
+            is_default: !hasDefault
+        },
+        ...options
+    ];
 };
 
 export default bundleOptionsToSelectTransform;

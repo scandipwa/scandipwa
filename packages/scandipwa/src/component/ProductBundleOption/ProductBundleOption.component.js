@@ -286,7 +286,8 @@ export class ProductBundleOption extends PureComponent {
                   attr={ {
                       id: `bundle-options-dropdown-${ uid }`,
                       name: `bundle-options-dropdown-${ uid }`,
-                      selectPlaceholder: __('Select product...')
+                      selectPlaceholder: __('Select product...'),
+                      value: activeOption ? optionUid : ''
                   } }
                   mix={ { block: 'ProductBundleItem', elem: 'Select' } }
                   options={ getDropdownOptions() }
@@ -327,7 +328,9 @@ export class ProductBundleOption extends PureComponent {
         return (
             <div block="ProductBundleItem" elem="Label">
                 { baseLabel }
-                <strong block="ProductBundleItem" elem="PriceLabel">{ ` ${priceLabel}` }</strong>
+                { priceLabel && (
+                    <strong block="ProductBundleItem" elem="PriceLabel">{ ` ${priceLabel}` }</strong>
+                ) }
             </div>
         );
     }

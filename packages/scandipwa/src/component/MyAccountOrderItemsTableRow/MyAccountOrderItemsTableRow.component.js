@@ -30,7 +30,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         selectedOptions: OptionsType.isRequired,
         enteredOptions: OptionsType.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        colSpanCount: PropTypes.string.isRequired
+        colSpanCount: PropTypes.string.isRequired,
+        comments: PropTypes.arrayOf(PropTypes.string)
+    };
+
+    static defaultProps = {
+        comments: []
     };
 
     renderMap = {
@@ -235,9 +240,11 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         const { product: { product_sale_price: { currency } } } = this.props;
         const { qty, title, price } = item;
 
+        const nameRowMix = { block: 'MyAccountOrderItemsTableRow', elem: 'Name' };
+
         return (
             <>
-                { this.renderMobileBodyContentRow(__('Product name'), `${qty} x ${title}`) }
+                { this.renderMobileBodyContentRow(__('Product name'), `${qty} x ${title}`, nameRowMix) }
                 { this.renderMobileBodyContentRow(__('SKU'), title) }
                 { this.renderMobileBodyContentRow(__('Price'), formatPrice(price, currency)) }
             </>
@@ -287,7 +294,8 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
     renderOption(option) {
         const {
             label,
-            items
+            items,
+            value
         } = option || [];
 
         if (items) {
@@ -295,7 +303,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         }
 
         return (
-            <>
+            <dl key={ `${ label }-${ value }` }>
                 <dt
                   block="MyAccountOrderItemsTableRow"
                   elem="OptionLabel"
@@ -303,7 +311,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                     <strong>{ label }</strong>
                 </dt>
                 { this.renderOptionContent(option) }
-            </>
+            </dl>
         );
     }
 
@@ -341,7 +349,8 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
                     currency
                 } = {},
                 discounts = []
-            }
+            },
+            isMobile
         } = this.props;
 
         if (activeTab !== ORDER_REFUNDS) {
@@ -349,6 +358,23 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         }
 
         const totalDiscount = discounts.length ? getOrderItemRowDiscount(discounts) : 0;
+
+        if (isMobile) {
+            return (
+                <>
+                    { this.renderPrice(
+                        totalDiscount,
+                        currency,
+                        __('Discount Amount')
+                    ) }
+                    { this.renderPrice(
+                        row_subtotal - totalDiscount,
+                        currency,
+                        __('Row Total')
+                    ) }
+                </>
+            );
+        }
 
         return (
             <>
@@ -358,13 +384,14 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderMobileBodyContentRow(label, value) {
+    renderMobileBodyContentRow(label, value, mix = {}) {
         const { colSpanCount } = this.props;
 
         return (
             <tr
               block="MyAccountOrderItemsTableRow"
               elem="Row"
+              mix={ mix }
             >
                 <td colSpan={ colSpanCount }>
                     <strong>{ label }</strong>
@@ -376,23 +403,30 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
     renderMobileTableRow() {
         const {
+            activeTab,
             product: {
                 product_sku,
                 product_name
-            }
+            },
+            comments
         } = this.props;
+
+        const nameRowMix = { block: 'MyAccountOrderItemsTableRow', elem: 'Name' };
+        const lineBefore = !!((activeTab === ORDER_SHIPMENTS) && (comments.length));
 
         return (
             <tbody
               block="MyAccountOrderItemsTableRow"
               elem="RowWrapper"
+              mods={ { lineBefore } }
             >
-                { this.renderMobileBodyContentRow(__('Product name'), product_name) }
+                { this.renderMobileBodyContentRow(__('Product name'), product_name, nameRowMix) }
                 { this.renderSelectedAndEnteredOptions() }
                 { this.renderMobileBodyContentRow(__('SKU'), product_sku) }
                 { this.renderItemPrice() }
                 { this.renderMobileBodyContentRow(__('Qty'), this.renderRowQty()) }
                 { this.renderRowSubtotal() }
+                { this.renderDiscountAndRowTotal() }
                 { this.renderEnteredOptionsAsRow() }
             </tbody>
         );
@@ -400,20 +434,23 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
     renderDesktopTableRow() {
         const {
+            activeTab,
             product: {
                 product_sku
             },
-            enteredOptions = []
+            enteredOptions = [],
+            comments
         } = this.props;
 
         const isWithEnteredItems = !!enteredOptions[0]?.items;
+        const lineBefore = !!((activeTab === ORDER_SHIPMENTS) && (comments.length));
 
         return (
             <>
                 <tr
                   block="MyAccountOrderItemsTableRow"
                   elem="RowWrapper"
-                  mods={ { isWithEnteredItems } }
+                  mods={ { isWithEnteredItems, lineBefore } }
                 >
                     { this.renderNameAndOptions() }
                     <td>{ product_sku }</td>

@@ -97,12 +97,7 @@ export class ProductReviewFormContainer extends PureComponent {
     }
 
     _onReviewError(_, invalidFields) {
-        const { showNotification } = this.props;
         const reviewsAreNotValid = invalidFields;
-
-        if (reviewsAreNotValid) {
-            showNotification('info', __('Please fill in all rating fields'));
-        }
 
         this.setState({ isLoading: !reviewsAreNotValid });
     }
@@ -113,16 +108,10 @@ export class ProductReviewFormContainer extends PureComponent {
             addReview,
             hideActiveOverlay,
             goToPreviousHeaderState,
-            showNotification,
-            reviewRatings
+            showNotification
         } = this.props;
 
         const { ratingData: rating_data } = this.state;
-
-        if (Object.keys(rating_data).length < Object.keys(reviewRatings).length) {
-            showNotification('info', __('Please fill in all rating fields'));
-            return;
-        }
 
         this.setState({ isLoading: true });
 

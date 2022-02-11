@@ -24,6 +24,10 @@
         font-family: serif;
     }
 
+    &[id*='=='] {
+        margin-block-start: 0;
+    }
+
     &:checked,
     &:hover,
     &[checked],
@@ -37,9 +41,5 @@
 
     &:focus {
         border: 0;
-    }
-
-    &:first-of-type {
-        margin-block-start: 12px;
     }
 }

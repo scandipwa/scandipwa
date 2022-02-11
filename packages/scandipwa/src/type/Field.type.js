@@ -24,7 +24,7 @@ export const OptionType = PropTypes.shape({
 export const CustomErrorMessagesType = PropTypes.shape({
     onRequirementFail: PropTypes.string,
     onInputTypeFail: PropTypes.string,
-    onMatchFail: PropTypes.string,
+    onMatchFail: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     onRangeFailMin: PropTypes.string,
     onRangeFailMax: PropTypes.string,
     onExtensionFail: PropTypes.string

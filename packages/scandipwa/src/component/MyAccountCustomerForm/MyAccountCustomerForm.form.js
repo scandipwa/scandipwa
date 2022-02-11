@@ -8,7 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
 import FIELD_TYPE from 'Component/Field/Field.config';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
@@ -112,7 +111,8 @@ export const customerEmailAndPasswordFields = (props) => {
         handleEmailInput,
         handlePasswordInput,
         currentPassword,
-        email
+        email,
+        range
     } = props;
 
     return [
@@ -174,6 +174,7 @@ export const customerEmailAndPasswordFields = (props) => {
                 validationRule: {
                     inputType: VALIDATION_INPUT_TYPE.password,
                     isRequired: true,
+                    range,
                     match: (value) => {
                         const password = document.getElementById('currentPassword');
                         return value && password.value !== value;

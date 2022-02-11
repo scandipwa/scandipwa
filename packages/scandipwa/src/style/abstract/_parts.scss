@@ -31,3 +31,15 @@
         }
     }
 }
+
+@mixin description-tags {
+    li,
+    span,
+    div,
+    p,
+    dt,
+    dd,
+    dl {
+        @content
+    }
+}

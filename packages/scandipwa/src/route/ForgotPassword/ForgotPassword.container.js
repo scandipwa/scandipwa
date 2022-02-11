@@ -21,6 +21,7 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { ACCOUNT_LOGIN_URL, ACCOUNT_REGISTRATION_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -66,6 +67,7 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
                 this.handleSignIn(e);
             }
         });
+        scrollToTop({ behavior: 'smooth' });
     }
 
     onLoginClick() {

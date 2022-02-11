@@ -15,6 +15,7 @@ export const UPDATE_TOTALS = 'UPDATE_TOTALS';
 export const APPLY_COUPON_TO_CART = 'APPLY_COUPON_TO_CART';
 export const REMOVE_COUPON_FROM_CART = 'REMOVE_COUPON_FROM_CART';
 export const UPDATE_SHIPPING_PRICE = 'UPDATE_SHIPPING_PRICE';
+export const UPDATE_IS_LOADING_CART = 'UPDATE_IS_LOADING_CART';
 
 /**
  * Update product list with new list (rewrite if already exists).
@@ -79,4 +80,10 @@ export const applyCouponToCart = (couponCode) => ({
  */
 export const removeCouponFromCart = () => ({
     type: REMOVE_COUPON_FROM_CART
+});
+
+/** @namespace Store/Cart/Action/updateIsLoadingCart */
+export const updateIsLoadingCart = (isLoading) => ({
+    type: UPDATE_IS_LOADING_CART,
+    isLoading
 });

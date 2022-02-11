@@ -20,6 +20,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
@@ -71,14 +72,15 @@ export class WishlistItemContainer extends PureComponent {
         handleSelectIdChange: PropTypes.func.isRequired,
         isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        wishlistId: PropTypes.number.isRequired,
+        wishlistId: PropTypes.number,
         isEditingActive: PropTypes.bool.isRequired,
         setIsQtyUpdateInProgress: PropTypes.func
     };
 
     static defaultProps = {
         isRemoving: false,
-        setIsQtyUpdateInProgress: () => {}
+        setIsQtyUpdateInProgress: noopFn,
+        wishlistId: 0
     };
 
     containerFunctions = {

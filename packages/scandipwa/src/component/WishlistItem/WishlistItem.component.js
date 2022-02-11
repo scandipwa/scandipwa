@@ -225,7 +225,7 @@ export class WishlistItem extends PureComponent {
         const { label, value } = option;
 
         return (
-            <span block="WishlistItemOption">
+            <span block="WishlistItemOption" key={ `${ label }-${ value }` }>
                 { `${ value} x ${label }` }
             </span>
         );
@@ -235,7 +235,7 @@ export class WishlistItem extends PureComponent {
         const { label, value } = option;
 
         return (
-            <span block="WishlistItemOption">
+            <span block="WishlistItemOption" key={ `${ label }-${ value }` }>
                 { `${label }: ${ value}` }
             </span>
         );

@@ -16,6 +16,7 @@ import ChevronIcon from 'Component/ChevronIcon';
 import { LEFT, RIGHT } from 'Component/ChevronIcon/ChevronIcon.config';
 import PaginationLink from 'Component/PaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { MixType } from 'Type/Common.type';
 import { range } from 'Util/Manipulations';
 
 import './Pagination.style';
@@ -38,7 +39,8 @@ export class Pagination extends PureComponent {
         shouldRenderPreviousJump: PropTypes.bool.isRequired,
         shouldRenderJumps: PropTypes.bool.isRequired,
         paginationFrame: PropTypes.number.isRequired,
-        id: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired,
+        mix: MixType.isRequired
     };
 
     renderPreviousPageLink() {
@@ -219,7 +221,12 @@ export class Pagination extends PureComponent {
     }
 
     render() {
-        const { isLoading, totalPages, id } = this.props;
+        const {
+            isLoading,
+            totalPages,
+            id,
+            mix
+        } = this.props;
 
         if (totalPages === 1) { // do not show pagination, if there are less then one page
             return <ul block="Pagination" />;
@@ -230,8 +237,8 @@ export class Pagination extends PureComponent {
         }
 
         return (
-            <nav aria-label={ __('Product list navigation') }>
-                <ul block="Pagination" id={ id }>
+            <nav aria-label={ __('List navigation') }>
+                <ul block="Pagination" id={ id } mix={ mix }>
                     { this.renderPreviousPageLink() }
                     { this.renderFirstPageLink() }
                     { this.renderPreviousJump() }

@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { UTMOST_PAGES_COUNT } from 'Component/Pagination/Pagination.config';
+import { MixType } from 'Type/Common.type';
 import { HistoryType, LocationType } from 'Type/Router.type';
 import { generateQuery, getQueryParam } from 'Util/Url';
 
@@ -42,7 +43,8 @@ export class PaginationContainer extends PureComponent {
         paginationFrameSkip: PropTypes.number,
         anchorTextPrevious: PropTypes.string,
         anchorTextNext: PropTypes.string,
-        id: PropTypes.string
+        id: PropTypes.string,
+        mix: MixType
     };
 
     static defaultProps = {
@@ -51,7 +53,8 @@ export class PaginationContainer extends PureComponent {
         paginationFrameSkip: null,
         anchorTextPrevious: '',
         anchorTextNext: '',
-        id: ''
+        id: '',
+        mix: {}
     };
 
     containerFunctions = {
@@ -73,7 +76,8 @@ export class PaginationContainer extends PureComponent {
             isLoading,
             paginationFrame,
             totalPages,
-            location: { pathname }
+            location: { pathname },
+            mix
         } = this.props;
 
         return {
@@ -84,6 +88,7 @@ export class PaginationContainer extends PureComponent {
             paginationFrame,
             pathname,
             totalPages,
+            mix,
             currentPage: this._getCurrentPage(),
             prevPageJump: this._getPrevPageJump(),
             nextPageJump: this._getNextPageJump(),

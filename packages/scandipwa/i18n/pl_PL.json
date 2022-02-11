@@ -56,15 +56,11 @@
     "Create Password": "Utwórz hasło",
     "Create an account": "Utwórz konto",
     "Create new account": "Utwórz nowe konto",
-
     "Current product price": "Aktualna cena produktu",
-
     "Date": "Data",
     "Default %s address": "Domyślny adres %s",
     "Delete": "Usuń",
-
     "Edit address": "Edytuj adres",
-
     "Edit details": "Edytuj szczegóły",
     "Email": "Email",
     "Email addresses, separated by commas": null,
@@ -85,14 +81,12 @@
     "Go to Address Book to configure them!": "Przejdź do książki adresowej, aby je skonfigurować!",
     "Good": "Dobry",
     "Got it": "Rozumiem",
-
     "Guests can not subscribe to the newsletter. You must create an account or login to subscribe.": "Goście nie mogą zapisać się do newslettera. Aby subskrybować, musisz utworzyć konto lub zalogować się.",
     "Have a discount code?": "Masz kod rabatowy?",
     "Home": "Strona główna",
     "I agree to terms and conditions": "Zgadzam się z warunkami",
     "If there is an account associated with the provided address you will receive an email with a link to reset your password": "Jeśli istnieje konto związane z podanego adresu otrzymasz e-mail z linkiem do resetowania hasła",
     "If there is an account associated with the provided address you will receive an email with a link to reset your password.": "Jeśli z podanym adresem jest powiązane konto, otrzymasz wiadomość e-mail z linkiem do zresetowania hasła.",
-
     "Image not found": "Nie znaleziono obrazu",
     "Image not specified": "Nie określono obrazu",
     "Incorrect data! Please resolve all field validation errors.": "Niepoprawne dane! Proszę rozwiązać wszystkie błędy pól formularza.",
@@ -106,14 +100,11 @@
     "Maybe later": "Może później",
     "Menu": "Menu",
     "Message": null,
-
     "My Account": "Moje konto",
     "My Account page": "Strona Moje konto",
     "My account": "Moje konto",
     "My billing and shipping are the same": "Moje rozliczenia i wysyłka są takie same",
-
     "My profile": "Mój profil",
-
     "N/A": "Nie dotyczy",
     "Name": "Nazwa",
     "Name: A to Z": "Nazwy: A do Z",
@@ -133,8 +124,6 @@
     "Old product price": "Stara cena produktu",
     "Ooops!": "Ups!",
     "Order": "Zamówienie",
-
-
     "Order details": "Szczegóły zamówienia",
     "Order total": "Razem",
     "Order total:": "Suma zamówienia:",
@@ -146,7 +135,6 @@
     "Password Change Actions": "Akcje zmiany hasła",
     "Password Change Page": "Strona zmiany hasła",
     "Password has been successfully updated!": "Hasło zostało pomyślnie zaktualizowane!",
-
     "Personal Information": "Informacje Osobiste",
     "Phone number": "Numer telefonu",
     "Play video": "Odtwórz wideo",
@@ -158,16 +146,13 @@
     "Postal code": "Kod pocztowy",
     "Previous page": "Poprzednia strona",
     "Price": "Cena",
-
     "Proceed to billing": "Przejdź do fakturowania",
     "Product %s thumbnail.": "Miniaturka produktu %s.",
     "Product Price": "Cena produktu",
     "Product added to wish-list!": "Produkt dodany do listy życzeń!",
     "Product has been removed from your Wish List!": "Produkt został usunięty z listy życzeń!",
-    "Product list navigation": "Nawigacja po liście produktów",
     "Products are loading...": "Produkty są ładowane...",
     "Purchase Order Number": "Numer zamówienia",
-
     "Rate: ": "Stawka: ",
     "Recommended for you": "Polecany dla Ciebie",
     "Reload the page": "Odśwież stronę",
@@ -185,7 +170,6 @@
     "Share Wishlist": null,
     "Shared Wishlist": null,
     "Shipping": "Wysyłka",
-
     "Shipping address": "Adres wysyłki",
     "Shopping Options": "Opcje zakupów",
     "Shopping cart": "Koszyk",
@@ -198,12 +182,10 @@
     "Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.": "Przepraszamy, nie możemy znaleźć strony, której szukasz! Naciśnij przycisk poniżej, aby wrócić do strony głównej.",
     "State/Province": "Województwo",
     "Status": "Status",
-
     "Street": "Ulica",
     "Street address": "Ulica",
     "Submit": "Wyślij",
     "Submit Review": "Wyślij ocenę",
-
     "Summary": "Podsumowanie",
     "Tap:": "Dotknij",
     "Tax": "Podatek",
@@ -251,7 +233,6 @@
     "Your account is confirmed!": "Twoje konto zostało potwierdzone!",
     "Your order # is: %s": "Twój numer zamówienia to: %s",
     "Your password and confirmation password do not match.": "Hasło i hasło potwierdzające nie są zgodne.",
-
     "billing": "dane rozliczeniowe",
     "item": "element",
     "save %s%": "zaoszczędź %s%",
@@ -274,7 +255,6 @@
     "Product Compare": null,
     "Compare": null,
     "items": null,
-
     "Please add at least one product to cart!": null,
     "Your account has been created successfully!": null,
     "Transactional [default state + hover]": null,
@@ -426,7 +406,6 @@
     "Your Tax/VAT Number": null,
     "Sign In": null,
     "Retype your password": null,
-
     "Discount: ": null,
     "The minimum amount you can purchase is %s": null,
     "The maximum amount you can purchase is %s": null,
@@ -541,7 +520,6 @@
     "Radio": null,
     "Breadcrumbs": null,
     "Please fill in all rating fields": null,
-
     "My Orders": null,
     "My Downloadable": null,
     "My Wish List": null,
@@ -553,7 +531,6 @@
     "Change Password": null,
     "Your new email": null,
     "Confirm New Password ": null,
-
     "Product Name": null,
     "SKU": null,
     "Qty": null,
@@ -561,14 +538,12 @@
     "Subscribe to Order Status": null,
     "Invoices": null,
     "Order Shipments": null,
-
     "Refunds": null,
     "Discount Amount": null,
     "Row Total": null,
     "Order Information": null,
     "Shipping Address": null,
     "Billing Address": null,
-
     "Shipping Method": null,
     "Payment Method": null,
     "Ordered": null,
@@ -582,14 +557,8 @@
     "Grand Total (Incl.Tax)": null,
     "Grand Total to be Charged": null,
     "Order # %s": null,
-
     "Product name": null,
-
-
-
-
     "Confirm New password": null,
-
     "Change %s": null,
     "Manage Addresses": null,
     "Incorrect File extension upload!": null,
@@ -612,5 +581,10 @@
     "You have not purchased any downloadable products yet.": null,
     "All %s": null,
     "About Your Order": null,
-    "About Your %s": null
+    "About Your %s": null,
+    "List navigation": null,
+    "Not possible to fetch while offline": null,
+    "Buy %s with ": null,
+    "%s% discount each": null,
+    "Product list navigation": null
 }

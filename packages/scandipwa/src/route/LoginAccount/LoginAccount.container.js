@@ -26,6 +26,7 @@ import { ISLOCKED } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
@@ -90,6 +91,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
 
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
         toggleBreadcrumbs(false);
+        scrollToTop({ behavior: 'smooth' });
     }
 
     componentDidUpdate(prevProps, prevState) {

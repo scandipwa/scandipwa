@@ -25,9 +25,6 @@
     "Your password and confirmation password do not match.": null,
     "Password Change Page": null,
     "Change password": null,
-
-
-
     "Newsletter Subscription": null,
     "item": null,
     "items": null,
@@ -180,11 +177,8 @@
     "Please, select product options!": null,
     "Please, select required options!": null,
     "You must login or register to review products.": null,
-
-
     "Edit address": null,
     "Confirm delete": null,
-
     "Personal Information": null,
     "First Name": null,
     "Last Name": null,
@@ -222,20 +216,8 @@
     "Go to Address Book to configure them!": null,
     "Use custom address": null,
     "Order details": null,
-
-
-
-
     "Shipping address": null,
-
-
-
-
-
     "Items Ordered": null,
-
-
-
     "Load previous": null,
     "We are sorry!": null,
     "There were no products found matching your request.": null,
@@ -277,7 +259,7 @@
     "Previous page": null,
     "Page %s": null,
     "Next page": null,
-    "Product list navigation": null,
+    
     "Play video": null,
     "Play video %s": null,
     "Please sign in first!": null,
