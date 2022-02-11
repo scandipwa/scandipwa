@@ -316,7 +316,9 @@ export class Field extends PureComponent {
     //#endregion
 
     render() {
-        const { type, validationResponse, mix } = this.props;
+        const {
+            type, validationResponse, mix
+        } = this.props;
         const inputRenderer = this.renderMap[type];
 
         return (

@@ -180,7 +180,8 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
         const {
             uid: sourceUid = '',
             quantity: defaultQuantity = 1,
-            position
+            position,
+            is_default
         } = option;
 
         const {
@@ -197,7 +198,8 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
             value: uid,
             label: baseLabel,
             subLabel: priceLabel,
-            sort_order: position
+            sort_order: position,
+            isDefault: is_default
         });
 
         return result;
