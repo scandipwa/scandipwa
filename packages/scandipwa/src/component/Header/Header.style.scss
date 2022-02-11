@@ -238,8 +238,9 @@
         }
 
         @include desktop {
-            position: absolute;
             grid-column: 1 / 2;
+            min-height: var(--header-nav-height);
+            position: absolute;
 
             @include logo-visible;
         }
