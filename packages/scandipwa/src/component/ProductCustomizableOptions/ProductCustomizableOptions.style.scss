@@ -30,6 +30,22 @@
             margin-block-start: 16px;
 
             &_type {
+                &_textarea, &_text {
+                    & + .Field-SubLabelContainer {
+                        .Field-SubLabel {
+                            font-weight: normal;
+                        }
+                    }
+
+                    &.Field_hasError {
+                        & + .Field-SubLabelContainer {
+                            .Field-SubLabel {
+                                color: var(--primary-error-color);
+                            }
+                        }
+                    }
+                }   
+
                 &_textarea {
                     textarea {
                         width: 100%;

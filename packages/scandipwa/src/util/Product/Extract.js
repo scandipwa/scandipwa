@@ -487,26 +487,35 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
  * @namespace Util/Product/Extract/getSubLabelFromMaxCharacters
  */
 
-export const getSubLabelFromMaxCharacters = (maxCharacters, value = '') => {
+export const getSubLabelFromMaxCharacters = (maxCharacters, isRequired, value = '') => {
     const valueLength = value.length;
     const remainingCharacters = maxCharacters - valueLength;
+    const tooMany = valueLength - maxCharacters;
+
+    if (isRequired && valueLength === 0) {
+        if (maxCharacters > 0) {
+            return { subLabel: __('Maximum %s characters. Field required', maxCharacters), isValid: false };
+        }
+
+        return { subLabel: __('Field required'), isValid: false };
+    }
 
     if (maxCharacters > 0) {
-        if (valueLength <= maxCharacters) {
+        if (valueLength > 0 && valueLength <= maxCharacters) {
             return {
-                subLabel: `Maximum ${maxCharacters} characters (${remainingCharacters} remaining)`,
+                subLabel: __('Maximum %s characters (%s remaining)', maxCharacters, remainingCharacters),
                 isValid: true
             };
         }
 
         if (valueLength >= maxCharacters) {
-            return { subLabel: null, isValid: false };
+            return { subLabel: __('Maximum %s characters (%s too many!)', maxCharacters, tooMany), isValid: false };
         }
 
-        return { subLabel: `Maximum ${maxCharacters} characters`, isValid: true };
+        return { subLabel: __('Maximum %s characters', maxCharacters), isValid: true };
     }
 
-    return { subLabel: null, isValid: null };
+    return { subLabel: null, isValid: true };
 };
 
 //#region IMAGE

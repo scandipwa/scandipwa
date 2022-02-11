@@ -98,7 +98,7 @@ export class ProductCustomizableOption extends PureComponent {
         const { value } = this.state;
         const { max_characters } = option;
         const label = this.getLabel(option, title);
-        const { subLabel, isValid } = getSubLabelFromMaxCharacters(max_characters, value);
+        const { subLabel } = getSubLabelFromMaxCharacters(max_characters, isRequired, value);
 
         return (
             <>
@@ -114,7 +114,8 @@ export class ProductCustomizableOption extends PureComponent {
                       name: uid,
                       placeholder: ''
                   } }
-                  subLabel={ isValid ? subLabel : null }
+                  showErrorAsLabel={ false }
+                  subLabel={ subLabel }
                   events={ {
                       onChange: this.updateValues.bind(this)
                   } }
