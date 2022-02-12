@@ -27,7 +27,7 @@ export const ORDER_ACTION_LABELS = {
     },
     [ORDER_SHIPMENTS]: {
         print: __('Print Shipment'),
-        printUrl: 'sales/order/printShipment/shipment_ID',
+        printUrl: 'sales/order/printShipment/shipment_id',
         printAll: __('Print All Shipments'),
         printAllUrl: 'sales/order/printShipment/order_id'
     },

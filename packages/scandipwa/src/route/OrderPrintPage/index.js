@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export { default } from './OrderPrintPage.component';
+export { default } from './OrderPrintPage.container';

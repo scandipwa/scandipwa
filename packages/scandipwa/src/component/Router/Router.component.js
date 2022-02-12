@@ -29,7 +29,10 @@ import {
     PRINT_ALL_INVOICES,
     PRINT_ALL_REFUNDS,
     PRINT_ALL_SHIPMENT,
-    PRINT_ORDER as PRINT_ORDER_REQUEST
+    PRINT_INVOICE,
+    PRINT_ORDER as PRINT_ORDER_REQUEST,
+    PRINT_REFUND,
+    PRINT_SHIPMENT
 } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
 import UrlRewrites from 'Route/UrlRewrites';
 import {
@@ -278,6 +281,21 @@ export class Router extends PureComponent {
         {
             component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ALL_REFUNDS } /> } />,
             position: 93,
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printInvoice/invoice_id/:invoiceId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_INVOICE } /> } />,
+            position: 94,
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printShipment/shipment_id/:shipmentId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_SHIPMENT } /> } />,
+            position: 95,
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/creditmemo_id/:refundId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_REFUND } /> } />,
+            position: 95,
             name: PRINT_ORDER
         },
         {

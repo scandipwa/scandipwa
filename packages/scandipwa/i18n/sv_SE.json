@@ -611,5 +611,15 @@
     "Discount (%s)": null,
     "Purchase Order Number: %s": null,
     "You have not purchased any downloadable products yet.": null,
-    "All %s": null
+    "All %s": null,
+    "Print Invoice": null,
+    "Print All Invoices": null,
+    "Print Shipment": null,
+    "Print All Shipments": null,
+    "Print Refund": null,
+    "Print All Refunds": null,
+    "Order # increment_id": null,
+    "Order # \"000001617\"": null,
+    "Order # 000001617": null,
+    "Order # 1180": null
 }

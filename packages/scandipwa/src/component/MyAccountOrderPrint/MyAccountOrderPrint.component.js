@@ -27,7 +27,21 @@ import './MyAccountOrderPrint.style';
 export class MyAccountOrderPrint extends MyAccountOrder {
     logoRef = createRef();
 
-    componentDidMount() {
+    state = {
+        isPrintShown: false
+    };
+
+    componentDidUpdate() {
+        const { order: { id } = {}, isLogoLoaded } = this.props;
+        const { isPrintShown } = this.state;
+
+        if (id && isLogoLoaded && !isPrintShown) {
+            this.showPrint();
+        }
+    }
+
+    showPrint() {
+        this.setState({ isPrintShown: true });
         print();
     }
 
@@ -66,7 +80,8 @@ export class MyAccountOrderPrint extends MyAccountOrder {
             logo_src,
             logo_alt,
             logo_height,
-            logo_width
+            logo_width,
+            onLogoLoad
         } = this.props;
 
         const logoSrc = logo_src ? media(logo_src, LOGO_MEDIA) : null;
@@ -86,6 +101,7 @@ export class MyAccountOrderPrint extends MyAccountOrder {
                   src={ logoSrc }
                   alt={ logo_alt }
                   title={ logo_alt }
+                  onImageLoad={ onLogoLoad }
                 />
             </Link>
         );
@@ -129,6 +145,7 @@ export class MyAccountOrderPrint extends MyAccountOrder {
             <div
               block="MyAccountOrderPrint"
               elem="Wrapper"
+              ref={ this.logoRef }
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderContent() }

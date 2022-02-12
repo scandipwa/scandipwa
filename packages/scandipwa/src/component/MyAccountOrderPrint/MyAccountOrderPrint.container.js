@@ -9,30 +9,22 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Loader from 'Component/Loader';
 import {
-    ORDER_INVOICES,
-    ORDER_ITEMS,
-    ORDER_REFUNDS,
-    ORDER_SHIPMENTS
-} from 'Component/MyAccountOrder/MyAccountOrder.config';
-import {
-    mapDispatchToProps,
+    mapDispatchToProps as sourceMapDispatchToProps,
+    mapStateToProps as sourceMapStateToProps,
     MyAccountOrderContainer
 } from 'Component/MyAccountOrder/MyAccountOrder.container';
+import { updateMeta } from 'Store/Meta/Meta.action';
 import { isSignedIn } from 'Util/Auth';
 
 import MyAccountOrderPrint from './MyAccountOrderPrint.component';
-import {
-    PRINT_ALL_INVOICES, PRINT_ALL_REFUNDS, PRINT_ALL_SHIPMENT, PRINT_ORDER
-} from './MyAccountOrderPrint.config';
 
 /** @namespace Component/MyAccountOrderPrint/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    ...MyAccountOrderContainer.mapStateToProps,
+    ...sourceMapStateToProps(state),
     logo_src: state.ConfigReducer.header_logo_src,
     logo_alt: state.ConfigReducer.logo_alt,
     logo_height: state.ConfigReducer.logo_height,
@@ -40,29 +32,66 @@ export const mapStateToProps = (state) => ({
     copyright: state.ConfigReducer.copyright
 });
 
+/** @namespace Component/MyAccountOrderPrint/Container/mapDispatchToProps */
+export const mapDispatchToProps = (dispatch) => ({
+    ...sourceMapDispatchToProps(dispatch),
+    updateMeta: (meta) => dispatch(updateMeta(meta))
+});
+
 /** @namespace Component/MyAccountOrderPrint/Container */
 export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
     static propTypes = {
         ...MyAccountOrderContainer.propTypes,
-        orderPrintRequest: PropTypes.string.required
+        orderPrintRequest: PropTypes.string.isRequired,
+        updateMeta: PropTypes.func.isRequired
     };
 
-    orderPrintMap = {
-        [PRINT_ORDER]: {
-            request: this.requestOrderDetails(),
-            activeTab: ORDER_ITEMS
-        },
-        [PRINT_ALL_INVOICES]: {
-            request: this.requestOrderDetails(),
-            activeTab: ORDER_INVOICES
-        },
-        [PRINT_ALL_SHIPMENT]: {
-            activeTab: ORDER_SHIPMENTS
-        },
-        [PRINT_ALL_REFUNDS]: {
-            activeTab: ORDER_REFUNDS
-        }
+    containerFunctions = {
+        ...MyAccountOrderContainer.containerFunctions,
+        onLogoLoad: this.onLogoLoad.bind(this)
     };
+
+    state = {
+        ...MyAccountOrderContainer.state,
+        isLogoLoaded: false
+    };
+
+    __construct(props) {
+        super.__construct(props);
+
+        this.requestOrderPrintDetails();
+    }
+
+    componentWillUnmount() {}
+
+    async requestOrderPrintDetails() {
+        const {
+            match: {
+                params: {
+                    invoiceId,
+                    shipmentId,
+                    refundId
+                }
+            },
+            orderPrintRequest,
+            orderPrintMap
+        } = this.props;
+        const { request } = orderPrintMap[orderPrintRequest];
+
+        if (!request) {
+            return this.requestOrderDetails();
+        }
+
+        const order = await request(invoiceId || shipmentId || refundId);
+
+        if (!order) {
+            return null;
+        }
+
+        this.handleSetOrder(order);
+
+        return null;
+    }
 
     async requestOrderDetails() {
         const {
@@ -84,12 +113,21 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
             return;
         }
 
-        const { id: uid } = order;
+        this.handleSetOrder(order);
+    }
+
+    handleSetOrder(order) {
+        const { updateMeta } = this.props;
+        const { id: uid, increment_id } = order;
 
         // decode uid of order before setting into state
         order.id = atob(uid);
-
+        updateMeta({ title: __('Order # %s', increment_id) });
         this.setState({ order, isLoading: false });
+    }
+
+    onLogoLoad() {
+        this.setState({ isLogoLoaded: true });
     }
 
     containerProps() {
@@ -100,10 +138,12 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
             logo_width,
             match,
             copyright,
-            orderPrintRequest
+            orderPrintRequest,
+            orderPrintMap
         } = this.props;
+        const { isLogoLoaded } = this.state;
 
-        const { activeTab } = this.orderPrintMap[orderPrintRequest];
+        const { activeTab } = orderPrintMap[orderPrintRequest];
 
         return {
             ...super.containerProps(),
@@ -113,17 +153,12 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
             logo_width,
             match,
             copyright,
-            activeTab
+            activeTab,
+            isLogoLoaded
         };
     }
 
     render() {
-        const { isLoading } = this.state;
-
-        if (isLoading) {
-            return <Loader />;
-        }
-
         return (
             <MyAccountOrderPrint
               { ...this.containerFunctions }

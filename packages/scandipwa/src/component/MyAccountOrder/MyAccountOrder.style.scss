@@ -69,7 +69,7 @@
     }
 
     &-PrintOrder {
-        display: none;
+        font-weight: normal;
 
         @include desktop {
             display: block;

@@ -22,17 +22,23 @@ import './OrderPrintPage.style';
 export class OrderPrintPage extends PureComponent {
     static propTypes = {
         match: MatchType.isRequired,
-        orderPrintRequest: PropTypes.string.isRequired
+        orderPrintRequest: PropTypes.string.isRequired,
+        // eslint-disable-next-line react/forbid-prop-types
+        orderPrintMap: PropTypes.object.isRequired
     };
 
     render() {
-        const { match, orderPrintRequest } = this.props;
+        const { match, orderPrintRequest, orderPrintMap } = this.props;
 
         return (
             <div
               block="OrderPrintPage"
             >
-                <MyAccountOrderPrint match={ match } orderPrintRequest={ orderPrintRequest } />
+                <MyAccountOrderPrint
+                  match={ match }
+                  orderPrintRequest={ orderPrintRequest }
+                  orderPrintMap={ orderPrintMap }
+                />
             </div>
         );
     }

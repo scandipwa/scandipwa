@@ -63,11 +63,10 @@ export class Meta extends PureComponent {
 
         const titlePrefix = title_prefix ? `${ title_prefix } | ` : '';
         const titleSuffix = title_suffix ? ` | ${ title_suffix }` : '';
-        const { value = title } = title;
 
         return (
             <title>
-                { `${ titlePrefix }${ value || default_title }${ titleSuffix }` }
+                { `${ titlePrefix }${ title || default_title }${ titleSuffix }` }
             </title>
         );
     }

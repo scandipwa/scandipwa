@@ -14,3 +14,6 @@ export const PRINT_ORDER = 'print_order';
 export const PRINT_ALL_INVOICES = 'print_all_invoices';
 export const PRINT_ALL_SHIPMENT = 'print_all_shipment';
 export const PRINT_ALL_REFUNDS = 'print_all_refunds';
+export const PRINT_INVOICE = 'print_invoice';
+export const PRINT_SHIPMENT = 'print_shipment';
+export const PRINT_REFUND = 'print_refund';

@@ -12,8 +12,8 @@
 :root {
     --order-status-border: 1px solid #ccc;
     --order-status-color: #333;
-    --header-logo-width: 186px;
-    --header-logo-height: 46px;
+    --header-logo-width: 194px;
+    --header-logo-height: 24px;
 
     @media print {
         --table-body-border: 1px solid rgba(10, 9, 3, 0.16);
@@ -50,7 +50,6 @@
         &-ProductsWrapper {
             border: var(--table-body-border);
             padding: 15px;
-            break-inside: avoid;
 
             &:not(:first-of-type) {
                 margin-block-start: 20px;
@@ -61,6 +60,10 @@
             thead {
                 border-block-start: var(--table-body-border);
                 border-block-end: var(--table-body-border);
+            }
+
+            tbody {
+                page-break-inside: avoid;
             }
         }
 
@@ -74,7 +77,9 @@
             &-RowWrapper {
                 td {
                     &:nth-child(n+3) {
-                        text-align: right;
+                        @include desktop {
+                            text-align: right;
+                        }
                     }
                 }
             }
@@ -112,6 +117,8 @@
 
     &Print {
         &-Wrapper {
+            height: 100vh;
+
             * {
                 background: transparent;
             }
