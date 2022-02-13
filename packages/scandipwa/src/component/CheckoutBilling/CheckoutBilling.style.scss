@@ -9,6 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    
+    --checkbox-border-color: var(--imported_checkboxes_border_color, var(--primary-base-color));
+}
+
 .CheckoutBilling {
     margin-block-start: 24px;
 
@@ -38,19 +43,30 @@
             margin-block: 0;
 
             @include mobile {
-                margin-inline-end: 14px;
+                margin-inline-end: 2px;
             }
         }
     }
 
     &-TACLabel {
-        display: inline;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            cursor: pointer;
+            
+            @include desktop {
+                color: var(--primary-base-color);
+            }
+        }
     }
 
     &-TACLink {
         font-size: 14px;
         font-weight: 700;
         color: var(--link-color);
+        margin-inline-start: 0.5em;
+        display: flex;
         cursor: pointer;
 
         &:hover {
@@ -62,14 +78,14 @@
         }
     }
 
-    .Checkout{
-        &-OrderTotal{
+    .Checkout {
+        &-OrderTotal {
             dd {
                 text-align: end;
 
                 span {
                     display: block;
-                    font-size: .6em;
+                    font-size: 0.6em;
                     font-weight: 300;
                 }
             }

@@ -15,6 +15,7 @@
 
 .CartItem {
     --header-color: var(--color-black);
+
     border-block-end: 1px solid var(--primary-divider-color);
 
     &-OutOfStock {
@@ -93,16 +94,20 @@
     &-Options {
         color: var(--secondary-dark-color);
         font-size: 12px;
-
-        @include mobile {
-            padding-block-end: 12px;
-        }
     }
 
     &-Option {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        line-height: 16px;
+        display: flex;
+        gap: 4px;
+
+        &_isBundle {
+            flex-direction: column;
+            gap: 0;
+        }
     }
 
     &-ItemLinks {
@@ -124,6 +129,10 @@
         &_isMobileLayout {
             width: 90%;
         }
+
+        @include mobile {
+            margin-block-end: 12px;
+        }
     }
 
     &-Heading,
@@ -143,6 +152,7 @@
     &-Heading {
         color: var(--color-black);
         overflow: hidden;
+        line-height: 20px;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
@@ -182,6 +192,7 @@
 
         &_isCartOverlay data {
             font-size: 14px;
+            line-height: 20px;
         }
     }
 
@@ -204,6 +215,7 @@
     }
 
     &-Delete {
+        align-items: center;
         display: flex;
         z-index: 5;
         font-size: 14px;
@@ -224,7 +236,8 @@
     }
 
     &-DeleteButtonText {
-        line-height: 24px;
+        color: inherit;
+        line-height: 20px;
         margin-inline-start: 4px;
         cursor: pointer;
 
@@ -287,7 +300,6 @@
 
     .CartItem-QuantityWrapper {
         &_isCartOverlay {
-
             & button {
                 width: 36px;
                 height: 36px;

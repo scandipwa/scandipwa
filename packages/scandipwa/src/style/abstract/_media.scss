@@ -17,7 +17,7 @@
 
 @mixin ultra-narrow-desktop {
     @media (min-width: 810px)
-    and (max-width: 1160px) {
+        and (max-width: 1160px) {
         @content;
     }
 }

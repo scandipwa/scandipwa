@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "5.1.3",
+    "version": "5.2.4",
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
@@ -9,16 +9,18 @@
         "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/chunk-optimizer": "0.0.3",
+        "@scandipwa/chunk-optimizer": "0.0.4",
         "@scandipwa/m2-theme": "0.2.2",
         "@scandipwa/next-emulator": "0.0.3",
         "@scandipwa/postcss-config": "0.0.2",
         "@scandipwa/scandipwa-scripts": "2.4.19",
         "@scandipwa/service-worker": "0.0.17",
+        "@scandipwa/stylelint-config": "0.0.3",
         "@scandipwa/webpack-i18n-runtime": "0.0.29",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
         "intersection-observer": "^0.12.0",
+        "postcss": "8.4.5",
         "prop-types": "^15.6.2",
         "react": "^16.13.1",
         "react-datepicker": "^4.3.0",
@@ -65,34 +67,35 @@
             "@scandipwa/service-worker": true,
             "@scandipwa/postcss-config": true,
             "@scandipwa/chunk-optimizer": true,
-            "@scandipwa/next-emulator": false
+            "@scandipwa/next-emulator": false,
+            "@scandipwa/stylelint-config": true
         },
         "composer": {
             "magento/framework": "*",
             "scandipwa/service-worker": "1.0.2",
             "scandipwa/installer": "4.0",
             "scandipwa/menu-organizer": "2.1.5",
-            "scandipwa/persisted-query": "3.0.2",
+            "scandipwa/persisted-query": "3.0.3",
             "scandipwa/slider-graphql": "2.1.0",
             "scandipwa/cms-graphql": "1.4.4",
             "scandipwa/catalog-graphql": "3.2.11",
             "scandipwa/route717": "2.0.2",
             "scandipwa/performance": "1.5.5",
-            "scandipwa/customer-graph-ql": "3.1.9",
+            "scandipwa/customer-graph-ql": "3.1.10",
             "scandipwa/quote-graphql": "2.19.21",
             "scandipwa/wishlist-graphql": "2.0.15",
             "scandipwa/urlrewrite-graphql": "1.3.7",
-            "scandipwa/store-graphql": "1.2.10",
-            "scandipwa/customization": "1.5.9",
-            "scandipwa/cache": "1.1.4",
+            "scandipwa/store-graphql": "1.2.11",
+            "scandipwa/customization": "1.5.10",
+            "scandipwa/cache": "1.1.5",
             "scandipwa/locale": "2",
             "scandipwa/contact-graphql": "1.0.0",
             "scandipwa/klarna-graphql": "1.1.2",
             "scandipwa/compare-graphql": "1.0.9",
-            "scandipwa/customer-downloadable-graphql": "1.0.4",
+            "scandipwa/customer-downloadable-graphql": "1.0.5",
             "scandipwa/directory-graphql": "1.0.1",
             "scandipwa/product-alerts-graphql": "1.0.0",
-            "scandipwa/sales-graphql": "1.0.4",
+            "scandipwa/sales-graphql": "1.0.7",
             "scandipwa/catalog-customer-graphql": "1.0.0"
         }
     },
@@ -301,6 +304,14 @@
             "react/button-has-type": 0,
             "react/jsx-indent": 0,
             "react/jsx-indent-props": 2,
+            "react/forbid-elements": [
+                1,
+                {
+                    "forbid": [
+                        { "element": "a", "message": "Use the <Link> component instead of <a>." }
+                    ]
+                }
+            ],
             "react/jsx-no-bind": [
                 2,
                 {

@@ -17,5 +17,9 @@
 
     &_isActive {
         fill: var(--primary-base-color);
+        
+        &:hover {
+            fill: var(--color-black);
+        } 
     }
 }

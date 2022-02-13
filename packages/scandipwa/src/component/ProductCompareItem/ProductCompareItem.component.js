@@ -31,11 +31,13 @@ export class ProductCompareItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         product: ProductType.isRequired,
+        addItemToCart: PropTypes.func.isRequired,
         removeComparedProduct: PropTypes.func.isRequired,
         imgUrl: PropTypes.string.isRequired,
         overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
         linkTo: LinkType,
         overriddenAddToCartBtnHandler: PropTypes.func.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired,
         isInStock: PropTypes.func.isRequired
     };
 
@@ -92,7 +94,11 @@ export class ProductCompareItem extends PureComponent {
     }
 
     renderWishlistButton() {
-        const { product } = this.props;
+        const { product, isWishlistEnabled } = this.props;
+
+        if (!isWishlistEnabled) {
+            return null;
+        }
 
         return (
             <ProductWishlistButton
@@ -104,14 +110,17 @@ export class ProductCompareItem extends PureComponent {
 
     renderAddToCartBtnEnabled() {
         const {
-            product
+            addItemToCart
         } = this.props;
 
         return (
-            <AddToCart
-              product={ product }
-              mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
-            />
+            <button
+              onClick={ addItemToCart }
+            >
+                <AddToCart
+                  mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
+                />
+            </button>
         );
     }
 

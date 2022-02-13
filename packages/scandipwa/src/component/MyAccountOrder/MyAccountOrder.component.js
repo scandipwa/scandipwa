@@ -19,7 +19,7 @@ import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
 import { ACCOUNT_ORDER_PRINT_URL } from 'Route/MyAccount/MyAccount.config';
 import { OrderType } from 'Type/Order.type';
-import { convertStringToDate } from 'Util/Manipulations/Date';
+import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
@@ -197,6 +197,7 @@ export class MyAccountOrder extends PureComponent {
                     </div>
                     { this.renderPrintOrder() }
                 </div>
+                { this.renderOrderComments() }
                 <MyAccountOrderTabs
                   tabs={ this.shouldTabsRender() }
                   handleChangeActiveTab={ handleChangeActiveTab }
@@ -219,6 +220,36 @@ export class MyAccountOrder extends PureComponent {
             >
                 { __('Print Order') }
             </Link>
+        );
+    }
+
+    renderOrderComments() {
+        const { activeTab, order: { comments = [] } } = this.props;
+
+        if (activeTab !== ORDER_ITEMS || !comments.length) {
+            return null;
+        }
+
+        return (
+            <div block="MyAccountOrder" elem="Comments">
+                <div
+                  block="MyAccountOrder"
+                  elem="CommentsTitle"
+                >
+                    { __('About Your Order') }
+                </div>
+                <div block="MyAccountOrder" elem="CommentsList">
+                    { comments.map(({ timestamp, message }) => (
+                        <dl
+                          block="MyAccountOrder"
+                          elem="Comment"
+                        >
+                            <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
+                            <dd>{ message }</dd>
+                        </dl>
+                    )) }
+                </div>
+            </div>
         );
     }
 
@@ -261,7 +292,11 @@ export class MyAccountOrder extends PureComponent {
     }
 
     renderOrderInformation() {
-        const { order } = this.props;
+        const { order, activeTab } = this.props;
+
+        if (activeTab === ORDER_REFUNDS) {
+            return null;
+        }
 
         return <MyAccountOrderInformation order={ order } />;
     }

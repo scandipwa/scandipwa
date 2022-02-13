@@ -75,6 +75,7 @@ export class StoreInPickUpStoreComponent extends PureComponent {
                     <p>{ street }</p>
                     <p>{ `${city}, ${region || ''} ${postcode}` }</p>
                     <p>{ country }</p>
+                    { /* eslint-disable-next-line react/forbid-elements */ }
                     <a href={ `tel:${phone}` }>{ phone }</a>
                     <p>
                         <Html content={ description || '' } />

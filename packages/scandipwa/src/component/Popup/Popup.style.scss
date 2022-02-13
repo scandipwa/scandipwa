@@ -11,6 +11,7 @@
 
 :root {
     --popup-background: #0003;
+
     @include mobile {
         --popup-content-padding: 14px;
     }
@@ -34,7 +35,6 @@
     background-color: var(--popup-background);
     inset-inline-start: 0;
     inset-block-start: var(--header-total-height);
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -119,7 +119,7 @@
 
     @include desktop {
         position: fixed;
-        overflow-y: auto;
+        overflow-y: scroll;
     }
 
     @include mobile {

@@ -68,9 +68,13 @@ export class ProductCustomizableOption extends PureComponent {
         } = customizableOptionToLabel(option, currencyCode);
 
         return (
-            <div>
+            <div block="ProductCustomizableItem" elem="Label">
                 { overrideBase || baseLabel }
-                <strong block="ProductCustomizableItem" elem="PriceLabel">{ ` ${overridePrice || priceLabel}` }</strong>
+                { (overridePrice || priceLabel) && (
+                    <strong block="ProductCustomizableItem" elem="PriceLabel">
+                        { ` ${overridePrice || priceLabel}` }
+                    </strong>
+                ) }
             </div>
         );
     }
@@ -96,12 +100,13 @@ export class ProductCustomizableOption extends PureComponent {
                   } }
                   attr={ {
                       id: uid,
-                      name: uid
+                      name: uid,
+                      placeholder: ''
                   } }
                   events={ {
                       onChange: updateSelectedValues
                   } }
-                  validateOn={ ['onBlur'] }
+                  validateOn={ ['onBlur', 'onChange'] }
                 />
             </>
         );
@@ -221,7 +226,7 @@ export class ProductCustomizableOption extends PureComponent {
                       id: `option-${ uid }`,
                       value: uid,
                       name: `option-${ name }`,
-                      checked: is_default
+                      defaultChecked: is_default
                   } }
                   events={ {
                       onChange: updateSelectedValues
@@ -281,9 +286,9 @@ export class ProductCustomizableOption extends PureComponent {
         const { isRequired } = this.props;
 
         return (
-            <div block="ProductCustomizableItem" elem="Heading">
+            <div block="ProductCustomizableItem" elem="HeadingBold">
                 { title }
-                { isRequired && <strong block="ProductCustomizableItem" elem="Required"> *</strong> }
+                { isRequired && <strong block="ProductCustomizableItem" elem="Required">*</strong> }
             </div>
         );
     }

@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -21,9 +20,10 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
-import { getProductInStock } from 'Util/Product/Extract';
+import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { Debouncer } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -72,14 +72,15 @@ export class WishlistItemContainer extends PureComponent {
         handleSelectIdChange: PropTypes.func.isRequired,
         isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        wishlistId: PropTypes.number.isRequired,
+        wishlistId: PropTypes.number,
         isEditingActive: PropTypes.bool.isRequired,
         setIsQtyUpdateInProgress: PropTypes.func
     };
 
     static defaultProps = {
         isRemoving: false,
-        setIsQtyUpdateInProgress: () => {}
+        setIsQtyUpdateInProgress: noopFn,
+        wishlistId: 0
     };
 
     containerFunctions = {
@@ -93,7 +94,7 @@ export class WishlistItemContainer extends PureComponent {
         isLoading: false
     };
 
-    removeItemOnSwipe = this.removeItem.bind(this, false, true);
+    renderRightSideContent = this.renderRightSideContent.bind(this);
 
     getAttributes = this.getAttributes.bind(this);
 
@@ -166,6 +167,8 @@ export class WishlistItemContainer extends PureComponent {
             inStock: this.productIsInStock(),
             changeQuantity: this.changeQuantity,
             changeDescription: this.changeDescription,
+            minSaleQuantity: getMinQuantity(product),
+            maxSaleQuantity: getMaxQuantity(product),
             attributes: this.getAttributes(),
             isLoading,
             handleSelectIdChange,
@@ -189,7 +192,9 @@ export class WishlistItemContainer extends PureComponent {
         setIsQtyUpdateInProgress(true);
     }
 
-    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
+    getConfigurableVariantIndex(sku, variants) {
+        return Object.keys(variants).find((i) => variants[i].sku === sku);
+    }
 
     getAttributes() {
         const { product: { variants, configurable_options, wishlist: { sku: wishlistSku } } } = this.props;
@@ -214,7 +219,7 @@ export class WishlistItemContainer extends PureComponent {
 
             return acc;
         }, []) : [];
-    };
+    }
 
     getProducts() {
         const {
@@ -333,16 +338,20 @@ export class WishlistItemContainer extends PureComponent {
         history.push({ pathname: appendWithStoreCode(url) });
     }
 
-    renderRightSideContent = () => (
-        <button
-          block="WishlistItem"
-          elem="SwipeToDeleteRightSide"
-          onClick={ this.removeItemOnSwipe }
-          aria-label={ __('Remove') }
-        >
-            { __('Delete') }
-        </button>
-    );
+    renderRightSideContent() {
+        const { removeItem } = this.containerFunctions;
+
+        return (
+            <button
+              block="WishlistItem"
+              elem="SwipeToDeleteRightSide"
+              onClick={ removeItem }
+              aria-label={ __('Remove') }
+            >
+                { __('Delete') }
+            </button>
+        );
+    }
 
     render() {
         const { isLoading } = this.state;

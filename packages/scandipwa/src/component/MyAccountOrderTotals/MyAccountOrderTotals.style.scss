@@ -22,12 +22,12 @@
 
             th, td {
                 @include desktop {
-                    text-align: right;
+                    text-align: end;
                 }
             }
 
             td {
-                text-align: right;
+                text-align: end;
             }
 
             @include mobile {
@@ -37,7 +37,7 @@
 
             @media print {
                 th {
-                    text-align: right;
+                    text-align: end;
                 }
             }
         }

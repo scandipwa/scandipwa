@@ -40,6 +40,7 @@
 
     &-Button {
         --check-mark-opacity: 0;
+
         font-size: 14px;
         width: 100%;
         text-align: start;
@@ -51,10 +52,30 @@
         }
     }
 
+    &:hover {
+        &:not(.CheckoutDeliveryOption_isHoverExcluded) {
+            .input-control {
+                border-color: var(--checkbox-border-color-active);
+                transition-duration: unset;
+
+                &::after {
+                    @include desktop {
+                        --checkmark-color: var(--secondary-dark-color);
+                    }
+                }
+            }
+
+            .CheckoutDeliveryOption {
+                &-Row * {
+                    color: var(--primary-base-color);
+                }
+            }
+        }
+    }
+
     &-Row {
         strong {
             display: inline-block;
-            white-space: pre;
         }
     }
 
@@ -63,7 +84,7 @@
         font-weight: 400;
         text-align: end;
         position: absolute;
-        inset-inline-start: 0;
+        inset-inline-end: 0;
         inset-block-start: 1.5em;
         white-space: nowrap;
     }

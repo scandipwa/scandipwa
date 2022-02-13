@@ -23,7 +23,7 @@
         display: inline-block;
 
         li {
-            &:before {
+            &::before {
                 content: none;
             }
 
@@ -35,6 +35,7 @@
 
     &-RowWrapper {
         font-size: 14px;
+        word-break: break-word;
 
         td {
             padding-block-start: 16px;
@@ -43,13 +44,13 @@
 
             @include desktop {
                 &:nth-child(n+3) {
-                    text-align: right;
+                    text-align: end;
                 }
             }
 
             @include mobile {
                 &::before {
-                    padding-right: 10px;
+                    padding-inline-end: 10px;
                     content: attr(data-th) ': ';
                     display: inline-block;
                     color: #111111;
@@ -62,7 +63,7 @@
         tr {
             &:first-child {
                 td:first-child {
-                   padding-block-start: 15px;
+                    padding-block-start: 15px;
                 }
             }
 
@@ -74,6 +75,10 @@
         }
 
         @include mobile {
+            border-block-start: var(--my-account-content-border);
+        }
+        
+        &_lineBefore {
             border-block-end: var(--my-account-content-border);
         }
 
@@ -104,8 +109,16 @@
     }
 
     &-Name {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
+
+        strong {
+            font-size: 14px;
+        }
+
+        @include desktop {
+            font-size: 18px;
+        }
     }
 
     &-EnteredRow {
@@ -119,7 +132,7 @@
             }
 
             &:nth-child(n+3) {
-                text-align: right;
+                text-align: end;
             }
         }
 
@@ -151,6 +164,12 @@
 
     &-OptionValue {
         margin-block-end: 5px;
+
+        &>* {
+            display: block;
+            position: relative;
+            word-break: break-all;
+        }
     }
 
     &-OptionValue,

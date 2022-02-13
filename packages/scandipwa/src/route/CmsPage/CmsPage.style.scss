@@ -112,4 +112,18 @@
     .widget {
         overflow-x: auto;
     }
+    
+    ul,
+    ol {
+        margin-inline-start: 20px;
+
+        li {
+            &::before {
+                position: relative;
+                margin-inline-start: 10px;
+                margin-inline-end: -25px;
+                inset-block-start: -1px;
+            }
+        }
+    }
 }

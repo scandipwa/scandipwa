@@ -222,6 +222,10 @@ export class MyAccountDispatcher {
 
         setAuthorizationToken(token);
 
+        ProductCompareDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.assignCompareList(dispatch)
+        );
+
         const cartDispatcher = (await CartDispatcher).default;
         const guestCartToken = getGuestQuoteId();
         // if customer is authorized, `createEmptyCart` mutation returns customer cart token
@@ -237,10 +241,6 @@ export class MyAccountDispatcher {
 
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
-        );
-
-        ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.assignCompareList(dispatch)
         );
 
         await this.requestCustomerData(dispatch);

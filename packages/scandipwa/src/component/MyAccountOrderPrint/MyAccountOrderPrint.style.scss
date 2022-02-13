@@ -78,7 +78,7 @@
                 td {
                     &:nth-child(n+3) {
                         @include desktop {
-                            text-align: right;
+                            text-align: end;
                         }
                     }
                 }
@@ -108,10 +108,21 @@
 
         &-Column {
             margin-block-end: 20px;
+            
+            @media print {
+                display: block;
+                break-inside: avoid;
+            }
         }
 
         &-Title {
             border-block-end: var(--table-body-border);
+        }
+
+        &-Information {
+            @media print {
+                display: block;
+            }
         }
     }
 
@@ -138,7 +149,7 @@
             font-size: 12px;
             padding: 10px;
             background: var(--secondary-base-color);
-            margin-top: 30px;
+            margin-block-start: 30px;
         }
     }
 }

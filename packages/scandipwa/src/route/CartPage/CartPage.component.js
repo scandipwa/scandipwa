@@ -36,15 +36,13 @@ export class CartPage extends PureComponent {
         hasOutOfStockProductsInCart: PropTypes.bool,
         onCouponCodeUpdate: PropTypes.func,
         onCartItemLoading: PropTypes.func,
-        isCartItemLoading: PropTypes.bool,
         device: DeviceType.isRequired
     };
 
     static defaultProps = {
         hasOutOfStockProductsInCart: false,
         onCouponCodeUpdate: noopFn,
-        onCartItemLoading: null,
-        isCartItemLoading: false
+        onCartItemLoading: null
     };
 
     renderCartItems() {
@@ -53,7 +51,6 @@ export class CartPage extends PureComponent {
                 items,
                 quote_currency_code
             },
-            isCartItemLoading,
             onCartItemLoading
         } = this.props;
 
@@ -75,14 +72,13 @@ export class CartPage extends PureComponent {
                     <span>{ __('subtotal') }</span>
                 </p>
                 <div block="CartPage" elem="Items" aria-label="List of items in cart">
-                    <Loader isLoading={ isCartItemLoading } />
                     { items.map((item) => (
                         <CartItem
                           key={ item.item_id }
                           item={ item }
                           currency_code={ quote_currency_code }
                           onCartItemLoading={ onCartItemLoading }
-                          showLoader={ false }
+                          showLoader
                           isEditing
                           updateCrossSellsOnRemove
                         />

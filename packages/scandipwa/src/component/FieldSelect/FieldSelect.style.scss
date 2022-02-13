@@ -32,7 +32,6 @@ $select-arrow-width: 14px !default;
         width: $select-arrow-width;
         height: $select-arrow-height;
         pointer-events: none;
-
         position: absolute;
         inset-inline-end: 12px;
     }
@@ -62,11 +61,10 @@ $select-arrow-width: 14px !default;
         inset-block-start: 100%;
         inset-inline-start: 0;
         z-index: 40;
-        border-width: 0 1px 1px;
-        border-style: solid;
-        border-color: transparent;
-
         overflow-y: auto;
+        border-style: solid;
+        border-width: 0 1px 1px;
+        border-color: transparent;
         transition: 200ms max-height;
         will-change: max-height;
         max-height: 0;
@@ -74,25 +72,51 @@ $select-arrow-width: 14px !default;
         min-width: 100%;
 
         // Firefox support
-        scrollbar-width: none !important;
-        scrollbar-color: none !important;
+        /* stylelint-disable-next-line declaration-no-important */
+        scrollbar-width: 10px !important;
+        /* stylelint-disable-next-line declaration-no-important */
+        scrollbar-color: gray !important;
 
         &::-webkit-scrollbar {
-            display: none;
+            /* stylelint-disable-next-line declaration-no-important */
+            display: auto !important;
         }
 
         &::-webkit-scrollbar-thumb {
-            display: none;
+            /* stylelint-disable-next-line declaration-no-important */
+            display: auto !important;
         }
 
         &_isExpanded {
             @include desktop {
                 z-index: 15;
                 max-height: 200px;
-                border-color: #0a0a0a;
                 border-color: var(--input-border-color);
-                overflow-y: auto;
                 background-color: #{$white};
+            }
+        }
+        
+
+        &_isUpDirection {
+            inset-block-start: auto;
+            inset-block-end: 100%;
+            border-width: 1px 1px 0;
+        }
+
+        &_isNotScrollable {
+            overflow-y: hidden;
+            // Firefox support
+            /* stylelint-disable-next-line declaration-no-important */
+            scrollbar-width: none !important;
+            /* stylelint-disable-next-line declaration-no-important */
+            scrollbar-color: none !important;
+        
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                display: none;
             }
         }
     }
@@ -133,7 +157,7 @@ $select-arrow-width: 14px !default;
             }
         }
 
-        &_isHovered{
+        &_isHovered {
             @include desktop {
                 background: var(--secondary-base-color);
             }

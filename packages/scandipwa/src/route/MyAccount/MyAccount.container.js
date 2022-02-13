@@ -172,7 +172,7 @@ export class MyAccountContainer extends PureComponent {
         }
 
         // redirect to Dashboard, if user visited non-existent or disabled page
-        const newActiveTab = this.tabMap[historyActiveTab] && this.isTabEnabled(props, historyActiveTab)
+        const newActiveTab = this.tabMap[historyActiveTab] && MyAccountContainer.isTabEnabled(props, historyActiveTab)
             ? historyActiveTab
             : MY_ACCOUNT;
         const { url: activeTabUrl } = this.tabMap[newActiveTab];
@@ -348,7 +348,7 @@ export class MyAccountContainer extends PureComponent {
 
     tabsFilterEnabled() {
         return Object.fromEntries(Object.entries(MyAccountContainer.tabMap)
-            .filter(([tabName]) => this.isTabEnabled(this.props, tabName)));
+            .filter(([tabName]) => MyAccountContainer.isTabEnabled(this.props, tabName)));
     }
 
     changeActiveTab(activeTab) {
@@ -452,16 +452,11 @@ export class MyAccountContainer extends PureComponent {
 
     redirectIfNotSignedIn() {
         const {
-            isMobile,
             baseLinkUrl,
             showNotification
         } = this.props;
 
         if (isSignedIn()) { // do nothing for signed-in users
-            return;
-        }
-
-        if (isMobile) { // do not redirect on mobile
             return;
         }
 

@@ -633,10 +633,7 @@ export class CategoryPageContainer extends PureComponent {
     updateNavigationState() {
         const { changeNavigationState } = this.props;
 
-        changeNavigationState({
-            name: MENU_TAB,
-            isVisibleOnScroll: true
-        });
+        changeNavigationState({ name: MENU_TAB });
     }
 
     updateHeaderState(isUnmatchedCategory = false) {

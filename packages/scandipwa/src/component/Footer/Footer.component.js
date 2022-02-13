@@ -18,6 +18,7 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import NewsletterSubscription from 'Component/NewsletterSubscription';
 import { DeviceType } from 'Type/Device.type';
+import { noopFn } from 'Util/Common';
 
 import { COLUMN_MAP, NEWSLETTER_COLUMN, RENDER_NEWSLETTER } from './Footer.config';
 
@@ -34,13 +35,15 @@ export class Footer extends Component {
         isVisibleOnMobile: PropTypes.bool,
         isVisible: PropTypes.bool,
         device: DeviceType.isRequired,
-        newsletterActive: PropTypes.bool.isRequired
+        newsletterActive: PropTypes.bool.isRequired,
+        onItemClick: PropTypes.func
     };
 
     static defaultProps = {
         copyright: '',
         isVisibleOnMobile: false,
-        isVisible: true
+        isVisible: true,
+        onItemClick: noopFn
     };
 
     renderMap = {
@@ -89,6 +92,7 @@ export class Footer extends Component {
 
     renderColumnItemLink({ href = '/', title, src }, i) {
         const mods = src ? { type: 'image' } : {};
+        const { onItemClick } = this.props;
 
         return (
             <Link
@@ -98,6 +102,7 @@ export class Footer extends Component {
               mods={ mods }
               key={ i }
               aria-label={ title }
+              onClick={ onItemClick }
             >
                 { this.renderColumnItemContent(src, title) }
             </Link>
@@ -213,6 +218,7 @@ export class Footer extends Component {
                 <span block="Footer" elem="Copyright">
                     { copyright }
                     { ' Powered by ' }
+                    { /* eslint-disable-next-line react/forbid-elements */ }
                     <a href="https://scandipwa.com">
                         ScandiPWA
                     </a>

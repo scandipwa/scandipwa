@@ -11,6 +11,7 @@
 
 :root {
     --footer-totals-height: 0;
+    --loader-scale: 1;
 }
 
 .CheckoutOrderSummary {
@@ -19,9 +20,9 @@
     @include desktop {
         border: 1px solid var(--secondary-base-color);
         border-radius: 2px;
-        padding-block-start: 24px;
-        padding-block-end: 0;
+        padding-block: 24px 0;
         padding-inline: 16px;
+        margin-block-end: 15px;
     }
 
     &-Header {
@@ -70,6 +71,7 @@
 
         &_isTotal {
             font-size: 16px;
+            line-height: 24px;
             padding-inline-start: 0;
 
             @include desktop {
@@ -79,6 +81,11 @@
             & p {
                 font-size: 16px;
                 font-weight: 700;
+                line-height: 24px;
+            }
+
+            & div {
+                line-height: 24px;
             }
         }
     }
@@ -230,6 +237,9 @@
         text-align: end;
         white-space: nowrap;
 
+        span {
+            line-height: 16px;
+        }
     }
 
     &-AppendedContent {
@@ -251,10 +261,22 @@
             background-color: var(--color-white);
             border-block-start: 1px solid var(--primary-divider-color);
             z-index: 80;
+
+            .hideOnScroll & {
+                transform: translateY(var(--footer-nav-height));
+            }
         }
 
         &_isEmpty {
             display: none;
+        }
+    }
+
+    .Loader {
+        &-Scale {
+            @media screen {
+                inset-block-start: calc(35% - (3px * var(--loader-scale)));
+            }
         }
     }
 }

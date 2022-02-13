@@ -9,7 +9,8 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
- :root {
+
+:root {
     --print-content-wrapper-width: 1280px;
 }
 
@@ -33,6 +34,6 @@
         font-size: 12px;
         padding: 10px;
         background: var(--secondary-base-color);
-        margin-top: 30px;
+        margin-block-start: 30px;
     }
 }

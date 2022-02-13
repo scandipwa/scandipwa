@@ -30,9 +30,16 @@
 
         .Field {
             color: var(--primary-error-color);
+
             [type="checkbox"], [type="radio"] {
                 + .input-control {
                     border-color: var(--primary-error-color);
+                }
+
+                &:hover + .input-control {
+                    @include desktop {
+                        border-color: var(--checkbox-border-color-active);
+                    }
                 }
             }
         }

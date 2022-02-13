@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -118,12 +119,10 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
 
     handleSetOrder(order) {
         const { updateMeta } = this.props;
-        const { id: uid, increment_id } = order;
+        const { id: uid, increment_id, ...newOrder } = order;
 
-        // decode uid of order before setting into state
-        order.id = atob(uid);
         updateMeta({ title: __('Order # %s', increment_id) });
-        this.setState({ order, isLoading: false });
+        this.setState({ order: { increment_id, id: atob(uid), ...newOrder }, isLoading: false });
     }
 
     onLogoLoad() {

@@ -19,6 +19,7 @@ import {
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
 import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
+import { getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { getProductFromOrder } from 'Util/Orders';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -43,9 +44,8 @@ export class MyAccountOrderItemsTable extends PureComponent {
     }
 
     renderItemRow(product, i) {
-        const { activeTab, allOrderItems } = this.props;
+        const { activeTab, allOrderItems, items: { comments = [] } } = this.props;
         const { product_sku } = product;
-
         const {
             entered_options = [],
             selected_options = []
@@ -58,6 +58,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
               enteredOptions={ entered_options }
               key={ i }
               activeTab={ activeTab }
+              comments={ comments }
             />
         );
     }
@@ -204,6 +205,36 @@ export class MyAccountOrderItemsTable extends PureComponent {
         return <MyAccountOrderTotals activeTab={ activeTab } total={ total } />;
     }
 
+    renderComments() {
+        const { items: { comments = [] }, activeTab } = this.props;
+
+        if (activeTab === ORDER_ITEMS || !comments.length) {
+            return null;
+        }
+
+        return (
+            <div block="MyAccountOrderItemsTable" elem="Comments">
+                <div
+                  block="MyAccountOrderItemsTable"
+                  elem="CommentsTitle"
+                >
+                    { __('About Your %s', activeTab) }
+                </div>
+                <div block="MyAccountOrderItemsTable" elem="CommentsList">
+                    { comments.map(({ timestamp, message }) => (
+                        <dl
+                          block="MyAccountOrderItemsTable"
+                          elem="Comment"
+                        >
+                            <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
+                            <dd>{ message }</dd>
+                        </dl>
+                    )) }
+                </div>
+            </div>
+        );
+    }
+
     render() {
         return (
             <div block="MyAccountOrderItemsTable" elem="ProductsWrapper">
@@ -218,6 +249,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
                     { this.renderItems() }
                     { this.renderTotals() }
                 </table>
+                { this.renderComments() }
             </div>
         );
     }

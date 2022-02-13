@@ -13,8 +13,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import {
+    PRODUCT_COMPARE_FIRST_COLUMN_WIDTH
+} from 'Component/ProductCompare/ProductCompare.config';
 import { DeviceType } from 'Type/Device.type';
 import { ItemType, ProductItemsType } from 'Type/ProductList.type';
+import { scrollToTop } from 'Util/Browser';
 import { getProductInStock } from 'Util/Product/Extract';
 
 import ProductCompare from './ProductCompare.component';
@@ -74,11 +78,29 @@ export class ProductCompareContainer extends PureComponent {
     containerFunctions = {
         getAttributes: this.getAttributes.bind(this),
         clearCompareList: this.clearCompareList.bind(this),
-        isInStock: getProductInStock.bind(this)
+        isInStock: getProductInStock.bind(this),
+        handleScroll: this.handleScroll.bind(this),
+        handleBlockScroll: this.handleBlockScroll.bind(this)
     };
 
     componentDidMount() {
         this.fetchCompareList();
+        scrollToTop({ behavior: 'smooth' });
+    }
+
+    componentDidUpdate() {
+        const { device } = this.props;
+
+        const productCompareRow = document.getElementById('productCompareRow');
+        const scrollerContent = document.getElementById('scrollerContent');
+
+        if (productCompareRow && productCompareRow.offsetWidth !== scrollerContent.offsetWidth) {
+            const width = device.isMobile
+                ? productCompareRow.offsetWidth
+                : productCompareRow.offsetWidth - PRODUCT_COMPARE_FIRST_COLUMN_WIDTH;
+
+            scrollerContent.style.width = `${ width }px`;
+        }
     }
 
     containerProps() {
@@ -93,6 +115,20 @@ export class ProductCompareContainer extends PureComponent {
             products,
             device
         };
+    }
+
+    handleScroll() {
+        const scrollerScroll = document.getElementById('scrollerScroll');
+        const productCompare = document.getElementById('productCompare');
+
+        productCompare.scrollLeft = scrollerScroll.scrollLeft;
+    }
+
+    handleBlockScroll() {
+        const scrollerScroll = document.getElementById('scrollerScroll');
+        const productCompare = document.getElementById('productCompare');
+
+        scrollerScroll.scrollLeft = productCompare.scrollLeft;
     }
 
     fetchCompareList() {

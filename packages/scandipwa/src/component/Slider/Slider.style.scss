@@ -21,14 +21,12 @@
     max-width: 100%;
     overflow: hidden;
     touch-action: pan-y;
-
     transition: height var(--height-transition-speed);
 
     &-Wrapper {
         display: flex;
         align-items: flex-start;
         height: 100%;
-
         will-change: transform;
         transition: transform var(--animation-speed);
         transform: translate3d(var(--translateX), var(--translateY), 0);
@@ -49,6 +47,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    &-Counter {
+        font-size: 1.2rem;
+        color: var(--color-white);
+        background: var(--color-dark-gray);
+        border-radius: 15px;
+        padding: 1px 4px 0;
+        position: absolute;
+        inset-block-end: 5px;
+        inset-inline-end: 5px;
     }
 
     &-Crumbs {

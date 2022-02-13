@@ -7,15 +7,12 @@
     padding: 0;
     background: none;
     border: 0;
-
     transition: color 150ms ease-in;
     color: $white;
-    text-shadow:
-        -1px 0 var(--star-outline-color),
+    text-shadow: -1px 0 var(--star-outline-color),
         0 1px var(--star-outline-color),
         1px 0 var(--star-outline-color),
         0 -1px var(--star-outline-color);
-
     font-size: 40px;
     line-height: 1;
     /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
@@ -25,6 +22,10 @@
     &::after {
         content: '★';
         font-family: serif;
+    }
+
+    &[id*='=='] {
+        margin-block-start: 0;
     }
 
     &:checked,
@@ -40,9 +41,5 @@
 
     &:focus {
         border: 0;
-    }
-
-    &:first-of-type {
-        margin-block-start: 12px;
     }
 }

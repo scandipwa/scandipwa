@@ -31,7 +31,8 @@ export class MyAccountCustomerForm extends FieldForm {
         handlePasswordInput: PropTypes.func.isRequired,
         email: PropTypes.string,
         currentPassword: PropTypes.string,
-        vatNumberRequired: PropTypes.bool.isRequired
+        vatNumberRequired: PropTypes.bool.isRequired,
+        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number })
     };
 
     static defaultProps = {
@@ -83,7 +84,8 @@ export class MyAccountCustomerForm extends FieldForm {
             handlePasswordInput,
             handleEmailInput,
             currentPassword,
-            email
+            email,
+            range
         } = this.props;
 
         return customerEmailAndPasswordFields({
@@ -92,7 +94,8 @@ export class MyAccountCustomerForm extends FieldForm {
             handlePasswordInput,
             handleEmailInput,
             currentPassword,
-            email
+            email,
+            range
         });
     }
 
@@ -161,7 +164,11 @@ export class MyAccountCustomerForm extends FieldForm {
                     </legend>
                         { this.customerInformationFieldMap.map(this.renderSection) }
                     </div>
-                    <div block="FieldForm" elem="Section">
+                    <div
+                      block="FieldForm"
+                      elem="Section"
+                      mix={ { block: 'FieldForm', elem: 'SectionWithSpace' } }
+                    >
                         { this.renderEmailAndPasswordFields() }
                     </div>
                 </div>
