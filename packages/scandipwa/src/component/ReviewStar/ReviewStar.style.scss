@@ -18,12 +18,18 @@
     /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
     font-family: Times; // make sure ★ appears correctly
     letter-spacing: 3px;
+    height: var(--star-size);
+
+    @supports (-webkit-touch-callout: none) {
+        /* CSS specific to iOS devices */ 
+        height: 40px;
+    }
 
     &::after {
         content: '★';
         font-family: serif;
-        position: relative;
     }
+
 
     &[id*='=='] {
         margin-block-start: 0;
