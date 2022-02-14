@@ -494,7 +494,7 @@ export const getSubLabelFromMaxCharacters = (maxCharacters, isRequired, value = 
 
     if (isRequired && valueLength === 0) {
         if (maxCharacters > 0) {
-            return { subLabel: __('Maximum %s characters. Field required', maxCharacters), isValid: false };
+            return { subLabel: __('Field required\nMaximum %s characters.', maxCharacters), isValid: false };
         }
 
         return { subLabel: __('Field required'), isValid: false };
