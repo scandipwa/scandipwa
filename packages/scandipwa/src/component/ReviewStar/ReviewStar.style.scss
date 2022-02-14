@@ -22,6 +22,7 @@
     &::after {
         content: '★';
         font-family: serif;
+        position: relative;
     }
 
     &[id*='=='] {
