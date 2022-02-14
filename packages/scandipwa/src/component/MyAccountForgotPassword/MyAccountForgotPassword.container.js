@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 
 import { STATE_FORGOT_PASSWORD_SUCCESS } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { updateCustomerPasswordForgotEmail } from 'Store/MyAccount/MyAccount.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { SignInStateType } from 'Type/Account.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
@@ -32,7 +33,9 @@ export const mapDispatchToProps = (dispatch) => ({
     forgotPassword: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)
     ),
-    forgotPasswordEmail: (email) => dispatch(updateCustomerPasswordForgotEmail(email))
+    forgotPasswordEmail: (email) => dispatch(updateCustomerPasswordForgotEmail(email)),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
+
 });
 
 /** @namespace Component/MyAccountForgotPassword/Container */
@@ -46,7 +49,9 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
         forgotPassword: PropTypes.func.isRequired,
         forgotPasswordEmail: PropTypes.func.isRequired,
         setLoadingState: PropTypes.func.isRequired,
-        setSignInState: PropTypes.func.isRequired
+        setSignInState: PropTypes.func.isRequired,
+        isOverlayVisible: PropTypes.bool.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -73,19 +78,32 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
 
     async onForgotPasswordSuccess(form, fields) {
         const {
-            forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail
+            forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible
         } = this.props;
-
+        const submittedEmail = form[0].value;
         setLoadingState(true);
 
         try {
             await forgotPassword(transformToNameValuePair(fields));
             setSignInState(STATE_FORGOT_PASSWORD_SUCCESS);
-            forgotPasswordEmail(form[0].value);
+            forgotPasswordEmail(submittedEmail);
+
+            if (!isOverlayVisible) {
+                this.showSuccesNotification(submittedEmail);
+            }
             setLoadingState(false);
         } catch {
             setLoadingState(false);
         }
+    }
+
+    showSuccesNotification(submittedEmail) {
+        const { showNotification } = this.props;
+        showNotification(
+            'success',
+            // eslint-disable-next-line max-len
+            __('If there is an account associated with %s you will receive an email with a link to reset your password.', submittedEmail)
+        );
     }
 
     render() {
