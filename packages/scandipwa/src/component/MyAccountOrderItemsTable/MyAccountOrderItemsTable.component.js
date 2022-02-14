@@ -33,7 +33,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
         items: OrderTabType.isRequired,
         total: OrderTotalType.isRequired,
         allOrderItems: OrderProductsType.isRequired,
-        id: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
         isPrintPage: PropTypes.bool.isRequired
     };
 
@@ -43,9 +43,9 @@ export class MyAccountOrderItemsTable extends PureComponent {
         return products.map(this.renderItemRow.bind(this));
     }
 
-    renderItemRow(product, i) {
+    renderItemRow(product) {
         const { activeTab, allOrderItems, items: { comments = [] } } = this.props;
-        const { product_sku } = product;
+        const { product_sku, product_url_key } = product;
         const {
             entered_options = [],
             selected_options = []
@@ -56,7 +56,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
               product={ product }
               selectedOptions={ selected_options }
               enteredOptions={ entered_options }
-              key={ i }
+              key={ product_url_key }
               activeTab={ activeTab }
               comments={ comments }
             />
@@ -206,9 +206,9 @@ export class MyAccountOrderItemsTable extends PureComponent {
     }
 
     renderComments() {
-        const { items: { comments = [] }, activeTab } = this.props;
+        const { items: { comments = [] }, activeTab, isPrintPage } = this.props;
 
-        if (activeTab === ORDER_ITEMS || !comments.length) {
+        if (activeTab === ORDER_ITEMS || !comments.length || isPrintPage) {
             return null;
         }
 

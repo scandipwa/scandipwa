@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { withRouter } from 'react-router';
 
 import MyAccountOrderPrint from 'Component/MyAccountOrderPrint';
+import { OrderPrintMapType } from 'Type/Order.type';
 import { MatchType } from 'Type/Router.type';
 
 import './OrderPrintPage.style';
@@ -23,8 +24,7 @@ export class OrderPrintPage extends PureComponent {
     static propTypes = {
         match: MatchType.isRequired,
         orderPrintRequest: PropTypes.string.isRequired,
-        // eslint-disable-next-line react/forbid-prop-types
-        orderPrintMap: PropTypes.object.isRequired
+        orderPrintMap: PropTypes.shape(OrderPrintMapType).isRequired
     };
 
     render() {

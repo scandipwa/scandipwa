@@ -35,8 +35,12 @@ export class FieldSelect extends PureComponent {
         handleSelectExpandedExpand: PropTypes.func.isRequired,
         handleSelectExpand: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired,
-        isUpDirection: PropTypes.bool.isRequired,
+        isUpDirection: PropTypes.bool,
         isScrollable: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        isUpDirection: false
     };
 
     renderNativeOption(option) {

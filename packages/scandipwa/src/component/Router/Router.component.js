@@ -112,7 +112,8 @@ export const withStoreRegex = (path) => window.storeRegexText.concat(path);
 /** @namespace Component/Router/Component */
 export class Router extends PureComponent {
     static propTypes = {
-        isBigOffline: PropTypes.bool
+        isBigOffline: PropTypes.bool,
+        isOnlyMainItems: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -398,10 +399,9 @@ export class Router extends PureComponent {
     }
 
     renderDefaultRouterContent() {
-        const { pathname } = location;
+        const { isOnlyMainItems } = this.props;
 
-        if (pathname.match('/styleguide')
-            || pathname.includes('/sales/order/print')) {
+        if (isOnlyMainItems) {
             return this.renderMainItems();
         }
 

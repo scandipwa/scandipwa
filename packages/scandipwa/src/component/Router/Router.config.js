@@ -50,3 +50,8 @@ export const PRINT_ORDER = 'PRINT_ORDER';
 // AFTER_ITEMS_TYPE
 export const FOOTER = 'FOOTER';
 export const COOKIE_POPUP = 'COOKIE_POPUP';
+
+export const URL_ONLY_MAIN_ITEMS_RENDER = [
+    '/sales/order/print',
+    '/styleguide'
+];

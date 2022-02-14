@@ -33,7 +33,7 @@ export class MyAccountOrderItemsTableContainer extends PureComponent {
         items: OrderTabType.isRequired,
         total: OrderTotalType.isRequired,
         allOrderItems: OrderProductsType.isRequired,
-        id: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
         isPrintPage: PropTypes.bool
     };
 

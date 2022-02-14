@@ -80,6 +80,10 @@
                         @include desktop {
                             text-align: end;
                         }
+
+                        @media print {
+                            text-align: end;
+                        }
                     }
                 }
             }

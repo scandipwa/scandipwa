@@ -18,8 +18,11 @@ import {
     mapStateToProps as sourceMapStateToProps,
     MyAccountOrderContainer
 } from 'Component/MyAccountOrder/MyAccountOrder.container';
+import { ACCOUNT_ORDER_HISTORY } from 'Route/MyAccount/MyAccount.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { isSignedIn } from 'Util/Auth';
+import { OrderPrintMapType } from 'Type/Order.type';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountOrderPrint from './MyAccountOrderPrint.component';
 
@@ -44,7 +47,8 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
     static propTypes = {
         ...MyAccountOrderContainer.propTypes,
         orderPrintRequest: PropTypes.string.isRequired,
-        updateMeta: PropTypes.func.isRequired
+        updateMeta: PropTypes.func.isRequired,
+        orderPrintMap: PropTypes.shape(OrderPrintMapType).isRequired
     };
 
     containerFunctions = {
@@ -57,9 +61,7 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
         isLogoLoaded: false
     };
 
-    __construct(props) {
-        super.__construct(props);
-
+    componentDidMount() {
         this.requestOrderPrintDetails();
     }
 
@@ -86,12 +88,10 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
         const order = await request(invoiceId || shipmentId || refundId);
 
         if (!order) {
-            return null;
+            return history.push({ pathname: appendWithStoreCode(ACCOUNT_ORDER_HISTORY) });
         }
 
-        this.handleSetOrder(order);
-
-        return null;
+        return this.handleSetOrder(order);
     }
 
     async requestOrderDetails() {
@@ -104,17 +104,13 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
             getOrderById
         } = this.props;
 
-        if (!isSignedIn()) {
-            return;
-        }
-
         const order = await getOrderById(orderId);
 
         if (!order) {
-            return;
+            return history.push({ pathname: appendWithStoreCode(ACCOUNT_ORDER_HISTORY) });
         }
 
-        this.handleSetOrder(order);
+        return this.handleSetOrder(order);
     }
 
     handleSetOrder(order) {

@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
 import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
-import { OptionsType, OrderProductType } from 'Type/Order.type';
+import { OptionsType, OrderComments, OrderProductType } from 'Type/Order.type';
 import { getOrderItemQtyToArray, getOrderItemRowDiscount } from 'Util/Orders';
 import { formatPrice } from 'Util/Price';
 
@@ -31,7 +31,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         enteredOptions: OptionsType.isRequired,
         colSpanCount: PropTypes.string.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        comments: PropTypes.arrayOf(PropTypes.string)
+        comments: OrderComments
     };
 
     static defaultProps = {
@@ -169,6 +169,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
               block="MyAccountOrderItemsTableRow"
               elem="EnteredRow"
               mods={ { isLastOptionItem } }
+              key={ `${qty}-${title}` }
             >
                 <td>
                     { `${qty} x ${title}` }

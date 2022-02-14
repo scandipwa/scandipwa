@@ -69,7 +69,7 @@ export class MyAccountOrderPrint extends MyAccountOrder {
               items={ items }
               allOrderItems={ allOrderItems }
               total={ itemsTotal || orderTotal }
-              id={ activeTab !== ORDER_ITEMS ? atob(itemId) : itemId }
+              id={ activeTab === ORDER_ITEMS ? id : atob(itemId) }
               isPrintPage
             />
         );

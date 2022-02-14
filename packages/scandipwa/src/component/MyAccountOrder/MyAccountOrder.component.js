@@ -19,6 +19,7 @@ import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
 import { ACCOUNT_ORDER_PRINT_URL } from 'Route/MyAccount/MyAccount.config';
 import { OrderType } from 'Type/Order.type';
+import { noopFn } from 'Util/Common';
 import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -36,13 +37,19 @@ import './MyAccountOrder.style';
 export class MyAccountOrder extends PureComponent {
     static propTypes = {
         order: OrderType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        handleReorder: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool,
+        handleReorder: PropTypes.func,
         is_allowed_reorder: PropTypes.bool.isRequired,
         rss_order_subscribe_allow: PropTypes.bool.isRequired,
-        handleChangeActiveTab: PropTypes.func.isRequired,
+        handleChangeActiveTab: PropTypes.func,
         activeTab: PropTypes.string.isRequired,
         isMobile: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        isLoading: true,
+        handleReorder: noopFn,
+        handleChangeActiveTab: noopFn
     };
 
     renderMap = {
@@ -128,7 +135,7 @@ export class MyAccountOrder extends PureComponent {
               items={ items }
               allOrderItems={ allOrderItems }
               total={ itemsTotal || orderTotal }
-              id={ activeTab !== ORDER_ITEMS ? atob(itemId) : itemId }
+              id={ activeTab === ORDER_ITEMS ? id : atob(itemId) }
             />
         );
     }
@@ -243,6 +250,7 @@ export class MyAccountOrder extends PureComponent {
                         <dl
                           block="MyAccountOrder"
                           elem="Comment"
+                          key={ `${activeTab}-comment-${timestamp}` }
                         >
                             <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
                             <dd>{ message }</dd>

@@ -11,6 +11,18 @@
 
 import PropTypes, { arrayOf } from 'prop-types';
 
+export const OrderPrintMapType = PropTypes.shape({
+    activeTab: PropTypes.string,
+    request: PropTypes.func
+});
+
+export const OrderComment = PropTypes.shape({
+    message: PropTypes.string,
+    timestamp: PropTypes.string
+});
+
+export const OrderComments = PropTypes.arrayOf(OrderComment);
+
 export const OrderGrandTotalType = PropTypes.shape({
     value: PropTypes.number,
     currency: PropTypes.string
@@ -104,14 +116,14 @@ export const OrderProductType = PropTypes.shape({
 export const OrderProductsType = PropTypes.arrayOf(OrderProductType);
 
 export const OrderTabType = PropTypes.shape({
-    orderItemQtyType,
     items: OrderProductsType,
     id: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
     ]),
     number: PropTypes.string,
-    total: OrderTotalType
+    total: OrderTotalType,
+    comments: OrderComments
 });
 
 export const OrderTabsType = PropTypes.arrayOf(OrderTabType);
@@ -121,17 +133,18 @@ export const OrderType = PropTypes.shape({
     carrier: PropTypes.string,
     id: PropTypes.string,
     order_date: PropTypes.string,
-    credit_memos: OrderTabType.string,
-    invoices: OrderTabType.string,
+    credit_memos: OrderTabsType,
+    invoices: OrderTabsType,
     items: OrderProductsType,
-    shipments: OrderTabType.string,
+    shipments: OrderTabsType,
     payment_methods: OrderPaymentsInfo,
     rss_link: PropTypes.string,
     shipping_address: OrderAddressType,
     billing_address: OrderAddressType,
     shipping_method: PropTypes.string,
     status: PropTypes.string,
-    total: OrderTotalType
+    total: OrderTotalType,
+    comments: OrderComments
 });
 
 export const DownloadableType = PropTypes.shape({
