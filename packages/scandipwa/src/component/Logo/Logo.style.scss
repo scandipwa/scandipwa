@@ -26,6 +26,10 @@
 
         .Image {
             height: var(--header-logo-height);
+
+            @include desktop {
+                min-height: var(--header-nav-height);
+            }
         }
     }
 
