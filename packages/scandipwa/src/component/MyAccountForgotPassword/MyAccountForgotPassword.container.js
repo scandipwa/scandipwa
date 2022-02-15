@@ -88,6 +88,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
             setSignInState(STATE_FORGOT_PASSWORD_SUCCESS);
             forgotPasswordEmail(submittedEmail);
 
+            // if on route /forgotpassword
             if (!isOverlayVisible) {
                 this.showSuccesNotification(submittedEmail);
             }
