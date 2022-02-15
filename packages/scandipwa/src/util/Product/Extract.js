@@ -509,7 +509,7 @@ export const getSubLabelFromMaxCharacters = (maxCharacters, isRequired, value = 
         }
 
         if (valueLength >= maxCharacters) {
-            return { subLabel: __('Maximum %s characters (%s too many!)', maxCharacters, tooMany), isValid: false };
+            return { subLabel: __('Maximum %s characters (%s too many)', maxCharacters, tooMany), isValid: false };
         }
 
         return { subLabel: __('Maximum %s characters', maxCharacters), isValid: true };
