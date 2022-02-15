@@ -597,5 +597,6 @@
     "Maximum %s characters.": null,
     "\nField Required": null,
     "Maximum %s characters.\nField required": null,
-    "Field required\nMaximum %s characters.": null
+    "Field required\nMaximum %s characters.": null,
+    "Maximum %s characters! (%s too many)": null
 }
