@@ -189,6 +189,27 @@ export class MyAccountDispatcher {
     }
 
     /**
+     * Resend confirmation email
+     * @param {{email: String}} [options={}]
+     * @memberof MyAccountDispatcher
+     */
+    resendConfirmation(options = {}, dispatch) {
+        const mutation = MyAccountQuery.getResendConfirmationMutation(options);
+
+        return fetchMutation(mutation).then(
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resendConfirmation/fetchMutation/then/dispatch */
+            () => dispatch(showNotification('success', __('Please check your email for confirmation key.'))),
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resendConfirmation/fetchMutation/then/dispatch/catch */
+            (error) => dispatch(
+                showNotification(
+                    'error',
+                    getErrorMessage(error, __('Something went wrong! Please, try again!'))
+                )
+            )
+        );
+    }
+
+    /**
      * Confirm account action
      * @param {{key: String, email: String, password: String}} [options={}]
      * @memberof MyAccountDispatcher
