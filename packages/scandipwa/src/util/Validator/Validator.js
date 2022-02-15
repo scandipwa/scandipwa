@@ -84,7 +84,8 @@ export const validate = (value, rule) => {
             }
 
             if (max && value.length > max) {
-                output.errorMessages.push(onRangeFailMax || __('Maximum %s characters!', max));
+                const tooMany = value.length - max;
+                output.errorMessages.push(onRangeFailMax || __('Maximum %s characters (%s too many)', max, tooMany));
             }
         }
     }

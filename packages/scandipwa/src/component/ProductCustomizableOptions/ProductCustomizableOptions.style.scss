@@ -32,16 +32,22 @@
             &_type {
                 &_textarea, &_text {
                     & + .Field-SubLabelContainer {
+                        margin-block-start: 6px;
+
                         .Field-SubLabel {
                             font-weight: normal;
                         }
-                    }
+                    }   
 
-                    &.Field_hasError {
-                        & + .Field-SubLabelContainer {
-                            .Field-SubLabel {
-                                color: var(--primary-error-color);
-                            }
+                    & + .Field-ErrorMessages {
+                        margin-block-end: 0;
+                    }    
+
+                    & + .Field-ErrorMessages + .Field-SubLabelContainer {
+                        margin-block-start: 0;
+
+                        .Field-SubLabel {
+                            font-weight: normal;
                         }
                     }
                 }   
