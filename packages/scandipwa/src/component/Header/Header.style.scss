@@ -177,6 +177,10 @@
         }
     }
 
+    &-IconsWrapper {
+        display: flex;
+    }
+
     &-MinicartButtonWrapper {
         cursor: pointer;
         height: 100%;
@@ -234,6 +238,10 @@
         }
 
         @include desktop {
+            grid-column: 1 / 2;
+            min-height: var(--header-nav-height);
+            position: absolute;
+
             @include logo-visible;
         }
 
@@ -273,9 +281,13 @@
         align-items: center;
         display: flex;
         height: var(--header-nav-height);
+        margin: auto;
+        max-width: var(--content-wrapper-width);
         padding-inline: 14px;
 
         @include desktop {
+            display: grid;
+            grid-template-columns: minmax(var(--header-logo-width), 1fr) minmax(auto, 660px) 1fr;
             justify-content: unset;
             padding-inline: 32px;
         }
@@ -354,16 +366,12 @@
         }
     }
 
-    &-TopMenu,
-    &-Nav {
-        display: flex;
-        margin: auto;
-        max-width: var(--content-wrapper-width);
-    }
-
     &-TopMenu {
+        display: flex;
         justify-content: space-between;
         height: var(--header-top-menu-height);
+        margin: auto;
+        max-width: var(--content-wrapper-width);
         padding-inline: 32px;
         padding-block-start: 16px;
     }

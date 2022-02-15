@@ -10,6 +10,8 @@
  */
 export const TIER_PRICES = 'TIER_PRICES';
 
+export const HUNDRED_PERCENT = 100;
+
 export default {
     AED: 'د.إ',
     AFN: '؋',
