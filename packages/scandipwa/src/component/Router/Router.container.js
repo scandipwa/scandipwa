@@ -115,10 +115,6 @@ export class RouterContainer extends PureComponent {
         status_code: ''
     };
 
-    // containerFunctions = {
-    //     handleSetAdditionalItemsRender: this.handleSetAdditionalItemsRender.bind(this)
-    // };
-
     handleResize = this.handleResize.bind(this);
 
     __construct(props) {
