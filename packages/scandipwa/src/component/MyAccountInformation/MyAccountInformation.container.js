@@ -17,11 +17,11 @@ import { withRouter } from 'react-router';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { updateCustomerDetails, updateIsLoading } from 'Store/MyAccount/MyAccount.action';
-import { CUSTOMER, ISLOCKED, TEN_MINUTE_IN_SECONDS } from 'Store/MyAccount/MyAccount.dispatcher';
+import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CustomerType } from 'Type/Account.type';
 import { LocationType } from 'Type/Router.type';
-import { isSignedIn } from 'Util/Auth';
+import { GRAPHQL_AUTH, isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
@@ -47,7 +47,10 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountInformation/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
-    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
+    showErrorNotification: (error) => dispatch(showNotification(
+        'error',
+        typeof error === 'string' ? error : getErrorMessage(error)
+    )),
     showSuccessNotification: (message) => dispatch(showNotification('success', message)),
     updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
     logout: () => MyAccountDispatcher.then(
@@ -144,23 +147,20 @@ export class MyAccountInformationContainer extends PureComponent {
         updateCustomerLoadingStatus(true);
 
         await this.handleInformationChange({ firstname, lastname, taxvat });
-        const { isLocked } = this.state;
 
-        if (!isLocked) {
-            if (showPasswordChangeField) {
-                await this.handlePasswordChange({ password, newPassword });
-            }
+        if (showPasswordChangeField) {
+            await this.handlePasswordChange({ password, newPassword });
+        }
 
-            if (showEmailChangeField) {
-                await this.handleEmailChange({ email, password });
-            }
+        if (showEmailChangeField) {
+            await this.handleEmailChange({ email, password });
         }
 
         this.afterSubmit();
     }
 
     afterSubmit() {
-        const { showSuccessNotification, updateCustomerLoadingStatus } = this.props;
+        const { showSuccessNotification, updateCustomerLoadingStatus, showErrorNotification } = this.props;
         const {
             isErrorShow, isLocked, showEmailChangeField, showPasswordChangeField
         } = this.state;
@@ -179,6 +179,10 @@ export class MyAccountInformationContainer extends PureComponent {
             this.setState({ isErrorShow: false });
 
             if (isLocked) {
+                const message = 'The account sign-in was incorrect or your account is disabled temporarily.'
+                + 'Please wait and try again later.';
+
+                showErrorNotification(message);
                 this.handleLogout({ isFromLocked: true });
             }
         }
@@ -220,9 +224,10 @@ export class MyAccountInformationContainer extends PureComponent {
             BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             updateCustomer(customer);
         } catch (e) {
-            if (e[0].extensions.category === 'graphql-authentication') {
+            const { extensions: { category } } = e[0];
+
+            if (category === GRAPHQL_AUTH) {
                 this.setState({ isLocked: true });
-                BrowserDatabase.setItem(true, ISLOCKED, TEN_MINUTE_IN_SECONDS);
             }
             this.onError(e);
         }

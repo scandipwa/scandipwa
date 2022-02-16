@@ -26,6 +26,7 @@ import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearComparedProducts } from 'Store/ProductCompare/ProductCompare.action';
 import {
     deleteAuthorizationToken,
+    GRAPHQL_AUTH,
     isSignedIn,
     setAuthorizationToken
 } from 'Util/Auth';
@@ -52,10 +53,8 @@ export const ProductCompareDispatcher = import(
 );
 
 export const CUSTOMER = 'customer';
-export const ISLOCKED = 'islocked';
 
 export const ONE_MONTH_IN_SECONDS = 2628000;
-export const TEN_MINUTE_IN_SECONDS = 600;
 
 /**
  * My account actions
@@ -80,7 +79,9 @@ export class MyAccountDispatcher {
             },
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then/catch */
             (error) => {
-                if (error[0].extensions.category === 'graphql-authentication') {
+                const { extensions: { category } } = error[0];
+
+                if (category === GRAPHQL_AUTH) {
                     dispatch(updateIsLocked(true));
                 }
                 dispatch(showNotification('error', getErrorMessage(error)));
