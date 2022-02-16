@@ -50,8 +50,8 @@ export class OfflineNoticeContainer extends PureComponent {
 
         if (!isPage) {
             this.handleNetworkChange();
-            window.addEventListener('online', this.handleNetworkChange);
-            window.addEventListener('offline', this.handleNetworkChange);
+            window.addEventListener('online', this.handleNetworkChange.bind(this));
+            window.addEventListener('offline', this.handleNetworkChange.bind(this));
         }
     }
 
@@ -110,6 +110,7 @@ export class OfflineNoticeContainer extends PureComponent {
     }
 
     handleNetworkChange() {
+        console.log(this.props);
         const {
             isBig,
             showOfflineNotice,

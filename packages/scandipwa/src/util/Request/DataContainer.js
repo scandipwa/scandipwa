@@ -29,7 +29,7 @@ export class DataContainer extends PureComponent {
         }
     }
 
-    fetchData(rawQueries, onSuccess = noopFn, onError = noopFn) {
+    fetchData(rawQueries, onSuccess = noopFn, onError = noopFn, takeFromWindowCache = false) {
         const preparedQuery = prepareQuery(rawQueries);
         const { query, variables } = preparedQuery;
         const queryHash = hash(query + JSON.stringify(variables));
@@ -38,7 +38,7 @@ export class DataContainer extends PureComponent {
             window.dataCache = {};
         }
 
-        if (window.dataCache[queryHash]) {
+        if (takeFromWindowCache && window.dataCache[queryHash]) {
             onSuccess(window.dataCache[queryHash]);
 
             return;

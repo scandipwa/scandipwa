@@ -225,6 +225,7 @@ export class CmsPageContainer extends DataContainer {
     }
 
     requestPage() {
+        const { isOffline } = this.props;
         const params = this.getRequestQueryParams();
         const { id, identifier } = params;
 
@@ -237,7 +238,8 @@ export class CmsPageContainer extends DataContainer {
         this.fetchData(
             [CmsPageQuery.getQuery(params)],
             this.onPageLoad.bind(this),
-            () => this.setState({ isLoading: false })
+            () => this.setState({ isLoading: false }),
+            isOffline
         );
     }
 
