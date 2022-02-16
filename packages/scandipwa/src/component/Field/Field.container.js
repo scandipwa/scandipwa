@@ -116,12 +116,15 @@ export class FieldContainer extends PureComponent {
     }
 
     validate(data) {
-        const { validationRule, type, attr: { name } = {} } = this.props;
+        const {
+            validationRule, validationRule: { range }, type, attr: { name } = {}
+        } = this.props;
         const value = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio
             ? !!this.fieldRef.checked
             : this.fieldRef.value;
         const response = validate(value, validationRule);
         const output = response !== true ? { ...response, type, name } : response;
+        const maxValidLength = range ? range.max : 0;
 
         // If validation is called from different object you can pass object
         // to store validation error values
@@ -130,10 +133,14 @@ export class FieldContainer extends PureComponent {
                 // eslint-disable-next-line no-param-reassign
                 data.detail.errors = [];
             }
+
+            // Validates length on submit, renders special message
+            if (maxValidLength && value.length > maxValidLength) {
+                output.errorMessages.unshift(__('Please enter no more than %s characters.', maxValidLength));
+            }
             data.detail.errors.push(output);
         }
         this.setState({ validationResponse: output });
-
         return output;
     }
 
