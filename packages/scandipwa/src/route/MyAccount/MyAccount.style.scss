@@ -67,7 +67,7 @@
                 }
             }
 
-            &_my-wishlist {
+            &_my-wishlist, &_my-orders {
                 .Loader-Scale {
                     @include mobile {
                         inset-block-start: 35vh;
