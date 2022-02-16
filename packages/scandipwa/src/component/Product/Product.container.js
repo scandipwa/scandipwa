@@ -383,11 +383,9 @@ export class ProductContainer extends PureComponent {
 
         if (this.validateConfigurableProduct()
         || (isValid !== true && !this.filterAddToCartFileErrors(isValid.values))) {
-            const { showError } = this.props;
             this.setState({ addToCartTriggeredWithError: true });
             this.validator.scrollIntoView();
             this.scrollAttributesIntoView();
-            showError(__('Incorrect or missing options!'));
             return;
         }
 
