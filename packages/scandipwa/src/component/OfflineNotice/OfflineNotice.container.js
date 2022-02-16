@@ -110,7 +110,6 @@ export class OfflineNoticeContainer extends PureComponent {
     }
 
     handleNetworkChange() {
-        console.log(this.props);
         const {
             isBig,
             showOfflineNotice,
