@@ -331,3 +331,10 @@ export const OptionsListType = PropTypes.arrayOf(
         uid: PropTypes.string
     })
 );
+
+export const LinkedProductsType = PropTypes.objectOf(
+    PropTypes.shape({
+        items: PropTypes.arrayOf(ProductType),
+        total_count: PropTypes.number
+    })
+);
