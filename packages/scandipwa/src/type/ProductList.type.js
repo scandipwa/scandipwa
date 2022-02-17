@@ -233,7 +233,7 @@ export const ItemType = PropTypes.shape(ItemShape);
 
 export const ItemsType = PropTypes.arrayOf(ItemType);
 
-ItemsType.variants = ItemsType;
+ItemType.variants = ItemsType;
 
 export const PagesType = PropTypes.objectOf(ItemsType);
 

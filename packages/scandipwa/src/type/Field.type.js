@@ -48,3 +48,11 @@ export const FieldOptionsType = PropTypes.arrayOf(
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     })
 );
+
+export const ValidationResponseType = PropTypes.oneOfType([
+    PropTypes.shape({
+        errorFields: PropTypes.arrayOf(PropTypes.object),
+        errorMessages: PropTypes.arrayOf(PropTypes.string),
+        values: PropTypes.arrayOf(PropTypes.object)
+    }),
+    PropTypes.bool]);
