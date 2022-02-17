@@ -21,6 +21,10 @@
     &-Content {
         .cms-content {
             @include default-list;
+
+            td {
+                vertical-align: middle;
+            }
         }
 
         h2 {
@@ -112,7 +116,7 @@
     .widget {
         overflow-x: auto;
     }
-    
+
     ul,
     ol {
         margin-inline-start: 20px;
