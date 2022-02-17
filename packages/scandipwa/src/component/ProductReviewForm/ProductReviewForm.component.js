@@ -119,7 +119,10 @@ export class ProductReviewForm extends PureComponent {
               block="ProductReviewForm"
               elem="Wrapper"
             >
-                <div>
+                <div
+                  block="ProductReviewForm"
+                  elem="RatingWrapper"
+                >
                     { this.renderReviewRating() }
                 </div>
                 <div
