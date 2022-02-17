@@ -105,10 +105,13 @@ export class TierPrices extends PureComponent {
                 ) }
                 <strong>
                     { __(
-                        '%s% discount each',
+                        '%s% ',
                         Math.round(percentOff)
                     ) }
                 </strong>
+                { __(
+                    'discount each'
+                ) }
             </>
         );
     }
