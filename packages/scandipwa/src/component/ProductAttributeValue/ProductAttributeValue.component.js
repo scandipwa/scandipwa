@@ -94,7 +94,7 @@ export class ProductAttributeValue extends PureComponent {
                 return {
                     ...optionValues,
                     label: `${adjustedLabel} (${count})`,
-                    labelText: adjustedLabel,
+                    labelText: adjustedLabel.trim(),
                     count
                 };
             }
