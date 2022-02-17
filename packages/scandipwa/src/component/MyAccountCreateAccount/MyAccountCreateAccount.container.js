@@ -48,7 +48,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountCreateAccountContainer extends PureComponent {
     static propTypes = {
         createAccount: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired,
+        onSignIn: PropTypes.func,
         setSignInState: PropTypes.func.isRequired,
         setLoadingState: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
@@ -63,7 +63,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
     };
 
     static defaultProps = {
-        isLandingPage: false
+        isLandingPage: false,
+        onSignIn: () => {}
     };
 
     containerFunctions = {

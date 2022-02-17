@@ -42,7 +42,11 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CreateAccountContainer extends MyAccountOverlayContainer {
     static propTypes = {
         ...MyAccountOverlayContainer.propTypes,
-        updateBreadcrumbs: PropTypes.func.isRequired
+        updateBreadcrumbs: PropTypes.func
+    };
+
+    static defaultProps = {
+        updateBreadcrumbs: () => {}
     };
 
     containerProps() {

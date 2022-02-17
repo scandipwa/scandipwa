@@ -24,8 +24,12 @@ import './ProductBundleOptions.style';
  */
 export class ProductBundleOptions extends PureComponent {
     static propTypes = {
-        options: ProductItemsType.isRequired,
+        options: ProductItemsType,
         updateSelectedValues: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        options: []
     };
 
     renderOptionGroup(group) {
