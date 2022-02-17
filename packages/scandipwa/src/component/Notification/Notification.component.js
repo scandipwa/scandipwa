@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import Html from 'Component/Html';
 import { NotificationType } from 'Type/NotificationList.type';
 import CSS from 'Util/CSS';
 
@@ -108,10 +109,14 @@ export class Notification extends PureComponent {
             is: isNotificationVisible ? 'opening' : 'closing'
         };
 
+        const message = msgText.value || msgText;
+
         return (
             <div block="Notification" mods={ mods } ref={ this.notification } id={ id }>
                 <button block="Notification" elem="Button" onClick={ this.hideNotification }>Close</button>
-                <p block="Notification" elem="Text">{ msgText }</p>
+                <p block="Notification" elem="Text">
+                    <Html content={ message } />
+                </p>
                 { this.renderDebug() }
             </div>
         );
