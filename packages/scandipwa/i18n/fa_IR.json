@@ -454,7 +454,6 @@
     "Up to %s": null,
     "From %s": null,
     "From %s to %s": null,
-    "Please fill in all rating fields": null,
     "Product %s thumbnail.": null,
     "County": null,
     "State/Province": null,
@@ -586,5 +585,12 @@
     "Not possible to fetch while offline": null,
     "Buy %s with ": null,
     "%s% discount each": null,
-    "Product list navigation": null
+    "Send confirmation link": null,
+    "Please enter your email below and we will send you the confirmation link.": null,
+    "Send confirmation": null,
+    "Please check your email for confirmation key.": null,
+    "Unable to re-request confirmation email": null,
+    "Send Confirmation Page": null,
+    "Send Confirmation Action": null,
+    "Wrong email! Please, try again!": null
 }
