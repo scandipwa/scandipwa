@@ -11,16 +11,8 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 import { SignInStateType } from 'Type/Account.type';
-
-import { mapDispatchToProps } from '../MyAccountForgotPassword/MyAccountForgotPassword.container';
-
-/** @namespace Component/MyAccountForgotPasswordSuccess/Component/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    submittedEmail: state.MyAccountReducer.email
-});
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Component */
 export class MyAccountForgotPasswordSuccess extends PureComponent {
@@ -55,4 +47,4 @@ export class MyAccountForgotPasswordSuccess extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountForgotPasswordSuccess);
+export default MyAccountForgotPasswordSuccess;
