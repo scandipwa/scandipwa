@@ -28,8 +28,9 @@
 
     @include desktop {
         display: block;
-        width: 55%;
+        width: 90%;
         max-width: 600px;
+        grid-column: 2 / 3;
     }
 
     &_isVisible {

@@ -19,6 +19,11 @@
     font-family: Times; // make sure ★ appears correctly
     letter-spacing: 3px;
 
+    @supports (-webkit-touch-callout: none) {
+        /* CSS specific to iOS devices */ 
+        height: 40px;
+    }
+
     &::after {
         content: '★';
         font-family: serif;
