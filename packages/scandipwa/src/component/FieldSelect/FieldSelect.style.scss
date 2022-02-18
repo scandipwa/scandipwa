@@ -71,8 +71,6 @@ $select-arrow-width: 14px !default;
         -webkit-overflow-scrolling: touch;
         min-width: 100%;
 
-   
-
         &_isExpanded {
             @include desktop {
                 z-index: 15;
@@ -82,7 +80,6 @@ $select-arrow-width: 14px !default;
             }
         }
         
-
         &_isUpDirection {
             inset-block-start: auto;
             inset-block-end: 100%;
