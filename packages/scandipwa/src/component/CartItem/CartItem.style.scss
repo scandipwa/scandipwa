@@ -97,7 +97,7 @@
     }
 
     &-Option {
-        overflow: auto;
+        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         line-height: 16px;
@@ -107,6 +107,12 @@
         &_isBundle {
             flex-direction: column;
             gap: 0;
+        }
+
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 
