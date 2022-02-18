@@ -23,7 +23,14 @@
             @include default-list;
 
             td {
-                vertical-align: middle;
+                vertical-align: top;
+
+                img {
+                    height: inherit;
+                    max-height: 100%;
+                    min-height: 100%;
+                    max-width: 100%;
+                }
             }
         }
 
