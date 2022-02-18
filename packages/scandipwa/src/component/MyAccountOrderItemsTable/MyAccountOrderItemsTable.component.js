@@ -38,9 +38,8 @@ export class MyAccountOrderItemsTable extends PureComponent {
     }
 
     renderItemRow(product, i) {
-        const { activeTab, allOrderItems } = this.props;
+        const { activeTab, allOrderItems, items: { comments = [] } } = this.props;
         const { product_sku } = product;
-
         const {
             entered_options = [],
             selected_options = []
@@ -53,6 +52,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
               enteredOptions={ entered_options }
               key={ i }
               activeTab={ activeTab }
+              comments={ comments }
             />
         );
     }
@@ -182,6 +182,10 @@ export class MyAccountOrderItemsTable extends PureComponent {
             return null;
         }
 
+        const commentOrder = comments.sort(
+            ({ timestamp: first }, { timestamp: second }) => new Date(second) - new Date(first)
+        );
+
         return (
             <div block="MyAccountOrderItemsTable" elem="Comments">
                 <div
@@ -191,7 +195,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
                     { __('About Your %s', activeTab) }
                 </div>
                 <div block="MyAccountOrderItemsTable" elem="CommentsList">
-                    { comments.map(({ timestamp, message }) => (
+                    { commentOrder.map(({ timestamp, message }) => (
                         <dl
                           block="MyAccountOrderItemsTable"
                           elem="Comment"

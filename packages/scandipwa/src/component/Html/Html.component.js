@@ -252,7 +252,10 @@ export class Html extends PureComponent {
             script.appendChild(document.createTextNode(children[0].data));
         }
 
-        document.head.appendChild(script);
+        if (!Number.isNaN(Number(script))) {
+            document.head.appendChild(script);
+        }
+
         this.createdOutsideElements[elemHash] = true;
 
         return <></>;

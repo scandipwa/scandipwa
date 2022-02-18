@@ -100,14 +100,16 @@ export class ProductContainer extends PureComponent {
         getActiveProduct: this.getActiveProduct.bind(this),
         setActiveProduct: this.updateConfigurableVariant.bind(this),
         getMagentoProduct: this.getMagentoProduct.bind(this),
-        setValidator: this.setValidator.bind(this)
+        setValidator: this.setValidator.bind(this),
+        scrollAttributesIntoView: this.scrollAttributesIntoView.bind(this),
+        updateAddToCartTriggeredWithError: this.updateAddToCartTriggeredWithError.bind(this)
     };
 
     state = {
         // Used for customizable & bundle options
         enteredOptions: this.setDefaultProductOptions('defaultEnteredOptions', 'enteredOptions'),
         selectedOptions: this.setDefaultProductOptions('defaultSelectedOptions', 'selectedOptions'),
-
+        addToCartTriggeredWithError: false,
         // Used for downloadable
         downloadableLinks: [],
 
@@ -190,7 +192,11 @@ export class ProductContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { enteredOptions, selectedOptions, downloadableLinks } = this.state;
+        const {
+            enteredOptions,
+            selectedOptions,
+            downloadableLinks
+        } = this.state;
         const {
             enteredOptions: prevEnteredOptions,
             selectedOptions: prevSelectedOptions,
@@ -220,7 +226,13 @@ export class ProductContainer extends PureComponent {
     }
 
     containerProps() {
-        const { quantity, parameters, adjustedPrice } = this.state;
+        const {
+            quantity,
+            parameters,
+            adjustedPrice,
+            unselectedOptions,
+            addToCartTriggeredWithError
+        } = this.state;
         const {
             product,
             product: { options = [] } = {},
@@ -247,12 +259,14 @@ export class ProductContainer extends PureComponent {
 
         return {
             isWishlistEnabled,
+            unselectedOptions,
             quantity,
             product,
             configFormRef,
             parameters,
             device,
             magentoProduct,
+            addToCartTriggeredWithError,
             ...output
         };
     }
@@ -327,18 +341,52 @@ export class ProductContainer extends PureComponent {
         });
     }
 
+    validateConfigurableProduct() {
+        const {
+            parameters
+        } = this.state;
+
+        const { product: { configurable_options } } = this.props;
+        const unselectedOptions = Object.keys(configurable_options).reduce((accumulator, value) => {
+            if (!parameters[value]) {
+                accumulator.push(value);
+            }
+
+            return accumulator;
+        }, []);
+
+        this.setState({ unselectedOptions });
+
+        return unselectedOptions.length > 0;
+    }
+
+    updateAddToCartTriggeredWithError() {
+        this.setState({ addToCartTriggeredWithError: false });
+    }
+
+    scrollAttributesIntoView() {
+        const attributes = this.validator.querySelector('[class$=-AttributesWrapper]');
+
+        if (attributes) {
+            attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
+        }
+    }
+
     /**
      * Event that validates and invokes product adding into cart
      * @returns {*}
      */
     async addToCart() {
         this.updateSelectedValues();
-
         const isValid = validateGroup(this.validator);
         const { showError } = this.props;
 
-        if (isValid !== true && !this.filterAddToCartFileErrors(isValid.values)) {
+        if (this.validateConfigurableProduct()
+        || (isValid !== true && !this.filterAddToCartFileErrors(isValid.values))) {
+            const { showError } = this.props;
+            this.setState({ addToCartTriggeredWithError: true });
             this.validator.scrollIntoView();
+            this.scrollAttributesIntoView();
             showError(__('Incorrect or missing options!'));
             return;
         }

@@ -23,6 +23,10 @@
     &-Title {
         font-weight: 700;
         margin-block: 24px 12px;
+
+        &_isUnselected {
+            animation: var(--shake-animation);
+        }
     }
 
     &-SelectedOptionLabel {
@@ -38,6 +42,10 @@
         align-items: center;
         padding-inline-start: 3px;
         padding-block-start: 3px;
+
+        &_isUnselected {
+            animation: var(--shake-animation);
+        }
     }
 
     &-DropDownList {
