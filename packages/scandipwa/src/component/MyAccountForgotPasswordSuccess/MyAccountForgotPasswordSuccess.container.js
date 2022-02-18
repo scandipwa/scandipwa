@@ -51,7 +51,6 @@ export class MyAccountForgotPasswordSuccessContainer extends PureComponent {
         render() {
             return (
                 <MyAccountForgotPasswordSuccess
-                  { ...this.containerFunctions }
                   { ...this.containerProps() }
                 />
             );
