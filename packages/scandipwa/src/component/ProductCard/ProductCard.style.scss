@@ -206,8 +206,7 @@
         justify-content: center;
 
         @include desktop {
-            padding-block-start: 10px;
-            padding-block-end: 0;
+            padding-block: 10px;
             padding-inline: 15px;
         }
     }

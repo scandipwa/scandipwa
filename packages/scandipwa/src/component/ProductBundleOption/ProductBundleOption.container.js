@@ -15,7 +15,11 @@ import { connect } from 'react-redux';
 
 import { ItemOptionsType } from 'Type/ProductList.type';
 import { sortBySortOrder } from 'Util/Product';
-import { bundleOptionsToSelectTransform, getEncodedBundleUid } from 'Util/Product/Transform';
+import {
+    bundleOptionsToSelectTransform,
+    getEncodedBundleUid,
+    nonRequiredRadioOptions
+} from 'Util/Product/Transform';
 
 import ProductBundleOption from './ProductBundleOption.component';
 import DEFAULT_SORT_FIELD from './ProductBundleOption.config';
@@ -54,8 +58,13 @@ export class ProductBundleOptionContainer extends PureComponent {
         setQuantity: this.setQuantity.bind(this),
         setActiveSelectUid: this.setActiveSelectUid.bind(this),
         getUidWithQuantity: this.getUidWithQuantity.bind(this),
-        getDropdownOptions: this.getDropdownOptions.bind(this)
+        getDropdownOptions: this.getDropdownOptions.bind(this),
+        setDefaultOption: this.setDefaultOption.bind(this)
     };
+
+    componentDidMount() {
+        this.setDefaultOption();
+    }
 
     componentDidUpdate(prevProps, prevState) {
         const { quantity } = this.state;
@@ -88,6 +97,16 @@ export class ProductBundleOptionContainer extends PureComponent {
         this.setState({
             activeSelectUid: uid
         });
+    }
+
+    setDefaultOption() {
+        const { options } = this.props;
+
+        const [defaultOption = null] = bundleOptionsToSelectTransform(options).filter(({ isDefault }) => isDefault);
+
+        if (defaultOption) {
+            this.setActiveSelectUid(defaultOption.value);
+        }
     }
 
     getDropdownOptions() {
@@ -127,7 +146,7 @@ export class ProductBundleOptionContainer extends PureComponent {
             title,
             isRequired,
             type,
-            options: this.getSortedOptions(),
+            options: nonRequiredRadioOptions(this.getSortedOptions(), isRequired, type),
             updateSelectedValues,
             currencyCode,
             activeSelectUid,

@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
+import { noopFn } from 'Util/Common';
 
 import './ProductConfigurableAttributeDropdown.style';
 
@@ -27,12 +28,15 @@ export class ProductConfigurableAttributeDropdown extends PureComponent {
         })).isRequired,
         selectValue: PropTypes.string,
         selectLabel: PropTypes.string,
-        selectName: PropTypes.string.isRequired
+        selectName: PropTypes.string.isRequired,
+        isUnselected: PropTypes.bool.isRequired,
+        handleShakeAnimationEnd: PropTypes.func
     };
 
     static defaultProps = {
         selectValue: '',
-        selectLabel: 'attribute'
+        selectLabel: 'attribute',
+        handleShakeAnimationEnd: noopFn
     };
 
     render() {
@@ -41,7 +45,9 @@ export class ProductConfigurableAttributeDropdown extends PureComponent {
             selectValue,
             selectName,
             selectLabel,
-            onChange
+            onChange,
+            handleShakeAnimationEnd,
+            isUnselected
         } = this.props;
 
         return (
@@ -51,12 +57,13 @@ export class ProductConfigurableAttributeDropdown extends PureComponent {
                   id: selectName,
                   name: selectName,
                   defaultValue: selectValue,
-                  selectPlaceholder: __('Choose %s...', selectLabel.toLowerCase())
+                  selectPlaceholder: __('Choose %s...', selectLabel.toLowerCase()),
+                  onAnimationEnd: handleShakeAnimationEnd
               } }
               events={ {
                   onChange
               } }
-              mix={ { block: 'ProductConfigurableAttributeDropdown' } }
+              mix={ { block: 'ProductConfigurableAttributeDropdown', mods: { isUnselected } } }
               options={ selectOptions }
               changeValueOnDoubleClick
             />

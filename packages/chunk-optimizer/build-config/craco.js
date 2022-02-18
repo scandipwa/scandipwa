@@ -76,9 +76,18 @@ const isChunkOptimizationDisabled = (module) => {
             'g'
         );
 
-        return !!match.exec(value);
+        return match.test(value);
     });
 };
+
+// Check whenever file can be included into other style chunks except main
+const isMainChunkStyle = (styleChunks, fileName) => !styleChunks.find(({ name, match }) => {
+    if (name === 'main') {
+        return false;
+    }
+
+    return match.test(fileName);
+});
 
 module.exports = {
     plugin: {
@@ -114,6 +123,9 @@ module.exports = {
 
             // Style chunks (SCSS/CSS):
             const styleChunks = [{
+                name: 'main',
+                match: /\.s?css$/
+            }, {
                 name: 'products',
                 match: /((p|P)roduct).*\.s?css$/
             }, {
@@ -137,9 +149,6 @@ module.exports = {
             }, {
                 name: 'wishlist',
                 match: /((w|W)ish).*\.s?css$/
-            }, {
-                name: 'main',
-                match: /\.s?css$/
             }];
 
             styleChunks.forEach(({ name, match }, index) => {
@@ -155,10 +164,15 @@ module.exports = {
                         }
 
                         const fileName = (module.nameForCondition && module.nameForCondition()) || module.resource;
-                        return !!match.exec(fileName);
+                        const isMatch = match.test(fileName);
+
+                        if (name === 'main' && isMatch) {
+                            return isMainChunkStyle(styleChunks, fileName);
+                        }
+
+                        return isMatch;
                     },
                     chunks: 'all',
-                    minChunks: 1,
                     priority: styleChunks.length - index,
                     reuseExistingChunk: true,
                     enforce: true

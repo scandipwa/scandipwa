@@ -9,7 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import FIELD_TYPE from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
 import { formatPrice } from 'Util/Price';
 
 import { getProductInStock } from './Extract';
@@ -162,7 +164,7 @@ export const bundleOptionToLabel = (option, currencyCode = 'USD') => {
     const renderLabel = label ?? fallbackLabel;
 
     return {
-        baseLabel: !canChangeQuantity ? `${ quantity } x ${ renderLabel } ` : `${ renderLabel } `,
+        baseLabel: !canChangeQuantity && quantity >= 0 ? `${ quantity } x ${ renderLabel } ` : `${ renderLabel } `,
         priceLabel: `${ priceLabel } ${ percentLabel }`
     };
 };
@@ -180,7 +182,8 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
             uid: sourceUid = '',
             quantity: defaultQuantity = 1,
             position,
-            product
+            product,
+            is_default
         } = option;
 
         const isAvailable = getProductInStock(product);
@@ -200,7 +203,8 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
             label: baseLabel,
             subLabel: priceLabel,
             sort_order: position,
-            isAvailable
+            isAvailable,
+            isDefault: is_default
         });
 
         return result;
@@ -318,6 +322,32 @@ export const magentoProductTransform = (
     }
 
     return productData;
+};
+
+/**
+ *
+ * @param options
+ * @param isRequired
+ * @param type
+ * @returns {[{uid: string, price: number, priceInclTax: number, title: *, is_default: boolean},...*]|*}
+ * @namespace Util/Product/Transform/nonRequiredRadioOptions
+ */
+export const nonRequiredRadioOptions = (
+    options, isRequired = false, type = FIELD_TYPE.radio
+) => {
+    if (isRequired || type !== FIELD_TYPE.radio) {
+        return options;
+    }
+
+    const hasDefault = options.find(({ is_default }) => is_default);
+
+    return [
+        {
+            ...NONE_RADIO_OPTION,
+            is_default: !hasDefault
+        },
+        ...options
+    ];
 };
 
 export default bundleOptionsToSelectTransform;

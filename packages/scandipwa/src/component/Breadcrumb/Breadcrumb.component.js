@@ -54,7 +54,8 @@ export class Breadcrumb extends PureComponent {
     renderLink() {
         const {
             index,
-            isDisabled
+            isDisabled,
+            name
         } = this.props;
 
         const url = this.getLinkUrl() || {};
@@ -68,20 +69,11 @@ export class Breadcrumb extends PureComponent {
             >
                 <meta itemProp="item" content={ window.location.origin + url.pathname } />
                 <span itemProp="name">
-                    { this.renderName() }
+                    <TextPlaceholder content={ name } />
                 </span>
                 <ChevronIcon />
                 <meta itemProp="position" content={ index } />
             </Link>
-        );
-    }
-
-    renderName() {
-        const { name } = this.props;
-        const cleanName = name.replace(/([+])/g, ' ');
-
-        return (
-            <TextPlaceholder content={ cleanName } />
         );
     }
 
