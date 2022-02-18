@@ -10,7 +10,6 @@
  */
 
 :root {
-    --search-item-hover-color: #eee;
     --search-item-divider-color: #eee;
     --search-item-title-color: #000;
 }
@@ -21,10 +20,6 @@
 
     &::before {
         content: none;
-    }
-
-    &:hover {
-        background-color: var(--search-item-hover-color);
     }
 
     &-CustomAttribute {
