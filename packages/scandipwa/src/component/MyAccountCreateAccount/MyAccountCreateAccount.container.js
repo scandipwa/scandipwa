@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { SignInStateType } from 'Type/Account.type';
+import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
 
@@ -64,7 +65,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
 
     static defaultProps = {
         isLandingPage: false,
-        onSignIn: () => {}
+        onSignIn: noopFn
     };
 
     containerFunctions = {

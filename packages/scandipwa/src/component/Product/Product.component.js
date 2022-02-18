@@ -214,6 +214,7 @@ export class Product extends PureComponent {
                   configurable_options={ this.getConfigurableAttributes() }
                   isContentExpanded
                   inStock={ inStock }
+                  showProductAttributeAsLink={ false }
                 />
             </div>
         );

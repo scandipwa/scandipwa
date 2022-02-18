@@ -56,7 +56,7 @@ export class MyAccountOverlay extends PureComponent {
 
     static defaultProps = {
         isCheckout: false,
-        onSignIn: () => {}
+        onSignIn: noopFn
     };
 
     renderMap = {

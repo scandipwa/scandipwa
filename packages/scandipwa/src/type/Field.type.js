@@ -49,10 +49,24 @@ export const FieldOptionsType = PropTypes.arrayOf(
     })
 );
 
-export const ValidationResponseType = PropTypes.oneOfType([
-    PropTypes.shape({
-        errorFields: PropTypes.arrayOf(PropTypes.object),
-        errorMessages: PropTypes.arrayOf(PropTypes.string),
-        values: PropTypes.arrayOf(PropTypes.object)
-    }),
-    PropTypes.bool]);
+export const ValuesShape = PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    type: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    name: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+});
+
+export const ErrorMessageShape = PropTypes.shape({
+    injectables: PropTypes.arrayOf(PropTypes.string),
+    value: PropTypes.string
+});
+
+export const errorFieldShape = PropTypes.arrayOf(PropTypes.shape({
+    errorMessages: PropTypes.arrayOf(ErrorMessageShape),
+    ...ValuesShape
+}));
+
+export const FieldGroupValidationResponseType = PropTypes.shape({
+    errorFields: PropTypes.arrayOf(errorFieldShape),
+    errorMessages: PropTypes.arrayOf(ErrorMessageShape),
+    values: PropTypes.arrayOf(ValuesShape)
+});

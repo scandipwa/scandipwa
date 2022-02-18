@@ -50,7 +50,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         mix: {},
         numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
         inStock: true,
-        updateAddToCartTriggeredWithError: () => {},
+        updateAddToCartTriggeredWithError: noopFn,
         addToCartTriggeredWithError: false
 
     };

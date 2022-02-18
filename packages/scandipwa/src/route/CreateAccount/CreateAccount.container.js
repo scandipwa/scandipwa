@@ -22,6 +22,7 @@ import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -46,7 +47,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
     };
 
     static defaultProps = {
-        updateBreadcrumbs: () => {}
+        updateBreadcrumbs: noopFn
     };
 
     containerProps() {
