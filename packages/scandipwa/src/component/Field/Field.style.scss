@@ -383,6 +383,7 @@
                     inset-inline-start: calc(50% - 5px);
                     inset-block-start: calc(50% - 1px);
 
+                    // margin adjusted
                     @at-root {
                         :dir(rtl)#{&} {
                             inset-inline-start: calc(50% + 3px);
