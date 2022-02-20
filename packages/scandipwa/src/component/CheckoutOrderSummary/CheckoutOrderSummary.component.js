@@ -136,11 +136,14 @@ export class CheckoutOrderSummary extends PureComponent {
 
         if (isMobile && checkoutStep === BILLING_STEP) {
             return (
-                <div
-                  heading={ __('Have a discount code?') }
-                  mix={ { block: 'CartPage', elem: 'Discount' } }
-                  isArrow
-                >
+                <div>
+                    <div
+                      block="ExpandableContent"
+                      elem="Heading"
+                      mix={ { block: 'CartPage', elem: 'ExpandableContentHeading' } }
+                    >
+                    Have a discount code?
+                    </div>
                     <CartCoupon couponCode={ coupon_code } />
                 </div>
             );
