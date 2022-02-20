@@ -582,5 +582,9 @@
     "All %s": null,
     "About Your Order": null,
     "About Your %s": null,
-    "List navigation": null
+    "List navigation": null,
+    "Not possible to fetch while offline": null,
+    "Buy %s with ": null,
+    "%s% discount each": null,
+    "Product list navigation": null
 }

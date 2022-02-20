@@ -20,6 +20,7 @@ import {
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import { MixType } from 'Type/Common.type';
 import { AttributesType } from 'Type/ProductList.type';
+import { noopFn } from 'Util/Common';
 
 import './ProductConfigurableAttributes.style';
 
@@ -33,12 +34,14 @@ export class ProductConfigurableAttributes extends PureComponent {
         isReady: PropTypes.bool,
         mix: MixType,
         getIsConfigurableAttributeAvailable: PropTypes.func,
+        handleShakeAnimationEnd: PropTypes.func,
         handleOptionClick: PropTypes.func.isRequired,
         isSelected: PropTypes.func.isRequired,
         getLink: PropTypes.func.isRequired,
         isExpandable: PropTypes.bool,
         showProductAttributeAsLink: PropTypes.bool,
-        inStock: PropTypes.bool.isRequired
+        inStock: PropTypes.bool.isRequired,
+        addToCartTriggeredWithError: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -46,6 +49,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         mix: {},
         numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
         getIsConfigurableAttributeAvailable: () => true,
+        handleShakeAnimationEnd: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true
     };
@@ -75,14 +79,19 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderSwatch(option) {
+    renderSwatch(option, isUnselected) {
+        const {
+            handleShakeAnimationEnd
+        } = this.props;
         const { attribute_values, attribute_code } = option;
 
         return (
             <div
               block="ProductConfigurableAttributes"
               elem="SwatchList"
+              mods={ { isUnselected } }
               key={ attribute_code }
+              onAnimationEnd={ handleShakeAnimationEnd }
             >
                 { attribute_values.map((attribute_value) => (
                     this.renderConfigurableAttributeValue({ ...option, attribute_value })
@@ -91,15 +100,18 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderDropdown(option) {
+    renderDropdown(option, isUnselected) {
         const {
             updateConfigurableVariant,
             getIsConfigurableAttributeAvailable,
-            parameters
+            parameters,
+            handleShakeAnimationEnd
         } = this.props;
 
         return (
             <ProductConfigurableAttributeDropdown
+              handleShakeAnimationEnd={ handleShakeAnimationEnd }
+              isUnselected={ isUnselected }
               option={ option }
               updateConfigurableVariant={ updateConfigurableVariant }
               getIsConfigurableAttributeAvailable={ getIsConfigurableAttributeAvailable }
@@ -136,6 +148,8 @@ export class ProductConfigurableAttributes extends PureComponent {
             configurable_options,
             isExpandable,
             inStock,
+            handleShakeAnimationEnd,
+            addToCartTriggeredWithError,
             parameters
         } = this.props;
 
@@ -146,7 +160,7 @@ export class ProductConfigurableAttributes extends PureComponent {
                 attribute_options,
                 attribute_id
             } = option;
-
+            const isUnselected = addToCartTriggeredWithError ? !parameters[attribute_code] : null;
             const [{ swatch_data }] = attribute_options ? Object.values(attribute_options) : [{}];
             const isSwatch = !!swatch_data;
 
@@ -164,7 +178,12 @@ export class ProductConfigurableAttributes extends PureComponent {
 
             return (
                 <div key={ attribute_id }>
-                    <p block="ProductConfigurableAttributes" elem="Title">
+                    <p
+                      block="ProductConfigurableAttributes"
+                      elem="Title"
+                      mods={ { isUnselected } }
+                      onAnimationEnd={ handleShakeAnimationEnd }
+                    >
                         { attribute_label }
                         { isSwatch && (
                             <span block="ProductConfigurableAttributes" elem="SelectedOptionLabel">
@@ -172,7 +191,7 @@ export class ProductConfigurableAttributes extends PureComponent {
                             </span>
                         ) }
                     </p>
-                    { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
+                    { isSwatch ? this.renderSwatch(option, isUnselected) : this.renderDropdown(option, isUnselected) }
                 </div>
             );
         });

@@ -152,7 +152,6 @@
     "Product Price": null,
     "Product added to wish-list!": null,
     "Product has been removed from your Wish List!": null,
-    
     "Products are loading...": null,
     "Purchase Order Number": null,
     "Rate: ": null,
@@ -583,5 +582,9 @@
     "All %s": null,
     "About Your Order": null,
     "About Your %s": null,
-    "List navigation": null
+    "List navigation": null,
+    "Not possible to fetch while offline": null,
+    "Buy %s with ": null,
+    "%s% discount each": null,
+    "Product list navigation": null
 }

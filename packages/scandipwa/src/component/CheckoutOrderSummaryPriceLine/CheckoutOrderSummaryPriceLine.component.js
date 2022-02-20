@@ -19,9 +19,9 @@ import { formatPrice } from 'Util/Price';
 export class CheckoutOrderSummaryPriceLine extends PureComponent {
     static propTypes = {
         price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-        currency: PropTypes.string.isRequired,
+        currency: PropTypes.string,
         title: PropTypes.string.isRequired,
-        coupon_code: PropTypes.string.isRequired,
+        coupon_code: PropTypes.string,
         mods: ModsType,
         subPrice: PropTypes.node,
         children: ChildrenType
@@ -30,7 +30,9 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
     static defaultProps = {
         mods: {},
         subPrice: null,
-        children: []
+        children: [],
+        coupon_code: '',
+        currency: 'USD'
     };
 
     renderPrice() {

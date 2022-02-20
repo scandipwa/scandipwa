@@ -11,6 +11,7 @@
 
 :root {
     --footer-totals-height: 0;
+    --loader-scale: 1;
 }
 
 .CheckoutOrderSummary {
@@ -268,6 +269,14 @@
 
         &_isEmpty {
             display: none;
+        }
+    }
+
+    .Loader {
+        &-Scale {
+            @media screen {
+                inset-block-start: calc(35% - (3px * var(--loader-scale)));
+            }
         }
     }
 }

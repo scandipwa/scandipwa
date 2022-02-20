@@ -31,7 +31,8 @@ import { CHANGE_PASSWORD, CUSTOMER_POPUP_ID, EDIT_CUSTOMER } from './MyAccountCu
 
 /** @namespace Component/MyAccountCustomerPopup/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    payload: state.PopupReducer.popupPayload[CUSTOMER_POPUP_ID] || {}
+    payload: state.PopupReducer.popupPayload[CUSTOMER_POPUP_ID] || {},
+    minimunPasswordLength: state.ConfigReducer.minimun_password_length
 });
 
 /** @namespace Component/MyAccountCustomerPopup/Container/mapDispatchToProps */
@@ -57,7 +58,8 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
                 EDIT_CUSTOMER
             ]),
             customer: CustomerType
-        }).isRequired
+        }).isRequired,
+        minimunPasswordLength: PropTypes.number.isRequired
     };
 
     state = {
@@ -70,12 +72,15 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
     };
 
     containerProps() {
-        const { payload } = this.props;
+        const { payload, minimunPasswordLength } = this.props;
         const { isLoading } = this.state;
+
+        const range = { min: minimunPasswordLength, max: 64 };
 
         return {
             payload,
-            isLoading
+            isLoading,
+            range
         };
     }
 

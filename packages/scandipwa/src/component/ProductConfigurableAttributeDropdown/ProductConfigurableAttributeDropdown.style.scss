@@ -1,5 +1,5 @@
 .ProductConfigurableAttributeDropdown {
-    margin-block-start: 16px;
+    margin-block-start: 0px;
 
     @include desktop {
         width: 45%;
@@ -7,5 +7,9 @@
 
     @include tablet {
         width: 60%;
+    }
+
+    &_isUnselected {
+        animation: var(--shake-animation);
     }
 }
