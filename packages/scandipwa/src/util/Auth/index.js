@@ -9,4 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+export const GRAPHQL_AUTH = 'graphql-authentication';
 export * from './Token';
