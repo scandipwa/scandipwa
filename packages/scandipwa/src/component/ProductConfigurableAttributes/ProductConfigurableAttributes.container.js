@@ -36,6 +36,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         isReady: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
         configurable_options: AttributesType.isRequired,
+        addToCartTriggeredWithError: PropTypes.bool.isRequired,
+        updateAddToCartTriggeredWithError: PropTypes.func.isRequired,
         inStock: PropTypes.bool
     };
 
@@ -55,7 +57,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         getSubHeading: this.getSubHeading.bind(this),
         isSelected: this.isSelected.bind(this),
         getLink: this.getLink.bind(this),
-        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
+        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
+        handleShakeAnimationEnd: this.handleShakeAnimationEnd.bind(this)
     };
 
     containerProps() {
@@ -68,7 +71,9 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             parameters,
             showProductAttributeAsLink,
             updateConfigurableVariant,
-            inStock
+            inStock,
+            addToCartTriggeredWithError,
+            updateAddToCartTriggeredWithError
         } = this.props;
 
         return {
@@ -80,7 +85,9 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             parameters,
             showProductAttributeAsLink,
             updateConfigurableVariant,
-            inStock
+            inStock,
+            addToCartTriggeredWithError,
+            updateAddToCartTriggeredWithError
         };
     }
 
@@ -119,6 +126,14 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         }
 
         return parameter === attribute_value;
+    }
+
+    handleShakeAnimationEnd(e) {
+        e.preventDefault();
+        const { updateAddToCartTriggeredWithError } = this.props;
+        e.target.classList.remove('[class*=_isUnselected]');
+
+        updateAddToCartTriggeredWithError();
     }
 
     getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {
