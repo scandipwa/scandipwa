@@ -296,7 +296,7 @@ export class ProductAttributeValue extends PureComponent {
               block="ProductAttributeValue"
               elem="Label"
             >
-                { value }
+                <Html content={ value } />
                 { this.renderSublabel(subLabel) }
             </div>
         );
