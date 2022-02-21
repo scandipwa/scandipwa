@@ -59,6 +59,20 @@
             }
         }
 
+        &-Clickable {
+            @include mobile {
+                position: relative;
+                width: 55px;
+                height: 50px;
+            }
+
+            .FieldSelect-SortSelect {
+                @include desktop {
+                    display: none;
+                } 
+            }
+        }
+
         &-Select {
             background: none;
             border: none;
@@ -68,7 +82,6 @@
 
             @include mobile {
                 position: absolute;
-                inset-block-start: -35px;
                 opacity: 0;
             }
 
@@ -81,11 +94,9 @@
             .FieldSelect {
                 height: 100%;
             }
-        }
 
-        .ChevronIcon {
-            @include mobile {
-                display: none;
+            .ChevronIcon {
+                padding-inline-start: 3px;
             }
         }
     }
