@@ -341,6 +341,10 @@ export class ProductContainer extends PureComponent {
         });
     }
 
+    /**
+     * checks for unselected options on add to cart event
+     * @returns {boolean}
+    */
     validateConfigurableProduct() {
         const {
             parameters
@@ -364,16 +368,22 @@ export class ProductContainer extends PureComponent {
         this.setState({ addToCartTriggeredWithError: false });
     }
 
+    /**
+     * Scrolls Product Options into view on error.
+    */
     scrollOptionsIntoView() {
-        const attributes = this.validator.querySelector('[class$=-AttributesWrapper]');
+        // PLP Products do not have validator so we omit scrolling
+        if (this.validator.current) {
+            const attributes = this.validator.querySelector('[class$=-AttributesWrapper]');
 
-        // For product configurable attributes
-        if (attributes) {
-            attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
-            return;
+            // For product configurable attributes
+            if (attributes) {
+                attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
+                return;
+            }
+
+            this.validator.scrollIntoView();
         }
-
-        this.validator.scrollIntoView();
     }
 
     /**
