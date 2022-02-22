@@ -61,7 +61,7 @@
 
         &-Clickable {
             @include mobile {
-                align-content: center;
+                align-items: flex-start;
             }
 
             .FieldSelect-SortSelect {
