@@ -10,6 +10,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { BACKSLASH, SPECIAL_CHAR } from 'Route/SearchPage/SearchPage.config';
+
 /**
  * No-operate function.
  * Can be used as a fallback if real function wasn't passed.
@@ -27,3 +29,6 @@ export const decodeString = (string) => {
         return string;
     }
 };
+
+/** @namespace Util/Common/Index/formatSearch */
+export const formatSearch = (search) => search.trim().replace(SPECIAL_CHAR, (special) => `${BACKSLASH}${ special}`);
