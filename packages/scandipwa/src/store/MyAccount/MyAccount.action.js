@@ -15,6 +15,7 @@ export const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_R
 export const UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS = 'UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS';
 export const UPDATE_CUSTOMER_IS_LOADING = 'UPDATE_CUSTOMER_IS_LOADING';
 export const UPDATE_CUSTOMER_PASSWORD_FORGOT_EMAIL = 'UPDATE_CUSTOMER_PASSWORD_FORGOT_EMAIL';
+export const UPDATE_CUSTOMER_IS_LOCKED = 'UPDATE_CUSTOMER_IS_LOCKED';
 
 /** @namespace Store/MyAccount/Action/updateCustomerSignInStatus */
 export const updateCustomerSignInStatus = (status) => ({
@@ -50,4 +51,10 @@ export const updateIsLoading = (isLoading) => ({
 export const updateCustomerPasswordForgotEmail = (email) => ({
     type: UPDATE_CUSTOMER_PASSWORD_FORGOT_EMAIL,
     email
+});
+
+/** @namespace Store/MyAccount/Action/updateIsLocked */
+export const updateIsLocked = (isLocked) => ({
+    type: UPDATE_CUSTOMER_IS_LOCKED,
+    isLocked
 });

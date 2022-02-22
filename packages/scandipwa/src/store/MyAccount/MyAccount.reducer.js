@@ -15,6 +15,7 @@ import {
     UPDATE_CUSTOMER_DETAILS,
     UPDATE_CUSTOMER_IS_LOADING,
     UPDATE_CUSTOMER_PASSWORD_FORGOT_EMAIL,
+    UPDATE_CUSTOMER_IS_LOCKED,
     UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     UPDATE_CUSTOMER_SIGN_IN_STATUS
@@ -26,6 +27,7 @@ export const getInitialState = () => ({
     passwordResetStatus: false,
     isPasswordForgotSend: false,
     isLoading: false,
+    isLocked: false,
     customer: {},
     message: ''
 });
@@ -75,6 +77,14 @@ export const MyAccountReducer = (
         return {
             ...state,
             isLoading
+        };
+
+    case UPDATE_CUSTOMER_IS_LOCKED:
+        const { isLocked } = action;
+
+        return {
+            ...state,
+            isLocked
         };
 
     default:
