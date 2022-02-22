@@ -28,6 +28,7 @@
     padding-inline: 24px;
     padding-block: 24px;
     border: 1px solid var(--product-review-item-border);
+    text-align: start;
 
     &:last-child {
         margin-block-end: 0;
@@ -127,7 +128,6 @@
 
     &-ReviewDetails {
         margin-block-end: 0;
-        text-align: justify;
 
         @include mobile {
             margin-block-end: 14px;

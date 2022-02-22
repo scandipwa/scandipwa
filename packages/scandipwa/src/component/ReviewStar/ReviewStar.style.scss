@@ -19,9 +19,18 @@
     font-family: Times; // make sure ★ appears correctly
     letter-spacing: 3px;
 
+    @supports (-webkit-touch-callout: none) {
+        /* CSS specific to iOS devices */ 
+        height: 40px;
+    }
+
     &::after {
         content: '★';
         font-family: serif;
+    }
+
+    &[id*='=='] {
+        margin-block-start: 0;
     }
 
     &:checked,
@@ -37,9 +46,5 @@
 
     &:focus {
         border: 0;
-    }
-
-    &:first-of-type {
-        margin-block-start: 12px;
     }
 }

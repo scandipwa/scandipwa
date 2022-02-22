@@ -21,7 +21,7 @@ import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CustomerType } from 'Type/Account.type';
 import { LocationType } from 'Type/Router.type';
-import { isSignedIn } from 'Util/Auth';
+import { GRAPHQL_AUTH, isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
@@ -40,13 +40,17 @@ export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile,
     customer: state.MyAccountReducer.customer,
     isLoading: state.MyAccountReducer.isLoading,
+    isLocked: state.MyAccountReducer.isLocked,
     baseLinkUrl: state.ConfigReducer.base_link_url
 });
 
 /** @namespace Component/MyAccountInformation/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
-    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
+    showErrorNotification: (error) => dispatch(showNotification(
+        'error',
+        typeof error === 'string' ? error : getErrorMessage(error)
+    )),
     showSuccessNotification: (message) => dispatch(showNotification('success', message)),
     updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
     logout: () => MyAccountDispatcher.then(
@@ -62,6 +66,7 @@ export class MyAccountInformationContainer extends PureComponent {
         baseLinkUrl: PropTypes.string.isRequired,
 
         isLoading: PropTypes.bool.isRequired,
+        isLocked: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
 
         showErrorNotification: PropTypes.func.isRequired,
@@ -93,7 +98,8 @@ export class MyAccountInformationContainer extends PureComponent {
         this.state = {
             showEmailChangeField: false,
             showPasswordChangeField: editPassword,
-            isErrorShow: false
+            isErrorShow: false,
+            isLocked: false
         };
     }
 
@@ -112,9 +118,13 @@ export class MyAccountInformationContainer extends PureComponent {
 
     onError(error) {
         const { showErrorNotification, updateCustomerLoadingStatus } = this.props;
+        const { isLocked } = this.state;
 
         updateCustomerLoadingStatus(false);
-        showErrorNotification(error);
+
+        if (!isLocked) {
+            showErrorNotification(error);
+        }
         this.setState({ isErrorShow: true });
     }
 
@@ -150,14 +160,16 @@ export class MyAccountInformationContainer extends PureComponent {
     }
 
     afterSubmit() {
-        const { showSuccessNotification, updateCustomerLoadingStatus } = this.props;
-        const { isErrorShow, showEmailChangeField, showPasswordChangeField } = this.state;
+        const { showSuccessNotification, updateCustomerLoadingStatus, showErrorNotification } = this.props;
+        const {
+            isErrorShow, isLocked, showEmailChangeField, showPasswordChangeField
+        } = this.state;
 
         if (!isErrorShow) {
             updateCustomerLoadingStatus(false);
 
             if (showEmailChangeField || showPasswordChangeField) {
-                this.handleLogout();
+                this.handleLogout({ isFromEmailChange: true });
             } else {
                 history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
             }
@@ -165,10 +177,18 @@ export class MyAccountInformationContainer extends PureComponent {
             showSuccessNotification('You saved the account information.');
         } else {
             this.setState({ isErrorShow: false });
+
+            if (isLocked) {
+                const message = 'The account sign-in was incorrect or your account is disabled temporarily.'
+                + 'Please wait and try again later.';
+
+                showErrorNotification(message);
+                this.handleLogout({ isFromLocked: true });
+            }
         }
     }
 
-    handleLogout() {
+    handleLogout(state) {
         const { baseLinkUrl, logout } = this.props;
 
         const path = baseLinkUrl
@@ -177,7 +197,7 @@ export class MyAccountInformationContainer extends PureComponent {
 
         history.push({
             pathname: path,
-            state: { isFromEmailChange: true }
+            state
         });
         logout();
     }
@@ -204,6 +224,11 @@ export class MyAccountInformationContainer extends PureComponent {
             BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             updateCustomer(customer);
         } catch (e) {
+            const { extensions: { category } } = e[0];
+
+            if (category === GRAPHQL_AUTH) {
+                this.setState({ isLocked: true });
+            }
             this.onError(e);
         }
     }

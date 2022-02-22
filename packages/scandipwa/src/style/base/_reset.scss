@@ -320,7 +320,7 @@ li {
     }
 
     &:last-child {
-        margin-block-end: 20px;
+        margin-block-end: 14px;
     }
 }
 
@@ -329,6 +329,7 @@ p {
 
     @include mobile {
         margin-block-end: 17px;
+        word-break: break-word;
     }
 
     &.caption {

@@ -9,5 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const GRAPHQL_AUTH = 'graphql-authentication';
-export * from './Token';
+export const DROPDOWN_SCROLL_MIN_ITEMS = 5;
+export const DROPDOWN_MIN_HEIGHT = 200;

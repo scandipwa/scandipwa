@@ -94,7 +94,7 @@ export class ProductAttributeValue extends PureComponent {
                 return {
                     ...optionValues,
                     label: `${adjustedLabel} (${count})`,
-                    labelText: adjustedLabel,
+                    labelText: adjustedLabel.trim(),
                     count
                 };
             }
@@ -292,13 +292,13 @@ export class ProductAttributeValue extends PureComponent {
 
     getCheckboxLabel(value, subLabel) {
         return (
-            <span
+            <div
               block="ProductAttributeValue"
               elem="Label"
             >
                 { value }
                 { this.renderSublabel(subLabel) }
-            </span>
+            </div>
         );
     }
 

@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import FieldGroup from 'Component//FieldGroup';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
@@ -70,19 +71,23 @@ export class ProductReviewForm extends PureComponent {
 
     renderReviewRating() {
         const { reviewRatings } = this.props;
-
         return reviewRatings.map((rating) => {
             const { rating_id, rating_code, rating_options } = rating;
 
             return (
-                <fieldset block="ProductReviewForm" elem="Rating" key={ rating_id }>
-                    <legend block="ProductReviewForm" elem="Legend">
-                        { rating_code }
-                    </legend>
-                    { rating_options
-                        .sort(({ value }, { value: nextValue }) => nextValue - value)
-                        .map((option) => this.renderReviewStar(option, rating_id)) }
-                </fieldset>
+                <FieldGroup
+                  validationRule={ { isRequired: true, selector: '[type="radio"]' } }
+                  validateOn={ ['onChange'] }
+                >
+                    <fieldset block="ProductReviewForm" elem="Rating" key={ rating_id }>
+                        <legend block="ProductReviewForm" elem="Legend">
+                            { rating_code }
+                        </legend>
+                        { rating_options
+                            .sort(({ value }, { value: nextValue }) => nextValue - value)
+                            .map((option) => this.renderReviewStar(option, rating_id)) }
+                    </fieldset>
+                </FieldGroup>
             );
         });
     }
@@ -114,7 +119,10 @@ export class ProductReviewForm extends PureComponent {
               block="ProductReviewForm"
               elem="Wrapper"
             >
-                <div>
+                <div
+                  block="ProductReviewForm"
+                  elem="RatingWrapper"
+                >
                     { this.renderReviewRating() }
                 </div>
                 <div

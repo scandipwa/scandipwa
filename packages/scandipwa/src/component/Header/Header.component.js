@@ -221,9 +221,7 @@ export class Header extends NavigationAbstract {
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
         search: this.renderSearchField.bind(this),
-        account: this.renderAccount.bind(this),
-        compare: this.renderComparePageButton.bind(this),
-        minicart: this.renderMinicart.bind(this),
+        renderDesktopIcons: this.renderDesktopIcons.bind(this),
         share: this.renderShareWishListButton.bind(this),
         ok: this.renderOkButton.bind(this)
     };
@@ -406,7 +404,7 @@ export class Header extends NavigationAbstract {
               elem="Title"
               mods={ { isVisible } }
             >
-                { title }
+                { title ? (<span>{ title.replace(/\+/g, ' ') }</span>) : (<span>{ title }</span>) }
             </h1>
         );
     }
@@ -631,6 +629,19 @@ export class Header extends NavigationAbstract {
                     { this.renderMinicartOverlay() }
                 </div>
             </ClickOutside>
+        );
+    }
+
+    renderDesktopIcons() {
+        return (
+            <div
+              block="Header"
+              elem="IconsWrapper"
+            >
+                { this.renderAccount() }
+                { this.renderComparePageButton() }
+                { this.renderMinicart() }
+            </div>
         );
     }
 

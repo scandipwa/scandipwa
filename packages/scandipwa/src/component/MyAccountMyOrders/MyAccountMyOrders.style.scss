@@ -15,7 +15,8 @@
     grid-template-columns: 1fr;
 
     @include mobile {
-        grid-gap: 28px;
+        grid-gap: 10px;
+        margin-block-end: 20px;
     }
 
     &-Button {
@@ -35,6 +36,13 @@
         &.MyDownloadable {
             width: auto;
             max-width: initial;
+        }
+    }
+
+    &-Pagination {
+        @include mobile {
+            display: flex;
+            margin-block-start: 0;
         }
     }
 }
