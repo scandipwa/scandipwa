@@ -22,7 +22,7 @@ export class PasswordChangeForm extends FieldForm {
     static propsTypes = {
         onFormSubmit: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired
     };
 
