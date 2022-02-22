@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import currencyMap from './Price.config';
+import currencyMap, { HUNDRED_PERCENT } from './Price.config';
 
 /** @namespace Util/Price/formatCurrency */
 export const formatCurrency = (currency = 'USD') => currencyMap[currency];
@@ -30,6 +30,16 @@ export const formatPrice = (price, currency = 'USD') => {
  * @namespace Util/Price/calculateFinalPrice
  */
 export const calculateFinalPrice = (discount, min, reg) => (discount ? min : reg);
+
+/**
+ * Calculate final price
+ * @param {Number} tier tier price
+ * @param {Number} spec special price
+ * @return {Number} final discount
+ * @namespace Util/Price/calculateTierDiscountOverSpecialPrice */
+export const calculateTierDiscountOverSpecialPrice = (spec, tier) => (
+    Math.round(HUNDRED_PERCENT - (tier / spec) * HUNDRED_PERCENT)
+);
 
 /**
  * Calculate final price

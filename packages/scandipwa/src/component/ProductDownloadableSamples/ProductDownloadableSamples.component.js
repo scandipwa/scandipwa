@@ -22,7 +22,11 @@ export class ProductDownloadableSamples extends PureComponent {
     static propTypes = {
         title: PropTypes.string.isRequired,
         samples: DownloadableSamplesType.isRequired,
-        isOpenInNewTab: PropTypes.bool.isRequired
+        isOpenInNewTab: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isOpenInNewTab: false
     };
 
     renderDownloadableProductSampleItems() {

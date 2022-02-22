@@ -106,7 +106,10 @@ export const OrderProductsType = PropTypes.arrayOf(OrderProductType);
 export const OrderTabType = PropTypes.shape({
     orderItemQtyType,
     items: OrderProductsType,
-    id: PropTypes.number,
+    id: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
     number: PropTypes.string,
     total: OrderTotalType
 });

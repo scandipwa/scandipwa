@@ -21,74 +21,44 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/PasswordChangeForm/Form/customerEmailAndPasswordFields */
-export const customerEmailAndPasswordFields = (props) => {
-    const {
-        showNotification
-    } = props;
-
-    return [
-        {
-            type: FIELD_TYPE.password,
-            label: __('New password'),
-            attr: {
-                id: 'password',
-                name: 'password',
-                placeholder: __('Enter your password'),
-                autocomplete: 'new-password'
-            },
-            validateOn: ['onSubmit'],
-            validationRule: {
-                isRequired: true,
-                inputType: VALIDATION_INPUT_TYPE.password,
-                match: (value) => {
-                    if (event.type === 'submit') {
-                        const counter = getNumberOfCharacterClasses(value);
-
-                        if (counter < MIN_CHARACTER_SETS_IN_PASSWORD) {
-                            showNotification(
-                                'info',
-                                __('Incorrect data! Please resolve all field validation errors.')
-                            );
-
-                            return '';
-                        }
-                    }
-
-                    return true;
-                },
-                customErrorMessages: {
-                    onMatchFail: __('Passwords do not match!')
-                },
-                range: {
-                    min: 8
-                }
+export const customerEmailAndPasswordFields = (range) => [
+    {
+        type: FIELD_TYPE.password,
+        label: __('New password'),
+        attr: {
+            id: 'password',
+            name: 'password',
+            placeholder: __('Enter your password'),
+            autocomplete: 'new-password'
+        },
+        validateOn: ['onChange'],
+        validationRule: {
+            isRequired: true,
+            inputType: VALIDATION_INPUT_TYPE.password,
+            range
+        },
+        addRequiredTag: true
+    },
+    {
+        type: FIELD_TYPE.password,
+        label: __('Confirm password'),
+        attr: {
+            id: 'password_confirmation',
+            name: 'password_confirmation',
+            placeholder: __('Retype your password'),
+            autocomplete: 'new-password'
+        },
+        validateOn: ['onChange'],
+        validationRule: {
+            isRequired: true,
+            inputType: VALIDATION_INPUT_TYPE.password,
+            match: (value) => {
+                const password = document.getElementById('password');
+                return password.value === value;
             },
             addRequiredTag: true
         },
-        {
-            type: FIELD_TYPE.password,
-            label: __('Confirm password'),
-            attr: {
-                id: 'password_confirmation',
-                name: 'password_confirmation',
-                placeholder: __('Retype your password'),
-                autocomplete: 'new-password'
-            },
-            validateOn: ['onChange'],
-            validationRule: {
-                isRequired: true,
-                inputType: VALIDATION_INPUT_TYPE.password,
-                match: (value) => {
-                    const password = document.getElementById('password');
-                    return password.value === value;
-                },
-                customErrorMessages: {
-                    onMatchFail: __('Passwords do not match!')
-                }
-            },
-            addRequiredTag: true
-        }
-    ];
-};
+    };
+];
 
 export default customerEmailAndPasswordFields;
