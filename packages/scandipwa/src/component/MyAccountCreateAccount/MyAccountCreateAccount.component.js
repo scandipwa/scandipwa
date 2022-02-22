@@ -33,7 +33,7 @@ export class MyAccountCreateAccount extends PureComponent {
         vatNumberRequired: PropTypes.bool.isRequired,
         newsletterActive: PropTypes.bool.isRequired,
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
-        minimunPasswordCharacter: PropTypes.number.isRequired
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     renderVatNumberField() {

@@ -198,8 +198,8 @@ export const validateGroup = (DOM, rule = null) => {
 
 /**
  * Get number of different character classes
- * @param value
- * @return {number}
+ * @param {String} value
+ * @return {Number}
  * @namespace Util/Validator/getNumberOfCharacterClasses
  */
 export const getNumberOfCharacterClasses = (value) => Number(/\d+/.test(value))
@@ -211,10 +211,10 @@ export default validate;
 
 /**
  * Validates password
- * @param value
- * @param range
- * @param minCharacter
- * @returns {string|boolean}
+ * @param {String} value
+ * @param {{min: {Number|Object}, max: {Number|Object}}} range
+ * @param {String} minCharacter
+ * @returns {String|Boolean}
  * @namespace Util/Validator/validatePassword
  */
 export const validatePassword = (value, range, minCharacter) => {
@@ -232,7 +232,7 @@ export const validatePassword = (value, range, minCharacter) => {
 
     const counter = getNumberOfCharacterClasses(value);
 
-    if (counter < minCharacter) {
+    if (counter < Number(minCharacter)) {
         return __('Minimum of different classes of characters in password is %s. ',
             minCharacter)
             + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');

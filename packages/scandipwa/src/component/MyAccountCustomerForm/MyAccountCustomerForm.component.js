@@ -33,7 +33,7 @@ export class MyAccountCustomerForm extends FieldForm {
         currentPassword: PropTypes.string,
         vatNumberRequired: PropTypes.bool.isRequired,
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }),
-        minimunPasswordCharacter: PropTypes.number.isRequired
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     static defaultProps = {

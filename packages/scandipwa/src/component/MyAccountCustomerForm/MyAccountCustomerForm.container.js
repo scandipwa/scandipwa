@@ -42,7 +42,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
         handleChangeEmailCheckbox: PropTypes.func.isRequired,
         handleChangePasswordCheckbox: PropTypes.func.isRequired,
         minimunPasswordLength: PropTypes.number.isRequired,
-        minimunPasswordCharacter: PropTypes.number.isRequired
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     containerFunctions = {

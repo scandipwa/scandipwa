@@ -82,7 +82,7 @@ export class PasswordChangePageContainer extends PureComponent {
         setHeaderState: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
         minimunPasswordLength: PropTypes.number.isRequired,
-        minimunPasswordCharacter: PropTypes.number.isRequired
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     state = {

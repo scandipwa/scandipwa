@@ -21,7 +21,7 @@ export class MyAccountPasswordForm extends FieldForm {
     static propTypes = {
         onPasswordChange: PropTypes.func.isRequired,
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
-        minimunPasswordCharacter: PropTypes.number.isRequired
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     onFormSuccess(form, fields) {

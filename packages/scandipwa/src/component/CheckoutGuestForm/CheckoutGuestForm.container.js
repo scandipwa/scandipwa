@@ -81,7 +81,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
         checkEmailAvailability: PropTypes.func.isRequired,
         updateEmail: PropTypes.func.isRequired,
         minimunPasswordLength: PropTypes.number.isRequired,
-        minimunPasswordCharacter: PropTypes.number.isRequired
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     static defaultProps = {

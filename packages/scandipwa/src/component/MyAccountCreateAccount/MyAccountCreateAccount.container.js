@@ -61,7 +61,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         state: SignInStateType.isRequired,
         newsletterActive: PropTypes.bool.isRequired,
         minimunPasswordLength: PropTypes.number.isRequired,
-        minimunPasswordCharacter: PropTypes.number.isRequired
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     static defaultProps = {

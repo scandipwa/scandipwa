@@ -41,7 +41,7 @@ export class CheckoutGuestForm extends FieldForm {
         setSignInState: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }),
-        minimunPasswordCharacter: PropTypes.number.isRequired
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
