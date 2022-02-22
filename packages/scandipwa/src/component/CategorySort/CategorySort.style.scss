@@ -61,9 +61,10 @@
 
         &-Clickable {
             @include mobile {
-                align-items: flex-start;
+                align-items: center;
+                align-content: center;
             }
-
+            
             .FieldSelect-SortSelect {
                 @include desktop {
                     display: none;
@@ -74,6 +75,13 @@
                 @include mobile {
                     position: relative;
                     inset-inline-end: 0;
+
+                    @supports (-webkit-touch-callout: none) {
+                        /* CSS specific to iOS devices */ 
+                        position: absolute;
+                        inset-inline-end: -15px;
+                        inset-block-start: 3px;
+                    }
                 }
             }
         }
