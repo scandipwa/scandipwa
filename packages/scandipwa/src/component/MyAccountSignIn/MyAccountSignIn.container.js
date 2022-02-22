@@ -27,7 +27,8 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isEmailAvailable: state.CheckoutReducer.isEmailAvailable
+    isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
+    isLocked: state.MyAccountReducer.isLocked
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
@@ -53,7 +54,9 @@ export class MyAccountSignInContainer extends PureComponent {
         emailValue: PropTypes.string,
         isEmailAvailable: PropTypes.bool,
         setSignInState: PropTypes.func,
-        handleEmailInput: PropTypes.func
+        handleEmailInput: PropTypes.func,
+        isLocked: PropTypes.string.isRequired,
+        updateCustomerLockedStatus: PropTypes.func.isRequired
     };
 
     static defaultProps = {

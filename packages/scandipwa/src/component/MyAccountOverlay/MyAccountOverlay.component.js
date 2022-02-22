@@ -115,7 +115,8 @@ export class MyAccountOverlay extends PureComponent {
             handleCreateAccount,
             setSignInState,
             setLoadingState,
-            isCheckout
+            isCheckout,
+            isOverlayVisible
         } = this.props;
 
         return (
@@ -127,6 +128,7 @@ export class MyAccountOverlay extends PureComponent {
               setLoadingState={ setLoadingState }
               setSignInState={ setSignInState }
               isCheckout={ isCheckout }
+              isOverlayVisible={ isOverlayVisible }
             />
         );
     }
