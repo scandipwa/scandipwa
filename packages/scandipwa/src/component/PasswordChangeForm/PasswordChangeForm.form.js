@@ -56,9 +56,9 @@ export const customerEmailAndPasswordFields = (range) => [
                 const password = document.getElementById('password');
                 return password.value === value;
             },
-            addRequiredTag: true
         },
-    };
+        addRequiredTag: true
+    }
 ];
 
 export default customerEmailAndPasswordFields;
