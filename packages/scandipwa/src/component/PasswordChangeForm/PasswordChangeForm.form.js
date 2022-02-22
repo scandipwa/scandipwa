@@ -10,10 +10,6 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
-import {
-    MIN_CHARACTER_SETS_IN_PASSWORD
-} from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
-import { getNumberOfCharacterClasses } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -55,7 +51,7 @@ export const customerEmailAndPasswordFields = (range) => [
             match: (value) => {
                 const password = document.getElementById('password');
                 return password.value === value;
-            },
+            }
         },
         addRequiredTag: true
     }
