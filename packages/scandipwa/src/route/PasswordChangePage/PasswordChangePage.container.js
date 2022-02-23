@@ -15,12 +15,14 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
 import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
+import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router.type';
+import { isSignedIn } from 'Util/Auth';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
 import { appendWithStoreCode, getQueryParam } from 'Util/Url';
@@ -40,7 +42,8 @@ export const MyAccountDispatcher = import(
 export const mapStateToProps = (state) => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus,
     passwordResetMessage: state.MyAccountReducer.passwordResetMessage,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
+    minimunPasswordLength: state.ConfigReducer.minimun_password_length
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
@@ -78,7 +81,8 @@ export class PasswordChangePageContainer extends PureComponent {
         location: LocationType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         setHeaderState: PropTypes.func.isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        minimunPasswordLength: PropTypes.number.isRequired
     };
 
     state = {
@@ -122,6 +126,11 @@ export class PasswordChangePageContainer extends PureComponent {
         const { setHeaderState } = this.props;
         this.updateMeta();
         this.toggleBreadcrumbs(false);
+
+        if (isSignedIn()) {
+            history.replace({ pathname: appendWithStoreCode(ACCOUNT_URL) });
+        }
+
         setHeaderState({
             name: CUSTOMER_SUB_ACCOUNT,
             title: __('Change My Password'),
@@ -133,9 +142,14 @@ export class PasswordChangePageContainer extends PureComponent {
 
     containerProps() {
         const { isLoading } = this.state;
-        const { isMobile } = this.props;
+        const { isMobile, minimunPasswordLength } = this.props;
 
-        return { isLoading, isMobile };
+        const range = {
+            min: minimunPasswordLength,
+            max: 64
+        };
+
+        return { isLoading, isMobile, range };
     }
 
     onPasswordSuccess(form, fields) {

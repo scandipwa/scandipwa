@@ -187,7 +187,9 @@ export class CartItem extends PureComponent {
             return (
                 <>
                     <strong>{ `${label}: ` }</strong>
+                    <span>
                     { values.map(({ label, value }) => label || value).join(', ') }
+                    </span>
                 </>
             );
         }
@@ -234,6 +236,7 @@ export class CartItem extends PureComponent {
             <div
               block="CartItem"
               elem="Option"
+              mods={ { isBundle: true } }
               key={ id }
             >
                 { this.renderBundleProductOptionLabel(option) }

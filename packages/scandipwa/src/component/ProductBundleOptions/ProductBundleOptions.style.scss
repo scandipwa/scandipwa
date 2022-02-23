@@ -25,6 +25,10 @@
         .Field {
             margin-block-start: 16px;
 
+            &_type_select {
+                margin-block-start: 0;
+            }
+
             &_type_select + .Field-ErrorMessages {
                 position: absolute;
                 inset-inline-start: 0;
@@ -87,6 +91,7 @@
                 &_type {
                     &_number {
                         margin-inline-start: 16px;
+                        margin-block-start: 0;
                     }
                 }
             }
@@ -94,7 +99,7 @@
             [type="number"] {
                 & ~ button {
                     width: 44px;
-                    height: 44px;
+                    height: 48px;
                 }
             }
         }

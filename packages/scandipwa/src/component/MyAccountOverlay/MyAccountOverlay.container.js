@@ -22,7 +22,6 @@ import {
 import { updateIsLoading } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
@@ -53,7 +52,6 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
@@ -75,7 +73,6 @@ export class MyAccountOverlayContainer extends PureComponent {
         onSignIn: PropTypes.func,
         redirectToDashboard: PropTypes.bool.isRequired,
         setHeaderState: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
         showOverlay: PropTypes.func.isRequired,
         updateCustomerLoadingStatus: PropTypes.func.isRequired
     };
@@ -106,7 +103,6 @@ export class MyAccountOverlayContainer extends PureComponent {
     static getDerivedStateFromProps(props, state) {
         const {
             isPasswordForgotSend,
-            showNotification,
             isOverlayVisible,
             isMobile
         } = props;
@@ -141,8 +137,10 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
-            // eslint-disable-next-line max-len
-            showNotification('success', __('If there is an account associated with the provided address you will receive an email with a link to reset your password.'));
+
+            if (!isOverlayVisible) {
+                history.push({ pathname: appendWithStoreCode(ACCOUNT_LOGIN_URL) });
+            }
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
 

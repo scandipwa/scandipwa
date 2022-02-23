@@ -75,11 +75,11 @@ export class MyAccountMyOrders extends Component {
     }
 
     renderOrderRow(order) {
-        const { id } = order;
+        const { id, base_order_info: { id: defaultId } = {} } = order;
 
         return (
             <MyAccountOrderTableRow
-              key={ id }
+              key={ id || defaultId }
               order={ order }
             />
         );
@@ -105,13 +105,18 @@ export class MyAccountMyOrders extends Component {
     renderPagination() {
         const {
             isLoading,
-            orderList: { pageInfo: { total_pages = 0 } = {} }
+            orderList: {
+                pageInfo: {
+                    total_pages = 0
+                } = {}
+            }
         } = this.props;
 
         return (
             <Pagination
               isLoading={ isLoading }
               totalPages={ total_pages }
+              mix={ { block: 'MyAccountMyOrders', elem: 'Pagination' } }
             />
         );
     }

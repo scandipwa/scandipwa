@@ -17,6 +17,23 @@
             grid-gap: 24px;
         }
     }
+    
+    &-RatingWrapper {
+        .FieldGroup-Wrapper {
+            margin-block-end: 14px;
+                    
+            .FieldGroup {
+                &_hasError, &_isValid {
+                    padding-inline-start: 0;
+                    border: none;
+                }
+                
+                &-ErrorMessages {
+                    margin-block-start: 6px;
+                }
+            }
+        }
+    }
 
     &-ProductName {
         font-weight: 700;
@@ -49,9 +66,6 @@
         white-space-collapse: discard; // alternative of `font-size: 0`
 
         @include mobile {
-            margin-block-start: 14px;
-            margin-block-end: 18px;
-            margin-inline: 0;
             max-width: 75%;
         }
 

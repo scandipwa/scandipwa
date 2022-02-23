@@ -24,7 +24,7 @@ import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductDownloadableLinks from 'Component/ProductDownloadableLinks';
-import ProductDownloadableSamples from 'Component/ProductDownloadableSamples/ProductDownloadableSamples.component';
+import ProductDownloadableSamples from 'Component/ProductDownloadableSamples';
 import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
@@ -58,6 +58,8 @@ export class Product extends PureComponent {
         updateSelectedValues: PropTypes.func.isRequired,
         setAdjustedPrice: PropTypes.func.isRequired,
         setDownloadableLinks: PropTypes.func.isRequired,
+        addToCartTriggeredWithError: PropTypes.bool.isRequired,
+        updateAddToCartTriggeredWithError: PropTypes.func.isRequired,
 
         getActiveProduct: PropTypes.func.isRequired,
         setActiveProduct: PropTypes.func.isRequired,
@@ -99,8 +101,8 @@ export class Product extends PureComponent {
 
         return (
             <ProductBundleOptions
-              updateSelectedValues={ updateSelectedValues }
               options={ items }
+              updateSelectedValues={ updateSelectedValues }
             />
         );
     }
@@ -110,13 +112,15 @@ export class Product extends PureComponent {
             product: {
                 options
             },
+
             updateSelectedValues
         } = this.props;
 
         return (
             <ProductCustomizableOptions
-              updateSelectedValues={ updateSelectedValues }
               options={ options }
+              updateSelectedValues={ updateSelectedValues }
+
             />
         );
     }
@@ -184,7 +188,9 @@ export class Product extends PureComponent {
             setActiveProduct,
             parameters,
             product: { type_id: type, variants = {} },
-            inStock
+            inStock,
+            addToCartTriggeredWithError,
+            updateAddToCartTriggeredWithError
         } = this.props;
 
         if (type !== PRODUCT_TYPE.configurable) {
@@ -199,6 +205,8 @@ export class Product extends PureComponent {
                 <ProductConfigurableAttributes
                     // eslint-disable-next-line no-magic-numbers
                   numberOfPlaceholders={ [2, 4] }
+                  updateAddToCartTriggeredWithError={ updateAddToCartTriggeredWithError }
+                  addToCartTriggeredWithError={ addToCartTriggeredWithError }
                   mix={ { block: this.className, elem: 'Attributes' } }
                   parameters={ parameters }
                   variants={ variants }

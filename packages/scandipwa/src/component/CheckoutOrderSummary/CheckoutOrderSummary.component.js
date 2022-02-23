@@ -326,14 +326,11 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderExpandableContent() {
-        const { isLoading } = this.props;
-
         return (
             <ExpandableContent
               heading={ __('Summary') }
               mix={ { block: 'CheckoutOrderSummary', elem: 'ExpandableContent' } }
             >
-                <Loader isLoading={ isLoading } />
                 { this.renderItems() }
                 { this.renderCmsBlock() }
                 { this.renderTotals() }

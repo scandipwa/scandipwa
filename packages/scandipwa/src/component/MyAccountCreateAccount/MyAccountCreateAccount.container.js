@@ -32,7 +32,8 @@ export const mapStateToProps = (state) => ({
     isLoading: state.MyAccountReducer.isLoading,
     showTaxVatNumber: !!state.ConfigReducer.show_tax_vat_number,
     newsletterActive: state.ConfigReducer.newsletter_general_active,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
+    minimunPasswordLength: state.ConfigReducer.minimun_password_length
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
@@ -57,7 +58,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         state: SignInStateType.isRequired,
-        newsletterActive: PropTypes.bool.isRequired
+        newsletterActive: PropTypes.bool.isRequired,
+        minimunPasswordLength: PropTypes.number.isRequired
     };
 
     static defaultProps = {
@@ -74,7 +76,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             state,
             handleSignIn,
             showTaxVatNumber,
-            newsletterActive
+            newsletterActive,
+            minimunPasswordLength
         } = this.props;
 
         return {
@@ -82,7 +85,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             handleSignIn,
             showTaxVatNumber,
             newsletterActive,
-            vatNumberRequired: this.getVatNumberRequired()
+            vatNumberRequired: this.getVatNumberRequired(),
+            minimunPasswordLength
         };
     }
 

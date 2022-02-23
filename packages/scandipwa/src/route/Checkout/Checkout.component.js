@@ -388,7 +388,11 @@ export class Checkout extends PureComponent {
             return null;
         }
 
-        return <CmsBlock identifier={ promo } />;
+        return (
+            <div block="Checkout" elem="Promo">
+                <CmsBlock identifier={ promo } />
+            </div>
+        );
     }
 
     renderStoreInPickUpMethod() {
