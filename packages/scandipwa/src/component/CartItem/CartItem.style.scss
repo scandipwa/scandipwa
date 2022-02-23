@@ -108,6 +108,12 @@
             flex-direction: column;
             gap: 0;
         }
+
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 
     &-ItemLinks {
