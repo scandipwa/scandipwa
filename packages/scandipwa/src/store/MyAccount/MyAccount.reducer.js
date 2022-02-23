@@ -15,6 +15,7 @@ import {
     UPDATE_CUSTOMER_DETAILS,
     UPDATE_CUSTOMER_IS_LOADING,
     UPDATE_CUSTOMER_IS_LOCKED,
+    UPDATE_CUSTOMER_PASSWORD_FORGOT_EMAIL,
     UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     UPDATE_CUSTOMER_SIGN_IN_STATUS
@@ -36,7 +37,9 @@ export const MyAccountReducer = (
     state = getInitialState(),
     action
 ) => {
-    const { status, customer, message } = action;
+    const {
+        status, customer, message, email
+    } = action;
 
     switch (action.type) {
     case UPDATE_CUSTOMER_SIGN_IN_STATUS:
@@ -62,6 +65,11 @@ export const MyAccountReducer = (
         return {
             ...state,
             customer
+        };
+    case UPDATE_CUSTOMER_PASSWORD_FORGOT_EMAIL:
+        return {
+            ...state,
+            email
         };
     case UPDATE_CUSTOMER_IS_LOADING:
         const { isLoading } = action;
