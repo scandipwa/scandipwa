@@ -20,6 +20,10 @@
     --search-input-desktop-border-color: #000;
 }
 
+::placeholder {
+    overflow: visible;
+}
+
 .SearchField {
     display: none;
     margin: 8px auto;
