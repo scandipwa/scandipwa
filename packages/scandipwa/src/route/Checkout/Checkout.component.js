@@ -340,19 +340,19 @@ export class Checkout extends PureComponent {
             return null;
         }
 
-        if (checkoutStep === BILLING_STEP) {
-            return (
-                <ExpandableContent
-                  heading={ __('Have a discount code?') }
-                  mix={ { block: 'CartPage', elem: 'Discount' } }
-                  isArrow
-                >
-                    <CartCoupon couponCode={ coupon_code } />
-                </ExpandableContent>
-            );
+        if (checkoutStep !== BILLING_STEP) {
+            return null;
         }
 
-        return null;
+        return (
+            <ExpandableContent
+              heading={ __('Have a discount code?') }
+              mix={ { block: 'Checkout', elem: 'Discount' } }
+              isArrow
+            >
+                <CartCoupon couponCode={ coupon_code } />
+            </ExpandableContent>
+        );
     }
 
     renderStep() {
@@ -388,17 +388,17 @@ export class Checkout extends PureComponent {
 
         return (
             <>
-            <CheckoutOrderSummary
-              checkoutStep={ checkoutStep }
-              totals={ checkoutTotals }
-              paymentTotals={ paymentTotals }
-              isExpandable={ isMobile }
-              onCouponCodeUpdate={ onCouponCodeUpdate }
-              // eslint-disable-next-line react/jsx-no-bind
-              renderCmsBlock={ () => this.renderPromo(true) }
-              showItems
-            />
-            { !showOnMobile && this.renderDiscountCode() }
+                <CheckoutOrderSummary
+                  checkoutStep={ checkoutStep }
+                  totals={ checkoutTotals }
+                  paymentTotals={ paymentTotals }
+                  isExpandable={ isMobile }
+                  onCouponCodeUpdate={ onCouponCodeUpdate }
+                // eslint-disable-next-line react/jsx-no-bind
+                  renderCmsBlock={ () => this.renderPromo(true) }
+                  showItems
+                />
+                { !showOnMobile && this.renderDiscountCode() }
             </>
         );
     }

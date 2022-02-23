@@ -40,7 +40,7 @@
         margin-block-start: 12px;
         display: inline-flex;
 
-        @media(max-width: 1026px) {
+        @include tablet { 
             display: block;
         }
 

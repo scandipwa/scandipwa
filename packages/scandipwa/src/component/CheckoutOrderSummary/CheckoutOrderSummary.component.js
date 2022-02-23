@@ -123,6 +123,21 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
+    renderMobileDiscount(coupon_code) {
+        return (
+            <div>
+                <div
+                  block="ExpandableContent"
+                  elem="Heading"
+                  mix={ { block: 'CheckoutOrderSummary', elem: 'ExpandableContentHeading' } }
+                >
+                { __('Have a discount code?') }
+                </div>
+                <CartCoupon couponCode={ coupon_code } />
+            </div>
+        );
+    }
+
     renderDiscountCode() {
         const {
             totals: { coupon_code, items },
@@ -134,34 +149,23 @@ export class CheckoutOrderSummary extends PureComponent {
             return null;
         }
 
+        if (checkoutStep !== BILLING_STEP) {
+            return null;
+        }
+
         if (isMobile && checkoutStep === BILLING_STEP) {
-            return (
-                <div>
-                    <div
-                      block="ExpandableContent"
-                      elem="Heading"
-                      mix={ { block: 'CartPage', elem: 'ExpandableContentHeading' } }
-                    >
-                    Have a discount code?
-                    </div>
-                    <CartCoupon couponCode={ coupon_code } />
-                </div>
-            );
+            return this.renderMobileDiscount(coupon_code);
         }
 
-        if (checkoutStep === BILLING_STEP) {
-            return (
-                <ExpandableContent
-                  heading={ __('Have a discount code?') }
-                  mix={ { block: 'CartPage', elem: 'Discount' } }
-                  isArrow
-                >
-                    <CartCoupon couponCode={ coupon_code } />
-                </ExpandableContent>
-            );
-        }
-
-        return null;
+        return (
+            <ExpandableContent
+              heading={ __('Have a discount code?') }
+              mix={ { block: 'CheckoutOrderSummary', elem: 'Discount' } }
+              isArrow
+            >
+                <CartCoupon couponCode={ coupon_code } />
+            </ExpandableContent>
+        );
     }
 
     renderItems() {
