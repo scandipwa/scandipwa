@@ -30,7 +30,7 @@
 .Popup {
     opacity: 0;
     pointer-events: none;
-    z-index: 400;
+    z-index: 999;
     position: fixed;
     background-color: var(--popup-background);
     inset-inline-start: 0;
