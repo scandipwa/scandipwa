@@ -202,7 +202,7 @@ export class Field extends PureComponent {
             ...events,
             onChange: onChange || noopFn
         };
-        const disableButton = !!(!attr.value.match('none') && isDisabled);
+        const disableButton = (!attr.value.match('none') && isDisabled);
 
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
