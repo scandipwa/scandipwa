@@ -12,16 +12,22 @@
 .ImageZoomPopup {
     height: 100%;
 
+    
     &.Popup {
         height: 100%;
-    }
 
+        @include desktop {
+            z-index: 450;
+        }
+    }
+    
     &-PopupContent.Popup-Content {
         max-height: 100vh;
         height: 100vh;
         max-width: 100vw;
         width: 100%;
         padding: 0;
+
 
         .Popup-CloseBtn {
             inset-inline-end: 10px;

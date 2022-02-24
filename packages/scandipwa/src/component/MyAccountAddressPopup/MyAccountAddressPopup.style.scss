@@ -12,6 +12,10 @@
 .MyAccountAddressPopup {
     font-size: 12px;
 
+    @include desktop {
+        z-index: 450;
+    }
+
     &-Address {
         margin: 12px 0;
 
