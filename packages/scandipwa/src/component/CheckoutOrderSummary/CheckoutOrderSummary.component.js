@@ -145,15 +145,11 @@ export class CheckoutOrderSummary extends PureComponent {
             isMobile
         } = this.props;
 
-        if (!items || items.length < 1) {
+        if (!items || items.length < 1 || checkoutStep !== BILLING_STEP) {
             return null;
         }
 
-        if (checkoutStep !== BILLING_STEP) {
-            return null;
-        }
-
-        if (isMobile && checkoutStep === BILLING_STEP) {
+        if (isMobile) {
             return this.renderMobileDiscount(coupon_code);
         }
 
@@ -377,7 +373,6 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderExpandableContent() {
-        const { isMobile } = this.props;
         return (
             <ExpandableContent
               heading={ __('Summary') }
@@ -386,7 +381,7 @@ export class CheckoutOrderSummary extends PureComponent {
                 { this.renderItems() }
                 { this.renderCmsBlock() }
                 { this.renderTotals() }
-                { isMobile && this.renderDiscountCode() }
+                { this.renderDiscountCode() }
             </ExpandableContent>
         );
     }

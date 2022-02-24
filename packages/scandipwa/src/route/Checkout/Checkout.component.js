@@ -336,11 +336,7 @@ export class Checkout extends PureComponent {
             checkoutStep
         } = this.props;
 
-        if (!items || items.length < 1) {
-            return null;
-        }
-
-        if (checkoutStep !== BILLING_STEP) {
+        if (!items || items.length < 1 || checkoutStep !== BILLING_STEP) {
             return null;
         }
 
