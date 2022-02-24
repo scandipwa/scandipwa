@@ -65,9 +65,13 @@
                 align-content: center;
             }
             
-            .FieldSelect-SortSelect {
-                @include desktop {
-                    display: none;
+            .FieldSelect {
+                &-SortSelect {
+                    font-size: 16px;
+
+                    @include desktop {
+                        display: none;
+                    }
                 } 
             }
 
@@ -75,11 +79,13 @@
                 @include mobile {
                     position: relative;
                     inset-inline-end: 0;
+                    margin-inline-start: 10px;
 
                     @supports (-webkit-touch-callout: none) {
                         /* CSS specific to iOS devices */ 
                         position: absolute;
-                        inset-inline-end: -15px;
+                        margin-inline-start: 0px;
+                        inset-inline-end: -25px;
                         inset-block-start: 19px;
                     }
                 }
@@ -110,13 +116,15 @@
         }
     }
 
-    .Field-LabelContainer {
-        .ChevronIcon {
-            @include desktop {
-                display: none;
-            }
+    .Field { 
+        &-LabelContainer {
+            .ChevronIcon {
+                @include desktop {
+                    display: none;
+                }
 
-            margin-block-start: 3px;
+                margin-block-start: 3px;
+            }
         }
     }
 }

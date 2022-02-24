@@ -169,7 +169,7 @@ export class FieldSelect extends PureComponent {
 
         if (isSortSelect) {
             return (
-                <div block="FieldSelect" elem="SortSelect">{ __('Sort') }</div>
+                <div block="FieldSelect" elem="SortSelect">{ __('Sort by') }</div>
             );
         }
 
