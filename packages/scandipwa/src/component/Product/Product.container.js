@@ -373,7 +373,7 @@ export class ProductContainer extends PureComponent {
     */
     scrollOptionsIntoView() {
         // PLP Products do not have validator so we omit scrolling
-        if (this.validator.current) {
+        if (this.validator.classList) {
             const attributes = this.validator.querySelector('[class$=-AttributesWrapper]');
 
             // For product configurable attributes
