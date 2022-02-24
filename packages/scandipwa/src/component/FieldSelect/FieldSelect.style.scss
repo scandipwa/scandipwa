@@ -72,6 +72,17 @@ $select-arrow-width: 14px !default;
         -webkit-overflow-scrolling: touch;
         min-width: 100%;
 
+        ::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 7px;
+        }
+  
+        ::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, .5);
+            box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+        }
+
         &_isExpanded {
             @include desktop {
                 z-index: 15;
