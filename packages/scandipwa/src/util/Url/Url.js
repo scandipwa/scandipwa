@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { decodeString } from 'Util/Common';
 import getStore from 'Util/Store';
 
 /**
@@ -100,7 +101,7 @@ export const appendWithStoreCode = (pathname) => {
  * @namespace Util/Url/getQueryParam
  */
 export const getQueryParam = (variable, location) => {
-    const query = location.search.substring(1);
+    const query = decodeString(location.search.substring(1));
     const vars = query.split('&');
 
     return vars.reduce((acc, item) => {
