@@ -62,26 +62,15 @@ $select-arrow-width: 14px !default;
         inset-block-start: 100%;
         inset-inline-start: 0;
         z-index: 40;
-        overflow-y: auto;
+        overflow-y: scroll;
         border-style: solid;
-        border-width: 0 0 1px 1px;
+        border-width: 0 1px 1px;
         border-color: transparent;
         transition: 200ms max-height;
         will-change: max-height;
         max-height: 0;
         -webkit-overflow-scrolling: touch;
         min-width: 100%;
-
-        ::-webkit-scrollbar {
-            -webkit-appearance: none;
-            width: 7px;
-        }
-  
-        ::-webkit-scrollbar-thumb {
-            border-radius: 4px;
-            background-color: rgba(0, 0, 0, .5);
-            box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-        }
 
         &_isExpanded {
             @include desktop {
@@ -99,7 +88,6 @@ $select-arrow-width: 14px !default;
         }
 
         &_isNotScrollable {
-            border-width: 0 1px 1px;
             overflow-y: hidden;
             // Firefox support
             /* stylelint-disable-next-line declaration-no-important */
