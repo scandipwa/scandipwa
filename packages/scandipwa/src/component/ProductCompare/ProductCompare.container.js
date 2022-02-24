@@ -94,7 +94,8 @@ export class ProductCompareContainer extends PureComponent {
         const productCompareRow = document.getElementById('productCompareRow');
         const scrollerContent = document.getElementById('scrollerContent');
 
-        if (productCompareRow && productCompareRow.offsetWidth >= scrollerContent.offsetWidth) {
+        if ((productCompareRow && productCompareRow.offsetWidth >= scrollerContent.offsetWidth)
+            || (productCompareRow && productCompareRow.offsetWidth < scrollerContent.offsetWidth)) {
             const width = device.isMobile
                 ? productCompareRow.offsetWidth
                 : productCompareRow.offsetWidth - PRODUCT_COMPARE_FIRST_COLUMN_WIDTH;
