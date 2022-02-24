@@ -587,10 +587,18 @@
     "Buy %s with ": null,
     "%s% discount each": null,
     "Product list navigation": null,
-    "Maximum %s characters (%s too many)": null,
+    "Maximum %s characters. Field required": null,
     "Maximum %s characters (%s remaining)": null,
+    "Maximum %s characters (%s too many!)": null,
     "Maximum %s characters": null,
-    "Please enter no more than %s characters": null,
-    "Please enter no more than 10 characters.": null,
-    "Please enter no more than %s characters.": null
+    "Field required": null,
+    "Maximum %s characters (%s too many)": null,
+    "Field Required": null,
+    "Maximum %s characters.": null,
+    "\nField Required": null,
+    "Maximum %s characters.\nField required": null,
+    "Field required\nMaximum %s characters.": null,
+    "If there is an account associated with %s the provided address you will receive an email with a link to reset your password": null,
+    "If there is an account associated with %s you will receive an email with a link to reset your password.": null,
+    "If there is an account associated with %s you will receive an email with a link to reset your password": null
 }
