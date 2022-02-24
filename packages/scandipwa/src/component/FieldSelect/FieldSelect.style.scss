@@ -44,6 +44,7 @@ $select-arrow-width: 14px !default;
         min-width: 100%;
         padding-inline-end: 40px;
         width: 100%;
+        height: 48px;
 
         @include desktop {
             pointer-events: none;
