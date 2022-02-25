@@ -202,9 +202,11 @@ export class Field extends PureComponent {
             ...events,
             onChange: onChange || noopFn
         };
-
+        // if button value is "none" do not disable
         const disableButton = (!attr.value?.match('none') && isDisabled);
-
+        const isChecked = disableButton ? !isDisabled : null;
+        // shipping options have checked attr assigned so prioritize its value
+        attr.checked = attr.checked ? attr.checked : isChecked;
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
                 <input
@@ -213,7 +215,6 @@ export class Field extends PureComponent {
                   type={ type }
                   { ...attr }
                   { ...inputEvents }
-                  checked={ disableButton ? !isDisabled : null }
                 />
                 <div block="input-control" disabled={ isDisabled } />
                 { label }
