@@ -15,10 +15,6 @@
     
     &.Popup {
         height: 100%;
-
-        @include desktop {
-            z-index: 450;
-        }
     }
     
     &-PopupContent.Popup-Content {
