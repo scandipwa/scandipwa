@@ -198,12 +198,12 @@
 
     &-CompareCount {
         background: #0A0903;
-        border-radius: 50%;
+        border-radius: 8px;
         color: var(--color-white);
         height: 17px;
         padding: 2px;
         position: absolute;
-        width: 17px;
+        min-width: 17px;
         display: flex;
         font-size: 11px;
         justify-content: center;
