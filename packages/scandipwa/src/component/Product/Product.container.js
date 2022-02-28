@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { FIELD_RADIO_NONE, FIELD_TYPE } from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { addToCartWithError } from 'Store/Product/Product.action';
 import { RefType } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';
 import { ProductType } from 'Type/ProductList.type';
@@ -43,6 +44,7 @@ export const mapDispatchToProps = (dispatch) => ({
     addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
+    addToCartWithError: (hasError) => dispatch(addToCartWithError(hasError)),
     showError: (message) => dispatch(showNotification('error', message))
 });
 
@@ -65,7 +67,7 @@ export class ProductContainer extends PureComponent {
         addProductToCart: PropTypes.func.isRequired,
         showError: PropTypes.func.isRequired,
         configFormRef: RefType,
-
+        addToCartWithError: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string),
         cartId: PropTypes.string,
 
@@ -398,7 +400,8 @@ export class ProductContainer extends PureComponent {
             return;
         }
 
-        const { addProductToCart, cartId } = this.props;
+        const { addProductToCart, cartId, addToCartWithError } = this.props;
+        addToCartWithError(false);
         const products = this.getMagentoProduct();
         await addProductToCart({ products, cartId })
             .catch(
@@ -417,7 +420,7 @@ export class ProductContainer extends PureComponent {
     */
     hasError() {
         const { errorMessages, errorFields, values } = validateGroup(this.validator);
-        const { showError } = this.props;
+        const { showError, addToCartWithError } = this.props;
 
         if (
             errorFields
@@ -426,6 +429,7 @@ export class ProductContainer extends PureComponent {
             || this.filterAddToCartFileErrors(values)
         ) {
             this.scrollOptionsIntoView();
+            addToCartWithError(true);
             this.setState({ addToCartTriggeredWithError: true });
             showError(__('Incorrect or missing options!'));
             return true;

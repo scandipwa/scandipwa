@@ -10,6 +10,7 @@
  */
 
 export const UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS';
+export const ADD_TO_CART_WITH_ERROR = 'ADD_TO_CART_WITH_ERROR';
 
 /**
  * Update product list with new list (rewrite if already exists).
@@ -21,4 +22,10 @@ export const UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS';
 export const updateProductDetails = (product) => ({
     type: UPDATE_PRODUCT_DETAILS,
     product
+});
+
+/** @namespace Store/Product/Action/addToCartWithError */
+export const addToCartWithError = (addToCartWithError) => ({
+    type: ADD_TO_CART_WITH_ERROR,
+    addToCartWithError
 });
