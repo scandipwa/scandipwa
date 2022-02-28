@@ -54,10 +54,12 @@
 
     &-Span {
         &_isDisabled {
-            color: var(--color-dark-gray);
+            color: var(--input-color);
+            opacity: 0.5;
 
             strong {
-                color: var(--color-dark-gray);
+                color: var(--input-color);
+                opacity: 0.5;
             }
         }
     }
