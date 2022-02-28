@@ -29,14 +29,15 @@ export class ProductConfigurableAttributeDropdown extends PureComponent {
         selectValue: PropTypes.string,
         selectLabel: PropTypes.string,
         selectName: PropTypes.string.isRequired,
-        isUnselected: PropTypes.bool.isRequired,
+        isUnselected: PropTypes.bool,
         handleShakeAnimationEnd: PropTypes.func
     };
 
     static defaultProps = {
         selectValue: '',
         selectLabel: 'attribute',
-        handleShakeAnimationEnd: noopFn
+        handleShakeAnimationEnd: noopFn,
+        isUnselected: false
     };
 
     render() {
