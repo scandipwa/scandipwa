@@ -72,7 +72,8 @@ export const getStreetFields = (props) => {
  */
 export const getRegionFields = (props, events) => {
     const {
-        region: { region_id: regionId = 1 } = {},
+        currentRegion,
+        currentRegionId,
         regionDisplayAll,
         availableRegions,
         isStateRequired
@@ -92,6 +93,7 @@ export const getRegionFields = (props, events) => {
                 attr: {
                     id: 'address-region-id',
                     name: 'region_string',
+                    value: currentRegion,
                     placeholder: __('Your state / province')
                 },
                 events: {
@@ -112,7 +114,7 @@ export const getRegionFields = (props, events) => {
             label: __('State / Province'),
             attr: {
                 name: 'region_id',
-                defaultValue: regionId,
+                value: currentRegionId,
                 selectPlaceholder: __('Select region...')
             },
             events: {

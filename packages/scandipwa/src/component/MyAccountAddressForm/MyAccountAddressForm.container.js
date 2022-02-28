@@ -57,10 +57,10 @@ export class MyAccountAddressFormContainer extends PureComponent {
         countryId: this.getCountry()?.value || 'US',
         availableRegions: this.getAvailableRegions() || [],
         isStateRequired: !!this.getCountry()?.is_state_required,
-        currentCity: null,
-        currentRegion: null,
-        currentZipcode: null,
-        currentRegionId: null
+        currentCity: this.getCurrentAddress().city || null,
+        currentRegion: this.getCurrentAddress().region || null,
+        currentZipcode: this.getCurrentAddress().zipCode || null,
+        currentRegionId: this.getCurrentAddress().regionId || null
     };
 
     containerFunctions = {
@@ -117,6 +117,17 @@ export class MyAccountAddressFormContainer extends PureComponent {
         return countries.find(({ value }) => value === countryIdFixed);
     }
 
+    getCurrentAddress() {
+        const { address: { region: { region, region_id: regionId = 1 }, zipCode, city } } = this.props;
+
+        return {
+            region,
+            regionId,
+            zipCode,
+            city
+        };
+    }
+
     /**
      * Returns available regions based on country and zip
      * @param countryId
@@ -165,8 +176,13 @@ export class MyAccountAddressFormContainer extends PureComponent {
         } = country;
 
         this.getAvailableRegions(countryId, currentZipcode);
-
-        this.setState({ availableRegions, isStateRequired: isStateRequired || false, countryId });
+        this.setState({
+            availableRegions,
+            isStateRequired: isStateRequired || false,
+            countryId,
+            currentRegionId: 1,
+            currentRegion: ''
+        });
     }
 
     onZipcodeChange(event, field) {
