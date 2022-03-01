@@ -57,10 +57,10 @@ export class MyAccountAddressFormContainer extends PureComponent {
         countryId: this.getCountry()?.value || 'US',
         availableRegions: this.getAvailableRegions() || [],
         isStateRequired: !!this.getCountry()?.is_state_required,
-        currentCity: this.getCurrentAddress().city || null,
-        currentRegion: this.getCurrentAddress().region || null,
-        currentZipcode: this.getCurrentAddress().zipCode || null,
-        currentRegionId: this.getCurrentAddress().regionId || null
+        currentCity: this.getCurrentAddress().city,
+        currentRegion: this.getCurrentAddress().region,
+        currentZipcode: this.getCurrentAddress().zipCode,
+        currentRegionId: this.getCurrentAddress().regionId
     };
 
     containerFunctions = {
@@ -118,7 +118,17 @@ export class MyAccountAddressFormContainer extends PureComponent {
     }
 
     getCurrentAddress() {
-        const { address: { region: { region, region_id: regionId = 1 }, zipCode, city } } = this.props;
+        const { address } = this.props;
+
+        if (!address.length) {
+            return {
+                region: '',
+                regionId: 1,
+                zipCode: '',
+                city: ''
+            };
+        }
+        const { region: { region, region_id: regionId = 1 }, zipCode, city } = address;
 
         return {
             region,
