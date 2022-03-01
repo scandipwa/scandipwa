@@ -450,7 +450,9 @@
     }
 
     &_name_popup {
-        z-index: 450;
+        @include mobile {
+            z-index: 450;
+        }
     }
 
     &-MyAccountContainer {

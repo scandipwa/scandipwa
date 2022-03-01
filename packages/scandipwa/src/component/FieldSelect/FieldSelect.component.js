@@ -35,13 +35,9 @@ export class FieldSelect extends PureComponent {
         handleSelectExpandedExpand: PropTypes.func.isRequired,
         handleSelectExpand: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired,
-        isUpDirection: PropTypes.bool.isRequired,
+        isDropdownOpenUpwards: PropTypes.bool.isRequired,
         isScrollable: PropTypes.bool.isRequired,
-        isSortSelect: PropTypes.bool
-    };
-
-    static defaultProps = {
-        isSortSelect: false
+        isSortSelect: PropTypes.bool.isRequired
     };
 
     renderNativeOption(option) {
@@ -144,7 +140,7 @@ export class FieldSelect extends PureComponent {
         const {
             options,
             isExpanded,
-            isUpDirection,
+            isDropdownOpenUpwards,
             isScrollable
         } = this.props;
 
@@ -155,7 +151,7 @@ export class FieldSelect extends PureComponent {
               role="menu"
               mods={ {
                   isExpanded,
-                  isUpDirection,
+                  isDropdownOpenUpwards,
                   isNotScrollable: !isScrollable
               } }
             >
@@ -167,13 +163,13 @@ export class FieldSelect extends PureComponent {
     renderSortSelect() {
         const { isSortSelect } = this.props;
 
-        if (isSortSelect) {
-            return (
-                <div block="FieldSelect" elem="SortSelect">{ __('Sort by') }</div>
-            );
+        if (!isSortSelect) {
+            return null;
         }
 
-        return null;
+        return (
+            <div block="FieldSelect" elem="SortSelect">{ __('Sort by') }</div>
+        );
     }
 
     render() {

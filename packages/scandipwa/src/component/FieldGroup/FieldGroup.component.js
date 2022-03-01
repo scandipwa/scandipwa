@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ChildrenType, ModsType } from 'Type/Common.type';
-import { EventsType, FieldAttrType } from 'Type/Field.type';
+import { EventsType, FieldAttrType, FieldGroupValidationResponseType } from 'Type/Field.type';
 
 import './FieldGroup.style';
 
@@ -32,10 +32,7 @@ export class FieldGroup extends PureComponent {
 
         // Validation
         showErrorAsLabel: PropTypes.bool.isRequired,
-        validationResponse: PropTypes.oneOfType([
-            PropTypes.shape({ errorMessages: PropTypes.string }),
-            PropTypes.bool
-        ]),
+        validationResponse: FieldGroupValidationResponseType,
 
         // Labels
         label: PropTypes.string.isRequired,
@@ -51,7 +48,7 @@ export class FieldGroup extends PureComponent {
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under group
     renderErrorMessage(message) {
-        return <div block="Field" elem="ErrorMessage">{ message }</div>;
+        return <div block="Field" key={ message } elem="ErrorMessage">{ message }</div>;
     }
 
     renderErrorMessages() {
