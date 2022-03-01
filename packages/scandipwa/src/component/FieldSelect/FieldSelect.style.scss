@@ -75,7 +75,7 @@ $select-arrow-width: 14px !default;
         &_isExpanded {
             @include desktop {
                 z-index: 15;
-                max-height: 200px;
+                max-height: fit-content;
                 border-color: var(--input-border-color);
                 background-color: #{$white};
             }
@@ -90,6 +90,7 @@ $select-arrow-width: 14px !default;
         &_isNotScrollable {
             border-width: 0 1px 1px;
             overflow-y: hidden;
+
             // Firefox support
             /* stylelint-disable-next-line declaration-no-important */
             scrollbar-width: none !important;
@@ -108,14 +109,15 @@ $select-arrow-width: 14px !default;
 
     &-Option {
         cursor: pointer;
-        padding: 0;
+        padding: 0px;
         margin: 0;
         z-index: 1;
         transition: 100ms max-height ease-in;
         will-change: max-height;
-        max-height: $select-option-height;
-        line-height: 36px;
-        padding-inline-start: 18px;
+        min-height: $select-option-height;
+        line-height: 16px;
+        padding-block: 10px 10px;
+        padding-inline-start: 28px;
         background: var(--color-white);
 
         @include mobile {
