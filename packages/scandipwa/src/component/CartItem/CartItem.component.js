@@ -187,7 +187,9 @@ export class CartItem extends PureComponent {
             return (
                 <>
                     <strong>{ `${label}: ` }</strong>
+                    <span>
                     { values.map(({ label, value }) => label || value).join(', ') }
+                    </span>
                 </>
             );
         }

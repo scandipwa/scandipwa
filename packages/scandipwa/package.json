@@ -95,7 +95,7 @@
             "scandipwa/customer-downloadable-graphql": "1.0.5",
             "scandipwa/directory-graphql": "1.0.1",
             "scandipwa/product-alerts-graphql": "1.0.0",
-            "scandipwa/sales-graphql": "1.0.9",
+            "scandipwa/sales-graphql": "1.0.10",
             "scandipwa/catalog-customer-graphql": "1.0.0"
         }
     },

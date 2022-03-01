@@ -24,8 +24,12 @@ import './ProductCustomizableOptions.style';
  */
 export class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
-        options: OptionsListType.isRequired,
+        options: OptionsListType,
         updateSelectedValues: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        options: []
     };
 
     renderOptionGroup(group) {

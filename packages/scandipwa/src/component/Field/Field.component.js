@@ -204,15 +204,16 @@ export class Field extends PureComponent {
         };
 
         return (
-            <label htmlFor={ id } block="Field" elem={ `${elem}Label` }>
+            <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
                 <input
                   ref={ (elem) => setRef(elem) }
                   disabled={ isDisabled }
                   type={ type }
                   { ...attr }
                   { ...inputEvents }
+                  checked={ isDisabled ? !isDisabled : null }
                 />
-                <div block="input-control" />
+                <div block="input-control" disabled={ isDisabled } />
                 { label }
             </label>
         );

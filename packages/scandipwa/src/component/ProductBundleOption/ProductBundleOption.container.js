@@ -43,7 +43,7 @@ export class ProductBundleOptionContainer extends PureComponent {
         title: PropTypes.string.isRequired,
         isRequired: PropTypes.bool.isRequired,
         type: PropTypes.string.isRequired,
-        options: PropTypes.arrayOf(ItemOptionsType).isRequired,
+        options: ItemOptionsType.isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
         currencyCode: PropTypes.string.isRequired
     };

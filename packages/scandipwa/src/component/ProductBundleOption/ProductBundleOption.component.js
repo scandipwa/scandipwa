@@ -37,7 +37,7 @@ export class ProductBundleOption extends PureComponent {
         quantity: PropTypes.objectOf(PropTypes.number).isRequired,
         setQuantity: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
-        options: PropTypes.arrayOf(ItemOptionsType).isRequired,
+        options: ItemOptionsType.isRequired,
         currencyCode: PropTypes.string.isRequired,
         activeSelectUid: PropTypes.string,
         setActiveSelectUid: PropTypes.func.isRequired,
@@ -163,6 +163,7 @@ export class ProductBundleOption extends PureComponent {
                       match: this.getError.bind(this, quantity, stock, min, max)
                   } }
                   validateOn={ ['onChange'] }
+                  isDisabled={ !stock }
                 />
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
@@ -222,6 +223,7 @@ export class ProductBundleOption extends PureComponent {
                       match: this.getError.bind(this, quantity, stock)
                   } }
                   validateOn={ ['onChange'] }
+                  isDisabled={ !stock }
                 />
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>

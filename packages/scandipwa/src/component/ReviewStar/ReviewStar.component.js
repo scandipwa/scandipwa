@@ -58,6 +58,7 @@ export class ReviewStar extends PureComponent {
               title={ title }
               checked={ isChecked }
               onChange={ this.onStarRatingClick }
+              key={ option_id }
             />
         );
     }

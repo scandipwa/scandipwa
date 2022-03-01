@@ -233,7 +233,7 @@ export const ItemType = PropTypes.shape(ItemShape);
 
 export const ItemsType = PropTypes.arrayOf(ItemType);
 
-ItemsType.variants = ItemsType;
+ItemType.variants = ItemsType;
 
 export const PagesType = PropTypes.objectOf(ItemsType);
 
@@ -329,5 +329,12 @@ export const OptionsListType = PropTypes.arrayOf(
         sort_order: PropTypes.number,
         type: PropTypes.string,
         uid: PropTypes.string
+    })
+);
+
+export const LinkedProductsType = PropTypes.objectOf(
+    PropTypes.shape({
+        items: PropTypes.arrayOf(ProductType),
+        total_count: PropTypes.number
     })
 );
