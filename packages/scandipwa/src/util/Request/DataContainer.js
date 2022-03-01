@@ -14,14 +14,19 @@ import { PureComponent } from 'react';
 import { noopFn } from 'Util/Common';
 import { makeCancelable } from 'Util/Promise';
 import { prepareQuery } from 'Util/Query';
-import { executeGet } from 'Util/Request';
+import { executeGet, listenForBroadCast } from 'Util/Request';
 import { hash } from 'Util/Request/Hash';
 
 import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
 
 /** @namespace Util/Request/DataContainer */
 export class DataContainer extends PureComponent {
-    dataModelName = 'DataContainer';
+    __construct(dataModelName, cacheTTL = ONE_MONTH_IN_SECONDS) {
+        super.__construct();
+        this.dataModelName = dataModelName;
+        this.cacheTTL = cacheTTL;
+        this.promise = null;
+    }
 
     componentWillUnmount() {
         if (this.promise) {
@@ -29,7 +34,7 @@ export class DataContainer extends PureComponent {
         }
     }
 
-    fetchData(rawQueries, onSuccess = noopFn, onError = noopFn, takeFromWindowCache = false) {
+    fetchData(rawQueries, onSuccess = noopFn, onError = noopFn, takeFromWindowCache = true) {
         const preparedQuery = prepareQuery(rawQueries);
         const { query, variables } = preparedQuery;
         const queryHash = hash(query + JSON.stringify(variables));
@@ -45,7 +50,7 @@ export class DataContainer extends PureComponent {
         }
 
         this.promise = makeCancelable(
-            executeGet(preparedQuery, this.dataModelName, ONE_MONTH_IN_SECONDS)
+            executeGet(preparedQuery, this.dataModelName, this.cacheTTL)
         );
 
         this.promise.promise.then(
@@ -56,6 +61,11 @@ export class DataContainer extends PureComponent {
             },
             /** @namespace Util/Request/DataContainer/DataContainer/fetchData/then/onError/catch */
             (err) => onError(err)
+        );
+
+        listenForBroadCast(this.dataModelName).then(
+            /** @namespace Util/Request/DataContainer/DataContainer/fetchData/listenForBroadCast/then/onSuccess */
+            onSuccess
         );
     }
 }

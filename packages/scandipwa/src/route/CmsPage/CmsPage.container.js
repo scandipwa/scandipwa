@@ -85,8 +85,8 @@ export class CmsPageContainer extends DataContainer {
 
     setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
 
-    __construct(props) {
-        super.__construct(props);
+    __construct() {
+        super.__construct('CmsPageContainer');
 
         this.updateBreadcrumbs();
     }
