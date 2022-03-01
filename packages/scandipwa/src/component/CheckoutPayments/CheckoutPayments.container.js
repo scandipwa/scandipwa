@@ -123,7 +123,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
     }
 
     render() {
-        // eslint-disable-next-line react/destructuring-assignment
         return (
             <CheckoutPayments
               { ...this.containerProps() }
