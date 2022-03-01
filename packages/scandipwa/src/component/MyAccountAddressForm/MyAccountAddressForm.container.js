@@ -166,7 +166,7 @@ export class MyAccountAddressFormContainer extends PureComponent {
 
         this.getAvailableRegions(countryId, currentZipcode);
 
-        this.setState({ availableRegions, isStateRequired, countryId });
+        this.setState({ availableRegions, isStateRequired: isStateRequired || false, countryId });
     }
 
     onZipcodeChange(event, field) {

@@ -45,12 +45,13 @@ export class ProductActions extends Product {
         isWishlistEnabled: PropTypes.bool.isRequired,
         displayProductStockStatus: PropTypes.bool.isRequired,
         areReviewsEnabled: PropTypes.bool.isRequired,
-        isPricePreview: PropTypes.bool.isRequired
+        isPricePreview: PropTypes.bool
     };
 
     static defaultProps = {
         ...Product.defaultProps,
-        productName: ''
+        productName: '',
+        isPricePreview: false
     };
 
     className = 'ProductActions';

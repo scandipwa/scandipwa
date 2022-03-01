@@ -35,12 +35,14 @@ export class FieldSelectContainer extends PureComponent {
         setRef: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         noPlaceholder: PropTypes.bool,
-        changeValueOnDoubleClick: PropTypes.bool
+        changeValueOnDoubleClick: PropTypes.bool,
+        isSortSelect: PropTypes.bool
     };
 
     static defaultProps = {
         noPlaceholder: false,
-        changeValueOnDoubleClick: false
+        changeValueOnDoubleClick: false,
+        isSortSelect: false
     };
 
     state = {
@@ -280,7 +282,8 @@ export class FieldSelectContainer extends PureComponent {
             } = {},
             events,
             setRef,
-            isDisabled
+            isDisabled,
+            isSortSelect
         } = this.props;
 
         const { isExpanded, isDropdownOpenUpwards, isScrollable } = this.state;
@@ -296,6 +299,7 @@ export class FieldSelectContainer extends PureComponent {
             isExpanded,
             isDropdownOpenUpwards,
             isScrollable,
+            isSortSelect,
             options: this.getOptions()
         };
     }
