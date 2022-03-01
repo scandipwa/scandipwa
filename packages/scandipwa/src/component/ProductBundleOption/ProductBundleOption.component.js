@@ -37,7 +37,7 @@ export class ProductBundleOption extends PureComponent {
         quantity: PropTypes.objectOf(PropTypes.number).isRequired,
         setQuantity: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
-        options: PropTypes.arrayOf(ItemOptionsType).isRequired,
+        options: ItemOptionsType.isRequired,
         currencyCode: PropTypes.string.isRequired,
         activeSelectUid: PropTypes.string,
         setActiveSelectUid: PropTypes.func.isRequired,

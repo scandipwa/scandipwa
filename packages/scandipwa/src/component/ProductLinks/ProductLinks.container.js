@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import LinkedProductsReducer from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { ProductType } from 'Type/ProductList.type';
+import { LinkedProductsType } from 'Type/ProductList.type';
 import { withReducers } from 'Util/DynamicReducer';
 
 import ProductLinks from './ProductLinks.component';
@@ -29,7 +29,7 @@ export const mapDispatchToProps = () => ({});
 /** @namespace Component/ProductLinks/Container */
 export class ProductLinksContainer extends PureComponent {
     static propTypes = {
-        linkedProducts: PropTypes.objectOf(ProductType).isRequired,
+        linkedProducts: LinkedProductsType.isRequired,
         linkType: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         numberOfProductsToDisplay: PropTypes.number,
