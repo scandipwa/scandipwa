@@ -42,7 +42,7 @@ export class MyAccountAddressForm extends FieldForm {
         currentCity: PropTypes.string,
         currentRegion: PropTypes.string,
         currentZipcode: PropTypes.string,
-        currentRegionId: PropTypes.string
+        currentRegionId: PropTypes.number
     };
 
     static defaultProps = {
