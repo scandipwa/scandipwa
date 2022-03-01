@@ -12,7 +12,6 @@
 
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 import { MixType, RefType } from 'Type/Common.type';
 import {
@@ -22,14 +21,6 @@ import { validate } from 'Util/Validator';
 
 import Field from './Field.component';
 import { FIELD_TYPE } from './Field.config';
-
-/** @namespace Component/Field/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    addToCartWithError: state.ProductReducer.addToCartWithError
-});
-
-/** @namespace Component/Field/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => {};
 
 /**
  * Field
@@ -47,7 +38,6 @@ export class FieldContainer extends PureComponent {
         options: FieldOptionsType,
         elemRef: RefType,
         changeValueOnDoubleClick: PropTypes.bool,
-        addToCartWithError: PropTypes.bool.isRequired,
 
         // Validation
         validationRule: ValidationRuleType,
@@ -83,8 +73,7 @@ export class FieldContainer extends PureComponent {
     };
 
     containerFunctions = {
-        validate: this.validate.bind(this),
-        setLengthError: this.setLengthError.bind(this)
+        validate: this.validate.bind(this)
     };
 
     fieldRef = createRef();
@@ -141,28 +130,21 @@ export class FieldContainer extends PureComponent {
         // If validation is called from different object you can pass object
         // to store validation error values
         if (data && data.detail && response !== true) {
+            const { showLengthError } = range;
+
             if (!data.detail.errors) {
                 // eslint-disable-next-line no-param-reassign
                 data.detail.errors = [];
             }
 
             // Validates length on submit, renders special message
-            if (maxValidLength && value.length > maxValidLength) {
-                this.setLengthError();
+            if (maxValidLength && value.length > maxValidLength && !showLengthError) {
+                output.errorMessages.unshift(__('Please enter no more than %s characters.', maxValidLength));
             }
             data.detail.errors.push(output);
         }
         this.setState({ validationResponse: output });
         return output;
-    }
-
-    setLengthError() {
-        const { lengthError } = this.state;
-        const { validationRule: { range: { max } } = null } = this.props;
-
-        if (!lengthError) {
-            this.setState({ lengthError: __('Please enter no more than %s characters', max) });
-        }
     }
 
     validateOnEvent(hook, ...args) {
@@ -194,8 +176,7 @@ export class FieldContainer extends PureComponent {
             label,
             subLabel,
             addRequiredTag,
-            changeValueOnDoubleClick,
-            addToCartWithError
+            changeValueOnDoubleClick
         } = this.props;
         const { validationResponse, lengthError } = this.state;
         const { validate } = this.containerFunctions;
@@ -225,8 +206,7 @@ export class FieldContainer extends PureComponent {
             events: newEvents,
             fieldRef: this.fieldRef,
             setRef: this.setRef.bind(this),
-            lengthError,
-            addToCartWithError
+            lengthError
         };
     }
 
@@ -239,4 +219,4 @@ export class FieldContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FieldContainer);
+export default FieldContainer;

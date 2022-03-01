@@ -67,7 +67,7 @@ export const validate = (value, rule) => {
 
     //#region RANGE
     if (range) {
-        const { min, max } = range;
+        const { min, max, showLengthError } = range;
         const isNumber = !!VALIDATION_INPUT_TYPE_NUMBER[inputType];
 
         if (isNumber) {
@@ -86,6 +86,10 @@ export const validate = (value, rule) => {
             if (max && value.length > max) {
                 const tooMany = value.length - max;
                 output.errorMessages.push(onRangeFailMax || __('Maximum %s characters (%s too many)', max, tooMany));
+
+                if (showLengthError) {
+                    output.errorMessages.unshift(__('Please enter no more than %s characters.', max));
+                }
             }
         }
     }

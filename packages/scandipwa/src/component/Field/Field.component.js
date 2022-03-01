@@ -47,9 +47,7 @@ export class Field extends PureComponent {
         changeValueOnDoubleClick: PropTypes.bool,
 
         // Validation
-        addToCartWithError: PropTypes.bool.isRequired,
         showErrorAsLabel: PropTypes.bool.isRequired,
-        lengthError: PropTypes.string.isRequired,
         validationResponse: (props, propName, componentName) => {
             const propValue = props[propName];
 
@@ -247,22 +245,14 @@ export class Field extends PureComponent {
         const {
             showErrorAsLabel,
             validationResponse,
-            attr: { name },
-            lengthError,
-            addToCartWithError
+            attr: { name }
         } = this.props;
 
-        if (!(addToCartWithError && lengthError)) {
-            if (!showErrorAsLabel || !validationResponse || validationResponse === true) {
-                return null;
-            }
+        if (!showErrorAsLabel || !validationResponse || validationResponse === true) {
+            return null;
         }
 
         const { errorMessages = [] } = validationResponse;
-
-        if (lengthError) {
-            errorMessages.unshift(lengthError);
-        }
 
         if (!errorMessages) {
             return null;

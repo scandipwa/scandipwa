@@ -23,7 +23,9 @@ import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
 
 /** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    currencyCode: state.ConfigReducer.currencyData.current_currency_code
+    currencyCode: state.ConfigReducer.currencyData.current_currency_code,
+    addToCartWithError: state.ProductReducer.addToCartWithError
+
 });
 
 /** @namespace Component/ProductCustomizableOption/Container/mapDispatchToProps */
@@ -42,7 +44,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         type: PropTypes.string.isRequired,
         options: CustomizableOptionsType.isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
-        currencyCode: PropTypes.string.isRequired
+        currencyCode: PropTypes.string.isRequired,
+        addToCartWithError: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
@@ -83,7 +86,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             isRequired,
             type,
             updateSelectedValues,
-            currencyCode
+            currencyCode,
+            addToCartWithError
         } = this.props;
 
         return {
@@ -94,7 +98,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             options: nonRequiredRadioOptions(this.getSortedOptions(), isRequired, type),
             updateSelectedValues,
             currencyCode,
-            fieldType: this.getFieldType()
+            fieldType: this.getFieldType(),
+            addToCartWithError
         };
     }
 
