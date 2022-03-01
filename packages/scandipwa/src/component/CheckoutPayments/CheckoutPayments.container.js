@@ -50,18 +50,16 @@ export class CheckoutPaymentsContainer extends PureComponent {
         selectPaymentMethod: this.selectPaymentMethod.bind(this)
     };
 
+    state = {
+        selectedPaymentCode: null
+    };
+
     dataMap = {
         [KLARNA]: this.getKlarnaData.bind(this)
     };
 
     __construct(props) {
         super.__construct(props);
-
-        const { paymentMethods } = props;
-        const [{ code } = {}] = paymentMethods;
-        this.state = {
-            selectedPaymentCode: code
-        };
     }
 
     componentDidMount() {
@@ -125,6 +123,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
     }
 
     render() {
+        // eslint-disable-next-line react/destructuring-assignment
         return (
             <CheckoutPayments
               { ...this.containerProps() }
