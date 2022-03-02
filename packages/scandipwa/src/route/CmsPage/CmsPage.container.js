@@ -151,6 +151,22 @@ export class CmsPageContainer extends DataContainer {
         ) {
             this.requestPage();
         }
+
+        this.getTableImages();
+    }
+
+    getTableImages() {
+        const tableCells = Array.from(document.getElementsByTagName('td'));
+        const tableCellsContent = tableCells.map((element) => element.children);
+        const htmlElements = tableCellsContent.map((element) => element[0]);
+        const tableCellImages = htmlElements.filter((element) => element !== undefined && element.tagName === 'IMG');
+
+        tableCellImages.map(this.setHeightToAuto.bind(this));
+    }
+
+    setHeightToAuto(element) {
+        const tableImage = element;
+        tableImage.style.height = 'auto';
     }
 
     setOfflineNoticeSize() {
