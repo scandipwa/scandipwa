@@ -59,6 +59,39 @@
             }
         }
 
+        &-Clickable {
+            @include mobile {
+                align-items: center;
+                align-content: center;
+            }
+            
+            .FieldSelect {
+                &-SortSelect {
+                    font-size: 16px;
+
+                    @include desktop {
+                        display: none;
+                    }
+                } 
+            }
+
+            .ChevronIcon {
+                @include mobile {
+                    position: relative;
+                    inset-inline-end: 0;
+                    margin-inline-start: 10px;
+
+                    @supports (-webkit-touch-callout: none) {
+                        /* CSS specific to iOS devices */ 
+                        position: absolute;
+                        margin-inline-start: 0;
+                        inset-inline-end: -25px;
+                        inset-block-start: 19px;
+                    }
+                }
+            }
+        }
+
         &-Select {
             background: none;
             border: none;
@@ -68,7 +101,6 @@
 
             @include mobile {
                 position: absolute;
-                inset-block-start: -35px;
                 opacity: 0;
             }
 
@@ -82,21 +114,17 @@
                 height: 100%;
             }
         }
-
-        .ChevronIcon {
-            @include mobile {
-                display: none;
-            }
-        }
     }
 
-    .Field-LabelContainer {
-        .ChevronIcon {
-            @include desktop {
-                display: none;
-            }
+    .Field { 
+        &-LabelContainer {
+            .ChevronIcon {
+                margin-block-start: 3px;
 
-            margin-block-start: 3px;
+                @include desktop {
+                    display: none;
+                }
+            }
         }
     }
 }
