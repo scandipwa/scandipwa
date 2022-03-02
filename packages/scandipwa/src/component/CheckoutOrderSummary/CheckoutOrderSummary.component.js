@@ -125,7 +125,7 @@ export class CheckoutOrderSummary extends PureComponent {
 
     renderMobileDiscount(coupon_code) {
         return (
-            <div>
+            <>
                 <div
                   block="ExpandableContent"
                   elem="Heading"
@@ -134,7 +134,7 @@ export class CheckoutOrderSummary extends PureComponent {
                 { __('Have a discount code?') }
                 </div>
                 <CartCoupon couponCode={ coupon_code } />
-            </div>
+            </>
         );
     }
 
