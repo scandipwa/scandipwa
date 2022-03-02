@@ -109,7 +109,8 @@
             gap: 0;
         }
 
-        span,div {
+        span,
+        div {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
