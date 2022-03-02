@@ -20,7 +20,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { ProductType } from 'Type/ProductList.type';
 import {
-    getMaxQuantity, getMinQuantity, getPrice, getProductInStock, getThumbnailImage
+    getMaxQuantity, getPrice, getProductInStock, getThumbnailImage
 } from 'Util/Product/Extract';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
@@ -95,7 +95,6 @@ export class GroupedProductsItem extends PureComponent {
             );
         }
 
-        const min = getMinQuantity(product);
         const max = getMaxQuantity(product);
 
         return (
@@ -106,14 +105,15 @@ export class GroupedProductsItem extends PureComponent {
                   name: `item_qty_${id}`,
                   defaultValue: itemCount,
                   value: itemCount,
-                  min: 0
+                  min: 0,
+                  max
               } }
               validationRule={ {
                   inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
                   isRequired: true,
                   match: this.getError.bind(this),
                   range: {
-                      min: min === 1 ? 0 : 1,
+                      min: 0,
                       max
                   }
               } }
