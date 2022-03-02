@@ -37,7 +37,7 @@ export class ProductBundleOption extends PureComponent {
         quantity: PropTypes.objectOf(PropTypes.number).isRequired,
         setQuantity: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
-        options: PropTypes.arrayOf(ItemOptionsType).isRequired,
+        options: ItemOptionsType.isRequired,
         currencyCode: PropTypes.string.isRequired,
         activeSelectUid: PropTypes.string,
         setActiveSelectUid: PropTypes.func.isRequired,
@@ -289,7 +289,7 @@ export class ProductBundleOption extends PureComponent {
                       id: `bundle-options-dropdown-${ uid }`,
                       name: `bundle-options-dropdown-${ uid }`,
                       selectPlaceholder: __('Select product...'),
-                      value: activeOption ? optionUid : ''
+                      value: activeOption ? getEncodedBundleUid(optionUid, quantity) : ''
                   } }
                   mix={ { block: 'ProductBundleItem', elem: 'Select' } }
                   options={ getDropdownOptions() }
