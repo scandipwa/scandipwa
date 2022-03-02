@@ -59,7 +59,7 @@ export class MyAccountAddressFormContainer extends PureComponent {
         isStateRequired: !!this.getCountry()?.is_state_required,
         currentCity: this.getCurrentAddress().city,
         currentRegion: this.getCurrentAddress().region,
-        currentZipcode: this.getCurrentAddress().zipCode,
+        currentZipcode: this.getCurrentAddress().postcode,
         currentRegionId: this.getCurrentAddress().regionId
     };
 
@@ -120,7 +120,7 @@ export class MyAccountAddressFormContainer extends PureComponent {
     getCurrentAddress() {
         const { address } = this.props;
 
-        if (!address.length) {
+        if (!address.id) {
             return {
                 region: '',
                 regionId: 1,
@@ -128,12 +128,12 @@ export class MyAccountAddressFormContainer extends PureComponent {
                 city: ''
             };
         }
-        const { region: { region, region_id: regionId = 1 }, zipCode, city } = address;
+        const { region: { region, region_id: regionId }, postcode, city } = address;
 
         return {
             region,
             regionId,
-            zipCode,
+            postcode,
             city
         };
     }
