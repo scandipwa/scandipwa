@@ -13,6 +13,10 @@
     font-size: 14px;
     line-height: 20px;
 
+    @include desktop {
+        padding-block-start: 24px;
+    }
+
     &-SwatchList,
     &-DropDownList {
         text-align: center;
