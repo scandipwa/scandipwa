@@ -117,7 +117,7 @@ $select-arrow-width: 14px !default;
         min-height: $select-option-height;
         line-height: 16px;
         padding-block: 10px 10px;
-        padding-inline-start: 28px;
+        padding-inline-start: 20px;
         background: var(--color-white);
 
         @include mobile {
