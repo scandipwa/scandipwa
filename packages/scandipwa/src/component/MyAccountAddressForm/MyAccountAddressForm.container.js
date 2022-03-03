@@ -113,7 +113,6 @@ export class MyAccountAddressFormContainer extends PureComponent {
     getCountry(countryId = null) {
         const { countries, defaultCountry, address: { country_id: countryIdAddress } = {} } = this.props;
         const countryIdFixed = countryId || countryIdAddress || defaultCountry;
-
         return countries.find(({ value }) => value === countryIdFixed);
     }
 
@@ -176,6 +175,12 @@ export class MyAccountAddressFormContainer extends PureComponent {
         const country = countries.find(({ value }) => value === fieldValue);
 
         if (!country) {
+            this.setState({
+                currentRegion: '',
+                currentRegionId: 1,
+                countryId: ''
+            });
+
             return;
         }
 
