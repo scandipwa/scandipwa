@@ -181,6 +181,10 @@
         }
     }
 
+    &-IconsWrapper {
+        display: flex;
+    }
+
     &-MinicartButtonWrapper {
         cursor: pointer;
         height: 100%;
@@ -198,12 +202,12 @@
 
     &-CompareCount {
         background: #0A0903;
-        border-radius: 50%;
+        border-radius: 8px;
         color: var(--color-white);
         height: 17px;
         padding: 2px;
         position: absolute;
-        width: 17px;
+        min-width: 17px;
         display: flex;
         font-size: 11px;
         justify-content: center;
@@ -238,6 +242,10 @@
         }
 
         @include desktop {
+            grid-column: 1 / 2;
+            min-height: var(--header-nav-height);
+            position: absolute;
+
             @include logo-visible;
         }
 
@@ -249,12 +257,12 @@
     &-Minicart {
         &ItemCount {
             background: var(--primary-base-color);
-            border-radius: 50%;
+            border-radius: 8px;
             color: var(--color-white);
             height: 17px;
             padding: 2px;
             position: absolute;
-            width: 17px;
+            min-width: 17px;
             display: flex;
             font-size: 11px;
             justify-content: center;
@@ -277,9 +285,13 @@
         align-items: center;
         display: flex;
         height: var(--header-nav-height);
+        margin: auto;
+        max-width: var(--content-wrapper-width);
         padding-inline: 14px;
 
         @include desktop {
+            display: grid;
+            grid-template-columns: minmax(var(--header-logo-width), 1fr) minmax(auto, 660px) 1fr;
             justify-content: unset;
             padding-inline: 32px;
         }
@@ -358,16 +370,12 @@
         }
     }
 
-    &-TopMenu,
-    &-Nav {
-        display: flex;
-        margin: auto;
-        max-width: var(--content-wrapper-width);
-    }
-
     &-TopMenu {
+        display: flex;
         justify-content: space-between;
         height: var(--header-top-menu-height);
+        margin: auto;
+        max-width: var(--content-wrapper-width);
         padding-inline: 32px;
         padding-block-start: 16px;
     }
@@ -446,7 +454,9 @@
     }
 
     &_name_popup {
-        z-index: 450;
+        @include mobile {
+            z-index: 450;
+        }
     }
 
     &-MyAccountContainer {

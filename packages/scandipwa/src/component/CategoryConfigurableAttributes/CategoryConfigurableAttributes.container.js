@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributesContainer from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
+import { SelectedFiltersType } from 'Type/Category.type';
 
 import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.component';
 
@@ -28,6 +29,10 @@ export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/CategoryConfigurableAttributes/Container */
 export class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer {
+    static propTypes = {
+        parameters: SelectedFiltersType.isRequired
+    };
+
     containerFunctions = {
         ...this.containerFunctions,
         getSubCategories: this.getSubCategories.bind(this)

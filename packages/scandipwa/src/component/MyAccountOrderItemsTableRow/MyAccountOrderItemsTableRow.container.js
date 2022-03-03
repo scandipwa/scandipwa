@@ -33,12 +33,14 @@ export class MyAccountOrderItemsTableRowContainer extends PureComponent {
         activeTab: PropTypes.string.isRequired,
         selectedOptions: OptionsType,
         enteredOptions: OptionsType,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        comments: PropTypes.arrayOf(PropTypes.string)
     };
 
     static defaultProps = {
         selectedOptions: [],
-        enteredOptions: []
+        enteredOptions: [],
+        comments: []
     };
 
     containerProps() {
@@ -47,7 +49,8 @@ export class MyAccountOrderItemsTableRowContainer extends PureComponent {
             activeTab,
             enteredOptions,
             selectedOptions,
-            isMobile
+            isMobile,
+            comments
         } = this.props;
 
         return {
@@ -56,6 +59,7 @@ export class MyAccountOrderItemsTableRowContainer extends PureComponent {
             enteredOptions,
             selectedOptions,
             isMobile,
+            comments,
             colSpanCount: this.getOrderColumnSpanCount()
         };
     }

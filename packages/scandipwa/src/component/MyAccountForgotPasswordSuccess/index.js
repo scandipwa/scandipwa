@@ -8,4 +8,4 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-export { default } from './MyAccountForgotPasswordSuccess.component';
+export { default } from './MyAccountForgotPasswordSuccess.container';

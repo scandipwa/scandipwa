@@ -18,3 +18,12 @@
  * @namespace Util/Common/Index/noopFn
  */
 export const noopFn = () => {};
+
+/** @namespace Util/Common/Index/decodeString */
+export const decodeString = (string) => {
+    try {
+        return decodeURIComponent(string);
+    } catch (e) {
+        return string;
+    }
+};

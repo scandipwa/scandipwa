@@ -150,6 +150,7 @@ export class ConfigQuery {
             'is_allowed_reorder',
             'rss_order_subscribe_allow',
             'downloadable_disable_guest_checkout',
+            'minimun_password_length',
             ...this._getTimeDateFormatFields(),
             this.getPriceDisplayTypeField()
         ];

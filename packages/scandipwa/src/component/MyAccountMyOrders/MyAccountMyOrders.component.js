@@ -75,11 +75,11 @@ export class MyAccountMyOrders extends Component {
     }
 
     renderOrderRow(order) {
-        const { id } = order;
+        const { id, base_order_info: { id: defaultId } = {} } = order;
 
         return (
             <MyAccountOrderTableRow
-              key={ id }
+              key={ id || defaultId }
               order={ order }
             />
         );

@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { SignInStateType } from 'Type/Account.type';
+import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
 
@@ -32,7 +33,8 @@ export const mapStateToProps = (state) => ({
     isLoading: state.MyAccountReducer.isLoading,
     showTaxVatNumber: !!state.ConfigReducer.show_tax_vat_number,
     newsletterActive: state.ConfigReducer.newsletter_general_active,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
+    minimunPasswordLength: state.ConfigReducer.minimun_password_length
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
@@ -47,7 +49,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountCreateAccountContainer extends PureComponent {
     static propTypes = {
         createAccount: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired,
+        onSignIn: PropTypes.func,
         setSignInState: PropTypes.func.isRequired,
         setLoadingState: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
@@ -57,11 +59,13 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         state: SignInStateType.isRequired,
-        newsletterActive: PropTypes.bool.isRequired
+        newsletterActive: PropTypes.bool.isRequired,
+        minimunPasswordLength: PropTypes.number.isRequired
     };
 
     static defaultProps = {
-        isLandingPage: false
+        isLandingPage: false,
+        onSignIn: noopFn
     };
 
     containerFunctions = {
@@ -74,7 +78,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             state,
             handleSignIn,
             showTaxVatNumber,
-            newsletterActive
+            newsletterActive,
+            minimunPasswordLength
         } = this.props;
 
         return {
@@ -82,7 +87,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             handleSignIn,
             showTaxVatNumber,
             newsletterActive,
-            vatNumberRequired: this.getVatNumberRequired()
+            vatNumberRequired: this.getVatNumberRequired(),
+            minimunPasswordLength
         };
     }
 

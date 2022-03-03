@@ -10,6 +10,7 @@
  */
 
 import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
+import { decodeString } from 'Util/Common';
 
 import './SearchPage.style';
 
@@ -28,7 +29,7 @@ export class SearchPage extends CategoryPage {
               } }
             >
                 { __('Search results for: ') }
-                <span>{ search.replace(/\+/g, ' ') }</span>
+                <span>{ decodeString(search) }</span>
             </h1>
         );
     }

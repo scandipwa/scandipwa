@@ -29,7 +29,10 @@ export const AttributeType = PropTypes.shape({
     is_boolean: PropTypes.bool
 });
 
-export const AttributesType = PropTypes.objectOf(AttributeType);
+export const AttributesType = PropTypes.oneOfType([
+    PropTypes.objectOf(AttributeType),
+    PropTypes.arrayOf(PropTypes.objectOf(AttributeType))
+]);
 
 export const FilterAttributeType = PropTypes.shape({
     attribute_code: PropTypes.string,
@@ -230,7 +233,7 @@ export const ItemType = PropTypes.shape(ItemShape);
 
 export const ItemsType = PropTypes.arrayOf(ItemType);
 
-ItemsType.variants = ItemsType;
+ItemType.variants = ItemsType;
 
 export const PagesType = PropTypes.objectOf(ItemsType);
 
@@ -288,7 +291,7 @@ export const ProductType = PropTypes.shape({
 
 export const DownloadableSamplesType = PropTypes.arrayOf(
     PropTypes.shape({
-        sample_url: ProductType,
+        sample_url: PropTypes.oneOfType([ProductType, PropTypes.string]),
         sort_order: PropTypes.number,
         title: PropTypes.string
     })
@@ -326,5 +329,12 @@ export const OptionsListType = PropTypes.arrayOf(
         sort_order: PropTypes.number,
         type: PropTypes.string,
         uid: PropTypes.string
+    })
+);
+
+export const LinkedProductsType = PropTypes.objectOf(
+    PropTypes.shape({
+        items: PropTypes.arrayOf(ProductType),
+        total_count: PropTypes.number
     })
 );

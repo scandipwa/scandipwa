@@ -75,9 +75,7 @@ export const getRegionFields = (props, events) => {
         region: { region, region_id: regionId = 1 } = {},
         regionDisplayAll,
         availableRegions,
-        isStateRequired,
-        currentRegion,
-        currentRegionId
+        isStateRequired
     } = props;
 
     const { onRegionChange, onRegionIdChange } = events;
@@ -94,7 +92,6 @@ export const getRegionFields = (props, events) => {
                 attr: {
                     id: 'address-region-id',
                     name: 'region_string',
-                    value: currentRegion,
                     defaultValue: region,
                     placeholder: __('Your state / province')
                 },
@@ -116,7 +113,6 @@ export const getRegionFields = (props, events) => {
             label: __('State / Province'),
             attr: {
                 name: 'region_id',
-                value: currentRegionId,
                 defaultValue: regionId,
                 selectPlaceholder: __('Select region...')
             },
@@ -180,9 +176,7 @@ export const myAccountAddressForm = (props, events = {}) => {
         countries = [],
         postcode: zipcode = '',
         telephone = '',
-        addressLinesQty = 1,
-        currentCity,
-        currentZipcode
+        addressLinesQty = 1
     } = props;
 
     const {
@@ -274,7 +268,6 @@ export const myAccountAddressForm = (props, events = {}) => {
                     label: __('Zip / Postal code'),
                     attr: {
                         name: 'postcode',
-                        value: currentZipcode,
                         defaultValue: zipcode,
                         placeholder: __('Your zip / postal code')
                     },
@@ -292,7 +285,6 @@ export const myAccountAddressForm = (props, events = {}) => {
                     label: __('City'),
                     attr: {
                         name: 'city',
-                        value: currentCity,
                         defaultValue: city,
                         placeholder: __('Your city')
                     },

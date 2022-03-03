@@ -163,6 +163,12 @@
         }
     }
 
+    &-Promo {
+        @include desktop {
+            padding-block-start: 24px;
+        }
+    }
+
     .Checkout-ExpandableContentContent {
         margin-block-start: 0;
         padding: 0 16px;
