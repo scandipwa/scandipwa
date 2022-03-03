@@ -45,6 +45,8 @@ export class OfflineNoticeContainer extends PureComponent {
         isPage: false
     };
 
+    handleNetworkChange = this.handleNetworkChange.bind(this);
+
     componentDidMount() {
         const { isPage } = this.props;
 
