@@ -51,11 +51,12 @@ export class MyAccountOverlay extends PureComponent {
         handleCreateAccount: PropTypes.func.isRequired,
         isCheckout: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        onSignIn: PropTypes.func.isRequired
+        onSignIn: PropTypes.func
     };
 
     static defaultProps = {
-        isCheckout: false
+        isCheckout: false,
+        onSignIn: noopFn
     };
 
     renderMap = {
