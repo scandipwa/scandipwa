@@ -78,6 +78,7 @@ export class ProductReviewForm extends PureComponent {
                 <FieldGroup
                   validationRule={ { isRequired: true, selector: '[type="radio"]' } }
                   validateOn={ ['onChange'] }
+                  key={ rating_id }
                 >
                     <fieldset block="ProductReviewForm" elem="Rating" key={ rating_id }>
                         <legend block="ProductReviewForm" elem="Legend">
@@ -119,7 +120,10 @@ export class ProductReviewForm extends PureComponent {
               block="ProductReviewForm"
               elem="Wrapper"
             >
-                <div>
+                <div
+                  block="ProductReviewForm"
+                  elem="RatingWrapper"
+                >
                     { this.renderReviewRating() }
                 </div>
                 <div

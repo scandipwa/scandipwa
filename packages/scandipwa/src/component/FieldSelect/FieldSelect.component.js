@@ -35,8 +35,10 @@ export class FieldSelect extends PureComponent {
         handleSelectExpandedExpand: PropTypes.func.isRequired,
         handleSelectExpand: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired,
-        isUpDirection: PropTypes.bool,
-        isScrollable: PropTypes.bool.isRequired
+        isDropdownOpenUpwards: PropTypes.bool.isRequired,
+        isScrollable: PropTypes.bool.isRequired,
+        isSortSelect: PropTypes.bool.isRequired,
+        isUpDirection: PropTypes.bool
     };
 
     static defaultProps = {
@@ -143,7 +145,7 @@ export class FieldSelect extends PureComponent {
         const {
             options,
             isExpanded,
-            isUpDirection,
+            isDropdownOpenUpwards,
             isScrollable
         } = this.props;
 
@@ -154,12 +156,24 @@ export class FieldSelect extends PureComponent {
               role="menu"
               mods={ {
                   isExpanded,
-                  isUpDirection,
+                  isDropdownOpenUpwards,
                   isNotScrollable: !isScrollable
               } }
             >
                 { options.map(this.renderOption.bind(this)) }
             </ul>
+        );
+    }
+
+    renderSortSelect() {
+        const { isSortSelect } = this.props;
+
+        if (!isSortSelect) {
+            return null;
+        }
+
+        return (
+            <div block="FieldSelect" elem="SortSelect">{ __('Sort by') }</div>
         );
     }
 
@@ -186,6 +200,7 @@ export class FieldSelect extends PureComponent {
                   aria-expanded={ isExpanded }
                 >
                     <div block="FieldSelect" elem="Clickable">
+                        { this.renderSortSelect() }
                         { this.renderNativeSelect() }
                         <ChevronIcon direction={ isExpanded ? TOP : BOTTOM } />
                     </div>

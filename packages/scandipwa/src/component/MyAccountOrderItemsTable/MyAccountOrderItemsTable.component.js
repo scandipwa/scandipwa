@@ -212,6 +212,10 @@ export class MyAccountOrderItemsTable extends PureComponent {
             return null;
         }
 
+        const commentOrder = comments.sort(
+            ({ timestamp: first }, { timestamp: second }) => new Date(second) - new Date(first)
+        );
+
         return (
             <div block="MyAccountOrderItemsTable" elem="Comments">
                 <div
@@ -221,7 +225,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
                     { __('About Your %s', activeTab) }
                 </div>
                 <div block="MyAccountOrderItemsTable" elem="CommentsList">
-                    { comments.map(({ timestamp, message }) => (
+                    { commentOrder.map(({ timestamp, message }) => (
                         <dl
                           block="MyAccountOrderItemsTable"
                           elem="Comment"

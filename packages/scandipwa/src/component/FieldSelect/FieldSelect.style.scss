@@ -20,6 +20,7 @@ $select-arrow-width: 14px !default;
         cursor: pointer;
         display: flex;
         align-items: center;
+        height: 48px;
 
         #storeSwitcher,
         #CurrencySwitcherList {
@@ -61,7 +62,7 @@ $select-arrow-width: 14px !default;
         inset-block-start: 100%;
         inset-inline-start: 0;
         z-index: 40;
-        overflow-y: auto;
+        overflow-y: scroll;
         border-style: solid;
         border-width: 0 1px 1px;
         border-color: transparent;
@@ -70,22 +71,6 @@ $select-arrow-width: 14px !default;
         max-height: 0;
         -webkit-overflow-scrolling: touch;
         min-width: 100%;
-
-        // Firefox support
-        /* stylelint-disable-next-line declaration-no-important */
-        scrollbar-width: 10px !important;
-        /* stylelint-disable-next-line declaration-no-important */
-        scrollbar-color: gray !important;
-
-        &::-webkit-scrollbar {
-            /* stylelint-disable-next-line declaration-no-important */
-            display: auto !important;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            /* stylelint-disable-next-line declaration-no-important */
-            display: auto !important;
-        }
 
         &_isExpanded {
             @include desktop {
@@ -96,7 +81,6 @@ $select-arrow-width: 14px !default;
             }
         }
         
-
         &_isUpDirection {
             inset-block-start: auto;
             inset-block-end: 100%;
@@ -166,6 +150,10 @@ $select-arrow-width: 14px !default;
         &_isDisabled {
             pointer-events: none;
             opacity: 0.6;
+            
+            @include mobile {
+                border-top: 1px solid var(--input-border-color-focus);
+            }
         }
     }
 }

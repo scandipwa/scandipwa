@@ -45,6 +45,7 @@ export class Field extends PureComponent {
         mix: MixType.isRequired,
         options: PropTypes.arrayOf(OptionType).isRequired,
         changeValueOnDoubleClick: PropTypes.bool,
+        isSortSelect: PropTypes.bool,
 
         // Validation
         showErrorAsLabel: PropTypes.bool.isRequired,
@@ -75,7 +76,8 @@ export class Field extends PureComponent {
 
     static defaultProps = {
         validationResponse: null,
-        changeValueOnDoubleClick: false
+        changeValueOnDoubleClick: false,
+        isSortSelect: false
     };
 
     renderMap = {
@@ -152,7 +154,8 @@ export class Field extends PureComponent {
             setRef,
             options,
             isDisabled = false,
-            changeValueOnDoubleClick
+            changeValueOnDoubleClick,
+            isSortSelect
         } = this.props;
 
         return (
@@ -162,6 +165,7 @@ export class Field extends PureComponent {
               options={ options }
               setRef={ setRef }
               isDisabled={ isDisabled }
+              isSortSelect={ isSortSelect }
               changeValueOnDoubleClick={ changeValueOnDoubleClick }
             />
         );
@@ -204,15 +208,16 @@ export class Field extends PureComponent {
         };
 
         return (
-            <label htmlFor={ id } block="Field" elem={ `${elem}Label` }>
+            <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
                 <input
                   ref={ (elem) => setRef(elem) }
                   disabled={ isDisabled }
                   type={ type }
                   { ...attr }
                   { ...inputEvents }
+                  checked={ isDisabled ? !isDisabled : null }
                 />
-                <div block="input-control" />
+                <div block="input-control" disabled={ isDisabled } />
                 { label }
             </label>
         );
