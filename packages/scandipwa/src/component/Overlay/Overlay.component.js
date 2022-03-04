@@ -134,7 +134,6 @@ export class Overlay extends PureComponent {
               mix={ { ...mix, mods: { ...mix.mods, isVisible } } }
             >
                 { children && children }
-                <div block="Overlay" elem="test" />
             </div>
         );
     }
