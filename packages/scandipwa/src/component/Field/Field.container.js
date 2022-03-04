@@ -71,7 +71,7 @@ export class FieldContainer extends PureComponent {
 
     state = {
         validationResponse: null,
-        lengthError: ''
+        showLengthError: false
     };
 
     containerFunctions = {
@@ -110,6 +110,7 @@ export class FieldContainer extends PureComponent {
             if (!validationRule || Object.keys(validationRule).length === 0) {
                 return;
             }
+
             elem.addEventListener('validate', this.validate.bind(this));
         }
     }
@@ -118,16 +119,28 @@ export class FieldContainer extends PureComponent {
         this.setState({ validationResponse: null });
     }
 
+    handleShowLengthError() {
+        const { validationRule, type } = this.props;
+        const { showLengthError } = this.state;
+
+        if (type === FIELD_TYPE.textarea || type === FIELD_TYPE.text) {
+            validationRule.range.showLengthError = showLengthError;
+        }
+
+        return validationRule;
+    }
+
     validate(data) {
         const {
-            validationRule, validationRule: { range }, type, attr: { name } = {}
+            validationRule: { range }, type, attr: { name } = {}
         } = this.props;
         const value = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio
             ? !!this.fieldRef.checked
             : this.fieldRef.value;
-        const response = validate(value, validationRule);
-        const output = response !== true ? { ...response, type, name } : response;
         const maxValidLength = range ? range.max : 0;
+        const newValidRule = this.handleShowLengthError();
+        const response = validate(value, newValidRule);
+        const output = response !== true ? { ...response, type, name } : response;
 
         // If validation is called from different object you can pass object
         // to store validation error values
@@ -141,8 +154,12 @@ export class FieldContainer extends PureComponent {
 
             // Validates length on submit, renders special message
             if (maxValidLength && value.length > maxValidLength && !showLengthError) {
+                this.setState({ showLengthError: true });
                 output.errorMessages.unshift(__('Please enter no more than %s characters.', maxValidLength));
             }
+
+            this.setState({ showLengthError: false });
+
             data.detail.errors.push(output);
         }
         this.setState({ validationResponse: output });

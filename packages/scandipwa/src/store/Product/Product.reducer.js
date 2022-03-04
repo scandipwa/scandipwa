@@ -10,13 +10,13 @@
  */
 import { getIndexedProduct } from 'Util/Product';
 
-import { ADD_TO_CART_WITH_ERROR, UPDATE_PRODUCT_DETAILS } from './Product.action';
+import { UPDATE_PRODUCT_DETAILS } from './Product.action';
 
 /** @namespace Store/Product/Reducer/getInitialState */
 export const getInitialState = () => ({
     product: {},
     formattedConfigurableOptions: {},
-    addToCartWithError: false
+    showLengthError: false
 });
 
 /** @namespace Store/Product/Reducer/formatConfigurableOptions */
@@ -49,12 +49,6 @@ export const ProductReducer = (
         return {
             ...state,
             product: getIndexedProduct(product)
-        };
-    case ADD_TO_CART_WITH_ERROR:
-        const { addToCartWithError } = action;
-        return {
-            ...state,
-            addToCartWithError
         };
     default:
         return state;

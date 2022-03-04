@@ -19,7 +19,6 @@ import NoMatchReducer from 'Store/NoMatch/NoMatch.reducer';
 import OfflineReducer from 'Store/Offline/Offline.reducer';
 import OverlayReducer from 'Store/Overlay/Overlay.reducer';
 import PopupReducer from 'Store/Popup/Popup.reducer';
-import ProductReducer from 'Store/Product/Product.reducer';
 import ProductCompareReducer from 'Store/ProductCompare/ProductCompare.reducer';
 import ProductListReducer from 'Store/ProductList/ProductList.reducer';
 import ProductListInfoReducer from 'Store/ProductListInfo/ProductListInfo.reducer';
@@ -29,7 +28,6 @@ import WishlistReducer from 'Store/Wishlist/Wishlist.reducer';
 
 /** @namespace Store/Index/getStaticReducers */
 export const getStaticReducers = () => ({
-    ProductReducer,
     ProductListReducer,
     ProductListInfoReducer,
     CartReducer,

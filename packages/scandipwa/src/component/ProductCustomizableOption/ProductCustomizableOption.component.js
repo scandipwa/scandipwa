@@ -39,7 +39,6 @@ export class ProductCustomizableOption extends PureComponent {
         getDropdownOptions: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
         currencyCode: PropTypes.string.isRequired,
-        addToCartWithError: PropTypes.bool.isRequired,
         options: CustomizableOptionsType
     };
 
@@ -98,7 +97,7 @@ export class ProductCustomizableOption extends PureComponent {
 
     renderDefaultValue(option) {
         const {
-            title, fieldType, isRequired, uid, addToCartWithError
+            title, fieldType, isRequired, uid
         } = this.props;
         const { value } = this.state;
         const { max_characters } = option;
@@ -112,7 +111,7 @@ export class ProductCustomizableOption extends PureComponent {
                   type={ fieldType }
                   validationRule={ {
                       isRequired,
-                      range: { max: max_characters > 0 ? max_characters : null, showLengthError: addToCartWithError }
+                      range: { max: max_characters > 0 ? max_characters : null }
                   } }
                   attr={ {
                       id: uid,
