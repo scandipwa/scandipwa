@@ -289,7 +289,7 @@ export class ProductBundleOption extends PureComponent {
                       id: `bundle-options-dropdown-${ uid }`,
                       name: `bundle-options-dropdown-${ uid }`,
                       selectPlaceholder: __('Select product...'),
-                      value: activeOption ? optionUid : ''
+                      value: activeOption ? getEncodedBundleUid(optionUid, quantity) : ''
                   } }
                   mix={ { block: 'ProductBundleItem', elem: 'Select' } }
                   options={ getDropdownOptions() }
