@@ -166,20 +166,12 @@ export class CmsPageContainer extends DataContainer {
         const htmlElements = tableCellsContent.map((element) => element[0]);
         const tableCellImages = htmlElements.filter((element) => element !== undefined && element.tagName === 'IMG');
 
-        tableCellImages.map((element) => this.setCellImageHeight(
-            element, element.clientHeight, element.clientWidth
-        ));
+        tableCellImages.map(this.setCellImageStyle.bind(this));
     }
 
-    setCellImageHeight(element, clientHeight, clientWidth) {
+    setCellImageStyle(element) {
         const tableImage = element;
-        const imageHeight = clientHeight;
-        const imageWidth = clientWidth;
-        tableImage.style.height = 'auto';
-
-        if (imageHeight !== imageWidth) {
-            tableImage.style = `height: ${(tableImage.clientWidth) / 2}px; object-fit: contain`;
-        }
+        tableImage.style = 'height: 100%; width: 100%; position: absolute; padding-block-end: 10px;';
     }
 
     setOfflineNoticeSize() {
