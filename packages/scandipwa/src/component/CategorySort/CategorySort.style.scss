@@ -68,6 +68,7 @@
             .FieldSelect {
                 &-SortSelect {
                     font-size: 16px;
+                    margin-inline-end: 10px;
 
                     @include desktop {
                         display: none;
@@ -83,10 +84,7 @@
 
                     @supports (-webkit-touch-callout: none) {
                         /* CSS specific to iOS devices */ 
-                        position: absolute;
-                        margin-inline-start: 0;
-                        inset-inline-end: -25px;
-                        inset-block-start: 19px;
+                        inset-block-start: 3px;
                     }
                 }
             }
