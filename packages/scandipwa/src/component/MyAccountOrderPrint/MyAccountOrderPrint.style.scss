@@ -93,12 +93,7 @@
     &Information {
         &-Address {
             .KeyValueTable {
-                width: max-content;
                 margin-block-end: 0;
-
-                &-Wrapper {
-                    width: max-content;
-                }
 
                 tr {
                     border-block-end: none;
