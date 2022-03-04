@@ -21,9 +21,10 @@ import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
 
 /** @namespace Util/Request/DataContainer */
 export class DataContainer extends PureComponent {
-    __construct(dataModelName, cacheTTL = ONE_MONTH_IN_SECONDS) {
-        super.__construct();
+    __construct(props, dataModelName, isShouldListenForBroadcast = true, cacheTTL = ONE_MONTH_IN_SECONDS) {
+        super.__construct(props);
         this.dataModelName = dataModelName;
+        this.isShouldListenForBroadcast = isShouldListenForBroadcast;
         this.cacheTTL = cacheTTL;
         this.promise = null;
     }
@@ -63,10 +64,12 @@ export class DataContainer extends PureComponent {
             (err) => onError(err)
         );
 
-        listenForBroadCast(this.dataModelName).then(
-            /** @namespace Util/Request/DataContainer/DataContainer/fetchData/listenForBroadCast/then/onSuccess */
-            onSuccess
-        );
+        if (this.isShouldListenForBroadcast) {
+            listenForBroadCast(this.dataModelName).then(
+                /** @namespace Util/Request/DataContainer/DataContainer/fetchData/listenForBroadCast/then/onSuccess */
+                onSuccess
+            );
+        }
     }
 }
 
