@@ -109,14 +109,14 @@ $select-arrow-width: 14px !default;
 
     &-Option {
         cursor: pointer;
-        padding: 0px;
+        padding: 0;
         margin: 0;
         z-index: 1;
         transition: 100ms max-height ease-in;
         will-change: max-height;
         min-height: $select-option-height;
         line-height: 16px;
-        padding-block: 10px 10px;
+        padding-block: 10px;
         padding-inline-start: 20px;
         background: var(--color-white);
 
