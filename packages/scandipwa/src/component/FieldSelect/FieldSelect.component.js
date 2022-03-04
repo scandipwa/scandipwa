@@ -68,11 +68,14 @@ export class FieldSelect extends PureComponent {
         const {
             setRef, attr, events, isDisabled, options, handleSelectListOptionClick
         } = this.props;
+        const defaultOption = options.filter((element) => element.isDefault === true);
+        const isDefaultOptionAvailable = defaultOption.isAvailable;
 
         return (
             <select
               block="FieldSelect"
               elem="Select"
+              mods={ { isDisabled: !isDefaultOptionAvailable } }
               ref={ (elem) => setRef(elem) }
               disabled={ isDisabled }
               // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
