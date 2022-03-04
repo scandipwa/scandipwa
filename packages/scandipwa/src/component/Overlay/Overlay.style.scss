@@ -41,6 +41,16 @@
         }
     }
 
+    &-test {
+        @include mobile {
+            position: fixed;
+            height: 100vh;
+            inset-block-end: 0;
+            padding-block-end: calc(10px + env(safe-area-inset-bottom));
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+
     @include desktop {
         position: absolute;
         transition: opacity 200ms;
