@@ -81,6 +81,7 @@
 
         @include mobile {
             border-radius: 0;
+            height: -webkit-fill-available;
             max-height: 100%;
         }
     }
