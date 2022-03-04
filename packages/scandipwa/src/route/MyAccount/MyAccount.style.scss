@@ -67,7 +67,8 @@
                 }
             }
 
-            &_my-wishlist, &_my-orders {
+            &_my-wishlist,
+            &_my-orders {
                 .Loader {
                     &-Scale { 
                         @include mobile {
