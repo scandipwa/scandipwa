@@ -55,6 +55,7 @@ export const mapStateToProps = (state) => ({
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     wishlistItems: state.WishlistReducer.productsInWishlist,
     IsSignedInFromState: state.MyAccountReducer.isSignedIn,
+    isLocked: state.MyAccountReducer.isLocked,
     newsletterActive: state.ConfigReducer.newsletter_general_active,
     baseLinkUrl: state.ConfigReducer.base_link_url
 });
@@ -70,7 +71,10 @@ export const mapDispatchToProps = (dispatch) => ({
     ),
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    logout: () => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch)
+    )
 });
 
 /** @namespace Route/MyAccount/Container */
@@ -88,9 +92,11 @@ export class MyAccountContainer extends PureComponent {
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         IsSignedInFromState: PropTypes.bool.isRequired,
+        isLocked: PropTypes.bool.isRequired,
         baseLinkUrl: PropTypes.string.isRequired,
         showNotification: PropTypes.func.isRequired,
-        selectedTab: PropTypes.string
+        selectedTab: PropTypes.string,
+        logout: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -240,7 +246,8 @@ export class MyAccountContainer extends PureComponent {
 
         const {
             wishlistItems,
-            IsSignedInFromState: currIsSignedInFromState
+            IsSignedInFromState: currIsSignedInFromState,
+            isLocked
         } = this.props;
 
         const { activeTab: prevActiveTab } = prevState;
@@ -265,6 +272,10 @@ export class MyAccountContainer extends PureComponent {
 
         if (!isSignedIn()) {
             this.changeMyAccountHeaderState();
+        }
+
+        if (isLocked) {
+            this.handleLocked();
         }
     }
 
@@ -392,7 +403,9 @@ export class MyAccountContainer extends PureComponent {
     }
 
     onSignIn() {
-        const { requestCustomerData } = this.props;
+        const {
+            requestCustomerData
+        } = this.props;
 
         if (isSignedIn()) {
             requestCustomerData();
@@ -470,6 +483,20 @@ export class MyAccountContainer extends PureComponent {
 
         history.replace({ pathname: path });
         showNotification('info', __('Please, sign in to access this page contents!'));
+    }
+
+    handleLocked() {
+        const { baseLinkUrl, logout } = this.props;
+
+        const path = baseLinkUrl
+            ? appendWithStoreCode(ACCOUNT_LOGIN_URL)
+            : replace(/\/customer\/account\/.*/, ACCOUNT_LOGIN_URL);
+
+        history.push({
+            pathname: path,
+            state: { isFromLocked: true }
+        });
+        logout();
     }
     // #endregion
 

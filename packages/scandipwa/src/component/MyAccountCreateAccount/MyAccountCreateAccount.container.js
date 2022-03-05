@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { SignInStateType } from 'Type/Account.type';
+import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
 
@@ -49,7 +50,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountCreateAccountContainer extends PureComponent {
     static propTypes = {
         createAccount: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired,
+        onSignIn: PropTypes.func,
         setSignInState: PropTypes.func.isRequired,
         setLoadingState: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
@@ -65,7 +66,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
     };
 
     static defaultProps = {
-        isLandingPage: false
+        isLandingPage: false,
+        onSignIn: noopFn
     };
 
     containerFunctions = {

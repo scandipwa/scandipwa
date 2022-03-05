@@ -16,7 +16,7 @@ import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
 import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttributeValue.component';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
-import { CategoryFragment } from 'Type/Category.type';
+import { CategoryFragment, SelectedFiltersType } from 'Type/Category.type';
 import { getPriceFilterLabel } from 'Util/Category';
 import { sortBySortOrder } from 'Util/Product';
 
@@ -27,7 +27,8 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         currencyCode: PropTypes.string.isRequired,
         showProductCount: PropTypes.bool.isRequired,
         childrenCategories: PropTypes.arrayOf(PropTypes.shape(CategoryFragment)).isRequired,
-        getSubCategories: PropTypes.func.isRequired
+        getSubCategories: PropTypes.func.isRequired,
+        parameters: SelectedFiltersType.isRequired
     };
 
     renderSubCategories(option) {

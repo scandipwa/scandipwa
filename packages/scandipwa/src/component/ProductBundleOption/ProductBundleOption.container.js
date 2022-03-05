@@ -43,7 +43,7 @@ export class ProductBundleOptionContainer extends PureComponent {
         title: PropTypes.string.isRequired,
         isRequired: PropTypes.bool.isRequired,
         type: PropTypes.string.isRequired,
-        options: PropTypes.arrayOf(ItemOptionsType).isRequired,
+        options: ItemOptionsType.isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
         currencyCode: PropTypes.string.isRequired
     };
@@ -58,8 +58,13 @@ export class ProductBundleOptionContainer extends PureComponent {
         setQuantity: this.setQuantity.bind(this),
         setActiveSelectUid: this.setActiveSelectUid.bind(this),
         getUidWithQuantity: this.getUidWithQuantity.bind(this),
-        getDropdownOptions: this.getDropdownOptions.bind(this)
+        getDropdownOptions: this.getDropdownOptions.bind(this),
+        setDefaultOption: this.setDefaultOption.bind(this)
     };
+
+    componentDidMount() {
+        this.setDefaultOption();
+    }
 
     componentDidUpdate(prevProps, prevState) {
         const { quantity } = this.state;
@@ -92,6 +97,16 @@ export class ProductBundleOptionContainer extends PureComponent {
         this.setState({
             activeSelectUid: uid
         });
+    }
+
+    setDefaultOption() {
+        const { options } = this.props;
+
+        const [defaultOption = null] = bundleOptionsToSelectTransform(options).filter(({ isDefault }) => isDefault);
+
+        if (defaultOption) {
+            this.setActiveSelectUid(defaultOption.value);
+        }
     }
 
     getDropdownOptions() {

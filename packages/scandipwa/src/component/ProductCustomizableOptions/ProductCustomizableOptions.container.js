@@ -23,8 +23,12 @@ import ProductCustomizableOptions from './ProductCustomizableOptions.component';
  */
 export class ProductCustomizableOptionsContainer extends PureComponent {
     static propTypes = {
-        options: OptionsListType.isRequired,
+        options: OptionsListType,
         updateSelectedValues: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        options: []
     };
 
     containerProps() {

@@ -14,6 +14,7 @@ import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
 import { formatPrice } from 'Util/Price';
 
+import { getProductInStock } from './Extract';
 import { ADD_TO_CART } from './Product';
 
 export const PRICE_TYPE_PERCENT = 'PERCENT';
@@ -180,8 +181,12 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
         const {
             uid: sourceUid = '',
             quantity: defaultQuantity = 1,
-            position
+            position,
+            product,
+            is_default
         } = option;
+
+        const isAvailable = getProductInStock(product);
 
         const {
             priceLabel,
@@ -197,7 +202,9 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
             value: uid,
             label: baseLabel,
             subLabel: priceLabel,
-            sort_order: position
+            sort_order: position,
+            isAvailable,
+            isDefault: is_default
         });
 
         return result;
