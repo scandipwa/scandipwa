@@ -17,17 +17,17 @@
             grid-gap: 24px;
         }
     }
-    
+
     &-RatingWrapper {
         .FieldGroup-Wrapper {
             margin-block-end: 14px;
-                    
+
             .FieldGroup {
                 &_hasError, &_isValid {
                     padding-inline-start: 0;
                     border: none;
                 }
-                
+
                 &-ErrorMessages {
                     margin-block-start: 6px;
                 }
@@ -98,7 +98,7 @@
         font-weight: bold;
         color: var(--required-text-color);
     }
-    
+
     &-ErrorMessage {
         color: var(--primary-error-color);
         font-size: 12px;
@@ -111,6 +111,8 @@
         @include mobile {
             margin-block-start: 28px;
             width: 100%;
+            position: sticky;
+            margin-block-end: 50px;
         }
     }
 
