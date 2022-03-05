@@ -17,7 +17,7 @@ import {
     BIG_PLACEHOLDER_CONFIG
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import { MixType } from 'Type/Common.type';
-import { AttributesType, ItemsType } from 'Type/ProductList.type';
+import { AttributesType, ItemsType, ItemType } from 'Type/ProductList.type';
 import { noopFn } from 'Util/Common';
 import { getBooleanLabel } from 'Util/Product';
 
@@ -31,11 +31,13 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         updateConfigurableVariant: PropTypes.func.isRequired,
         isExpandable: PropTypes.bool,
         showProductAttributeAsLink: PropTypes.bool,
-        variants: ItemsType,
+        variants: PropTypes.oneOfType([ItemsType, ItemType]),
         mix: MixType,
         isReady: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
         configurable_options: AttributesType.isRequired,
+        addToCartTriggeredWithError: PropTypes.bool,
+        updateAddToCartTriggeredWithError: PropTypes.func,
         inStock: PropTypes.bool
     };
 
@@ -47,7 +49,10 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         isReady: true,
         mix: {},
         numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
-        inStock: true
+        inStock: true,
+        updateAddToCartTriggeredWithError: noopFn,
+        addToCartTriggeredWithError: false
+
     };
 
     containerFunctions = {
@@ -55,7 +60,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         getSubHeading: this.getSubHeading.bind(this),
         isSelected: this.isSelected.bind(this),
         getLink: this.getLink.bind(this),
-        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
+        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
+        handleShakeAnimationEnd: this.handleShakeAnimationEnd.bind(this)
     };
 
     containerProps() {
@@ -68,7 +74,9 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             parameters,
             showProductAttributeAsLink,
             updateConfigurableVariant,
-            inStock
+            inStock,
+            addToCartTriggeredWithError,
+            updateAddToCartTriggeredWithError
         } = this.props;
 
         return {
@@ -80,7 +88,9 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             parameters,
             showProductAttributeAsLink,
             updateConfigurableVariant,
-            inStock
+            inStock,
+            addToCartTriggeredWithError,
+            updateAddToCartTriggeredWithError
         };
     }
 
@@ -119,6 +129,14 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         }
 
         return parameter === attribute_value;
+    }
+
+    handleShakeAnimationEnd(e) {
+        e.preventDefault();
+        const { updateAddToCartTriggeredWithError } = this.props;
+        e.target.classList.remove('[class*=_isUnselected]');
+
+        updateAddToCartTriggeredWithError();
     }
 
     getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {

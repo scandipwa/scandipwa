@@ -45,6 +45,7 @@ export class Field extends PureComponent {
         mix: MixType.isRequired,
         options: PropTypes.arrayOf(OptionType).isRequired,
         changeValueOnDoubleClick: PropTypes.bool,
+        isSortSelect: PropTypes.bool,
 
         // Validation
         showErrorAsLabel: PropTypes.bool.isRequired,
@@ -75,7 +76,8 @@ export class Field extends PureComponent {
 
     static defaultProps = {
         validationResponse: null,
-        changeValueOnDoubleClick: false
+        changeValueOnDoubleClick: false,
+        isSortSelect: false
     };
 
     renderMap = {
@@ -152,7 +154,8 @@ export class Field extends PureComponent {
             setRef,
             options,
             isDisabled = false,
-            changeValueOnDoubleClick
+            changeValueOnDoubleClick,
+            isSortSelect
         } = this.props;
 
         return (
@@ -162,6 +165,7 @@ export class Field extends PureComponent {
               options={ options }
               setRef={ setRef }
               isDisabled={ isDisabled }
+              isSortSelect={ isSortSelect }
               changeValueOnDoubleClick={ changeValueOnDoubleClick }
             />
         );
@@ -190,7 +194,7 @@ export class Field extends PureComponent {
             type,
             setRef,
             attr,
-            attr: { id = '' } = {},
+            attr: { id = '', checked, value = '' } = {},
             events: { onChange },
             events,
             isDisabled,
@@ -202,17 +206,22 @@ export class Field extends PureComponent {
             ...events,
             onChange: onChange || noopFn
         };
+        // if button value is "none" do not disable
+        const isButtonDisabled = (!value.match('none') && isDisabled);
+        const isChecked = isButtonDisabled ? !isDisabled : null;
 
         return (
-            <label htmlFor={ id } block="Field" elem={ `${elem}Label` }>
+            <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
                 <input
                   ref={ (elem) => setRef(elem) }
-                  disabled={ isDisabled }
+                  disabled={ isButtonDisabled ? isDisabled : false }
                   type={ type }
                   { ...attr }
                   { ...inputEvents }
+                  // shipping options have checked attr assigned so prioritize its value
+                  checked={ checked || isChecked }
                 />
-                <div block="input-control" />
+                <div block="input-control" disabled={ isDisabled } />
                 { label }
             </label>
         );
@@ -316,7 +325,9 @@ export class Field extends PureComponent {
     //#endregion
 
     render() {
-        const { type, validationResponse, mix } = this.props;
+        const {
+            type, validationResponse, mix
+        } = this.props;
         const inputRenderer = this.renderMap[type];
 
         return (

@@ -20,6 +20,10 @@
     --search-input-desktop-border-color: #000;
 }
 
+::placeholder {
+    overflow: visible;
+}
+
 .SearchField {
     display: none;
     margin: 8px auto;
@@ -28,8 +32,9 @@
 
     @include desktop {
         display: block;
-        width: 55%;
+        width: 90%;
         max-width: 600px;
+        grid-column: 2 / 3;
     }
 
     &_isVisible {
