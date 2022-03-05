@@ -85,6 +85,9 @@
         @include mobile {
             border-radius: 0;
             height: -webkit-fill-available;
+            position: fixed;
+            inset-inline-start: 0;
+            inset-inline-end: 0;
         }
     }
 
