@@ -76,13 +76,15 @@
         padding: var(--popup-content-padding);
         min-width: var(--popup-min-width);
         max-width: calc(var(--content-wrapper-width) * .8);
-        max-height: var(--popup-max-height);
         overflow-y: auto;
+
+        @include desktop {
+            max-height: var(--popup-max-height);
+        }
 
         @include mobile {
             border-radius: 0;
             height: -webkit-fill-available;
-            max-height: 150%;
         }
     }
 
