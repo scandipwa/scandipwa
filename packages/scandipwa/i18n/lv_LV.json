@@ -590,5 +590,9 @@
     "Not possible to fetch while offline": null,
     "Buy %s with ": null,
     "%s% discount each": null,
-    "Print Order": null
+    "Print Order": null,
+    "If there is an account associated with %s you will receive an email with a link to reset your password.": null,
+    "If there is an account associated with %s you will receive an email with a link to reset your password": null,
+    " discount each": null,
+    "Sort by": null
 }

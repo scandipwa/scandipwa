@@ -44,6 +44,10 @@ export class CurrencySwitcherContainer extends DataContainer {
         handleCurrencySelect: this._handleCurrencySelect.bind(this)
     };
 
+    __construct() {
+        super.__construct('CurrencySwitcherContainer');
+    }
+
     _handleCurrencySelect(currencyCode) {
         const { updateCurrency } = this.props;
 

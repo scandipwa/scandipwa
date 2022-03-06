@@ -20,11 +20,14 @@ $select-arrow-width: 14px !default;
         cursor: pointer;
         display: flex;
         align-items: center;
-        height: 48px;
 
         #storeSwitcher,
         #CurrencySwitcherList {
             line-height: 20px;
+        }
+
+        @include mobile {
+            border-block-end: 1px solid var(--primary-divider-color);
         }
     }
 
@@ -45,6 +48,7 @@ $select-arrow-width: 14px !default;
         min-width: 100%;
         padding-inline-end: 40px;
         width: 100%;
+        height: 48px;
 
         @include desktop {
             pointer-events: none;

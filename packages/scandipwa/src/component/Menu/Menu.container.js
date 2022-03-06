@@ -40,8 +40,8 @@ export class MenuContainer extends DataContainer {
         onCategoryHover: this.onCategoryHover.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
+    __construct() {
+        super.__construct('MenuContainer');
 
         const {
             stack: activeMenuItemsStack = []
