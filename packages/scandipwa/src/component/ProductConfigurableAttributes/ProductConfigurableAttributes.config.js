@@ -10,5 +10,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const BIG_PLACEHOLDER_CONFIG = [6, 10, 7];
+export const BIG_PLACEHOLDER_CONFIG = [7, 14, 7];
 export const SMALL_PLACEHOLDER_CONFIG = [5];

@@ -57,6 +57,10 @@ export class ProductComparePageContainer extends DataContainer {
         isLoading: false
     };
 
+    __construct() {
+        super.__construct('ProductComparePageContainer');
+    }
+
     componentDidMount() {
         scrollToTop();
         this.updateMeta();
