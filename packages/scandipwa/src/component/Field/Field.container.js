@@ -145,7 +145,7 @@ export class FieldContainer extends PureComponent {
         // If validation is called from different object you can pass object
         // to store validation error values
         if (data && data.detail && response !== true) {
-            const { showLengthError } = range;
+            const { showLengthError } = range || false;
 
             if (!data.detail.errors) {
                 // eslint-disable-next-line no-param-reassign
@@ -158,10 +158,14 @@ export class FieldContainer extends PureComponent {
                 output.errorMessages.unshift(__('Please enter no more than %s characters.', maxValidLength));
             }
 
-            this.setState({ showLengthError: false });
-
             data.detail.errors.push(output);
         }
+
+        //When submit and response equals true (it can be object) reset show length error
+        if (data && response === true) {
+            this.setState({ showLengthError: false });
+        }
+
         this.setState({ validationResponse: output });
         return output;
     }
