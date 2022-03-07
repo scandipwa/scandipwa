@@ -33,8 +33,10 @@
         margin-block-end: 24px;
         display: flex;
         align-items: center;
+        white-space: nowrap;
 
         @include mobile {
+            font-size: 15px;
             margin-block-end: 28px;
         }
 
