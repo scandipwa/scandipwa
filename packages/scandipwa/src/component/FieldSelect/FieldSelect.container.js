@@ -20,7 +20,7 @@ import {
 } from 'Type/Field.type';
 
 import FieldSelect from './FieldSelect.component';
-import { DROPDOWN_MIN_HEIGHT, DROPDOWN_SCROLL_MIN_ITEMS } from './FieldSelect.config';
+import { DROPDOWN_MIN_HEIGHT } from './FieldSelect.config';
 
 /**
  * Field Select
@@ -49,8 +49,7 @@ export class FieldSelectContainer extends PureComponent {
         valueIndex: -1,
         searchString: '',
         isExpanded: false,
-        isDropdownOpenUpwards: false,
-        isScrollable: false
+        isDropdownOpenUpwards: false
     };
 
     containerFunctions = {
@@ -59,7 +58,6 @@ export class FieldSelectContainer extends PureComponent {
         handleSelectListOptionClick: this.handleSelectListOptionClick.bind(this),
         handleSelectListKeyPress: this.handleSelectListKeyPress.bind(this),
         setRef: this.setRef.bind(this),
-        handleIsScrollableList: this.handleIsScrollableList.bind(this),
         handleDropdownOpenDirection: this.handleDropdownOpenDirection.bind(this)
     };
 
@@ -70,10 +68,6 @@ export class FieldSelectContainer extends PureComponent {
         const { isExpanded: stateIsExpanded } = state;
 
         return { isExpanded: isExpanded || stateIsExpanded };
-    }
-
-    componentDidMount() {
-        this.handleIsScrollableList();
     }
 
     setRef(elem) {
@@ -261,16 +255,6 @@ export class FieldSelectContainer extends PureComponent {
         }
     }
 
-    handleIsScrollableList() {
-        const options = this.getOptions();
-
-        if (options.length > DROPDOWN_SCROLL_MIN_ITEMS) {
-            this.setState({ isScrollable: true });
-        } else {
-            this.setState({ isScrollable: false });
-        }
-    }
-
     containerProps() {
         const {
             attr: {
@@ -286,7 +270,7 @@ export class FieldSelectContainer extends PureComponent {
             isSortSelect
         } = this.props;
 
-        const { isExpanded, isDropdownOpenUpwards, isScrollable } = this.state;
+        const { isExpanded, isDropdownOpenUpwards } = this.state;
 
         return {
             attr: {
@@ -298,7 +282,6 @@ export class FieldSelectContainer extends PureComponent {
             isDisabled,
             isExpanded,
             isDropdownOpenUpwards,
-            isScrollable,
             isSortSelect,
             options: this.getOptions()
         };

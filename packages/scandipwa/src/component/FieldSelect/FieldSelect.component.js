@@ -36,7 +36,6 @@ export class FieldSelect extends PureComponent {
         handleSelectExpand: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         isDropdownOpenUpwards: PropTypes.bool.isRequired,
-        isScrollable: PropTypes.bool.isRequired,
         isSortSelect: PropTypes.bool.isRequired
     };
 
@@ -140,8 +139,7 @@ export class FieldSelect extends PureComponent {
         const {
             options,
             isExpanded,
-            isDropdownOpenUpwards,
-            isScrollable
+            isDropdownOpenUpwards
         } = this.props;
 
         return (
@@ -151,8 +149,7 @@ export class FieldSelect extends PureComponent {
               role="menu"
               mods={ {
                   isExpanded,
-                  isDropdownOpenUpwards,
-                  isNotScrollable: !isScrollable
+                  isDropdownOpenUpwards
               } }
             >
                 { options.map(this.renderOption.bind(this)) }
