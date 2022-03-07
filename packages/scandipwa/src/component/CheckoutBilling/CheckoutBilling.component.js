@@ -133,7 +133,9 @@ export class CheckoutBilling extends PureComponent {
                       } }
                       mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
                     />
-                    { `${checkbox_text } - ` }
+                    <span mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Text' } }>
+                     { `${checkbox_text } ` }
+                    </span>
                 </label>
                 <button
                   block="CheckoutBilling"

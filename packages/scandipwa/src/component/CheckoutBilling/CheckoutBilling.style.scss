@@ -33,7 +33,6 @@
         margin-block-end: 24px;
         display: flex;
         align-items: center;
-        white-space: nowrap;
 
         @include mobile {
             font-size: 15px;
@@ -47,11 +46,22 @@
                 margin-inline-end: 2px;
             }
         }
+
+        &-Text {
+            &::after {
+                content: '-';
+                position: absolute;
+                inset-block-start: 50%;
+                transform: translateY(-50%);
+                inset-inline-start: calc(100% + 0.5rem);
+            }
+        }
     }
 
     &-TACLabel {
         display: flex;
         align-items: center;
+        margin-inline-end: 0.5em;
 
         &:hover {
             cursor: pointer;
