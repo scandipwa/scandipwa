@@ -52,7 +52,7 @@
             display: contents;
         }
 
-        &:hover {
+        &:not([class*='_isDisabled']):hover {
             cursor: pointer;
 
             @include desktop {
@@ -344,14 +344,24 @@
                     }
                 }
             }
+
+            &:disabled {
+                color: var(--color-dark-gray);
+                cursor: default;
+                opacity: 0.5;
+                z-index: 5;
+            }
         }
 
-        &:disabled + .input-control {
+        &:disabled {
             color: var(--color-dark-gray);
-            cursor: auto;
+            cursor: default;
+            opacity: 0.5;
+            border: none;
+            z-index: 5;
         }
 
-        &:hover + .input-control {
+        &:hover:not(:disabled) + .input-control {
             cursor: pointer;
 
             @include desktop {
