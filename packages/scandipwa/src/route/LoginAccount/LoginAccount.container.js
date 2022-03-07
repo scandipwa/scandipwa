@@ -30,7 +30,6 @@ import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import LoginAccount from './LoginAccount.component';
-import LOCKED_ACCOUNT_ERROR_MESSAGE from './LoginAccount.config';
 
 /** @namespace Route/LoginAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -70,13 +69,8 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
                     isFromEmailChange = false,
                     isFromLocked = false
                 } = {}
-            },
-            showNotification
+            }
         } = this.props;
-
-        if (isFromLocked) {
-            showNotification('error', __(LOCKED_ACCOUNT_ERROR_MESSAGE));
-        }
 
         if (isSignedIn() && (!isFromEmailChange && !isFromLocked)) {
             history.replace(appendWithStoreCode(ACCOUNT_URL));

@@ -39,7 +39,7 @@ import history from 'Util/History';
 import { appendWithStoreCode, replace } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
-import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from './MyAccount.config';
+import { ACCOUNT_LOGIN_URL, ACCOUNT_URL, LOCKED_ACCOUNT_ERROR_MESSAGE } from './MyAccount.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -490,7 +490,7 @@ export class MyAccountContainer extends PureComponent {
 
     handleLocked() {
         const {
-            logout, updateIsLocked, baseLinkUrl
+            logout, updateIsLocked, baseLinkUrl, showNotification
         } = this.props;
 
         const path = baseLinkUrl
@@ -498,6 +498,7 @@ export class MyAccountContainer extends PureComponent {
             : replace(/\/customer\/account\/?.*/i, ACCOUNT_LOGIN_URL);
 
         history.replace({ pathname: path, state: { isFromLocked: true } });
+        showNotification('error', __(LOCKED_ACCOUNT_ERROR_MESSAGE));
         logout();
         updateIsLocked(false);
     }
