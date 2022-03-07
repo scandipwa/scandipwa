@@ -34,6 +34,7 @@ export class FieldSelect extends PureComponent {
         handleSelectListKeyPress: PropTypes.func.isRequired,
         handleSelectExpandedExpand: PropTypes.func.isRequired,
         handleSelectExpand: PropTypes.func.isRequired,
+        isSelectedOptionAvailable: PropTypes.bool.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         isDropdownOpenUpwards: PropTypes.bool.isRequired,
         isScrollable: PropTypes.bool.isRequired,
@@ -66,16 +67,14 @@ export class FieldSelect extends PureComponent {
 
     renderNativeSelect() {
         const {
-            setRef, attr, events, isDisabled, options, handleSelectListOptionClick
+            setRef, attr, events, isDisabled, options, handleSelectListOptionClick, isSelectedOptionAvailable
         } = this.props;
-        const defaultOption = options.filter((element) => element.isDefault === true);
-        const isDefaultOptionAvailable = defaultOption.isAvailable;
 
         return (
             <select
               block="FieldSelect"
               elem="Select"
-              mods={ { isDisabled: !isDefaultOptionAvailable } }
+              mods={ { isDisabled: !isSelectedOptionAvailable } }
               ref={ (elem) => setRef(elem) }
               disabled={ isDisabled }
               // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction

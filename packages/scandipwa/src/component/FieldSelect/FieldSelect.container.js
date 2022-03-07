@@ -50,7 +50,8 @@ export class FieldSelectContainer extends PureComponent {
         searchString: '',
         isExpanded: false,
         isDropdownOpenUpwards: false,
-        isScrollable: false
+        isScrollable: false,
+        isSelectedOptionAvailable: true
     };
 
     containerFunctions = {
@@ -74,6 +75,20 @@ export class FieldSelectContainer extends PureComponent {
 
     componentDidMount() {
         this.handleIsScrollableList();
+    }
+
+    componentDidUpdate() {
+        this.isSelectedOptionAvailable();
+    }
+
+    isSelectedOptionAvailable() {
+        const options = this.getOptions();
+        const selectedOptionIndex = this.fieldRef.options.selectedIndex;
+        const selectedOption = options[selectedOptionIndex];
+
+        if (selectedOption.isAvailable === false) {
+            this.setState({ isSelectedOptionAvailable: false });
+        }
     }
 
     setRef(elem) {
@@ -286,7 +301,12 @@ export class FieldSelectContainer extends PureComponent {
             isSortSelect
         } = this.props;
 
-        const { isExpanded, isDropdownOpenUpwards, isScrollable } = this.state;
+        const {
+            isExpanded,
+            isDropdownOpenUpwards,
+            isScrollable,
+            isSelectedOptionAvailable
+        } = this.state;
 
         return {
             attr: {
@@ -300,6 +320,7 @@ export class FieldSelectContainer extends PureComponent {
             isDropdownOpenUpwards,
             isScrollable,
             isSortSelect,
+            isSelectedOptionAvailable,
             options: this.getOptions()
         };
     }
