@@ -60,12 +60,7 @@ $select-arrow-width: 14px !default;
         }
 
         &_isDisabled {
-            pointer-events: none;
             opacity: 0.6;
-
-            @include mobile {
-                border-top: 1px solid var(--input-border-color-focus);
-            }
         }
     }
 
