@@ -383,6 +383,10 @@
 
     &_isCheckout {
         .Header {
+            &-IconsWrapper {
+                width: 1335px;
+            }
+
             &-Button_type_account {
                 display: block;
             }
@@ -396,7 +400,7 @@
 
             &-MyAccount {
                 @include desktop {
-                    margin-inline-start: auto;
+                    // margin-inline-start: auto;
                     height: 24px;
                 }
 
