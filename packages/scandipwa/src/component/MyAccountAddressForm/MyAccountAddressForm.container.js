@@ -178,7 +178,8 @@ export class MyAccountAddressFormContainer extends PureComponent {
             this.setState({
                 currentRegion: '',
                 currentRegionId: 1,
-                countryId: ''
+                countryId: '',
+                availableRegions: []
             });
 
             return;
