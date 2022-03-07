@@ -37,7 +37,6 @@ export const mapDispatchToProps = (dispatch) => ({
     ...sourceMapDispatchToProps(dispatch),
     toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
     showNotification: (type, message) => dispatch(showNotification(type, message))
-
 });
 
 /** @namespace Route/LoginAccount/Container */
@@ -75,12 +74,12 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
             showNotification
         } = this.props;
 
-        if (isSignedIn() && !isFromEmailChange && !isFromLocked) {
-            history.replace(appendWithStoreCode(ACCOUNT_URL));
-        }
-
         if (isFromLocked) {
             showNotification('error', __(LOCKED_ACCOUNT_ERROR_MESSAGE));
+        }
+
+        if (isSignedIn() && (!isFromEmailChange && !isFromLocked)) {
+            history.replace(appendWithStoreCode(ACCOUNT_URL));
         }
 
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
