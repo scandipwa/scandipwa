@@ -71,7 +71,8 @@ export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile,
     isInStoreActivated: state.ConfigReducer.delivery_instore_active,
     isGuestNotAllowDownloadable: state.ConfigReducer.downloadable_disable_guest_checkout,
-    savedEmail: state.CheckoutReducer.email
+    savedEmail: state.CheckoutReducer.email,
+    isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
@@ -146,7 +147,8 @@ export class CheckoutContainer extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         cartTotalSubPrice: PropTypes.number,
         isInStoreActivated: PropTypes.bool.isRequired,
-        isGuestNotAllowDownloadable: PropTypes.bool.isRequired
+        isGuestNotAllowDownloadable: PropTypes.bool.isRequired,
+        isSignedIn: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -224,6 +226,8 @@ export class CheckoutContainer extends PureComponent {
             }
         } = this.props;
 
+        const { email } = this.state;
+
         if (!items.length) {
             showInfoNotification(__('Please add at least one product to cart!'));
             history.push(appendWithStoreCode('/cart'));
@@ -237,6 +241,10 @@ export class CheckoutContainer extends PureComponent {
         // if guest is not allowed to checkout with downloadable => redirect to login page
         if (!isSignedIn() && isGuestNotAllowDownloadable) {
             this.handleRedirectIfDownloadableInCart();
+        }
+
+        if (email) {
+            this.checkEmailAvailability(email);
         }
 
         updateMeta({ title: __('Checkout') });
@@ -421,7 +429,8 @@ export class CheckoutContainer extends PureComponent {
             isMobile,
             setHeaderState,
             totals,
-            isInStoreActivated
+            isInStoreActivated,
+            isSignedIn
         } = this.props;
         const {
             billingAddress,
@@ -455,6 +464,7 @@ export class CheckoutContainer extends PureComponent {
             isEmailAvailable,
             isGuestEmailSaved,
             isInStoreActivated,
+            isSignedIn,
             isLoading,
             isMobile,
             orderID,

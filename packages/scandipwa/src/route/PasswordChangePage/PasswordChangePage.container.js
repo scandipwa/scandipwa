@@ -15,12 +15,14 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
 import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
+import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router.type';
+import { isSignedIn } from 'Util/Auth';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
 import { appendWithStoreCode, getQueryParam } from 'Util/Url';
@@ -124,6 +126,11 @@ export class PasswordChangePageContainer extends PureComponent {
         const { setHeaderState } = this.props;
         this.updateMeta();
         this.toggleBreadcrumbs(false);
+
+        if (isSignedIn()) {
+            history.replace({ pathname: appendWithStoreCode(ACCOUNT_URL) });
+        }
+
         setHeaderState({
             name: CUSTOMER_SUB_ACCOUNT,
             title: __('Change My Password'),

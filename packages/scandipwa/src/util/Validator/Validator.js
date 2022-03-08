@@ -191,7 +191,6 @@ export const validateGroup = (DOM, rule = null) => {
         }
     }
     //#endregion
-
     const { errorMessages, errorFields } = output;
     return errorMessages.length === 0 && errorFields.length === 0 ? true : output;
 };

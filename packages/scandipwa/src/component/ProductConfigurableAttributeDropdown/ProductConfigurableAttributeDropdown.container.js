@@ -22,7 +22,11 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
         updateConfigurableVariant: PropTypes.func.isRequired,
         getIsConfigurableAttributeAvailable: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        isUnselected: PropTypes.bool.isRequired
+        isUnselected: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isUnselected: false
     };
 
     containerFunctions = {
