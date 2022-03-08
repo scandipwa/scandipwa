@@ -262,6 +262,10 @@ export class Field extends PureComponent {
             return null;
         }
 
+        if (validationResponse.value && validationResponse.value === '0') {
+            return null;
+        }
+
         return (
             <div block="Field" elem="ErrorMessages">
                 { errorMessages.map((message, index) => this.renderErrorMessage.call(this, message, name + index)) }

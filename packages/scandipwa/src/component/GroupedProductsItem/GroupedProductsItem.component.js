@@ -20,7 +20,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { ProductType } from 'Type/ProductList.type';
 import {
-    getMaxQuantity, getPrice, getProductInStock, getThumbnailImage
+    getMaxQuantity, getMinQuantity, getPrice, getProductInStock, getThumbnailImage
 } from 'Util/Product/Extract';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
@@ -95,6 +95,7 @@ export class GroupedProductsItem extends PureComponent {
             );
         }
 
+        const min = getMinQuantity(product);
         const max = getMaxQuantity(product);
 
         return (
@@ -113,7 +114,7 @@ export class GroupedProductsItem extends PureComponent {
                   isRequired: true,
                   match: this.getError.bind(this),
                   range: {
-                      min: 0,
+                      min,
                       max
                   }
               } }
