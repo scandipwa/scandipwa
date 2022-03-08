@@ -45,6 +45,10 @@
     }
 
     &-Content {
+        .Field {
+            margin-block-start: 12px;
+        }
+
         input,
         textarea {
             font-size: 12px;
