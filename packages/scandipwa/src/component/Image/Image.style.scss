@@ -61,8 +61,9 @@
         height: 100%;
 
         td & {
-            height: auto;
             min-height: 100%;
+            display: block;
+            margin: auto;
         }
     }
 
