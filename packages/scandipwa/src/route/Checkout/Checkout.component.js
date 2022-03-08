@@ -112,7 +112,8 @@ export class Checkout extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        selectedStoreAddress: StoreType
+        selectedStoreAddress: StoreType,
+        isSignedIn: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -221,9 +222,14 @@ export class Checkout extends PureComponent {
             onEmailChange,
             onCreateUserChange,
             onPasswordChange,
-            isGuestEmailSaved
+            isGuestEmailSaved,
+            isSignedIn
         } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
+
+        if (isSignedIn) {
+            return null;
+        }
 
         return (
             <CheckoutGuestForm
