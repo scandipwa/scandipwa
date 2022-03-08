@@ -154,10 +154,10 @@
         }
     }
 
-    &-Remove[aria-label='Remove'] {
+    &-Remove {
         position: absolute;
         inset-inline-end: 4px;
-        inset-block-start: 4px;
+        inset-block-start: 5px;
 
         .CloseIcon {
             height: 30px;
@@ -165,9 +165,23 @@
         }
 
         @include mobile {
-            inset-block-start: -4px;
             inset-inline-end: -4px;
-            margin-block-start: -4px;
+
+            &_isOnlyNameShown {
+                inset-block-start: -4px;
+            }
+    
+            &_isOptionsAndNameShown {
+                inset-block-start: 2px;
+            }
+    
+            &_isOnlyRatingAndNameShown {
+                inset-block-start: 4px;
+            }
+    
+            &_isAllShown {
+                inset-block-start: 12px;
+            }
 
             .CloseIcon {
                 width: 24px;

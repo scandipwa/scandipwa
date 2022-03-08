@@ -182,13 +182,24 @@ export class WishlistItem extends PureComponent {
     }
 
     renderRemove() {
-        const { removeItem } = this.props;
+        const { removeItem, product: { rating_summary, wishlist: { options } } } = this.props;
+
+        const isOnlyNameShown = options.length === 0 && rating_summary === 0;
+        const isOptionsAndNameShown = options.length > 0;
+        const isOnlyRatingAndNameShown = rating_summary > 0;
+        const isAllShown = !isOnlyNameShown;
 
         return (
             <button
               block="WishlistItem"
               elem="Remove"
               onClick={ removeItem }
+              mods={ {
+                  isOnlyNameShown,
+                  isOptionsAndNameShown,
+                  isOnlyRatingAndNameShown,
+                  isAllShown
+              } }
               aria-label={ __('Remove') }
             >
                 <CloseIcon />
