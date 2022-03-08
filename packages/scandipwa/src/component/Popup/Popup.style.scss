@@ -84,10 +84,16 @@
 
         @include mobile {
             border-radius: 0;
-            height: -webkit-fill-available;
             position: fixed;
             inset-inline-start: 0;
             inset-inline-end: 0;
+            height: 100vh;
+            inset-block-start: var(--header-total-height);
+            padding-block-end: var(--navigation-tabs-height);
+
+            @supports (-webkit-touch-callout: none) {
+                height: -webkit-fill-available;
+            }
         }
     }
 

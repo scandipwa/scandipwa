@@ -33,11 +33,15 @@
             inset-block-start: var(--header-total-height);
             inset-inline-start: 0;
             width: 100%;
-            height: -webkit-fill-available;
             padding-block-end: var(--navigation-tabs-height);
             overflow: scroll;
             overflow-x: hidden;
             max-width: 100%;
+            height: 100vh;
+
+            @supports (-webkit-touch-callout: none) {
+                height: -webkit-fill-available;
+            }
         }
     }
 
