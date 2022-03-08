@@ -53,7 +53,7 @@
                 position: absolute;
                 inset-block-start: 50%;
                 transform: translateY(-50%);
-                inset-inline-start: calc(100% + 0.5rem);
+                inset-inline-start: calc(100% + 1rem);
             }
         }
     }
@@ -61,7 +61,7 @@
     &-TACLabel {
         display: flex;
         align-items: center;
-        margin-inline-end: 0.5em;
+        margin-inline-end: 5px;
 
         &:hover {
             cursor: pointer;
@@ -70,15 +70,20 @@
                 color: var(--primary-base-color);
             }
         }
+
+        @include mobile {
+            width: clamp(150px, 50vw, 250px);
+        }
     }
 
     &-TACLink {
         font-size: 14px;
         font-weight: 700;
         color: var(--link-color);
-        margin-inline-start: 0.5em;
         display: flex;
         cursor: pointer;
+        white-space: nowrap;
+        margin-inline-start: 2rem;
 
         &:hover {
             text-decoration: underline;
