@@ -363,7 +363,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
             return (
                 <>
                     { this.renderPrice(
-                        totalDiscount,
+                        -totalDiscount,
                         currency,
                         __('Discount Amount')
                     ) }
