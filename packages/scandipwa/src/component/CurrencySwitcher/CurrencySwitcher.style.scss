@@ -16,6 +16,7 @@
 
     @include mobile {
         margin: 0 16px;
+        padding-block-end: 1px;
     }
 
     .Field {

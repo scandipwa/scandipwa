@@ -14,12 +14,15 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ERROR_TYPE } from 'Component/Notification/Notification.config';
+import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router.type';
+import { isSignedIn } from 'Util/Auth';
 import transformToNameValuePair from 'Util/Form/Transform';
-import { convertQueryStringToKeyValuePairs } from 'Util/Url';
+import history from 'Util/History';
+import { appendWithStoreCode, convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
 
@@ -75,6 +78,10 @@ export class ConfirmAccountPageContainer extends PureComponent {
 
     componentDidMount() {
         const { updateMeta, toggleBreadcrumbs } = this.props;
+
+        if (isSignedIn()) {
+            history.replace({ pathname: appendWithStoreCode(ACCOUNT_URL) });
+        }
 
         updateMeta({ title: __('Confirm account') });
         toggleBreadcrumbs(false);

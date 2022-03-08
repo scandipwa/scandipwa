@@ -454,7 +454,6 @@
     "Up to %s": null,
     "From %s": null,
     "From %s to %s": null,
-    "Please fill in all rating fields": null,
     "Product %s thumbnail.": null,
     "County": null,
     "State/Province": null,
@@ -586,5 +585,8 @@
     "Not possible to fetch while offline": null,
     "Buy %s with ": null,
     "%s% discount each": null,
-    "Product list navigation": null
+    "If there is an account associated with %s you will receive an email with a link to reset your password.": null,
+    "If there is an account associated with %s you will receive an email with a link to reset your password": null,
+    " discount each": null,
+    "Sort by": null
 }
