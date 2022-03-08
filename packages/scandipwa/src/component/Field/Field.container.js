@@ -134,6 +134,7 @@ export class FieldContainer extends PureComponent {
         const {
             validationRule: { range }, type, attr: { name } = {}
         } = this.props;
+        const { showLengthError } = this.state;
         const value = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio
             ? !!this.fieldRef.checked
             : this.fieldRef.value;
@@ -145,8 +146,6 @@ export class FieldContainer extends PureComponent {
         // If validation is called from different object you can pass object
         // to store validation error values
         if (data && data.detail && response !== true) {
-            const { showLengthError } = range || false;
-
             if (!data.detail.errors) {
                 // eslint-disable-next-line no-param-reassign
                 data.detail.errors = [];
@@ -161,8 +160,8 @@ export class FieldContainer extends PureComponent {
             data.detail.errors.push(output);
         }
 
-        //When submit and response equals true (it can be object) reset show length error
-        if (data && response === true) {
+        // When submit and response equals true (it can be object) reset show length error
+        if (response === true) {
             this.setState({ showLengthError: false });
         }
 
