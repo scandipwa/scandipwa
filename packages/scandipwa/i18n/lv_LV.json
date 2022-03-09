@@ -589,5 +589,6 @@
     "If there is an account associated with %s you will receive an email with a link to reset your password": null,
     " discount each": null,
     "Sort by": null,
-    "Unable To Reset Password The URL is invalid. Some parameters are missing.": null
+    "Unable To Reset Password The URL is invalid. Some parameters are missing.": null,
+    "Unable to change password": null
 }
