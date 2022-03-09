@@ -589,5 +589,7 @@
     "Sort by": null,
     "If there is an account associated with %s you will receive an email with a link to reset your password": null,
     " discount each": null,
-    "Sort by": null
+    "Sort by": null,
+    "Minimum of different classes of characters in password is %s. ": null,
+    "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null
 }

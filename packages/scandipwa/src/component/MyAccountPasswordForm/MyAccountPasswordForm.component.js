@@ -20,7 +20,8 @@ import myAccountPasswordForm from './MyAccountPasswordForm.form';
 export class MyAccountPasswordForm extends FieldForm {
     static propTypes = {
         onPasswordChange: PropTypes.func.isRequired,
-        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired
+        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     onFormSuccess(form, fields) {
@@ -29,9 +30,9 @@ export class MyAccountPasswordForm extends FieldForm {
     }
 
     get fieldMap() {
-        const { range } = this.props;
+        const { range, minimunPasswordCharacter } = this.props;
 
-        return myAccountPasswordForm(range);
+        return myAccountPasswordForm(range, minimunPasswordCharacter);
     }
 
     getFormProps() {
