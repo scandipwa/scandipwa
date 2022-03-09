@@ -64,6 +64,7 @@
                 overflow-y: auto;
                 width: min-content;
                 min-width: var(--selector-width);
+                max-height: fit-content;
 
                 &_isExpanded {
                     border-block-start: 1px solid var(--primary-divider-color);
