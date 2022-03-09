@@ -25,13 +25,56 @@ export class PasswordChangePage extends PureComponent {
         onPasswordSuccess: PropTypes.func.isRequired,
         onError: PropTypes.func.isRequired,
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        shouldDisplayWarning: PropTypes.bool.isRequired
     };
 
-    renderContent() {
+    renderWarningMessage() {
+        const { shouldDisplayWarning } = this.props;
+
+        if (!shouldDisplayWarning) {
+            return null;
+        }
+
+        return (
+            <div block="PasswordChangePage" elem="WarningMsg">
+                <h2>
+                    { __('Unable to confirm account') }
+                </h2>
+                <div>
+                    { __('Unable To Reset Password The URL is invalid. Some parameters are missing.') }
+                </div>
+            </div>
+        );
+    }
+
+    renderPageContents() {
         const {
-            isLoading, onError, onPasswordSuccess, isMobile, range
+            range,
+            onError,
+            isMobile,
+            onPasswordSuccess,
+            shouldDisplayWarning
         } = this.props;
+
+        if (shouldDisplayWarning) {
+            return null;
+        }
+
+        return (
+            <>
+                { !isMobile && <h1>{ __('Change My Password') }</h1> }
+                <PasswordChangeForm
+                  onFormError={ onError }
+                  onFormSubmit={ onPasswordSuccess }
+                  range={ range }
+                />
+            </>
+        );
+    }
+
+    renderContent() {
+        const { isLoading } = this.props;
 
         return (
             <ContentWrapper
@@ -40,12 +83,8 @@ export class PasswordChangePage extends PureComponent {
               label={ __('Password Change Actions') }
             >
                 <Loader isLoading={ isLoading } />
-                { !isMobile && <h1>{ __('Change My Password') }</h1> }
-                <PasswordChangeForm
-                  onFormError={ onError }
-                  onFormSubmit={ onPasswordSuccess }
-                  range={ range }
-                />
+                { this.renderWarningMessage() }
+                { this.renderPageContents() }
             </ContentWrapper>
         );
     }
