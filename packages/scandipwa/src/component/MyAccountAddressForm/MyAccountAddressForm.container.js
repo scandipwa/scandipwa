@@ -117,9 +117,9 @@ export class MyAccountAddressFormContainer extends PureComponent {
     }
 
     getCurrentAddress() {
-        const { address } = this.props;
+        const { address, address: { id: addressId } } = this.props;
 
-        if (!address.id) {
+        if (!addressId) {
             return {
                 region: '',
                 regionId: 1,
@@ -127,6 +127,7 @@ export class MyAccountAddressFormContainer extends PureComponent {
                 city: ''
             };
         }
+
         const { region: { region, region_id: regionId }, postcode, city } = address;
 
         return {
