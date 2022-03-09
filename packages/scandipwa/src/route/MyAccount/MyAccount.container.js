@@ -498,7 +498,7 @@ export class MyAccountContainer extends PureComponent {
             : replace(/\/customer\/account\/?.*/i, ACCOUNT_LOGIN_URL);
 
         history.replace({ pathname: path, state: { isFromLocked: true } });
-        showNotification('error', __(LOCKED_ACCOUNT_ERROR_MESSAGE));
+        showNotification('error', LOCKED_ACCOUNT_ERROR_MESSAGE);
         logout();
         updateIsLocked(false);
     }

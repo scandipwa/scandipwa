@@ -173,7 +173,7 @@ export class MyAccountInformationContainer extends PureComponent {
             history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
         }
 
-        showSuccessNotification('You saved the account information.');
+        showSuccessNotification(__('You saved the account information.'));
     }
 
     handleLogout(state) {

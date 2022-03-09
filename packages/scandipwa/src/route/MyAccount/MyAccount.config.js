@@ -19,5 +19,5 @@ export const ACCOUNT_URL = '/customer/account';
 export const ACCOUNT_ORDER_URL = '/sales/order/view/order_id';
 export const ACCOUNT_ORDER_PRINT_URL = 'sales/order/print/order_id';
 export const ACCOUNT_ORDER_HISTORY = 'sales/order/history';
-export const LOCKED_ACCOUNT_ERROR_MESSAGE = `The account sign-in was incorrect or your account is disabled temporarily. 
-                                            Please wait and try again later.`;
+// eslint-disable-next-line max-len
+export const LOCKED_ACCOUNT_ERROR_MESSAGE = __('The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.');
