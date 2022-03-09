@@ -25,10 +25,6 @@ $select-arrow-width: 14px !default;
         #CurrencySwitcherList {
             line-height: 20px;
         }
-
-        @include mobile {
-            border-block-end: 1px solid var(--primary-divider-color);
-        }
     }
 
     .ChevronIcon {
