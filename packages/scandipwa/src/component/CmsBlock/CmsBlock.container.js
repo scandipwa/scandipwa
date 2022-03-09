@@ -25,6 +25,10 @@ export class CmsBlockContainer extends DataContainer {
         cmsBlock: {}
     };
 
+    __construct() {
+        super.__construct('CmsBlockContainer');
+    }
+
     containerProps() {
         const { blockType } = this.props;
         const { cmsBlock } = this.state;
