@@ -79,10 +79,15 @@ export class CheckoutDeliveryOption extends PureComponent {
         }
 
         return (
-            <strong>
-                { ` - ${ this.getOptionPrice() }` }
+            <div
+              block="CheckoutDeliveryOption"
+              elem="Price"
+            >
+                <strong>
+                    { ` - ${ this.getOptionPrice() }` }
+                </strong>
                 { this.renderSubPrice() }
-            </strong>
+            </div>
         );
     }
 
