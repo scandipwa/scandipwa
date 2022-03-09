@@ -33,6 +33,8 @@ import {
 import { magentoProductTransform, transformParameters } from 'Util/Product/Transform';
 import { validateGroup } from 'Util/Validator';
 
+import { getGroupedProductsInStockQuantity } from '../../util/Product/Extract';
+
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
@@ -166,9 +168,7 @@ export class ProductContainer extends PureComponent {
         }
 
         if (typeId === PRODUCT_TYPE.grouped) {
-            const { items = [] } = product;
-
-            return items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
+            return getGroupedProductsInStockQuantity(product);
         }
 
         const minQty = getMinQuantity(selectedProduct || product);
