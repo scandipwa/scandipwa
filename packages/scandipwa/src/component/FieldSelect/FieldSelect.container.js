@@ -85,10 +85,9 @@ export class FieldSelectContainer extends PureComponent {
         const options = this.getOptions();
         const selectedOptionIndex = this.fieldRef.options.selectedIndex;
         const selectedOption = options[selectedOptionIndex];
+        const isAvailable = selectedOption.isAvailable !== false;
 
-        if (selectedOption.isAvailable === false) {
-            this.setState({ isSelectedOptionAvailable: false });
-        }
+        this.setState({ isSelectedOptionAvailable: isAvailable });
     }
 
     setRef(elem) {
