@@ -382,9 +382,14 @@
     }
 
     &_isCheckout {
+        .Header-Nav {
+            display: flex;
+            inset-inline-start: 32px;
+        }
+
         .Header {
             &-IconsWrapper {
-                width: 1335px;
+                width: 98%;
             }
 
             &-Button_type_account {
