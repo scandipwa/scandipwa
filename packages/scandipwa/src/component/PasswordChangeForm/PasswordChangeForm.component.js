@@ -22,15 +22,17 @@ export class PasswordChangeForm extends FieldForm {
     static propsTypes = {
         onFormSubmit: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired,
-        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired
+        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     get fieldMap() {
         const {
-            range
+            range,
+            minimunPasswordCharacter
         } = this.props;
 
-        return customerEmailAndPasswordFields(range);
+        return customerEmailAndPasswordFields(range, minimunPasswordCharacter);
     }
 
     getFormProps() {
