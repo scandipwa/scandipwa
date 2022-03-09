@@ -109,11 +109,16 @@ export class Popup extends Overlay {
 
     // Same with click outside
     handleClickOutside() {
-        const { clickOutside } = this.props;
+        const { clickOutside, isMobile } = this.props;
 
         if (!clickOutside) {
             return;
         }
+
+        if (isMobile) {
+            return;
+        }
+
         this.hidePopupAndGoBack();
     }
 
