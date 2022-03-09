@@ -322,7 +322,7 @@ export class ProductCard extends Product {
 
         return (
             this.renderCardLinkWrapper((
-                <>
+                <div block="ProductCard" elem="LinkInnerWrapper">
                     <div block="ProductCard" elem="FigureReview">
                         <figure block="ProductCard" elem="Figure">
                             { this.renderPicture() }
@@ -337,7 +337,7 @@ export class ProductCard extends Product {
                     <div block="ProductCard" elem="VisibleOnHover">
                         { this.renderVisibleOnHover() }
                     </div>
-                </>
+                </div>
             ))
         );
     }

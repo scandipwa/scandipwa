@@ -199,6 +199,11 @@
         inset-block-start: 0;
     }
 
+    &-LinkInnerWrapper {
+        width: 100%;
+        height: 100%;
+    }
+
     &-FigureReview {
         background: var(--product-card-background);
         display: flex;
@@ -242,7 +247,7 @@
 
     &-Color,
     &-Image {
-        display: inline-block;
+        // display: inline-block;
         width: var(--product-card-color-size);
         height: var(--product-card-color-size);
         border-radius: 50%;
@@ -298,11 +303,11 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-
+        
         &:hover,
         &:focus {
-            text-decoration: none;
             color: initial;
+            text-decoration: none;
         }
     }
 
