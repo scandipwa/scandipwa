@@ -180,10 +180,11 @@ export class CategoryPage extends PureComponent {
             isContentFiltered,
             totalPages,
             category: { is_anchor },
-            isSearchPage
+            isSearchPage,
+            isCurrentCategoryLoaded
         } = this.props;
 
-        if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage)) {
+        if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage) || !isCurrentCategoryLoaded) {
             return null;
         }
 
