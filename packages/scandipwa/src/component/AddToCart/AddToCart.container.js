@@ -48,7 +48,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /* @namespace Component/AddToCart/Container */
 export class AddToCartContainer extends PureComponent {
     static propTypes = {
-        product: ProductType.isRequired,
+        product: ProductType,
         quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.objectOf(PropTypes.number)]),
         cartId: PropTypes.string,
         showNotification: PropTypes.func.isRequired,
@@ -63,6 +63,7 @@ export class AddToCartContainer extends PureComponent {
 
     static defaultProps = {
         quantity: 1,
+        product: {},
         cartId: '',
         mix: {},
         layout: GRID_LAYOUT,
