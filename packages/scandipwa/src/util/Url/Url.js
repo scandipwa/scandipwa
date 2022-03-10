@@ -105,8 +105,10 @@ export const getQueryParam = (variable, location) => {
     const vars = query.split('&');
 
     return vars.reduce((acc, item) => {
-        const [k, v] = item.split('=');
-        return k === variable ? v : acc;
+        const splitIdx = item.indexOf('=');
+        const [k, v] = [item.slice(0, splitIdx), item.slice(splitIdx + 1)];
+
+        return k === variable ? v.replaceAll('=', ':') : acc;
     }, false);
 };
 
