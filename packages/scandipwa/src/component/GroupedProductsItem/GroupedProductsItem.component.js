@@ -72,8 +72,16 @@ export class GroupedProductsItem extends PureComponent {
             product = {}
         } = this.props;
 
+        const valueNum = +value;
+
         if (!!+value && !getProductInStock(product)) {
             return __('Product is out of stock');
+        }
+
+        const min = getMinQuantity(product);
+
+        if (valueNum !== 0 && valueNum < min) {
+            return __('Minimal value is %s!', min);
         }
 
         return true;
@@ -95,7 +103,6 @@ export class GroupedProductsItem extends PureComponent {
             );
         }
 
-        const min = getMinQuantity(product);
         const max = getMaxQuantity(product);
 
         return (
@@ -114,7 +121,6 @@ export class GroupedProductsItem extends PureComponent {
                   isRequired: true,
                   match: this.getError.bind(this),
                   range: {
-                      min,
                       max
                   }
               } }
