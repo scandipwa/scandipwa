@@ -131,7 +131,7 @@ export class CheckoutOrderSummary extends PureComponent {
                   elem="Heading"
                   mix={ { block: 'CheckoutOrderSummary', elem: 'ExpandableContentHeading' } }
                 >
-                { __('Have a discount code?') }
+                    { __('Have a discount code?') }
                 </div>
                 <CartCoupon couponCode={ coupon_code } />
             </>
