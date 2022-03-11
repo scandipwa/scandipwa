@@ -70,3 +70,5 @@ export const FieldGroupValidationResponseType = PropTypes.oneOfType([PropTypes.s
     errorMessages: PropTypes.arrayOf(ErrorMessageShape),
     values: PropTypes.arrayOf(ValuesShape)
 }), PropTypes.bool]);
+
+export const DateType = PropTypes.oneOfType([PropTypes.number, PropTypes.string]);

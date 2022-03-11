@@ -55,8 +55,7 @@ export class MyAccountSignInContainer extends PureComponent {
         isEmailAvailable: PropTypes.bool,
         setSignInState: PropTypes.func,
         handleEmailInput: PropTypes.func,
-        isLocked: PropTypes.string.isRequired,
-        updateCustomerLockedStatus: PropTypes.func.isRequired
+        isLocked: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
