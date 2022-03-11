@@ -79,6 +79,10 @@ export class FieldContainer extends PureComponent {
 
     fieldRef = createRef();
 
+    componentDidMount() {
+        this.validate();
+    }
+
     //#region VALIDATION
     // Removes event listener for validation from field
     componentWillUnmount() {
