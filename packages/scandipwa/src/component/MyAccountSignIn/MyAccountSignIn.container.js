@@ -65,7 +65,7 @@ export class MyAccountSignInContainer extends PureComponent {
 
     state = {
         isSignIn: false
-    }
+    };
 
     containerFunctions = {
         onSignInSuccess: this.onSignInSuccess.bind(this)
