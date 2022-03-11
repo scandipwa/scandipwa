@@ -382,12 +382,13 @@
     }
 
     &_isCheckout {
-        .Header-Nav {
-            display: flex;
-            inset-inline-start: 32px;
-        }
 
         .Header {
+            &-Nav {
+                display: flex;
+                inset-inline-start: 32px;
+            }
+
             &-IconsWrapper {
                 width: 98%;
             }
@@ -405,7 +406,6 @@
 
             &-MyAccount {
                 @include desktop {
-                    // margin-inline-start: auto;
                     height: 24px;
                 }
 
