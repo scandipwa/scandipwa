@@ -130,13 +130,14 @@ export class CheckoutDeliveryOption extends PureComponent {
     renderRow() {
         const {
             option: {
-                carrier_title
+                carrier_title,
+                available
             } = {}
         } = this.props;
 
         return (
             <div block="CheckoutDeliveryOption" elem="Row">
-                <span>
+                <span block="CheckoutDeliveryOption" elem="Span" mods={ { isDisabled: !available } }>
                     { __('Carrier method: ') }
                     <strong>{ carrier_title }</strong>
                 </span>

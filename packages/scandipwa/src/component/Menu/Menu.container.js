@@ -41,7 +41,7 @@ export class MenuContainer extends DataContainer {
     };
 
     __construct(props) {
-        super.__construct(props);
+        super.__construct(props, 'MenuContainer');
 
         const {
             stack: activeMenuItemsStack = []

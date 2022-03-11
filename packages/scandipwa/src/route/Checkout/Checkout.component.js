@@ -114,7 +114,8 @@ export class Checkout extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         selectedStoreAddress: StoreType,
-        onCouponCodeUpdate: PropTypes.func
+        onCouponCodeUpdate: PropTypes.func,
+        isSignedIn: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -224,9 +225,14 @@ export class Checkout extends PureComponent {
             onEmailChange,
             onCreateUserChange,
             onPasswordChange,
-            isGuestEmailSaved
+            isGuestEmailSaved,
+            isSignedIn
         } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
+
+        if (isSignedIn) {
+            return null;
+        }
 
         return (
             <CheckoutGuestForm
