@@ -80,7 +80,7 @@ export const customerInformationFields = (props) => {
             type: FIELD_TYPE.checkbox,
             attr: {
                 name: 'showEmailChangeField',
-                defaultChecked: showEmailChangeField
+                checked: showEmailChangeField
             },
             events: {
                 onChange: handleChangeEmailCheckbox
@@ -91,7 +91,7 @@ export const customerInformationFields = (props) => {
             type: FIELD_TYPE.checkbox,
             attr: {
                 name: 'showPasswordChangeField',
-                defaultChecked: showPasswordChangeField
+                checked: showPasswordChangeField
             },
             events: {
                 onChange: handleChangePasswordCheckbox

@@ -25,6 +25,7 @@ import {
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
+import { DateType } from 'Type/Field.type';
 import { isMagentoDateFormatValid, zeroBasedValue } from 'Util/Form/Extract';
 import { range } from 'Util/Manipulations';
 
@@ -33,18 +34,18 @@ import './DateSelect.style.scss';
 /** @namespace Component/DateSelect/Component */
 export class DateSelectComponent extends PureComponent {
     static propTypes = {
-        type: PropTypes.shape(PropTypes.oneOf(Object.values(FIELD_DATE_TYPE))).isRequired,
+        type: PropTypes.oneOf(Object.values(FIELD_DATE_TYPE)).isRequired,
         onSetYear: PropTypes.func.isRequired,
         onSetMonth: PropTypes.func.isRequired,
         onSetDay: PropTypes.func.isRequired,
         onSetHours: PropTypes.func.isRequired,
         onSetMinutes: PropTypes.func.isRequired,
         onSetAMPM: PropTypes.func.isRequired,
-        selectedYear: PropTypes.string.isRequired,
-        selectedMonth: PropTypes.string.isRequired,
-        selectedDay: PropTypes.string.isRequired,
-        selectedHours: PropTypes.string.isRequired,
-        selectedMinutes: PropTypes.string.isRequired,
+        selectedYear: DateType.isRequired,
+        selectedMonth: DateType.isRequired,
+        selectedDay: DateType.isRequired,
+        selectedHours: DateType.isRequired,
+        selectedMinutes: DateType.isRequired,
         selectedAMPM: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
         isRequired: PropTypes.bool.isRequired,
@@ -105,7 +106,11 @@ export class DateSelectComponent extends PureComponent {
 
     getAMPMOptions() {
         const ampmRange = Object.values(AMPM_FORMAT);
-        return ampmRange.map((option) => ({ id: option, value: option, label: option }));
+        return ampmRange.map((option) => ({
+            id: option.toString(),
+            value: option.toString(),
+            label: option.toString()
+        }));
     }
 
     renderYear() {
@@ -129,6 +134,7 @@ export class DateSelectComponent extends PureComponent {
                   [FIELD_TYPE_ATTR]: type,
                   [FIELD_NAME_ATTR]: 'year'
               } }
+              key={ `${type}-year-${ uid }` }
               options={ this.getYearOptions() }
               mix={ { block: 'DateSelect', elem: 'Year' } }
               events={ {
@@ -163,6 +169,7 @@ export class DateSelectComponent extends PureComponent {
                   [FIELD_TYPE_ATTR]: type,
                   [FIELD_NAME_ATTR]: 'month'
               } }
+              key={ `${type}-month-${ uid }` }
               options={ this.getMonthOptions() }
               mix={ { block: 'DateSelect', elem: 'Month' } }
               events={ {
@@ -197,6 +204,7 @@ export class DateSelectComponent extends PureComponent {
                   [FIELD_TYPE_ATTR]: type,
                   [FIELD_NAME_ATTR]: 'day'
               } }
+              key={ `${type}-day-${ uid }` }
               options={ this.getDayOptions() }
               mix={ { block: 'DateSelect', elem: 'Day' } }
               events={ {
@@ -231,6 +239,7 @@ export class DateSelectComponent extends PureComponent {
                   [FIELD_TYPE_ATTR]: type,
                   [FIELD_NAME_ATTR]: 'hours'
               } }
+              key={ `${type}-hours-${ uid }` }
               options={ this.getHoursOptions() }
               mix={ { block: 'DateSelect', elem: 'Hours' } }
               events={ {
@@ -270,6 +279,7 @@ export class DateSelectComponent extends PureComponent {
               events={ {
                   onChange: onSetMinutes
               } }
+              key={ `${type}-minutes-${ uid }` }
               validationRule={ {
                   isRequired
               } }
@@ -304,6 +314,7 @@ export class DateSelectComponent extends PureComponent {
                   [FIELD_TYPE_ATTR]: type,
                   [FIELD_NAME_ATTR]: 'ampm'
               } }
+              key={ `${type}-ampm-${ uid }` }
               options={ this.getAMPMOptions() }
               mix={ { block: 'DateSelect', elem: 'AMPM' } }
               events={ {

@@ -338,3 +338,10 @@ export const LinkedProductsType = PropTypes.objectOf(
         total_count: PropTypes.number
     })
 );
+
+export const QuantityType = PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.shape({
+        [PropTypes.string]: PropTypes.number
+    })
+]);

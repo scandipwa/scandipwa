@@ -41,11 +41,16 @@ export const EventsType = PropTypes.objectOf(PropTypes.func);
 
 export const FieldAttrType = PropTypes.object;
 
+export const StringType = PropTypes.shape({
+    injectables: PropTypes.arrayOf(PropTypes.string),
+    value: PropTypes.string
+});
+
 export const FieldOptionsType = PropTypes.arrayOf(
     PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        label: LabelType,
-        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number, StringType]),
+        label: PropTypes.oneOfType([LabelType, PropTypes.number, StringType]),
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, StringType])
     })
 );
 
@@ -55,21 +60,18 @@ export const ValuesShape = PropTypes.shape({
     name: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 });
 
-export const ErrorMessageShape = PropTypes.shape({
-    injectables: PropTypes.arrayOf(PropTypes.string),
-    value: PropTypes.string
-});
-
 export const errorFieldShape = PropTypes.arrayOf(PropTypes.shape({
-    errorMessages: PropTypes.arrayOf(ErrorMessageShape),
+    errorMessages: PropTypes.arrayOf(StringType),
     ...ValuesShape
 }));
 
 export const FieldGroupValidationResponseType = PropTypes.oneOfType([
     PropTypes.shape({
         errorFields: PropTypes.arrayOf(errorFieldShape),
-        errorMessages: PropTypes.arrayOf(ErrorMessageShape),
+        errorMessages: PropTypes.arrayOf(StringType),
         values: PropTypes.arrayOf(ValuesShape)
     }),
     PropTypes.bool
 ]);
+
+export const DateType = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
