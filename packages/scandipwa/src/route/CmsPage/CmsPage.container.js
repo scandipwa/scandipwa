@@ -86,7 +86,7 @@ export class CmsPageContainer extends DataContainer {
     setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
 
     __construct(props) {
-        super.__construct(props);
+        super.__construct(props, 'CmsPageContainer');
 
         this.updateBreadcrumbs();
     }
@@ -225,6 +225,7 @@ export class CmsPageContainer extends DataContainer {
     }
 
     requestPage() {
+        const { isOffline } = this.props;
         const params = this.getRequestQueryParams();
         const { id, identifier } = params;
 
@@ -237,7 +238,8 @@ export class CmsPageContainer extends DataContainer {
         this.fetchData(
             [CmsPageQuery.getQuery(params)],
             this.onPageLoad.bind(this),
-            () => this.setState({ isLoading: false })
+            () => this.setState({ isLoading: false }),
+            isOffline
         );
     }
 

@@ -38,6 +38,7 @@ export class FieldContainer extends PureComponent {
         options: FieldOptionsType,
         elemRef: RefType,
         changeValueOnDoubleClick: PropTypes.bool,
+        isSortSelect: PropTypes.bool,
 
         // Validation
         validationRule: ValidationRuleType,
@@ -64,7 +65,8 @@ export class FieldContainer extends PureComponent {
         label: '',
         subLabel: '',
         elemRef: null,
-        changeValueOnDoubleClick: false
+        changeValueOnDoubleClick: false,
+        isSortSelect: false
     };
 
     state = {
@@ -166,7 +168,8 @@ export class FieldContainer extends PureComponent {
             label,
             subLabel,
             addRequiredTag,
-            changeValueOnDoubleClick
+            changeValueOnDoubleClick,
+            isSortSelect
         } = this.props;
         const { validationResponse } = this.state;
         const { validate } = this.containerFunctions;
@@ -192,6 +195,7 @@ export class FieldContainer extends PureComponent {
             subLabel,
             addRequiredTag,
             changeValueOnDoubleClick,
+            isSortSelect,
             validationResponse,
             events: newEvents,
             fieldRef: this.fieldRef,
