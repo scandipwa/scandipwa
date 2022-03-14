@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/chunk-optimizer",
     "description": "Webpack chunk optimizer extension used by CSA.",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "license": "OSL-3.0",
     "scandipwa": {
         "type": "extension",

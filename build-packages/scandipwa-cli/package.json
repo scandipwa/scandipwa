@@ -1,7 +1,7 @@
 {
     "name": "scandipwa-cli",
     "description": "ScandiPWA CLI command used by CSA.",
-    "version": "0.3.16",
+    "version": "0.3.17",
     "bin": {
         "scandipwa": "index.js"
     },
