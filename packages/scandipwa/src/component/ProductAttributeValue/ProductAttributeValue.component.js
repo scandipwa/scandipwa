@@ -329,7 +329,7 @@ export class ProductAttributeValue extends PureComponent {
         const isSwatch = label;
 
         if (isFormattedAsText) {
-            return label || value || __('N/A');
+            return label || <Html content={ value } /> || __('N/A');
         }
 
         if (!isSwatch) {
