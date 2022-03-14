@@ -33,6 +33,10 @@ export const mapStateToProps = () => ({});
 
 /** @namespace Component/ShareWishlistPopup/Container */
 export class ShareWishlistPopupContainer extends PureComponent {
+    state = {
+        isLoading: false
+    };
+
     static propTypes = {
         showError: PropTypes.func.isRequired,
         hidePopup: PropTypes.func.isRequired,
@@ -43,6 +47,14 @@ export class ShareWishlistPopupContainer extends PureComponent {
         handleFormData: this.handleFormData.bind(this)
     };
 
+    containerProps() {
+        const { isLoading } = this.state;
+
+        return {
+            isFormLoading: isLoading
+        };
+    }
+
     handleFormData(fields) {
         const { hidePopup, showError, showNotification } = this.props;
         const { message, emails: initialEmails } = fields;
@@ -52,20 +64,27 @@ export class ShareWishlistPopupContainer extends PureComponent {
             return;
         }
 
+        this.setState({ isLoading: true });
+
         fetchMutation(WishlistQuery.getShareWishlistMutation({ message, emails })).then(
             /** @namespace Component/ShareWishlistPopup/Container/ShareWishlistPopupContainer/handleFormData/fetchMutation/then */
             () => {
                 showNotification(__('Wishlist has been shared'));
                 hidePopup();
+                this.setState({ isLoading: false });
             },
-            /** @namespace Component/ShareWishlistPopup/Container/ShareWishlistPopupContainer/handleFormData/fetchMutation/then/showError/catch */
-            (error) => showError(getErrorMessage(error))
+            /** @namespace Component/ShareWishlistPopup/Container/ShareWishlistPopupContainer/handleFormData/fetchMutation/then/catch */
+            (error) => {
+                showError(getErrorMessage(error));
+                this.setState({ isLoading: false });
+            }
         );
     }
 
     render() {
         return (
             <ShareWishlistPopup
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

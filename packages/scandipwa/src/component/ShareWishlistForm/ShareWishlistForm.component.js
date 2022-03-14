@@ -11,6 +11,7 @@
 import PropTypes from 'prop-types';
 
 import FieldForm from 'Component/FieldForm';
+import Loader from 'Component/Loader';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import shareWishlistForm from './ShareWishlistForm.form';
@@ -18,7 +19,8 @@ import shareWishlistForm from './ShareWishlistForm.form';
 /** @namespace Component/ShareWishlistForm/Component */
 export class ShareWishlistForm extends FieldForm {
     static propTypes = {
-        onSave: PropTypes.func.isRequired
+        onSave: PropTypes.func.isRequired,
+        isFormLoading: PropTypes.bool.isRequired
     };
 
     onFormSuccess = this.onFormSuccess.bind(this);
@@ -27,16 +29,20 @@ export class ShareWishlistForm extends FieldForm {
         return shareWishlistForm();
     }
 
-    onFormSuccess(form, fields) {
+    async onFormSuccess(form, fields) {
         const { onSave } = this.props;
-        onSave(transformToNameValuePair(fields));
+
+        await onSave(transformToNameValuePair(fields));
     }
 
     renderActions() {
         return (
+            <>
+           { this.props.isFormLoading && <Loader isLoading /> }
             <button type="submit" block="Button">
                 { __('Share Wishlist') }
             </button>
+            </>
         );
     }
 
