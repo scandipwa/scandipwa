@@ -52,7 +52,7 @@ export class ProductCompareAttributeRow extends PureComponent {
             device: { isMobile },
             values = []
         } = this.props;
-        const renderableValues = values.map(this.renderValue);
+        const renderableValues = values.map(this.renderValue.bind(this));
 
         if (!isMobile) {
             return renderableValues;
