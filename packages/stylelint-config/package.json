@@ -1,6 +1,6 @@
 {
     "name": "@scandipwa/stylelint-config",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "license": "OSL-3.0",
     "scandipwa": {
         "type": "extension",
