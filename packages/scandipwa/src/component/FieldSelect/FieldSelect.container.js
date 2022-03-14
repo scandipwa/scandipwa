@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -48,6 +49,7 @@ export class FieldSelectContainer extends PureComponent {
     state = {
         valueIndex: -1,
         searchString: '',
+        selectedOptionIndex: 0,
         isExpanded: false,
         isDropdownOpenUpwards: false,
         isScrollable: false,
@@ -78,7 +80,12 @@ export class FieldSelectContainer extends PureComponent {
     }
 
     componentDidUpdate() {
-        this.isSelectedOptionAvailable();
+        const { selectedOptionIndex: prevSelectedOptionIndex } = this.state;
+        const selectedOptionIndex = this.fieldRef.options.selectedIndex;
+
+        if (prevSelectedOptionIndex !== selectedOptionIndex) {
+            this.isSelectedOptionAvailable();
+        }
     }
 
     isSelectedOptionAvailable() {
@@ -87,7 +94,10 @@ export class FieldSelectContainer extends PureComponent {
         const selectedOption = options[selectedOptionIndex];
         const isAvailable = selectedOption.isAvailable !== false;
 
-        this.setState({ isSelectedOptionAvailable: isAvailable });
+        this.setState({
+            selectedOptionIndex,
+            isSelectedOptionAvailable: isAvailable
+        });
     }
 
     setRef(elem) {
