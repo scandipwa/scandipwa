@@ -99,6 +99,10 @@
             &::after {
                 border-radius: 50%;
                 box-shadow: calc(3px * var(--diameter)) calc(-3px * var(--diameter)) 0 0 var(--fill-color), calc(1px * var(--diameter)) 0 0 0 var(--fill-color), calc(7px * var(--diameter)) calc(-3px * var(--diameter)) 0 calc(-1px * var(--diameter)) var(--fill-color), calc(3px * var(--diameter)) 0 0 0 var(--fill-color), calc(5px * var(--diameter)) 0 0 0 var(--fill-color), calc(8px * var(--diameter)) 0 0 0 var(--fill-color);
+            
+                [dir="rtl"] & {
+                    transform: scaleX(-1);
+                }
             }
 
             &::before {
@@ -125,6 +129,10 @@
                 -webkit-transform: rotate(45deg);
                 transform: rotate(45deg);
                 inset-block-start: 0;
+
+                [dir="rtl"] & {
+                    transform: rotate(135deg)
+                }
             }
 
             &::before {
