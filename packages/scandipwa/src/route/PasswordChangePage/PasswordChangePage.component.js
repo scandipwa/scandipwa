@@ -39,10 +39,10 @@ export class PasswordChangePage extends PureComponent {
         return (
             <div block="PasswordChangePage" elem="WarningMsg">
                 <h2>
-                    { __('Unable to change password') }
+                    { __('Unable to reset password') }
                 </h2>
                 <div>
-                    { __('Unable To Reset Password The URL is invalid. Some parameters are missing.') }
+                    { __('The URL is invalid. Some parameters are missing.') }
                 </div>
             </div>
         );
