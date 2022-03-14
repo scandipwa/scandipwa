@@ -485,5 +485,6 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://demo100-ors-1588667385-csa-hcx.scandipwa.cloud/"
+    "proxy": "https://demo100-ors-1588667385-csa-hcx.scandipwa.cloud/",
+    "gitHead": "187276597fcf17521bcccdac1238b4e0061e5418"
 }

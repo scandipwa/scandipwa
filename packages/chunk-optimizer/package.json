@@ -16,5 +16,6 @@
     },
     "eslintConfig": {
         "extends": "@scandipwa"
-    }
+    },
+    "gitHead": "187276597fcf17521bcccdac1238b4e0061e5418"
 }
