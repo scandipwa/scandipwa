@@ -43,7 +43,8 @@ export const mapStateToProps = (state) => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus,
     passwordResetMessage: state.MyAccountReducer.passwordResetMessage,
     isMobile: state.ConfigReducer.device.isMobile,
-    minimunPasswordLength: state.ConfigReducer.minimun_password_length
+    minimunPasswordLength: state.ConfigReducer.minimun_password_length,
+    minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
@@ -82,7 +83,8 @@ export class PasswordChangePageContainer extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        minimunPasswordLength: PropTypes.number.isRequired
+        minimunPasswordLength: PropTypes.number.isRequired,
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     state = {
@@ -142,7 +144,7 @@ export class PasswordChangePageContainer extends PureComponent {
 
     containerProps() {
         const { isLoading } = this.state;
-        const { isMobile, minimunPasswordLength } = this.props;
+        const { isMobile, minimunPasswordLength, minimunPasswordCharacter } = this.props;
 
         const range = {
             min: minimunPasswordLength,
@@ -153,6 +155,7 @@ export class PasswordChangePageContainer extends PureComponent {
             range,
             isLoading,
             isMobile,
+            minimunPasswordCharacter,
             shouldDisplayWarning: this.shouldDisplayWarning()
         };
     }
