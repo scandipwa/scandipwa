@@ -59,7 +59,8 @@ export class Breadcrumb extends PureComponent {
         } = this.props;
 
         const url = this.getLinkUrl() || {};
-        const lowercaseName = name.toLowerCase();
+        const nameToString = name.toString();
+
         return (
             <Link
               block="Breadcrumb"
@@ -69,7 +70,7 @@ export class Breadcrumb extends PureComponent {
             >
                 <meta itemProp="item" content={ window.location.origin + url.pathname } />
                 <span block="Breadcrumb" elem="Link-Name" itemProp="name">
-                    <TextPlaceholder content={ lowercaseName } />
+                    <TextPlaceholder content={ nameToString } />
                 </span>
                 <ChevronIcon />
                 <meta itemProp="position" content={ index } />
