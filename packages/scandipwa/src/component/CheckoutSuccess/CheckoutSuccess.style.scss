@@ -1,6 +1,7 @@
 .CheckoutSuccess {
     @include mobile {
         margin-block-start: 28px;
+        position: unset;
     }
 
     &-ContinueButton {
@@ -16,10 +17,10 @@
     &-ButtonWrapper {
         @include mobile {
             padding: 14px;
-            position: fixed;
+            position: absolute;
             inset-inline-start: 0;
             width: 100%;
-            inset-block-end: var(--navigation-tabs-height);
+            inset-block-end: 0;
             border-block-start: 1px solid var(--primary-divider-color);
         }
     }
