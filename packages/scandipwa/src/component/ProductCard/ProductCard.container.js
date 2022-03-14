@@ -27,6 +27,7 @@ import { LayoutType } from 'Type/Layout.type';
 import history from 'Util/History';
 import { getSmallImage } from 'Util/Product/Extract';
 import { appendWithStoreCode, objectToUri } from 'Util/Url';
+import { validateGroup } from 'Util/Validator';
 
 import ProductCard from './ProductCard.component';
 
@@ -153,6 +154,35 @@ export class ProductCardContainer extends ProductContainer {
         const { showNotification } = this.props;
 
         showNotification('info', __('Please, select product options!'));
+    }
+
+    async addToCart() {
+        this.updateSelectedValues();
+        const isValid = validateGroup(this.validator);
+        const { showError } = this.props;
+
+        if (this.validateConfigurableProduct()
+            || (isValid !== true && !this.filterAddToCartFileErrors(isValid.values))) {
+            const { showError } = this.props;
+
+            this.setState({ addToCartTriggeredWithError: true });
+            showError(__('Incorrect or missing options!'));
+
+            return;
+        }
+
+        const { addProductToCart, cartId } = this.props;
+        const products = this.getMagentoProduct();
+
+        await addProductToCart({ products, cartId })
+            .catch(
+                /** @namespace Component/ProductCard/Container/ProductCardContainer/addToCart/addProductToCart/catch */
+                (error) => {
+                    if (error) {
+                        showError(error);
+                    }
+                }
+            );
     }
 
     render() {
