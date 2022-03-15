@@ -125,7 +125,7 @@ export class GroupedProductsItem extends PureComponent {
                   }
               } }
               events={ { onChange: setQuantity } }
-              validateOn={ ['onChange', 'onload'] }
+              validateOn={ ['onChange', 'onLoad'] }
             />
         );
     }
