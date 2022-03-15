@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
