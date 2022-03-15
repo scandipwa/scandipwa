@@ -169,7 +169,7 @@ export const getProductInStock = (product, parentProduct = {}) => {
 
 export const getGroupedProductsInStockQuantity = ({ items = [] }) => items.reduce((acc, {
     product, product: { id }, qty = 1
-}) => (getProductInStock(product) ? { ...acc, [id]: qty } : null), {});
+}) => (getProductInStock(product) ? { ...acc, [id]: qty } : acc), {});
 
 /**
  * Checks if bundle option exist in options (ignoring quantity)
