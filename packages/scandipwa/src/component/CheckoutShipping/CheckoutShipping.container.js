@@ -222,7 +222,8 @@ export class CheckoutShippingContainer extends PureComponent {
             saveAddressInformation,
             updateShippingFields,
             addressLinesQty,
-            selectedStoreAddress
+            selectedStoreAddress,
+            customer: { default_shipping }
         } = this.props;
 
         const {
@@ -265,7 +266,14 @@ export class CheckoutShippingContainer extends PureComponent {
 
         saveAddressInformation(data);
         const shippingMethod = `${shipping_carrier_code}_${shipping_method_code}`;
-        updateShippingFields({ ...formattedFields, shippingMethod });
+        updateShippingFields({
+            ...(
+                formattedFields.street.length > 0
+                || (default_shipping && parseInt(default_shipping, 10) === data.shipping_address.id)
+                    ? formattedFields : data.shipping_address
+            ),
+            shippingMethod
+        });
     }
 
     _getAddressById(addressId) {
