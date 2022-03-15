@@ -74,12 +74,19 @@
         background-color: var(--popup-content-background);
         border-radius: 5px;
         padding: var(--popup-content-padding);
+        padding-block-end: 0;
         min-width: var(--popup-min-width);
         max-width: calc(var(--content-wrapper-width) * .8);
         overflow-y: auto;
 
+
         @include desktop {
             max-height: var(--popup-max-height);
+
+        &::after {
+            content: '';
+            display: block;
+            padding-block-end: var(--popup-content-padding);
         }
 
         @include mobile {
