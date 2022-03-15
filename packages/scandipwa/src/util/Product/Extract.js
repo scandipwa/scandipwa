@@ -486,7 +486,6 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
  * @param value
  * @namespace Util/Product/Extract/getSubLabelFromMaxCharacters
  */
-
 export const getSubLabelFromMaxCharacters = (maxCharacters, value = '') => {
     const valueLength = value.length;
     const remainingCharacters = maxCharacters - valueLength;
@@ -505,6 +504,7 @@ export const getSubLabelFromMaxCharacters = (maxCharacters, value = '') => {
 
     return null;
 };
+//#endregion
 
 //#region IMAGE
 /**

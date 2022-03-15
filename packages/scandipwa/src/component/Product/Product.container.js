@@ -427,6 +427,7 @@ export class ProductContainer extends PureComponent {
             this.scrollOptionsIntoView();
             this.setState({ addToCartTriggeredWithError: true });
             showError(__('Incorrect or missing options!'));
+
             return true;
         }
 

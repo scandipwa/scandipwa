@@ -166,6 +166,7 @@ export class FieldContainer extends PureComponent {
         }
 
         this.setState({ validationResponse: output });
+
         return output;
     }
 

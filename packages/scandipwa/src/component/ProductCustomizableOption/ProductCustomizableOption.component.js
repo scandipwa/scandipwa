@@ -18,10 +18,10 @@ import FieldDate from 'Component/FieldDate';
 import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
 import FieldGroup from 'Component/FieldGroup';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
+// eslint-disable-next-line no-unused-vars
+import { getSubLabelFromMaxCharacters } from 'Util/Product/Extract';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
-// eslint-disable-next-line no-unused-vars
-import { getSubLabelFromMaxCharacters } from '../../util/Product/Extract';
 import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
 
 /**
