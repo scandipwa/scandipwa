@@ -95,8 +95,9 @@
             position: fixed;
             inset-inline-start: 0;
             inset-inline-end: 0;
-            height: 100vh;
-            min-height: -webkit-fill-available;
+            height: auto;
+            min-height: 100vh;
+            max-height: -webkit-fill-available;
         }
     }
 

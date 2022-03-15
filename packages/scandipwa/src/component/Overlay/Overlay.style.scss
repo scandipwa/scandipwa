@@ -37,8 +37,9 @@
             overflow: scroll;
             overflow-x: hidden;
             max-width: 100%;
-            height: 100vh;
-            min-height: -webkit-fill-available;
+            height: auto;
+            min-height: 100vh;
+            max-height: -webkit-fill-available;
         }
     }
 
