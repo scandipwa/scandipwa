@@ -135,12 +135,22 @@ export class FieldSelectContainer extends PureComponent {
         return options.length === 0;
     }
 
-    handleSelectExpand() {
+    handleSelectExpand(event) {
         if (!this.isSelectDisabled()) {
-            this.setState(({ isExpanded }) => ({ isExpanded: !isExpanded }));
-        }
+            if (!event) {
+                return;
+            }
 
-        this.handleDropdownOpenDirection();
+            const { localName } = event.target;
+
+            if (localName === 'div' || localName === 'li') {
+                this.setState(({ isExpanded }) => ({ isExpanded: !isExpanded }));
+            } else {
+                this.setState({ isExpanded: true });
+            }
+
+            this.handleDropdownOpenDirection();
+        }
     }
 
     handleSelectExpandedExpand() {
