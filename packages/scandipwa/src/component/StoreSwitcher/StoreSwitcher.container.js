@@ -54,8 +54,8 @@ export class StoreSwitcherContainer extends DataContainer {
         onStoreSwitcherOutsideClick: this.onStoreSwitcherOutsideClick.bind(this)
     };
 
-    __construct() {
-        super.__construct('StoreSwitcherContainer');
+    __construct(props) {
+        super.__construct(props, 'StoreSwitcherContainer');
     }
 
     componentDidMount() {

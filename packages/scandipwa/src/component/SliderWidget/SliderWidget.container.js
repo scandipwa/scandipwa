@@ -42,8 +42,8 @@ export class SliderWidgetContainer extends DataContainer {
         }
     };
 
-    __construct() {
-        super.__construct('SliderWidgetContainer');
+    __construct(props) {
+        super.__construct(props, 'SliderWidgetContainer', false);
     }
 
     componentDidMount() {

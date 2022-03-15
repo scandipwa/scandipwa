@@ -17,6 +17,7 @@ import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import { SignInStateType } from 'Type/Account.type';
 import history from 'Util/History';
+import { validatePassword } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 import './MyAccountCreateAccount.style.scss';
@@ -31,7 +32,8 @@ export class MyAccountCreateAccount extends PureComponent {
         showTaxVatNumber: PropTypes.bool.isRequired,
         vatNumberRequired: PropTypes.bool.isRequired,
         newsletterActive: PropTypes.bool.isRequired,
-        minimunPasswordLength: PropTypes.number.isRequired
+        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     renderVatNumberField() {
@@ -123,7 +125,7 @@ export class MyAccountCreateAccount extends PureComponent {
 
     renderCreateAccountSignUpInfoFields() {
         const { location: { state: { email = '' } = {} } } = history;
-        const { minimunPasswordLength } = this.props;
+        const { range, minimunPasswordCharacter } = this.props;
 
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
@@ -161,13 +163,12 @@ export class MyAccountCreateAccount extends PureComponent {
                           inputType: VALIDATION_INPUT_TYPE.password,
                           match: (value) => {
                               const email = document.getElementById('email');
-                              return value && email.value !== value;
-                          },
-                          customErrorMessages: {
-                              onMatchFail: __('Passwords can\'t be the same as email!')
-                          },
-                          range: {
-                              min: minimunPasswordLength
+
+                              if (value && email.value === value) {
+                                  return __('Passwords can\'t be the same as email!');
+                              }
+
+                              return validatePassword(value, range, minimunPasswordCharacter);
                           }
                       } }
                       addRequiredTag
