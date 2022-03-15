@@ -59,7 +59,7 @@ export class Breadcrumb extends PureComponent {
         } = this.props;
 
         const url = this.getLinkUrl() || {};
-        const nameToString = name.toString();
+        const nameToString = String(name);
 
         return (
             <Link
