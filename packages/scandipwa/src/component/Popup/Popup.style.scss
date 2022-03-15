@@ -83,10 +83,11 @@
         @include desktop {
             max-height: var(--popup-max-height);
 
-        &::after {
-            content: '';
-            display: block;
-            padding-block-end: var(--popup-content-padding);
+            &::after {
+                content: '';
+                display: block;
+                padding-block-end: var(--popup-content-padding);
+            }
         }
 
         @include mobile {
@@ -141,5 +142,4 @@
     @include mobile {
         overflow-y: hidden;
     }
-}
 }
