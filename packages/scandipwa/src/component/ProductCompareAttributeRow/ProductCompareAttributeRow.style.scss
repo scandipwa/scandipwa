@@ -56,7 +56,12 @@
         text-align: justify;
 
         img {
-            height: auto;
+            height: 32px;
+            width: 32px;
+        }
+
+        .span {
+            text-align: inherit;
         }
 
         &:last-child {
