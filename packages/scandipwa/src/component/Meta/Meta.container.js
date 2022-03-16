@@ -91,12 +91,6 @@ export class MetaContainer extends PureComponent {
         ), []);
     }
 
-    _getTitle() {
-        const { title, default_title } = this.props;
-
-        return title || default_title;
-    }
-
     _getDescription() {
         const { description, default_description } = this.props;
 
@@ -123,7 +117,6 @@ export class MetaContainer extends PureComponent {
 
     _getMetadata() {
         const meta = {
-            title: this._getTitle(),
             description: this._getDescription(),
             keywords: this._getKeywords(),
             robots: this._getRobots(),
