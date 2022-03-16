@@ -81,27 +81,7 @@
         height: max-content;
         min-height: 48px;
         flex-wrap: wrap;
-        padding-inline: 12px;
-        padding-block: 20px;
-        overflow-wrap: break-word;
-
-        @include desktop {
-            max-width: 20vw;
-            word-break: break-all;
-        }
-
-        @include mobile {
-            max-width: 80vw;
-        }
-    }
-
-    &-Button:not([disabled]):hover {
-        align-self: center;
-        height: max-content;
-        min-height: 48px;
-        flex-wrap: wrap;
-        padding-inline: 12px;
-        padding-block: 20px;
+        padding-block: 10px;
         overflow-wrap: break-word;
 
         @include desktop {
