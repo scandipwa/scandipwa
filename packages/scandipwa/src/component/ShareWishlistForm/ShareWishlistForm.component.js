@@ -40,10 +40,10 @@ export class ShareWishlistForm extends FieldForm {
 
         return (
             <>
-           { isFormLoading && <Loader isLoading /> }
-            <button type="submit" block="Button">
-                { __('Share Wishlist') }
-            </button>
+                { isFormLoading && <Loader isLoading /> }
+                <button type="submit" block="Button">
+                    { __('Share Wishlist') }
+                </button>
             </>
         );
     }
