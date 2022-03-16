@@ -36,9 +36,11 @@ export class ShareWishlistForm extends FieldForm {
     }
 
     renderActions() {
+        const { isFormLoading } = this.props;
+
         return (
             <>
-           { this.props.isFormLoading && <Loader isLoading /> }
+           { isFormLoading && <Loader isLoading /> }
             <button type="submit" block="Button">
                 { __('Share Wishlist') }
             </button>
