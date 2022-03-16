@@ -17,7 +17,7 @@ import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccou
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { BILLING_URL, CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
@@ -414,11 +414,14 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onSignIn() {
         const { location: { pathname } } = history;
 
+        goToPreviousNavigationState();
+
         if (pathname.includes(CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
+        }
+
+        if (pathname.includes(BILLING_URL)) {
             history.goBack();
-        } else {
-            goToPreviousNavigationState();
         }
     }
 
