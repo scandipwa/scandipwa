@@ -16,11 +16,6 @@
 .Checkout {
     padding-block-end: var(--header-nav-height);
 
-    section,
-    &-Step {
-        position: unset;
-    }
-
     @include desktop {
         margin-block-start: var(--header-total-height);
     }
@@ -65,13 +60,7 @@
     &-Wrapper {
         margin: auto;
         padding: 0 16px;
-        position: unset;
 
-        form {
-            @include mobile {
-                position: unset;
-            }
-        }
 
         @include desktop {
             display: grid;
