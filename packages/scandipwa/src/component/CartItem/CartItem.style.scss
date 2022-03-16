@@ -283,6 +283,11 @@
             &:not([disabled]) {
                 cursor: pointer;
             }
+
+            &:disabled {
+                pointer-events: initial;
+                cursor: not-allowed;
+            }
         }
     }
 
