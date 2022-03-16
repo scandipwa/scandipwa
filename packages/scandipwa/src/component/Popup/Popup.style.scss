@@ -99,6 +99,11 @@
             min-height: 100vh;
             max-height: -webkit-fill-available;
             padding-block-end: var(--navigation-tabs-height);
+
+            .form {
+                inset-block-end: 60px;
+                margin-block-start: 55px;
+            }
         }
     }
 

@@ -113,7 +113,8 @@
         margin-block-start: 12px;
 
         @include mobile {
-            margin-block-start: 28px;
+            inset-block-end: 70px;
+            margin-block: 25px;
             width: 100%;
             position: sticky;
             inset-inline-start: 0;

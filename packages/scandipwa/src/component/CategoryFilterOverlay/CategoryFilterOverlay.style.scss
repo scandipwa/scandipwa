@@ -171,6 +171,8 @@
             width: 100%;
             inset-inline-start: 0;
             padding: 16px;
+            inset-block-end: 70px;
+            margin-block: 25px;
         }
 
         .CategoryFilterOverlay-NoResults ~ & {
