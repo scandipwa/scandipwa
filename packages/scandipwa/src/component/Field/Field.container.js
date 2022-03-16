@@ -132,13 +132,12 @@ export class FieldContainer extends PureComponent {
 
     validate(data) {
         const {
-            validationRule: { range }, type, attr: { name } = {}
+            validationRule: { range: { max: maxValidLength = 0 } = {} }, type, attr: { name } = {}
         } = this.props;
         const { showLengthError } = this.state;
         const value = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio
             ? !!this.fieldRef.checked
             : this.fieldRef.value;
-        const maxValidLength = range ? range.max : 0;
         const newValidRule = this.handleShowLengthError();
         const response = validate(value, newValidRule);
         const output = response !== true ? { ...response, type, name } : response;
