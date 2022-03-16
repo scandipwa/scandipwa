@@ -97,10 +97,10 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
-                { this.renderTitle() }
+                { +price > 0 && this.renderTitle() }
                 <div block="CheckoutOrderSummary" elem="Price">
                     <strong>
-                        { this.renderPrice() }
+                        { +price > 0 && this.renderPrice() }
                     </strong>
                     { this.renderSubPrice() }
                 </div>
