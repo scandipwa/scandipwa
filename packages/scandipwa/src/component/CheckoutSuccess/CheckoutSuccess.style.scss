@@ -20,7 +20,7 @@
             position: absolute;
             inset-inline-start: 0;
             width: 100%;
-            inset-block-end: 0;
+            inset-block-end: var(--navigation-tabs-height);
             border-block-start: 1px solid var(--primary-divider-color);
         }
     }
