@@ -95,9 +95,8 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
             return null;
         }
 
-        return (
-            +price > 0
-            && (
+        if (+price > 0) {
+            return (
                 <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
                     { this.renderTitle() }
                     <div block="CheckoutOrderSummary" elem="Price">
@@ -108,8 +107,10 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
                     </div>
                     { children }
                 </li>
-            )
-        );
+            );
+        }
+
+        return null;
     }
 }
 
