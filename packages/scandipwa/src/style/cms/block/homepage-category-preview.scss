@@ -76,12 +76,14 @@
         display: block;
     }
 
-    &-Button {
+    &-Button,
+    &-Button:not([disabled]):hover {
         align-self: center;
         height: max-content;
         min-height: 48px;
         flex-wrap: wrap;
         padding-block: 10px;
+        padding-inline: 20px;
         overflow-wrap: break-word;
 
         @include desktop {
