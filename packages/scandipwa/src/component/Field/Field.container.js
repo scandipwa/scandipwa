@@ -139,7 +139,9 @@ export class FieldContainer extends PureComponent {
             ? !!this.fieldRef.checked
             : this.fieldRef.value;
         const newValidRule = this.handleShowLengthError();
-        const response = validate(value, newValidRule);
+        const response = validate(type === FIELD_TYPE.file
+            ? value.toLowerCase()
+            : value, newValidRule);
         const output = response !== true ? { ...response, type, name } : response;
 
         // If validation is called from different object you can pass object
