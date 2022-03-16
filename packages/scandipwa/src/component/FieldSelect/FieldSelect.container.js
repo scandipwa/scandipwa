@@ -138,6 +138,7 @@ export class FieldSelectContainer extends PureComponent {
     handleSelectExpand(event) {
         if (!this.isSelectDisabled()) {
             if (!event) {
+                this.setState({ isExpanded: false });
                 return;
             }
 
@@ -149,7 +150,6 @@ export class FieldSelectContainer extends PureComponent {
                 this.setState({ isExpanded: true });
             }
         }
-
         this.handleDropdownOpenDirection();
     }
 
