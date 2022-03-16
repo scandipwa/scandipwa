@@ -108,7 +108,7 @@ export const getQueryParam = (variable, location) => {
         const splitIdx = item.indexOf('=');
         const [k, v] = [item.slice(0, splitIdx), item.slice(splitIdx + 1)];
 
-        return k === variable ? v.replaceAll('=', ':') : acc;
+        return k === variable ? v.replace(/=/g, ':') : acc;
     }, false);
 };
 
