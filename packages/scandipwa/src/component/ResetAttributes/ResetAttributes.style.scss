@@ -34,6 +34,13 @@
         font-weight: bold;
     }
 
+    &-AttributeOption {
+        img {
+            height: 32px;
+            width: 32px;
+        }
+    }
+
     &-CloseIcon {
         .CloseIcon {
             height: var(--checkbox-height);
