@@ -130,6 +130,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     handleNavVisibilityOnScroll(windowY) {
         const ERROR_TOP_OFFSET = 10;
         const ERROR_BOTTOM_OFFSET = 20;
+        const SUCCESS_TOP_OFFSET = 49;
         const TOP_MIN_OFFSET = 70;
 
         const doc = document.body;
@@ -155,7 +156,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (windowY < this.scrollPosition) {
+        if (windowY < this.scrollPosition || windowY === this.scrollPosition + SUCCESS_TOP_OFFSET) {
             // Scrolling UP
             this.showNavigationTabs();
         } else {
