@@ -1,7 +1,7 @@
 {
     "name": "scandipwa-cli",
     "description": "ScandiPWA CLI command used by CSA.",
-    "version": "0.3.15",
+    "version": "0.3.17",
     "bin": {
         "scandipwa": "index.js"
     },
@@ -19,5 +19,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "gitHead": "7498042540d3d4560e140d9674f3abd99343a037"
+    "gitHead": "187276597fcf17521bcccdac1238b4e0061e5418"
 }
