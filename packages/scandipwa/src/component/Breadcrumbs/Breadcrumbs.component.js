@@ -65,7 +65,6 @@ export class Breadcrumbs extends PureComponent {
             || location.pathname === appendWithStoreCode('/')
             || location.pathname.match(appendWithStoreCode('/account'))
             || location.pathname === '/'
-            || (breadcrumbs.length === 1 && breadcrumbs[0].name === 'Homepage')
         ) {
             return null;
         }
