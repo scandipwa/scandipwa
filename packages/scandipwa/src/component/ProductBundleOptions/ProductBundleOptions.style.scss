@@ -15,6 +15,11 @@
 }
 
 .ProductBundleItem {
+    &-Label {
+        width: 100%;
+        word-break: break-word;
+    }
+
     &-Wrapper {
         margin-block-start: 26px;
 
