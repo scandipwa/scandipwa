@@ -289,6 +289,12 @@
         font-size: 12px;
     }
 
+    .ProductPrice-BundleTo {
+        @include mobile {
+            margin-block-start: 6px;
+        }
+    }
+
     &-Figure {
         flex-grow: 1;
     }
