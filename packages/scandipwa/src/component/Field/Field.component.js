@@ -260,7 +260,7 @@ export class Field extends PureComponent {
             return null;
         }
 
-        const { errorMessages } = validationResponse;
+        const { errorMessages = [] } = validationResponse;
 
         if (!errorMessages) {
             return null;

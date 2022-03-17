@@ -14,6 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import WishlistQuery from 'Query/Wishlist.query';
+import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { isSignedIn } from 'Util/Auth';
@@ -25,7 +27,8 @@ import ShareWishlistPopup from './ShareWishlistPopup.component';
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (message) => dispatch(showNotification('success', message)),
     showError: (message) => dispatch(showNotification('error', message)),
-    hidePopup: () => dispatch(showPopup('', {}))
+    hidePopup: () => dispatch(showPopup('', {})),
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
 /** @namespace Component/ShareWishlistPopup/Container/mapStateToProps */
@@ -40,7 +43,8 @@ export class ShareWishlistPopupContainer extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         hidePopup: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        goToPreviousNavigationState: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -56,7 +60,9 @@ export class ShareWishlistPopupContainer extends PureComponent {
     }
 
     handleFormData(fields) {
-        const { hidePopup, showError, showNotification } = this.props;
+        const {
+            hidePopup, showError, showNotification, goToPreviousNavigationState
+        } = this.props;
         const { message, emails: initialEmails } = fields;
         const emails = initialEmails.split(',').map((email) => email.trim());
 
@@ -72,6 +78,7 @@ export class ShareWishlistPopupContainer extends PureComponent {
                 showNotification(__('Wishlist has been shared'));
                 hidePopup();
                 this.setState({ isLoading: false });
+                goToPreviousNavigationState();
             },
             /** @namespace Component/ShareWishlistPopup/Container/ShareWishlistPopupContainer/handleFormData/fetchMutation/then/catch */
             (error) => {
