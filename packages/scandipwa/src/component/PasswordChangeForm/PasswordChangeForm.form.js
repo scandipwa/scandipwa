@@ -52,6 +52,9 @@ export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) 
             match: (value) => {
                 const password = document.getElementById('password');
                 return password.value === value;
+            },
+            customErrorMessages: {
+                onMatchFail: __('Passwords do not match!')
             }
         },
         addRequiredTag: true
