@@ -91,26 +91,22 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
             children
         } = this.props;
 
-        if (!price) {
+        if (!price || +price <= 0) {
             return null;
         }
 
-        if (+price > 0) {
-            return (
-                <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
-                    { this.renderTitle() }
-                    <div block="CheckoutOrderSummary" elem="Price">
-                        <strong>
-                            { this.renderPrice() }
-                        </strong>
-                        { this.renderSubPrice() }
-                    </div>
-                    { children }
-                </li>
-            );
-        }
-
-        return null;
+        return (
+            <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
+                { this.renderTitle() }
+                <div block="CheckoutOrderSummary" elem="Price">
+                    <strong>
+                        { this.renderPrice() }
+                    </strong>
+                    { this.renderSubPrice() }
+                </div>
+                { children }
+            </li>
+        );
     }
 }
 
