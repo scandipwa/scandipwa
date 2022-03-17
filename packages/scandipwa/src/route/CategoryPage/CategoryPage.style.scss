@@ -80,6 +80,10 @@
         display: inline-flex;
         align-items: center;
 
+        &ButtonPlaceholder {
+            animation: appear 100ms 300ms forwards;
+        }
+
         @include desktop {
             display: none;
 
