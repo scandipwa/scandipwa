@@ -83,6 +83,11 @@
         text-overflow: ellipsis;
         height: 100%;
 
+        img {
+            height: 32px;
+            width: 32px;
+        }
+
         @include mobile {
             line-height: 20px;
         }
