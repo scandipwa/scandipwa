@@ -65,7 +65,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
     };
 
     state = {
-        isWishlistButtonLoading: false
+        isWishlistButtonLoading: false,
+        isAddedToWishList: false
     };
 
     containerFunctions = {
@@ -109,6 +110,10 @@ export class ProductWishlistButtonContainer extends PureComponent {
             wishlistId
         } = this.props;
 
+        const {
+            isAddedToWishList
+        } = this.state;
+
         if (!isSignedIn()) {
             return showNotification('info', __('You must login or register to add items to your wishlist.'));
         }
@@ -119,7 +124,15 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         this.setWishlistButtonLoading(true);
 
-        if (add) {
+        const wishlistItem = this.getWishlistItem(sku);
+
+        if (wishlistItem) {
+            this.setState({ isAddedToWishList: true })
+        } else {
+            this.setState({ isAddedToWishList: false })
+        }
+
+        if (add && !isAddedToWishList) {
             await addProductToWishlist({
                 items: magentoProduct,
                 wishlistId
@@ -128,7 +141,6 @@ export class ProductWishlistButtonContainer extends PureComponent {
             return;
         }
 
-        const wishlistItem = this.getWishlistItem(sku);
         if (!wishlistItem) {
             return;
         }
