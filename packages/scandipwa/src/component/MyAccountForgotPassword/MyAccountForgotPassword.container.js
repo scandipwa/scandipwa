@@ -103,7 +103,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
         showNotification(
             'success',
             // eslint-disable-next-line max-len
-            __('If there is an account associated with %s you will receive an email with a link to reset your password.', submittedEmail)
+            __('If there is an account associated with %s you will receive an email with a link to reset your password', submittedEmail)
         );
     }
 
