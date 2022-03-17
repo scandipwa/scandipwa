@@ -385,11 +385,14 @@
         .Header {
             &-Nav {
                 display: flex;
-                inset-inline-start: 32px;
             }
 
             &-IconsWrapper {
-                width: 98%;
+                width: 89.4%;
+            }
+
+            &-LogoWrapper {
+                position: relative;
             }
 
             &-Button_type_account {
