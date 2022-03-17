@@ -162,6 +162,16 @@ export const getProductInStock = (product, parentProduct = {}) => {
 };
 
 /**
+ * Checks if items in Grouped Product are in stock
+ * @param product: productGroup
+ * @param products: products in stock
+ * @namespace Util/Product/Extract/getGroupedProductsInStockQuantity */
+
+export const getGroupedProductsInStockQuantity = ({ items = [] }) => items.reduce((acc, {
+    product, product: { id }, qty = 1
+}) => (getProductInStock(product) ? { ...acc, [id]: qty } : acc), {});
+
+/**
  * Checks if bundle option exist in options (ignoring quantity)
  * @param uid
  * @param options
