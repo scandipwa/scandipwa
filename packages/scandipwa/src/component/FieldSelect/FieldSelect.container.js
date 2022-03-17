@@ -144,10 +144,10 @@ export class FieldSelectContainer extends PureComponent {
 
             const { localName } = event.target;
 
-            if (localName === 'div' || localName === 'li') {
-                this.setState(({ isExpanded }) => ({ isExpanded: !isExpanded }));
-            } else {
+            if (localName === 'ul') {
                 this.setState({ isExpanded: true });
+            } else {
+                this.setState(({ isExpanded }) => ({ isExpanded: !isExpanded }));
             }
         }
         this.handleDropdownOpenDirection();
