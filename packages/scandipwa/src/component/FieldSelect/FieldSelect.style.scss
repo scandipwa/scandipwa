@@ -79,7 +79,7 @@ $select-arrow-width: 14px !default;
         &_isExpanded {
             @include desktop {
                 z-index: 15;
-                max-height: fit-content;
+                max-height: 300px;
                 border-color: var(--input-border-color);
                 background-color: #{$white};
             }
