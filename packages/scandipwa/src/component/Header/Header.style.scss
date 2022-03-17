@@ -388,11 +388,13 @@
             }
 
             &-IconsWrapper {
+                display: flex;
                 width: 89.4%;
             }
 
             &-LogoWrapper {
                 position: relative;
+                flex-shrink: 0;
             }
 
             &-Button_type_account {
