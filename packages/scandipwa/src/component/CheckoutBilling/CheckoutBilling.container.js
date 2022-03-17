@@ -166,6 +166,7 @@ export class CheckoutBillingContainer extends PureComponent {
         return (
             (!newShippingId && newShippingStreet.length === 0 && default_billing === default_shipping)
             || (default_billing && parseInt(default_billing, 10) === newShippingId)
+            || (!default_billing)
         )
         && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE;
     }
