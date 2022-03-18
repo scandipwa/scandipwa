@@ -54,6 +54,10 @@ $select-arrow-width: 14px !default;
             border-color: var(--input-border-color-focus);
             opacity: 1;
         }
+
+        &_isDisabled {
+            opacity: 0.6;
+        }
     }
 
     &-Options {
@@ -80,7 +84,7 @@ $select-arrow-width: 14px !default;
                 background-color: #{$white};
             }
         }
-        
+
         &_isUpDirection {
             inset-block-start: auto;
             inset-block-end: 100%;
@@ -95,7 +99,7 @@ $select-arrow-width: 14px !default;
             scrollbar-width: none !important;
             /* stylelint-disable-next-line declaration-no-important */
             scrollbar-color: none !important;
-        
+
             &::-webkit-scrollbar {
                 display: none;
             }
@@ -152,7 +156,7 @@ $select-arrow-width: 14px !default;
         &_isDisabled {
             pointer-events: none;
             opacity: 0.6;
-            
+
             @include mobile {
                 border-top: 1px solid var(--input-border-color-focus);
             }
