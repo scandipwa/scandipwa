@@ -61,7 +61,6 @@
         margin: auto;
         padding: 0 16px;
 
-
         @include desktop {
             display: grid;
             grid-template-columns: repeat(2, 1fr);

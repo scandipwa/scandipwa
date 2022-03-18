@@ -1,7 +1,6 @@
 .CheckoutSuccess {
     @include mobile {
         margin-block-start: 28px;
-        position: unset;
     }
 
     &-ContinueButton {
@@ -23,7 +22,7 @@
             position: fixed;
             inset-inline-start: 0;
             width: 100%;
-            inset-block-end: var(--navigation-tabs-height);
+            inset-block-end: calc(var(--navigation-tabs-height) - 2px);
             border-block-start: 1px solid var(--primary-divider-color);
         }
     }
