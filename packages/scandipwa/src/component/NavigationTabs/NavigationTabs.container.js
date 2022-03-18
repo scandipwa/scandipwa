@@ -87,7 +87,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const SCROLL_DEBOUNCE_DELAY = 10;
         const { name } = this.getNavigationState();
         this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
-        window.addEventListener('scroll', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY));
+        window.addEventListener('mousewheel', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY));
 
         super.componentDidMount();
     }
@@ -130,7 +130,6 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     handleNavVisibilityOnScroll(windowY) {
         const ERROR_TOP_OFFSET = 10;
         const ERROR_BOTTOM_OFFSET = 20;
-        const SUCCESS_TOP_OFFSET = 49;
         const TOP_MIN_OFFSET = 70;
 
         const doc = document.body;
@@ -156,7 +155,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (windowY < this.scrollPosition || windowY === this.scrollPosition + SUCCESS_TOP_OFFSET) {
+        if (windowY < this.scrollPosition) {
             // Scrolling UP
             this.showNavigationTabs();
         } else {
