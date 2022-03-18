@@ -359,7 +359,9 @@ export class Router extends PureComponent {
         return (
             <>
                 { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
-                { this.renderMainItems() }
+                <div style={ { minHeight: 'calc(100vh - var(--header-total-height) + 10px)' } }>
+                    { this.renderMainItems() }
+                </div>
                 { this.renderSectionOfType(AFTER_ITEMS_TYPE) }
             </>
         );
