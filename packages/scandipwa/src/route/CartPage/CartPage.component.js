@@ -45,6 +45,8 @@ export class CartPage extends PureComponent {
         onCartItemLoading: null
     };
 
+    initial = true;
+
     renderCartItems() {
         const {
             totals: {
@@ -54,7 +56,8 @@ export class CartPage extends PureComponent {
             onCartItemLoading
         } = this.props;
 
-        if (!items) {
+        if (items.length < 1 && this.initial) {
+            this.initial = false;
             return <Loader isLoading />;
         }
 
