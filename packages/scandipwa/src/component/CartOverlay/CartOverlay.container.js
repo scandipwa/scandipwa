@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { CART_EDITING, CART_OVERLAY } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { SHIPPING_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -164,7 +164,7 @@ export class CartOverlayContainer extends PureComponent {
         // Guest checkout enabled or user is signed in => proceed to the checkout
         if (guest_checkout || isSignedIn()) {
             hideActiveOverlay();
-            history.push({ pathname: appendWithStoreCode(CHECKOUT_URL) });
+            history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
             scrollToTop();
 
             return;

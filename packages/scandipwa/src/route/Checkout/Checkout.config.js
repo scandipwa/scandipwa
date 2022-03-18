@@ -15,6 +15,7 @@ export const DETAILS_STEP = 'DETAILS_STEP';
 
 export const CHECKOUT_URL = '/checkout';
 export const BILLING_URL = '/checkout/billing';
+export const SHIPPING_URL = '/checkout/shipping';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 

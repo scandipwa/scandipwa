@@ -414,13 +414,15 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onSignIn() {
         const { location: { pathname } } = history;
 
+        // console.log();
+
         goToPreviousNavigationState();
 
         if (pathname.includes(CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
         }
 
-        if (pathname.includes(BILLING_URL)) {
+        if (pathname.includes(BILLING_URL) && !isSignedIn()) {
             history.goBack();
         }
     }
