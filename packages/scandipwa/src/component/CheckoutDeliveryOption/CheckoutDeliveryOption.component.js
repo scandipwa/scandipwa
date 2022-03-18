@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
@@ -38,11 +38,30 @@ export class CheckoutDeliveryOption extends PureComponent {
         optionSubPrice: 0
     };
 
+    state = { isOverflowed: false };
+
+    rowRef = createRef();
+
+    subPriceRef = createRef();
+
+    componentDidMount() {
+        if (this.rowRef.current && this.subPriceRef.current) {
+            const rowLeft = this.rowRef.current.getBoundingClientRect().left;
+            const SubPriceLeft = this.subPriceRef.current.getBoundingClientRect().left;
+
+            if (rowLeft > SubPriceLeft) {
+                this.setState({ isOverflowed: true });
+            }
+        }
+    }
+
     renderSubPrice() {
         const {
             currency,
             optionSubPrice
         } = this.props;
+
+        const { isOverflowed } = this.state;
 
         if (!optionSubPrice) {
             return null;
@@ -52,6 +71,8 @@ export class CheckoutDeliveryOption extends PureComponent {
             <span
               block="CheckoutDeliveryOption"
               elem="SubPrice"
+              mods={ { isOverflowed } }
+              ref={ this.subPriceRef }
             >
                 { __('Excl. tax: %s', formatPrice(optionSubPrice, currency)) }
             </span>
@@ -79,15 +100,10 @@ export class CheckoutDeliveryOption extends PureComponent {
         }
 
         return (
-            <div
-              block="CheckoutDeliveryOption"
-              elem="Price"
-            >
-                <strong>
-                    { ` - ${ this.getOptionPrice() }` }
-                </strong>
+            <strong>
+                { ` - ${ this.getOptionPrice() }` }
                 { this.renderSubPrice() }
-            </div>
+            </strong>
         );
     }
 
@@ -140,7 +156,11 @@ export class CheckoutDeliveryOption extends PureComponent {
         } = this.props;
 
         return (
-            <div block="CheckoutDeliveryOption" elem="Row">
+            <div
+              block="CheckoutDeliveryOption"
+              elem="Row"
+              ref={ this.rowRef }
+            >
                 <span>
                     { __('Carrier method: ') }
                     <strong>{ carrier_title }</strong>
