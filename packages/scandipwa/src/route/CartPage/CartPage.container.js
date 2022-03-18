@@ -64,7 +64,8 @@ export const mapStateToProps = (state) => ({
     cartSubtotalSubPrice: getCartSubtotalSubPrice(state),
     cartTotalSubPrice: getCartTotalSubPrice(state),
     cartShippingPrice: getCartShippingPrice(state),
-    cartShippingSubPrice: getCartShippingSubPrice(state)
+    cartShippingSubPrice: getCartShippingSubPrice(state),
+    isLoading: state.CartReducer.isLoading
 });
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
@@ -153,7 +154,8 @@ export class CartPageContainer extends PureComponent {
             totals: {
                 items = []
             } = {},
-            device
+            device,
+            isLoading
         } = this.props;
 
         const { isCartItemLoading } = this.state;
@@ -162,7 +164,8 @@ export class CartPageContainer extends PureComponent {
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
             totals,
             isCartItemLoading,
-            device
+            device,
+            isLoading
         };
     }
 

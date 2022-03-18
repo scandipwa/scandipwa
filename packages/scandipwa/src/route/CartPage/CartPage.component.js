@@ -32,6 +32,7 @@ import './CartPage.style';
 export class CartPage extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
         onCheckoutButtonClick: PropTypes.func.isRequired,
         hasOutOfStockProductsInCart: PropTypes.bool,
         onCouponCodeUpdate: PropTypes.func,
@@ -45,19 +46,17 @@ export class CartPage extends PureComponent {
         onCartItemLoading: null
     };
 
-    initial = true;
-
     renderCartItems() {
         const {
             totals: {
                 items,
                 quote_currency_code
             },
+            isLoading,
             onCartItemLoading
         } = this.props;
 
-        if (items.length < 1 && this.initial) {
-            this.initial = false;
+        if (isLoading) {
             return <Loader isLoading />;
         }
 
