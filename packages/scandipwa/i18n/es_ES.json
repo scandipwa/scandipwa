@@ -590,8 +590,5 @@
     "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null,
     "The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.": null,
     "You saved the account information.": null,
-    "Maximum %s characters (%s remaining)": null,
-    "Maximum %s characters": null,
-    "Please enter no more than %s characters.": null,
-    "Maximum %s characters (%s too many)": null
+    "Unable to reset password": null
 }
