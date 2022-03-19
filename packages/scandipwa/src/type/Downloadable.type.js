@@ -19,4 +19,4 @@ export const DownloadableLinkType = PropTypes.shape({
     price: PropTypes.number
 });
 
-export const DownloadableLinksType = PropTypes.arrayOf(PropTypes.objectOf(DownloadableLinkType));
+export const DownloadableLinksType = PropTypes.oneOfType([PropTypes.arrayOf(DownloadableLinkType), PropTypes.string]);

@@ -332,8 +332,8 @@ export class CheckoutOrderSummary extends PureComponent {
               mix={ { block: 'CheckoutOrderSummary', elem: 'ExpandableContent' } }
             >
                 { this.renderItems() }
-                { this.renderCmsBlock() }
                 { this.renderTotals() }
+                { this.renderCmsBlock() }
             </ExpandableContent>
         );
     }

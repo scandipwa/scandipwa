@@ -85,8 +85,6 @@
     "Have a discount code?": null,
     "Home": null,
     "I agree to terms and conditions": null,
-    "If there is an account associated with the provided address you will receive an email with a link to reset your password": null,
-    "If there is an account associated with the provided address you will receive an email with a link to reset your password.": null,
     "Image not found": null,
     "Image not specified": null,
     "Incorrect data! Please resolve all field validation errors.": null,
@@ -395,7 +393,6 @@
     "%s Items": null,
     "read more": null,
     "Subscribe to newsletter": null,
-    "Sort": null,
     "In stock": null,
     "VAT Number": null,
     "1 filter selected": null,
@@ -593,5 +590,6 @@
     "Minimum of different classes of characters in password is %s. ": null,
     "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null,
     "The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.": null,
-    "You saved the account information.": null
+    "You saved the account information.": null,
+    "Unable to reset password": null
 }

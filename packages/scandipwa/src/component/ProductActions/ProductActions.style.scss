@@ -35,6 +35,10 @@
 .ProductActions {
     line-height: 16px;
 
+    &-Attributes {
+        padding: 0;
+    }
+
     &-Brand {
         font-weight: bold;
         opacity: .48;
