@@ -85,8 +85,6 @@
     "Have a discount code?": "Imate kodo za popust?",
     "Home": "Domov",
     "I agree to terms and conditions": null,
-    "If there is an account associated with the provided address you will receive an email with a link to reset your password": "V kolikor je vaš račun povezan z e-naslovom, vam poslali povezavo za ponastavitev vašega gesla",
-    "If there is an account associated with the provided address you will receive an email with a link to reset your password.": null,
     "Image not found": "Slike ni mogoče najti.",
     "Image not specified": "Slika ni definirana",
     "Incorrect data! Please resolve all field validation errors.": "Nepravilni podatki! Popravite označena polja.",
@@ -393,7 +391,6 @@
     "Don't have an account?": null,
     "%s items": null,
     "%s Items": null,
-    "Sort": null,
     "read more": null,
     "In stock": null,
     "VAT Number": null,
@@ -589,7 +586,9 @@
     "Sort by": null,
     "If there is an account associated with %s you will receive an email with a link to reset your password": null,
     " discount each": null,
-    "Sort by": null,
     "Minimum of different classes of characters in password is %s. ": null,
-    "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null
+    "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null,
+    "The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.": null,
+    "You saved the account information.": null,
+    "Unable to reset password": null
 }
