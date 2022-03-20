@@ -37,7 +37,7 @@ export class DateSelectContainer extends PureComponent {
         yearRange: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
         isRequired: PropTypes.bool,
-        updateSelectedValues: PropTypes.bool.isRequired
+        updateSelectedValues: PropTypes.func.isRequired
     };
 
     static defaultProps = {

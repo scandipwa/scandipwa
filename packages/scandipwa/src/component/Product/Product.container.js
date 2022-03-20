@@ -24,6 +24,7 @@ import getFieldsData from 'Util/Form/Extract';
 import { ADD_TO_CART, getNewParameters, getVariantIndex } from 'Util/Product';
 import {
     getAdjustedPrice,
+    getGroupedProductsInStockQuantity,
     getMaxQuantity,
     getMinQuantity,
     getName,
@@ -165,9 +166,7 @@ export class ProductContainer extends PureComponent {
         }
 
         if (typeId === PRODUCT_TYPE.grouped) {
-            const { items = [] } = product;
-
-            return items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
+            return getGroupedProductsInStockQuantity(product);
         }
 
         const minQty = getMinQuantity(selectedProduct || product);
