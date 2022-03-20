@@ -50,7 +50,7 @@ export class ResetAttributes extends PureComponent {
                 <div block="ResetAttributes" elem="AttributeText">
                     <span block="ResetAttributes" elem="AttributeLabel">{ `${attribute_label}: ` }</span>
                     <span block="ResetAttributes" elem="AttributeOption">
-                    <Html content={ selectedOption.label } />
+                    <Html content={ `${selectedOption.label}` } />
                     </span>
                 </div>
             </div>
