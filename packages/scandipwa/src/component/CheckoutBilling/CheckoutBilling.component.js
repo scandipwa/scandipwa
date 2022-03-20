@@ -22,6 +22,7 @@ import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPic
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { Addresstype } from 'Type/Account.type';
 import { PaymentMethodsType } from 'Type/Checkout.type';
+import { DeviceType } from 'Type/Device.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { formatPrice } from 'Util/Price';
 
@@ -52,7 +53,8 @@ export class CheckoutBilling extends PureComponent {
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
         })).isRequired,
-        selectedShippingMethod: PropTypes.string.isRequired
+        selectedShippingMethod: PropTypes.string.isRequired,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -96,8 +98,11 @@ export class CheckoutBilling extends PureComponent {
     renderTermsAndConditions() {
         const {
             termsAreEnabled,
-            termsAndConditions
+            termsAndConditions,
+            device: { isMobile }
         } = this.props;
+
+        console.log(isMobile);
 
         const {
             checkbox_text = __('I agree to terms and conditions')
@@ -133,7 +138,7 @@ export class CheckoutBilling extends PureComponent {
                       } }
                       mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
                     />
-                    { `${checkbox_text } - ` }
+                    { `${checkbox_text } ${!isMobile ? '-' : ''}` }
                 </label>
                 <button
                   block="CheckoutBilling"

@@ -52,6 +52,10 @@
         display: flex;
         align-items: center;
 
+        @include mobile {
+            margin-inline-end: 1rem;
+        }
+
         &:hover {
             cursor: pointer;
             
@@ -60,15 +64,22 @@
             }
         }
     }
+    
+
 
     &-TACLink {
         font-size: 14px;
         font-weight: 700;
         color: var(--link-color);
-        margin-inline-start: 0.5em;
+        margin-inline-start: 0.25em;
         display: flex;
         cursor: pointer;
+        white-space: nowrap;
 
+        @include mobile {
+            margin-inline-start: auto;
+        }
+        
         &:hover {
             text-decoration: underline;
         }

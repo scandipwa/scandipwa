@@ -22,6 +22,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { Addresstype, CustomerType } from 'Type/Account.type';
 import { PaymentMethodsType } from 'Type/Checkout.type';
+import { DeviceType } from 'Type/Device.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import {
     getFormFields,
@@ -41,7 +42,8 @@ export const mapStateToProps = (state) => ({
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
     termsAndConditions: state.ConfigReducer.checkoutAgreements,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
-    cartTotalSubPrice: getCartTotalSubPrice(state)
+    cartTotalSubPrice: getCartTotalSubPrice(state),
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
@@ -70,7 +72,8 @@ export class CheckoutBillingContainer extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         setDetailsStep: PropTypes.func.isRequired,
         setLoading: PropTypes.func.isRequired,
-        termsAreEnabled: PropTypes.bool
+        termsAreEnabled: PropTypes.bool,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -128,7 +131,8 @@ export class CheckoutBillingContainer extends PureComponent {
             shippingAddress,
             termsAndConditions,
             termsAreEnabled,
-            totals
+            totals,
+            device
         } = this.props;
         const { isSameAsShipping } = this.state;
 
@@ -142,7 +146,8 @@ export class CheckoutBillingContainer extends PureComponent {
             shippingAddress,
             termsAndConditions,
             termsAreEnabled,
-            totals
+            totals,
+            device
         };
     }
 
