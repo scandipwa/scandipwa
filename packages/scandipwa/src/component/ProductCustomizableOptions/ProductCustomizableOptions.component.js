@@ -24,8 +24,12 @@ import './ProductCustomizableOptions.style';
  */
 export class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
-        options: OptionsListType.isRequired,
+        options: OptionsListType,
         updateSelectedValues: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        options: []
     };
 
     renderOptionGroup(group) {
@@ -54,6 +58,7 @@ export class ProductCustomizableOptions extends PureComponent {
 
     render() {
         const { options = [] } = this.props;
+        options.sort((first, second) => (first.sort_order - second.sort_order));
 
         return (
           <div block="ProductCustomizableOptions" elem="Wrapper">

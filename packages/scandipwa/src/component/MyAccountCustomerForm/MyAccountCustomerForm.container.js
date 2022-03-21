@@ -24,7 +24,8 @@ import MyAccountCustomerForm from './MyAccountCustomerForm.component';
 /** @namespace Component/MyAccountCustomerForm/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     showTaxVatNumber: state.ConfigReducer.show_tax_vat_number,
-    minimunPasswordLength: state.ConfigReducer.minimun_password_length
+    minimunPasswordLength: state.ConfigReducer.minimun_password_length,
+    minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number
 });
 
 /** @namespace Component/MyAccountCustomerForm/Container/mapDispatchToProps */
@@ -40,7 +41,8 @@ export class MyAccountCustomerFormContainer extends PureComponent {
         showPasswordChangeField: PropTypes.bool.isRequired,
         handleChangeEmailCheckbox: PropTypes.func.isRequired,
         handleChangePasswordCheckbox: PropTypes.func.isRequired,
-        minimunPasswordLength: PropTypes.number.isRequired
+        minimunPasswordLength: PropTypes.number.isRequired,
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
     containerFunctions = {
@@ -63,7 +65,8 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             showPasswordChangeField,
             handleChangeEmailCheckbox,
             handleChangePasswordCheckbox,
-            minimunPasswordLength
+            minimunPasswordLength,
+            minimunPasswordCharacter
         } = this.props;
         const {
             email, currentPassword, isEmailEdit
@@ -82,6 +85,7 @@ export class MyAccountCustomerFormContainer extends PureComponent {
             handleChangePasswordCheckbox,
             currentPassword,
             range,
+            minimunPasswordCharacter,
             email: !isEmailEdit ? currentCustomerEmail : email
         };
     }

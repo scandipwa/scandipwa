@@ -57,10 +57,10 @@ export class MyAccountAddressFormContainer extends PureComponent {
         countryId: this.getCountry()?.value || 'US',
         availableRegions: this.getAvailableRegions() || [],
         isStateRequired: !!this.getCountry()?.is_state_required,
-        currentCity: null,
-        currentRegion: null,
-        currentZipcode: null,
-        currentRegionId: null
+        currentCity: this.getCurrentAddress().city,
+        currentRegion: this.getCurrentAddress().region,
+        currentZipcode: this.getCurrentAddress().postcode,
+        currentRegionId: this.getCurrentAddress().regionId
     };
 
     containerFunctions = {
@@ -113,8 +113,29 @@ export class MyAccountAddressFormContainer extends PureComponent {
     getCountry(countryId = null) {
         const { countries, defaultCountry, address: { country_id: countryIdAddress } = {} } = this.props;
         const countryIdFixed = countryId || countryIdAddress || defaultCountry;
-
         return countries.find(({ value }) => value === countryIdFixed);
+    }
+
+    getCurrentAddress() {
+        const { address, address: { id: addressId } } = this.props;
+
+        if (!addressId) {
+            return {
+                region: '',
+                regionId: 1,
+                zipCode: '',
+                city: ''
+            };
+        }
+
+        const { region: { region, region_id: regionId }, postcode, city } = address;
+
+        return {
+            region,
+            regionId,
+            postcode,
+            city
+        };
     }
 
     /**
@@ -155,6 +176,13 @@ export class MyAccountAddressFormContainer extends PureComponent {
         const country = countries.find(({ value }) => value === fieldValue);
 
         if (!country) {
+            this.setState({
+                currentRegion: '',
+                currentRegionId: 1,
+                countryId: '',
+                availableRegions: []
+            });
+
             return;
         }
 
@@ -165,8 +193,13 @@ export class MyAccountAddressFormContainer extends PureComponent {
         } = country;
 
         this.getAvailableRegions(countryId, currentZipcode);
-
-        this.setState({ availableRegions, isStateRequired, countryId });
+        this.setState({
+            availableRegions,
+            isStateRequired: isStateRequired || false,
+            countryId,
+            currentRegionId: 1,
+            currentRegion: ''
+        });
     }
 
     onZipcodeChange(event, field) {

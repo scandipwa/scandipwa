@@ -213,4 +213,10 @@
             }
         }
     }
+
+    &-Loader {
+        @include mobile {
+            inset-block-start: 35vh;
+        }
+    }
 }

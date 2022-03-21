@@ -32,7 +32,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { RefType } from 'Type/Common.type';
 import { PriceType } from 'Type/Price.type';
-import { MagentoProductType, ProductType } from 'Type/ProductList.type';
+import { MagentoProductType, ProductType, QuantityType } from 'Type/ProductList.type';
 import { filterConfigurableOptions } from 'Util/Product';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
@@ -49,7 +49,7 @@ export class Product extends PureComponent {
         inStock: PropTypes.bool.isRequired,
         magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
 
-        quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.objectOf(PropTypes.number)]).isRequired,
+        quantity: QuantityType.isRequired,
         maxQuantity: PropTypes.number.isRequired,
         minQuantity: PropTypes.number.isRequired,
         setQuantity: PropTypes.func.isRequired,
@@ -214,6 +214,7 @@ export class Product extends PureComponent {
                   configurable_options={ this.getConfigurableAttributes() }
                   isContentExpanded
                   inStock={ inStock }
+                  showProductAttributeAsLink={ false }
                 />
             </div>
         );

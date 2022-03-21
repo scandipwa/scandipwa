@@ -285,7 +285,7 @@ export class MyAccountOrder extends PureComponent {
 
         return (
             <>
-                <Loader isLoading={ isLoading } />
+                <Loader mix={ { block: 'MyAccountOrder', elem: 'Loader ' } } isLoading={ isLoading } />
                 { this.renderContent() }
             </>
         );

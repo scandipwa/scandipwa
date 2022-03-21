@@ -72,12 +72,11 @@ export const getStreetFields = (props) => {
  */
 export const getRegionFields = (props, events) => {
     const {
-        region: { region, region_id: regionId = 1 } = {},
+        currentRegion,
+        currentRegionId,
         regionDisplayAll,
         availableRegions,
-        isStateRequired,
-        currentRegion,
-        currentRegionId
+        isStateRequired
     } = props;
 
     const { onRegionChange, onRegionIdChange } = events;
@@ -95,7 +94,6 @@ export const getRegionFields = (props, events) => {
                     id: 'address-region-id',
                     name: 'region_string',
                     value: currentRegion,
-                    defaultValue: region,
                     placeholder: __('Your state / province')
                 },
                 events: {
@@ -117,7 +115,6 @@ export const getRegionFields = (props, events) => {
             attr: {
                 name: 'region_id',
                 value: currentRegionId,
-                defaultValue: regionId,
                 selectPlaceholder: __('Select region...')
             },
             events: {
@@ -180,9 +177,7 @@ export const myAccountAddressForm = (props, events = {}) => {
         countries = [],
         postcode: zipcode = '',
         telephone = '',
-        addressLinesQty = 1,
-        currentCity,
-        currentZipcode
+        addressLinesQty = 1
     } = props;
 
     const {
@@ -274,7 +269,6 @@ export const myAccountAddressForm = (props, events = {}) => {
                     label: __('Zip / Postal code'),
                     attr: {
                         name: 'postcode',
-                        value: currentZipcode,
                         defaultValue: zipcode,
                         placeholder: __('Your zip / postal code')
                     },
@@ -292,7 +286,6 @@ export const myAccountAddressForm = (props, events = {}) => {
                     label: __('City'),
                     attr: {
                         name: 'city',
-                        value: currentCity,
                         defaultValue: city,
                         placeholder: __('Your city')
                     },

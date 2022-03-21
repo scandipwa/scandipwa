@@ -14,7 +14,7 @@ import React, { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
-import { ProductCardPropsType, ProductType } from 'Type/ProductList.type';
+import { LinkedProductsType, ProductCardPropsType } from 'Type/ProductList.type';
 
 import './ProductLinks.style';
 
@@ -23,7 +23,7 @@ export class ProductLinks extends PureComponent {
     static propTypes = {
         numberOfProductsToDisplay: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
-        linkedProducts: PropTypes.objectOf(ProductType).isRequired,
+        linkedProducts: LinkedProductsType.isRequired,
         linkType: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         productCardProps: ProductCardPropsType.isRequired,

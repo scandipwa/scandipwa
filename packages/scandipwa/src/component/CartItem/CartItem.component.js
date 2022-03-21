@@ -197,13 +197,15 @@ export class CartItem extends PureComponent {
         return label;
     }
 
-    renderBundleProductOptionValue(value) {
-        const { label, quantity, price } = value;
+    renderBundleProductOptionValue(value, index) {
+        const {
+            label, quantity, price, id
+        } = value;
         const { currency_code: currencyCode } = this.props;
         const formattedPrice = formatPrice(price, currencyCode);
 
         return (
-            <div>
+            <div key={ `${id}-${index}` }>
                 { `${quantity} x ${label} ` }
                 <strong>{ formattedPrice }</strong>
             </div>

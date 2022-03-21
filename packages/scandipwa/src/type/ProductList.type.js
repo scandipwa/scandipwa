@@ -233,9 +233,16 @@ export const ItemType = PropTypes.shape(ItemShape);
 
 export const ItemsType = PropTypes.arrayOf(ItemType);
 
-ItemsType.variants = ItemsType;
+ItemType.variants = ItemsType;
 
 export const PagesType = PropTypes.objectOf(ItemsType);
+
+export const QuantityType = PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.shape({
+        [PropTypes.string]: PropTypes.number
+    })
+]);
 
 export const ItemOptionsType = PropTypes.arrayOf(
     PropTypes.shape({
@@ -246,7 +253,7 @@ export const ItemOptionsType = PropTypes.arrayOf(
         position: PropTypes.number,
         price: PropTypes.number,
         price_type: PropTypes.string,
-        quantity: PropTypes.number,
+        quantity: QuantityType,
         uid: PropTypes.string,
         product: PropTypes.shape({
             name: PropTypes.string,
@@ -309,7 +316,7 @@ export const MagentoProductType = PropTypes.shape({
         uid: PropTypes.string,
         value: PropTypes.string
     })),
-    quantity: PropTypes.number,
+    quantity: QuantityType,
     selected_options: PropTypes.arrayOf(PropTypes.string),
     sku: PropTypes.string
 });
@@ -329,5 +336,12 @@ export const OptionsListType = PropTypes.arrayOf(
         sort_order: PropTypes.number,
         type: PropTypes.string,
         uid: PropTypes.string
+    })
+);
+
+export const LinkedProductsType = PropTypes.objectOf(
+    PropTypes.shape({
+        items: PropTypes.arrayOf(ProductType),
+        total_count: PropTypes.number
     })
 );
