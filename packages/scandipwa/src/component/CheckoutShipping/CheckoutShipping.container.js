@@ -266,9 +266,11 @@ export class CheckoutShippingContainer extends PureComponent {
 
         saveAddressInformation(data);
         const shippingMethod = `${shipping_carrier_code}_${shipping_method_code}`;
+        const { street = [] } = formattedFields;
+
         updateShippingFields({
             ...(
-                formattedFields.street.length > 0
+                street.length
                 || (default_shipping && parseInt(default_shipping, 10) === data.shipping_address.id)
                     ? formattedFields : data.shipping_address
             ),
