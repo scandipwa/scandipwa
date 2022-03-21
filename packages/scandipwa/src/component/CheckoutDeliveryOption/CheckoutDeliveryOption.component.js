@@ -53,6 +53,24 @@ export class CheckoutDeliveryOption extends PureComponent {
                 this.setState({ isOverflowed: true });
             }
         }
+        window.addEventListener('resize', () => this.updateState());
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', () => this.updateState());
+    }
+
+    updateState() {
+        if (this.rowRef.current && this.subPriceRef.current) {
+            const rowLeft = this.rowRef.current.getBoundingClientRect().left;
+            const SubPriceLeft = this.subPriceRef.current.getBoundingClientRect().left;
+
+            if (rowLeft >= SubPriceLeft) {
+                this.setState({ isOverflowed: true });
+            } else {
+                this.setState({ isOverflowed: false });
+            }
+        }
     }
 
     renderSubPrice() {
