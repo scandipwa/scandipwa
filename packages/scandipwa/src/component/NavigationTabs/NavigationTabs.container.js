@@ -92,6 +92,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const { name } = this.getNavigationState();
         this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
         window.addEventListener('scroll', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY));
+        window.scrollTo({ top: 0 });
 
         super.componentDidMount();
     }
