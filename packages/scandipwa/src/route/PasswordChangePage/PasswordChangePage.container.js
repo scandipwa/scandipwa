@@ -152,11 +152,18 @@ export class PasswordChangePageContainer extends PureComponent {
         };
 
         return {
+            range,
             isLoading,
             isMobile,
-            range,
-            minimunPasswordCharacter
+            minimunPasswordCharacter,
+            shouldDisplayWarning: this.shouldDisplayWarning()
         };
+    }
+
+    shouldDisplayWarning() {
+        const token = getQueryParam('token', location);
+
+        return !token;
     }
 
     onPasswordSuccess(form, fields) {

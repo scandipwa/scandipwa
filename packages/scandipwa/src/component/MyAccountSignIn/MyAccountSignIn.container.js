@@ -63,6 +63,10 @@ export class MyAccountSignInContainer extends PureComponent {
         handleEmailInput: noopFn
     };
 
+    state = {
+        isSignIn: false
+    };
+
     containerFunctions = {
         onSignInSuccess: this.onSignInSuccess.bind(this)
     };
@@ -108,17 +112,26 @@ export class MyAccountSignInContainer extends PureComponent {
             setLoadingState
         } = this.props;
 
+        const {
+            isSignIn
+        } = this.state;
+
         setLoadingState(true);
         const fieldPairs = transformToNameValuePair(fields);
 
-        try {
-            await signIn(fieldPairs);
-            onSignIn();
-        } catch (error) {
-            showNotification('error', getErrorMessage(error));
-        }
+        if (!isSignIn) {
+            this.setState({ isSignIn: true });
 
-        setLoadingState(false);
+            try {
+                await signIn(fieldPairs);
+                onSignIn();
+            } catch (error) {
+                showNotification('error', getErrorMessage(error));
+                this.setState({ isSignIn: false });
+            } finally {
+                setLoadingState(false);
+            }
+        }
     }
 
     render() {

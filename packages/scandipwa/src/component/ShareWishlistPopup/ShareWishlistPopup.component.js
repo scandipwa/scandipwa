@@ -24,13 +24,19 @@ export class ShareWishlistPopup extends PureComponent {
     state = {};
 
     static propTypes = {
-        handleFormData: PropTypes.func.isRequired
+        handleFormData: PropTypes.func.isRequired,
+        isFormLoading: PropTypes.bool.isRequired
     };
 
     renderContent() {
-        const { handleFormData } = this.props;
+        const { handleFormData, isFormLoading } = this.props;
 
-        return <ShareWishlistForm onSave={ handleFormData } />;
+        return (
+            <ShareWishlistForm
+              onSave={ handleFormData }
+              isFormLoading={ isFormLoading }
+            />
+        );
     }
 
     render() {

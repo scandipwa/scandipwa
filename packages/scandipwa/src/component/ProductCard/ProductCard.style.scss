@@ -80,6 +80,10 @@
         }
     }
 
+    &-Attributes {
+        padding: 0;
+    }
+
     &-ConfigurationNotice {
         opacity: 0.3;
         font-weight: normal;
@@ -287,6 +291,12 @@
 
     .ProductPrice-PriceBadge {
         font-size: 12px;
+    }
+
+    .ProductPrice-BundleTo {
+        @include mobile {
+            margin-block-start: 6px;
+        }
     }
 
     &-Figure {

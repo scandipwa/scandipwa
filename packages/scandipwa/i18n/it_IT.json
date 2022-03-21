@@ -90,8 +90,6 @@
     "Have a discount code?": "Hai un codice sconto?",
     "Home": "Home",
     "I agree to terms and conditions": "Accetto i termini e condizioni",
-    "If there is an account associated with the provided address you will receive an email with a link to reset your password": "Se è presente un account associato all'indirizzo fornito, riceverai un'email con un link per reimpostare la password",
-    "If there is an account associated with the provided address you will receive an email with a link to reset your password.": "Se è presente un account associato all'indirizzo fornito, riceverai un'email con un link per reimpostare la password.",
     "Image not found": "L'immagine non esiste.",
     "Image not specified": "Nessuna immagine",
     "Incorrect data! Please resolve all field validation errors.": "Dati errati! Risolvi tutti gli errori di convalida del campo.",
@@ -392,7 +390,6 @@
     "Your zip / postal code": null,
     "%s items": null,
     "%s Items": null,
-    "Sort": null,
     "Subscribe to newsletter": null,
     "read more": null,
     "In stock": null,
@@ -592,5 +589,6 @@
     "Minimum of different classes of characters in password is %s. ": null,
     "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null,
     "The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.": null,
-    "You saved the account information.": null
+    "You saved the account information.": null,
+    "Unable to reset password": null
 }

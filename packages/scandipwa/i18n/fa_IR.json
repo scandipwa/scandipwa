@@ -139,7 +139,6 @@
     "Breadcrumbs": null,
     "Notification messages": null,
     "Style Guide page": null,
-    "If there is an account associated with the provided address you will receive an email with a link to reset your password.": null,
     "Don't have an account?": null,
     "Home": null,
     "Breadcrumbs (current location)...": null,
@@ -303,7 +302,6 @@
     "Error fetching Product List!": null,
     "Incorrect data! Please resolve all field validation errors.": null,
     "The email confirmation link has been sent to your email. Please confirm your account to proceed.": null,
-    "If there is an account associated with the provided address you will receive an email with a link to reset your password": null,
     "Add a comment": null,
     "Qty:": null,
     "Add to cart": null,
@@ -330,7 +328,6 @@
     "Out of stock": null,
     "Incorrect or missing options!": null,
     "Option": null,
-    "Sort": null,
     "Forgot password?": null,
     "Create an account": null,
     "Tax/VAT Number": null,
@@ -592,5 +589,6 @@
     "Minimum of different classes of characters in password is %s. ": null,
     "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null,
     "The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.": null,
-    "You saved the account information.": null
+    "You saved the account information.": null,
+    "Unable to reset password": null
 }
