@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import Breadcrumb from 'Component/Breadcrumb';
 import ContentWrapper from 'Component/ContentWrapper';
 import { BreadcrumbsType } from 'Type/Breadcrumbs.type';
-import { appendWithStoreCode } from 'Util/Url';
+import { appendWithStoreCode, isHomePageUrl } from 'Util/Url';
 
 import './Breadcrumbs.style';
 
@@ -62,9 +62,8 @@ export class Breadcrumbs extends PureComponent {
 
         if (
             !areBreadcrumbsVisible
-            || location.pathname === appendWithStoreCode('/')
             || location.pathname.match(appendWithStoreCode('/account'))
-            || location.pathname === '/'
+            || isHomePageUrl(location.pathname)
         ) {
             return null;
         }

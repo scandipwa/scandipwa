@@ -63,8 +63,7 @@ export class HomePageContainer extends PureComponent {
             changeHeaderState,
             location,
             match,
-            pageIdentifiers,
-            HOME: true
+            pageIdentifiers
         };
     }
 

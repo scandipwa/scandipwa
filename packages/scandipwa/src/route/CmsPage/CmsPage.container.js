@@ -47,8 +47,8 @@ export const mapDispatchToProps = (dispatch) => ({
     setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    toggleBreadcrumbs: async (isActive) => {
-        await BreadcrumbsDispatcher.then(
+    toggleBreadcrumbs: (isActive) => {
+        BreadcrumbsDispatcher.then(
             ({ default: dispatcher }) => dispatcher.update([], dispatch)
         );
         dispatch(toggleBreadcrumbs(isActive));
@@ -94,11 +94,10 @@ export class CmsPageContainer extends DataContainer {
     updateBreadcrumbs() {
         const {
             toggleBreadcrumbs,
-            isBreadcrumbsActive,
-            HOME
+            isBreadcrumbsActive
         } = this.props;
 
-        toggleBreadcrumbs(!HOME && isBreadcrumbsActive);
+        toggleBreadcrumbs(isBreadcrumbsActive);
     }
 
     containerProps() {
@@ -170,8 +169,7 @@ export class CmsPageContainer extends DataContainer {
             location: { pathname },
             updateMeta,
             setHeaderState,
-            updateBreadcrumbs,
-            HOME
+            updateBreadcrumbs
         } = this.props;
 
         const {
@@ -184,7 +182,7 @@ export class CmsPageContainer extends DataContainer {
 
         debounce(this.setOfflineNoticeSize, LOADING_TIME)();
 
-        updateBreadcrumbs(HOME ? [] : page);
+        updateBreadcrumbs(page);
         updateMeta({
             title: meta_title || title,
             description: meta_description,
