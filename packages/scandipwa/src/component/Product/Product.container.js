@@ -271,6 +271,7 @@ export class ProductContainer extends PureComponent {
         };
     }
 
+    // TODO: remove preventDefault so that radio buttons works a okay
     /**
      * Fetches form data for customizable and bundle options.
      * (Should be called when value is changed)
