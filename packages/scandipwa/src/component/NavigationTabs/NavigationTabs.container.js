@@ -61,8 +61,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     scrollPosition = 0;
 
     state = {
-        mobileHeight: 0,
-        isToggle: false
+        mobileHeight: 0
     };
 
     routeMap = {
@@ -141,12 +140,9 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const offset = window.innerHeight + window.pageYOffset;
         const height = doc.scrollHeight;
 
-        const { mobileHeight, isToggle } = this.state;
+        const { mobileHeight, diff } = this.state;
 
-        if (!isToggle) {
-            this.setState({ mobileHeight: height });
-            this.setState({ isToggle: true });
-        }
+        this.setState({ mobileHeight: height });
 
         if (windowY < TOP_MIN_OFFSET) {
             // We are on top
@@ -175,9 +171,13 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         }
 
         if (windowY > this.scrollPosition) {
-            if (mobileHeight < height) {
+            this.setState({ diff: Math.abs(height - mobileHeight) });
+
+            if (diff + height > height) {
                 this.showNavigationTabs();
-            } else {
+            }
+
+            if (diff === 0) {
                 // Scrolling DOWN
                 this.hideNavigationTabs();
             }
