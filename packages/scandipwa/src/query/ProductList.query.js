@@ -13,6 +13,7 @@ import { SORT_DIRECTION_TYPE } from 'Route/CategoryPage/CategoryPage.config';
 import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { allCharactersSame } from 'Util/Common';
 import { Field, Fragment } from 'Util/Query';
 
 /**
@@ -121,7 +122,15 @@ export class ProductListQuery {
             },
             search: {
                 type: 'String!',
-                handler: (option) => option.replace(/\+/g, '-')
+                handler: (option) => {
+                    console.log(allCharactersSame(option.replace(/%2B/g, '+'), '+'));
+
+                    if (allCharactersSame(option.replace(/%2B/g, '+'), '+')) {
+                        return option.replace(/%2B/g, '-');
+                    }
+
+                    return option.replace(/\+/g, ' ');
+                }
             },
             sort: {
                 type: 'ProductAttributeSortInput!',

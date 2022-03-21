@@ -27,3 +27,6 @@ export const decodeString = (string) => {
         return string;
     }
 };
+
+/** @namespace Util/Common/Index/allCharactersSame */
+export const allCharactersSame = (string, character) => string.split('').every((char) => char === character);

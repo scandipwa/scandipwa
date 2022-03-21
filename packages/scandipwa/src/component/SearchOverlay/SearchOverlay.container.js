@@ -86,8 +86,7 @@ export class SearchOverlayContainer extends PureComponent {
 
         if (searchCriteria) {
             clearSearchResults();
-            const search = encodeURIComponent(searchCriteria.trim().replace(/%/g, '%25'))
-                .replace(/%2B/g, '+');
+            const search = encodeURIComponent(searchCriteria.trim().replace(/%/g, '%25'));
 
             makeSearchRequest({
                 args: {
