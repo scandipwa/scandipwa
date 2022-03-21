@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { MixType } from 'Type/Common.type';
+
 import './Loader.style';
 
 /**
@@ -22,11 +24,13 @@ import './Loader.style';
  */
 export class Loader extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool
+        isLoading: PropTypes.bool,
+        mix: MixType
     };
 
     static defaultProps = {
-        isLoading: true
+        isLoading: true,
+        mix: {}
     };
 
     renderMain() {
@@ -38,7 +42,7 @@ export class Loader extends PureComponent {
     }
 
     render() {
-        const { isLoading } = this.props;
+        const { isLoading, mix } = this.props;
 
         if (!isLoading) {
             return null;
@@ -46,7 +50,7 @@ export class Loader extends PureComponent {
 
         return (
             <div block="Loader">
-                <div block="Loader" elem="Scale">
+                <div block="Loader" mix={ mix } elem="Scale">
                     { this.renderMain() }
                 </div>
             </div>
