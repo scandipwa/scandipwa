@@ -62,7 +62,6 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     state = {
         mobileHeight: 0,
-        diff: 0,
         isToggle: false
     };
 
