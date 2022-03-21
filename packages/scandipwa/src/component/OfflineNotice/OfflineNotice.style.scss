@@ -99,10 +99,6 @@
             &::after {
                 border-radius: 50%;
                 box-shadow: calc(3px * var(--diameter)) calc(-3px * var(--diameter)) 0 0 var(--fill-color), calc(1px * var(--diameter)) 0 0 0 var(--fill-color), calc(7px * var(--diameter)) calc(-3px * var(--diameter)) 0 calc(-1px * var(--diameter)) var(--fill-color), calc(3px * var(--diameter)) 0 0 0 var(--fill-color), calc(5px * var(--diameter)) 0 0 0 var(--fill-color), calc(8px * var(--diameter)) 0 0 0 var(--fill-color);
-            
-                [dir="rtl"] & {
-                    transform: scaleX(-1);
-                }
             }
 
             &::before {
@@ -112,6 +108,11 @@
                 inset-block-start: calc(-2px * var(--diameter));
                 width: calc(8px * var(--diameter));
                 height: calc(8px * var(--diameter));
+
+                [dir="rtl"] & {
+                    // stylelint-disable-next-line csstools/use-logical
+                    right: calc(8px * var(--diameter));
+                }
             }
 
             &::after {
@@ -120,6 +121,11 @@
                 inset-block-start: calc(-1px * var(--diameter));
                 width: calc(6px * var(--diameter));
                 height: calc(6px * var(--diameter));
+
+                [dir="rtl"] & {
+                    // stylelint-disable-next-line csstools/use-logical
+                    right: calc(9px * var(--diameter));
+                }
             }
         }
 
@@ -129,16 +135,17 @@
                 -webkit-transform: rotate(45deg);
                 transform: rotate(45deg);
                 inset-block-start: 0;
-
-                [dir="rtl"] & {
-                    transform: rotate(135deg)
-                }
             }
 
             &::before {
                 width: calc(22px * var(--diameter));
                 height: calc(3px * var(--diameter));
                 inset-inline-start: calc(-1px * var(--diameter));
+            
+                [dir="rtl"] & {
+                    // stylelint-disable-next-line csstools/use-logical
+                    right: calc(-5px * var(--diameter));
+                }
             }
 
             &::after {
@@ -147,6 +154,11 @@
                 width: calc(20px * var(--diameter));
                 height: calc(1px * var(--diameter));
                 inset-inline-start: calc(-1px * var(--diameter));
+
+                [dir="rtl"] & {
+                    // stylelint-disable-next-line csstools/use-logical
+                    right: calc(-3px * var(--diameter));
+                }
             }
         }
     }
