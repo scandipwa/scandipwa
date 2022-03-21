@@ -60,6 +60,12 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     scrollPosition = 0;
 
+    state = {
+        mobileHeight: 0,
+        diff: 0,
+        isToggle: false
+    };
+
     routeMap = {
         '/customer/account': { name: ACCOUNT_TAB },
         '/sales/order/history': { name: ACCOUNT_TAB },
@@ -87,7 +93,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const SCROLL_DEBOUNCE_DELAY = 10;
         const { name } = this.getNavigationState();
         this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
-        window.addEventListener('mousewheel', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY));
+        window.addEventListener('scroll', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY));
 
         super.componentDidMount();
     }
@@ -136,6 +142,13 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const offset = window.innerHeight + window.pageYOffset;
         const height = doc.scrollHeight;
 
+        const { mobileHeight, isToggle } = this.state;
+
+        if (!isToggle) {
+            this.setState({ mobileHeight: height });
+            this.setState({ isToggle: true });
+        }
+
         if (windowY < TOP_MIN_OFFSET) {
             // We are on top
             this.showNavigationTabs();
@@ -158,9 +171,17 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         if (windowY < this.scrollPosition) {
             // Scrolling UP
             this.showNavigationTabs();
-        } else {
-            // Scrolling DOWN
-            this.hideNavigationTabs();
+
+            return;
+        }
+
+        if (windowY > this.scrollPosition) {
+            if (mobileHeight < height) {
+                this.showNavigationTabs();
+            } else {
+                // Scrolling DOWN
+                this.hideNavigationTabs();
+            }
         }
     }
 
