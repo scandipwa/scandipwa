@@ -58,7 +58,7 @@ export class WishlistDispatcher {
         return fetchQuery(WishlistQuery.getWishlistQuery()).then(
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/_syncWishlistWithBE/fetchQuery/then */
             (data) => {
-                if (!isSignedIn()) {
+                if (!getAuthorizationToken()) {
                     return;
                 }
 
