@@ -132,7 +132,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             this.setState({ isAddedToWishList: false })
         }
 
-        if (add && !isAddedToWishList) {
+        if (add) {
             await addProductToWishlist({
                 items: magentoProduct,
                 wishlistId
