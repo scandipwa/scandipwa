@@ -29,7 +29,7 @@ import { CustomerType } from 'Type/Account.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
 import { removeEmptyStreets } from 'Util/Address';
-import { isSignedIn } from 'Util/Auth';
+import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteGuestQuoteId, getCartTotalSubPrice, getGuestQuoteId } from 'Util/Cart';
 import history from 'Util/History';
@@ -79,7 +79,7 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+        ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, getAuthorizationToken())
     ),
     resetGuestCart: () => CartDispatcher.then(
         ({ default: dispatcher }) => {

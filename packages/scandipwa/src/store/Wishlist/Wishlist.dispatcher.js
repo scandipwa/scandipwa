@@ -17,7 +17,7 @@ import {
     updateAllProductsInWishlist,
     updateIsLoading
 } from 'Store/Wishlist/Wishlist.action';
-import { isSignedIn } from 'Util/Auth';
+import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 import getStore from 'Util/Store';
 import { getPriceRange } from 'Util/Wishlist';
@@ -58,6 +58,10 @@ export class WishlistDispatcher {
         return fetchQuery(WishlistQuery.getWishlistQuery()).then(
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/_syncWishlistWithBE/fetchQuery/then */
             (data) => {
+                if (!isSignedIn()) {
+                    return;
+                }
+
                 if (data && data.wishlist) {
                     const { wishlist } = data;
                     const productsToAdd = wishlist.items.reduce((prev, wishlistItem) => {
@@ -164,7 +168,7 @@ export class WishlistDispatcher {
         } finally {
             await this._syncWishlistWithBE(dispatch);
             CartDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, getAuthorizationToken())
             );
             dispatch(showNotification('success', __('Available items moved to cart')));
         }
