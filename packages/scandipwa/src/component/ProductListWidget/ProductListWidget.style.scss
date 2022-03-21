@@ -26,8 +26,6 @@
         }
 
         @include tablet {
-            --new-products-per-page-count: calc(var(--new-products-per-page-count) - 2);
-
             grid-template-columns: repeat(4, 1fr);
         }
 
