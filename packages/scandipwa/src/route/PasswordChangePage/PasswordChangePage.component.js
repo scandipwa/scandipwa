@@ -27,27 +27,46 @@ export class PasswordChangePage extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
         isMobile: PropTypes.bool.isRequired,
+        shouldDisplayWarning: PropTypes.bool.isRequired,
         minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
-    renderContent() {
+    renderWarningMessage() {
+        const { shouldDisplayWarning } = this.props;
+
+        if (!shouldDisplayWarning) {
+            return null;
+        }
+
+        return (
+            <div block="PasswordChangePage" elem="WarningMsg">
+                <h2>
+                    { __('Unable to reset password') }
+                </h2>
+                <div>
+                    { __('The URL is invalid. Some parameters are missing.') }
+                </div>
+            </div>
+        );
+    }
+
+    renderPageContents() {
         const {
-            onError,
-            isLoading,
             showNotification,
-            onPasswordSuccess,
-            isMobile,
             range,
+            onError,
+            isMobile,
+            onPasswordSuccess,
+            shouldDisplayWarning,
             minimunPasswordCharacter
         } = this.props;
 
+        if (shouldDisplayWarning) {
+            return null;
+        }
+
         return (
-            <ContentWrapper
-              mix={ { block: 'PasswordChangePage' } }
-              wrapperMix={ { block: 'PasswordChangePage', elem: 'Wrapper' } }
-              label={ __('Password Change Actions') }
-            >
-                <Loader isLoading={ isLoading } />
+            <>
                 { !isMobile && <h1>{ __('Change My Password') }</h1> }
                 <PasswordChangeForm
                   onFormError={ onError }
@@ -56,6 +75,22 @@ export class PasswordChangePage extends PureComponent {
                   range={ range }
                   minimunPasswordCharacter={ minimunPasswordCharacter }
                 />
+            </>
+        );
+    }
+
+    renderContent() {
+        const { isLoading } = this.props;
+
+        return (
+            <ContentWrapper
+              mix={ { block: 'PasswordChangePage' } }
+              wrapperMix={ { block: 'PasswordChangePage', elem: 'Wrapper' } }
+              label={ __('Password Change Actions') }
+            >
+                <Loader isLoading={ isLoading } />
+                { this.renderWarningMessage() }
+                { this.renderPageContents() }
             </ContentWrapper>
         );
     }
