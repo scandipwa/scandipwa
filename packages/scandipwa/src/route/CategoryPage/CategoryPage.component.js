@@ -201,9 +201,21 @@ export class CategoryPage extends PureComponent {
     }
 
     renderFilterPlaceholder() {
+        // eslint-disable-next-line no-magic-numbers
+        const numberOfPlaceholdersToRender = [7, 14, 7];
+
         return (
-            <div block="CategoryPage" elem="FilterPlaceholder">
-                <Loader isLoading />
+            <div block="CategoryPage" elem="FilterPlaceholderContainer">
+                { numberOfPlaceholdersToRender.map((length, i) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <div key={ i } block="CategoryPage" elem="SwatchList">
+                        { Array.from({ length }, (_, i) => (
+                            // eslint-disable-next-line react/no-array-index-key
+                            <div key={ i } block="CategoryPage" elem="Placeholder" />
+                        )) }
+                    </div>
+                )) }
+                 <Loader isLoading />
             </div>
         );
     }

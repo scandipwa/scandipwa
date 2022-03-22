@@ -83,19 +83,34 @@
         @include desktop {
             display: none;
 
-            &Placeholder {
+            &PlaceholderContainer {
                 position: relative;
-                grid-row: 1/6;
-                width: 100%;
-                opacity: 1;
-                pointer-events: all;
-                display: flex;
-                flex-direction: column;
-                height: auto;
-                overflow: visible;
-                background-image: var(--placeholder-image);
             }
         }
+    }
+
+    &-SwatchList {
+        text-align: center;
+        margin-block-start: 2px;
+        margin-block-end: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        padding-inline-start: 3px;
+        padding-block-start: 3px;
+    }
+
+    &-Placeholder {
+        animation: var(--placeholder-animation);
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        height: var(--option-size);
+        width: var(--option-size);
+        margin-block-end: var(--option-margin-block);
+        margin-block-start: var(--option-margin-block);
+        margin-inline-end: var(--option-margin-inline);
+        margin-inline-start: var(--option-margin-inline);
     }
 
     &-Subheading {
