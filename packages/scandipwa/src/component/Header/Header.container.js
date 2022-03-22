@@ -199,7 +199,14 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     shareWishlist() {
-        const { showPopup } = this.props;
+        const { showPopup, navigationState: { title } } = this.props;
+
+        const wishListQty = Number(title.split(' ').filter((item) => Number(+item)));
+
+        if (!wishListQty) {
+            return;
+        }
+
         showPopup({ title: __('Share Wishlist') });
     }
 
