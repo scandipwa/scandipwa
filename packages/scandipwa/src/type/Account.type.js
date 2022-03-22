@@ -46,7 +46,7 @@ export const CustomerType = PropTypes.shape({
     created_at: PropTypes.string,
     default_billing: PropTypes.string,
     default_shipping: PropTypes.string,
-    dob: PropTypes.date,
+    dob: PropTypes.instanceOf(Date),
     email: PropTypes.string,
     firstname: PropTypes.string,
     group_id: PropTypes.number,
