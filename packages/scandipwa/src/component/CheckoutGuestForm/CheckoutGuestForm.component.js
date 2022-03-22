@@ -41,7 +41,8 @@ export class CheckoutGuestForm extends FieldForm {
         setSignInState: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }),
-        minimunPasswordCharacter: PropTypes.string.isRequired
+        minimunPasswordCharacter: PropTypes.string.isRequired,
+        isLoading: PropTypes.bool.isRequired
     };
 
     // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
@@ -119,7 +120,8 @@ export class CheckoutGuestForm extends FieldForm {
             onSignIn,
             emailValue,
             handleEmailInput,
-            setSignInState
+            setSignInState,
+            isLoading
         } = this.props;
 
         return (
@@ -134,6 +136,7 @@ export class CheckoutGuestForm extends FieldForm {
               emailValue={ emailValue }
               setLoadingState={ setLoadingState }
               onSignIn={ onSignIn }
+              isLoading={ isLoading }
             />
         );
     }
