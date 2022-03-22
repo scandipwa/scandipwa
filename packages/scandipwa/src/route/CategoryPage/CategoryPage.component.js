@@ -24,6 +24,7 @@ import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import {
     CategoryTreeType, FilterInputType, FilterType, SortFieldsType
 } from 'Type/Category.type';
@@ -180,10 +181,16 @@ export class CategoryPage extends PureComponent {
             isContentFiltered,
             totalPages,
             category: { is_anchor },
-            isSearchPage
+            isSearchPage,
+            isMatchingInfoFilter,
+            isCurrentCategoryLoaded
         } = this.props;
 
-        if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage)) {
+        if (!isMatchingInfoFilter) {
+            return this.renderFilterButtonPlaceholder();
+        }
+
+        if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage) || !isCurrentCategoryLoaded) {
             return null;
         }
 
@@ -199,6 +206,7 @@ export class CategoryPage extends PureComponent {
             </button>
         );
     }
+
 
     renderPlaceholder(block) {
         // eslint-disable-next-line no-magic-numbers
@@ -217,6 +225,12 @@ export class CategoryPage extends PureComponent {
                 )) }
                  <Loader isLoading />
             </>
+
+    renderFilterButtonPlaceholder() {
+        return (
+            <p block="CategoryPage" elem="FilterButtonPlaceholder">
+                <TextPlaceholder length="short" />
+            </p>
         );
     }
 
@@ -426,7 +440,13 @@ export class CategoryPage extends PureComponent {
                     { this.renderLayoutButtons() }
                     { this.renderCategorySort() }
                 </div>
-                { this.renderFilterButton() }
+                <div
+                  block="CategoryPage"
+                  elem="LayoutWrapper"
+                  mods={ { isPrerendered: isSSR() || isCrawler() } }
+                >
+                    { this.renderFilterButton() }
+                </div>
             </aside>
         );
     }

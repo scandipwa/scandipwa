@@ -70,10 +70,13 @@
 
     &-Error {
         &Messages {
+            margin-block-end: -.1em;
+            padding-block-start: 10px;
+        }
+
+        &Message {
             color: var(--primary-error-color);
             font-size: 12px;
-            margin-block-end: -.1em;
-            margin-block-start: 6px;
             text-align: start;
         }
     }
