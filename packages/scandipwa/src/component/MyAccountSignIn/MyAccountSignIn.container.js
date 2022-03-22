@@ -13,10 +13,14 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { SHIPPING_URL } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { TotalsType } from 'Type/MiniCart.type';
 import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
+import history from 'Util/History';
 import { getErrorMessage } from 'Util/Request';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountSignIn from './MyAccountSignIn.component';
 
@@ -28,7 +32,8 @@ export const MyAccountDispatcher = import(
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
-    isLocked: state.MyAccountReducer.isLocked
+    isLocked: state.MyAccountReducer.isLocked,
+    totals: state.CartReducer.cartTotals
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
@@ -56,7 +61,8 @@ export class MyAccountSignInContainer extends PureComponent {
         setSignInState: PropTypes.func,
         handleEmailInput: PropTypes.func,
         isLocked: PropTypes.string.isRequired,
-        updateCustomerLockedStatus: PropTypes.func.isRequired
+        updateCustomerLockedStatus: PropTypes.func.isRequired,
+        totals: TotalsType.isRequired
     };
 
     static defaultProps = {
@@ -108,7 +114,8 @@ export class MyAccountSignInContainer extends PureComponent {
             signIn,
             showNotification,
             onSignIn,
-            setLoadingState
+            setLoadingState,
+            totals: { is_virtual }
         } = this.props;
 
         setLoadingState(true);
@@ -122,6 +129,10 @@ export class MyAccountSignInContainer extends PureComponent {
         }
 
         setLoadingState(false);
+
+        if (is_virtual) {
+            history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
+        }
     }
 
     render() {

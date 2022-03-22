@@ -248,11 +248,8 @@ export class CheckoutContainer extends PureComponent {
         const { email } = this.state;
         const { email: prevEmail } = prevState;
 
-        const shouldGoBackToShipping = (/shipping/.test(urlStep) && /billing/.test(prevUrlStep))
-            || (/billing/.test(prevUrlStep) && /billing/.test(urlStep));
-
         // Handle going back from billing to shipping
-        if (shouldGoBackToShipping) {
+        if (/shipping/.test(urlStep) && /billing/.test(prevUrlStep)) {
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
             // eslint-disable-next-line react/no-did-update-set-state
@@ -261,8 +258,6 @@ export class CheckoutContainer extends PureComponent {
                 isGuestEmailSaved: false
             });
         }
-
-        // handle going back from bill
 
         if (email !== prevEmail) {
             this.checkEmailAvailability(email);
