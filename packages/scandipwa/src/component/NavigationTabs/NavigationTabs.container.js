@@ -165,8 +165,12 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         }
 
         if (windowY < this.scrollPosition) {
-            // Scrolling UP
-            this.showNavigationTabs();
+            this.setState({ diff: Math.abs(height - mobileHeight) });
+
+            if (diff === 0) {
+                // Scrolling UP
+                this.showNavigationTabs();
+            }
 
             return;
         }
@@ -174,11 +178,9 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         if (windowY > this.scrollPosition) {
             this.setState({ diff: Math.abs(height - mobileHeight) });
 
-            if (diff + height > height) {
+            if (diff > 0) {
                 this.showNavigationTabs();
-            }
-
-            if (diff === 0) {
+            } else {
                 // Scrolling DOWN
                 this.hideNavigationTabs();
             }
