@@ -22,9 +22,17 @@
         color: var(--primary-base-color);
         cursor: pointer;
         font-size: 14px;
+        
+        @media (hover: hover) {
+            &:hover {
+                color: var(--primary-dark-color);
+            }
+        }
 
-        &:hover {
-            color: var(--primary-dark-color);
+        @media (hover:none), (hover:on-demand) {
+            &:active {
+                color: var(--primary-dark-color);
+            }
         }
 
         [dir="rtl"] & {

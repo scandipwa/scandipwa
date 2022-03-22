@@ -295,9 +295,17 @@
             &:disabled {
                 cursor: default;
             }
-
-            &:hover {
-                border-color: var(--primary-dark-color);
+            
+            @media (hover: hover) {
+                &:hover {
+                    border-color: var(--primary-dark-color);
+                }
+            }
+    
+            @media (hover:none), (hover:on-demand) {
+                &:active {
+                    border-color: var(--primary-dark-color);
+                }
             }
         }
     }
