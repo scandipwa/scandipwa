@@ -23,7 +23,7 @@ import './ProductConfigurableAttributes.style';
 /** @namespace Component/ProductConfigurableAttributes/Component */
 export class ProductConfigurableAttributes extends PureComponent {
     static propTypes = {
-        renderFilterPlaceholder: PropTypes.func.isRequired,
+        renderPlaceholder: PropTypes.func.isRequired,
         configurable_options: AttributesType.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
@@ -170,7 +170,7 @@ export class ProductConfigurableAttributes extends PureComponent {
     }
 
     render() {
-        const { isReady, mix, renderFilterPlaceholder } = this.props;
+        const { isReady, mix, renderPlaceholder } = this.props;
 
         return (
             <div
@@ -178,7 +178,7 @@ export class ProductConfigurableAttributes extends PureComponent {
               mods={ { isLoading: !isReady } }
               mix={ mix }
             >
-                { isReady ? this.renderConfigurableAttributes() : renderFilterPlaceholder() }
+                { isReady ? this.renderConfigurableAttributes() : renderPlaceholder('ProductConfigurableAttributes') }
             </div>
         );
     }

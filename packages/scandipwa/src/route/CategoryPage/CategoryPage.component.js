@@ -200,22 +200,30 @@ export class CategoryPage extends PureComponent {
         );
     }
 
-    renderFilterPlaceholder() {
+    renderPlaceholder(block) {
         // eslint-disable-next-line no-magic-numbers
         const numberOfPlaceholdersToRender = [7, 14, 7];
 
         return (
-            <div block="CategoryPage" elem="FilterPlaceholderContainer">
+            <>
                 { numberOfPlaceholdersToRender.map((length, i) => (
                     // eslint-disable-next-line react/no-array-index-key
-                    <div key={ i } block="CategoryPage" elem="SwatchList">
+                    <div key={ i } block={ block } elem="SwatchList">
                         { Array.from({ length }, (_, i) => (
                             // eslint-disable-next-line react/no-array-index-key
-                            <div key={ i } block="CategoryPage" elem="Placeholder" />
+                            <div key={ i } block={ block } elem="Placeholder" />
                         )) }
                     </div>
                 )) }
                  <Loader isLoading />
+            </>
+        );
+    }
+
+    renderFilterPlaceholder() {
+        return (
+            <div block="CategoryPage" elem="FilterPlaceholderContainer">
+                { this.renderPlaceholder('CategoryPage') }
             </div>
         );
     }
@@ -242,7 +250,7 @@ export class CategoryPage extends PureComponent {
                   isMatchingInfoFilter={ isMatchingInfoFilter }
                   isCategoryAnchor={ !!is_anchor }
                   isSearchPage={ isSearchPage }
-                  renderFilterPlaceholder={ this.renderFilterPlaceholder }
+                  renderPlaceholder={ this.renderPlaceholder }
                 />
             </Suspense>
         );

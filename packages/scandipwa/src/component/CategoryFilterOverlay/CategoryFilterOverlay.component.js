@@ -26,7 +26,7 @@ import './CategoryFilterOverlay.style';
 /** @namespace Component/CategoryFilterOverlay/Component */
 export class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
-        renderFilterPlaceholder: PropTypes.func.isRequired,
+        renderPlaceholder: PropTypes.func.isRequired,
         availableFilters: AttributesType.isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
         isContentFiltered: PropTypes.bool.isRequired,
@@ -51,7 +51,7 @@ export class CategoryFilterOverlay extends PureComponent {
             isMatchingInfoFilter,
             getFilterUrl,
             isSearchPage,
-            renderFilterPlaceholder
+            renderPlaceholder
         } = this.props;
 
         return (
@@ -63,7 +63,7 @@ export class CategoryFilterOverlay extends PureComponent {
               parameters={ customFiltersValues }
               updateConfigurableVariant={ toggleCustomFilter }
               isSearchPage={ isSearchPage }
-              renderFilterPlaceholder={ renderFilterPlaceholder }
+              renderPlaceholder={ renderPlaceholder }
             />
         );
     }

@@ -46,7 +46,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CategoryFilterOverlayContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
-        renderFilterPlaceholder: PropTypes.func.isRequired,
+        renderPlaceholder: PropTypes.func.isRequired,
         location: LocationType.isRequired,
         customFiltersValues: SelectedFiltersType.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
@@ -229,7 +229,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
 
     containerProps() {
         const {
-            renderFilterPlaceholder,
+            renderPlaceholder,
             availableFilters,
             customFiltersValues,
             isCategoryAnchor,
@@ -241,7 +241,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         } = this.props;
 
         return {
-            renderFilterPlaceholder,
+            renderPlaceholder,
             availableFilters,
             isCategoryAnchor,
             isInfoLoading,
