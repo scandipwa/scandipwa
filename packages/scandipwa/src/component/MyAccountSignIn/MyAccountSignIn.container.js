@@ -27,8 +27,7 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
-    isLocked: state.MyAccountReducer.isLocked
+    isEmailAvailable: state.CheckoutReducer.isEmailAvailable
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
@@ -54,9 +53,7 @@ export class MyAccountSignInContainer extends PureComponent {
         emailValue: PropTypes.string,
         isEmailAvailable: PropTypes.bool,
         setSignInState: PropTypes.func,
-        handleEmailInput: PropTypes.func,
-        isLocked: PropTypes.string.isRequired,
-        updateCustomerLockedStatus: PropTypes.func.isRequired
+        handleEmailInput: PropTypes.func
     };
 
     static defaultProps = {
@@ -64,6 +61,10 @@ export class MyAccountSignInContainer extends PureComponent {
         isEmailAvailable: true,
         setSignInState: noopFn,
         handleEmailInput: noopFn
+    };
+
+    state = {
+        isSignIn: false
     };
 
     containerFunctions = {
@@ -111,17 +112,26 @@ export class MyAccountSignInContainer extends PureComponent {
             setLoadingState
         } = this.props;
 
+        const {
+            isSignIn
+        } = this.state;
+
         setLoadingState(true);
         const fieldPairs = transformToNameValuePair(fields);
 
-        try {
-            await signIn(fieldPairs);
-            onSignIn();
-        } catch (error) {
-            showNotification('error', getErrorMessage(error));
-        }
+        if (!isSignIn) {
+            this.setState({ isSignIn: true });
 
-        setLoadingState(false);
+            try {
+                await signIn(fieldPairs);
+                onSignIn();
+            } catch (error) {
+                showNotification('error', getErrorMessage(error));
+                this.setState({ isSignIn: false });
+            } finally {
+                setLoadingState(false);
+            }
+        }
     }
 
     render() {

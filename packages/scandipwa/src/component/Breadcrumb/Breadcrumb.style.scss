@@ -45,7 +45,6 @@
     }
 
     &-Link {
-        text-transform: capitalize;
         color: var(--breadcrumbs-color);
         display: inline-block;
         font-weight: 400;
@@ -55,7 +54,8 @@
             color: var(--link-color);
         }
 
-        span {
+        &-Name {
+            text-transform: capitalize;
             color: inherit;
         }
     }
