@@ -242,6 +242,7 @@ export class CategoryPage extends PureComponent {
                   isMatchingInfoFilter={ isMatchingInfoFilter }
                   isCategoryAnchor={ !!is_anchor }
                   isSearchPage={ isSearchPage }
+                  renderFilterPlaceholder={ this.renderFilterPlaceholder }
                 />
             </Suspense>
         );

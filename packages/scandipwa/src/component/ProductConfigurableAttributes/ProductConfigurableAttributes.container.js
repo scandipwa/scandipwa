@@ -26,6 +26,7 @@ import ProductConfigurableAttributes from './ProductConfigurableAttributes.compo
 /** @namespace Component/ProductConfigurableAttributes/Container */
 export class ProductConfigurableAttributesContainer extends PureComponent {
     static propTypes = {
+        renderFilterPlaceholder: PropTypes.func.isRequired,
         getLink: PropTypes.func,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
@@ -66,6 +67,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
 
     containerProps() {
         const {
+            renderFilterPlaceholder,
             configurable_options,
             isExpandable,
             isReady,
@@ -80,6 +82,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         } = this.props;
 
         return {
+            renderFilterPlaceholder,
             configurable_options,
             isExpandable,
             isReady,
