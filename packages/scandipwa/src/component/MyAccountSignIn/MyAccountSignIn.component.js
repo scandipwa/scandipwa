@@ -98,7 +98,7 @@ export class MyAccountSignIn extends PureComponent {
                 <div block="MyAccountOverlay" elem="SignInButton">
                     <button block="Button">{ __('Sign in') }</button>
                 </div>
-                { isLoading && <Loader /> }
+                <Loader isLoading={ isLoading } />
             </Form>
         );
     }
