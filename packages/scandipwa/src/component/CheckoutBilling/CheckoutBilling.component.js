@@ -22,9 +22,11 @@ import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPic
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { Addresstype } from 'Type/Account.type';
 import { PaymentMethodsType } from 'Type/Checkout.type';
-import { DeviceType } from 'Type/Device.type';
+import { RefType } from 'Type/Common.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { formatPrice } from 'Util/Price';
+
+import { SPAN_WIDTH_THRESHOLD } from './CheckoutBilling.config';
 
 import './CheckoutBilling.style';
 
@@ -54,7 +56,8 @@ export class CheckoutBilling extends PureComponent {
             checkbox_text: PropTypes.string
         })).isRequired,
         selectedShippingMethod: PropTypes.string.isRequired,
-        device: DeviceType.isRequired
+        spanRef: RefType.isRequired,
+        spanWidth: PropTypes.number.isRequired
     };
 
     static defaultProps = {
@@ -99,10 +102,9 @@ export class CheckoutBilling extends PureComponent {
         const {
             termsAreEnabled,
             termsAndConditions,
-            device: { isMobile }
+            spanRef,
+            spanWidth
         } = this.props;
-
-        console.log(isMobile);
 
         const {
             checkbox_text = __('I agree to terms and conditions')
@@ -138,7 +140,18 @@ export class CheckoutBilling extends PureComponent {
                       } }
                       mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
                     />
-                    { `${checkbox_text } ${!isMobile ? '-' : ''}` }
+                   <div>
+                    <span ref={ spanRef }>
+                      { `${checkbox_text } ` }
+                      <small
+                        block="CheckoutBilling"
+                        elem="Divider-Symbol"
+                        mods={ { isTextDivided: !!(spanWidth < SPAN_WIDTH_THRESHOLD) } }
+                      >
+                        -
+                      </small>
+                    </span>
+                   </div>
                 </label>
                 <button
                   block="CheckoutBilling"

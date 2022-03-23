@@ -51,9 +51,12 @@
     &-TACLabel {
         display: flex;
         align-items: center;
+        padding-inline-end: 1em;
 
-        @include mobile {
-            margin-inline-end: 1rem;
+        span {
+            @include mobile {
+                position: unset;
+            }
         }
 
         &:hover {
@@ -64,22 +67,26 @@
             }
         }
     }
-    
 
+    &-Divider-Symbol {
+        position: absolute;
+        inset-inline-start: calc(100% + 1em);
+        inset-block-start: 50%;
+        transform: translate(-50%, -50%);
+
+        &_isTextDivided {
+            inset-inline-start: 95%;
+        }
+    }
 
     &-TACLink {
         font-size: 14px;
         font-weight: 700;
+        margin-inline-start: 0.5em;
         color: var(--link-color);
-        margin-inline-start: 0.25em;
         display: flex;
         cursor: pointer;
-        white-space: nowrap;
 
-        @include mobile {
-            margin-inline-start: auto;
-        }
-        
         &:hover {
             text-decoration: underline;
         }

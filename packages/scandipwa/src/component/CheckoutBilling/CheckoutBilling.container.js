@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { KLARNA, PURCHASE_ORDER } from 'Component/CheckoutPayments/CheckoutPayments.config';
@@ -22,7 +22,6 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { Addresstype, CustomerType } from 'Type/Account.type';
 import { PaymentMethodsType } from 'Type/Checkout.type';
-import { DeviceType } from 'Type/Device.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import {
     getFormFields,
@@ -42,8 +41,7 @@ export const mapStateToProps = (state) => ({
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
     termsAndConditions: state.ConfigReducer.checkoutAgreements,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
-    cartTotalSubPrice: getCartTotalSubPrice(state),
-    device: state.ConfigReducer.device
+    cartTotalSubPrice: getCartTotalSubPrice(state)
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
@@ -72,14 +70,15 @@ export class CheckoutBillingContainer extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         setDetailsStep: PropTypes.func.isRequired,
         setLoading: PropTypes.func.isRequired,
-        termsAreEnabled: PropTypes.bool,
-        device: DeviceType.isRequired
+        termsAreEnabled: PropTypes.bool
     };
 
     static defaultProps = {
         termsAreEnabled: false,
         cartTotalSubPrice: null
     };
+
+    spanRef = createRef();
 
     static getDerivedStateFromProps(props, state) {
         const { paymentMethod, prevPaymentMethods } = state;
@@ -117,8 +116,14 @@ export class CheckoutBillingContainer extends PureComponent {
             isSameAsShipping: this.isSameShippingAddress(customer),
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
-            paymentMethod
+            paymentMethod,
+            spanWidth: 0
         };
+    }
+
+    componentDidMount() {
+        const spanWidth = this.spanRef.current.getBoundingClientRect().width;
+        this.setState({ spanWidth });
     }
 
     containerProps() {
@@ -131,10 +136,9 @@ export class CheckoutBillingContainer extends PureComponent {
             shippingAddress,
             termsAndConditions,
             termsAreEnabled,
-            totals,
-            device
+            totals
         } = this.props;
-        const { isSameAsShipping } = this.state;
+        const { isSameAsShipping, spanWidth } = this.state;
 
         return {
             cartTotalSubPrice,
@@ -144,10 +148,11 @@ export class CheckoutBillingContainer extends PureComponent {
             setDetailsStep,
             setLoading,
             shippingAddress,
+            spanRef: this.spanRef,
             termsAndConditions,
             termsAreEnabled,
             totals,
-            device
+            spanWidth
         };
     }
 
