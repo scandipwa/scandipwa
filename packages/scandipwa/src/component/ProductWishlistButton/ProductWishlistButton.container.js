@@ -123,9 +123,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         if (wishlistItem) {
             this.setState({ isAddedToWishList: true })
-        } else {
-            return;
-        }
+        } 
 
         if (add && isAddedToWishList) {
             await addProductToWishlist({
@@ -133,6 +131,10 @@ export class ProductWishlistButtonContainer extends PureComponent {
                 wishlistId
             });
 
+            return;
+        }
+
+        if (!wishlistItem) {
             return;
         }
 
