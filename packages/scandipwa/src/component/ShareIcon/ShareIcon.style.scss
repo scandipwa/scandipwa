@@ -10,9 +10,9 @@
  */
 
 .ShareIcon {
-    @include icon-black-hover-effect;
     @include rtl-icon;
 
+    fill: black;
     cursor: pointer;
 
     &_isPrimary {
