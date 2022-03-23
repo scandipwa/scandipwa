@@ -94,6 +94,10 @@ $select-arrow-width: 14px !default;
         &_isNotScrollable {
             overflow-y: hidden;
 
+            &[class*="isExpanded"] {
+                max-height: fit-content;
+            }
+
             // Firefox support
             /* stylelint-disable-next-line declaration-no-important */
             scrollbar-width: none !important;
