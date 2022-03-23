@@ -26,7 +26,8 @@ import ProductConfigurableAttributes from './ProductConfigurableAttributes.compo
 /** @namespace Component/ProductConfigurableAttributes/Container */
 export class ProductConfigurableAttributesContainer extends PureComponent {
     static propTypes = {
-        renderPlaceholder: PropTypes.func.isRequired,
+        // eslint-disable-next-line react/require-default-props
+        renderPlaceholder: PropTypes.func,
         getLink: PropTypes.func,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,

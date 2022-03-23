@@ -14,8 +14,7 @@
     line-height: 20px;
 
     @include desktop {
-        padding-block-start: 24px;
-        padding-block-end: 45px;
+        margin-block-start: 24px;
     }
 
     &-SwatchList,
@@ -38,6 +37,10 @@
         font-weight: normal;
         opacity: 0.7;
         padding-inline-start: 17px;
+    }
+
+    &-PlaceholderContainer {
+        padding-block-end: 0px;
     }
 
     &-SwatchList {

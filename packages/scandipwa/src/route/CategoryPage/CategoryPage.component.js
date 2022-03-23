@@ -24,6 +24,9 @@ import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
+import {
+    BIG_PLACEHOLDER_CONFIG
+} from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import {
     CategoryTreeType, FilterInputType, FilterType, SortFieldsType
@@ -208,12 +211,9 @@ export class CategoryPage extends PureComponent {
     }
 
     renderPlaceholder(block) {
-        // eslint-disable-next-line no-magic-numbers
-        const numberOfPlaceholdersToRender = [7, 14, 7];
-
         return (
             <>
-                { numberOfPlaceholdersToRender.map((length, i) => (
+                { BIG_PLACEHOLDER_CONFIG.map((length, i) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <div key={ i } block={ block } elem="SwatchList">
                         { Array.from({ length }, (_, i) => (
@@ -227,19 +227,19 @@ export class CategoryPage extends PureComponent {
         );
     }
 
-    renderFilterButtonPlaceholder() {
-        return (
-            <p block="CategoryPage" elem="FilterButtonPlaceholder">
-                <TextPlaceholder length="short" />
-            </p>
-        );
-    }
-
     renderFilterPlaceholder() {
         return (
             <div block="CategoryPage" elem="FilterPlaceholderContainer">
                 { this.renderPlaceholder('CategoryPage') }
             </div>
+        );
+    }
+
+    renderFilterButtonPlaceholder() {
+        return (
+            <p block="CategoryPage" elem="FilterButtonPlaceholder">
+                <TextPlaceholder length="short" />
+            </p>
         );
     }
 

@@ -23,7 +23,8 @@ import './ProductConfigurableAttributes.style';
 /** @namespace Component/ProductConfigurableAttributes/Component */
 export class ProductConfigurableAttributes extends PureComponent {
     static propTypes = {
-        renderPlaceholder: PropTypes.func.isRequired,
+        // eslint-disable-next-line react/require-default-props
+        renderPlaceholder: PropTypes.func,
         configurable_options: AttributesType.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
@@ -115,6 +116,16 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
+    renderAttributesPlaceholder() {
+        const { renderPlaceholder } = this.props;
+
+        return (
+            <div block="ProductConfigurableAttributes" elem="PlaceholderContainer">
+                { renderPlaceholder('ProductConfigurableAttributes') }
+            </div>
+        );
+    }
+
     renderConfigurableAttributes() {
         const {
             configurable_options,
@@ -170,7 +181,7 @@ export class ProductConfigurableAttributes extends PureComponent {
     }
 
     render() {
-        const { isReady, mix, renderPlaceholder } = this.props;
+        const { isReady, mix } = this.props;
 
         return (
             <div
@@ -178,7 +189,7 @@ export class ProductConfigurableAttributes extends PureComponent {
               mods={ { isLoading: !isReady } }
               mix={ mix }
             >
-                { isReady ? this.renderConfigurableAttributes() : renderPlaceholder('ProductConfigurableAttributes') }
+                { isReady ? this.renderConfigurableAttributes() : this.renderAttributesPlaceholder() }
             </div>
         );
     }
