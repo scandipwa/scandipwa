@@ -325,8 +325,19 @@ export class Header extends NavigationAbstract {
     renderShareWishListButton(isVisible = false) {
         const {
             isWishlistLoading,
-            shareWishlist
+            shareWishlist,
+            navigationState: { title }
         } = this.props;
+
+        if (!title) {
+            return null;
+        }
+
+        const wishListQty = Number(title.split(' ').filter((item) => Number(+item)));
+
+        if (!wishListQty) {
+            return null;
+        }
 
         return (
             <button
