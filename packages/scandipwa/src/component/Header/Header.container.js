@@ -206,7 +206,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (!wishListQty) {
             return;
         }
-
         showPopup({ title: __('Share Wishlist') });
     }
 
