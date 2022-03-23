@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import Loader from 'Component/Loader';
 import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
 import MyAccountCreateAccount from 'Component/MyAccountCreateAccount';
 import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
@@ -173,7 +172,8 @@ export class MyAccountOverlay extends PureComponent {
             handleCreateAccount,
             isCheckout,
             setLoadingState,
-            onSignIn
+            onSignIn,
+            isLoading
         } = this.props;
 
         return (
@@ -185,13 +185,13 @@ export class MyAccountOverlay extends PureComponent {
               isCheckout={ isCheckout }
               setLoadingState={ setLoadingState }
               onSignIn={ onSignIn }
+              isLoading={ isLoading }
             />
         );
     }
 
     render() {
         const {
-            isLoading,
             onVisible,
             isCheckout,
             isMobile
@@ -204,7 +204,6 @@ export class MyAccountOverlay extends PureComponent {
               onVisible={ onVisible }
               isStatic={ !isCheckout && isMobile }
             >
-                <Loader isLoading={ isLoading } />
                 { this.renderMyAccount() }
             </Overlay>
         );
