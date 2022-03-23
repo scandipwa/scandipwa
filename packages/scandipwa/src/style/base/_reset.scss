@@ -365,8 +365,16 @@ select {
 }
 
 select {
-    -webkit-appearance: none;
+    /* stylelint-disable-next-line declaration-no-important */
+    -webkit-transition: none !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    -moz-transition: none !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    -o-transition: none !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    transition: none !important;
 }
+
 
 textarea {
     resize: none;
