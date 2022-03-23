@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { SHIPPING_URL } from 'Route/Checkout/Checkout.config';
+import { BILLING_URL } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { TotalsType } from 'Type/MiniCart.type';
 import { noopFn } from 'Util/Common';
@@ -131,7 +131,7 @@ export class MyAccountSignInContainer extends PureComponent {
         setLoadingState(false);
 
         if (is_virtual) {
-            history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
+            history.push({ pathname: appendWithStoreCode(BILLING_URL) });
         }
     }
 

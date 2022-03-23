@@ -25,6 +25,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { DeviceType } from 'Type/Device.type';
+import { TotalsType } from 'Type/MiniCart.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import history from 'Util/History';
@@ -45,6 +46,7 @@ import {
 export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals,
+    totals: state.CartReducer.cartTotals,
     compareTotals: state.ProductCompareReducer.count,
     Loading: state.MyAccountReducer.isLoading,
     header_logo_src: state.ConfigReducer.header_logo_src,
@@ -81,7 +83,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         header_logo_src: PropTypes.string,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        totals: TotalsType.isRequired
     };
 
     static defaultProps = {
@@ -412,10 +415,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onSignIn() {
-        const { navigationState: { title } } = this.props;
+        const { navigationState: { title }, totals: { is_virtual } } = this.props;
         const { location: { pathname } } = history;
-
-        console.log(this.props);
 
         goToPreviousNavigationState();
 
@@ -423,7 +424,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             this.setState({ showMyAccountLogin: false });
         }
 
-        if (pathname.includes(BILLING_URL) && title === 'Sign in') {
+        if (pathname.includes(BILLING_URL) && title === 'Sign in' && !is_virtual) {
             history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
         }
     }
