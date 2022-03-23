@@ -37,6 +37,15 @@
         }
     }
 
+    &-InitialLoaderContainer {
+        min-width: 100%;
+        min-height: 500px;
+
+        @include mobile {
+            min-height: 300px;
+        }
+    }
+
     &-Empty {
         @include mobile {
             padding: 14px;

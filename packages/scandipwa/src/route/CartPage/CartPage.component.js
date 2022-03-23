@@ -56,8 +56,12 @@ export class CartPage extends PureComponent {
             onCartItemLoading
         } = this.props;
 
-        if (isLoading) {
-            return <Loader isLoading />;
+        if (items.length < 1 && isLoading) {
+            return (
+                <div block="CartPage" elem="InitialLoaderContainer">
+                    <Loader isLoading />
+                </div>
+            );
         }
 
         if (items.length < 1) {
@@ -85,6 +89,7 @@ export class CartPage extends PureComponent {
                           updateCrossSellsOnRemove
                         />
                     )) }
+                    { isLoading && <Loader isLoading /> }
                 </div>
             </>
         );
