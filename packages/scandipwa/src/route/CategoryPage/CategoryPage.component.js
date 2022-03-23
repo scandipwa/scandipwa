@@ -207,7 +207,6 @@ export class CategoryPage extends PureComponent {
         );
     }
 
-
     renderPlaceholder(block) {
         // eslint-disable-next-line no-magic-numbers
         const numberOfPlaceholdersToRender = [7, 14, 7];
@@ -223,8 +222,10 @@ export class CategoryPage extends PureComponent {
                         )) }
                     </div>
                 )) }
-                 <Loader isLoading />
+                <Loader isLoading />
             </>
+        );
+    }
 
     renderFilterButtonPlaceholder() {
         return (
