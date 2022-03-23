@@ -19,8 +19,12 @@
     }
     
     &-RatingWrapper {
+        display: flex;
+        flex-direction: column;
+        row-gap: 24px;
+
         .FieldGroup-Wrapper {
-            margin-block-end: 14px;
+            // margin-block-end: 14px;
                     
             .FieldGroup {
                 &_hasError, &_isValid {
@@ -29,7 +33,7 @@
                 }
                 
                 &-ErrorMessages {
-                    margin-block-start: 6px;
+                    margin-block-start: -3px;
                 }
             }
         }
@@ -45,6 +49,10 @@
     }
 
     &-Content {
+        display: flex;
+        flex-direction: column;
+        row-gap: 24px;
+
         input,
         textarea {
             font-size: 12px;
@@ -58,9 +66,9 @@
     &-Rating {
         display: flex;
         flex-flow: row-reverse nowrap;
-        margin-block-start: 12px;
         margin-inline: 0;
         text-align: start;
+        // margin-block-start: 2px;
         border: 0;
         /* stylelint-disable-next-line unknownProperties, property-no-unknown */
         white-space-collapse: discard; // alternative of `font-size: 0`
@@ -112,6 +120,10 @@
             margin-block-start: 28px;
             width: 100%;
         }
+    }
+
+    &-Field {
+        margin-block-start: 0;
     }
 
     input,
