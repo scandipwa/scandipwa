@@ -18,6 +18,7 @@ import {
     toggleLoader,
     updateCompareTotals
 } from 'Store/ProductCompare/ProductCompare.action';
+import { getAuthorizationToken } from 'Util/Auth';
 import { getUid, removeUid, setUid } from 'Util/Compare';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 
@@ -143,6 +144,10 @@ export class ProductCompareDispatcher {
             ProductCompareQuery.getCreateEmptyCompareList()
         );
 
+        if (!getAuthorizationToken()) {
+            return;
+        }
+
         if (uid) {
             setUid(uid);
         }
@@ -173,6 +178,10 @@ export class ProductCompareDispatcher {
             } = await fetchMutation(
                 ProductCompareQuery.getAssignCompareList(uid)
             );
+
+            if (!getAuthorizationToken()) {
+                return false;
+            }
 
             if (result) {
                 setUid(newUid);

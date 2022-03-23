@@ -103,7 +103,6 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const {
             magentoProduct,
             magentoProduct: [{ sku }] = [],
-            isAddingWishlistItem,
             showNotification,
             addProductToWishlist,
             removeProductFromWishlist,
@@ -116,10 +115,6 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         if (!isSignedIn()) {
             return showNotification('info', __('You must login or register to add items to your wishlist.'));
-        }
-
-        if (isAddingWishlistItem) {
-            return null;
         }
 
         this.setWishlistButtonLoading(true);

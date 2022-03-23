@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import Form from 'Component/Form';
+import Loader from 'Component/Loader';
 import { SignInStateType } from 'Type/Account.type';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
@@ -30,7 +31,8 @@ export class MyAccountSignIn extends PureComponent {
         isCheckout: PropTypes.bool.isRequired,
         state: SignInStateType.isRequired,
         emailValue: PropTypes.string.isRequired,
-        handleEmailInput: PropTypes.func.isRequired
+        handleEmailInput: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired
     };
 
     renderSignInForm() {
@@ -40,7 +42,8 @@ export class MyAccountSignIn extends PureComponent {
             handleForgotPassword,
             emailValue,
             isCheckout,
-            handleEmailInput
+            handleEmailInput,
+            isLoading
         } = this.props;
 
         return (
@@ -95,6 +98,7 @@ export class MyAccountSignIn extends PureComponent {
                 <div block="MyAccountOverlay" elem="SignInButton">
                     <button block="Button">{ __('Sign in') }</button>
                 </div>
+                <Loader isLoading={ isLoading } />
             </Form>
         );
     }
