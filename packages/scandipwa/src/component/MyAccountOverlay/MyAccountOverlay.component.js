@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import Loader from 'Component/Loader';
 import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
 import MyAccountCreateAccount from 'Component/MyAccountCreateAccount';
 import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
@@ -39,9 +40,9 @@ export class MyAccountOverlay extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
-        isLoading: PropTypes.bool.isRequired,
         state: SignInStateType.isRequired,
         setSignInState: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
         setLoadingState: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired,
@@ -172,8 +173,7 @@ export class MyAccountOverlay extends PureComponent {
             handleCreateAccount,
             isCheckout,
             setLoadingState,
-            onSignIn,
-            isLoading
+            onSignIn
         } = this.props;
 
         return (
@@ -185,7 +185,7 @@ export class MyAccountOverlay extends PureComponent {
               isCheckout={ isCheckout }
               setLoadingState={ setLoadingState }
               onSignIn={ onSignIn }
-              isLoading={ isLoading }
+              isLoading={ false }
             />
         );
     }
@@ -194,7 +194,8 @@ export class MyAccountOverlay extends PureComponent {
         const {
             onVisible,
             isCheckout,
-            isMobile
+            isMobile,
+            isLoading
         } = this.props;
 
         return (
@@ -204,6 +205,7 @@ export class MyAccountOverlay extends PureComponent {
               onVisible={ onVisible }
               isStatic={ !isCheckout && isMobile }
             >
+                <Loader isLoading={ isLoading } />
                 { this.renderMyAccount() }
             </Overlay>
         );
