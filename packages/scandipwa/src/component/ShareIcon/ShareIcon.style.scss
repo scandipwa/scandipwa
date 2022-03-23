@@ -11,6 +11,7 @@
 
 .ShareIcon {
     @include icon-black-hover-effect;
+    
     @include rtl-icon;
 
     cursor: pointer;
