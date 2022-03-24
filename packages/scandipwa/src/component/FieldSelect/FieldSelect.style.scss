@@ -66,7 +66,7 @@ $select-arrow-width: 14px !default;
         inset-block-start: 100%;
         inset-inline-start: 0;
         z-index: 40;
-        overflow-y: scroll;
+        overflow-y: auto;
         border-style: solid;
         border-width: 0 1px 1px;
         border-color: transparent;
@@ -77,9 +77,14 @@ $select-arrow-width: 14px !default;
         min-width: 100%;
 
         &_isExpanded {
+            > div {
+                max-height: calc(#{$select-option-height} * 5);
+                overflow-y: auto;
+            }
+
             @include desktop {
                 z-index: 15;
-                max-height: calc(#{$select-option-height} * 5);
+                max-height: fit-content;
                 border-color: var(--input-border-color);
                 background-color: #{$white};
             }
@@ -93,10 +98,6 @@ $select-arrow-width: 14px !default;
 
         &_isNotScrollable {
             overflow-y: hidden;
-
-            &[class*="isExpanded"] {
-                max-height: fit-content;
-            }
 
             // Firefox support
             /* stylelint-disable-next-line declaration-no-important */
