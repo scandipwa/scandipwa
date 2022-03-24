@@ -103,7 +103,7 @@ export class ProductBundleOptionContainer extends PureComponent {
         const { options } = this.props;
 
         const [defaultOption = null] = bundleOptionsToSelectTransform(options).filter(({ isDefault }) => isDefault);
-        const { isAvailable } = defaultOption || false;
+        const { isAvailable = false } = defaultOption || {};
 
         if (defaultOption && isAvailable) {
             this.setActiveSelectUid(defaultOption.value);
