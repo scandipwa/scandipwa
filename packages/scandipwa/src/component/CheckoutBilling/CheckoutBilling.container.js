@@ -123,6 +123,9 @@ export class CheckoutBillingContainer extends PureComponent {
 
     componentDidMount() {
         const spanWidth = this.spanRef.current.getBoundingClientRect().width;
+
+        console.log(this.spanRef.current.getBoundingClientRect());
+
         this.setState({ spanWidth });
     }
 

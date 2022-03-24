@@ -53,18 +53,18 @@
         align-items: center;
         padding-inline-end: 1em;
 
-        span {
-            @include mobile {
-                position: unset;
-            }
-        }
-
         &:hover {
             cursor: pointer;
             
             @include desktop {
                 color: var(--primary-base-color);
             }
+        }
+    }
+    
+    &-TACText {
+        @include mobile {
+            position: unset;
         }
     }
 
@@ -75,7 +75,7 @@
         transform: translate(-50%, -50%);
 
         &_isTextDivided {
-            inset-inline-start: 95%;
+            inset-inline-start: calc(140px + 1.5em);
         }
     }
 
@@ -86,6 +86,11 @@
         color: var(--link-color);
         display: flex;
         cursor: pointer;
+        white-space: nowrap;
+
+        &_isTransformed {
+            inset-inline-start: calc(-80% + 205px);
+        }
 
         &:hover {
             text-decoration: underline;
@@ -93,6 +98,17 @@
 
         &:focus {
             text-decoration: underline;
+        }
+    }
+
+    &-TACPlaceholder {
+        display: none;
+        width: 68px;
+        width: 1px;
+        background-color: transparent;
+
+        &_isPlaceHolderDisplayed {
+            display: block;
         }
     }
 

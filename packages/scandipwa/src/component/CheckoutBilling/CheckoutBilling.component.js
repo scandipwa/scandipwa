@@ -141,7 +141,11 @@ export class CheckoutBilling extends PureComponent {
                       mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
                     />
                    <div>
-                    <span ref={ spanRef }>
+                    <span
+                      block="CheckoutBilling"
+                      elem="TACText"
+                      ref={ spanRef }
+                    >
                       { `${checkbox_text } ` }
                       <small
                         block="CheckoutBilling"
@@ -158,6 +162,7 @@ export class CheckoutBilling extends PureComponent {
                   elem="TACLink"
                   onClick={ this.handleShowPopup }
                   type="button"
+                  mods={ { isTransformed: !!(spanWidth < SPAN_WIDTH_THRESHOLD) } }
                 >
                         { __('read more') }
                 </button>
