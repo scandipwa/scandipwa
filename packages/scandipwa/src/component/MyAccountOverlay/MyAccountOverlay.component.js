@@ -185,7 +185,6 @@ export class MyAccountOverlay extends PureComponent {
               isCheckout={ isCheckout }
               setLoadingState={ setLoadingState }
               onSignIn={ onSignIn }
-              isLoading={ false }
             />
         );
     }
