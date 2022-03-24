@@ -84,12 +84,13 @@
             animation: appear 100ms 300ms forwards;
         }
 
+        &PlaceholderContainer {
+            position: relative;
+            margin-block-start: 24px;
+        }
+
         @include desktop {
             display: none;
-
-            &PlaceholderContainer {
-                position: relative;
-            }
         }
     }
 
@@ -115,6 +116,15 @@
         margin-block-start: var(--option-margin-block);
         margin-inline-end: var(--option-margin-inline);
         margin-inline-start: var(--option-margin-inline);
+
+        &Wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &Heading {
+            margin: 0;
+        }
     }
 
     &-Subheading {
