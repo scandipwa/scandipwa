@@ -212,11 +212,12 @@
         }
     }
 
-    &-Discount {
+    & &-Discount {// hack to obtain required specificity
         border-block-start: 0;
 
         @include mobile {
             border-block-start: 1px solid var(--expandable-content-divider-color);
+            border-block-end: 0;
         }
 
         @include desktop {
