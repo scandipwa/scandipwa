@@ -18,6 +18,8 @@
         display: flex;
         justify-content: space-between;
         flex-direction: column;
+        flex-wrap: wrap;
+        row-gap: 25px;
 
         @include desktop {
             flex-direction: row;
