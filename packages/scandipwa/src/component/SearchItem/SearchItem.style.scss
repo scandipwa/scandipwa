@@ -10,16 +10,20 @@
  */
 
 :root {
+    --search-item-hover-color: #eee;
     --search-item-divider-color: #eee;
     --search-item-title-color: #000;
 }
 
 .SearchItem {
-    padding-inline-start: 0;
-    margin: 24px 0;
+    padding: 12px;
 
     &::before {
         content: none;
+    }
+
+    &:hover {
+        background-color: var(--search-item-hover-color);
     }
 
     &-CustomAttribute {
