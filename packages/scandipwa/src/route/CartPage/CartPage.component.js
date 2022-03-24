@@ -89,7 +89,11 @@ export class CartPage extends PureComponent {
                           updateCrossSellsOnRemove
                         />
                     )) }
-                    { isLoading && <Loader isLoading /> }
+                    { isLoading && (
+                        <div block="CartPage" elem="ItemsLoaderContainer">
+                            <Loader isLoading />
+                        </div>
+                    ) }
                 </div>
             </>
         );
