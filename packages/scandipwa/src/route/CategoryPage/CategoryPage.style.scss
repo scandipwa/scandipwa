@@ -109,9 +109,9 @@
 
     &-Miscellaneous {
         z-index: 1;
-        display: flex;
-        justify-content: space-between;
+        display: grid;
         align-items: center;
+        grid-template-columns: auto minmax(100px, 300px);
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
@@ -175,12 +175,8 @@
     }
 
     &-LayoutWrapper {
-        align-items: center;
         display: flex;
-
-        p {
-            margin-block-end: 0;
-        }
+        align-items: center;
 
         &_isPrerendered {
             @include mobile {
