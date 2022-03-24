@@ -85,8 +85,8 @@ export class CategorySort extends PureComponent {
               events={ {
                   onChange: this.onChange
               } }
+              isSortSelect
               options={ selectOptions }
-              label={ __('Sort') }
               mix={ { block: 'CategorySort', elem: 'Select' } }
             />
         );

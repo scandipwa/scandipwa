@@ -40,9 +40,9 @@ export class MyAccountOverlay extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
-        isLoading: PropTypes.bool.isRequired,
         state: SignInStateType.isRequired,
         setSignInState: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
         setLoadingState: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired,
@@ -191,10 +191,10 @@ export class MyAccountOverlay extends PureComponent {
 
     render() {
         const {
-            isLoading,
             onVisible,
             isCheckout,
-            isMobile
+            isMobile,
+            isLoading
         } = this.props;
 
         return (

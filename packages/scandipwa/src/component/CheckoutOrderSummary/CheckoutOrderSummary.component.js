@@ -263,7 +263,8 @@ export class CheckoutOrderSummary extends PureComponent {
         const {
             totals: {
                 tax_amount = 0,
-                quote_currency_code
+                quote_currency_code,
+                items_qty
             },
             cartDisplayConfig: {
                 display_full_tax_summary,
@@ -279,6 +280,7 @@ export class CheckoutOrderSummary extends PureComponent {
             <CheckoutOrderSummaryPriceLine
               price={ tax_amount.toFixed(2) } // since we display tax even if value is 0
               currency={ quote_currency_code }
+              itemsQty={ items_qty }
               title={ __('Tax') }
               mods={ { withAppendedContent: display_full_tax_summary } }
             >
@@ -332,8 +334,8 @@ export class CheckoutOrderSummary extends PureComponent {
               mix={ { block: 'CheckoutOrderSummary', elem: 'ExpandableContent' } }
             >
                 { this.renderItems() }
-                { this.renderCmsBlock() }
                 { this.renderTotals() }
+                { this.renderCmsBlock() }
             </ExpandableContent>
         );
     }

@@ -72,10 +72,17 @@
         background-color: var(--popup-content-background);
         border-radius: 5px;
         padding: var(--popup-content-padding);
+        padding-block-end: 0;
         min-width: var(--popup-min-width);
         max-width: calc(var(--content-wrapper-width) * .8);
         max-height: var(--popup-max-height);
         overflow-y: auto;
+
+        &::after {
+            content: '';
+            display: block;
+            padding-block-end: var(--popup-content-padding);
+        }
 
         @include mobile {
             border-radius: 0;

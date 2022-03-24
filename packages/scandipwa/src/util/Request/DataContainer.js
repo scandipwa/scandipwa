@@ -14,14 +14,20 @@ import { PureComponent } from 'react';
 import { noopFn } from 'Util/Common';
 import { makeCancelable } from 'Util/Promise';
 import { prepareQuery } from 'Util/Query';
-import { executeGet } from 'Util/Request';
+import { executeGet, listenForBroadCast } from 'Util/Request';
 import { hash } from 'Util/Request/Hash';
 
 import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
 
 /** @namespace Util/Request/DataContainer */
 export class DataContainer extends PureComponent {
-    dataModelName = 'DataContainer';
+    __construct(props, dataModelName, isShouldListenForBroadcast = true, cacheTTL = ONE_MONTH_IN_SECONDS) {
+        super.__construct(props);
+        this.dataModelName = dataModelName;
+        this.isShouldListenForBroadcast = isShouldListenForBroadcast;
+        this.cacheTTL = cacheTTL;
+        this.promise = null;
+    }
 
     componentWillUnmount() {
         if (this.promise) {
@@ -29,7 +35,7 @@ export class DataContainer extends PureComponent {
         }
     }
 
-    fetchData(rawQueries, onSuccess = noopFn, onError = noopFn) {
+    fetchData(rawQueries, onSuccess = noopFn, onError = noopFn, takeFromWindowCache = true) {
         const preparedQuery = prepareQuery(rawQueries);
         const { query, variables } = preparedQuery;
         const queryHash = hash(query + JSON.stringify(variables));
@@ -38,14 +44,14 @@ export class DataContainer extends PureComponent {
             window.dataCache = {};
         }
 
-        if (window.dataCache[queryHash]) {
+        if (takeFromWindowCache && window.dataCache[queryHash]) {
             onSuccess(window.dataCache[queryHash]);
 
             return;
         }
 
         this.promise = makeCancelable(
-            executeGet(preparedQuery, this.dataModelName, ONE_MONTH_IN_SECONDS)
+            executeGet(preparedQuery, this.dataModelName, this.cacheTTL)
         );
 
         this.promise.promise.then(
@@ -57,6 +63,13 @@ export class DataContainer extends PureComponent {
             /** @namespace Util/Request/DataContainer/DataContainer/fetchData/then/onError/catch */
             (err) => onError(err)
         );
+
+        if (this.isShouldListenForBroadcast) {
+            listenForBroadCast(this.dataModelName).then(
+                /** @namespace Util/Request/DataContainer/DataContainer/fetchData/listenForBroadCast/then/onSuccess */
+                onSuccess
+            );
+        }
     }
 }
 
