@@ -23,7 +23,6 @@ import FilterIcon from 'Component/FilterIcon';
 import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
-import Loader from 'Component/Loader';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import {
     CategoryTreeType, FilterInputType, FilterType, SortFieldsType
@@ -215,14 +214,6 @@ export class CategoryPage extends PureComponent {
         );
     }
 
-    renderFilterPlaceholder() {
-        return (
-            <div block="CategoryPage" elem="FilterPlaceholder">
-                <Loader isLoading />
-            </div>
-        );
-    }
-
     renderFilterOverlay() {
         const {
             filters,
@@ -238,7 +229,7 @@ export class CategoryPage extends PureComponent {
         }
 
         return (
-            <Suspense fallback={ this.renderFilterPlaceholder() }>
+            <Suspense>
                 <CategoryFilterOverlay
                   availableFilters={ filters }
                   customFiltersValues={ selectedFilters }
