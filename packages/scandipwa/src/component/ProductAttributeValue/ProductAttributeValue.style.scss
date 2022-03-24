@@ -232,7 +232,10 @@
 
     &-Label {
         img {
-            width: 32px;
+            width: auto;
+            height: auto;
+            max-width: 32px;
+            max-height: 32px;
             object-fit: contain;
             vertical-align: middle;
         }
