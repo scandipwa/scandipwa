@@ -22,6 +22,7 @@ import history from 'Util/History';
 import { getErrorMessage } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
+import { SHIPPING_URL } from '../../route/Checkout/Checkout.config';
 import MyAccountSignIn from './MyAccountSignIn.component';
 
 export const MyAccountDispatcher = import(
@@ -130,8 +131,12 @@ export class MyAccountSignInContainer extends PureComponent {
 
         setLoadingState(false);
 
+        console.log(this.props);
+
         if (is_virtual) {
             history.push({ pathname: appendWithStoreCode(BILLING_URL) });
+        } else {
+            history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
         }
     }
 

@@ -199,11 +199,22 @@ export class HeaderContainer extends NavigationAbstractContainer {
     componentDidUpdate(prevProps) {
         this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
+        this.navigateToShippingStep(prevProps);
     }
 
     shareWishlist() {
         const { showPopup } = this.props;
         showPopup({ title: __('Share Wishlist') });
+    }
+
+    navigateToShippingStep(prevProps) {
+        const { totals: { is_virtual, items } } = this.props;
+        const { totals: { items: prevItems } } = prevProps;
+        const { location: { pathname } } = history;
+
+        if (pathname.includes(BILLING_URL) && !is_virtual && prevItems.length !== items.length) {
+            history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
+        }
     }
 
     getNavigationState() {
