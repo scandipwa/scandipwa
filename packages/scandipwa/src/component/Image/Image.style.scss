@@ -52,6 +52,8 @@
 
         td & {
             max-width: 100%;
+            display: block;
+            margin: auto;
         }
     }
 
@@ -60,7 +62,8 @@
 
         td & {
             height: auto;
-            min-height: 100%;
+            display: block;
+            margin: auto;
         }
     }
 

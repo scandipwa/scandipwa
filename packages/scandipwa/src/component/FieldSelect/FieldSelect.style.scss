@@ -20,7 +20,6 @@ $select-arrow-width: 14px !default;
         cursor: pointer;
         display: flex;
         align-items: center;
-        height: 48px;
 
         #storeSwitcher,
         #CurrencySwitcherList {
@@ -42,10 +41,12 @@ $select-arrow-width: 14px !default;
     }
 
     &-Select {
-        min-width: 100%;
-        padding-inline-end: 40px;
         width: 100%;
         overflow: hidden;
+        padding-inline-end: 40px;
+        min-height: 30px;
+        margin-block: calc(var(--input-padding) + 3px);
+        height: 48px;
 
         @include desktop {
             pointer-events: none;
@@ -55,6 +56,10 @@ $select-arrow-width: 14px !default;
             border-color: var(--input-border-color-focus);
             opacity: 1;
         }
+
+        &_isDisabled {
+            opacity: 0.6;
+        }
     }
 
     &-Options {
@@ -63,9 +68,9 @@ $select-arrow-width: 14px !default;
         inset-block-start: 100%;
         inset-inline-start: 0;
         z-index: 40;
-        overflow-y: auto;
+        overflow-y: scroll;
         border-style: solid;
-        border-width: 0 0 1px 1px;
+        border-width: 0 1px 1px;
         border-color: transparent;
         transition: 200ms max-height;
         will-change: max-height;
@@ -76,12 +81,12 @@ $select-arrow-width: 14px !default;
         &_isExpanded {
             @include desktop {
                 z-index: 15;
-                max-height: 200px;
+                max-height: calc(#{$select-option-height} * 5);
                 border-color: var(--input-border-color);
                 background-color: #{$white};
             }
         }
-        
+
         &_isUpDirection {
             inset-block-start: auto;
             inset-block-end: 100%;
@@ -89,14 +94,18 @@ $select-arrow-width: 14px !default;
         }
 
         &_isNotScrollable {
-            border-width: 0 1px 1px;
             overflow-y: hidden;
+
+            &[class*="isExpanded"] {
+                max-height: fit-content;
+            }
+
             // Firefox support
             /* stylelint-disable-next-line declaration-no-important */
             scrollbar-width: none !important;
             /* stylelint-disable-next-line declaration-no-important */
             scrollbar-color: none !important;
-        
+
             &::-webkit-scrollbar {
                 display: none;
             }
@@ -114,9 +123,10 @@ $select-arrow-width: 14px !default;
         z-index: 1;
         transition: 100ms max-height ease-in;
         will-change: max-height;
-        max-height: $select-option-height;
-        line-height: 36px;
-        padding-inline-start: 18px;
+        min-height: $select-option-height;
+        line-height: 16px;
+        padding-block: 10px;
+        padding-inline-start: 20px;
         background: var(--color-white);
 
         @include mobile {
@@ -152,7 +162,7 @@ $select-arrow-width: 14px !default;
         &_isDisabled {
             pointer-events: none;
             opacity: 0.6;
-            
+
             @include mobile {
                 border-top: 1px solid var(--input-border-color-focus);
             }

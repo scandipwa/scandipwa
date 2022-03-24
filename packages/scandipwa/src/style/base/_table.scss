@@ -28,6 +28,7 @@ table {
         padding: 10px;
         text-align: start;
         min-width: 120px;
+        vertical-align: top;
 
         @include mobile {
             min-width: 140px;
