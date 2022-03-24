@@ -25,6 +25,10 @@
             grid-template-columns: repeat(4, 1fr);
         }
 
+        @include tablet {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
         @include wide-desktop {
             grid-template-columns: repeat(6, 1fr);
         }

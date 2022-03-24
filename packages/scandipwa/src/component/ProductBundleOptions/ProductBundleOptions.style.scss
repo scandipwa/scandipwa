@@ -15,6 +15,12 @@
 }
 
 .ProductBundleItem {
+    &-Label {
+        width: calc(100% - max(21px, var(--checkbox-width)));
+        word-break: break-word;
+        min-width: 50px;
+    }
+
     &-Wrapper {
         margin-block-start: 26px;
 

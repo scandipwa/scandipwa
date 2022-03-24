@@ -124,7 +124,7 @@ export class FieldContainer extends PureComponent {
         const { showLengthError } = this.state;
 
         if (type === FIELD_TYPE.textarea || type === FIELD_TYPE.text) {
-            validationRule.range.showLengthError = showLengthError;
+            validationRule.range = { ...validationRule.range, showLengthError };
         }
 
         return validationRule;
