@@ -45,14 +45,7 @@ export class CheckoutDeliveryOption extends PureComponent {
     subPriceRef = createRef();
 
     componentDidMount() {
-        if (this.rowRef.current && this.subPriceRef.current) {
-            const rowLeft = this.rowRef.current.getBoundingClientRect().left;
-            const SubPriceLeft = this.subPriceRef.current.getBoundingClientRect().left;
-
-            if (rowLeft > SubPriceLeft) {
-                this.setState({ isOverflowed: true });
-            }
-        }
+        this.updateState();
         window.addEventListener('resize', () => this.updateState());
     }
 
@@ -61,8 +54,11 @@ export class CheckoutDeliveryOption extends PureComponent {
     }
 
     updateState() {
-        if (this.rowRef.current && this.subPriceRef.current) {
-            const rowLeft = this.rowRef.current.getBoundingClientRect().left;
+        const { current: rowEl } = this.rowRef;
+        const { current: subPriceEl } = this.subPriceRef;
+
+        if (rowEl && subPriceEl) {
+            const rowLeft = rowEl.getBoundingClientRect().left;
             const SubPriceLeft = this.subPriceRef.current.getBoundingClientRect().left;
 
             if (rowLeft >= SubPriceLeft) {
