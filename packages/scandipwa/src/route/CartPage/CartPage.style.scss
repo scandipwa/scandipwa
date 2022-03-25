@@ -13,7 +13,8 @@
     --cart-page-divider-background: var(--secondary-base-color);
     --cart-page-promo-background: #fff;
     --cart-page-table-head-background: var(--secondary-base-color);
-    --loader-offset: calc(0px - var(--header-total-height) - var(--breadcrumbs-height) - 32px);
+    --mobile-loader-offset: calc(0px - var(--header-total-height));
+    --desktop-loader-offset: calc(var(--mobile-loader-offset) - var(--breadcrumbs-height) - 32px);
 }
 
 .CartPage {
@@ -41,10 +42,10 @@
     &-InitialLoaderContainer {
         position: absolute;
         inset-inline-start: 0;
-        inset-block-start: calc(0px - var(--header-total-height));
+        inset-block-start: var(--mobile-loader-offset);
 
         @include desktop {
-            inset-block-start: var(--loader-offset);
+            inset-block-start: var(--desktop-loader-offset);
         }
 
         max-height: 100vh;
