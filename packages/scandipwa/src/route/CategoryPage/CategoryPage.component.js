@@ -412,20 +412,26 @@ export class CategoryPage extends PureComponent {
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
                 { this.renderItemsCount() }
+
                 <div
                   block="CategoryPage"
-                  elem="LayoutWrapper"
-                  mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  elem="MiscellaneousLayoutWrapper"
                 >
-                    { this.renderLayoutButtons() }
-                    { this.renderCategorySort() }
-                </div>
-                <div
-                  block="CategoryPage"
-                  elem="LayoutWrapper"
-                  mods={ { isPrerendered: isSSR() || isCrawler() } }
-                >
-                    { this.renderFilterButton() }
+                  <div
+                    block="CategoryPage"
+                    elem="LayoutWrapper"
+                    mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  >
+                      { this.renderLayoutButtons() }
+                      { this.renderCategorySort() }
+                  </div>
+                  <div
+                    block="CategoryPage"
+                    elem="LayoutWrapper"
+                    mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  >
+                      { this.renderFilterButton() }
+                  </div>
                 </div>
             </aside>
         );

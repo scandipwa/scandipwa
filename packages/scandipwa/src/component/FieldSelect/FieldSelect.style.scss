@@ -42,6 +42,7 @@ $select-arrow-width: 14px !default;
 
     &-Select {
         min-width: 100%;
+        margin-block-start: -2px;
         padding-inline-end: 40px;
         width: 100%;
         height: 48px;

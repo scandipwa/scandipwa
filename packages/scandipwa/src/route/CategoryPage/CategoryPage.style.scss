@@ -107,11 +107,19 @@
         white-space: pre;
     }
 
+    &-MiscellaneousLayoutWrapper {
+        @include mobile {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+
     &-Miscellaneous {
         z-index: 1;
-        display: grid;
+        display: flex;
         align-items: center;
-        grid-template-columns: auto minmax(100px, 290px);
+        justify-content: space-between;
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
@@ -123,6 +131,8 @@
 
         @include mobile {
             position: fixed;
+            display: flex;
+            justify-content: space-between;
             inset-block-start: var(--header-total-height);
             inset-inline-start: 0;
             width: 100%;
@@ -176,7 +186,7 @@
 
     &-LayoutWrapper {
         display: flex;
-        margin: 0 auto;
+        align-items: center;
 
         p {
             margin-block-end: 0;
