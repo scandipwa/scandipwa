@@ -101,8 +101,6 @@ export class CheckoutBilling extends PureComponent {
             termsAndConditions
         } = this.props;
 
-        console.log(screen.width);
-
         const {
             checkbox_text = __('I agree to terms and conditions')
         } = termsAndConditions[0] || {};
