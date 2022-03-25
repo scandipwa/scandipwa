@@ -116,7 +116,8 @@ export class MyAccountSignInContainer extends PureComponent {
             showNotification,
             onSignIn,
             setLoadingState,
-            totals: { is_virtual }
+            totals: { is_virtual },
+            isCheckout
         } = this.props;
 
         setLoadingState(true);
@@ -131,11 +132,9 @@ export class MyAccountSignInContainer extends PureComponent {
 
         setLoadingState(false);
 
-        console.log(this.props);
-
-        if (is_virtual) {
+        if (is_virtual && isCheckout) {
             history.push({ pathname: appendWithStoreCode(BILLING_URL) });
-        } else {
+        } else if (!is_virtual && isCheckout) {
             history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
         }
     }
