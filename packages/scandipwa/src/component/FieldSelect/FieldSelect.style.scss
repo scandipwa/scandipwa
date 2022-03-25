@@ -20,6 +20,7 @@ $select-arrow-width: 14px !default;
         cursor: pointer;
         display: flex;
         align-items: center;
+        overflow-y: hidden;
 
         #storeSwitcher,
         #CurrencySwitcherList {
@@ -42,7 +43,6 @@ $select-arrow-width: 14px !default;
 
     &-Select {
         width: 100%;
-        overflow: hidden;
         padding-inline-end: 40px;
         min-height: 30px;
         margin-block: calc(var(--input-padding) + 3px);
@@ -72,7 +72,7 @@ $select-arrow-width: 14px !default;
         border-style: solid;
         border-width: 0 1px 1px;
         border-color: transparent;
-        // transition: 200ms max-height;
+        transition: 200ms max-height;
         will-change: max-height;
         max-height: 0;
         -webkit-overflow-scrolling: touch;
@@ -121,7 +121,7 @@ $select-arrow-width: 14px !default;
         padding: 0;
         margin: 0;
         z-index: 1;
-        // transition: 100ms max-height ease-in;
+        transition: 100ms max-height ease-in;
         will-change: max-height;
         min-height: $select-option-height;
         line-height: 16px;
