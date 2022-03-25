@@ -53,14 +53,20 @@ export class MyAccountSignInContainer extends PureComponent {
         emailValue: PropTypes.string,
         isEmailAvailable: PropTypes.bool,
         setSignInState: PropTypes.func,
-        handleEmailInput: PropTypes.func
+        handleEmailInput: PropTypes.func,
+        isLoading: PropTypes.bool
     };
 
     static defaultProps = {
         emailValue: '',
         isEmailAvailable: true,
         setSignInState: noopFn,
-        handleEmailInput: noopFn
+        handleEmailInput: noopFn,
+        isLoading: false
+    };
+
+    state = {
+        isSignIn: false
     };
 
     containerFunctions = {
@@ -85,7 +91,8 @@ export class MyAccountSignInContainer extends PureComponent {
             isCheckout,
             setLoadingState,
             emailValue,
-            handleEmailInput
+            handleEmailInput,
+            isLoading
         } = this.props;
 
         return {
@@ -96,7 +103,8 @@ export class MyAccountSignInContainer extends PureComponent {
             isCheckout,
             setLoadingState,
             emailValue,
-            handleEmailInput
+            handleEmailInput,
+            isLoading
         };
     }
 
@@ -108,17 +116,26 @@ export class MyAccountSignInContainer extends PureComponent {
             setLoadingState
         } = this.props;
 
+        const {
+            isSignIn
+        } = this.state;
+
         setLoadingState(true);
         const fieldPairs = transformToNameValuePair(fields);
 
-        try {
-            await signIn(fieldPairs);
-            onSignIn();
-        } catch (error) {
-            showNotification('error', getErrorMessage(error));
-        }
+        if (!isSignIn) {
+            this.setState({ isSignIn: true });
 
-        setLoadingState(false);
+            try {
+                await signIn(fieldPairs);
+                onSignIn();
+            } catch (error) {
+                showNotification('error', getErrorMessage(error));
+                this.setState({ isSignIn: false });
+            } finally {
+                setLoadingState(false);
+            }
+        }
     }
 
     render() {

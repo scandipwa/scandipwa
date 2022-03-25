@@ -41,7 +41,9 @@ export const mapStateToProps = (state) => ({
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
     termsAndConditions: state.ConfigReducer.checkoutAgreements,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
-    cartTotalSubPrice: getCartTotalSubPrice(state)
+    cartTotalSubPrice: getCartTotalSubPrice(state),
+    newShippingId: state.CheckoutReducer.shippingFields.id,
+    newShippingStreet: state.CheckoutReducer.shippingFields.street
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
@@ -70,7 +72,9 @@ export class CheckoutBillingContainer extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         setDetailsStep: PropTypes.func.isRequired,
         setLoading: PropTypes.func.isRequired,
-        termsAreEnabled: PropTypes.bool
+        termsAreEnabled: PropTypes.bool,
+        newShippingId: PropTypes.number.isRequired,
+        newShippingStreet: PropTypes.arrayOf(PropTypes.string).isRequired
     };
 
     static defaultProps = {
@@ -147,13 +151,23 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     isSameShippingAddress({ default_billing, default_shipping }) {
-        const { totals: { is_virtual }, selectedShippingMethod } = this.props;
+        const {
+            totals: { is_virtual },
+            selectedShippingMethod,
+            newShippingId,
+            newShippingStreet
+        } = this.props;
 
         if (is_virtual) {
             return false;
         }
 
-        return default_billing === default_shipping && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE;
+        return (
+            (!newShippingId && !newShippingStreet.length && default_billing === default_shipping)
+            || (default_billing && parseInt(default_billing, 10) === newShippingId)
+            || (!default_billing)
+        )
+        && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE;
     }
 
     onAddressSelect(id) {
