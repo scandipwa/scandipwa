@@ -125,7 +125,6 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         this.setState({ isWishListToggle: true });
 
-
         if (add) {
             await addProductToWishlist({
                 items: magentoProduct,
