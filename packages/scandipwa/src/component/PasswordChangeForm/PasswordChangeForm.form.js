@@ -51,7 +51,8 @@ export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) 
             inputType: VALIDATION_INPUT_TYPE.password,
             match: (value) => {
                 const password = document.getElementById('password');
-                return password.value === value;
+                const password_confirmation = document.getElementById('password_confirmation');
+                return password.value === value || password_confirmation.value === '';
             },
             customErrorMessages: {
                 onMatchFail: __('Passwords do not match!')
