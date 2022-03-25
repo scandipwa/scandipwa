@@ -64,11 +64,11 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
-    init: () => {
+    init: async () => {
         ConfigDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
         );
-        MyAccountDispatcher.then(
+        await MyAccountDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleCustomerDataOnInit(dispatch)
         );
         WishlistDispatcher.then(
