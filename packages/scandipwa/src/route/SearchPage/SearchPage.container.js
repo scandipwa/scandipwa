@@ -118,7 +118,7 @@ export class SearchPageContainer extends CategoryPageContainer {
 
         updateBreadcrumbs([{
             url: '',
-            name: search.toUpperCase()
+            name: search
         }]);
     }
 
