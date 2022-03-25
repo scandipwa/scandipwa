@@ -296,14 +296,12 @@
                 cursor: default;
             }
             
-            @media (hover: hover) {
-                &:hover {
-                    border-color: var(--primary-dark-color);
-                }
+            &:active {
+                border-color: var(--primary-dark-color);
             }
-    
-            @media (hover:none), (hover:on-demand) {
-                &:active {
+            
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
                     border-color: var(--primary-dark-color);
                 }
             }

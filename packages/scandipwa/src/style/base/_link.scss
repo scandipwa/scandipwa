@@ -23,16 +23,14 @@ a {
     font-size: 14px;
     font-weight: 700;
 
-    @media (hover: hover) {
+    @media (hover: hover) and (pointer: fine) { 
         &:hover {
             color: var(--link-hover);
         }
     }
-
-    @media (hover:none), (hover:on-demand) {
-        &:active {
-            color: var(--link-hover);
-        }
+    
+    &:active {
+        color: var(--link-hover);
     }
 
     &.Link {

@@ -26,7 +26,13 @@
 @mixin icon-primary {
     fill: var(--primary-base-color);
 
-    &:hover {
+    @media (hover: hover) and (pointer: fine) { 
+        &:hover {
+            fill: var(--primary-dark-color);
+        }
+    }
+
+    &:active {
         fill: var(--primary-dark-color);
     }
 }

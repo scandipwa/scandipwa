@@ -23,14 +23,8 @@
         cursor: pointer;
         font-size: 14px;
         
-        @media (hover: hover) {
+        @media (hover: hover) and (pointer: fine) {
             &:hover {
-                color: var(--primary-dark-color);
-            }
-        }
-
-        @media (hover:none), (hover:on-demand) {
-            &:active {
                 color: var(--primary-dark-color);
             }
         }
