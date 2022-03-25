@@ -272,14 +272,7 @@ export class CartPage extends PureComponent {
     }
 
     renderInitialPlaceholder() {
-        const {
-            totals: {
-                items
-            },
-            isLoading
-        } = this.props;
-
-        return items.length < 1 && isLoading && (
+        return (
             <div block="CartPage" elem="InitialLoaderContainer">
                 <Loader isLoading />
             </div>
