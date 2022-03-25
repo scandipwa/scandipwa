@@ -45,8 +45,15 @@
         margin-inline-end: 20px;
 
         &.Button {
-            &:hover {
+            &:active {
                 color: var(--link-hover);
+            }
+        
+            &.Link {
+                &:hover,
+                &:focus {
+                    color: var(--link-hover);
+                }
             }
         }
     }
