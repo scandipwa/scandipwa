@@ -25,6 +25,8 @@ import { PaymentMethodsType } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { formatPrice } from 'Util/Price';
 
+import { SCREEN_WIDTH_THRESHOLD } from './CheckoutBilling.config';
+
 import './CheckoutBilling.style';
 
 /** @namespace Component/CheckoutBilling/Component */
@@ -99,6 +101,8 @@ export class CheckoutBilling extends PureComponent {
             termsAndConditions
         } = this.props;
 
+        console.log(screen.width);
+
         const {
             checkbox_text = __('I agree to terms and conditions')
         } = termsAndConditions[0] || {};
@@ -113,6 +117,7 @@ export class CheckoutBilling extends PureComponent {
             <div
               block="CheckoutBilling"
               elem="TermsAndConditions"
+              mods={ { isShifted: screen.width <= SCREEN_WIDTH_THRESHOLD } }
             >
 
                 <label
@@ -140,6 +145,7 @@ export class CheckoutBilling extends PureComponent {
                   elem="TACLink"
                   onClick={ this.handleShowPopup }
                   type="button"
+                  mods={ { isShifted: screen.width <= SCREEN_WIDTH_THRESHOLD } }
                 >
                         { __('read more') }
                 </button>
