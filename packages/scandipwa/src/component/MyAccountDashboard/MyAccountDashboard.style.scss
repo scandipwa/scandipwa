@@ -25,8 +25,12 @@
 
     &-AddressesWrapper {
         @include desktop {
-            display: flex;
+            display: inline-flex;
             justify-content: space-between;
+            flex-wrap: wrap;
+            column-gap: 48px;
+            row-gap: 24px;
+            width: 100%;
         }
     }
 
@@ -47,15 +51,11 @@
     }
 
     &-DefaultAddress {
-        width: 100%;
+        flex: 1;
 
         &:nth-child(2) {
             @include mobile {
                 margin-block-start: 48px;
-            }
-
-            @include desktop {
-                margin-inline-start: 48px;
             }
         }
     }
