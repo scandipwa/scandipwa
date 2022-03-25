@@ -151,6 +151,7 @@ export class ConfigQuery {
             'rss_order_subscribe_allow',
             'downloadable_disable_guest_checkout',
             'minimun_password_length',
+            'required_character_classes_number',
             ...this._getTimeDateFormatFields(),
             this.getPriceDisplayTypeField()
         ];

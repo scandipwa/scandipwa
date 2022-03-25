@@ -26,6 +26,7 @@ import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearComparedProducts } from 'Store/ProductCompare/ProductCompare.action';
 import {
     deleteAuthorizationToken,
+    getAuthorizationToken,
     GRAPHQL_AUTH,
     isSignedIn,
     setAuthorizationToken
@@ -73,6 +74,10 @@ export class MyAccountDispatcher {
         return executePost(prepareQuery([query])).then(
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then */
             ({ customer }) => {
+                if (!getAuthorizationToken()) {
+                    return;
+                }
+
                 dispatch(updateIsLocked(false));
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
@@ -247,7 +252,7 @@ export class MyAccountDispatcher {
         }
 
         setGuestQuoteId(customerCartToken);
-        cartDispatcher.updateInitialCartData(dispatch);
+        cartDispatcher.updateInitialCartData(dispatch, true);
 
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)

@@ -406,6 +406,7 @@ export class Header extends NavigationAbstract {
               mods={ { isVisible } }
             >
                 <span>{ decodeString(title) }</span>
+                { title ? (<span>{ decodeString(title.replace(/\+/g, ' ')) }</span>) : (<span>{ title }</span>) }
             </h1>
         );
     }
