@@ -57,11 +57,7 @@ export class CartPage extends PureComponent {
         } = this.props;
 
         if (items.length < 1 && isLoading) {
-            return (
-                <div block="CartPage" elem="InitialLoaderContainer">
-                    <Loader isLoading />
-                </div>
-            );
+            return '';
         }
 
         if (items.length < 1) {
@@ -275,9 +271,25 @@ export class CartPage extends PureComponent {
         return this.renderDesktop();
     }
 
+    renderInitialPlaceholder() {
+        const {
+            totals: {
+                items
+            },
+            isLoading
+        } = this.props;
+
+        return items.length < 1 && isLoading && (
+            <div block="CartPage" elem="InitialLoaderContainer">
+                <Loader isLoading />
+            </div>
+        );
+    }
+
     render() {
         return (
             <main block="CartPage" aria-label="Cart Page">
+                { this.renderInitialPlaceholder() }
                 <ContentWrapper
                   wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
                   label="Cart page details"
