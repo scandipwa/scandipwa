@@ -34,6 +34,17 @@
         }
     }
 
+    &-FullPageLoader {
+        height: 100vh;
+        position: fixed;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        // Set to 200 to hide the CookiePopup component whose z-index is 200
+        z-index: 201;
+        width: 100vw;
+        background: #fff;
+    }
+
     &-StickyButtonWrapper {
         @include mobile {
             border-block-start: 1px solid var(--primary-divider-color);

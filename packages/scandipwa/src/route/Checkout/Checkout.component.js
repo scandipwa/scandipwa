@@ -111,7 +111,8 @@ export class Checkout extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         selectedStoreAddress: StoreType,
-        isSignedIn: PropTypes.bool.isRequired
+        isSignedIn: PropTypes.bool.isRequired,
+        isCartLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -348,6 +349,14 @@ export class Checkout extends PureComponent {
         return <Loader isLoading={ isLoading } />;
     }
 
+    renderFullPageLoader() {
+        return (
+            <main block="Checkout" elem="FullPageLoader">
+                <Loader isLoading />
+            </main>
+        );
+    }
+
     renderSummary(showOnMobile = false) {
         const {
             checkoutTotals,
@@ -448,6 +457,12 @@ export class Checkout extends PureComponent {
     }
 
     render() {
+        const { isCartLoading } = this.props;
+
+        if (isCartLoading) {
+            return this.renderFullPageLoader();
+        }
+
         return (
             <main block="Checkout">
                 <ContentWrapper

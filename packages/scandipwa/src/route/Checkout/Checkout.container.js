@@ -63,6 +63,7 @@ export const CheckoutDispatcher = import(
 /** @namespace Route/Checkout/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
+    isCartLoading: state.CartReducer.isLoading,
     cartTotalSubPrice: getCartTotalSubPrice(state),
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout,
@@ -148,7 +149,8 @@ export class CheckoutContainer extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         isInStoreActivated: PropTypes.bool.isRequired,
         isGuestNotAllowDownloadable: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
+        isSignedIn: PropTypes.bool.isRequired,
+        isCartLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -217,21 +219,14 @@ export class CheckoutContainer extends PureComponent {
     componentDidMount() {
         const {
             history,
-            showInfoNotification,
             guest_checkout,
             updateMeta,
-            isGuestNotAllowDownloadable,
-            totals: {
-                items = []
-            }
+            isGuestNotAllowDownloadable
         } = this.props;
 
         const { email } = this.state;
 
-        if (!items.length) {
-            showInfoNotification(__('Please add at least one product to cart!'));
-            history.push(appendWithStoreCode('/cart'));
-        }
+        this.handleRedirectIfNoItemsInCart();
 
         // if guest checkout is disabled and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
@@ -255,6 +250,8 @@ export class CheckoutContainer extends PureComponent {
         const { match: { params: { step: prevUrlStep } } } = prevProps;
         const { email } = this.state;
         const { email: prevEmail } = prevState;
+
+        this.handleRedirectIfNoItemsInCart();
 
         // Handle going back from billing to shipping
         if (/shipping/.test(urlStep) && /billing/.test(prevUrlStep)) {
@@ -331,6 +328,22 @@ export class CheckoutContainer extends PureComponent {
             },
             this._handleError
         );
+    }
+
+    handleRedirectIfNoItemsInCart() {
+        const {
+            totals: {
+                items = []
+            },
+            isCartLoading,
+            showInfoNotification,
+            history
+        } = this.props;
+
+        if (!isCartLoading && !items.length) {
+            showInfoNotification(__('Please add at least one product to cart!'));
+            history.push(appendWithStoreCode('/cart'));
+        }
     }
 
     handleRedirectIfDownloadableInCart() {
@@ -430,7 +443,8 @@ export class CheckoutContainer extends PureComponent {
             setHeaderState,
             totals,
             isInStoreActivated,
-            isSignedIn
+            isSignedIn,
+            isCartLoading
         } = this.props;
         const {
             billingAddress,
@@ -476,7 +490,8 @@ export class CheckoutContainer extends PureComponent {
             shippingMethods,
             totals,
             selectedStoreAddress,
-            isPickInStoreMethodSelected
+            isPickInStoreMethodSelected,
+            isCartLoading
         };
     }
 

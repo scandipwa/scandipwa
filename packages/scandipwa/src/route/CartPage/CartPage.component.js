@@ -36,7 +36,8 @@ export class CartPage extends PureComponent {
         hasOutOfStockProductsInCart: PropTypes.bool,
         onCouponCodeUpdate: PropTypes.func,
         onCartItemLoading: PropTypes.func,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        isCartLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -51,10 +52,11 @@ export class CartPage extends PureComponent {
                 items,
                 quote_currency_code
             },
-            onCartItemLoading
+            onCartItemLoading,
+            isCartLoading
         } = this.props;
 
-        if (!items) {
+        if (!items || isCartLoading) {
             return <Loader isLoading />;
         }
 

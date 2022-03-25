@@ -56,6 +56,7 @@ export const CartDispatcher = import(
 /** @namespace Route/CartPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
+    isCartLoading: state.CartReducer.isLoading,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     guest_checkout: state.ConfigReducer.guest_checkout,
     device: state.ConfigReducer.device,
@@ -93,7 +94,8 @@ export class CartPageContainer extends PureComponent {
         guest_checkout: PropTypes.bool.isRequired,
         history: HistoryType.isRequired,
         totals: TotalsType.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        isCartLoading: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
@@ -153,7 +155,8 @@ export class CartPageContainer extends PureComponent {
             totals: {
                 items = []
             } = {},
-            device
+            device,
+            isCartLoading
         } = this.props;
 
         const { isCartItemLoading } = this.state;
@@ -162,7 +165,8 @@ export class CartPageContainer extends PureComponent {
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
             totals,
             isCartItemLoading,
-            device
+            device,
+            isCartLoading
         };
     }
 
