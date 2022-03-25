@@ -59,6 +59,14 @@
             text-align: inherit;
         }
 
+        img {
+            width: auto;
+            height: auto;
+            max-width: 32px;
+            max-height: 32px;
+            object-fit: contain;
+        }
+
         &:last-child {
             padding-inline-end: 0;
         }
