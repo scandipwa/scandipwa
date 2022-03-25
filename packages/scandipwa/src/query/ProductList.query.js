@@ -123,8 +123,6 @@ export class ProductListQuery {
             search: {
                 type: 'String!',
                 handler: (option) => {
-                    console.log(allCharactersSame(option.replace(/%2B/g, '+'), '+'));
-
                     if (allCharactersSame(option.replace(/%2B/g, '+'), '+')) {
                         return option.replace(/%2B/g, '-');
                     }
