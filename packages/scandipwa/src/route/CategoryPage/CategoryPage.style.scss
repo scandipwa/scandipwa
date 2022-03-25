@@ -111,7 +111,7 @@
         z-index: 1;
         display: grid;
         align-items: center;
-        grid-template-columns: auto minmax(100px, 300px);
+        grid-template-columns: auto minmax(100px, 290px);
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
@@ -176,7 +176,11 @@
 
     &-LayoutWrapper {
         display: flex;
-        align-items: center;
+        margin: 0 auto;
+
+        p {
+            margin-block-end: 0;
+        }
 
         &_isPrerendered {
             @include mobile {
