@@ -497,14 +497,9 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
-        /**
-         * Skip loading the same product SKU the second time
-         */
-        if (currentProductSKU === productSKU) {
-            return;
+        if (currentProductSKU !== productSKU) {
+            this.setState({ currentProductSKU: productSKU });
         }
-
-        this.setState({ currentProductSKU: productSKU });
 
         const options = {
             isSingleProduct: true,
