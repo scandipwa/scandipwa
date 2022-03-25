@@ -55,7 +55,8 @@ export const mapStateToProps = (state) => ({
     isLoading: state.ConfigReducer.isLoading,
     device: state.ConfigReducer.device,
     activeOverlay: state.OverlayReducer.activeOverlay,
-    isWishlistLoading: state.WishlistReducer.isLoading
+    isWishlistLoading: state.WishlistReducer.isLoading,
+    productsInWishlist: state.WishlistReducer.productsInWishlist
 });
 
 /** @namespace Component/Header/Container/mapDispatchToProps */
@@ -75,6 +76,7 @@ export const DEFAULT_HEADER_STATE = {
 /** @namespace Component/Header/Container */
 export class HeaderContainer extends NavigationAbstractContainer {
     static propTypes = {
+        productsInWishlist: PropTypes.objectOf(PropTypes.number),
         showOverlay: PropTypes.func.isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,
         showPopup: PropTypes.func.isRequired,
@@ -137,7 +139,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             logo_width,
             isLoading,
             device,
-            isWishlistLoading
+            isWishlistLoading,
+            productsInWishlist
         } = this.props;
 
         const {
@@ -172,6 +175,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             showMyAccountLogin,
             device,
             isWishlistLoading,
+            productsInWishlist,
             shouldRenderCartOverlay,
             firstname: this.getUserName()
         };
