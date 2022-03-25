@@ -41,10 +41,11 @@ $select-arrow-width: 14px !default;
     }
 
     &-Select {
-        min-width: 100%;
-        margin-block-start: -2px;
-        padding-inline-end: 40px;
         width: 100%;
+        padding-inline-end: 40px;
+        margin-block-start: -2px;
+        min-height: 30px;
+        margin-block: calc(var(--input-padding) + 3px);
         height: 48px;
 
         @include desktop {
@@ -80,7 +81,7 @@ $select-arrow-width: 14px !default;
         &_isExpanded {
             @include desktop {
                 z-index: 15;
-                max-height: fit-content;
+                max-height: calc(#{$select-option-height} * 5);
                 border-color: var(--input-border-color);
                 background-color: #{$white};
             }
@@ -94,6 +95,10 @@ $select-arrow-width: 14px !default;
 
         &_isNotScrollable {
             overflow-y: hidden;
+
+            &[class*="isExpanded"] {
+                max-height: fit-content;
+            }
 
             // Firefox support
             /* stylelint-disable-next-line declaration-no-important */
