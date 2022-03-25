@@ -30,6 +30,8 @@ export class CartDispatcher {
     async updateInitialCartData(dispatch, isForCustomer = false) {
         // Need to get current cart from BE, update cart
         try {
+            dispatch(updateIsLoadingCart(true));
+
             // ! Get quote token first (local or from the backend) just to make sure it exists
             const quoteId = await this._getGuestQuoteId(dispatch);
             const { cartData = {} } = await fetchQuery(
@@ -38,13 +40,15 @@ export class CartDispatcher {
                 )
             );
 
-            dispatch(updateIsLoadingCart(false));
-
             if (isForCustomer && !getAuthorizationToken()) {
+                dispatch(updateIsLoadingCart(false));
                 return null;
             }
 
-            return this._updateCartData(cartData, dispatch);
+            await this._updateCartData(cartData, dispatch);
+            dispatch(updateIsLoadingCart(false));
+
+            return null;
         } catch (error) {
             return this.createGuestEmptyCart(dispatch);
         }
