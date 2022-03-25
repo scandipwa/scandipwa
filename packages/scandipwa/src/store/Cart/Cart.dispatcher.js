@@ -41,11 +41,14 @@ export class CartDispatcher {
             );
 
             if (isForCustomer && !getAuthorizationToken()) {
+                dispatch(updateIsLoadingCart(false));
                 return null;
             }
 
             await this._updateCartData(cartData, dispatch);
-            return dispatch(updateIsLoadingCart(false));
+            dispatch(updateIsLoadingCart(false));
+
+            return null;
         } catch (error) {
             return this.createGuestEmptyCart(dispatch);
         }

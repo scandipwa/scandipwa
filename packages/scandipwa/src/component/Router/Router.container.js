@@ -60,27 +60,31 @@ export const mapStateToProps = (state) => ({
     status_code: state.MetaReducer.status_code
 });
 
+/** @namespace Component/Router/Container/initFunction */
+export const initFunction = async (dispatch) => {
+    ConfigDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch)
+    );
+
+    const { default: dispatcher } = await MyAccountDispatcher;
+    await dispatcher.handleCustomerDataOnInit(dispatch);
+
+    WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+    );
+    CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+    );
+    ProductCompareDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
+    );
+};
+
 /** @namespace Component/Router/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
-    init: async () => {
-        ConfigDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch)
-        );
-        await MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleCustomerDataOnInit(dispatch)
-        );
-        WishlistDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
-        );
-        CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
-        );
-        ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
-        );
-    }
+    init: () => initFunction(dispatch)
 });
 
 /** @namespace Component/Router/Container */

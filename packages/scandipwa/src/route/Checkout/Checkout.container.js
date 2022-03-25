@@ -224,9 +224,9 @@ export class CheckoutContainer extends PureComponent {
             isGuestNotAllowDownloadable
         } = this.props;
 
-        this.handleRedirectIfNoItemsInCart();
-
         const { email } = this.state;
+
+        this.handleRedirectIfNoItemsInCart();
 
         // if guest checkout is disabled and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
