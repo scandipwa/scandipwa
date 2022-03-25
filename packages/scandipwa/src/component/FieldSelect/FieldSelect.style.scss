@@ -20,7 +20,7 @@ $select-arrow-width: 14px !default;
         cursor: pointer;
         display: flex;
         align-items: center;
-        overflow-y: hidden;
+        z-index: 10;
 
         #storeSwitcher,
         #CurrencySwitcherList {
