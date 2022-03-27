@@ -77,7 +77,7 @@ $select-arrow-width: 14px !default;
         min-width: 100%;
 
         &-ulDiv {
-            max-height: calc(#{$select-option-height} * 5);
+            max-height: $select-option-height * 5;
             overflow-y: auto;
 
             &_isNotExpanded {
