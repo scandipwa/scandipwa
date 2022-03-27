@@ -107,6 +107,14 @@
         white-space: pre;
     }
 
+    &-MiscellaneousLayoutWrapper {
+        @include mobile {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+    }
+
     &-Miscellaneous {
         z-index: 1;
         display: flex;
