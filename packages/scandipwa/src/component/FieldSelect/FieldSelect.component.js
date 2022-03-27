@@ -157,7 +157,14 @@ export class FieldSelect extends PureComponent {
                   isNotScrollable: !isScrollable
               } }
             >
-                <div>{ options.map(this.renderOption.bind(this)) }</div>
+                <div
+                  block="FieldSelect"
+                  elem="Options-ulDiv"
+                  role="menu"
+                  mods={ { isNotExpanded: !isExpanded } }
+                >
+                    { options.map(this.renderOption.bind(this)) }
+                </div>
             </ul>
         );
     }

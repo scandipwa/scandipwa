@@ -76,12 +76,16 @@ $select-arrow-width: 14px !default;
         -webkit-overflow-scrolling: touch;
         min-width: 100%;
 
-        &_isExpanded {
-            > div {
-                max-height: calc(#{$select-option-height} * 5);
-                overflow-y: auto;
-            }
+        &-ulDiv {
+            max-height: calc(#{$select-option-height} * 5);
+            overflow-y: auto;
 
+            &_isNotExpanded {
+                display: none;
+            }
+        }
+
+        &_isExpanded {
             @include desktop {
                 z-index: 15;
                 max-height: fit-content;
