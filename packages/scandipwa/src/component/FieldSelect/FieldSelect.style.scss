@@ -16,11 +16,12 @@ $select-arrow-height: 14px !default;
 $select-arrow-width: 14px !default;
 
 .FieldSelect {
+    overflow: hidden;
+
     &-Clickable {
         cursor: pointer;
         display: flex;
         align-items: center;
-        z-index: 10;
 
         #storeSwitcher,
         #CurrencySwitcherList {
@@ -37,8 +38,12 @@ $select-arrow-width: 14px !default;
         inset-inline-end: 12px;
     }
 
-    &_isExpanded::after {
-        transform: rotate(-90deg);
+    &_isExpanded {
+        overflow: visible;
+
+        &::after {
+            transform: rotate(-90deg);
+        }
     }
 
     &-Select {
