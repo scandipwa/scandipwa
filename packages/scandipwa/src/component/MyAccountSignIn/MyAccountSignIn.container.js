@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { BILLING_URL } from 'Route/Checkout/Checkout.config';
+import { BILLING_URL, SHIPPING_URL } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { TotalsType } from 'Type/MiniCart.type';
 import { noopFn } from 'Util/Common';
@@ -22,7 +22,6 @@ import history from 'Util/History';
 import { getErrorMessage } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
-import { SHIPPING_URL } from '../../route/Checkout/Checkout.config';
 import MyAccountSignIn from './MyAccountSignIn.component';
 
 export const MyAccountDispatcher = import(

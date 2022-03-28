@@ -435,7 +435,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             this.setState({ showMyAccountLogin: false });
         }
 
-        if (pathname.includes(BILLING_URL) && title === 'Sign in' && !is_virtual) {
+        if (pathname.includes(BILLING_URL) && title && !is_virtual) {
             history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
         }
     }
