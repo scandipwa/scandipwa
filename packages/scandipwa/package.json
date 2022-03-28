@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "5.2.4",
+    "version": "5.2.6",
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
@@ -9,13 +9,13 @@
         "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/chunk-optimizer": "0.0.4",
+        "@scandipwa/chunk-optimizer": "0.0.6",
         "@scandipwa/m2-theme": "0.2.2",
         "@scandipwa/next-emulator": "0.0.3",
         "@scandipwa/postcss-config": "0.0.2",
         "@scandipwa/scandipwa-scripts": "2.4.19",
         "@scandipwa/service-worker": "0.0.17",
-        "@scandipwa/stylelint-config": "0.0.3",
+        "@scandipwa/stylelint-config": "0.0.5",
         "@scandipwa/webpack-i18n-runtime": "0.0.29",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
@@ -81,12 +81,12 @@
             "scandipwa/catalog-graphql": "3.2.11",
             "scandipwa/route717": "2.0.2",
             "scandipwa/performance": "1.5.5",
-            "scandipwa/customer-graph-ql": "3.1.10",
+            "scandipwa/customer-graph-ql": "3.1.11",
             "scandipwa/quote-graphql": "2.19.21",
             "scandipwa/wishlist-graphql": "2.0.15",
             "scandipwa/urlrewrite-graphql": "1.3.7",
             "scandipwa/store-graphql": "1.2.11",
-            "scandipwa/customization": "1.5.10",
+            "scandipwa/customization": "1.5.11",
             "scandipwa/cache": "1.1.5",
             "scandipwa/locale": "2",
             "scandipwa/contact-graphql": "1.0.0",
@@ -308,7 +308,10 @@
                 1,
                 {
                     "forbid": [
-                        { "element": "a", "message": "Use the <Link> component instead of <a>." }
+                        {
+                            "element": "a",
+                            "message": "Use the <Link> component instead of <a>."
+                        }
                     ]
                 }
             ],
@@ -482,5 +485,6 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://demo100-ors-1588667385-csa-hcx.scandipwa.cloud/"
+    "proxy": "https://demo100-ors-1588667385-csa-hcx.scandipwa.cloud/",
+    "gitHead": "187276597fcf17521bcccdac1238b4e0061e5418"
 }

@@ -14,7 +14,6 @@ import { lazy, PureComponent, Suspense } from 'react';
 
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
-import Form from 'Component/Form';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { Addresstype } from 'Type/Account.type';
@@ -27,7 +26,7 @@ import {
 import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
-import scrollToError from 'Util/Form/Form';
+import { noopFn } from 'Util/Common';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
@@ -112,14 +111,17 @@ export class Checkout extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        selectedStoreAddress: StoreType
+        selectedStoreAddress: StoreType,
+        onCouponCodeUpdate: PropTypes.func,
+        isSignedIn: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         paymentTotals: {},
         selectedStoreAddress: {},
         isLoading: false,
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
+        onCouponCodeUpdate: noopFn
     };
 
     stepMap = {
@@ -221,9 +223,14 @@ export class Checkout extends PureComponent {
             onEmailChange,
             onCreateUserChange,
             onPasswordChange,
-            isGuestEmailSaved
+            isGuestEmailSaved,
+            isSignedIn
         } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
+
+        if (isSignedIn) {
+            return null;
+        }
 
         return (
             <CheckoutGuestForm
@@ -327,6 +334,27 @@ export class Checkout extends PureComponent {
         );
     }
 
+    renderDiscountCode() {
+        const {
+            totals: { coupon_code, items },
+            checkoutStep
+        } = this.props;
+
+        if (!items || items.length < 1 || checkoutStep !== BILLING_STEP) {
+            return null;
+        }
+
+        return (
+            <ExpandableContent
+              heading={ __('Have a discount code?') }
+              mix={ { block: 'Checkout', elem: 'Discount' } }
+              isArrow
+            >
+                <CartCoupon couponCode={ coupon_code } />
+            </ExpandableContent>
+        );
+    }
+
     renderStep() {
         const { checkoutStep } = this.props;
         const { render } = this.stepMap[checkoutStep];
@@ -349,24 +377,29 @@ export class Checkout extends PureComponent {
             checkoutTotals,
             checkoutStep,
             paymentTotals,
-            isMobile
+            isMobile,
+            onCouponCodeUpdate
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
+        const { renderPromo } = this.renderPromo(true);
 
         if (!areTotalsVisible || (showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
             return null;
         }
 
         return (
-            <CheckoutOrderSummary
-              checkoutStep={ checkoutStep }
-              totals={ checkoutTotals }
-              paymentTotals={ paymentTotals }
-              isExpandable={ isMobile }
-              // eslint-disable-next-line react/jsx-no-bind
-              renderCmsBlock={ () => this.renderPromo(true) }
-              showItems
-            />
+            <>
+                <CheckoutOrderSummary
+                  checkoutStep={ checkoutStep }
+                  totals={ checkoutTotals }
+                  paymentTotals={ paymentTotals }
+                  isExpandable={ isMobile }
+                  onCouponCodeUpdate={ onCouponCodeUpdate }
+                  renderCmsBlock={ renderPromo }
+                  showItems
+                />
+                { !showOnMobile && this.renderDiscountCode() }
+            </>
         );
     }
 
@@ -443,10 +476,6 @@ export class Checkout extends PureComponent {
         );
     }
 
-    onError(_, fields, validation) {
-        scrollToError(fields, validation);
-    }
-
     render() {
         return (
             <main block="Checkout">
@@ -455,12 +484,7 @@ export class Checkout extends PureComponent {
                   label={ __('Checkout page') }
                 >
                     { this.renderSummary(true) }
-                    <Form
-                      onError={ this.onError }
-                      validationRule={ {
-                          selector: 'input:not([type="password"]), select'
-                      } }
-                    >
+                    <div>
                         <div block="Checkout" elem="Step">
                             { this.renderTitle() }
                             { this.renderStoreInPickUpMethod() }
@@ -468,7 +492,7 @@ export class Checkout extends PureComponent {
                             { this.renderStep() }
                             { this.renderLoader() }
                         </div>
-                    </Form>
+                    </div>
                     <div>
                         <Suspense fallback={ <Loader /> }>
                             { this.renderSummary() }
