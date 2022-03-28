@@ -124,10 +124,15 @@
 
     &-Field {
         margin-block-start: 0;
+        padding-block-end: 0;
     }
 
     input,
     textarea {
         width: 100%;
+    }
+    
+    textarea {
+        margin-block-end: -3px;
     }
 }
