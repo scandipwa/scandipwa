@@ -75,19 +75,23 @@ $select-arrow-width: 14px !default;
         max-height: 0;
         -webkit-overflow-scrolling: touch;
         min-width: 100%;
+        display: none;
 
         &-ulDiv {
             @include desktop {
-                overflow-y: auto;
-                max-height: $select-option-height * 5;
-                
-                &_isNotExpanded {
-                    display: none;
+                display: none;
+
+                &_isExpanded {
+                    display: block;
+                    overflow-y: auto;
+                    max-height: $select-option-height * 5;
                 }
             }
         }
 
         &_isExpanded {
+            display: block;
+
             @include desktop {
                 z-index: 15;
                 max-height: fit-content;
