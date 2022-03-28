@@ -59,6 +59,7 @@
 
     &-ItemsCount {
         padding: 0;
+        margin-block-start: -2px;
 
         @include mobile {
             order: 1;
