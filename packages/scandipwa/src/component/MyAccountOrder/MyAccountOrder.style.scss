@@ -48,10 +48,9 @@
             &:active {
                 color: var(--link-hover);
             }
-        
-            &.Link {
-                &:hover,
-                &:focus {
+
+            @media (hover: hover) and (pointer: fine) { 
+                &:hover {
                     color: var(--link-hover);
                 }
             }
@@ -63,7 +62,14 @@
         font-weight: normal;
         width: max-content;
 
-        &:hover {
+        @media (hover: hover) and (pointer: fine) { 
+            &:hover {
+                text-decoration: none;
+                color: var(--link-hover);
+            }
+        }
+
+        &:active {
             text-decoration: none;
             color: var(--link-hover);
         }
