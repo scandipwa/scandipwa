@@ -81,7 +81,7 @@ export class Header extends NavigationAbstract {
             onBackClick: PropTypes.func,
             title: PropTypes.string
         }).isRequired,
-        productsInWishlist: PropTypes.objectOf(PropTypes.number),
+        productsInWishlist: PropTypes.objectOf(PropTypes.object),
         cartTotals: TotalsType.isRequired,
         compareTotals: PropTypes.number.isRequired,
         Loading: PropTypes.bool.isRequired,
@@ -330,9 +330,7 @@ export class Header extends NavigationAbstract {
             productsInWishlist
         } = this.props;
 
-        const wishListQty = Object.keys(productsInWishlist).length;
-
-        if (!wishListQty) {
+        if (!Object.keys(productsInWishlist).length) {
             return null;
         }
 

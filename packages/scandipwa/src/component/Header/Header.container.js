@@ -76,7 +76,7 @@ export const DEFAULT_HEADER_STATE = {
 /** @namespace Component/Header/Container */
 export class HeaderContainer extends NavigationAbstractContainer {
     static propTypes = {
-        productsInWishlist: PropTypes.objectOf(PropTypes.number),
+        productsInWishlist: PropTypes.objectOf(PropTypes.object),
         showOverlay: PropTypes.func.isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,
         showPopup: PropTypes.func.isRequired,
