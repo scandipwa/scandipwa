@@ -55,11 +55,11 @@ export class FieldFileContainer extends PureComponent {
         if (this.fieldRef) {
             const { files } = this.fieldRef;
             this.setState({ isLoading: true });
-            const { name } = files[0] ? files[0] : '';
+            const { name } = files[0] || {};
 
             if (!name) {
                 this.setState({
-                    fileName: name,
+                    fileName: '',
                     isLoading: false
                 });
 
