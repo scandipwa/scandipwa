@@ -52,6 +52,10 @@
         display: flex;
         flex-direction: column;
         row-gap: 24px;
+      
+        .Field {
+            margin-block-start: 12px;
+        }
 
         input,
         textarea {
@@ -106,7 +110,7 @@
         font-weight: bold;
         color: var(--required-text-color);
     }
-    
+
     &-ErrorMessage {
         color: var(--primary-error-color);
         font-size: 12px;
