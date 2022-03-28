@@ -25,13 +25,59 @@ export class PasswordChangePage extends PureComponent {
         onPasswordSuccess: PropTypes.func.isRequired,
         onError: PropTypes.func.isRequired,
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        shouldDisplayWarning: PropTypes.bool.isRequired,
+        minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
-    renderContent() {
+    renderWarningMessage() {
+        const { shouldDisplayWarning } = this.props;
+
+        if (!shouldDisplayWarning) {
+            return null;
+        }
+
+        return (
+            <div block="PasswordChangePage" elem="WarningMsg">
+                <h2>
+                    { __('Unable to reset password') }
+                </h2>
+                <div>
+                    { __('The URL is invalid. Some parameters are missing.') }
+                </div>
+            </div>
+        );
+    }
+
+    renderPageContents() {
         const {
-            isLoading, onError, onPasswordSuccess, isMobile, range
+            range,
+            onError,
+            isMobile,
+            onPasswordSuccess,
+            shouldDisplayWarning,
+            minimunPasswordCharacter
         } = this.props;
+
+        if (shouldDisplayWarning) {
+            return null;
+        }
+
+        return (
+            <>
+                { !isMobile && <h1>{ __('Change My Password') }</h1> }
+                <PasswordChangeForm
+                  onFormError={ onError }
+                  onFormSubmit={ onPasswordSuccess }
+                  range={ range }
+                  minimunPasswordCharacter={ minimunPasswordCharacter }
+                />
+            </>
+        );
+    }
+
+    renderContent() {
+        const { isLoading } = this.props;
 
         return (
             <ContentWrapper
@@ -40,12 +86,8 @@ export class PasswordChangePage extends PureComponent {
               label={ __('Password Change Actions') }
             >
                 <Loader isLoading={ isLoading } />
-                { !isMobile && <h1>{ __('Change My Password') }</h1> }
-                <PasswordChangeForm
-                  onFormError={ onError }
-                  onFormSubmit={ onPasswordSuccess }
-                  range={ range }
-                />
+                { this.renderWarningMessage() }
+                { this.renderPageContents() }
             </ContentWrapper>
         );
     }

@@ -24,7 +24,7 @@
         flex-direction: column;
         justify-content: center;
     }
-    
+
     &-MessageText {
         margin: 0;
         word-break: break-word;
@@ -91,9 +91,7 @@
         }
 
         @include tablet-portrait {
-            width: 100%;
             margin-inline-start: 0;
-            margin-block-start: 10px;
         }
     }
 

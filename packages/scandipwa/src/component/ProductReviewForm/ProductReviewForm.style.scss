@@ -45,6 +45,10 @@
     }
 
     &-Content {
+        .Field {
+            margin-block-start: 12px;
+        }
+
         input,
         textarea {
             font-size: 12px;
@@ -98,7 +102,7 @@
         font-weight: bold;
         color: var(--required-text-color);
     }
-    
+
     &-ErrorMessage {
         color: var(--primary-error-color);
         font-size: 12px;

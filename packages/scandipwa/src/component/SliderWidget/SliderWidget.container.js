@@ -20,7 +20,8 @@ import SliderWidget from './SliderWidget.component';
 
 /** @namespace Component/SliderWidget/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    isOffline: state.OfflineReducer.isOffline
 });
 
 /** @namespace Component/SliderWidget/Container/mapDispatchToProps */
@@ -32,7 +33,8 @@ export const mapDispatchToProps = (dispatch) => ({
 export class SliderWidgetContainer extends DataContainer {
     static propTypes = {
         sliderId: PropTypes.number.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        isOffline: PropTypes.bool.isRequired
     };
 
     state = {
@@ -41,6 +43,12 @@ export class SliderWidgetContainer extends DataContainer {
             slides: [{ image: '', slide_text: '', isPlaceholder: true }]
         }
     };
+
+    __construct(props) {
+        const { sliderId } = props;
+
+        super.__construct(props, `SliderWidgetContainer-${sliderId}`);
+    }
 
     componentDidMount() {
         this.requestSlider();
@@ -63,12 +71,13 @@ export class SliderWidgetContainer extends DataContainer {
     }
 
     requestSlider() {
-        const { sliderId, showNotification } = this.props;
+        const { sliderId, showNotification, isOffline } = this.props;
 
         this.fetchData(
             [SliderQuery.getQuery({ sliderId })],
             ({ slider }) => this.setState({ slider }),
-            (e) => showNotification('error', __('Error fetching Slider!'), e)
+            (e) => showNotification('error', __('Error fetching Slider!'), e),
+            isOffline
         );
     }
 
