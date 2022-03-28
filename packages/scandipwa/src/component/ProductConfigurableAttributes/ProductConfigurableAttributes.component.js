@@ -120,7 +120,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         const { renderPlaceholder } = this.props;
 
         return (
-            <div block="ProductConfigurableAttributes" elem="PlaceholderContainer">
+            <div block="ProductConfigurableAttributes" elem="PlaceholderWrapper">
                 { renderPlaceholder('ProductConfigurableAttributes') }
             </div>
         );

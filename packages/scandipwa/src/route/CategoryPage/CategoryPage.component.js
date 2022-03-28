@@ -24,9 +24,6 @@ import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
-import {
-    BIG_PLACEHOLDER_CONFIG
-} from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import {
     CategoryTreeType, FilterInputType, FilterType, SortFieldsType
@@ -213,15 +210,18 @@ export class CategoryPage extends PureComponent {
     renderPlaceholder(block) {
         return (
             <>
-                { BIG_PLACEHOLDER_CONFIG.map((length, i) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <div key={ i } block={ block } elem="SwatchList">
+                { /* { BIG_PLACEHOLDER_CONFIG.map((length, i) => (
+                    <div key={ `${length}-${i}` } block={ block } elem="SwatchList">
                         { Array.from({ length }, (_, i) => (
-                            // eslint-disable-next-line react/no-array-index-key
                             <div key={ i } block={ block } elem="Placeholder" />
                         )) }
                     </div>
-                )) }
+                )) } */ }
+                <div block={ block } elem="SwatchList">
+                    <div block={ block } elem="Placeholder" />
+                    <div block={ block } elem="Placeholder" />
+                    <div block={ block } elem="Placeholder" />
+                </div>
                 <Loader isLoading />
             </>
         );

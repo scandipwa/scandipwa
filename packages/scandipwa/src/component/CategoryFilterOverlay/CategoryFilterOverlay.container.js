@@ -61,7 +61,6 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         isProductsLoading: PropTypes.bool.isRequired,
         isSearchPage: PropTypes.bool.isRequired,
         totalPages: PropTypes.number.isRequired
-
     };
 
     static defaultProps = {
