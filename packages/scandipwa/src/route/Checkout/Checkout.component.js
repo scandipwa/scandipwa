@@ -26,6 +26,7 @@ import {
 import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
@@ -111,6 +112,7 @@ export class Checkout extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         selectedStoreAddress: StoreType,
+        onCouponCodeUpdate: PropTypes.func,
         isSignedIn: PropTypes.bool.isRequired
     };
 
@@ -118,7 +120,8 @@ export class Checkout extends PureComponent {
         paymentTotals: {},
         selectedStoreAddress: {},
         isLoading: false,
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
+        onCouponCodeUpdate: noopFn
     };
 
     stepMap = {
@@ -331,6 +334,27 @@ export class Checkout extends PureComponent {
         );
     }
 
+    renderDiscountCode() {
+        const {
+            totals: { coupon_code, items },
+            checkoutStep
+        } = this.props;
+
+        if (!items || items.length < 1 || checkoutStep !== BILLING_STEP) {
+            return null;
+        }
+
+        return (
+            <ExpandableContent
+              heading={ __('Have a discount code?') }
+              mix={ { block: 'Checkout', elem: 'Discount' } }
+              isArrow
+            >
+                <CartCoupon couponCode={ coupon_code } />
+            </ExpandableContent>
+        );
+    }
+
     renderStep() {
         const { checkoutStep } = this.props;
         const { render } = this.stepMap[checkoutStep];
@@ -353,24 +377,29 @@ export class Checkout extends PureComponent {
             checkoutTotals,
             checkoutStep,
             paymentTotals,
-            isMobile
+            isMobile,
+            onCouponCodeUpdate
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
+        const { renderPromo } = this.renderPromo(true);
 
         if (!areTotalsVisible || (showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
             return null;
         }
 
         return (
-            <CheckoutOrderSummary
-              checkoutStep={ checkoutStep }
-              totals={ checkoutTotals }
-              paymentTotals={ paymentTotals }
-              isExpandable={ isMobile }
-              // eslint-disable-next-line react/jsx-no-bind
-              renderCmsBlock={ () => this.renderPromo(true) }
-              showItems
-            />
+            <>
+                <CheckoutOrderSummary
+                  checkoutStep={ checkoutStep }
+                  totals={ checkoutTotals }
+                  paymentTotals={ paymentTotals }
+                  isExpandable={ isMobile }
+                  onCouponCodeUpdate={ onCouponCodeUpdate }
+                  renderCmsBlock={ renderPromo }
+                  showItems
+                />
+                { !showOnMobile && this.renderDiscountCode() }
+            </>
         );
     }
 
