@@ -136,9 +136,9 @@ export class OrderPrintPageContainer extends PureComponent {
 
     render() {
         return (
-                <OrderPrintPage
-                  { ...this.containerProps() }
-                />
+            <OrderPrintPage
+              { ...this.containerProps() }
+            />
         );
     }
 }

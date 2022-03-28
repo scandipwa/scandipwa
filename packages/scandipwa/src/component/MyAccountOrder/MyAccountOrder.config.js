@@ -1,7 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
-import { } from 'Util/Url';
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *

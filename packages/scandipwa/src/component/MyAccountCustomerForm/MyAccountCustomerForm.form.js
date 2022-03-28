@@ -8,7 +8,9 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 import FIELD_TYPE from 'Component/Field/Field.config';
+import { validatePassword } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -106,6 +108,7 @@ export const customerInformationFields = (props) => {
  * @namespace Component/MyAccountCustomerForm/Form/customerEmailAndPasswordFields */
 export const customerEmailAndPasswordFields = (props) => {
     const {
+        minimunPasswordCharacter,
         showEmailChangeField,
         showPasswordChangeField,
         handleEmailInput,
@@ -174,13 +177,14 @@ export const customerEmailAndPasswordFields = (props) => {
                 validationRule: {
                     inputType: VALIDATION_INPUT_TYPE.password,
                     isRequired: true,
-                    range,
                     match: (value) => {
                         const password = document.getElementById('currentPassword');
-                        return value && password.value !== value;
-                    },
-                    customErrorMessages: {
-                        onMatchFail: __('New passwords can\'t be the same as old password!')
+
+                        if (value && password.value === value) {
+                            return __('New passwords can\'t be the same as old password!');
+                        }
+
+                        return validatePassword(value, range, minimunPasswordCharacter);
                     }
                 }
             },

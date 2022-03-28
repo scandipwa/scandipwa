@@ -233,7 +233,7 @@ export class MyAccountOrder extends PureComponent {
     renderOrderComments() {
         const { activeTab, order: { comments = [] } } = this.props;
 
-        if (activeTab !== ORDER_ITEMS || !comments.length) {
+        if (activeTab !== ORDER_ITEMS || !comments || !comments.length) {
             return null;
         }
 
@@ -337,7 +337,7 @@ export class MyAccountOrder extends PureComponent {
 
         return (
             <>
-                <Loader isLoading={ isLoading } />
+                <Loader mix={ { block: 'MyAccountOrder', elem: 'Loader ' } } isLoading={ isLoading } />
                 { this.renderContent() }
             </>
         );

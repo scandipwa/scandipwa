@@ -10,6 +10,7 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
+import { validatePassword } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -17,7 +18,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/PasswordChangeForm/Form/customerEmailAndPasswordFields */
-export const customerEmailAndPasswordFields = (range) => [
+export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) => [
     {
         type: FIELD_TYPE.password,
         label: __('New password'),
@@ -31,7 +32,7 @@ export const customerEmailAndPasswordFields = (range) => [
         validationRule: {
             isRequired: true,
             inputType: VALIDATION_INPUT_TYPE.password,
-            range
+            match: (value) => validatePassword(value, range, minimunPasswordCharacter)
         },
         addRequiredTag: true
     },

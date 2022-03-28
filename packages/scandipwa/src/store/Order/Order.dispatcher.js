@@ -12,6 +12,7 @@
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
+import { getAuthorizationToken } from 'Util/Auth';
 import history from 'Util/History';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -48,7 +49,7 @@ export class OrderDispatcher {
         } = await this.handleReorderMutation(dispatch, incrementId);
 
         const cartDispatcher = (await CartDispatcher).default;
-        cartDispatcher.updateInitialCartData(dispatch);
+        cartDispatcher.updateInitialCartData(dispatch, getAuthorizationToken());
 
         history.push(appendWithStoreCode('/cart'));
 

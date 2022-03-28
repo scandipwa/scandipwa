@@ -57,8 +57,8 @@ export class ContactPageContainer extends DataContainer {
         isEnabled: false
     };
 
-    __construct() {
-        super.__construct('ContactPageContainer');
+    __construct(props) {
+        super.__construct(props, 'ContactPageContainer');
 
         this.updateBreadcrumbs();
     }

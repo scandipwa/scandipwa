@@ -15,6 +15,12 @@
 }
 
 .ProductCustomizableItem {
+    &-Label {
+        width: calc(100% - max(21px, var(--checkbox-width)));
+        word-break: break-word;
+        min-width: 50px;
+    }
+
     &-PriceLabel {
         white-space: nowrap;
     }
@@ -30,6 +36,28 @@
             margin-block-start: 16px;
 
             &_type {
+                &_textarea, &_text {
+                    & + .Field-SubLabelContainer {
+                        margin-block-start: 6px;
+
+                        .Field-SubLabel {
+                            font-weight: normal;
+                        }
+                    }   
+
+                    & + .Field-ErrorMessages {
+                        margin-block-end: 0;
+                    }    
+
+                    & + .Field-ErrorMessages + .Field-SubLabelContainer {
+                        margin-block-start: 0;
+
+                        .Field-SubLabel {
+                            font-weight: normal;
+                        }
+                    }
+                }   
+
                 &_textarea {
                     textarea {
                         width: 100%;

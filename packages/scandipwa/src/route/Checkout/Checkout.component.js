@@ -14,7 +14,6 @@ import { lazy, PureComponent, Suspense } from 'react';
 
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
-import Form from 'Component/Form';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { Addresstype } from 'Type/Account.type';
@@ -27,7 +26,6 @@ import {
 import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
-import scrollToError from 'Util/Form/Form';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
@@ -112,7 +110,8 @@ export class Checkout extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        selectedStoreAddress: StoreType
+        selectedStoreAddress: StoreType,
+        isSignedIn: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -221,9 +220,14 @@ export class Checkout extends PureComponent {
             onEmailChange,
             onCreateUserChange,
             onPasswordChange,
-            isGuestEmailSaved
+            isGuestEmailSaved,
+            isSignedIn
         } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
+
+        if (isSignedIn) {
+            return null;
+        }
 
         return (
             <CheckoutGuestForm
@@ -443,10 +447,6 @@ export class Checkout extends PureComponent {
         );
     }
 
-    onError(_, fields, validation) {
-        scrollToError(fields, validation);
-    }
-
     render() {
         return (
             <main block="Checkout">
@@ -455,12 +455,7 @@ export class Checkout extends PureComponent {
                   label={ __('Checkout page') }
                 >
                     { this.renderSummary(true) }
-                    <Form
-                      onError={ this.onError }
-                      validationRule={ {
-                          selector: 'input:not([type="password"]), select'
-                      } }
-                    >
+                    <div>
                         <div block="Checkout" elem="Step">
                             { this.renderTitle() }
                             { this.renderStoreInPickUpMethod() }
@@ -468,7 +463,7 @@ export class Checkout extends PureComponent {
                             { this.renderStep() }
                             { this.renderLoader() }
                         </div>
-                    </Form>
+                    </div>
                     <div>
                         <Suspense fallback={ <Loader /> }>
                             { this.renderSummary() }

@@ -16,6 +16,7 @@
 
     @include mobile {
         margin: 0 16px;
+        padding-block-end: 1px;
     }
 
     .Field {
@@ -39,10 +40,7 @@
                 opacity: 1;
                 padding-inline-start: 0;
                 line-height: 23px;
-
-                @include mobile {
-                    padding-block-end: 12px;
-                }
+                min-height: 0;
             }
 
             &::after {

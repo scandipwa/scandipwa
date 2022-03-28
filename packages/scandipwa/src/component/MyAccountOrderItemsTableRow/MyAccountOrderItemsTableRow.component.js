@@ -316,7 +316,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
             return (
                 <>
                     { this.renderPrice(
-                        totalDiscount,
+                        -totalDiscount,
                         currency,
                         __('Discount Amount')
                     ) }
@@ -331,7 +331,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
         return (
             <>
-                <td><strong>{ formatPrice(totalDiscount, currency) }</strong></td>
+                <td><strong>{ formatPrice(-totalDiscount, currency) }</strong></td>
                 <td><strong>{ formatPrice(row_subtotal - totalDiscount, currency) }</strong></td>
             </>
         );

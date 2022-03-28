@@ -20,6 +20,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
     static propTypes = {
         price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         currency: PropTypes.string,
+        itemsQty: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
         coupon_code: PropTypes.string,
         mods: ModsType,
@@ -88,10 +89,15 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         const {
             price,
             mods,
-            children
+            children,
+            itemsQty
         } = this.props;
 
-        if (!price) {
+        if (!itemsQty && !price) {
+            return null;
+        }
+
+        if (+price === 0 && !itemsQty) {
             return null;
         }
 
