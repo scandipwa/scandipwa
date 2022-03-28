@@ -33,6 +33,7 @@
         margin-block-start: calc(var(--header-total-height) + 12px);
         margin-block-end: var(--header-nav-height);
         margin-inline: auto;
+        word-wrap: break-word;
 
         @include mobile {
             padding-inline: 14px;
