@@ -210,13 +210,6 @@ export class CategoryPage extends PureComponent {
     renderPlaceholder(block) {
         return (
             <>
-                { /* { BIG_PLACEHOLDER_CONFIG.map((length, i) => (
-                    <div key={ `${length}-${i}` } block={ block } elem="SwatchList">
-                        { Array.from({ length }, (_, i) => (
-                            <div key={ i } block={ block } elem="Placeholder" />
-                        )) }
-                    </div>
-                )) } */ }
                 <div block={ block } elem="SwatchList">
                     <div block={ block } elem="Placeholder" />
                     <div block={ block } elem="Placeholder" />
