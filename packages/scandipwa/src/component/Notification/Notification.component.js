@@ -110,7 +110,14 @@ export class Notification extends PureComponent {
 
         return (
             <div block="Notification" mods={ mods } ref={ this.notification } id={ id }>
-                <button block="Notification" elem="Button" onClick={ this.hideNotification }>Close</button>
+                <button
+                  block="Notification"
+                  elem="Button"
+                // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ this.hideNotification.bind(this) }
+                >
+                     Close
+                </button>
                 <p block="Notification" elem="Text">{ msgText }</p>
                 { this.renderDebug() }
             </div>
