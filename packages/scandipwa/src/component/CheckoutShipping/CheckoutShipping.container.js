@@ -26,6 +26,7 @@ import {
     trimCheckoutCustomerAddress
 } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
+import scrollToError from 'Util/Form/Form';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import CheckoutShipping from './CheckoutShipping.component';
@@ -211,10 +212,11 @@ export class CheckoutShippingContainer extends PureComponent {
         onShippingMethodSelect(method);
     }
 
-    onShippingError() {
+    onShippingError(_, fields, validation) {
         // TODO: implement notification if some data in Form can not display error
         const { isSubmitted } = this.state;
         this.setState({ isSubmitted: !isSubmitted });
+        scrollToError(fields, validation);
     }
 
     onShippingSuccess(form, fields) {
@@ -222,7 +224,8 @@ export class CheckoutShippingContainer extends PureComponent {
             saveAddressInformation,
             updateShippingFields,
             addressLinesQty,
-            selectedStoreAddress
+            selectedStoreAddress,
+            customer: { default_shipping }
         } = this.props;
 
         const {
@@ -265,7 +268,16 @@ export class CheckoutShippingContainer extends PureComponent {
 
         saveAddressInformation(data);
         const shippingMethod = `${shipping_carrier_code}_${shipping_method_code}`;
-        updateShippingFields({ ...formattedFields, shippingMethod });
+        const { street = [] } = formattedFields;
+
+        updateShippingFields({
+            ...(
+                street.length
+                || (default_shipping && parseInt(default_shipping, 10) === data.shipping_address.id)
+                    ? formattedFields : data.shipping_address
+            ),
+            shippingMethod
+        });
     }
 
     _getAddressById(addressId) {

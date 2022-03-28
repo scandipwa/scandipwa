@@ -35,6 +35,7 @@ export const mapStateToProps = (state) => ({
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
     isLocked: state.MyAccountReducer.isLocked,
     totals: state.CartReducer.cartTotals
+    isEmailAvailable: state.CheckoutReducer.isEmailAvailable
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
@@ -64,13 +65,19 @@ export class MyAccountSignInContainer extends PureComponent {
         isLocked: PropTypes.string.isRequired,
         updateCustomerLockedStatus: PropTypes.func.isRequired,
         totals: TotalsType.isRequired
+        isLoading: PropTypes.bool
     };
 
     static defaultProps = {
         emailValue: '',
         isEmailAvailable: true,
         setSignInState: noopFn,
-        handleEmailInput: noopFn
+        handleEmailInput: noopFn,
+        isLoading: false
+    };
+
+    state = {
+        isSignIn: false
     };
 
     containerFunctions = {
@@ -95,7 +102,8 @@ export class MyAccountSignInContainer extends PureComponent {
             isCheckout,
             setLoadingState,
             emailValue,
-            handleEmailInput
+            handleEmailInput,
+            isLoading
         } = this.props;
 
         return {
@@ -106,7 +114,8 @@ export class MyAccountSignInContainer extends PureComponent {
             isCheckout,
             setLoadingState,
             emailValue,
-            handleEmailInput
+            handleEmailInput,
+            isLoading
         };
     }
 
@@ -120,14 +129,25 @@ export class MyAccountSignInContainer extends PureComponent {
             isCheckout
         } = this.props;
 
+        const {
+            isSignIn
+        } = this.state;
+
         setLoadingState(true);
         const fieldPairs = transformToNameValuePair(fields);
 
-        try {
-            await signIn(fieldPairs);
-            onSignIn();
-        } catch (error) {
-            showNotification('error', getErrorMessage(error));
+        if (!isSignIn) {
+            this.setState({ isSignIn: true });
+
+            try {
+                await signIn(fieldPairs);
+                onSignIn();
+            } catch (error) {
+                showNotification('error', getErrorMessage(error));
+                this.setState({ isSignIn: false });
+            } finally {
+                setLoadingState(false);
+            }
         }
 
         setLoadingState(false);
