@@ -71,6 +71,10 @@
         inset-block-start: -9px;
         transform: rotate(45deg);
         width: 6px;
+
+        [dir="rtl"] & {
+            transform: rotate(315deg);
+        }
     }
 
     &::after {

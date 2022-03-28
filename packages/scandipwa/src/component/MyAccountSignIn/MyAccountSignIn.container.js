@@ -53,14 +53,16 @@ export class MyAccountSignInContainer extends PureComponent {
         emailValue: PropTypes.string,
         isEmailAvailable: PropTypes.bool,
         setSignInState: PropTypes.func,
-        handleEmailInput: PropTypes.func
+        handleEmailInput: PropTypes.func,
+        isLoading: PropTypes.bool
     };
 
     static defaultProps = {
         emailValue: '',
         isEmailAvailable: true,
         setSignInState: noopFn,
-        handleEmailInput: noopFn
+        handleEmailInput: noopFn,
+        isLoading: false
     };
 
     state = {
@@ -89,7 +91,8 @@ export class MyAccountSignInContainer extends PureComponent {
             isCheckout,
             setLoadingState,
             emailValue,
-            handleEmailInput
+            handleEmailInput,
+            isLoading
         } = this.props;
 
         return {
@@ -100,7 +103,8 @@ export class MyAccountSignInContainer extends PureComponent {
             isCheckout,
             setLoadingState,
             emailValue,
-            handleEmailInput
+            handleEmailInput,
+            isLoading
         };
     }
 
