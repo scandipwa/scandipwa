@@ -75,6 +75,8 @@ export class ProductCompareContainer extends PureComponent {
         attributes: []
     };
 
+    state = { isTouchScreen: 'ontouchstart' in document.documentElement };
+
     containerFunctions = {
         getAttributes: this.getAttributes.bind(this),
         clearCompareList: this.clearCompareList.bind(this),
@@ -119,6 +121,11 @@ export class ProductCompareContainer extends PureComponent {
     }
 
     handleScroll() {
+        const { isTouchScreen } = this.state;
+
+        if (isTouchScreen) {
+            return;
+        }
         const scrollerScroll = document.getElementById('scrollerScroll');
         const productCompare = document.getElementById('productCompare');
 
