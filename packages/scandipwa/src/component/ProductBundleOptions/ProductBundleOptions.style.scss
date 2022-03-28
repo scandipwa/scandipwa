@@ -30,10 +30,7 @@
             }
 
             &_type_select + .Field-ErrorMessages {
-                position: absolute;
-                inset-inline-start: 0;
-                inset-block-end: 10px;
-                transform: translateY(100%);
+                margin-block-start: 8px;
             }
 
             &-Wrapper {
@@ -44,10 +41,6 @@
                 }
             }
         }
-    }
-
-    &-Select.Field_hasError {
-        margin-block-end: 16px;
     }
 
     &-PriceLabel {
