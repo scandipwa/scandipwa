@@ -77,11 +77,13 @@ $select-arrow-width: 14px !default;
         min-width: 100%;
 
         &-ulDiv {
-            max-height: $select-option-height * 5;
-            overflow-y: auto;
-
-            &_isNotExpanded {
-                display: none;
+            @include desktop {
+                overflow-y: auto;
+                max-height: $select-option-height * 5;
+                
+                &_isNotExpanded {
+                    display: none;
+                }
             }
         }
 
