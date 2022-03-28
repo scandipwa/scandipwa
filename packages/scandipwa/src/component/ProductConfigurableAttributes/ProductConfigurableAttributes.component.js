@@ -23,7 +23,6 @@ import './ProductConfigurableAttributes.style';
 /** @namespace Component/ProductConfigurableAttributes/Component */
 export class ProductConfigurableAttributes extends PureComponent {
     static propTypes = {
-        // eslint-disable-next-line react/require-default-props
         renderPlaceholder: PropTypes.func,
         configurable_options: AttributesType.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -45,6 +44,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         isReady: true,
         mix: {},
         getIsConfigurableAttributeAvailable: () => true,
+        renderPlaceholder: noopFn,
         handleShakeAnimationEnd: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true
