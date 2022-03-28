@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 
 import FieldForm from 'Component/FieldForm';
+import Loader from 'Component/Loader';
 import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
 import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
 import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
@@ -39,7 +40,8 @@ export class CheckoutGuestForm extends FieldForm {
         emailValue: PropTypes.string.isRequired,
         signInState: PropTypes.string.isRequired,
         setSignInState: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired
+        onSignIn: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired
     };
 
     // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
@@ -216,11 +218,14 @@ export class CheckoutGuestForm extends FieldForm {
     }
 
     render() {
+        const { isLoading } = this.props;
+
         return (
             <div
               block="CheckoutGuestForm"
               mix={ { block: 'FieldForm' } }
             >
+                <Loader isLoading={ isLoading } />
                 { this.renderForm() }
             </div>
         );
