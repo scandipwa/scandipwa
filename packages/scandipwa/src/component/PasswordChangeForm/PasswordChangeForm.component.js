@@ -27,7 +27,10 @@ export class PasswordChangeForm extends FieldForm {
     };
 
     get fieldMap() {
-        const { range, minimunPasswordCharacter } = this.props;
+        const {
+            range,
+            minimunPasswordCharacter
+        } = this.props;
 
         return customerEmailAndPasswordFields(range, minimunPasswordCharacter);
     }
