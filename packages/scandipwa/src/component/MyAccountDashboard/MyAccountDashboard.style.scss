@@ -25,12 +25,11 @@
 
     &-AddressesWrapper {
         @include desktop {
-            display: inline-flex;
+            display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
             column-gap: 48px;
             row-gap: 24px;
-            width: 100%;
         }
     }
 
