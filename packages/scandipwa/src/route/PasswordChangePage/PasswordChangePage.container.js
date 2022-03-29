@@ -143,6 +143,7 @@ export class PasswordChangePageContainer extends PureComponent {
     }
 
     containerProps() {
+        const { showNotification } = this.props;
         const { isLoading } = this.state;
         const { isMobile, minimunPasswordLength, minimunPasswordCharacter } = this.props;
 
@@ -154,6 +155,7 @@ export class PasswordChangePageContainer extends PureComponent {
         return {
             range,
             isLoading,
+            showNotification,
             isMobile,
             minimunPasswordCharacter,
             shouldDisplayWarning: this.shouldDisplayWarning()

@@ -14,10 +14,6 @@ import { PureComponent } from 'react';
 
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
-import {
-    BIG_PLACEHOLDER_CONFIG,
-    SMALL_PLACEHOLDER_CONFIG
-} from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import { MixType } from 'Type/Common.type';
 import { AttributesType } from 'Type/ProductList.type';
 import { noopFn } from 'Util/Common';
@@ -27,7 +23,7 @@ import './ProductConfigurableAttributes.style';
 /** @namespace Component/ProductConfigurableAttributes/Component */
 export class ProductConfigurableAttributes extends PureComponent {
     static propTypes = {
-        numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
+        renderPlaceholder: PropTypes.func,
         configurable_options: AttributesType.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
@@ -47,8 +43,8 @@ export class ProductConfigurableAttributes extends PureComponent {
     static defaultProps = {
         isReady: true,
         mix: {},
-        numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
         getIsConfigurableAttributeAvailable: () => true,
+        renderPlaceholder: noopFn,
         handleShakeAnimationEnd: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true
@@ -120,27 +116,14 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderPlaceholders() {
-        const { numberOfPlaceholders, isExpandable } = this.props;
-        const numberOfPlaceholdersToRender = isExpandable ? numberOfPlaceholders : SMALL_PLACEHOLDER_CONFIG;
+    renderAttributesPlaceholder() {
+        const { renderPlaceholder } = this.props;
 
-        return numberOfPlaceholdersToRender.map((length, i) => (
-                <div
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={ i }
-                  block="ProductConfigurableAttributes"
-                  elem="SwatchList"
-                >
-                    { Array.from({ length }, (_, i) => (
-                        <div
-                          // eslint-disable-next-line react/no-array-index-key
-                          key={ i }
-                          block="ProductConfigurableAttributes"
-                          elem="Placeholder"
-                        />
-                    )) }
-                </div>
-        ));
+        return (
+            <div block="ProductConfigurableAttributes" elem="PlaceholderWrapper">
+                { renderPlaceholder('ProductConfigurableAttributes') }
+            </div>
+        );
     }
 
     renderConfigurableAttributes() {
@@ -206,7 +189,7 @@ export class ProductConfigurableAttributes extends PureComponent {
               mods={ { isLoading: !isReady } }
               mix={ mix }
             >
-                { isReady ? this.renderConfigurableAttributes() : this.renderPlaceholders() }
+                { isReady ? this.renderConfigurableAttributes() : this.renderAttributesPlaceholder() }
             </div>
         );
     }

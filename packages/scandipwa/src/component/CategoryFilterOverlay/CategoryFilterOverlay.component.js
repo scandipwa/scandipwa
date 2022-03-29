@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
-import Loader from 'Component/Loader';
 import Overlay from 'Component/Overlay';
 import ResetAttributes from 'Component/ResetAttributes';
 import ResetButton from 'Component/ResetButton';
@@ -27,11 +26,11 @@ import './CategoryFilterOverlay.style';
 /** @namespace Component/CategoryFilterOverlay/Component */
 export class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
+        renderPlaceholder: PropTypes.func.isRequired,
         availableFilters: AttributesType.isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
         isContentFiltered: PropTypes.bool.isRequired,
         isMatchingInfoFilter: PropTypes.bool.isRequired,
-        isInfoLoading: PropTypes.bool.isRequired,
         isProductsLoading: PropTypes.bool.isRequired,
         onSeeResultsClick: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
@@ -51,7 +50,8 @@ export class CategoryFilterOverlay extends PureComponent {
             toggleCustomFilter,
             isMatchingInfoFilter,
             getFilterUrl,
-            isSearchPage
+            isSearchPage,
+            renderPlaceholder
         } = this.props;
 
         return (
@@ -63,6 +63,7 @@ export class CategoryFilterOverlay extends PureComponent {
               parameters={ customFiltersValues }
               updateConfigurableVariant={ toggleCustomFilter }
               isSearchPage={ isSearchPage }
+              renderPlaceholder={ renderPlaceholder }
             />
         );
     }
@@ -179,23 +180,6 @@ export class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    renderLoader() {
-        const {
-            isInfoLoading,
-            availableFilters
-        } = this.props;
-
-        const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
-
-        if (!isLoaded) { // hide loader if filters were not yet loaded (even once!)
-            return null;
-        }
-
-        return (
-            <Loader isLoading={ isInfoLoading } />
-        );
-    }
-
     render() {
         const {
             onVisible,
@@ -224,7 +208,6 @@ export class CategoryFilterOverlay extends PureComponent {
             >
                 <div block="CategoryFilterOverlay" elem="Wrapper">
                     { this.renderContent() }
-                    { this.renderLoader() }
                 </div>
             </Overlay>
         );

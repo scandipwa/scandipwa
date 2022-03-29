@@ -26,6 +26,7 @@ import ProductConfigurableAttributes from './ProductConfigurableAttributes.compo
 /** @namespace Component/ProductConfigurableAttributes/Container */
 export class ProductConfigurableAttributesContainer extends PureComponent {
     static propTypes = {
+        renderPlaceholder: PropTypes.func,
         getLink: PropTypes.func,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
@@ -42,6 +43,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
     };
 
     static defaultProps = {
+        renderPlaceholder: noopFn,
         getLink: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true,
@@ -66,6 +68,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
 
     containerProps() {
         const {
+            renderPlaceholder,
             configurable_options,
             isExpandable,
             isReady,
@@ -80,6 +83,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         } = this.props;
 
         return {
+            renderPlaceholder,
             configurable_options,
             isExpandable,
             isReady,
