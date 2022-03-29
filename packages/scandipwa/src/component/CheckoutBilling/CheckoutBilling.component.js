@@ -31,315 +31,315 @@ import './CheckoutBilling.style';
 
 /** @namespace Component/CheckoutBilling/Component */
 export class CheckoutBilling extends PureComponent {
-    state = {
-        isOrderButtonVisible: true,
-        isOrderButtonEnabled: true,
-        isTermsAndConditionsAccepted: false
-    };
+     state = {
+         isOrderButtonVisible: true,
+         isOrderButtonEnabled: true,
+         isTermsAndConditionsAccepted: false
+     };
 
-    static propTypes = {
-        setLoading: PropTypes.func.isRequired,
-        setDetailsStep: PropTypes.func.isRequired,
-        isSameAsShipping: PropTypes.bool.isRequired,
-        termsAreEnabled: PropTypes.bool.isRequired,
-        onSameAsShippingChange: PropTypes.func.isRequired,
-        onPaymentMethodSelect: PropTypes.func.isRequired,
-        onBillingSuccess: PropTypes.func.isRequired,
-        onAddressSelect: PropTypes.func.isRequired,
-        showPopup: PropTypes.func.isRequired,
-        paymentMethods: PaymentMethodsType.isRequired,
-        totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number,
-        shippingAddress: Addresstype.isRequired,
-        termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
-            checkbox_text: PropTypes.string
-        })).isRequired,
-        selectedShippingMethod: PropTypes.string.isRequired
-    };
+     static propTypes = {
+         setLoading: PropTypes.func.isRequired,
+         setDetailsStep: PropTypes.func.isRequired,
+         isSameAsShipping: PropTypes.bool.isRequired,
+         termsAreEnabled: PropTypes.bool.isRequired,
+         onSameAsShippingChange: PropTypes.func.isRequired,
+         onPaymentMethodSelect: PropTypes.func.isRequired,
+         onBillingSuccess: PropTypes.func.isRequired,
+         onAddressSelect: PropTypes.func.isRequired,
+         showPopup: PropTypes.func.isRequired,
+         paymentMethods: PaymentMethodsType.isRequired,
+         totals: TotalsType.isRequired,
+         cartTotalSubPrice: PropTypes.number,
+         shippingAddress: Addresstype.isRequired,
+         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
+             checkbox_text: PropTypes.string
+         })).isRequired,
+         selectedShippingMethod: PropTypes.string.isRequired
+     };
 
-    static defaultProps = {
-        cartTotalSubPrice: null
-    };
+     static defaultProps = {
+         cartTotalSubPrice: null
+     };
 
-    setOrderButtonEnableStatus = this.setOrderButtonEnableStatus.bind(this);
+     setOrderButtonEnableStatus = this.setOrderButtonEnableStatus.bind(this);
 
-    setTACAccepted = this.setTACAccepted.bind(this);
+     setTACAccepted = this.setTACAccepted.bind(this);
 
-    handleShowPopup = this.handleShowPopup.bind(this);
+     handleShowPopup = this.handleShowPopup.bind(this);
 
-    componentDidMount() {
-        const { termsAreEnabled } = this.props;
+     componentDidMount() {
+         const { termsAreEnabled } = this.props;
 
-        if (!termsAreEnabled) {
-            this.setState({ isOrderButtonEnabled: true });
-        }
-    }
+         if (!termsAreEnabled) {
+             this.setState({ isOrderButtonEnabled: true });
+         }
+     }
 
-    setOrderButtonVisibility(isOrderButtonVisible) {
-        this.setState({ isOrderButtonVisible });
-    }
+     setOrderButtonVisibility(isOrderButtonVisible) {
+         this.setState({ isOrderButtonVisible });
+     }
 
-    setOrderButtonEnableStatus(isOrderButtonEnabled) {
-        this.setState({ isOrderButtonEnabled });
-    }
+     setOrderButtonEnableStatus(isOrderButtonEnabled) {
+         this.setState({ isOrderButtonEnabled });
+     }
 
-    setTACAccepted() {
-        this.setState(({ isTermsAndConditionsAccepted: oldIsTACAccepted }) => ({
-            isTermsAndConditionsAccepted: !oldIsTACAccepted
-        }));
-    }
+     setTACAccepted() {
+         this.setState(({ isTermsAndConditionsAccepted: oldIsTACAccepted }) => ({
+             isTermsAndConditionsAccepted: !oldIsTACAccepted
+         }));
+     }
 
-    handleShowPopup(e) {
-        const { showPopup } = this.props;
-        e.preventDefault();
-        showPopup();
-    }
+     handleShowPopup(e) {
+         const { showPopup } = this.props;
+         e.preventDefault();
+         showPopup();
+     }
 
-    renderTermsAndConditions() {
-        const {
-            termsAreEnabled,
-            termsAndConditions
-        } = this.props;
+     renderTermsAndConditions() {
+         const {
+             termsAreEnabled,
+             termsAndConditions
+         } = this.props;
 
-        const {
-            checkbox_text = __('I agree to terms and conditions')
-        } = termsAndConditions[0] || {};
+         const {
+             checkbox_text = __('I agree to terms and conditions')
+         } = termsAndConditions[0] || {};
 
-        const { isTermsAndConditionsAccepted } = this.state;
+         const { isTermsAndConditionsAccepted } = this.state;
 
-        if (!termsAreEnabled) {
-            return null;
-        }
+         if (!termsAreEnabled) {
+             return null;
+         }
 
-        return (
-            <div
-              block="CheckoutBilling"
-              elem="TermsAndConditions"
-              mods={ { isShifted: screen.width <= SCREEN_WIDTH_THRESHOLD } }
-            >
+         return (
+             <div
+               block="CheckoutBilling"
+               elem="TermsAndConditions"
+               mods={ { isShifted: screen.width <= SCREEN_WIDTH_THRESHOLD } }
+             >
 
-                <label
-                  block="CheckoutBilling"
-                  elem="TACLabel"
-                  htmlFor="termsAndConditions"
-                >
-                    <Field
-                      type={ FIELD_TYPE.checkbox }
-                      attr={ {
-                          id: 'termsAndConditions',
-                          name: 'termsAndConditions',
-                          value: 'termsAndConditions',
-                          checked: isTermsAndConditionsAccepted
-                      } }
-                      events={ {
-                          onChange: this.setTACAccepted
-                      } }
-                      mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
-                    />
-                    { `${checkbox_text } - ` }
-                </label>
-                <button
-                  block="CheckoutBilling"
-                  elem="TACLink"
-                  onClick={ this.handleShowPopup }
-                  type="button"
-                  mods={ { isShifted: screen.width <= SCREEN_WIDTH_THRESHOLD } }
-                >
-                        { __('read more') }
-                </button>
-            </div>
-        );
-    }
+                 <label
+                   block="CheckoutBilling"
+                   elem="TACLabel"
+                   htmlFor="termsAndConditions"
+                 >
+                     <Field
+                       type={ FIELD_TYPE.checkbox }
+                       attr={ {
+                           id: 'termsAndConditions',
+                           name: 'termsAndConditions',
+                           value: 'termsAndConditions',
+                           checked: isTermsAndConditionsAccepted
+                       } }
+                       events={ {
+                           onChange: this.setTACAccepted
+                       } }
+                       mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
+                     />
+                     { `${checkbox_text } - ` }
+                 </label>
+                 <button
+                   block="CheckoutBilling"
+                   elem="TACLink"
+                   onClick={ this.handleShowPopup }
+                   type="button"
+                   mods={ { isShifted: screen.width <= SCREEN_WIDTH_THRESHOLD } }
+                 >
+                         { __('read more') }
+                 </button>
+             </div>
+         );
+     }
 
-    renderOrderTotalExlTax() {
-        const {
-            cartTotalSubPrice,
-            totals: { quote_currency_code }
-        } = this.props;
+     renderOrderTotalExlTax() {
+         const {
+             cartTotalSubPrice,
+             totals: { quote_currency_code }
+         } = this.props;
 
-        if (!cartTotalSubPrice) {
-            return null;
-        }
+         if (!cartTotalSubPrice) {
+             return null;
+         }
 
-        const orderTotalExlTax = formatPrice(cartTotalSubPrice, quote_currency_code);
+         const orderTotalExlTax = formatPrice(cartTotalSubPrice, quote_currency_code);
 
-        return (
-            <span>
-                { `${ __('Excl. tax:') } ${ orderTotalExlTax }` }
-            </span>
-        );
-    }
+         return (
+             <span>
+                 { `${ __('Excl. tax:') } ${ orderTotalExlTax }` }
+             </span>
+         );
+     }
 
-    renderOrderTotal() {
-        const { totals: { grand_total, quote_currency_code } } = this.props;
+     renderOrderTotal() {
+         const { totals: { grand_total, quote_currency_code } } = this.props;
 
-        const orderTotal = formatPrice(grand_total, quote_currency_code);
+         const orderTotal = formatPrice(grand_total, quote_currency_code);
 
-        return (
-            <dl block="Checkout" elem="OrderTotal">
-                <dt>
-                    { __('Order total:') }
-                </dt>
-                <dd>
-                    { orderTotal }
-                    { this.renderOrderTotalExlTax() }
-                </dd>
-            </dl>
-        );
-    }
+         return (
+             <dl block="Checkout" elem="OrderTotal">
+                 <dt>
+                     { __('Order total:') }
+                 </dt>
+                 <dd>
+                     { orderTotal }
+                     { this.renderOrderTotalExlTax() }
+                 </dd>
+             </dl>
+         );
+     }
 
-    renderActions() {
-        const {
-            isOrderButtonVisible,
-            isOrderButtonEnabled,
-            isTermsAndConditionsAccepted
-        } = this.state;
+     renderActions() {
+         const {
+             isOrderButtonVisible,
+             isOrderButtonEnabled,
+             isTermsAndConditionsAccepted
+         } = this.state;
 
-        const { termsAreEnabled } = this.props;
+         const { termsAreEnabled } = this.props;
 
-        if (!isOrderButtonVisible) {
-            return null;
-        }
+         if (!isOrderButtonVisible) {
+             return null;
+         }
 
-        // if terms and conditions are enabled, validate for acceptance
-        const isDisabled = termsAreEnabled
-            ? !isOrderButtonEnabled || !isTermsAndConditionsAccepted
-            : !isOrderButtonEnabled;
+         // if terms and conditions are enabled, validate for acceptance
+         const isDisabled = termsAreEnabled
+             ? !isOrderButtonEnabled || !isTermsAndConditionsAccepted
+             : !isOrderButtonEnabled;
 
-        return (
-            <div block="Checkout" elem="StickyButtonWrapper">
-                { this.renderOrderTotal() }
-                <button
-                  type="submit"
-                  block="Button"
-                  disabled={ isDisabled }
-                  mix={ { block: 'CheckoutBilling', elem: 'Button' } }
-                >
-                    { __('Complete order') }
-                </button>
-            </div>
-        );
-    }
+         return (
+             <div block="Checkout" elem="StickyButtonWrapper">
+                 { this.renderOrderTotal() }
+                 <button
+                   type="submit"
+                   block="Button"
+                   disabled={ isDisabled }
+                   mix={ { block: 'CheckoutBilling', elem: 'Button' } }
+                 >
+                     { __('Complete order') }
+                 </button>
+             </div>
+         );
+     }
 
-    renderAddressBook() {
-        const {
-            onAddressSelect,
-            isSameAsShipping,
-            totals: { is_virtual }
-        } = this.props;
+     renderAddressBook() {
+         const {
+             onAddressSelect,
+             isSameAsShipping,
+             totals: { is_virtual }
+         } = this.props;
 
-        if (isSameAsShipping && !is_virtual) {
-            return null;
-        }
+         if (isSameAsShipping && !is_virtual) {
+             return null;
+         }
 
-        return (
-            <CheckoutAddressBook
-              onAddressSelect={ onAddressSelect }
-              isBilling
-              is_virtual
-            />
-        );
-    }
+         return (
+             <CheckoutAddressBook
+               onAddressSelect={ onAddressSelect }
+               isBilling
+               is_virtual
+             />
+         );
+     }
 
-    renderSameAsShippingCheckbox() {
-        const {
-            isSameAsShipping,
-            onSameAsShippingChange,
-            totals: { is_virtual },
-            selectedShippingMethod
-        } = this.props;
+     renderSameAsShippingCheckbox() {
+         const {
+             isSameAsShipping,
+             onSameAsShippingChange,
+             totals: { is_virtual },
+             selectedShippingMethod
+         } = this.props;
 
-        if (is_virtual) {
-            return null;
-        }
+         if (is_virtual) {
+             return null;
+         }
 
-        return (
-            <Field
-              type={ FIELD_TYPE.checkbox }
-              attr={ {
-                  id: 'sameAsShippingAddress',
-                  name: 'sameAsShippingAddress',
-                  value: 'sameAsShippingAddress',
-                  checked: isSameAsShipping && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE
-              } }
-              events={ {
-                  onChange: onSameAsShippingChange
-              } }
-              mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
-              label={ __('My billing and shipping are the same') }
-              onChange={ onSameAsShippingChange }
-              isDisabled={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
-            />
-        );
-    }
+         return (
+             <Field
+               type={ FIELD_TYPE.checkbox }
+               attr={ {
+                   id: 'sameAsShippingAddress',
+                   name: 'sameAsShippingAddress',
+                   value: 'sameAsShippingAddress',
+                   checked: isSameAsShipping && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE
+               } }
+               events={ {
+                   onChange: onSameAsShippingChange
+               } }
+               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
+               label={ __('My billing and shipping are the same') }
+               onChange={ onSameAsShippingChange }
+               isDisabled={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
+             />
+         );
+     }
 
-    renderHeading() {
-        return (
-            <h2 block="Checkout" elem="Heading">
-                { __('Billing address') }
-            </h2>
-        );
-    }
+     renderHeading() {
+         return (
+             <h2 block="Checkout" elem="Heading">
+                 { __('Billing address') }
+             </h2>
+         );
+     }
 
-    renderAddresses() {
-        return (
-            <>
-                { this.renderHeading() }
-                { this.renderSameAsShippingCheckbox() }
-                { this.renderAddressBook() }
-            </>
-        );
-    }
+     renderAddresses() {
+         return (
+             <>
+                 { this.renderHeading() }
+                 { this.renderSameAsShippingCheckbox() }
+                 { this.renderAddressBook() }
+             </>
+         );
+     }
 
-    renderPayments() {
-        const {
-            paymentMethods,
-            onPaymentMethodSelect,
-            setLoading,
-            setDetailsStep,
-            shippingAddress
-        } = this.props;
+     renderPayments() {
+         const {
+             paymentMethods,
+             onPaymentMethodSelect,
+             setLoading,
+             setDetailsStep,
+             shippingAddress
+         } = this.props;
 
-        if (!paymentMethods.length) {
-            return null;
-        }
+         if (!paymentMethods.length) {
+             return null;
+         }
 
-        return (
-            <CheckoutPayments
-              setLoading={ setLoading }
-              setDetailsStep={ setDetailsStep }
-              paymentMethods={ paymentMethods }
-              onPaymentMethodSelect={ onPaymentMethodSelect }
-              setOrderButtonVisibility={ this.setOrderButtonVisibility }
-              billingAddress={ shippingAddress }
-              setOrderButtonEnableStatus={ this.setOrderButtonEnableStatus }
-            />
-        );
-    }
+         return (
+             <CheckoutPayments
+               setLoading={ setLoading }
+               setDetailsStep={ setDetailsStep }
+               paymentMethods={ paymentMethods }
+               onPaymentMethodSelect={ onPaymentMethodSelect }
+               setOrderButtonVisibility={ this.setOrderButtonVisibility }
+               billingAddress={ shippingAddress }
+               setOrderButtonEnableStatus={ this.setOrderButtonEnableStatus }
+             />
+         );
+     }
 
-    renderPopup() {
-        return <CheckoutTermsAndConditionsPopup />;
-    }
+     renderPopup() {
+         return <CheckoutTermsAndConditionsPopup />;
+     }
 
-    render() {
-        const { onBillingSuccess } = this.props;
+     render() {
+         const { onBillingSuccess } = this.props;
 
-        return (
-            <Form
-              attr={ {
-                  id: BILLING_STEP
-              } }
-              mix={ { block: 'CheckoutBilling' } }
-              onSubmit={ onBillingSuccess }
-            >
-                { this.renderAddresses() }
-                { this.renderPayments() }
-                { this.renderTermsAndConditions() }
-                { this.renderActions() }
-                { this.renderPopup() }
-            </Form>
-        );
-    }
+         return (
+             <Form
+               attr={ {
+                   id: BILLING_STEP
+               } }
+               mix={ { block: 'CheckoutBilling' } }
+               onSubmit={ onBillingSuccess }
+             >
+                 { this.renderAddresses() }
+                 { this.renderPayments() }
+                 { this.renderTermsAndConditions() }
+                 { this.renderActions() }
+                 { this.renderPopup() }
+             </Form>
+         );
+     }
 }
 
 export default CheckoutBilling;

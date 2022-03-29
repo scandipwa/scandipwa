@@ -34,9 +34,11 @@ export class FieldSelect extends PureComponent {
         handleSelectListKeyPress: PropTypes.func.isRequired,
         handleSelectExpandedExpand: PropTypes.func.isRequired,
         handleSelectExpand: PropTypes.func.isRequired,
+        isSelectedOptionAvailable: PropTypes.bool.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         isDropdownOpenUpwards: PropTypes.bool.isRequired,
-        isScrollable: PropTypes.bool.isRequired
+        isScrollable: PropTypes.bool.isRequired,
+        isSortSelect: PropTypes.bool.isRequired
     };
 
     renderNativeOption(option) {
@@ -65,13 +67,14 @@ export class FieldSelect extends PureComponent {
 
     renderNativeSelect() {
         const {
-            setRef, attr, events, isDisabled, options, handleSelectListOptionClick
+            setRef, attr, events, isDisabled, options, handleSelectListOptionClick, isSelectedOptionAvailable
         } = this.props;
 
         return (
             <select
               block="FieldSelect"
               elem="Select"
+              mods={ { isDisabled: !isSelectedOptionAvailable } }
               ref={ (elem) => setRef(elem) }
               disabled={ isDisabled }
               // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
@@ -159,6 +162,18 @@ export class FieldSelect extends PureComponent {
         );
     }
 
+    renderSortSelect() {
+        const { isSortSelect } = this.props;
+
+        if (!isSortSelect) {
+            return null;
+        }
+
+        return (
+            <div block="FieldSelect" elem="SortSelect">{ __('Sort by') }</div>
+        );
+    }
+
     render() {
         const {
             attr: { id = '' } = {},
@@ -182,6 +197,7 @@ export class FieldSelect extends PureComponent {
                   aria-expanded={ isExpanded }
                 >
                     <div block="FieldSelect" elem="Clickable">
+                        { this.renderSortSelect() }
                         { this.renderNativeSelect() }
                         <ChevronIcon direction={ isExpanded ? TOP : BOTTOM } />
                     </div>
