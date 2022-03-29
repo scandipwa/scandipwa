@@ -17,6 +17,11 @@
         "@scandipwa/service-worker": "0.0.17",
         "@scandipwa/stylelint-config": "0.0.5",
         "@scandipwa/webpack-i18n-runtime": "0.0.29",
+        "@tilework/opus": "^0.0.9",
+        "@types/react": "^17.0.19",
+        "@types/react-dom": "^17.0.9",
+        "@types/react-router": "^5.1.16",
+        "@types/react-router-dom": "^5.1.8",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
         "intersection-observer": "^0.12.0",
@@ -119,7 +124,6 @@
         "env": {
             "browser": true
         },
-        "parser": "babel-eslint",
         "globals": {
             "window": true,
             "document": true,
@@ -182,6 +186,7 @@
             "@scandipwa/scandipwa-guidelines/create-config-files": "error",
             "@scandipwa/scandipwa-guidelines/no-duplicate-namespaces": "error",
             "@scandipwa/scandipwa-guidelines/use-license": "error",
+            "@typescript-eslint/no-unused-vars-experimental": "off",
             "simple-import-sort/sort": [
                 "error",
                 {
