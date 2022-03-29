@@ -8,22 +8,23 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { Query } from '@tilework/opus';
 
-import { Field } from 'Util/Query';
+import { UrlRewriteType } from 'Type/Router.type';
+
 /**
  * UrlRewrites Query
  * @class UrlRewritesQuery
  * @namespace Query/UrlRewrites/Query */
 export class UrlRewritesQuery {
-    getQuery({ urlParam }) {
-        return new Field('urlResolver')
+    getQuery({ urlParam }: { urlParam: string }): UrlRewriteType {
+        return new Query('urlResolver')
             .addArgument('url', 'String!', urlParam)
             .addFieldList(this._getUrlResolverFields());
     }
 
-    _getUrlResolverFields() {
+    _getUrlResolverFields(): string[] {
         return [
-            'id',
             'sku',
             'type'
         ];
