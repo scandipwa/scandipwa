@@ -19,10 +19,6 @@
     }
 
     &-Content {
-        .cms-content {
-            @include default-list;
-        }
-
         h2 {
             @include mobile {
                 text-align: center;
@@ -115,13 +111,11 @@
     
     ul,
     ol {
-        margin-inline-start: 20px;
-
         li {
             &::before {
                 position: relative;
                 margin-inline-start: 10px;
-                margin-inline-end: -25px;
+                margin-inline-end: 5px;
                 inset-block-start: -1px;
             }
         }
