@@ -85,6 +85,7 @@ export class ProductCustomizableOption extends PureComponent {
                         { ` ${overridePrice || priceLabel}` }
                     </strong>
                 ) }
+                { this.renderOptionIsRequired() }
             </div>
         );
     }
@@ -298,13 +299,19 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderOptionGroupTitle(title) {
+    renderOptionIsRequired() {
         const { isRequired } = this.props;
 
         return (
+            isRequired
+            && <strong block="ProductCustomizableItem" elem="Required">*</strong>
+        );
+    }
+
+    renderOptionGroupTitle(title) {
+        return (
             <div block="ProductCustomizableItem" elem="HeadingBold">
                 { title }
-                { isRequired && <strong block="ProductCustomizableItem" elem="Required">*</strong> }
             </div>
         );
     }
