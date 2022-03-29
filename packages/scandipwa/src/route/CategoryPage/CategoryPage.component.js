@@ -211,9 +211,9 @@ export class CategoryPage extends PureComponent {
         return (
             <>
                 <div block={ block } elem="PlaceholderList">
-                    <div block={ block } elem="Placeholder" />
-                    <div block={ block } elem="Placeholder" />
-                    <div block={ block } elem="Placeholder" />
+                    <div block={ block } elem="PlaceholderListItem" />
+                    <div block={ block } elem="PlaceholderListItem" />
+                    <div block={ block } elem="PlaceholderListItem" />
                 </div>
                 <Loader isLoading />
             </>

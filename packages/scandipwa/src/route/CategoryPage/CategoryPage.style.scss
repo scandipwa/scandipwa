@@ -94,24 +94,26 @@
         }
     }
 
-    &-PlaceholderList {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        min-height: 150px;
-    }
-
     &-Placeholder {
-        animation: var(--placeholder-animation);
-        background-image: var(--placeholder-image);
-        background-size: var(--placeholder-size);
-
-        &:nth-child(2) {
-            flex-grow: 0.5;
+        &List {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            min-height: 150px;
         }
 
-        &:first-child, &:nth-child(3) {
-            flex-grow: 0.25;
+        &ListItem {
+            animation: var(--placeholder-animation);
+            background-image: var(--placeholder-image);
+            background-size: var(--placeholder-size);
+
+            &:nth-child(2) {
+                flex-grow: 0.5;
+            }
+
+            &:first-child, &:nth-child(3) {
+                flex-grow: 0.25;
+            }
         }
 
         &Wrapper {
