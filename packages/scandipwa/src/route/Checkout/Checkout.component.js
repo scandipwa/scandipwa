@@ -381,7 +381,7 @@ export class Checkout extends PureComponent {
             onCouponCodeUpdate
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
-        const { renderPromo } = this.renderPromo(true);
+        const { renderPromo } = this.renderPromo(true) || {};
 
         if (!areTotalsVisible || (showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
             return null;
