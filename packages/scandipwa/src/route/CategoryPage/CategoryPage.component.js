@@ -210,7 +210,7 @@ export class CategoryPage extends PureComponent {
     renderPlaceholder(block) {
         return (
             <>
-                <div block={ block } elem="SwatchList">
+                <div block={ block } elem="PlaceholderList">
                     <div block={ block } elem="Placeholder" />
                     <div block={ block } elem="Placeholder" />
                     <div block={ block } elem="Placeholder" />

@@ -17,11 +17,11 @@
         margin-block-start: 24px;
     }
 
+    &-SwatchList,
     &-DropDownList {
         text-align: center;
         margin-block-start: 2px;
         margin-block-end: 12px;
-        width: 100%;
     }
 
     &-Title {
@@ -40,6 +40,19 @@
     }
 
     &-SwatchList {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        padding-inline-start: 3px;
+        padding-block-start: 3px;
+
+        &_isUnselected {
+            animation: var(--shake-animation);
+        }
+    }
+
+    &-PlaceholderList {
         display: flex;
         flex-direction: column;
         gap: 1rem;
