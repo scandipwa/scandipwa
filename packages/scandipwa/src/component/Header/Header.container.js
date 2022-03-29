@@ -26,6 +26,7 @@ import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.act
 import { showPopup } from 'Store/Popup/Popup.action';
 import { DeviceType } from 'Type/Device.type';
 import { TotalsType } from 'Type/MiniCart.type';
+import { ItemType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import history from 'Util/History';
@@ -57,7 +58,8 @@ export const mapStateToProps = (state) => ({
     isLoading: state.ConfigReducer.isLoading,
     device: state.ConfigReducer.device,
     activeOverlay: state.OverlayReducer.activeOverlay,
-    isWishlistLoading: state.WishlistReducer.isLoading
+    isWishlistLoading: state.WishlistReducer.isLoading,
+    productsInWishlist: state.WishlistReducer.productsInWishlist
 });
 
 /** @namespace Component/Header/Container/mapDispatchToProps */
@@ -79,6 +81,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     static propTypes = {
         showOverlay: PropTypes.func.isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,
+        productsInWishlist: PropTypes.objectOf(ItemType),
         showPopup: PropTypes.func.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
@@ -140,7 +143,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             logo_width,
             isLoading,
             device,
-            isWishlistLoading
+            isWishlistLoading,
+            productsInWishlist
         } = this.props;
 
         const {
@@ -175,6 +179,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             showMyAccountLogin,
             device,
             isWishlistLoading,
+            productsInWishlist,
             shouldRenderCartOverlay,
             firstname: this.getUserName()
         };
