@@ -26,6 +26,7 @@ import {
     trimCheckoutCustomerAddress
 } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
+import scrollToError from 'Util/Form/Form';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import CheckoutShipping from './CheckoutShipping.component';
@@ -211,10 +212,11 @@ export class CheckoutShippingContainer extends PureComponent {
         onShippingMethodSelect(method);
     }
 
-    onShippingError() {
+    onShippingError(_, fields, validation) {
         // TODO: implement notification if some data in Form can not display error
         const { isSubmitted } = this.state;
         this.setState({ isSubmitted: !isSubmitted });
+        scrollToError(fields, validation);
     }
 
     onShippingSuccess(form, fields) {

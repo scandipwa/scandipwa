@@ -32,204 +32,214 @@ import './CheckoutGuestForm.style';
 
 /** @namespace Component/CheckoutGuestForm/Component */
 export class CheckoutGuestForm extends FieldForm {
-    static propTypes = {
-        formId: PropTypes.string.isRequired,
-        handleEmailInput: PropTypes.func.isRequired,
-        handleCreateUser: PropTypes.func.isRequired,
-        isEmailAvailable: PropTypes.bool.isRequired,
-        emailValue: PropTypes.string.isRequired,
-        signInState: PropTypes.string.isRequired,
-        setSignInState: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired
-    };
+     static propTypes = {
+         formId: PropTypes.string.isRequired,
+         handleEmailInput: PropTypes.func.isRequired,
+         handleCreateUser: PropTypes.func.isRequired,
+         isEmailAvailable: PropTypes.bool.isRequired,
+         emailValue: PropTypes.string.isRequired,
+         signInState: PropTypes.string.isRequired,
+         setSignInState: PropTypes.func.isRequired,
+         onSignIn: PropTypes.func.isRequired,
+         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }),
+         minimunPasswordCharacter: PropTypes.string.isRequired,
+         isLoading: PropTypes.bool.isRequired
+     };
 
-    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
-    componentDidUpdate(prevProps) {
-        const { isEmailAvailable, setSignInState, signInState } = this.props;
-        const { isEmailAvailable: prevIsEmailAvailable } = prevProps;
+     // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
+     componentDidUpdate(prevProps) {
+         const { isEmailAvailable, setSignInState, signInState } = this.props;
+         const { isEmailAvailable: prevIsEmailAvailable } = prevProps;
 
-        if (!isEmailAvailable && prevIsEmailAvailable && signInState !== STATE_SIGN_IN) {
-            setSignInState(STATE_SIGN_IN);
-        }
-    }
+         if (!isEmailAvailable && prevIsEmailAvailable && signInState !== STATE_SIGN_IN) {
+             setSignInState(STATE_SIGN_IN);
+         }
+     }
 
-    renderMap = {
-        [STATE_SIGN_IN]: {
-            render: () => this.renderSignIn(),
-            title: __('Sign in to your account')
-        },
-        [STATE_FORGOT_PASSWORD]: {
-            render: () => this.renderForgotPassword(),
-            title: __('Get password link')
-        },
-        [STATE_FORGOT_PASSWORD_SUCCESS]: {
-            render: () => this.renderForgotPasswordSuccess()
-        },
-        [STATE_LOGGED_IN]: {
-            render: noopFn
-        },
-        [STATE_CONFIRM_EMAIL]: {
-            render: () => this.renderConfirmEmail(),
-            title: __('Confirm the email')
-        },
-        '': {
-            title: __('Enter personal information')
-        }
-    };
+     renderMap = {
+         [STATE_SIGN_IN]: {
+             render: () => this.renderSignIn(),
+             title: __('Sign in to your account')
+         },
+         [STATE_FORGOT_PASSWORD]: {
+             render: () => this.renderForgotPassword(),
+             title: __('Get password link')
+         },
+         [STATE_FORGOT_PASSWORD_SUCCESS]: {
+             render: () => this.renderForgotPasswordSuccess()
+         },
+         [STATE_LOGGED_IN]: {
+             render: noopFn
+         },
+         [STATE_CONFIRM_EMAIL]: {
+             render: () => this.renderConfirmEmail(),
+             title: __('Confirm the email')
+         },
+         '': {
+             title: __('Enter personal information')
+         }
+     };
 
-    get fieldMap() {
-        const {
-            handleEmailInput,
-            handlePasswordInput,
-            isCreateUser,
-            emailValue
-        } = this.props;
+     get fieldMap() {
+         const {
+             handleEmailInput,
+             handlePasswordInput,
+             isCreateUser,
+             emailValue,
+             range,
+             minimunPasswordCharacter
+         } = this.props;
 
-        return checkoutGuestForm({
-            isCreateUser,
-            emailValue
-        }, {
-            handleEmailInput,
-            handlePasswordInput
-        });
-    }
+         return checkoutGuestForm({
+             isCreateUser,
+             emailValue,
+             range,
+             minimunPasswordCharacter
+         }, {
+             handleEmailInput,
+             handlePasswordInput,
+             range,
+             minimunPasswordCharacter
+         });
+     }
 
-    renderHeading() {
-        return (
-            <h2 block="Checkout" elem="Heading">
-                { __('Enter personal information') }
-            </h2>
-        );
-    }
+     renderHeading() {
+         return (
+             <h2 block="Checkout" elem="Heading">
+                 { __('Enter personal information') }
+             </h2>
+         );
+     }
 
-    renderSignIn() {
-        const {
-            signInState,
-            onFormError,
-            handleForgotPassword,
-            handleCreateAccount,
-            setLoadingState,
-            onSignIn,
-            emailValue,
-            handleEmailInput,
-            setSignInState
-        } = this.props;
+     renderSignIn() {
+         const {
+             signInState,
+             onFormError,
+             handleForgotPassword,
+             handleCreateAccount,
+             setLoadingState,
+             onSignIn,
+             emailValue,
+             handleEmailInput,
+             setSignInState,
+             isLoading
+         } = this.props;
 
-        return (
-            <MyAccountSignIn
-              state={ signInState }
-              onFormError={ onFormError }
-              handleForgotPassword={ handleForgotPassword }
-              handleCreateAccount={ handleCreateAccount }
-              isCheckout
-              handleEmailInput={ handleEmailInput }
-              setSignInState={ setSignInState }
-              emailValue={ emailValue }
-              setLoadingState={ setLoadingState }
-              onSignIn={ onSignIn }
-            />
-        );
-    }
+         return (
+             <MyAccountSignIn
+               state={ signInState }
+               onFormError={ onFormError }
+               handleForgotPassword={ handleForgotPassword }
+               handleCreateAccount={ handleCreateAccount }
+               isCheckout
+               handleEmailInput={ handleEmailInput }
+               setSignInState={ setSignInState }
+               emailValue={ emailValue }
+               setLoadingState={ setLoadingState }
+               onSignIn={ onSignIn }
+               isLoading={ isLoading }
+             />
+         );
+     }
 
-    renderConfirmEmail() {
-        const { signInState, handleSignIn } = this.props;
+     renderConfirmEmail() {
+         const { signInState, handleSignIn } = this.props;
 
-        return (
-            <MyAccountConfirmEmail
-              state={ signInState }
-              handleSignIn={ handleSignIn }
-            />
-        );
-    }
+         return (
+             <MyAccountConfirmEmail
+               state={ signInState }
+               handleSignIn={ handleSignIn }
+             />
+         );
+     }
 
-    renderForgotPassword() {
-        const {
-            signInState,
-            onFormError,
-            handleSignIn,
-            handleCreateAccount,
-            setSignInState,
-            setLoadingState
-        } = this.props;
+     renderForgotPassword() {
+         const {
+             signInState,
+             onFormError,
+             handleSignIn,
+             handleCreateAccount,
+             setSignInState,
+             setLoadingState
+         } = this.props;
 
-        return (
-            <MyAccountForgotPassword
-              state={ signInState }
-              onFormError={ onFormError }
-              handleSignIn={ handleSignIn }
-              handleCreateAccount={ handleCreateAccount }
-              setLoadingState={ setLoadingState }
-              setSignInState={ setSignInState }
-              isCheckout
-            />
-        );
-    }
+         return (
+             <MyAccountForgotPassword
+               state={ signInState }
+               onFormError={ onFormError }
+               handleSignIn={ handleSignIn }
+               handleCreateAccount={ handleCreateAccount }
+               setLoadingState={ setLoadingState }
+               setSignInState={ setSignInState }
+               isCheckout
+             />
+         );
+     }
 
-    renderForgotPasswordSuccess() {
-        const { signInState, handleSignIn } = this.props;
+     renderForgotPasswordSuccess() {
+         const { signInState, handleSignIn } = this.props;
 
-        return (
-            <MyAccountForgotPasswordSuccess
-              state={ signInState }
-              handleSignIn={ handleSignIn }
-            />
-        );
-    }
+         return (
+             <MyAccountForgotPasswordSuccess
+               state={ signInState }
+               handleSignIn={ handleSignIn }
+             />
+         );
+     }
 
-    renderSignInForm() {
-        const {
-            signInState,
-            onFormError,
-            handleForgotPassword,
-            handleCreateAccount,
-            isCheckout,
-            setLoadingState,
-            onSignIn
-        } = this.props;
+     renderSignInForm() {
+         const {
+             signInState,
+             onFormError,
+             handleForgotPassword,
+             handleCreateAccount,
+             isCheckout,
+             setLoadingState,
+             onSignIn
+         } = this.props;
 
-        return (
-            <MyAccountSignIn
-              state={ signInState }
-              onFormError={ onFormError }
-              handleForgotPassword={ handleForgotPassword }
-              handleCreateAccount={ handleCreateAccount }
-              isCheckout={ isCheckout }
-              setLoadingState={ setLoadingState }
-              onSignIn={ onSignIn }
-            />
-        );
-    }
+         return (
+             <MyAccountSignIn
+               state={ signInState }
+               onFormError={ onFormError }
+               handleForgotPassword={ handleForgotPassword }
+               handleCreateAccount={ handleCreateAccount }
+               isCheckout={ isCheckout }
+               setLoadingState={ setLoadingState }
+               onSignIn={ onSignIn }
+             />
+         );
+     }
 
-    renderFormBody() {
-        return (
-            <>
-                { super.renderFormBody() }
-                <span>{ __('You can create an account after checkout') }</span>
-            </>
-        );
-    }
+     renderFormBody() {
+         return (
+             <>
+                 { super.renderFormBody() }
+                 <span>{ __('You can create an account after checkout') }</span>
+             </>
+         );
+     }
 
-    renderForm() {
-        const { signInState } = this.props;
-        const { render } = this.renderMap[signInState] || {};
+     renderForm() {
+         const { signInState } = this.props;
+         const { render } = this.renderMap[signInState] || {};
 
-        return typeof render === 'function' ? render() : super.render();
-    }
+         return typeof render === 'function' ? render() : super.render();
+     }
 
-    render() {
-        const { isLoading } = this.props;
+     render() {
+         const { isLoading } = this.props;
 
-        return (
-            <div
-              block="CheckoutGuestForm"
-              mix={ { block: 'FieldForm' } }
-            >
-                <Loader isLoading={ isLoading } />
-                { this.renderForm() }
-            </div>
-        );
-    }
+         return (
+             <div
+               block="CheckoutGuestForm"
+               mix={ { block: 'FieldForm' } }
+             >
+                 <Loader isLoading={ isLoading } />
+                 { this.renderForm() }
+             </div>
+         );
+     }
 }
 
 export default CheckoutGuestForm;

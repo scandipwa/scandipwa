@@ -17,6 +17,7 @@
             &:not(.MyAccountOrderTotals-GrandTotal) {
                 th {
                     font-weight: normal;
+                    word-break: break-word;
                 }
             }
 
@@ -28,6 +29,7 @@
 
             td {
                 text-align: end;
+                word-wrap: break-word;
             }
         }
     }

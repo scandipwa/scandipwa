@@ -104,7 +104,8 @@ export class MyAccountOverlayContainer extends PureComponent {
         const {
             isPasswordForgotSend,
             isOverlayVisible,
-            isMobile
+            isMobile,
+            goToPreviousHeaderState
         } = props;
 
         const {
@@ -129,6 +130,10 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         if (myAccountState !== STATE_LOGGED_IN && customerIsSignedIn) {
             stateToBeUpdated.state = STATE_LOGGED_IN;
+
+            if (pathname.includes(CHECKOUT_URL)) {
+                goToPreviousHeaderState();
+            }
         }
 
         if (myAccountState === STATE_LOGGED_IN && !customerIsSignedIn) {
@@ -240,11 +245,11 @@ export class MyAccountOverlayContainer extends PureComponent {
             isLoading: false
         };
 
-        // if customer got here from forgot-password
         if (pathname !== '/forgot-password' && !isForgotPassword) {
             return state;
         }
 
+        // if customer got here from forgot-password
         state.state = STATE_FORGOT_PASSWORD;
 
         setHeaderState({
