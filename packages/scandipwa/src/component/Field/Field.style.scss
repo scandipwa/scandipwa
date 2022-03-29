@@ -341,10 +341,9 @@
                 width: 2px;
                 will-change: background-color, box-shadow;
 
-                @at-root {
-                    :dir(rtl)#{&} {
-                        inset-inline-start: calc(50% + 3px);
-                    }
+                [dir="rtl"] & {
+                    // stylelint-disable-next-line csstools/use-logical
+                    right: calc(50% + 3px);
                 }
             }
 
@@ -377,10 +376,9 @@
                         --checkmark-color: var(--secondary-dark-color);
                     }
 
-                    @at-root {
-                        :dir(rtl)#{&} {
-                            inset-inline-start: calc(50% + 3px);
-                        }
+                    [dir="rtl"] & {
+                        // stylelint-disable-next-line csstools/use-logical
+                        right: calc(50% + 3px);
                     }
                 }
             }
@@ -396,10 +394,9 @@
                     inset-inline-start: calc(50% - 5px);
                     inset-block-start: calc(50% - 1px);
 
-                    @at-root {
-                        :dir(rtl)#{&} {
-                            inset-inline-start: calc(50% + 3px);
-                        }
+                    [dir="rtl"] & {
+                        // stylelint-disable-next-line csstools/use-logical
+                        right: calc(50% + 3px);
                     }
                 }
             }
