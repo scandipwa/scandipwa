@@ -36,6 +36,7 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import UserIcon from 'Component/UserIcon';
 import { DeviceType } from 'Type/Device.type';
 import { TotalsType } from 'Type/MiniCart.type';
+import { ItemType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import { isCrawler, isSSR } from 'Util/Browser';
 import { decodeString } from 'Util/Common';
@@ -81,7 +82,7 @@ export class Header extends NavigationAbstract {
             onBackClick: PropTypes.func,
             title: PropTypes.string
         }).isRequired,
-        productsInWishlist: PropTypes.objectOf(PropTypes.object),
+        productsInWishlist: PropTypes.objectOf(ItemType),
         cartTotals: TotalsType.isRequired,
         compareTotals: PropTypes.number.isRequired,
         Loading: PropTypes.bool.isRequired,

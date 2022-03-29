@@ -25,6 +25,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { DeviceType } from 'Type/Device.type';
+import { ItemType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import history from 'Util/History';
@@ -76,7 +77,7 @@ export const DEFAULT_HEADER_STATE = {
 /** @namespace Component/Header/Container */
 export class HeaderContainer extends NavigationAbstractContainer {
     static propTypes = {
-        productsInWishlist: PropTypes.objectOf(PropTypes.object),
+        productsInWishlist: PropTypes.objectOf(ItemType),
         showOverlay: PropTypes.func.isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,
         showPopup: PropTypes.func.isRequired,
