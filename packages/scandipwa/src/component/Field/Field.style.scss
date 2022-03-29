@@ -385,13 +385,6 @@
 
                 &::after {
                     --checkmark-color: var(--primary-base-color);
-
-                    inset-inline-start: var(--checkMark-inset-inline-start);
-                    inset-block-start: calc(50% - 1px);
-
-                    [dir="rtl"] & {
-                        --checkMark-inset-inline-start: calc(50% + 3px);
-                    }
                 }
             }
         }
