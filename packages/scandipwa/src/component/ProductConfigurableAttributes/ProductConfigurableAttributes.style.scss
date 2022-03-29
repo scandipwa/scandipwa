@@ -14,8 +14,8 @@
     line-height: 20px;
 
     @include desktop {
-        margin-block-start: 24px;
-        margin-block-end: 45px;
+        padding-block-start: 24px;
+        padding-block-end: 45px;
     }
 
     &-SwatchList,

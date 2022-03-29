@@ -84,11 +84,6 @@
             animation: appear 100ms 300ms forwards;
         }
 
-        &PlaceholderContainer {
-            position: relative;
-            margin-block-start: 24px;
-        }
-
         @include desktop {
             display: none;
         }
@@ -98,21 +93,28 @@
         &List {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            min-height: 150px;
+
+            @include desktop {
+                padding-block-start: 24px;
+                padding-block-end: 15px;
+            }
         }
 
         &ListItem {
             animation: var(--placeholder-animation);
             background-image: var(--placeholder-image);
             background-size: var(--placeholder-size);
+            padding-inline-start: 3px;
+            padding-block-start: 3px;
+            margin-block-start: 2px;
+            margin-block-end: 12px;
 
             &:nth-child(2) {
-                flex-grow: 0.5;
+                min-height: 67px;
             }
 
             &:first-child, &:nth-child(3) {
-                flex-grow: 0.25;
+                min-height: 35px;
             }
         }
 
