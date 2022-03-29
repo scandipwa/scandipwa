@@ -59,9 +59,9 @@ export class CheckoutDeliveryOption extends PureComponent {
 
         if (rowEl && subPriceEl) {
             const rowLeft = rowEl.getBoundingClientRect().left;
-            const SubPriceLeft = this.subPriceRef.current.getBoundingClientRect().left;
+            const subPriceLeft = subPriceEl.getBoundingClientRect().left;
 
-            if (rowLeft >= SubPriceLeft) {
+            if (rowLeft >= subPriceLeft) {
                 this.setState({ isOverflowed: true });
             } else {
                 this.setState({ isOverflowed: false });
