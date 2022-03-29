@@ -65,7 +65,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
     };
 
     state = {
-        isWishlistButtonLoading: false
+        isWishlistButtonLoading: false,
+        isWishListToggle: false
     };
 
     containerFunctions = {
@@ -108,11 +109,21 @@ export class ProductWishlistButtonContainer extends PureComponent {
             wishlistId
         } = this.props;
 
+        const {
+            isWishListToggle
+        } = this.state;
+
         if (!isSignedIn()) {
             return showNotification('info', __('You must login or register to add items to your wishlist.'));
         }
 
         this.setWishlistButtonLoading(true);
+
+        if (isWishListToggle) {
+            return;
+        }
+
+        this.setState({ isWishListToggle: true });
 
         if (add) {
             await addProductToWishlist({
@@ -120,11 +131,16 @@ export class ProductWishlistButtonContainer extends PureComponent {
                 wishlistId
             });
 
+            this.setState({ isWishListToggle: false });
+
             return;
         }
 
         const wishlistItem = this.getWishlistItem(sku);
+
         if (!wishlistItem) {
+            this.setState({ isWishListToggle: false });
+
             return;
         }
 
@@ -133,6 +149,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
                 id: itemId
             }
         } = wishlistItem;
+
+        this.setState({ isWishListToggle: false });
 
         return removeProductFromWishlist({ item_id: itemId });
     }

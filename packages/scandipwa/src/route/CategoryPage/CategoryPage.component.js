@@ -23,6 +23,7 @@ import FilterIcon from 'Component/FilterIcon';
 import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
+import Loader from 'Component/Loader';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import {
     CategoryTreeType, FilterInputType, FilterType, SortFieldsType
@@ -206,6 +207,32 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderPlaceholder(block) {
+        return (
+            <>
+                <div block={ block } elem="SwatchList">
+                    <div block={ block } elem="Placeholder" />
+                    <div block={ block } elem="Placeholder" />
+                    <div block={ block } elem="Placeholder" />
+                </div>
+                <Loader isLoading />
+            </>
+        );
+    }
+
+    renderFilterPlaceholder() {
+        return (
+            <div block="CategoryPage" elem="PlaceholderWrapper">
+                <h3 block="CategoryPage" elem="PlaceholderHeading">
+                    { __('Shopping Options') }
+                </h3>
+                <div block="CategoryPage" elem="FilterPlaceholderContainer">
+                    { this.renderPlaceholder('CategoryPage') }
+                </div>
+            </div>
+        );
+    }
+
     renderFilterButtonPlaceholder() {
         return (
             <p block="CategoryPage" elem="FilterButtonPlaceholder">
@@ -236,6 +263,7 @@ export class CategoryPage extends PureComponent {
                   isMatchingInfoFilter={ isMatchingInfoFilter }
                   isCategoryAnchor={ !!is_anchor }
                   isSearchPage={ isSearchPage }
+                  renderPlaceholder={ this.renderPlaceholder }
                 />
             </Suspense>
         );

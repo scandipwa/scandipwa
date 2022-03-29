@@ -13,10 +13,14 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { BILLING_URL, SHIPPING_URL } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { TotalsType } from 'Type/MiniCart.type';
 import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
+import history from 'Util/History';
 import { getErrorMessage } from 'Util/Request';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountSignIn from './MyAccountSignIn.component';
 
@@ -27,7 +31,9 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isEmailAvailable: state.CheckoutReducer.isEmailAvailable
+    isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
+    isLocked: state.MyAccountReducer.isLocked,
+    totals: state.CartReducer.cartTotals
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
@@ -54,14 +60,18 @@ export class MyAccountSignInContainer extends PureComponent {
         isEmailAvailable: PropTypes.bool,
         setSignInState: PropTypes.func,
         handleEmailInput: PropTypes.func,
-        isLoading: PropTypes.bool.isRequired
+        isLocked: PropTypes.string.isRequired,
+        updateCustomerLockedStatus: PropTypes.func.isRequired,
+        totals: TotalsType.isRequired,
+        isLoading: PropTypes.bool
     };
 
     static defaultProps = {
         emailValue: '',
         isEmailAvailable: true,
         setSignInState: noopFn,
-        handleEmailInput: noopFn
+        handleEmailInput: noopFn,
+        isLoading: false
     };
 
     state = {
@@ -112,7 +122,9 @@ export class MyAccountSignInContainer extends PureComponent {
             signIn,
             showNotification,
             onSignIn,
-            setLoadingState
+            setLoadingState,
+            totals: { is_virtual },
+            isCheckout
         } = this.props;
 
         const {
@@ -134,6 +146,14 @@ export class MyAccountSignInContainer extends PureComponent {
             } finally {
                 setLoadingState(false);
             }
+        }
+
+        setLoadingState(false);
+
+        if (is_virtual && isCheckout) {
+            history.push({ pathname: appendWithStoreCode(BILLING_URL) });
+        } else if (!is_virtual && isCheckout) {
+            history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
         }
     }
 

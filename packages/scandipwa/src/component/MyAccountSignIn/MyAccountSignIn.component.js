@@ -32,7 +32,11 @@ export class MyAccountSignIn extends PureComponent {
         state: SignInStateType.isRequired,
         emailValue: PropTypes.string.isRequired,
         handleEmailInput: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isLoading: false
     };
 
     renderSignInForm() {
