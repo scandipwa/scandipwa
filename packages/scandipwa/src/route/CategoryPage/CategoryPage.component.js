@@ -205,20 +205,29 @@ export class CategoryPage extends PureComponent {
             </button>
         );
     }
-
-    renderFilterPlaceholder() {
+    
+    renderPlaceholder(block) {
         return (
-            <div block="CategoryPage" elem="PlaceholderWrapper">
-                <h3 block="CategoryPage" elem="PlaceholderHeading">
-                    { __('Shopping Options') }
-                </h3>
-                <div block="CategoryPage" elem="FilterPlaceholderContainer">
-                    { this.renderPlaceholder('CategoryPage') }
+            <>
+                <div block={ block } elem="SwatchList">
+                    <div block={ block } elem="Placeholder" />
+                    <div block={ block } elem="Placeholder" />
+                    <div block={ block } elem="Placeholder" />
                 </div>
-            </div>
+                <Loader isLoading />
+            </>
+
         );
     }
 
+    renderFilterButtonPlaceholder() {
+        return (
+            <p block="CategoryPage" elem="FilterButtonPlaceholder">
+                <TextPlaceholder length="short" />
+            </p>
+        );
+    }
+    
     renderFilterButtonPlaceholder() {
         return (
             <p block="CategoryPage" elem="FilterButtonPlaceholder">
@@ -249,6 +258,7 @@ export class CategoryPage extends PureComponent {
                   isMatchingInfoFilter={ isMatchingInfoFilter }
                   isCategoryAnchor={ !!is_anchor }
                   isSearchPage={ isSearchPage }
+                  renderPlaceholder={ this.renderPlaceholder }
                 />
             </Suspense>
         );

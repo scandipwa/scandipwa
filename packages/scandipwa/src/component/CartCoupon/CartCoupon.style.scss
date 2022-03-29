@@ -24,7 +24,7 @@
         flex-direction: column;
         justify-content: center;
     }
-    
+
     &-MessageText {
         margin: 0;
         word-break: break-word;
@@ -39,6 +39,10 @@
     .Form {
         margin-block-start: 12px;
         display: inline-flex;
+
+        @include tablet { 
+            display: block;
+        }
 
         @include mobile {
             width: 100%;
@@ -91,9 +95,7 @@
         }
 
         @include tablet-portrait {
-            width: 100%;
             margin-inline-start: 0;
-            margin-block-start: 10px;
         }
     }
 

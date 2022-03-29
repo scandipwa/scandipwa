@@ -29,7 +29,8 @@ export const mapStateToProps = (state) => ({
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state),
     cartTotalSubPrice: getCartTotalSubPrice(state),
-    isLoading: state.CartReducer.isLoading
+    isLoading: state.CartReducer.isLoading,
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/CheckoutOrderSummary/Container/mapDispatchToProps */

@@ -314,7 +314,7 @@
             margin-inline-end: 11px;
 
             @include desktop {
-                width: var(--checkbox-width);
+                max-width: var(--checkbox-width);
                 height: var(--checkbox-height);
             }
 
