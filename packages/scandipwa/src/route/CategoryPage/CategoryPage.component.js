@@ -412,7 +412,6 @@ export class CategoryPage extends PureComponent {
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
                 { this.renderItemsCount() }
-
                 <div
                   block="CategoryPage"
                   elem="MiscellaneousLayoutWrapper"
