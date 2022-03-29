@@ -54,23 +54,32 @@ export class CartCouponContainer extends PureComponent {
         title: ''
     };
 
-    state = { isLoading: false };
+    state = {
+        isLoading: false,
+        isBadCoupon: false
+    };
 
     containerFunctions = {
         handleApplyCouponToCart: this.handleApplyCouponToCart.bind(this),
-        handleRemoveCouponFromCart: this.handleRemoveCouponFromCart.bind(this)
+        handleRemoveCouponFromCart: this.handleRemoveCouponFromCart.bind(this),
+        resetIsBadCoupon: this.resetIsBadCoupon.bind(this)
     };
 
     containerProps() {
-        const { isLoading } = this.state;
+        const { isLoading, isBadCoupon } = this.state;
         const { couponCode, mix, title } = this.props;
 
         return {
             isLoading,
+            isBadCoupon,
             couponCode,
             mix,
             title
         };
+    }
+
+    resetIsBadCoupon() {
+        this.setState({ isBadCoupon: false });
     }
 
     handleApplyCouponToCart(couponCode) {
@@ -79,11 +88,16 @@ export class CartCouponContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         applyCouponToCart(couponCode).then(
-            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally/applyCouponToCart/then/onCouponCodeUpdate */
-            () => onCouponCodeUpdate()
+            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally/applyCouponToCart/then */
+            (success) => {
+                onCouponCodeUpdate();
+                this.setState({ isBadCoupon: !success });
+            }
         ).finally(
-            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally */
-            () => this.setState({ isLoading: false })
+        /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally */
+            () => {
+                this.setState({ isLoading: false });
+            }
         );
     }
 

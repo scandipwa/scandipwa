@@ -328,6 +328,7 @@ export class Field extends PureComponent {
             type, validationResponse, mix
         } = this.props;
         const inputRenderer = this.renderMap[type];
+        const { mods: { hasError = false } = {} } = mix;
 
         return (
             <div block="Field" elem="Wrapper" mods={ { type } }>
@@ -335,7 +336,7 @@ export class Field extends PureComponent {
                   block="Field"
                   mods={ {
                       type,
-                      isValid: validationResponse === true,
+                      isValid: !hasError && validationResponse === true,
                       hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
                   } }
                   mix={ mix }
