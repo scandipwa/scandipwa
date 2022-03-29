@@ -41,9 +41,10 @@ $select-arrow-width: 14px !default;
     }
 
     &-Select {
-        min-width: 100%;
-        padding-inline-end: 40px;
         width: 100%;
+        padding-inline-end: 40px;
+        min-height: 30px;
+        margin-block: calc(var(--input-padding) + 3px);
         height: 48px;
 
         @include desktop {

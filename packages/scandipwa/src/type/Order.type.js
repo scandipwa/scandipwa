@@ -90,7 +90,7 @@ export const OptionsType = PropTypes.arrayOf(OptionType);
 
 export const OrderProductType = PropTypes.shape({
     orderItemQtyType,
-    discounts: PropTypes.DiscountType,
+    discounts: PropTypes.arrayOf(DiscountType),
     id: PropTypes.string,
     selected_options: OptionsType,
     entered_options: OptionsType,
