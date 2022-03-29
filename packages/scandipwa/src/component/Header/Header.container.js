@@ -17,7 +17,7 @@ import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccou
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { BILLING_URL, CHECKOUT_URL, SHIPPING_URL } from 'Route/Checkout/Checkout.config';
 import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
@@ -25,6 +25,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { DeviceType } from 'Type/Device.type';
+import { TotalsType } from 'Type/MiniCart.type';
 import { ItemType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
@@ -46,6 +47,7 @@ import {
 export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals,
+    totals: state.CartReducer.cartTotals,
     compareTotals: state.ProductCompareReducer.count,
     Loading: state.MyAccountReducer.isLoading,
     header_logo_src: state.ConfigReducer.header_logo_src,
@@ -84,7 +86,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         header_logo_src: PropTypes.string,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        totals: TotalsType.isRequired
     };
 
     static defaultProps = {
@@ -201,11 +204,22 @@ export class HeaderContainer extends NavigationAbstractContainer {
     componentDidUpdate(prevProps) {
         this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
+        this.navigateToShippingStep(prevProps);
     }
 
     shareWishlist() {
         const { showPopup } = this.props;
         showPopup({ title: __('Share Wishlist') });
+    }
+
+    navigateToShippingStep(prevProps) {
+        const { totals: { is_virtual, items } } = this.props;
+        const { totals: { items: prevItems } } = prevProps;
+        const { location: { pathname } } = history;
+
+        if (pathname.includes(BILLING_URL) && !is_virtual && prevItems.length !== items.length) {
+            history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
+        }
     }
 
     getNavigationState() {
@@ -417,12 +431,17 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onSignIn() {
+        const { navigationState: { title }, totals: { is_virtual } } = this.props;
         const { location: { pathname } } = history;
 
         goToPreviousNavigationState();
 
         if (pathname.includes(CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
+        }
+
+        if (pathname.includes(BILLING_URL) && title && !is_virtual) {
+            history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
         }
     }
 
