@@ -183,7 +183,9 @@ export class MyAccountOrderItemsTable extends PureComponent {
         }
 
         const commentOrder = comments.sort(
-            ({ timestamp: first }, { timestamp: second }) => new Date(second) - new Date(first)
+            ({ timestamp: first }, { timestamp: second }) => (
+                new Date(second.replace(/-/g, '/')) - new Date(first.replace(/-/g, '/'))
+            )
         );
 
         return (
