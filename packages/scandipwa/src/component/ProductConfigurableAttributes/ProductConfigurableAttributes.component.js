@@ -121,20 +121,21 @@ export class ProductConfigurableAttributes extends PureComponent {
     }
 
     renderPlaceholders() {
-        const { numberOfPlaceholders, isExpandable } = this.props;
+        const { numberOfPlaceholders, isExpandable, configurable_options } = this.props;
         const numberOfPlaceholdersToRender = isExpandable ? numberOfPlaceholders : SMALL_PLACEHOLDER_CONFIG;
+
+        const keys = Object.values(configurable_options);
 
         return numberOfPlaceholdersToRender.map((length, i) => (
                 <div
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={ i }
+                  key={ keys[i] }
                   block="ProductConfigurableAttributes"
                   elem="SwatchList"
                 >
                     { Array.from({ length }, (_, i) => (
                         <div
                           // eslint-disable-next-line react/no-array-index-key
-                          key={ i }
+                          key={ `child-${keys[i]}` }
                           block="ProductConfigurableAttributes"
                           elem="Placeholder"
                         />
