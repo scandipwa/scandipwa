@@ -75,7 +75,10 @@ export class ProductCompareContainer extends PureComponent {
         attributes: []
     };
 
-    state = { isTouchScreen: 'ontouchstart' in document.documentElement };
+    state = {
+        scrollerScroll: document.getElementById('scrollerScroll'),
+        productCompare: document.getElementById('productCompare')
+    };
 
     containerFunctions = {
         getAttributes: this.getAttributes.bind(this),
@@ -90,14 +93,22 @@ export class ProductCompareContainer extends PureComponent {
         scrollToTop({ behavior: 'smooth' });
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(_, prevState) {
         const { device } = this.props;
-
         const productCompareRow = document.getElementById('productCompareRow');
         const scrollerContent = document.getElementById('scrollerContent');
 
-        if ((productCompareRow && productCompareRow.offsetWidth >= scrollerContent.offsetWidth)
-            || (productCompareRow && productCompareRow.offsetWidth < scrollerContent.offsetWidth)) {
+        if (!prevState.scrollerScroll && !prevState.productCompare) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState(
+                {
+                    scrollerScroll: document.getElementById('scrollerScroll'),
+                    productCompare: document.getElementById('productCompare')
+                }
+            );
+        }
+
+        if (productCompareRow && scrollerContent) {
             const width = device.isMobile
                 ? productCompareRow.offsetWidth
                 : productCompareRow.offsetWidth - PRODUCT_COMPARE_FIRST_COLUMN_WIDTH;
@@ -121,20 +132,18 @@ export class ProductCompareContainer extends PureComponent {
     }
 
     handleScroll() {
-        const { isTouchScreen } = this.state;
+        const { device } = this.props;
 
-        if (isTouchScreen) {
+        if (device.isMobile) {
             return;
         }
-        const scrollerScroll = document.getElementById('scrollerScroll');
-        const productCompare = document.getElementById('productCompare');
+        const { scrollerScroll, productCompare } = this.state;
 
         productCompare.scrollLeft = scrollerScroll.scrollLeft;
     }
 
     handleBlockScroll() {
-        const scrollerScroll = document.getElementById('scrollerScroll');
-        const productCompare = document.getElementById('productCompare');
+        const { scrollerScroll, productCompare } = this.state;
 
         scrollerScroll.scrollLeft = productCompare.scrollLeft;
     }
