@@ -143,7 +143,7 @@
             @include mobile {
                 white-space: normal;
                 max-width: calc(100% - 24px);
-                line-height: var(--paragraph-line-height-mobile);
+                line-height: 1;
             }
         }
     }
@@ -172,6 +172,14 @@
 
             .CloseIcon {
                 width: 24px;
+            }
+        }
+    }
+
+    &-Remove {
+        @include mobile {
+            &_withReview[aria-label='Remove'] {
+                inset-block-start: -2px;
             }
         }
     }
