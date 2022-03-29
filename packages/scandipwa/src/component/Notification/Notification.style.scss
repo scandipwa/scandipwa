@@ -44,8 +44,6 @@
     }
 
     @include mobile {
-        position: fixed;
-        inset-block-start: var(--header-height);
         padding: 12px 14px;
         width: 100%;
     }

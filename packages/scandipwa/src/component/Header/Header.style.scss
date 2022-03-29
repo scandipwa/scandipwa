@@ -427,6 +427,10 @@
         justify-content: center;
         margin-block-end: var(--header-total-height);
 
+        @include mobile {
+            z-index: 801;
+        }
+
         &_isPrerendered {
             @include mobile {
                 .Header-TopMenu,
