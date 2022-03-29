@@ -13,8 +13,7 @@
     --cart-page-divider-background: var(--secondary-base-color);
     --cart-page-promo-background: #fff;
     --cart-page-table-head-background: var(--secondary-base-color);
-    --mobile-loader-offset: calc(0px - var(--header-total-height));
-    --desktop-loader-offset: calc(var(--mobile-loader-offset) - var(--breadcrumbs-height) - 32px);
+    --desktop-loader-offset: calc(0px - var(--header-total-height) - var(--breadcrumbs-height) - 32px);
 }
 
 .CartPage {
@@ -39,21 +38,35 @@
         }
     }
 
+    &-Initial, &-Items {
+        &LoaderContainer {
+            inset-inline-start: 0;
+            inset-block-start: 0;
+            z-index: 10;
+
+            .Loader {
+                margin: none;
+
+                &-Scale {
+                    @include mobile {
+                        position: fixed;
+                        inset-block-start: auto;
+                        inset-block-end: 50%;
+                        transform: translate(-50%, 50%);
+                    }
+                }
+            }
+        }
+    }
+
     &-InitialLoaderContainer {
-        position: absolute;
-        inset-inline-start: 0;
-        inset-block-start: var(--mobile-loader-offset);
+        position: fixed;
 
         @include desktop {
-            inset-block-start: var(--desktop-loader-offset);
-        }
-
-        max-height: 100vh;
-        width: 100vw;
-        height: 100vh;
-
-        .Loader {
-            margin: none;
+            max-width: 100vw;
+            max-height: 100vh;
+            width: 100vw;
+            height: 100vh;
         }
     }
 
@@ -63,19 +76,6 @@
         max-height: 100%;
         width: 100%;
         height: 100%;
-        inset-block-start: 0;
-        inset-inline-start: 0;
-
-        @include mobile {
-            inset-block-start: var(--mobile-loader-offset);
-            max-height: 100vh;
-            width: 100vw;
-            height: 100vh;
-
-            .Loader {
-                margin: none;
-            }
-        }
     }
 
     &-Empty {
