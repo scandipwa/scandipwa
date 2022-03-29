@@ -207,27 +207,21 @@ export class CategoryPage extends PureComponent {
         );
     }
 
-    renderPlaceholder(block) {
-        return (
-            <>
-                <div block={ block } elem="PlaceholderList">
-                    <div block={ block } elem="PlaceholderListItem" />
-                    <div block={ block } elem="PlaceholderListItem" />
-                    <div block={ block } elem="PlaceholderListItem" />
-                </div>
-                <Loader isLoading />
-            </>
-        );
-    }
-
     renderFilterPlaceholder() {
         return (
             <div block="CategoryPage" elem="PlaceholderWrapper">
-                <h3 block="CategoryPage" elem="PlaceholderHeading">
-                    { __('Shopping Options') }
-                </h3>
-                <div block="CategoryPage" elem="FilterPlaceholderContainer">
-                    { this.renderPlaceholder('CategoryPage') }
+                <div block="CategoryPage" elem="PlaceholdereContainer">
+                    <h3 block="CategoryPage" elem="PlaceholderHeading">
+                        { __('Shopping Options') }
+                    </h3>
+                    <div block="CategoryPage" elem="FilterPlaceholderContainer">
+                        <div block="CategoryPage" elem="PlaceholderList">
+                            <div block="CategoryPage" elem="PlaceholderListItem" />
+                            <div block="CategoryPage" elem="PlaceholderListItem" />
+                            <div block="CategoryPage" elem="PlaceholderListItem" />
+                        </div>
+                    </div>
+                    <Loader isLoading />
                 </div>
             </div>
         );
