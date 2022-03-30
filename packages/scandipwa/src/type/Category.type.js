@@ -54,7 +54,7 @@ export const FilterInputType = PropTypes.shape({
         min: PropTypes.number,
         max: PropTypes.number
     }),
-    condtions: PropTypes.string
+    conditions: PropTypes.string
 });
 
 export const SortFieldsType = PropTypes.shape({

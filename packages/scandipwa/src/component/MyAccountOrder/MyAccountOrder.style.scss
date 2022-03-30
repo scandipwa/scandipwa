@@ -45,8 +45,14 @@
         margin-inline-end: 20px;
 
         &.Button {
-            &:hover {
+            &:active {
                 color: var(--link-hover);
+            }
+
+            @include hoverable { 
+                &:hover {
+                    color: var(--link-hover);
+                }
             }
         }
     }
@@ -56,7 +62,14 @@
         font-weight: normal;
         width: max-content;
 
-        &:hover {
+        @include hoverable { 
+            &:hover {
+                text-decoration: none;
+                color: var(--link-hover);
+            }
+        }
+
+        &:active {
             text-decoration: none;
             color: var(--link-hover);
         }
