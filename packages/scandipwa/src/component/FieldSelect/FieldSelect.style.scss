@@ -16,8 +16,6 @@ $select-arrow-height: 14px !default;
 $select-arrow-width: 14px !default;
 
 .FieldSelect {
-    overflow: hidden;
-
     &-Clickable {
         cursor: pointer;
         display: flex;
@@ -39,8 +37,6 @@ $select-arrow-width: 14px !default;
     }
 
     &_isExpanded {
-        overflow: visible;
-
         &::after {
             transform: rotate(-90deg);
         }
@@ -81,6 +77,10 @@ $select-arrow-width: 14px !default;
         max-height: 0;
         -webkit-overflow-scrolling: touch;
         min-width: 100%;
+
+        @include mobile {
+            height: 0;
+        }
 
         &_isExpanded {
             @include desktop {
