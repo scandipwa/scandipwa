@@ -59,6 +59,7 @@
 
     &-ItemsCount {
         padding: 0;
+        margin-block-start: -2px;
 
         @include mobile {
             order: 1;
@@ -137,6 +138,14 @@
         font-weight: 600;
         font-size: 14px;
         white-space: pre;
+    }
+
+    &-MiscellaneousLayoutWrapper {
+        @include mobile {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
     }
 
     &-Miscellaneous {
