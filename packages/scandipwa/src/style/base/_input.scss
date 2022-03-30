@@ -114,12 +114,22 @@ textarea {
             height: 36px;
         }
 
-        &:hover {
+        @include hoverable { 
+            &:hover {
+                border-color: var(--primary-dark-color);
+
+                svg {
+                    fill: var(--primary-dark-color);
+                }            
+            }
+        }
+            
+        &:active {
             border-color: var(--primary-dark-color);
 
             svg {
                 fill: var(--primary-dark-color);
-            }
+            }  
         }
 
         &:first-of-type {
