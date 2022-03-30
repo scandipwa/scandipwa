@@ -5,6 +5,7 @@
     "packages": [
         "packages/*",
         "runtime-packages/*",
-        "build-packages/*"
+        "build-packages/*",
+        "tilework-packages/opus"
     ]
 }

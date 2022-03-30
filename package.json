@@ -42,6 +42,7 @@
     "workspaces": [
         "packages/*",
         "build-packages/*",
-        "runtime-packages/*"
+        "runtime-packages/*",
+        "tilework-packages/opus"
     ]
 }
