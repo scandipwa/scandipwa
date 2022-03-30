@@ -43,6 +43,8 @@ export class FieldNumber extends PureComponent {
             isDisabled
         } = this.props;
 
+        const numberValue = +value;
+
         return (
             <>
                 <input
@@ -58,18 +60,18 @@ export class FieldNumber extends PureComponent {
                   disabled={ isDisabled }
                 />
                 <button
-                  disabled={ max === 1 || +value === max || isDisabled }
+                  disabled={ max === 1 || numberValue === max || isDisabled }
                   // eslint-disable-next-line react/jsx-no-bind
-                  onClick={ () => handleValueChange(+value + 1) }
+                  onClick={ () => handleValueChange(numberValue + 1) }
                   aria-label={ __('Add') }
                   type={ FIELD_TYPE.button }
                 >
                     <AddIcon block="SubtractButton" isPrimary />
                 </button>
                 <button
-                  disabled={ min === 1 + +value || +value === min || isDisabled }
+                  disabled={ numberValue + 1 === min || numberValue === min || isDisabled }
                   // eslint-disable-next-line react/jsx-no-bind
-                  onClick={ () => handleValueChange(+value - 1) }
+                  onClick={ () => handleValueChange(numberValue - 1) }
                   aria-label={ __('Subtract') }
                   type={ FIELD_TYPE.button }
                 >
