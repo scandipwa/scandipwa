@@ -76,8 +76,8 @@ export class ProductCompareContainer extends PureComponent {
     };
 
     state = {
-        scrollerScroll: document.getElementById('scrollerScroll'),
-        productCompare: document.getElementById('productCompare')
+        scrollerScroll: null,
+        productCompare: null
     };
 
     containerFunctions = {
@@ -143,6 +143,11 @@ export class ProductCompareContainer extends PureComponent {
     }
 
     handleBlockScroll() {
+        const { device } = this.props;
+
+        if (!device.isMobile) {
+            return;
+        }
         const { scrollerScroll, productCompare } = this.state;
 
         scrollerScroll.scrollLeft = productCompare.scrollLeft;
