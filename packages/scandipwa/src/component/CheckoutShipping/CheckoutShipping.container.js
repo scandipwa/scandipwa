@@ -106,21 +106,13 @@ export class CheckoutShippingContainer extends PureComponent {
         };
     }
 
-    componentDidUpdate(prevProps) {
-        const { isPickInStoreMethodSelected: prevIsInPickStoreMethodSelected } = prevProps;
+    componentDidUpdate() {
+        // const { isPickInStoreMethodSelected: prevIsInPickStoreMethodSelected } = prevProps;
         const { isPickInStoreMethodSelected } = this.props;
 
         if (isPickInStoreMethodSelected) {
             scrollToTop();
         }
-
-        if (isPickInStoreMethodSelected !== prevIsInPickStoreMethodSelected) {
-            this.resetShippingMethod();
-        }
-    }
-
-    resetShippingMethod() {
-        this.setState({ selectedShippingMethod: {} });
     }
 
     containerProps() {
