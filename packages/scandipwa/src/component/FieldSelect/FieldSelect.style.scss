@@ -77,7 +77,7 @@ $select-arrow-width: 14px !default;
         min-width: 100%;
         display: none;
 
-        &-ulDiv {
+        &Wrapper {
             @include desktop {
                 display: none;
 

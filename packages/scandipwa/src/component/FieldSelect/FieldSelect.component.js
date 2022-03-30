@@ -159,7 +159,7 @@ export class FieldSelect extends PureComponent {
             >
                 <div
                   block="FieldSelect"
-                  elem="Options-ulDiv"
+                  elem="OptionsWrapper"
                   role="menu"
                   mods={ { isExpanded } }
                 >
