@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -75,10 +75,13 @@ export class ProductCompareContainer extends PureComponent {
         attributes: []
     };
 
-    state = {
-        scrollerScroll: null,
-        productCompare: null
-    };
+    scrollerScroll = createRef(null);
+
+    productCompare = createRef(null);
+
+    productCompareRow = createRef(null);
+
+    scrollerContent = createRef(null);
 
     containerFunctions = {
         getAttributes: this.getAttributes.bind(this),
@@ -93,22 +96,12 @@ export class ProductCompareContainer extends PureComponent {
         scrollToTop({ behavior: 'smooth' });
     }
 
-    componentDidUpdate(_, prevState) {
+    componentDidUpdate() {
         const { device } = this.props;
-        const productCompareRow = document.getElementById('productCompareRow');
-        const scrollerContent = document.getElementById('scrollerContent');
+        const productCompareRow = this.productCompareRow.current;
+        const scrollerContent = this.scrollerContent.current;
 
-        if (!prevState.scrollerScroll && !prevState.productCompare) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState(
-                {
-                    scrollerScroll: document.getElementById('scrollerScroll'),
-                    productCompare: document.getElementById('productCompare')
-                }
-            );
-        }
-
-        if (productCompareRow && scrollerContent) {
+        if (this.productCompareRow.current && this.scrollerContent.current) {
             const width = device.isMobile
                 ? productCompareRow.offsetWidth
                 : productCompareRow.offsetWidth - PRODUCT_COMPARE_FIRST_COLUMN_WIDTH;
@@ -127,7 +120,11 @@ export class ProductCompareContainer extends PureComponent {
         return {
             isLoading,
             products,
-            device
+            device,
+            scrollerScroll: this.scrollerScroll,
+            productCompare: this.productCompare,
+            productCompareRow: this.productCompareRow,
+            scrollerContent: this.scrollerContent
         };
     }
 
@@ -137,15 +134,12 @@ export class ProductCompareContainer extends PureComponent {
         if (device.isMobile) {
             return;
         }
-        const { scrollerScroll, productCompare } = this.state;
 
-        productCompare.scrollLeft = scrollerScroll.scrollLeft;
+        this.productCompare.current.scrollLeft = this.scrollerScroll.current.scrollLeft;
     }
 
     handleBlockScroll() {
-        const { scrollerScroll, productCompare } = this.state;
-
-        scrollerScroll.scrollLeft = productCompare.scrollLeft;
+        this.scrollerScroll.current.scrollLeft = this.productCompare.current.scrollLeft;
     }
 
     fetchCompareList() {
