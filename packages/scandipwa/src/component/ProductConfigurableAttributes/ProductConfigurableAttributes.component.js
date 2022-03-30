@@ -14,6 +14,10 @@ import { PureComponent } from 'react';
 
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
+import {
+    BIG_PLACEHOLDER_CONFIG,
+    SMALL_PLACEHOLDER_CONFIG
+} from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import { MixType } from 'Type/Common.type';
 import { AttributesType } from 'Type/ProductList.type';
 import { noopFn } from 'Util/Common';
@@ -23,7 +27,7 @@ import './ProductConfigurableAttributes.style';
 /** @namespace Component/ProductConfigurableAttributes/Component */
 export class ProductConfigurableAttributes extends PureComponent {
     static propTypes = {
-        renderPlaceholder: PropTypes.func,
+        numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
         configurable_options: AttributesType.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
@@ -44,7 +48,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         isReady: true,
         mix: {},
         getIsConfigurableAttributeAvailable: () => true,
-        renderPlaceholder: noopFn,
+        numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
         handleShakeAnimationEnd: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true
@@ -116,14 +120,27 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderAttributesPlaceholder() {
-        const { renderPlaceholder } = this.props;
+    renderPlaceholders() {
+        const { numberOfPlaceholders, isExpandable } = this.props;
+        const numberOfPlaceholdersToRender = isExpandable ? numberOfPlaceholders : SMALL_PLACEHOLDER_CONFIG;
 
-        return (
-            <div block="ProductConfigurableAttributes" elem="PlaceholderWrapper">
-                { renderPlaceholder('ProductConfigurableAttributes') }
+        const arr = Array.from({ length: 30 }, (_, index) => index + 1);
+
+        return numberOfPlaceholdersToRender.map((length, i) => (
+            <div
+              key={ arr[i] }
+              block="ProductConfigurableAttributes"
+              elem="SwatchList"
+            >
+                { Array.from({ length }, (_, i) => (
+                    <div
+                      key={ `child-${arr[i]}` }
+                      block="ProductConfigurableAttributes"
+                      elem="Placeholder"
+                    />
+                )) }
             </div>
-        );
+        ));
     }
 
     renderConfigurableAttributes() {
@@ -189,7 +206,7 @@ export class ProductConfigurableAttributes extends PureComponent {
               mods={ { isLoading: !isReady } }
               mix={ mix }
             >
-                { isReady ? this.renderConfigurableAttributes() : this.renderAttributesPlaceholder() }
+                { isReady ? this.renderConfigurableAttributes() : this.renderPlaceholders() }
             </div>
         );
     }
