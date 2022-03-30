@@ -43,6 +43,10 @@ export class FieldNumber extends PureComponent {
             isDisabled
         } = this.props;
 
+        if (+value < 0) {
+            return null;
+        }
+
         return (
             <>
                 <input
