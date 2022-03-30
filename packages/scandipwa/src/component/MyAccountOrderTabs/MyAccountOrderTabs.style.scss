@@ -22,6 +22,7 @@
     &-Wrapper {
         @include mobile {
             padding: 0;
+            margin-block-end: 15px;
         }
 
         .ExpandableContent-Heading {

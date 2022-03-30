@@ -39,6 +39,7 @@
     &-Buttons {
         display: flex;
         margin-block-end: 25px;
+        justify-content: space-between;
     }
 
     &-Reorder {
@@ -81,7 +82,7 @@
     }
 
     &-PrintOrder {
-        display: none;
+        font-weight: normal;
 
         @include desktop {
             display: block;

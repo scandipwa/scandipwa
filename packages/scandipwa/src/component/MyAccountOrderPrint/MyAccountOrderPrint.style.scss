@@ -1,0 +1,154 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
+ */
+
+:root {
+    --order-status-border: 1px solid #ccc;
+    --order-status-color: #333;
+    --header-logo-width: 194px;
+    --header-logo-height: 24px;
+
+    @media print {
+        --table-body-border: 1px solid rgba(10, 9, 3, 0.16);
+    }
+}
+
+.MyAccountOrder {
+    &-OrderId {
+        flex-direction: row;
+    }
+
+    &Totals {
+        &-Wrapper {
+            border-block-start: var(--table-body-border);
+        }
+    }
+
+    &-OrderStatus {
+        display: block;
+        border-radius: 3px;
+        border: var(--order-status-border);
+        color: var(--order-status-color);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 14px;
+        margin-inline-start: 10px;
+        padding: 5px 10px;
+        text-transform: uppercase;
+        inset-block-start: -5px;
+        width: min-content;
+    }
+
+    &ItemsTable {
+        &-ProductsWrapper {
+            border: var(--table-body-border);
+            padding: 15px;
+
+            &:not(:first-of-type) {
+                margin-block-start: 20px;
+            }
+        }
+
+        &-Products {
+            thead {
+                border-block-start: var(--table-body-border);
+                border-block-end: var(--table-body-border);
+            }
+
+            tbody {
+                page-break-inside: avoid;
+            }
+        }
+
+        &-Quantity,
+        &-Subtotal,
+        &-Price {
+            width: unset;
+        }
+
+        &Row {
+            &-RowWrapper {
+                td {
+                    &:nth-child(n+3) {
+                        @include desktop {
+                            text-align: end;
+                        }
+
+                        @media print {
+                            text-align: end;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &Information {
+        &-Address {
+            .KeyValueTable {
+                margin-block-end: 0;
+
+                tr {
+                    border-block-end: none;
+
+                    th, td {
+                        padding-block: 5px;
+                    }
+                }
+            }
+        }
+
+        &-Column {
+            margin-block-end: 20px;
+            
+            @media print {
+                display: block;
+                break-inside: avoid;
+            }
+        }
+
+        &-Title {
+            border-block-end: var(--table-body-border);
+        }
+
+        &-Information {
+            @media print {
+                display: block;
+            }
+        }
+    }
+
+    &Print {
+        &-Wrapper {
+            height: 100vh;
+
+            * {
+                background: transparent;
+            }
+        }
+
+        &-LogoWrapper {
+            width: var(--header-logo-width);
+            height: var(--header-logo-height);
+            margin-block: 20px;
+            display: block;
+        }
+
+        &-Copyright {
+            display: block;
+            text-align: center;
+            width: 100%;
+            font-size: 12px;
+            padding: 10px;
+            background: var(--secondary-base-color);
+            margin-block-start: 30px;
+        }
+    }
+}

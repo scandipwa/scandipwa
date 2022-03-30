@@ -23,6 +23,8 @@ import './Logo.style';
 /** @namespace Component/Logo/Component */
 export class Logo extends Image {
     renderPlaceholderLogo() {
+        const { onImageLoad } = this.props;
+
         return (
             <div
               block="Logo"
@@ -32,6 +34,7 @@ export class Logo extends Image {
                   src={ logo }
                   alt="LogoPlaceholder"
                   ratio="custom"
+                  onImageLoad={ onImageLoad }
                 />
             </div>
         );
