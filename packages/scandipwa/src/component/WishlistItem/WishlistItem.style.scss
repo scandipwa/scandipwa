@@ -155,7 +155,7 @@
         }
     }
 
-    &-Remove[aria-label='Remove'] {
+    &-Remove {
         position: absolute;
         inset-inline-end: 4px;
         inset-block-start: 4px;
@@ -173,12 +173,8 @@
             .CloseIcon {
                 width: 24px;
             }
-        }
-    }
 
-    &-Remove {
-        @include mobile {
-            &_withReview[aria-label='Remove'] {
+            &_withReview {
                 inset-block-start: -2px;
             }
         }
