@@ -310,19 +310,13 @@ export class ProductBundleOption extends PureComponent {
 
     //#region TITLE
     renderOptionGroupTitle(title) {
-        return (
-            <div block="ProductBundleItem" elem="Heading">
-                { title }
-            </div>
-        );
-    }
-
-    renderOptionIsRequired() {
         const { isRequired } = this.props;
 
         return (
-            isRequired
-            && <strong block="ProductBundleItem" elem="Required"> *</strong>
+            <div block="ProductBundleItem" elem="Heading">
+                { title }
+                { isRequired && <strong block="ProductBundleItem" elem="Required"> *</strong> }
+            </div>
         );
     }
 
@@ -339,7 +333,6 @@ export class ProductBundleOption extends PureComponent {
                 { priceLabel && (
                     <strong block="ProductBundleItem" elem="PriceLabel">{ ` ${priceLabel}` }</strong>
                 ) }
-                { this.renderOptionIsRequired() }
             </div>
         );
     }
