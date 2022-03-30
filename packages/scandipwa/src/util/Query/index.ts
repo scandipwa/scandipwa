@@ -10,5 +10,6 @@
  */
 
 export * from './PrepareDocument';
+export * from './Query.type';
 export { default as Field } from './Field';
 export { default as Fragment } from './Fragment';

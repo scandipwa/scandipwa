@@ -16,7 +16,7 @@ import { Field } from 'Util/Query';
  * @class CheckEmailQuery
  * @namespace Query/CheckEmail/Query */
 export class CheckEmailQuery {
-    getIsEmailAvailableQuery(email) {
+    getIsEmailAvailableQuery(email: string): Field {
         const query = new Field('isEmailAvailable')
             .addArgument('email', 'String!', email)
             .addField('is_email_available');

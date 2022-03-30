@@ -9,12 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { GQLS_SetBillingAddressOnCartInput, GQLS_SetPaymentMethodOnCartInput } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Checkout/Query */
 export class CheckoutQuery {
-    getPaymentMethodsQuery(guestCartId) {
+    getPaymentMethodsQuery(guestCartId: string): Field {
         const query = new Field('getPaymentMethods')
             .addFieldList(this._getPaymentMethodFields());
 
@@ -23,7 +24,7 @@ export class CheckoutQuery {
         return query;
     }
 
-    getSaveGuestEmailMutation(email, cart_id) {
+    getSaveGuestEmailMutation(email: string, cart_id: string): Field {
         const input = { email, cart_id };
         const mutation = new Field('setGuestEmailOnCart')
             .addArgument('input', 'SetGuestEmailOnCartInput', input)
@@ -32,7 +33,7 @@ export class CheckoutQuery {
         return mutation;
     }
 
-    getEstimateShippingCosts(address, guestCartId) {
+    getEstimateShippingCosts(address: string, guestCartId: string): Field {
         const mutation = new Field('estimateShippingCosts')
             .addArgument('address', 'EstimateShippingCostsAddress!', address)
             .addFieldList(this._getEstimatedShippingFields());
@@ -42,7 +43,7 @@ export class CheckoutQuery {
         return mutation;
     }
 
-    getSaveAddressInformation(addressInformation, guestCartId) {
+    getSaveAddressInformation(addressInformation: string, guestCartId: string): Field {
         const mutation = new Field('saveAddressInformation')
             .addArgument('addressInformation', 'SaveAddressInformation!', addressInformation)
             .addFieldList(this._getSaveAddressInformationFields());
@@ -52,21 +53,21 @@ export class CheckoutQuery {
         return mutation;
     }
 
-    getSetBillingAddressOnCart(input) {
+    getSetBillingAddressOnCart(input: GQLS_SetBillingAddressOnCartInput): Field {
         return new Field('s_setBillingAddressOnCart')
             .addArgument('input', 'S_SetBillingAddressOnCartInput!', input)
             .addField(this._getCartField())
             .setAlias('billingAddress');
     }
 
-    getSetPaymentMethodOnCartMutation(input) {
+    getSetPaymentMethodOnCartMutation(input: GQLS_SetPaymentMethodOnCartInput): Field {
         return new Field('s_setPaymentMethodOnCart')
             .addArgument('input', 'S_SetPaymentMethodOnCartInput!', input)
             .addField(this._getCartField())
             .setAlias('paymentMethod');
     }
 
-    getPlaceOrderMutation(guestCartId) {
+    getPlaceOrderMutation(guestCartId: string): Field {
         const mutation = new Field('s_placeOrder')
             .setAlias('placeOrder')
             .addField(this._getOrderField());
@@ -78,25 +79,25 @@ export class CheckoutQuery {
         return mutation;
     }
 
-    _addGuestCartId(guestCartId, mutation) {
+    _addGuestCartId(guestCartId: string, mutation: Field): void {
         if (guestCartId && !isSignedIn()) {
             mutation.addArgument('guestCartId', 'String!', guestCartId);
         }
     }
 
-    _getOrderField() {
+    _getOrderField(): Field {
         return new Field('order')
             .addFieldList(['order_id']);
     }
 
-    _getSaveAddressInformationFields() {
+    _getSaveAddressInformationFields(): Field[] {
         return [
             this._getPaymentMethodsField(),
             this._getTotalsField()
         ];
     }
 
-    _getEstimatedShippingFields() {
+    _getEstimatedShippingFields(): string[] {
         return [
             'amount',
             'available',
@@ -111,16 +112,16 @@ export class CheckoutQuery {
         ];
     }
 
-    _getPaymentMethodsField() {
+    _getPaymentMethodsField(): Field {
         return new Field('payment_methods')
             .addFieldList(this._getPaymentMethodFields());
     }
 
-    _getPaymentMethodFields() {
+    _getPaymentMethodFields(): string[] {
         return ['code', 'title'];
     }
 
-    _getTotalItemFields() {
+    _getTotalItemFields(): string[] {
         return [
             'qty',
             'name',
@@ -135,12 +136,12 @@ export class CheckoutQuery {
         ];
     }
 
-    _getTotalItemField() {
+    _getTotalItemField(): Field {
         return new Field('items')
             .addFieldList(this._getTotalItemFields());
     }
 
-    _getTotalsFields() {
+    _getTotalsFields(): Array<string | Field> {
         return [
             'subtotal',
             'tax_amount',
@@ -158,17 +159,17 @@ export class CheckoutQuery {
         ];
     }
 
-    _getTotalsField() {
+    _getTotalsField(): Field {
         return new Field('totals')
             .addFieldList(this._getTotalsFields());
     }
 
-    _getCartField() {
+    _getCartField(): Field {
         return new Field('cart')
             .addFieldList(this._getCartFieldList());
     }
 
-    _getCartFieldList() {
+    _getCartFieldList(): string[] {
         return [
             'id'
         ];

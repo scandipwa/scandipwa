@@ -9,7 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { Field, FieldArgument } from 'Util/Query';
+
+type CategoryQueryOptions = {
+    categoryIds: number
+};
 
 /**
  * Category Query
@@ -17,41 +21,48 @@ import { Field } from 'Util/Query';
  * @namespace Query/Category/Query
  */
 export class CategoryQuery {
-    __construct() {
-        super.__construct();
-        this.options = {};
-    }
+    options = {} as CategoryQueryOptions;
 
-    getQuery(options = {}) {
+    getQuery(options: CategoryQueryOptions = {} as CategoryQueryOptions): Field {
         this.options = options;
+        const {
+            name,
+            type,
+            value
+        } = this._getConditionalArguments();
 
         return new Field('category')
-            .addArgument(...this._getConditionalArguments())
+            .addArgument(name, type, value)
             .addFieldList(this._getDefaultFields())
             .addField(this._getChildrenFields());
     }
 
-    _getConditionalArguments() {
+    _getConditionalArguments(): FieldArgument {
         const { categoryIds } = this.options;
 
         if (categoryIds) {
-            return ['id', 'Int!', categoryIds];
+            // return ['id', 'Int!', categoryIds];
+            return {
+                name: 'id',
+                type: 'Int!',
+                value: categoryIds
+            };
         }
 
         throw new Error(__('There was an error requesting the category'));
     }
 
-    _getChildrenFields() {
+    _getChildrenFields(): Field {
         return new Field('children')
             .addFieldList(this._getDefaultFields());
     }
 
-    _getBreadcrumbsField() {
+    _getBreadcrumbsField(): Field {
         return new Field('breadcrumbs')
             .addFieldList(this._getBreadcrumbFields());
     }
 
-    _getBreadcrumbFields() {
+    _getBreadcrumbFields(): string[] {
         return [
             'category_name',
             'category_level',
@@ -60,7 +71,7 @@ export class CategoryQuery {
         ];
     }
 
-    _getCmsBlockFields() {
+    _getCmsBlockFields(): string[] {
         return [
             'content',
             'disabled',
@@ -69,12 +80,12 @@ export class CategoryQuery {
         ];
     }
 
-    _getCmsBlockField() {
+    _getCmsBlockField(): Field {
         return new Field('cms_block')
             .addFieldList(this._getCmsBlockFields());
     }
 
-    _getDefaultFields() {
+    _getDefaultFields(): Array<string | Field> {
         return [
             'id',
             'url',

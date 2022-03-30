@@ -22,7 +22,7 @@ export class CmsBlockQuery {
      * @return {Field} CMS Block query
      * @memberof CmsBlocksQuery
      */
-    getQuery({ identifiers }) {
+    getQuery({ identifiers }: { identifiers: string[] }): Field {
         if (!identifiers) {
             throw new Error('Missing argument `options`');
         }
@@ -33,7 +33,7 @@ export class CmsBlockQuery {
             .setAlias('cmsBlocks');
     }
 
-    _getItemFields() {
+    _getItemFields(): string[] {
         return [
             'title',
             'content',
@@ -42,7 +42,7 @@ export class CmsBlockQuery {
         ];
     }
 
-    _getItemsField() {
+    _getItemsField(): Field {
         return new Field('items')
             .addFieldList(this._getItemFields());
     }

@@ -505,9 +505,15 @@
                     "leadingUnderscore": "allow"
                 },
                 {
-                    "selector": "classMethod",
+                    "selector": "method",
                     "format": null,
-                    "filter": "__construct",
+                    "filter": "^__construct$",
+                    "leadingUnderscore": "allow"
+                },
+                {
+                    "selector": "function",
+                    "format": null,
+                    "filter": "^__$",
                     "leadingUnderscore": "allow"
                 }
             ]
