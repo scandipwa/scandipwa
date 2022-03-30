@@ -103,6 +103,14 @@
                     &::before {
                         content: none;
                     }
+
+                    &:first-child {
+                        &::after {
+                            content: ":";
+                            display: inline-block;
+                            vertical-align: top;
+                        }
+                    }
                 }
             }
         }

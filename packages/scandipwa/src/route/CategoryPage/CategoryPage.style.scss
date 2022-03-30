@@ -86,18 +86,50 @@
 
         @include desktop {
             display: none;
+        }
+    }
 
-            &Placeholder {
-                position: relative;
-                grid-row: 1/6;
-                width: 100%;
-                opacity: 1;
-                pointer-events: all;
-                display: flex;
-                flex-direction: column;
-                height: auto;
-                overflow: visible;
+    &-Placeholder {
+        &List {
+            display: flex;
+            flex-direction: column;
+
+            @include desktop {
+                padding-block-start: 24px;
+                padding-block-end: 35px;
             }
+        }
+
+        &ListItem {
+            animation: var(--placeholder-animation);
+            background-image: var(--placeholder-image);
+            background-size: var(--placeholder-size);
+            padding-inline-start: 3px;
+            padding-block-start: 3px;
+            margin-block-start: 2px;
+            margin-block-end: 12px;
+
+            &:nth-child(2) {
+                min-height: 67px;
+            }
+
+            &:first-child, &:nth-child(3) {
+                min-height: 35px;
+            }
+        }
+
+        &Wrapper {
+            grid-row: 1/6;
+            display: flex;
+            flex-direction: column;
+
+            .Loader-Scale {
+                inset-block-start: 50%;
+            }
+        }
+
+        &Heading {
+            margin: 0;
         }
     }
 

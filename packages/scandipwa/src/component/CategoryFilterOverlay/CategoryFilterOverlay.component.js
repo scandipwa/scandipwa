@@ -27,11 +27,11 @@ import './CategoryFilterOverlay.style';
 /** @namespace Component/CategoryFilterOverlay/Component */
 export class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
+        isInfoLoading: PropTypes.bool.isRequired,
         availableFilters: AttributesType.isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
         isContentFiltered: PropTypes.bool.isRequired,
         isMatchingInfoFilter: PropTypes.bool.isRequired,
-        isInfoLoading: PropTypes.bool.isRequired,
         isProductsLoading: PropTypes.bool.isRequired,
         onSeeResultsClick: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,

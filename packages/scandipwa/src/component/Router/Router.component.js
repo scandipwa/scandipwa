@@ -78,6 +78,8 @@ import {
     URL_REWRITES
 } from './Router.config';
 
+import './Router.style';
+
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));
 export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
@@ -392,7 +394,7 @@ export class Router extends PureComponent {
 
     renderFallbackPage() {
         return (
-            <main style={ { height: '100vh' } }>
+            <main block="Router" elem="Loader">
                 <Loader isLoading />
             </main>
         );
@@ -408,7 +410,9 @@ export class Router extends PureComponent {
         return (
             <>
                 { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
-                { this.renderMainItems() }
+                <div block="Router" elem="MainItems">
+                    { this.renderMainItems() }
+                </div>
                 { this.renderSectionOfType(AFTER_ITEMS_TYPE) }
             </>
         );

@@ -24,6 +24,7 @@ export class PasswordChangePage extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         onPasswordSuccess: PropTypes.func.isRequired,
         onError: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
         isMobile: PropTypes.bool.isRequired,
         shouldDisplayWarning: PropTypes.bool.isRequired,
@@ -51,6 +52,7 @@ export class PasswordChangePage extends PureComponent {
 
     renderPageContents() {
         const {
+            showNotification,
             range,
             onError,
             isMobile,
@@ -69,6 +71,7 @@ export class PasswordChangePage extends PureComponent {
                 <PasswordChangeForm
                   onFormError={ onError }
                   onFormSubmit={ onPasswordSuccess }
+                  showNotification={ showNotification }
                   range={ range }
                   minimunPasswordCharacter={ minimunPasswordCharacter }
                 />

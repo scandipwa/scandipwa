@@ -387,6 +387,20 @@
 
     &_isCheckout {
         .Header {
+            &-Nav {
+                display: flex;
+            }
+
+            &-IconsWrapper {
+                display: flex;
+                width: 89.4%;
+            }
+
+            &-LogoWrapper {
+                position: relative;
+                flex-shrink: 0;
+            }
+
             &-Button_type_account {
                 display: block;
             }
@@ -400,7 +414,6 @@
 
             &-MyAccount {
                 @include desktop {
-                    margin-inline-start: auto;
                     height: 24px;
                 }
 
@@ -426,6 +439,10 @@
         display: flex;
         justify-content: center;
         margin-block-end: var(--header-total-height);
+
+        @include mobile {
+            z-index: 801;
+        }
 
         &_isPrerendered {
             @include mobile {
