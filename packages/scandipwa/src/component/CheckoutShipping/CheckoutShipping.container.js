@@ -25,6 +25,7 @@ import {
     trimCheckoutAddress,
     trimCheckoutCustomerAddress
 } from 'Util/Address';
+import { scrollToTop } from 'Util/Browser';
 import { getCartTotalSubPrice } from 'Util/Cart';
 import scrollToError from 'Util/Form/Form';
 import transformToNameValuePair from 'Util/Form/Transform';
@@ -106,24 +107,20 @@ export class CheckoutShippingContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { shippingMethods: prevShippingMethods } = prevProps;
-        const { shippingMethods } = this.props;
+        const { isPickInStoreMethodSelected: prevIsInPickStoreMethodSelected } = prevProps;
+        const { isPickInStoreMethodSelected } = this.props;
 
-        if (prevShippingMethods !== shippingMethods) {
+        if (isPickInStoreMethodSelected) {
+            scrollToTop();
+        }
+
+        if (isPickInStoreMethodSelected !== prevIsInPickStoreMethodSelected) {
             this.resetShippingMethod();
         }
     }
 
     resetShippingMethod() {
-        const { selectedShippingMethod: { method_code: selectedMethodCode = '' } } = this.state;
-        const { shippingMethods } = this.props;
-
-        if (shippingMethods.find(({ method_code }) => method_code === selectedMethodCode)) {
-            return;
-        }
-        const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
-        const selectedShippingMethod = defaultShippingMethod || {};
-        this.setState({ selectedShippingMethod });
+        this.setState({ selectedShippingMethod: {} });
     }
 
     containerProps() {
