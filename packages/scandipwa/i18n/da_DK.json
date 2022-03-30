@@ -589,11 +589,13 @@
     "Sort by": null,
     "If there is an account associated with %s you will receive an email with a link to reset your password": null,
     " discount each": null,
-    "Sort by": null,
     "The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.": null,
     "Unable to reset password": null,
     "Please enter no more than %s characters.": null,
     "You saved the account information.": null,
     "Minimum of different classes of characters in password is %s. ": null,
-    "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null
+    "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null,
+    "Maximum %s characters (%s remaining)": null,
+    "Maximum %s characters": null,
+    "Maximum %s characters (%s too many)": null
 }
