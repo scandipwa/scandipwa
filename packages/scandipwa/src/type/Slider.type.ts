@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export interface SlideType {
+export type Slide = {
     slide_id?: string;
     image?: string;
     slide_text?: string;
 }
 
-export interface SliderType {
+export type Slider = {
     slider_id?: string;
-    slides?: SlideType[];
+    slides?: Slide[];
 }

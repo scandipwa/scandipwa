@@ -11,7 +11,7 @@
 
 import { LocationState } from 'history';
 
-export interface LocationType {
+export type Location = {
     pathname?: string;
     search?: string;
     state?: LocationState;
@@ -19,26 +19,26 @@ export interface LocationType {
     key?: string;
 }
 
-// TODO use HistoryType
-export interface HistoryType {
+// TODO use History
+export type History = {
     length?: number;
     action?: string;
-    location?: LocationType;
+    location?: Location;
 }
 
 // TODO use match from react-router
-export interface MatchType {
+export type Match = {
     path?: string;
     url?: string;
     params?: any;
     isExact?: boolean;
 }
 
-export interface UrlRewriteType {
+export type UrlRewrite = {
     id?: number;
     type?: string;
     sku?: string;
     notFound?: boolean;
 }
 
-export type LinkType = [string | unknown]
+export type Link = [string | unknown]

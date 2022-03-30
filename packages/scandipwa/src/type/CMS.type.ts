@@ -9,21 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { MetaTitleType } from 'Type/Common.type';
+import { MetaTitle } from 'Type/Common.type';
 
-export interface PageType {
+export type Page = {
     title?: string;
     content?: string;
-    meta_title?: MetaTitleType;
+    meta_title?: MetaTitle;
     meta_description?: string;
     meta_keywords?: string;
 }
 
-export interface BlockType {
+export type Block = {
     title?: string;
     content?: string;
 }
 
-export interface BlockListType {
-    items?: Record<string, BlockType>
+export type BlockList = {
+    items?: Record<string, Block>
 }

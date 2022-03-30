@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -17,6 +18,14 @@ export const VALIDATION_INPUT_TYPE_TEXT = {
     alphaDash: 'alphaDash',
     url: 'url'
 };
+
+export enum ValidationInputTypeText {
+    ALPHA = 'alpha',
+    ALPHASPACE = 'alphaSpace',
+    ALPHANUMERIC = 'alphaNumeric',
+    ALPHADASH = 'alphaDash',
+    URL = 'url'
+}
 
 export const VALIDATION_INPUT_TYPE_NUMBER = {
     numeric: 'numeric',

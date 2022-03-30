@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,15 +10,36 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export * from './Account.type';
+export enum MyAccountTabs {
+    MY_ACCOUNT = 'my-account',
+    MY_ORDERS = 'my-orders',
+    MY_ORDER = 'my-order',
+    MY_DOWNLOADABLE = 'my-downloadable',
+    MY_WISHLIST = 'my-wishlist',
+    ADDRESS_BOOK = 'address',
+    NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription',
+    ACCOUNT_INFORMATION = 'edit',
+}
 
-export interface RegionType {
+export enum MyAccountTabsSection {
+    FIRST_SECTION = 1,
+    SECOND_SECTION,
+    THIRD_SECTION
+}
+
+export enum MyAccountEditTabs {
+    INFORMATION_EDIT = 'information_edit',
+    PASSWORD_EDIT = 'password_edit',
+    EMAIL_EDIT = 'email_edit'
+}
+
+export type Region = {
     region_code: string | null
     region: string | null
     region_id: number
 }
 
-export interface AddressType {
+export type Address = {
     city: string
     company: string | null
     country_id: string
@@ -30,17 +52,17 @@ export interface AddressType {
     middlename: string
     postcode: string
     prefix: string
-    region?: RegionType
+    region?: Region
     street: string | string[]
     suffix: string
     telephone: string
     vat_id: number | null
 }
 
-export type AddressesType = AddressType[];
+export type Addresses = Address[];
 
-export interface CustomerType {
-    addresses: AddressesType
+export type Customer = {
+    addresses: Addresses
     created_at: string
     default_billing: string
     default_shipping: string
@@ -57,9 +79,9 @@ export interface CustomerType {
     taxvat: string
 }
 
-export interface TabType {
+export type Tab = {
     url: string
     name: string
 }
 
-export type TabMapType = Record<string, TabType>
+export type TabMap = Record<string, Tab>

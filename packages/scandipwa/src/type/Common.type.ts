@@ -9,19 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ReactNodeLike } from 'prop-types';
+export type Mods = Record<string, string | boolean>;
 
-export type ModsType = Record<string, string | boolean>;
-
-export interface MixType {
+export type Mix = {
     block?: string;
     elem?: string;
-    mods?: ModsType;
+    mods?: Mods;
 }
 
-export type ChildrenType = ReactNodeLike[] | ReactNodeLike
+export type Children = React.ReactNode[] | React.ReactNode
 
-export type RefType = () => void | { current: Element }
+export type Ref = () => void | { current: Element }
 
 // TODO unknown
-export type MetaTitleType = string | unknown
+export type MetaTitle = string | unknown

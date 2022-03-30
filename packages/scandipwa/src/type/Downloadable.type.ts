@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface DownloadableLinkType {
+export type DownloadableLink = {
     sample_url?: string;
     sort_order?: number;
     title?: string;
@@ -18,4 +18,4 @@ export interface DownloadableLinkType {
     price?: number;
 }
 
-export type DownloadableLinksType = [DownloadableLinkType | string];
+export type DownloadableLinks = DownloadableLink | string;
