@@ -9,21 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { MetaTitleType } from 'Type/Common.type';
+import { MetaTitle } from 'Type/Common.type';
 
-export type BreadcrumbsType = {
+export type Breadcrumbs = {
     category_name?: string;
     category_url?: string;
     category_level?: number;
 }[];
 
-export interface CategoryFragment {
+export type CategoryFragment = {
     id: number,
-    breadcrumbs: BreadcrumbsType,
+    breadcrumbs: Breadcrumbs,
     description: string,
     image: string,
     meta_description: string,
-    meta_title: MetaTitleType,
+    meta_title: MetaTitle,
     name: string,
     product_count: number,
     url_key: string,
@@ -31,18 +31,18 @@ export interface CategoryFragment {
     display_mode: string
 }
 
-export interface CategoryTreeType extends CategoryFragment {
+export type CategoryTree = CategoryFragment & {
     children?: CategoryFragment[];
 }
 
-export type SelectedFiltersType = Record<string, string[]>;
+export type SelectedFilters = Record<string, string[]>;
 
-export type FilterType = Record<string, string[]>;
+export type Filter = Record<string, string[]>;
 
-export interface FilterInputType {
+export type FilterInput = {
     categoryIds?: number;
     categoryUrlPath?: string;
-    customFilters?: SelectedFiltersType;
+    customFilters?: SelectedFilters;
     priceRange?: {
         min?: number;
         max?: number;
@@ -50,7 +50,7 @@ export interface FilterInputType {
     conditions?: string;
 }
 
-export interface SortFieldsType {
+export type SortFields = {
     options?: {
         label?: string;
         value?: string;

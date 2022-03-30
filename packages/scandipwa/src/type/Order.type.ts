@@ -9,16 +9,16 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface OrderGrandTotalType {
+export type OrderGrandTotal= {
     value?: number;
     currency?: string;
 }
 
-export interface OrderTotalType {
-    grand_total?: OrderGrandTotalType;
+export type OrderTotal= {
+    grand_total?: OrderGrandTotal;
 }
 
-export interface OrderInfoType {
+export type OrderInfo= {
     id?: number;
     increment_id?: string;
     created_at?: string;
@@ -27,7 +27,7 @@ export interface OrderInfoType {
     subtotal?: string;
 }
 
-export interface OrderPaymentInfo {
+export type OrderPaymentInfo= {
     name?: string;
     type?: string;
     additional_data?: {
@@ -38,7 +38,7 @@ export interface OrderPaymentInfo {
 
 export type OrderPaymentsInfo = OrderPaymentInfo[];
 
-export interface OrderAddressType {
+export type OrderAddress= {
     city?: string;
     country_code?: string;
     firstname?: string;
@@ -50,7 +50,7 @@ export interface OrderAddressType {
     telephone?: string;
 }
 
-export interface orderItemQtyType {
+export type orderItemQty= {
     quantity_ordered?: number;
     quantity_canceled?: number;
     quantity_invoiced?: number;
@@ -59,40 +59,40 @@ export interface orderItemQtyType {
     quantity_shipped?: number;
 }
 
-export interface MoneyType {
+export type Money= {
     currency?: string;
     value?: number;
 }
 
-export interface DiscountType {
-    amount?: MoneyType;
+export type Discount= {
+    amount?: Money;
     value?: number;
 }
 
-export interface OptionItemType {
+export type OptionItem= {
     title?: string;
     qty?: number;
     price?: number;
 }
 
-export type OptionItemsType = OptionItemType[];
+export type OptionItems = OptionItem[];
 
-export interface OptionType {
+export type Option= {
     label?: string;
     value?: string;
-    items?: OptionItemsType;
+    items?: OptionItems;
     linkItems?: string[];
 }
 
-export type OptionsType = OptionType[];
+export type Options = Option[];
 
-export interface OrderProductType {
-    discounts?: DiscountType[];
+export type OrderProduct= {
+    discounts?: Discount[];
     id?: string;
-    selected_options?: OptionsType;
-    entered_options?: OptionsType;
+    selected_options?: Options;
+    entered_options?: Options;
     product_name?: string;
-    product_sale_price?: MoneyType;
+    product_sale_price?: Money;
     product_sku?: string;
     product_type?: string;
     product_url_key?: string;
@@ -104,13 +104,13 @@ export interface OrderProductType {
     quantity_shipped?: number;
 }
 
-export type OrderProductsType = OrderProductType[];
+export type OrderProducts = OrderProduct[];
 
-export interface OrderTabType {
-    items?: OrderProductsType;
+export type OrderTab= {
+    items?: OrderProducts;
     id?: string | number;
     number?: string;
-    total?: OrderTotalType;
+    total?: OrderTotal;
     quantity_ordered?: number;
     quantity_canceled?: number;
     quantity_invoiced?: number;
@@ -119,27 +119,27 @@ export interface OrderTabType {
     quantity_shipped?: number;
 }
 
-export type OrderTabsType = OrderTabType[];
+export type OrderTabs = OrderTab[];
 
-export interface OrderType {
+export type Order= {
     can_reorder?: boolean;
     carrier?: string;
     id?: string;
     order_date?: string;
     credit_memos?: string;
     invoices?: string;
-    items?: OrderProductsType;
+    items?: OrderProducts;
     shipments?: string;
     payment_methods?: OrderPaymentsInfo;
     rss_link?: string;
-    shipping_address?: OrderAddressType;
-    billing_address?: OrderAddressType;
+    shipping_address?: OrderAddress;
+    billing_address?: OrderAddress;
     shipping_method?: string;
     status?: string;
-    total?: OrderTotalType;
+    total?: OrderTotal;
 }
 
-export interface DownloadableType {
+export type Downloadable= {
     id?: number;
     order_id?: number;
     order_increment_id?: string;
@@ -150,15 +150,15 @@ export interface DownloadableType {
     title?: string;
 }
 
-export interface PageInfoType {
+export type PageInfo= {
     current_page?: number;
     page_size?: number;
     total_pages?: number;
 }
 
-export type OrdersType = OrderType[];
+export type Orders = Order[];
 
-export interface OrdersListType {
-    items?: OrdersType;
-    pageInfo?: PageInfoType;
+export type OrdersList= {
+    items?: Orders;
+    pageInfo?: PageInfo;
 }

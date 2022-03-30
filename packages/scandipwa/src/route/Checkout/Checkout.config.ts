@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,6 +13,12 @@
 export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
 export const DETAILS_STEP = 'DETAILS_STEP';
+
+export enum CheckoutSteps {
+    SHIPPING_STEP = 'SHIPPING_STEP',
+    BILLING_STEP = 'BILLING_STEP',
+    DETAILS_STEP = 'DETAILS_STEP'
+}
 
 export const CHECKOUT_URL = '/checkout';
 export const BILLING_URL = '/checkout/billing';

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -26,3 +27,8 @@ export const SORT_DIRECTION_TYPE = {
     asc: 'ASC',
     desc: 'DESC'
 };
+
+export enum SortDirections {
+    ASC = 'ASC',
+    DESC = 'DESC'
+}

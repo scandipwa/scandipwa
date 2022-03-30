@@ -9,33 +9,33 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export interface RatingOptionItemType {
+export type RatingOptionItem = {
     option_id?: string;
     value?: string;
 }
 
-export type RatingItemsType = {
+export type RatingItems = {
     rating_id?: string;
     rating_code?: string;
-    rating_options?: RatingOptionItemType[];
+    rating_options?: RatingOptionItem[];
 }[];
 
-export interface VoteType {
+export type Vote = {
     rating_code?: string;
     value?: string;
     percent?: number;
 }
 
-export interface ReviewItemType {
+export type ReviewItem = {
     average_rating?: number;
     nickname?: string;
     title?: string;
     detail?: string;
     created_at?: string;
-    rating_votes?: VoteType[];
+    rating_votes?: Vote[];
 }
 
-export interface CreateProductReviewInput {
+export type CreateProductReviewInput = {
     nickname: string;
     sku: string;
     summary: string;
