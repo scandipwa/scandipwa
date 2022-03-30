@@ -52,6 +52,13 @@
         }
     }
 
+    &-Span {
+        &_isDisabled {
+            color: var(--input-color);
+            opacity: 0.48;
+        }
+    }
+
     &:hover {
         &:not(.CheckoutDeliveryOption_isHoverExcluded) {
             .input-control {
@@ -75,7 +82,7 @@
 
     &-Row {
         strong {
-            display: inline-block;
+            display: inline;
         }
     }
 

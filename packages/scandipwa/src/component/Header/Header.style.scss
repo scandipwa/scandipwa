@@ -98,6 +98,10 @@
         &_search,
         &_menu_subcategory {
             border-block-end: 1px solid var(--primary-divider-color);
+
+            @include mobile {
+                border-block-end: none;
+            }
         }
 
         &_category {
@@ -198,12 +202,12 @@
 
     &-CompareCount {
         background: #0A0903;
-        border-radius: 50%;
+        border-radius: 8px;
         color: var(--color-white);
         height: 17px;
         padding: 2px;
         position: absolute;
-        width: 17px;
+        min-width: 17px;
         display: flex;
         font-size: 11px;
         justify-content: center;
@@ -253,12 +257,12 @@
     &-Minicart {
         &ItemCount {
             background: var(--primary-base-color);
-            border-radius: 50%;
+            border-radius: 8px;
             color: var(--color-white);
             height: 17px;
             padding: 2px;
             position: absolute;
-            width: 17px;
+            min-width: 17px;
             display: flex;
             font-size: 11px;
             justify-content: center;
@@ -383,6 +387,20 @@
 
     &_isCheckout {
         .Header {
+            &-Nav {
+                display: flex;
+            }
+
+            &-IconsWrapper {
+                display: flex;
+                width: 89.4%;
+            }
+
+            &-LogoWrapper {
+                position: relative;
+                flex-shrink: 0;
+            }
+
             &-Button_type_account {
                 display: block;
             }
@@ -396,7 +414,6 @@
 
             &-MyAccount {
                 @include desktop {
-                    margin-inline-start: auto;
                     height: 24px;
                 }
 
