@@ -49,7 +49,7 @@
                 color: var(--link-hover);
             }
 
-            @media (hover: hover) and (pointer: fine) { 
+            @include hovarable { 
                 &:hover {
                     color: var(--link-hover);
                 }
@@ -62,7 +62,7 @@
         font-weight: normal;
         width: max-content;
 
-        @media (hover: hover) and (pointer: fine) { 
+        @include hovarable { 
             &:hover {
                 text-decoration: none;
                 color: var(--link-hover);

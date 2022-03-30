@@ -23,7 +23,7 @@ a {
     font-size: 14px;
     font-weight: 700;
 
-    @media (hover: hover) and (pointer: fine) { 
+    @include hovarable { 
         &:hover {
             color: var(--link-hover);
         }

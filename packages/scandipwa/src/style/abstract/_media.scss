@@ -73,3 +73,9 @@
         @content;
     }
 }
+
+@mixin hovarable {
+    @media (hover: hover) and (pointer: fine) { 
+        @content;
+    }
+}

@@ -26,7 +26,7 @@
 @mixin icon-primary {
     fill: var(--primary-base-color);
 
-    @media (hover: hover) and (pointer: fine) { 
+    @include hovarable { 
         &:hover {
             fill: var(--primary-dark-color);
         }

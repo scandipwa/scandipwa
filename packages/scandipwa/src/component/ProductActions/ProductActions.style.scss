@@ -300,7 +300,7 @@
                 border-color: var(--primary-dark-color);
             }
             
-            @media (hover: hover) and (pointer: fine) {
+            @include hovarable {
                 &:hover {
                     border-color: var(--primary-dark-color);
                 }

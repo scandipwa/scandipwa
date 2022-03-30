@@ -23,7 +23,7 @@
         cursor: pointer;
         font-size: 14px;
         
-        @media (hover: hover) and (pointer: fine) {
+        @include hovarable {
             &:hover {
                 color: var(--primary-dark-color);
             }
