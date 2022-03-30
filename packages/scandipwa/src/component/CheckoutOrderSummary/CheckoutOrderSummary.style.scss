@@ -274,7 +274,7 @@
 
     .Loader {
         @include mobile {
-            visibility: hidden;
+            display: none;
         }
 
         &-Scale {
