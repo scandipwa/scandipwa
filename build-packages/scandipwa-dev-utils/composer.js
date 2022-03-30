@@ -6,6 +6,9 @@ const logger = require('@scandipwa/scandipwa-dev-utils/logger');
 
 let visitedDeps = [];
 
+// Reuse those deps to set as hight prior checking.
+let rootDeps = {};
+
 /**
  * Recursively get "composer" field from all package.json,
  * do the same for all module dependencies.
@@ -13,7 +16,7 @@ let visitedDeps = [];
  * @param {string} modulePath
  * @return {array} an array of object entries.
  */
-const getComposerDeps = (modulePath, context = modulePath) => {
+const getComposerDeps = (modulePath, context = modulePath, root = false) => {
     if (visitedDeps.indexOf(modulePath) !== -1) {
         return [];
     }
@@ -23,9 +26,13 @@ const getComposerDeps = (modulePath, context = modulePath) => {
     const {
         dependencies = {},
         scandipwa: {
-            composer = []
+            composer = {}
         } = {}
     } = getPackageJson(modulePath, context);
+
+    if (root) {
+        rootDeps = composer;
+    }
 
     return Object.keys(dependencies).reduce(
         (acc, dependency) => acc.concat(getComposerDeps(dependency, context)),
@@ -43,7 +50,7 @@ const isValidComposer = (pathname = process.cwd()) => {
     // reset visited deps, in case it's the second call to this function
     visitedDeps = [];
 
-    const requestedComposerDeps = getComposerDeps(pathname);
+    const requestedComposerDeps = getComposerDeps(pathname, pathname, true);
 
     // Index the composer deps from array of object entries.
     // Object should contain the ranges requested by requested module name
@@ -52,7 +59,13 @@ const isValidComposer = (pathname = process.cwd()) => {
             acc[module] = [];
         }
 
-        if (acc[module].indexOf(version) === -1) {
+        if (rootDeps[module] && acc[module].indexOf(rootDeps[module]) === -1) {
+            acc[module].push(rootDeps[module]);
+
+            return acc;
+        }
+
+        if (!rootDeps[module] && acc[module].indexOf(version) === -1) {
             acc[module].push(version);
         }
 
@@ -125,7 +138,7 @@ const isValidComposer = (pathname = process.cwd()) => {
 
         const minVersionString = logger.style.code(`"${ composerModule }": "${ minVersionRaw }"`);
 
-        // Validate if the version requested is present in composer + shwo notice about minimum version
+        // Validate if the version requested is present in composer + show notice about minimum version
         if (!composerDeps[composerModule]) {
             logger.error(
                 'The requested composer package is missing!',
@@ -149,7 +162,7 @@ const isValidComposer = (pathname = process.cwd()) => {
 
         // Check if the version requested satisfies version required
         // if the version required is a range, take min version of it and
-        // validate it agains the range.
+        // validate it against the range.
         if (!semver.satisfies(minUserDepVersion, rangeRequested)) {
             logger.error(
                 'Composer module required is conflicting with requested module versions.',
