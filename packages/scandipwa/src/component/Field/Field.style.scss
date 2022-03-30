@@ -16,6 +16,7 @@
     --checkbox-width: var(--imported_checkboxes_width, 18px);
     --checkbox-height: var(--imported_checkboxes_height, 18px);
     --required-text-color: #dc6d6d;
+    --checkMark-inset-inline-start: calc(50% - 5px);
 }
 
 .Field {
@@ -330,7 +331,7 @@
                     4px -8px 0 var(--checkmark-color);
                 content: '';
                 height: 2px;
-                inset-inline-start: calc(50% - 5px);
+                inset-inline-start: var(--checkMark-inset-inline-start);
                 pointer-events: none;
                 position: absolute;
                 inset-block-start: calc(50% - 1px);
@@ -340,6 +341,10 @@
                 transform: rotate(45deg);
                 width: 2px;
                 will-change: background-color, box-shadow;
+
+                [dir="rtl"] & {
+                    --checkMark-inset-inline-start: calc(50% + 3px);
+                }
             }
 
             &:disabled {
@@ -380,9 +385,6 @@
 
                 &::after {
                     --checkmark-color: var(--primary-base-color);
-
-                    inset-inline-start: calc(50% - 5px);
-                    inset-block-start: calc(50% - 1px);
                 }
             }
         }
