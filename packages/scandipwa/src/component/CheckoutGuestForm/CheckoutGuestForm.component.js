@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 
 import FieldForm from 'Component/FieldForm';
+import Loader from 'Component/Loader';
 import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
 import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
 import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
@@ -216,11 +217,14 @@ export class CheckoutGuestForm extends FieldForm {
     }
 
     render() {
+        const { isLoading } = this.props;
+
         return (
             <div
               block="CheckoutGuestForm"
               mix={ { block: 'FieldForm' } }
             >
+                <Loader isLoading={ isLoading } />
                 { this.renderForm() }
             </div>
         );
