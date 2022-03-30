@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// TODO: maybe consider moving to IndexedDB insead of localStorage
+// TODO: maybe consider moving to IndexedDB instead of localStorage
 
 /**
  * Set of helpers related to Browser Database
@@ -23,9 +23,9 @@ export class BrowserDatabase {
      * @return {Object} Object stored in a specified path
      * @memberof BrowserDatabase
      */
-    getItem(location) {
+    getItem<T>(location: string): T | null {
         try {
-            const entryObject = JSON.parse(localStorage.getItem(location));
+            const entryObject = JSON.parse(localStorage.getItem(location) || '');
             const { data, expiration, createdAt } = entryObject;
             const MILLISECONDS_TO_SECONDS = 1000;
 
@@ -35,7 +35,7 @@ export class BrowserDatabase {
                 return null;
             }
 
-            return data;
+            return data as T;
         } catch {
             return null;
         }
@@ -49,7 +49,7 @@ export class BrowserDatabase {
      * @return {Void}
      * @memberof BrowserDatabase
      */
-    setItem(data, location, expiration) {
+    setItem<T>(data: T, location: string, expiration: number): void {
         localStorage.setItem(location, JSON.stringify({
             data,
             expiration,
@@ -62,7 +62,7 @@ export class BrowserDatabase {
      * @param {String} location
      * @memberof BrowserDatabase
      */
-    deleteItem(location) {
+    deleteItem(location: string): void {
         localStorage.removeItem(location);
     }
 }

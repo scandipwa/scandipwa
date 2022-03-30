@@ -6,7 +6,9 @@
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
         "build": "scandipwa-scripts build",
-        "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
+        "build:magento": "BUILD_MODE=magento scandipwa-scripts build",
+        "graphql:fetch": "get-graphql-schema $1 > schema.graphql",
+        "graphql:gen": "node bin/gen-graphql-types schema.graphql ./src/type/Graphql.type.ts"
     },
     "dependencies": {
         "@scandipwa/chunk-optimizer": "0.0.6",
@@ -22,6 +24,7 @@
         "@types/react-dom": "^17.0.9",
         "@types/react-router": "^5.1.16",
         "@types/react-router-dom": "^5.1.8",
+        "eslint-config-airbnb-typescript": "^16.1.4",
         "get-graphql-schema": "^2.1.2",
         "graphql-schema-typescript": "^1.5.2",
         "history": "^4.9.0",
@@ -121,8 +124,13 @@
     "eslintConfig": {
         "extends": [
             "airbnb",
+            "airbnb-typescript",
             "plugin:array-func/recommended"
         ],
+        "parserOptions": {
+            "project": "./tsconfig.json"
+        },
+        "ignorePatterns": ["package.json"],
         "env": {
             "browser": true
         },
@@ -155,6 +163,7 @@
             {
                 "files": [
                     "*.config.js",
+                    "*.config.ts",
                     "src/config/**"
                 ],
                 "rules": {
@@ -392,7 +401,8 @@
                     ]
                 }
             ],
-            "indent": [
+            "indent": "off",
+            "@typescript-eslint/indent": [
                 "error",
                 4,
                 {
@@ -413,7 +423,8 @@
                     ]
                 }
             ],
-            "comma-dangle": [
+            "comma-dangle": "off",
+            "@typescript-eslint/comma-dangle": [
                 "error",
                 "never"
             ],
@@ -485,7 +496,21 @@
                 "error",
                 "always"
             ],
-            "no-extra-semi": "error"
+            "no-extra-semi": "error",
+            "@typescript-eslint/naming-convention": [
+                "error",
+                {
+                    "selector": "default",
+                    "format": ["camelCase", "PascalCase", "snake_case", "UPPER_CASE"],
+                    "leadingUnderscore": "allow"
+                },
+                {
+                    "selector": "classMethod",
+                    "format": null,
+                    "filter": "__construct",
+                    "leadingUnderscore": "allow"
+                }
+            ]
         }
     },
     "license": "OSL-3.0",

@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { FieldArgument } from './Query.type';
+
 /**
  * Builds GraphQL query according to https://graphql.org/learn/queries/ documentation
  * @class Query
@@ -16,17 +18,24 @@
  * @namespace Util/Query/Field
  */
 export class Field {
+    name = '';
+
     alias = '';
 
-    children = [];
+    children: Field[] = [];
 
-    args = [];
+    args: FieldArgument[] = [];
 
-    __construct(name) {
+    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/use-magic-construct
+    constructor(name: string) {
+        this.__construct(name);
+    }
+
+    __construct(name: string): void {
         this.name = name;
     }
 
-    addField(field) {
+    addField(field: string | Field): this {
         if (typeof field === 'string') {
             this.children.push(new Field(field));
         } else if (field instanceof Field) {
@@ -36,19 +45,19 @@ export class Field {
         return this;
     }
 
-    setAlias(alias) {
+    setAlias(alias: string): this {
         this.alias = `${alias}:`;
 
         return this;
     }
 
-    addFieldList(fieldList) {
+    addFieldList(fieldList: Array<string | Field>): this {
         fieldList.forEach(this.addField.bind(this));
 
         return this;
     }
 
-    addArgument(name, type, value) {
+    addArgument<T>(name: string, type: string, value: T): this {
         this.args.push({
             name,
             type,

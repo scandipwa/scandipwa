@@ -13,7 +13,7 @@ import Field from 'Util/Query/Field';
 
 /** @namespace Util/Query/Fragment */
 export class Fragment extends Field {
-    __construct(name) {
+    __construct(name: string): void {
         super.__construct(name);
         this.name = `... on ${name}`;
     }

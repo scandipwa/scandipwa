@@ -23,7 +23,7 @@ export const ONE_HOUR = 1;
 export const TOKEN_REFRESH_DELAY = 2000;
 
 /** @namespace Util/Auth/Token/setAuthorizationToken */
-export const setAuthorizationToken = (token) => {
+export const setAuthorizationToken = (token: string | null): void => {
     if (!token) {
         return;
     }
@@ -37,10 +37,10 @@ export const setAuthorizationToken = (token) => {
 };
 
 /** @namespace Util/Auth/Token/deleteAuthorizationToken */
-export const deleteAuthorizationToken = () => BrowserDatabase.deleteItem(AUTH_TOKEN);
+export const deleteAuthorizationToken = (): void => BrowserDatabase.deleteItem(AUTH_TOKEN);
 
 /** @namespace Util/Auth/Token/getAuthorizationToken */
-export const getAuthorizationToken = () => BrowserDatabase.getItem(AUTH_TOKEN);
+export const getAuthorizationToken = (): string | null => BrowserDatabase.getItem(AUTH_TOKEN);
 
 /** @namespace Util/Auth/Token/refreshAuthorizationToken */
 export const refreshAuthorizationToken = debounce(
@@ -49,20 +49,20 @@ export const refreshAuthorizationToken = debounce(
 );
 
 /** @namespace Util/Auth/Token/isInitiallySignedIn */
-export const isInitiallySignedIn = () => !!getAuthorizationToken();
+export const isInitiallySignedIn = (): boolean => !!getAuthorizationToken();
 
 /** @namespace Util/Auth/Token/isSignedIn */
-export const isSignedIn = () => {
-    const _isSignedIn = !!getAuthorizationToken();
+export const isSignedIn = (): boolean => {
+    const hasAuthToken = !!getAuthorizationToken();
     const store = getStore();
     const {
         MyAccountReducer: {
-            isSignedIn: isCustomerSignedIn
+            isSignedIn: isCustomerSignedIn = false
         } = {}
     } = store.getState();
     const { dispatch } = store;
 
-    if (!_isSignedIn && isCustomerSignedIn) {
+    if (!hasAuthToken && isCustomerSignedIn) {
         // since logout is async and slow, remove cart id / compare uid
         // and set customer sign in status here on auth token expiration
         deleteGuestQuoteId();
@@ -75,5 +75,5 @@ export const isSignedIn = () => {
         );
     }
 
-    return _isSignedIn;
+    return hasAuthToken;
 };

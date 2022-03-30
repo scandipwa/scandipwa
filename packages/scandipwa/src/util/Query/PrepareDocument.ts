@@ -9,34 +9,35 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const MUTATION_TYPE = 'mutation';
-export const QUERY_TYPE = 'query';
+import { Field } from './Field';
+import { FieldArgument, FieldType, PreparedRequest } from './Query.type';
 
 /**
  * Prepare request body string from query list (all entries must be instances of Query).
  * @param  {Array<Field>} queries
  * @return {String} JSON String, format: `{"query":"{alias: queryName (attr:key) { field1, field2 }}"}`
  * @namespace Util/Query/PrepareDocument/prepareFieldString */
-export const prepareFieldString = (rootField, accArgs = {}) => {
+export const prepareFieldString = (
+    rootField: Field,
+    accArgs: Record<string, [string, unknown]> = {}
+): string => {
     const {
         alias, name, args, children
     } = rootField;
 
-    const resolvedArgs = args.reduce((acc, arg) => {
-        const { name, type, value } = arg;
-
-        if (!accArgs[name]) {
+    const resolvedArgs = args.reduce((acc, arg): string[] => {
+        if (!accArgs[arg.name]) {
             // eslint-disable-next-line no-param-reassign
-            accArgs[name] = [];
+            accArgs[arg.name] = [] as unknown as [string, unknown];
         }
 
         // add type and value of the argument into argument accumulator,
         // we will need this value when building the query doc and variables
-        const index = accArgs[name].push([type, value]);
+        const index = accArgs[arg.name].push([arg.type, arg.value]);
 
         // join each argument as "name:$var_1"
-        return [...acc, `${name}:$${name}_${index}`];
-    }, []);
+        return [...acc, `${arg.name}:$${arg.name}_${index}`];
+    }, [] as string[]);
 
     // join arguments, wrap into "()" and join with ","
     const formattedArgs = resolvedArgs.length ? `(${resolvedArgs.join(',')})` : '';
@@ -52,15 +53,15 @@ export const prepareFieldString = (rootField, accArgs = {}) => {
 };
 
 /** @namespace Util/Query/PrepareDocument/prepareRequest */
-export const prepareRequest = (fields, type) => {
+export const prepareRequest = (fields: Field[], type: FieldType): PreparedRequest => {
     const fieldsArray = Array.isArray(fields) ? fields : [fields];
 
-    if (type !== MUTATION_TYPE && type !== QUERY_TYPE) {
+    if (type !== FieldType.MUTATION && type !== FieldType.QUERY) {
         // we only support Mutation and Query types
         throw new Error(`GraphQL document type "${type}" is not supported.`);
     }
 
-    const variables = {};
+    const variables: Record<string, unknown> = {};
     const accArgs = {};
 
     // prepare fields from each field passed
@@ -68,15 +69,15 @@ export const prepareRequest = (fields, type) => {
 
     // go through argument accumulator collected in "prepareFieldString", join values
     // into the format "$var:Type" and append variable value to variables field
-    const resolvedArgs = Object.entries(accArgs).reduce((acc, [name, dataArray]) => {
-        dataArray.forEach(([type, value], i) => {
+    const resolvedArgs = Object.entries(accArgs).reduce((acc, [name, dataArray]): string[] => {
+        (dataArray as Array<Omit<FieldArgument, 'name'>>).forEach((item, i: number) => {
             const variable = `${name}_${i + 1}`;
-            acc.push(`$${variable}:${type}`);
-            variables[variable] = value;
+            acc.push(`$${variable}:${item.type}`);
+            variables[variable] = item.value;
         });
 
         return acc;
-    }, []);
+    }, [] as string[]);
 
     // Wrap arguments with "()" and join using ","
     const formattedArgs = resolvedArgs.length ? `(${resolvedArgs.join(',')})` : '';
@@ -101,7 +102,7 @@ export const prepareRequest = (fields, type) => {
 };
 
 /** @namespace Util/Query/PrepareDocument/prepareMutation */
-export const prepareMutation = (mutations) => prepareRequest(mutations, MUTATION_TYPE);
+export const prepareMutation = (mutations: Field[]): PreparedRequest => prepareRequest(mutations, FieldType.MUTATION);
 
 /** @namespace Util/Query/PrepareDocument/prepareQuery */
-export const prepareQuery = (queries) => prepareRequest(queries, QUERY_TYPE);
+export const prepareQuery = (queries: Field[]): PreparedRequest => prepareRequest(queries, FieldType.QUERY);

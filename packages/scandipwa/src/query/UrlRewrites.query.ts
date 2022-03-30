@@ -26,8 +26,7 @@ export class UrlRewritesQuery {
     _getUrlResolverFields(): Array<string | Field<string, unknown>> {
         return [
             'sku',
-            'type',
-            new Field('dsfdsf')
+            'type'
         ];
     }
 }

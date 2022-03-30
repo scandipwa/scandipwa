@@ -11,32 +11,33 @@
  */
 
 import ProductListQuery from 'Query/ProductList.query';
+import { GQLCartItemInput, GQLUpdateCartItemsInput } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Cart/Query */
 export class CartQuery {
     //#region MUTATIONS
-    getAddProductToCartMutation(cartId, cartItems) {
+    getAddProductToCartMutation(cartId: string, cartItems: GQLCartItemInput): Field {
         return new Field('addProductsToCart')
             .addArgument('cartId', 'String!', cartId)
             .addArgument('cartItems', '[CartItemInput!]!', cartItems)
             .addField(this._getUserErrorsField());
     }
 
-    getUpdateCartItemsMutation(input) {
+    getUpdateCartItemsMutation(input: GQLUpdateCartItemsInput): Field {
         return new Field('updateCartItems')
             .addArgument('input', 'UpdateCartItemsInput', input)
             .addField(this._getCartUpdateField());
     }
 
-    getCreateEmptyCartMutation() {
+    getCreateEmptyCartMutation(): Field {
         return new Field('createEmptyCart');
     }
     //#endregion
 
     //#region QUERIES
-    getCartQuery(quoteId) {
+    getCartQuery(quoteId: string): Field {
         const query = new Field('getCartForCustomer')
             .addFieldList(this._getCartTotalsFields())
             .setAlias('cartData');
@@ -50,25 +51,25 @@ export class CartQuery {
     //#endregion
 
     //#region ERROR
-    _getUserErrorsFields() {
+    _getUserErrorsFields(): string[] {
         return [
             'message',
             'code'
         ];
     }
 
-    _getUserErrorsField() {
+    _getUserErrorsField(): Field {
         return new Field('user_errors')
             .addFieldList(this._getUserErrorsFields());
     }
     //#endregion
 
-    _getCartUpdateField() {
+    _getCartUpdateField(): Field {
         return new Field('cart')
             .addField('id');
     }
 
-    getRemoveCartItemMutation(item_id, quoteId) {
+    getRemoveCartItemMutation(item_id: number, quoteId: string): Field {
         const mutation = new Field('removeCartItem')
             .addArgument('item_id', 'Int!', item_id)
             .addFieldList(this._getRemoveCartItemFields(quoteId));
@@ -80,7 +81,7 @@ export class CartQuery {
         return mutation;
     }
 
-    getApplyCouponMutation(couponCode, quoteId) {
+    getApplyCouponMutation(couponCode: string, quoteId: string): Field {
         const mutation = new Field('applyCoupon')
             .addArgument('coupon_code', 'String!', couponCode)
             .addField(this.getCartQuery(quoteId));
@@ -92,7 +93,7 @@ export class CartQuery {
         return mutation;
     }
 
-    getRemoveCouponMutation(quoteId) {
+    getRemoveCouponMutation(quoteId: string): Field {
         const mutation = new Field('removeCoupon')
             .addField(this.getCartQuery(quoteId));
 
@@ -103,32 +104,32 @@ export class CartQuery {
         return mutation;
     }
 
-    getCartDisplayConfig() {
+    getCartDisplayConfig(): Field {
         return new Field('getCartDisplayConfig')
             .setAlias('cartDisplayConfig')
             .addFieldList(this._getCartDisplayConfigFields());
     }
 
-    getMergeCartQuery(sourceCartId, destinationCartId) {
+    getMergeCartQuery(sourceCartId: string, destinationCartId: string): Field {
         return new Field('mergeCarts')
             .addArgument('source_cart_id', 'String!', sourceCartId)
             .addArgument('destination_cart_id', 'String!', destinationCartId)
             .addField('id');
     }
 
-    _getSaveCartItemFields(quoteId) {
+    _getSaveCartItemFields(quoteId: string): Field[] {
         return [
             this.getCartQuery(quoteId)
         ];
     }
 
-    _getRemoveCartItemFields(quoteId) {
+    _getRemoveCartItemFields(quoteId: string): Field[] {
         return [
             this.getCartQuery(quoteId)
         ];
     }
 
-    _getCartTotalsFields() {
+    _getCartTotalsFields(): Array<string | Field> {
         return [
             'id',
             'subtotal',
@@ -155,7 +156,7 @@ export class CartQuery {
         ];
     }
 
-    _getBundleOptionValuesFields() {
+    _getBundleOptionValuesFields(): string[] {
         return [
             'id',
             'label',
@@ -164,12 +165,12 @@ export class CartQuery {
         ];
     }
 
-    _getBundleOptionValuesField() {
+    _getBundleOptionValuesField(): Field {
         return new Field('values')
             .addFieldList(this._getBundleOptionValuesFields());
     }
 
-    _getBundleOptionsFields() {
+    _getBundleOptionsFields(): Array<string | Field> {
         return [
             'id',
             'label',
@@ -177,12 +178,12 @@ export class CartQuery {
         ];
     }
 
-    _getBundleOptionsField() {
+    _getBundleOptionsField(): Field {
         return new Field('bundle_options')
             .addFieldList(this._getBundleOptionsFields());
     }
 
-    _getCustomizableOptionValueFields() {
+    _getCustomizableOptionValueFields(): string[] {
         return [
             'id',
             'label',
@@ -190,12 +191,12 @@ export class CartQuery {
         ];
     }
 
-    _getCustomizableOptionValueField() {
+    _getCustomizableOptionValueField(): Field {
         return new Field('values')
             .addFieldList(this._getCustomizableOptionValueFields());
     }
 
-    _getCustomizableOptionsFields() {
+    _getCustomizableOptionsFields(): Field {
         return new Field('customizable_options')
             .addFieldList([
                 'id',
@@ -204,19 +205,19 @@ export class CartQuery {
             ]);
     }
 
-    _getDownloadableLinksField() {
+    _getDownloadableLinksField(): Field {
         return new Field('downloadable_links')
             .addFieldList(this._getDownloadableLinksFields());
     }
 
-    _getDownloadableLinksFields() {
+    _getDownloadableLinksFields(): string[] {
         return [
             'id',
             'label'
         ];
     }
 
-    _getCartItemFields() {
+    _getCartItemFields(): Array<string | Field> {
         return [
             'qty',
             'sku',
@@ -235,17 +236,17 @@ export class CartQuery {
         ];
     }
 
-    _getProductField() {
+    _getProductField(): Field {
         return new Field('product')
             .addFieldList(ProductListQuery._getCartProductInterfaceFields());
     }
 
-    _getCartItemsField() {
+    _getCartItemsField(): Field {
         return new Field('items')
             .addFieldList(this._getCartItemFields());
     }
 
-    _getCartDisplayConfigFields() {
+    _getCartDisplayConfigFields(): string[] {
         return [
             'display_tax_in_price',
             'display_tax_in_subtotal',
@@ -256,17 +257,17 @@ export class CartQuery {
         ];
     }
 
-    _getAppliedTaxesField() {
+    _getAppliedTaxesField(): Field {
         return new Field('applied_taxes')
             .addField(this._getAppliedTaxesRatesField());
     }
 
-    _getAppliedTaxesRatesField() {
+    _getAppliedTaxesRatesField(): Field {
         return new Field('rates')
             .addFieldList(this._getAppliedTaxesRatesFields());
     }
 
-    _getAppliedTaxesRatesFields() {
+    _getAppliedTaxesRatesFields(): string[] {
         return [
             'percent',
             'title'
