@@ -143,6 +143,7 @@
             @include mobile {
                 white-space: normal;
                 max-width: calc(100% - 24px);
+                line-height: 1;
             }
         }
     }
@@ -154,7 +155,7 @@
         }
     }
 
-    &-Remove[aria-label='Remove'] {
+    &-Remove {
         position: absolute;
         inset-inline-end: 4px;
         inset-block-start: 4px;
@@ -171,6 +172,10 @@
 
             .CloseIcon {
                 width: 24px;
+            }
+
+            &_withReview {
+                inset-block-start: -2px;
             }
         }
     }
