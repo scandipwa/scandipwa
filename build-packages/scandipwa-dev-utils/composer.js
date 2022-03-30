@@ -16,7 +16,7 @@ let rootDeps = {};
  * @param {string} modulePath
  * @return {array} an array of object entries.
  */
-const getComposerDeps = (modulePath, context = modulePath, root = false) => {
+const getComposerDeps = (modulePath, context = modulePath, isRoot = false) => {
     if (visitedDeps.indexOf(modulePath) !== -1) {
         return [];
     }
@@ -30,7 +30,7 @@ const getComposerDeps = (modulePath, context = modulePath, root = false) => {
         } = {}
     } = getPackageJson(modulePath, context);
 
-    if (root) {
+    if (isRoot) {
         rootDeps = composer;
     }
 
@@ -61,7 +61,6 @@ const isValidComposer = (pathname = process.cwd()) => {
 
         if (rootDeps[module] && acc[module].indexOf(rootDeps[module]) === -1) {
             acc[module].push(rootDeps[module]);
-
             return acc;
         }
 
