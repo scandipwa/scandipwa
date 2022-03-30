@@ -23,7 +23,7 @@
         cursor: pointer;
         font-size: 14px;
         
-        @include hovarable {
+        @include hoverable {
             &:hover {
                 color: var(--primary-dark-color);
             }

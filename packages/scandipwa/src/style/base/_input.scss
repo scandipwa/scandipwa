@@ -114,7 +114,7 @@ textarea {
             height: 36px;
         }
 
-        @include hovarable { 
+        @include hoverable { 
             &:hover {
                 border-color: var(--primary-dark-color);
 
@@ -129,8 +129,8 @@ textarea {
 
             svg {
                 fill: var(--primary-dark-color);
-            }            
-        }    
+            }  
+        }
 
         &:first-of-type {
             inset-inline-start: 0;

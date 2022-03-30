@@ -49,7 +49,7 @@
                 color: var(--link-hover);
             }
 
-            @include hovarable { 
+            @include hoverable { 
                 &:hover {
                     color: var(--link-hover);
                 }
@@ -62,7 +62,7 @@
         font-weight: normal;
         width: max-content;
 
-        @include hovarable { 
+        @include hoverable { 
             &:hover {
                 text-decoration: none;
                 color: var(--link-hover);

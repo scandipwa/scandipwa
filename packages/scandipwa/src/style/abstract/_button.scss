@@ -118,7 +118,7 @@
             padding: 0;
         }
 
-        @include hovarable { 
+        @include hoverable { 
             &:hover,
             &:focus {
                 text-decoration: underline;
