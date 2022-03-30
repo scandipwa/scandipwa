@@ -127,19 +127,19 @@ export class ProductConfigurableAttributes extends PureComponent {
         const arr = Array.from({ length: 30 }, (_, index) => index + 1);
 
         return numberOfPlaceholdersToRender.map((length, i) => (
-                <div
-                  key={ arr[i] }
-                  block="ProductConfigurableAttributes"
-                  elem="SwatchList"
-                >
-                    { Array.from({ length }, (_, i) => (
-                        <div
-                          key={ `child-${arr[i]}` }
-                          block="ProductConfigurableAttributes"
-                          elem="Placeholder"
-                        />
-                    )) }
-                </div>
+            <div
+              key={ arr[i] }
+              block="ProductConfigurableAttributes"
+              elem="SwatchList"
+            >
+                { Array.from({ length }, (_, i) => (
+                    <div
+                      key={ `child-${arr[i]}` }
+                      block="ProductConfigurableAttributes"
+                      elem="Placeholder"
+                    />
+                )) }
+            </div>
         ));
     }
 
