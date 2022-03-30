@@ -193,7 +193,7 @@ export class Field extends PureComponent {
         const {
             type,
             setRef,
-            attr: { ...newAttr } = {},
+            attr: newAttr = {},
             events: { onChange },
             events,
             isDisabled,
@@ -207,7 +207,6 @@ export class Field extends PureComponent {
         };
         // if button value is "none" do not disable
         const isButtonDisabled = (!value.match('none') && isDisabled);
-        // const isChecked = isButtonDisabled || defaultChecked ? !isDisabled : null;
 
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
