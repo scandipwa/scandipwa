@@ -14,7 +14,7 @@ import { getDateValue } from 'Util/Form/Extract';
 export const MILLISECONDS_PER_MINUTE = 60000;
 
 /** @namespace Util/Manipulations/Date/convertStringToDate */
-export const convertStringToDate = (stringDate, options) => {
+export const convertStringToDate = (stringDate: string, options: Intl.DateTimeFormatOptions): string => {
     const defaultOptions = {
         year: 'numeric',
         month: 'long',
@@ -27,10 +27,12 @@ export const convertStringToDate = (stringDate, options) => {
 };
 
 /** @namespace Util/Manipulations/Date/getTimeInCurrentTimezone */
-export const getTimeInCurrentTimezone = (timestamp) => {
+export const getTimeInCurrentTimezone = (timestamp: string): string => {
     const currentDate = new Date();
     const timezone = currentDate.getTimezoneOffset() * MILLISECONDS_PER_MINUTE;
-    const timeInCurrentTimezone = new Date(timestamp.replace(/-/g, '/')) - new Date(timezone);
+    const timeInCurrentTimezone = new Date(timestamp.replace(/-/g, '/')).getTime() - new Date(timezone).getTime();
 
     return getDateValue(timeInCurrentTimezone);
 };
+
+

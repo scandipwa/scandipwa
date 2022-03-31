@@ -13,7 +13,7 @@
 export class FormPortalCollector {
     portalsObservers = {};
 
-    subscribe(id, f, name) {
+    subscribe<T>(id:string, f: T, name: string): void {
         if (this.portalsObservers[id]) {
             this.portalsObservers[id][name] = f;
 
@@ -23,7 +23,7 @@ export class FormPortalCollector {
         this.portalsObservers[id] = { [name]: f };
     }
 
-    unsubscribe(id, name) {
+    unsubscribe(id:string, name:string): void {
         if (!this.portalsObservers[id]) {
             return;
         }
@@ -31,7 +31,7 @@ export class FormPortalCollector {
         delete this.portalsObservers[id][name];
     }
 
-    collect(id) {
+    collect(id:string) {
         const portals = this.portalsObservers[id] || {};
 
         return Object.values(portals).map((portal) => portal());

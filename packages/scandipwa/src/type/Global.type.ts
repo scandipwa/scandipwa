@@ -24,6 +24,7 @@ declare global {
             type?: string
         }
         secure_base_media_url?: string
+        prefetchedImages: Record<string, HTMLImageElement>
         // dataCache?: Record<number, DataType<any>>
     }
 
@@ -42,6 +43,36 @@ declare global {
             mods?: Record<string, unknown>
             mix?: Record<string, unknown>
         }
+    }
+
+    interface Navigator {
+        userAgentData: NavigatorUAData;
+    }
+
+    interface NavigatorUABrandVersion {
+        brand: string;
+        version: string;
+    }
+
+    interface UADataValues {
+        brands?: NavigatorUABrandVersion[];
+        mobile?: boolean;
+        platform?: string;
+        architecture?: string;
+        bitness?: string;
+        model?: string;
+        platformVersion?: string;
+        uaFullVersion?: string;
+    }
+    interface UALowEntropyJSON {
+        brands: NavigatorUABrandVersion[];
+        mobile: boolean;
+        platform: string;
+    }
+    
+    interface NavigatorUAData extends UALowEntropyJSON {
+        getHighEntropyValues(hints: string[]): Promise<UADataValues>;
+        toJSON(): UALowEntropyJSON;
     }
 
     // interface HTMLElementEventMap {

@@ -8,7 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import React from 'react';
 
 import injectReducers from 'Util/DynamicReducer/Helper';
 import getStore from 'Util/Store';

@@ -12,10 +12,10 @@
 import { Location } from 'Type/Router.type';
 
 export type MenuItem = {
-    item_id?: string;
+    item_id: string;
     is_active?: boolean;
-    parent_id?: number;
-    position?: number;
+    parent_id: number;
+    position: number;
     title?: string;
     item_class?: string;
     icon?: string;
@@ -24,9 +24,11 @@ export type MenuItem = {
     category_id?: number;
 }
 
+export type MenuItems = MenuItem[];
+
 export type Menu = {
     menu_id?: string;
     is_active?: boolean;
     css_class?: string;
-    items?: MenuItem[];
+    items?: MenuItems;
 }

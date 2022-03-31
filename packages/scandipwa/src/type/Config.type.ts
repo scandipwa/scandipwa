@@ -15,6 +15,8 @@ export type Region = {
     id?: number;
 }
 
+export type Regions = Region[]
+
 export type Countries = {
     label?: string;
     id?: string;
@@ -37,3 +39,5 @@ export type StoreItem = {
     storeLinkUrl?: string;
     label?: string;
 }
+
+export type Stores = StoreItem[];

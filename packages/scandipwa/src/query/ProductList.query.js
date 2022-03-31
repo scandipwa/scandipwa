@@ -380,7 +380,7 @@ export class ProductListQuery {
     /**
      * A GroupedProduct-specific field that queries the products that are grouped under this product
      * @returns {Field}
-     * @private
+     * @protected
      */
     _getGroupedProductItems() {
         return new Fragment('GroupedProduct').addField(

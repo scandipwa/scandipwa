@@ -16,9 +16,6 @@ import FIELD_TYPE from 'Component/Field/Field.config';
 import FieldForm from 'Component/FieldForm';
 import { Addresstype } from 'Type/Account.type';
 import { CountriesType } from 'Type/Config.type';
-import {
-    trimCustomerAddress
-} from 'Util/Address';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import myAccountAddressForm from './MyAccountAddressForm.form';
@@ -131,7 +128,7 @@ export class MyAccountAddressForm extends FieldForm {
         newAddress.region = { region_id: +region_id, region };
 
         // Filters out non-required options and save address
-        onSave(trimCustomerAddress(newAddress));
+        onSave(newAddress);
     }
 
     //#region RENDERERS

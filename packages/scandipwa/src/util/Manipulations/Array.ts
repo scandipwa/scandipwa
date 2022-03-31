@@ -11,7 +11,7 @@
  */
 
 /** @namespace Util/Manipulations/Array/range */
-export const range = (start, end) => {
+export const range = (start: number, end: number): Array<number> => {
     const length = end - start + 1;
     return Array.from({ length }, (_, i) => start + i);
 };

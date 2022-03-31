@@ -29,7 +29,7 @@ export const ONE_HOUR = 3600;
  * @returns {void}
  * @namespace Util/Currency/setCurrency
  */
-export const setCurrency = (currency) => {
+export const setCurrency = (currency: string): void => {
     BrowserDatabase.setItem(currency, CUR_CURRENCY, ONE_HOUR);
 };
 
@@ -38,7 +38,7 @@ export const setCurrency = (currency) => {
  * @returns {String} currency
  * @namespace Util/Currency/getCurrency
  */
-export const getCurrency = () => {
+export const getCurrency = (): string => {
     const currency = BrowserDatabase.getItem(CUR_CURRENCY);
 
     return (typeof currency === 'string') ? currency : '';

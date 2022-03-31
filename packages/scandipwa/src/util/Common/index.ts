@@ -17,10 +17,10 @@
  * Examples: default props, argument default values.
  * @namespace Util/Common/Index/noopFn
  */
-export const noopFn = () => {};
+export const noopFn = (): void => {};
 
 /** @namespace Util/Common/Index/decodeString */
-export const decodeString = (string) => {
+export const decodeString = (string: string): string => {
     try {
         return decodeURIComponent(string);
     } catch (e) {

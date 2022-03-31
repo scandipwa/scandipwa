@@ -34,7 +34,7 @@ export const ONE_DAY = 86400;
  * @returns {void}
  * @namespace Util/Compare/setUid
  */
-export const setUid = (uid) => {
+export const setUid = (uid: string | boolean): void => {
     const state = getStore().getState();
     const {
         access_token_lifetime = ONE_HOUR
@@ -50,7 +50,7 @@ export const setUid = (uid) => {
  * @returns {string|boolean} uid
  * @namespace Util/Compare/getUid
  */
-export const getUid = () => {
+export const getUid = (): string | boolean => {
     const uid = BrowserDatabase.getItem(COMPARE_UID);
 
     return (typeof uid === 'string') ? uid : false;
@@ -60,7 +60,7 @@ export const getUid = () => {
  *
  * @namespace Util/Compare/removeUid
  */
-export const removeUid = () => {
+export const removeUid = (): void => {
     BrowserDatabase.deleteItem(COMPARE_UID);
 };
 

@@ -43,11 +43,11 @@ export type Address = {
     city: string
     company: string | null
     country_id: string
-    customer_id: number
+    customer_id?: number
     default_billing: boolean
     default_shipping: boolean
     firstname: string
-    id: number
+    id?: number
     lastname: string
     middlename: string
     postcode: string
@@ -60,6 +60,22 @@ export type Address = {
 }
 
 export type Addresses = Address[];
+
+export type TrimmedAddress = {
+    city: string
+    company: string | null
+    country_id: string | number
+    firstname: string
+    lastname: string
+    postcode: string
+    region?: string | null
+    region_string?: string | null
+    region_id: number | string
+    region_code: string | null
+    street: string | string[]
+    telephone: string
+    vat_id: number | null
+}
 
 export type Customer = {
     addresses: Addresses

@@ -15,7 +15,7 @@
  * @returns {Promise<void>}
  * @namespace Util/Cache/cacheImages
  */
-export const cacheImages = (urls = []) => {
+export const cacheImages = (urls: string[] = []) => {
     if (!Array.isArray(urls) || urls.length === 0) {
         return;
     }

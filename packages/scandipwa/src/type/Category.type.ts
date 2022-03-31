@@ -56,3 +56,24 @@ export type SortFields = {
         value?: string;
     }[];
 }
+
+export type FilterItems = {
+    count?: number;
+    label?: string;
+    swatch_data?: {
+        type?: string;
+        value?: string
+    }
+    value: string
+}
+
+export type CategoryFilter = {
+    has_swatch?: boolean;
+    is_boolean?: boolean;
+    name?: string;
+    position?: number
+    request_var?: string
+    filter_items?: FilterItems[]
+}
+
+export type CategoryFilters = CategoryFilter[]

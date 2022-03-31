@@ -24,7 +24,7 @@ export class CSS {
      * @return {void}
      * @memberof CSS
      */
-    static setVariable(ref, name, value) {
+     static setVariable(ref: React.RefObject<HTMLElement>, name: string, value: string): void {
         if (ref && ref.current) {
             ref.current.style.setProperty(`--${name}`, value);
         }
@@ -32,16 +32,16 @@ export class CSS {
 }
 
 /** @namespace Util/CSS/getElementHeight */
-export const getElementHeight = (id) => Array.from(
+export const getElementHeight = (id: string): number => Array.from(
     document.getElementsByClassName(id)
 ).reduce((acc, item) => {
-    const { offsetHeight } = item;
+    const { offsetHeight } = item as HTMLElement;
 
     return acc + offsetHeight;
 }, 0);
 
 /** @namespace Util/CSS/getFixedElementHeight */
-export const getFixedElementHeight = () => {
+export const getFixedElementHeight = (): Record<string, number> => {
     const top = getElementHeight('FixedElement-Top');
     const bottom = getElementHeight('FixedElement-Bottom');
 
@@ -53,6 +53,6 @@ export const getFixedElementHeight = () => {
 };
 
 /** @namespace Util/CSS/isRtl */
-export const isRtl = () => document.documentElement.getAttribute('dir') === 'rtl';
+export const isRtl = (): boolean => document.documentElement.getAttribute('dir') === 'rtl';
 
 export default CSS;

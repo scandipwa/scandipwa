@@ -9,55 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/** @namespace Util/Address/Index/trimCustomerAddress */
-export const trimCustomerAddress = (customerAddress) => {
-    const {
-        default_shipping = false,
-        default_billing = false,
-        company = null,
-        city = '',
-        country_id = 1,
-        firstname = '',
-        lastname = '',
-        middlename = '',
-        postcode = '',
-        street = [''],
-        telephone = '',
-        region: {
-            region_code = null,
-            region = null,
-            region_id = 1
-        } = {},
-        prefix = '',
-        suffix = '',
-        vat_id = null
-    } = customerAddress;
-
-    return {
-        company,
-        default_shipping,
-        default_billing,
-        city,
-        country_id,
-        firstname,
-        lastname,
-        middlename,
-        postcode,
-        street,
-        telephone,
-        region: {
-            region_code,
-            region,
-            region_id
-        },
-        prefix,
-        suffix,
-        vat_id
-    };
-};
+import StoreItem from 'Component/StoreItem';
+import { Address, TrimmedAddress } from 'Type/Account.type';
+import { Countries, Regions, Stores } from 'Type/Config.type';
 
 /** @namespace Util/Address/Index/trimCheckoutCustomerAddress */
-export const trimCheckoutCustomerAddress = (customerAddress) => {
+export const trimCheckoutCustomerAddress = (customerAddress: Address): TrimmedAddress => {
     const {
         company = null,
         city = '',
@@ -92,11 +49,11 @@ export const trimCheckoutCustomerAddress = (customerAddress) => {
 };
 
 /** @namespace Util/Address/Index/trimCheckoutAddress */
-export const trimCheckoutAddress = (customerAddress) => {
+export const trimCheckoutAddress = (customerAddress: TrimmedAddress): TrimmedAddress => {
     const {
         company = null,
         city = '',
-        country_id = 1,
+        country_id = '1',
         firstname = '',
         lastname = '',
         postcode = '',
@@ -130,14 +87,15 @@ export const trimCheckoutAddress = (customerAddress) => {
  * @returns {*}
  * @namespace Util/Address/Index/removeEmptyStreets
  */
-export const removeEmptyStreets = (street) => (
+export const removeEmptyStreets = <T>(street: T | T[]): T | T[] => (
     Array.isArray(street) ? street.filter((line) => line) : street
 );
 
+// TODO
 /** transforming "street[index]" entries into a single "street" object
     for checkout/billing/myAccoutAddress form fields object */
 /** @namespace Util/Address/Index/setAddressesInFormObject */
-export const setAddressesInFormObject = (fields, numberOfLines, prefix = 'street') => {
+export const setAddressesInFormObject = <T>(fields: T, numberOfLines: number, prefix: string = 'street'): T => {
     const addressKeys = new Array(numberOfLines)
         .fill('')
         .map((_, index) => `${prefix}${index}`);
@@ -158,12 +116,12 @@ export const setAddressesInFormObject = (fields, numberOfLines, prefix = 'street
     // setting single street entry to the form object
     newFields.street = removeEmptyStreets(addressValues);
 
-    return newFields;
+    return newFields as ;
 };
 
 // get Form Fields object depending on addressLinesQty
 /** @namespace Util/Address/Index/getFormFields */
-export const getFormFields = (fields, addressLinesQty) => {
+export const getFormFields = <T>(fields: T, addressLinesQty: number): T => {
     if (addressLinesQty === 1) {
         return fields;
     }
@@ -171,8 +129,14 @@ export const getFormFields = (fields, addressLinesQty) => {
     return setAddressesInFormObject(fields, addressLinesQty);
 };
 
+export type ZippopotamResponseResult = {
+    city: string,
+    region: string,
+    regionAbbr: string
+}
+
 /** @namespace Util/Address/Index/getCityAndRegionFromZipcode */
-export const getCityAndRegionFromZipcode = async (countryId, value) => {
+export const getCityAndRegionFromZipcode = async (countryId: string, value: string): Promise<ZippopotamResponseResult | null> => {
     const response = await fetch(`https://api.zippopotam.us/${countryId}/${value}`);
     const data = await response.json();
 
@@ -186,7 +150,7 @@ export const getCityAndRegionFromZipcode = async (countryId, value) => {
 };
 
 /** @namespace Util/Address/Index/getDefaultAddressLabel */
-export const getDefaultAddressLabel = (address) => {
+export const getDefaultAddressLabel = (address: Address): string => {
     const { default_billing, default_shipping } = address;
 
     if (!default_billing && !default_shipping) {
@@ -205,7 +169,7 @@ export const getDefaultAddressLabel = (address) => {
 };
 
 /** @namespace Util/Address/Index/getAvailableRegions */
-export const getAvailableRegions = (country_id, countries) => {
+export const getAvailableRegions = (country_id: string, countries: Countries) => {
     const country = countries.find(({ id }) => id === country_id) || {};
     const { available_regions } = country;
 
@@ -214,7 +178,7 @@ export const getAvailableRegions = (country_id, countries) => {
 };
 
 /** @namespace Util/Address/Index/getFormattedRegion */
-export const getFormattedRegion = (address, countries) => {
+export const getFormattedRegion = (address: Address, countries: Countries) => {
     const { country_id, region: regionData } = address;
 
     if (!regionData) {
@@ -247,7 +211,7 @@ export const getFormattedRegion = (address, countries) => {
 };
 
 /** @namespace Util/Address/Index/getRegionIdFromAvailableRegions */
-export const getRegionIdFromAvailableRegions = (availableRegions, cityAndRegion) => {
+export const getRegionIdFromAvailableRegions = (availableRegions: Regions, cityAndRegion: ZippopotamResponseResult): number => {
     const { region, regionAbbr } = cityAndRegion;
     const { id: regionId = 1 } = availableRegions.find(
         ({ name, code }) => name === region || code === regionAbbr
@@ -257,8 +221,8 @@ export const getRegionIdFromAvailableRegions = (availableRegions, cityAndRegion)
 };
 
 /** @namespace Util/Address/Index/checkIfStoreIncluded */
-export const checkIfStoreIncluded = (stores, selectedStore) => {
+export const checkIfStoreIncluded = (stores: Stores, selectedStore: StoreItem): boolean => {
     const selectedStoreInString = JSON.stringify(selectedStore);
 
-    return stores.find((store) => JSON.stringify(store) === selectedStoreInString);
+    return !!stores.find((store) => JSON.stringify(store) === selectedStoreInString);
 };
