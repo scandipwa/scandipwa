@@ -44,7 +44,8 @@ export class ImageContainer extends PureComponent {
         imageRef: RefType,
         title: PropTypes.string,
         isPlain: PropTypes.bool,
-        showIsLoading: PropTypes.bool
+        showIsLoading: PropTypes.bool,
+        onImageLoad: PropTypes.func
     };
 
     static defaultProps = {
@@ -60,7 +61,8 @@ export class ImageContainer extends PureComponent {
         className: '',
         imageRef: noopFn,
         isPlain: false,
-        showIsLoading: false
+        showIsLoading: false,
+        onImageLoad: noopFn
     };
 
     containerProps() {
@@ -73,7 +75,8 @@ export class ImageContainer extends PureComponent {
             mix,
             imageRef,
             isPlain,
-            showIsLoading
+            showIsLoading,
+            onImageLoad
         } = this.props;
 
         return {
@@ -89,7 +92,8 @@ export class ImageContainer extends PureComponent {
             imageRef,
             isPlain,
             showIsLoading,
-            isCached: this._isCached()
+            isCached: this._isCached(),
+            onImageLoad
         };
     }
 

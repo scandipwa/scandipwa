@@ -20,6 +20,7 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { showNotification } from 'Store/Notification/Notification.action';
 import { MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -59,18 +60,20 @@ export class MyAccountOrderContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         getOrderById: PropTypes.func.isRequired,
         display_tax_in_shipping_amount: PropTypes.string.isRequired,
-        changeTabName: PropTypes.func.isRequired,
+        changeTabName: PropTypes.func,
         reorder: PropTypes.func.isRequired,
         is_allowed_reorder: PropTypes.bool,
         rss_order_subscribe_allow: PropTypes.bool.isRequired,
-        setTabSubheading: PropTypes.func.isRequired,
+        setTabSubheading: PropTypes.func,
         changeHeaderState: PropTypes.func.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        is_allowed_reorder: false
+        is_allowed_reorder: false,
+        changeTabName: noopFn,
+        setTabSubheading: noopFn
     };
 
     state = {
@@ -170,7 +173,11 @@ export class MyAccountOrderContainer extends PureComponent {
             return;
         }
 
-        const { increment_id, status } = order;
+        const { increment_id, status, id: uid } = order;
+
+        // decode uid of order before setting into state
+        order.id = atob(uid);
+
         changeTabName((__('Order # %s', increment_id)));
         setTabSubheading(status);
         this.handleChangeHeaderState();

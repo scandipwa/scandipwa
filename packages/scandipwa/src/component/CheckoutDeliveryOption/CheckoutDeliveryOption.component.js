@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
@@ -38,11 +38,44 @@ export class CheckoutDeliveryOption extends PureComponent {
         optionSubPrice: 0
     };
 
+    state = { isOverflowed: false };
+
+    rowRef = createRef();
+
+    subPriceRef = createRef();
+
+    componentDidMount() {
+        this.updateState();
+        window.addEventListener('resize', () => this.updateState());
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', () => this.updateState());
+    }
+
+    updateState() {
+        const { current: rowEl } = this.rowRef;
+        const { current: subPriceEl } = this.subPriceRef;
+
+        if (rowEl && subPriceEl) {
+            const rowLeft = rowEl.getBoundingClientRect().left;
+            const subPriceLeft = subPriceEl.getBoundingClientRect().left;
+
+            if (rowLeft >= subPriceLeft) {
+                this.setState({ isOverflowed: true });
+            } else {
+                this.setState({ isOverflowed: false });
+            }
+        }
+    }
+
     renderSubPrice() {
         const {
             currency,
             optionSubPrice
         } = this.props;
+
+        const { isOverflowed } = this.state;
 
         if (!optionSubPrice) {
             return null;
@@ -52,6 +85,8 @@ export class CheckoutDeliveryOption extends PureComponent {
             <span
               block="CheckoutDeliveryOption"
               elem="SubPrice"
+              mods={ { isOverflowed } }
+              ref={ this.subPriceRef }
             >
                 { __('Excl. tax: %s', formatPrice(optionSubPrice, currency)) }
             </span>
@@ -136,7 +171,11 @@ export class CheckoutDeliveryOption extends PureComponent {
         } = this.props;
 
         return (
-            <div block="CheckoutDeliveryOption" elem="Row">
+            <div
+              block="CheckoutDeliveryOption"
+              elem="Row"
+              ref={ this.rowRef }
+            >
                 <span block="CheckoutDeliveryOption" elem="Span" mods={ { isDisabled: !available } }>
                     { __('Carrier method: ') }
                     <strong>{ carrier_title }</strong>

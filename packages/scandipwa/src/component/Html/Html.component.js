@@ -17,7 +17,12 @@ import parser from 'html-react-parser';
 import attributesToProps from 'html-react-parser/lib/attributes-to-props';
 import domToReact from 'html-react-parser/lib/dom-to-react';
 import PropTypes from 'prop-types';
-import { lazy, PureComponent, Suspense } from 'react';
+import {
+    Fragment,
+    lazy,
+    PureComponent,
+    Suspense
+} from 'react';
 
 import Image from 'Component/Image';
 import Link from 'Component/Link';
@@ -135,6 +140,50 @@ export class Html extends PureComponent {
         return attributesToProps(properties);
     }
 
+    scrollToTopFunction() {
+        document.documentElement.scrollIntoView();
+    }
+
+    /**
+     * Replace links to native React Router links
+     * @param  {{ children: Array }}
+     * @return {JSX} Return JSX if link is allowed to be replaced
+     * @memberof Html
+     */
+    domToReactFunction(children) {
+        if (children[1]?.attribs.class?.includes('HomepageCategories-Button')) {
+            return [
+                <Fragment key="HomepageCategories-Button1">
+                    { domToReact(children[0], this.parserOptions) }
+                </Fragment>,
+                <button
+                  { ...attributesToProps({
+                      ...children[1].attribs,
+                      onClick: this.scrollToTopFunction,
+                      key: 'HomepageCategories-Button2'
+                  }) }
+                >
+                    { domToReact(children[1].children, this.parserOptions) }
+                </button>,
+                <Fragment key="HomepageCategories-Button3">
+                    { domToReact(children[2], this.parserOptions) }
+                </Fragment>
+            ];
+        }
+
+        if (children[0]?.attribs?.class?.includes('HomepageCategories-Button')) {
+            return (
+                <button
+                  { ...attributesToProps({ ...children[0].attribs, onClick: this.scrollToTopFunction }) }
+                >
+                    { domToReact(children[0].children, this.parserOptions) }
+                </button>
+            );
+        }
+
+        return domToReact(children, this.parserOptions);
+    }
+
     /**
      * Replace links to native React Router links
      * @param  {{ attribs: Object, children: Array }}
@@ -151,7 +200,7 @@ export class Html extends PureComponent {
             if (!isAbsoluteUrl(href) && !isSpecialLink(href)) {
                 return (
                     <Link { ...attributesToProps({ ...attrs, to: href }) }>
-                        { domToReact(children, this.parserOptions) }
+                        { this.domToReactFunction(children) }
                     </Link>
                 );
             }

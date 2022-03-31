@@ -25,6 +25,15 @@ import { Route, Switch } from 'react-router-dom';
 
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
+import {
+    PRINT_ALL_INVOICES,
+    PRINT_ALL_REFUNDS,
+    PRINT_ALL_SHIPMENT,
+    PRINT_INVOICE,
+    PRINT_ORDER as PRINT_ORDER_REQUEST,
+    PRINT_REFUND,
+    PRINT_SHIPMENT
+} from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
 import UrlRewrites from 'Route/UrlRewrites';
 import {
     ADDRESS_BOOK, MY_DOWNLOADABLE, MY_ORDERS, MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
@@ -61,12 +70,15 @@ import {
     NAVIGATION_TABS,
     NEW_VERSION_POPUP,
     NOTIFICATION_LIST,
+    PRINT_ORDER,
     SEARCH,
     SHARED_WISHLIST,
     STYLE_GUIDE,
     SWITCH_ITEMS_TYPE,
     URL_REWRITES
 } from './Router.config';
+
+import './Router.style';
 
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));
@@ -94,6 +106,7 @@ export const ForgotPasswordPage = lazy(() => import(/* webpackMode: "lazy", webp
 export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "something-went-wrong" */ 'Route/SomethingWentWrong'));
 export const StyleGuidePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/StyleGuidePage'));
 export const Breadcrumbs = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Breadcrumbs'));
+export const OrderPrintPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "print-order" */ 'Route/OrderPrintPage'));
 
 /** @namespace Component/Router/Component/withStoreRegex */
 export const withStoreRegex = (path) => window.storeRegexText.concat(path);
@@ -101,7 +114,8 @@ export const withStoreRegex = (path) => window.storeRegexText.concat(path);
 /** @namespace Component/Router/Component */
 export class Router extends PureComponent {
     static propTypes = {
-        isBigOffline: PropTypes.bool
+        isBigOffline: PropTypes.bool,
+        isOnlyMainItems: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -253,6 +267,41 @@ export class Router extends PureComponent {
             name: STYLE_GUIDE
         },
         {
+            component: <Route path={ withStoreRegex('/sales/order/print/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ORDER_REQUEST } /> } />,
+            position: 90,
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printInvoice/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ALL_INVOICES } /> } />,
+            position: 91,
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printShipment/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ALL_SHIPMENT } /> } />,
+            position: 92,
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ALL_REFUNDS } /> } />,
+            position: 93,
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printInvoice/invoice_id/:invoiceId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_INVOICE } /> } />,
+            position: 94,
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printShipment/shipment_id/:shipmentId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_SHIPMENT } /> } />,
+            position: 95,
+            name: PRINT_ORDER
+        },
+        {
+            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/creditmemo_id/:refundId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_REFUND } /> } />,
+            position: 95,
+            name: PRINT_ORDER
+        },
+        {
             component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
             position: 1000,
             name: URL_REWRITES
@@ -345,21 +394,25 @@ export class Router extends PureComponent {
 
     renderFallbackPage() {
         return (
-            <main style={ { height: '100vh' } }>
+            <main block="Router" elem="Loader">
                 <Loader isLoading />
             </main>
         );
     }
 
     renderDefaultRouterContent() {
-        if (location.pathname.match('/styleguide')) {
+        const { isOnlyMainItems } = this.props;
+
+        if (isOnlyMainItems) {
             return this.renderMainItems();
         }
 
         return (
             <>
                 { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
-                { this.renderMainItems() }
+                <div block="Router" elem="MainItems">
+                    { this.renderMainItems() }
+                </div>
                 { this.renderSectionOfType(AFTER_ITEMS_TYPE) }
             </>
         );

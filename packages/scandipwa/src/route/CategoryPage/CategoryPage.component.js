@@ -207,27 +207,21 @@ export class CategoryPage extends PureComponent {
         );
     }
 
-    renderPlaceholder(block) {
-        return (
-            <>
-                <div block={ block } elem="SwatchList">
-                    <div block={ block } elem="Placeholder" />
-                    <div block={ block } elem="Placeholder" />
-                    <div block={ block } elem="Placeholder" />
-                </div>
-                <Loader isLoading />
-            </>
-        );
-    }
-
     renderFilterPlaceholder() {
         return (
             <div block="CategoryPage" elem="PlaceholderWrapper">
-                <h3 block="CategoryPage" elem="PlaceholderHeading">
-                    { __('Shopping Options') }
-                </h3>
-                <div block="CategoryPage" elem="FilterPlaceholderContainer">
-                    { this.renderPlaceholder('CategoryPage') }
+                <div block="CategoryPage" elem="PlaceholdereContainer">
+                    <h3 block="CategoryPage" elem="PlaceholderHeading">
+                        { __('Shopping Options') }
+                    </h3>
+                    <div block="CategoryPage" elem="FilterPlaceholderContainer">
+                        <div block="CategoryPage" elem="PlaceholderList">
+                            <div block="CategoryPage" elem="PlaceholderListItem" />
+                            <div block="CategoryPage" elem="PlaceholderListItem" />
+                            <div block="CategoryPage" elem="PlaceholderListItem" />
+                        </div>
+                    </div>
+                    <Loader isLoading />
                 </div>
             </div>
         );
@@ -256,7 +250,7 @@ export class CategoryPage extends PureComponent {
         }
 
         return (
-            <Suspense fallback={ this.renderFilterPlaceholder() }>
+            <Suspense>
                 <CategoryFilterOverlay
                   availableFilters={ filters }
                   customFiltersValues={ selectedFilters }
@@ -433,18 +427,23 @@ export class CategoryPage extends PureComponent {
                 { this.renderItemsCount() }
                 <div
                   block="CategoryPage"
-                  elem="LayoutWrapper"
-                  mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  elem="MiscellaneousLayoutWrapper"
                 >
-                    { this.renderLayoutButtons() }
-                    { this.renderCategorySort() }
-                </div>
-                <div
-                  block="CategoryPage"
-                  elem="LayoutWrapper"
-                  mods={ { isPrerendered: isSSR() || isCrawler() } }
-                >
-                    { this.renderFilterButton() }
+                  <div
+                    block="CategoryPage"
+                    elem="LayoutWrapper"
+                    mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  >
+                      { this.renderLayoutButtons() }
+                      { this.renderCategorySort() }
+                  </div>
+                  <div
+                    block="CategoryPage"
+                    elem="LayoutWrapper"
+                    mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  >
+                      { this.renderFilterButton() }
+                  </div>
                 </div>
             </aside>
         );

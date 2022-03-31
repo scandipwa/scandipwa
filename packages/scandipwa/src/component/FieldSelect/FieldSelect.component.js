@@ -38,7 +38,12 @@ export class FieldSelect extends PureComponent {
         isDisabled: PropTypes.bool.isRequired,
         isDropdownOpenUpwards: PropTypes.bool.isRequired,
         isScrollable: PropTypes.bool.isRequired,
-        isSortSelect: PropTypes.bool.isRequired
+        isSortSelect: PropTypes.bool.isRequired,
+        isUpDirection: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isUpDirection: false
     };
 
     renderNativeOption(option) {
@@ -157,7 +162,14 @@ export class FieldSelect extends PureComponent {
                   isNotScrollable: !isScrollable
               } }
             >
-                { options.map(this.renderOption.bind(this)) }
+                <div
+                  block="FieldSelect"
+                  elem="OptionsWrapper"
+                  role="menu"
+                  mods={ { isExpanded } }
+                >
+                    { options.map(this.renderOption.bind(this)) }
+                </div>
             </ul>
         );
     }

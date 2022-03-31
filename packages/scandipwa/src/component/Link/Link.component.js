@@ -155,7 +155,7 @@ export class Link extends PureComponent {
 
         const classNameConverted = `${ className } ${ stringify(bemProps)}`;
 
-        if (/^https?:\/\//.test(to)) {
+        if (/^https?:\/\//.test(to) || isOpenInNewTab) {
             return this.renderAbsolutePathLink(classNameConverted);
         }
 

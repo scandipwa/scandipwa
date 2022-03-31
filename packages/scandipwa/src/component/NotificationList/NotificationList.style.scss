@@ -27,7 +27,7 @@
     @include mobile {
         overflow: hidden;
         max-width: 100vw;
-        position: sticky;
+        position: fixed;
         width: 100%;
         inset-block-start: var(--header-total-height);
         inset-inline-end: 0;
