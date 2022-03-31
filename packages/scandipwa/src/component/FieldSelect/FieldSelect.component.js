@@ -53,7 +53,8 @@ export class FieldSelect extends PureComponent {
             disabled,
             label,
             subLabel = '',
-            isAvailable = true
+            isAvailable = true,
+            isPlaceholder
         } = option;
 
         const { isDisabled } = this.props;
@@ -64,6 +65,7 @@ export class FieldSelect extends PureComponent {
               id={ id }
               value={ value }
               disabled={ disabled || isDisabled || !isAvailable }
+              selected={ isPlaceholder }
             >
                 { `${label} ${subLabel}` }
             </option>
@@ -192,7 +194,8 @@ export class FieldSelect extends PureComponent {
             isExpanded,
             handleSelectExpand,
             handleSelectListKeyPress,
-            handleSelectExpandedExpand
+            handleSelectExpandedExpand,
+            isDisabled
         } = this.props;
 
         return (
@@ -201,8 +204,8 @@ export class FieldSelect extends PureComponent {
                   id={ `${ id }_wrapper` }
                   block="FieldSelect"
                   mods={ { isExpanded } }
-                  onClick={ handleSelectExpand }
-                  onKeyPress={ handleSelectListKeyPress }
+                  onClick={ !isDisabled && handleSelectExpand }
+                  onKeyPress={ !isDisabled && handleSelectListKeyPress }
                   role="button"
                   tabIndex="0"
                   aria-label="Select dropdown"

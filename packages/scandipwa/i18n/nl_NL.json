@@ -612,5 +612,7 @@
     "You saved the account information.": null,
     "Minimum of different classes of characters in password is %s. ": null,
     "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null,
-    "Some number": null
+    "Some number": null,
+    "Number": null,
+    "Telephone": null
 }
