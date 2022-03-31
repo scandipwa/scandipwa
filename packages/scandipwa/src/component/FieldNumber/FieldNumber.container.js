@@ -74,11 +74,15 @@ export class FieldNumberContainer extends PureComponent {
             attr: { min = 0, max = DEFAULT_MAX_PRODUCTS } = {}
         } = this.props;
 
+        const { value: stateValue } = this.state;
+
         // eslint-disable-next-line no-nested-ternary
         const rangedValue = value < min ? min : value > max ? max : min;
 
-        this.fieldRef.value = value;
-        this.setState({ value: rangedValue });
+        if (Math.sign(stateValue) !== 1) {
+            this.fieldRef.value = value;
+            this.setState({ value: rangedValue });
+        }
 
         return rangedValue;
     }
