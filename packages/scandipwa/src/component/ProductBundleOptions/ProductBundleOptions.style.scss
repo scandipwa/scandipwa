@@ -15,12 +15,6 @@
 }
 
 .ProductBundleItem {
-    &-Label {
-        width: calc(100% - max(21px, var(--checkbox-width)));
-        word-break: break-word;
-        min-width: 50px;
-    }
-
     &-Wrapper {
         margin-block-start: 26px;
 
@@ -38,11 +32,13 @@
             &_type_select + .Field-ErrorMessages {
                 position: absolute;
                 inset-inline-start: 0;
-                inset-block-end: 10px;
+                inset-block-end: -6px;
                 transform: translateY(100%);
             }
 
             &-Wrapper {
+                margin-block-end: 10px;
+
                 &_type {
                     &_select, &_checkbox, &_radio {
                         flex: 1 1;
@@ -50,10 +46,6 @@
                 }
             }
         }
-    }
-
-    &-Select.Field_hasError {
-        margin-block-end: 20px;
     }
 
     &-PriceLabel {
