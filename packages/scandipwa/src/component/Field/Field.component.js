@@ -193,13 +193,15 @@ export class Field extends PureComponent {
         const {
             type,
             setRef,
-            attr: newAttr = {},
+            attr = {},
             events: { onChange },
             events,
             isDisabled,
             label
         } = this.props;
-        const { id = '', value = '' } = newAttr;
+        const {
+            id = '', value = '', checked, defaultChecked = false
+        } = attr;
         const elem = type.charAt(0).toUpperCase() + type.slice(1);
         const inputEvents = {
             ...events,
@@ -207,6 +209,8 @@ export class Field extends PureComponent {
         };
         // if button value is "none" do not disable
         const isButtonDisabled = (!value.match('none') && isDisabled);
+        const isChecked = isButtonDisabled || defaultChecked ? !isDisabled : null;
+        const isCheckbox = type === 'checkbox';
 
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
@@ -214,8 +218,9 @@ export class Field extends PureComponent {
                   ref={ (elem) => setRef(elem) }
                   disabled={ isButtonDisabled ? isDisabled : false }
                   type={ type }
-                  { ...newAttr }
+                  { ...attr }
                   { ...inputEvents }
+                  { ...(isCheckbox && { checked: checked || isChecked }) }
                 />
                 <div block="input-control" disabled={ isDisabled } />
                 { label }
