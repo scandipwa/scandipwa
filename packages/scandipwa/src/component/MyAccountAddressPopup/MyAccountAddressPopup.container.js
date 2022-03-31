@@ -50,6 +50,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountAddressPopupContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
+        showSuccessNotification: PropTypes.func.isRequired,
         updateCustomerDetails: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
@@ -112,6 +113,21 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         return this.handleCreateAddress(address);
     }
 
+    showNotification(status, operation) {
+        const { showSuccessNotification, showErrorNotification } = this.props;
+        const message = `Your ${operation} the address`;
+        switch (status) {
+        case 'success':
+            showSuccessNotification(message);
+            break;
+        case 'error':
+            showErrorNotification(message);
+            break;
+        default:
+            break;
+        }
+    }
+
     async handleEditAddress(address) {
         const { payload: { address: { id } } } = this.props;
         const query = MyAccountQuery.getUpdateAddressMutation(id, address);
@@ -123,6 +139,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         try {
             await fetchMutation(query);
             this.handleAfterAction();
+            this.showNotification('success', 'edited');
         } catch (e) {
             this.handleError(e);
         }
@@ -141,6 +158,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         try {
             await fetchMutation(query);
             this.handleAfterAction();
+            this.showNotification('success', 'deleted');
         } catch (e) {
             this.handleError(e);
         }
@@ -156,6 +174,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         try {
             await fetchMutation(query);
             this.handleAfterAction();
+            this.showNotification('success', 'saved');
         } catch (e) {
             this.handleError(e);
         }
