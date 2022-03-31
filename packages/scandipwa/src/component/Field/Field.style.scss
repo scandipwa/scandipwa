@@ -269,6 +269,12 @@
                     }
                 }
 
+                &_isDisabled {
+                    label, input {
+                        pointer-events: none;
+                    }
+                }
+
                 &_hasError {
                     input {
                         & + label {

@@ -40,7 +40,8 @@ export class DatePickerContainer extends PureComponent {
         yearRange: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
         isRequired: PropTypes.bool,
-        updateSelectedValues: PropTypes.bool.isRequired
+        updateSelectedValues: PropTypes.bool.isRequired,
+        isDisabled: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -70,7 +71,8 @@ export class DatePickerContainer extends PureComponent {
             timeFormat: magentoTimeFormat,
             dateFieldsOrder,
             uid,
-            isRequired
+            isRequired,
+            isDisabled
         } = this.props;
 
         const showTimeSelect = type === FIELD_DATE_TYPE.dateTime || type === FIELD_DATE_TYPE.time;
@@ -86,7 +88,8 @@ export class DatePickerContainer extends PureComponent {
             dateFormat,
             timeFormat,
             uid,
-            isClearable: !isRequired
+            isClearable: !isRequired,
+            isDisabled
         };
     }
 

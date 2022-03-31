@@ -33,7 +33,8 @@ export class FieldDateContainer extends PureComponent {
         uid: PropTypes.string.isRequired,
         isRequired: PropTypes.bool,
         updateSelectedValues: PropTypes.func.isRequired,
-        useCalendar: PropTypes.bool.isRequired
+        useCalendar: PropTypes.bool.isRequired,
+        isDisabled: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -45,14 +46,16 @@ export class FieldDateContainer extends PureComponent {
             type,
             uid,
             isRequired,
-            updateSelectedValues
+            updateSelectedValues,
+            isDisabled
         } = this.props;
 
         return {
             type,
             uid,
             isRequired,
-            updateSelectedValues
+            updateSelectedValues,
+            isDisabled
         };
     }
 

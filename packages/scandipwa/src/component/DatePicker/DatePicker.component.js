@@ -33,7 +33,8 @@ export class DatePickerComponent extends PureComponent {
         dateFormat: PropTypes.string.isRequired,
         timeFormat: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
-        isClearable: PropTypes.bool.isRequired
+        isClearable: PropTypes.bool.isRequired,
+        isDisabled: PropTypes.bool.isRequired
     };
 
     placeholderMap = {
@@ -49,7 +50,7 @@ export class DatePickerComponent extends PureComponent {
     }
 
     renderCustomInput({ value, onClick }, ref) {
-        const { selectedDate, uid } = this.props;
+        const { selectedDate, uid, isDisabled } = this.props;
 
         return (
             <input
@@ -63,6 +64,7 @@ export class DatePickerComponent extends PureComponent {
               placeholder={ this.getPlaceholder() }
               inputMode="none"
               readOnly
+              disabled={ isDisabled }
             />
         );
     }

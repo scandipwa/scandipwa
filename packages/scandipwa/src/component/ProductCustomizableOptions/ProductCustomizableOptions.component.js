@@ -25,7 +25,8 @@ import './ProductCustomizableOptions.style';
 export class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
         options: OptionsListType,
-        updateSelectedValues: PropTypes.func.isRequired
+        updateSelectedValues: PropTypes.func.isRequired,
+        isProductInStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -33,6 +34,7 @@ export class ProductCustomizableOptions extends PureComponent {
     };
 
     renderOptionGroup(group) {
+        const { isProductInStock } = this.props;
         const {
             title,
             value,
@@ -52,6 +54,7 @@ export class ProductCustomizableOptions extends PureComponent {
               isRequired={ required }
               type={ type }
               updateSelectedValues={ updateSelectedValues }
+              isProductInStock={ isProductInStock }
             />
         );
     }

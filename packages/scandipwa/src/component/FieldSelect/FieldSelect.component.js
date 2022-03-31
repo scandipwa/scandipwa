@@ -100,7 +100,8 @@ export class FieldSelect extends PureComponent {
 
         const {
             isExpanded,
-            handleSelectListOptionClick
+            handleSelectListOptionClick,
+            isDisabled
         } = this.props;
 
         return (
@@ -108,7 +109,7 @@ export class FieldSelect extends PureComponent {
               block="FieldSelect"
               elem="Option"
               mods={ {
-                  isDisabled: !isAvailable,
+                  isDisabled: !isAvailable || isDisabled,
                   isExpanded,
                   isPlaceholder,
                   isHovered

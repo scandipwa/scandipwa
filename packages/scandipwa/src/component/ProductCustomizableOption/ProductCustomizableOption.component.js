@@ -39,7 +39,8 @@ export class ProductCustomizableOption extends PureComponent {
         getDropdownOptions: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
         currencyCode: PropTypes.string.isRequired,
-        options: CustomizableOptionsType
+        options: CustomizableOptionsType,
+        isProductInStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -97,7 +98,7 @@ export class ProductCustomizableOption extends PureComponent {
 
     renderDefaultValue(option) {
         const {
-            title, fieldType, isRequired, uid
+            title, fieldType, isRequired, uid, isProductInStock
         } = this.props;
         const { value } = this.state;
         const { max_characters } = option;
@@ -116,7 +117,8 @@ export class ProductCustomizableOption extends PureComponent {
                   attr={ {
                       id: uid,
                       name: uid,
-                      placeholder: ''
+                      placeholder: '',
+                      disabled: !isProductInStock
                   } }
                   subLabel={ subLabel }
                   events={ {
@@ -133,7 +135,8 @@ export class ProductCustomizableOption extends PureComponent {
             title,
             uid,
             isRequired,
-            updateSelectedValues
+            updateSelectedValues,
+            isProductInStock
         } = this.props;
 
         const label = this.getLabel(option, title);
@@ -145,6 +148,7 @@ export class ProductCustomizableOption extends PureComponent {
                   type={ type }
                   uid={ uid }
                   isRequired={ isRequired }
+                  isDisabled={ !isProductInStock }
                   updateSelectedValues={ updateSelectedValues }
                 />
             </>
@@ -153,7 +157,7 @@ export class ProductCustomizableOption extends PureComponent {
 
     renderFileValue(option) {
         const {
-            title, uid, isRequired, updateSelectedValues
+            title, uid, isRequired, updateSelectedValues, isProductInStock
         } = this.props;
         const { file_extension: fileExtensions = '' } = option;
         const label = this.getLabel(option, title);
@@ -172,11 +176,13 @@ export class ProductCustomizableOption extends PureComponent {
                   attr={ {
                       id: uid,
                       name: uid,
-                      accept: fileExtensions
+                      accept: fileExtensions,
+                      disabled: !isProductInStock
                   } }
                   events={ {
                       onChange: updateSelectedValues
                   } }
+                  mix={ { block: 'Field', mods: { isDisabled: !isProductInStock } } }
                   validateOn={ ['onChange'] }
                 />
             </>
@@ -188,7 +194,7 @@ export class ProductCustomizableOption extends PureComponent {
             uid,
             is_default: isDefault = false
         } = option;
-        const { updateSelectedValues } = this.props;
+        const { updateSelectedValues, isProductInStock } = this.props;
         const label = this.getLabel(option);
 
         return (
@@ -200,7 +206,8 @@ export class ProductCustomizableOption extends PureComponent {
                       id: `option-${ uid }`,
                       value: uid,
                       name: `option-${ uid }`,
-                      defaultChecked: isDefault
+                      defaultChecked: isDefault,
+                      disabled: !isProductInStock
                   } }
                   events={ {
                       onChange: updateSelectedValues
@@ -230,7 +237,7 @@ export class ProductCustomizableOption extends PureComponent {
             uid,
             is_default
         } = option;
-        const { updateSelectedValues } = this.props;
+        const { updateSelectedValues, isProductInStock } = this.props;
         const label = this.getLabel(option);
 
         return (
@@ -242,7 +249,8 @@ export class ProductCustomizableOption extends PureComponent {
                       id: `option-${ uid }`,
                       value: uid,
                       name: `option-${ name }`,
-                      defaultChecked: is_default
+                      defaultChecked: is_default,
+                      disabled: !isProductInStock
                   } }
                   events={ {
                       onChange: updateSelectedValues
@@ -272,7 +280,8 @@ export class ProductCustomizableOption extends PureComponent {
             getDropdownOptions,
             updateSelectedValues,
             isRequired,
-            uid
+            uid,
+            isProductInStock
         } = this.props;
 
         return (
@@ -282,7 +291,8 @@ export class ProductCustomizableOption extends PureComponent {
                   attr={ {
                       id: `customizable-options-dropdown-${ uid }`,
                       name: `customizable-options-dropdown-${ uid }`,
-                      selectPlaceholder: __('Select option...')
+                      selectPlaceholder: __('Select option...'),
+                      disabled: !isProductInStock
                   } }
                   mix={ { block: 'ProductCustomizableItem', elem: 'Select' } }
                   options={ getDropdownOptions() }
@@ -293,6 +303,7 @@ export class ProductCustomizableOption extends PureComponent {
                       isRequired
                   } }
                   validateOn={ ['onChange'] }
+                  isDisabled={ !isProductInStock }
                 />
             </div>
         );

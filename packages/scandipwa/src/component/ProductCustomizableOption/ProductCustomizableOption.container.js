@@ -42,7 +42,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         type: PropTypes.string.isRequired,
         options: CustomizableOptionsType,
         updateSelectedValues: PropTypes.func.isRequired,
-        currencyCode: PropTypes.string.isRequired
+        currencyCode: PropTypes.string.isRequired,
+        isProductInStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -87,7 +88,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             isRequired,
             type,
             updateSelectedValues,
-            currencyCode
+            currencyCode,
+            isProductInStock
         } = this.props;
 
         return {
@@ -98,7 +100,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             options: nonRequiredRadioOptions(this.getSortedOptions(), isRequired, type),
             updateSelectedValues,
             currencyCode,
-            fieldType: this.getFieldType()
+            fieldType: this.getFieldType(),
+            isProductInStock
         };
     }
 

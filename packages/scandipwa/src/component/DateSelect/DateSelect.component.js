@@ -55,7 +55,8 @@ export class DateSelectComponent extends PureComponent {
         showDateSelect: PropTypes.bool.isRequired,
         showTimeSelect: PropTypes.bool.isRequired,
         dateFieldsOrder: PropTypes.string.isRequired,
-        timeFormat: PropTypes.string.isRequired
+        timeFormat: PropTypes.string.isRequired,
+        isDisabled: PropTypes.bool.isRequired
     };
 
     dateMap = {
@@ -119,7 +120,8 @@ export class DateSelectComponent extends PureComponent {
             isRequired,
             type,
             selectedYear,
-            onSetYear
+            onSetYear,
+            isDisabled
         } = this.props;
 
         return (
@@ -132,7 +134,8 @@ export class DateSelectComponent extends PureComponent {
                   selectPlaceholder: __('Year'),
                   value: selectedYear,
                   [FIELD_TYPE_ATTR]: type,
-                  [FIELD_NAME_ATTR]: 'year'
+                  [FIELD_NAME_ATTR]: 'year',
+                  disabled: isDisabled
               } }
               key={ `${type}-year-${ uid }` }
               options={ this.getYearOptions() }
@@ -144,6 +147,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }
@@ -154,7 +158,8 @@ export class DateSelectComponent extends PureComponent {
             isRequired,
             type,
             selectedMonth,
-            onSetMonth
+            onSetMonth,
+            isDisabled
         } = this.props;
 
         return (
@@ -167,7 +172,8 @@ export class DateSelectComponent extends PureComponent {
                   selectPlaceholder: __('Month'),
                   value: selectedMonth,
                   [FIELD_TYPE_ATTR]: type,
-                  [FIELD_NAME_ATTR]: 'month'
+                  [FIELD_NAME_ATTR]: 'month',
+                  disabled: isDisabled
               } }
               key={ `${type}-month-${ uid }` }
               options={ this.getMonthOptions() }
@@ -179,6 +185,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }
@@ -189,7 +196,8 @@ export class DateSelectComponent extends PureComponent {
             uid,
             isRequired,
             type,
-            selectedDay
+            selectedDay,
+            isDisabled
         } = this.props;
 
         return (
@@ -202,7 +210,8 @@ export class DateSelectComponent extends PureComponent {
                   selectPlaceholder: __('Day'),
                   value: selectedDay,
                   [FIELD_TYPE_ATTR]: type,
-                  [FIELD_NAME_ATTR]: 'day'
+                  [FIELD_NAME_ATTR]: 'day',
+                  disabled: isDisabled
               } }
               key={ `${type}-day-${ uid }` }
               options={ this.getDayOptions() }
@@ -214,6 +223,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }
@@ -224,7 +234,8 @@ export class DateSelectComponent extends PureComponent {
             uid,
             isRequired,
             type,
-            selectedHours
+            selectedHours,
+            isDisabled
         } = this.props;
 
         return (
@@ -249,6 +260,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }
@@ -259,7 +271,8 @@ export class DateSelectComponent extends PureComponent {
             uid,
             isRequired,
             type,
-            selectedMinutes
+            selectedMinutes,
+            isDisabled
         } = this.props;
 
         return (
@@ -272,7 +285,8 @@ export class DateSelectComponent extends PureComponent {
                   selectPlaceholder: __('Minutes'),
                   value: selectedMinutes,
                   [FIELD_TYPE_ATTR]: type,
-                  [FIELD_NAME_ATTR]: 'minutes'
+                  [FIELD_NAME_ATTR]: 'minutes',
+                  disabled: isDisabled
               } }
               key={ `${type}-minutes-${ uid }` }
               options={ this.getMinutesOptions() }
@@ -284,6 +298,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }
@@ -295,7 +310,8 @@ export class DateSelectComponent extends PureComponent {
             isRequired,
             type,
             selectedAMPM,
-            timeFormat
+            timeFormat,
+            isDisabled
         } = this.props;
 
         if (timeFormat !== TIME_FORMAT.H12) {
@@ -312,7 +328,8 @@ export class DateSelectComponent extends PureComponent {
                   value: selectedAMPM,
                   noPlaceholder: true,
                   [FIELD_TYPE_ATTR]: type,
-                  [FIELD_NAME_ATTR]: 'ampm'
+                  [FIELD_NAME_ATTR]: 'ampm',
+                  disabled: isDisabled
               } }
               options={ this.getAMPMOptions() }
               mix={ { block: 'DateSelect', elem: 'AMPM' } }
@@ -323,6 +340,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }

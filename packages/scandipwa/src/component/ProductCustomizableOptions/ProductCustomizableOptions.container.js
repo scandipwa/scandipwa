@@ -11,10 +11,20 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import { OptionsListType } from 'Type/ProductList.type';
+import { OptionsListType, ProductType } from 'Type/ProductList.type';
+import { getProductInStock } from 'Util/Product/Extract';
 
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
+
+/** @namespace Component/ProductCustomizableOptions/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    activeProduct: state.ProductReducer.product
+});
+
+/** @namespace Component/ProductCustomizableOptions/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
 
 /**
  * Product Customizable Options
@@ -24,7 +34,8 @@ import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 export class ProductCustomizableOptionsContainer extends PureComponent {
     static propTypes = {
         options: OptionsListType,
-        updateSelectedValues: PropTypes.func.isRequired
+        updateSelectedValues: PropTypes.func.isRequired,
+        activeProduct: ProductType.isRequired
     };
 
     static defaultProps = {
@@ -32,11 +43,12 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
     };
 
     containerProps() {
-        const { options, updateSelectedValues } = this.props;
+        const { options, updateSelectedValues, activeProduct } = this.props;
 
         return {
             options,
-            updateSelectedValues
+            updateSelectedValues,
+            isProductInStock: getProductInStock(activeProduct)
         };
     }
 
@@ -49,4 +61,4 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
     }
 }
 
-export default ProductCustomizableOptionsContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCustomizableOptionsContainer);
