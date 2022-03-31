@@ -207,7 +207,7 @@ export class Field extends PureComponent {
         };
         // if button value is "none" do not disable
         const isButtonDisabled = (!value.match('none') && isDisabled);
-        const isChecked = isButtonDisabled || defaultChecked ? !isDisabled : null;
+        const isChecked = isButtonDisabled || defaultChecked ? !isDisabled : false;
 
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
