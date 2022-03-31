@@ -12,6 +12,7 @@
 export const FIELD_TYPE = {
     email: 'email',
     text: 'text',
+    numberWithControls: 'numberWithControls',
     number: 'number',
     radio: 'radio',
     checkbox: 'checkbox',

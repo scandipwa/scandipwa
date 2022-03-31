@@ -1,0 +1,104 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.Field {
+    &_type {
+        &_numberWithControls {
+            [type="number"] {
+                -moz-appearance: textfield;
+                color: var(--color-black);
+                border: 0;
+                font-size: 18px;
+                font-weight: 700;
+                height: var(--input-type-number-width);
+                padding: 0;
+                order: 2;
+                text-align: center;
+                width: var(--input-type-number-width);
+                pointer-events: none;
+
+                &:focus {
+                    border: 1px solid var(--input-border-color);
+                }
+
+                &::-webkit-inner-spin-button,
+                &::-webkit-outer-spin-button {
+                    appearance: none;
+                    margin: 0;
+                }
+
+                ~ button {
+                    background: transparent;
+                    border: 2px solid var(--primary-base-color);
+                    border-radius: var(--button-border-radius);
+                    color: $black;
+                    inset-inline-start: 0;
+                    line-height: 0;
+                    margin: 0;
+                    order: 1;
+                    display: flex;
+                    width: 48px;
+                    height: 48px;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    inset-block-start: 0;
+
+                    @include mobile {
+                        width: 36px;
+                        height: 36px;
+                    }
+
+                    @include hoverable {
+                        &:hover {
+                            border-color: var(--primary-dark-color);
+
+                            svg {
+                                fill: var(--primary-dark-color);
+                            }
+                        }
+                    }
+
+                    &:active {
+                        border-color: var(--primary-dark-color);
+
+                        svg {
+                            fill: var(--primary-dark-color);
+                        }
+                    }
+
+                    &:first-of-type {
+                        inset-inline-start: 0;
+                        order: 3;
+                    }
+
+                    &:last-of-type {
+                        inset-block-end: 0;
+                        inset-inline-end: 0;
+                        order: 1;
+                    }
+
+                    &:disabled {
+                        opacity: .25;
+                        cursor: default;
+                        pointer-events: none;
+                    }
+
+                    span {
+                        @include mobile {
+                            inset-block-start: -2px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

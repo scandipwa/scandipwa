@@ -412,7 +412,7 @@ export class CartItem extends PureComponent {
             >
                 <Field
                   id="item_qty"
-                  type={ FIELD_TYPE.number }
+                  type={ FIELD_TYPE.numberWithControls }
                   attr={ {
                       id: `${sku}_item_qty`,
                       name: `${sku}_item_qty`,

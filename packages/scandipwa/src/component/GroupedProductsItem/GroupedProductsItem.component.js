@@ -107,7 +107,7 @@ export class GroupedProductsItem extends PureComponent {
 
         return (
             <FieldContainer
-              type={ FIELD_TYPE.number }
+              type={ FIELD_TYPE.numberWithControls }
               attr={ {
                   id: `item_qty_${id}`,
                   name: `item_qty_${id}`,

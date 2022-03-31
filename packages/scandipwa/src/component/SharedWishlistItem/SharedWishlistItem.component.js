@@ -41,7 +41,7 @@ export class SharedWishlistItem extends SourceWishlistItem {
               mix={ { block: 'SharedWishlistItem', elem: 'Row' } }
             >
                 <Field
-                  type={ FIELD_TYPE.number }
+                  type={ FIELD_TYPE.numberWithControls }
                   attr={ {
                       id: `item_qty_wishlist_${id}`,
                       name: `item_qty_wishlist_${id}`,

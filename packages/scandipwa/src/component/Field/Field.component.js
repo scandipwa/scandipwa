@@ -100,7 +100,7 @@ export class Field extends PureComponent {
         [FIELD_TYPE.select]: this.renderSelect.bind(this),
         [FIELD_TYPE.textarea]: this.renderTextArea.bind(this),
         [FIELD_TYPE.button]: this.renderButton.bind(this),
-        [FIELD_TYPE.number]: this.renderNumber.bind(this)
+        [FIELD_TYPE.numberWithControls]: this.renderNumberWithControls.bind(this)
 
     };
 
@@ -129,7 +129,7 @@ export class Field extends PureComponent {
         );
     }
 
-    renderNumber() {
+    renderNumberWithControls() {
         const {
             attr,
             events,

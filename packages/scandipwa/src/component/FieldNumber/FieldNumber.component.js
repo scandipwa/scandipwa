@@ -18,6 +18,7 @@ import MinusIcon from 'Component/MinusIcon';
 import { EventsType, FieldAttrType } from 'Type/Field.type';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
+import './FieldNumber.style.scss';
 /**
  * Field Number
  * @class FieldNumber
