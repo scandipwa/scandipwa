@@ -23,6 +23,7 @@ import {
 } from 'Util/Mobile';
 
 import Router from './Router.component';
+import { URL_ONLY_MAIN_ITEMS_RENDER } from './Router.config';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -124,12 +125,14 @@ export class RouterContainer extends PureComponent {
         super.__construct(props);
 
         this.state = ({
-            currentUrl: window.location.pathname
+            currentUrl: window.location.pathname,
+            isOnlyMainItems: this.handleCheckIfOnlyMainItemsRender()
         });
 
         this.initializeApplication();
         this.redirectFromPartialUrl();
         this.handleResize();
+        this.handleCheckIfOnlyMainItemsRender();
     }
 
     componentDidMount() {
@@ -139,6 +142,12 @@ export class RouterContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const { isLoading, updateMeta } = this.props;
         const { isLoading: prevIsLoading } = prevProps;
+
+        if (!this.handleCheckIfOnlyMainItemsRender()) {
+            this.setRenderAllItems();
+        } else {
+            this.setRenderOnlyMainItems();
+        }
 
         if (!isLoading && isLoading !== prevIsLoading) {
             const {
@@ -198,14 +207,34 @@ export class RouterContainer extends PureComponent {
         }
     }
 
+    handleCheckIfOnlyMainItemsRender() {
+        const { pathname } = location;
+
+        if (URL_ONLY_MAIN_ITEMS_RENDER.find((url) => pathname.includes(url))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    setRenderAllItems() {
+        this.setState({ isOnlyMainItems: false });
+    }
+
+    setRenderOnlyMainItems() {
+        this.setState({ isOnlyMainItems: true });
+    }
+
     containerProps() {
         const { isBigOffline } = this.props;
+        const { isOnlyMainItems } = this.state;
 
-        return { isBigOffline };
+        return { isBigOffline, isOnlyMainItems };
     }
 
     initializeApplication() {
         const { init } = this.props;
+
         init();
     }
 

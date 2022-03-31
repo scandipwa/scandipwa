@@ -94,7 +94,7 @@ export class MetaContainer extends PureComponent {
     _getTitle() {
         const { title, default_title } = this.props;
 
-        return title || default_title;
+        return String(title || default_title);
     }
 
     _getDescription() {
