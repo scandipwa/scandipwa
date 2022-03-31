@@ -36,8 +36,10 @@ $select-arrow-width: 14px !default;
         inset-inline-end: 12px;
     }
 
-    &_isExpanded::after {
-        transform: rotate(-90deg);
+    &_isExpanded {
+        &::after {
+            transform: rotate(-90deg);
+        }
     }
 
     &-Select {
@@ -87,6 +89,10 @@ $select-arrow-width: 14px !default;
                     max-height: $select-option-height * 5;
                 }
             }
+        }
+
+        @include mobile {
+            height: 0;
         }
 
         &_isExpanded {

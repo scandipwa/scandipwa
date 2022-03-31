@@ -19,9 +19,13 @@
     }
 
     &-RatingWrapper {
+        display: flex;
+        flex-direction: column;
+        row-gap: 24px;
+
         .FieldGroup-Wrapper {
             margin-block-end: 14px;
-
+          
             .FieldGroup {
                 &_hasError, &_isValid {
                     padding-inline-start: 0;
@@ -29,7 +33,7 @@
                 }
 
                 &-ErrorMessages {
-                    margin-block-start: 6px;
+                    margin-block-start: -4px;
                 }
             }
         }
@@ -45,8 +49,16 @@
     }
 
     &-Content {
+        display: flex;
+        flex-direction: column;
+        row-gap: 24px;
+      
         .Field {
             margin-block-start: 12px;
+
+            &-ErrorMessages {
+                padding-block-start: 6px;
+            }
         }
 
         input,
@@ -62,7 +74,6 @@
     &-Rating {
         display: flex;
         flex-flow: row-reverse nowrap;
-        margin-block-start: 12px;
         margin-inline: 0;
         text-align: start;
         border: 0;
@@ -107,6 +118,7 @@
         color: var(--primary-error-color);
         font-size: 12px;
         text-align: start;
+        padding-block-start: 0;
     }
 
     & &-Button {
@@ -118,8 +130,17 @@
         }
     }
 
+    &-Field {
+        margin-block-start: 0;
+        padding-block-end: 0;
+    }
+
     input,
     textarea {
         width: 100%;
+    }
+    
+    textarea {
+        margin-block-end: -3px;
     }
 }
