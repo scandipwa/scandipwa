@@ -144,6 +144,7 @@ export class ProductReviewForm extends PureComponent {
                           isRequired: true
                       } }
                       addRequiredTag
+                      mix={ { block: 'ProductReviewForm', elem: 'Field' } }
                     />
                     <Field
                       type={ FIELD_TYPE.text }
@@ -159,6 +160,7 @@ export class ProductReviewForm extends PureComponent {
                           isRequired: true
                       } }
                       addRequiredTag
+                      mix={ { block: 'ProductReviewForm', elem: 'Field' } }
                     />
                     <Field
                       type={ FIELD_TYPE.textarea }
@@ -174,6 +176,7 @@ export class ProductReviewForm extends PureComponent {
                           isRequired: true
                       } }
                       addRequiredTag
+                      mix={ { block: 'ProductReviewForm', elem: 'Field' } }
                     />
                 </div>
             </div>
