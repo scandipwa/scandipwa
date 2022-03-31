@@ -64,7 +64,8 @@ export const mapStateToProps = (state) => ({
     cartSubtotalSubPrice: getCartSubtotalSubPrice(state),
     cartTotalSubPrice: getCartTotalSubPrice(state),
     cartShippingPrice: getCartShippingPrice(state),
-    cartShippingSubPrice: getCartShippingSubPrice(state)
+    cartShippingSubPrice: getCartShippingSubPrice(state),
+    isLoading: state.CartReducer.isLoading
 });
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
@@ -102,7 +103,8 @@ export class CartPageContainer extends PureComponent {
     };
 
     state = {
-        isCartItemLoading: false
+        isCartItemLoading: false,
+        isInitialLoad: true
     };
 
     componentDidMount() {
@@ -120,13 +122,16 @@ export class CartPageContainer extends PureComponent {
             changeHeaderState,
             totals: { items_qty = 0 },
             headerState,
-            headerState: { name }
+            headerState: { name },
+            isLoading
         } = this.props;
 
         const {
             totals: { items_qty: prevItemsQty = 0 },
             headerState: { name: prevName }
         } = prevProps;
+
+        const { isInitialLoad } = this.state;
 
         if (name !== prevName) {
             if (name === CART) {
@@ -145,6 +150,10 @@ export class CartPageContainer extends PureComponent {
         if (items_qty !== prevItemsQty) {
             this._updateCrossSellProducts();
         }
+
+        if (!isLoading && isInitialLoad) {
+            this.toggleIsInitialLoad();
+        }
     }
 
     containerProps() {
@@ -153,17 +162,24 @@ export class CartPageContainer extends PureComponent {
             totals: {
                 items = []
             } = {},
-            device
+            device,
+            isLoading
         } = this.props;
 
-        const { isCartItemLoading } = this.state;
+        const { isCartItemLoading, isInitialLoad } = this.state;
 
         return {
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
             totals,
             isCartItemLoading,
-            device
+            isInitialLoad,
+            device,
+            isLoading
         };
+    }
+
+    toggleIsInitialLoad() {
+        this.setState({ isInitialLoad: false });
     }
 
     hasOutOfStockProductsInCartItems(items) {
