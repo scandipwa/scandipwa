@@ -16,7 +16,7 @@ import { Field } from 'Util/Query';
  * @class Slider
  * @namespace Query/Slider/Query */
 export class SliderQuery {
-    getQuery(options) {
+    getQuery(options: { sliderId: string }): Field {
         const { sliderId } = options;
 
         return new Field('scandiwebSlider')
@@ -25,7 +25,7 @@ export class SliderQuery {
             .setAlias('slider');
     }
 
-    _getSliderFields() {
+    _getSliderFields(): Array<string | Field> {
         return [
             this._getSlidesField(),
             this._getSlideSpeedField(),
@@ -34,7 +34,7 @@ export class SliderQuery {
         ];
     }
 
-    _getSlideFields() {
+    _getSlideFields(): string[] {
         return [
             'slide_text',
             'slide_id',
@@ -45,12 +45,12 @@ export class SliderQuery {
         ];
     }
 
-    _getSlidesField() {
+    _getSlidesField(): Field {
         return new Field('slides')
             .addFieldList(this._getSlideFields());
     }
 
-    _getSlideSpeedField() {
+    _getSlideSpeedField(): Field {
         return new Field('slide_speed').setAlias('slideSpeed');
     }
 }

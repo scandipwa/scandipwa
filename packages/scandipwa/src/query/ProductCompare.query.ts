@@ -14,67 +14,67 @@ import { Field } from 'Util/Query';
 
 /** @namespace Query/ProductCompare/Query */
 export class ProductCompareQuery extends ProductListQuery {
-    getCreateEmptyCompareList() {
+    getCreateEmptyCompareList(): Field {
         return new Field('createCompareList')
             .addArgument('input', 'CreateCompareListInput', {})
             .addFieldList(this._getCompareListFields());
     }
 
-    getCreateCompareList(products) {
+    getCreateCompareList(products: string[]): Field {
         return new Field('createCompareList')
             .addArgument('input', 'CreateCompareListInput', { products })
             .addFieldList(this._getCompareListFields());
     }
 
-    getDeleteCompareList(uid) {
+    getDeleteCompareList(uid: string): Field {
         return new Field('deleteCompareList')
             .addArgument('uid', 'ID!', uid)
             .addField('result');
     }
 
-    getAddProductsToCompareList(uid, products) {
+    getAddProductsToCompareList(uid: string, products: string[]): Field {
         return new Field('addProductsToCompareList')
             .addArgument('input', 'AddProductsToCompareListInput', { uid, products })
             .addFieldList(this._getCompareListFields());
     }
 
-    getRemoveProductsFromCompareList(uid, products) {
+    getRemoveProductsFromCompareList(uid: string, products: string[]): Field {
         return new Field('removeProductsFromCompareList')
             .addArgument('input', 'RemoveProductsFromCompareListInput', { uid, products })
             .addFieldList(this._getCompareListFields());
     }
 
-    getAssignCompareList(uid) {
+    getAssignCompareList(uid: string): Field {
         return new Field('assignCompareListToCustomer')
             .addArgument('uid', 'ID!', uid)
             .addFieldList(this._getAssignFields());
     }
 
-    _getAssignFields() {
+    _getAssignFields(): Array<string | Field> {
         return [
             'result',
             this._getAssignCompareListField()
         ];
     }
 
-    _getAssignCompareListField() {
+    _getAssignCompareListField(): Field {
         return new Field('compare_list')
             .addFieldList(this._getCompareListFields());
     }
 
-    getCompareList(uid) {
+    getCompareList(uid: string): Field {
         return new Field('compareList')
             .addArgument('uid', 'ID!', uid)
             .addFieldList(this._getCompareListFields());
     }
 
-    getCompareListIds(uid) {
+    getCompareListIds(uid: string): Field {
         return new Field('compareList')
             .addArgument('uid', 'ID!', uid)
             .addField(this._getComparableItemIdsField());
     }
 
-    _getCompareListFields() {
+    _getCompareListFields(): Array<string | Field> {
         return [
             'uid',
             'item_count',
@@ -85,44 +85,44 @@ export class ProductCompareQuery extends ProductListQuery {
         ];
     }
 
-    _getCompareAttributeField() {
+    _getCompareAttributeField(): Field {
         return new Field('attributes')
             .addFieldList(this._getCompareAttributeFields());
     }
 
-    _getCompareAttributeFields() {
+    _getCompareAttributeFields(): string[] {
         return [
             'label',
             'code'
         ];
     }
 
-    _getComparableItemAttributeField() {
+    _getComparableItemAttributeField(): Field {
         return new Field('attributes')
             .addFieldList(this._getComparableItemAttributeFields());
     }
 
-    _getComparableItemAttributeFields() {
+    _getComparableItemAttributeFields(): string[] {
         return [
             'value',
             'code'
         ];
     }
 
-    _getComparableItemFields() {
+    _getComparableItemFields(): Field[] {
         return [
             this._getCompareProductField(),
             this._getComparableItemAttributeField()
         ];
     }
 
-    _getComparableItemIdsFields() {
+    _getComparableItemIdsFields(): Field[] {
         return [
             this._getProductIdsField()
         ];
     }
 
-    _getCompareProductField() {
+    _getCompareProductField(): Field {
         return new Field('product')
             .addFieldList(this._getProductInterfaceFields(true, false))
             .addFieldList(['url'])
@@ -132,22 +132,22 @@ export class ProductCompareQuery extends ProductListQuery {
             .addField(this._getGroupedProductItems());
     }
 
-    _getProductIdsField() {
+    _getProductIdsField(): Field {
         return new Field('product')
             .addFieldList(this._getProductIdsFields());
     }
 
-    _getComparableItemField() {
+    _getComparableItemField(): Field {
         return new Field('items')
             .addFieldList(this._getComparableItemFields());
     }
 
-    _getComparableItemIdsField() {
+    _getComparableItemIdsField(): Field {
         return new Field('items')
             .addFieldList(this._getComparableItemIdsFields());
     }
 
-    _getProductIdsFields() {
+    _getProductIdsFields(): string[] {
         return [
             'id'
         ];

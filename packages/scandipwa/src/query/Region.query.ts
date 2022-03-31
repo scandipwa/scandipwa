@@ -16,12 +16,12 @@ import { Field } from 'Util/Query';
  * @class RegionQuery
  * @namespace Query/Region/Query */
 export class RegionQuery {
-    getCountriesQuery() {
+    getCountriesQuery(): Field {
         return new Field('countries')
             .addFieldList(this._getCountryFields());
     }
 
-    _getCountryFields() {
+    _getCountryFields(): Array<string | Field> {
         return [
             'id',
             'is_state_required',
@@ -30,7 +30,7 @@ export class RegionQuery {
         ];
     }
 
-    _getAvailableRegionFields() {
+    _getAvailableRegionFields(): string[] {
         return [
             'code',
             'name',
@@ -38,7 +38,7 @@ export class RegionQuery {
         ];
     }
 
-    _getAvailableRegionsField() {
+    _getAvailableRegionsField(): Field {
         return new Field('available_regions')
             .addFieldList(this._getAvailableRegionFields());
     }

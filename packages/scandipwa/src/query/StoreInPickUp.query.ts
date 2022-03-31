@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { GQLProductInfoInput } from 'Type/Graphql.type';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/StoreInPickUp/Query */
 export class StoreInPickUpQuery {
-    getStores(country, search = '', productsInfo) {
+    getStores(country: string, search = '', productsInfo?: GQLProductInfoInput): Field {
         return new Field('getStores')
             .addFieldList([this.getStoreFields()])
             .addArgument('search', 'String', search)
@@ -21,7 +22,7 @@ export class StoreInPickUpQuery {
             .addArgument('productsInfo', '[ProductInfoInput]', productsInfo);
     }
 
-    getStoreFields() {
+    getStoreFields(): Field {
         return new Field('stores')
             .addFieldList([
                 'city',

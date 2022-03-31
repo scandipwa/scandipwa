@@ -16,13 +16,13 @@ import { Field } from 'Util/Query';
  * @class NewsletterSubscriptionQuery
  * @namespace Query/NewsletterSubscription/Query */
 export class NewsletterSubscriptionQuery {
-    getSubscribeToNewsletterMutation(email) {
+    getSubscribeToNewsletterMutation(email: string): Field {
         return new Field('subscribeEmailToNewsletter')
             .addArgument('email', 'String!', email)
             .addFieldList(this._getPageFields());
     }
 
-    _getPageFields() {
+    _getPageFields(): string[] {
         return [
             'status'
         ];

@@ -13,17 +13,17 @@ import { Field } from 'Util/Query';
 
 /** @namespace Query/Config/Query */
 export class ConfigQuery {
-    getStoreListField() {
+    getStoreListField(): Field {
         return new Field('storeList')
             .addFieldList(this._getStoreListFields());
     }
 
-    getCheckoutAgreements() {
+    getCheckoutAgreements(): Field {
         return new Field('checkoutAgreements')
             .addFieldList(this._getCheckoutAgreementFields());
     }
 
-    getCurrencyField() {
+    getCurrencyField(): Field {
         return new Field('available_currencies_data')
             .addFieldList([
                 'id',
@@ -32,7 +32,7 @@ export class ConfigQuery {
             ]);
     }
 
-    getCurrencyData() {
+    getCurrencyData(): Field {
         return new Field('currencyData')
             .addFieldList([
                 this.getCurrencyField(),
@@ -40,7 +40,7 @@ export class ConfigQuery {
             ]);
     }
 
-    getPriceDisplayTypeField() {
+    getPriceDisplayTypeField(): Field {
         return new Field('priceTaxDisplay')
             .addFieldList([
                 'product_price_display_type',
@@ -48,7 +48,7 @@ export class ConfigQuery {
             ]);
     }
 
-    getSaveSelectedCurrencyMutation(newCurrency) {
+    getSaveSelectedCurrencyMutation(newCurrency: string): Field {
         return new Field('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)
             .addFieldList([
@@ -56,7 +56,7 @@ export class ConfigQuery {
             ]);
     }
 
-    _getCheckoutAgreementFields() {
+    _getCheckoutAgreementFields(): string[] {
         return [
             'agreement_id',
             'checkbox_text',
@@ -68,7 +68,7 @@ export class ConfigQuery {
         ];
     }
 
-    _getStoreListFields() {
+    _getStoreListFields(): string[] {
         return [
             'name',
             'is_active',
@@ -78,12 +78,12 @@ export class ConfigQuery {
         ];
     }
 
-    getQuery() {
+    getQuery(): Field {
         return new Field('storeConfig')
             .addFieldList(this._getStoreConfigFields());
     }
 
-    _getTimeDateFormatFields() {
+    _getTimeDateFormatFields(): string[] {
         return [
             'use_calendar',
             'year_range',
@@ -92,7 +92,7 @@ export class ConfigQuery {
         ];
     }
 
-    _getStoreConfigFields() {
+    _getStoreConfigFields(): Array<string | Field> {
         return [
             'code',
             'is_active',

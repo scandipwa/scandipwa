@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { GQLContactForm } from 'Type/Graphql.type';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/ContactForm/Query */
 export class ContactFormQuery {
-    getSendContactFormMutation(options) {
+    getSendContactFormMutation(options: GQLContactForm): Field {
         const mutation = new Field('contactForm');
         this._addSendContactFormMutationArguments(mutation, options);
         mutation.addFieldList(this._getSendContactFormMutationResponse());
@@ -21,20 +22,20 @@ export class ContactFormQuery {
         return mutation;
     }
 
-    getContactPageConfigQuery() {
+    getContactPageConfigQuery(): Field {
         return new Field('contactPageConfig')
             .addFieldList(this._getContactPageConfigFields());
     }
 
-    _addSendContactFormMutationArguments(mutation, options) {
+    _addSendContactFormMutationArguments(mutation: Field, options: GQLContactForm): Field {
         return mutation.addArgument('contact', 'ContactForm!', options);
     }
 
-    _getSendContactFormMutationResponse() {
+    _getSendContactFormMutationResponse(): string[] {
         return ['message'];
     }
 
-    _getContactPageConfigFields() {
+    _getContactPageConfigFields(): string[] {
         return ['enabled'];
     }
 }

@@ -11,9 +11,7 @@
 
 import { Field, FieldArgument } from 'Util/Query';
 
-type CategoryQueryOptions = {
-    categoryIds: number
-};
+import { CategoryQueryOptions } from './Query.type';
 
 /**
  * Category Query

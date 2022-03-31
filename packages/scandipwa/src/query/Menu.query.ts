@@ -21,25 +21,25 @@ export class MenuQuery {
      * @return {Field} Menu query
      * @memberof MenuQuery
      */
-    getQuery({ identifier }) {
+    getQuery({ identifier }: { identifier: string }): Field {
         return new Field('scandiwebMenu')
             .addArgument('identifier', 'String!', identifier)
             .addFieldList(this._getMenuFields())
             .setAlias('menu');
     }
 
-    _getMenuFields() {
+    _getMenuFields(): Array<string | Field> {
         return [
             'menu_id', 'is_active', 'css_class', this._getMenuItemsField()
         ];
     }
 
-    _getMenuItemsField() {
+    _getMenuItemsField(): Field {
         return new Field('items')
             .addFieldList(this._getMenuItemFields());
     }
 
-    _getMenuItemFields() {
+    _getMenuItemFields(): string[] {
         return [
             'url',
             'icon',

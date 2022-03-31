@@ -9,35 +9,36 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { GQLCreateProductReviewInput } from 'Type/Graphql.type';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Review/Query */
 export class ReviewQuery {
-    getAddProductReviewMutation(reviewItem) {
+    getAddProductReviewMutation(reviewItem: GQLCreateProductReviewInput): Field {
         return new Field('createProductReview')
             .setAlias('addProductReview')
             .addArgument('input', 'CreateProductReviewInput!', reviewItem)
             .addField(new Field('review').addField('nickname'));
     }
 
-    getRatingQuery() {
+    getRatingQuery(): Field {
         return new Field('productReviewRatingsMetadata')
             .setAlias('reviewRatings')
             .addFieldList(this._getRatingFields());
     }
 
-    _getRatingFields() {
+    _getRatingFields(): Field[] {
         return [
             this._getRatingItemsField()
         ];
     }
 
-    _getRatingItemsField() {
+    _getRatingItemsField(): Field {
         return new Field('items')
             .addFieldList(this._getRatingItemsFields());
     }
 
-    _getRatingItemsFields() {
+    _getRatingItemsFields(): Field[] {
         return [
             new Field('id').setAlias('rating_id'),
             new Field('name').setAlias('rating_code'),
@@ -45,14 +46,14 @@ export class ReviewQuery {
         ];
     }
 
-    _getRatingOptionFields() {
+    _getRatingOptionFields(): Array<string | Field> {
         return [
             new Field('value_id').setAlias('option_id'),
             'value'
         ];
     }
 
-    _getRatingOptionsField() {
+    _getRatingOptionsField(): Field {
         return new Field('values')
             .setAlias('rating_options')
             .addFieldList(this._getRatingOptionFields());

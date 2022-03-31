@@ -11,6 +11,7 @@
  */
 
 import ProductListQuery from 'Query/ProductList.query';
+import { GQLShareWishlistInput, GQLWishlistItemInput, GQLWishlistItemUpdateInput } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId } from 'Util/Cart';
 import { Field } from 'Util/Query';
@@ -18,14 +19,14 @@ import { Field } from 'Util/Query';
 /** @namespace Query/Wishlist/Query */
 export class WishlistQuery {
     //#region MUTATION
-    addProductsToWishlist(wishlistId, wishlistItems) {
+    addProductsToWishlist(wishlistId: string, wishlistItems: GQLWishlistItemInput[]): Field {
         return new Field('addProductsToWishlist')
             .addArgument('wishlistId', 'ID!', wishlistId)
             .addArgument('wishlistItems', '[WishlistItemInput!]!', wishlistItems)
             .addField(this._getWishlistErrorsField());
     }
 
-    updateProductsInWishlist(wishlistId, wishlistItems) {
+    updateProductsInWishlist(wishlistId: string, wishlistItems: GQLWishlistItemUpdateInput): Field {
         return new Field('updateProductsInWishlist')
             .addArgument('wishlistId', 'ID!', wishlistId)
             .addArgument('wishlistItems', '[WishlistItemUpdateInput!]!', wishlistItems)
@@ -34,20 +35,20 @@ export class WishlistQuery {
     //#endregion
 
     //#region ERROR
-    _getWishlistErrorsFields() {
+    _getWishlistErrorsFields(): string[] {
         return [
             'message',
             'code'
         ];
     }
 
-    _getWishlistErrorsField() {
+    _getWishlistErrorsField(): Field {
         return new Field('user_errors')
             .addFieldList(this._getWishlistErrorsFields());
     }
     //#endregion
 
-    getWishlistQuery(sharingCode) {
+    getWishlistQuery(sharingCode: string): Field {
         const field = new Field('s_wishlist')
             .setAlias('wishlist')
             .addFieldList(this._getWishlistFields());
@@ -59,18 +60,18 @@ export class WishlistQuery {
         return field;
     }
 
-    getShareWishlistMutation(input) {
+    getShareWishlistMutation(input: GQLShareWishlistInput): Field {
         return new Field('s_shareWishlist')
             .setAlias('shareWishlist')
             .addArgument('input', 'ShareWishlistInput!', input);
     }
 
-    getClearWishlist() {
+    getClearWishlist(): Field {
         return new Field('s_clearWishlist')
             .setAlias('clearWishlist');
     }
 
-    getMoveWishlistToCart(sharingCode) {
+    getMoveWishlistToCart(sharingCode: string): Field {
         const field = new Field('s_moveWishlistToCart')
             .setAlias('moveWishlistToCart');
 
@@ -86,13 +87,13 @@ export class WishlistQuery {
         return field;
     }
 
-    getRemoveProductFromWishlistMutation(item_id) {
+    getRemoveProductFromWishlistMutation(item_id: string): Field {
         return new Field('s_removeProductFromWishlist')
             .setAlias('removeProductFromWishlist')
             .addArgument('itemId', 'ID!', item_id);
     }
 
-    _getWishlistFields() {
+    _getWishlistFields(): Array<string | Field> {
         return [
             'id',
             'updated_at',
@@ -102,19 +103,19 @@ export class WishlistQuery {
         ];
     }
 
-    _getItemOptionsFields() {
+    _getItemOptionsFields(): string[] {
         return [
             'label',
             'value'
         ];
     }
 
-    _getItemOptionsField() {
+    _getItemOptionsField(): Field {
         return new Field('options')
             .addFieldList(this._getItemOptionsFields());
     }
 
-    _getWishlistItemsFields() {
+    _getWishlistItemsFields(): Array<string | Field> {
         return [
             'id',
             'sku',
@@ -127,19 +128,19 @@ export class WishlistQuery {
         ];
     }
 
-    _getItemsFields() {
+    _getItemsFields(): Array<string | Field> {
         return [
             ...this._getWishlistItemsFields(),
             this._getProductField()
         ];
     }
 
-    _getProductField() {
+    _getProductField(): Field {
         return new Field('product')
             .addFieldList(ProductListQuery._getProductInterfaceFields(false, false, true));
     }
 
-    _getItemsField() {
+    _getItemsField(): Field {
         return new Field('items')
             .addFieldList(this._getItemsFields());
     }

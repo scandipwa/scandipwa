@@ -10,14 +10,14 @@
  */
 import { Field, Query } from '@tilework/opus';
 
-import { UrlRewriteType } from 'Type/Router.type';
+import { UrlRewrite } from 'Type/Router.type';
 
 /**
  * UrlRewrites Query
  * @class UrlRewritesQuery
  * @namespace Query/UrlRewrites/Query */
 export class UrlRewritesQuery {
-    getQuery({ urlParam }: { urlParam: string }): UrlRewriteType {
+    getQuery({ urlParam }: { urlParam: string }): UrlRewrite {
         return new Query('urlResolver')
             .addArgument('url', 'String!', urlParam)
             .addFieldList(this._getUrlResolverFields());

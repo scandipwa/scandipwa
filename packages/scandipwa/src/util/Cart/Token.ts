@@ -15,7 +15,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
 /** @namespace Util/Cart/Token/setGuestQuoteId */
-export const setGuestQuoteId = (token) => {
+export const setGuestQuoteId = (token: string): void => {
     BrowserDatabase.setItem({
         token,
         isCustomerToken: isSignedIn()
@@ -23,7 +23,7 @@ export const setGuestQuoteId = (token) => {
 };
 
 /** @namespace Util/Cart/Token/getGuestQuoteId */
-export const getGuestQuoteId = () => {
+export const getGuestQuoteId = (): string | null => {
     const {
         token,
         isCustomerToken
@@ -37,4 +37,4 @@ export const getGuestQuoteId = () => {
 };
 
 /** @namespace Util/Cart/Token/deleteGuestQuoteId */
-export const deleteGuestQuoteId = () => BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
+export const deleteGuestQuoteId = (): void => BrowserDatabase.deleteItem(GUEST_QUOTE_ID);

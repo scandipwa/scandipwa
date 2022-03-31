@@ -11,18 +11,14 @@
 
 import { Field } from 'Util/Query';
 
+import { CmsPage } from './Query.type';
+
 /**
  * CMS Page Query
  * @class CmsPageQuery
  * @namespace Query/CmsPage/Query */
 export class CmsPageQuery {
-    /**
-     * get CMS Page query
-     * @param  {{url_key: String, title: Int, content: String, content_heading: String, page_layout: String, meta_title: String, meta_description: String, meta_keywords, string}} options A object containing different aspects of query, each item can be omitted
-     * @return {Query} CMS Page query
-     * @memberof CmsPageQuery
-     */
-    getQuery({ id, url_key, identifier }) {
+    getQuery({ id, url_key, identifier }: CmsPage): Field {
         if (!id && !url_key && !identifier) {
             throw new Error('Missing argument `id` or `url_key`!');
         }
@@ -39,7 +35,7 @@ export class CmsPageQuery {
         return cmsPage;
     }
 
-    _getPageFields() {
+    _getPageFields(): string[] {
         return [
             'title',
             'content',

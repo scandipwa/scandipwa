@@ -49,7 +49,7 @@ export class BrowserDatabase {
      * @return {Void}
      * @memberof BrowserDatabase
      */
-    setItem<T>(data: T, location: string, expiration: number): void {
+    setItem<T>(data: T, location: string, expiration?: number): void {
         localStorage.setItem(location, JSON.stringify({
             data,
             expiration,

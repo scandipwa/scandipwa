@@ -13,7 +13,7 @@ import { Field } from 'Util/Query';
 
 /** @namespace Query/ProductAlerts/Query */
 export class ProductAlertsQuery {
-    getProductAlertSubscribeMutation(productId, type) {
+    getProductAlertSubscribeMutation(productId: string, type: string): Field {
         return new Field('productAlertSubscribe')
             .addArgument('productId', 'ID!', productId)
             .addArgument('type', 'String!', type);

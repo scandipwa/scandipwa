@@ -10,34 +10,42 @@
  */
 
 import {
-    DISPLAY_SHIPPING_PRICES_BOTH,
-    DISPLAY_SHIPPING_PRICES_EXCL_TAX
-} from 'Component/CheckoutDeliveryOption/CheckoutDeliveryOption.config';
+    CartItem,
+    CartItemPriceProps,
+    CartState,
+    DisplayCartTaxInPrice,
+    DisplayCartTaxInShipping,
+    DisplayCartTaxInSubTotal,
+    DisplayShippingPrices
+} from './Cart.type';
 
+// ! TODO remove this when migrate components to TS
 export const DISPLAY_CART_TAX_IN_SUBTOTAL = {
-    INCL_TAX: 'DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX',
-    EXCL_TAX: 'DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX',
-    BOTH: 'DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH'
+    INCL_TAX: DisplayCartTaxInSubTotal.INCL_TAX,
+    EXCL_TAX: DisplayCartTaxInSubTotal.EXCL_TAX,
+    BOTH: DisplayCartTaxInSubTotal.BOTH
 };
 
+// ! TODO remove this when migrate components to TS
 export const DISPLAY_CART_TAX_IN_SHIPPING = {
-    INCL_TAX: 'DISPLAY_CART_TAX_IN_SHIPPING_INCL_TAX',
-    EXCL_TAX: 'DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX',
-    BOTH: 'DISPLAY_CART_TAX_IN_SHIPPING_BOTH'
+    INCL_TAX: DisplayCartTaxInShipping.INCL_TAX,
+    EXCL_TAX: DisplayCartTaxInShipping.EXCL_TAX,
+    BOTH: DisplayCartTaxInShipping.BOTH
 };
 
+// ! TODO remove this when migrate components to TS
 export const DISPLAY_CART_TAX_IN_PRICE = {
-    INCL_TAX: 'DISPLAY_CART_TAX_IN_PRICE_INCL_TAX',
-    EXCL_TAX: 'DISPLAY_CART_TAX_IN_PRICE_EXL_TAX',
-    BOTH: 'DISPLAY_CART_TAX_IN_PRICE_BOTH'
+    INCL_TAX: DisplayCartTaxInPrice.INCL_TAX,
+    EXCL_TAX: DisplayCartTaxInPrice.EXCL_TAX,
+    BOTH: DisplayCartTaxInPrice.BOTH
 };
 
 /** @namespace Util/Cart/getCartSubtotal */
-export const getCartSubtotal = (state) => {
+export const getCartSubtotal = (state: CartState): number => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
-                display_tax_in_subtotal
+                display_tax_in_subtotal = ''
             } = {}
         } = {},
         CartReducer: {
@@ -48,7 +56,7 @@ export const getCartSubtotal = (state) => {
         } = {}
     } = state;
 
-    if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL.EXCL_TAX) {
+    if (display_tax_in_subtotal === DisplayCartTaxInSubTotal.EXCL_TAX) {
         return subtotal;
     }
 
@@ -56,11 +64,11 @@ export const getCartSubtotal = (state) => {
 };
 
 /** @namespace Util/Cart/getCartSubtotalSubPrice */
-export const getCartSubtotalSubPrice = (state) => {
+export const getCartSubtotalSubPrice = (state: CartState): number | null => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
-                display_tax_in_subtotal
+                display_tax_in_subtotal = ''
             } = {}
         } = {},
         CartReducer: {
@@ -70,7 +78,7 @@ export const getCartSubtotalSubPrice = (state) => {
         } = {}
     } = state;
 
-    if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL.BOTH) {
+    if (display_tax_in_subtotal === DisplayCartTaxInSubTotal.BOTH) {
         return subtotal;
     }
 
@@ -78,11 +86,11 @@ export const getCartSubtotalSubPrice = (state) => {
 };
 
 /** @namespace Util/Cart/getCartItemPrice */
-export const getCartItemPrice = (state) => (props) => {
+export const getCartItemPrice = (state: CartState) => (props: CartItemPriceProps): number => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
-                display_tax_in_price
+                display_tax_in_price = ''
             } = {}
         } = {}
     } = state;
@@ -92,7 +100,7 @@ export const getCartItemPrice = (state) => (props) => {
         row_total_incl_tax = 0
     } = props;
 
-    if (display_tax_in_price === DISPLAY_CART_TAX_IN_PRICE.EXCL_TAX) {
+    if (display_tax_in_price === DisplayCartTaxInPrice.EXCL_TAX) {
         return row_total;
     }
 
@@ -100,11 +108,11 @@ export const getCartItemPrice = (state) => (props) => {
 };
 
 /** @namespace Util/Cart/getCartItemSubPrice */
-export const getCartItemSubPrice = (state) => (props) => {
+export const getCartItemSubPrice = (state: CartState) => (props: CartItemPriceProps): number | null => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
-                display_tax_in_price
+                display_tax_in_price = ''
             } = {}
         } = {}
     } = state;
@@ -113,7 +121,7 @@ export const getCartItemSubPrice = (state) => (props) => {
         row_total = 0
     } = props;
 
-    if (display_tax_in_price === DISPLAY_CART_TAX_IN_PRICE.BOTH) {
+    if (display_tax_in_price === DisplayCartTaxInPrice.BOTH) {
         return row_total;
     }
 
@@ -121,11 +129,11 @@ export const getCartItemSubPrice = (state) => (props) => {
 };
 
 /** @namespace Util/Cart/getCartShippingPrice */
-export const getCartShippingPrice = (state) => {
+export const getCartShippingPrice = (state: CartState): number => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
-                display_tax_in_shipping_amount
+                display_tax_in_shipping_amount = ''
             } = {}
         } = {},
         CartReducer: {
@@ -136,7 +144,7 @@ export const getCartShippingPrice = (state) => {
         } = {}
     } = state;
 
-    if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.EXCL_TAX) {
+    if (display_tax_in_shipping_amount === DisplayCartTaxInShipping.EXCL_TAX) {
         return shipping_amount;
     }
 
@@ -144,11 +152,11 @@ export const getCartShippingPrice = (state) => {
 };
 
 /** @namespace Util/Cart/getCartShippingSubPrice */
-export const getCartShippingSubPrice = (state) => {
+export const getCartShippingSubPrice = (state: CartState): number | null => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
-                display_tax_in_shipping_amount
+                display_tax_in_shipping_amount = ''
             } = {}
         } = {},
         CartReducer: {
@@ -158,7 +166,7 @@ export const getCartShippingSubPrice = (state) => {
         } = {}
     } = state;
 
-    if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.BOTH) {
+    if (display_tax_in_shipping_amount === DisplayCartTaxInShipping.BOTH) {
         return shipping_amount;
     }
 
@@ -166,11 +174,11 @@ export const getCartShippingSubPrice = (state) => {
 };
 
 /** @namespace Util/Cart/getCartShippingItemPrice */
-export const getCartShippingItemPrice = (state) => (props) => {
+export const getCartShippingItemPrice = (state: CartState) => (props: CartItemPriceProps): number => {
     const {
         ConfigReducer: {
             priceTaxDisplay: {
-                shipping_price_display_type
+                shipping_price_display_type = ''
             } = {}
         } = {}
     } = state;
@@ -180,7 +188,7 @@ export const getCartShippingItemPrice = (state) => (props) => {
         price_excl_tax = 0
     } = props;
 
-    if (shipping_price_display_type === DISPLAY_SHIPPING_PRICES_EXCL_TAX) {
+    if (shipping_price_display_type === DisplayShippingPrices.EXCL_TAX) {
         return price_excl_tax;
     }
 
@@ -188,11 +196,11 @@ export const getCartShippingItemPrice = (state) => (props) => {
 };
 
 /** @namespace Util/Cart/getCartShippingItemSubPrice */
-export const getCartShippingItemSubPrice = (state) => (props) => {
+export const getCartShippingItemSubPrice = (state: CartState) => (props: CartItemPriceProps): number | null => {
     const {
         ConfigReducer: {
             priceTaxDisplay: {
-                shipping_price_display_type
+                shipping_price_display_type = ''
             } = {}
         } = {}
     } = state;
@@ -201,7 +209,7 @@ export const getCartShippingItemSubPrice = (state) => (props) => {
         price_excl_tax = 0
     } = props;
 
-    if (shipping_price_display_type === DISPLAY_SHIPPING_PRICES_BOTH) {
+    if (shipping_price_display_type === DisplayShippingPrices.BOTH) {
         return price_excl_tax;
     }
 
@@ -209,11 +217,11 @@ export const getCartShippingItemSubPrice = (state) => (props) => {
 };
 
 /** @namespace Util/Cart/getCartTotalSubPrice */
-export const getCartTotalSubPrice = (state) => {
+export const getCartTotalSubPrice = (state: CartState): number | null => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
-                include_tax_in_order_total
+                include_tax_in_order_total = ''
             } = {}
         } = {},
         CartReducer: {
@@ -232,29 +240,44 @@ export const getCartTotalSubPrice = (state) => {
 };
 
 /** @namespace Util/Cart/getItemsCountLabel */
-export const getItemsCountLabel = (items_qty) => (items_qty === 1 ? __('1 item') : __('%s items', items_qty || 0));
+export const getItemsCountLabel = (items_qty: number): string => (
+    items_qty === 1
+        ? __('1 item')
+        : __('%s items', items_qty || 0)
+);
 
 /** @namespace Util/Cart/getAllCartItemsSku */
-export const getAllCartItemsSku = (cartItems) => cartItems.reduce((acc, item) => {
-    acc.push({ sku: item.sku });
+export const getAllCartItemsSku = (
+    cartItems: CartItem[]
+): Array<{ sku: string }> => cartItems.reduce(
+    (acc, item) => {
+        acc.push({ sku: item.sku || '' });
 
-    return acc;
-}, []);
+        return acc;
+    },
+    [] as Array<{ sku: string }>
+);
 
 /** @namespace Util/Cart/trimCrossSellDuplicateItems */
-export const trimCrossSellDuplicateItems = (items) => items.filter(
+export const trimCrossSellDuplicateItems = (items: CartItem[]): CartItem[] => items.filter(
     ({
         sku: itemSku,
         product: { variants: itemVariants, id: itemId }
     }, index, array) => {
-        if (!index || !itemVariants.length) {
+        if (!index || !itemVariants?.length) {
             return true;
+        }
+
+        const foundItem = array.find(({ product: { id: elementId } }) => elementId === itemId);
+
+        if (!foundItem) {
+            return false;
         }
 
         const {
             sku: duplicateSku,
             product: { id: duplicateId }
-        } = array.find(({ product: { id: elementId } }) => elementId === itemId);
+        } = foundItem;
 
         return (duplicateId === itemId && duplicateSku === itemSku);
     }
