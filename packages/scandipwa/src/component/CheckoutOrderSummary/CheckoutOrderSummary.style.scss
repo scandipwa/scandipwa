@@ -273,10 +273,6 @@
     }
 
     .Loader {
-        @include mobile {
-            display: none;
-        }
-
         &-Scale {
             @media screen {
                 inset-block-start: calc(35% - (3px * var(--loader-scale)));

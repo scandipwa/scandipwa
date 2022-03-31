@@ -281,4 +281,10 @@
             margin-inline-end: 0;
         }
     }
+
+    .CheckoutOrderSummary {
+        .Loader {
+            display: none;
+        }
+    }
 }
