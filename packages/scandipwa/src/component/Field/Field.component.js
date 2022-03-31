@@ -94,6 +94,8 @@ export class Field extends PureComponent {
         [FIELD_TYPE.date]: this.renderDefaultInput.bind(this),
         [FIELD_TYPE.password]: this.renderDefaultInput.bind(this),
         [FIELD_TYPE.submit]: this.renderDefaultInput.bind(this),
+        [FIELD_TYPE.tel]: this.renderDefaultInput.bind(this),
+        [FIELD_TYPE.number]: this.renderDefaultInput.bind(this),
 
         // Custom fields
         [FIELD_TYPE.file]: this.renderFile.bind(this),
@@ -327,7 +329,7 @@ export class Field extends PureComponent {
         const {
             type, validationResponse, mix
         } = this.props;
-        const inputRenderer = this.renderMap[type];
+        const inputRenderer = this.renderMap[type] ?? this.renderDefaultInput.bind(this);
 
         return (
             <div block="Field" elem="Wrapper" mods={ { type } }>

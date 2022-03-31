@@ -23,6 +23,7 @@ export const FIELD_TYPE = {
     multi: 'multi',
     date: 'date',
     time: 'time',
+    tel: 'tel',
     dateTime: 'datetime-local',
     submit: 'submit',
     button: 'button'
