@@ -113,9 +113,9 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         return this.handleCreateAddress(address);
     }
 
-    showNotification(status, operation) {
+    showAddressNotification(status, operation) {
         const { showSuccessNotification, showErrorNotification } = this.props;
-        const message = `Your ${operation} the address`;
+        const message = __('You %s the address', operation);
         switch (status) {
         case 'success':
             showSuccessNotification(message);
@@ -139,7 +139,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         try {
             await fetchMutation(query);
             this.handleAfterAction();
-            this.showNotification('success', 'edited');
+            this.showAddressNotification('success', 'edited');
         } catch (e) {
             this.handleError(e);
         }
@@ -158,7 +158,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         try {
             await fetchMutation(query);
             this.handleAfterAction();
-            this.showNotification('success', 'deleted');
+            this.showAddressNotification('success', 'deleted');
         } catch (e) {
             this.handleError(e);
         }
@@ -174,7 +174,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         try {
             await fetchMutation(query);
             this.handleAfterAction();
-            this.showNotification('success', 'saved');
+            this.showAddressNotification('success', 'saved');
         } catch (e) {
             this.handleError(e);
         }
