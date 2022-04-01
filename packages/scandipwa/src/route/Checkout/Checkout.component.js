@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
-import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
@@ -112,8 +111,7 @@ export class Checkout extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         selectedStoreAddress: StoreType,
-        onCouponCodeUpdate: PropTypes.func,
-        isSignedIn: PropTypes.bool.isRequired
+        onCouponCodeUpdate: PropTypes.func
     };
 
     static defaultProps = {
@@ -216,34 +214,6 @@ export class Checkout extends PureComponent {
         );
     }
 
-    renderGuestForm() {
-        const {
-            checkoutStep,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved,
-            isSignedIn
-        } = this.props;
-        const isBilling = checkoutStep === BILLING_STEP;
-
-        if (isSignedIn) {
-            return null;
-        }
-
-        return (
-            <CheckoutGuestForm
-              isBilling={ isBilling }
-              isCreateUser={ isCreateUser }
-              onEmailChange={ onEmailChange }
-              onCreateUserChange={ onCreateUserChange }
-              onPasswordChange={ onPasswordChange }
-              isGuestEmailSaved={ isGuestEmailSaved }
-            />
-        );
-    }
-
     renderShippingStep() {
         const {
             shippingMethods,
@@ -260,7 +230,8 @@ export class Checkout extends PureComponent {
             cartTotalSubPrice,
             onShippingMethodSelect,
             onStoreSelect,
-            selectedStoreAddress
+            selectedStoreAddress,
+            isGuestEmailSaved
         } = this.props;
 
         return (
@@ -281,6 +252,7 @@ export class Checkout extends PureComponent {
                   isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
                   onStoreSelect={ onStoreSelect }
                   selectedStoreAddress={ selectedStoreAddress }
+                  isGuestEmailSaved={ isGuestEmailSaved }
                 />
             </Suspense>
         );
@@ -488,7 +460,6 @@ export class Checkout extends PureComponent {
                         <div block="Checkout" elem="Step">
                             { this.renderTitle() }
                             { this.renderStoreInPickUpMethod() }
-                            { this.renderGuestForm() }
                             { this.renderStep() }
                             { this.renderLoader() }
                         </div>
