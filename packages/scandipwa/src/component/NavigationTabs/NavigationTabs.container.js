@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { CART } from 'Component/Header/Header.config';
@@ -37,6 +38,7 @@ import {
 /** @namespace Component/NavigationTabs/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[BOTTOM_NAVIGATION_TYPE].navigationState,
+    isNotificationVisable: state.NotificationReducer.isNotificationVisable,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     device: state.ConfigReducer.device,
     cartTotals: state.CartReducer.cartTotals,
@@ -56,12 +58,16 @@ export const DEFAULT_NAVIGATION_TABS_STATE = { name: MENU_TAB };
 
 /** @namespace Component/NavigationTabs/Container */
 export class NavigationTabsContainer extends NavigationAbstractContainer {
+    static propTypes = {
+        isNotificationVisable: PropTypes.bool.isRequired
+    };
+
     default_state = DEFAULT_NAVIGATION_TABS_STATE;
 
     scrollPosition = 0;
 
     state = {
-        mobileHeight: 0
+        isScrolling: true
     };
 
     routeMap = {
@@ -92,7 +98,6 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const { name } = this.getNavigationState();
         this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
         window.addEventListener('scroll', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY));
-        window.scrollTo({ top: 0 });
 
         super.componentDidMount();
     }
@@ -141,9 +146,8 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const offset = window.innerHeight + window.pageYOffset;
         const height = doc.scrollHeight;
 
-        const { mobileHeight, diff } = this.state;
-
-        this.setState({ mobileHeight: height });
+        const { isNotificationVisable } = this.props;
+        const { isScrolling } = this.state;
 
         if (windowY < TOP_MIN_OFFSET) {
             // We are on top
@@ -164,26 +168,21 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (windowY < this.scrollPosition) {
-            this.setState({ diff: Math.abs(height - mobileHeight) });
-
-            if (diff === 0) {
-                // Scrolling UP
-                this.showNavigationTabs();
-            }
-
+        if (isNotificationVisable && isScrolling) {
+            this.setState({ isScrolling: false });
             return;
         }
 
-        if (windowY > this.scrollPosition) {
-            this.setState({ diff: Math.abs(height - mobileHeight) });
+        if (!isNotificationVisable && !isScrolling) {
+            this.setState({ isScrolling: true });
+        }
 
-            if (diff > 0) {
-                this.showNavigationTabs();
-            } else {
-                // Scrolling DOWN
-                this.hideNavigationTabs();
-            }
+        if (windowY < this.scrollPosition) {
+            // Scrolling UP
+            this.showNavigationTabs();
+        } else {
+            // Scrolling DOWN
+            this.hideNavigationTabs();
         }
     }
 

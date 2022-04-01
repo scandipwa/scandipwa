@@ -13,7 +13,8 @@ import { HIDE_NOTIFICATION, SHOW_NOTIFICATION } from './Notification.action';
 
 /** @namespace Store/Notification/Reducer/getInitialState */
 export const getInitialState = () => ({
-    notifications: {}
+    notifications: {},
+    isNotificationVisable: false
 });
 
 /** @namespace Store/Notification/Reducer/NotificationReducer */
@@ -30,7 +31,8 @@ export const NotificationReducer = (
 
         return {
             ...state,
-            notifications
+            notifications,
+            isNotificationVisable: true
         };
 
     case HIDE_NOTIFICATION:
@@ -38,7 +40,8 @@ export const NotificationReducer = (
 
         return {
             ...state,
-            notifications: shownNotifications
+            notifications: shownNotifications,
+            isNotificationVisable: false
         };
 
     default:
