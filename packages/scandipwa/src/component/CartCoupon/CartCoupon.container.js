@@ -56,30 +56,30 @@ export class CartCouponContainer extends PureComponent {
 
     state = {
         isLoading: false,
-        isBadCoupon: false
+        isIncorrectCoupon: false
     };
 
     containerFunctions = {
         handleApplyCouponToCart: this.handleApplyCouponToCart.bind(this),
         handleRemoveCouponFromCart: this.handleRemoveCouponFromCart.bind(this),
-        resetIsBadCoupon: this.resetIsBadCoupon.bind(this)
+        resetIsIncorrectCoupon: this.resetIsIncorrectCoupon.bind(this)
     };
 
     containerProps() {
-        const { isLoading, isBadCoupon } = this.state;
+        const { isLoading, isIncorrectCoupon } = this.state;
         const { couponCode, mix, title } = this.props;
 
         return {
             isLoading,
-            isBadCoupon,
+            isIncorrectCoupon,
             couponCode,
             mix,
             title
         };
     }
 
-    resetIsBadCoupon() {
-        this.setState({ isBadCoupon: false });
+    resetIsIncorrectCoupon() {
+        this.setState({ isIncorrectCoupon: false });
     }
 
     handleApplyCouponToCart(couponCode) {
@@ -91,13 +91,11 @@ export class CartCouponContainer extends PureComponent {
             /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally/applyCouponToCart/then */
             (success) => {
                 onCouponCodeUpdate();
-                this.setState({ isBadCoupon: !success });
+                this.setState({ isIncorrectCoupon: !success });
             }
         ).finally(
         /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally */
-            () => {
-                this.setState({ isLoading: false });
-            }
+            () => this.setState({ isLoading: false })
         );
     }
 

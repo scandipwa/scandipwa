@@ -29,8 +29,8 @@ export class CartCoupon extends PureComponent {
         handleRemoveCouponFromCart: PropTypes.func.isRequired,
         mix: MixType.isRequired,
         title: PropTypes.string.isRequired,
-        isBadCoupon: PropTypes.bool.isRequired,
-        resetIsBadCoupon: PropTypes.func.isRequired
+        isIncorrectCoupon: PropTypes.bool.isRequired,
+        resetIsIncorrectCoupon: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -49,19 +49,21 @@ export class CartCoupon extends PureComponent {
 
     handleFormSubmit = this.handleFormSubmit.bind(this);
 
-    getSnapshotBeforeUpdate(prevProps) {
-        const { isBadCoupon: prevIsBadCoupon = false } = prevProps;
-        const { isBadCoupon = false, resetIsBadCoupon } = this.props;
+    componentDidUpdate(prevProps) {
+        const { isIncorrectCoupon: prevIsIncorrectCoupon = false } = prevProps;
+        const { isIncorrectCoupon = false, resetIsIncorrectCoupon } = this.props;
 
-        if (isBadCoupon && prevIsBadCoupon !== isBadCoupon) {
-            this.setState({
-                isFieldWithError: isBadCoupon
-            });
-            resetIsBadCoupon();
+        if (isIncorrectCoupon && prevIsIncorrectCoupon !== isIncorrectCoupon) {
+            this.toggleIsFieldWithError(isIncorrectCoupon);
+            resetIsIncorrectCoupon();
         }
     }
 
-    componentDidUpdate() {}
+    toggleIsFieldWithError(value) {
+        this.setState({
+            isFieldWithError: value
+        });
+    }
 
     handleCouponCodeChange(event, field) {
         const { value = '' } = field;

@@ -190,7 +190,7 @@ export class CartDispatcher {
             const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
 
             if (!isCustomerSignedIn && !guestQuoteId) {
-                return null;
+                return false;
             }
 
             const { applyCoupon: { cartData = {} } = {} } = await fetchMutation(
@@ -204,7 +204,7 @@ export class CartDispatcher {
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
 
-            return null;
+            return false;
         }
     }
 
