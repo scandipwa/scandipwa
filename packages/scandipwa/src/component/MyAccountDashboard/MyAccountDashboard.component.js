@@ -25,7 +25,8 @@ import './MyAccountDashboard.style';
 export class MyAccountDashboard extends PureComponent {
     static propTypes = {
         customer: CustomerType.isRequired,
-        getDefaultAddress: PropTypes.func.isRequired
+        getDefaultAddress: PropTypes.func.isRequired,
+        changeToAddressBook: PropTypes.func.isRequired
     };
 
     renderNoDefaultAddressConfigured(name) {
@@ -76,10 +77,12 @@ export class MyAccountDashboard extends PureComponent {
     }
 
     renderAddressBlockTitle() {
+        const { changeToAddressBook } = this.props;
+
         return (
             <div block="MyAccountDashboard" elem="BlockTitle">
                 <span>{ __('Address Book') }</span>
-                <Link to={ `${ACCOUNT_URL}/${ADDRESS_BOOK}` }>
+                <Link to={ `${ACCOUNT_URL}/${ADDRESS_BOOK}` } onClick={ changeToAddressBook }>
                     { __('Manage Addresses') }
                 </Link>
             </div>

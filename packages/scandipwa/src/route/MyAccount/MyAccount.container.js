@@ -310,10 +310,11 @@ export class MyAccountContainer extends PureComponent {
     }
 
     getTabName() {
+        const { location: { pathname } } = this.props;
         const { tabName: stateTabName, activeTab } = this.state;
-        const { tabName } = MyAccountContainer.tabMap[activeTab];
+        const { tabName, url } = MyAccountContainer.tabMap[activeTab];
 
-        if (!tabName) {
+        if (!pathname.includes(url)) {
             return stateTabName;
         }
 
