@@ -103,7 +103,7 @@ export class CheckoutShipping extends PureComponent {
 
     renderActions() {
         const { selectedShippingMethod } = this.props;
-        const isDisabled = !selectedShippingMethod.amount;
+        const isDisabled = !selectedShippingMethod.carrier_code;
 
         return (
             <div block="Checkout" elem="StickyButtonWrapper">

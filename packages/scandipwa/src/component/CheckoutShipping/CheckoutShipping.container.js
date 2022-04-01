@@ -108,7 +108,7 @@ export class CheckoutShippingContainer extends PureComponent {
 
     componentDidUpdate() {
         const { isPickInStoreMethodSelected, shippingMethods } = this.props;
-        const pickupMethod = shippingMethods.find((el) => el.carrier_code === 'instore');
+        const pickupMethod = shippingMethods.find((el) => el.method_code === STORE_IN_PICK_UP_METHOD_CODE);
 
         if (isPickInStoreMethodSelected) {
             scrollToTop();
