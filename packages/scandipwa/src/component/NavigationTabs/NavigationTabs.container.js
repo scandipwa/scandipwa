@@ -67,7 +67,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     scrollPosition = 0;
 
     state = {
-        isScrolling: true
+        isScrolling: false
     };
 
     routeMap = {
@@ -168,13 +168,14 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (isNotificationVisable && isScrolling) {
-            this.setState({ isScrolling: false });
+        if (isNotificationVisable && !isScrolling) {
+            this.setState({ isScrolling: true });
+
             return;
         }
 
-        if (!isNotificationVisable && !isScrolling) {
-            this.setState({ isScrolling: true });
+        if (!isNotificationVisable && isScrolling) {
+            this.setState({ isScrolling: false });
         }
 
         if (windowY < this.scrollPosition) {
