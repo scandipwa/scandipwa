@@ -250,7 +250,7 @@ export class CategoryPage extends PureComponent {
         }
 
         return (
-            <Suspense>
+            <Suspense fallback={ this.renderFilterPlaceholder() }>
                 <CategoryFilterOverlay
                   availableFilters={ filters }
                   customFiltersValues={ selectedFilters }
