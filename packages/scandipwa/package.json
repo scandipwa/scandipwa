@@ -131,7 +131,7 @@
         "parserOptions": {
             "project": "./tsconfig.json"
         },
-        "ignorePatterns": ["package.json", "src/*"],
+        "ignorePatterns": ["package.json"],
         "env": {
             "browser": true
         },
