@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -47,6 +49,31 @@ export class CurrencySwitcher extends PureComponent {
         return availableCurrencies.some((e) => e.id === currency) ? currency : currentCurrencyCode;
     }
 
+    currencyHasRate(currency_code) {
+        const {
+            currencyRates: {
+                base_currency_code: base,
+                exchange_rates: rates
+            }
+        } = this.props;
+
+        if (currency_code === base) {
+            return true;
+        }
+
+        if (rates.find(({ currency_to }) => currency_to === currency_code).rate !== 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    returnFilteredCurrencies() {
+        const { currencyData: { available_currencies_data: availableCurrencies } } = this.props;
+        const currenciesToFilter = Array.from(availableCurrencies);
+        return currenciesToFilter.filter(({ value }) => this.currencyHasRate(value));
+    }
+
     render() {
         const {
             handleCurrencySelect,
@@ -69,7 +96,7 @@ export class CurrencySwitcher extends PureComponent {
                       events={ {
                           onChange: handleCurrencySelect
                       } }
-                      options={ availableCurrencies }
+                      options={ this.returnFilteredCurrencies() }
                     />
                 </div>
             );

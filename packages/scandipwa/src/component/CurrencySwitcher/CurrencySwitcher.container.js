@@ -13,6 +13,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { ConfigDispatcher } from 'Store/Config/Config.dispatcher';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { Field, prepareQuery } from 'Util/Query';
+import { executeGet } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
 
 import CurrencySwitcher from './CurrencySwitcher.component';
@@ -24,12 +27,14 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/CurrencySwitcher/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    updateCurrency: (options) => ConfigDispatcher.updateCurrency(dispatch, options)
+    updateCurrency: (options) => ConfigDispatcher.updateCurrency(dispatch, options),
+    showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
 /** @namespace Component/CurrencySwitcher/Container */
 export class CurrencySwitcherContainer extends DataContainer {
     static propTypes = {
+        showNotification: PropTypes.func.isRequired,
         currencyData: PropTypes.shape({
             available_currencies_data: PropTypes.arrayOf(
                 PropTypes.objectOf(
@@ -48,6 +53,25 @@ export class CurrencySwitcherContainer extends DataContainer {
         super.__construct(props, 'CurrencySwitcherContainer');
     }
 
+    state = {};
+
+    // namespaces?
+    async componentDidMount() {
+        const { showNotification } = this.props;
+        const currencyRatesQuery = new Field('currency')
+            .addField('base_currency_code')
+            .addField(new Field('exchange_rates')
+                .addFieldList(['currency_to', 'rate']));
+
+        const cacheLifetime = 86400;
+        try {
+            const data = await executeGet(prepareQuery(currencyRatesQuery), 'currencyRatesQuery', cacheLifetime);
+            this.setState(data);
+        } catch (e) {
+            showNotification('error', __('Error fetching Currency Rates!'), e);
+        }
+    }
+
     _handleCurrencySelect(currencyCode) {
         const { updateCurrency } = this.props;
 
@@ -59,16 +83,29 @@ export class CurrencySwitcherContainer extends DataContainer {
 
     containerProps() {
         const { currencyData } = this.props;
+        const { currency: currencyRates } = this.state;
 
-        return { currencyData };
+        return { currencyData, currencyRates };
     }
 
-    render() {
+    renderCurrencySwitcherComponent() {
+        if (!this.state.currency) {
+            return '';
+        }
+
         return (
             <CurrencySwitcher
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />
+        );
+    }
+
+    render() {
+        return (
+            <>
+            { this.renderCurrencySwitcherComponent() }
+            </>
         );
     }
 }
