@@ -9,13 +9,35 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Field, InlineFragment, Query } from '@tilework/opus';
+
 import { SORT_DIRECTION_TYPE } from 'Route/CategoryPage/CategoryPage.config';
 import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
+import {
+    GQLConfigurableProduct,
+    GQLConfigurableVariant,
+    GQLCustomizableAreaOption,
+    GQLCustomizableCheckboxOption,
+    GQLCustomizableDateOption,
+    GQLCustomizableDropDownOption,
+    GQLCustomizableFieldOption,
+    GQLCustomizableFileOption,
+    GQLCustomizableMultipleOption,
+    GQLCustomizableProductInterface,
+    GQLCustomizableRadioOption,
+    GQLDownloadableProduct,
+    GQLDownloadableProductLinks,
+    GQLDownloadableProductSamples,
+    GQLGroupedProduct,
+    GQLGroupedProductItem,
+    GQLProductInterface,
+    GQLProducts,
+    GQLSearchResultPageInfo
+} from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { Field, Fragment } from 'Util/Query';
 
-import { ProductListOptions } from './Query.type';
+import { CommonField, CommonFragment, ProductListOptions } from './Query.type';
 
 /**
  * Product List Query
@@ -24,7 +46,7 @@ import { ProductListOptions } from './Query.type';
 export class ProductListQuery {
     options = {} as ProductListOptions;
 
-    getQuery(options: ProductListOptions): Field {
+    getQuery(options: ProductListOptions): Query<'products', GQLProducts> {
         if (!options) {
             throw new Error('Missing argument `options`');
         }
@@ -34,8 +56,8 @@ export class ProductListQuery {
         return this._getProductsField();
     }
 
-    _getProductsField(): Field {
-        const products = new Field('products')
+    _getProductsField(): Query<'products', GQLProducts> {
+        const products = new Query<'products', GQLProducts>('products')
             .addFieldList(this._getProductFields());
 
         this._getProductArguments().forEach((arg) => products.addArgument(...arg));
@@ -213,7 +235,7 @@ export class ProductListQuery {
         }, [] as Array<[string, string, unknown]>);
     }
 
-    _getProductFields(): Array<string | Field> {
+    _getProductFields(): CommonField[] {
         const { requireInfo, isSingleProduct, notRequireInfo } = this.options;
 
         // do not request total count for PDP
@@ -238,7 +260,7 @@ export class ProductListQuery {
         ];
     }
 
-    _getCartProductInterfaceFields(): Array<string | Field> {
+    _getCartProductInterfaceFields(): Array<CommonField | CommonFragment> {
         return [
             'uid',
             'id',
@@ -256,28 +278,27 @@ export class ProductListQuery {
         ];
     }
 
-    _getCartConfigurableProductFragment(): Fragment {
-        return new Fragment('ConfigurableProduct')
+    _getCartConfigurableProductFragment(): InlineFragment<'ConfigurableProduct', GQLConfigurableProduct> {
+        return new InlineFragment<'ConfigurableProduct', GQLConfigurableProduct>('ConfigurableProduct')
             .addFieldList([
                 this._getConfigurableOptionsField(),
                 this._getCartVariantsField()
             ]);
     }
 
-    _getCartVariantsField(): Field {
-        return new Field('variants')
-            .setAlias('variants')
+    _getCartVariantsField(): Field<'variants', GQLConfigurableVariant, true> {
+        return new Field<'variants', GQLConfigurableVariant, true>('variants', true)
             .addFieldList(this._getCartVariantFields());
     }
 
-    _getCartVariantFields(): Field[] {
+    _getCartVariantFields(): CommonField[] {
         return [
             this._getCartProductField()
         ];
     }
 
-    _getCartProductField(): Field {
-        return new Field('product')
+    _getCartProductField(): Field<'product', GQLProductInterface> {
+        return new Field<'product', GQLProductInterface>('product')
             .addFieldList([
                 'id',
                 'sku',
@@ -293,7 +314,7 @@ export class ProductListQuery {
         isVariant: boolean,
         isForLinkedProducts = false,
         isForWishlist = false
-    ): Array<string | Field> {
+    ): Array<CommonField | CommonFragment> {
         const {
             isPlp = false,
             isSingleProduct,
@@ -397,7 +418,7 @@ export class ProductListQuery {
      * @returns {*[]}
      * @private
      */
-    _getGroupedProductItemFields(): Array<string | Field> {
+    _getGroupedProductItemFields(): CommonField[] {
         return [
             this._getProductField(),
             'position',
@@ -410,9 +431,9 @@ export class ProductListQuery {
      * @returns {Field}
      * @protected
      */
-    _getGroupedProductItems(): Field {
-        return new Fragment('GroupedProduct').addField(
-            new Field('items')
+    _getGroupedProductItems(): InlineFragment<'GroupedProduct', GQLGroupedProduct> {
+        return new InlineFragment<'GroupedProduct', GQLGroupedProduct>('GroupedProduct').addField(
+            new Field<'items', GQLGroupedProductItem, true>('items', true)
                 .addFieldList(this._getGroupedProductItemFields())
         );
     }
@@ -422,12 +443,12 @@ export class ProductListQuery {
      * @returns {Field}
      * @private
      */
-    _getDownloadableProductFields(): Fragment {
-        return new Fragment('DownloadableProduct')
+    _getDownloadableProductFields(): InlineFragment<'DownloadableProduct', GQLDownloadableProduct> {
+        return new InlineFragment('DownloadableProduct')
             .addFieldList(this._getDownloadableProductLinks());
     }
 
-    _getDownloadableProductLinks(): Array<string | Field> {
+    _getDownloadableProductLinks(): CommonField[] {
         return [
             'links_title',
             'samples_title',
@@ -437,8 +458,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getDownloadableProductLinksRequired(): Field {
-        return new Fragment('DownloadableProduct')
+    _getDownloadableProductLinksRequired(): InlineFragment<'DownloadableProduct', GQLDownloadableProduct> {
+        return new InlineFragment<'DownloadableProduct', GQLDownloadableProduct>('DownloadableProduct')
             .addFieldList(this._getDownloadableProductLinksRequiredFields());
     }
 
@@ -448,8 +469,11 @@ export class ProductListQuery {
         ];
     }
 
-    _getDownloadableProductLinkField(): Field {
-        return new Field('downloadable_product_links')
+    _getDownloadableProductLinkField(): Field<'downloadable_product_links', GQLDownloadableProductLinks, true> {
+        return new Field<'downloadable_product_links', GQLDownloadableProductLinks, true>(
+            'downloadable_product_links',
+            true
+        )
             .addFieldList(this._getDownloadableProductLinkFields());
     }
 
@@ -464,8 +488,11 @@ export class ProductListQuery {
         ];
     }
 
-    _getDownloadableProductSampleField(): Field {
-        return new Field('downloadable_product_samples')
+    _getDownloadableProductSampleField(): Field<'downloadable_product_samples', GQLDownloadableProductSamples, true> {
+        return new Field<'downloadable_product_samples', GQLDownloadableProductSamples, true>(
+            'downloadable_product_samples',
+            true
+        )
             .addFieldList(this._getDownloadableProductSampleFields());
     }
 
@@ -477,7 +504,7 @@ export class ProductListQuery {
         ];
     }
 
-    _getItemsField(): Field {
+    _getItemsField() {
         const { isSingleProduct } = this.options;
 
         const items = new Field('items')
@@ -493,7 +520,7 @@ export class ProductListQuery {
         return items;
     }
 
-    _getProductField(): Field {
+    _getProductField() {
         const { isForLinkedProducts, isForWishlist = false } = this.options;
 
         return new Field('product')
@@ -506,12 +533,12 @@ export class ProductListQuery {
         ];
     }
 
-    _getShortDescriptionField(): Field {
+    _getShortDescriptionField() {
         return new Field('short_description')
             .addFieldList(this._getShortDescriptionFields());
     }
 
-    _getStockItemField(): Field {
+    _getStockItemField() {
         return new Field('stock_item')
             .addFieldList(this._getStockItemFields());
     }
@@ -535,12 +562,12 @@ export class ProductListQuery {
         ];
     }
 
-    _getBreadcrumbsField(): Field {
+    _getBreadcrumbsField() {
         return new Field('breadcrumbs')
             .addFieldList(this._getBreadcrumbFields());
     }
 
-    _getCategoryFields(): Array<string | Field> {
+    _getCategoryFields(): CommonField[] {
         return [
             'id',
             'name',
@@ -549,12 +576,12 @@ export class ProductListQuery {
         ];
     }
 
-    _getCategoriesField(): Field {
+    _getCategoriesField() {
         return new Field('categories')
             .addFieldList(this._getCategoryFields());
     }
 
-    _getMinimalPriceFields(): Field[] {
+    _getMinimalPriceFields(): CommonField[] {
         return [
             this._getDiscountField(),
             this._getFinalPriceField(),
@@ -567,17 +594,17 @@ export class ProductListQuery {
         ];
     }
 
-    _getMinimalPriceField(): Field {
+    _getMinimalPriceField() {
         return new Field('minimum_price')
             .addFieldList(this._getMinimalPriceFields());
     }
 
-    _getMaximalPriceField(): Field {
+    _getMaximalPriceField() {
         return new Field('maximum_price')
             .addFieldList(this._getMinimalPriceFields());
     }
 
-    _getPriceRangeFields(): Field[] {
+    _getPriceRangeFields(): CommonField[] {
         // Using an array as potentially would want to add maximum price
         return [
             this._getMinimalPriceField(),
@@ -585,7 +612,7 @@ export class ProductListQuery {
         ];
     }
 
-    _getPriceRangeField(): Field {
+    _getPriceRangeField() {
         return new Field('price_range')
             .addFieldList(this._getPriceRangeFields());
     }
@@ -611,23 +638,23 @@ export class ProductListQuery {
      * @returns {Field}
      * @private
      */
-    _getProductThumbnailField(): Field {
+    _getProductThumbnailField() {
         return new Field('thumbnail')
             .addFieldList(this._getProductThumbnailFields());
     }
 
-    _getProductSmallField(): Field {
+    _getProductSmallField() {
         return new Field('small_image')
             .addFieldList(this._getProductSmallFields());
     }
 
-    _getProductImageField(): Field {
+    _getProductImageField() {
         return new Field('image')
             .addFieldList(this._getProductThumbnailFields());
     }
 
-    _getAttributeOptionField(noSwatches: boolean): Array<string | Field> {
-        const fields: Array<string | Field> = [
+    _getAttributeOptionField(noSwatches: boolean): CommonField[] {
+        const fields: CommonField[] = [
             'label',
             'value'
         ];
@@ -639,7 +666,7 @@ export class ProductListQuery {
         return fields;
     }
 
-    _getAttributeOptionsField(noSwatches: boolean): Field {
+    _getAttributeOptionsField(noSwatches: boolean) {
         return new Field('attribute_options')
             .addFieldList(this._getAttributeOptionField(noSwatches));
     }
@@ -656,7 +683,7 @@ export class ProductListQuery {
         ];
     }
 
-    _getAttributeOptionsFields(isVariant: boolean): Field[] {
+    _getAttributeOptionsFields(isVariant: boolean): CommonField[] {
         if (isVariant) {
             return [];
         }
@@ -666,7 +693,7 @@ export class ProductListQuery {
         ];
     }
 
-    _getAttributeFields(isVariant = false, isCart = false): Array<string | Field> {
+    _getAttributeFields(isVariant = false, isCart = false): CommonField[] {
         return [
             'attribute_id',
             'attribute_value',
@@ -677,13 +704,13 @@ export class ProductListQuery {
         ];
     }
 
-    _getAttributesField(isVariant: boolean, isCart: boolean): Field {
+    _getAttributesField(isVariant: boolean, isCart: boolean) {
         return new Field('s_attributes')
             .setAlias('attributes')
             .addFieldList(this._getAttributeFields(isVariant, isCart));
     }
 
-    _getMediaGalleryFields(): Array<string | Field> {
+    _getMediaGalleryFields(): CommonField[] {
         return [
             'id',
             'file',
@@ -704,7 +731,7 @@ export class ProductListQuery {
      * @returns {Field} the video_content field
      * @private
      */
-    _getVideoContentField(): Field {
+    _getVideoContentField() {
         return new Field('video_content').addFieldList([
             'media_type',
             'video_description',
@@ -721,24 +748,24 @@ export class ProductListQuery {
      * @returns {Field}
      * @private
      */
-    _getMediaThumbnailField(): Field {
+    _getMediaThumbnailField() {
         return new Field('thumbnail').addField('url');
     }
 
-    _getMediaBaseField(): Field {
+    _getMediaBaseField() {
         return new Field('base').addField('url');
     }
 
-    _getMediaLargeField(): Field {
+    _getMediaLargeField() {
         return new Field('large').addField('url');
     }
 
-    _getMediaGalleryField(): Field {
+    _getMediaGalleryField() {
         return new Field('media_gallery_entries')
             .addFieldList(this._getMediaGalleryFields());
     }
 
-    _getProductLinksField(): Field {
+    _getProductLinksField() {
         return new Field('product_links')
             .addFieldList(this._getProductLinkFields());
     }
@@ -749,12 +776,12 @@ export class ProductListQuery {
         ];
     }
 
-    _getDescriptionField(): Field {
+    _getDescriptionField() {
         return new Field('description')
             .addFieldList(this._getDescriptionFields());
     }
 
-    _getUrlRewritesFields(): Field {
+    _getUrlRewritesFields() {
         return new Field('url_rewrites')
             .addFieldList(['url']);
     }
@@ -767,20 +794,20 @@ export class ProductListQuery {
         ];
     }
 
-    _getRatingsBreakdownFields(): Array<string | Field> {
+    _getRatingsBreakdownFields(): CommonField[] {
         return [
             new Field('name').setAlias('rating_code'),
             'value'
         ];
     }
 
-    _getRatingsBreakdownField(): Field {
+    _getRatingsBreakdownField() {
         return new Field('ratings_breakdown')
             .setAlias('rating_votes')
             .addFieldList(this._getRatingsBreakdownFields());
     }
 
-    _getReviewItemsFields(): Array<string | Field> {
+    _getReviewItemsFields(): CommonField[] {
         return [
             'average_rating',
             'nickname',
@@ -791,18 +818,18 @@ export class ProductListQuery {
         ];
     }
 
-    _getReviewItemsField(): Field {
+    _getReviewItemsField() {
         return new Field('items')
             .addFieldList(this._getReviewItemsFields());
     }
 
-    _getReviewsFields(): Field[] {
+    _getReviewsFields(): CommonField[] {
         return [
             this._getReviewItemsField()
         ];
     }
 
-    _getReviewsField(): Field {
+    _getReviewsField() {
         return new Field('reviews')
             // Hard-coded pages, it will be very hard to
             // paginate using current implementation
@@ -812,15 +839,15 @@ export class ProductListQuery {
             .addFieldList(this._getReviewsFields());
     }
 
-    _getReviewCountField(): Field {
-        return new Field('review_count');
+    _getReviewCountField(): Field<'review_count', number> {
+        return new Field<'review_count', number>('review_count');
     }
 
-    _getRatingSummaryField(): Field {
+    _getRatingSummaryField() {
         return new Field('rating_summary');
     }
 
-    _getBundleOptionsFields(): Array<string | Field> {
+    _getBundleOptionsFields(): CommonField[] {
         return [
             'uid',
             'label',
@@ -834,12 +861,12 @@ export class ProductListQuery {
         ];
     }
 
-    _getProductBundleOptionField(): Field {
+    _getProductBundleOptionField() {
         return new Field('product')
             .addFieldList(this._getProductBundleOptionFields());
     }
 
-    _getProductBundleOptionFields(): Array<string | Field> {
+    _getProductBundleOptionFields(): CommonField[] {
         return [
             'name',
             'stock_status',
@@ -847,12 +874,12 @@ export class ProductListQuery {
         ];
     }
 
-    _getBundleOptionsField(): Field {
+    _getBundleOptionsField() {
         return new Field('options')
             .addFieldList(this._getBundleOptionsFields());
     }
 
-    _getBundleItemsFields(): Array<string | Field> {
+    _getBundleItemsFields(): CommonField[] {
         return [
             'uid',
             'option_id',
@@ -865,7 +892,7 @@ export class ProductListQuery {
         ];
     }
 
-    _getBundleItemsField(): Field {
+    _getBundleItemsField() {
         return new Field('items')
             .addFieldList(this._getBundleItemsFields());
     }
@@ -880,7 +907,7 @@ export class ProductListQuery {
         ];
     }
 
-    _getBundlePriceOptionFields(): Array<string | Field> {
+    _getBundlePriceOptionFields(): CommonField[] {
         return [
             'option_id',
             new Field('selection_details')
@@ -888,12 +915,12 @@ export class ProductListQuery {
         ];
     }
 
-    _getBundlePriceOptionsField(): Field {
+    _getBundlePriceOptionsField() {
         return new Field('bundle_options')
             .addFieldList(this._getBundlePriceOptionFields());
     }
 
-    _getBundleProductFragmentFields(): Array<string | Field> {
+    _getBundleProductFragmentFields(): CommonField[] {
         return [
             'dynamic_price',
             'dynamic_sku',
@@ -910,30 +937,30 @@ export class ProductListQuery {
         ];
     }
 
-    _getValuesField(): Field {
+    _getValuesField() {
         return new Field('values')
             .addFieldList(this._getValueFields());
     }
 
-    _getConfigurableOptionFields(): Array<string | Field> {
+    _getConfigurableOptionFields(): CommonField[] {
         return [
             'attribute_code',
             this._getValuesField()
         ];
     }
 
-    _getConfigurableOptionsField(): Field {
+    _getConfigurableOptionsField() {
         return new Field('configurable_options')
             .addFieldList(this._getConfigurableOptionFields());
     }
 
-    _getVariantFields(): Field[] {
+    _getVariantFields(): CommonField[] {
         return [
             this._getProductField()
         ];
     }
 
-    _getVariantsField(): Field {
+    _getVariantsField() {
         const { isPlp = false, isForWishlist = false } = this.options;
 
         // For PLP page we have optimized variants graphql field
@@ -944,7 +971,7 @@ export class ProductListQuery {
             .addFieldList(this._getVariantFields());
     }
 
-    _getConfigurableProductFragmentFields(): Field[] {
+    _getConfigurableProductFragmentFields(): CommonField[] {
         return [
             this._getConfigurableOptionsField(),
             this._getVariantsField()
@@ -963,20 +990,20 @@ export class ProductListQuery {
         ];
     }
 
-    _getCustomizableTextValueField(alias: string): Field {
+    _getCustomizableTextValueField(alias: string) {
         return new Field('value')
             .addFieldList(this._getCustomizableTextValueFields())
             .setAlias(alias);
     }
 
-    _getCustomizableTextFields(alias: string): Array<string | Field> {
+    _getCustomizableTextFields(alias: string): CommonField[] {
         return [
             this._getCustomizableTextValueField(alias),
             'product_sku'
         ];
     }
 
-    _getCustomizableFileValueField(alias: string): Field {
+    _getCustomizableFileValueField(alias: string) {
         return new Field('value')
             .addFieldList([
                 'price',
@@ -990,18 +1017,18 @@ export class ProductListQuery {
             .setAlias(alias);
     }
 
-    _getCustomizableAreaOption(): Field {
-        return new Fragment('CustomizableAreaOption')
+    _getCustomizableAreaOption(): InlineFragment<'CustomizableAreaOption', GQLCustomizableAreaOption> {
+        return new InlineFragment<'CustomizableAreaOption', GQLCustomizableAreaOption>('CustomizableAreaOption')
             .addFieldList(this._getCustomizableTextFields('areaValues'));
     }
 
-    _getCustomizableFieldOption(): Field {
-        return new Fragment('CustomizableFieldOption')
+    _getCustomizableFieldOption(): InlineFragment<'CustomizableFieldOption', GQLCustomizableFieldOption> {
+        return new InlineFragment<'CustomizableFieldOption', GQLCustomizableFieldOption>('CustomizableFieldOption')
             .addFieldList(this._getCustomizableTextFields('fieldValues'));
     }
 
-    _getCustomizableFileOption(): Field {
-        return new Fragment('CustomizableFileOption')
+    _getCustomizableFileOption(): InlineFragment<'CustomizableFileOption', GQLCustomizableFileOption> {
+        return new InlineFragment<'CustomizableFileOption', GQLCustomizableFileOption>('CustomizableFileOption')
             .addFieldList([this._getCustomizableFileValueField('fileValues')]);
     }
 
@@ -1016,20 +1043,20 @@ export class ProductListQuery {
         ];
     }
 
-    _getCustomizableDateValueField(): Field {
+    _getCustomizableDateValueField() {
         return new Field('value')
             .addFieldList(this._getCustomizableDateValueFields());
     }
 
-    _getCustomizableDateFields(): Array<string | Field> {
+    _getCustomizableDateFields(): CommonField[] {
         return [
             this._getCustomizableDateValueField(),
             'product_sku'
         ];
     }
 
-    _getCustomizableDateOption(): Field {
-        return new Fragment('CustomizableDateOption')
+    _getCustomizableDateOption(): InlineFragment<'CustomizableDateOption', GQLCustomizableDateOption> {
+        return new InlineFragment<'CustomizableDateOption', GQLCustomizableDateOption>('CustomizableDateOption')
             .addFieldList(this._getCustomizableDateFields());
     }
 
@@ -1048,33 +1075,39 @@ export class ProductListQuery {
         ];
     }
 
-    _getCustomizableSelectionValueField(alias: string): Field {
+    _getCustomizableSelectionValueField(alias: string) {
         return new Field('value')
             .addFieldList(this._getCustomizableSelectionValueFields())
             .setAlias(alias);
     }
 
-    _getCustomizableCheckboxOption(): Field {
-        return new Fragment('CustomizableCheckboxOption')
+    _getCustomizableCheckboxOption(): InlineFragment<'CustomizableCheckboxOption', GQLCustomizableCheckboxOption> {
+        return new InlineFragment<'CustomizableCheckboxOption', GQLCustomizableCheckboxOption>(
+            'CustomizableCheckboxOption'
+        )
             .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]);
     }
 
-    _getCustomizableMultiOption(): Field {
-        return new Fragment('CustomizableMultipleOption')
+    _getCustomizableMultiOption(): InlineFragment<'CustomizableMultipleOption', GQLCustomizableMultipleOption> {
+        return new InlineFragment<'CustomizableMultipleOption', GQLCustomizableMultipleOption>(
+            'CustomizableMultipleOption'
+        )
             .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]); // same as checkbox
     }
 
-    _getCustomizableDropdownOption(): Field {
-        return new Fragment('CustomizableDropDownOption')
+    _getCustomizableDropdownOption(): InlineFragment<'CustomizableDropDownOption', GQLCustomizableDropDownOption> {
+        return new InlineFragment<'CustomizableDropDownOption', GQLCustomizableDropDownOption>(
+            'CustomizableDropDownOption'
+        )
             .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]);
     }
 
-    _getCustomizableRadioOption(): Field {
-        return new Fragment('CustomizableRadioOption')
+    _getCustomizableRadioOption(): InlineFragment<'CustomizableRadioOption', GQLCustomizableRadioOption> {
+        return new InlineFragment<'CustomizableRadioOption', GQLCustomizableRadioOption>('CustomizableRadioOption')
             .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]); // same as dropdown
     }
 
-    _getCustomizableProductFragmentOptionsFields(): Array<string | Field> {
+    _getCustomizableProductFragmentOptionsFields(): CommonField[] {
         return [
             this._getCustomizableDropdownOption(),
             this._getCustomizableRadioOption(),
@@ -1092,34 +1125,36 @@ export class ProductListQuery {
         ];
     }
 
-    _getCustomizableProductFragmentOptionsField(): Field {
+    _getCustomizableProductFragmentOptionsField() {
         return new Field('options')
             .addFieldList(this._getCustomizableProductFragmentOptionsFields());
     }
 
-    _getCustomizableProductFragment(): Field {
-        return new Fragment('CustomizableProductInterface')
+    _getCustomizableProductFragment(): InlineFragment<'CustomizableProductInterface', GQLCustomizableProductInterface> {
+        return new InlineFragment<'CustomizableProductInterface', GQLCustomizableProductInterface>(
+            'CustomizableProductInterface'
+        )
             .addFieldList([this._getCustomizableProductFragmentOptionsField()]);
     }
 
-    _getSimpleProductFragmentFields(): Field[] {
+    _getSimpleProductFragmentFields(): CommonField[] {
         return [
             this._getTierPricesField()
         ];
     }
 
-    _getVirtualProductFragmentFields(): Field[] {
+    _getVirtualProductFragmentFields(): CommonField[] {
         return [
             this._getTierPricesField()
         ];
     }
 
-    _getTierPricesField(): Field {
+    _getTierPricesField() {
         return new Field('price_tiers')
             .addFieldList(this._getTierPricesFields());
     }
 
-    _getTierPricesFields(): Array<string | Field> {
+    _getTierPricesFields(): CommonField[] {
         return [
             this._getDiscountField(),
             this._getFinalPriceField(),
@@ -1127,71 +1162,71 @@ export class ProductListQuery {
         ];
     }
 
-    _getDiscountField(): Field {
+    _getDiscountField() {
         return new Field('discount')
             .addField('amount_off')
             .addField('percent_off');
     }
 
-    _getFinalPriceField(): Field {
+    _getFinalPriceField() {
         return new Field('final_price')
             .addField('currency')
             .addField('value');
     }
 
-    _getFinalPriceExclTaxField(): Field {
+    _getFinalPriceExclTaxField() {
         return new Field('final_price_excl_tax')
             .addField('currency')
             .addField('value');
     }
 
-    _getRegularPriceField(): Field {
+    _getRegularPriceField() {
         return new Field('regular_price')
             .addField('currency')
             .addField('value');
     }
 
-    _getRegularPriceExclTaxField(): Field {
+    _getRegularPriceExclTaxField() {
         return new Field('regular_price_excl_tax')
             .addField('currency')
             .addField('value');
     }
 
-    _getDefaultFinalPriceExclTaxField(): Field {
+    _getDefaultFinalPriceExclTaxField() {
         return new Field('default_final_price_excl_tax')
             .addField('currency')
             .addField('value');
     }
 
-    _getDefaultPriceField(): Field {
+    _getDefaultPriceField() {
         return new Field('default_price')
             .addField('currency')
             .addField('value');
     }
 
-    _getDefaultFinalPriceField(): Field {
+    _getDefaultFinalPriceField() {
         return new Field('default_final_price')
             .addField('currency')
             .addField('value');
     }
 
-    _getBundleProductFragment(): Field {
-        return new Fragment('BundleProduct')
+    _getBundleProductFragment() {
+        return new InlineFragment('BundleProduct')
             .addFieldList(this._getBundleProductFragmentFields());
     }
 
-    _getConfigurableProductFragment(): Field {
-        return new Fragment('ConfigurableProduct')
+    _getConfigurableProductFragment() {
+        return new InlineFragment('ConfigurableProduct')
             .addFieldList(this._getConfigurableProductFragmentFields());
     }
 
-    _getSimpleProductFragment(): Field {
-        return new Fragment('SimpleProduct')
+    _getSimpleProductFragment() {
+        return new InlineFragment('SimpleProduct')
             .addFieldList(this._getSimpleProductFragmentFields());
     }
 
-    _getVirtualProductFragment(): Field {
-        return new Fragment('VirtualProduct')
+    _getVirtualProductFragment() {
+        return new InlineFragment('VirtualProduct')
             .addFieldList(this._getVirtualProductFragmentFields());
     }
 
@@ -1202,18 +1237,18 @@ export class ProductListQuery {
         ];
     }
 
-    _getSortOptionsField(): Field {
+    _getSortOptionsField() {
         return new Field('options')
             .addFieldList(this._getSortOptionFields());
     }
 
-    _getSortFields(): Field[] {
+    _getSortFields(): CommonField[] {
         return [
             this._getSortOptionsField()
         ];
     }
 
-    _getSortField(): Field {
+    _getSortField() {
         return new Field('sort_fields')
             .addFieldList(this._getSortFields());
     }
@@ -1225,18 +1260,18 @@ export class ProductListQuery {
         ];
     }
 
-    _getSwatchDataField(): Field {
+    _getSwatchDataField() {
         return new Field('swatch_data')
             .addFieldList(this._getSwatchDataFields());
     }
 
-    _getAggregationsField(): Field {
+    _getAggregationsField() {
         return new Field('aggregations')
             .setAlias('filters')
             .addFieldList(this._getAggregationsFields());
     }
 
-    _getAggregationsFields(): Array<string | Field> {
+    _getAggregationsFields(): CommonField[] {
         return [
             new Field('label').setAlias('name'),
             new Field('attribute_code').setAlias('request_var'),
@@ -1247,13 +1282,13 @@ export class ProductListQuery {
         ];
     }
 
-    _getAggregationsOptionsField(): Field {
+    _getAggregationsOptionsField() {
         return new Field('options')
             .setAlias('filter_items')
             .addFieldList(this._getAggregationsOptionsFields());
     }
 
-    _getAggregationsOptionsFields(): Array<string | Field> {
+    _getAggregationsOptionsFields(): CommonField[] {
         return [
             'label',
             'count',
@@ -1262,8 +1297,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getPageInfoField(): Field {
-        return new Field('page_info')
+    _getPageInfoField() {
+        return new Field<'page_info', GQLSearchResultPageInfo>('page_info')
             .addField('current_page')
             .addField('total_pages');
     }

@@ -9,13 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Mutation } from '@tilework/opus';
+
 import { GQLKlarnaTokenInput } from 'Type/Graphql.type';
-import { Field } from 'Util/Query';
 
 /** @namespace Query/Klarna/Query */
 export class KlarnaQuery {
-    getCreateKlarnaTokenMutation(input: GQLKlarnaTokenInput): Field {
-        return new Field('createKlarnaToken')
+    getCreateKlarnaTokenMutation(input: GQLKlarnaTokenInput): Mutation<'klarnaToken', string> {
+        return new Mutation<'createKlarnaToken', string>('createKlarnaToken')
             .addArgument('input', 'KlarnaTokenInput!', input)
             .setAlias('klarnaToken');
     }

@@ -9,7 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { Field, Query } from '@tilework/opus';
+
+import { GQLCmsBlock, GQLCmsBlocks } from 'Type/Graphql.type';
 
 /**
  * CMS Blocks Query
@@ -22,15 +24,16 @@ export class CmsBlockQuery {
      * @return {Field} CMS Block query
      * @memberof CmsBlocksQuery
      */
-    getQuery({ identifiers }: { identifiers: string[] }): Field {
+    getQuery({ identifiers }: { identifiers: string[] }): Query<'cmsBlocks', GQLCmsBlocks & {
+        items: GQLCmsBlock[];
+    }> {
         if (!identifiers) {
             throw new Error('Missing argument `options`');
         }
 
-        return new Field('cmsBlocks')
+        return new Query<'cmsBlocks', GQLCmsBlocks>('cmsBlocks')
             .addArgument('identifiers', '[String]', identifiers)
-            .addField(this._getItemsField())
-            .setAlias('cmsBlocks');
+            .addField(this._getItemsField());
     }
 
     _getItemFields(): string[] {
@@ -42,8 +45,8 @@ export class CmsBlockQuery {
         ];
     }
 
-    _getItemsField(): Field {
-        return new Field('items')
+    _getItemsField(): Field<'items', GQLCmsBlock, true> {
+        return new Field<'items', GQLCmsBlock, true>('items', true)
             .addFieldList(this._getItemFields());
     }
 }

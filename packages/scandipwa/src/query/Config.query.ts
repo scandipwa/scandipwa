@@ -9,22 +9,30 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { Field, Mutation, Query } from '@tilework/opus';
+
+import {
+    GQLCheckoutAgreement,
+    GQLCurrency,
+    GQLCurrencyConfig, GQLPriceTaxDisplay, GQLQuery, GQLStoreConfig
+} from 'Type/Graphql.type';
+
+import { CommonField } from './Query.type';
 
 /** @namespace Query/Config/Query */
 export class ConfigQuery {
-    getStoreListField(): Field {
-        return new Field('storeList')
+    getStoreListField(): Query<'storeList', GQLStoreConfig, true> {
+        return new Query<'storeList', GQLStoreConfig, true>('storeList', true)
             .addFieldList(this._getStoreListFields());
     }
 
-    getCheckoutAgreements(): Field {
-        return new Field('checkoutAgreements')
+    getCheckoutAgreements(): Query<'checkoutAgreements', GQLCheckoutAgreement, true> {
+        return new Query<'checkoutAgreements', GQLCheckoutAgreement, true>('checkoutAgreements', true)
             .addFieldList(this._getCheckoutAgreementFields());
     }
 
-    getCurrencyField(): Field {
-        return new Field('available_currencies_data')
+    getCurrencyField(): Query<'available_currencies_data', { id: string; label: string; value: string }, true> {
+        return new Query<'available_currencies_data', GQLCurrency, true>('available_currencies_data', true)
             .addFieldList([
                 'id',
                 'label',
@@ -32,24 +40,27 @@ export class ConfigQuery {
             ]);
     }
 
-    getCurrencyData(): Field {
-        return new Field('currencyData')
+    getCurrencyData(): Query<'currencyData', GQLCurrencyConfig> {
+        return new Query<'currencyData', GQLCurrencyConfig>('currencyData')
             .addFieldList([
                 this.getCurrencyField(),
                 'current_currency_code'
             ]);
     }
 
-    getPriceDisplayTypeField(): Field {
-        return new Field('priceTaxDisplay')
+    _getPriceDisplayTypeField(): Field<'priceTaxDisplay', GQLPriceTaxDisplay & {
+        product_price_display_type: string;
+        shipping_price_display_type: string;
+    }> {
+        return new Field<'priceTaxDisplay', GQLPriceTaxDisplay>('priceTaxDisplay')
             .addFieldList([
                 'product_price_display_type',
                 'shipping_price_display_type'
             ]);
     }
 
-    getSaveSelectedCurrencyMutation(newCurrency: string): Field {
-        return new Field('saveSelectedCurrency')
+    getSaveSelectedCurrencyMutation(newCurrency: string): Mutation<'saveSelectedCurrency', GQLQuery> {
+        return new Mutation<'saveSelectedCurrency', GQLQuery>('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)
             .addFieldList([
                 this.getCurrencyData()
@@ -78,7 +89,7 @@ export class ConfigQuery {
         ];
     }
 
-    getQuery(): Field {
+    getQuery(): Field<'storeConfig', GQLStoreConfig> {
         return new Field('storeConfig')
             .addFieldList(this._getStoreConfigFields());
     }
@@ -92,7 +103,7 @@ export class ConfigQuery {
         ];
     }
 
-    _getStoreConfigFields(): Array<string | Field> {
+    _getStoreConfigFields(): CommonField[] {
         return [
             'code',
             'is_active',
@@ -153,7 +164,7 @@ export class ConfigQuery {
             'minimun_password_length',
             'required_character_classes_number',
             ...this._getTimeDateFormatFields(),
-            this.getPriceDisplayTypeField()
+            this._getPriceDisplayTypeField()
         ];
     }
 }

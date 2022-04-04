@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { Mutation } from '@tilework/opus';
 
 /** @namespace Query/ProductAlerts/Query */
 export class ProductAlertsQuery {
-    getProductAlertSubscribeMutation(productId: string, type: string): Field {
-        return new Field('productAlertSubscribe')
+    getProductAlertSubscribeMutation(productId: string, type: string): Mutation<'productAlertSubscribe', boolean> {
+        return new Mutation<'productAlertSubscribe', boolean>('productAlertSubscribe')
             .addArgument('productId', 'ID!', productId)
             .addArgument('type', 'String!', type);
     }

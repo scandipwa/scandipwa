@@ -9,7 +9,14 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { Field, InlineFragment } from '@tilework/opus';
+
 import { GQLCustomerInput } from 'Type/Graphql.type';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type CommonField = string | Field<any, any, any>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type CommonFragment = InlineFragment<any, any>;
 
 export type CategoryQueryOptions = {
     categoryIds: number;

@@ -9,7 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { Query } from '@tilework/opus';
+
+import { GQLCmsPage } from 'Type/Graphql.type';
 
 import { CmsPage } from './Query.type';
 
@@ -18,12 +20,12 @@ import { CmsPage } from './Query.type';
  * @class CmsPageQuery
  * @namespace Query/CmsPage/Query */
 export class CmsPageQuery {
-    getQuery({ id, url_key, identifier }: CmsPage): Field {
+    getQuery({ id, url_key, identifier }: CmsPage): Query<'cmsPage', GQLCmsPage> {
         if (!id && !url_key && !identifier) {
             throw new Error('Missing argument `id` or `url_key`!');
         }
 
-        const cmsPage = new Field('cmsPage')
+        const cmsPage = new Query<'cmsPage', GQLCmsPage>('cmsPage')
             .addFieldList(this._getPageFields());
 
         if (identifier) {

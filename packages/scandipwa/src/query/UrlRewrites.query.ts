@@ -8,22 +8,22 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { Field, Query } from '@tilework/opus';
+import { Query } from '@tilework/opus';
 
-import { UrlRewrite } from 'Type/Router.type';
+import { GQLEntityUrl } from 'Type/Graphql.type';
 
 /**
  * UrlRewrites Query
  * @class UrlRewritesQuery
  * @namespace Query/UrlRewrites/Query */
 export class UrlRewritesQuery {
-    getQuery({ urlParam }: { urlParam: string }): UrlRewrite {
+    getQuery({ urlParam }: { urlParam: string }): Query<'urlResolver', GQLEntityUrl> {
         return new Query('urlResolver')
             .addArgument('url', 'String!', urlParam)
             .addFieldList(this._getUrlResolverFields());
     }
 
-    _getUrlResolverFields(): Array<string | Field<string, unknown>> {
+    _getUrlResolverFields(): string[] {
         return [
             'sku',
             'type'

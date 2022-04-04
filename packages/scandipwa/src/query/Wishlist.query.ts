@@ -10,24 +10,47 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Field, Mutation, Query } from '@tilework/opus';
+
 import ProductListQuery from 'Query/ProductList.query';
-import { GQLShareWishlistInput, GQLWishlistItemInput, GQLWishlistItemUpdateInput } from 'Type/Graphql.type';
+import {
+    GQLAddProductsToWishlistOutput,
+    GQLShareWishlistInput,
+    GQLUpdateProductsInWishlistOutput,
+    GQLWishlistItemInput,
+    GQLWishlistItemUpdateInput,
+    GQLWishlistOutput,
+    GQLWishListUserInputError
+} from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId } from 'Util/Cart';
-import { Field } from 'Util/Query';
+
+import { CommonField } from './Query.type';
 
 /** @namespace Query/Wishlist/Query */
 export class WishlistQuery {
     //#region MUTATION
-    addProductsToWishlist(wishlistId: string, wishlistItems: GQLWishlistItemInput[]): Field {
-        return new Field('addProductsToWishlist')
+    addProductsToWishlist(
+        wishlistId: string,
+        wishlistItems: GQLWishlistItemInput[]
+    ): Mutation<
+        'addProductsToWishlist',
+        GQLAddProductsToWishlistOutput & { user_errors: GQLWishListUserInputError[] }
+        > {
+        return new Mutation<'addProductsToWishlist', GQLAddProductsToWishlistOutput>('addProductsToWishlist')
             .addArgument('wishlistId', 'ID!', wishlistId)
             .addArgument('wishlistItems', '[WishlistItemInput!]!', wishlistItems)
             .addField(this._getWishlistErrorsField());
     }
 
-    updateProductsInWishlist(wishlistId: string, wishlistItems: GQLWishlistItemUpdateInput): Field {
-        return new Field('updateProductsInWishlist')
+    updateProductsInWishlist(
+        wishlistId: string,
+        wishlistItems: GQLWishlistItemUpdateInput
+    ): Mutation<
+        'updateProductsInWishlist',
+        GQLUpdateProductsInWishlistOutput & { user_errors: GQLWishListUserInputError[] }
+        > {
+        return new Mutation<'updateProductsInWishlist', GQLUpdateProductsInWishlistOutput>('updateProductsInWishlist')
             .addArgument('wishlistId', 'ID!', wishlistId)
             .addArgument('wishlistItems', '[WishlistItemUpdateInput!]!', wishlistItems)
             .addField(this._getWishlistErrorsField());
@@ -42,14 +65,14 @@ export class WishlistQuery {
         ];
     }
 
-    _getWishlistErrorsField(): Field {
-        return new Field('user_errors')
+    _getWishlistErrorsField(): Field<'user_errors', GQLWishListUserInputError, true> {
+        return new Field<'user_errors', GQLWishListUserInputError, true>('user_errors', true)
             .addFieldList(this._getWishlistErrorsFields());
     }
     //#endregion
 
-    getWishlistQuery(sharingCode: string): Field {
-        const field = new Field('s_wishlist')
+    getWishlistQuery(sharingCode: string): Query<'wishlist', GQLWishlistOutput> {
+        const field = new Query<'s_wishlist', GQLWishlistOutput>('s_wishlist')
             .setAlias('wishlist')
             .addFieldList(this._getWishlistFields());
 
@@ -60,19 +83,19 @@ export class WishlistQuery {
         return field;
     }
 
-    getShareWishlistMutation(input: GQLShareWishlistInput): Field {
-        return new Field('s_shareWishlist')
+    getShareWishlistMutation(input: GQLShareWishlistInput): Mutation<'shareWishlist', boolean> {
+        return new Mutation<'s_shareWishlist', boolean>('s_shareWishlist')
             .setAlias('shareWishlist')
             .addArgument('input', 'ShareWishlistInput!', input);
     }
 
-    getClearWishlist(): Field {
-        return new Field('s_clearWishlist')
+    getClearWishlist(): Query<'clearWishlist', boolean> {
+        return new Query<'s_clearWishlist', boolean>('s_clearWishlist')
             .setAlias('clearWishlist');
     }
 
-    getMoveWishlistToCart(sharingCode: string): Field {
-        const field = new Field('s_moveWishlistToCart')
+    getMoveWishlistToCart(sharingCode: string): Query<'moveWishlistToCart', boolean> {
+        const field = new Query<'s_moveWishlistToCart', boolean>('s_moveWishlistToCart')
             .setAlias('moveWishlistToCart');
 
         if (sharingCode) {
@@ -87,13 +110,13 @@ export class WishlistQuery {
         return field;
     }
 
-    getRemoveProductFromWishlistMutation(item_id: string): Field {
-        return new Field('s_removeProductFromWishlist')
+    getRemoveProductFromWishlistMutation(item_id: string): Mutation<'removeProductFromWishlist', boolean> {
+        return new Mutation<'s_removeProductFromWishlist', boolean>('s_removeProductFromWishlist')
             .setAlias('removeProductFromWishlist')
             .addArgument('itemId', 'ID!', item_id);
     }
 
-    _getWishlistFields(): Array<string | Field> {
+    _getWishlistFields(): CommonField[] {
         return [
             'id',
             'updated_at',
@@ -110,12 +133,12 @@ export class WishlistQuery {
         ];
     }
 
-    _getItemOptionsField(): Field {
+    _getItemOptionsField(): CommonField {
         return new Field('options')
             .addFieldList(this._getItemOptionsFields());
     }
 
-    _getWishlistItemsFields(): Array<string | Field> {
+    _getWishlistItemsFields(): CommonField[] {
         return [
             'id',
             'sku',
@@ -128,19 +151,19 @@ export class WishlistQuery {
         ];
     }
 
-    _getItemsFields(): Array<string | Field> {
+    _getItemsFields(): CommonField[] {
         return [
             ...this._getWishlistItemsFields(),
             this._getProductField()
         ];
     }
 
-    _getProductField(): Field {
+    _getProductField(): CommonField {
         return new Field('product')
             .addFieldList(ProductListQuery._getProductInterfaceFields(false, false, true));
     }
 
-    _getItemsField(): Field {
+    _getItemsField(): CommonField {
         return new Field('items')
             .addFieldList(this._getItemsFields());
     }

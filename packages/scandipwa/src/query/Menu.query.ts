@@ -9,7 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { Field, Query } from '@tilework/opus';
+
+import { GQLItem, GQLMenu } from 'Type/Graphql.type';
+
+import { CommonField } from './Query.type';
 /**
  * Menu Query
  * @class MenuQuery
@@ -21,21 +25,21 @@ export class MenuQuery {
      * @return {Field} Menu query
      * @memberof MenuQuery
      */
-    getQuery({ identifier }: { identifier: string }): Field {
-        return new Field('scandiwebMenu')
+    getQuery({ identifier }: { identifier: string }): Query<'menu', GQLMenu> {
+        return new Query<'scandiwebMenu', GQLMenu>('scandiwebMenu')
             .addArgument('identifier', 'String!', identifier)
             .addFieldList(this._getMenuFields())
             .setAlias('menu');
     }
 
-    _getMenuFields(): Array<string | Field> {
+    _getMenuFields(): CommonField[] {
         return [
             'menu_id', 'is_active', 'css_class', this._getMenuItemsField()
         ];
     }
 
-    _getMenuItemsField(): Field {
-        return new Field('items')
+    _getMenuItemsField(): Field<'items', GQLItem, true> {
+        return new Field<'items', GQLItem, true>('items', true)
             .addFieldList(this._getMenuItemFields());
     }
 

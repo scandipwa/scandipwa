@@ -9,21 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { GQLProductInfoInput } from 'Type/Graphql.type';
-import { Field } from 'Util/Query';
+import { Field, Query } from '@tilework/opus';
+
+import { GQLProductInfoInput, GQLStores } from 'Type/Graphql.type';
+
+import { CommonField } from './Query.type';
 
 /** @namespace Query/StoreInPickUp/Query */
 export class StoreInPickUpQuery {
-    getStores(country: string, search = '', productsInfo?: GQLProductInfoInput): Field {
-        return new Field('getStores')
+    getStores(country: string, search = '', productsInfo?: GQLProductInfoInput): Query<'getStores', GQLStores> {
+        return new Query<'getStores', GQLStores>('getStores')
             .addFieldList([this.getStoreFields()])
             .addArgument('search', 'String', search)
             .addArgument('country', 'String', country)
             .addArgument('productsInfo', '[ProductInfoInput]', productsInfo);
     }
 
-    getStoreFields(): Field {
-        return new Field('stores')
+    getStoreFields(): CommonField {
+        return new Field('stores', true)
             .addFieldList([
                 'city',
                 'country',

@@ -10,35 +10,56 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Field, Mutation, Query } from '@tilework/opus';
+
 import ProductListQuery from 'Query/ProductList.query';
-import { GQLCartItemInput, GQLUpdateCartItemsInput } from 'Type/Graphql.type';
+import {
+    GQLAddProductsToCartOutput,
+    GQLAppliedTaxItemRate,
+    GQLCart,
+    GQLCartDisplayConfig,
+    GQLCartItemInput,
+    GQLQuery,
+    GQLQuoteData,
+    GQLUpdateCartItemsInput,
+    GQLUpdateCartItemsOutput,
+    GQLWishListUserInputError
+} from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
-import { Field } from 'Util/Query';
+
+import { CommonField } from './Query.type';
 
 /** @namespace Query/Cart/Query */
 export class CartQuery {
     //#region MUTATIONS
-    getAddProductToCartMutation(cartId: string, cartItems: GQLCartItemInput): Field {
-        return new Field('addProductsToCart')
+    getAddProductToCartMutation(
+        cartId: string,
+        cartItems: GQLCartItemInput
+    ): Mutation<'addProductsToCart', GQLAddProductsToCartOutput & {
+            user_errors: GQLWishListUserInputError[];
+        }> {
+        return new Mutation<'addProductsToCart', GQLAddProductsToCartOutput>('addProductsToCart')
             .addArgument('cartId', 'String!', cartId)
             .addArgument('cartItems', '[CartItemInput!]!', cartItems)
             .addField(this._getUserErrorsField());
     }
 
-    getUpdateCartItemsMutation(input: GQLUpdateCartItemsInput): Field {
-        return new Field('updateCartItems')
+    getUpdateCartItemsMutation(
+        input: GQLUpdateCartItemsInput
+    ): Mutation<'updateCartItems', GQLUpdateCartItemsOutput> {
+        return new Mutation<'updateCartItems', GQLUpdateCartItemsOutput>('updateCartItems')
             .addArgument('input', 'UpdateCartItemsInput', input)
             .addField(this._getCartUpdateField());
     }
 
-    getCreateEmptyCartMutation(): Field {
-        return new Field('createEmptyCart');
+    getCreateEmptyCartMutation(): Mutation<'createEmptyCart', string> {
+        return new Mutation<'createEmptyCart', string>('createEmptyCart');
     }
     //#endregion
 
     //#region QUERIES
-    getCartQuery(quoteId: string): Field {
-        const query = new Field('getCartForCustomer')
+    getCartQuery(quoteId: string): Query<'cartData', GQLQuoteData> {
+        const query = new Query<'getCartForCustomer', GQLQuoteData>('getCartForCustomer')
             .addFieldList(this._getCartTotalsFields())
             .setAlias('cartData');
 
@@ -58,19 +79,21 @@ export class CartQuery {
         ];
     }
 
-    _getUserErrorsField(): Field {
-        return new Field('user_errors')
+    _getUserErrorsField(): Field<'user_errors', GQLWishListUserInputError, true> {
+        return new Field<'user_errors', GQLWishListUserInputError, true>('user_errors')
             .addFieldList(this._getUserErrorsFields());
     }
     //#endregion
 
-    _getCartUpdateField(): Field {
-        return new Field('cart')
+    _getCartUpdateField(): Field<'cart', GQLCart & {
+        id: string;
+    }> {
+        return new Field<'cart', GQLCart>('cart')
             .addField('id');
     }
 
-    getRemoveCartItemMutation(item_id: number, quoteId: string): Field {
-        const mutation = new Field('removeCartItem')
+    getRemoveCartItemMutation(item_id: number, quoteId: string): Mutation<'removeCartItem', GQLQuery> {
+        const mutation = new Mutation<'removeCartItem', GQLQuery>('removeCartItem')
             .addArgument('item_id', 'Int!', item_id)
             .addFieldList(this._getRemoveCartItemFields(quoteId));
 
@@ -81,8 +104,8 @@ export class CartQuery {
         return mutation;
     }
 
-    getApplyCouponMutation(couponCode: string, quoteId: string): Field {
-        const mutation = new Field('applyCoupon')
+    getApplyCouponMutation(couponCode: string, quoteId: string): Mutation<'applyCoupon', GQLQuery> {
+        const mutation = new Mutation<'applyCoupon', GQLQuery>('applyCoupon')
             .addArgument('coupon_code', 'String!', couponCode)
             .addField(this.getCartQuery(quoteId));
 
@@ -93,8 +116,8 @@ export class CartQuery {
         return mutation;
     }
 
-    getRemoveCouponMutation(quoteId: string): Field {
-        const mutation = new Field('removeCoupon')
+    getRemoveCouponMutation(quoteId: string): Mutation<'removeCoupon', GQLQuery> {
+        const mutation = new Mutation<'removeCoupon', GQLQuery>('removeCoupon')
             .addField(this.getCartQuery(quoteId));
 
         if (!isSignedIn()) {
@@ -104,32 +127,32 @@ export class CartQuery {
         return mutation;
     }
 
-    getCartDisplayConfig(): Field {
-        return new Field('getCartDisplayConfig')
+    getCartDisplayConfig(): Field<'cartDisplayConfig', GQLCartDisplayConfig> {
+        return new Field<'getCartDisplayConfig', GQLCartDisplayConfig>('getCartDisplayConfig')
             .setAlias('cartDisplayConfig')
             .addFieldList(this._getCartDisplayConfigFields());
     }
 
-    getMergeCartQuery(sourceCartId: string, destinationCartId: string): Field {
-        return new Field('mergeCarts')
+    getMergeCartQuery(sourceCartId: string, destinationCartId: string): Field<'mergeCarts', GQLCart> {
+        return new Field<'mergeCarts', GQLCart>('mergeCarts')
             .addArgument('source_cart_id', 'String!', sourceCartId)
             .addArgument('destination_cart_id', 'String!', destinationCartId)
             .addField('id');
     }
 
-    _getSaveCartItemFields(quoteId: string): Field[] {
+    _getSaveCartItemFields(quoteId: string): Query<'cartData', GQLQuoteData, false>[] {
         return [
             this.getCartQuery(quoteId)
         ];
     }
 
-    _getRemoveCartItemFields(quoteId: string): Field[] {
+    _getRemoveCartItemFields(quoteId: string): Query<'cartData', GQLQuoteData, false>[] {
         return [
             this.getCartQuery(quoteId)
         ];
     }
 
-    _getCartTotalsFields(): Array<string | Field> {
+    _getCartTotalsFields(): CommonField[] {
         return [
             'id',
             'subtotal',
@@ -165,12 +188,12 @@ export class CartQuery {
         ];
     }
 
-    _getBundleOptionValuesField(): Field {
+    _getBundleOptionValuesField(): CommonField {
         return new Field('values')
             .addFieldList(this._getBundleOptionValuesFields());
     }
 
-    _getBundleOptionsFields(): Array<string | Field> {
+    _getBundleOptionsFields(): CommonField[] {
         return [
             'id',
             'label',
@@ -178,7 +201,7 @@ export class CartQuery {
         ];
     }
 
-    _getBundleOptionsField(): Field {
+    _getBundleOptionsField(): CommonField {
         return new Field('bundle_options')
             .addFieldList(this._getBundleOptionsFields());
     }
@@ -191,12 +214,12 @@ export class CartQuery {
         ];
     }
 
-    _getCustomizableOptionValueField(): Field {
+    _getCustomizableOptionValueField(): CommonField {
         return new Field('values')
             .addFieldList(this._getCustomizableOptionValueFields());
     }
 
-    _getCustomizableOptionsFields(): Field {
+    _getCustomizableOptionsFields(): CommonField {
         return new Field('customizable_options')
             .addFieldList([
                 'id',
@@ -205,7 +228,7 @@ export class CartQuery {
             ]);
     }
 
-    _getDownloadableLinksField(): Field {
+    _getDownloadableLinksField(): CommonField {
         return new Field('downloadable_links')
             .addFieldList(this._getDownloadableLinksFields());
     }
@@ -217,7 +240,7 @@ export class CartQuery {
         ];
     }
 
-    _getCartItemFields(): Array<string | Field> {
+    _getCartItemFields(): CommonField[] {
         return [
             'qty',
             'sku',
@@ -236,12 +259,12 @@ export class CartQuery {
         ];
     }
 
-    _getProductField(): Field {
+    _getProductField(): CommonField {
         return new Field('product')
             .addFieldList(ProductListQuery._getCartProductInterfaceFields());
     }
 
-    _getCartItemsField(): Field {
+    _getCartItemsField(): CommonField {
         return new Field('items')
             .addFieldList(this._getCartItemFields());
     }
@@ -257,13 +280,13 @@ export class CartQuery {
         ];
     }
 
-    _getAppliedTaxesField(): Field {
+    _getAppliedTaxesField(): CommonField {
         return new Field('applied_taxes')
             .addField(this._getAppliedTaxesRatesField());
     }
 
-    _getAppliedTaxesRatesField(): Field {
-        return new Field('rates')
+    _getAppliedTaxesRatesField(): Field<'rates', GQLAppliedTaxItemRate, true> {
+        return new Field<'rates', GQLAppliedTaxItemRate, true>('rates', true)
             .addFieldList(this._getAppliedTaxesRatesFields());
     }
 

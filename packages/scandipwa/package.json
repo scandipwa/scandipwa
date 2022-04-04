@@ -130,7 +130,9 @@
         "parserOptions": {
             "project": "./tsconfig.json"
         },
-        "ignorePatterns": ["package.json"],
+        "ignorePatterns": [
+            "package.json"
+        ],
         "env": {
             "browser": true
         },
@@ -501,7 +503,12 @@
                 "error",
                 {
                     "selector": "default",
-                    "format": ["camelCase", "PascalCase", "snake_case", "UPPER_CASE"],
+                    "format": [
+                        "camelCase",
+                        "PascalCase",
+                        "snake_case",
+                        "UPPER_CASE"
+                    ],
                     "leadingUnderscore": "allow"
                 },
                 {

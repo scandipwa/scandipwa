@@ -9,66 +9,106 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { GQLS_SetBillingAddressOnCartInput, GQLS_SetPaymentMethodOnCartInput } from 'Type/Graphql.type';
+import { Field, Mutation, Query } from '@tilework/opus';
+
+import {
+    GQLCart,
+    GQLOrder,
+    GQLPaymentDetails,
+    GQLPaymentMethod,
+    GQLPaymentTotals,
+    GQLPlaceOrderOutput,
+    GQLS_SetBillingAddressOnCartInput,
+    GQLS_SetPaymentMethodOnCartInput,
+    GQLSetBillingAddressOnCartOutput,
+    GQLSetGuestEmailOnCartOutput,
+    GQLSetPaymentMethodOnCartOutput,
+    GQLShippingMethod,
+    GQLTotalsItem
+} from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
-import { Field } from 'Util/Query';
+
+import { CommonField } from './Query.type';
 
 /** @namespace Query/Checkout/Query */
 export class CheckoutQuery {
-    getPaymentMethodsQuery(guestCartId: string): Field {
-        const query = new Field('getPaymentMethods')
+    getPaymentMethodsQuery(guestCartId: string): Query<'getPaymentMethods', GQLPaymentMethod, true> {
+        const query = new Query<'getPaymentMethods', GQLPaymentMethod, true>('getPaymentMethods')
             .addFieldList(this._getPaymentMethodFields());
 
-        this._addGuestCartId(guestCartId, query);
+        this._addGuestCartId(guestCartId, query as Query<string, unknown, boolean>);
 
         return query;
     }
 
-    getSaveGuestEmailMutation(email: string, cart_id: string): Field {
+    getSaveGuestEmailMutation(
+        email: string,
+        cart_id: string
+    ): Mutation<'setGuestEmailOnCart', GQLSetGuestEmailOnCartOutput & {
+            cart: {
+                email: string;
+            };
+        }, false> {
         const input = { email, cart_id };
-        const mutation = new Field('setGuestEmailOnCart')
+        const mutation = new Mutation<'setGuestEmailOnCart', GQLSetGuestEmailOnCartOutput>('setGuestEmailOnCart')
             .addArgument('input', 'SetGuestEmailOnCartInput', input)
             .addField(((new Field('cart')).addField('email')));
 
         return mutation;
     }
 
-    getEstimateShippingCosts(address: string, guestCartId: string): Field {
-        const mutation = new Field('estimateShippingCosts')
+    getEstimateShippingCosts(
+        address: string,
+        guestCartId: string
+    ): Mutation<'estimateShippingCosts', GQLShippingMethod, true> {
+        const mutation = new Mutation<'estimateShippingCosts', GQLShippingMethod, true>('estimateShippingCosts', true)
             .addArgument('address', 'EstimateShippingCostsAddress!', address)
             .addFieldList(this._getEstimatedShippingFields());
 
-        this._addGuestCartId(guestCartId, mutation);
+        this._addGuestCartId(guestCartId, mutation as Mutation<string, unknown, boolean>);
 
         return mutation;
     }
 
-    getSaveAddressInformation(addressInformation: string, guestCartId: string): Field {
-        const mutation = new Field('saveAddressInformation')
+    getSaveAddressInformation(
+        addressInformation: string,
+        guestCartId: string
+    ): Mutation<'saveAddressInformation', GQLPaymentDetails & {
+            [x: string]: unknown;
+        }> {
+        const mutation = new Mutation<'saveAddressInformation', GQLPaymentDetails>('saveAddressInformation')
             .addArgument('addressInformation', 'SaveAddressInformation!', addressInformation)
             .addFieldList(this._getSaveAddressInformationFields());
 
-        this._addGuestCartId(guestCartId, mutation);
+        this._addGuestCartId(guestCartId, mutation as Mutation<string, unknown, false>);
 
         return mutation;
     }
 
-    getSetBillingAddressOnCart(input: GQLS_SetBillingAddressOnCartInput): Field {
-        return new Field('s_setBillingAddressOnCart')
+    getSetBillingAddressOnCart(
+        input: GQLS_SetBillingAddressOnCartInput
+    ): Mutation<'billingAddress', GQLSetBillingAddressOnCartOutput> {
+        return new Mutation<'s_setBillingAddressOnCart', GQLSetBillingAddressOnCartOutput>('s_setBillingAddressOnCart')
             .addArgument('input', 'S_SetBillingAddressOnCartInput!', input)
             .addField(this._getCartField())
             .setAlias('billingAddress');
     }
 
-    getSetPaymentMethodOnCartMutation(input: GQLS_SetPaymentMethodOnCartInput): Field {
-        return new Field('s_setPaymentMethodOnCart')
+    getSetPaymentMethodOnCartMutation(
+        input: GQLS_SetPaymentMethodOnCartInput
+    ): Mutation<'paymentMethod', GQLSetPaymentMethodOnCartOutput> {
+        return new Mutation<'s_setPaymentMethodOnCart', GQLSetPaymentMethodOnCartOutput>('s_setPaymentMethodOnCart')
             .addArgument('input', 'S_SetPaymentMethodOnCartInput!', input)
             .addField(this._getCartField())
             .setAlias('paymentMethod');
     }
 
-    getPlaceOrderMutation(guestCartId: string): Field {
-        const mutation = new Field('s_placeOrder')
+    getPlaceOrderMutation(guestCartId: string): Mutation<'placeOrder', GQLPlaceOrderOutput & {
+        order: GQLOrder & {
+            order_id: string;
+        };
+    }> {
+        const mutation = new Mutation<'s_placeOrder', GQLPlaceOrderOutput>('s_placeOrder')
             .setAlias('placeOrder')
             .addField(this._getOrderField());
 
@@ -79,18 +119,23 @@ export class CheckoutQuery {
         return mutation;
     }
 
-    _addGuestCartId(guestCartId: string, mutation: Field): void {
+    _addGuestCartId(
+        guestCartId: string,
+        mutation: Mutation<string, unknown, boolean> | Query<string, unknown, boolean>
+    ): void {
         if (guestCartId && !isSignedIn()) {
             mutation.addArgument('guestCartId', 'String!', guestCartId);
         }
     }
 
-    _getOrderField(): Field {
-        return new Field('order')
+    _getOrderField(): Field<'order', GQLOrder & {
+        order_id: string;
+    }, false> {
+        return new Field<'order', GQLOrder>('order')
             .addFieldList(['order_id']);
     }
 
-    _getSaveAddressInformationFields(): Field[] {
+    _getSaveAddressInformationFields(): CommonField[] {
         return [
             this._getPaymentMethodsField(),
             this._getTotalsField()
@@ -112,8 +157,8 @@ export class CheckoutQuery {
         ];
     }
 
-    _getPaymentMethodsField(): Field {
-        return new Field('payment_methods')
+    _getPaymentMethodsField(): Field<'payment_methods', GQLPaymentMethod, true> {
+        return new Field<'payment_methods', GQLPaymentMethod, true>('payment_methods', true)
             .addFieldList(this._getPaymentMethodFields());
     }
 
@@ -136,12 +181,12 @@ export class CheckoutQuery {
         ];
     }
 
-    _getTotalItemField(): Field {
+    _getTotalItemField(): Field<'items', GQLTotalsItem> {
         return new Field('items')
             .addFieldList(this._getTotalItemFields());
     }
 
-    _getTotalsFields(): Array<string | Field> {
+    _getTotalsFields(): CommonField[] {
         return [
             'subtotal',
             'tax_amount',
@@ -159,13 +204,13 @@ export class CheckoutQuery {
         ];
     }
 
-    _getTotalsField(): Field {
+    _getTotalsField(): Field<'totals', GQLPaymentTotals> {
         return new Field('totals')
             .addFieldList(this._getTotalsFields());
     }
 
-    _getCartField(): Field {
-        return new Field('cart')
+    _getCartField(): Field<'cart', GQLCart> {
+        return new Field<'cart', GQLCart>('cart')
             .addFieldList(this._getCartFieldList());
     }
 

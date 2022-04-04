@@ -9,24 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { Field, Query } from '@tilework/opus';
+
+import { GQLCountry, GQLRegion } from 'Type/Graphql.type';
+
+import { CommonField } from './Query.type';
 
 /**
  * RegionQuery Mutations
  * @class RegionQuery
  * @namespace Query/Region/Query */
 export class RegionQuery {
-    getCountriesQuery(): Field {
-        return new Field('countries')
+    getCountriesQuery(): Query<'countries', GQLCountry, true> {
+        return new Query<'countries', GQLCountry, true>('countries', true)
             .addFieldList(this._getCountryFields());
     }
 
-    _getCountryFields(): Array<string | Field> {
+    _getCountryFields(): CommonField[] {
         return [
             'id',
             'is_state_required',
             this._getAvailableRegionsField(),
-            new Field('full_name_locale').setAlias('label')
+            new Field<'full_name_locale', string>('full_name_locale').setAlias('label')
         ];
     }
 
@@ -38,8 +42,8 @@ export class RegionQuery {
         ];
     }
 
-    _getAvailableRegionsField(): Field {
-        return new Field('available_regions')
+    _getAvailableRegionsField(): Field<'available_regions', GQLRegion, true> {
+        return new Field<'available_regions', GQLRegion, true>('available_regions', true)
             .addFieldList(this._getAvailableRegionFields());
     }
 }

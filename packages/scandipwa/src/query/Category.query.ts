@@ -9,9 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, FieldArgument } from 'Util/Query';
+import { Argument, Field, Query } from '@tilework/opus';
 
-import { CategoryQueryOptions } from './Query.type';
+import { GQLCategoryTree } from 'Type/Graphql.type';
+
+import { CategoryQueryOptions, CommonField } from './Query.type';
 
 /**
  * Category Query
@@ -21,7 +23,9 @@ import { CategoryQueryOptions } from './Query.type';
 export class CategoryQuery {
     options = {} as CategoryQueryOptions;
 
-    getQuery(options: CategoryQueryOptions = {} as CategoryQueryOptions): Field {
+    getQuery(options: CategoryQueryOptions = {} as CategoryQueryOptions): Query<'category', GQLCategoryTree & {
+        children: GQLCategoryTree[];
+    }, false> {
         this.options = options;
         const {
             name,
@@ -29,13 +33,13 @@ export class CategoryQuery {
             value
         } = this._getConditionalArguments();
 
-        return new Field('category')
+        return new Query<'category', GQLCategoryTree>('category')
             .addArgument(name, type, value)
             .addFieldList(this._getDefaultFields())
             .addField(this._getChildrenFields());
     }
 
-    _getConditionalArguments(): FieldArgument {
+    _getConditionalArguments(): Argument {
         const { categoryIds } = this.options;
 
         if (categoryIds) {
@@ -43,19 +47,19 @@ export class CategoryQuery {
             return {
                 name: 'id',
                 type: 'Int!',
-                value: categoryIds
+                value: String(categoryIds)
             };
         }
 
         throw new Error(__('There was an error requesting the category'));
     }
 
-    _getChildrenFields(): Field {
-        return new Field('children')
+    _getChildrenFields(): Field<'children', GQLCategoryTree, true> {
+        return new Field<'children', GQLCategoryTree, true>('children')
             .addFieldList(this._getDefaultFields());
     }
 
-    _getBreadcrumbsField(): Field {
+    _getBreadcrumbsField(): CommonField {
         return new Field('breadcrumbs')
             .addFieldList(this._getBreadcrumbFields());
     }
@@ -78,12 +82,12 @@ export class CategoryQuery {
         ];
     }
 
-    _getCmsBlockField(): Field {
+    _getCmsBlockField(): CommonField {
         return new Field('cms_block')
             .addFieldList(this._getCmsBlockFields());
     }
 
-    _getDefaultFields(): Array<string | Field> {
+    _getDefaultFields(): CommonField[] {
         return [
             'id',
             'url',

@@ -9,25 +9,29 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { GQLContactForm } from 'Type/Graphql.type';
-import { Field } from 'Util/Query';
+import { Mutation, Query } from '@tilework/opus';
+
+import { GQLContactForm, GQLContactFormResponse, GQLContactPageConfig } from 'Type/Graphql.type';
 
 /** @namespace Query/ContactForm/Query */
 export class ContactFormQuery {
-    getSendContactFormMutation(options: GQLContactForm): Field {
-        const mutation = new Field('contactForm');
-        this._addSendContactFormMutationArguments(mutation, options);
+    getSendContactFormMutation(options: GQLContactForm): Mutation<'contactForm', GQLContactFormResponse> {
+        const mutation = new Mutation<'contactForm', GQLContactFormResponse>('contactForm');
+        this._addSendContactFormMutationArguments(mutation as Mutation<string, unknown>, options);
         mutation.addFieldList(this._getSendContactFormMutationResponse());
 
         return mutation;
     }
 
-    getContactPageConfigQuery(): Field {
-        return new Field('contactPageConfig')
+    getContactPageConfigQuery(): Query<'contactPageConfig', GQLContactPageConfig> {
+        return new Query<'contactPageConfig', GQLContactPageConfig>('contactPageConfig')
             .addFieldList(this._getContactPageConfigFields());
     }
 
-    _addSendContactFormMutationArguments(mutation: Field, options: GQLContactForm): Field {
+    _addSendContactFormMutationArguments(
+        mutation: Mutation<string, unknown>,
+        options: GQLContactForm
+    ): Mutation<string, unknown> {
         return mutation.addArgument('contact', 'ContactForm!', options);
     }
 

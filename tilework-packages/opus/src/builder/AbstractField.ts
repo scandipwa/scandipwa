@@ -80,9 +80,9 @@ export abstract class AbstractField<
         return this as any;
     }
 
-    addArgument<ArgName extends string>(name: ArgName, type: string, value: any): HigherKindType<
+    addArgument(name: string, type: string, value: any): HigherKindType<
         this['tag'],
-        ArgName,
+        Name,
         FieldReturnType,
         ArrayExpected
     > {
@@ -187,7 +187,7 @@ export abstract class AbstractField<
     addFieldList<
         NewField extends string
     >(
-        fieldList: readonly (NewField | Field<NewField, any>)[]
+        fieldList: readonly (NewField | Field<NewField, any, boolean>)[]
     ): HigherKindType<
         this['tag'],
         Name,

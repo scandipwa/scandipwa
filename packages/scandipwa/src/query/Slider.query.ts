@@ -9,23 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { Field, Query } from '@tilework/opus';
+
+import { GQLSlide, GQLSlider } from 'Type/Graphql.type';
+
+import { CommonField } from './Query.type';
 
 /**
  * Slider Query
  * @class Slider
  * @namespace Query/Slider/Query */
 export class SliderQuery {
-    getQuery(options: { sliderId: string }): Field {
+    getQuery(options: { sliderId: string }): Query<'slider', GQLSlider> {
         const { sliderId } = options;
 
-        return new Field('scandiwebSlider')
+        return new Query<'scandiwebSlider', GQLSlider>('scandiwebSlider')
             .addArgument('id', 'ID!', sliderId)
             .addFieldList(this._getSliderFields())
             .setAlias('slider');
     }
 
-    _getSliderFields(): Array<string | Field> {
+    _getSliderFields(): CommonField[] {
         return [
             this._getSlidesField(),
             this._getSlideSpeedField(),
@@ -45,13 +49,13 @@ export class SliderQuery {
         ];
     }
 
-    _getSlidesField(): Field {
-        return new Field('slides')
+    _getSlidesField(): Field<'slides', GQLSlide, true> {
+        return new Field('slides', true)
             .addFieldList(this._getSlideFields());
     }
 
-    _getSlideSpeedField(): Field {
-        return new Field('slide_speed').setAlias('slideSpeed');
+    _getSlideSpeedField(): Field<'slideSpeed', number> {
+        return new Field<'slide_speed', number>('slide_speed').setAlias('slideSpeed');
     }
 }
 
