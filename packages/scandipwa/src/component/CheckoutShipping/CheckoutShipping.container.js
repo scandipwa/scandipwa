@@ -106,15 +106,15 @@ export class CheckoutShippingContainer extends PureComponent {
         };
     }
 
-    componentDidUpdate() {
-        const { isPickInStoreMethodSelected, shippingMethods } = this.props;
-        const pickupMethod = shippingMethods.find((el) => el.method_code === STORE_IN_PICK_UP_METHOD_CODE);
+    componentDidUpdate(prevProps) {
+        const { isPickInStoreMethodSelected, selectedStoreAddress } = this.props;
+        const { isPickInStoreMethodSelected: prevIsPickInStoreMethodSelected } = prevProps;
 
-        if (isPickInStoreMethodSelected) {
-            scrollToTop();
-
-            if (pickupMethod) {
-                this.onShippingMethodSelect(pickupMethod);
+        if (isPickInStoreMethodSelected !== prevIsPickInStoreMethodSelected) {
+            if (isPickInStoreMethodSelected) {
+                scrollToTop();
+            } else if (!selectedStoreAddress.city) {
+                this.resetShippingMethod();
             }
         }
     }
@@ -149,6 +149,10 @@ export class CheckoutShippingContainer extends PureComponent {
             onStoreSelect,
             onShippingEstimationFieldsChange
         };
+    }
+
+    resetShippingMethod() {
+        this.onShippingMethodSelect({ method_code: '' });
     }
 
     handlePickupMethodSelect(selectedShippingMethod) {
