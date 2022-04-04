@@ -127,6 +127,10 @@
             .Loader-Scale {
                 inset-block-start: 50%;
             }
+
+            @include mobile {
+                display: none;
+            }
         }
 
         &Heading {
