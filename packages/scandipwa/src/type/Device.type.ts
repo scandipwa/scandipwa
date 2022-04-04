@@ -18,4 +18,4 @@ export type Device = {
     safari?: boolean;
     windows?: boolean;
     standaloneMode?: boolean;
-}
+};

@@ -10,8 +10,8 @@
  */
 
 export type Breadcrumb = {
-    url: string
-    name: string
-}
+    url: string;
+    name: string;
+};
 
 export type Breadcrumbs = Breadcrumb[];

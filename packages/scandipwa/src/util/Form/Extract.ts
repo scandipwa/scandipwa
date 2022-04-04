@@ -21,12 +21,12 @@ import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/Field
  * @namespace Util/Form/Extract/zeroBasedValue
  */
 // eslint-disable-next-line no-magic-numbers
-export const zeroBasedValue = (value, lessThan = 10) => (
+export const zeroBasedValue = <T>(value: T, lessThan = 10): string | T => (
     (+value < lessThan) ? `0${value}` : value
 );
 
 /** @namespace Util/Form/Extract/adjustHours */
-export const adjustHours = (hours, timeFormat) => {
+export const adjustHours = (hours: number, timeFormat: string): number => {
     if (timeFormat === TIME_FORMAT.H12) {
         if (hours > HOURS_12H_COUNT) {
             return hours % HOURS_12H_COUNT;
@@ -45,7 +45,7 @@ export const adjustHours = (hours, timeFormat) => {
  * @returns {string|*}
  * @namespace Util/Form/Extract/getDateValue
  */
-export const getDateValue = (dateValue) => {
+export const getDateValue = (dateValue: number | string | Date): number | string | Date => {
     try {
         const date = new Date(dateValue);
         const day = zeroBasedValue(date.getDate());
@@ -61,8 +61,20 @@ export const getDateValue = (dateValue) => {
     }
 };
 
+// TODO move
+
+export type YearRangeAttribute = {
+    minYear: number;
+    maxYear: number;
+};
+
+export type DatRangeAttribute = {
+    minDate: Date;
+    maxDate: Date;
+};
+
 /** @namespace Util/Form/Extract/calcYearRangeAttributes */
-export const calcYearRangeAttributes = (startYear, endYear) => {
+export const calcYearRangeAttributes = (startYear: number, endYear: number): YearRangeAttribute => {
     const currentYear = new Date().getFullYear();
 
     // https://docs.magento.com/user-guide/stores/attribute-date-time-options.html
@@ -81,10 +93,10 @@ export const calcYearRangeAttributes = (startYear, endYear) => {
 };
 
 /** @namespace Util/Form/Extract/getYearRangeAttributes */
-export const getYearRangeAttributes = (yearRange = ',', isYear = false) => {
+export const getYearRangeAttributes = (yearRange = ',', isYear = false): YearRangeAttribute | DatRangeAttribute => {
     const [startYear, endYear] = yearRange.split(',');
 
-    const { minYear, maxYear } = calcYearRangeAttributes(startYear, endYear);
+    const { minYear, maxYear } = calcYearRangeAttributes(Number(startYear), Number(endYear));
 
     if (isYear) {
         return { minYear, maxYear };
@@ -97,15 +109,22 @@ export const getYearRangeAttributes = (yearRange = ',', isYear = false) => {
 };
 
 /** @namespace Util/Form/Extract/isMagentoDateFormatValid */
-export const isMagentoDateFormatValid = (dateFieldsOrder) => new RegExp(Array(DATE_FIELDS_COUNT)
+export const isMagentoDateFormatValid = (dateFieldsOrder: string): boolean => new RegExp(Array(DATE_FIELDS_COUNT)
     .fill('[dmy]').join(','))
     .test(dateFieldsOrder);
 
 /** @namespace Util/Form/Extract/getTimeFormat */
-export const getTimeFormat = (timeFormat) => (timeFormat === TIME_FORMAT.H12 ? 'h:mm aa' : 'HH:mm');
+export const getTimeFormat = (timeFormat: string): string => (timeFormat === TIME_FORMAT.H12 ? 'h:mm aa' : 'HH:mm');
+
+// TODO move
+export type DateMap = {
+    d: string;
+    m: string;
+    y: string;
+};
 
 /** @namespace Util/Form/Extract/getDateFormat */
-export const getDateFormat = (dateFieldsOrder) => {
+export const getDateFormat = (dateFieldsOrder: string): string => {
     if (!isMagentoDateFormatValid(dateFieldsOrder)) {
         return 'dd/MM/yyyy';
     }
@@ -114,13 +133,13 @@ export const getDateFormat = (dateFieldsOrder) => {
         d: 'dd',
         m: 'MM',
         y: 'yyyy'
-    };
+    } as DateMap;
 
-    return dateFieldsOrder.split(',').map((field) => dateMap[field]).join('/');
+    return dateFieldsOrder.split(',').map((field) => dateMap[field as keyof DateMap]).join('/');
 };
 
 /** @namespace Util/Form/Extract/getDateTimeFormat */
-export const getDateTimeFormat = (type, dateFieldsOrder, timeFormat) => {
+export const getDateTimeFormat = (type: string, dateFieldsOrder: string, timeFormat: string): string => {
     const timePart = type === FIELD_DATE_TYPE.time || type === FIELD_DATE_TYPE.dateTime
         ? getTimeFormat(timeFormat)
         : '';
@@ -133,7 +152,7 @@ export const getDateTimeFormat = (type, dateFieldsOrder, timeFormat) => {
 };
 
 /** @namespace Util/Form/Extract/adjustAmpmHours */
-export const adjustAmpmHours = (hours, ampm) => {
+export const adjustAmpmHours = (hours: number, ampm: string): number => {
     if (ampm === 'PM') {
         return (hours % HOURS_12H_COUNT) + HOURS_12H_COUNT;
     }
@@ -145,8 +164,27 @@ export const adjustAmpmHours = (hours, ampm) => {
     return hours;
 };
 
+// TODO
+export type DatesData = {
+    type?: string;
+    year?: string;
+    month?: string;
+    day?: string;
+    hours?: string;
+    minutes?: string;
+    ampm: string;
+};
+
+export type DateObject = {
+    name: string;
+    value: string;
+    type: string;
+};
+
 /** @namespace Util/Form/Extract/transformDateFieldsData */
-export const transformDateFieldsData = (datesData) => Object.entries(datesData).reduce((prev, [name, data]) => {
+export const transformDateFieldsData = (
+    datesData: Record<string, DatesData>
+): Record<number, DatesData>[] => Object.entries(datesData).reduce((prev, [name, data]) => {
     const {
         type,
         year,
@@ -184,30 +222,30 @@ export const transformDateFieldsData = (datesData) => Object.entries(datesData).
     }
 
     return prev;
-}, []);
+}, [] as Record<number, DatesData>[]);
 
 /** @namespace Util/Form/Extract/groupDateFieldsData */
-export const groupDateFieldsData = (fields) => Array.from(fields)
+export const groupDateFieldsData = (fields: NodeListOf<Element>): Record<string, DatesData> => Array.from(fields)
     .reduce((prev, field) => {
-        const dataType = field.getAttribute(FIELD_TYPE_ATTR);
+        const dataType = field.getAttribute(FIELD_TYPE_ATTR) || '';
 
         if (!Object.values(FIELD_DATE_TYPE).includes(dataType)) {
             return prev;
         }
 
-        const { name, value } = field;
+        const { name, value } = field as HTMLSelectElement;
         const fieldName = field.getAttribute(FIELD_NAME_ATTR);
-        const { [name]: prevData } = prev;
+        const { [name as keyof DatesData]: prevData } = prev;
 
         return {
             ...prev,
             [name]: {
                 ...prevData,
                 type: dataType,
-                [fieldName]: value
+                [fieldName as keyof DatesData]: value
             }
         };
-    }, {});
+    }, {} as Record<string, DatesData>);
 
 /**
  * Returns fields values from DOM/Form
@@ -218,15 +256,15 @@ export const groupDateFieldsData = (fields) => Array.from(fields)
  * @returns {{}|*[]}
  * @namespace Util/Form/Extract/getFieldsData
  */
-export const getFieldsData = (DOM, excludeEmpty = false, ignoreTypes = [], asObject = false) => {
-    const fields = DOM.querySelectorAll('input, textarea, select');
+export const getFieldsData = (DOM: Document, excludeEmpty = false, ignoreTypes: string[] = [], asObject = false) => {
+    const fields: NodeListOf<HTMLSelectElement | HTMLInputElement> = DOM.querySelectorAll('input, textarea, select');
     const output = [];
 
     const dateFieldsGrouped = groupDateFieldsData(fields);
     output.push(...transformDateFieldsData(dateFieldsGrouped));
 
     fields.forEach((field) => {
-        if (Object.values(FIELD_DATE_TYPE).includes(field.getAttribute(FIELD_TYPE_ATTR))) {
+        if (Object.values(FIELD_DATE_TYPE).includes(field.getAttribute(FIELD_TYPE_ATTR) || '')) {
             return;
         }
 
@@ -240,10 +278,10 @@ export const getFieldsData = (DOM, excludeEmpty = false, ignoreTypes = [], asObj
         }
 
         // eslint-disable-next-line no-nested-ternary
-        const value = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio
+        const value = field instanceof HTMLInputElement && (type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio)
             // eslint-disable-next-line no-nested-ternary
             ? (field.checked ? field.value === 'on' ? true : field.value : false)
-            : type === FIELD_TYPE.file
+            : field instanceof HTMLInputElement && type === FIELD_TYPE.file
                 ? field.fileData
                 : field.value;
 
@@ -261,10 +299,10 @@ export const getFieldsData = (DOM, excludeEmpty = false, ignoreTypes = [], asObj
     });
 
     if (asObject) {
-        const objectOutput = {};
+        const objectOutput: Record<string, DateObject> = {};
         output.forEach((field) => {
-            const { name } = field;
-            objectOutput[name] = field;
+            const { name } = field as DateObject;
+            objectOutput[name] = field as DateObject;
         });
 
         return objectOutput;

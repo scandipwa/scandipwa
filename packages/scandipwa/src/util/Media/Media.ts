@@ -15,7 +15,7 @@ export const CATEGORY_MEDIA = 'catalog/category/';
 export const PRODUCT_MEDIA = 'catalog/product';
 export const LOGO_MEDIA = 'logo/';
 
-export default (src: string, subPath: string = '', isMediaPath: boolean = true): string => {
+export default (src: string, subPath = '', isMediaPath = true): string => {
     // If isMediaPath is passed return local media path
 
     const { ConfigReducer: { secure_base_media_url, base_url } } = getStore().getState();

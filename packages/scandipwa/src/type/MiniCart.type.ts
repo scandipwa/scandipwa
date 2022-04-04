@@ -19,20 +19,20 @@ export type Page = {
     meta_title?: MetaTitle;
     meta_description?: string;
     meta_keywords?: string;
-}
+};
 
 export type QuantitySelector = {
-    increase?: () => void // TODO
-    decrease?: () => void // TODO
+    increase?: () => void; // TODO
+    decrease?: () => void; // TODO
     quantity?: number;
-}
+};
 
 export type Totals = {
     count?: number;
     subTotalPrice?: string;
     taxPrice?: string;
     grandTotalPrice?: string;
-}
+};
 
 export type CartItem = {
     discount_amount?: number;
@@ -45,7 +45,7 @@ export type CartItem = {
     sku?: string;
     tax_amount?: number;
     tax_percent?: number;
-}
+};
 
 export type CartDisplay = {
     display_tax_in_price?: string;
@@ -54,4 +54,4 @@ export type CartDisplay = {
     include_tax_in_order_total?: boolean;
     display_full_tax_summary?: boolean;
     display_zero_tax_subtotal?: boolean;
-}
+};

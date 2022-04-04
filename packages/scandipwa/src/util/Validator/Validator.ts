@@ -10,7 +10,34 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import FIELD_TYPE from 'Component/Field/Field.config';
-import { VALIDATION_INPUT_TYPE_NUMBER, VALIDATION_MESSAGES, VALIDATION_RULES } from 'Util/Validator/Config';
+import { VALIDATION_MESSAGES, VALIDATION_RULES, ValidationInputTypeNumber } from 'Util/Validator/Config';
+
+//TODO Move to Types
+
+export type ValidationRule = {
+    isRequired: boolean;
+    inputType: string;
+    selector?: string;
+    match: string | ((args: string | Record<string, string>[]) => boolean);
+    range: Record<string, number>;
+    fileExtension: Record<string, string>;
+    customErrorMessages: Record<string, string>;
+};
+
+export type ValidationOutput = {
+    value: string;
+    errorMessages: string[];
+};
+
+export type ValidationDOMOutput = {
+    values: {
+        name: string;
+        value: string;
+        type: string;
+    }[];
+    errorFields: unknown[];
+    errorMessages: string[];
+};
 
 /**
  * Validates parameter based on rules
@@ -19,7 +46,7 @@ import { VALIDATION_INPUT_TYPE_NUMBER, VALIDATION_MESSAGES, VALIDATION_RULES } f
  * @returns {boolean|{errorMessages: *[], value}}
  * @namespace Util/Validator/validate
  */
-export const validate = (value, rule) => {
+export const validate = (value: string, rule: ValidationRule): boolean | ValidationOutput => {
     const {
         isRequired,
         inputType,
@@ -36,7 +63,7 @@ export const validate = (value, rule) => {
         } = {}
     } = rule;
 
-    const output = {
+    const output: ValidationOutput = {
         value,
         errorMessages: []
     };
@@ -68,7 +95,7 @@ export const validate = (value, rule) => {
     //#region RANGE
     if (range) {
         const { min, max, showLengthError } = range;
-        const isNumber = !!VALIDATION_INPUT_TYPE_NUMBER[inputType];
+        const isNumber = inputType in ValidationInputTypeNumber;
 
         if (isNumber) {
             if (min && +value < min) {
@@ -97,7 +124,7 @@ export const validate = (value, rule) => {
     if (fileExtension && value !== '') {
         const { accept } = fileExtension;
         const acceptedExtensions = accept.split(', ');
-        const currentFileExtension = value.split('.').pop();
+        const currentFileExtension = value.split('.').pop() as string;
 
         if (!acceptedExtensions.includes(currentFileExtension)) {
             output.errorMessages.push(onExtensionFail || VALIDATION_MESSAGES.fileExtension);
@@ -116,7 +143,7 @@ export const validate = (value, rule) => {
  * @returns {boolean|{errorMessages: *[], values: *[], errorFields: *[]}}
  * @namespace Util/Validator/validateGroup
  */
-export const validateGroup = (DOM, rule = null) => {
+export const validateGroup = (DOM: Document, rule: ValidationRule): boolean | ValidationDOMOutput => {
     if (typeof DOM.querySelectorAll !== 'function') {
         return true;
     }
@@ -124,9 +151,9 @@ export const validateGroup = (DOM, rule = null) => {
     const {
         selector = 'select, input, textarea, .js-validatabale, form, .FieldGroup'
     } = rule || {};
-    const fields = DOM?.querySelectorAll(selector);
+    const fields = DOM?.querySelectorAll(selector) as NodeListOf<HTMLInputElement>;
 
-    const output = {
+    const output: ValidationDOMOutput = {
         values: [],
         errorFields: [],
         errorMessages: []
@@ -139,10 +166,12 @@ export const validateGroup = (DOM, rule = null) => {
             value,
             tagName = FIELD_TYPE.select,
             type = FIELD_TYPE.select
-        } = field;
+        } = field as HTMLInputElement;
 
         const fieldType = tagName.toLowerCase() === FIELD_TYPE.textarea ? FIELD_TYPE.textarea : type;
-        const fieldValue = fieldType === FIELD_TYPE.checkbox || fieldType === FIELD_TYPE.radio ? field.checked : value;
+        // TODO change logic so that checked won't fill as value
+        // eslint-disable-next-line max-len
+        const fieldValue = fieldType === (FIELD_TYPE.checkbox || fieldType === FIELD_TYPE.radio) && field.checked ? '' : value;
         output.values.push({ name, value: fieldValue, type: fieldType });
 
         // Invokes validation event for all fields
@@ -206,7 +235,7 @@ export const validateGroup = (DOM, rule = null) => {
  * @return {Number}
  * @namespace Util/Validator/getNumberOfCharacterClasses
  */
-export const getNumberOfCharacterClasses = (value) => Number(/\d+/.test(value))
+export const getNumberOfCharacterClasses = (value: string) => Number(/\d+/.test(value))
       + Number(/[a-z]+/.test(value))
       + Number(/[A-Z]+/.test(value))
       + Number(/[^a-zA-Z0-9]+/.test(value));
@@ -221,7 +250,11 @@ export default validate;
  * @returns {String|Boolean}
  * @namespace Util/Validator/validatePassword
  */
-export const validatePassword = (value, range, minCharacter) => {
+export const validatePassword = (
+    value: string,
+    range: Record<string, number>,
+    minCharacter: number
+): string | boolean => {
     if (value.length === 0) {
         return true;
     }

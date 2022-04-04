@@ -9,12 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { ElementType } from 'react';
+import { ReducersMapObject } from 'redux';
+
 import injectReducers from 'Util/DynamicReducer/Helper';
-import getStore from 'Util/Store';
+import { getStore } from 'Util/Store';
 
 /** @namespace Util/DynamicReducer/Index/withReducers */
-export const withReducers = (reducers) => (WrappedComponent) => {
-    const injectAndExecute = (props) => {
+export const withReducers = (reducers: ReducersMapObject) => (WrappedComponent: ElementType) => {
+    const injectAndExecute = (props: Record<string, unknown>) => {
         injectReducers(getStore(), reducers);
 
         // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction

@@ -21,6 +21,6 @@ export type FieldArgument = {
 };
 
 export type PreparedRequest = {
-    query: string,
-    variables: unknown
+    query: string;
+    variables: unknown;
 };

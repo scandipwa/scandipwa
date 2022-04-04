@@ -15,11 +15,11 @@ export type Mix = {
     block?: string;
     elem?: string;
     mods?: Mods;
-}
+};
 
-export type Children = React.ReactNode[] | React.ReactNode
+export type Children = React.ReactNode[] | React.ReactNode;
 
-export type Ref = () => void | { current: Element }
+export type Ref = () => void | { current: Element };
 
 // TODO unknown
-export type MetaTitle = string | unknown
+export type MetaTitle = string | unknown;

@@ -9,12 +9,15 @@
 * @link https://github.com/scandipwa/base-theme
 */
 
+import { PriceRange } from 'Type/Price.type';
+import { Product } from 'Type/ProductList.type';
+
 /**
  * Updates wishlist item price for option based products
  * @param {Object} product
  * @namespace Util/Wishlist/getPriceRange
  */
-export const getPriceRange = (product, price, priceWithoutTax) => {
+export const getPriceRange = (product: Product, price: number, priceWithoutTax: number): PriceRange | {} => {
     if (!price) {
         return {};
     }

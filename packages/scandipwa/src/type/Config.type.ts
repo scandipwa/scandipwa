@@ -13,15 +13,15 @@ export type Region = {
     code?: string;
     name?: string;
     id?: number;
-}
+};
 
-export type Regions = Region[]
+export type Regions = Region[];
 
-export type Countries = {
-    label?: string;
-    id?: string;
+export type Country = {
+    label: string;
+    id: string;
     available_regions?: Region[];
-}[];
+};
 
 export type CartConfig = {
     display_tax_in_price?: any; // TODO: Props.oneOf(Object.values(DISPLAY_CART_TAX_IN_PRICE))
@@ -30,7 +30,7 @@ export type CartConfig = {
     include_tax_in_order_total: boolean;
     display_full_tax_summary: boolean;
     display_zero_tax_subtotal: boolean;
-}
+};
 
 export type StoreItem = {
     id?: string;
@@ -38,6 +38,6 @@ export type StoreItem = {
     storeUrl?: string;
     storeLinkUrl?: string;
     label?: string;
-}
+};
 
 export type Stores = StoreItem[];

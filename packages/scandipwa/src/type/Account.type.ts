@@ -18,7 +18,7 @@ export enum MyAccountTabs {
     MY_WISHLIST = 'my-wishlist',
     ADDRESS_BOOK = 'address',
     NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription',
-    ACCOUNT_INFORMATION = 'edit',
+    ACCOUNT_INFORMATION = 'edit'
 }
 
 export enum MyAccountTabsSection {
@@ -34,70 +34,70 @@ export enum MyAccountEditTabs {
 }
 
 export type Region = {
-    region_code: string | null
-    region: string | null
-    region_id: number
-}
+    region_code: string | null;
+    region: string | null;
+    region_id: number;
+};
 
 export type Address = {
-    city: string
-    company: string | null
-    country_id: string
-    customer_id?: number
-    default_billing: boolean
-    default_shipping: boolean
-    firstname: string
-    id?: number
-    lastname: string
-    middlename: string
-    postcode: string
-    prefix: string
-    region?: Region
-    street: string | string[]
-    suffix: string
-    telephone: string
-    vat_id: number | null
-}
+    city: string;
+    company: string | null;
+    country_id: string;
+    customer_id?: number;
+    default_billing: boolean;
+    default_shipping: boolean;
+    firstname: string;
+    id?: number;
+    lastname: string;
+    middlename: string;
+    postcode: string;
+    prefix: string;
+    region?: Region;
+    street: string | string[];
+    suffix: string;
+    telephone: string;
+    vat_id: number | null;
+};
 
 export type Addresses = Address[];
 
 export type TrimmedAddress = {
-    city: string
-    company: string | null
-    country_id: string | number
-    firstname: string
-    lastname: string
-    postcode: string
-    region?: string | null
-    region_string?: string | null
-    region_id: number | string
-    region_code: string | null
-    street: string | string[]
-    telephone: string
-    vat_id: number | null
-}
+    city: string;
+    company: string | null;
+    country_id: string | number;
+    firstname: string;
+    lastname: string;
+    postcode: string;
+    region?: string | null;
+    region_string?: string | null;
+    region_id: number | string;
+    region_code: string | null;
+    street: string | string[];
+    telephone: string;
+    vat_id: number | null;
+};
 
 export type Customer = {
-    addresses: Addresses
-    created_at: string
-    default_billing: string
-    default_shipping: string
-    dob: Date
-    email: string
-    firstname: string
-    group_id: number
-    id: number
-    is_subscribed: boolean
-    lastname: string
-    middlename: string
-    prefix: string
-    suffix: string
-    taxvat: string
-}
+    addresses: Addresses;
+    created_at: string;
+    default_billing: string;
+    default_shipping: string;
+    dob: Date;
+    email: string;
+    firstname: string;
+    group_id: number;
+    id: number;
+    is_subscribed: boolean;
+    lastname: string;
+    middlename: string;
+    prefix: string;
+    suffix: string;
+    taxvat: string;
+};
 
 export type Tab = {
-    url: string
-    name: string
-}
+    url: string;
+    name: string;
+};
 
-export type TabMap = Record<string, Tab>
+export type TabMap = Record<string, Tab>;

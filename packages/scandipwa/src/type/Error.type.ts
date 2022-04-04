@@ -15,4 +15,4 @@ export type ErrorDetails = {
     info?: {
         componentStack?: string;
     };
-}
+};

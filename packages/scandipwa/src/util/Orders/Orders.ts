@@ -10,12 +10,17 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import {
+    Discount, Order, OrderProduct, OrderProductQuantity,
+    OrderProducts
+} from 'Type/Order.type';
+
 /** @namespace Util/Orders/getFormattedDate */
-export const getFormattedDate = (rawDate = '') => {
+export const getFormattedDate = (rawDate = ''): string => {
     const date = new Date(rawDate.replace(/\s/, 'T'));
     const RADIX = 10;
 
-    const addLeadingZero = (value) => (value < RADIX ? `0${value}` : value);
+    const addLeadingZero = (value: number) => (value < RADIX ? `0${value}` : value);
 
     const day = addLeadingZero(date.getDate());
     const month = addLeadingZero(date.getMonth() + 1);
@@ -24,7 +29,7 @@ export const getFormattedDate = (rawDate = '') => {
 };
 
 /** @namespace Util/Orders/formatOrders */
-export const formatOrders = (orders) => orders.reduceRight((acc, order) => {
+export const formatOrders = (orders: Order[]): Order[] => orders.reduceRight((acc, order) => {
     const { order_date, id: uid } = order;
     const formattedDate = getFormattedDate(order_date);
 
@@ -36,10 +41,10 @@ export const formatOrders = (orders) => orders.reduceRight((acc, order) => {
             created_at: formattedDate
         }
     ];
-}, []);
+}, [] as Order[]);
 
 /** @namespace Util/Orders/getOrderItemQtyToArray */
-export const getOrderItemQtyToArray = (product) => {
+export const getOrderItemQtyToArray = (product: OrderProduct): OrderProductQuantity => {
     const {
         quantity_ordered = 0,
         quantity_canceled = 0,
@@ -60,9 +65,9 @@ export const getOrderItemQtyToArray = (product) => {
 };
 
 /** @namespace Util/Orders/getProductFromOrder */
-export const getProductFromOrder = (allProducts, requiredProductSku) => allProducts
+export const getProductFromOrder = (allProducts: OrderProducts, requiredProductSku: string) => allProducts
     .find(({ product_sku }) => product_sku === requiredProductSku);
 
 /** @namespace Util/Orders/getOrderItemRowDiscount */
-export const getOrderItemRowDiscount = (discounts) => discounts
+export const getOrderItemRowDiscount = (discounts: Discount[]) => discounts
     .reduce((currentValue, { amount: { value } }) => value + currentValue, 0);

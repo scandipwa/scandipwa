@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Location } from 'Type/Router.type';
-
 export type MenuItem = {
     item_id: string;
     is_active?: boolean;
@@ -19,10 +17,11 @@ export type MenuItem = {
     title?: string;
     item_class?: string;
     icon?: string;
-    url?: Location;
+    url: string;
     cms_page_identifier?: string;
     category_id?: number;
-}
+    url_type: number;
+};
 
 export type MenuItems = MenuItem[];
 
@@ -31,4 +30,4 @@ export type Menu = {
     is_active?: boolean;
     css_class?: string;
     items?: MenuItems;
-}
+};

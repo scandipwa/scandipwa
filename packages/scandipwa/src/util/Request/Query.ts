@@ -9,13 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, prepareMutation } from 'Util/Query';
+import { Field, prepareQuery } from 'Util/Query';
 import { executePost } from 'Util/Request/Request';
 
-/** @namespace Util/Request/Mutation/fetchMutation */
+// TODO Field or ??
+/** @namespace Util/Request/Query/fetchQuery */
 // eslint-disable-next-line import/prefer-default-export
-export const fetchMutation = (rawMutations) => {
-    const queries = rawMutations instanceof Field ? [rawMutations] : rawMutations;
+export const fetchQuery = (rawQueries: Field) => {
+    const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
 
-    return executePost(prepareMutation(queries, true));
+    return executePost(prepareQuery(queries));
 };

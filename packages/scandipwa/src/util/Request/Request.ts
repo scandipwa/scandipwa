@@ -21,11 +21,11 @@ export const GRAPHQL_URI = '/graphql';
 export const WINDOW_ID = 'WINDOW_ID';
 
 /** @namespace Util/Request/getWindowId */
-export const getWindowId = () => {
+export const getWindowId = (): string => {
     const result = sessionStorage.getItem(WINDOW_ID);
 
     if (!result) {
-        const id = Date.now();
+        const id = String(Date.now());
         sessionStorage.setItem(WINDOW_ID, id);
 
         return id;
@@ -35,7 +35,7 @@ export const getWindowId = () => {
 };
 
 /** @namespace Util/Request/getStoreCodePath */
-export const getStoreCodePath = () => {
+export const getStoreCodePath = (): string => {
     const path = location.pathname;
     // eslint-disable-next-line no-undef
     const firstPathPart = path.split('/')[1];
@@ -48,7 +48,7 @@ export const getStoreCodePath = () => {
 };
 
 /** @namespace Util/Request/getGraphqlEndpoint */
-export const getGraphqlEndpoint = () => getStoreCodePath().concat(GRAPHQL_URI);
+export const getGraphqlEndpoint = (): string => getStoreCodePath().concat(GRAPHQL_URI);
 
 /**
  * Append authorization token to header object
@@ -56,7 +56,7 @@ export const getGraphqlEndpoint = () => getStoreCodePath().concat(GRAPHQL_URI);
  * @returns {Object} Headers with appended authorization
  * @namespace Util/Request/appendTokenToHeaders
  */
-export const appendTokenToHeaders = (headers) => {
+export const appendTokenToHeaders = (headers: HeadersInit): HeadersInit => {
     const token = getAuthorizationToken();
 
     return {
@@ -73,7 +73,7 @@ export const appendTokenToHeaders = (headers) => {
  * @returns {*}
  * @namespace Util/Request/formatURI
  */
-export const formatURI = (query, variables, url) => {
+export const formatURI = (query: string, variables: Record<string, string>, url: string): string => {
     // eslint-disable-next-line no-param-reassign
     variables._currency = getCurrency();
 
@@ -92,7 +92,7 @@ export const formatURI = (query, variables, url) => {
  * @returns {Promise<Response>}
  * @namespace Util/Request/getFetch
  */
-export const getFetch = (uri, name) => fetch(uri,
+export const getFetch = (uri: string, name: string): Promise<Response> => fetch(uri,
     {
         method: 'GET',
         headers: appendTokenToHeaders({
@@ -102,6 +102,7 @@ export const getFetch = (uri, name) => fetch(uri,
         })
     });
 
+// TODO CacheTTL number or string?
 /**
  *
  * @param {String} graphQlURI
@@ -109,13 +110,17 @@ export const getFetch = (uri, name) => fetch(uri,
  * @param {Int} cacheTTL
  * @namespace Util/Request/putPersistedQuery
  */
-export const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ graphQlURI }?hash=${ hash(query) }`,
+export const putPersistedQuery = (
+    graphQlURI: string,
+    query: string,
+    cacheTTL: number
+): Promise<Response> => fetch(`${ graphQlURI }?hash=${ hash(query) }`,
     {
         method: 'PUT',
         body: JSON.stringify(query),
         headers: {
             'Content-Type': 'application/json',
-            'SW-Cache-Age': Number.isInteger(cacheTTL) ? cacheTTL : ONE_MONTH_IN_SECONDS
+            'SW-Cache-Age': String(Number.isInteger(cacheTTL) ? cacheTTL : ONE_MONTH_IN_SECONDS)
         }
     });
 
@@ -127,7 +132,11 @@ export const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ grap
  * @returns {Promise<Response>}
  * @namespace Util/Request/postFetch
  */
-export const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
+export const postFetch = (
+    graphQlURI: string,
+    query: string,
+    variables: Record<string, string>
+): Promise<Response> => fetch(graphQlURI,
     {
         method: 'POST',
         body: JSON.stringify({ query, variables }),
@@ -137,13 +146,19 @@ export const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
         })
     });
 
+// TODO
+export type ResponseBody = {
+    errors: any;
+    data: any;
+};
+
 /**
  * Checks for errors in response, if they exist, rejects promise
  * @param  {Object} res Response from GraphQL endpoint
  * @return {Promise<Object>} Handled GraphqlQL results promise
  * @namespace Util/Request/checkForErrors
  */
-export const checkForErrors = (res) => new Promise((resolve, reject) => {
+export const checkForErrors = (res: ResponseBody): Promise<Response> => new Promise((resolve, reject) => {
     const { errors, data } = res;
 
     return errors ? reject(errors) : resolve(data);
@@ -156,7 +171,7 @@ export const checkForErrors = (res) => new Promise((resolve, reject) => {
  * @namespace Util/Request/handleConnectionError
  */
 // eslint-disable-next-line no-console
-export const handleConnectionError = (err) => console.error(err); // TODO: Add to logs pool
+export const handleConnectionError = (err: unknown): void => console.error(err); // TODO: Add to logs pool
 
 /**
  * Parse response and check wether it contains errors
@@ -164,7 +179,7 @@ export const handleConnectionError = (err) => console.error(err); // TODO: Add t
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/parseResponse
  */
-export const parseResponse = (promise) => new Promise((resolve, reject) => {
+export const parseResponse = (promise: Promise<Response>): Promise<Response> => new Promise((resolve, reject) => {
     promise.then(
         /** @namespace Util/Request/parseResponse/Promise/promise/then */
         (res) => res.json().then(
@@ -188,6 +203,14 @@ export const HTTP_503_SERVICE_UNAVAILABLE = 503;
 export const HTTP_410_GONE = 410;
 export const HTTP_201_CREATED = 201;
 
+// TODO
+export type QueryObject = {
+    query: string;
+    variables: Record<string, string>;
+};
+
+export type QueryVariables = Record<string, string>;
+
 /**
  * Make GET request to endpoint (via ServiceWorker)
  * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
@@ -196,7 +219,7 @@ export const HTTP_201_CREATED = 201;
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/executeGet
  */
-export const executeGet = (queryObject, name, cacheTTL) => {
+export const executeGet = (queryObject: QueryObject, name: string, cacheTTL: number) => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
 
@@ -205,7 +228,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
         refreshUid();
     }
 
-    return parseResponse(new Promise((resolve, reject) => {
+    return parseResponse(new Promise((resolve, reject): void => {
         getFetch(uri, name).then(
             /** @namespace Util/Request/executeGet/parseResponse/getFetch/then */
             (res) => {
@@ -237,7 +260,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/executePost
  */
-export const executePost = (queryObject) => {
+export const executePost = (queryObject: QueryObject): Promise<Response> => {
     const { query, variables } = queryObject;
 
     if (isSignedIn()) {
@@ -254,7 +277,7 @@ export const executePost = (queryObject) => {
  * @return {Promise<any>} Broadcast message promise
  * @namespace Util/Request/listenForBroadCast
  */
-export const listenForBroadCast = (name) => new Promise((resolve) => {
+export const listenForBroadCast = (name: string): Promise<Response> => new Promise((resolve) => {
     const { BroadcastChannel } = window;
     const windowId = getWindowId();
 
@@ -267,28 +290,33 @@ export const listenForBroadCast = (name) => new Promise((resolve) => {
     }
 });
 
+// TODO
 /** @namespace Util/Request/debounce */
-export const debounce = (callback, delay) => {
+export const debounce = <T>(callback: () => void, delay: number) => {
     // eslint-disable-next-line fp/no-let
-    let timeout;
+    let timeout: NodeJS.Timeout;
 
-    return (...args) => {
+    return (...args: T[]) => {
         const context = this;
         clearTimeout(timeout);
-        timeout = setTimeout(() => callback.apply(context, args), delay);
+        timeout = setTimeout(() => callback.apply(context, args as any), delay);
     };
 };
 
 /** @namespace Util/Request */
-export class Debouncer {
-    timeout;
+export class Debouncer <
+    T extends () => void,
+    U extends number,
+    S
+> {
+    timeout!: NodeJS.Timeout;
 
     handler = () => {};
 
-    startDebounce = (callback, delay) => (...args) => {
+    startDebounce = (callback:T, delay: U) => (...args: S[]) => {
         const context = this;
         clearTimeout(this.timeout);
-        this.handler = () => callback.apply(context, args);
+        this.handler = () => callback.apply(context, args as any);
         this.timeout = setTimeout(this.handler, delay);
     };
 

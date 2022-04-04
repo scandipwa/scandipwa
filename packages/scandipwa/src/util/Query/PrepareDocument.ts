@@ -9,8 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { QueryObject, QueryVariables } from 'Util/Request';
+
 import { Field } from './Field';
-import { FieldArgument, FieldType, PreparedRequest } from './Query.type';
+import { FieldArgument, FieldType } from './Query.type';
 
 /**
  * Prepare request body string from query list (all entries must be instances of Query).
@@ -53,7 +55,7 @@ export const prepareFieldString = (
 };
 
 /** @namespace Util/Query/PrepareDocument/prepareRequest */
-export const prepareRequest = (fields: Field[], type: FieldType): PreparedRequest => {
+export const prepareRequest = (fields: Field[], type: FieldType): QueryObject => {
     const fieldsArray = Array.isArray(fields) ? fields : [fields];
 
     if (type !== FieldType.MUTATION && type !== FieldType.QUERY) {
@@ -61,7 +63,7 @@ export const prepareRequest = (fields: Field[], type: FieldType): PreparedReques
         throw new Error(`GraphQL document type "${type}" is not supported.`);
     }
 
-    const variables: Record<string, unknown> = {};
+    const variables: QueryVariables = {};
     const accArgs = {};
 
     // prepare fields from each field passed
@@ -73,7 +75,7 @@ export const prepareRequest = (fields: Field[], type: FieldType): PreparedReques
         (dataArray as Array<Omit<FieldArgument, 'name'>>).forEach((item, i: number) => {
             const variable = `${name}_${i + 1}`;
             acc.push(`$${variable}:${item.type}`);
-            variables[variable] = item.value;
+            variables[variable] = item.value as any;
         });
 
         return acc;
@@ -102,7 +104,7 @@ export const prepareRequest = (fields: Field[], type: FieldType): PreparedReques
 };
 
 /** @namespace Util/Query/PrepareDocument/prepareMutation */
-export const prepareMutation = (mutations: Field[]): PreparedRequest => prepareRequest(mutations, FieldType.MUTATION);
+export const prepareMutation = (mutations: Field[]): QueryObject => prepareRequest(mutations, FieldType.MUTATION);
 
 /** @namespace Util/Query/PrepareDocument/prepareQuery */
-export const prepareQuery = (queries: Field[]): PreparedRequest => prepareRequest(queries, FieldType.QUERY);
+export const prepareQuery = (queries: Field[]): QueryObject => prepareRequest(queries, FieldType.QUERY);
