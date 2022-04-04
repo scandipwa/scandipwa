@@ -16,6 +16,10 @@ $select-arrow-height: 14px !default;
 $select-arrow-width: 14px !default;
 
 .FieldSelect {
+    select {
+        min-height: max-content;
+    }
+
     &-Clickable {
         cursor: pointer;
         display: flex;
