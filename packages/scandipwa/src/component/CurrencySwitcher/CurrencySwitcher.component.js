@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -30,6 +28,15 @@ export class CurrencySwitcher extends PureComponent {
                 )
             ),
             current_currency_code: PropTypes.string
+        }).isRequired,
+        currencyRates: PropTypes.shape({
+            base_currency_code: PropTypes.string,
+            exchange_rates: PropTypes.arrayOf(
+                PropTypes.objectOf(
+                    PropTypes.string,
+                    PropTypes.number
+                )
+            )
         }).isRequired,
         handleCurrencySelect: PropTypes.func.isRequired
     };
