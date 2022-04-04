@@ -40,10 +40,6 @@
         margin-block-start: 12px;
         display: inline-flex;
 
-        @include tablet { 
-            display: block;
-        }
-
         @include mobile {
             width: 100%;
             display: inline-block;

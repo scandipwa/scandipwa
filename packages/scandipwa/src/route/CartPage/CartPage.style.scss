@@ -33,6 +33,10 @@
             grid-column-gap: 48px;
         }
 
+        @include tablet {
+            grid-column-gap: 12px;
+        }
+
         @include mobile {
             padding: 0;
         }
