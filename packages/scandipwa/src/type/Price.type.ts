@@ -13,12 +13,12 @@ export type PriceItem = {
     currency: string;
     value: number;
     valueFormatted?: string;
-}
+};
 
 export type Discount = {
     amount_off: number;
     percent_off: number;
-}
+};
 
 export type PriceVariant = {
     discount: Discount;
@@ -29,12 +29,12 @@ export type PriceVariant = {
     default_final_price: PriceItem;
     default_final_price_excl_tax: PriceItem;
     default_price: PriceItem;
-}
+};
 
 export type PriceRange = {
     minimum_price: PriceVariant;
     maximum_price: PriceVariant;
-}
+};
 
 export type OriginalPrice = {
     minRegularPrice?: PriceItem;
@@ -43,7 +43,7 @@ export type OriginalPrice = {
     maxRegularPrice?: PriceItem;
     maxFinalPrice?: PriceItem;
     maxFinalPriceExclTax?: PriceItem;
-}
+};
 
 export type ProductPrice = {
     price?: {
@@ -60,7 +60,7 @@ export type ProductPrice = {
         containsRequiredOptions?: false;
         containsRequiredOptionsWithPrice?: false;
     };
-}
+};
 
 export type TierPrices = {
     discount?: Discount;

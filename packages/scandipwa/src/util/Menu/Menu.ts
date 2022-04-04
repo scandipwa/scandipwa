@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { MenuItem } from "Type/Menu.type";
+import { MenuItem } from 'Type/Menu.type';
 
 /* eslint-disable no-param-reassign */
 
@@ -23,13 +23,13 @@ type MenuLocation = {
     state: {
         category?: number;
         page?: boolean;
-    }
+    };
 } | string;
 
 export type FormattedMenuItem = Omit<MenuItem, 'cms_page_identifier' | 'url_type' | 'url'> & {
-    url: MenuLocation
-    children: Record<string, FormattedMenuItem>
-}
+    url: MenuLocation;
+    children: Record<string, FormattedMenuItem>;
+};
 
 /**
  * Given an array of menu items, returns a copy of the array, sorted by their parent ID, then by their sort order (position)
@@ -46,6 +46,7 @@ export const getSortedItems = (unsortedItems: MenuItem[]): MenuItem[] => Array.f
 /** @namespace Util/Menu */
 export class Menu {
     menu: Record<string, FormattedMenuItem> = {};
+
     menuPositionReference: Record<string, number[]> = {};
 
     getMenuUrl({ url, url_type, category_id }: Pick<MenuItem, 'url' | 'url_type' | 'category_id'>): MenuLocation {
@@ -73,7 +74,7 @@ export class Menu {
         url_type,
         category_id,
         ...item
-    }: MenuItem ): FormattedMenuItem {
+    }: MenuItem): FormattedMenuItem {
         return {
             ...item,
             url: this.getMenuUrl({ url, url_type, category_id }),
@@ -82,7 +83,7 @@ export class Menu {
     }
 
     // TODO from child to menu item ??? Any
-    setToValue (obj: Record<string, FormattedMenuItem> | any, path: string, value: FormattedMenuItem) {
+    setToValue(obj: Record<string, FormattedMenuItem> | any, path: string, value: FormattedMenuItem): void {
         // eslint-disable-next-line fp/no-let
         let i;
         const pathArray = path.split('.');
@@ -94,7 +95,7 @@ export class Menu {
         obj[pathArray[i]] = value;
     }
 
-    createItem(data: MenuItem) {
+    createItem(data: MenuItem): void {
         const { parent_id, item_id } = data;
 
         if (parent_id === 0) {
@@ -114,7 +115,7 @@ export class Menu {
         }
     }
 
-    reduce({ items: unsortedItems }: Record<string, MenuItem[]>) {
+    reduce({ items: unsortedItems }: Record<string, MenuItem[]>): Record<string, FormattedMenuItem> {
         this.menu = {};
         this.menuPositionReference = {};
 

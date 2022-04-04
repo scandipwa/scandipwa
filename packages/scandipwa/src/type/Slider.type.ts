@@ -13,9 +13,9 @@ export type Slide = {
     slide_id?: string;
     image?: string;
     slide_text?: string;
-}
+};
 
 export type Slider = {
     slider_id?: string;
     slides?: Slide[];
-}
+};

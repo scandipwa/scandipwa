@@ -9,36 +9,36 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type OrderGrandTotal= {
+export type OrderGrandTotal = {
     value?: number;
     currency?: string;
-}
+};
 
-export type OrderTotal= {
+export type OrderTotal = {
     grand_total?: OrderGrandTotal;
-}
+};
 
-export type OrderInfo= {
+export type OrderInfo = {
     id?: number;
     increment_id?: string;
     created_at?: string;
     status_label?: string;
     grand_total?: number;
     subtotal?: string;
-}
+};
 
-export type OrderPaymentInfo= {
+export type OrderPaymentInfo = {
     name?: string;
     type?: string;
     additional_data?: {
-        name: string
-        value: string
+        name: string;
+        value: string;
     };
-}
+};
 
 export type OrderPaymentsInfo = OrderPaymentInfo[];
 
-export type OrderAddress= {
+export type OrderAddress = {
     city?: string;
     country_code?: string;
     firstname?: string;
@@ -48,45 +48,54 @@ export type OrderAddress= {
     region_id?: string;
     street?: string[];
     telephone?: string;
-}
+};
 
-export type orderItemQty= {
+export type orderItemQty = {
     quantity_ordered?: number;
     quantity_canceled?: number;
     quantity_invoiced?: number;
     quantity_refunded?: number;
     quantity_returned?: number;
     quantity_shipped?: number;
-}
+};
 
-export type Money= {
+export type Money = {
     currency: string;
     value: number;
-}
+};
 
-export type Discount= {
+export type Discount = {
     amount: Money;
     value: number;
-}
+};
 
-export type OptionItem= {
+export type OptionItem = {
     title?: string;
     qty?: number;
     price?: number;
-}
+};
 
 export type OptionItems = OptionItem[];
 
-export type Option= {
+export type Option = {
     label?: string;
     value?: string;
     items?: OptionItems;
     linkItems?: string[];
-}
+};
 
 export type Options = Option[];
 
-export type OrderProduct= {
+export type OrderProductQuantity = {
+    quantity_ordered?: number;
+    quantity_canceled?: number;
+    quantity_invoiced?: number;
+    quantity_refunded?: number;
+    quantity_returned?: number;
+    quantity_shipped?: number;
+};
+
+export type OrderProduct = OrderProductQuantity & {
     discounts?: Discount[];
     id?: string;
     selected_options?: Options;
@@ -96,32 +105,20 @@ export type OrderProduct= {
     product_sku?: string;
     product_type?: string;
     product_url_key?: string;
-    quantity_ordered?: number;
-    quantity_canceled?: number;
-    quantity_invoiced?: number;
-    quantity_refunded?: number;
-    quantity_returned?: number;
-    quantity_shipped?: number;
-}
+};
 
 export type OrderProducts = OrderProduct[];
 
-export type OrderTab= {
+export type OrderTab = OrderProductQuantity & {
     items?: OrderProducts;
     id?: string | number;
     number?: string;
     total?: OrderTotal;
-    quantity_ordered?: number;
-    quantity_canceled?: number;
-    quantity_invoiced?: number;
-    quantity_refunded?: number;
-    quantity_returned?: number;
-    quantity_shipped?: number;
-}
+};
 
 export type OrderTabs = OrderTab[];
 
-export type Order= {
+export type Order = {
     can_reorder?: boolean;
     carrier?: string;
     id: string;
@@ -138,9 +135,9 @@ export type Order= {
     shipping_method?: string;
     status?: string;
     total?: OrderTotal;
-}
+};
 
-export type Downloadable= {
+export type Downloadable = {
     id?: number;
     order_id?: number;
     order_increment_id?: string;
@@ -149,17 +146,17 @@ export type Downloadable= {
     download_url?: string;
     created_at?: string;
     title?: string;
-}
+};
 
-export type PageInfo= {
+export type PageInfo = {
     current_page?: number;
     page_size?: number;
     total_pages?: number;
-}
+};
 
 export type Orders = Order[];
 
-export type OrdersList= {
+export type OrdersList = {
     items?: Orders;
     pageInfo?: PageInfo;
-}
+};

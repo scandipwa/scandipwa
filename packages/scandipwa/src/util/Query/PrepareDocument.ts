@@ -10,8 +10,9 @@
  */
 
 import { QueryObject, QueryVariables } from 'Util/Request';
+
 import { Field } from './Field';
-import { FieldArgument, FieldType, PreparedRequest } from './Query.type';
+import { FieldArgument, FieldType } from './Query.type';
 
 /**
  * Prepare request body string from query list (all entries must be instances of Query).
@@ -54,7 +55,7 @@ export const prepareFieldString = (
 };
 
 /** @namespace Util/Query/PrepareDocument/prepareRequest */
-export const prepareRequest = <T>(fields: Field[], type: FieldType): QueryObject => {
+export const prepareRequest = (fields: Field[], type: FieldType): QueryObject => {
     const fieldsArray = Array.isArray(fields) ? fields : [fields];
 
     if (type !== FieldType.MUTATION && type !== FieldType.QUERY) {
@@ -72,7 +73,7 @@ export const prepareRequest = <T>(fields: Field[], type: FieldType): QueryObject
     // into the format "$var:Type" and append variable value to variables field
     const resolvedArgs = Object.entries(accArgs).reduce((acc, [name, dataArray]): string[] => {
         (dataArray as Array<Omit<FieldArgument, 'name'>>).forEach((item, i: number) => {
-            const variable: string = `${name}_${i + 1}`;
+            const variable = `${name}_${i + 1}`;
             acc.push(`$${variable}:${item.type}`);
             variables[variable] = item.value as any;
         });

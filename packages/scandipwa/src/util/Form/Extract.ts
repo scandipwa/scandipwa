@@ -21,7 +21,7 @@ import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/Field
  * @namespace Util/Form/Extract/zeroBasedValue
  */
 // eslint-disable-next-line no-magic-numbers
-export const zeroBasedValue = <T>(value: T, lessThan: number = 10): string | T => (
+export const zeroBasedValue = <T>(value: T, lessThan = 10): string | T => (
     (+value < lessThan) ? `0${value}` : value
 );
 
@@ -61,15 +61,17 @@ export const getDateValue = (dateValue: number | string | Date): number | string
     }
 };
 
+// TODO move
+
 export type YearRangeAttribute = {
     minYear: number;
     maxYear: number;
-}
+};
 
 export type DatRangeAttribute = {
     minDate: Date;
     maxDate: Date;
-}
+};
 
 /** @namespace Util/Form/Extract/calcYearRangeAttributes */
 export const calcYearRangeAttributes = (startYear: number, endYear: number): YearRangeAttribute => {
@@ -91,7 +93,7 @@ export const calcYearRangeAttributes = (startYear: number, endYear: number): Yea
 };
 
 /** @namespace Util/Form/Extract/getYearRangeAttributes */
-export const getYearRangeAttributes = (yearRange: string = ',', isYear: boolean = false): YearRangeAttribute | DatRangeAttribute => {
+export const getYearRangeAttributes = (yearRange = ',', isYear = false): YearRangeAttribute | DatRangeAttribute => {
     const [startYear, endYear] = yearRange.split(',');
 
     const { minYear, maxYear } = calcYearRangeAttributes(Number(startYear), Number(endYear));
@@ -114,11 +116,12 @@ export const isMagentoDateFormatValid = (dateFieldsOrder: string): boolean => ne
 /** @namespace Util/Form/Extract/getTimeFormat */
 export const getTimeFormat = (timeFormat: string): string => (timeFormat === TIME_FORMAT.H12 ? 'h:mm aa' : 'HH:mm');
 
+// TODO move
 export type DateMap = {
     d: string;
     m: string;
     y: string;
-}
+};
 
 /** @namespace Util/Form/Extract/getDateFormat */
 export const getDateFormat = (dateFieldsOrder: string): string => {
@@ -161,6 +164,7 @@ export const adjustAmpmHours = (hours: number, ampm: string): number => {
     return hours;
 };
 
+// TODO
 export type DatesData = {
     type?: string;
     year?: string;
@@ -175,10 +179,12 @@ export type DateObject = {
     name: string;
     value: string;
     type: string;
-}
+};
 
 /** @namespace Util/Form/Extract/transformDateFieldsData */
-export const transformDateFieldsData = (datesData: Record<string, DatesData>) => Object.entries(datesData).reduce((prev, [name, data]) => {
+export const transformDateFieldsData = (
+    datesData: Record<string, DatesData>
+): Record<number, DatesData>[] => Object.entries(datesData).reduce((prev, [name, data]) => {
     const {
         type,
         year,
@@ -219,7 +225,7 @@ export const transformDateFieldsData = (datesData: Record<string, DatesData>) =>
 }, [] as Record<number, DatesData>[]);
 
 /** @namespace Util/Form/Extract/groupDateFieldsData */
-export const groupDateFieldsData = (fields: NodeListOf<Element>) => Array.from(fields)
+export const groupDateFieldsData = (fields: NodeListOf<Element>): Record<string, DatesData> => Array.from(fields)
     .reduce((prev, field) => {
         const dataType = field.getAttribute(FIELD_TYPE_ATTR) || '';
 
@@ -241,7 +247,6 @@ export const groupDateFieldsData = (fields: NodeListOf<Element>) => Array.from(f
         };
     }, {} as Record<string, DatesData>);
 
-
 /**
  * Returns fields values from DOM/Form
  * @param DOM
@@ -251,11 +256,11 @@ export const groupDateFieldsData = (fields: NodeListOf<Element>) => Array.from(f
  * @returns {{}|*[]}
  * @namespace Util/Form/Extract/getFieldsData
  */
-export const getFieldsData = (DOM: Document, excludeEmpty: boolean = false, ignoreTypes: string[] = [], asObject: boolean = false) => {
+export const getFieldsData = (DOM: Document, excludeEmpty = false, ignoreTypes: string[] = [], asObject = false) => {
     const fields: NodeListOf<HTMLSelectElement | HTMLInputElement> = DOM.querySelectorAll('input, textarea, select');
     const output = [];
 
-    const dateFieldsGrouped = groupDateFieldsData(fields)
+    const dateFieldsGrouped = groupDateFieldsData(fields);
     output.push(...transformDateFieldsData(dateFieldsGrouped));
 
     fields.forEach((field) => {

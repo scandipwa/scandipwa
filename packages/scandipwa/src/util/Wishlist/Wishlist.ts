@@ -9,8 +9,8 @@
 * @link https://github.com/scandipwa/base-theme
 */
 
-import { PriceRange } from "Type/Price.type";
-import { Product } from "Type/ProductList.type";
+import { PriceRange } from 'Type/Price.type';
+import { Product } from 'Type/ProductList.type';
 
 /**
  * Updates wishlist item price for option based products

@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Countries } from "Type/Config.type";
+import { Country } from 'Type/Config.type';
 
 /**
  * Transforms countries list into select options
  * @param countries
  * @namespace Util/Store/Transform/transformCountriesToOptions
  */
-export const transformCountriesToOptions = (countries: Countries): Countries => {
+export const transformCountriesToOptions = (countries: Country[]): Country[] => {
     const options = countries.map((country) => {
         const { id } = country;
 

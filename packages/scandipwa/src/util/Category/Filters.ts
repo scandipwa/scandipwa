@@ -28,4 +28,6 @@ export const getPriceFilterLabel = (from: number | string, to: number | string, 
 };
 
 /** @namespace Util/Category/Filters/getFiltersCount */
-export const getFiltersCount = (filters: Array<string>): number => Object.values(filters).reduce((prev, next) => prev + next.length, 0);
+export const getFiltersCount = (
+    filters: Array<string>
+): number => Object.values(filters).reduce((prev, next) => prev + next.length, 0);

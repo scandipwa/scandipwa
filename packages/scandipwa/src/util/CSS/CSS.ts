@@ -24,7 +24,7 @@ export class CSS {
      * @return {void}
      * @memberof CSS
      */
-     static setVariable(ref: React.RefObject<HTMLElement>, name: string, value: string): void {
+    static setVariable(ref: React.RefObject<HTMLElement>, name: string, value: string): void {
         if (ref && ref.current) {
             ref.current.style.setProperty(`--${name}`, value);
         }

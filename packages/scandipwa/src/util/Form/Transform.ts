@@ -15,15 +15,15 @@
  * @returns {{}}
  * @namespace Util/Form/Transform/transformToNameValuePair
  */
-export const transformToNameValuePair = <T>(fields: any | any[]): T  => {
-    const filteredFields: Record<string, unknown>  = {};
+export const transformToNameValuePair = <T>(fields: any | any[]): T => {
+    const filteredFields: Record<string, unknown> = {};
     const arrayFormat = !Array.isArray(fields) ? Object.values(fields) : fields;
 
     arrayFormat.forEach(({ value, name }) => {
         filteredFields[name] = value;
     });
 
-    return filteredFields as unknown as T;;
+    return filteredFields as unknown as T;
 };
 
 export default transformToNameValuePair;

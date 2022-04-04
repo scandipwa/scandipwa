@@ -10,34 +10,34 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import FIELD_TYPE from 'Component/Field/Field.config';
-import { ValidationInputTypeNumber, VALIDATION_MESSAGES, VALIDATION_RULES } from 'Util/Validator/Config';
+import { VALIDATION_MESSAGES, VALIDATION_RULES, ValidationInputTypeNumber } from 'Util/Validator/Config';
 
 //TODO Move to Types
 
 export type ValidationRule = {
-    isRequired: boolean,
+    isRequired: boolean;
     inputType: string;
     selector?: string;
     match: string | ((args: string | Record<string, string>[]) => boolean);
     range: Record<string, number>;
-    fileExtension: Record<string, string>
-    customErrorMessages: Record<string, string>
-}
+    fileExtension: Record<string, string>;
+    customErrorMessages: Record<string, string>;
+};
 
 export type ValidationOutput = {
-    value: string,
-    errorMessages: string[]
-}
+    value: string;
+    errorMessages: string[];
+};
 
 export type ValidationDOMOutput = {
     values: {
-      name: string;
-      value: string;
-      type: string;
+        name: string;
+        value: string;
+        type: string;
     }[];
-    errorFields: unknown[]
-    errorMessages: string[]
-}
+    errorFields: unknown[];
+    errorMessages: string[];
+};
 
 /**
  * Validates parameter based on rules
@@ -58,7 +58,7 @@ export const validate = (value: string, rule: ValidationRule): boolean | Validat
             onInputTypeFail,
             onMatchFail,
             onRangeFailMin,
-            onRangeFailMax, 
+            onRangeFailMax,
             onExtensionFail
         } = {}
     } = rule;
@@ -124,7 +124,7 @@ export const validate = (value: string, rule: ValidationRule): boolean | Validat
     if (fileExtension && value !== '') {
         const { accept } = fileExtension;
         const acceptedExtensions = accept.split(', ');
-        const currentFileExtension = value.split('.').pop() as string; 
+        const currentFileExtension = value.split('.').pop() as string;
 
         if (!acceptedExtensions.includes(currentFileExtension)) {
             output.errorMessages.push(onExtensionFail || VALIDATION_MESSAGES.fileExtension);
@@ -170,6 +170,7 @@ export const validateGroup = (DOM: Document, rule: ValidationRule): boolean | Va
 
         const fieldType = tagName.toLowerCase() === FIELD_TYPE.textarea ? FIELD_TYPE.textarea : type;
         // TODO change logic so that checked won't fill as value
+        // eslint-disable-next-line max-len
         const fieldValue = fieldType === (FIELD_TYPE.checkbox || fieldType === FIELD_TYPE.radio) && field.checked ? '' : value;
         output.values.push({ name, value: fieldValue, type: fieldType });
 
@@ -249,7 +250,11 @@ export default validate;
  * @returns {String|Boolean}
  * @namespace Util/Validator/validatePassword
  */
-export const validatePassword = (value: string, range: Record<string, number>, minCharacter: number): string | boolean => {
+export const validatePassword = (
+    value: string,
+    range: Record<string, number>,
+    minCharacter: number
+): string | boolean => {
     if (value.length === 0) {
         return true;
     }

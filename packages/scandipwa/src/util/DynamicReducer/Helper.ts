@@ -9,13 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ReducersMapObject } from "redux";
+import { ReducersMapObject } from 'redux';
 
 /**
  * @param store
  * @param reducers
  */
- export default function injectToReducers <S, A, T extends ModifiedReduxStore<S, A>>(store: T, reducers: ReducersMapObject) {
+export default function injectToReducers <S, A, T extends ModifiedReduxStore<S, A>>(
+    store: T,
+    reducers: ReducersMapObject
+): void {
     Object.keys(reducers).forEach((key) => {
         if (store.asyncReducers && store.injectReducer && !Reflect.has(store.asyncReducers, key)) {
             // eslint-disable-next-line no-param-reassign

@@ -10,10 +10,13 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Orders, OrderProduct, OrderProducts, Discount } from "Type/Order.type";
+import {
+    Discount, Order, OrderProduct, OrderProductQuantity,
+    OrderProducts
+} from 'Type/Order.type';
 
 /** @namespace Util/Orders/getFormattedDate */
-export const getFormattedDate = (rawDate: string = '') => {
+export const getFormattedDate = (rawDate = ''): string => {
     const date = new Date(rawDate.replace(/\s/, 'T'));
     const RADIX = 10;
 
@@ -26,7 +29,7 @@ export const getFormattedDate = (rawDate: string = '') => {
 };
 
 /** @namespace Util/Orders/formatOrders */
-export const formatOrders = (orders: Orders) => orders.reduceRight((acc, order) => {
+export const formatOrders = (orders: Order[]): Order[] => orders.reduceRight((acc, order) => {
     const { order_date, id: uid } = order;
     const formattedDate = getFormattedDate(order_date);
 
@@ -38,10 +41,10 @@ export const formatOrders = (orders: Orders) => orders.reduceRight((acc, order) 
             created_at: formattedDate
         }
     ];
-}, [] as Orders);
+}, [] as Order[]);
 
 /** @namespace Util/Orders/getOrderItemQtyToArray */
-export const getOrderItemQtyToArray = (product: OrderProduct) => {
+export const getOrderItemQtyToArray = (product: OrderProduct): OrderProductQuantity => {
     const {
         quantity_ordered = 0,
         quantity_canceled = 0,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -14,7 +15,15 @@ import { PRODUCT_TYPE } from 'Component/Product/Product.config';
 import { STOCK_TYPE } from 'Component/Product/Stock.config';
 import { ImageTypes } from 'Component/ProductGallery/ProductGallery.config';
 import { PriceRange } from 'Type/Price.type';
-import { ProductGrouped, ProductBundle, ItemOption, Product, ProductBundleItems, ProductVariant, StockItem, ProductDownloadable, ItemOptionProduct } from 'Type/ProductList.type';
+import {
+    ItemOption,
+    Product,
+    ProductBundle,
+    ProductDownloadable,
+    ProductGrouped,
+    ProductVariant,
+    StockItem
+} from 'Type/ProductList.type';
 import { formatPrice } from 'Util/Price';
 
 export const DEFAULT_MIN_PRODUCTS = 1;
@@ -37,7 +46,10 @@ export enum QtyFields {
 
 // TODO unify keyof product and stockitem.
 /** @namespace Util/Product/Extract/getFieldQty */
-export const getFieldQty = (product: Product | ProductVariant, field: keyof Product | keyof StockItem): number | undefined => {
+export const getFieldQty = (
+    product: Product | ProductVariant,
+    field: keyof Product | keyof StockItem
+): number | undefined => {
     if (field === QtyFields.MIN_SALE_QTY || field === QtyFields.MAX_SALE_QTY) {
         const { stock_item: { [field]: qty } = {} } = product;
 
@@ -58,7 +70,12 @@ export const getFieldQty = (product: Product | ProductVariant, field: keyof Prod
  * @returns {*}
  * @namespace Util/Product/Extract/getQuantity
  */
-export const getQuantity = (product: Product, defaultValue: number, field: keyof Product | keyof StockItem , configIndex: number = -1): number => {
+export const getQuantity = (
+    product: Product,
+    defaultValue: number,
+    field: keyof Product | keyof StockItem,
+    configIndex = -1
+): number => {
     if (!product) {
         return defaultValue;
     }
@@ -111,7 +128,7 @@ export const getMaxQuantity = (product: Product, configIndex = -1) => {
  * @returns {*}
  * @namespace Util/Product/Extract/getName
  */
-export const getName = (product: Product, configIndex: number = -1): string => {
+export const getName = (product: Product, configIndex = -1): string => {
     const { variants = [] } = product;
 
     const {
@@ -144,7 +161,7 @@ export const getProductInStock = (product: Product, parentProduct?: Product): bo
         const { items = [] } = product as ProductBundle;
         const requiredItems = items.filter(({ required }) => required);
         const requiredItemsInStock = requiredItems.filter(
-            ({ options } ) => options.some(({ product }) => getProductOptionInStock(product))
+            ({ options }) => options.some(({ product }) => getProductOptionInStock(product))
         );
 
         return inStock && requiredItemsInStock.length === requiredItems.length;
@@ -180,11 +197,12 @@ export const getProductInStock = (product: Product, parentProduct?: Product): bo
     return stockStatus !== STOCK_TYPE.OUT_OF_STOCK && (inStock || stockStatus === STOCK_TYPE.IN_STOCK);
 };
 
+/** @namespace Util/Product/Extract/getProductOptionInStock */
 export const getProductOptionInStock = (product: Product): boolean => {
     const { stock_status: stockStatus } = product;
 
     return stockStatus !== STOCK_TYPE.OUT_OF_STOCK && stockStatus === STOCK_TYPE.IN_STOCK;
-}
+};
 
 /**
  * Checks if items in Grouped Product are in stock
@@ -227,7 +245,7 @@ export type AdjustedPrice = {
     inclTax: number;
     hasDiscountCalculated: boolean;
     requiresDiscountCalculations: boolean;
-}
+};
 
 export type AdjustedPrices = Record<string, AdjustedPrice>;
 
@@ -243,7 +261,7 @@ export type AdjustedPrices = Record<string, AdjustedPrice>;
  */
 export const getPrice = (
     priceRange: PriceRange,
-    dynamicPrice: boolean = false,
+    dynamicPrice = false,
     adjustedPrice: AdjustedPrices = {},
     type = PRODUCT_TYPE.simple,
     options = []
@@ -405,7 +423,7 @@ export const getPrice = (
 export type EnteredOption = {
     uid: string;
     value: string;
-}
+};
 
 /**
  * Generates adjusted price from entered product options
@@ -416,7 +434,12 @@ export type EnteredOption = {
  * @param selectedOptions
  * @namespace Util/Product/Extract/getAdjustedPrice
  */
-export const getAdjustedPrice = (product: Product, downloadableLinks: string[], enteredOptions: EnteredOption[], selectedOptions: string[]) => {
+export const getAdjustedPrice = (
+    product: Product,
+    downloadableLinks: string[],
+    enteredOptions: EnteredOption[],
+    selectedOptions: string[]
+) => {
     const {
         options = [],
         type_id: typeId
@@ -536,7 +559,7 @@ export const getAdjustedPrice = (product: Product, downloadableLinks: string[], 
  * @param value
  * @namespace Util/Product/Extract/getSubLabelFromMaxCharacters
  */
-export const getSubLabelFromMaxCharacters = (maxCharacters: number, value: string = ''): string | null => {
+export const getSubLabelFromMaxCharacters = (maxCharacters: number, value = ''): string | null => {
     const valueLength = value.length;
     const remainingCharacters = maxCharacters - valueLength;
 
@@ -563,7 +586,7 @@ export const getSubLabelFromMaxCharacters = (maxCharacters: number, value: strin
  * @param field
  * @namespace Util/Product/Extract/getImage
  */
-export const getImage = (product: Product, field: ImageTypes) => {
+export const getImage = (product: Product, field: ImageTypes): string => {
     const { [field]: { url = 'no_selection' } = {} } = product;
     return url && url !== 'no_selection' ? url : '';
 };

@@ -21,7 +21,7 @@ export const GRAPHQL_URI = '/graphql';
 export const WINDOW_ID = 'WINDOW_ID';
 
 /** @namespace Util/Request/getWindowId */
-export const getWindowId = (): string  => {
+export const getWindowId = (): string => {
     const result = sessionStorage.getItem(WINDOW_ID);
 
     if (!result) {
@@ -110,7 +110,11 @@ export const getFetch = (uri: string, name: string): Promise<Response> => fetch(
  * @param {Int} cacheTTL
  * @namespace Util/Request/putPersistedQuery
  */
-export const putPersistedQuery = (graphQlURI: string, query: string, cacheTTL: number): Promise<Response> => fetch(`${ graphQlURI }?hash=${ hash(query) }`,
+export const putPersistedQuery = (
+    graphQlURI: string,
+    query: string,
+    cacheTTL: number
+): Promise<Response> => fetch(`${ graphQlURI }?hash=${ hash(query) }`,
     {
         method: 'PUT',
         body: JSON.stringify(query),
@@ -128,7 +132,11 @@ export const putPersistedQuery = (graphQlURI: string, query: string, cacheTTL: n
  * @returns {Promise<Response>}
  * @namespace Util/Request/postFetch
  */
-export const postFetch = (graphQlURI: string, query: string, variables: Record<string, string>): Promise<Response> => fetch(graphQlURI,
+export const postFetch = (
+    graphQlURI: string,
+    query: string,
+    variables: Record<string, string>
+): Promise<Response> => fetch(graphQlURI,
     {
         method: 'POST',
         body: JSON.stringify({ query, variables }),
@@ -142,7 +150,7 @@ export const postFetch = (graphQlURI: string, query: string, variables: Record<s
 export type ResponseBody = {
     errors: any;
     data: any;
-}
+};
 
 /**
  * Checks for errors in response, if they exist, rejects promise
@@ -199,7 +207,7 @@ export const HTTP_201_CREATED = 201;
 export type QueryObject = {
     query: string;
     variables: Record<string, string>;
-}
+};
 
 export type QueryVariables = Record<string, string>;
 

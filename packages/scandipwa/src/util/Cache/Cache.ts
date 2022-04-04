@@ -34,6 +34,7 @@ export const cacheImages = (urls: string[] = []) => {
     });
 };
 
+// TODO
 /**
  * Returns result from global cache for fn
  * @param {function} fn

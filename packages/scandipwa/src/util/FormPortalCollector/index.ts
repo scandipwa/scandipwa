@@ -17,7 +17,7 @@ export class FormPortalCollector <
 > {
     portalsObservers: Record<string, Record<string, U>> = {};
 
-    subscribe(id: T, f: U, name: S) {
+    subscribe(id: T, f: U, name: S): void {
         if (this.portalsObservers[id]) {
             this.portalsObservers[id][name] = f;
 
@@ -27,7 +27,7 @@ export class FormPortalCollector <
         this.portalsObservers[id] = { [name]: f };
     }
 
-    unsubscribe(id: T, name: S) {
+    unsubscribe(id: T, name: S): void {
         if (!this.portalsObservers[id]) {
             return;
         }

@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { History, Location, Match } from 'Type/Router.type';
 import { decodeString } from 'Util/Common';
 import getStore from 'Util/Store';
-import { History, Location, Match } from 'Type/Router.type';
 
 // TODO move
 export type KeyValuePairs = Record<string, number | string >;
@@ -24,7 +24,12 @@ export type KeyValuePairsArray = Record<string, string[]>;
  * @param {String} value
  * @namespace Util/Url/updateQueryParamWithoutHistory
  */
-export const updateQueryParamWithoutHistory = (name: string, value: string, history: History, location: Location): void => {
+export const updateQueryParamWithoutHistory = (
+    name: string,
+    value: string,
+    history: History,
+    location: Location
+): void => {
     const { search, pathname } = location;
 
     const params = new URLSearchParams(search);
@@ -148,7 +153,11 @@ export const convertQueryStringToKeyValuePairs = (queryString: string): KeyValue
  * @return {Object} Key-Value pairs
  * @namespace Util/Url/updateKeyValuePairs
  */
-export const updateKeyValuePairs = (keyValuePairs: KeyValuePairs, currentKey: string, currentValue: string | number): KeyValuePairs => {
+export const updateKeyValuePairs = (
+    keyValuePairs: KeyValuePairs,
+    currentKey: string,
+    currentValue: string | number
+): KeyValuePairs => {
     const updatedKeyValuePairs: KeyValuePairs = {};
 
     Object.entries(keyValuePairs).forEach((pair) => {
@@ -170,7 +179,9 @@ export const updateKeyValuePairs = (keyValuePairs: KeyValuePairs, currentKey: st
  * @return {String} Converted query string
  * @namespace Util/Url/convertKeyValuesToQueryString
  */
-export const convertKeyValuesToQueryString = (keyValuePairs: KeyValuePairsArray): string => Object.entries(keyValuePairs)
+export const convertKeyValuesToQueryString = (
+    keyValuePairs: KeyValuePairsArray
+): string => Object.entries(keyValuePairs)
     .map((pair) => {
         const [key, value] = pair;
         const keyExists = key !== '';
@@ -186,7 +197,11 @@ export const convertKeyValuesToQueryString = (keyValuePairs: KeyValuePairsArray)
     .join('&');
 
 /** @namespace Util/Url/generateQuery */
-export const generateQuery = (keyValueObject: KeyValuePairs, location: Location, history: History): string => Object.entries(keyValueObject)
+export const generateQuery = (
+    keyValueObject: KeyValuePairs,
+    location: Location,
+    history: History
+): string => Object.entries(keyValueObject)
     .reduce((acc, pair) => {
         const [key, value] = pair;
 

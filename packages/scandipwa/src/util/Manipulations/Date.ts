@@ -27,12 +27,10 @@ export const convertStringToDate = (stringDate: string, options: Intl.DateTimeFo
 };
 
 /** @namespace Util/Manipulations/Date/getTimeInCurrentTimezone */
-export const getTimeInCurrentTimezone = (timestamp: string): string => {
+export const getTimeInCurrentTimezone = (timestamp: string): number | string | Date => {
     const currentDate = new Date();
     const timezone = currentDate.getTimezoneOffset() * MILLISECONDS_PER_MINUTE;
     const timeInCurrentTimezone = new Date(timestamp.replace(/-/g, '/')).getTime() - new Date(timezone).getTime();
 
     return getDateValue(timeInCurrentTimezone);
 };
-
-

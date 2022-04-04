@@ -11,7 +11,7 @@
 
 import StoreItem from 'Component/StoreItem';
 import { Address, TrimmedAddress } from 'Type/Account.type';
-import { Country, Regions, Stores } from 'Type/Config.type';
+import { Country, Region, Stores } from 'Type/Config.type';
 
 /** @namespace Util/Address/Index/trimCheckoutCustomerAddress */
 export const trimCheckoutCustomerAddress = (customerAddress: Address): TrimmedAddress => {
@@ -91,11 +91,14 @@ export const removeEmptyStreets = <T>(street: T | T[]): T | T[] => (
     Array.isArray(street) ? street.filter((line) => line) : street
 );
 
-// TODO
 /** transforming "street[index]" entries into a single "street" object
     for checkout/billing/myAccoutAddress form fields object */
 /** @namespace Util/Address/Index/setAddressesInFormObject */
-export const setAddressesInFormObject = <T>(fields: Record<string, T>, numberOfLines: number, prefix: string = 'street'): Record<string, T | T[]> => {
+export const setAddressesInFormObject = <T>(
+    fields: Record<string, T>,
+    numberOfLines: number,
+    prefix = 'street'
+): Record<string, T | T[]> => {
     const addressKeys = new Array(numberOfLines)
         .fill('')
         .map((_, index) => `${prefix}${index}`);
@@ -130,13 +133,16 @@ export const getFormFields = <T>(fields: Record<string, T>, addressLinesQty: num
 };
 
 export type ZippopotamResponseResult = {
-    city: string,
-    region: string,
-    regionAbbr: string
-}
+    city: string;
+    region: string;
+    regionAbbr: string;
+};
 
 /** @namespace Util/Address/Index/getCityAndRegionFromZipcode */
-export const getCityAndRegionFromZipcode = async (countryId: string, value: string): Promise<ZippopotamResponseResult | null> => {
+export const getCityAndRegionFromZipcode = async (
+    countryId: string,
+    value: string
+): Promise<ZippopotamResponseResult | null> => {
     const response = await fetch(`https://api.zippopotam.us/${countryId}/${value}`);
     const data = await response.json();
 
@@ -169,7 +175,7 @@ export const getDefaultAddressLabel = (address: Address): string => {
 };
 
 /** @namespace Util/Address/Index/getAvailableRegions */
-export const getAvailableRegions = (country_id: string, countries: Country[]) => {
+export const getAvailableRegions = (country_id: string, countries: Country[]): Region[] => {
     const country = countries.find(({ id }) => id === country_id) || {};
     const { available_regions } = country as Country;
 
@@ -211,7 +217,10 @@ export const getFormattedRegion = (address: Address, countries: Country[]) => {
 };
 
 /** @namespace Util/Address/Index/getRegionIdFromAvailableRegions */
-export const getRegionIdFromAvailableRegions = (availableRegions: Regions, cityAndRegion: ZippopotamResponseResult): number => {
+export const getRegionIdFromAvailableRegions = (
+    availableRegions: Region[],
+    cityAndRegion: ZippopotamResponseResult
+): number => {
     const { region, regionAbbr } = cityAndRegion;
     const { id: regionId = 1 } = availableRegions.find(
         ({ name, code }) => name === region || code === regionAbbr

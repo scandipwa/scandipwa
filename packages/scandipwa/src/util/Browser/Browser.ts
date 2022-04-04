@@ -19,6 +19,7 @@ export const isSSR = (): boolean => !globalThis.window || !globalThis.window.doc
 export const isCrawler = (): boolean => crawlerRegEx.test(navigator.userAgent);
 
 /** @namespace Util/Browser/toggleScroll */
+// eslint-disable-next-line max-len
 export const toggleScroll = (state: boolean): boolean => document.documentElement.classList.toggle('scrollDisabled', !state);
 
 /** @namespace Util/Browser/isScrollDisabled */

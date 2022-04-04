@@ -12,7 +12,7 @@
 export type RatingOptionItem = {
     option_id?: string;
     value?: string;
-}
+};
 
 export type RatingItems = {
     rating_id?: string;
@@ -24,7 +24,7 @@ export type Vote = {
     rating_code?: string;
     value?: string;
     percent?: number;
-}
+};
 
 export type ReviewItem = {
     average_rating?: number;
@@ -33,7 +33,7 @@ export type ReviewItem = {
     detail?: string;
     created_at?: string;
     rating_votes?: Vote[];
-}
+};
 
 export type CreateProductReviewInput = {
     nickname: string;
@@ -44,4 +44,4 @@ export type CreateProductReviewInput = {
         id: string;
         value_id: string;
     }[];
-}
+};

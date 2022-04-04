@@ -13,9 +13,9 @@ export type Region = {
     code?: string;
     name?: string;
     id?: number;
-}
+};
 
-export type Regions = Region[]
+export type Regions = Region[];
 
 export type Country = {
     label: string;
@@ -30,7 +30,7 @@ export type CartConfig = {
     include_tax_in_order_total: boolean;
     display_full_tax_summary: boolean;
     display_zero_tax_subtotal: boolean;
-}
+};
 
 export type StoreItem = {
     id?: string;
@@ -38,6 +38,6 @@ export type StoreItem = {
     storeUrl?: string;
     storeLinkUrl?: string;
     label?: string;
-}
+};
 
 export type Stores = StoreItem[];

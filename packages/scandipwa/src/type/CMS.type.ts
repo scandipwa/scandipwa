@@ -17,13 +17,13 @@ export type Page = {
     meta_title?: MetaTitle;
     meta_description?: string;
     meta_keywords?: string;
-}
+};
 
 export type Block = {
     title?: string;
     content?: string;
-}
+};
 
 export type BlockList = {
-    items?: Record<string, Block>
-}
+    items?: Record<string, Block>;
+};

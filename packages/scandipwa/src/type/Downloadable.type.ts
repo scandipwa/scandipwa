@@ -16,6 +16,6 @@ export type DownloadableLink = {
     id?: number;
     uid?: string;
     price?: number;
-}
+};
 
 export type DownloadableLinks = DownloadableLink | string;

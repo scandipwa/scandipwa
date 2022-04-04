@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/default-param-last */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,7 +13,9 @@
 import FIELD_TYPE from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
-import { Attribute, CustomizableOption, Item, ItemOption, Product, ProductGrouped, Quantity } from 'Type/ProductList.type';
+import {
+    Attribute, CustomizableOption, ItemOption, Product, ProductGrouped
+} from 'Type/ProductList.type';
 import { formatPrice } from 'Util/Price';
 
 import { EnteredOption, getProductInStock } from './Extract';
@@ -27,8 +30,8 @@ export type BuyRequest = {
     action: string;
     options?: Record<string, Variant | { id: number }[] | string>;
     links?: string[];
-    super_attribute?: Record<string, string>
-}
+    super_attribute?: Record<string, string>;
+};
 
 export interface Variant {
     date_internal: string;
@@ -83,7 +86,7 @@ export const getCustomizableOptions = (buyRequest: string): string[] => {
         return [];
     }
 
-    return Object.entries(options).reduce((prev, [option, variant ]) => {
+    return Object.entries(options).reduce((prev, [option, variant]) => {
         if (typeof variant === 'string') {
             return [...prev, btoa(`custom-option/${option}/${variant}`)];
         }
@@ -140,7 +143,10 @@ export const getSelectedOptions = (buyRequest: string): string[] => [
 ];
 
 /** @namespace Util/Product/Transform/transformParameters */
-export const transformParameters = (parameters: string[] = [], attributes: Record<string, Attribute> = {}): string[] => Object.entries(parameters)
+export const transformParameters = (
+    parameters: string[] = [],
+    attributes: Record<string, Attribute> = {}
+): string[] => Object.entries(parameters)
     .map(([attrCode, selectedValue]) => {
         const attrId = attributes[attrCode]?.attribute_id;
 
@@ -151,7 +157,7 @@ export const transformParameters = (parameters: string[] = [], attributes: Recor
 export type PriceLabels = {
     baseLabel?: string;
     priceLabel: string;
-}
+};
 
 /**
  * Generates label for bundle option
@@ -161,7 +167,7 @@ export type PriceLabels = {
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/bundleOptionToLabel
  */
-export const bundleOptionToLabel = (option: ItemOption, currencyCode: string = 'USD'): PriceLabels => {
+export const bundleOptionToLabel = (option: ItemOption, currencyCode = 'USD'): PriceLabels => {
     const {
         price,
         finalOptionPrice,
@@ -195,7 +201,7 @@ export type OptionTransformResult = {
     sort_order: number;
     isAvailable?: boolean;
     isDefault?: boolean;
-}
+};
 
 /**
  * Converts bundle products options into select field options,
@@ -204,7 +210,11 @@ export type OptionTransformResult = {
  * @param options
  * @namespace Util/Product/Transform/bundleOptionsToSelectTransform
  */
-export const bundleOptionsToSelectTransform = (options: ItemOption[], currencyCode = 'USD', quantity = {}): OptionTransformResult[] => (
+export const bundleOptionsToSelectTransform = (
+    options: ItemOption[],
+    currencyCode = 'USD',
+    quantity = {}
+): OptionTransformResult[] => (
     options.reduce((result = [], option) => {
         const {
             uid: sourceUid = '',
@@ -247,7 +257,7 @@ export const bundleOptionsToSelectTransform = (options: ItemOption[], currencyCo
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/customizableOptionToLabel
  */
-export const customizableOptionToLabel = (option: CustomizableOption, currencyCode: string = 'USD'): PriceLabels => {
+export const customizableOptionToLabel = (option: CustomizableOption, currencyCode = 'USD'): PriceLabels => {
     const {
         price,
         priceInclTax,
@@ -271,7 +281,10 @@ export const customizableOptionToLabel = (option: CustomizableOption, currencyCo
  * @param options
  * @namespace Util/Product/Transform/customizableOptionsToSelectTransform
  */
-export const customizableOptionsToSelectTransform = (options: CustomizableOption[], currencyCode: string = 'USD'): OptionTransformResult[] => (
+export const customizableOptionsToSelectTransform = (
+    options: CustomizableOption[],
+    currencyCode = 'USD'
+): OptionTransformResult[] => (
     options.reduce((result = [], option) => {
         const {
             uid,
@@ -303,7 +316,7 @@ export type ProductTransformData = {
     quantity: number | Record<string, number>;
     selected_options: string[];
     entered_options: EnteredOption[];
-}
+};
 
 /**
  * Generates Magento type product interface for performing
@@ -321,7 +334,7 @@ export const magentoProductTransform = (
     quantity: number | Record<string, number> = 1,
     enteredOptions: EnteredOption[] = [],
     selectedOptions: string[] = []
-) => {
+): ProductTransformData[] => {
     const { sku, type_id: typeId } = product;
 
     const productData: ProductTransformData[] = [];
@@ -368,7 +381,7 @@ export const magentoProductTransform = (
  * @namespace Util/Product/Transform/nonRequiredRadioOptions
  */
 export const nonRequiredRadioOptions = (
-    options: ItemOption[], isRequired: boolean = false, type: string = FIELD_TYPE.radio
+    options: ItemOption[], isRequired = false, type: string = FIELD_TYPE.radio
 ) => {
     if (isRequired || type !== FIELD_TYPE.radio) {
         return options;

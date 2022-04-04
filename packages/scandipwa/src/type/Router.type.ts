@@ -13,17 +13,17 @@ import { RouteComponentProps } from 'react-router-dom';
 
 // TODO
 
-export type History = RouteComponentProps['history'] & {}
+export type History = RouteComponentProps['history'];
 
-export type Location = RouteComponentProps['location'] & {}
+export type Location = RouteComponentProps['location'];
 
-export type Match = RouteComponentProps['match'] & {}
+export type Match = RouteComponentProps['match'];
 
 export type UrlRewrite = {
     id?: number;
     type?: string;
     sku?: string;
     notFound?: boolean;
-}
+};
 
-export type Link = [string | unknown]
+export type Link = [string | unknown];

@@ -18,22 +18,22 @@ export type Breadcrumbs = {
 }[];
 
 export type CategoryFragment = {
-    id: number,
-    breadcrumbs: Breadcrumbs,
-    description: string,
-    image: string,
-    meta_description: string,
-    meta_title: MetaTitle,
-    name: string,
-    product_count: number,
-    url_key: string,
-    url_path: string,
-    display_mode: string
-}
+    id: number;
+    breadcrumbs: Breadcrumbs;
+    description: string;
+    image: string;
+    meta_description: string;
+    meta_title: MetaTitle;
+    name: string;
+    product_count: number;
+    url_key: string;
+    url_path: string;
+    display_mode: string;
+};
 
 export type CategoryTree = CategoryFragment & {
     children?: CategoryFragment[];
-}
+};
 
 export type SelectedFilters = Record<string, string[]>;
 
@@ -48,32 +48,32 @@ export type FilterInput = {
         max?: number;
     };
     conditions?: string;
-}
+};
 
 export type SortFields = {
     options?: {
         label?: string;
         value?: string;
     }[];
-}
+};
 
 export type FilterItems = {
     count?: number;
     label?: string;
     swatch_data?: {
         type?: string;
-        value?: string
-    }
-    value: string
-}
+        value?: string;
+    };
+    value: string;
+};
 
 export type CategoryFilter = {
     has_swatch?: boolean;
     is_boolean?: boolean;
     name?: string;
-    position?: number
-    request_var?: string
-    filter_items?: FilterItems[]
-}
+    position?: number;
+    request_var?: string;
+    filter_items?: FilterItems[];
+};
 
-export type CategoryFilters = CategoryFilter[]
+export type CategoryFilters = CategoryFilter[];

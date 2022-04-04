@@ -14,7 +14,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 // TODO seed is always undefined! Why ?
 /**
  * JS Implementation of MurmurHash3 (r136) (as of May 20, 2011)
@@ -28,7 +27,7 @@
  * @param {number} seed Positive integer only
  * @return {number} 32-bit positive integer hash
  * @namespace Util/Request/Hash/hash */
-export const hash = (key: string, seed: number = 1): number => {
+export const hash = (key: string, seed = 1): number => {
     // eslint-disable-next-line one-var, fp/no-let
     let h1,
         h1b,

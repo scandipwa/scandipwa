@@ -15,7 +15,7 @@ import { combineReducers, createStore } from 'redux';
  * Configure the store
  * @namespace Util/Store/Index/configureStore
  */
- export function configureStore<S, A, T extends ModifiedReduxStore<S, A>>(store: T): T {
+export function configureStore<S, A, T extends ModifiedReduxStore<S, A>>(store: T): T {
     // Add a dictionary to keep track of the registered async reducers
     store.asyncReducers = {};
 
