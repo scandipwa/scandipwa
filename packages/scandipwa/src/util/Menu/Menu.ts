@@ -9,11 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { MenuItem } from "Type/Menu.type";
+
 /* eslint-disable no-param-reassign */
 
 export const TYPE_CUSTOM_URL = 0;
 export const TYPE_CMS_PAGE = 1;
 export const TYPE_CATEGORY = 2;
+
+type MenuLocation = {
+    pathname: string;
+    search: string;
+    state: {
+        category?: number;
+        page?: boolean;
+    }
+} | string;
+
+export type FormattedMenuItem = Omit<MenuItem, 'cms_page_identifier' | 'url_type' | 'url'> & {
+    url: MenuLocation
+    children: Record<string, FormattedMenuItem>
+}
 
 /**
  * Given an array of menu items, returns a copy of the array, sorted by their parent ID, then by their sort order (position)
@@ -22,14 +38,17 @@ export const TYPE_CATEGORY = 2;
  * @returns {array} the sorted array
  * @namespace Util/Menu/getSortedItems
  */
-export const getSortedItems = (unsortedItems) => Array.from(unsortedItems).sort((
+export const getSortedItems = (unsortedItems: MenuItem[]): MenuItem[] => Array.from(unsortedItems).sort((
     { parent_id: PID, position: P },
     { parent_id: prevPID, position: prevP }
 ) => (PID - prevPID) || (P - prevP));
 
 /** @namespace Util/Menu */
 export class Menu {
-    getMenuUrl({ url, url_type, category_id }) {
+    menu: Record<string, FormattedMenuItem> = {};
+    menuPositionReference: Record<string, number[]> = {};
+
+    getMenuUrl({ url, url_type, category_id }: Pick<MenuItem, 'url' | 'url_type' | 'category_id'>): MenuLocation {
         switch (url_type) {
         case TYPE_CATEGORY:
             return {
@@ -54,7 +73,7 @@ export class Menu {
         url_type,
         category_id,
         ...item
-    }) {
+    }: MenuItem ): FormattedMenuItem {
         return {
             ...item,
             url: this.getMenuUrl({ url, url_type, category_id }),
@@ -62,18 +81,20 @@ export class Menu {
         };
     }
 
-    setToValue(obj, path, value) {
+    // TODO from child to menu item ??? Any
+    setToValue (obj: Record<string, FormattedMenuItem> | any, path: string, value: FormattedMenuItem) {
         // eslint-disable-next-line fp/no-let
         let i;
-        path = path.split('.');
+        const pathArray = path.split('.');
         // eslint-disable-next-line fp/no-loops
-        for (i = 0; i < path.length - 1; i++) {
-            obj = obj[path[i]];
+        for (i = 0; i < pathArray.length - 1; i++) {
+            obj = obj[pathArray[i]];
         }
-        obj[path[i]] = value;
+
+        obj[pathArray[i]] = value;
     }
 
-    createItem(data) {
+    createItem(data: MenuItem) {
         const { parent_id, item_id } = data;
 
         if (parent_id === 0) {
@@ -93,7 +114,7 @@ export class Menu {
         }
     }
 
-    reduce({ items: unsortedItems }) {
+    reduce({ items: unsortedItems }: Record<string, MenuItem[]>) {
         this.menu = {};
         this.menuPositionReference = {};
 

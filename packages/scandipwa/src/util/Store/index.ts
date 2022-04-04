@@ -15,15 +15,17 @@ import { combineReducers, createStore } from 'redux';
  * Configure the store
  * @namespace Util/Store/Index/configureStore
  */
-export function configureStore(store) {
+ export function configureStore<S, A, T extends ModifiedReduxStore<S, A>>(store: T): T {
     // Add a dictionary to keep track of the registered async reducers
     store.asyncReducers = {};
 
     // Create an inject reducer function
     // This function adds the async reducer, and creates a new combined reducer
     store.injectReducer = (key, asyncReducer) => {
-        store.asyncReducers[key] = asyncReducer;
-        store.replaceReducer(combineReducers(store.asyncReducers));
+        if (store.asyncReducers) {
+            store.asyncReducers[key] = asyncReducer;
+            store.replaceReducer(combineReducers(store.asyncReducers));
+        }
     };
 
     // Return the modified store
@@ -31,23 +33,20 @@ export function configureStore(store) {
 }
 
 /** @namespace Util/Store/Index/noopReducer */
-export const noopReducer = (state) => state;
+export const noopReducer = <T>(state: T): T => state;
 
-export const getStore = (() => {
-    // Initialize the store
-    const store = configureStore(createStore(
-        noopReducer,
-        ( // enable Redux dev-tools only in development
-            process.env.NODE_ENV === 'development'
-            && window.__REDUX_DEVTOOLS_EXTENSION__
-        ) && window.__REDUX_DEVTOOLS_EXTENSION__({
-            trace: true
-        })
-    ));
+// Initialize the store
+export const store = configureStore(createStore(
+    noopReducer,
+    (( // enable Redux dev-tools only in development
+        process.env.NODE_ENV === 'development'
+        && window.__REDUX_DEVTOOLS_EXTENSION__
+    ) && window.__REDUX_DEVTOOLS_EXTENSION__({
+        trace: true
+    })) || undefined
+));
 
-    return function storeGetter() {
-        return store;
-    };
-})();
+/** @namespace Util/Store/Index/getStore */
+export const getStore = (): typeof store => store;
 
 export default getStore;

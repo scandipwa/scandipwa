@@ -11,6 +11,12 @@
 
 import { decodeString } from 'Util/Common';
 import getStore from 'Util/Store';
+import { History, Location, Match } from 'Type/Router.type';
+
+// TODO move
+export type KeyValuePairs = Record<string, number | string >;
+
+export type KeyValuePairsArray = Record<string, string[]>;
 
 /**
  * Update query params without adding to history
@@ -18,7 +24,7 @@ import getStore from 'Util/Store';
  * @param {String} value
  * @namespace Util/Url/updateQueryParamWithoutHistory
  */
-export const updateQueryParamWithoutHistory = (name, value, history, location) => {
+export const updateQueryParamWithoutHistory = (name: string, value: string, history: History, location: Location): void => {
     const { search, pathname } = location;
 
     const params = new URLSearchParams(search);
@@ -31,7 +37,7 @@ export const updateQueryParamWithoutHistory = (name, value, history, location) =
  * @param {String} name
  * @namespace Util/Url/removeQueryParamWithoutHistory
  */
-export const removeQueryParamWithoutHistory = (name, history, location) => {
+export const removeQueryParamWithoutHistory = (name: string, history: History, location: Location): void => {
     const { search, pathname } = location;
 
     const params = new URLSearchParams(search);
@@ -45,7 +51,7 @@ export const removeQueryParamWithoutHistory = (name, history, location) => {
  * @param {Object} location location object from react-router
  * @namespace Util/Url/getUrlParam
  */
-export const getUrlParam = (match, location) => {
+export const getUrlParam = (match: Match, location: Location) => {
     const baseUrl = match.path.replace(window.storeRegexText, '').replace('/', '');
     const currentUrl = location.pathname.replace(new RegExp(`^${window.storeRegexText}`, 'i'), '');
 
@@ -57,7 +63,7 @@ export const getUrlParam = (match, location) => {
 };
 
 /** @namespace Util/Url/trimEndSlash */
-export const trimEndSlash = (str) => (str.endsWith('/') ? str.slice(0, -1) : str);
+export const trimEndSlash = (str: string): string => (str.endsWith('/') ? str.slice(0, -1) : str);
 
 /**
  * Replaces section of URL with passed path value
@@ -66,7 +72,7 @@ export const trimEndSlash = (str) => (str.endsWith('/') ? str.slice(0, -1) : str
  * @returns {*}
  * @namespace Util/Url/replace
  */
-export const replace = (regex, path) => {
+export const replace = (regex: RegExp, path: string): string => {
     const { pathname = '' } = new URL(window.location.href);
     return pathname.replace(regex, path);
 };
@@ -76,7 +82,7 @@ export const replace = (regex, path) => {
  * @param {String} pathname the URL to append store code to
  * @namespace Util/Url/appendWithStoreCode
  */
-export const appendWithStoreCode = (pathname) => {
+export const appendWithStoreCode = (pathname: string): string => {
     const { ConfigReducer: { base_link_url = window.location.href } = {} } = getStore().getState() || {};
     const { pathname: storePrefix } = new URL(base_link_url);
 
@@ -100,11 +106,11 @@ export const appendWithStoreCode = (pathname) => {
  * @return {String|false} Variable value
  * @namespace Util/Url/getQueryParam
  */
-export const getQueryParam = (variable, location) => {
+export const getQueryParam = (variable: string, location: Location): boolean | string => {
     const query = decodeString(location.search.substring(1));
     const vars = query.split('&');
 
-    return vars.reduce((acc, item) => {
+    return vars.reduce((acc: boolean | string, item: string) => {
         const splitIdx = item.indexOf('=');
         const [k, v] = [item.slice(0, splitIdx), item.slice(splitIdx + 1)];
 
@@ -118,13 +124,13 @@ export const getQueryParam = (variable, location) => {
  * @return {Object} Key-Value pairs
  * @namespace Util/Url/convertQueryStringToKeyValuePairs
  */
-export const convertQueryStringToKeyValuePairs = (queryString) => {
-    const keyValuePairs = {};
+export const convertQueryStringToKeyValuePairs = (queryString: string): KeyValuePairs => {
+    const keyValuePairs: KeyValuePairs = {};
     const params = queryString.substring(1).split('&');
 
     params.forEach((param) => {
         const pair = param.split('=');
-        const [keyPair, valuePair = []] = pair;
+        const [keyPair, valuePair] = pair;
 
         if (keyPair.length > 0 && valuePair.length > 0) {
             keyValuePairs[keyPair] = decodeURIComponent(valuePair);
@@ -142,8 +148,8 @@ export const convertQueryStringToKeyValuePairs = (queryString) => {
  * @return {Object} Key-Value pairs
  * @namespace Util/Url/updateKeyValuePairs
  */
-export const updateKeyValuePairs = (keyValuePairs, currentKey, currentValue) => {
-    const updatedKeyValuePairs = {};
+export const updateKeyValuePairs = (keyValuePairs: KeyValuePairs, currentKey: string, currentValue: string | number): KeyValuePairs => {
+    const updatedKeyValuePairs: KeyValuePairs = {};
 
     Object.entries(keyValuePairs).forEach((pair) => {
         const [key, value] = pair;
@@ -164,7 +170,7 @@ export const updateKeyValuePairs = (keyValuePairs, currentKey, currentValue) => 
  * @return {String} Converted query string
  * @namespace Util/Url/convertKeyValuesToQueryString
  */
-export const convertKeyValuesToQueryString = (keyValuePairs) => Object.entries(keyValuePairs)
+export const convertKeyValuesToQueryString = (keyValuePairs: KeyValuePairsArray): string => Object.entries(keyValuePairs)
     .map((pair) => {
         const [key, value] = pair;
         const keyExists = key !== '';
@@ -180,7 +186,7 @@ export const convertKeyValuesToQueryString = (keyValuePairs) => Object.entries(k
     .join('&');
 
 /** @namespace Util/Url/generateQuery */
-export const generateQuery = (keyValueObject, location, history) => Object.entries(keyValueObject)
+export const generateQuery = (keyValueObject: KeyValuePairs, location: Location, history: History): string => Object.entries(keyValueObject)
     .reduce((acc, pair) => {
         const [key, value] = pair;
 
@@ -213,7 +219,7 @@ export const generateQuery = (keyValueObject, location, history) => Object.entri
  * @param {Object} variable is url flush required
  * @namespace Util/Url/setQueryParams
  */
-export const setQueryParams = (keyValueObject, location, history) => {
+export const setQueryParams = (keyValueObject: KeyValuePairs, location: Location, history: History): void => {
     const { state } = location;
     const query = generateQuery(keyValueObject, location, history);
 
@@ -225,7 +231,7 @@ export const setQueryParams = (keyValueObject, location, history) => {
  * @param {Object} variable react router history object
  * @namespace Util/Url/clearQueriesFromUrl
  */
-export const clearQueriesFromUrl = (history) => {
+export const clearQueriesFromUrl = (history: History): void => {
     history.push({ search: '' });
 };
 
@@ -235,7 +241,7 @@ export const clearQueriesFromUrl = (history) => {
  * @return {String} Converted query string
  * @namespace Util/Url/objectToUri
  */
-export const objectToUri = (keyValueObject = {}) => {
+export const objectToUri = (keyValueObject: KeyValuePairs = {}): string => {
     const paramString = Object.entries(keyValueObject).sort()
         .reduce((acc, [key, value]) => `${acc}&${key}=${value}`, '')
         .replace('&', '');
@@ -244,7 +250,7 @@ export const objectToUri = (keyValueObject = {}) => {
 };
 
 /** @namespace Util/Url/isHomePageUrl */
-export const isHomePageUrl = (pathname) => {
+export const isHomePageUrl = (pathname: string): boolean => {
     const isHomePage = pathname === appendWithStoreCode('/')
         || pathname === '/'
         || pathname === appendWithStoreCode('')

@@ -9,7 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { StoreEnhancer } from 'redux';
+import {
+    Action,
+    Reducer,
+    ReducersMapObject,
+    Store,
+    StoreEnhancer
+} from 'redux';
 
 // import { ValidationData } from 'Util/Validator';
 
@@ -25,6 +31,7 @@ declare global {
         }
         secure_base_media_url?: string
         prefetchedImages: Record<string, HTMLImageElement>
+        storeList: Array<string>
         // dataCache?: Record<number, DataType<any>>
     }
 
@@ -69,11 +76,22 @@ declare global {
         mobile: boolean;
         platform: string;
     }
-    
+
     interface NavigatorUAData extends UALowEntropyJSON {
         getHighEntropyValues(hints: string[]): Promise<UADataValues>;
         toJSON(): UALowEntropyJSON;
     }
+
+    interface HTMLInputElement {
+        fileData?: string
+    }
+
+    export type InjectReducer<S, A> = (key: string, asyncReducer: Reducer<S, Action<A>>) => void;
+
+    export type ModifiedReduxStore<S, A> = (Store<S, Action<A>> & {
+        asyncReducers?: ReducersMapObject
+        injectReducer?: InjectReducer<S, A>
+    })
 
     // interface HTMLElementEventMap {
     //     validate: ValidationData

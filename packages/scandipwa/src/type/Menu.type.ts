@@ -19,9 +19,10 @@ export type MenuItem = {
     title?: string;
     item_class?: string;
     icon?: string;
-    url?: Location;
+    url: string;
     cms_page_identifier?: string;
     category_id?: number;
+    url_type: number
 }
 
 export type MenuItems = MenuItem[];

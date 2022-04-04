@@ -11,10 +11,11 @@
 
 import { StockStatus } from 'Component/Product/Stock.config';
 import { MetaTitle } from 'Type/Common.type';
-import { Price } from 'Type/Price.type';
+import { PriceRange } from 'Type/Price.type';
 import { UrlRewrite } from 'Type/Router.type';
 
 export type Attribute = {
+    attribute_id?: number;
     attribute_code?: string;
     attribute_type?: string;
     attribute_value?: string;
@@ -121,10 +122,10 @@ export type DescriptionType = {
 };
 
 export type StockItem = {
-    in_stock?: boolean;
+    in_stock: boolean;
     min_sale_qty?: number;
     max_sale_qty?: number;
-    qty_increments?: number;
+    qty_increments: number;
 };
 
 export type OptionValue = {
@@ -162,9 +163,9 @@ export type PriceTier = {
         amount_off?: number;
         percent_off?: number;
     };
-    final_price?: {
-        currency?: string;
-        value?: number;
+    final_price: {
+        currency: string;
+        value: number;
     };
     quantity?: number;
 };
@@ -179,10 +180,15 @@ export type CustomizableOptionShape = {
 }
 
 export type CustomizableOption = CustomizableOptionShape & {
-    uid?: string;
-    option_type_id?: number;
-    title?: string;
+    uid: string;
+    option_type_id: number;
+    title: string;
     sort_order?: number;
+    position: number;
+    value?: {
+        priceExclTax: number;
+        priceInclTax: number;
+    }
 }
 
 export type InputOption = CustomizableOptionShape & {
@@ -201,8 +207,8 @@ export type ItemShape = ReviewSummaryShape & {
     id: number,
     image: Image,
     name: string,
-    options: CustomizableOptions,
-    price_range: Price,
+    options: CustomizableOption[],
+    price_range: PriceRange,
     price_tiers: PriceTier,
     review_summary: ReviewSummaryShape,
     short_description: DescriptionType,
@@ -217,6 +223,7 @@ export type ItemShape = ReviewSummaryShape & {
     uid: string,
     url: string,
     url_rewrites: UrlRewrite[]
+    salable_qty: number
 }
 
 export type Item = ItemShape;
@@ -227,30 +234,34 @@ export type Pages = Record<string, Items>;
 
 export type Quantity = number | Record<string, number>;
 
-export type ItemOptionsType = {
+export type ItemOptionProduct = {
+    name: string;
+    stock_status: string;
+    price_range: PriceRange;
+    dynamic_price: boolean;
+    type_id: string;
+}
+
+export type ItemOption = {
     can_change_quantity?: boolean;
     id?: number;
-    is_default?: boolean;
+    is_default: boolean;
     label?: string;
-    position?: number;
+    position: number;
     price?: number;
     price_type?: string;
-    quantity?: Quantity;
-    uid?: string;
-    product?: {
-        name?: string;
-        stock_status?: string;
-        price_range?: Price;
-    };
+    quantity: Quantity;
+    uid: string;
+    product: Product;
     regularOptionPrice?: number;
     regularOptionPriceExclTax?: number;
-    finalOptionPrice?: number;
-    finalOptionPriceExclTax?: number;
-}[];
+    finalOptionPrice: number;
+    finalOptionPriceExclTax: number;
+};
 
-export type ProductItemsType = {
+export type ProductBundleItems = {
     option_id?: number;
-    options?: ItemOptionsType;
+    options: ItemOption[];
     position?: number;
     required?: boolean;
     sku?: string;
@@ -258,7 +269,13 @@ export type ProductItemsType = {
     type?: string;
 }[];
 
-export type Product = ItemShape & {
+export type ProductGroupedItems = {
+    position: number;
+    qty: number;
+    product: ItemShape
+}[];
+
+export interface Product extends ItemShape{
     canonical_url?: string;
     categories?: ProductCategories;
     description?: DescriptionType;
@@ -270,15 +287,35 @@ export type Product = ItemShape & {
     special_price?: number;
     url_key?: string;
     quantity?: number;
-    items?: ProductItemsType;
     reviews?: Reviews;
+    variants?: ProductVariant[]
+    items?: unknown[];
+    downloadable_product_links?: ProductDownloadableLink[]
+    dynamic_price?: boolean
 };
 
-export type DownloadableSamples = {
-    sample_url?: Product | string;
-    sort_order?: number;
-    title?: string;
-}[];
+export interface ProductGrouped extends Product {
+    items: ProductGroupedItems;
+}
+
+export interface ProductBundle extends Product  {
+    items: ProductBundleItems;
+    dynamic_price: boolean
+}
+
+export type ProductDownloadable = Product & {
+    downloadable_product_links: ProductDownloadableLink[]
+}
+
+export type ProductDownloadableLink = {
+   price: number;
+   sample_url?: string;
+   sort_order?: number;
+   title?: string;
+   uid: string;
+}
+
+export type ProductVariant = ItemShape
 
 export type PriceConfiguration = {
     containsOptions?: boolean;

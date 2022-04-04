@@ -12,12 +12,29 @@
 import FIELD_TYPE from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
+import { Attribute, CustomizableOption, Item, ItemOption, Product, ProductGrouped, Quantity } from 'Type/ProductList.type';
 import { formatPrice } from 'Util/Price';
 
-import { getProductInStock } from './Extract';
+import { EnteredOption, getProductInStock } from './Extract';
 import { ADD_TO_CART } from './Product';
 
 export const PRICE_TYPE_PERCENT = 'PERCENT';
+
+export type BuyRequest = {
+    qty: number;
+    bundle_option_qty: Record<string, string>;
+    bundle_option: Record<string, string | Product>;
+    action: string;
+    options?: Record<string, Variant | { id: number }[] | string>;
+    links?: string[];
+    super_attribute?: Record<string, string>
+}
+
+export interface Variant {
+    date_internal: string;
+    date: string;
+    type: string;
+}
 
 /**
  * Generates correct UID for bundle with changed quantity
@@ -27,7 +44,7 @@ export const PRICE_TYPE_PERCENT = 'PERCENT';
  * @param quantity
  * @namespace Util/Product/Transform/getEncodedBundleUid
  */
-export const getEncodedBundleUid = (uid, quantity) => {
+export const getEncodedBundleUid = (uid: string, quantity: number): string => {
     const decoded = atob(uid);
     const parts = decoded.split('/');
     // eslint-disable-next-line no-magic-numbers
@@ -39,8 +56,8 @@ export const getEncodedBundleUid = (uid, quantity) => {
 };
 
 /** @namespace Util/Product/Transform/getBundleOptions */
-export const getBundleOptions = (buyRequest) => {
-    const { bundle_option = {}, bundle_option_qty = {} } = JSON.parse(buyRequest);
+export const getBundleOptions = (buyRequest: string): string[] => {
+    const { bundle_option = {}, bundle_option_qty = {} }: BuyRequest = JSON.parse(buyRequest);
 
     if (!bundle_option) {
         return [];
@@ -54,19 +71,19 @@ export const getBundleOptions = (buyRequest) => {
         }
 
         return [...prev, ...Object.keys(variant).map((id) => btoa(`bundle/${option}/${id}/${qty}`))];
-    }, []);
+    }, [] as string[]);
 };
 
 /** @namespace Util/Product/Transform/getCustomizableOptions */
-export const getCustomizableOptions = (buyRequest) => {
-    const { options = {} } = JSON.parse(buyRequest);
+export const getCustomizableOptions = (buyRequest: string): string[] => {
+    const { options = {} }: BuyRequest = JSON.parse(buyRequest);
 
     // handle null
     if (!options) {
         return [];
     }
 
-    return Object.entries(options).reduce((prev, [option, variant]) => {
+    return Object.entries(options).reduce((prev, [option, variant ]) => {
         if (typeof variant === 'string') {
             return [...prev, btoa(`custom-option/${option}/${variant}`)];
         }
@@ -89,29 +106,23 @@ export const getCustomizableOptions = (buyRequest) => {
 
         return prev;
     },
-    []);
+    [] as string[]);
 };
 
 /** @namespace Util/Product/Transform/getDownloadableOptions */
-export const getDownloadableOptions = (buyRequest) => {
-    const { links } = JSON.parse(buyRequest);
+export const getDownloadableOptions = (buyRequest: string): string[] => {
+    const { links }: BuyRequest = JSON.parse(buyRequest);
 
     if (!links) {
         return [];
-    }
-
-    const linksData = Object.entries(links);
-
-    if (typeof linksData === 'string') {
-        return btoa(`downloadable/${links}`);
     }
 
     return links.map((link) => btoa(`downloadable/${link}`));
 };
 
 /** @namespace Util/Product/Transform/getConfigurableOptions */
-export const getConfigurableOptions = (buyRequest) => {
-    const { super_attribute } = JSON.parse(buyRequest);
+export const getConfigurableOptions = (buyRequest: string): string[] => {
+    const { super_attribute }: BuyRequest = JSON.parse(buyRequest);
 
     if (!super_attribute) {
         return [];
@@ -121,7 +132,7 @@ export const getConfigurableOptions = (buyRequest) => {
 };
 
 /** @namespace Util/Product/Transform/getSelectedOptions */
-export const getSelectedOptions = (buyRequest) => [
+export const getSelectedOptions = (buyRequest: string): string[] => [
     ...getBundleOptions(buyRequest),
     ...getCustomizableOptions(buyRequest),
     ...getDownloadableOptions(buyRequest),
@@ -129,12 +140,18 @@ export const getSelectedOptions = (buyRequest) => [
 ];
 
 /** @namespace Util/Product/Transform/transformParameters */
-export const transformParameters = (parameters = [], attributes = {}) => Object.entries(parameters)
+export const transformParameters = (parameters: string[] = [], attributes: Record<string, Attribute> = {}): string[] => Object.entries(parameters)
     .map(([attrCode, selectedValue]) => {
         const attrId = attributes[attrCode]?.attribute_id;
 
         return btoa(`configurable/${attrId}/${selectedValue}`);
     });
+
+// TODO move
+export type PriceLabels = {
+    baseLabel?: string;
+    priceLabel: string;
+}
 
 /**
  * Generates label for bundle option
@@ -144,7 +161,7 @@ export const transformParameters = (parameters = [], attributes = {}) => Object.
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/bundleOptionToLabel
  */
-export const bundleOptionToLabel = (option, currencyCode = 'USD') => {
+export const bundleOptionToLabel = (option: ItemOption, currencyCode: string = 'USD'): PriceLabels => {
     const {
         price,
         finalOptionPrice,
@@ -169,6 +186,17 @@ export const bundleOptionToLabel = (option, currencyCode = 'USD') => {
     };
 };
 
+export type OptionTransformResult = {
+    id: string;
+    name: string;
+    value: string;
+    label?: string;
+    subLabel: string;
+    sort_order: number;
+    isAvailable?: boolean;
+    isDefault?: boolean;
+}
+
 /**
  * Converts bundle products options into select field options,
  * meaning into [uid:label] pair
@@ -176,7 +204,7 @@ export const bundleOptionToLabel = (option, currencyCode = 'USD') => {
  * @param options
  * @namespace Util/Product/Transform/bundleOptionsToSelectTransform
  */
-export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', quantity = {}) => (
+export const bundleOptionsToSelectTransform = (options: ItemOption[], currencyCode = 'USD', quantity = {}): OptionTransformResult[] => (
     options.reduce((result = [], option) => {
         const {
             uid: sourceUid = '',
@@ -193,7 +221,7 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
             baseLabel
         } = bundleOptionToLabel(option, currencyCode);
 
-        const { [sourceUid]: currentQty = defaultQuantity } = quantity;
+        const { [sourceUid]: currentQty = defaultQuantity } = quantity as any;
         const uid = getEncodedBundleUid(sourceUid, currentQty);
 
         result.push({
@@ -208,7 +236,7 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
         });
 
         return result;
-    }, [])
+    }, [] as OptionTransformResult[])
 );
 
 /**
@@ -219,7 +247,7 @@ export const bundleOptionsToSelectTransform = (options, currencyCode = 'USD', qu
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/customizableOptionToLabel
  */
-export const customizableOptionToLabel = (option, currencyCode = 'USD') => {
+export const customizableOptionToLabel = (option: CustomizableOption, currencyCode: string = 'USD'): PriceLabels => {
     const {
         price,
         priceInclTax,
@@ -243,7 +271,7 @@ export const customizableOptionToLabel = (option, currencyCode = 'USD') => {
  * @param options
  * @namespace Util/Product/Transform/customizableOptionsToSelectTransform
  */
-export const customizableOptionsToSelectTransform = (options, currencyCode = 'USD') => (
+export const customizableOptionsToSelectTransform = (options: CustomizableOption[], currencyCode: string = 'USD'): OptionTransformResult[] => (
     options.reduce((result = [], option) => {
         const {
             uid,
@@ -267,8 +295,15 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
         });
 
         return result;
-    }, [])
+    }, [] as OptionTransformResult[])
 );
+
+export type ProductTransformData = {
+    sku: string;
+    quantity: number | Record<string, number>;
+    selected_options: string[];
+    entered_options: EnteredOption[];
+}
 
 /**
  * Generates Magento type product interface for performing
@@ -281,26 +316,26 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
  * @namespace Util/Product/Transform/magentoProductTransform
  */
 export const magentoProductTransform = (
-    action = ADD_TO_CART,
-    product,
-    quantity = 1,
-    enteredOptions = [],
-    selectedOptions = []
+    action: string = ADD_TO_CART,
+    product: Product,
+    quantity: number | Record<string, number> = 1,
+    enteredOptions: EnteredOption[] = [],
+    selectedOptions: string[] = []
 ) => {
     const { sku, type_id: typeId } = product;
 
-    const productData = [];
+    const productData: ProductTransformData[] = [];
 
     if (typeId === PRODUCT_TYPE.grouped && action === ADD_TO_CART) {
         if (Object.keys(quantity).length === 0) {
             return productData;
         }
 
-        const { items } = product;
-        const groupedProducts = [];
+        const { items } = product as ProductGrouped;
+        const groupedProducts: string[] = [];
 
         items.forEach(({ product: { id } }) => {
-            const { [id]: groupedQuantity = 0 } = quantity;
+            const { [id]: groupedQuantity = 0 } = quantity as Record<string, number>;
             groupedProducts.push(btoa(`grouped/${id}/${groupedQuantity}`));
         });
 
@@ -311,7 +346,7 @@ export const magentoProductTransform = (
             entered_options: enteredOptions
         });
     } else {
-        const baseProductToAdd = {
+        const baseProductToAdd: ProductTransformData = {
             sku,
             quantity,
             selected_options: selectedOptions,
@@ -333,7 +368,7 @@ export const magentoProductTransform = (
  * @namespace Util/Product/Transform/nonRequiredRadioOptions
  */
 export const nonRequiredRadioOptions = (
-    options, isRequired = false, type = FIELD_TYPE.radio
+    options: ItemOption[], isRequired: boolean = false, type: string = FIELD_TYPE.radio
 ) => {
     if (isRequired || type !== FIELD_TYPE.radio) {
         return options;

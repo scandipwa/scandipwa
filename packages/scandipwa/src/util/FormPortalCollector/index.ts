@@ -10,10 +10,14 @@
  */
 
 /** @namespace Util/FormPortalCollector/Index */
-export class FormPortalCollector {
-    portalsObservers = {};
+export class FormPortalCollector <
+    T extends string,
+    U extends () => void,
+    S extends string
+> {
+    portalsObservers: Record<string, Record<string, U>> = {};
 
-    subscribe<T>(id:string, f: T, name: string): void {
+    subscribe(id: T, f: U, name: S) {
         if (this.portalsObservers[id]) {
             this.portalsObservers[id][name] = f;
 
@@ -23,7 +27,7 @@ export class FormPortalCollector {
         this.portalsObservers[id] = { [name]: f };
     }
 
-    unsubscribe(id:string, name:string): void {
+    unsubscribe(id: T, name: S) {
         if (!this.portalsObservers[id]) {
             return;
         }
@@ -31,7 +35,7 @@ export class FormPortalCollector {
         delete this.portalsObservers[id][name];
     }
 
-    collect(id:string) {
+    collect(id: S) {
         const portals = this.portalsObservers[id] || {};
 
         return Object.values(portals).map((portal) => portal());

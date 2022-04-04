@@ -36,6 +36,15 @@ export const VALIDATION_INPUT_TYPE_NUMBER = {
     naturalNoZero: 'naturalNoZero'
 };
 
+export enum ValidationInputTypeNumber {
+    NUMERIC = 'numeric',
+    NUMERICDASH = 'numericDash',
+    INTEGER = 'integer',
+    DECIMAL = 'decimal',
+    NATURAL = 'natural',
+    NATURALNOZERO = 'naturalNoZero'
+}
+
 export const VALIDATION_INPUT_TYPE_INPUT = {
     email: 'email',
     password: 'password',
@@ -43,6 +52,14 @@ export const VALIDATION_INPUT_TYPE_INPUT = {
     phone: 'phone',
     emailList: 'emailList'
 };
+
+export enum ValidationInputTypeInput {
+    EMAIL = 'email',
+    PASSWORD = 'password',
+    DATE = 'date',
+    PHONE = 'phone',
+    EMAILLIST = 'emailList'
+}
 
 export const VALIDATION_INPUT_TYPE = {
     ...VALIDATION_INPUT_TYPE_TEXT,

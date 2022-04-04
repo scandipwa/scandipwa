@@ -11,7 +11,7 @@
 
 import StoreItem from 'Component/StoreItem';
 import { Address, TrimmedAddress } from 'Type/Account.type';
-import { Countries, Regions, Stores } from 'Type/Config.type';
+import { Country, Regions, Stores } from 'Type/Config.type';
 
 /** @namespace Util/Address/Index/trimCheckoutCustomerAddress */
 export const trimCheckoutCustomerAddress = (customerAddress: Address): TrimmedAddress => {
@@ -95,7 +95,7 @@ export const removeEmptyStreets = <T>(street: T | T[]): T | T[] => (
 /** transforming "street[index]" entries into a single "street" object
     for checkout/billing/myAccoutAddress form fields object */
 /** @namespace Util/Address/Index/setAddressesInFormObject */
-export const setAddressesInFormObject = <T>(fields: T, numberOfLines: number, prefix: string = 'street'): T => {
+export const setAddressesInFormObject = <T>(fields: Record<string, T>, numberOfLines: number, prefix: string = 'street'): Record<string, T | T[]> => {
     const addressKeys = new Array(numberOfLines)
         .fill('')
         .map((_, index) => `${prefix}${index}`);
@@ -103,25 +103,25 @@ export const setAddressesInFormObject = <T>(fields: T, numberOfLines: number, pr
     const addressValues = addressKeys.map((key) => fields[key]);
 
     // removing street related fields from the form object
-    const newFields = Object.keys(fields)
+    const newFields:Record<string, T | T[]> = Object.keys(fields)
         .filter((key) => !addressKeys.includes(key))
         .reduce(
             (acc, key) => {
                 acc[key] = fields[key];
 
                 return acc;
-            }, {}
+            }, {} as Record<string, T >
         );
 
     // setting single street entry to the form object
     newFields.street = removeEmptyStreets(addressValues);
 
-    return newFields as ;
+    return newFields;
 };
 
 // get Form Fields object depending on addressLinesQty
 /** @namespace Util/Address/Index/getFormFields */
-export const getFormFields = <T>(fields: T, addressLinesQty: number): T => {
+export const getFormFields = <T>(fields: Record<string, T>, addressLinesQty: number): T | Record<string, T | T[]> => {
     if (addressLinesQty === 1) {
         return fields;
     }
@@ -169,16 +169,16 @@ export const getDefaultAddressLabel = (address: Address): string => {
 };
 
 /** @namespace Util/Address/Index/getAvailableRegions */
-export const getAvailableRegions = (country_id: string, countries: Countries) => {
+export const getAvailableRegions = (country_id: string, countries: Country[]) => {
     const country = countries.find(({ id }) => id === country_id) || {};
-    const { available_regions } = country;
+    const { available_regions } = country as Country;
 
     // need to handle null value
     return available_regions || [];
 };
 
 /** @namespace Util/Address/Index/getFormattedRegion */
-export const getFormattedRegion = (address: Address, countries: Countries) => {
+export const getFormattedRegion = (address: Address, countries: Country[]) => {
     const { country_id, region: regionData } = address;
 
     if (!regionData) {

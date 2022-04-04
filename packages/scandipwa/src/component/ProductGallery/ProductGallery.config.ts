@@ -21,3 +21,10 @@ export const THUMBNAIL_KEY = 'small_image';
 export const AMOUNT_OF_PLACEHOLDERS = 0;
 
 export const PRODUCT_GALERY_POPUP_ID = 'ProductGalleryPopup';
+
+
+export enum ImageTypes {
+    SMALL_KEY = 'small_image',
+    THUMBNAIL_KEY = 'thumbnail',
+    IMAGE_KEY = 'image'
+}

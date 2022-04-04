@@ -9,13 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import currencyMap, { HUNDRED_PERCENT } from './Price.config';
+import { PriceTier } from 'Type/ProductList.type';
+import { currencyMap, HUNDRED_PERCENT } from './Price.config';
 
 /** @namespace Util/Price/formatCurrency */
-export const formatCurrency = (currency = 'USD') => currencyMap[currency];
+export const formatCurrency = (currency: string = 'USD'): string | null =>  Object.keys(currencyMap).includes(currency) ? currency : null ;
 
 /** @namespace Util/Price/formatPrice */
-export const formatPrice = (price, currency = 'USD') => {
+export const formatPrice = (price: number, currency: string = 'USD') : string => {
     const language = navigator.languages ? navigator.languages[0] : navigator.language;
 
     return new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
@@ -29,7 +30,7 @@ export const formatPrice = (price, currency = 'USD') => {
  * @return {Number} final price
  * @namespace Util/Price/calculateFinalPrice
  */
-export const calculateFinalPrice = (discount, min, reg) => (discount ? min : reg);
+export const calculateFinalPrice = (discount: number, min: number, reg: number): number => (discount ? min : reg);
 
 /**
  * Calculate final price
@@ -37,7 +38,7 @@ export const calculateFinalPrice = (discount, min, reg) => (discount ? min : reg
  * @param {Number} spec special price
  * @return {Number} final discount
  * @namespace Util/Price/calculateTierDiscountOverSpecialPrice */
-export const calculateTierDiscountOverSpecialPrice = (spec, tier) => (
+export const calculateTierDiscountOverSpecialPrice = (spec: number, tier: number): number => (
     Math.round(HUNDRED_PERCENT - (tier / spec) * HUNDRED_PERCENT)
 );
 
@@ -47,10 +48,10 @@ export const calculateTierDiscountOverSpecialPrice = (spec, tier) => (
  * @return {Number} price rounded to 2 digits
  * @namespace Util/Price/roundPrice
  */
-export const roundPrice = (price) => parseFloat(price).toFixed(2);
+export const roundPrice = (price: number): string => price.toFixed(2);
 
 /** @namespace Util/Price/getLowestPriceTiersPrice */
-export const getLowestPriceTiersPrice = (price_tiers, currency) => {
+export const getLowestPriceTiersPrice = (price_tiers: PriceTier[], currency: string) => {
     const lowestValue = price_tiers
         .reduce((acc, { final_price: { value } }) => (acc < value ? acc : value), price_tiers[0].final_price.value);
 

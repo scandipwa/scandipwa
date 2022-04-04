@@ -9,30 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { LocationState } from 'history';
+import { RouteComponentProps } from 'react-router-dom';
 
-export type Location = {
-    pathname?: string;
-    search?: string;
-    state?: LocationState;
-    hash?: string;
-    key?: string;
-}
+// TODO
 
-// TODO use History
-export type History = {
-    length?: number;
-    action?: string;
-    location?: Location;
-}
+export type History = RouteComponentProps['history'] & {}
 
-// TODO use match from react-router
-export type Match = {
-    path?: string;
-    url?: string;
-    params?: any;
-    isExact?: boolean;
-}
+export type Location = RouteComponentProps['location'] & {}
+
+export type Match = RouteComponentProps['match'] & {}
 
 export type UrlRewrite = {
     id?: number;

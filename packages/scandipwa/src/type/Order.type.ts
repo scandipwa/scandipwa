@@ -60,13 +60,13 @@ export type orderItemQty= {
 }
 
 export type Money= {
-    currency?: string;
-    value?: number;
+    currency: string;
+    value: number;
 }
 
 export type Discount= {
-    amount?: Money;
-    value?: number;
+    amount: Money;
+    value: number;
 }
 
 export type OptionItem= {
@@ -124,7 +124,8 @@ export type OrderTabs = OrderTab[];
 export type Order= {
     can_reorder?: boolean;
     carrier?: string;
-    id?: string;
+    id: string;
+    uid: string;
     order_date?: string;
     credit_memos?: string;
     invoices?: string;

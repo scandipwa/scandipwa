@@ -13,8 +13,8 @@ import { formatPrice } from 'Util/Price';
 
 /** @namespace Util/Category/Filters/getPriceFilterLabel */
 export const getPriceFilterLabel = (from: number | string, to: number | string, currencyCode: string): string => {
-    const priceFrom = formatPrice(from, currencyCode);
-    const priceTo = formatPrice(to, currencyCode);
+    const priceFrom = formatPrice(Number(from), currencyCode);
+    const priceTo = formatPrice(Number(to), currencyCode);
 
     if (from === '*') {
         return __('Up to %s', priceTo);
