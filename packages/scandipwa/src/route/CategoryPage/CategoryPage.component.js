@@ -214,12 +214,10 @@ export class CategoryPage extends PureComponent {
                     <h3 block="CategoryPage" elem="PlaceholderHeading">
                         { __('Shopping Options') }
                     </h3>
-                    <div block="CategoryPage" elem="FilterPlaceholderContainer">
-                        <div block="CategoryPage" elem="PlaceholderList">
-                            <div block="CategoryPage" elem="PlaceholderListItem" />
-                            <div block="CategoryPage" elem="PlaceholderListItem" />
-                            <div block="CategoryPage" elem="PlaceholderListItem" />
-                        </div>
+                    <div block="CategoryPage" elem="PlaceholderList">
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
                     </div>
                     <Loader isLoading />
                 </div>
