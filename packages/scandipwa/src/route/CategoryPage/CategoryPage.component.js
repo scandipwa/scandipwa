@@ -341,8 +341,14 @@ export class CategoryPage extends PureComponent {
     renderItemsCount(isVisibleOnMobile = false) {
         const { isMatchingListFilter, isMobile, totalItems } = this.props;
 
-        if ((isVisibleOnMobile && !isMobile) || (!isVisibleOnMobile && isMobile) || totalItems === 0) {
+        if ((isVisibleOnMobile && !isMobile) || (!isVisibleOnMobile && isMobile)) {
             return null;
+        }
+
+        if (totalItems === 0) {
+            return (
+                <div block="CategoryPage" elem="itemsCount" />
+            );
         }
 
         return (
@@ -415,10 +421,7 @@ export class CategoryPage extends PureComponent {
 
     renderMiscellaneous() {
         const { totalItems } = this.props;
-
-        if (totalItems === 0 || !this.displayProducts()) {
-            return <aside block="CategoryPage" elem="Miscellaneous" mods={ { noResults: true } } />;
-        }
+        const isReadyToRender = !(totalItems === 0 || !this.displayProducts());
 
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
@@ -433,14 +436,14 @@ export class CategoryPage extends PureComponent {
                     mods={ { isPrerendered: isSSR() || isCrawler() } }
                   >
                       { this.renderLayoutButtons() }
-                      { this.renderCategorySort() }
+                      { isReadyToRender ? this.renderCategorySort() : this.renderFilterButtonPlaceholder() }
                   </div>
                   <div
                     block="CategoryPage"
                     elem="LayoutWrapper"
                     mods={ { isPrerendered: isSSR() || isCrawler() } }
                   >
-                      { this.renderFilterButton() }
+                      { isReadyToRender ? this.renderFilterButton() : this.renderFilterButtonPlaceholder() }
                   </div>
                 </div>
             </aside>
