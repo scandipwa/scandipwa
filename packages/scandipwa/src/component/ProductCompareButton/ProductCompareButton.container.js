@@ -84,6 +84,12 @@ export class ProductCompareButtonContainer extends PureComponent {
             removeComparedProduct
         } = this.props;
 
+        const { isLoading } = this.state;
+
+        if (isLoading) {
+            return;
+        }
+
         e.preventDefault();
 
         this.setState({ isLoading: true });
