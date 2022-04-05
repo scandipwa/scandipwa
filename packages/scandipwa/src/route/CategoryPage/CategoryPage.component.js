@@ -210,7 +210,7 @@ export class CategoryPage extends PureComponent {
     renderFilterPlaceholder() {
         return (
             <div block="CategoryPage" elem="PlaceholderWrapper">
-                <div block="CategoryPage" elem="PlaceholdereContainer">
+                <div block="CategoryPage" elem="PlaceholderContainer">
                     <h3 block="CategoryPage" elem="PlaceholderHeading">
                         { __('Shopping Options') }
                     </h3>
