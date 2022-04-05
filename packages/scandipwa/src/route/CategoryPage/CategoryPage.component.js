@@ -24,6 +24,7 @@ import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import {
     CategoryTreeType, FilterInputType, FilterType, SortFieldsType
 } from 'Type/Category.type';
@@ -181,8 +182,14 @@ export class CategoryPage extends PureComponent {
             totalPages,
             category: { is_anchor },
             isSearchPage,
+            isMatchingInfoFilter,
             isCurrentCategoryLoaded
+
         } = this.props;
+
+        if (!isMatchingInfoFilter) {
+            return this.renderFilterButtonPlaceholder();
+        }
 
         if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage) || !isCurrentCategoryLoaded) {
             return null;
@@ -218,6 +225,14 @@ export class CategoryPage extends PureComponent {
                     <Loader isLoading />
                 </div>
             </div>
+        );
+    }
+
+    renderFilterButtonPlaceholder() {
+        return (
+            <p block="CategoryPage" elem="FilterButtonPlaceholder">
+                <TextPlaceholder length="short" />
+            </p>
         );
     }
 
