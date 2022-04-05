@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CustomerType } from 'Type/Account.type';
+import { Addresstype, CustomerType } from 'Type/Account.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
 
@@ -26,7 +26,8 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Component/CheckoutAddressBook/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
+    shippingFields: state.CheckoutReducer.shippingFields
 });
 
 /** @namespace Component/CheckoutAddressBook/Container/mapDispatchToProps */
@@ -45,7 +46,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
         customer: CustomerType.isRequired,
         isBilling: PropTypes.bool,
         isSubmitted: PropTypes.bool,
-        is_virtual: PropTypes.bool
+        is_virtual: PropTypes.bool,
+        shippingFields: Addresstype
     };
 
     static defaultProps = {
@@ -53,7 +55,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
         onAddressSelect: noopFn,
         onShippingEstimationFieldsChange: noopFn,
         isSubmitted: false,
-        is_virtual: false
+        is_virtual: false,
+        shippingFields: {}
     };
 
     static _getDefaultAddressId(props) {
@@ -91,14 +94,14 @@ export class CheckoutAddressBookContainer extends PureComponent {
 
         const defaultAddressId = CheckoutAddressBookContainer._getDefaultAddressId(props);
 
-        if (defaultAddressId) {
-            onAddressSelect(defaultAddressId);
-            this.estimateShipping(defaultAddressId);
-        }
+        const selectedAddressId = this.getSelectedAddressId(defaultAddressId);
+
+        onAddressSelect(selectedAddressId);
+        this.estimateShipping(selectedAddressId);
 
         this.state = {
             prevDefaultAddressId: defaultAddressId,
-            selectedAddressId: defaultAddressId
+            selectedAddressId
         };
     }
 
@@ -141,7 +144,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
             onShippingEstimationFieldsChange,
             isBilling,
             isSubmitted,
-            is_virtual
+            shippingFields
         } = this.props;
         const { selectedAddressId } = this.state;
 
@@ -151,8 +154,32 @@ export class CheckoutAddressBookContainer extends PureComponent {
             isBilling,
             selectedAddressId,
             isSubmitted,
-            is_virtual
+            shippingFields
         };
+    }
+
+    getSelectedAddressId(defaultAddressId) {
+        const {
+            shippingFields: {
+                id: shippingFieldsId = 0,
+                street: shippingFieldsStreet = []
+            },
+            isBilling
+        } = this.props;
+
+        if (isBilling) {
+            return defaultAddressId;
+        }
+
+        if (shippingFieldsId) {
+            return shippingFieldsId;
+        }
+
+        if (!shippingFieldsStreet.length) {
+            return defaultAddressId;
+        }
+
+        return 0;
     }
 
     onAddressSelect(address) {

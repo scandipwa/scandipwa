@@ -32,27 +32,36 @@ export class CheckoutAddressBook extends PureComponent {
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         selectedAddressId: PropTypes.number.isRequired,
         isBilling: PropTypes.bool.isRequired,
-        isSubmitted: PropTypes.bool.isRequired,
-        is_virtual: PropTypes.bool.isRequired
-    };
-
-    state = {
-        isCustomAddressExpanded: false
+        isSubmitted: PropTypes.bool.isRequired
     };
 
     renderAddress = this.renderAddress.bind(this);
 
     expandCustomAddress = this.expandCustomAddress.bind(this);
 
+    __construct(props) {
+        super.__construct(props);
+        const {
+            isBilling = false,
+            selectedAddressId = 0,
+            shippingFields = {}
+        } = props;
+
+        this.state = {
+            isCustomAddressExpanded: false,
+            customAddress: (
+                !isBilling && !selectedAddressId
+                    ? shippingFields
+                    : {}
+            )
+        };
+    }
+
     static getDerivedStateFromProps(props) {
-        const { is_virtual, selectedAddressId, customer: { addresses = [] } } = props;
+        const { selectedAddressId, customer: { addresses = [] } } = props;
 
-        if (addresses.length === 0) {
+        if (!addresses.length || !selectedAddressId) {
             return { isCustomAddressExpanded: true };
-        }
-
-        if (selectedAddressId === 0) {
-            return is_virtual ? { isCustomAddressExpanded: true } : null;
         }
 
         return { isCustomAddressExpanded: false };
@@ -130,12 +139,13 @@ export class CheckoutAddressBook extends PureComponent {
 
     renderCustomAddress() {
         const { isBilling, onShippingEstimationFieldsChange, isSubmitted } = this.props;
+        const { customAddress = {} } = this.state;
         const formPortalId = isBilling ? BILLING_STEP : SHIPPING_STEP;
 
         return (
             <CheckoutAddressForm
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-              address={ {} }
+              address={ customAddress }
               id={ formPortalId }
               isSubmitted={ isSubmitted }
             />
