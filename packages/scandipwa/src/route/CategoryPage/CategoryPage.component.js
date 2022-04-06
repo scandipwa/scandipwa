@@ -184,6 +184,7 @@ export class CategoryPage extends PureComponent {
             isSearchPage,
             isMatchingInfoFilter,
             isCurrentCategoryLoaded
+
         } = this.props;
 
         if (!isMatchingInfoFilter) {
