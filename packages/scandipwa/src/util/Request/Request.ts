@@ -297,9 +297,8 @@ export const debounce = <T>(callback: () => void, delay: number) => {
     let timeout: NodeJS.Timeout;
 
     return (...args: T[]) => {
-        const context = this;
         clearTimeout(timeout);
-        timeout = setTimeout(() => callback.apply(context, args as any), delay);
+        timeout = setTimeout(() => callback.apply(this, args as any), delay);
     };
 };
 
@@ -314,9 +313,8 @@ export class Debouncer <
     handler = () => {};
 
     startDebounce = (callback:T, delay: U) => (...args: S[]) => {
-        const context = this;
         clearTimeout(this.timeout);
-        this.handler = () => callback.apply(context, args as any);
+        this.handler = () => callback.apply(this, args as any);
         this.timeout = setTimeout(this.handler, delay);
     };
 

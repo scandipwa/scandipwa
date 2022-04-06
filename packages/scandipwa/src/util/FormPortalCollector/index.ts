@@ -35,7 +35,7 @@ export class FormPortalCollector <
         delete this.portalsObservers[id][name];
     }
 
-    collect(id: S) {
+    collect(id: S): void[] {
         const portals = this.portalsObservers[id] || {};
 
         return Object.values(portals).map((portal) => portal());

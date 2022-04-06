@@ -14,7 +14,16 @@ import { Field, Query } from '@tilework/opus';
 import {
     GQLBundleOption,
     GQLCheckoutUserInputError,
-    GQLCustomerDownloadableProduct, GQLCustomerDownloadableProducts, GQLEnteredOptionInput, GQLInvoice, GQLInvoiceItemInterface, GQLMoney, GQLOrderAddress, GQLOrderItemOption, GQLOrderPaymentMethod, GQLPaymentMethodAdditionalData
+    GQLCustomerDownloadableProduct,
+    GQLCustomerDownloadableProducts,
+    GQLEnteredOptionInput,
+    GQLInvoice,
+    GQLInvoiceItemInterface,
+    GQLMoney,
+    GQLOrderAddress,
+    GQLOrderItemOption,
+    GQLOrderPaymentMethod,
+    GQLPaymentMethodAdditionalData
 } from 'Type/Graphql.type';
 
 import { CommonField, OrdersOptions } from './Query.type';

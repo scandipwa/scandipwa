@@ -15,7 +15,7 @@ import { executePost } from 'Util/Request/Request';
 // TODO Field or ??
 /** @namespace Util/Request/Query/fetchQuery */
 // eslint-disable-next-line import/prefer-default-export
-export const fetchQuery = (rawQueries: Field) => {
+export const fetchQuery = (rawQueries: Field): Promise<Response> => {
     const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
 
     return executePost(prepareQuery(queries));

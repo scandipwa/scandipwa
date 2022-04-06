@@ -65,9 +65,11 @@ export const getOrderItemQtyToArray = (product: OrderProduct): OrderProductQuant
 };
 
 /** @namespace Util/Orders/getProductFromOrder */
-export const getProductFromOrder = (allProducts: OrderProducts, requiredProductSku: string) => allProducts
-    .find(({ product_sku }) => product_sku === requiredProductSku);
+export const getProductFromOrder = (
+    allProducts: OrderProducts,
+    requiredProductSku: string
+): OrderProduct | undefined => allProducts.find(({ product_sku }) => product_sku === requiredProductSku);
 
 /** @namespace Util/Orders/getOrderItemRowDiscount */
-export const getOrderItemRowDiscount = (discounts: Discount[]) => discounts
+export const getOrderItemRowDiscount = (discounts: Discount[]): number => discounts
     .reduce((currentValue, { amount: { value } }) => value + currentValue, 0);

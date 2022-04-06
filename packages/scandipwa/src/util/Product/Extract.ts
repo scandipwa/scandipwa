@@ -1,5 +1,6 @@
+// TODO remove eslint disable
+/* eslint-disable no-magic-numbers */
 /* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -14,17 +15,19 @@
 import { PRODUCT_TYPE } from 'Component/Product/Product.config';
 import { STOCK_TYPE } from 'Component/Product/Stock.config';
 import { ImageTypes } from 'Component/ProductGallery/ProductGallery.config';
-import { PriceRange } from 'Type/Price.type';
+import { PriceItem, PriceRange } from 'Type/Price.type';
 import {
     ItemOption,
+    ItemShape,
     Product,
     ProductBundle,
     ProductDownloadable,
     ProductGrouped,
-    ProductVariant,
     StockItem
 } from 'Type/ProductList.type';
 import { formatPrice } from 'Util/Price';
+
+import { IndexedVariant } from './Product';
 
 export const DEFAULT_MIN_PRODUCTS = 1;
 export const DEFAULT_MAX_PRODUCTS = 999;
@@ -44,11 +47,15 @@ export enum QtyFields {
     MAX_SALE_QTY = 'max_sale_qty'
 }
 
+export type FormattedProduct = Omit<Product, 'variants'> & {
+    variants?: IndexedVariant[];
+};
+
 // TODO unify keyof product and stockitem.
 /** @namespace Util/Product/Extract/getFieldQty */
 export const getFieldQty = (
-    product: Product | ProductVariant,
-    field: keyof Product | keyof StockItem
+    product: IndexedVariant | FormattedProduct,
+    field: keyof FormattedProduct | keyof StockItem
 ): number | undefined => {
     if (field === QtyFields.MIN_SALE_QTY || field === QtyFields.MAX_SALE_QTY) {
         const { stock_item: { [field]: qty } = {} } = product;
@@ -71,7 +78,7 @@ export const getFieldQty = (
  * @namespace Util/Product/Extract/getQuantity
  */
 export const getQuantity = (
-    product: Product,
+    product: FormattedProduct,
     defaultValue: number,
     field: keyof Product | keyof StockItem,
     configIndex = -1
@@ -88,11 +95,11 @@ export const getQuantity = (
 
     const { variants } = product;
 
-    if ((!configIndex && !variants) || configIndex === -1) {
+    if ((!configIndex && !variants) || configIndex === -1 || typeof variants === 'undefined') {
         return qty;
     }
 
-    const variantQty = getFieldQty(variants![configIndex], field);
+    const variantQty = getFieldQty(variants[configIndex], field);
 
     return variantQty || qty;
 };
@@ -104,7 +111,7 @@ export const getQuantity = (
  * @returns {*}
  * @namespace Util/Product/Extract/getMinQuantity
  */
-export const getMinQuantity = (product: Product, configIndex = -1): number => (
+export const getMinQuantity = (product: FormattedProduct, configIndex = -1): number => (
     getQuantity(product, DEFAULT_MIN_PRODUCTS, QtyFields.MIN_SALE_QTY, configIndex)
 );
 
@@ -115,9 +122,10 @@ export const getMinQuantity = (product: Product, configIndex = -1): number => (
  * @returns {*}
  * @namespace Util/Product/Extract/getMaxQuantity
  */
-export const getMaxQuantity = (product: Product, configIndex = -1) => {
+export const getMaxQuantity = (product: FormattedProduct, configIndex = -1): number => {
     const maxQuantity: number = getQuantity(product, DEFAULT_MAX_PRODUCTS, MAX_SALE_QTY, configIndex);
     const salableQuantity: number = getQuantity(product, DEFAULT_MAX_PRODUCTS, QtyFields.SALABLE_QTY, configIndex);
+
     return Math.min(maxQuantity, salableQuantity);
 };
 
@@ -128,7 +136,7 @@ export const getMaxQuantity = (product: Product, configIndex = -1) => {
  * @returns {*}
  * @namespace Util/Product/Extract/getName
  */
-export const getName = (product: Product, configIndex = -1): string => {
+export const getName = (product: FormattedProduct, configIndex = -1): string => {
     const { variants = [] } = product;
 
     const {
@@ -138,6 +146,13 @@ export const getName = (product: Product, configIndex = -1): string => {
     return name;
 };
 
+/** @namespace Util/Product/Extract/getProductOptionInStock */
+export const getProductOptionInStock = (product: Product): boolean => {
+    const { stock_status: stockStatus } = product;
+
+    return stockStatus !== STOCK_TYPE.OUT_OF_STOCK && stockStatus === STOCK_TYPE.IN_STOCK;
+};
+
 /**
  * Returns whether or not product is in stock (true if in stock | false if out of stock)
  * @param product
@@ -145,7 +160,10 @@ export const getName = (product: Product, configIndex = -1): string => {
  * @returns {boolean}
  * @namespace Util/Product/Extract/getProductInStock
  */
-export const getProductInStock = (product: Product, parentProduct?: Product): boolean => {
+export const getProductInStock = (
+    product: FormattedProduct | IndexedVariant | ItemShape,
+    parentProduct?: FormattedProduct
+): boolean => {
     if (!product) {
         return false;
     }
@@ -161,14 +179,14 @@ export const getProductInStock = (product: Product, parentProduct?: Product): bo
         const { items = [] } = product as ProductBundle;
         const requiredItems = items.filter(({ required }) => required);
         const requiredItemsInStock = requiredItems.filter(
-            ({ options }) => options.some(({ product }) => getProductOptionInStock(product))
+            ({ options }) => options.some(({ product: optionProduct }) => getProductOptionInStock(optionProduct))
         );
 
         return inStock && requiredItemsInStock.length === requiredItems.length;
     }
 
     if (type === PRODUCT_TYPE.configurable && parentProduct === product) {
-        const { variants = [] } = product as Product;
+        const { variants = [] } = product as FormattedProduct;
 
         return inStock && !!variants.some((variant) => getProductInStock(variant, product));
     }
@@ -189,19 +207,12 @@ export const getProductInStock = (product: Product, parentProduct?: Product): bo
     if (type === PRODUCT_TYPE.grouped) {
         const { items = [] } = product as ProductGrouped;
 
-        return inStock && !!items.some(({ product }) => getProductInStock(product));
+        return inStock && !!items.some(({ product: groupedProduct }) => getProductInStock(groupedProduct));
     }
 
     const { stock_status: stockStatus } = product;
 
     return stockStatus !== STOCK_TYPE.OUT_OF_STOCK && (inStock || stockStatus === STOCK_TYPE.IN_STOCK);
-};
-
-/** @namespace Util/Product/Extract/getProductOptionInStock */
-export const getProductOptionInStock = (product: Product): boolean => {
-    const { stock_status: stockStatus } = product;
-
-    return stockStatus !== STOCK_TYPE.OUT_OF_STOCK && stockStatus === STOCK_TYPE.IN_STOCK;
 };
 
 /**
@@ -210,7 +221,9 @@ export const getProductOptionInStock = (product: Product): boolean => {
  * @param products: products in stock
  * @namespace Util/Product/Extract/getGroupedProductsInStockQuantity */
 
-export const getGroupedProductsInStockQuantity = ({ items = [] }: ProductGrouped): Record<number, number> => items.reduce((acc, {
+export const getGroupedProductsInStockQuantity = (
+    { items = [] }: ProductGrouped
+): Record<number, number> => items.reduce((acc, {
     product, product: { id }, qty = 1
 }) => (getProductInStock(product) ? { ...acc, [id]: qty } : acc), {});
 
@@ -249,6 +262,34 @@ export type AdjustedPrice = {
 
 export type AdjustedPrices = Record<string, AdjustedPrice>;
 
+export type FormattedPriceConfiguration = {
+    containsOptions: boolean;
+    containsOptionsWithPrice: boolean;
+    containsRequiredOptions: boolean;
+    containsRequiredOptionsWithPrice: boolean;
+};
+
+export type FormattedPrice = {
+    price: {
+        finalPrice: PriceItem;
+        finalPriceExclTax: PriceItem;
+        originalPrice: PriceItem;
+        originalPriceExclTax: PriceItem;
+        discount: {
+            percentOff: number;
+        };
+    };
+    originalPrice: {
+        minRegularPrice: PriceItem;
+        minFinalPrice: PriceItem;
+        minFinalPriceExclTax: PriceItem;
+        maxRegularPrice: PriceItem;
+        maxFinalPrice: PriceItem;
+        maxFinalPriceExclTax: PriceItem;
+    };
+    configuration: FormattedPriceConfiguration;
+};
+
 /**
  * Returns price object for product.
  * @param priceRange
@@ -265,7 +306,7 @@ export const getPrice = (
     adjustedPrice: AdjustedPrices = {},
     type = PRODUCT_TYPE.simple,
     options = []
-) => {
+): FormattedPrice => {
     const priceAcc = type === PRODUCT_TYPE.bundle
         ? 'default_final_price'
         : 'regular_price';
@@ -317,10 +358,26 @@ export const getPrice = (
         ? basePriceExclTax / discountValueRevert
         : basePriceExclTax;
 
-    const priceValue = { value: dynamicPrice ? 0 : basePriceExclDiscount * discountValue, currency, valueFormatted: '0' };
-    const priceValueExclTax = { value: dynamicPrice ? 0 : basePriceExclDiscountExclTax * discountValue, currency, valueFormatted: '0' };
-    const priceValueExclDiscount = { value: dynamicPrice ? 0 : basePriceExclDiscount, currency, valueFormatted: '0' };
-    const priceValueExclDiscountExclTax = { value: dynamicPrice ? 0 : basePriceExclDiscountExclTax, currency, valueFormatted: '0' };
+    const priceValue = {
+        value: dynamicPrice ? 0 : basePriceExclDiscount * discountValue,
+        currency,
+        valueFormatted: '0'
+    };
+    const priceValueExclTax = {
+        value: dynamicPrice ? 0 : basePriceExclDiscountExclTax * discountValue,
+        currency,
+        valueFormatted: '0'
+    };
+    const priceValueExclDiscount = {
+        value: dynamicPrice ? 0 : basePriceExclDiscount,
+        currency,
+        valueFormatted: '0'
+    };
+    const priceValueExclDiscountExclTax = {
+        value: dynamicPrice ? 0 : basePriceExclDiscountExclTax,
+        currency,
+        valueFormatted: '0'
+    };
 
     // Adds adjusted price
     Object.keys(adjustedPrice || {}).forEach((key) => {
@@ -425,6 +482,26 @@ export type EnteredOption = {
     value: string;
 };
 
+export type FormattedAdjustedPrices = {
+    downloadable: {
+        exclTax: number;
+        inclTax: number;
+        requiresDiscountCalculations: boolean;
+        hasDiscountCalculated: boolean;
+    };
+    bundle: {
+        exclTax: number;
+        inclTax: number;
+        requiresDiscountCalculations: boolean;
+        hasDiscountCalculated: boolean;
+    };
+    config: {
+        exclTax: number;
+        inclTax: number;
+        requiresDiscountCalculations: boolean;
+    };
+};
+
 /**
  * Generates adjusted price from entered product options
  *
@@ -439,7 +516,7 @@ export const getAdjustedPrice = (
     downloadableLinks: string[],
     enteredOptions: EnteredOption[],
     selectedOptions: string[]
-) => {
+): FormattedAdjustedPrices => {
     const {
         options = [],
         type_id: typeId
@@ -465,7 +542,7 @@ export const getAdjustedPrice = (
         }
     };
 
-    //#region DOWNLOADABLE
+    // #region DOWNLOADABLE
     if (typeId === PRODUCT_TYPE.downloadable) {
         const { downloadable_product_links = [] } = product as ProductDownloadable;
         downloadableLinks.forEach((uid) => {
@@ -478,16 +555,16 @@ export const getAdjustedPrice = (
             }
         });
     }
-    //#endregion
+    // #endregion
 
-    //#region BUNDLE
+    // #region BUNDLE
     if (typeId === PRODUCT_TYPE.bundle) {
         const { items = [], dynamic_price: dynamicPrice = false } = product as ProductBundle;
 
         selectedOptions.forEach((uid) => {
-            items.forEach(({ options = [] }) => {
+            items.forEach(({ options: sldOptions = [] }) => {
                 const uidParts = atob(uid).split('/');
-                const option = Array.isArray(options) && getBundleOption(uid, options);
+                const option = Array.isArray(options) && getBundleOption(uid, sldOptions);
                 const quantity = +uidParts[uidParts.length - 1];
 
                 if (option) {
@@ -523,9 +600,9 @@ export const getAdjustedPrice = (
             });
         });
     }
-    //#endregion
+    // #endregion
 
-    //#region CONFIGURABLE
+    // #region CONFIGURABLE
     enteredOptions.forEach(({ uid }) => {
         const option = options.find(({ uid: linkUid }) => linkUid === uid);
 
@@ -547,12 +624,12 @@ export const getAdjustedPrice = (
             }
         });
     });
-    //#endregion
+    // #endregion
 
     return adjustedPrice;
 };
 
-//#region SubLabel
+// #region SubLabel
 /**
  * Returns ProductCustomizable Text/TextArea Option Sublabel based on Maximum characters setup in BE
  * @param maxCharacters
@@ -577,9 +654,9 @@ export const getSubLabelFromMaxCharacters = (maxCharacters: number, value = ''):
 
     return null;
 };
-//#endregion
+// #endregion
 
-//#region IMAGE
+// #region IMAGE
 /**
  * Returns product image based on variable field, on fail placeholder
  * @param product
@@ -611,4 +688,4 @@ export const getSmallImage = (product: Product): string => getImage(product, Ima
  * @namespace Util/Product/Extract/getBaseImage
  */
 export const getBaseImage = (product: Product): string => getImage(product, ImageTypes.IMAGE_KEY);
-//#endregion
+// #endregion
