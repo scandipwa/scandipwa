@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ADDRESS_BOOK, CustomerType, TabMapType } from 'Type/Account.type';
+import { CustomerType } from 'Type/Account.type';
 
 import MyAccountDashboard from './MyAccountDashboard.component';
 
@@ -28,25 +27,16 @@ export const mapDispatchToProps = () => ({});
 /** @namespace Component/MyAccountDashboard/Container */
 export class MyAccountDashboardContainer extends PureComponent {
     static propTypes = {
-        customer: CustomerType.isRequired,
-        changeTabName: PropTypes.func.isRequired,
-        tabMap: TabMapType.isRequired
+        customer: CustomerType.isRequired
     };
 
     containerFunctions = {
-        getDefaultAddress: this.getDefaultAddress.bind(this),
-        changeToAddressBook: this.changeToAddressBook.bind(this)
+        getDefaultAddress: this.getDefaultAddress.bind(this)
     };
 
     containerProps() {
         const { customer } = this.props;
         return { customer };
-    }
-
-    changeToAddressBook() {
-        const { changeTabName, tabMap } = this.props;
-        const { tabName } = tabMap[ADDRESS_BOOK];
-        changeTabName(tabName);
     }
 
     getDefaultAddress(isBilling) {

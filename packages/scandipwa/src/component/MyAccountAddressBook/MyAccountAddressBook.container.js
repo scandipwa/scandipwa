@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { ADD_ADDRESS, ADDRESS_POPUP_ID } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { CustomerType } from 'Type/Account.type';
+import { ADDRESS_BOOK, CustomerType } from 'Type/Account.type';
 
 import MyAccountAddressBook from './MyAccountAddressBook.component';
 
@@ -39,6 +39,15 @@ export class MyAccountAddressBookContainer extends PureComponent {
     containerFunctions = {
         showCreateNewPopup: this.showCreateNewPopup.bind(this)
     };
+
+    __construct(props) {
+        super.__construct(props);
+
+        const { changeTabName, tabMap } = props;
+        const { tabName } = tabMap[ADDRESS_BOOK];
+
+        changeTabName(tabName);
+    }
 
     containerProps() {
         const { customer, showPopup } = this.props;
