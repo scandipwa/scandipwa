@@ -57,6 +57,11 @@ export class MyAccountAddressForm extends FieldForm {
     get fieldMap() {
         const {
             address,
+            address: {
+                region_id: address_regionId,
+                region: address_region,
+                region_string: address_regionString
+            },
             countries,
             addressLinesQty,
             regionDisplayAll,
@@ -86,9 +91,9 @@ export class MyAccountAddressForm extends FieldForm {
             availableRegions,
             isStateRequired,
             countryId,
-            currentRegion,
+            currentRegion: address_regionString || address_region || currentRegion,
             currentCity,
-            currentRegionId,
+            currentRegionId: parseInt(address_regionId, 10) || currentRegionId,
             currentZipcode,
             ...address
         }, {

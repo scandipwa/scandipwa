@@ -96,8 +96,10 @@ export class CheckoutAddressBookContainer extends PureComponent {
 
         const selectedAddressId = this.getSelectedAddressId(defaultAddressId);
 
-        onAddressSelect(selectedAddressId);
-        this.estimateShipping(selectedAddressId);
+        if (selectedAddressId) {
+            onAddressSelect(selectedAddressId);
+            this.estimateShipping(selectedAddressId);
+        }
 
         this.state = {
             prevDefaultAddressId: defaultAddressId,
@@ -190,12 +192,21 @@ export class CheckoutAddressBookContainer extends PureComponent {
     estimateShipping(addressId) {
         const {
             onShippingEstimationFieldsChange,
-            customer: { addresses = [] }
+            customer: { addresses = [] },
+            shippingFields,
+            shippingFields: {
+                street: shippingFieldsStreet = []
+            },
+            isBilling
         } = this.props;
 
-        const address = addresses.find(({ id }) => id === addressId);
+        const address = (
+            !addressId && !isBilling
+                ? shippingFields
+                : addresses.find(({ id }) => id === addressId)
+        );
 
-        if (!address) {
+        if (!address || (!addressId && !shippingFieldsStreet.length)) {
             return;
         }
 
@@ -206,7 +217,10 @@ export class CheckoutAddressBookContainer extends PureComponent {
             region: {
                 region_id,
                 region
-            } = {}
+            } = {},
+            region_string,
+            region: address_region,
+            region_id: regionId
         } = address;
 
         if (!country_id) {
@@ -216,8 +230,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
         onShippingEstimationFieldsChange({
             city,
             country_id,
-            region_id,
-            region,
+            region_id: region_id || regionId,
+            region: region_string || region || address_region,
             postcode
         });
     }
