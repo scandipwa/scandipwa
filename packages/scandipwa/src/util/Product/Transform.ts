@@ -18,7 +18,7 @@ import {
 } from 'Type/ProductList.type';
 import { formatPrice } from 'Util/Price';
 
-import { EnteredOption, getProductInStock } from './Extract';
+import { EnteredOption, FormattedProduct, getProductInStock } from './Extract';
 import { ADD_TO_CART } from './Product';
 
 export const PRICE_TYPE_PERCENT = 'PERCENT';
@@ -224,7 +224,7 @@ export const bundleOptionsToSelectTransform = (
             is_default
         } = option;
 
-        const isAvailable = getProductInStock(product);
+        const isAvailable = getProductInStock(product as FormattedProduct);
 
         const {
             priceLabel,
@@ -381,8 +381,10 @@ export const magentoProductTransform = (
  * @namespace Util/Product/Transform/nonRequiredRadioOptions
  */
 export const nonRequiredRadioOptions = (
-    options: ItemOption[], isRequired = false, type: string = FIELD_TYPE.radio
-) => {
+    options: ItemOption[],
+    isRequired = false,
+    type: string = FIELD_TYPE.radio
+): any => {
     if (isRequired || type !== FIELD_TYPE.radio) {
         return options;
     }

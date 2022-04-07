@@ -20,21 +20,21 @@
  * @namespace Util/Promise/MakeCancelable/makeCancelable */
 export const makeCancelable = <T>(promise: Promise<T>) => {
     // eslint-disable-next-line fp/no-let
-    let hasCanceled_ = false;
+    let hasCanceled = false;
 
     const wrappedPromise: Promise<T> = new Promise((resolve, reject) => {
         promise.then(
             /** @namespace Util/Promise/MakeCancelable/makeCancelable/wrappedPromise/promise/then */
-            (val) => (!hasCanceled_ && resolve(val)),
+            (val) => (!hasCanceled && resolve(val)),
             /** @namespace Util/Promise/MakeCancelable/makeCancelable/wrappedPromise/promise/then/catch */
-            (error) => (!hasCanceled_ && reject(error))
+            (error) => (!hasCanceled && reject(error))
         );
     });
 
     return {
         promise: wrappedPromise,
         cancel() {
-            hasCanceled_ = true;
+            hasCanceled = true;
         }
     };
 };

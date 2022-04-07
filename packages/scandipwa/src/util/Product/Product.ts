@@ -13,7 +13,28 @@ import { STOCK_TYPE } from 'Component/Product/Stock.config';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
+import {
+    Attribute,
+    AttributeOption,
+    BundleOption,
+    BundleOptionSelection,
+    ConfigurableAttribute,
+    ItemShape,
+    Option,
+    OptionTypes,
+    Product,
+    ProductBundle,
+    ProductBundleItem,
+    ProductVariant,
+    RatingVote,
+    Review,
+    Reviews,
+    StockItem,
+    SwatchData,
+    Value
+} from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
+import { FormattedProduct } from 'Util/Product/Extract';
 import getStore from 'Util/Store';
 
 export const ADD_TO_CART = 'ADD_TO_CART';
@@ -26,7 +47,10 @@ export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
  * @returns {boolean}
  * @namespace Util/Product/checkEveryOption
  */
-export const checkEveryOption = (attributes, options) => Object.keys(options)
+export const checkEveryOption = (
+    attributes: Record<string, Attribute>,
+    options: Record<string, string>
+): boolean => Object.keys(options)
     .every((option) => {
         if (!attributes[option]) {
             return false;
@@ -41,12 +65,17 @@ export const checkEveryOption = (attributes, options) => Object.keys(options)
         return options[option].includes(attribute_value);
     });
 
+// TODO move
+export type IndexedOption = AttributeOption & {
+    swatch_data: SwatchData | null;
+};
+
 /** @namespace Util/Product/getIndexedAttributeOption */
-export const getIndexedAttributeOption = (option) => {
+export const getIndexedAttributeOption = (option: AttributeOption): AttributeOption | IndexedOption => {
     const { swatch_data: defaultSwatchData } = option;
 
     if (!defaultSwatchData) {
-        return option;
+        return option as AttributeOption;
     }
 
     const { type } = defaultSwatchData;
@@ -55,11 +84,13 @@ export const getIndexedAttributeOption = (option) => {
     return {
         ...option,
         swatch_data
-    };
+    } as IndexedOption;
 };
 
 /** @namespace Util/Product/getIndexedAttributes */
-export const getIndexedAttributes = (attributes) => attributes.reduce((indexedAttributes, attribute) => {
+export const getIndexedAttributes = (
+    attributes: Attribute[]
+): Record<string, Attribute> => attributes.reduce((indexedAttributes, attribute) => {
     const { attribute_code, attribute_options = [] } = attribute;
 
     return {
@@ -78,8 +109,18 @@ export const getIndexedAttributes = (attributes) => attributes.reduce((indexedAt
     };
 }, {});
 
+export type IndexedConfigurableOption = Attribute & {
+    attribute_values: string[];
+    values: {
+        value_index: number;
+    }[];
+};
+
 /** @namespace Util/Product/getIndexedConfigurableOptions */
-export const getIndexedConfigurableOptions = (configurableOptions, indexedAttributes) => (
+export const getIndexedConfigurableOptions = (
+    configurableOptions: ConfigurableAttribute[],
+    indexedAttributes: Record<string, Attribute>
+): IndexedConfigurableOption => (
     configurableOptions.reduce((indexedConfigurableOptions, configurableOption) => {
         const { values, attribute_code } = configurableOption;
 
@@ -91,11 +132,17 @@ export const getIndexedConfigurableOptions = (configurableOptions, indexedAttrib
                 attribute_values: values.map(({ value_index }) => `${ value_index }`)
             }
         };
-    }, {})
+    }, {} as IndexedConfigurableOption)
 );
 
+export type IndexedVariant = Omit<ItemShape, 'attributes'> & {
+    attributes: Record<string, Attribute>;
+};
+
 /** @namespace Util/Product/getIndexedVariants */
-export const getIndexedVariants = (variants) => variants.map(({ product }) => {
+export const getIndexedVariants = (
+    variants: ProductVariant[]
+): IndexedVariant[] => variants.map(({ product }) => {
     const { attributes } = product;
 
     return {
@@ -105,7 +152,10 @@ export const getIndexedVariants = (variants) => variants.map(({ product }) => {
 });
 
 /** @namespace Util/Product/getIndexedSingleVariant */
-export const getIndexedSingleVariant = (variants, itemSku) => {
+export const getIndexedSingleVariant = (
+    variants: ProductVariant[],
+    itemSku: string
+): IndexedVariant[] => {
     const index = variants.findIndex(({ product: { sku } }) => sku === itemSku || itemSku.includes(sku));
 
     if (index < 0) {
@@ -121,7 +171,11 @@ export const getIndexedSingleVariant = (variants, itemSku) => {
 };
 
 /** @namespace Util/Product/getVariantsIndexes */
-export const getVariantsIndexes = (variants, options, inStockOnly = false) => {
+export const getVariantsIndexes = (
+    variants: IndexedVariant[],
+    options: Record<string, string>,
+    inStockOnly = false
+): number[] | boolean => {
     const result = Object.entries(variants)
         .reduce((indexes, [index, variant]) => {
             if (checkEveryOption(variant.attributes, options)) {
@@ -129,7 +183,7 @@ export const getVariantsIndexes = (variants, options, inStockOnly = false) => {
             }
 
             return indexes;
-        }, []);
+        }, [] as number[]);
 
     if (inStockOnly) {
         return result.filter((n) => variants[n].stock_status === STOCK_TYPE.IN_STOCK);
@@ -146,14 +200,22 @@ export const getVariantsIndexes = (variants, options, inStockOnly = false) => {
  * @returns {number}
  * @namespace Util/Product/getVariantIndex
  */
-export const getVariantIndex = (variants, options, inStockOnly = false) => {
+export const getVariantIndex = (
+    variants: IndexedVariant[],
+    options: Record<string, string>,
+    inStockOnly = false
+): number => {
     const indexes = getVariantsIndexes(variants, options, inStockOnly);
 
-    return indexes.length ? indexes[0] : -1;
+    return indexes instanceof Array && indexes.length ? indexes[0] : -1;
+};
+
+export type IndexedCustomOption = Omit<Option, 'value' | keyof OptionTypes> & {
+    value: Value[];
 };
 
 /** @namespace Util/Product/getIndexedCustomOption */
-export const getIndexedCustomOption = (option) => {
+export const getIndexedCustomOption = (option: Option): any => {
     const {
         checkboxValues,
         dropdownValues,
@@ -191,7 +253,7 @@ export const getIndexedCustomOption = (option) => {
 };
 
 /** @namespace Util/Product/getIndexedCustomOptions */
-export const getIndexedCustomOptions = (options) => options.reduce(
+export const getIndexedCustomOptions = (options: Option[]) => options.reduce(
     (acc, option) => {
         const indexedOption = getIndexedCustomOption(option);
 
@@ -201,11 +263,11 @@ export const getIndexedCustomOptions = (options) => options.reduce(
 
         return acc;
     },
-    []
+    [] as IndexedCustomOption[]
 );
 
 /** @namespace Util/Product/getIndexedReviews */
-export const getIndexedReviews = (reviews) => {
+export const getIndexedReviews = (reviews: Reviews): Review[] | null => {
     if (!reviews) {
         return null;
     }
@@ -214,13 +276,13 @@ export const getIndexedReviews = (reviews) => {
     const ONE_FIFTH_OF_A_HUNDRED = 20;
 
     return items.reduce((acc, review) => {
-        const { rating_votes = [], ...restOfReview } = review;
+        const { rating_votes = [], ...restOfReview } = review as Review;
 
-        const newRatingVotes = rating_votes.reduce((acc, vote) => {
-            const { rating_code, value } = vote;
+        const newRatingVotes = rating_votes.reduce((ratingVotesAcc, vote) => {
+            const { rating_code, value } = vote as RatingVote;
 
             return [
-                ...acc,
+                ...ratingVotesAcc,
                 {
                     rating_code,
                     value,
@@ -228,7 +290,7 @@ export const getIndexedReviews = (reviews) => {
                     percent: value * ONE_FIFTH_OF_A_HUNDRED
                 }
             ];
-        }, []);
+        }, [] as RatingVote[]);
 
         return [
             ...acc,
@@ -237,11 +299,11 @@ export const getIndexedReviews = (reviews) => {
                 rating_votes: newRatingVotes
             }
         ];
-    }, []);
+    }, [] as Review[]);
 };
 
 /** @namespace Util/Product/getBundleId */
-export const getBundleId = (uid = '') => {
+export const getBundleId = (uid = ''): number => {
     const arrayId = atob(uid).split('/');
 
     if (Array.isArray(arrayId) && arrayId.length > 2) {
@@ -251,9 +313,15 @@ export const getBundleId = (uid = '') => {
     return 0;
 };
 
+export type FormattedBundleOptions = Pick<BundleOption, 'option_id'> & BundleOptionSelection;
+
 /** @namespace Util/Product/getBundleOptions */
-export const getBundleOptions = (options, items) => {
-    const bundleOptions = options.reduce((prev, next) => [...prev, ...next.selection_details], []);
+export const getBundleOptions = (options: BundleOption[], items: ProductBundleItem[]) => {
+    const bundleOptions = options
+        .reduce(
+            // eslint-disable-next-line max-len
+            (prev, next) => [...prev, ...next.selection_details], [] as FormattedBundleOptions[]
+        );
 
     return items.map((item) => ({
         ...item,
@@ -279,8 +347,12 @@ export const getBundleOptions = (options, items) => {
     }));
 };
 
+// TODO Works with all types
 /** @namespace Util/Product/getIndexedProduct */
-export const getIndexedProduct = (product, itemSku) => {
+export const getIndexedProduct = (
+    product: Product | ProductBundle,
+    itemSku?: string
+) => {
     const {
         variants: initialVariants = [],
         configurable_options: initialConfigurableOptions = [],
@@ -311,43 +383,57 @@ export const getIndexedProduct = (product, itemSku) => {
     };
 
     if (bundle_options.length) {
-        updatedProduct.items = getBundleOptions(bundle_options, items);
+        updatedProduct.items = getBundleOptions(bundle_options, items as ProductBundleItem[]);
     }
 
     return updatedProduct;
 };
 
 /** @namespace Util/Product/getIndexedProducts */
-export const getIndexedProducts = (products) => products.map((product) => getIndexedProduct(product));
+export const getIndexedProducts = (
+    products: Product[] | ProductBundle[]
+): any => products.map((product) => getIndexedProduct(product));
 
 /** @namespace Util/Product/getIndexedParameteredProducts */
-export const getIndexedParameteredProducts = (products) => Object.entries(products)
+export const getIndexedParameteredProducts = (products: Product[]) => Object.entries(products)
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     .reduce((products, [id, product]) => ({
         ...products,
         [id]: getIndexedProduct(product)
     }), {});
 
 /** @namespace Util/Product/sortBySortOrder */
-export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort(
-    (a, b) => {
-        if (a[sortKey] < b[sortKey]) {
-            return -1;
-        }
+export const sortBySortOrder = <T extends Record<string, unknown>>(
+    options: T[],
+    sortKey: keyof T = 'sort_order'
+): T[] => options.sort(
+        (a, b) => {
+            if (a[sortKey] < b[sortKey]) {
+                return -1;
+            }
 
-        if (a[sortKey] > b[sortKey]) {
-            return 1;
-        }
+            if (a[sortKey] > b[sortKey]) {
+                return 1;
+            }
 
-        return 0;
-    }
-);
+            return 0;
+        }
+    );
 
 /** @namespace Util/Product/getIsConfigurableParameterSelected */
-// eslint-disable-next-line max-len
-export const getIsConfigurableParameterSelected = (parameters, key, value) => Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
+export const getIsConfigurableParameterSelected = <T extends Record<string, unknown>, U extends string, S>(
+    parameters: T,
+    key: U,
+    value: S
+): boolean => Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
 
 /** @namespace Util/Product/getNewParameters */
-export const getNewParameters = (parameters, key, value = '') => {
+// eslint-disable-next-line max-len
+export const getNewParameters = <T extends Record<string, unknown>, U extends string>(
+    parameters: T,
+    key: U,
+    value = ''
+): Omit<T, U> => {
     // If value is already selected, than we remove the key to achieve deselection
     if (getIsConfigurableParameterSelected(parameters, key, value)) {
         const { [key]: oldValue, ...newParameters } = parameters;
@@ -362,7 +448,7 @@ export const getNewParameters = (parameters, key, value = '') => {
 };
 
 /** @namespace Util/Product/showNewReviewPopup */
-export const showNewReviewPopup = () => {
+export const showNewReviewPopup = (): void => {
     const store = getStore();
     const {
         ConfigReducer: {
@@ -381,25 +467,8 @@ export const showNewReviewPopup = () => {
     dispatch(showPopup(REVIEW_POPUP_ID, { title: __('Write a review') }));
 };
 
-/** @namespace Util/Product/sortAlphabetically */
-export const sortAlphabetically = (options, key, caseSensitive = false) => options
-    .sort((a, b) => {
-        const textA = caseSensitive ? a[key] : a[key].toUpperCase();
-        const textB = caseSensitive ? b[key] : b[key].toUpperCase();
-
-        if (textA < textB) {
-            return -1;
-        }
-
-        if (textA > textB) {
-            return 1;
-        }
-
-        return 0;
-    });
-
 /** @namespace Util/Product/getBooleanLabel */
-export const getBooleanLabel = (label, isBoolean = false) => {
+export const getBooleanLabel = (label: string, isBoolean = false): string => {
     if (!isBoolean) {
         return label;
     }
@@ -407,8 +476,15 @@ export const getBooleanLabel = (label, isBoolean = false) => {
     return +label ? __('Yes') : __('No');
 };
 
+export type FormattedConfigurableOption = Attribute & {
+    attribute_values: string[];
+};
+
 /** @namespace Util/Product/filterConfigurableOptions */
-export const filterConfigurableOptions = (options, variants) => Object.values(options)
+export const filterConfigurableOptions = (
+    options: FormattedConfigurableOption[],
+    variants: IndexedVariant[]
+): Record<string, FormattedConfigurableOption> => Object.values(options)
     .reduce((acc, option) => {
         const {
             attribute_values,
@@ -428,7 +504,7 @@ export const filterConfigurableOptions = (options, variants) => Object.values(op
             }
 
             return acc;
-        }, []);
+        }, [] as string[]);
 
         return {
             ...acc,
@@ -437,10 +513,10 @@ export const filterConfigurableOptions = (options, variants) => Object.values(op
                 attribute_values: filteredOptions
             }
         };
-    }, {});
+    }, {} as Record<string, FormattedConfigurableOption>);
 
 /** @namespace Util/Product/validateProductQuantity */
-export const validateProductQuantity = (quantity, stockItem) => {
+export const validateProductQuantity = (quantity: number, stockItem: StockItem): Array<string | boolean> => {
     const { min_sale_qty = 1, max_sale_qty, qty_increments = 1 } = stockItem;
 
     if (quantity < min_sale_qty) {
@@ -458,23 +534,21 @@ export const validateProductQuantity = (quantity, stockItem) => {
     return [true];
 };
 
-/** @namespace Util/Product/getAttributesWithValues */
-export const getAttributesWithValues = (product) => {
-    const { attributes = {}, parameters = {} } = product;
+export type IndexedProduct = Omit<FormattedProduct, 'attributes'> & {
+    attributes: Record<string, Attribute>;
+};
 
-    return Object.entries(attributes).reduce((acc, [key, val]) => {
+/** @namespace Util/Product/getAttributesWithValues */
+export const getAttributesWithValues = (product: IndexedProduct): Record<string, Attribute> => {
+    const { attributes = {} } = product;
+
+    return Object.entries(attributes).reduce((acc, [, val]) => {
         const { attribute_label, attribute_value } = val;
 
         if (attribute_value) {
             return { ...acc, [attribute_label]: val };
         }
 
-        const valueIndexFromParameter = parameters[key];
-
-        if (valueIndexFromParameter) {
-            return { ...acc, [attribute_label]: { ...val, attribute_value: valueIndexFromParameter } };
-        }
-
         return acc;
-    }, {});
+    }, {} as Record<string, Attribute>);
 };

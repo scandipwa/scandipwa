@@ -173,6 +173,7 @@ export type DatesData = {
     hours?: string;
     minutes?: string;
     ampm: string;
+    name?: string;
 };
 
 export type DateObject = {
@@ -247,6 +248,13 @@ export const groupDateFieldsData = (fields: NodeListOf<Element>): Record<string,
         };
     }, {} as Record<string, DatesData>);
 
+export type FieldData = {
+    field: HTMLElement;
+    name: string;
+    type: string;
+    value: string | boolean | number;
+};
+
 /**
  * Returns fields values from DOM/Form
  * @param DOM
@@ -256,9 +264,14 @@ export const groupDateFieldsData = (fields: NodeListOf<Element>): Record<string,
  * @returns {{}|*[]}
  * @namespace Util/Form/Extract/getFieldsData
  */
-export const getFieldsData = (DOM: Document, excludeEmpty = false, ignoreTypes: string[] = [], asObject = false) => {
+export const getFieldsData = (
+    DOM: Document,
+    excludeEmpty = false,
+    ignoreTypes: string[] = [],
+    asObject = false
+): any => {
     const fields: NodeListOf<HTMLSelectElement | HTMLInputElement> = DOM.querySelectorAll('input, textarea, select');
-    const output = [];
+    const output: Record<number, FieldData | DatesData>[] = [];
 
     const dateFieldsGrouped = groupDateFieldsData(fields);
     output.push(...transformDateFieldsData(dateFieldsGrouped));
@@ -299,10 +312,10 @@ export const getFieldsData = (DOM: Document, excludeEmpty = false, ignoreTypes: 
     });
 
     if (asObject) {
-        const objectOutput: Record<string, DateObject> = {};
+        const objectOutput: any = {};
         output.forEach((field) => {
-            const { name } = field as DateObject;
-            objectOutput[name] = field as DateObject;
+            const { name } = field as any;
+            objectOutput[name] = field;
         });
 
         return objectOutput;

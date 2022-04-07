@@ -14,7 +14,7 @@ import { decodeString } from 'Util/Common';
 import getStore from 'Util/Store';
 
 // TODO move
-export type KeyValuePairs = Record<string, number | string >;
+export type KeyValuePairs = Record<string, number | string | Array<number | string>>;
 
 export type KeyValuePairsArray = Record<string, string[]>;
 
@@ -156,7 +156,7 @@ export const convertQueryStringToKeyValuePairs = (queryString: string): KeyValue
 export const updateKeyValuePairs = (
     keyValuePairs: KeyValuePairs,
     currentKey: string,
-    currentValue: string | number
+    currentValue: string | number | Array<number | string>
 ): KeyValuePairs => {
     const updatedKeyValuePairs: KeyValuePairs = {};
 
@@ -180,7 +180,7 @@ export const updateKeyValuePairs = (
  * @namespace Util/Url/convertKeyValuesToQueryString
  */
 export const convertKeyValuesToQueryString = (
-    keyValuePairs: KeyValuePairsArray
+    keyValuePairs: KeyValuePairs
 ): string => Object.entries(keyValuePairs)
     .map((pair) => {
         const [key, value] = pair;

@@ -54,7 +54,7 @@ export const calculateTierDiscountOverSpecialPrice = (spec: number, tier: number
 export const roundPrice = (price: number): string => price.toFixed(2);
 
 /** @namespace Util/Price/getLowestPriceTiersPrice */
-export const getLowestPriceTiersPrice = (price_tiers: PriceTier[], currency: string) => {
+export const getLowestPriceTiersPrice = (price_tiers: PriceTier[], currency: string): string => {
     const lowestValue = price_tiers
         .reduce((acc, { final_price: { value } }) => (acc < value ? acc : value), price_tiers[0].final_price.value);
 

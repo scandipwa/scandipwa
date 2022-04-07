@@ -15,7 +15,7 @@ import { executePost } from 'Util/Request/Request';
 // TODO Field or ??
 /** @namespace Util/Request/Mutation/fetchMutation */
 // eslint-disable-next-line import/prefer-default-export
-export const fetchMutation = (rawMutations: Field) => {
+export const fetchMutation = (rawMutations: Field): Promise<Response> => {
     const queries = rawMutations instanceof Field ? [rawMutations] : rawMutations;
 
     return executePost(prepareMutation(queries));

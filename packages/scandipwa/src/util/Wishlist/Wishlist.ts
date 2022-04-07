@@ -17,7 +17,11 @@ import { Product } from 'Type/ProductList.type';
  * @param {Object} product
  * @namespace Util/Wishlist/getPriceRange
  */
-export const getPriceRange = (product: Product, price: number, priceWithoutTax: number): PriceRange | {} => {
+export const getPriceRange = (
+    product: Product,
+    price: number,
+    priceWithoutTax: number
+): PriceRange | Record<string, unknown> => {
     if (!price) {
         return {};
     }

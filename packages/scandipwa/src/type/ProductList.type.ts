@@ -16,25 +16,35 @@ import { UrlRewrite } from 'Type/Router.type';
 
 export type Attribute = {
     attribute_id?: number;
-    attribute_code?: string;
+    attribute_code: string;
     attribute_type?: string;
-    attribute_value?: string;
-    attribute_label?: string;
-    attribute_options?: Record<string, { label: string; value: string }>;
+    attribute_value: string;
+    attribute_label: string;
+    attribute_options?: {
+        label: string;
+        value: string;
+    }[];
     has_swatch?: boolean;
     is_boolean?: boolean;
 };
-
-export type Attributes = Attribute | Attribute[];
 
 export type AttributeOption = {
     label?: string;
     count?: number;
     value_string?: string;
-    swatch_data?: {
-        type?: string;
-        value?: string;
-    };
+    swatch_data?: SwatchData;
+};
+
+export type SwatchData = {
+    type?: string;
+    value?: string;
+};
+
+export type ConfigurableAttribute = {
+    attribute_code: string;
+    attribute_values: {
+        value_index: number;
+    }[];
 };
 
 export type FilterAttribute = {
@@ -98,24 +108,30 @@ export type ProductLinks = {
 }[];
 
 export type ReviewSummaryShape = {
-    rating_summary: number;
-    review_count: number;
+    rating_summary?: number;
+    review_count?: number;
 };
 
 export type RatingVote = {
     vote_id?: number;
     rating_code?: string;
     percent?: number;
+    value: number;
 };
 
-export type Reviews = {
+export type Review = {
     review_id?: number;
     nickname?: string;
     title?: string;
     detail?: string;
     created_at?: string;
     rating_votes?: RatingVote[];
-}[];
+    average_rating: number;
+};
+
+export type Reviews = {
+    items: Review[];
+};
 
 export type DescriptionType = {
     html?: string;
@@ -123,8 +139,8 @@ export type DescriptionType = {
 
 export type StockItem = {
     in_stock: boolean;
-    min_sale_qty?: number;
-    max_sale_qty?: number;
+    min_sale_qty: number;
+    max_sale_qty: number;
     qty_increments: number;
 };
 
@@ -202,15 +218,16 @@ export type FileOption = CustomizableOptionShape & {
 export type CustomizableOptions = FileOption | InputOption | CustomizableOption[];
 
 export type ItemShape = ReviewSummaryShape & {
-    attributes: Attributes;
-    configurable_options: Attributes;
+    attributes: Attribute[];
+    configurable_options: ConfigurableAttribute[];
     id: number;
     image: Image;
     name: string;
-    options: CustomizableOption[];
+    options: Option[];
     price_range: PriceRange;
     price_tiers: PriceTier;
     review_summary: ReviewSummaryShape;
+    reviews: Reviews;
     short_description: DescriptionType;
     sku: string;
     small_image: Image;
@@ -259,7 +276,7 @@ export type ItemOption = {
     finalOptionPriceExclTax: number;
 };
 
-export type ProductBundleItems = {
+export type ProductBundleItem = {
     option_id?: number;
     options: ItemOption[];
     position?: number;
@@ -267,7 +284,7 @@ export type ProductBundleItems = {
     sku?: string;
     title?: string;
     type?: string;
-}[];
+};
 
 export type ProductGroupedItems = {
     position: number;
@@ -275,7 +292,8 @@ export type ProductGroupedItems = {
     product: ItemShape;
 }[];
 
-export interface Product extends ItemShape{
+// Refactore to separate types
+export interface Product extends ItemShape {
     canonical_url?: string;
     categories?: ProductCategories;
     description?: DescriptionType;
@@ -287,19 +305,35 @@ export interface Product extends ItemShape{
     special_price?: number;
     url_key?: string;
     quantity?: number;
-    reviews?: Reviews;
     variants?: ProductVariant[];
     items?: unknown[];
     downloadable_product_links?: ProductDownloadableLink[];
     dynamic_price?: boolean;
+    bundle_options?: BundleOption[];
 }
 
 export interface ProductGrouped extends Product {
     items: ProductGroupedItems;
 }
 
+export type BundleOptionSelection = {
+    final_option_price?: number;
+    final_option_price_excl_tax?: number;
+    name?: string;
+    regular_option_price?: number;
+    regular_option_price_excl_tax?: number;
+    selection_id?: number;
+};
+
+export type BundleOption = {
+    option_id?: number;
+    price?: number;
+    qty?: number;
+    selection_details: BundleOptionSelection[];
+    title?: string;
+};
 export interface ProductBundle extends Product {
-    items: ProductBundleItems;
+    items: ProductBundleItem[];
     dynamic_price: boolean;
 }
 
@@ -315,7 +349,9 @@ export type ProductDownloadableLink = {
     uid: string;
 };
 
-export type ProductVariant = ItemShape;
+export type ProductVariant = {
+    product: ItemShape;
+};
 
 export type PriceConfiguration = {
     containsOptions?: boolean;
@@ -341,13 +377,21 @@ export type ProductCardProps = {
     siblingsHaveConfigurableOptions?: boolean;
 };
 
-export type OptionsList = {
+export type OptionTypes = {
+    checkboxValues?: Value[];
+    dropdownValues?: Value[];
+    fieldValues?: Value[];
+    areaValues?: Value[];
+    fileValues?: Value[];
+};
+
+export type Option = OptionTypes & {
     value?: CustomizableOptions;
     title?: string;
     required?: boolean;
     sort_order?: number;
     type?: string;
     uid?: string;
-}[];
+};
 
 export type LinkedProducts = Record<string, { items: Product[]; total_count: number }>;
