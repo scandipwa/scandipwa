@@ -36,6 +36,7 @@ export class MyAccountDashboardContainer extends PureComponent {
 
     containerProps() {
         const { customer } = this.props;
+
         return { customer };
     }
 
