@@ -29,7 +29,7 @@ export class CurrencySwitcher extends PureComponent {
             ),
             current_currency_code: PropTypes.string
         }).isRequired,
-        currencyRates: PropTypes.shape({
+        currency: PropTypes.shape({
             base_currency_code: PropTypes.string,
             exchange_rates: PropTypes.arrayOf(
                 PropTypes.objectOf(
@@ -58,7 +58,7 @@ export class CurrencySwitcher extends PureComponent {
 
     currencyHasRate(currency_code) {
         const {
-            currencyRates: {
+            currency: {
                 base_currency_code: base,
                 exchange_rates: rates
             }
@@ -68,7 +68,7 @@ export class CurrencySwitcher extends PureComponent {
             return true;
         }
 
-        if (rates.find(({ currency_to }) => currency_to === currency_code).rate !== 0) {
+        if (rates?.find(({ currency_to }) => currency_to === currency_code).rate !== 0) {
             return true;
         }
 
@@ -77,8 +77,7 @@ export class CurrencySwitcher extends PureComponent {
 
     returnFilteredCurrencies() {
         const { currencyData: { available_currencies_data: availableCurrencies } } = this.props;
-        const currenciesToFilter = Array.from(availableCurrencies);
-        return currenciesToFilter.filter(({ value }) => this.currencyHasRate(value));
+        return availableCurrencies.filter(({ value }) => this.currencyHasRate(value));
     }
 
     render() {

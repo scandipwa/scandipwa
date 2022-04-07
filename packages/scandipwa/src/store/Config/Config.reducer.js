@@ -24,12 +24,13 @@ export const filterStoreConfig = (config) => Object.entries(config).reduce(
 );
 
 export const {
-    countries, reviewRatings, storeConfig, currencyData, cartDisplayConfig
+    countries, reviewRatings, storeConfig, currencyData, currency, cartDisplayConfig
 } = BrowserDatabase.getItem('config') || {
     countries: [],
     reviewRatings: [],
     storeConfig: {},
     currencyData: {},
+    currency: {},
     cartDisplayConfig: {
         display_tax_in_price: '',
         display_tax_in_subtotal: '',
@@ -46,6 +47,9 @@ export const getIndexedRatings = (reviewRatings) => ((reviewRatings) ? reviewRat
 /** @namespace Store/Config/Reducer/getCurrencyData */
 export const getCurrencyData = (base, state) => (base || state.currencyData || {});
 
+/** @namespace Store/Config/Reducer/getCurrency */
+export const getCurrency = (base, state) => (base || state.currency || {});
+
 /** @namespace Store/Config/Reducer/getCountryData */
 export const getCountryData = (base, state) => (base || state.countries || {});
 
@@ -59,6 +63,7 @@ export const getInitialState = () => ({
     reviewRatings,
     checkoutAgreements: [],
     currencyData,
+    currency,
     isLoading: true,
     cartDisplayConfig,
     priceTaxDisplay: {},
@@ -86,6 +91,7 @@ export const ConfigReducer = (
             reviewRatings,
             checkoutAgreements,
             currencyData,
+            currency,
             storeConfig = {},
             cartDisplayConfig = {}
         } = {},
@@ -104,6 +110,7 @@ export const ConfigReducer = (
             reviewRatings: getIndexedRatings(reviewRatings),
             checkoutAgreements: getCheckoutAgreementData(checkoutAgreements, state),
             currencyData: getCurrencyData(currencyData, state),
+            currency: getCurrency(currency, state),
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
             // and header_logo_src takes old value

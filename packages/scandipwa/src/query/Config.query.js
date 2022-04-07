@@ -28,7 +28,8 @@ export class ConfigQuery {
             .addFieldList([
                 'id',
                 'label',
-                'value'
+                'value',
+                new Field('exchange_rates').addFieldList(['currency_to', 'rate'])
             ]);
     }
 
@@ -38,6 +39,13 @@ export class ConfigQuery {
                 this.getCurrencyField(),
                 'current_currency_code'
             ]);
+    }
+
+    getCurrencyRates() {
+        return new Field('currency')
+            .addField('base_currency_code')
+            .addField(new Field('exchange_rates')
+                .addFieldList(['currency_to', 'rate']));
     }
 
     getPriceDisplayTypeField() {

@@ -13,28 +13,24 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { ConfigDispatcher } from 'Store/Config/Config.dispatcher';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { Field, prepareQuery } from 'Util/Query';
-import { executeGet } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
 
 import CurrencySwitcher from './CurrencySwitcher.component';
 
 /** @namespace Component/CurrencySwitcher/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    currencyData: state.ConfigReducer.currencyData
+    currencyData: state.ConfigReducer.currencyData,
+    currency: state.ConfigReducer.currency
 });
 
 /** @namespace Component/CurrencySwitcher/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    updateCurrency: (options) => ConfigDispatcher.updateCurrency(dispatch, options),
-    showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
+    updateCurrency: (options) => ConfigDispatcher.updateCurrency(dispatch, options)
 });
 
 /** @namespace Component/CurrencySwitcher/Container */
 export class CurrencySwitcherContainer extends DataContainer {
     static propTypes = {
-        showNotification: PropTypes.func.isRequired,
         currencyData: PropTypes.shape({
             available_currencies_data: PropTypes.arrayOf(
                 PropTypes.objectOf(
@@ -42,6 +38,15 @@ export class CurrencySwitcherContainer extends DataContainer {
                 )
             ),
             current_currency_code: PropTypes.string
+        }).isRequired,
+        currency: PropTypes.shape({
+            base_currency_code: PropTypes.string,
+            exchange_rates: PropTypes.arrayOf(
+                PropTypes.objectOf(
+                    PropTypes.string,
+                    PropTypes.number
+                )
+            )
         }).isRequired
     };
 
@@ -51,25 +56,6 @@ export class CurrencySwitcherContainer extends DataContainer {
 
     __construct(props) {
         super.__construct(props, 'CurrencySwitcherContainer');
-    }
-
-    state = {};
-
-    // namespaces?
-    async componentDidMount() {
-        const { showNotification } = this.props;
-        const currencyRatesQuery = new Field('currency')
-            .addField('base_currency_code')
-            .addField(new Field('exchange_rates')
-                .addFieldList(['currency_to', 'rate']));
-
-        const cacheLifetime = 86400;
-        try {
-            const data = await executeGet(prepareQuery(currencyRatesQuery), 'currencyRatesQuery', cacheLifetime);
-            this.setState(data);
-        } catch (e) {
-            showNotification('error', __('Error fetching Currency Rates!'), e);
-        }
     }
 
     _handleCurrencySelect(currencyCode) {
@@ -82,30 +68,16 @@ export class CurrencySwitcherContainer extends DataContainer {
     }
 
     containerProps() {
-        const { currencyData } = this.props;
-        const { currency: currencyRates } = this.state;
-
-        return { currencyData, currencyRates };
+        const { currencyData, currency } = this.props;
+        return { currencyData, currency };
     }
 
-    renderCurrencySwitcherComponent() {
-        if (!this.state.currency) {
-            return '';
-        }
-
+    render() {
         return (
             <CurrencySwitcher
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />
-        );
-    }
-
-    render() {
-        return (
-            <>
-            { this.renderCurrencySwitcherComponent() }
-            </>
         );
     }
 }

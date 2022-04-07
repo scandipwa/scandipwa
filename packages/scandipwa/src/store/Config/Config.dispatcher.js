@@ -55,6 +55,7 @@ export class ConfigDispatcher extends QueryDispatcher {
             ConfigQuery.getQuery(),
             ConfigQuery.getCheckoutAgreements(),
             ConfigQuery.getCurrencyData(),
+            ConfigQuery.getCurrencyRates(),
             CartQuery.getCartDisplayConfig()
         ];
     }
