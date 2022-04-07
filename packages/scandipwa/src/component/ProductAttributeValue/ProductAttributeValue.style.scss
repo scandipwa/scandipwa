@@ -207,7 +207,7 @@
         }
     }
 
-    &:hover {
+    &:hover:not(&_isNotAvailable) {
         @include desktop {
             --option-border-color: var(--primary-base-color);
             --option-text-color: var(--primary-base-color);
@@ -219,13 +219,26 @@
     &_isNotAvailable {
         opacity: .5;
         cursor: default;
-        pointer-events: none;
 
-        .ProductAttributeValue-Color {
-            &::before {
-                @include not-available;
+        .ProductAttributeValue {
+            &-Color {
+                &::before {
+                    @include not-available;
 
-                background-color: var(--option-check-mark-background);
+                    background-color: var(--option-check-mark-background);
+                }
+            }
+
+            &-Color,
+            &-Image-Overlay {
+                &:hover {
+                    @include desktop {
+                        &::before,
+                        &::after {
+                            --option-is-selected: 0;
+                        }
+                    }
+                }
             }
         }
     }
