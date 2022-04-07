@@ -187,7 +187,7 @@ export abstract class AbstractField<
     addFieldList<
         NewField extends string
     >(
-        fieldList: readonly (NewField | Field<NewField, any, boolean>)[]
+        fieldList: readonly (NewField | AbstractField<NewField, any, boolean>)[]
     ): HigherKindType<
         this['tag'],
         Name,

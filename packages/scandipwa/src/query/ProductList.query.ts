@@ -15,15 +15,36 @@ import { SORT_DIRECTION_TYPE } from 'Route/CategoryPage/CategoryPage.config';
 import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import {
+    GQLAggregation,
+    GQLAggregationOption,
+    GQLAttributeOption,
+    GQLAttributeWithValue,
+    GQLBreadcrumb,
+    GQLBundleItem,
+    GQLBundleItemOption,
+    GQLBundleProduct,
+    GQLCategoryInterface,
+    GQLComplexTextValue,
     GQLConfigurableProduct,
+    GQLConfigurableProductOption,
+    GQLConfigurableProductOptions,
+    GQLConfigurableProductOptionsValues,
     GQLConfigurableVariant,
+    GQLCurrencyEnum,
     GQLCustomizableAreaOption,
     GQLCustomizableCheckboxOption,
+    GQLCustomizableCheckboxValue,
     GQLCustomizableDateOption,
+    GQLCustomizableDateValue,
     GQLCustomizableDropDownOption,
+    GQLCustomizableDropDownValue,
     GQLCustomizableFieldOption,
+    GQLCustomizableFieldValue,
     GQLCustomizableFileOption,
+    GQLCustomizableFileValue,
     GQLCustomizableMultipleOption,
+    GQLCustomizableMultipleValue,
+    GQLCustomizableOptionInterface,
     GQLCustomizableProductInterface,
     GQLCustomizableRadioOption,
     GQLDownloadableProduct,
@@ -31,13 +52,33 @@ import {
     GQLDownloadableProductSamples,
     GQLGroupedProduct,
     GQLGroupedProductItem,
+    GQLMediaGalleryEntry,
+    GQLMoney,
+    GQLOptimizedProductImage,
+    GQLPriceRange,
+    GQLPriceTypeEnum,
+    GQLProductDiscount,
     GQLProductInterface,
+    GQLProductLinksInterface,
+    GQLProductMediaGalleryEntriesVideoContent,
+    GQLProductPrice,
+    GQLProductReview,
+    GQLProductReviewRating,
+    GQLProductReviews,
     GQLProducts,
-    GQLSearchResultPageInfo
+    GQLProductStockItem,
+    GQLSearchResultPageInfo,
+    GQLSimpleProduct,
+    GQLSortField,
+    GQLSortFields,
+    GQLSwatchData,
+    GQLTierPrice,
+    GQLUrlRewrite,
+    GQLVirtualProduct
 } from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import { CommonField, CommonFragment, ProductListOptions } from './Query.type';
+import { CommonField, ProductListOptions } from './Query.type';
 
 /**
  * Product List Query
@@ -260,7 +301,7 @@ export class ProductListQuery {
         ];
     }
 
-    _getCartProductInterfaceFields(): Array<CommonField | CommonFragment> {
+    _getCartProductInterfaceFields(): CommonField[] {
         return [
             'uid',
             'id',
@@ -278,7 +319,10 @@ export class ProductListQuery {
         ];
     }
 
-    _getCartConfigurableProductFragment(): InlineFragment<'ConfigurableProduct', GQLConfigurableProduct> {
+    _getCartConfigurableProductFragment(): InlineFragment<'ConfigurableProduct', GQLConfigurableProduct & {
+        configurable_options: GQLConfigurableProductOptions[];
+        variants: GQLConfigurableVariant[];
+    }> {
         return new InlineFragment<'ConfigurableProduct', GQLConfigurableProduct>('ConfigurableProduct')
             .addFieldList([
                 this._getConfigurableOptionsField(),
@@ -299,22 +343,26 @@ export class ProductListQuery {
 
     _getCartProductField(): Field<'product', GQLProductInterface> {
         return new Field<'product', GQLProductInterface>('product')
-            .addFieldList([
-                'id',
-                'sku',
-                'stock_status',
-                'salable_qty',
-                this._getStockItemField(),
-                this._getProductThumbnailField(),
-                this._getAttributesField(true, true)
-            ]);
+            .addFieldList(this._getCartProductFields());
+    }
+
+    _getCartProductFields(): CommonField[] {
+        return [
+            'id',
+            'sku',
+            'stock_status',
+            'salable_qty',
+            this._getStockItemField(),
+            this._getProductThumbnailField(),
+            this._getAttributesField(true, true)
+        ];
     }
 
     _getProductInterfaceFields(
         isVariant: boolean,
         isForLinkedProducts = false,
         isForWishlist = false
-    ): Array<CommonField | CommonFragment> {
+    ): CommonField[] {
         const {
             isPlp = false,
             isSingleProduct,
@@ -329,7 +377,7 @@ export class ProductListQuery {
         }
 
         // Basic fields returned always
-        const fields = [
+        const fields: CommonField[] = [
             'uid',
             'id',
             'sku',
@@ -431,7 +479,9 @@ export class ProductListQuery {
      * @returns {Field}
      * @protected
      */
-    _getGroupedProductItems(): InlineFragment<'GroupedProduct', GQLGroupedProduct> {
+    _getGroupedProductItems(): InlineFragment<'GroupedProduct', GQLGroupedProduct & {
+        items: GQLGroupedProductItem[];
+    }> {
         return new InlineFragment<'GroupedProduct', GQLGroupedProduct>('GroupedProduct').addField(
             new Field<'items', GQLGroupedProductItem, true>('items', true)
                 .addFieldList(this._getGroupedProductItemFields())
@@ -444,7 +494,7 @@ export class ProductListQuery {
      * @private
      */
     _getDownloadableProductFields(): InlineFragment<'DownloadableProduct', GQLDownloadableProduct> {
-        return new InlineFragment('DownloadableProduct')
+        return new InlineFragment<'DownloadableProduct', GQLDownloadableProduct>('DownloadableProduct')
             .addFieldList(this._getDownloadableProductLinks());
     }
 
@@ -504,10 +554,10 @@ export class ProductListQuery {
         ];
     }
 
-    _getItemsField() {
+    _getItemsField<T>(): Field<'items', T & { [x: string]: unknown }, true> {
         const { isSingleProduct } = this.options;
 
-        const items = new Field('items')
+        const items = new Field<'items', T, true>('items', true)
             .addFieldList(this._getProductInterfaceFields(false));
 
         if (isSingleProduct) {
@@ -520,10 +570,10 @@ export class ProductListQuery {
         return items;
     }
 
-    _getProductField() {
+    _getProductField(): Field<'product', GQLProductInterface> {
         const { isForLinkedProducts, isForWishlist = false } = this.options;
 
-        return new Field('product')
+        return new Field<'product', GQLProductInterface>('product')
             .addFieldList(this._getProductInterfaceFields(true, isForLinkedProducts, isForWishlist));
     }
 
@@ -533,13 +583,13 @@ export class ProductListQuery {
         ];
     }
 
-    _getShortDescriptionField() {
-        return new Field('short_description')
+    _getShortDescriptionField(): Field<'short_description', GQLComplexTextValue> {
+        return new Field<'short_description', GQLComplexTextValue>('short_description')
             .addFieldList(this._getShortDescriptionFields());
     }
 
-    _getStockItemField() {
-        return new Field('stock_item')
+    _getStockItemField(): Field<'stock_item', GQLProductStockItem> {
+        return new Field<'stock_item', GQLProductStockItem>('stock_item')
             .addFieldList(this._getStockItemFields());
     }
 
@@ -562,8 +612,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getBreadcrumbsField() {
-        return new Field('breadcrumbs')
+    _getBreadcrumbsField(): Field<'breadcrumbs', GQLBreadcrumb, true> {
+        return new Field<'breadcrumbs', GQLBreadcrumb, true>('breadcrumbs', true)
             .addFieldList(this._getBreadcrumbFields());
     }
 
@@ -576,8 +626,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getCategoriesField() {
-        return new Field('categories')
+    _getCategoriesField(): Field<'categories', GQLCategoryInterface, true> {
+        return new Field<'categories', GQLCategoryInterface, true>('categories', true)
             .addFieldList(this._getCategoryFields());
     }
 
@@ -594,13 +644,13 @@ export class ProductListQuery {
         ];
     }
 
-    _getMinimalPriceField() {
-        return new Field('minimum_price')
+    _getMinimalPriceField(): Field<'minimum_price', GQLProductPrice> {
+        return new Field<'minimum_price', GQLProductPrice>('minimum_price')
             .addFieldList(this._getMinimalPriceFields());
     }
 
-    _getMaximalPriceField() {
-        return new Field('maximum_price')
+    _getMaximalPriceField(): Field<'maximum_price', GQLProductPrice> {
+        return new Field<'maximum_price', GQLProductPrice>('maximum_price')
             .addFieldList(this._getMinimalPriceFields());
     }
 
@@ -612,8 +662,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getPriceRangeField() {
-        return new Field('price_range')
+    _getPriceRangeField(): Field<'price_range', GQLPriceRange> {
+        return new Field<'price_range', GQLPriceRange>('price_range')
             .addFieldList(this._getPriceRangeFields());
     }
 
@@ -638,18 +688,18 @@ export class ProductListQuery {
      * @returns {Field}
      * @private
      */
-    _getProductThumbnailField() {
-        return new Field('thumbnail')
+    _getProductThumbnailField(): Field<'thumbnail', GQLOptimizedProductImage> {
+        return new Field<'thumbnail', GQLOptimizedProductImage>('thumbnail')
             .addFieldList(this._getProductThumbnailFields());
     }
 
-    _getProductSmallField() {
-        return new Field('small_image')
+    _getProductSmallField(): Field<'small_image', GQLOptimizedProductImage> {
+        return new Field<'small_image', GQLOptimizedProductImage>('small_image')
             .addFieldList(this._getProductSmallFields());
     }
 
-    _getProductImageField() {
-        return new Field('image')
+    _getProductImageField(): Field<'image', GQLOptimizedProductImage> {
+        return new Field<'image', GQLOptimizedProductImage>('image')
             .addFieldList(this._getProductThumbnailFields());
     }
 
@@ -666,8 +716,8 @@ export class ProductListQuery {
         return fields;
     }
 
-    _getAttributeOptionsField(noSwatches: boolean) {
-        return new Field('attribute_options')
+    _getAttributeOptionsField(noSwatches: boolean): Field<'attribute_options', GQLAttributeOption, true> {
+        return new Field<'attribute_options', GQLAttributeOption, true>('attribute_options', true)
             .addFieldList(this._getAttributeOptionField(noSwatches));
     }
 
@@ -704,8 +754,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getAttributesField(isVariant: boolean, isCart: boolean) {
-        return new Field('s_attributes')
+    _getAttributesField(isVariant: boolean, isCart: boolean): Field<'attributes', GQLAttributeWithValue, true> {
+        return new Field<'s_attributes', GQLAttributeWithValue, true>('s_attributes', true)
             .setAlias('attributes')
             .addFieldList(this._getAttributeFields(isVariant, isCart));
     }
@@ -731,8 +781,15 @@ export class ProductListQuery {
      * @returns {Field} the video_content field
      * @private
      */
-    _getVideoContentField() {
-        return new Field('video_content').addFieldList([
+    _getVideoContentField(): Field<'video_content', GQLProductMediaGalleryEntriesVideoContent & {
+        media_type: string;
+        video_description: string;
+        video_metadata: string;
+        video_provider: string;
+        video_title: string;
+        video_url: string;
+    }> {
+        return new Field<'video_content', GQLProductMediaGalleryEntriesVideoContent>('video_content').addFieldList([
             'media_type',
             'video_description',
             'video_metadata',
@@ -748,25 +805,25 @@ export class ProductListQuery {
      * @returns {Field}
      * @private
      */
-    _getMediaThumbnailField() {
-        return new Field('thumbnail').addField('url');
+    _getMediaThumbnailField(): Field<'thumbnail', string & { url: string }> {
+        return new Field<'thumbnail', string>('thumbnail').addField('url');
     }
 
-    _getMediaBaseField() {
-        return new Field('base').addField('url');
+    _getMediaBaseField(): Field<'base', string & { url: string }> {
+        return new Field<'base', string>('base').addField('url');
     }
 
-    _getMediaLargeField() {
-        return new Field('large').addField('url');
+    _getMediaLargeField(): Field<'large', string & { url: string }> {
+        return new Field<'large', string>('large').addField('url');
     }
 
-    _getMediaGalleryField() {
-        return new Field('media_gallery_entries')
+    _getMediaGalleryField(): Field<'media_gallery_entries', GQLMediaGalleryEntry, true> {
+        return new Field<'media_gallery_entries', GQLMediaGalleryEntry, true>('media_gallery_entries', true)
             .addFieldList(this._getMediaGalleryFields());
     }
 
-    _getProductLinksField() {
-        return new Field('product_links')
+    _getProductLinksField(): Field<'product_links', GQLProductLinksInterface, true> {
+        return new Field<'product_links', GQLProductLinksInterface, true>('product_links', true)
             .addFieldList(this._getProductLinkFields());
     }
 
@@ -776,13 +833,13 @@ export class ProductListQuery {
         ];
     }
 
-    _getDescriptionField() {
-        return new Field('description')
+    _getDescriptionField(): Field<'description', GQLComplexTextValue> {
+        return new Field<'description', GQLComplexTextValue>('description')
             .addFieldList(this._getDescriptionFields());
     }
 
-    _getUrlRewritesFields() {
-        return new Field('url_rewrites')
+    _getUrlRewritesFields(): Field<'url_rewrites', GQLUrlRewrite & { url: string }, true> {
+        return new Field<'url_rewrites', GQLUrlRewrite, true>('url_rewrites')
             .addFieldList(['url']);
     }
 
@@ -801,8 +858,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getRatingsBreakdownField() {
-        return new Field('ratings_breakdown')
+    _getRatingsBreakdownField(): Field<'rating_votes', GQLProductReviewRating, true> {
+        return new Field<'ratings_breakdown', GQLProductReviewRating, true>('ratings_breakdown', true)
             .setAlias('rating_votes')
             .addFieldList(this._getRatingsBreakdownFields());
     }
@@ -818,8 +875,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getReviewItemsField() {
-        return new Field('items')
+    _getReviewItemsField(): Field<'items', GQLProductReview, true> {
+        return new Field<'items', GQLProductReview, true>('items', true)
             .addFieldList(this._getReviewItemsFields());
     }
 
@@ -829,8 +886,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getReviewsField() {
-        return new Field('reviews')
+    _getReviewsField(): Field<'reviews', GQLProductReviews> {
+        return new Field<'reviews', GQLProductReviews>('reviews')
             // Hard-coded pages, it will be very hard to
             // paginate using current implementation
             // eslint-disable-next-line no-magic-numbers
@@ -843,8 +900,8 @@ export class ProductListQuery {
         return new Field<'review_count', number>('review_count');
     }
 
-    _getRatingSummaryField() {
-        return new Field('rating_summary');
+    _getRatingSummaryField(): Field<'rating_summary', number> {
+        return new Field<'rating_summary', number>('rating_summary');
     }
 
     _getBundleOptionsFields(): CommonField[] {
@@ -861,8 +918,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getProductBundleOptionField() {
-        return new Field('product')
+    _getProductBundleOptionField(): Field<'product', GQLProductInterface> {
+        return new Field<'product', GQLProductInterface>('product')
             .addFieldList(this._getProductBundleOptionFields());
     }
 
@@ -874,8 +931,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getBundleOptionsField() {
-        return new Field('options')
+    _getBundleOptionsField(): Field<'options', GQLBundleItemOption, true> {
+        return new Field<'options', GQLBundleItemOption, true>('options', true)
             .addFieldList(this._getBundleOptionsFields());
     }
 
@@ -892,8 +949,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getBundleItemsField() {
-        return new Field('items')
+    _getBundleItemsField(): Field<'items', GQLBundleItem, true> {
+        return new Field<'items', GQLBundleItem, true>('items', true)
             .addFieldList(this._getBundleItemsFields());
     }
 
@@ -915,8 +972,10 @@ export class ProductListQuery {
         ];
     }
 
-    _getBundlePriceOptionsField() {
-        return new Field('bundle_options')
+    _getBundlePriceOptionsField(): Field<'bundle_options', {
+        [x: string]: unknown;
+    }, true> {
+        return new Field<'bundle_options', unknown, true>('bundle_options', true)
             .addFieldList(this._getBundlePriceOptionFields());
     }
 
@@ -937,8 +996,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getValuesField() {
-        return new Field('values')
+    _getValuesField(): Field<'values', GQLConfigurableProductOptionsValues, true> {
+        return new Field<'values', GQLConfigurableProductOptionsValues, true>('values', true)
             .addFieldList(this._getValueFields());
     }
 
@@ -949,8 +1008,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getConfigurableOptionsField() {
-        return new Field('configurable_options')
+    _getConfigurableOptionsField(): Field<'configurable_options', GQLConfigurableProductOption, true> {
+        return new Field<'configurable_options', GQLConfigurableProductOption, true>('configurable_options', true)
             .addFieldList(this._getConfigurableOptionFields());
     }
 
@@ -960,13 +1019,13 @@ export class ProductListQuery {
         ];
     }
 
-    _getVariantsField() {
+    _getVariantsField(): Field<'variants_plp' | 'variants', GQLConfigurableVariant, true> {
         const { isPlp = false, isForWishlist = false } = this.options;
 
         // For PLP page we have optimized variants graphql field
         const variantsField = isPlp && !isForWishlist ? 'variants_plp' : 'variants';
 
-        return new Field(variantsField)
+        return new Field<'variants_plp' | 'variants', GQLConfigurableVariant, true>(variantsField, true)
             .setAlias('variants')
             .addFieldList(this._getVariantFields());
     }
@@ -990,8 +1049,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getCustomizableTextValueField(alias: string) {
-        return new Field('value')
+    _getCustomizableTextValueField<A extends string>(alias: A): Field<A, GQLCustomizableFieldValue> {
+        return new Field<'value', GQLCustomizableFieldValue>('value')
             .addFieldList(this._getCustomizableTextValueFields())
             .setAlias(alias);
     }
@@ -1003,8 +1062,16 @@ export class ProductListQuery {
         ];
     }
 
-    _getCustomizableFileValueField(alias: string) {
-        return new Field('value')
+    _getCustomizableFileValueField<A extends string>(alias: A): Field<A, GQLCustomizableFileValue & {
+        price: number;
+        sku: string;
+        price_type: GQLPriceTypeEnum;
+        priceInclTax: number;
+        priceExclTax: number;
+        currency: string;
+        file_extension: string;
+    }> {
+        return new Field<'value', GQLCustomizableFileValue>('value')
             .addFieldList([
                 'price',
                 'priceInclTax',
@@ -1027,7 +1094,9 @@ export class ProductListQuery {
             .addFieldList(this._getCustomizableTextFields('fieldValues'));
     }
 
-    _getCustomizableFileOption(): InlineFragment<'CustomizableFileOption', GQLCustomizableFileOption> {
+    _getCustomizableFileOption(): InlineFragment<'CustomizableFileOption', GQLCustomizableFileOption & {
+        fileValues: GQLCustomizableFileValue[];
+    }> {
         return new InlineFragment<'CustomizableFileOption', GQLCustomizableFileOption>('CustomizableFileOption')
             .addFieldList([this._getCustomizableFileValueField('fileValues')]);
     }
@@ -1043,8 +1112,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getCustomizableDateValueField() {
-        return new Field('value')
+    _getCustomizableDateValueField(): Field<'value', GQLCustomizableDateValue> {
+        return new Field<'value', GQLCustomizableDateValue>('value')
             .addFieldList(this._getCustomizableDateValueFields());
     }
 
@@ -1075,34 +1144,42 @@ export class ProductListQuery {
         ];
     }
 
-    _getCustomizableSelectionValueField(alias: string) {
-        return new Field('value')
+    _getCustomizableSelectionValueField<A extends string, T>(alias: A): Field<A, T> {
+        return new Field<'value', T>('value')
             .addFieldList(this._getCustomizableSelectionValueFields())
             .setAlias(alias);
     }
 
-    _getCustomizableCheckboxOption(): InlineFragment<'CustomizableCheckboxOption', GQLCustomizableCheckboxOption> {
+    _getCustomizableCheckboxOption(): InlineFragment<'CustomizableCheckboxOption', GQLCustomizableCheckboxOption & {
+        checkboxValues: GQLCustomizableCheckboxValue[];
+    }> {
         return new InlineFragment<'CustomizableCheckboxOption', GQLCustomizableCheckboxOption>(
             'CustomizableCheckboxOption'
         )
             .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]);
     }
 
-    _getCustomizableMultiOption(): InlineFragment<'CustomizableMultipleOption', GQLCustomizableMultipleOption> {
+    _getCustomizableMultiOption(): InlineFragment<'CustomizableMultipleOption', GQLCustomizableMultipleOption & {
+        checkboxValues: GQLCustomizableMultipleValue[];
+    }> {
         return new InlineFragment<'CustomizableMultipleOption', GQLCustomizableMultipleOption>(
             'CustomizableMultipleOption'
         )
             .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]); // same as checkbox
     }
 
-    _getCustomizableDropdownOption(): InlineFragment<'CustomizableDropDownOption', GQLCustomizableDropDownOption> {
+    _getCustomizableDropdownOption(): InlineFragment<'CustomizableDropDownOption', GQLCustomizableDropDownOption & {
+        dropdownValues: GQLCustomizableDropDownValue[];
+    }> {
         return new InlineFragment<'CustomizableDropDownOption', GQLCustomizableDropDownOption>(
             'CustomizableDropDownOption'
         )
             .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]);
     }
 
-    _getCustomizableRadioOption(): InlineFragment<'CustomizableRadioOption', GQLCustomizableRadioOption> {
+    _getCustomizableRadioOption(): InlineFragment<'CustomizableRadioOption', GQLCustomizableRadioOption & {
+        dropdownValues: GQLCustomizableDropDownValue[];
+    }> {
         return new InlineFragment<'CustomizableRadioOption', GQLCustomizableRadioOption>('CustomizableRadioOption')
             .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]); // same as dropdown
     }
@@ -1125,12 +1202,16 @@ export class ProductListQuery {
         ];
     }
 
-    _getCustomizableProductFragmentOptionsField() {
-        return new Field('options')
+    _getCustomizableProductFragmentOptionsField(): Field<'options', GQLCustomizableOptionInterface, true> {
+        return new Field<'options', GQLCustomizableOptionInterface, true>('options', true)
             .addFieldList(this._getCustomizableProductFragmentOptionsFields());
     }
 
-    _getCustomizableProductFragment(): InlineFragment<'CustomizableProductInterface', GQLCustomizableProductInterface> {
+    _getCustomizableProductFragment(): InlineFragment<
+    'CustomizableProductInterface',
+    GQLCustomizableProductInterface & {
+        options: GQLCustomizableOptionInterface[];
+    }> {
         return new InlineFragment<'CustomizableProductInterface', GQLCustomizableProductInterface>(
             'CustomizableProductInterface'
         )
@@ -1149,8 +1230,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getTierPricesField() {
-        return new Field('price_tiers')
+    _getTierPricesField(): Field<'price_tiers', GQLTierPrice, true> {
+        return new Field<'price_tiers', GQLTierPrice, true>('price_tiers')
             .addFieldList(this._getTierPricesFields());
     }
 
@@ -1162,71 +1243,95 @@ export class ProductListQuery {
         ];
     }
 
-    _getDiscountField() {
-        return new Field('discount')
+    _getDiscountField(): Field<'discount', GQLProductDiscount & {
+        amount_off: number;
+        percent_off: number;
+    }> {
+        return new Field<'discount', GQLProductDiscount>('discount')
             .addField('amount_off')
             .addField('percent_off');
     }
 
-    _getFinalPriceField() {
-        return new Field('final_price')
+    _getFinalPriceField(): Field<'final_price', GQLMoney & {
+        currency: GQLCurrencyEnum;
+        value: number;
+    }> {
+        return new Field<'final_price', GQLMoney>('final_price')
             .addField('currency')
             .addField('value');
     }
 
-    _getFinalPriceExclTaxField() {
-        return new Field('final_price_excl_tax')
+    _getFinalPriceExclTaxField(): Field<'final_price_excl_tax', GQLMoney & {
+        currency: GQLCurrencyEnum;
+        value: number;
+    }> {
+        return new Field<'final_price_excl_tax', GQLMoney>('final_price_excl_tax')
             .addField('currency')
             .addField('value');
     }
 
-    _getRegularPriceField() {
-        return new Field('regular_price')
+    _getRegularPriceField(): Field<'regular_price', GQLMoney & {
+        currency: GQLCurrencyEnum;
+        value: number;
+    }> {
+        return new Field<'regular_price', GQLMoney>('regular_price')
             .addField('currency')
             .addField('value');
     }
 
-    _getRegularPriceExclTaxField() {
-        return new Field('regular_price_excl_tax')
+    _getRegularPriceExclTaxField(): Field<'regular_price_excl_tax', GQLMoney & {
+        currency: GQLCurrencyEnum;
+        value: number;
+    }> {
+        return new Field<'regular_price_excl_tax', GQLMoney>('regular_price_excl_tax')
             .addField('currency')
             .addField('value');
     }
 
-    _getDefaultFinalPriceExclTaxField() {
-        return new Field('default_final_price_excl_tax')
+    _getDefaultFinalPriceExclTaxField(): Field<'default_final_price_excl_tax', GQLMoney & {
+        currency: GQLCurrencyEnum;
+        value: number;
+    }> {
+        return new Field<'default_final_price_excl_tax', GQLMoney>('default_final_price_excl_tax')
             .addField('currency')
             .addField('value');
     }
 
-    _getDefaultPriceField() {
-        return new Field('default_price')
+    _getDefaultPriceField(): Field<'default_price', GQLMoney & {
+        currency: GQLCurrencyEnum;
+        value: number;
+    }> {
+        return new Field<'default_price', GQLMoney>('default_price')
             .addField('currency')
             .addField('value');
     }
 
-    _getDefaultFinalPriceField() {
-        return new Field('default_final_price')
+    _getDefaultFinalPriceField(): Field<'default_final_price', GQLMoney & {
+        currency: GQLCurrencyEnum;
+        value: number;
+    }> {
+        return new Field<'default_final_price', GQLMoney>('default_final_price')
             .addField('currency')
             .addField('value');
     }
 
-    _getBundleProductFragment() {
-        return new InlineFragment('BundleProduct')
+    _getBundleProductFragment(): InlineFragment<'BundleProduct', GQLBundleProduct> {
+        return new InlineFragment<'BundleProduct', GQLBundleProduct>('BundleProduct')
             .addFieldList(this._getBundleProductFragmentFields());
     }
 
-    _getConfigurableProductFragment() {
-        return new InlineFragment('ConfigurableProduct')
+    _getConfigurableProductFragment(): InlineFragment<'ConfigurableProduct', GQLConfigurableProduct> {
+        return new InlineFragment<'ConfigurableProduct', GQLConfigurableProduct>('ConfigurableProduct')
             .addFieldList(this._getConfigurableProductFragmentFields());
     }
 
-    _getSimpleProductFragment() {
-        return new InlineFragment('SimpleProduct')
+    _getSimpleProductFragment(): InlineFragment<'SimpleProduct', GQLSimpleProduct> {
+        return new InlineFragment<'SimpleProduct', GQLSimpleProduct>('SimpleProduct')
             .addFieldList(this._getSimpleProductFragmentFields());
     }
 
-    _getVirtualProductFragment() {
-        return new InlineFragment('VirtualProduct')
+    _getVirtualProductFragment(): InlineFragment<'VirtualProduct', GQLVirtualProduct> {
+        return new InlineFragment<'VirtualProduct', GQLVirtualProduct>('VirtualProduct')
             .addFieldList(this._getVirtualProductFragmentFields());
     }
 
@@ -1237,8 +1342,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getSortOptionsField() {
-        return new Field('options')
+    _getSortOptionsField(): Field<'options', GQLSortField, true> {
+        return new Field<'options', GQLSortField, true>('options', true)
             .addFieldList(this._getSortOptionFields());
     }
 
@@ -1248,8 +1353,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getSortField() {
-        return new Field('sort_fields')
+    _getSortField(): Field<'sort_fields', GQLSortFields> {
+        return new Field<'sort_fields', GQLSortFields>('sort_fields')
             .addFieldList(this._getSortFields());
     }
 
@@ -1260,13 +1365,13 @@ export class ProductListQuery {
         ];
     }
 
-    _getSwatchDataField() {
-        return new Field('swatch_data')
+    _getSwatchDataField(): Field<'swatch_data', GQLSwatchData> {
+        return new Field<'swatch_data', GQLSwatchData>('swatch_data')
             .addFieldList(this._getSwatchDataFields());
     }
 
-    _getAggregationsField() {
-        return new Field('aggregations')
+    _getAggregationsField(): Field<'filters', GQLAggregation, true> {
+        return new Field<'aggregations', GQLAggregation, true>('aggregations', true)
             .setAlias('filters')
             .addFieldList(this._getAggregationsFields());
     }
@@ -1282,8 +1387,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getAggregationsOptionsField() {
-        return new Field('options')
+    _getAggregationsOptionsField(): Field<'filter_items', GQLAggregationOption, true> {
+        return new Field<'options', GQLAggregationOption, true>('options', true)
             .setAlias('filter_items')
             .addFieldList(this._getAggregationsOptionsFields());
     }
@@ -1297,7 +1402,10 @@ export class ProductListQuery {
         ];
     }
 
-    _getPageInfoField() {
+    _getPageInfoField(): Field<'page_info', GQLSearchResultPageInfo & {
+        current_page: number;
+        total_pages: number;
+    }> {
         return new Field<'page_info', GQLSearchResultPageInfo>('page_info')
             .addField('current_page')
             .addField('total_pages');

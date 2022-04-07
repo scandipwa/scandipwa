@@ -537,7 +537,8 @@
                         "requireLast": false
                     }
                 }
-            ]
+            ],
+            "@typescript-eslint/space-before-blocks": "off"
         }
     },
     "license": "OSL-3.0",
