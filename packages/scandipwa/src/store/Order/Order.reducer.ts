@@ -9,42 +9,58 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Reducer } from 'react';
+
+import { GQLCustomerOrder } from 'Type/Graphql.type';
 import { formatOrders } from 'Util/Orders';
 
-import { GET_ORDER_LIST, SET_ORDER_LOADING_STATUS } from './Order.action';
+import {
+    OrderAction,
+    OrderActionType,
+    OrderList,
+    OrderStore
+} from './Order.type';
 
 /** @namespace Store/Order/Reducer/getInitialState */
-export const getInitialState = () => ({
-    orderList: {},
+export const getInitialState = (): OrderStore => ({
+    orderList: {} as OrderList,
     isLoading: true
 });
 
 /** @namespace Store/Order/Reducer/OrderReducer */
-export const OrderReducer = (
+export const OrderReducer: Reducer<OrderStore, OrderAction> = (
     state = getInitialState(),
     action
 ) => {
-    const {
-        type,
-        orderList,
-        status
-    } = action;
+    const { type } = action;
 
     switch (type) {
-    case GET_ORDER_LIST:
+    case OrderActionType.GET_ORDER_LIST: {
+        const {
+            orderList,
+            status
+        } = action;
         const { items = [], page_info } = orderList;
-        const formattedOrders = formatOrders(items);
+        const formattedOrders = formatOrders(items as GQLCustomerOrder[]);
 
         return {
             ...state,
             isLoading: status,
             orderList: { items: formattedOrders, pageInfo: page_info }
-        };
-    case SET_ORDER_LOADING_STATUS:
+        } as OrderStore;
+    }
+
+    case OrderActionType.SET_ORDER_LOADING_STATUS: {
+        const {
+            status
+        } = action;
+
         return {
             ...state,
             isLoading: status
         };
+    }
+
     default:
         return state;
     }

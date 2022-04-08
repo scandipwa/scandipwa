@@ -9,18 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const GET_ORDER_LIST = 'GET_ORDER_LIST';
-export const SET_ORDER_LOADING_STATUS = 'SET_ORDER_LOADING_STATUS';
+import { GQLCustomerOrders } from 'Type/Graphql.type';
+
+import {
+    GetOrderListAction,
+    OrderActionType,
+    SetLoadingStatusAction
+} from './Order.type';
 
 /** @namespace Store/Order/Action/getOrderList */
-export const getOrderList = (orderList, status) => ({
-    type: GET_ORDER_LIST,
+export const getOrderList = (orderList: GQLCustomerOrders, status: boolean): GetOrderListAction => ({
+    type: OrderActionType.GET_ORDER_LIST,
     orderList,
     status
 });
 
 /** @namespace Store/Order/Action/setLoadingStatus */
-export const setLoadingStatus = (status) => ({
-    type: SET_ORDER_LOADING_STATUS,
+export const setLoadingStatus = (status: boolean): SetLoadingStatusAction => ({
+    type: OrderActionType.SET_ORDER_LOADING_STATUS,
     status
 });

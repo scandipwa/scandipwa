@@ -331,7 +331,7 @@ export const getBundleOptions = (options: BundleOption[], items: ProductBundleIt
 export const getIndexedProduct = (
     product: Product | ProductBundle,
     itemSku?: string
-) => {
+): IndexedProduct => {
     const {
         variants: initialVariants = [],
         configurable_options: initialConfigurableOptions = [],

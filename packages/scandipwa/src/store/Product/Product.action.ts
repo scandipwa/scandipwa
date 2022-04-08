@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,7 +10,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS';
+import { Product, ProductBundle } from 'Type/ProductList.type';
+
+import { ProductActionType, UpdateProductDetailsAction } from './Product.type';
 
 /**
  * Update product list with new list (rewrite if already exists).
@@ -18,7 +21,7 @@ export const UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS';
  * @return {void}
  * @namespace Store/Product/Action/updateProductDetails
  */
-export const updateProductDetails = (product) => ({
-    type: UPDATE_PRODUCT_DETAILS,
+export const updateProductDetails = (product: Product | ProductBundle): UpdateProductDetailsAction => ({
+    type: ProductActionType.UPDATE_PRODUCT_DETAILS,
     product
 });

@@ -10,6 +10,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { GQLCustomerOrder } from 'Type/Graphql.type';
 import {
     Discount, Order, OrderProduct, OrderProductQuantity,
     OrderProducts
@@ -29,14 +30,14 @@ export const getFormattedDate = (rawDate = ''): string => {
 };
 
 /** @namespace Util/Orders/formatOrders */
-export const formatOrders = (orders: Order[]): Order[] => orders.reduceRight((acc, order) => {
+export const formatOrders = (orders: GQLCustomerOrder[]): Order[] => orders.reduceRight((acc, order) => {
     const { order_date, id: uid } = order;
     const formattedDate = getFormattedDate(order_date);
 
     return [
         ...acc,
         {
-            ...order,
+            ...order as unknown as Order,
             id: atob(uid),
             created_at: formattedDate
         }
