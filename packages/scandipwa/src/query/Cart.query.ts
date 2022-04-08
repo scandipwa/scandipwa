@@ -92,7 +92,9 @@ export class CartQuery {
             .addField('id');
     }
 
-    getRemoveCartItemMutation(item_id: number, quoteId: string): Mutation<'removeCartItem', GQLQuery> {
+    getRemoveCartItemMutation(item_id: number, quoteId: string): Mutation<'removeCartItem', GQLQuery & {
+        cartData: GQLQuoteData;
+    }> {
         const mutation = new Mutation<'removeCartItem', GQLQuery>('removeCartItem')
             .addArgument('item_id', 'Int!', item_id)
             .addFieldList(this._getRemoveCartItemFields(quoteId));
@@ -104,10 +106,12 @@ export class CartQuery {
         return mutation;
     }
 
-    getApplyCouponMutation(couponCode: string, quoteId: string): Mutation<'applyCoupon', GQLQuery> {
+    getApplyCouponMutation(couponCode: string, quoteId: string): Mutation<'applyCoupon', GQLQuery & {
+        cartData: GQLQuoteData;
+    }> {
         const mutation = new Mutation<'applyCoupon', GQLQuery>('applyCoupon')
             .addArgument('coupon_code', 'String!', couponCode)
-            .addField(this.getCartQuery(quoteId));
+            .addField(this._getCartQueryField(quoteId));
 
         if (!isSignedIn()) {
             mutation.addArgument('guestCartId', 'String', quoteId);
@@ -116,9 +120,11 @@ export class CartQuery {
         return mutation;
     }
 
-    getRemoveCouponMutation(quoteId: string): Mutation<'removeCoupon', GQLQuery> {
+    getRemoveCouponMutation(quoteId: string): Mutation<'removeCoupon', GQLQuery & {
+        cartData: GQLQuoteData;
+    }> {
         const mutation = new Mutation<'removeCoupon', GQLQuery>('removeCoupon')
-            .addField(this.getCartQuery(quoteId));
+            .addField(this._getCartQueryField(quoteId));
 
         if (!isSignedIn()) {
             mutation.addArgument('guestCartId', 'String', quoteId);
@@ -146,10 +152,22 @@ export class CartQuery {
         ];
     }
 
-    _getRemoveCartItemFields(quoteId: string): Query<'cartData', GQLQuoteData, false>[] {
+    _getRemoveCartItemFields(quoteId: string): Field<'cartData', GQLQuoteData, false>[] {
         return [
-            this.getCartQuery(quoteId)
+            this._getCartQueryField(quoteId)
         ];
+    }
+
+    _getCartQueryField(quoteId: string): Field<'cartData', GQLQuoteData> {
+        const query = new Field<'getCartForCustomer', GQLQuoteData>('getCartForCustomer')
+            .addFieldList(this._getCartTotalsFields())
+            .setAlias('cartData');
+
+        if (!isSignedIn()) {
+            query.addArgument('guestCartId', 'String', quoteId);
+        }
+
+        return query;
     }
 
     _getCartTotalsFields(): CommonField[] {

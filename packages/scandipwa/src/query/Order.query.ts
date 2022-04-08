@@ -14,16 +14,31 @@ import { Field, Query } from '@tilework/opus';
 import {
     GQLBundleOption,
     GQLCheckoutUserInputError,
+    GQLCreditMemo,
+    GQLCreditMemoItemInterface,
+    GQLCustomer,
     GQLCustomerDownloadableProduct,
     GQLCustomerDownloadableProducts,
+    GQLCustomerOrders,
+    GQLDiscount,
     GQLEnteredOptionInput,
     GQLInvoice,
     GQLInvoiceItemInterface,
     GQLMoney,
     GQLOrderAddress,
+    GQLOrderItemInterface,
     GQLOrderItemOption,
     GQLOrderPaymentMethod,
-    GQLPaymentMethodAdditionalData
+    GQLOrderShipment,
+    GQLOrderTotal,
+    GQLPaymentMethodAdditionalData,
+    GQLReorderItemsOutput,
+    GQLSalesCommentItem,
+    GQLSearchResultPageInfo,
+    GQLShipmentItemInterface,
+    GQLShipmentTracking,
+    GQLShippingHandling,
+    GQLTaxItem
 } from 'Type/Graphql.type';
 
 import { CommonField, OrdersOptions } from './Query.type';
@@ -33,26 +48,30 @@ import { CommonField, OrdersOptions } from './Query.type';
  * @class OrderQuery
  * @namespace Query/Order/Query */
 export class OrderQuery {
-    getReorder(incrementId: string) {
-        return new Field('reorderItems')
+    getReorder(incrementId: string): Query<'reorderItems', GQLReorderItemsOutput & {
+        userInputErrors: GQLCheckoutUserInputError[];
+    }> {
+        return new Query<'reorderItems', GQLReorderItemsOutput>('reorderItems')
             .addArgument('orderNumber', 'String!', incrementId)
             .addField(this._getReorderField());
     }
 
-    getOrderListQuery(options: OrdersOptions) {
-        return new Field('customer')
+    getOrderListQuery(options: OrdersOptions): Query<'customer', GQLCustomer & {
+        orders: GQLCustomerOrders;
+    }> {
+        return new Query<'customer', GQLCustomer>('customer')
             .addFieldList(this._getOrderListFields(options));
     }
 
-    _getOrderListFields(options: OrdersOptions) {
+    _getOrderListFields(options: OrdersOptions): Field<'orders', GQLCustomerOrders, false>[] {
         return [
             this._getOrdersField(options)
         ];
     }
 
-    _getOrdersField(options: OrdersOptions) {
+    _getOrdersField(options: OrdersOptions): Field<'orders', GQLCustomerOrders> {
         const { orderId, page = 1 } = options || {};
-        const ordersField = new Field('orders');
+        const ordersField = new Field<'orders', GQLCustomerOrders>('orders');
 
         if (orderId) {
             return ordersField
@@ -73,8 +92,8 @@ export class OrderQuery {
         ];
     }
 
-    _getSearchResultPageInfoField() {
-        return new Field('page_info')
+    _getSearchResultPageInfoField(): Field<'page_info', GQLSearchResultPageInfo> {
+        return new Field<'page_info', GQLSearchResultPageInfo>('page_info')
             .addFieldList(this._getSearchResultPageInfoFields());
     }
 
@@ -86,8 +105,8 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderItemsField(isSingleOrder: boolean) {
-        return new Field('items')
+    _getOrderItemsField(isSingleOrder: boolean): Field<'items', GQLOrderItemInterface, true> {
+        return new Field<'items', GQLOrderItemInterface, true>('items', true)
             .addFieldList(this._getOrderItemsFields(isSingleOrder));
     }
 
@@ -124,8 +143,8 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderCommentsField() {
-        return new Field('comments')
+    _getOrderCommentsField(): Field<'comments', GQLSalesCommentItem, true> {
+        return new Field<'comments', GQLSalesCommentItem, true>('comments', true)
             .addFieldList(this._getOrderCommentsFields());
     }
 
@@ -136,12 +155,12 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderItemTotalField() {
-        return new Field('total')
+    _getOrderItemTotalField(): Field<'total', GQLOrderTotal> {
+        return new Field<'total', GQLOrderTotal>('total')
             .addFieldList(this._getOrderItemTotalFields());
     }
 
-    _getOrderItemTotalFields() {
+    _getOrderItemTotalFields(): CommonField[] {
         return [
             this._getOrderGrandTotalField(),
             this._getOrderDiscountsField(),
@@ -154,8 +173,8 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderTaxesField() {
-        return new Field('taxes')
+    _getOrderTaxesField(): Field<'taxes', GQLTaxItem, true> {
+        return new Field<'taxes', GQLTaxItem, true>('taxes', true)
             .addFieldList(this._getOrderTaxesFields());
     }
 
@@ -167,12 +186,12 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderShippingHandlingField() {
-        return new Field('shipping_handling')
+    _getOrderShippingHandlingField(): Field<'shipping_handling', GQLShippingHandling> {
+        return new Field<'shipping_handling', GQLShippingHandling>('shipping_handling')
             .addFieldList(this._getOrderShippingHandlingFields());
     }
 
-    _getOrderShippingHandlingFields() {
+    _getOrderShippingHandlingFields(): CommonField[] {
         return [
             this._getOrderShippingAmountExclTaxField(),
             this._getOrderShippingAmountInclTaxField(),
@@ -182,54 +201,54 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderShippingDiscountsField() {
-        return new Field('discounts')
+    _getOrderShippingDiscountsField(): Field<'discounts', GQLDiscount, true> {
+        return new Field<'discounts', GQLDiscount, true>('discounts', true)
             .addFieldList(this._getOrderShippingDiscountsFields());
     }
 
-    _getOrderShippingDiscountsFields() {
+    _getOrderShippingDiscountsFields(): Field<'amount', GQLMoney, false>[] {
         return [
             this._getOrderAmountField()
         ];
     }
 
-    _getOrderShippingAmountExclTaxField() {
-        return new Field('amount_excluding_tax')
+    _getOrderShippingAmountExclTaxField(): Field<'amount_excluding_tax', GQLMoney> {
+        return new Field<'amount_excluding_tax', GQLMoney>('amount_excluding_tax')
             .addFieldList(this._getOrderPriceFields());
     }
 
-    _getOrderShippingAmountInclTaxField() {
-        return new Field('amount_including_tax')
+    _getOrderShippingAmountInclTaxField(): Field<'amount_including_tax', GQLMoney> {
+        return new Field<'amount_including_tax', GQLMoney>('amount_including_tax')
             .addFieldList(this._getOrderPriceFields());
     }
 
-    _getOrderShippingHandlingTotalField() {
-        return new Field('total_amount')
+    _getOrderShippingHandlingTotalField(): Field<'total_amount', GQLMoney> {
+        return new Field<'total_amount', GQLMoney>('total_amount')
             .addFieldList(this._getOrderPriceFields());
     }
 
-    _getOrderTotalTaxField() {
-        return new Field('total_tax')
+    _getOrderTotalTaxField(): Field<'total_tax', GQLMoney> {
+        return new Field<'total_tax', GQLMoney>('total_tax')
             .addFieldList(this._getOrderPriceFields());
     }
 
-    _getOrderTotalShippingField() {
-        return new Field('total_shipping')
+    _getOrderTotalShippingField(): Field<'total_shipping', GQLMoney> {
+        return new Field<'total_shipping', GQLMoney>('total_shipping')
             .addFieldList(this._getOrderPriceFields());
     }
 
-    _getOrderBaseGrantTotalField() {
-        return new Field('base_grand_total')
+    _getOrderBaseGrantTotalField(): Field<'base_grand_total', GQLMoney> {
+        return new Field<'base_grand_total', GQLMoney>('base_grand_total')
             .addFieldList(this._getOrderPriceFields());
     }
 
-    _getOrderSubtotalField() {
-        return new Field('subtotal')
+    _getOrderSubtotalField(): Field<'subtotal', GQLMoney> {
+        return new Field<'subtotal', GQLMoney>('subtotal')
             .addFieldList(this._getOrderPriceFields());
     }
 
-    _getOrderGrandTotalField() {
-        return new Field('grand_total')
+    _getOrderGrandTotalField(): Field<'grand_total', GQLMoney> {
+        return new Field<'grand_total', GQLMoney>('grand_total')
             .addFieldList(this._getOrderPriceFields());
     }
 
@@ -240,8 +259,8 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderShipmentsField() {
-        return new Field('shipments')
+    _getOrderShipmentsField(): Field<'shipments', GQLOrderShipment, true> {
+        return new Field<'shipments', GQLOrderShipment, true>('shipments', true)
             .addFieldList(this._getOrderShipmentsFields());
     }
 
@@ -255,8 +274,8 @@ export class OrderQuery {
         ];
     }
 
-    _getShipmentsItemsProductsField() {
-        return new Field('items')
+    _getShipmentsItemsProductsField(): Field<'items', GQLShipmentItemInterface, true> {
+        return new Field<'items', GQLShipmentItemInterface, true>('items', true)
             .addFieldList(this._getShipmentsItemsProductsFields());
     }
 
@@ -267,8 +286,8 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderShipmentTrackingField() {
-        return new Field('tracking')
+    _getOrderShipmentTrackingField(): Field<'tracking', GQLShipmentTracking, true> {
+        return new Field<'tracking', GQLShipmentTracking, true>('tracking', true)
             .addFieldList(this._getOrderShipmentTrackingFields());
     }
 
@@ -280,8 +299,8 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderRefundsField() {
-        return new Field('credit_memos')
+    _getOrderRefundsField(): Field<'credit_memos', GQLCreditMemo, true> {
+        return new Field<'credit_memos', GQLCreditMemo, true>('credit_memos', true)
             .addFieldList(this._getOrderRefundsFields());
     }
 
@@ -295,8 +314,8 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderDiscountsField() {
-        return new Field('discounts')
+    _getOrderDiscountsField(): Field<'discounts', GQLDiscount, true> {
+        return new Field<'discounts', GQLDiscount, true>('discounts', true)
             .addFieldList(this._getOrderDiscountsFields());
     }
 
@@ -307,13 +326,13 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderAmountField() {
-        return new Field('amount')
+    _getOrderAmountField(): Field<'amount', GQLMoney> {
+        return new Field<'amount', GQLMoney>('amount')
             .addFieldList(this._getOrderPriceFields());
     }
 
-    _getRefundsItemsProductsField() {
-        return new Field('items')
+    _getRefundsItemsProductsField(): Field<'items', GQLCreditMemoItemInterface, true> {
+        return new Field<'items', GQLCreditMemoItemInterface, true>('items', true)
             .addFieldList(this._getRefundsItemsProductsFields());
     }
 
@@ -327,8 +346,8 @@ export class OrderQuery {
         ];
     }
 
-    _getRefundsItemInformationField() {
-        return new Field('order_item')
+    _getRefundsItemInformationField(): Field<'order_item', GQLOrderItemInterface> {
+        return new Field<'order_item', GQLOrderItemInterface>('order_item')
             .addFieldList(this._getOrderItemProductsFields());
     }
 
@@ -360,8 +379,8 @@ export class OrderQuery {
         ];
     }
 
-    _getOrderItemsProductsField() {
-        return new Field('items')
+    _getOrderItemsProductsField(): Field<'items', GQLOrderItemInterface, true> {
+        return new Field<'items', GQLOrderItemInterface, true>('items', true)
             .addFieldList(this._getOrderItemProductsFields());
     }
 
@@ -515,19 +534,9 @@ export class OrderQuery {
             .addField(this._getDownloadableField());
     }
 
-    getOrderByIdQuery(orderId: number) {
-        return this._getOrderByIdField(orderId);
-    }
-
     linkOrderMutation(customerEmail: string): Field<'linkOrder', boolean> {
         return new Field<'linkOrder', boolean>('linkOrder')
             .addArgument('customer_email', 'String!', customerEmail);
-    }
-
-    _getOrderByIdField(orderId: number) {
-        return new Field('Customer')
-            .addArgument('id', 'Int!', orderId)
-            .addFieldList(this._getOrderItemsFields(false));
     }
 
     _getDownloadableField(): Field<'items', GQLCustomerDownloadableProduct, true> {

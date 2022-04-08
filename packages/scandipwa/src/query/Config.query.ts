@@ -31,8 +31,8 @@ export class ConfigQuery {
             .addFieldList(this._getCheckoutAgreementFields());
     }
 
-    getCurrencyField(): Query<'available_currencies_data', { id: string; label: string; value: string }, true> {
-        return new Query<'available_currencies_data', GQLCurrency, true>('available_currencies_data', true)
+    getCurrencyField(): Field<'available_currencies_data', { id: string; label: string; value: string }, true> {
+        return new Field<'available_currencies_data', GQLCurrency, true>('available_currencies_data', true)
             .addFieldList([
                 'id',
                 'label',
@@ -40,7 +40,10 @@ export class ConfigQuery {
             ]);
     }
 
-    getCurrencyData(): Query<'currencyData', GQLCurrencyConfig> {
+    getCurrencyData(): Query<'currencyData', GQLCurrencyConfig & {
+        available_currencies_data: GQLCurrency[];
+        current_currency_code: string;
+    }> {
         return new Query<'currencyData', GQLCurrencyConfig>('currencyData')
             .addFieldList([
                 this.getCurrencyField(),
@@ -59,11 +62,24 @@ export class ConfigQuery {
             ]);
     }
 
-    getSaveSelectedCurrencyMutation(newCurrency: string): Mutation<'saveSelectedCurrency', GQLQuery> {
+    getSaveSelectedCurrencyMutation(newCurrency: string): Mutation<'saveSelectedCurrency', GQLQuery & {
+        currencyData: GQLCurrencyConfig;
+    }> {
         return new Mutation<'saveSelectedCurrency', GQLQuery>('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)
             .addFieldList([
-                this.getCurrencyData()
+                this._getCurrencyDataField()
+            ]);
+    }
+
+    _getCurrencyDataField(): Field<'currencyData', GQLCurrencyConfig & {
+        available_currencies_data: GQLCurrency[];
+        current_currency_code: string;
+    }> {
+        return new Field<'currencyData', GQLCurrencyConfig>('currencyData')
+            .addFieldList([
+                this.getCurrencyField(),
+                'current_currency_code'
             ]);
     }
 
