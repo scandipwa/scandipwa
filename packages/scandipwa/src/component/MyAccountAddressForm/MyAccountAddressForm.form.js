@@ -93,7 +93,7 @@ export const getRegionFields = (props, events) => {
                 attr: {
                     id: 'address-region-id',
                     name: 'region_string',
-                    value: currentRegion,
+                    defaultValue: currentRegion,
                     placeholder: __('Your state / province')
                 },
                 events: {
@@ -114,7 +114,7 @@ export const getRegionFields = (props, events) => {
             label: __('State / Province'),
             attr: {
                 name: 'region_id',
-                value: currentRegionId,
+                defaultValue: currentRegionId,
                 selectPlaceholder: __('Select region...')
             },
             events: {
