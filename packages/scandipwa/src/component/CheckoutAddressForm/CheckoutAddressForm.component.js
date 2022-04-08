@@ -38,19 +38,16 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
                 regionId,
                 region,
                 city,
-                postcode,
-                country_id,
-                region_string,
-                region_id
+                postcode
             },
             defaultCountry,
             onShippingEstimationFieldsChange
         } = this.props;
 
         onShippingEstimationFieldsChange({
-            country_id: country_id || countryId || defaultCountry,
-            region_id: region_id || regionId,
-            region: region_string || region,
+            country_id: countryId || defaultCountry,
+            region_id: regionId,
+            region,
             city,
             postcode
         });
