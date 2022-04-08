@@ -9,21 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Reducer } from 'react';
+
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 
 import {
-    CLEAR_COMPARED_PRODUCTS,
-    SET_COMPARE_LIST,
-    SET_COMPARED_PRODUCT_IDS,
-    TOGGLE_COMPARE_LIST_LOADER,
-    UPDATE_COMPARE_TOTALS
-} from './ProductCompare.action';
+    ProductCompareAction,
+    ProductCompareActionType,
+    ProductCompareStore
+} from './ProductCompare.type';
 
 export const COMPARE_LIST_PRODUCTS = 'compare_list_products';
 
 /** @namespace Store/ProductCompare/Reducer/getInitialState */
-export const getInitialState = () => {
-    const compareListProducts = BrowserDatabase.getItem(COMPARE_LIST_PRODUCTS) || [];
+export const getInitialState = (): ProductCompareStore => {
+    const compareListProducts = BrowserDatabase.getItem<number[]>(COMPARE_LIST_PRODUCTS) || [];
 
     return {
         isLoading: false,
@@ -36,11 +36,14 @@ export const getInitialState = () => {
 };
 
 /** @namespace Store/ProductCompare/Reducer/ProductCompareReducer */
-export const ProductCompareReducer = (state = getInitialState(), action) => {
+export const ProductCompareReducer: Reducer<ProductCompareStore, ProductCompareAction> = (
+    state = getInitialState(),
+    action
+) => {
     const { type } = action;
 
     switch (type) {
-    case TOGGLE_COMPARE_LIST_LOADER: {
+    case ProductCompareActionType.TOGGLE_COMPARE_LIST_LOADER: {
         const { isLoading } = action;
 
         return {
@@ -49,11 +52,11 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
         };
     }
 
-    case SET_COMPARE_LIST: {
-        const { item_count = 0, items = [], attributes = [] } = action;
+    case ProductCompareActionType.SET_COMPARE_LIST: {
+        const { item_count = 0, items = [], attributes = [] } = action.payload;
 
         const products = items.map((item) => ({
-            ...item.product,
+            ...(item?.product || {}),
             attributes: []
         }));
         const productIds = products.map((product) => product.id);
@@ -70,10 +73,10 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
             products,
             productIds,
             items
-        };
+        } as ProductCompareStore;
     }
 
-    case UPDATE_COMPARE_TOTALS: {
+    case ProductCompareActionType.UPDATE_COMPARE_TOTALS: {
         const { compareTotals = 0 } = action;
 
         return {
@@ -82,7 +85,7 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
         };
     }
 
-    case CLEAR_COMPARED_PRODUCTS: {
+    case ProductCompareActionType.CLEAR_COMPARED_PRODUCTS: {
         BrowserDatabase.setItem(
             [],
             COMPARE_LIST_PRODUCTS
@@ -98,7 +101,7 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
         };
     }
 
-    case SET_COMPARED_PRODUCT_IDS: {
+    case ProductCompareActionType.SET_COMPARED_PRODUCT_IDS: {
         const { productIds } = action;
 
         BrowserDatabase.setItem(
