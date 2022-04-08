@@ -9,24 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    IS_LOADING_URL_REWRITE,
-    UPDATE_URL_REWRITE
-} from './UrlRewrites.action';
+import { Reducer } from 'redux';
+
+import { UrlRewritesAction, UrlRewritesActionType, UrlRewritesStore } from './UrlRewrites.type';
 
 /** @namespace Store/UrlRewrites/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): UrlRewritesStore => ({
     urlRewrite: {},
-    isLoading: false
+    isLoading: false,
+    requestedUrl: ''
 });
 
 /** @namespace Store/UrlRewrites/Reducer/UrlRewritesReducer */
-export const UrlRewritesReducer = (
+export const UrlRewritesReducer: Reducer<
+UrlRewritesStore,
+UrlRewritesAction
+> = (
     state = getInitialState(),
     action
 ) => {
     switch (action.type) {
-    case UPDATE_URL_REWRITE:
+    case UrlRewritesActionType.UPDATE_URL_REWRITE:
         const {
             urlRewrite,
             requestedUrl
@@ -39,7 +42,7 @@ export const UrlRewritesReducer = (
             requestedUrl
         };
 
-    case IS_LOADING_URL_REWRITE:
+    case UrlRewritesActionType.IS_LOADING_URL_REWRITE:
         const { isLoading } = action;
 
         return {

@@ -9,16 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const SET_PICK_UP_STORE = 'SET_PICK_UP_STORE';
-export const CLEAR_PICK_UP_STORE = 'CLEAR_PICK_UP_STORE';
+import { PickUpInStore } from 'Type/IsStorePickUp.type';
+
+import { ClearPickUpStore, SetPickUpStore, StoreInPickUpActionType } from './StoreInPickUp.type';
 
 /** @namespace Store/StoreInPickUp/Action/setPickUpStore */
-export const setPickUpStore = (store) => ({
-    type: SET_PICK_UP_STORE,
+export const setPickUpStore = (
+    store:PickUpInStore
+): SetPickUpStore => ({
+    type: StoreInPickUpActionType.SET_PICK_UP_STORE,
     store
 });
 
 /** @namespace Store/StoreInPickUp/Action/clearPickUpStore */
-export const clearPickUpStore = () => ({
-    type: CLEAR_PICK_UP_STORE
+export const clearPickUpStore = (): ClearPickUpStore => ({
+    type: StoreInPickUpActionType.CLEAR_PICK_UP_STORE
 });

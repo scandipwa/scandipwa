@@ -8,23 +8,27 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { Reducer } from 'redux';
 
-import { CLEAR_PICK_UP_STORE, SET_PICK_UP_STORE } from './StoreInPickUp.action';
+import { StoreInPickUpAction, StoreInPickUpActionType, StoreInPickUpStore } from './StoreInPickUp.type';
 
 /** @namespace Store/StoreInPickUp/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): StoreInPickUpStore => ({
     store: null
 });
 
 /** @namespace Store/StoreInPickUp/Reducer/StoreInPickUpReducer */
-export const StoreInPickUpReducer = (
+export const StoreInPickUpReducer: Reducer<
+StoreInPickUpStore,
+StoreInPickUpAction
+> = (
     state = getInitialState(),
     action
 ) => {
     const { type } = action;
 
     switch (type) {
-    case SET_PICK_UP_STORE:
+    case StoreInPickUpActionType.SET_PICK_UP_STORE:
         const { store } = action;
 
         return {
@@ -32,7 +36,7 @@ export const StoreInPickUpReducer = (
             store
         };
 
-    case CLEAR_PICK_UP_STORE:
+    case StoreInPickUpActionType.CLEAR_PICK_UP_STORE:
         return {
             ...state,
             store: null
