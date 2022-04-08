@@ -9,22 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Reducer } from 'react';
+
 import {
-    UPDATE_NOMATCH
-} from './NoMatch.action';
+    NoMatchActionType,
+    NoMatchStore,
+    UpdateNoMatchAction
+} from './NoMatch.type';
 
 /** @namespace Store/NoMatch/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): NoMatchStore => ({
     noMatch: false
 });
 
 /** @namespace Store/NoMatch/Reducer/NoMatchReducer */
-export const NoMatchReducer = (
+export const NoMatchReducer: Reducer<NoMatchStore, UpdateNoMatchAction> = (
     state = getInitialState(),
     action
 ) => {
     switch (action.type) {
-    case UPDATE_NOMATCH:
+    case NoMatchActionType.UPDATE_NOMATCH:
         const { noMatch } = action;
 
         return { noMatch };

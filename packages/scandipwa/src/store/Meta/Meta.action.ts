@@ -10,4 +10,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPSELL = 'upsell';
+import { MetaActionType, PageMeta, UpdateMetaAction } from './Meta.type';
+
+/** @namespace Store/Meta/Action/updateMeta */
+export const updateMeta = (metadata: Partial<PageMeta>): UpdateMetaAction => ({
+    type: MetaActionType.UPDATE_META,
+    payload: metadata
+});

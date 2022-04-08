@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,14 +10,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_LINKED_PRODUCTS = 'UPDATE_LINKED_PRODUCTS';
+import { LinkedProductsMap } from 'Type/ProductList.type';
+
+import { LinkedProductsActionType, UpdateLinkedProductsAction } from './LinkedProducts.type';
+
 /**
  * Update upsell products list (rewrite if already exists).
  * @param  {Array<String>} upsell List of products returned from fetch
  * @return {void}
  * @namespace Store/LinkedProducts/Action/updateLinkedProducts
  */
-export const updateLinkedProducts = (linkedProducts) => ({
-    type: UPDATE_LINKED_PRODUCTS,
+export const updateLinkedProducts = (linkedProducts: LinkedProductsMap & {
+    updateCrossSell?: boolean;
+}): UpdateLinkedProductsAction => ({
+    type: LinkedProductsActionType.UPDATE_LINKED_PRODUCTS,
     linkedProducts
 });

@@ -9,8 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION';
-export const HIDE_NOTIFICATION = 'HIDE_NOTIFICATION';
+import {
+    HideNotificationAction, NotificationActionType, NotificationType, ShowNotificationAction
+} from './Notification.type';
 
 /**
  * Show notification (append to notification to global notification map).
@@ -20,12 +21,16 @@ export const HIDE_NOTIFICATION = 'HIDE_NOTIFICATION';
  * @return {void}
  * @namespace Store/Notification/Action/showNotification
  */
-export const showNotification = (msgType, msgText, msgDebug) => ({
-    type: SHOW_NOTIFICATION,
-    msgType,
-    msgText,
-    msgDebug
-});
+export const showNotification = <T>(
+    msgType: NotificationType,
+    msgText: string,
+    msgDebug?: T
+): ShowNotificationAction<T> => ({
+        type: NotificationActionType.SHOW_NOTIFICATION,
+        msgType,
+        msgText,
+        msgDebug
+    });
 
 /**
  * Hide notification with specific id (drop notification from global list).
@@ -33,7 +38,7 @@ export const showNotification = (msgType, msgText, msgDebug) => ({
  * @return {void}
  * @namespace Store/Notification/Action/hideNotification
  */
-export const hideNotification = (id) => ({
-    type: HIDE_NOTIFICATION,
+export const hideNotification = (id: number): HideNotificationAction => ({
+    type: NotificationActionType.HIDE_NOTIFICATION,
     id
 });

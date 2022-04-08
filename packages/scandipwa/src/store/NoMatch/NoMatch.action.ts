@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_NOMATCH = 'UPDATE_NOMATCH';
+import { NoMatchActionType, UpdateNoMatchAction } from './NoMatch.type';
 
 /**
  * Update router to show NoMatch page
@@ -17,7 +18,7 @@ export const UPDATE_NOMATCH = 'UPDATE_NOMATCH';
  * @return {void}
  * @namespace Store/NoMatch/Action/updateNoMatch
  */
-export const updateNoMatch = (noMatch) => ({
-    type: UPDATE_NOMATCH,
+export const updateNoMatch = (noMatch: boolean): UpdateNoMatchAction => ({
+    type: NoMatchActionType.UPDATE_NOMATCH,
     noMatch
 });

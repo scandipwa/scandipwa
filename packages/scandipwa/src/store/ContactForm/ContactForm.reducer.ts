@@ -9,21 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { UPDATE_CONTACT_FORM } from './ContactForm.action';
+import { Reducer } from 'react';
+
+import { ContactFormActionType, ContactFormStore, UpdateContactFormAction } from './ContactForm.type';
 
 export const initialState = {
     isLoading: false
 };
 
 /** @namespace Store/ContactForm/Reducer/ContactFormReducer */
-export const ContactFormReducer = (state = initialState, action) => {
+export const ContactFormReducer: Reducer<ContactFormStore, UpdateContactFormAction> = (
+    state = initialState,
+    action
+) => {
     const {
         type,
         data
     } = action;
 
     switch (type) {
-    case UPDATE_CONTACT_FORM:
+    case ContactFormActionType.UPDATE_CONTACT_FORM:
         return { ...state, ...data };
 
     default:

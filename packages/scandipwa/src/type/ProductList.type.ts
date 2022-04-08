@@ -394,4 +394,16 @@ export type Option = OptionTypes & {
     uid?: string;
 };
 
-export type LinkedProducts = Record<string, { items: Product[]; total_count: number }>;
+export enum LinkedProductType {
+    UPSELL = 'upsell',
+    RELATED = 'related',
+    CROSS_SELL = 'crosssell',
+    ASSOCIATED = 'associated'
+}
+
+export type LinkedProducts = {
+    items: Product[];
+    total_count: number;
+};
+
+export type LinkedProductsMap = Partial<Record<LinkedProductType, LinkedProducts>>;

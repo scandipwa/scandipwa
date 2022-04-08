@@ -9,22 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { HIDE_NOTIFICATION, SHOW_NOTIFICATION } from './Notification.action';
+import { Reducer } from 'react';
+
+import { NotificationAction, NotificationActionType, NotificationStore } from './Notification.type';
 
 /** @namespace Store/Notification/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): NotificationStore => ({
     notifications: {}
 });
 
 /** @namespace Store/Notification/Reducer/NotificationReducer */
-export const NotificationReducer = (
+export const NotificationReducer: Reducer<NotificationStore, NotificationAction> = (
     state = getInitialState(),
     action
 ) => {
     const notifications = { ...state.notifications };
 
     switch (action.type) {
-    case SHOW_NOTIFICATION:
+    case NotificationActionType.SHOW_NOTIFICATION:
         const { msgType, msgText, msgDebug } = action;
         notifications[Date.now()] = { msgType, msgText, msgDebug };
 
@@ -33,7 +35,7 @@ export const NotificationReducer = (
             notifications
         };
 
-    case HIDE_NOTIFICATION:
+    case NotificationActionType.HIDE_NOTIFICATION:
         const { [action.id]: id, ...shownNotifications } = notifications;
 
         return {

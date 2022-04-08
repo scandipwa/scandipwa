@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,14 +10,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const SUBSCRIBE_TO_NEWSLETTER = 'SUBSCRIBE_TO_NEWSLETTER';
+import { NewsletterSubscriptionActionType, SubscribeToNewsletterAction } from './NewsletterSubscription.type';
 
 /**
  * @param {String} email
  * @returns {void}
  * @namespace Store/NewsletterSubscription/Action/subscribeToNewsletter
  */
-export const subscribeToNewsletter = (email) => ({
-    type: SUBSCRIBE_TO_NEWSLETTER,
+export const subscribeToNewsletter = (email: string): SubscribeToNewsletterAction => ({
+    type: NewsletterSubscriptionActionType.SUBSCRIBE_TO_NEWSLETTER,
     email
 });

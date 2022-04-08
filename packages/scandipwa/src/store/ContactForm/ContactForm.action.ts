@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,14 +10,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_CONTACT_FORM = 'UPDATE_CONTACT_FORM';
+import { ContactFormActionType, UpdateContactFormAction } from './ContactForm.type';
 
 /**
  * Send message
  * @param {Object} data
  * @namespace Store/ContactForm/Action/updateContactForm
  */
-export const updateContactForm = (data = {}) => ({
-    type: UPDATE_CONTACT_FORM,
+export const updateContactForm = (data: { isLoading: boolean }): UpdateContactFormAction => ({
+    type: ContactFormActionType.UPDATE_CONTACT_FORM,
     data
 });

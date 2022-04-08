@@ -9,9 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { UPDATE_META } from './Meta.action';
+import { Reducer } from 'react';
 
-export const updateEveryTime = [
+import {
+    MetaActionType, MetaStore, PageMeta, UpdateMetaAction
+} from './Meta.type';
+
+export const updateEveryTime: Array<keyof PageMeta> = [
     'title',
     'description',
     'keywords',
@@ -21,18 +25,18 @@ export const updateEveryTime = [
 ];
 
 /** @namespace Store/Meta/Reducer/filterData */
-export const filterData = (data) => {
+export const filterData = (data: Partial<PageMeta>): Partial<PageMeta> => {
     const updated = updateEveryTime.reduce((acc, key) => {
         acc[key] = data[key];
 
         return acc;
-    }, {});
+    }, {} as Partial<PageMeta>);
 
     return { ...data, ...updated };
 };
 
 /** @namespace Store/Meta/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): MetaStore => ({
     title: '',
     title_prefix: '',
     title_suffix: '',
@@ -44,14 +48,14 @@ export const getInitialState = () => ({
 });
 
 /** @namespace Store/Meta/Reducer/MetaReducer */
-export const MetaReducer = (
+export const MetaReducer: Reducer<MetaStore, UpdateMetaAction> = (
     state = getInitialState(),
     action
 ) => {
     const { payload = {}, type } = action;
 
     switch (type) {
-    case UPDATE_META:
+    case MetaActionType.UPDATE_META:
         const filteredData = filterData(payload);
 
         return {
