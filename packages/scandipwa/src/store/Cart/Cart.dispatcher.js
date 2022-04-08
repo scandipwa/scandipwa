@@ -62,7 +62,6 @@ export class CartDispatcher {
             } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
 
             setGuestQuoteId(quoteId);
-            dispatch(updateIsLoadingCart(false));
 
             return quoteId;
         } catch (error) {
