@@ -206,7 +206,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
                 : addresses.find(({ id }) => id === addressId)
         );
 
-        if (!address || (!addressId && !shippingFieldsStreet.length)) {
+        if (!address || (!isBilling && !addressId && !shippingFieldsStreet.length)) {
             return;
         }
 
