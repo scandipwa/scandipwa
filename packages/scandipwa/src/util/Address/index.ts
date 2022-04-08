@@ -13,6 +13,8 @@ import StoreItem from 'Component/StoreItem';
 import { Address, TrimmedAddress } from 'Type/Account.type';
 import { Country, Region, Stores } from 'Type/Config.type';
 
+import { ZippopotamResponseResult } from './Address.type';
+
 /** @namespace Util/Address/Index/trimCheckoutCustomerAddress */
 export const trimCheckoutCustomerAddress = (customerAddress: Address): TrimmedAddress => {
     const {
@@ -130,12 +132,6 @@ export const getFormFields = <T>(fields: Record<string, T>, addressLinesQty: num
     }
 
     return setAddressesInFormObject(fields, addressLinesQty);
-};
-
-export type ZippopotamResponseResult = {
-    city: string;
-    region: string;
-    regionAbbr: string;
 };
 
 /** @namespace Util/Address/Index/getCityAndRegionFromZipcode */

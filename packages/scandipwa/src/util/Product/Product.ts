@@ -66,11 +66,6 @@ export const checkEveryOption = (
         return options[option].includes(attribute_value);
     });
 
-// TODO move
-export type IndexedOption = AttributeOption & {
-    swatch_data: SwatchData | null;
-};
-
 /** @namespace Util/Product/getIndexedAttributeOption */
 export const getIndexedAttributeOption = (option: AttributeOption): AttributeOption | IndexedOption => {
     const { swatch_data: defaultSwatchData } = option;
@@ -110,13 +105,6 @@ export const getIndexedAttributes = (
     };
 }, {});
 
-export type IndexedConfigurableOption = Attribute & {
-    attribute_values: string[];
-    values: {
-        value_index: number;
-    }[];
-};
-
 /** @namespace Util/Product/getIndexedConfigurableOptions */
 export const getIndexedConfigurableOptions = (
     configurableOptions: ConfigurableAttribute[],
@@ -135,10 +123,6 @@ export const getIndexedConfigurableOptions = (
         };
     }, {} as IndexedConfigurableOption)
 );
-
-export type IndexedVariant = Omit<ItemShape, 'attributes'> & {
-    attributes: Record<string, Attribute>;
-};
 
 /** @namespace Util/Product/getIndexedVariants */
 export const getIndexedVariants = (
@@ -209,10 +193,6 @@ export const getVariantIndex = (
     const indexes = getVariantsIndexes(variants, options, inStockOnly);
 
     return indexes instanceof Array && indexes.length ? indexes[0] : -1;
-};
-
-export type IndexedCustomOption = Omit<Option, 'value' | keyof OptionTypes> & {
-    value: Value[];
 };
 
 /** @namespace Util/Product/getIndexedCustomOption */
@@ -313,8 +293,6 @@ export const getBundleId = (uid = ''): number => {
 
     return 0;
 };
-
-export type FormattedBundleOptions = Pick<BundleOption, 'option_id'> & BundleOptionSelection;
 
 /** @namespace Util/Product/getBundleOptions */
 export const getBundleOptions = (options: BundleOption[], items: ProductBundleItem[]) => {
