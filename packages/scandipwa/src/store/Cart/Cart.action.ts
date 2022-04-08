@@ -9,13 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
-export const REMOVE_PRODUCT_FROM_CART = 'REMOVE_PRODUCT_FROM_CART';
-export const UPDATE_TOTALS = 'UPDATE_TOTALS';
-export const APPLY_COUPON_TO_CART = 'APPLY_COUPON_TO_CART';
-export const REMOVE_COUPON_FROM_CART = 'REMOVE_COUPON_FROM_CART';
-export const UPDATE_SHIPPING_PRICE = 'UPDATE_SHIPPING_PRICE';
-export const UPDATE_IS_LOADING_CART = 'UPDATE_IS_LOADING_CART';
+import { GQLPaymentTotals, GQLQuoteData } from 'Type/Graphql.type';
+import { Product } from 'Type/ProductList.type';
+
+import {
+    AddProductToCartAction,
+    ApplyCouponToCartAction,
+    CartActionType,
+    RemoveCouponFromCartAction,
+    RemoveProductFromCartAction,
+    UpdateIsLoadingCartAction,
+    UpdateShippingPriceAction,
+    UpdateTotalsAction
+} from './Cart.type';
 
 /**
  * Update product list with new list (rewrite if already exists).
@@ -24,8 +30,8 @@ export const UPDATE_IS_LOADING_CART = 'UPDATE_IS_LOADING_CART';
  * @return {void}
  * @namespace Store/Cart/Action/addProductToCart
  */
-export const addProductToCart = (newProduct) => ({
-    type: ADD_PRODUCT_TO_CART,
+export const addProductToCart = (newProduct: Product): AddProductToCartAction => ({
+    type: CartActionType.ADD_PRODUCT_TO_CART,
     newProduct
 });
 
@@ -35,8 +41,8 @@ export const addProductToCart = (newProduct) => ({
  * @return {void}
  * @namespace Store/Cart/Action/removeProductFromCart
  */
-export const removeProductFromCart = (product) => ({
-    type: REMOVE_PRODUCT_FROM_CART,
+export const removeProductFromCart = (product: Product): RemoveProductFromCartAction => ({
+    type: CartActionType.REMOVE_PRODUCT_FROM_CART,
     product
 });
 
@@ -46,8 +52,8 @@ export const removeProductFromCart = (product) => ({
  * @return {void}
  * @namespace Store/Cart/Action/updateTotals
  */
-export const updateTotals = (cartData) => ({
-    type: UPDATE_TOTALS,
+export const updateTotals = (cartData: GQLQuoteData): UpdateTotalsAction => ({
+    type: CartActionType.UPDATE_TOTALS,
     cartData
 });
 
@@ -57,8 +63,8 @@ export const updateTotals = (cartData) => ({
  * @return {void}
  * @namespace Store/Cart/Action/updateShippingPrice
  */
-export const updateShippingPrice = (data) => ({
-    type: UPDATE_SHIPPING_PRICE,
+export const updateShippingPrice = (data: GQLPaymentTotals): UpdateShippingPriceAction => ({
+    type: CartActionType.UPDATE_SHIPPING_PRICE,
     data
 });
 
@@ -68,8 +74,8 @@ export const updateShippingPrice = (data) => ({
  * @return {void}
  * @namespace Store/Cart/Action/applyCouponToCart
  */
-export const applyCouponToCart = (couponCode) => ({
-    type: APPLY_COUPON_TO_CART,
+export const applyCouponToCart = (couponCode: string): ApplyCouponToCartAction => ({
+    type: CartActionType.APPLY_COUPON_TO_CART,
     couponCode
 });
 
@@ -78,12 +84,12 @@ export const applyCouponToCart = (couponCode) => ({
  * @return {void}
  * @namespace Store/Cart/Action/removeCouponFromCart
  */
-export const removeCouponFromCart = () => ({
-    type: REMOVE_COUPON_FROM_CART
+export const removeCouponFromCart = (): RemoveCouponFromCartAction => ({
+    type: CartActionType.REMOVE_COUPON_FROM_CART
 });
 
 /** @namespace Store/Cart/Action/updateIsLoadingCart */
-export const updateIsLoadingCart = (isLoading) => ({
-    type: UPDATE_IS_LOADING_CART,
+export const updateIsLoadingCart = (isLoading: boolean): UpdateIsLoadingCartAction => ({
+    type: CartActionType.UPDATE_IS_LOADING_CART,
     isLoading
 });

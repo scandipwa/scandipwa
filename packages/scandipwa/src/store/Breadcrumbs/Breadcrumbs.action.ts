@@ -9,8 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_BREADCRUMBS = 'UPDATE_BREADCRUMBS';
-export const TOGGLE_BREADCRUMBS = 'TOGGLE_BREADCRUMBS';
+import { Breadcrumbs } from 'Type/Breadcrumbs.type';
+
+import { BreadcrumbsActionType, ToggleBreadcrumbsAction, UpdateBreadcrumbsAction } from './Breadcrumbs.type';
 
 /**
  * Update current breadcrumbs with new breadcrumbs (rewrite if already exists).
@@ -18,8 +19,8 @@ export const TOGGLE_BREADCRUMBS = 'TOGGLE_BREADCRUMBS';
  * @return {void}
  * @namespace Store/Breadcrumbs/Action/updateBreadcrumbs
  */
-export const updateBreadcrumbs = (breadcrumbs) => ({
-    type: UPDATE_BREADCRUMBS,
+export const updateBreadcrumbs = (breadcrumbs: Breadcrumbs): UpdateBreadcrumbsAction => ({
+    type: BreadcrumbsActionType.UPDATE_BREADCRUMBS,
     breadcrumbs
 });
 
@@ -29,7 +30,7 @@ export const updateBreadcrumbs = (breadcrumbs) => ({
  * @return {void}
  * @namespace Store/Breadcrumbs/Action/toggleBreadcrumbs
  */
-export const toggleBreadcrumbs = (areBreadcrumbsVisible) => ({
-    type: TOGGLE_BREADCRUMBS,
+export const toggleBreadcrumbs = (areBreadcrumbsVisible: boolean): ToggleBreadcrumbsAction => ({
+    type: BreadcrumbsActionType.TOGGLE_BREADCRUMBS,
     areBreadcrumbsVisible
 });

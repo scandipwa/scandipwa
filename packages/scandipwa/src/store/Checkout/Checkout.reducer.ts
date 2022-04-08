@@ -11,12 +11,7 @@
 
 import { Reducer } from 'redux';
 
-import {
-    UPDATE_EMAIL,
-    UPDATE_EMAIL_AVAILABLE,
-    UPDATE_SHIPPING_FIELDS
-} from './Checkout.action';
-import { CheckoutAction, CheckoutStore } from './type';
+import { CheckoutAction, CheckoutActionType, CheckoutStore } from './Checkout.type';
 
 /** @namespace Store/Checkout/Reducer/getInitialState */
 export const getInitialState = (): CheckoutStore => ({
@@ -28,13 +23,13 @@ export const getInitialState = (): CheckoutStore => ({
 /** @namespace Store/Checkout/Reducer/CheckoutReducer */
 export const CheckoutReducer: Reducer<
 CheckoutStore,
-CheckoutAction & CheckoutStore
+CheckoutAction
 > = (
     state = getInitialState(),
     action
 ) => {
     switch (action.type) {
-    case UPDATE_SHIPPING_FIELDS:
+    case CheckoutActionType.UPDATE_SHIPPING_FIELDS:
         const { shippingFields } = action;
 
         return {
@@ -42,7 +37,7 @@ CheckoutAction & CheckoutStore
             shippingFields
         };
 
-    case UPDATE_EMAIL:
+    case CheckoutActionType.UPDATE_EMAIL:
         const { email } = action;
 
         return {
@@ -50,7 +45,7 @@ CheckoutAction & CheckoutStore
             email
         };
 
-    case UPDATE_EMAIL_AVAILABLE:
+    case CheckoutActionType.UPDATE_EMAIL_AVAILABLE:
         const { isEmailAvailable } = action;
 
         return {

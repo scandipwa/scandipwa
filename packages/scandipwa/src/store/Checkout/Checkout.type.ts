@@ -1,0 +1,46 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+import { AnyAction } from 'redux';
+
+export enum CheckoutActionType {
+    UPDATE_SHIPPING_FIELDS = 'UPDATE_SHIPPING_FIELDS',
+    UPDATE_EMAIL = 'UPDATE_EMAIL',
+    UPDATE_EMAIL_AVAILABLE = 'UPDATE_EMAIL_AVAILABLE'
+}
+
+export interface UpdateShippingFieldsAction extends AnyAction {
+    type: CheckoutActionType.UPDATE_SHIPPING_FIELDS;
+    shippingFields: Record<string, unknown>;
+}
+export interface UpdateEmailAction extends AnyAction {
+    type: CheckoutActionType.UPDATE_EMAIL;
+    email: string;
+}
+export interface UpdateEmailAvailableAction extends AnyAction {
+    type: CheckoutActionType.UPDATE_EMAIL_AVAILABLE;
+    isEmailAvailable: boolean;
+}
+
+export type CheckoutAction = UpdateShippingFieldsAction
+| UpdateEmailAction
+| UpdateEmailAvailableAction;
+
+export type CheckoutStore = {
+    shippingFields: Record<string, unknown>;
+    email: string;
+    isEmailAvailable: boolean;
+};
+
+declare module 'Util/Store/type' {
+    export interface RootState {
+        CheckoutReducer: CheckoutStore;
+    }
+}

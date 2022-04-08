@@ -178,6 +178,14 @@
                     "@scandipwa/scandipwa-guidelines/use-named-export": "off",
                     "@scandipwa/scandipwa-guidelines/create-config-files": "off"
                 }
+            },
+            {
+                "files": [
+                    "*.reducer.ts"
+                ],
+                "rules": {
+                    "@typescript-eslint/default-param-last": "off"
+                }
             }
         ],
         "rules": {

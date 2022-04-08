@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,7 +10,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY';
+import { CategoryFragment } from 'Type/Category.type';
+
+import { CategoryActionType, UpdateCurrentCategoryAction } from './Category.type';
 
 /**
  * Update Current Category
@@ -17,7 +20,9 @@ export const UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY';
  * @return {void}
  * @namespace Store/Category/Action/updateCurrentCategory
  */
-export const updateCurrentCategory = (category) => ({
-    type: UPDATE_CURRENT_CATEGORY,
+export const updateCurrentCategory = (
+    category: CategoryFragment | Record<string, unknown>
+): UpdateCurrentCategoryAction => ({
+    type: CategoryActionType.UPDATE_CURRENT_CATEGORY,
     category
 });

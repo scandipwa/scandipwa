@@ -8,18 +8,31 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { Action } from 'redux';
+import { AnyAction } from 'redux';
 
 import { Breadcrumbs } from 'Type/Breadcrumbs.type';
 
-import { TOGGLE_BREADCRUMBS, UPDATE_BREADCRUMBS } from './Breadcrumbs.action';
+export enum BreadcrumbsActionType {
+    UPDATE_BREADCRUMBS = 'UPDATE_BREADCRUMBS',
+    TOGGLE_BREADCRUMBS = 'TOGGLE_BREADCRUMBS'
+}
+
+export interface ToggleBreadcrumbsAction extends AnyAction {
+    type: BreadcrumbsActionType.TOGGLE_BREADCRUMBS;
+    areBreadcrumbsVisible: boolean;
+}
+
+export interface UpdateBreadcrumbsAction extends AnyAction {
+    type: BreadcrumbsActionType.UPDATE_BREADCRUMBS;
+    breadcrumbs: Breadcrumbs;
+}
+
+export type BreadcrumbsAction = ToggleBreadcrumbsAction | UpdateBreadcrumbsAction;
 
 export type BreadcrumbsStore = {
     breadcrumbs: Breadcrumbs;
     areBreadcrumbsVisible: boolean;
 };
-
-export type BreadcrumbsAction = Action<typeof TOGGLE_BREADCRUMBS | typeof UPDATE_BREADCRUMBS>;
 
 declare module 'Util/Store/type' {
     export interface RootState {

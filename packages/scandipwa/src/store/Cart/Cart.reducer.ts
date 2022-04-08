@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Reducer } from 'redux';
+
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 
-import { UPDATE_IS_LOADING_CART, UPDATE_SHIPPING_PRICE, UPDATE_TOTALS } from './Cart.action';
-import { CartAction } from './type';
+import { CartAction, CartActionType, CartStore } from './Cart.type';
 
 export const CART_TOTALS = 'cart_totals';
 
@@ -63,24 +64,24 @@ export const updateShippingPrice = (action, state) => {
 };
 
 /** @namespace Store/Cart/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): CartStore => ({
     isLoading: false,
     cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {}
 });
 
 /** @namespace Store/Cart/Reducer/CartReducer */
-export const CartReducer = (
+export const CartReducer: Reducer<CartStore, CartAction> = (
     state = getInitialState(),
     action
 ) => {
     const { type } = action;
 
     switch (type) {
-    case UPDATE_TOTALS:
-        return updateCartTotals(action, state);
-    case UPDATE_SHIPPING_PRICE:
+    case CartActionType.UPDATE_TOTALS:
+        return updateCartTotals(action);
+    case CartActionType.UPDATE_SHIPPING_PRICE:
         return updateShippingPrice(action, state);
-    case UPDATE_IS_LOADING_CART:
+    case CartActionType.UPDATE_IS_LOADING_CART:
         const { isLoading } = action;
 
         return {

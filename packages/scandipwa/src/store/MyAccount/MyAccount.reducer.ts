@@ -12,16 +12,7 @@ import { Reducer } from 'redux';
 
 import { isInitiallySignedIn } from 'Util/Auth';
 
-import {
-    UPDATE_CUSTOMER_DETAILS,
-    UPDATE_CUSTOMER_IS_LOADING,
-    UPDATE_CUSTOMER_IS_LOCKED,
-    UPDATE_CUSTOMER_PASSWORD_FORGOT_EMAIL,
-    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
-    UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
-    UPDATE_CUSTOMER_SIGN_IN_STATUS
-} from './MyAccount.action';
-import { MyAccountAction, MyAccountStore } from './type';
+import { MyAccountAction, MyAccountActionType, MyAccountStore } from './MyAccount.type';
 
 /** @namespace Store/MyAccount/Reducer/getInitialState */
 export const getInitialState = (): MyAccountStore => ({
@@ -39,60 +30,73 @@ export const getInitialState = (): MyAccountStore => ({
 /** @namespace Store/MyAccount/Reducer/MyAccountReducer */
 export const MyAccountReducer: Reducer<
 MyAccountStore,
-MyAccountAction & MyAccountStore
+MyAccountAction
 > = (
     state = getInitialState(),
     action
 ) => {
-    const {
-        status, customer, message, email
-    } = action;
-
     switch (action.type) {
-    case UPDATE_CUSTOMER_SIGN_IN_STATUS:
+    case MyAccountActionType.UPDATE_CUSTOMER_SIGN_IN_STATUS: {
+        const { status } = action;
+
         return {
             ...state,
             isSignedIn: status
         };
+    }
 
-    case UPDATE_CUSTOMER_PASSWORD_RESET_STATUS:
+    case MyAccountActionType.UPDATE_CUSTOMER_PASSWORD_RESET_STATUS: {
+        const { status, message } = action;
+
         return {
             ...state,
             passwordResetStatus: status,
             passwordResetMessage: message
         };
+    }
 
-    case UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS:
+    case MyAccountActionType.UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS: {
         return {
             ...state,
             isPasswordForgotSend: !state.isPasswordForgotSend
         };
+    }
 
-    case UPDATE_CUSTOMER_DETAILS:
+    case MyAccountActionType.UPDATE_CUSTOMER_DETAILS: {
+        const { customer } = action;
+
         return {
             ...state,
             customer
         };
-    case UPDATE_CUSTOMER_PASSWORD_FORGOT_EMAIL:
+    }
+
+    case MyAccountActionType.UPDATE_CUSTOMER_PASSWORD_FORGOT_EMAIL: {
+        const { email } = action;
+
         return {
             ...state,
             email
         };
-    case UPDATE_CUSTOMER_IS_LOADING:
+    }
+
+    case MyAccountActionType.UPDATE_CUSTOMER_IS_LOADING: {
         const { isLoading } = action;
 
         return {
             ...state,
             isLoading
         };
+    }
 
-    case UPDATE_CUSTOMER_IS_LOCKED:
+    case MyAccountActionType.UPDATE_CUSTOMER_IS_LOCKED: {
         const { isLocked } = action;
 
         return {
             ...state,
             isLocked
         };
+    }
 
     default:
         return state;

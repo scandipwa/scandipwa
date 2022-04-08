@@ -8,17 +8,22 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { Action } from 'redux';
+import { AnyAction } from 'redux';
 
 import { CategoryFragment } from 'Type/Category.type';
 
-import { UPDATE_CURRENT_CATEGORY } from './Category.action';
+export enum CategoryActionType {
+    UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY'
+}
+
+export interface UpdateCurrentCategoryAction extends AnyAction {
+    type: CategoryActionType.UPDATE_CURRENT_CATEGORY;
+    category: CategoryFragment | Record<string, unknown>;
+}
 
 export type CategoryStore = {
     category: CategoryFragment | Record<string, unknown>;
 };
-
-export type CategoryAction = Action<typeof UPDATE_CURRENT_CATEGORY>;
 
 declare module 'Util/Store/type' {
     export interface RootState {
