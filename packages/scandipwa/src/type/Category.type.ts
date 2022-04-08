@@ -19,7 +19,7 @@ export type Breadcrumbs = {
 
 export type CategoryFragment = {
     id: number;
-    breadcrumbs: Breadcrumbs;
+    breadcrumbs?: Breadcrumbs;
     description: string;
     image: string;
     meta_description: string;

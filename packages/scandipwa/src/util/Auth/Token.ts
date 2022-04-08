@@ -15,7 +15,7 @@ import { deleteGuestQuoteId } from 'Util/Cart';
 import { removeUid } from 'Util/Compare';
 import { debounce } from 'Util/Request';
 import getStore from 'Util/Store';
-
+import { RootState } from 'Util/Store/type';
 export const AUTH_TOKEN = 'auth_token';
 
 export const ONE_HOUR_IN_SECONDS = 3600;
@@ -28,7 +28,7 @@ export const setAuthorizationToken = (token: string | null): void => {
         return;
     }
 
-    const state = getStore().getState();
+    const state = getStore().getState() as RootState;
     const {
         access_token_lifetime = ONE_HOUR
     } = state.ConfigReducer;
@@ -55,11 +55,13 @@ export const isInitiallySignedIn = (): boolean => !!getAuthorizationToken();
 export const isSignedIn = (): boolean => {
     const hasAuthToken = !!getAuthorizationToken();
     const store = getStore();
+
     const {
         MyAccountReducer: {
             isSignedIn: isCustomerSignedIn = false
         } = {}
-    } = store.getState();
+    } = store.getState() as RootState;
+
     const { dispatch } = store;
 
     if (!hasAuthToken && isCustomerSignedIn) {

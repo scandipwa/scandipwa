@@ -15,6 +15,7 @@ import {
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { debounce } from 'Util/Request';
 import getStore from 'Util/Store';
+import { RootState } from 'Util/Store/type';
 
 /**
  *
@@ -35,7 +36,7 @@ export const ONE_DAY = 86400;
  * @namespace Util/Compare/setUid
  */
 export const setUid = (uid: string | boolean): void => {
-    const state = getStore().getState();
+    const state = getStore().getState() as RootState;
     const {
         access_token_lifetime = ONE_HOUR
     } = state.ConfigReducer;

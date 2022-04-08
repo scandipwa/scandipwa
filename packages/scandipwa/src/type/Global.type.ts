@@ -86,13 +86,6 @@ declare global {
         fileData?: string;
     }
 
-    export type InjectReducer<S, A> = (key: string, asyncReducer: Reducer<S, Action<A>>) => void;
-
-    export type ModifiedReduxStore<S, A> = (Store<S, Action<A>> & {
-        asyncReducers?: ReducersMapObject;
-        injectReducer?: InjectReducer<S, A>;
-    });
-
     // interface HTMLElementEventMap {
     //     validate: ValidationData
     // }

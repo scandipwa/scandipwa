@@ -8,19 +8,25 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { Reducer } from 'redux';
 
 import { HIDE_ACTIVE_OVERLAY, HIDE_ACTIVE_POPUP } from 'Store/Overlay/Overlay.action';
 
 import { SHOW_POPUP } from './Popup.action';
+import { PopupAction, PopupStore } from './type';
 
 /** @namespace Store/Popup/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): PopupStore => ({
     popupPayload: {},
-    shouldPopupClose: false
+    shouldPopupClose: false,
+    payload: {}
 });
 
 /** @namespace Store/Popup/Reducer/PopupReducer */
-export const PopupReducer = (
+export const PopupReducer: Reducer<
+PopupStore,
+PopupAction & PopupStore
+> = (
     state = getInitialState(),
     action
 ) => {

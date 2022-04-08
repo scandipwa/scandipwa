@@ -8,6 +8,8 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { Action, Reducer } from 'redux';
+
 import CartReducer from 'Store/Cart/Cart.reducer';
 import CheckoutReducer from 'Store/Checkout/Checkout.reducer';
 import ConfigReducer from 'Store/Config/Config.reducer';
@@ -47,18 +49,24 @@ export const getStaticReducers = () => ({
     StoreInPickUpReducer
 });
 
-export default function injectStaticReducers(store) {
+export type StaticReducersType = ReturnType<typeof getStaticReducers>;
+
+export default function injectStaticReducers<
+    S,
+    A,
+    T extends ModifiedReduxStore<S, A>
+>(store: T): T & StaticReducersType {
     // eslint-disable-next-line no-param-reassign
-    store.asyncReducers = [];
+    // store.asyncReducers = {};
 
     // Inject all the static reducers into the store
     Object.entries(getStaticReducers()).forEach(
         ([name, reducer]) => {
-            // eslint-disable-next-line no-param-reassign
-            store.asyncReducers[name] = reducer;
-            store.injectReducer(name, reducer);
+            if (store.injectReducer) {
+                store.injectReducer(name, reducer as Reducer<S, Action<A>>);
+            }
         }
     );
 
-    return store;
+    return store as T & StaticReducersType;
 }

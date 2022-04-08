@@ -310,19 +310,19 @@ export class Debouncer <
 > {
     timeout!: NodeJS.Timeout;
 
-    handler = () => {};
+    handler = (): void => {};
 
-    startDebounce = (callback:T, delay: U) => (...args: S[]) => {
+    startDebounce = (callback:T, delay: U) => (...args: S[]): void => {
         clearTimeout(this.timeout);
         this.handler = () => callback.apply(this, args as any);
         this.timeout = setTimeout(this.handler, delay);
     };
 
-    cancelDebounce = () => {
+    cancelDebounce = (): void => {
         clearTimeout(this.timeout);
     };
 
-    cancelDebounceAndExecuteImmediately = () => {
+    cancelDebounceAndExecuteImmediately = (): void => {
         clearTimeout(this.timeout);
         this.handler();
     };

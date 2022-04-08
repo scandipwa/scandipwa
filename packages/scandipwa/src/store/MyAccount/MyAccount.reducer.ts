@@ -8,6 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { Reducer } from 'redux';
 
 import { isInitiallySignedIn } from 'Util/Auth';
 
@@ -20,20 +21,26 @@ import {
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     UPDATE_CUSTOMER_SIGN_IN_STATUS
 } from './MyAccount.action';
+import { MyAccountAction, MyAccountStore } from './type';
 
 /** @namespace Store/MyAccount/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): MyAccountStore => ({
     isSignedIn: isInitiallySignedIn(),
     passwordResetStatus: false,
     isPasswordForgotSend: false,
     isLoading: false,
     isLocked: false,
     customer: {},
-    message: ''
+    message: '',
+    email: '',
+    status: false
 });
 
 /** @namespace Store/MyAccount/Reducer/MyAccountReducer */
-export const MyAccountReducer = (
+export const MyAccountReducer: Reducer<
+MyAccountStore,
+MyAccountAction & MyAccountStore
+> = (
     state = getInitialState(),
     action
 ) => {

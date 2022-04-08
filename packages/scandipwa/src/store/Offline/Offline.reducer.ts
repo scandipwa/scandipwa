@@ -8,20 +8,25 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { Reducer } from 'redux';
 
 import {
     SET_BIG_OFFLINE_NOTICE,
     SHOW_OFFLINE_NOTICE
 } from './Offline.action';
+import { OfflineAction, OfflineStore } from './type';
 
 /** @namespace Store/Offline/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): OfflineStore => ({
     isOffline: true,
     isBig: false
 });
 
 /** @namespace Store/Offline/Reducer/OfflineReducer */
-export const OfflineReducer = (
+export const OfflineReducer: Reducer<
+OfflineStore,
+OfflineAction & OfflineStore
+> = (
     state = getInitialState(),
     action
 ) => {

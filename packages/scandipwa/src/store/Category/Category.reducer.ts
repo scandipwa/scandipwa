@@ -9,15 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Reducer } from 'redux';
+
 import { UPDATE_CURRENT_CATEGORY } from './Category.action';
+import { CategoryAction, CategoryStore } from './type';
 
 /** @namespace Store/Category/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): CategoryStore => ({
     category: {}
 });
 
 /** @namespace Store/Category/Reducer/CategoryReducer */
-export const CategoryReducer = (
+export const CategoryReducer: Reducer<
+CategoryStore,
+CategoryAction & CategoryStore
+> = (
     state = getInitialState(),
     { type, category }
 ) => {

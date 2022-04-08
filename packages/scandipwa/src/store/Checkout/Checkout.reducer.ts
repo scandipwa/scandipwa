@@ -8,21 +8,31 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
+import { Reducer } from 'redux';
+
 import {
     UPDATE_EMAIL,
     UPDATE_EMAIL_AVAILABLE,
     UPDATE_SHIPPING_FIELDS
 } from './Checkout.action';
+import { CheckoutAction, CheckoutStore } from './type';
 
 /** @namespace Store/Checkout/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): CheckoutStore => ({
     shippingFields: {},
     email: '',
     isEmailAvailable: true
 });
 
 /** @namespace Store/Checkout/Reducer/CheckoutReducer */
-export const CheckoutReducer = (state = getInitialState(), action) => {
+export const CheckoutReducer: Reducer<
+CheckoutStore,
+CheckoutAction & CheckoutStore
+> = (
+    state = getInitialState(),
+    action
+) => {
     switch (action.type) {
     case UPDATE_SHIPPING_FIELDS:
         const { shippingFields } = action;

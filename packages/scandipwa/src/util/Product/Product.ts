@@ -36,6 +36,7 @@ import {
 import { isSignedIn } from 'Util/Auth';
 import { FormattedProduct } from 'Util/Product/Extract';
 import getStore from 'Util/Store';
+import { RootState } from 'Util/Store/type';
 
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
@@ -454,7 +455,7 @@ export const showNewReviewPopup = (): void => {
         ConfigReducer: {
             reviews_allow_guest: isGuestEnabled
         } = {}
-    } = store.getState();
+    } = store.getState() as RootState;
     const { dispatch } = store;
 
     // if not logged in and guest reviews are not enabled
