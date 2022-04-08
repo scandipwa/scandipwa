@@ -10,10 +10,9 @@
  */
 import { Reducer } from 'redux';
 
-import { HIDE_ACTIVE_OVERLAY, HIDE_ACTIVE_POPUP } from 'Store/Overlay/Overlay.action';
+import { OverlayActionType } from 'Store/Overlay/Overlay.type';
 
-import { SHOW_POPUP } from './Popup.action';
-import { PopupAction, PopupStore } from './type';
+import { PopupActionType, PopupStore, PopupType } from './Popup.type';
 
 /** @namespace Store/Popup/Reducer/getInitialState */
 export const getInitialState = (): PopupStore => ({
@@ -25,7 +24,7 @@ export const getInitialState = (): PopupStore => ({
 /** @namespace Store/Popup/Reducer/PopupReducer */
 export const PopupReducer: Reducer<
 PopupStore,
-PopupAction & PopupStore
+PopupType
 > = (
     state = getInitialState(),
     action
@@ -33,11 +32,11 @@ PopupAction & PopupStore
     const { payload, type } = action;
 
     switch (type) {
-    case SHOW_POPUP:
+    case PopupActionType.SHOW_POPUP:
         return { ...state, popupPayload: payload };
-    case HIDE_ACTIVE_OVERLAY:
+    case OverlayActionType.HIDE_ACTIVE_OVERLAY:
         return { ...state, popupPayload: {} };
-    case HIDE_ACTIVE_POPUP:
+    case OverlayActionType.HIDE_ACTIVE_POPUP:
         return { ...state, shouldPopupClose: payload };
     default:
         return state;

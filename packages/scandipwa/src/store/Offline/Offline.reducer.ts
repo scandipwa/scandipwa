@@ -10,11 +10,7 @@
  */
 import { Reducer } from 'redux';
 
-import {
-    SET_BIG_OFFLINE_NOTICE,
-    SHOW_OFFLINE_NOTICE
-} from './Offline.action';
-import { OfflineAction, OfflineStore } from './type';
+import { OfflineAction, OfflineActionType, OfflineStore } from './Offline.type';
 
 /** @namespace Store/Offline/Reducer/getInitialState */
 export const getInitialState = (): OfflineStore => ({
@@ -25,20 +21,20 @@ export const getInitialState = (): OfflineStore => ({
 /** @namespace Store/Offline/Reducer/OfflineReducer */
 export const OfflineReducer: Reducer<
 OfflineStore,
-OfflineAction & OfflineStore
+OfflineAction
 > = (
     state = getInitialState(),
     action
 ) => {
     switch (action.type) {
-    case SHOW_OFFLINE_NOTICE:
+    case OfflineActionType.SHOW_OFFLINE_NOTICE:
         const { isOffline } = action;
 
         return {
             ...state,
             isOffline
         };
-    case SET_BIG_OFFLINE_NOTICE:
+    case OfflineActionType.SET_BIG_OFFLINE_NOTICE:
         const { isBig } = action;
 
         return {

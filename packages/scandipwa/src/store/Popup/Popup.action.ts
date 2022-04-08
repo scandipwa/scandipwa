@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,11 +10,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const SHOW_POPUP = 'SHOW_POPUP';
+import { PopupActionType, ShowPopupAction } from './Popup.type';
 
 /** @namespace Store/Popup/Action/showPopup */
-export const showPopup = (overlayKey, payload) => ({
-    type: SHOW_POPUP,
+export const showPopup = <T>(overlayKey: string, payload: T): ShowPopupAction<string, T> => ({
+    type: PopupActionType.SHOW_POPUP,
     overlayKey,
     payload: { [overlayKey]: payload }
 });

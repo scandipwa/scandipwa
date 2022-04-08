@@ -9,23 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const TOGGLE_OVERLAY = 'TOGGLE_OVERLAY';
-export const HIDE_ACTIVE_OVERLAY = 'HIDE_ACTIVE_OVERLAY';
-export const HIDE_ACTIVE_POPUP = 'HIDE_ACTIVE_POPUP';
+import {
+    HideActiveOverlayAction, HideActivePopupAction, OverlayActionType, ToggleOverlayByKeyAction
+} from './Overlay.type';
 
 /** @namespace Store/Overlay/Action/toggleOverlayByKey */
-export const toggleOverlayByKey = (overlayKey) => ({
-    type: TOGGLE_OVERLAY,
+export const toggleOverlayByKey = (overlayKey: string): ToggleOverlayByKeyAction => ({
+    type: OverlayActionType.TOGGLE_OVERLAY,
     overlayKey
 });
 
 /** @namespace Store/Overlay/Action/hideActiveOverlay */
-export const hideActiveOverlay = () => ({
-    type: HIDE_ACTIVE_OVERLAY
+export const hideActiveOverlay = (): HideActiveOverlayAction => ({
+    type: OverlayActionType.HIDE_ACTIVE_OVERLAY
 });
 
 /** @namespace Store/Overlay/Action/hideActivePopup */
-export const hideActivePopup = (shouldPopupClose = true) => ({
-    type: HIDE_ACTIVE_POPUP,
+export const hideActivePopup = (shouldPopupClose = true): HideActivePopupAction => ({
+    type: OverlayActionType.HIDE_ACTIVE_POPUP,
     payload: shouldPopupClose
 });

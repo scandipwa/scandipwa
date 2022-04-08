@@ -9,8 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const SHOW_OFFLINE_NOTICE = 'SHOW_OFFLINE_NOTICE';
-export const SET_BIG_OFFLINE_NOTICE = 'SET_BIG_OFFLINE_NOTICE';
+import { OfflineActionType, SetBigOfflineNoticeAction, ShowOfflineNoticeAction } from './Offline.type';
 
 /**
  * Show offline notice.
@@ -18,8 +17,8 @@ export const SET_BIG_OFFLINE_NOTICE = 'SET_BIG_OFFLINE_NOTICE';
  * @return {void}
  * @namespace Store/Offline/Action/showOfflineNotice
  */
-export const showOfflineNotice = (isOffline) => ({
-    type: SHOW_OFFLINE_NOTICE,
+export const showOfflineNotice = (isOffline: boolean): ShowOfflineNoticeAction => ({
+    type: OfflineActionType.SHOW_OFFLINE_NOTICE,
     isOffline
 });
 
@@ -29,7 +28,7 @@ export const showOfflineNotice = (isOffline) => ({
  * @return {void}
  * @namespace Store/Offline/Action/setBigOfflineNotice
  */
-export const setBigOfflineNotice = (isBig) => ({
-    type: SET_BIG_OFFLINE_NOTICE,
+export const setBigOfflineNotice = (isBig: boolean): SetBigOfflineNoticeAction => ({
+    type: OfflineActionType.SET_BIG_OFFLINE_NOTICE,
     isBig
 });

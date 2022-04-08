@@ -8,19 +8,29 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { Action } from 'redux';
+import { AnyAction } from 'redux';
 
-import { HIDE_ACTIVE_OVERLAY, HIDE_ACTIVE_POPUP } from 'Store/Overlay/Overlay.action';
+import { HideActiveOverlayAction, HideActivePopupAction } from 'Store/Overlay/Overlay.type';
 
-import { SHOW_POPUP } from './Popup.action';
+export enum PopupActionType {
+    SHOW_POPUP = 'SHOW_POPUP'
+}
+
+export interface ShowPopupAction<OverlayKey extends string, Payload> extends AnyAction {
+    type: PopupActionType.SHOW_POPUP;
+    overlayKey: OverlayKey;
+    payload: Record<OverlayKey, Payload>;
+}
+
+export type PopupType = ShowPopupAction<string, unknown>
+| HideActiveOverlayAction
+| HideActivePopupAction;
 
 export type PopupStore = {
     popupPayload: Record<string, unknown>;
     shouldPopupClose: boolean;
     payload: Record<string, unknown> | boolean;
 };
-
-export type PopupAction = Action<typeof HIDE_ACTIVE_OVERLAY | typeof HIDE_ACTIVE_POPUP | typeof SHOW_POPUP>;
 
 declare module 'Util/Store/type' {
     export interface RootState {

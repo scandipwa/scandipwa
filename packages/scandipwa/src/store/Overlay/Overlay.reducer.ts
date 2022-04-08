@@ -9,21 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { SHOW_POPUP } from 'Store/Popup/Popup.action';
+import { Reducer } from 'redux';
+
+import { PopupActionType } from 'Store/Popup/Popup.type';
 
 import {
-    HIDE_ACTIVE_OVERLAY,
-    TOGGLE_OVERLAY
-} from './Overlay.action';
+    OverlayAction,
+    OverlayActionType,
+    OverlayStore
+} from './Overlay.type';
 
 /** @namespace Store/Overlay/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): OverlayStore => ({
     activeOverlay: '',
     areOtherOverlaysOpen: false
 });
 
 /** @namespace Store/Overlay/Reducer/OverlayReducer */
-export const OverlayReducer = (
+export const OverlayReducer: Reducer<OverlayStore, OverlayAction> = (
     state = getInitialState(),
     action
 ) => {
@@ -33,8 +36,8 @@ export const OverlayReducer = (
     } = state;
 
     switch (action.type) {
-    case TOGGLE_OVERLAY:
-    case SHOW_POPUP:
+    case OverlayActionType.TOGGLE_OVERLAY:
+    case PopupActionType.SHOW_POPUP:
         const activeOverlay = prevActiveOverlay === overlayKey ? '' : overlayKey;
         const areOtherOverlaysOpen = prevActiveOverlay !== '';
 
@@ -44,7 +47,7 @@ export const OverlayReducer = (
             areOtherOverlaysOpen
         };
 
-    case HIDE_ACTIVE_OVERLAY:
+    case OverlayActionType.HIDE_ACTIVE_OVERLAY:
         return {
             ...state,
             activeOverlay: '',
