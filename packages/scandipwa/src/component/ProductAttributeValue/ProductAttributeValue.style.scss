@@ -207,7 +207,7 @@
         }
     }
 
-    &:hover:not(&_isNotAvailable) {
+    &:hover {
         @include desktop {
             --option-border-color: var(--primary-base-color);
             --option-text-color: var(--primary-base-color);
@@ -219,6 +219,13 @@
     &_isNotAvailable {
         opacity: .5;
         cursor: default;
+
+        &:hover {
+            @include desktop {
+                --option-border-color: var(--color-dark-gray);
+                --option-text-color: #{$black};
+            }
+        }
 
         .ProductAttributeValue {
             &-Color {
