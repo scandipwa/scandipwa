@@ -19,8 +19,7 @@ import CurrencySwitcher from './CurrencySwitcher.component';
 
 /** @namespace Component/CurrencySwitcher/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    currencyData: state.ConfigReducer.currencyData,
-    currency: state.ConfigReducer.currency
+    currencyData: state.ConfigReducer.currencyData
 });
 
 /** @namespace Component/CurrencySwitcher/Container/mapDispatchToProps */
@@ -38,15 +37,6 @@ export class CurrencySwitcherContainer extends DataContainer {
                 )
             ),
             current_currency_code: PropTypes.string
-        }).isRequired,
-        currency: PropTypes.shape({
-            base_currency_code: PropTypes.string,
-            exchange_rates: PropTypes.arrayOf(
-                PropTypes.objectOf(
-                    PropTypes.string,
-                    PropTypes.number
-                )
-            )
         }).isRequired
     };
 
@@ -68,8 +58,8 @@ export class CurrencySwitcherContainer extends DataContainer {
     }
 
     containerProps() {
-        const { currencyData, currency } = this.props;
-        return { currencyData, currency };
+        const { currencyData } = this.props;
+        return { currencyData };
     }
 
     render() {

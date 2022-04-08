@@ -29,15 +29,6 @@ export class CurrencySwitcher extends PureComponent {
             ),
             current_currency_code: PropTypes.string
         }).isRequired,
-        currency: PropTypes.shape({
-            base_currency_code: PropTypes.string,
-            exchange_rates: PropTypes.arrayOf(
-                PropTypes.objectOf(
-                    PropTypes.string,
-                    PropTypes.number
-                )
-            )
-        }).isRequired,
         handleCurrencySelect: PropTypes.func.isRequired
     };
 
@@ -54,30 +45,6 @@ export class CurrencySwitcher extends PureComponent {
         const currency = getCurrency();
 
         return availableCurrencies.some((e) => e.id === currency) ? currency : currentCurrencyCode;
-    }
-
-    currencyHasRate(currency_code) {
-        const {
-            currency: {
-                base_currency_code: base,
-                exchange_rates: rates
-            }
-        } = this.props;
-
-        if (currency_code === base) {
-            return true;
-        }
-
-        if (rates?.find(({ currency_to }) => currency_to === currency_code).rate !== 0) {
-            return true;
-        }
-
-        return false;
-    }
-
-    returnFilteredCurrencies() {
-        const { currencyData: { available_currencies_data: availableCurrencies } } = this.props;
-        return availableCurrencies.filter(({ value }) => this.currencyHasRate(value));
     }
 
     render() {
@@ -102,7 +69,7 @@ export class CurrencySwitcher extends PureComponent {
                       events={ {
                           onChange: handleCurrencySelect
                       } }
-                      options={ this.returnFilteredCurrencies() }
+                      options={ availableCurrencies }
                     />
                 </div>
             );

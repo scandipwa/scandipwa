@@ -23,6 +23,14 @@ export const filterStoreConfig = (config) => Object.entries(config).reduce(
     {}
 );
 
+/** @namespace Store/Config/Reducer/filterAvailableCurrencies */
+export const filterAvailableCurrencies = ({ available_currencies_data: availableCurrencies },
+    { base_currency_code: base, exchange_rates: rates }) => ({
+    available_currencies_data: availableCurrencies.filter(({ value }) => (
+        value === base || rates?.find(({ currency_to }) => currency_to === value).rate > 0
+    ))
+});
+
 export const {
     countries, reviewRatings, storeConfig, currencyData, currency, cartDisplayConfig
 } = BrowserDatabase.getItem('config') || {
@@ -44,9 +52,6 @@ export const {
 /** @namespace Store/Config/Reducer/getIndexedRatings */
 export const getIndexedRatings = (reviewRatings) => ((reviewRatings) ? reviewRatings.items || [] : []);
 
-/** @namespace Store/Config/Reducer/getCurrencyData */
-export const getCurrencyData = (base, state) => (base || state.currencyData || {});
-
 /** @namespace Store/Config/Reducer/getCurrency */
 export const getCurrency = (base, state) => (base || state.currency || {});
 
@@ -62,7 +67,10 @@ export const getInitialState = () => ({
     countries,
     reviewRatings,
     checkoutAgreements: [],
-    currencyData,
+    currencyData: {
+        ...currencyData,
+        ...filterAvailableCurrencies(currencyData, currency)
+    },
     currency,
     isLoading: true,
     cartDisplayConfig,
@@ -101,6 +109,10 @@ export const ConfigReducer = (
     switch (type) {
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
+        const filteredCurrencyData = {
+            ...currencyData,
+            ...filterAvailableCurrencies(currencyData, currency)
+        };
         const { secure_base_media_url } = filteredStoreConfig;
         window.secure_base_media_url = secure_base_media_url;
 
@@ -109,8 +121,8 @@ export const ConfigReducer = (
             countries: getCountryData(countries, state),
             reviewRatings: getIndexedRatings(reviewRatings),
             checkoutAgreements: getCheckoutAgreementData(checkoutAgreements, state),
-            currencyData: getCurrencyData(currencyData, state),
             currency: getCurrency(currency, state),
+            ...filteredCurrencyData,
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
             // and header_logo_src takes old value
