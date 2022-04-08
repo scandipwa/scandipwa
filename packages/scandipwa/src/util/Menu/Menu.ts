@@ -11,25 +11,7 @@
 
 import { MenuItem } from 'Type/Menu.type';
 
-/* eslint-disable no-param-reassign */
-
-export const TYPE_CUSTOM_URL = 0;
-export const TYPE_CMS_PAGE = 1;
-export const TYPE_CATEGORY = 2;
-
-type MenuLocation = {
-    pathname: string;
-    search: string;
-    state: {
-        category?: number;
-        page?: boolean;
-    };
-} | string;
-
-export type FormattedMenuItem = Omit<MenuItem, 'cms_page_identifier' | 'url_type' | 'url'> & {
-    url: MenuLocation;
-    children: Record<string, FormattedMenuItem>;
-};
+import { FormattedMenuItem, MenuItemType } from './Menu.type';
 
 /**
  * Given an array of menu items, returns a copy of the array, sorted by their parent ID, then by their sort order (position)
@@ -51,13 +33,13 @@ export class Menu {
 
     getMenuUrl({ url, url_type, category_id }: Pick<MenuItem, 'url' | 'url_type' | 'category_id'>): MenuLocation {
         switch (url_type) {
-        case TYPE_CATEGORY:
+        case MenuItemType.TYPE_CATEGORY:
             return {
                 pathname: url,
                 search: '',
                 state: { category: category_id }
             };
-        case TYPE_CMS_PAGE:
+        case MenuItemType.TYPE_CMS_PAGE:
             return {
                 pathname: url,
                 search: '',

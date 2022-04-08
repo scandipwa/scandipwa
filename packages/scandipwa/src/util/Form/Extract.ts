@@ -13,6 +13,14 @@ import { FIELD_NAME_ATTR, FIELD_TYPE_ATTR, HOURS_12H_COUNT } from 'Component/Dat
 import FIELD_TYPE from 'Component/Field/Field.config';
 import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 
+import {
+    DateMap,
+    DateRangeAttribute,
+    DatesData,
+    FieldData,
+    YearRangeAttribute
+} from './Form.type';
+
 /**
  * Appends 0 to value if its less than passed attribute;
  * @param value
@@ -61,18 +69,6 @@ export const getDateValue = (dateValue: number | string | Date): number | string
     }
 };
 
-// TODO move
-
-export type YearRangeAttribute = {
-    minYear: number;
-    maxYear: number;
-};
-
-export type DatRangeAttribute = {
-    minDate: Date;
-    maxDate: Date;
-};
-
 /** @namespace Util/Form/Extract/calcYearRangeAttributes */
 export const calcYearRangeAttributes = (startYear: number, endYear: number): YearRangeAttribute => {
     const currentYear = new Date().getFullYear();
@@ -93,7 +89,7 @@ export const calcYearRangeAttributes = (startYear: number, endYear: number): Yea
 };
 
 /** @namespace Util/Form/Extract/getYearRangeAttributes */
-export const getYearRangeAttributes = (yearRange = ',', isYear = false): YearRangeAttribute | DatRangeAttribute => {
+export const getYearRangeAttributes = (yearRange = ',', isYear = false): YearRangeAttribute | DateRangeAttribute => {
     const [startYear, endYear] = yearRange.split(',');
 
     const { minYear, maxYear } = calcYearRangeAttributes(Number(startYear), Number(endYear));
@@ -115,13 +111,6 @@ export const isMagentoDateFormatValid = (dateFieldsOrder: string): boolean => ne
 
 /** @namespace Util/Form/Extract/getTimeFormat */
 export const getTimeFormat = (timeFormat: string): string => (timeFormat === TIME_FORMAT.H12 ? 'h:mm aa' : 'HH:mm');
-
-// TODO move
-export type DateMap = {
-    d: string;
-    m: string;
-    y: string;
-};
 
 /** @namespace Util/Form/Extract/getDateFormat */
 export const getDateFormat = (dateFieldsOrder: string): string => {
@@ -162,24 +151,6 @@ export const adjustAmpmHours = (hours: number, ampm: string): number => {
     }
 
     return hours;
-};
-
-// TODO
-export type DatesData = {
-    type?: string;
-    year?: string;
-    month?: string;
-    day?: string;
-    hours?: string;
-    minutes?: string;
-    ampm: string;
-    name?: string;
-};
-
-export type DateObject = {
-    name: string;
-    value: string;
-    type: string;
 };
 
 /** @namespace Util/Form/Extract/transformDateFieldsData */
@@ -247,13 +218,6 @@ export const groupDateFieldsData = (fields: NodeListOf<Element>): Record<string,
             }
         };
     }, {} as Record<string, DatesData>);
-
-export type FieldData = {
-    field: HTMLElement;
-    name: string;
-    type: string;
-    value: string | boolean | number;
-};
 
 /**
  * Returns fields values from DOM/Form

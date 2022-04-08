@@ -15,7 +15,7 @@
 import { PRODUCT_TYPE } from 'Component/Product/Product.config';
 import { STOCK_TYPE } from 'Component/Product/Stock.config';
 import { ImageTypes } from 'Component/ProductGallery/ProductGallery.config';
-import { PriceItem, PriceRange } from 'Type/Price.type';
+import { PriceRange } from 'Type/Price.type';
 import {
     ItemOption,
     ItemShape,
@@ -28,28 +28,9 @@ import {
 import { formatPrice } from 'Util/Price';
 
 import { IndexedVariant } from './Product';
-
-export const DEFAULT_MIN_PRODUCTS = 1;
-export const DEFAULT_MAX_PRODUCTS = 999;
-
-export enum QtyDefault {
-    DEFAULT_MIN_PRODUCTS = 1,
-    DEFAULT_MAX_PRODUCTS = 999
-}
-
-export const MIN_SALE_QTY = 'min_sale_qty';
-export const MAX_SALE_QTY = 'max_sale_qty';
-export const SALABLE_QTY = 'salable_qty';
-
-export enum QtyFields {
-    SALABLE_QTY = 'salable_qty',
-    MIN_SALE_QTY = 'min_sale_qty',
-    MAX_SALE_QTY = 'max_sale_qty'
-}
-
-export type FormattedProduct = Omit<Product, 'variants'> & {
-    variants?: IndexedVariant[];
-};
+import {
+    AdjustedPrice, AdjustedPrices, EnteredOption, FormattedAdjustedPrices, FormattedPrice, FormattedProduct, QtyDefault, QtyFields
+} from './Product.type';
 
 // TODO unify keyof product and stockitem.
 /** @namespace Util/Product/Extract/getFieldQty */
@@ -112,7 +93,7 @@ export const getQuantity = (
  * @namespace Util/Product/Extract/getMinQuantity
  */
 export const getMinQuantity = (product: FormattedProduct, configIndex = -1): number => (
-    getQuantity(product, DEFAULT_MIN_PRODUCTS, QtyFields.MIN_SALE_QTY, configIndex)
+    getQuantity(product, QtyDefault.DEFAULT_MIN_PRODUCTS, QtyFields.MIN_SALE_QTY, configIndex)
 );
 
 /**
@@ -123,8 +104,16 @@ export const getMinQuantity = (product: FormattedProduct, configIndex = -1): num
  * @namespace Util/Product/Extract/getMaxQuantity
  */
 export const getMaxQuantity = (product: FormattedProduct, configIndex = -1): number => {
-    const maxQuantity: number = getQuantity(product, DEFAULT_MAX_PRODUCTS, MAX_SALE_QTY, configIndex);
-    const salableQuantity: number = getQuantity(product, DEFAULT_MAX_PRODUCTS, QtyFields.SALABLE_QTY, configIndex);
+    const maxQuantity: number = getQuantity(
+        product, QtyDefault.DEFAULT_MAX_PRODUCTS,
+        QtyFields.MAX_SALE_QTY,
+        configIndex
+    );
+    const salableQuantity: number = getQuantity(
+        product, QtyDefault.DEFAULT_MAX_PRODUCTS,
+        QtyFields.SALABLE_QTY,
+        configIndex
+    );
 
     return Math.min(maxQuantity, salableQuantity);
 };
@@ -251,43 +240,6 @@ export const getBundleOption = (uid: string, options: ItemOption[] = []): ItemOp
 
         return true;
     });
-};
-
-export type AdjustedPrice = {
-    exclTax: number;
-    inclTax: number;
-    hasDiscountCalculated: boolean;
-    requiresDiscountCalculations: boolean;
-};
-
-export type AdjustedPrices = Record<string, AdjustedPrice>;
-
-export type FormattedPriceConfiguration = {
-    containsOptions: boolean;
-    containsOptionsWithPrice: boolean;
-    containsRequiredOptions: boolean;
-    containsRequiredOptionsWithPrice: boolean;
-};
-
-export type FormattedPrice = {
-    price: {
-        finalPrice: PriceItem;
-        finalPriceExclTax: PriceItem;
-        originalPrice: PriceItem;
-        originalPriceExclTax: PriceItem;
-        discount: {
-            percentOff: number;
-        };
-    };
-    originalPrice: {
-        minRegularPrice: PriceItem;
-        minFinalPrice: PriceItem;
-        minFinalPriceExclTax: PriceItem;
-        maxRegularPrice: PriceItem;
-        maxFinalPrice: PriceItem;
-        maxFinalPriceExclTax: PriceItem;
-    };
-    configuration: FormattedPriceConfiguration;
 };
 
 /**
@@ -473,32 +425,6 @@ export const getPrice = (
             }
         },
         configuration
-    };
-};
-
-// TODO move
-export type EnteredOption = {
-    uid: string;
-    value: string;
-};
-
-export type FormattedAdjustedPrices = {
-    downloadable: {
-        exclTax: number;
-        inclTax: number;
-        requiresDiscountCalculations: boolean;
-        hasDiscountCalculated: boolean;
-    };
-    bundle: {
-        exclTax: number;
-        inclTax: number;
-        requiresDiscountCalculations: boolean;
-        hasDiscountCalculated: boolean;
-    };
-    config: {
-        exclTax: number;
-        inclTax: number;
-        requiresDiscountCalculations: boolean;
     };
 };
 
