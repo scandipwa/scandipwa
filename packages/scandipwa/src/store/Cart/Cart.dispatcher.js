@@ -33,9 +33,6 @@ export class CartDispatcher {
             dispatch(updateIsLoadingCart(true));
 
             // ! Get quote token first (local or from the backend) just to make sure it exists
-
-            dispatch(updateIsLoadingCart(true));
-
             const quoteId = await this._getGuestQuoteId(dispatch);
             const { cartData = {} } = await fetchQuery(
                 CartQuery.getCartQuery(
