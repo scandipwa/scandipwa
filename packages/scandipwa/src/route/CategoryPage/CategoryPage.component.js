@@ -182,13 +182,9 @@ export class CategoryPage extends PureComponent {
             totalPages,
             category: { is_anchor },
             isSearchPage,
-            isMatchingInfoFilter,
             isCurrentCategoryLoaded
-        } = this.props;
 
-        if (!isMatchingInfoFilter) {
-            return this.renderFilterButtonPlaceholder();
-        }
+        } = this.props;
 
         if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage) || !isCurrentCategoryLoaded) {
             return null;
@@ -210,16 +206,14 @@ export class CategoryPage extends PureComponent {
     renderFilterPlaceholder() {
         return (
             <div block="CategoryPage" elem="PlaceholderWrapper">
-                <div block="CategoryPage" elem="PlaceholdereContainer">
+                <div block="CategoryPage" elem="PlaceholderContainer">
                     <h3 block="CategoryPage" elem="PlaceholderHeading">
                         { __('Shopping Options') }
                     </h3>
-                    <div block="CategoryPage" elem="FilterPlaceholderContainer">
-                        <div block="CategoryPage" elem="PlaceholderList">
-                            <div block="CategoryPage" elem="PlaceholderListItem" />
-                            <div block="CategoryPage" elem="PlaceholderListItem" />
-                            <div block="CategoryPage" elem="PlaceholderListItem" />
-                        </div>
+                    <div block="CategoryPage" elem="PlaceholderList">
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
                     </div>
                     <Loader isLoading />
                 </div>
@@ -250,7 +244,7 @@ export class CategoryPage extends PureComponent {
         }
 
         return (
-            <Suspense>
+            <Suspense fallback={ this.renderFilterPlaceholder() }>
                 <CategoryFilterOverlay
                   availableFilters={ filters }
                   customFiltersValues={ selectedFilters }
@@ -341,9 +335,9 @@ export class CategoryPage extends PureComponent {
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
-        const { isMatchingListFilter, isMobile, totalItems } = this.props;
+        const { isMatchingListFilter, isMobile } = this.props;
 
-        if ((isVisibleOnMobile && !isMobile) || (!isVisibleOnMobile && isMobile) || totalItems === 0) {
+        if ((isVisibleOnMobile && !isMobile) || (!isVisibleOnMobile && isMobile)) {
             return null;
         }
 
@@ -416,11 +410,7 @@ export class CategoryPage extends PureComponent {
     }
 
     renderMiscellaneous() {
-        const { totalItems } = this.props;
-
-        if (totalItems === 0 || !this.displayProducts()) {
-            return <aside block="CategoryPage" elem="Miscellaneous" mods={ { noResults: true } } />;
-        }
+        const { isMatchingInfoFilter } = this.props;
 
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
@@ -435,14 +425,14 @@ export class CategoryPage extends PureComponent {
                     mods={ { isPrerendered: isSSR() || isCrawler() } }
                   >
                       { this.renderLayoutButtons() }
-                      { this.renderCategorySort() }
+                      { isMatchingInfoFilter ? this.renderCategorySort() : this.renderFilterButtonPlaceholder() }
                   </div>
                   <div
                     block="CategoryPage"
                     elem="LayoutWrapper"
                     mods={ { isPrerendered: isSSR() || isCrawler() } }
                   >
-                      { this.renderFilterButton() }
+                      { isMatchingInfoFilter ? this.renderFilterButton() : this.renderFilterButtonPlaceholder() }
                   </div>
                 </div>
             </aside>
