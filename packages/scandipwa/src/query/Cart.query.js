@@ -129,6 +129,13 @@ export class CartQuery {
     }
 
     _getCartTotalsFields() {
+        const { pathname = '' } = location;
+        const checkoutData = (
+            /\/checkout\//.test(pathname)
+                ? [this._getOrderShippingAddressField()]
+                : []
+        );
+
         return [
             'id',
             'subtotal',
@@ -149,10 +156,35 @@ export class CartQuery {
             'shipping_incl_tax',
             'shipping_tax_amount',
             'shipping_method',
+            ...checkoutData,
             'is_in_store_pickup_available',
             this._getCartItemsField(),
             this._getAppliedTaxesField()
         ];
+    }
+
+    _getOrderShippingAddressField() {
+        return new Field('shipping_address')
+            .addFieldList(this._getOrderAddressFields());
+    }
+
+    _getOrderAddressFields() {
+        return [
+            'city',
+            'country_id',
+            'firstname',
+            'lastname',
+            'postcode',
+            'region',
+            'telephone',
+            'vat_id',
+            'email',
+            this._getOrderAddressStreetField()
+        ];
+    }
+
+    _getOrderAddressStreetField() {
+        return new Field('street');
     }
 
     _getBundleOptionValuesFields() {
