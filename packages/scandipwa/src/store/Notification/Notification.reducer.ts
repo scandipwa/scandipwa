@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Reducer } from 'react';
+import { Reducer } from 'redux';
 
 import { NotificationAction, NotificationActionType, NotificationStore } from './Notification.type';
 

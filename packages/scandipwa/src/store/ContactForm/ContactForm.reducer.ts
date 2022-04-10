@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Reducer } from 'react';
+import { Reducer } from 'redux';
 
 import { ContactFormActionType, ContactFormStore, UpdateContactFormAction } from './ContactForm.type';
 

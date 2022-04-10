@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Reducer } from 'react';
+import { Reducer } from 'redux';
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedParameteredProducts } from 'Util/Product';

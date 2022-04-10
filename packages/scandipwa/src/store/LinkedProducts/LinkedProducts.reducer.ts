@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Reducer } from 'react';
+import { Reducer } from 'redux';
 
 import { LinkedProducts, LinkedProductsMap, LinkedProductType } from 'Type/ProductList.type';
 import BrowserDatabase from 'Util/BrowserDatabase';

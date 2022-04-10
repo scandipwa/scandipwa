@@ -8,18 +8,21 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-export const UPDATE_CONFIG = 'UPDATE_CONFIG';
+
+import { Device } from 'Type/Device.type';
+
+import {
+    ConfigActionType, ConfigStore, UpdateConfigAction, UpdateConfigDeviceAction
+} from './Config.type';
 
 /** @namespace Store/Config/Action/updateConfig */
-export const updateConfig = (config) => ({
-    type: UPDATE_CONFIG,
+export const updateConfig = (config: ConfigStore): UpdateConfigAction => ({
+    type: ConfigActionType.UPDATE_CONFIG,
     config
 });
 
-export const UPDATE_CONFIG_DEVICE = 'UPDATE_CONFIG_DEVICE';
-
 /** @namespace Store/Config/Action/updateConfigDevice */
-export const updateConfigDevice = (device) => ({
-    type: UPDATE_CONFIG_DEVICE,
+export const updateConfigDevice = (device: Device): UpdateConfigDeviceAction => ({
+    type: ConfigActionType.UPDATE_CONFIG_DEVICE,
     device
 });

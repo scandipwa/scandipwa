@@ -9,16 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Reducer } from 'redux';
+
+import {
+    GQLCheckoutAgreement, GQLCountry, GQLCurrencyConfig, GQLStoreConfig
+} from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import { UPDATE_CONFIG, UPDATE_CONFIG_DEVICE } from './Config.action';
+import {
+    ConfigAction,
+    ConfigActionType,
+    ConfigStore,
+    ReviewRatingItem,
+    ReviewRatings
+} from './Config.type';
 
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
 export const DEFAULT_CATGORY_URL_SUFFIX = '.html';
 
 /** @namespace Store/Config/Reducer/filterStoreConfig */
-export const filterStoreConfig = (config) => Object.entries(config).reduce(
+export const filterStoreConfig = (config: GQLStoreConfig): Partial<GQLStoreConfig> => Object.entries(config).reduce(
     (acc, [key, value]) => (value !== null ? { ...acc, [key]: value } : acc),
     {}
 );
@@ -41,19 +52,27 @@ export const {
 };
 
 /** @namespace Store/Config/Reducer/getIndexedRatings */
-export const getIndexedRatings = (reviewRatings) => ((reviewRatings) ? reviewRatings.items || [] : []);
+export const getIndexedRatings = (
+    reviewRatings: ReviewRatings
+): ReviewRatingItem[] => ((reviewRatings) ? reviewRatings.items || [] : []);
 
 /** @namespace Store/Config/Reducer/getCurrencyData */
-export const getCurrencyData = (base, state) => (base || state.currencyData || {});
+export const getCurrencyData = (
+    base: GQLCurrencyConfig,
+    state: ConfigStore
+): GQLCurrencyConfig => (base || state.currencyData || {});
 
 /** @namespace Store/Config/Reducer/getCountryData */
-export const getCountryData = (base, state) => (base || state.countries || {});
+export const getCountryData = (base: GQLCountry[], state: ConfigStore): GQLCountry[] => (base || state.countries || {});
 
 /** @namespace Store/Config/Reducer/getCheckoutAgreementData */
-export const getCheckoutAgreementData = (base, state) => (base || state.checkoutAgreements || {});
+export const getCheckoutAgreementData = (
+    base: GQLCheckoutAgreement[],
+    state: ConfigStore
+): GQLCheckoutAgreement[] => (base || state.checkoutAgreements || {});
 
 /** @namespace Store/Config/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): ConfigStore => ({
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
@@ -75,7 +94,7 @@ export const getInitialState = () => ({
 });
 
 /** @namespace Store/Config/Reducer/ConfigReducer */
-export const ConfigReducer = (
+export const ConfigReducer: Reducer<ConfigStore, ConfigAction> = (
     state = getInitialState(),
     action
 ) => {
@@ -93,7 +112,7 @@ export const ConfigReducer = (
     } = action;
 
     switch (type) {
-    case UPDATE_CONFIG:
+    case ConfigActionType.UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
         const { secure_base_media_url } = filteredStoreConfig;
         window.secure_base_media_url = secure_base_media_url;
@@ -111,7 +130,7 @@ export const ConfigReducer = (
             cartDisplayConfig
         };
 
-    case UPDATE_CONFIG_DEVICE:
+    case ConfigActionType.UPDATE_CONFIG_DEVICE:
         return {
             ...state,
             device: {
