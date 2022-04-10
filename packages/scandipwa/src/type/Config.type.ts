@@ -9,13 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import {
+    DisplayCartTaxInPrice,
+    DisplayCartTaxInShipping,
+    DisplayCartTaxInSubTotal
+} from 'Util/Cart/Cart.type';
+
 export type Region = {
     code?: string;
     name?: string;
     id?: number;
 };
-
-export type Regions = Region[];
 
 export type Country = {
     label: string;
@@ -24,9 +28,9 @@ export type Country = {
 };
 
 export type CartConfig = {
-    display_tax_in_price?: any; // TODO: Props.oneOf(Object.values(DISPLAY_CART_TAX_IN_PRICE))
-    display_tax_in_subtotal?: any; // TODO: Props.oneOf(Object.values(DISPLAY_CART_TAX_IN_SUBTOTAL))
-    display_tax_in_shipping_amount?: any; // TODO: Props.oneOf(Object.values(DISPLAY_CART_TAX_IN_SHIPPING))
+    display_tax_in_price?: DisplayCartTaxInPrice;
+    display_tax_in_subtotal?: DisplayCartTaxInSubTotal;
+    display_tax_in_shipping_amount?: DisplayCartTaxInShipping;
     include_tax_in_order_total: boolean;
     display_full_tax_summary: boolean;
     display_zero_tax_subtotal: boolean;
@@ -39,5 +43,3 @@ export type StoreItem = {
     storeLinkUrl?: string;
     label?: string;
 };
-
-export type Stores = StoreItem[];

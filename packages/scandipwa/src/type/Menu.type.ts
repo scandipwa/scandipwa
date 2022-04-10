@@ -23,11 +23,9 @@ export type MenuItem = {
     url_type: number;
 };
 
-export type MenuItems = MenuItem[];
-
 export type Menu = {
     menu_id?: string;
     is_active?: boolean;
     css_class?: string;
-    items?: MenuItems;
+    items?: MenuItem[];
 };

@@ -11,15 +11,15 @@
 
 import { MetaTitle } from 'Type/Common.type';
 
-export type Breadcrumbs = {
+export type Breadcrumb = {
     category_name?: string;
     category_url?: string;
     category_level?: number;
-}[];
+};
 
 export type CategoryFragment = {
     id: number;
-    breadcrumbs?: Breadcrumbs;
+    breadcrumbs?: Breadcrumb[];
     description: string;
     image: string;
     meta_description: string;
@@ -76,5 +76,3 @@ export type CategoryFilter = {
     request_var?: string;
     filter_items?: FilterItems[];
 };
-
-export type CategoryFilters = CategoryFilter[];

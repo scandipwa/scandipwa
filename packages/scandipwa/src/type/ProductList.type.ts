@@ -14,6 +14,15 @@ import { MetaTitle } from 'Type/Common.type';
 import { PriceRange } from 'Type/Price.type';
 import { UrlRewrite } from 'Type/Router.type';
 
+import {
+    GQLBundleProduct,
+    GQLConfigurableProduct,
+    GQLDownloadableProduct,
+    GQLGroupedProduct,
+    GQLSimpleProduct,
+    GQLVirtualProduct
+} from './Graphql.type';
+
 export type Attribute = {
     attribute_id?: number;
     attribute_code: string;
@@ -24,8 +33,8 @@ export type Attribute = {
         label: string;
         value: string;
     }[];
-    has_swatch?: boolean;
-    is_boolean?: boolean;
+    attribute_group_id?: string;
+    attribute_group_name?: string;
 };
 
 export type AttributeOption = {
@@ -58,10 +67,10 @@ export type FilterAttribute = {
     has_swatch?: boolean;
 };
 
-export type Breadcrumbs = {
+export type Breadcrumb = {
     name?: string;
     url_path?: string;
-}[];
+};
 
 export type Image = {
     path?: string;
@@ -72,10 +81,8 @@ export type ProductCategory = {
     id: number;
     name?: string;
     url_path?: string;
-    breadcrumbs?: Breadcrumbs;
+    breadcrumbs?: Breadcrumb[];
 };
-
-export type ProductCategories = ProductCategory[];
 
 export type Thumbnail = {
     height?: string;
@@ -139,10 +146,11 @@ export type DescriptionType = {
 };
 
 export type StockItem = {
-    in_stock: boolean;
-    min_sale_qty: number;
-    max_sale_qty: number;
-    qty_increments: number;
+    in_stock?: boolean;
+    min_sale_qty?: number;
+    max_sale_qty?: number;
+    qty?: number;
+    qty_increments?: number;
 };
 
 export type OptionValue = {
@@ -218,16 +226,25 @@ export type FileOption = CustomizableOptionShape & {
 
 export type CustomizableOptions = FileOption | InputOption | CustomizableOption[];
 
+export type ItemUrlRewriteParameter = {
+    name?: string;
+    value?: string;
+};
+
+export type ItemUrlRewrite = {
+    parameters?: ItemUrlRewriteParameter[];
+    url?: string;
+};
+
 export type ItemShape = ReviewSummaryShape & {
     attributes: Attribute[];
     configurable_options: ConfigurableAttribute[];
     id: number;
     image: Image;
     name: string;
-    options: Option[];
+    options: Option[] | null;
     price_range: PriceRange;
     price_tiers: PriceTier;
-    review_summary: ReviewSummaryShape;
     reviews: Reviews;
     short_description: DescriptionType;
     sku: string;
@@ -242,6 +259,7 @@ export type ItemShape = ReviewSummaryShape & {
     url: string;
     url_rewrites: UrlRewrite[];
     salable_qty: number;
+    upsell_products?: Product[] | null;
 };
 
 export type Item = ItemShape;
@@ -296,7 +314,7 @@ export type ProductGroupedItems = {
 // Refactore to separate types
 export interface Product extends ItemShape {
     canonical_url?: string;
-    categories?: ProductCategories;
+    categories?: ProductCategory[];
     description?: DescriptionType;
     media_gallery_entries?: Media;
     meta_description?: string;
@@ -333,6 +351,7 @@ export type BundleOption = {
     selection_details: BundleOptionSelection[];
     title?: string;
 };
+
 export interface ProductBundle extends Product {
     items: ProductBundleItem[];
     dynamic_price: boolean;
@@ -408,3 +427,10 @@ export type LinkedProducts = {
 };
 
 export type LinkedProductsMap = Partial<Record<LinkedProductType, LinkedProducts>>;
+
+export type ProductInterface = GQLBundleProduct
+& GQLConfigurableProduct
+& GQLSimpleProduct
+& GQLDownloadableProduct
+& GQLGroupedProduct
+& GQLVirtualProduct;

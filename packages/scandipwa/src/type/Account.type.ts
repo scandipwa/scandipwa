@@ -59,8 +59,6 @@ export type Address = {
     vat_id: number | null;
 };
 
-export type Addresses = Address[];
-
 export type TrimmedAddress = {
     city: string;
     company: string | null;
@@ -78,7 +76,7 @@ export type TrimmedAddress = {
 };
 
 export type Customer = {
-    addresses: Addresses;
+    addresses: Address[];
     created_at: string;
     default_billing: string;
     default_shipping: string;

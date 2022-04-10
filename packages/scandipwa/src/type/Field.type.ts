@@ -29,6 +29,7 @@ export type CustomErrorMessages = {
 };
 
 export type ValidationRule = {
+    selector?: string;
     isRequired?: boolean;
     inputType?: ValidationInputTypeText;
     match?: () => void; // TODO: Check argument types
