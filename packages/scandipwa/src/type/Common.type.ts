@@ -23,3 +23,8 @@ export type Ref = () => void | { current: Element };
 
 // TODO unknown
 export type MetaTitle = string | unknown;
+
+export type Url<T> = string | {
+    pathname: string;
+    state: T;
+};

@@ -69,6 +69,7 @@ export type Image = {
 };
 
 export type ProductCategory = {
+    id: number;
     name?: string;
     url_path?: string;
     breadcrumbs?: Breadcrumbs;

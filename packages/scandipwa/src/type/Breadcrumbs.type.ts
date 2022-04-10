@@ -9,8 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Url } from './Common.type';
+
 export type Breadcrumb = {
-    url: string;
+    url: Url<unknown>;
     name: string;
 };
 

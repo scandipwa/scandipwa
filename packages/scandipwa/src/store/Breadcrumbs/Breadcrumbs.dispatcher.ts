@@ -9,7 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Dispatch } from 'redux';
+
 import { toggleBreadcrumbs, updateBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { Breadcrumb } from 'Type/Breadcrumbs.type';
+import { GQLCategoryTree } from 'Type/Graphql.type';
+import { Product, ProductCategory } from 'Type/ProductList.type';
 
 /**
  * Breadcrumbs Dispatcher
@@ -23,7 +28,7 @@ export class BreadcrumbsDispatcher {
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    update(breadcrumbs, dispatch) {
+    update(breadcrumbs: Breadcrumb[], dispatch: Dispatch): void {
         dispatch(toggleBreadcrumbs(true));
         dispatch(updateBreadcrumbs(breadcrumbs));
     }
@@ -34,7 +39,7 @@ export class BreadcrumbsDispatcher {
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    updateWithCategory(category, dispatch) {
+    updateWithCategory(category: GQLCategoryTree, dispatch: Dispatch): void {
         const breadcrumbs = this._getCategoryBreadcrumbs(category);
         dispatch(toggleBreadcrumbs(true));
         dispatch(updateBreadcrumbs(breadcrumbs));
@@ -47,7 +52,7 @@ export class BreadcrumbsDispatcher {
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    updateWithProduct(product, prevCategoryId, dispatch) {
+    updateWithProduct(product: Product, prevCategoryId: number, dispatch: Dispatch): void {
         const breadcrumbs = this._getProductBreadcrumbs(product, prevCategoryId);
         dispatch(toggleBreadcrumbs(true));
         dispatch(updateBreadcrumbs(breadcrumbs));
@@ -59,7 +64,7 @@ export class BreadcrumbsDispatcher {
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    updateWithCmsPage({ title }, dispatch) {
+    updateWithCmsPage({ title }: { title: string }, dispatch: Dispatch): void {
         const breadcrumbs = title
             ? [
                 {
@@ -78,30 +83,36 @@ export class BreadcrumbsDispatcher {
      * @return {Array<Object>} Breadcrumbs array
      * @memberof BreadcrumbsDispatcher
      */
-    _getCategoryBreadcrumbs(category) {
-        const { url, name, breadcrumbs } = category;
-        const breadcrumbsList = [];
+    _getCategoryBreadcrumbs(category: GQLCategoryTree): Breadcrumb[] {
+        const { url = '', name = '', breadcrumbs } = category;
+        const breadcrumbsList: Breadcrumb[] = [];
 
-        if (breadcrumbs) {
+        if (breadcrumbs?.length) {
             breadcrumbs
-                .sort((a, b) => a.category_level - b.category_level)
+                .sort((a, b) => (a?.category_level || 0) - (b?.category_level || 0))
                 .forEach((crumb) => {
-                    const { category_url, category_name, category_is_active } = crumb;
+                    if (crumb) {
+                        const {
+                            category_url,
+                            category_name,
+                            category_is_active
+                        } = crumb;
 
-                    // do not add link to inactive categories
-                    if (category_is_active) {
-                        breadcrumbsList.push({
-                            name: category_name,
-                            url: {
-                                pathname: category_url,
-                                state: { category: true }
-                            }
-                        });
-                    } else {
-                        breadcrumbsList.push({
-                            url: '',
-                            name: category_name
-                        });
+                        // do not add link to inactive categories
+                        if (category_is_active) {
+                            breadcrumbsList.push({
+                                name: category_name || '',
+                                url: {
+                                    pathname: category_url || '',
+                                    state: { category: true }
+                                }
+                            });
+                        } else {
+                            breadcrumbsList.push({
+                                url: '',
+                                name: category_name || ''
+                            });
+                        }
                     }
                 });
         }
@@ -112,12 +123,14 @@ export class BreadcrumbsDispatcher {
         ];
     }
 
-    findCategoryById(categories, categoryId) {
+    findCategoryById(categories: ProductCategory[], categoryId: number): ProductCategory | undefined {
         return categories.find(({ id }) => id === categoryId);
     }
 
-    findLongestBreadcrumbs(categories) {
-        const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
+    findLongestBreadcrumbs(categories: ProductCategory[]): ProductCategory {
+        const {
+            breadcrumbsCategory = {}
+        } = categories.reduce((acc, category) => {
             const { longestBreadcrumbsLength } = acc;
             const { breadcrumbs } = category;
             const breadcrumbsLength = (breadcrumbs || []).length;
@@ -143,7 +156,7 @@ export class BreadcrumbsDispatcher {
             longestBreadcrumbsLength: 0
         });
 
-        return breadcrumbsCategory;
+        return breadcrumbsCategory as ProductCategory;
     }
 
     /**
@@ -154,7 +167,7 @@ export class BreadcrumbsDispatcher {
      * @return {Array<Object>} Breadcrumbs array
      * @memberof BreadcrumbsDispatcher
      */
-    _getProductBreadcrumbs(product, prevCategoryId = null) {
+    _getProductBreadcrumbs(product: Product, prevCategoryId: number | null = null): Breadcrumb[] {
         const { categories, url, name } = product;
 
         if (!categories) {
@@ -168,7 +181,7 @@ export class BreadcrumbsDispatcher {
         return [
             { url, name },
             ...this._getCategoryBreadcrumbs(
-                this.findCategoryById(categories, prevCategoryId)
+                this.findCategoryById(categories, prevCategoryId || 0) as GQLCategoryTree
                 || this.findLongestBreadcrumbs(categories)
             )
         ];

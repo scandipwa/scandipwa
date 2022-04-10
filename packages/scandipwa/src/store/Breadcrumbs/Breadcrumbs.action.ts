@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Breadcrumbs } from 'Type/Breadcrumbs.type';
+import { Breadcrumb } from 'Type/Breadcrumbs.type';
 
 import { BreadcrumbsActionType, ToggleBreadcrumbsAction, UpdateBreadcrumbsAction } from './Breadcrumbs.type';
 
@@ -19,7 +19,7 @@ import { BreadcrumbsActionType, ToggleBreadcrumbsAction, UpdateBreadcrumbsAction
  * @return {void}
  * @namespace Store/Breadcrumbs/Action/updateBreadcrumbs
  */
-export const updateBreadcrumbs = (breadcrumbs: Breadcrumbs): UpdateBreadcrumbsAction => ({
+export const updateBreadcrumbs = (breadcrumbs: Breadcrumb[]): UpdateBreadcrumbsAction => ({
     type: BreadcrumbsActionType.UPDATE_BREADCRUMBS,
     breadcrumbs
 });

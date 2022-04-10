@@ -29,6 +29,7 @@ export type CategoryFragment = {
     url_key: string;
     url_path: string;
     display_mode: string;
+    url: string;
 };
 
 export type CategoryTree = CategoryFragment & {
