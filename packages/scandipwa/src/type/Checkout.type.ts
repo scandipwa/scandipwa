@@ -14,8 +14,6 @@ export type PaymentMethod = {
     title: string;
 };
 
-export type PaymentMethods = PaymentMethod[];
-
 export type ShippingMethod = {
     amount: number;
     available: boolean;
@@ -28,8 +26,6 @@ export type ShippingMethod = {
     price_excl_tax: number;
     price_incl_tax: number;
 };
-
-export type ShippingMethods = ShippingMethod[];
 
 export type CheckoutStore = {
     city: string;

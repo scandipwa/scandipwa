@@ -9,13 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    Action,
-    Reducer,
-    ReducersMapObject,
-    Store,
-    StoreEnhancer
-} from 'redux';
+import { StoreEnhancer } from 'redux';
 
 // import { ValidationData } from 'Util/Validator';
 

@@ -6486,7 +6486,7 @@ export interface GQLPaymentMethod {
  * Product Information used for Pickup Locations search.
  */
 export interface GQLProductInfoInput {
-  
+
   /**
    * Product SKU.
    */

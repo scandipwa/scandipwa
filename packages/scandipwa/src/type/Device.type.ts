@@ -10,12 +10,12 @@
  */
 
 export type Device = {
-    isMobile?: boolean;
-    android?: boolean;
-    ios?: boolean;
-    blackberry?: boolean;
-    opera?: boolean;
-    safari?: boolean;
-    windows?: boolean;
-    standaloneMode?: boolean;
+    isMobile: boolean;
+    android: boolean;
+    ios: boolean;
+    blackberry: boolean;
+    opera: boolean;
+    safari: boolean;
+    windows: boolean;
+    standaloneMode: boolean;
 };
