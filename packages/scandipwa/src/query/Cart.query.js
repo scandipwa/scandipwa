@@ -11,6 +11,7 @@
  */
 
 import ProductListQuery from 'Query/ProductList.query';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { isSignedIn } from 'Util/Auth';
 import { Field } from 'Util/Query';
 
@@ -131,7 +132,7 @@ export class CartQuery {
     _getCartTotalsFields() {
         const { pathname = '' } = location;
         const checkoutData = (
-            /\/checkout\//.test(pathname)
+            pathname.includes(CHECKOUT_URL)
                 ? [this._getOrderShippingAddressField()]
                 : []
         );
@@ -179,12 +180,8 @@ export class CartQuery {
             'telephone',
             'vat_id',
             'email',
-            this._getOrderAddressStreetField()
+            'street'
         ];
-    }
-
-    _getOrderAddressStreetField() {
-        return new Field('street');
     }
 
     _getBundleOptionValuesFields() {

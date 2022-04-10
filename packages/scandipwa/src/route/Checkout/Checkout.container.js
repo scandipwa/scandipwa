@@ -17,6 +17,7 @@ import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
+import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
@@ -44,7 +45,14 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import Checkout from './Checkout.component';
 import {
-    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP, UPDATE_EMAIL_CHECK_FREQUENCY
+    BILLING_STEP,
+    BILLING_URL_STEP,
+    DETAILS_STEP,
+    DETAILS_URL_STEP,
+    PAYMENT_TOTALS,
+    SHIPPING_STEP,
+    SHIPPING_URL_STEP,
+    UPDATE_EMAIL_CHECK_FREQUENCY
 } from './Checkout.config';
 
 export const CartDispatcher = import(
@@ -249,7 +257,7 @@ export class CheckoutContainer extends PureComponent {
         const {
             match: {
                 params: {
-                    step: urlStep
+                    step: urlStep = ''
                 }
             },
             isEmailAvailable,
@@ -269,10 +277,10 @@ export class CheckoutContainer extends PureComponent {
         const {
             match: {
                 params: {
-                    step: prevUrlStep
+                    step: prevUrlStep = ''
                 }
             },
-            isCartLoading: previousIsCartLoading
+            isCartLoading: prevIsCartLoading
         } = prevProps;
 
         const { email, checkoutStep } = this.state;
@@ -280,18 +288,18 @@ export class CheckoutContainer extends PureComponent {
 
         this.handleRedirectIfNoItemsInCart();
 
-        if (previousIsCartLoading && !isCartLoading) {
+        if (prevIsCartLoading && !isCartLoading) {
             if (!city && !is_virtual && checkoutStep === BILLING_STEP) {
                 showInfoNotification(__('Please add a shipping address!'));
                 // eslint-disable-next-line
                 this.setState({ checkoutStep: SHIPPING_STEP });
             }
 
-            this.saveShippingFieldsAsShippingAddress(shippingFields);
+            this.saveShippingFieldsAsShippingAddress(shippingFields, is_virtual);
         }
 
         // Handle going back from billing to shipping
-        if (/shipping/.test(urlStep) && /billing/.test(prevUrlStep)) {
+        if (urlStep.includes(SHIPPING_URL_STEP) && prevUrlStep.includes(BILLING_URL_STEP)) {
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
             // eslint-disable-next-line react/no-did-update-set-state
@@ -301,9 +309,9 @@ export class CheckoutContainer extends PureComponent {
             });
         }
 
-        if (/billing/.test(urlStep) && /success/.test(prevUrlStep)) {
+        if (urlStep.includes(BILLING_URL_STEP) && prevUrlStep.includes(DETAILS_URL_STEP)) {
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
-            history.push(appendWithStoreCode('/cart'));
+            history.push(appendWithStoreCode(CART_URL));
         }
 
         if (email !== prevEmail) {
@@ -322,7 +330,7 @@ export class CheckoutContainer extends PureComponent {
         toggleBreadcrumbs(true);
     }
 
-    saveShippingFieldsAsShippingAddress(address) {
+    saveShippingFieldsAsShippingAddress(address, is_virtual) {
         const {
             street_0,
             street_1,
@@ -332,9 +340,18 @@ export class CheckoutContainer extends PureComponent {
         } = address;
         const { savedEmail } = this.props;
 
+        const shippingData = (
+            is_virtual
+                ? {}
+                : {
+                    shippingAddress: data,
+                    selectedShippingMethod: shipping_method.split('_', 1)[0]
+                }
+        );
+
         this.setState({
-            shippingAddress: data,
-            email: savedEmail
+            email: savedEmail,
+            ...shippingData
         });
     }
 
@@ -392,7 +409,7 @@ export class CheckoutContainer extends PureComponent {
         const {
             match: {
                 params: {
-                    step: urlStep
+                    step: urlStep = ''
                 }
             },
             totals: {
@@ -400,11 +417,11 @@ export class CheckoutContainer extends PureComponent {
             }
         } = this.props;
 
-        if (/success/.test(urlStep)) {
+        if (urlStep.includes(DETAILS_URL_STEP)) {
             return DETAILS_STEP;
         }
 
-        if (/billing/.test(urlStep) || is_virtual) {
+        if (urlStep.includes(BILLING_URL_STEP) || is_virtual) {
             this._getPaymentMethods();
 
             return BILLING_STEP;
@@ -434,7 +451,7 @@ export class CheckoutContainer extends PureComponent {
             }
 
             if (!(orderID && checkoutStep === DETAILS_STEP)) {
-                history.push(appendWithStoreCode('/cart'));
+                history.push(appendWithStoreCode(CART_URL));
             }
         }
     }

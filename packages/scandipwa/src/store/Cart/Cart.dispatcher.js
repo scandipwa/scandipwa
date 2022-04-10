@@ -39,6 +39,7 @@ export class CartDispatcher {
             const {
                 cartData = {},
                 cartData: {
+                    is_virtual = false,
                     shipping_address,
                     shipping_address: {
                         street = null,
@@ -53,12 +54,14 @@ export class CartDispatcher {
             );
 
             if (shipping_address && street) {
-                await dispatch(
-                    updateShippingFields({
-                        ...this.prepareCheckoutAddressFormat(shipping_address),
-                        shipping_method
-                    })
-                );
+                if (!is_virtual) {
+                    await dispatch(
+                        updateShippingFields({
+                            ...this.prepareCheckoutAddressFormat(shipping_address),
+                            shipping_method
+                        })
+                    );
+                }
 
                 await dispatch(updateEmail(email));
             }
