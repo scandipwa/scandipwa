@@ -46,6 +46,7 @@ import { appendWithStoreCode } from 'Util/Url';
 import Checkout from './Checkout.component';
 import {
     BILLING_STEP,
+    BILLING_URL,
     BILLING_URL_STEP,
     DETAILS_STEP,
     DETAILS_URL_STEP,
@@ -288,6 +289,12 @@ export class CheckoutContainer extends PureComponent {
 
         this.handleRedirectIfNoItemsInCart();
 
+        const shouldStopInitialBillingRedirect = (
+            checkoutStep === BILLING_STEP
+            && email && !prevEmail
+            && urlStep.includes(SHIPPING_URL_STEP)
+        );
+
         if (prevIsCartLoading && !isCartLoading) {
             if (!city && !is_virtual && checkoutStep === BILLING_STEP) {
                 showInfoNotification(__('Please add a shipping address!'));
@@ -298,8 +305,16 @@ export class CheckoutContainer extends PureComponent {
             this.saveShippingFieldsAsShippingAddress(shippingFields, is_virtual);
         }
 
+        if (shouldStopInitialBillingRedirect) {
+            history.push(appendWithStoreCode(BILLING_URL));
+        }
+
         // Handle going back from billing to shipping
-        if (urlStep.includes(SHIPPING_URL_STEP) && prevUrlStep.includes(BILLING_URL_STEP)) {
+        if (
+            urlStep.includes(SHIPPING_URL_STEP)
+            && prevUrlStep.includes(BILLING_URL_STEP)
+            && !shouldStopInitialBillingRedirect
+        ) {
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
             // eslint-disable-next-line react/no-did-update-set-state
@@ -345,7 +360,7 @@ export class CheckoutContainer extends PureComponent {
                 ? {}
                 : {
                     shippingAddress: data,
-                    selectedShippingMethod: shipping_method.split('_', 1)[0]
+                    selectedShippingMethod: shipping_method?.split('_', 1)[0] || ''
                 }
         );
 

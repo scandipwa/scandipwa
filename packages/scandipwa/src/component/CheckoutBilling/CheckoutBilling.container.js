@@ -73,13 +73,14 @@ export class CheckoutBillingContainer extends PureComponent {
         setDetailsStep: PropTypes.func.isRequired,
         setLoading: PropTypes.func.isRequired,
         termsAreEnabled: PropTypes.bool,
-        newShippingId: PropTypes.number.isRequired,
+        newShippingId: PropTypes.number,
         newShippingStreet: PropTypes.arrayOf(PropTypes.string).isRequired
     };
 
     static defaultProps = {
         termsAreEnabled: false,
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
+        newShippingId: 0
     };
 
     static getDerivedStateFromProps(props, state) {

@@ -262,7 +262,7 @@ export const getRegionIdFromAvailableRegions = (availableRegions, cityAndRegion)
 export const getRegionIdOfRegionName = (countryId, region) => {
     const countries = getStore().getState().ConfigReducer.countries || [];
     const availableRegions = getAvailableRegions(countryId, countries) || [];
-    const { id: regionId = 1 } = availableRegions.find(
+    const { id: regionId = 0 } = availableRegions.find(
         ({ name }) => name === region
     ) || {};
 
