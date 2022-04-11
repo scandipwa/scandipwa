@@ -57,6 +57,10 @@
 
         @include desktop {
             grid-column: 2;
+
+            & > .Loader .Loader-Scale {
+                inset-block-start: 25%;
+            }
         }
     }
 
