@@ -182,9 +182,14 @@ export class CategoryPage extends PureComponent {
             totalPages,
             category: { is_anchor },
             isSearchPage,
-            isCurrentCategoryLoaded
+            isCurrentCategoryLoaded,
+            isMatchingInfoFilter
 
         } = this.props;
+
+        if (!isMatchingInfoFilter) {
+            return this.renderFilterButtonPlaceholder();
+        }
 
         if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage) || !isCurrentCategoryLoaded) {
             return null;
@@ -262,12 +267,17 @@ export class CategoryPage extends PureComponent {
             sortFields,
             selectedSort,
             onSortChange,
-            isMatchingInfoFilter
+            isMatchingInfoFilter,
+            isMobile
         } = this.props;
 
         const { options = {} } = sortFields;
         const updatedSortFields = Object.values(options).map(({ value: id, label }) => ({ id, label }));
         const { sortDirection, sortKey } = selectedSort;
+
+        if (isMobile && !isMatchingInfoFilter) {
+            return this.renderFilterButtonPlaceholder();
+        }
 
         return (
             <CategorySort
@@ -410,8 +420,6 @@ export class CategoryPage extends PureComponent {
     }
 
     renderMiscellaneous() {
-        const { isMatchingInfoFilter } = this.props;
-
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
                 { this.renderItemsCount() }
@@ -425,14 +433,14 @@ export class CategoryPage extends PureComponent {
                     mods={ { isPrerendered: isSSR() || isCrawler() } }
                   >
                       { this.renderLayoutButtons() }
-                      { isMatchingInfoFilter ? this.renderCategorySort() : this.renderFilterButtonPlaceholder() }
+                      { this.renderCategorySort() }
                   </div>
                   <div
                     block="CategoryPage"
                     elem="LayoutWrapper"
                     mods={ { isPrerendered: isSSR() || isCrawler() } }
                   >
-                      { isMatchingInfoFilter ? this.renderFilterButton() : this.renderFilterButtonPlaceholder() }
+                      { this.renderFilterButton() }
                   </div>
                 </div>
             </aside>
