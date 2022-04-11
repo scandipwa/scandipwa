@@ -9,9 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { AbstractField, Mutation, Query } from '@tilework/opus';
+
 import { QueryObject, QueryVariables } from 'Util/Request';
 
-import { Field } from './Field';
 import { FieldArgument, FieldType } from './Query.type';
 
 /**
@@ -19,8 +20,8 @@ import { FieldArgument, FieldType } from './Query.type';
  * @param  {Array<Field>} queries
  * @return {String} JSON String, format: `{"query":"{alias: queryName (attr:key) { field1, field2 }}"}`
  * @namespace Util/Query/PrepareDocument/prepareFieldString */
-export const prepareFieldString = (
-    rootField: Field,
+export const prepareFieldString = <T>(
+    rootField: AbstractField<string, T, boolean>,
     accArgs: Record<string, [string, unknown]> = {}
 ): string => {
     const {
@@ -55,7 +56,7 @@ export const prepareFieldString = (
 };
 
 /** @namespace Util/Query/PrepareDocument/prepareRequest */
-export const prepareRequest = (fields: Field[], type: FieldType): QueryObject => {
+export const prepareRequest = <T>(fields: AbstractField<string, T, boolean>[], type: FieldType): QueryObject => {
     const fieldsArray = Array.isArray(fields) ? fields : [fields];
 
     if (type !== FieldType.MUTATION && type !== FieldType.QUERY) {
@@ -75,7 +76,7 @@ export const prepareRequest = (fields: Field[], type: FieldType): QueryObject =>
         (dataArray as Array<Omit<FieldArgument, 'name'>>).forEach((item, i: number) => {
             const variable = `${name}_${i + 1}`;
             acc.push(`$${variable}:${item.type}`);
-            variables[variable] = item.value as any;
+            variables[variable] = String(item.value);
         });
 
         return acc;
@@ -104,7 +105,11 @@ export const prepareRequest = (fields: Field[], type: FieldType): QueryObject =>
 };
 
 /** @namespace Util/Query/PrepareDocument/prepareMutation */
-export const prepareMutation = (mutations: Field[]): QueryObject => prepareRequest(mutations, FieldType.MUTATION);
+export const prepareMutation = <T>(
+    mutations: Mutation<string, T, boolean>[]
+): QueryObject => prepareRequest(mutations, FieldType.MUTATION);
 
 /** @namespace Util/Query/PrepareDocument/prepareQuery */
-export const prepareQuery = (queries: Field[]): QueryObject => prepareRequest(queries, FieldType.QUERY);
+export const prepareQuery = <T>(
+    queries: Query<string, T, boolean>[]
+): QueryObject => prepareRequest(queries, FieldType.QUERY);

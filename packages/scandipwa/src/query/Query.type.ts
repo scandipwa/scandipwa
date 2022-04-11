@@ -18,6 +18,7 @@ export type CommonField = string | AbstractField<any, any, any>;
 
 export type CategoryQueryOptions = {
     categoryIds: number;
+    isSearchPage?: boolean;
 };
 
 export type CmsPage = {

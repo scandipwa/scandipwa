@@ -9,11 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Query } from '@tilework/opus';
+import { Dispatch } from 'redux';
+
 import CategoryQuery from 'Query/Category.query';
+import { CategoryQueryOptions } from 'Query/Query.type';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { QueryDispatcher } from 'Util/Request';
+
+import { CategoryDispatcherData } from './Category.type';
 
 /**
  * Category Dispatcher
@@ -21,12 +28,12 @@ import { QueryDispatcher } from 'Util/Request';
  * @extends QueryDispatcher
  * @namespace Store/Category/Dispatcher
  */
-export class CategoryDispatcher extends QueryDispatcher {
-    __construct() {
+export class CategoryDispatcher extends QueryDispatcher<CategoryQueryOptions, CategoryDispatcherData> {
+    __construct(): void {
         super.__construct('Category');
     }
 
-    onSuccess(data, dispatch, { isSearchPage }) {
+    onSuccess(data: CategoryDispatcherData, dispatch: Dispatch, { isSearchPage }: CategoryQueryOptions): void {
         const { category = {}, category: { id } } = data;
 
         if (!id && !isSearchPage) {
@@ -36,17 +43,19 @@ export class CategoryDispatcher extends QueryDispatcher {
         dispatch(updateCurrentCategory(category));
     }
 
-    onError(error, dispatch, { isSearchPage }) {
+    onError(error: unknown, dispatch: Dispatch, { isSearchPage }: CategoryQueryOptions): void {
         if (!isSearchPage) {
             dispatch(updateNoMatch(true));
-            dispatch(showNotification('error', __('Error fetching Category!'), error));
+            dispatch(showNotification(NotificationType.ERROR, __('Error fetching Category!'), error));
         } else {
             dispatch(updateCurrentCategory({ id: 'all-products' }));
         }
     }
 
-    prepareRequest(options) {
-        return CategoryQuery.getQuery(options);
+    prepareRequest(
+        options: CategoryQueryOptions
+    ): Query<'category', unknown, false> {
+        return CategoryQuery.getQuery(options) as Query<'category', unknown, false>;
     }
 }
 

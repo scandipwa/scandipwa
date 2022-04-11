@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,14 +10,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, prepareQuery } from 'Util/Query';
+import { Query } from '@tilework/opus';
+
+import { prepareQuery } from 'Util/Query';
 import { executePost } from 'Util/Request/Request';
 
-// TODO Field or ??
 /** @namespace Util/Request/Query/fetchQuery */
-// eslint-disable-next-line import/prefer-default-export
-export const fetchQuery = (rawQueries: Field): Promise<Response> => {
-    const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
+export const fetchQuery = <S extends string, T>(
+    rawQueries: Query<S, T, boolean> | Query<S, T, boolean>[]
+): Promise<Record<S, T>> => {
+    const queries = rawQueries instanceof Query ? [rawQueries] : rawQueries;
 
     return executePost(prepareQuery(queries));
 };

@@ -11,6 +11,8 @@
 
 import { AnyAction } from 'redux';
 
+import { GQLContactForm } from 'Type/Graphql.type';
+
 export enum ContactFormActionType {
     UPDATE_CONTACT_FORM = 'UPDATE_CONTACT_FORM'
 }
@@ -31,3 +33,10 @@ declare module 'Util/Store/type' {
         ContactFormReducer: ContactFormStore;
     }
 }
+
+export type ContactFormDispatcherOptions = {
+    form: {
+        reset?: () => void;
+    };
+    fields: GQLContactForm;
+};

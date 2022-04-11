@@ -10,6 +10,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { GraphQlResponse } from '@tilework/opus';
+
 import { getAuthorizationToken, isSignedIn, refreshAuthorizationToken } from 'Util/Auth';
 import { refreshUid } from 'Util/Compare';
 import { getCurrency } from 'Util/Currency';
@@ -146,10 +148,8 @@ export const postFetch = (
         })
     });
 
-// TODO
-export type ResponseBody = {
-    errors: any;
-    data: any;
+export type ResponseBody<T> = Omit<GraphQlResponse, 'data'> & {
+    data: T;
 };
 
 /**
@@ -158,7 +158,7 @@ export type ResponseBody = {
  * @return {Promise<Object>} Handled GraphqlQL results promise
  * @namespace Util/Request/checkForErrors
  */
-export const checkForErrors = (res: ResponseBody): Promise<Response> => new Promise((resolve, reject) => {
+export const checkForErrors = <T>(res: ResponseBody<T>): Promise<T> => new Promise((resolve, reject) => {
     const { errors, data } = res;
 
     return errors ? reject(errors) : resolve(data);
@@ -179,7 +179,7 @@ export const handleConnectionError = (err: unknown): void => console.error(err);
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/parseResponse
  */
-export const parseResponse = (promise: Promise<Response>): Promise<Response> => new Promise((resolve, reject) => {
+export const parseResponse = <T>(promise: Promise<Response>): Promise<T> => new Promise((resolve, reject) => {
     promise.then(
         /** @namespace Util/Request/parseResponse/Promise/promise/then */
         (res) => res.json().then(
@@ -219,7 +219,7 @@ export type QueryVariables = Record<string, string>;
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/executeGet
  */
-export const executeGet = (queryObject: QueryObject, name: string, cacheTTL: number) => {
+export const executeGet = (queryObject: QueryObject, name: string, cacheTTL: number): Promise<unknown> => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
 
@@ -260,7 +260,7 @@ export const executeGet = (queryObject: QueryObject, name: string, cacheTTL: num
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/executePost
  */
-export const executePost = (queryObject: QueryObject): Promise<Response> => {
+export const executePost = <T>(queryObject: QueryObject): Promise<T> => {
     const { query, variables } = queryObject;
 
     if (isSignedIn()) {
@@ -277,7 +277,7 @@ export const executePost = (queryObject: QueryObject): Promise<Response> => {
  * @return {Promise<any>} Broadcast message promise
  * @namespace Util/Request/listenForBroadCast
  */
-export const listenForBroadCast = (name: string): Promise<Response> => new Promise((resolve) => {
+export const listenForBroadCast = (name: string): Promise<unknown> => new Promise((resolve) => {
     const { BroadcastChannel } = window;
     const windowId = getWindowId();
 
@@ -292,13 +292,13 @@ export const listenForBroadCast = (name: string): Promise<Response> => new Promi
 
 // TODO
 /** @namespace Util/Request/debounce */
-export const debounce = <T>(callback: () => void, delay: number) => {
+export const debounce = <T>(callback: () => void, delay: number): (...args: T[]) => void => {
     // eslint-disable-next-line fp/no-let
     let timeout: NodeJS.Timeout;
 
     return (...args: T[]) => {
         clearTimeout(timeout);
-        timeout = setTimeout(() => callback.apply(this, args as any), delay);
+        timeout = setTimeout(() => callback.apply(this, args as []), delay);
     };
 };
 
@@ -314,7 +314,7 @@ export class Debouncer <
 
     startDebounce = (callback:T, delay: U) => (...args: S[]): void => {
         clearTimeout(this.timeout);
-        this.handler = () => callback.apply(this, args as any);
+        this.handler = () => callback.apply(this, args as []);
         this.timeout = setTimeout(this.handler, delay);
     };
 

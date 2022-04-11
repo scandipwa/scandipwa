@@ -11,6 +11,7 @@
 import { AnyAction } from 'redux';
 
 import { CategoryFragment } from 'Type/Category.type';
+import { GQLCategoryTree } from 'Type/Graphql.type';
 
 export enum CategoryActionType {
     UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY'
@@ -30,3 +31,9 @@ declare module 'Util/Store/type' {
         CategoryReducer: CategoryStore;
     }
 }
+
+export type CategoryDispatcherData = {
+    category: GQLCategoryTree & {
+        children: GQLCategoryTree[];
+    };
+};

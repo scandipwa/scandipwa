@@ -9,9 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Dispatch } from 'redux';
+
 import CartQuery from 'Query/Cart.query';
 import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import {
+    GQLCartItemInput,
+    GQLConfigurableProduct,
+    GQLConfigurableVariant,
+    GQLProductLinksInterface,
+    GQLQuoteData,
+    GQLTotalsItem
+} from 'Type/Graphql.type';
+import { LinkedProductType } from 'Type/ProductList.type';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
@@ -27,30 +39,30 @@ export const LinkedProductsDispatcher = import(
  * @namespace Store/Cart/Dispatcher
  */
 export class CartDispatcher {
-    async updateInitialCartData(dispatch, isForCustomer = false) {
+    async updateInitialCartData(dispatch: Dispatch, isForCustomer = false): Promise<void> {
         // Need to get current cart from BE, update cart
         try {
             // ! Get quote token first (local or from the backend) just to make sure it exists
             const quoteId = await this._getGuestQuoteId(dispatch);
             const { cartData = {} } = await fetchQuery(
                 CartQuery.getCartQuery(
-                    quoteId
+                    quoteId || ''
                 )
             );
 
             dispatch(updateIsLoadingCart(false));
 
             if (isForCustomer && !getAuthorizationToken()) {
-                return null;
+                return;
             }
 
-            return this._updateCartData(cartData, dispatch);
+            this._updateCartData(cartData, dispatch);
         } catch (error) {
-            return this.createGuestEmptyCart(dispatch);
+            this.createGuestEmptyCart(dispatch);
         }
     }
 
-    async createGuestEmptyCart(dispatch) {
+    async createGuestEmptyCart(dispatch: Dispatch): Promise<string | null> {
         try {
             const {
                 createEmptyCart: quoteId = ''
@@ -61,13 +73,17 @@ export class CartDispatcher {
 
             return quoteId;
         } catch (error) {
-            dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
 
             return null;
         }
     }
 
-    async mergeCarts(sourceCartId, destinationCartId, dispatch) {
+    async mergeCarts(
+        sourceCartId: string,
+        destinationCartId: string,
+        dispatch: Dispatch
+    ): Promise<string | null> {
         try {
             const {
                 mergeCarts: {
@@ -79,24 +95,28 @@ export class CartDispatcher {
 
             return id;
         } catch (error) {
-            dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
 
             return null;
         }
     }
 
-    resetGuestCart(dispatch) {
+    resetGuestCart(dispatch: Dispatch): void {
         return this._updateCartData({}, dispatch);
     }
 
-    async changeItemQty(dispatch, options) {
+    async changeItemQty(dispatch: Dispatch, options: {
+        quantity: number;
+        uid: string;
+        cartId: string;
+    }): Promise<void> {
         const { uid, quantity = 1, cartId: originalCartId } = options;
 
         const cartId = !originalCartId ? getGuestQuoteId() : originalCartId;
 
         try {
             if (!cartId) {
-                return Promise.reject();
+                return await Promise.reject();
             }
 
             await fetchMutation(
@@ -111,27 +131,33 @@ export class CartDispatcher {
                 })
             );
 
-            return this.updateInitialCartData(dispatch);
+            return await this.updateInitialCartData(dispatch);
         } catch (error) {
-            dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
 
             return Promise.reject();
         }
     }
 
-    async addProductToCart(dispatch, options = {}) {
+    async addProductToCart(
+        dispatch: Dispatch,
+        options: {
+            cartId: string;
+            products: GQLCartItemInput[];
+        }
+    ): Promise<void> {
         const { products = [], cartId: userCartId } = options;
 
         const cartId = userCartId || getGuestQuoteId();
 
         if (!Array.isArray(products) || products.length === 0) {
-            dispatch(showNotification('error', __('No product data!')));
+            dispatch(showNotification(NotificationType.ERROR, __('No product data!')));
             return Promise.reject();
         }
 
         try {
             if (!cartId) {
-                return Promise.reject();
+                return await Promise.reject();
             }
 
             const { addProductsToCart: { user_errors: errors = [] } = {} } = await fetchMutation(
@@ -140,28 +166,28 @@ export class CartDispatcher {
 
             if (Array.isArray(errors) && errors.length > 0) {
                 errors.forEach((error) => {
-                    dispatch(showNotification('error', getErrorMessage(error)));
+                    dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
                 });
 
-                return Promise.reject();
+                return await Promise.reject();
             }
 
             await this.updateInitialCartData(dispatch);
-            dispatch(showNotification('success', __('Product was added to cart!')));
+            dispatch(showNotification(NotificationType.SUCCESS, __('Product was added to cart!')));
         } catch (error) {
             if (!navigator.onLine) {
-                dispatch(showNotification('error', __('Not possible to fetch while offline')));
+                dispatch(showNotification(NotificationType.ERROR, __('Not possible to fetch while offline')));
                 return Promise.reject();
             }
 
-            dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
             return Promise.reject();
         }
 
         return Promise.resolve();
     }
 
-    async removeProductFromCart(dispatch, item_id) {
+    async removeProductFromCart(dispatch: Dispatch, item_id: number): Promise<GQLQuoteData | null> {
         try {
             const isCustomerSignedIn = isSignedIn();
             const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
@@ -171,20 +197,20 @@ export class CartDispatcher {
             }
 
             const { removeCartItem: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getRemoveCartItemMutation(item_id, guestQuoteId)
+                CartQuery.getRemoveCartItemMutation(item_id, guestQuoteId || '')
             );
 
             this._updateCartData(cartData, dispatch);
 
             return cartData;
         } catch (error) {
-            dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
 
             return null;
         }
     }
 
-    async applyCouponToCart(dispatch, couponCode) {
+    async applyCouponToCart(dispatch: Dispatch, couponCode: string): Promise<void> {
         try {
             const isCustomerSignedIn = isSignedIn();
             const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
@@ -194,17 +220,17 @@ export class CartDispatcher {
             }
 
             const { applyCoupon: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getApplyCouponMutation(couponCode, guestQuoteId)
+                CartQuery.getApplyCouponMutation(couponCode, guestQuoteId || '')
             );
 
             this._updateCartData(cartData, dispatch);
-            dispatch(showNotification('success', __('Coupon was applied!')));
+            dispatch(showNotification(NotificationType.SUCCESS, __('Coupon was applied!')));
         } catch (error) {
-            dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
         }
     }
 
-    async removeCouponFromCart(dispatch) {
+    async removeCouponFromCart(dispatch: Dispatch): Promise<void> {
         try {
             const isCustomerSignedIn = isSignedIn();
             const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
@@ -214,35 +240,48 @@ export class CartDispatcher {
             }
 
             const { removeCoupon: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getRemoveCouponMutation(guestQuoteId)
+                CartQuery.getRemoveCouponMutation(guestQuoteId || '')
             );
 
             this._updateCartData(cartData, dispatch);
-            dispatch(showNotification('success', __('Coupon was removed!')));
+            dispatch(showNotification(NotificationType.SUCCESS, __('Coupon was removed!')));
         } catch (error) {
-            dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
         }
     }
 
-    updateCrossSellProducts(items, dispatch) {
+    updateCrossSellProducts(items: GQLTotalsItem[], dispatch: Dispatch): void {
         if (items && items.length) {
             const product_links = items.reduce((links, product) => {
-                const { product: { product_links, variants = [] }, sku: variantSku } = product;
+                const { product: { product_links, variants = [] }, sku: variantSku } = product as {
+                    product: GQLConfigurableProduct;
+                    sku: string;
+                };
 
-                const { product_links: childProductLinks } = variants.find(({ sku }) => sku === variantSku) || {};
+                const {
+                    product: {
+                        product_links: childProductLinks = []
+                    } = {}
+                } = (variants as GQLConfigurableVariant[]).find(
+                    ({ product: { sku } = {} }) => sku === variantSku
+                ) || {} as GQLConfigurableVariant;
 
                 if (childProductLinks) {
-                    Object.values(childProductLinks).filter(({ link_type }) => link_type === 'crosssell')
+                    Object.values(childProductLinks as GQLProductLinksInterface[]).filter(
+                        ({ link_type }) => link_type === LinkedProductType.CROSS_SELL
+                    )
                         .map((item) => links.push(item));
                 }
 
                 if (product_links) {
-                    Object.values(product_links).filter(({ link_type }) => link_type === 'crosssell')
+                    (Object.values(product_links) as GQLProductLinksInterface[]).filter(
+                        ({ link_type }) => link_type === LinkedProductType.CROSS_SELL
+                    )
                         .map((item) => links.push(item));
                 }
 
                 return links;
-            }, []);
+            }, [] as GQLProductLinksInterface[]);
 
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.then(
@@ -260,38 +299,8 @@ export class CartDispatcher {
         }
     }
 
-    _updateCartData(cartData, dispatch) {
+    _updateCartData(cartData: GQLQuoteData, dispatch: Dispatch): void {
         dispatch(updateTotals(cartData));
-    }
-
-    /**
-     * @param {*} attribute
-     * @param {*} product
-     */
-    _getProductAttribute(attribute, product) {
-        const { variants, configurableVariantIndex, [attribute]: attributeValue } = product;
-
-        return configurableVariantIndex >= 0
-            ? variants[configurableVariantIndex][attribute]
-            : attributeValue;
-    }
-
-    /**
-     * Check if it is allowed to add product to cart
-     * @param {Object} options Cart options
-     * @return {Boolean} Indicates is allowed or not
-     * @memberof CartDispatcher
-     */
-    _canBeAdded(options) {
-        if (options.product && options.quantity && (options.product.quantity + options.quantity) < 1) {
-            return false;
-        }
-
-        if (options.quantity === 0) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -299,7 +308,7 @@ export class CartDispatcher {
      * @param Dispatch dispatch
      * @return string quote id
      */
-    _getGuestQuoteId(dispatch) {
+    async _getGuestQuoteId(dispatch: Dispatch): Promise<string | null> {
         const guestQuoteId = getGuestQuoteId();
 
         if (guestQuoteId) {

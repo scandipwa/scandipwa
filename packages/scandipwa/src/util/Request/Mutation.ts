@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,14 +10,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, prepareMutation } from 'Util/Query';
+import { Mutation } from '@tilework/opus';
+
+import { prepareMutation } from 'Util/Query';
 import { executePost } from 'Util/Request/Request';
 
-// TODO Field or ??
 /** @namespace Util/Request/Mutation/fetchMutation */
-// eslint-disable-next-line import/prefer-default-export
-export const fetchMutation = (rawMutations: Field): Promise<Response> => {
-    const queries = rawMutations instanceof Field ? [rawMutations] : rawMutations;
+export const fetchMutation = <S extends string, T>(
+    rawMutations: Mutation<S, T, boolean> | Mutation<S, T, boolean>[]
+): Promise<Record<S, T>> => {
+    const queries = rawMutations instanceof Mutation ? [rawMutations] : rawMutations;
 
     return executePost(prepareMutation(queries));
 };

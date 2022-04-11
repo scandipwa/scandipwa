@@ -34,7 +34,7 @@ export class CartQuery {
     //#region MUTATIONS
     getAddProductToCartMutation(
         cartId: string,
-        cartItems: GQLCartItemInput
+        cartItems: GQLCartItemInput[]
     ): Mutation<'addProductsToCart', GQLAddProductsToCartOutput & {
             user_errors: GQLWishListUserInputError[];
         }> {
@@ -139,8 +139,8 @@ export class CartQuery {
             .addFieldList(this._getCartDisplayConfigFields());
     }
 
-    getMergeCartQuery(sourceCartId: string, destinationCartId: string): Field<'mergeCarts', GQLCart> {
-        return new Field<'mergeCarts', GQLCart>('mergeCarts')
+    getMergeCartQuery(sourceCartId: string, destinationCartId: string): Mutation<'mergeCarts', GQLCart> {
+        return new Mutation<'mergeCarts', GQLCart>('mergeCarts')
             .addArgument('source_cart_id', 'String!', sourceCartId)
             .addArgument('destination_cart_id', 'String!', destinationCartId)
             .addField('id');

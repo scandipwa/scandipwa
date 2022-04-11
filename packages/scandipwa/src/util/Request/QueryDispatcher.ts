@@ -10,8 +10,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Query } from '@tilework/opus';
+import { Dispatch } from 'redux';
+
 import { makeCancelable } from 'Util/Promise';
-import { Field, prepareQuery } from 'Util/Query';
+import { CancelablePromise } from 'Util/Promise/Promise.type';
+import { prepareQuery } from 'Util/Query';
 import { executeGet, listenForBroadCast } from 'Util/Request/Request';
 
 export const ONE_MONTH_IN_SECONDS = 2592000;
@@ -23,15 +27,20 @@ export const FIVE_MINUTES_IN_SECONDS = 300;
  * @class QueryDispatcher
  * @namespace Util/Request/QueryDispatcher
  */
-export class QueryDispatcher {
+export abstract class QueryDispatcher<Options, Data> {
+    protected name = '';
+
+    protected cacheTTL = 0;
+
+    protected promise: CancelablePromise<Data> | null = null;
+
     /**
      * Creates an instance of QueryDispatcher.
      * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
      * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
      * @memberof QueryDispatcher
      */
-    __construct(name, cacheTTL = ONE_MONTH_IN_SECONDS) {
-        super.__construct();
+    __construct(name: string, cacheTTL = ONE_MONTH_IN_SECONDS): void {
         this.name = name;
         this.cacheTTL = cacheTTL;
         this.promise = null;
@@ -43,7 +52,7 @@ export class QueryDispatcher {
      * @param  {any} options Any options received from Container
      * @return {void}@memberof QueryDispatcher
      */
-    handleData(dispatch, options) {
+    handleData(dispatch: Dispatch, options: Options): void {
         const { name, cacheTTL } = this;
 
         const rawQueries = this.prepareRequest(options, dispatch);
@@ -52,7 +61,7 @@ export class QueryDispatcher {
             return;
         }
 
-        const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
+        const queries = rawQueries instanceof Query ? [rawQueries] : rawQueries;
 
         if (this.promise) {
             this.promise.cancel();
@@ -63,7 +72,7 @@ export class QueryDispatcher {
                 executeGet(prepareQuery(queries), name, cacheTTL)
                     .then(
                         /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/makeCancelable/executeGet/then/resolve */
-                        (data) => resolve(data),
+                        (data) => resolve(data as Data),
                         /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/makeCancelable/executeGet/then/reject/catch */
                         (error) => reject(error)
                     );
@@ -79,7 +88,7 @@ export class QueryDispatcher {
 
         listenForBroadCast(name).then(
             /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/listenForBroadCast/then */
-            (data) => this.onUpdate(data, dispatch, options),
+            (data) => this.onUpdate(data as Data, dispatch, options),
         );
     }
 
@@ -91,7 +100,7 @@ export class QueryDispatcher {
      * @return {void}
      * @memberof QueryDispatcher
      */
-    onUpdate(data, dispatch, options) {
+    onUpdate(data: Data, dispatch: Dispatch, options: Options): void {
         this.onSuccess(data, dispatch, options);
     }
 
@@ -102,7 +111,10 @@ export class QueryDispatcher {
      * @return {Array<Field>|Field} Array or single item of Field instances
      * @memberof QueryDispatcher
      */
-    prepareRequest(options, dispatch) {}
+    abstract prepareRequest(
+        options: Options,
+        dispatch: Dispatch
+    ): Query<string, unknown, boolean> | Query<string, unknown, boolean>[];
 
     /**
      * Is triggered on successful fetch of GraphQL endpoint.
@@ -112,7 +124,7 @@ export class QueryDispatcher {
      * @param  {any} dispatch
      * @return {void}@memberof QueryDispatcher
      */
-    onSuccess(data, dispatch) {}
+    abstract onSuccess(data: Data, dispatch: Dispatch, options: Options): void;
 
     /**
      * Is triggered on error in fetch of GraphQL endpoint.
@@ -122,7 +134,7 @@ export class QueryDispatcher {
      * @param  {any} dispatch
      * @return {void}@memberof QueryDispatcher
      */
-    onError(error, dispatch) {}
+    abstract onError(error: unknown, dispatch: Dispatch, options: Options): void;
 }
 
 export default QueryDispatcher;

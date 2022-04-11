@@ -9,46 +9,52 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Query } from '@tilework/opus';
+import { Dispatch } from 'redux';
+
 import CartQuery from 'Query/Cart.query';
 import ConfigQuery from 'Query/Config.query';
 import RegionQuery from 'Query/Region.query';
 import ReviewQuery from 'Query/Review.query';
 import { updateConfig } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { setCurrency } from 'Util/Currency';
 import { fetchMutation, QueryDispatcher } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
+import { ConfigStore } from './Config.type';
+
 /** @namespace Store/Config/Dispatcher */
-export class ConfigDispatcher extends QueryDispatcher {
-    __construct() {
+export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
+    __construct(): void {
         super.__construct('Config');
     }
 
-    static updateCurrency(dispatch, options) {
+    static async updateCurrency(dispatch: Dispatch, options: { currencyCode: string }): Promise<void> {
         const { currencyCode } = options;
 
-        return fetchMutation(ConfigQuery.getSaveSelectedCurrencyMutation(
-            currencyCode
-        )).then(
-            setCurrency(currencyCode),
-            dispatch(updateConfig())
-        );
+        try {
+            await fetchMutation(ConfigQuery.getSaveSelectedCurrencyMutation(currencyCode));
+            setCurrency(currencyCode);
+        } catch (e) {
+            dispatch(updateConfig({} as ConfigStore));
+        }
     }
 
-    onSuccess(data, dispatch) {
+    onSuccess(data: ConfigStore, dispatch: Dispatch): void {
         if (data) {
             BrowserDatabase.setItem(data, 'config', ONE_MONTH_IN_SECONDS);
             dispatch(updateConfig(data));
         }
     }
 
-    onError(error, dispatch) {
-        dispatch(showNotification('error', __('Error fetching Config!'), error));
+    onError(error: unknown, dispatch: Dispatch): void {
+        dispatch(showNotification(NotificationType.ERROR, __('Error fetching Config!'), error));
     }
 
-    prepareRequest() {
+    prepareRequest(): Query<string, unknown, boolean>[] {
         return [
             RegionQuery.getCountriesQuery(),
             ReviewQuery.getRatingQuery(),
@@ -56,7 +62,7 @@ export class ConfigDispatcher extends QueryDispatcher {
             ConfigQuery.getCheckoutAgreements(),
             ConfigQuery.getCurrencyData(),
             CartQuery.getCartDisplayConfig()
-        ];
+        ] as Query<string, unknown, boolean>[];
     }
 }
 

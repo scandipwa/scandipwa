@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { CancelablePromise } from './Promise.type';
+
 /* eslint-disable prefer-promise-reject-errors */
 // Disabled due promise being reject with custom error (isCanceled)
 
@@ -18,7 +20,7 @@
  * @param  {Promise} promise promise which has to be cancelable
  * @return {Promise} Cancelable promise
  * @namespace Util/Promise/MakeCancelable/makeCancelable */
-export const makeCancelable = <T>(promise: Promise<T>) => {
+export const makeCancelable = <T>(promise: Promise<T>): CancelablePromise<T> => {
     // eslint-disable-next-line fp/no-let
     let hasCanceled = false;
 
