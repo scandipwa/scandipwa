@@ -12,7 +12,7 @@
 import { History, Location, Match } from 'Type/Router.type';
 import { decodeString } from 'Util/Common';
 import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/type';
+import { RootState } from 'Util/Store/Store.type';
 
 // TODO move
 export type KeyValuePairs = Record<string, number | string | Array<number | string>>;

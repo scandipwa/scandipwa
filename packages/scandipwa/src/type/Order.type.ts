@@ -154,9 +154,7 @@ export type PageInfo = {
     total_pages?: number;
 };
 
-export type Orders = Order[];
-
 export type OrdersList = {
-    items?: Orders;
+    items?: Order[];
     pageInfo?: PageInfo;
 };

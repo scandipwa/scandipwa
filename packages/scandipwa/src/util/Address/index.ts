@@ -11,7 +11,7 @@
 
 import StoreItem from 'Component/StoreItem';
 import { Address, TrimmedAddress } from 'Type/Account.type';
-import { Country, Region, Stores } from 'Type/Config.type';
+import { Country, Region } from 'Type/Config.type';
 
 import { ZippopotamResponseResult } from './Address.type';
 
@@ -180,7 +180,10 @@ export const getAvailableRegions = (country_id: string, countries: Country[]): R
 };
 
 /** @namespace Util/Address/Index/getFormattedRegion */
-export const getFormattedRegion = (address: Address, countries: Country[]) => {
+export const getFormattedRegion = (
+    address: Address,
+    countries: Country[]
+) => {
     const { country_id, region: regionData } = address;
 
     if (!regionData) {
@@ -226,7 +229,7 @@ export const getRegionIdFromAvailableRegions = (
 };
 
 /** @namespace Util/Address/Index/checkIfStoreIncluded */
-export const checkIfStoreIncluded = (stores: Stores, selectedStore: StoreItem): boolean => {
+export const checkIfStoreIncluded = (stores: StoreItem[], selectedStore: StoreItem): boolean => {
     const selectedStoreInString = JSON.stringify(selectedStore);
 
     return !!stores.find((store) => JSON.stringify(store) === selectedStoreInString);

@@ -41,7 +41,7 @@ export type CheckoutStore = {
     isEmailAvailable: boolean;
 };
 
-declare module 'Util/Store/type' {
+declare module 'Util/Store/Store.type' {
     export interface RootState {
         CheckoutReducer: CheckoutStore;
     }

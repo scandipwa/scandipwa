@@ -10,34 +10,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import FIELD_TYPE from 'Component/Field/Field.config';
+import { ValidationRule } from 'Type/Field.type';
 import { VALIDATION_MESSAGES, VALIDATION_RULES, ValidationInputTypeNumber } from 'Util/Validator/Config';
 
-//TODO Move to Types
-
-export type ValidationRule = {
-    isRequired: boolean;
-    inputType: string;
-    selector?: string;
-    match: string | ((args: string | Record<string, string>[]) => boolean);
-    range: Record<string, number>;
-    fileExtension: Record<string, string>;
-    customErrorMessages: Record<string, string>;
-};
-
-export type ValidationOutput = {
-    value: string;
-    errorMessages: string[];
-};
-
-export type ValidationDOMOutput = {
-    values: {
-        name: string;
-        value: string;
-        type: string;
-    }[];
-    errorFields: unknown[];
-    errorMessages: string[];
-};
+import { ValidationDOMOutput, ValidationOutput } from './Validator.type';
 
 /**
  * Validates parameter based on rules

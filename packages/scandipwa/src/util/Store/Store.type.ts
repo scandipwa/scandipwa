@@ -8,6 +8,13 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import {
+    Action,
+    Reducer,
+    ReducersMapObject,
+    Store
+} from 'redux';
+
 import { store } from 'Util/Store';
 
 /**
@@ -15,7 +22,7 @@ import { store } from 'Util/Store';
   *
   * @example
   * ```ts
-     declare module 'Util/Store/type' {
+     declare module 'Util/Store/Store.type'; {
          export interface RootState {
              BreadcrumbsReducer: BreadcrumbsStore
          }
@@ -23,7 +30,8 @@ import { store } from 'Util/Store';
   * ```
   */
 
-export interface RootState {};
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface RootState {}
 
 export type AppDispatch = typeof store.dispatch;
 

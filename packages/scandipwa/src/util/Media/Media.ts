@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/type';
+import { RootState } from 'Util/Store/Store.type';
 
 export const WYSIWYG_MEDIA = 'wysiwyg/';
 export const CATEGORY_MEDIA = 'catalog/category/';

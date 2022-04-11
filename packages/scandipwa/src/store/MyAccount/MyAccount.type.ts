@@ -77,7 +77,7 @@ export type MyAccountStore = {
     status: boolean;
 };
 
-declare module 'Util/Store/type' {
+declare module 'Util/Store/Store.type' {
     export interface RootState {
         MyAccountReducer: MyAccountStore;
     }

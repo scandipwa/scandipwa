@@ -36,7 +36,7 @@ export interface UpdateMetaAction extends AnyAction {
 
 export type MetaStore = Partial<PageMeta>;
 
-declare module 'Util/Store/type' {
+declare module 'Util/Store/Store.type' {
     export interface RootState {
         MetaReducer: MetaStore;
     }
