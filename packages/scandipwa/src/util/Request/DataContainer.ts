@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Query } from '@tilework/opus';
 import { PureComponent } from 'react';
 
 import { noopFn } from 'Util/Common';
 import { makeCancelable } from 'Util/Promise';
+import { CancelablePromise } from 'Util/Promise/Promise.type';
 import { prepareQuery } from 'Util/Query';
 import { executeGet, listenForBroadCast } from 'Util/Request';
 import { hash } from 'Util/Request/Hash';
@@ -21,21 +23,42 @@ import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
 
 /** @namespace Util/Request/DataContainer */
 export class DataContainer extends PureComponent {
-    __construct(props, dataModelName, isShouldListenForBroadcast = true, cacheTTL = ONE_MONTH_IN_SECONDS) {
-        super.__construct(props);
+    protected dataModelName = '';
+
+    protected isShouldListenForBroadcast = true;
+
+    protected cacheTTL = ONE_MONTH_IN_SECONDS;
+
+    protected promise?: CancelablePromise<unknown>;
+
+    __construct(
+        props: Record<string, unknown>,
+        dataModelName = '',
+        isShouldListenForBroadcast = true,
+        cacheTTL = ONE_MONTH_IN_SECONDS
+    ): void {
+        if (super.__construct) {
+            super.__construct(props);
+        }
+
         this.dataModelName = dataModelName;
         this.isShouldListenForBroadcast = isShouldListenForBroadcast;
         this.cacheTTL = cacheTTL;
-        this.promise = null;
+        this.promise = undefined;
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         if (this.promise) {
             this.promise.cancel();
         }
     }
 
-    fetchData(rawQueries, onSuccess = noopFn, onError = noopFn, takeFromWindowCache = true) {
+    fetchData(
+        rawQueries: Query<string, unknown, boolean>[],
+        onSuccess: (x: unknown) => void = noopFn,
+        onError: (x: unknown) => void = noopFn,
+        takeFromWindowCache = true
+    ): void {
         const preparedQuery = prepareQuery(rawQueries);
         const { query, variables } = preparedQuery;
         const queryHash = hash(query + JSON.stringify(variables));
@@ -57,7 +80,7 @@ export class DataContainer extends PureComponent {
         this.promise.promise.then(
             /** @namespace Util/Request/DataContainer/DataContainer/fetchData/then */
             (response) => {
-                window.dataCache[queryHash] = response;
+                (window.dataCache || {})[queryHash] = response;
                 onSuccess(response);
             },
             /** @namespace Util/Request/DataContainer/DataContainer/fetchData/then/onError/catch */

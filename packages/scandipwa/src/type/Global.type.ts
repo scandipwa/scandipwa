@@ -26,7 +26,7 @@ declare global {
         secure_base_media_url?: string;
         prefetchedImages: Record<string, HTMLImageElement>;
         storeList: Array<string>;
-        // dataCache?: Record<number, DataType<any>>
+        dataCache?: Record<number, unknown>;
     }
 
     function __(message: string, ...args: unknown[]): string;
