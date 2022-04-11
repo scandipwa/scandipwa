@@ -26,7 +26,7 @@ export type CategoryStore = {
     category: CategoryFragment | Record<string, unknown>;
 };
 
-declare module 'Util/Store/type' {
+declare module 'Util/Store/Store.type' {
     export interface RootState {
         CategoryReducer: CategoryStore;
     }

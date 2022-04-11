@@ -11,14 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const VALIDATION_INPUT_TYPE_TEXT = {
-    alpha: 'alpha',
-    alphaSpace: 'alphaSpace',
-    alphaNumeric: 'alphaNumeric',
-    alphaDash: 'alphaDash',
-    url: 'url'
-};
-
 export enum ValidationInputTypeText {
     ALPHA = 'alpha',
     ALPHASPACE = 'alphaSpace',
@@ -26,15 +18,6 @@ export enum ValidationInputTypeText {
     ALPHADASH = 'alphaDash',
     URL = 'url'
 }
-
-export const VALIDATION_INPUT_TYPE_NUMBER = {
-    numeric: 'numeric',
-    numericDash: 'numericDash',
-    integer: 'integer',
-    decimal: 'decimal',
-    natural: 'natural',
-    naturalNoZero: 'naturalNoZero'
-};
 
 export enum ValidationInputTypeNumber {
     NUMERIC = 'numeric',
@@ -45,14 +28,6 @@ export enum ValidationInputTypeNumber {
     NATURALNOZERO = 'naturalNoZero'
 }
 
-export const VALIDATION_INPUT_TYPE_INPUT = {
-    email: 'email',
-    password: 'password',
-    date: 'date',
-    phone: 'phone',
-    emailList: 'emailList'
-};
-
 export enum ValidationInputTypeInput {
     EMAIL = 'email',
     PASSWORD = 'password',
@@ -61,10 +36,10 @@ export enum ValidationInputTypeInput {
     EMAILLIST = 'emailList'
 }
 
-export const VALIDATION_INPUT_TYPE = {
-    ...VALIDATION_INPUT_TYPE_TEXT,
-    ...VALIDATION_INPUT_TYPE_NUMBER,
-    ...VALIDATION_INPUT_TYPE_INPUT
+export const ValidationInputType = {
+    ...ValidationInputTypeInput,
+    ...ValidationInputTypeNumber,
+    ...ValidationInputTypeText
 };
 
 export const VALIDATION_MESSAGES = {
@@ -77,45 +52,45 @@ export const VALIDATION_MESSAGES = {
     //#endregion
 
     //#region VALIDATION RULE MSG
-    [VALIDATION_INPUT_TYPE.alpha]: __('Incorrect input! Only letters allowed!'),
-    [VALIDATION_INPUT_TYPE.alphaSpace]: __('Incorrect input! Only words allowed!'),
-    [VALIDATION_INPUT_TYPE.alphaNumeric]: __('Incorrect input! Alpha-Numeric value required!'),
-    [VALIDATION_INPUT_TYPE.alphaDash]: __('Incorrect input! Alpha-Dash value required!'),
-    [VALIDATION_INPUT_TYPE.url]: __('Incorrect input! URL required!'),
-    [VALIDATION_INPUT_TYPE.numeric]: __('Incorrect input! Numeric value required!'),
-    [VALIDATION_INPUT_TYPE.numericDash]: __('Incorrect input! Numeric-Dash value required!'),
-    [VALIDATION_INPUT_TYPE.integer]: __('Incorrect input! Integer required!'),
-    [VALIDATION_INPUT_TYPE.natural]: __('Incorrect input! Natural number required!'),
-    [VALIDATION_INPUT_TYPE.naturalNoZero]: __('Incorrect input!'),
-    [VALIDATION_INPUT_TYPE.email]: __('Incorrect email format!'),
-    [VALIDATION_INPUT_TYPE.emailList]: __('Incorrect list of emails!'),
-    [VALIDATION_INPUT_TYPE.date]: __('Incorrect date input!'),
-    [VALIDATION_INPUT_TYPE.password]: __('Incorrect password input!'),
-    [VALIDATION_INPUT_TYPE.phone]: __('Incorrect phone input!')
+    [ValidationInputType.ALPHA]: __('Incorrect input! Only letters allowed!'),
+    [ValidationInputType.ALPHASPACE]: __('Incorrect input! Only words allowed!'),
+    [ValidationInputType.ALPHANUMERIC]: __('Incorrect input! Alpha-Numeric value required!'),
+    [ValidationInputType.ALPHADASH]: __('Incorrect input! Alpha-Dash value required!'),
+    [ValidationInputType.URL]: __('Incorrect input! URL required!'),
+    [ValidationInputType.NUMERIC]: __('Incorrect input! Numeric value required!'),
+    [ValidationInputType.NUMERICDASH]: __('Incorrect input! Numeric-Dash value required!'),
+    [ValidationInputType.INTEGER]: __('Incorrect input! Integer required!'),
+    [ValidationInputType.NATURAL]: __('Incorrect input! Natural number required!'),
+    [ValidationInputType.NATURALNOZERO]: __('Incorrect input!'),
+    [ValidationInputType.EMAIL]: __('Incorrect email format!'),
+    [ValidationInputType.EMAILLIST]: __('Incorrect list of emails!'),
+    [ValidationInputType.DATE]: __('Incorrect date input!'),
+    [ValidationInputType.PASSWORD]: __('Incorrect password input!'),
+    [ValidationInputType.PHONE]: __('Incorrect phone input!')
     //#endregion
 };
 
 export const VALIDATION_RULES = {
     // Text
-    [VALIDATION_INPUT_TYPE.alpha]: /^[a-z]+$/i,
-    [VALIDATION_INPUT_TYPE.alphaSpace]: /^[a-z\s]+$/i,
-    [VALIDATION_INPUT_TYPE.alphaNumeric]: /^[a-z0-9]+$/i,
-    [VALIDATION_INPUT_TYPE.alphaDash]: /^[a-z0-9_\\-]+$/i,
-    [VALIDATION_INPUT_TYPE.url]: /^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\\/]))?$/,
+    [ValidationInputType.ALPHA]: /^[a-z]+$/i,
+    [ValidationInputType.ALPHASPACE]: /^[a-z\s]+$/i,
+    [ValidationInputType.ALPHANUMERIC]: /^[a-z0-9]+$/i,
+    [ValidationInputType.ALPHADASH]: /^[a-z0-9_\\-]+$/i,
+    [ValidationInputType.URL]: /^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\\/]))?$/,
 
     // Numbers
-    [VALIDATION_INPUT_TYPE.numeric]: /^[0-9]+$/,
-    [VALIDATION_INPUT_TYPE.numericDash]: /^[\d\-\s]+$/,
-    [VALIDATION_INPUT_TYPE.integer]: /^\\-?[0-9]+$/,
-    [VALIDATION_INPUT_TYPE.decimal]: /^\\-?[0-9]*\.?[0-9]+$/,
-    [VALIDATION_INPUT_TYPE.natural]: /^[0-9]+$/i,
-    [VALIDATION_INPUT_TYPE.naturalNoZero]: /^[1-9][0-9]*$/i,
+    [ValidationInputType.NUMERIC]: /^[0-9]+$/,
+    [ValidationInputType.NUMERICDASH]: /^[\d\-\s]+$/,
+    [ValidationInputType.INTEGER]: /^\\-?[0-9]+$/,
+    [ValidationInputType.DECIMAL]: /^\\-?[0-9]*\.?[0-9]+$/,
+    [ValidationInputType.NATURAL]: /^[0-9]+$/i,
+    [ValidationInputType.NATURALNOZERO]: /^[1-9][0-9]*$/i,
 
     // Inputs
     // eslint-disable-next-line max-len
-    [VALIDATION_INPUT_TYPE.email]: /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z0-9]{2,}))$/,
-    [VALIDATION_INPUT_TYPE.date]: /\d{4}-\d{1,2}-\d{1,2}/,
-    [VALIDATION_INPUT_TYPE.phone]: /^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/im,
+    [ValidationInputType.EMAIL]: /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z0-9]{2,}))$/,
+    [ValidationInputType.DATE]: /\d{4}-\d{1,2}-\d{1,2}/,
+    [ValidationInputType.PHONE]: /^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/im,
     // eslint-disable-next-line max-len
-    [VALIDATION_INPUT_TYPE.emailList]: /^(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+([,\s]+(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/
+    [ValidationInputType.EMAILLIST]: /^(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+([,\s]+(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/
 };

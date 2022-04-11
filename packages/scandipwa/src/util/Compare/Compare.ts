@@ -15,7 +15,7 @@ import {
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { debounce } from 'Util/Request';
 import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/type';
+import { RootState } from 'Util/Store/Store.type';
 
 /**
  *

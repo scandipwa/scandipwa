@@ -15,7 +15,8 @@ import { deleteGuestQuoteId } from 'Util/Cart';
 import { removeUid } from 'Util/Compare';
 import { debounce } from 'Util/Request';
 import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/type';
+import { RootState } from 'Util/Store/Store.type';
+
 export const AUTH_TOKEN = 'auth_token';
 
 export const ONE_HOUR_IN_SECONDS = 3600;

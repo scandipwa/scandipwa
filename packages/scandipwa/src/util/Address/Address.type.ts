@@ -9,8 +9,15 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { Region } from 'Type/Config.type';
+
 export type ZippopotamResponseResult = {
     city: string;
     region: string;
     regionAbbr: string;
+};
+
+export type FormattedRegion = {
+    country: string;
+    region: Region[];
 };

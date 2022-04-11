@@ -28,7 +28,7 @@ export type LinkedProductsStore = {
     linkedProducts: LinkedProductsMap;
 };
 
-declare module 'Util/Store/type' {
+declare module 'Util/Store/Store.type' {
     export interface RootState {
         LinkedProductsReducer: LinkedProductsStore;
     }

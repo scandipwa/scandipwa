@@ -50,7 +50,7 @@ export type NavigationStore = {
     };
 };
 
-declare module 'Util/Store/type' {
+declare module 'Util/Store/Store.type' {
     export interface RootState {
         NavigationReducer: NavigationStore;
     }

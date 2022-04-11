@@ -34,7 +34,7 @@ export type BreadcrumbsStore = {
     areBreadcrumbsVisible: boolean;
 };
 
-declare module 'Util/Store/type' {
+declare module 'Util/Store/Store.type' {
     export interface RootState {
         BreadcrumbsReducer: BreadcrumbsStore;
     }

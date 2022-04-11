@@ -46,7 +46,7 @@ export type NotificationStore = {
     notifications: Record<string, Notification<unknown>>;
 };
 
-declare module 'Util/Store/type' {
+declare module 'Util/Store/Store.type' {
     export interface RootState {
         NotificationReducer: NotificationStore;
     }

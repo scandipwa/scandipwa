@@ -32,7 +32,7 @@ export type OfflineStore = {
     isBig: boolean;
 };
 
-declare module 'Util/Store/type' {
+declare module 'Util/Store/Store.type' {
     export interface RootState {
         OfflineReducer: OfflineStore;
     }

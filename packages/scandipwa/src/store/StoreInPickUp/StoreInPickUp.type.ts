@@ -32,7 +32,7 @@ export type StoreInPickUpStore = {
     store: PickUpInStore | null;
 };
 
-declare module 'Util/Store/type' {
+declare module 'Util/Store/Store.type' {
     export interface RootState {
         StoreInPickUpReducer: StoreInPickUpStore;
     }
