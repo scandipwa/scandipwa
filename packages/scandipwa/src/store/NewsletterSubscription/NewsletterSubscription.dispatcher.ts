@@ -9,8 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Dispatch } from 'redux';
+
 import NewsletterSubscriptionQuery from 'Query/NewsletterSubscription.query';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 
 export const NOT_ACTIVE = 'NOT_ACTIVE';
@@ -21,7 +24,7 @@ export const NOT_ACTIVE = 'NOT_ACTIVE';
  * @namespace Store/NewsletterSubscription/Dispatcher
  */
 export class NewsletterSubscriptionDispatcher {
-    subscribeToNewsletter(dispatch, email) {
+    subscribeToNewsletter(dispatch: Dispatch, email: string): Promise<ShowNotificationAction<unknown>> {
         return fetchMutation(NewsletterSubscriptionQuery.getSubscribeToNewsletterMutation(email)).then(
             /** @namespace Store/NewsletterSubscription/Dispatcher/NewsletterSubscriptionDispatcher/subscribeToNewsletter/fetchMutation/then */
             ({ subscribeEmailToNewsletter: { status } }) => {
@@ -30,10 +33,10 @@ export class NewsletterSubscriptionDispatcher {
                     ? __('Confirmation request has been sent.')
                     : __('Thank you for your subscription.');
 
-                return dispatch(showNotification('success', message));
+                return dispatch(showNotification(NotificationType.SUCCESS, message));
             },
             /** @namespace Store/NewsletterSubscription/Dispatcher/NewsletterSubscriptionDispatcher/subscribeToNewsletter/fetchMutation/then/dispatch/catch */
-            (error) => dispatch(showNotification('error', getErrorMessage(error)))
+            (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)))
         );
     }
 }

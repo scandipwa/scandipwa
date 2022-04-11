@@ -11,6 +11,7 @@
 
 import { AnyAction } from 'redux';
 
+import { GQLProducts } from 'Type/Graphql.type';
 import { Product, ProductBundle } from 'Type/ProductList.type';
 import { IndexedProduct } from 'Util/Product/Product';
 
@@ -25,4 +26,8 @@ export interface UpdateProductDetailsAction extends AnyAction {
 
 export type ProductStore = {
     product: IndexedProduct;
+};
+
+export type ProductDispatcherData = {
+    products: GQLProducts;
 };

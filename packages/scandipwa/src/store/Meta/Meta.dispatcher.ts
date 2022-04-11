@@ -8,8 +8,14 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { Dispatch } from 'redux';
+
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { appendWithStoreCode } from 'Util/Url';
+
+import {
+    Category, CategoryMeta, Product, ProductMeta
+} from './Meta.type';
 
 /**
  * Meta Dispatcher
@@ -22,7 +28,7 @@ export class MetaDispatcher {
      * @param {Function} dispatch
      * @memberof MetaDispatcher
      */
-    updateWithCategory(category, dispatch) {
+    updateWithCategory(category: Category, dispatch: Dispatch): void {
         const meta = this._getCategoryMeta(category);
         dispatch(updateMeta(meta));
     }
@@ -33,7 +39,7 @@ export class MetaDispatcher {
      * @param {Function} dispatch
      * @memberof MetaDispatcher
      */
-    updateWithProduct(product, dispatch) {
+    updateWithProduct(product: Product, dispatch: Dispatch): void {
         const meta = this._getProductMeta(product);
         dispatch(updateMeta(meta));
     }
@@ -44,7 +50,7 @@ export class MetaDispatcher {
      * @return {Object} Meta object
      * @memberof MetaDispatcher
      */
-    _getProductMeta(product) {
+    _getProductMeta(product: Product): ProductMeta {
         const {
             name,
             meta_title,
@@ -67,10 +73,14 @@ export class MetaDispatcher {
      * @return {Object} Meta object
      * @memberof MetaDispatcher
      */
-    _getCategoryMeta(category) {
+    _getCategoryMeta(category: Category): CategoryMeta {
         const {
-            description, name, canonical_url,
-            meta_title, meta_keywords, meta_description,
+            description,
+            name,
+            canonical_url,
+            meta_title,
+            meta_keywords,
+            meta_description,
             meta_robots = 'follow, index'
         } = category;
 

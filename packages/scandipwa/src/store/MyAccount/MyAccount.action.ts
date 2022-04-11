@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { GQLCustomer } from 'Type/Graphql.type';
+
 import {
     MyAccountActionType,
     UpdateCustomerDetailsAction,
@@ -27,14 +29,14 @@ export const updateCustomerSignInStatus = (status: boolean): UpdateCustomerSignI
 });
 
 /** @namespace Store/MyAccount/Action/updateCustomerDetails */
-export const updateCustomerDetails = (customer: Record<string, unknown>): UpdateCustomerDetailsAction => ({
+export const updateCustomerDetails = (customer: GQLCustomer): UpdateCustomerDetailsAction => ({
     type: MyAccountActionType.UPDATE_CUSTOMER_DETAILS,
     customer
 });
 
 /** @namespace Store/MyAccount/Action/updateCustomerPasswordResetStatus */
 export const updateCustomerPasswordResetStatus = (
-    status: boolean,
+    status: string,
     message: string
 ): UpdateCustomerPasswordResetStatusAction => ({
     type: MyAccountActionType.UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,

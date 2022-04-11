@@ -35,13 +35,15 @@ export const ONE_DAY = 86400;
  * @returns {void}
  * @namespace Util/Compare/setUid
  */
-export const setUid = (uid: string | boolean): void => {
+export const setUid = (uid: string | null): void => {
     const state = getStore().getState() as RootState;
     const {
         access_token_lifetime = ONE_HOUR
     } = state.ConfigReducer;
 
-    const uidExpirationTimeInStorage = isSignedIn() ? access_token_lifetime * ONE_HOUR_IN_SECONDS : ONE_DAY;
+    const uidExpirationTimeInStorage = isSignedIn()
+        ? parseInt(String(access_token_lifetime), 10) * ONE_HOUR_IN_SECONDS
+        : ONE_DAY;
 
     BrowserDatabase.setItem(uid, COMPARE_UID, uidExpirationTimeInStorage);
 };
@@ -51,10 +53,10 @@ export const setUid = (uid: string | boolean): void => {
  * @returns {string|boolean} uid
  * @namespace Util/Compare/getUid
  */
-export const getUid = (): string | boolean => {
+export const getUid = (): string | null => {
     const uid = BrowserDatabase.getItem(COMPARE_UID);
 
-    return (typeof uid === 'string') ? uid : false;
+    return (typeof uid === 'string') ? uid : null;
 };
 
 /**

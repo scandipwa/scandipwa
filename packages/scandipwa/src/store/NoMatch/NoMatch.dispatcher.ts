@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Dispatch } from 'redux';
+
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 /**
  * NoMatch Dispatcher
@@ -16,7 +18,7 @@ import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
  * @namespace Store/NoMatch/Dispatcher
  */
 export class NoMatchDispatcher {
-    updateNoMatch(dispatch, options) {
+    updateNoMatch(dispatch: Dispatch, options: { noMatch: boolean }): void {
         const { noMatch } = options;
         dispatch(updateNoMatch(noMatch));
     }

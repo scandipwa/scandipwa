@@ -9,9 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Dispatch } from 'redux';
+
 import OrderQuery from 'Query/Order.query';
+import { OrdersOptions } from 'Query/Query.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
+import { GQLCheckoutUserInputError, GQLCustomerOrder, GQLReorderItemsOutput } from 'Type/Graphql.type';
 import { getAuthorizationToken } from 'Util/Auth';
 import history from 'Util/History';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
@@ -24,8 +29,8 @@ export const CartDispatcher = import(
 
 /** @namespace Store/Order/Dispatcher */
 export class OrderDispatcher {
-    requestOrders(dispatch, page = 1) {
-        const query = OrderQuery.getOrderListQuery({ page });
+    requestOrders(dispatch: Dispatch, page = 1): Promise<void> {
+        const query = OrderQuery.getOrderListQuery({ page } as OrdersOptions);
         dispatch(setLoadingStatus(true));
 
         return fetchQuery(query).then(
@@ -35,38 +40,46 @@ export class OrderDispatcher {
             },
             /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then/catch */
             (error) => {
-                dispatch(showNotification('error', getErrorMessage(error)));
+                dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
                 dispatch(setLoadingStatus(false));
             }
         );
     }
 
-    async reorder(dispatch, incrementId) {
+    async reorder(dispatch: Dispatch, incrementId: string): Promise<void> {
         const {
             reorderItems: {
                 userInputErrors = []
             } = {}
-        } = await this.handleReorderMutation(dispatch, incrementId);
+        } = await this.handleReorderMutation(dispatch, incrementId) || {};
 
         const cartDispatcher = (await CartDispatcher).default;
-        cartDispatcher.updateInitialCartData(dispatch, getAuthorizationToken());
+        cartDispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken());
 
         history.push(appendWithStoreCode('/cart'));
 
         if (userInputErrors.length) {
-            userInputErrors.map(({ message }) => dispatch(showNotification('error', message)));
+            userInputErrors.map((
+                { message }: { message: string }
+            ) => dispatch(showNotification(NotificationType.ERROR, message)));
         }
     }
 
-    handleReorderMutation(dispatch, incrementId) {
+    handleReorderMutation(
+        dispatch: Dispatch,
+        incrementId: string
+    ): Promise<Record<'reorderItems', GQLReorderItemsOutput & {
+            userInputErrors: GQLCheckoutUserInputError[];
+        }>> | null {
         try {
             return fetchMutation(OrderQuery.getReorder(incrementId));
         } catch (error) {
-            return dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+            return null;
         }
     }
 
-    async getOrderById(dispatch, orderId) {
+    async getOrderById(dispatch: Dispatch, orderId: number): Promise<GQLCustomerOrder | null> {
         try {
             const {
                 customer: {
@@ -74,11 +87,11 @@ export class OrderDispatcher {
                         items
                     }
                 }
-            } = await fetchQuery(OrderQuery.getOrderListQuery({ orderId }));
+            } = await fetchQuery(OrderQuery.getOrderListQuery({ orderId } as OrdersOptions));
 
             return items[0];
         } catch (error) {
-            dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
 
             return null;
         }

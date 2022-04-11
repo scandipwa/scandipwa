@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, Query } from '@tilework/opus';
+import { Field, Mutation, Query } from '@tilework/opus';
 
 import {
     GQLBundleOption,
@@ -48,10 +48,10 @@ import { CommonField, OrdersOptions } from './Query.type';
  * @class OrderQuery
  * @namespace Query/Order/Query */
 export class OrderQuery {
-    getReorder(incrementId: string): Query<'reorderItems', GQLReorderItemsOutput & {
+    getReorder(incrementId: string): Mutation<'reorderItems', GQLReorderItemsOutput & {
         userInputErrors: GQLCheckoutUserInputError[];
     }> {
-        return new Query<'reorderItems', GQLReorderItemsOutput>('reorderItems')
+        return new Mutation<'reorderItems', GQLReorderItemsOutput>('reorderItems')
             .addArgument('orderNumber', 'String!', incrementId)
             .addField(this._getReorderField());
     }

@@ -125,26 +125,26 @@ export class MyAccountQuery {
             .addFieldList(this._getAddressFields());
     }
 
-    getCreateAccountMutation(options: CreateAccountOptions): Field<'createCustomer', GQLCustomerOutput> {
+    getCreateAccountMutation(options: CreateAccountOptions): Mutation<'createCustomer', GQLCustomerOutput> {
         const { customer, password } = options;
 
-        return new Field<'createCustomer', GQLCustomerOutput>('createCustomer')
+        return new Mutation<'createCustomer', GQLCustomerOutput>('createCustomer')
             .addArgument('input', 'CustomerInput!', { ...customer, password })
             .addField(this._getCustomerField());
     }
 
-    getConfirmAccountMutation(options: ConfirmAccountOptions): Field<'confirmCustomerEmail', GQLCreateCustomerType> {
+    getConfirmAccountMutation(options: ConfirmAccountOptions): Mutation<'confirmCustomerEmail', GQLCreateCustomerType> {
         const { key, email, password } = options;
 
-        return new Field<'confirmCustomerEmail', GQLCreateCustomerType>('confirmCustomerEmail')
+        return new Mutation<'confirmCustomerEmail', GQLCreateCustomerType>('confirmCustomerEmail')
             .addArgument('key', 'String!', key)
             .addArgument('email', 'String!', email)
             .addArgument('password', 'String!', password)
             .addFieldList(this._getConfirmAccountFields());
     }
 
-    getRevokeAccountToken(): Field<'revokeCustomerToken', GQLRevokeCustomerTokenOutput> {
-        return new Field<'revokeCustomerToken', GQLRevokeCustomerTokenOutput>('revokeCustomerToken')
+    getRevokeAccountToken(): Mutation<'revokeCustomerToken', GQLRevokeCustomerTokenOutput> {
+        return new Mutation<'revokeCustomerToken', GQLRevokeCustomerTokenOutput>('revokeCustomerToken')
             .addFieldList(this.getRevokeAccountTokenFields());
     }
 
@@ -237,12 +237,14 @@ export class MyAccountQuery {
      * @returns {Field}
      * @memberof MyAccount
      */
-    getForgotPasswordMutation(options: { email: string }): Field<'forgotPassword', GQLCustomerActionConfirmationType & {
-        status: string;
-    }> {
+    getForgotPasswordMutation(
+        options: { email: string }
+    ): Mutation<'forgotPassword', GQLCustomerActionConfirmationType & {
+            status: string;
+        }> {
         const { email } = options;
 
-        return new Field<'forgotPassword', GQLCustomerActionConfirmationType>('forgotPassword')
+        return new Mutation<'forgotPassword', GQLCustomerActionConfirmationType>('forgotPassword')
             .addArgument('email', 'String!', email)
             .addField('status');
     }

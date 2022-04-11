@@ -10,6 +10,8 @@
  */
 import { AnyAction } from 'redux';
 
+import { GQLCustomer } from 'Type/Graphql.type';
+
 export enum MyAccountActionType {
     UPDATE_CUSTOMER_SIGN_IN_STATUS = 'UPDATE_CUSTOMER_SIGN_IN_STATUS',
     UPDATE_CUSTOMER_DETAILS = 'UPDATE_CUSTOMER_DETAILS',
@@ -27,12 +29,12 @@ export interface UpdateCustomerSignInStatusAction {
 
 export interface UpdateCustomerDetailsAction extends AnyAction {
     type: MyAccountActionType.UPDATE_CUSTOMER_DETAILS;
-    customer: Record<string, unknown>;
+    customer: GQLCustomer;
 }
 
 export interface UpdateCustomerPasswordResetStatusAction extends AnyAction {
     type: MyAccountActionType.UPDATE_CUSTOMER_PASSWORD_RESET_STATUS;
-    status: boolean;
+    status: string;
     message: string;
 }
 

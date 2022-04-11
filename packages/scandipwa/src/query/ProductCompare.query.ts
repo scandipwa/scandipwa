@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, Mutation } from '@tilework/opus';
+import { Field, Mutation, Query } from '@tilework/opus';
 
 import { ProductListQuery } from 'Query/ProductList.query';
 import {
@@ -18,7 +18,6 @@ import {
     GQLComparableItem,
     GQLCompareList,
     GQLDeleteCompareListOutput,
-    GQLGroupedProduct,
     GQLProductAttribute,
     GQLProductInterface
 } from 'Type/Graphql.type';
@@ -80,14 +79,14 @@ export class ProductCompareQuery extends ProductListQuery {
             .addFieldList(this._getCompareListFields());
     }
 
-    getCompareList(uid: string): Field<'compareList', GQLCompareList> {
-        return new Field<'compareList', GQLCompareList>('compareList')
+    getCompareList(uid: string): Query<'compareList', GQLCompareList> {
+        return new Query<'compareList', GQLCompareList>('compareList')
             .addArgument('uid', 'ID!', uid)
             .addFieldList(this._getCompareListFields());
     }
 
-    getCompareListIds(uid: string): Field<'compareList', GQLCompareList & { items: GQLComparableItem[] }> {
-        return new Field<'compareList', GQLCompareList>('compareList')
+    getCompareListIds(uid: string): Query<'compareList', GQLCompareList & { items: GQLComparableItem[] }> {
+        return new Query<'compareList', GQLCompareList>('compareList')
             .addArgument('uid', 'ID!', uid)
             .addField(this._getComparableItemIdsField());
     }
@@ -140,17 +139,7 @@ export class ProductCompareQuery extends ProductListQuery {
         ];
     }
 
-    _getCompareProductField(): Field<
-    'product',
-    GQLProductInterface & {
-        url: string;
-    } & {
-        review_count: number;
-    } & {
-        rating_summary: unknown;
-    } & {
-        description: { [x: string]: string };
-    } & Partial<GQLGroupedProduct>> {
+    _getCompareProductField() {
         return new Field<'product', GQLProductInterface>('product')
             .addFieldList(this._getProductInterfaceFields(true, false))
             .addFieldList(['url'])

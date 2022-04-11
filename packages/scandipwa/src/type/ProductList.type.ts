@@ -13,6 +13,7 @@ import { StockStatus } from 'Component/Product/Stock.config';
 import { MetaTitle } from 'Type/Common.type';
 import { PriceRange } from 'Type/Price.type';
 import { UrlRewrite } from 'Type/Router.type';
+import { IndexedProduct } from 'Util/Product/Product';
 
 import {
     GQLBundleProduct,
@@ -422,7 +423,7 @@ export enum LinkedProductType {
 }
 
 export type LinkedProducts = {
-    items: Product[];
+    items: IndexedProduct[];
     total_count: number;
 };
 
