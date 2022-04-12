@@ -172,7 +172,6 @@ export class AddToCartContainer extends PureComponent {
             if (quantity < minQty) {
                 showNotification('info', __('Sorry! Minimum quantity for this product is %s!', minQty));
             } else {
-                console.log(quantity, minQty, maxQty);
                 showNotification('info', __('Sorry! Maximum quantity for this product is %s!', maxQty));
             }
         }
