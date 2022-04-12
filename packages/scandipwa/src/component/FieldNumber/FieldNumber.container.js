@@ -47,12 +47,8 @@ export class FieldNumberContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { attr: { max, min, defaultValue = min } = {} } = this.props;
+        const { attr: { min, defaultValue = min } = {} } = this.props;
         const { attr: { defaultValue: prevDefaultValue } = {} } = prevProps;
-
-        if (max < min) {
-            this.setState({ value: max });
-        }
 
         if (defaultValue <= 0 || prevDefaultValue <= 0) {
             // eslint-disable-next-line react/no-did-update-set-state
