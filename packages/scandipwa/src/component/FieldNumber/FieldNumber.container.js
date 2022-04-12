@@ -46,11 +46,13 @@ export class FieldNumberContainer extends PureComponent {
         this.handleInitialLoad(defaultValue);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        const { attr: { min, defaultValue = min } = {} } = this.props;
+    componentDidUpdate(prevProps) {
+        const { attr: { max, min, defaultValue = min } = {} } = this.props;
         const { attr: { defaultValue: prevDefaultValue } = {} } = prevProps;
-        const { value } = this.state;
-        const { value: prevValue } = prevState;
+
+        if (max < min) {
+            this.setState({ value: max });
+        }
 
         if (defaultValue <= 0 || prevDefaultValue <= 0) {
             // eslint-disable-next-line react/no-did-update-set-state
@@ -62,11 +64,6 @@ export class FieldNumberContainer extends PureComponent {
             this.handleInitialLoad(defaultValue);
         } else if (defaultValue <= min) {
             this.handleInitialLoad(min);
-        }
-
-        if (value !== prevValue) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ value });
         }
     }
 
@@ -87,7 +84,7 @@ export class FieldNumberContainer extends PureComponent {
         const { value: stateValue } = this.state;
 
         // eslint-disable-next-line no-nested-ternary
-        const rangedValue = value < min ? min : value > max ? max : value;
+        const rangedValue = value <= min ? min : value > max ? max : value;
 
         if (stateValue >= 0) {
             this.fieldRef.value = value;
