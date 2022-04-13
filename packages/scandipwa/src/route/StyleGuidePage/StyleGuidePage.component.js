@@ -367,27 +367,136 @@ export class StyleGuidePageComponent extends PureComponent {
                   } }
                 />
                   <h4 block="StyleGuidePage" elem="SubHeading">{ __('Number') }</h4>
+                  <Field
+                    type={ FIELD_TYPE.number }
+                    label="Number"
+                    attr={ {
+                        placeholder: __('Number'),
+                        step: 5,
+                        min: 0
+                    } }
+                    addRequiredTag
+                  />
+                    <Field
+                      type={ FIELD_TYPE.number }
+                      label="Number"
+                      attr={ {
+                          placeholder: __('Number'),
+                          step: 5,
+                          min: 0
+                      } }
+                      isDisabled
+                    />
+                      <Field
+                        type={ FIELD_TYPE.number }
+                        label="Number"
+                        attr={ {
+                            placeholder: __('Number'),
+                            step: 5,
+                            min: 0
+                        } }
+
+                      />
                 <Field
                   type={ FIELD_TYPE.number }
                   label="Number"
                   attr={ {
                       placeholder: __('Number'),
                       block: 'StyleGuidePage',
-                      elem: 'Number',
-                      mods: { isValid: true },
+                      elem: 'Text',
+                      mods: { isFocused: true },
                       step: 5,
                       min: 0
                   } }
+
+                />
+                <Field
+                  type={ FIELD_TYPE.number }
+                  label="Number"
+                  attr={ {
+                      placeholder: __('Number'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { hasError: true },
+                      step: 5,
+                      min: 0
+                  } }
+                  addRequiredTag
+                />
+                <div block="Field" elem="ErrorMessages">
+                This field is required!
+                </div>
+                <Field
+                  type={ FIELD_TYPE.number }
+                  label="Number"
+                  attr={ {
+                      placeholder: __('Number'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { isValid: true },
+                      value: 56,
+                      step: 5,
+                      min: 0
+                  } }
+
                 />
                   <h4 block="StyleGuidePage" elem="SubHeading">{ __('Telephone') }</h4>
+                    <Field
+                      type={ FIELD_TYPE.tel }
+                      label="Telephone"
+                      attr={ {
+                          placeholder: __('Telephone')
+                      } }
+                      addRequiredTag
+                    />
+                    <Field
+                      type={ FIELD_TYPE.tel }
+                      label="Telephone"
+                      attr={ {
+                          placeholder: __('Telephone')
+                      } }
+                      isDisabled
+                    />
+                      <Field
+                        type={ FIELD_TYPE.tel }
+                        label="Telephone"
+                        attr={ {
+                            placeholder: __('Telephone')
+                        } }
+                      />
                 <Field
                   type={ FIELD_TYPE.tel }
                   label="Telephone"
                   attr={ {
                       placeholder: __('Telephone'),
                       block: 'StyleGuidePage',
-                      elem: 'Tel',
-                      mods: { isValid: true }
+                      elem: 'Text',
+                      mods: { isFocused: true }
+                  } }
+                />
+                <Field
+                  type={ FIELD_TYPE.tel }
+                  label="Telephone"
+                  attr={ {
+                      placeholder: __('Telephone'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { hasError: true }
+                  } }
+                  addRequiredTag
+                />
+                <div block="Field" elem="ErrorMessages">
+                This field is required!
+                </div>
+                <Field
+                  type={ FIELD_TYPE.tel }
+                  label="Telephone"
+                  attr={ {
+                      placeholder: __('Telephone'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { isValid: true },
+                      value: '998901234567'
                   } }
                 />
 
