@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,19 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+export enum ImageType {
+    SMALL = 'small_image',
+    THUMBNAIL = 'thumbnail',
+    IMAGE = 'image'
+}
+
+export enum MediaType {
+    IMAGE = 'image',
+    VIDEO = 'external-video',
+    PLACEHOLDER = 'placeholder'
+}
+
 export const MAX_ZOOM_SCALE = 8;
 
-export const IMAGE_TYPE = 'image';
-export const VIDEO_TYPE = 'external-video';
-export const PLACEHOLDER_TYPE = 'placeholder';
-
-export const THUMBNAIL_KEY = 'small_image';
+export const THUMBNAIL_KEY = ImageType.SMALL;
 export const AMOUNT_OF_PLACEHOLDERS = 0;
 
 export const PRODUCT_GALERY_POPUP_ID = 'ProductGalleryPopup';
-
-export enum ImageTypes {
-    SMALL_KEY = 'small_image',
-    THUMBNAIL_KEY = 'thumbnail',
-    IMAGE_KEY = 'image'
-}

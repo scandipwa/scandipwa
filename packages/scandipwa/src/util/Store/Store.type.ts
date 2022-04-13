@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import {
-    Action,
+    AnyAction,
     Reducer,
     ReducersMapObject,
     Store
@@ -36,10 +36,10 @@ export interface RootState {}
 export type AppDispatch = typeof store.dispatch;
 
 declare global {
-    export type InjectReducer<S, A> = (key: string, asyncReducer: Reducer<S, Action<A>>) => void;
+    export type InjectReducer<S> = (key: string, asyncReducer: Reducer<S, AnyAction>) => void;
 
-    export type ModifiedReduxStore<S, A> = (Store<S, Action<A>> & {
+    export type ModifiedReduxStore<S> = (Store<S, AnyAction> & {
         asyncReducers?: ReducersMapObject;
-        injectReducer?: InjectReducer<S, A>;
+        injectReducer?: InjectReducer<S>;
     });
 }

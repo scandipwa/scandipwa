@@ -19,7 +19,7 @@ import {
     GRID_LAYOUT,
     LAYOUT_KEY,
     LIST_LAYOUT,
-    SORT_DIRECTION_TYPE
+    SortDirectionType
 } from 'Route/CategoryPage/CategoryPage.config';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
@@ -169,7 +169,7 @@ export class CategoryPageContainer extends PureComponent {
 
     config = {
         sortKey: 'name',
-        sortDirection: SORT_DIRECTION_TYPE.asc
+        sortDirection: SortDirectionType.asc
     };
 
     containerFunctions = {
@@ -201,12 +201,12 @@ export class CategoryPageContainer extends PureComponent {
         if (!defaultPlpType || !plpTypes) {
             if (plpType.match('-')) {
                 const plpTypes = plpType.split('-');
-                const defaultType = isMobile ? GRID_LAYOUT : plpTypes[0];
+                const defaultType = isMobile ? GRID_LAYOUT : plpTypes[ 0 ];
 
                 Object.assign(update, { defaultPlpType: defaultType, plpTypes });
             } else {
                 const defaultType = isMobile ? GRID_LAYOUT : plpType;
-                Object.assign(update, { defaultPlpType: defaultType, plpTypes: [plpType] });
+                Object.assign(update, { defaultPlpType: defaultType, plpTypes: [ plpType ] });
             }
         }
 
@@ -471,9 +471,9 @@ export class CategoryPageContainer extends PureComponent {
         const { location: { search } } = this.props;
 
         return search.substr(1).split('&').reduce((acc, part) => {
-            const [key, value] = part.split('=');
+            const [ key, value ] = part.split('=');
 
-            return { ...acc, [key]: value };
+            return { ...acc, [ key ]: value };
         }, {});
     }
 
@@ -485,9 +485,9 @@ export class CategoryPageContainer extends PureComponent {
             if (!filter) {
                 return acc;
             }
-            const [key, value] = filter.split(':');
+            const [ key, value ] = filter.split(':');
 
-            return { ...acc, [key]: value.split(',') };
+            return { ...acc, [ key ]: value.split(',') };
         }, {});
     }
 
@@ -715,12 +715,12 @@ export class CategoryPageContainer extends PureComponent {
 
         return (
             <CategoryPage
-              pageSize={ pageSize }
-              defaultPlpType={ defaultPlpType }
-              selectedLayoutType={ selectedLayoutType }
-              activeLayoutType={ activeLayoutType }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                pageSize={pageSize}
+                defaultPlpType={defaultPlpType}
+                selectedLayoutType={selectedLayoutType}
+                activeLayoutType={activeLayoutType}
+                {...this.containerFunctions}
+                {...this.containerProps()}
             />
         );
     }

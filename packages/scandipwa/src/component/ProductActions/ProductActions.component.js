@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import Html from 'Component/Html';
 import { Product } from 'Component/Product/Product.component';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
-import { STOCK_TYPE } from 'Component/Product/Stock.config';
+import { StockType } from 'Component/Product/Stock.config';
 import ProductAlerts from 'Component/ProductAlerts';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
@@ -76,16 +76,16 @@ export class ProductActions extends Product {
 
         return (
             <button
-              block="ProductActions"
-              elem="Review"
-              onClick={ showNewReviewPopup }
+                block="ProductActions"
+                elem="Review"
+                onClick={showNewReviewPopup}
             >
                 <span
-                  block="ProductActions"
-                  elem="ReviewText"
-                  mods={ { isNotSafariOrIos } }
+                    block="ProductActions"
+                    elem="ReviewText"
+                    mods={{ isNotSafariOrIos }}
                 >
-                    { __('Write a review') }
+                    {__('Write a review')}
                 </span>
             </button>
         );
@@ -101,21 +101,21 @@ export class ProductActions extends Product {
 
         return (
             <section
-              block="ProductActions"
-              elem="Section"
-              mods={ { type: 'sku' } }
-              aria-label="Product SKU and availability"
+                block="ProductActions"
+                elem="Section"
+                mods={{ type: 'sku' }}
+                aria-label="Product SKU and availability"
             >
-                { showOnlyIfLoaded(
+                {showOnlyIfLoaded(
                     sku,
                     (
                         <>
-                            { this.renderSku() }
-                            { this.renderStock() }
+                            {this.renderSku()}
+                            {this.renderStock()}
                         </>
                     ),
                     <TextPlaceholder />
-                ) }
+                )}
             </section>
         );
     }
@@ -124,11 +124,11 @@ export class ProductActions extends Product {
         const { product: { short_description } } = this.props;
         const { html } = short_description || {};
 
-        const htmlWithItemProp = `<div itemProp="description">${ html }</div>`;
+        const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
 
         return (
             <div block="ProductActions" elem="ShortDescription">
-                { html ? <Html content={ htmlWithItemProp } /> : <p><TextPlaceholder length="long" /></p> }
+                {html ? <Html content={htmlWithItemProp} /> : <p><TextPlaceholder length="long" /></p>}
             </div>
         );
     }
@@ -143,12 +143,12 @@ export class ProductActions extends Product {
 
         return (
             <section
-              block="ProductActions"
-              elem="Section"
-              mods={ { type: 'short' } }
-              aria-label="Product short description"
+                block="ProductActions"
+                elem="Section"
+                mods={{ type: 'short' }}
+                aria-label="Product short description"
             >
-                { this.renderShortDescriptionContent() }
+                {this.renderShortDescriptionContent()}
             </section>
         );
     }
@@ -159,8 +159,8 @@ export class ProductActions extends Product {
         if (offerCount > 1) {
             return (
                 <meta
-                  itemProp="offerCount"
-                  content={ offerCount }
+                    itemProp="offerCount"
+                    content={offerCount}
                 />
             );
         }
@@ -177,17 +177,17 @@ export class ProductActions extends Product {
 
         return (
             <>
-                { this.renderOfferCount() }
-                <meta itemProp="availability" content={ stockMeta } />
-                <meta itemProp="url" content={ metaLink } />
-                { /* eslint-disable-next-line react/forbid-elements */ }
+                {this.renderOfferCount()}
+                <meta itemProp="availability" content={stockMeta} />
+                <meta itemProp="url" content={metaLink} />
+                { /* eslint-disable-next-line react/forbid-elements */}
                 <a
-                  block="ProductActions"
-                  elem="SchemaUrl"
-                  itemProp="url"
-                  href={ metaLink }
+                    block="ProductActions"
+                    elem="SchemaUrl"
+                    itemProp="url"
+                    href={metaLink}
                 >
-                    { productName }
+                    {productName}
                 </a>
             </>
         );
@@ -211,15 +211,15 @@ export class ProductActions extends Product {
 
         return (
             <div
-              block="ProductActions"
-              elem="PriceWrapper"
+                block="ProductActions"
+                elem="PriceWrapper"
             >
-                { this.renderSchema() }
+                {this.renderSchema()}
                 <meta
-                  itemProp="highPrice"
-                  content={ (minFinalPrice === maxFinalPrice) ? minFinalPrice : maxFinalPrice }
+                    itemProp="highPrice"
+                    content={(minFinalPrice === maxFinalPrice) ? minFinalPrice : maxFinalPrice}
                 />
-                { this.renderPrice() }
+                {this.renderPrice()}
             </div>
         );
     }
@@ -238,13 +238,13 @@ export class ProductActions extends Product {
 
         return (
             <div
-              block="ProductActions"
-              elem="Schema"
-              itemType={ offerType }
-              itemProp="offers"
-              itemScope
+                block="ProductActions"
+                elem="Schema"
+                itemType={offerType}
+                itemProp="offers"
+                itemScope
             >
-                { this.renderPriceWithSchema() }
+                {this.renderPriceWithSchema()}
             </div>
         );
     }
@@ -252,11 +252,11 @@ export class ProductActions extends Product {
     renderReviewSection() {
         return (
             <div
-              block="ProductActions"
-              elem="Reviews"
+                block="ProductActions"
+                elem="Reviews"
             >
-                { this.renderRatingSummary() }
-                { this.renderReviewButton() }
+                {this.renderRatingSummary()}
+                {this.renderReviewButton()}
             </div>
         );
     }
@@ -280,7 +280,7 @@ export class ProductActions extends Product {
 
         return (
             <div block="ProductActions" elem="TierPrices">
-                <TierPrices product={ getActiveProduct() } />
+                <TierPrices product={getActiveProduct()} />
             </div>
         );
     }
@@ -305,13 +305,13 @@ export class ProductActions extends Product {
 
         return (
             <section
-              block="ProductActions"
-              elem="Section"
-              mods={ { type: 'alerts' } }
+                block="ProductActions"
+                elem="Section"
+                mods={{ type: 'alerts' }}
             >
                 <ProductAlerts
-                  productId={ id }
-                  stockStatus={ inStock ? STOCK_TYPE.IN_STOCK : STOCK_TYPE.OUT_OF_STOCK }
+                    productId={id}
+                    stockStatus={inStock ? StockType.IN_STOCK : StockType.OUT_OF_STOCK}
                 />
             </section>
         );
@@ -320,15 +320,15 @@ export class ProductActions extends Product {
     renderAddToCartActionBlock() {
         return (
             <div
-              block="ProductActions"
-              elem="AddToCartWrapper"
-              mods={ { isPrerendered: isSSR() || isCrawler() } }
+                block="ProductActions"
+                elem="AddToCartWrapper"
+                mods={{ isPrerendered: isSSR() || isCrawler() }}
             >
-                { this.renderQuantityChanger() }
-                { this.renderAddToCartButton() }
+                {this.renderQuantityChanger()}
+                {this.renderAddToCartButton()}
                 <div block="ProductActions" elem="ActionButtons">
-                    { this.renderWishlistButton() }
-                    { this.renderCompareButton() }
+                    {this.renderWishlistButton()}
+                    {this.renderCompareButton()}
                 </div>
             </div>
         );
@@ -337,13 +337,13 @@ export class ProductActions extends Product {
     renderAddToCartMobile() {
         return (
             <div
-              block="ProductActions"
-              elem="AddToCartFixed"
-              mods={ { isPrerendered: isSSR() || isCrawler() } }
+                block="ProductActions"
+                elem="AddToCartFixed"
+                mods={{ isPrerendered: isSSR() || isCrawler() }}
             >
-                { this.renderQuantityChanger() }
-                { this.renderAddToCartButton() }
-                { this.renderWishlistButton() }
+                {this.renderQuantityChanger()}
+                {this.renderAddToCartButton()}
+                {this.renderWishlistButton()}
             </div>
         );
     }
@@ -351,20 +351,20 @@ export class ProductActions extends Product {
     renderDesktop() {
         return (
             <>
-                { this.renderBrand(true) }
-                { this.renderName() }
-                { this.renderReviewSection() }
-                { this.renderSkuAndStock() }
-                { this.renderShortDescription() }
-                { this.renderConfigurableOptions() }
-                { this.renderCustomAndBundleOptions() }
-                { this.renderGroupedOptions() }
-                { this.renderDownloadableSamples() }
-                { this.renderDownloadableLinks() }
-                { this.renderTierPrices() }
-                { this.renderProductAlerts() }
-                { this.renderPriceWithGlobalSchema() }
-                { this.renderAddToCartActionBlock() }
+                {this.renderBrand(true)}
+                {this.renderName()}
+                {this.renderReviewSection()}
+                {this.renderSkuAndStock()}
+                {this.renderShortDescription()}
+                {this.renderConfigurableOptions()}
+                {this.renderCustomAndBundleOptions()}
+                {this.renderGroupedOptions()}
+                {this.renderDownloadableSamples()}
+                {this.renderDownloadableLinks()}
+                {this.renderTierPrices()}
+                {this.renderProductAlerts()}
+                {this.renderPriceWithGlobalSchema()}
+                {this.renderAddToCartActionBlock()}
             </>
         );
     }
@@ -375,24 +375,24 @@ export class ProductActions extends Product {
 
         return (
             <>
-                { this.renderTierPrices() }
-                <div block="ProductActions" elem="ActionsWrapper" mods={ { isWithoutPriceTotal } }>
-                    { this.renderPriceWithGlobalSchema() }
-                    { this.renderSkuAndStock() }
+                {this.renderTierPrices()}
+                <div block="ProductActions" elem="ActionsWrapper" mods={{ isWithoutPriceTotal }}>
+                    {this.renderPriceWithGlobalSchema()}
+                    {this.renderSkuAndStock()}
                 </div>
                 <div block="ProductActions" elem="ActionsWrapper">
-                    { this.renderReviewSection() }
-                    { this.renderCompareButton() }
+                    {this.renderReviewSection()}
+                    {this.renderCompareButton()}
                 </div>
-                { this.renderBrand(true) }
-                { this.renderShortDescription() }
-                { this.renderProductAlerts() }
-                { this.renderConfigurableOptions() }
-                { this.renderCustomAndBundleOptions() }
-                { this.renderGroupedOptions() }
-                { this.renderDownloadableSamples() }
-                { this.renderDownloadableLinks() }
-                { this.renderAddToCartMobile() }
+                {this.renderBrand(true)}
+                {this.renderShortDescription()}
+                {this.renderProductAlerts()}
+                {this.renderConfigurableOptions()}
+                {this.renderCustomAndBundleOptions()}
+                {this.renderGroupedOptions()}
+                {this.renderDownloadableSamples()}
+                {this.renderDownloadableLinks()}
+                {this.renderAddToCartMobile()}
             </>
         );
     }
@@ -401,8 +401,8 @@ export class ProductActions extends Product {
         const { device: { isMobile } = {}, setValidator } = this.props;
 
         return (
-            <article block="ProductActions" ref={ (elem) => setValidator(elem) }>
-                { isMobile ? this.renderMobile() : this.renderDesktop() }
+            <article block="ProductActions" ref={(elem) => setValidator(elem)}>
+                {isMobile ? this.renderMobile() : this.renderDesktop()}
             </article>
         );
     }

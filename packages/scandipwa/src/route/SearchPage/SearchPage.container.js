@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 
 // TODO: try SEARCH type
 import { CATEGORY } from 'Component/Header/Header.config';
-import { LOADING_TIME, SORT_DIRECTION_TYPE } from 'Route/CategoryPage/CategoryPage.config';
+import { LOADING_TIME, SortDirectionType } from 'Route/CategoryPage/CategoryPage.config';
 import { CategoryPageContainer } from 'Route/CategoryPage/CategoryPage.container';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -104,7 +104,7 @@ export class SearchPageContainer extends CategoryPageContainer {
 
     config = {
         sortKey: 'none',
-        sortDirection: SORT_DIRECTION_TYPE.asc
+        sortDirection: SortDirectionType.asc
     };
 
     updateMeta() {
@@ -116,10 +116,10 @@ export class SearchPageContainer extends CategoryPageContainer {
         const { updateBreadcrumbs } = this.props;
         const search = decodeString(this.getSearchParam());
 
-        updateBreadcrumbs([{
+        updateBreadcrumbs([ {
             url: '',
             name: search
-        }]);
+        } ]);
     }
 
     updateHeaderState() {
@@ -215,11 +215,11 @@ export class SearchPageContainer extends CategoryPageContainer {
     render() {
         return (
             <SearchPage
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
-              // addded here to not override the container props
-              search={ this.getSearchParam() }
-              sortFields={ this.getSortFields() }
+                {...this.containerFunctions}
+                {...this.containerProps()}
+                // addded here to not override the container props
+                search={this.getSearchParam()}
+                sortFields={this.getSortFields()}
             />
         );
     }

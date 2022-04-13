@@ -9,9 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { STOCK_TYPE } from 'Component/Product/Stock.config';
+import { StockType } from 'Component/Product/Stock.config';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
 import {
     Attribute,
@@ -171,7 +172,7 @@ export const getVariantsIndexes = (
         }, [] as number[]);
 
     if (inStockOnly) {
-        return result.filter((n) => variants[n].stock_status === STOCK_TYPE.IN_STOCK);
+        return result.filter((n) => variants[n].stock_status === StockType.IN_STOCK);
     }
 
     return result;
@@ -438,7 +439,7 @@ export const showNewReviewPopup = (): void => {
 
     // if not logged in and guest reviews are not enabled
     if (!isSignedIn() && !isGuestEnabled) {
-        dispatch(showNotification('info', __('You must login or register to review products.')));
+        dispatch(showNotification(NotificationType.INFO, __('You must login or register to review products.')));
 
         return;
     }

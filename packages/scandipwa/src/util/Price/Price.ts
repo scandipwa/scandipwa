@@ -11,12 +11,12 @@
 
 import { PriceTier } from 'Type/ProductList.type';
 
-import { currencyMap, HUNDRED_PERCENT } from './Price.config';
+import { CurrencyMap, HUNDRED_PERCENT } from './Price.config';
 
 /** @namespace Util/Price/formatCurrency */
 export const formatCurrency = (
     currency = 'USD'
-): string | null => (Object.keys(currencyMap).includes(currency) ? currency : null);
+): string | null => (Object.keys(CurrencyMap).includes(currency) ? currency : null);
 
 /** @namespace Util/Price/formatPrice */
 export const formatPrice = (price: number, currency = 'USD') : string => {

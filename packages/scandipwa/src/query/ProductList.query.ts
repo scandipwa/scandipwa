@@ -11,7 +11,7 @@
 
 import { Field, InlineFragment, Query } from '@tilework/opus';
 
-import { SORT_DIRECTION_TYPE } from 'Route/CategoryPage/CategoryPage.config';
+import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import {
@@ -197,7 +197,7 @@ export class ProductListQuery {
                         return {};
                     }
 
-                    return { [sortKey]: sortDirection || SORT_DIRECTION_TYPE.asc };
+                    return { [sortKey]: sortDirection || SortDirections.ASC };
                 }
             },
             filter: {

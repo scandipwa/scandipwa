@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,21 +10,18 @@
  */
 
 export const LOADING_TIME = 500;
-
-export const DISPLAY_MODE_PRODUCTS = 'PRODUCTS';
-
-export const DISPLAY_MODE_CMS_BLOCK = 'PAGE';
-
-export const DISPLAY_MODE_BOTH = 'PRODUCTS_AND_PAGE';
-
 export const LAYOUT_KEY = 'layout';
-export const GRID_LAYOUT = 'grid';
-export const LIST_LAYOUT = 'list';
 
-export const SORT_DIRECTION_TYPE = {
-    asc: 'ASC',
-    desc: 'DESC'
-};
+export enum CategoryDisplayMode {
+    PRODUCTS = 'PRODUCTS',
+    CMS_BLOCK = 'PAGE',
+    BOTH = 'PRODUCTS_AND_PAGE'
+}
+
+export enum CategoryPageLayout {
+    GRID = 'grid',
+    LIST = 'list'
+}
 
 export enum SortDirections {
     ASC = 'ASC',

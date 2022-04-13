@@ -12,7 +12,7 @@ export const TIER_PRICES = 'TIER_PRICES';
 
 export const HUNDRED_PERCENT = 100;
 
-export enum currencyMap {
+export enum CurrencyMap {
     AED = 'د.إ',
     AFN = '؋',
     ALL = 'L',

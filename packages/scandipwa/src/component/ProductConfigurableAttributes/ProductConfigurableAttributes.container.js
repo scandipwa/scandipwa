@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { STOCK_TYPE } from 'Component/Product/Stock.config';
+import { StockType } from 'Component/Product/Stock.config';
 import {
     BIG_PLACEHOLDER_CONFIG
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
@@ -32,7 +32,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         updateConfigurableVariant: PropTypes.func.isRequired,
         isExpandable: PropTypes.bool,
         showProductAttributeAsLink: PropTypes.bool,
-        variants: PropTypes.oneOfType([ItemsType, ItemType]),
+        variants: PropTypes.oneOfType([ ItemsType, ItemType ]),
         mix: MixType,
         isReady: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
@@ -111,7 +111,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
             attribute_code,
             attribute_value
         })
-            ? [...acc, getBooleanLabel(attribute_options[attribute_value].label, is_boolean)]
+            ? [ ...acc, getBooleanLabel(attribute_options[ attribute_value ].label, is_boolean) ]
             : acc), []).join(', ');
     }
 
@@ -122,7 +122,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
 
     isSelected({ attribute_code, attribute_value }) {
         const { parameters = {} } = this.props;
-        const parameter = parameters[attribute_code];
+        const parameter = parameters[ attribute_code ];
 
         if (parameter === undefined) {
             return false;
@@ -154,7 +154,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         const isAttributeSelected = Object.hasOwnProperty.call(parameters, attribute_code);
 
         // If value matches current attribute_value, option should be enabled
-        if (isAttributeSelected && parameters[attribute_code] === attribute_value) {
+        if (isAttributeSelected && parameters[ attribute_code ] === attribute_value) {
             return true;
         }
 
@@ -162,19 +162,19 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
 
         const selectedAttributes = isAttributeSelected
             // Need to exclude itself, otherwise different attribute_values of the same attribute_code will always be disabled
-            ? parameterPairs.filter(([key]) => key !== attribute_code)
+            ? parameterPairs.filter(([ key ]) => key !== attribute_code)
             : parameterPairs;
 
         return variants
             .some(({ stock_status, attributes }) => {
-                const { attribute_value: foundValue } = attributes[attribute_code] || {};
+                const { attribute_value: foundValue } = attributes[ attribute_code ] || {};
 
                 return (
-                    stock_status === STOCK_TYPE.IN_STOCK
+                    stock_status === StockType.IN_STOCK
                     // Variant must have currently checked attribute_code and attribute_value
                     && foundValue === attribute_value
                     // Variant must have all currently selected attributes
-                    && selectedAttributes.every(([key, value]) => attributes[key].attribute_value === value)
+                    && selectedAttributes.every(([ key, value ]) => attributes[ key ].attribute_value === value)
                 );
             });
     }
@@ -182,8 +182,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
     render() {
         return (
             <ProductConfigurableAttributes
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

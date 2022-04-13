@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { STOCK_TYPE } from 'Component/Product/Stock.config';
+import { StockType } from 'Component/Product/Stock.config';
 import { StockStatusType } from 'Type/StockStatus.type';
 
 import './ProductAlerts.style';
@@ -42,11 +42,11 @@ export class ProductAlerts extends PureComponent {
 
         return (
             <button
-              block="ProductAlerts"
-              elem="PriceDrop"
-              onClick={ handlePriceDropSubscribeAlertPriceDrop }
+                block="ProductAlerts"
+                elem="PriceDrop"
+                onClick={handlePriceDropSubscribeAlertPriceDrop}
             >
-                { __('Notify me when the price drops') }
+                {__('Notify me when the price drops')}
             </button>
         );
     }
@@ -62,17 +62,17 @@ export class ProductAlerts extends PureComponent {
             return null;
         }
 
-        if (stockStatus === STOCK_TYPE.IN_STOCK || !stockStatus) {
+        if (stockStatus === StockType.IN_STOCK || !stockStatus) {
             return null;
         }
 
         return (
             <button
-              block="ProductAlerts"
-              elem="InStock"
-              onClick={ handlePriceDropSubscribeAlertInStock }
+                block="ProductAlerts"
+                elem="InStock"
+                onClick={handlePriceDropSubscribeAlertInStock}
             >
-                { __('Notify me when this product is in stock') }
+                {__('Notify me when this product is in stock')}
             </button>
         );
     }
@@ -80,11 +80,11 @@ export class ProductAlerts extends PureComponent {
     render() {
         return (
             <div
-              block="ProductAlerts"
-              elem="Wrapper"
+                block="ProductAlerts"
+                elem="Wrapper"
             >
-                { this.renderPriceDropSubscribeButton() }
-                { this.renderInStockSubscribeButton() }
+                {this.renderPriceDropSubscribeButton()}
+                {this.renderInStockSubscribeButton()}
             </div>
         );
     }

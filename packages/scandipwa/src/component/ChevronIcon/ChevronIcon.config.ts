@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,11 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-export const LEFT = 'left';
-export const RIGHT = 'right';
-export const TOP = 'top';
-export const BOTTOM = 'bottom';
 
 export enum Directions {
     LEFT = 'left',

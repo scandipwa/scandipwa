@@ -21,7 +21,7 @@ import { PagesType } from 'Type/ProductList.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
 
-import { observerThreshold } from './ProductList.config';
+import { OBSERVER_THRESHOLD } from './ProductList.config';
 
 import './ProductList.style';
 
@@ -111,7 +111,7 @@ export class ProductList extends PureComponent {
                 const { currentPage } = this.props;
 
                 entries.forEach(({ target, isIntersecting }) => {
-                    const page = +Object.keys(this.nodes).find((node) => this.nodes[node] === target);
+                    const page = +Object.keys(this.nodes).find((node) => this.nodes[ node ] === target);
                     const index = this.pagesIntersecting.indexOf(page);
 
                     if (isIntersecting && index === -1) {
@@ -166,8 +166,8 @@ export class ProductList extends PureComponent {
         const hundredPercent = 100;
 
         return Array.from(
-            { length: (hundredPercent / observerThreshold) + 1 },
-            (_, i) => i * (observerThreshold / hundredPercent)
+            { length: (hundredPercent / OBSERVER_THRESHOLD) + 1 },
+            (_, i) => i * (OBSERVER_THRESHOLD / hundredPercent)
         );
     }
 
@@ -184,14 +184,14 @@ export class ProductList extends PureComponent {
 
         return (
             <div
-              block="ProductList"
-              elem="LoadButton"
-              role="button"
-              tabIndex="0"
-              onKeyUp={ loadPrevPage }
-              onClick={ loadPrevPage }
+                block="ProductList"
+                elem="LoadButton"
+                role="button"
+                tabIndex="0"
+                onKeyUp={loadPrevPage}
+                onClick={loadPrevPage}
             >
-                { __('Load previous') }
+                {__('Load previous')}
             </div>
         );
     }
@@ -200,12 +200,12 @@ export class ProductList extends PureComponent {
         return (
             <div block="ProductList">
                 <div
-                  block="ProductList"
-                  elem="ProductsMissing"
+                    block="ProductList"
+                    elem="ProductsMissing"
                 >
-                    <h2>{ __('We are sorry!') }</h2>
-                    <h3>{ __('There were no products found matching your request.') }</h3>
-                    <p>{ __('Please, try removing selected filters and try again!') }</p>
+                    <h2>{__('We are sorry!')}</h2>
+                    <h3>{__('There were no products found matching your request.')}</h3>
+                    <p>{__('Please, try removing selected filters and try again!')}</p>
                 </div>
             </div>
         );
@@ -267,22 +267,22 @@ export class ProductList extends PureComponent {
 
         return (
             <ProductListPage
-              key={ key }
-              isInfiniteLoaderEnabled={ isInfiniteLoaderEnabled }
-              updatePages={ loadPage }
-              isLoading={ isLoading }
-              isVisible={ isVisible }
-              mix={ mix }
-              items={ items }
-              keys={ keys }
-              pageNumber={ pageNumber }
-              selectedFilters={ selectedFilters }
-              wrapperRef={ wrapperRef }
+                key={key}
+                isInfiniteLoaderEnabled={isInfiniteLoaderEnabled}
+                updatePages={loadPage}
+                isLoading={isLoading}
+                isVisible={isVisible}
+                mix={mix}
+                items={items}
+                keys={keys}
+                pageNumber={pageNumber}
+                selectedFilters={selectedFilters}
+                wrapperRef={wrapperRef}
             />
         );
     }
 
-    renderProductPage([key, items = []]) {
+    renderProductPage([ key, items = [] ]) {
         const { selectedFilters } = this.props;
 
         const pageNumber = +key;
@@ -293,7 +293,7 @@ export class ProductList extends PureComponent {
             items,
             key,
             wrapperRef: (node) => {
-                this.nodes[pageNumber] = node;
+                this.nodes[ pageNumber ] = node;
             }
         });
     }
@@ -311,8 +311,8 @@ export class ProductList extends PureComponent {
 
         return (
             <Pagination
-              isLoading={ isLoading }
-              totalPages={ totalPages }
+                isLoading={isLoading}
+                totalPages={totalPages}
             />
         );
     }
@@ -325,7 +325,7 @@ export class ProductList extends PureComponent {
         }
 
         return (
-            <h2>{ title }</h2>
+            <h2>{title}</h2>
         );
     }
 
@@ -342,14 +342,14 @@ export class ProductList extends PureComponent {
 
         return (
             <div
-              block="ProductList"
-              mods={ { isLoading } }
-              mix={ mix }
+                block="ProductList"
+                mods={{ isLoading }}
+                mix={mix}
             >
-                { this.renderTitle() }
-                { this.renderLoadButton() }
-                { this.renderPages() }
-                { this.renderPagination() }
+                {this.renderTitle()}
+                {this.renderLoadButton()}
+                {this.renderPages()}
+                {this.renderPagination()}
             </div>
         );
     }

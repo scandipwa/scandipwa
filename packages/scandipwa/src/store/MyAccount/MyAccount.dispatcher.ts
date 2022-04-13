@@ -180,7 +180,7 @@ export class MyAccountDispatcher {
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resetPassword/fetchMutation/then/dispatch */
             ({ s_resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status, '')),
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resetPassword/fetchMutation/then/dispatch/catch */
-            (errors) => dispatch(updateCustomerPasswordResetStatus('error', getErrorMessage(errors)))
+            (errors) => dispatch(updateCustomerPasswordResetStatus(NotificationType.ERROR, getErrorMessage(errors)))
         );
     }
 

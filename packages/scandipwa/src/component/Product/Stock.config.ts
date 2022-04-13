@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,12 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-// eslint-disable-next-line import/prefer-default-export
-export const STOCK_TYPE = {
-    IN_STOCK: 'IN_STOCK',
-    OUT_OF_STOCK: 'OUT_OF_STOCK'
-};
 
 export enum StockStatus {
     IN_STOCK = 'IN_STOCK',

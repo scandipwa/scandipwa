@@ -13,8 +13,8 @@
  */
 
 import { PRODUCT_TYPE } from 'Component/Product/Product.config';
-import { STOCK_TYPE } from 'Component/Product/Stock.config';
-import { ImageTypes } from 'Component/ProductGallery/ProductGallery.config';
+import { StockStatus } from 'Component/Product/Stock.config';
+import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
 import { PriceRange } from 'Type/Price.type';
 import {
     ItemOption,
@@ -29,7 +29,13 @@ import { formatPrice } from 'Util/Price';
 
 import { IndexedVariant } from './Product';
 import {
-    AdjustedPrice, AdjustedPrices, EnteredOption, FormattedAdjustedPrices, FormattedPrice, FormattedProduct, QtyDefault, QtyFields
+    AdjustedPrices,
+    EnteredOption,
+    FormattedAdjustedPrices,
+    FormattedPrice,
+    FormattedProduct,
+    QtyDefault,
+    QtyFields
 } from './Product.type';
 
 // TODO unify keyof product and stockitem.
@@ -139,7 +145,7 @@ export const getName = (product: FormattedProduct, configIndex = -1): string => 
 export const getProductOptionInStock = (product: Product): boolean => {
     const { stock_status: stockStatus } = product;
 
-    return stockStatus !== STOCK_TYPE.OUT_OF_STOCK && stockStatus === STOCK_TYPE.IN_STOCK;
+    return stockStatus !== StockStatus.OUT_OF_STOCK && stockStatus === StockStatus.IN_STOCK;
 };
 
 /**
@@ -190,7 +196,7 @@ export const getProductInStock = (
             stock_status: parentStockStatus
         } = parentProduct || {};
 
-        return parentInStock && parentStockStatus !== STOCK_TYPE.OUT_OF_STOCK && getProductInStock(product);
+        return parentInStock && parentStockStatus !== StockStatus.OUT_OF_STOCK && getProductInStock(product);
     }
 
     if (type === PRODUCT_TYPE.grouped) {
@@ -201,7 +207,7 @@ export const getProductInStock = (
 
     const { stock_status: stockStatus } = product;
 
-    return stockStatus !== STOCK_TYPE.OUT_OF_STOCK && (inStock || stockStatus === STOCK_TYPE.IN_STOCK);
+    return stockStatus !== StockStatus.OUT_OF_STOCK && (inStock || stockStatus === StockStatus.IN_STOCK);
 };
 
 /**
@@ -589,7 +595,7 @@ export const getSubLabelFromMaxCharacters = (maxCharacters: number, value = ''):
  * @param field
  * @namespace Util/Product/Extract/getImage
  */
-export const getImage = (product: Product, field: ImageTypes): string => {
+export const getImage = (product: Product, field: ImageType): string => {
     const { [field]: { url = 'no_selection' } = {} } = product;
     return url && url !== 'no_selection' ? url : '';
 };
@@ -599,19 +605,19 @@ export const getImage = (product: Product, field: ImageTypes): string => {
  * @param product
  * @namespace Util/Product/Extract/getThumbnailImage
  */
-export const getThumbnailImage = (product: Product): string => getImage(product, ImageTypes.THUMBNAIL_KEY);
+export const getThumbnailImage = (product: Product): string => getImage(product, ImageType.THUMBNAIL);
 
 /**
  * Returns products small image
  * @param product
  * @namespace Util/Product/Extract/getSmallImage
  */
-export const getSmallImage = (product: Product): string => getImage(product, ImageTypes.SMALL_KEY);
+export const getSmallImage = (product: Product): string => getImage(product, ImageType.SMALL);
 
 /**
  * Returns products base image
  * @param product
  * @namespace Util/Product/Extract/getBaseImage
  */
-export const getBaseImage = (product: Product): string => getImage(product, ImageTypes.IMAGE_KEY);
+export const getBaseImage = (product: Product): string => getImage(product, ImageType.IMAGE);
 // #endregion

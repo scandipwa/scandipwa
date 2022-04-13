@@ -18,7 +18,7 @@ import { OptionsType, OrderProductType } from 'Type/Order.type';
 import { getOrderItemQtyToArray, getOrderItemRowDiscount } from 'Util/Orders';
 import { formatPrice } from 'Util/Price';
 
-import { orderQtyTranslationMap } from './MyAccountOrderItemsTableRow.config';
+import { ORDER_STATUS_TRANSLATION_MAP } from './MyAccountOrderItemsTableRow.config';
 
 import './MyAccountOrderItemsTableRow.style';
 
@@ -63,7 +63,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         return this.renderPrice(value, currency, (__('Price')));
     }
 
-    renderQty([type, qty], index) {
+    renderQty([ type, qty ], index) {
         const { activeTab } = this.props;
 
         if (qty === 0) {
@@ -72,12 +72,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
         if (activeTab === ORDER_ITEMS) {
             return (
-                <li key={ index }>{ `${orderQtyTranslationMap[type]}: ${qty}` }</li>
+                <li key={index}>{`${ORDER_STATUS_TRANSLATION_MAP[ type ]}: ${qty}`}</li>
             );
         }
 
         return (
-            <li key={ index }>{ qty }</li>
+            <li key={index}>{qty}</li>
         );
     }
 
@@ -89,10 +89,10 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
         return (
             <ul
-              block="MyAccountOrderItemsTableRow"
-              elem="QtyList"
+                block="MyAccountOrderItemsTableRow"
+                elem="QtyList"
             >
-                { Object.entries(qtyArray).map(renderQty) }
+                {Object.entries(qtyArray).map(renderQty)}
             </ul>
         );
     }
@@ -121,12 +121,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         if (isMobile) {
             return (
                 <tr
-                  block="MyAccountOrderItemsTableRow"
-                  elem="Row"
+                    block="MyAccountOrderItemsTableRow"
+                    elem="Row"
                 >
-                    <td colSpan={ colSpanCount }>
-                        <strong>{ title }</strong>
-                        <strong>{ formatPrice(value, currency) }</strong>
+                    <td colSpan={colSpanCount}>
+                        <strong>{title}</strong>
+                        <strong>{formatPrice(value, currency)}</strong>
                     </td>
                 </tr>
             );
@@ -134,7 +134,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
         return (
             <td>
-                <strong>{ formatPrice(value, currency) }</strong>
+                <strong>{formatPrice(value, currency)}</strong>
             </td>
         );
     }
@@ -155,12 +155,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         if (isMobile) {
             return (
                 <tr
-                  block="MyAccountOrderItemsTableRow"
-                  elem="Row"
+                    block="MyAccountOrderItemsTableRow"
+                    elem="Row"
                 >
-                    <td colSpan={ colSpanCount }>
-                        { selectedOptions.map(renderOption) }
-                        { enteredOptions.map(renderOption) }
+                    <td colSpan={colSpanCount}>
+                        {selectedOptions.map(renderOption)}
+                        {enteredOptions.map(renderOption)}
                     </td>
                 </tr>
             );
@@ -168,8 +168,8 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
         return (
             <>
-                { selectedOptions.map(renderOption) }
-                { enteredOptions.map(renderOption) }
+                {selectedOptions.map(renderOption)}
+                {enteredOptions.map(renderOption)}
             </>
         );
     }
@@ -180,12 +180,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         return (
             <td>
                 <span
-                  block="MyAccountOrderItemsTableRow"
-                  elem="Name"
+                    block="MyAccountOrderItemsTableRow"
+                    elem="Name"
                 >
-                    { product_name }
+                    {product_name}
                 </span>
-                { this.renderSelectedAndEnteredOptions() }
+                {this.renderSelectedAndEnteredOptions()}
             </td>
         );
     }
@@ -200,20 +200,20 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
         return (
             <tr
-              block="MyAccountOrderItemsTableRow"
-              elem="EnteredRow"
-              mods={ { isLastOptionItem } }
+                block="MyAccountOrderItemsTableRow"
+                elem="EnteredRow"
+                mods={{ isLastOptionItem }}
             >
                 <td>
-                    { `${qty} x ${title}` }
+                    {`${qty} x ${title}`}
                 </td>
-                <td>{ title }</td>
-                { this.renderEnteredOptionPrice(formatPrice(price, currency)) }
+                <td>{title}</td>
+                {this.renderEnteredOptionPrice(formatPrice(price, currency))}
                 <td
-                  block="MyAccountOrderItemsTableRow"
-                  elem="EnteredQty"
+                    block="MyAccountOrderItemsTableRow"
+                    elem="EnteredQty"
                 >
-                    { quantity_ordered * qty }
+                    {quantity_ordered * qty}
                 </td>
             </tr>
         );
@@ -228,10 +228,10 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
         return (
             <td
-              block="MyAccountOrderItemsTableRow"
-              elem="EnteredPrice"
+                block="MyAccountOrderItemsTableRow"
+                elem="EnteredPrice"
             >
-                <strong>{ price }</strong>
+                <strong>{price}</strong>
             </td>
         );
     }
@@ -244,9 +244,9 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
         return (
             <>
-                { this.renderMobileBodyContentRow(__('Product name'), `${qty} x ${title}`, nameRowMix) }
-                { this.renderMobileBodyContentRow(__('SKU'), title) }
-                { this.renderMobileBodyContentRow(__('Price'), formatPrice(price, currency)) }
+                {this.renderMobileBodyContentRow(__('Product name'), `${qty} x ${title}`, nameRowMix)}
+                {this.renderMobileBodyContentRow(__('SKU'), title)}
+                {this.renderMobileBodyContentRow(__('Price'), formatPrice(price, currency))}
             </>
         );
     }
@@ -265,17 +265,17 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         return (
             <>
                 <tr
-                  block="MyAccountOrderItemsTableRow"
-                  elem="EnteredLabel"
-                  key={ `${label}-${index}` }
+                    block="MyAccountOrderItemsTableRow"
+                    elem="EnteredLabel"
+                    key={`${label}-${index}`}
                 >
                     <td
-                      colSpan={ colSpanCount }
+                        colSpan={colSpanCount}
                     >
-                        <strong>{ label }</strong>
+                        <strong>{label}</strong>
                     </td>
                 </tr>
-                { items.map((item) => renderOptionItem(item, isLastOptionItem)) }
+                {items.map((item) => renderOptionItem(item, isLastOptionItem))}
             </>
         );
     }
@@ -303,14 +303,14 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         }
 
         return (
-            <dl key={ `${ label }-${ value }` }>
+            <dl key={`${label}-${value}`}>
                 <dt
-                  block="MyAccountOrderItemsTableRow"
-                  elem="OptionLabel"
+                    block="MyAccountOrderItemsTableRow"
+                    elem="OptionLabel"
                 >
-                    <strong>{ label }</strong>
+                    <strong>{label}</strong>
                 </dt>
-                { this.renderOptionContent(option) }
+                {this.renderOptionContent(option)}
             </dl>
         );
     }
@@ -325,17 +325,17 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
             return linkItems.map(this.renderLink.bind(this));
         }
 
-        return <dd block="MyAccountOrderItemsTableRow" elem="OptionValue"><Html content={ value } /></dd>;
+        return <dd block="MyAccountOrderItemsTableRow" elem="OptionValue"><Html content={value} /></dd>;
     }
 
     renderLink(title, index) {
         return (
             <dd
-              block="MyAccountOrderItemsTableRow"
-              elem="DownloadableLink"
-              key={ `${title}-${index}` }
+                block="MyAccountOrderItemsTableRow"
+                elem="DownloadableLink"
+                key={`${title}-${index}`}
             >
-                { title }
+                {title}
             </dd>
         );
     }
@@ -362,24 +362,24 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         if (isMobile) {
             return (
                 <>
-                    { this.renderPrice(
+                    {this.renderPrice(
                         -totalDiscount,
                         currency,
                         __('Discount Amount')
-                    ) }
-                    { this.renderPrice(
+                    )}
+                    {this.renderPrice(
                         row_subtotal - totalDiscount,
                         currency,
                         __('Row Total')
-                    ) }
+                    )}
                 </>
             );
         }
 
         return (
             <>
-                <td><strong>{ formatPrice(-totalDiscount, currency) }</strong></td>
-                <td><strong>{ formatPrice(row_subtotal - totalDiscount, currency) }</strong></td>
+                <td><strong>{formatPrice(-totalDiscount, currency)}</strong></td>
+                <td><strong>{formatPrice(row_subtotal - totalDiscount, currency)}</strong></td>
             </>
         );
     }
@@ -389,13 +389,13 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
         return (
             <tr
-              block="MyAccountOrderItemsTableRow"
-              elem="Row"
-              mix={ mix }
+                block="MyAccountOrderItemsTableRow"
+                elem="Row"
+                mix={mix}
             >
-                <td colSpan={ colSpanCount }>
-                    <strong>{ label }</strong>
-                    { value }
+                <td colSpan={colSpanCount}>
+                    <strong>{label}</strong>
+                    {value}
                 </td>
             </tr>
         );
@@ -416,18 +416,18 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
 
         return (
             <tbody
-              block="MyAccountOrderItemsTableRow"
-              elem="RowWrapper"
-              mods={ { lineBefore } }
+                block="MyAccountOrderItemsTableRow"
+                elem="RowWrapper"
+                mods={{ lineBefore }}
             >
-                { this.renderMobileBodyContentRow(__('Product name'), product_name, nameRowMix) }
-                { this.renderSelectedAndEnteredOptions() }
-                { this.renderMobileBodyContentRow(__('SKU'), product_sku) }
-                { this.renderItemPrice() }
-                { this.renderMobileBodyContentRow(__('Qty'), this.renderRowQty()) }
-                { this.renderRowSubtotal() }
-                { this.renderDiscountAndRowTotal() }
-                { this.renderEnteredOptionsAsRow() }
+                {this.renderMobileBodyContentRow(__('Product name'), product_name, nameRowMix)}
+                {this.renderSelectedAndEnteredOptions()}
+                {this.renderMobileBodyContentRow(__('SKU'), product_sku)}
+                {this.renderItemPrice()}
+                {this.renderMobileBodyContentRow(__('Qty'), this.renderRowQty())}
+                {this.renderRowSubtotal()}
+                {this.renderDiscountAndRowTotal()}
+                {this.renderEnteredOptionsAsRow()}
             </tbody>
         );
     }
@@ -442,29 +442,29 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
             comments
         } = this.props;
 
-        const isWithEnteredItems = !!enteredOptions[0]?.items;
+        const isWithEnteredItems = !!enteredOptions[ 0 ]?.items;
         const lineBefore = !!((activeTab === ORDER_SHIPMENTS) && (comments.length));
 
         return (
             <>
                 <tr
-                  block="MyAccountOrderItemsTableRow"
-                  elem="RowWrapper"
-                  mods={ { isWithEnteredItems, lineBefore } }
+                    block="MyAccountOrderItemsTableRow"
+                    elem="RowWrapper"
+                    mods={{ isWithEnteredItems, lineBefore }}
                 >
-                    { this.renderNameAndOptions() }
-                    <td>{ product_sku }</td>
-                    { this.renderItemPrice() }
+                    {this.renderNameAndOptions()}
+                    <td>{product_sku}</td>
+                    {this.renderItemPrice()}
                     <td
-                      block="MyAccountOrderItemsTableRow"
-                      elem="Qty"
+                        block="MyAccountOrderItemsTableRow"
+                        elem="Qty"
                     >
-                        { this.renderRowQty() }
+                        {this.renderRowQty()}
                     </td>
-                    { this.renderRowSubtotal() }
-                    { this.renderDiscountAndRowTotal() }
+                    {this.renderRowSubtotal()}
+                    {this.renderDiscountAndRowTotal()}
                 </tr>
-                { this.renderEnteredOptionsAsRow() }
+                {this.renderEnteredOptionsAsRow()}
             </>
         );
     }

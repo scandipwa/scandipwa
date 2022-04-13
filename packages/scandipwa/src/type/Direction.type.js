@@ -17,8 +17,8 @@ import {
     RIGHT,
     TOP
 } from 'Component/ChevronIcon/ChevronIcon.config';
-import { SORT_DIRECTION_TYPE } from 'Route/CategoryPage/CategoryPage.config';
+import { SortDirectionType } from 'Route/CategoryPage/CategoryPage.config';
 
-export const DirectionType = PropTypes.oneOf([RIGHT, LEFT, TOP, BOTTOM]);
+export const DirectionType = PropTypes.oneOf([ RIGHT, LEFT, TOP, BOTTOM ]);
 
-export const SortDirectionType = PropTypes.oneOf(Object.values(SORT_DIRECTION_TYPE));
+export const SortDirectionType = PropTypes.oneOf(Object.values(SortDirectionType));
