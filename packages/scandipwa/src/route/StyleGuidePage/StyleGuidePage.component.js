@@ -366,37 +366,37 @@ export class StyleGuidePageComponent extends PureComponent {
                       value: 'email@example.com'
                   } }
                 />
-                  <h4 block="StyleGuidePage" elem="SubHeading">{ __('Number') }</h4>
-                  <Field
-                    type={ FIELD_TYPE.number }
-                    label="Number"
-                    attr={ {
-                        placeholder: __('Number'),
-                        step: 5,
-                        min: 0
-                    } }
-                    addRequiredTag
-                  />
-                    <Field
-                      type={ FIELD_TYPE.number }
-                      label="Number"
-                      attr={ {
-                          placeholder: __('Number'),
-                          step: 5,
-                          min: 0
-                      } }
-                      isDisabled
-                    />
-                      <Field
-                        type={ FIELD_TYPE.number }
-                        label="Number"
-                        attr={ {
-                            placeholder: __('Number'),
-                            step: 5,
-                            min: 0
-                        } }
 
-                      />
+                <h4 block="StyleGuidePage" elem="SubHeading">{ __('Number') }</h4>
+                <Field
+                  type={ FIELD_TYPE.number }
+                  label="Number"
+                  attr={ {
+                      placeholder: __('Number'),
+                      step: 5,
+                      min: 0
+                  } }
+                  addRequiredTag
+                />
+                <Field
+                  type={ FIELD_TYPE.number }
+                  label="Number"
+                  attr={ {
+                      placeholder: __('Number'),
+                      step: 5,
+                      min: 0
+                  } }
+                  isDisabled
+                />
+                <Field
+                  type={ FIELD_TYPE.number }
+                  label="Number"
+                  attr={ {
+                      placeholder: __('Number'),
+                      step: 5,
+                      min: 0
+                  } }
+                />
                 <Field
                   type={ FIELD_TYPE.number }
                   label="Number"
@@ -408,7 +408,6 @@ export class StyleGuidePageComponent extends PureComponent {
                       step: 5,
                       min: 0
                   } }
-
                 />
                 <Field
                   type={ FIELD_TYPE.number }
@@ -438,32 +437,32 @@ export class StyleGuidePageComponent extends PureComponent {
                       step: 5,
                       min: 0
                   } }
-
                 />
-                  <h4 block="StyleGuidePage" elem="SubHeading">{ __('Telephone') }</h4>
-                    <Field
-                      type={ FIELD_TYPE.tel }
-                      label="Telephone"
-                      attr={ {
-                          placeholder: __('Telephone')
-                      } }
-                      addRequiredTag
-                    />
-                    <Field
-                      type={ FIELD_TYPE.tel }
-                      label="Telephone"
-                      attr={ {
-                          placeholder: __('Telephone')
-                      } }
-                      isDisabled
-                    />
-                      <Field
-                        type={ FIELD_TYPE.tel }
-                        label="Telephone"
-                        attr={ {
-                            placeholder: __('Telephone')
-                        } }
-                      />
+
+                <h4 block="StyleGuidePage" elem="SubHeading">{ __('Telephone') }</h4>
+                <Field
+                  type={ FIELD_TYPE.tel }
+                  label="Telephone"
+                  attr={ {
+                      placeholder: __('Telephone')
+                  } }
+                  addRequiredTag
+                />
+                <Field
+                  type={ FIELD_TYPE.tel }
+                  label="Telephone"
+                  attr={ {
+                      placeholder: __('Telephone')
+                  } }
+                  isDisabled
+                />
+                <Field
+                  type={ FIELD_TYPE.tel }
+                  label="Telephone"
+                  attr={ {
+                      placeholder: __('Telephone')
+                  } }
+                />
                 <Field
                   type={ FIELD_TYPE.tel }
                   label="Telephone"
