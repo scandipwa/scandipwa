@@ -88,11 +88,11 @@ export class StoreInPickUpContainer extends PureComponent {
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.handleStoresSearch();
     }
 
-    componentDidUpdate(__, prevState) {
+    componentDidUpdate(__, prevState): void {
         const {
             storeSearchCriteria: prevStoreSearchCriteria
         } = prevState;
@@ -203,8 +203,8 @@ export class StoreInPickUpContainer extends PureComponent {
     render() {
         return (
             <StoreInPickUpComponent
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                {...this.containerFunctions}
+                {...this.containerProps()}
             />
         );
     }

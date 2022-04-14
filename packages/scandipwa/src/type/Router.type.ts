@@ -26,4 +26,8 @@ export type UrlRewrite = {
     notFound?: boolean;
 };
 
-export type Link = [string | unknown];
+export type UrlType<T = unknown> = {
+    pathname: string;
+    search?: string;
+    state?: T;
+};

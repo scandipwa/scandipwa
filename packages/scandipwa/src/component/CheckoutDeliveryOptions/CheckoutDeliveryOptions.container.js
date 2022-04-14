@@ -61,13 +61,13 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
     dataMap = {};
 
-    componentDidMount() {
+    componentDidMount(): void {
         if (window.formPortalCollector) {
             window.formPortalCollector.subscribe(SHIPPING_STEP, this.collectAdditionalData, 'CheckoutDeliveryOptions');
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         if (window.formPortalCollector) {
             window.formPortalCollector.unsubscribe(SHIPPING_STEP, 'CheckoutDeliveryOptions');
         }
@@ -97,7 +97,7 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
     collectAdditionalData() {
         const { selectedShippingMethod: { method_code } } = this.props;
-        const additionalDataGetter = this.dataMap[method_code];
+        const additionalDataGetter = this.dataMap[ method_code ];
 
         if (!additionalDataGetter) {
             return {};
@@ -120,8 +120,8 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
     render() {
         return (
             <CheckoutDeliveryOptions
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

@@ -15,5 +15,3 @@ export type Breadcrumb = {
     url: Url<unknown>;
     name: string;
 };
-
-export type Breadcrumbs = Breadcrumb[];

@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { ShareIconProps } from './ShareIcon.type';
 
 import './ShareIcon.style';
@@ -21,7 +23,7 @@ export class ShareIcon extends PureComponent<ShareIconProps> {
         isPrimary: false
     };
 
-    render(): JSX.Element {
+    render(): ReactElement {
         const { isPrimary } = this.props;
 
         return (

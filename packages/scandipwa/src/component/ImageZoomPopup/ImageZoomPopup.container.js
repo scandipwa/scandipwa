@@ -51,7 +51,7 @@ export class ImageZoomPopupContainer extends PureComponent {
         mix: {}
     };
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { isActive: prevIsActive, popupId } = prevProps;
         const { isActive, showPopup } = this.props;
 
@@ -88,15 +88,15 @@ export class ImageZoomPopupContainer extends PureComponent {
 
         return (
             <Popup
-              id={ popupId }
-              clickOutside={ false }
-              mix={ { block: 'ImageZoomPopup', mix } }
-              contentMix={ { block: 'ImageZoomPopup', elem: 'PopupContent' } }
-              onClose={ onClose }
-              onHide={ onClose }
+                id={popupId}
+                clickOutside={false}
+                mix={{ block: 'ImageZoomPopup', mix }}
+                contentMix={{ block: 'ImageZoomPopup', elem: 'PopupContent' }}
+                onClose={onClose}
+                onHide={onClose}
             >
                 <ImageZoomPopup
-                  { ...this.containerProps() }
+                    {...this.containerProps()}
                 />
             </Popup>
         );

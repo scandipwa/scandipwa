@@ -115,7 +115,7 @@ export class CmsPageContainer extends DataContainer {
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const {
             isOffline,
             isOnlyPlaceholder
@@ -134,7 +134,7 @@ export class CmsPageContainer extends DataContainer {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const {
             location: { pathname },
             pageIdentifiers,
@@ -239,7 +239,7 @@ export class CmsPageContainer extends DataContainer {
         this.setState({ isLoading: true });
 
         this.fetchData(
-            [CmsPageQuery.getQuery(params)],
+            [ CmsPageQuery.getQuery(params) ],
             this.onPageLoad.bind(this),
             () => this.setState({ isLoading: false }),
             isOffline
@@ -249,7 +249,7 @@ export class CmsPageContainer extends DataContainer {
     render() {
         return (
             <CmsPage
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

@@ -92,7 +92,7 @@ export class CheckoutShippingContainer extends PureComponent {
             (method) => `${method.carrier_code}_${method.method_code}` === savedShippingMethodCode
         );
 
-        const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
+        const [ defaultShippingMethod ] = shippingMethods.filter((method) => method.available);
         const selectedShippingMethod = previousShippingMethod || defaultShippingMethod || {};
         const { method_code = '' } = selectedShippingMethod;
 
@@ -105,7 +105,7 @@ export class CheckoutShippingContainer extends PureComponent {
         };
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { shippingMethods: prevShippingMethods } = prevProps;
         const { shippingMethods } = this.props;
 
@@ -122,7 +122,7 @@ export class CheckoutShippingContainer extends PureComponent {
             return;
         }
 
-        const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
+        const [ defaultShippingMethod ] = shippingMethods.filter((method) => method.available);
         const selectedShippingMethod = defaultShippingMethod || {};
 
         this.setState({ selectedShippingMethod });
@@ -181,7 +181,7 @@ export class CheckoutShippingContainer extends PureComponent {
             city,
             postcode,
             telephone: phone,
-            street: [street],
+            street: [ street ],
             firstname: name,
             lastname: 'Store'
         };
@@ -240,8 +240,8 @@ export class CheckoutShippingContainer extends PureComponent {
             formattedFields.street = [];
             // eslint-disable-next-line fp/no-loops,fp/no-let
             for (let i = 0; i < addressLinesQty; i++) {
-                if (formattedFields[`street_${i}`]) {
-                    formattedFields.street.push(formattedFields[`street_${i}`]);
+                if (formattedFields[ `street_${i}` ]) {
+                    formattedFields.street.push(formattedFields[ `street_${i}` ]);
                 }
             }
         }
@@ -273,7 +273,7 @@ export class CheckoutShippingContainer extends PureComponent {
         updateShippingFields({
             ...(
                 street.length
-                || (default_shipping && parseInt(default_shipping, 10) === data.shipping_address.id)
+                    || (default_shipping && parseInt(default_shipping, 10) === data.shipping_address.id)
                     ? formattedFields : data.shipping_address
             ),
             shippingMethod
@@ -294,8 +294,8 @@ export class CheckoutShippingContainer extends PureComponent {
     render() {
         return (
             <CheckoutShipping
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

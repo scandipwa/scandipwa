@@ -105,14 +105,14 @@ export class PasswordChangePageContainer extends PureComponent {
             stateToBeUpdated.passwordResetStatus = passwordResetStatus;
 
             switch (passwordResetStatus) {
-            case STATUS_PASSWORD_UPDATED:
-                showNotification('success', __('Password has been successfully updated!'));
-                break;
-            case STATUS_PASSWORD_MISS_MATCH:
-                showNotification('info', __('Your password and confirmation password do not match.'));
-                break;
-            default:
-                showNotification('error', passwordResetMessage);
+                case STATUS_PASSWORD_UPDATED:
+                    showNotification('success', __('Password has been successfully updated!'));
+                    break;
+                case STATUS_PASSWORD_MISS_MATCH:
+                    showNotification('info', __('Your password and confirmation password do not match.'));
+                    break;
+                default:
+                    showNotification('error', passwordResetMessage);
             }
         }
 
@@ -124,7 +124,7 @@ export class PasswordChangePageContainer extends PureComponent {
         onError: this.onError.bind(this)
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { setHeaderState } = this.props;
         this.updateMeta();
         this.toggleBreadcrumbs(false);
@@ -201,8 +201,8 @@ export class PasswordChangePageContainer extends PureComponent {
 
         return (
             <PasswordChangePage
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

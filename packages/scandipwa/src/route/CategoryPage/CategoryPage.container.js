@@ -224,7 +224,7 @@ export class CategoryPageContainer extends PureComponent {
         return update;
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const {
             categoryIds,
             category: {
@@ -267,7 +267,7 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const {
             isOffline,
             categoryIds,

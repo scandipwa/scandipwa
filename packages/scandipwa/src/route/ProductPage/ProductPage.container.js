@@ -157,9 +157,9 @@ export class ProductPageContainer extends PureComponent {
         }
 
         const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
-            .reduce((acc, [key, value]) => {
+            .reduce((acc, [ key, value ]) => {
                 if (key in configurable_options) {
-                    return { ...acc, [key]: value };
+                    return { ...acc, [ key ]: value };
                 }
 
                 return acc;
@@ -181,7 +181,7 @@ export class ProductPageContainer extends PureComponent {
         }, []);
 
         const prevRequiredOptions = productOptionsData?.requiredOptions || [];
-        const requiredOptions = [...prevRequiredOptions, ...newOptionsData];
+        const requiredOptions = [ ...prevRequiredOptions, ...newOptionsData ];
 
         return {
             parameters,
@@ -192,7 +192,7 @@ export class ProductPageContainer extends PureComponent {
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         /**
          * Always make sure the navigation switches into the MENU tab
          * */
@@ -217,7 +217,7 @@ export class ProductPageContainer extends PureComponent {
         scrollToTop();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const {
             isOffline,
             productSKU,
@@ -347,7 +347,7 @@ export class ProductPageContainer extends PureComponent {
         };
 
         if (key) {
-            obj[key] = value;
+            obj[ key ] = value;
         }
 
         const query = objectToUri(obj);
@@ -432,9 +432,9 @@ export class ProductPageContainer extends PureComponent {
 
         const attributes = {};
         Object.keys(productAttr).forEach((attr) => {
-            const { [attr]: { attribute_value: attrValue }, [attr]: currAttr } = productAttr;
-            const { [attr]: { attribute_value: activeAttrValue } = {} } = activeAttr;
-            attributes[attr] = {
+            const { [ attr ]: { attribute_value: attrValue }, [ attr ]: currAttr } = productAttr;
+            const { [ attr ]: { attribute_value: activeAttrValue } = {} } = activeAttr;
+            attributes[ attr ] = {
                 ...currAttr,
                 attribute_value: activeAttrValue || attrValue
             };
@@ -544,8 +544,8 @@ export class ProductPageContainer extends PureComponent {
     render() {
         return (
             <ProductPage
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                {...this.containerFunctions}
+                {...this.containerProps()}
             />
         );
     }

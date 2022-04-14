@@ -76,7 +76,7 @@ export class ConfirmAccountPageContainer extends PureComponent {
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { updateMeta, toggleBreadcrumbs } = this.props;
 
         if (isSignedIn()) {
@@ -157,8 +157,8 @@ export class ConfirmAccountPageContainer extends PureComponent {
     render() {
         return (
             <ConfirmAccountPage
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

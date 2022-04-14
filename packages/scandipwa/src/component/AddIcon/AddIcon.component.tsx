@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { AddIconProps } from './AddIcon.type';
 
 import './AddIcon.style';
@@ -21,7 +23,7 @@ export class AddIcon extends PureComponent<AddIconProps> {
         isPrimary: false
     };
 
-    render(): JSX.Element {
+    render(): ReactElement {
         const { isPrimary } = this.props;
 
         return (

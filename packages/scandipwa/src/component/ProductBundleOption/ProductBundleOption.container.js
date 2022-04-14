@@ -62,11 +62,11 @@ export class ProductBundleOptionContainer extends PureComponent {
         setDefaultOption: this.setDefaultOption.bind(this)
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.setDefaultOption();
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState): void {
         const { quantity } = this.state;
         const { quantity: prevQuantity } = prevState;
 
@@ -77,7 +77,7 @@ export class ProductBundleOptionContainer extends PureComponent {
     }
 
     getUidWithQuantity(uid, defaultQuantity = 1) {
-        const { quantity: { [uid]: quantity = defaultQuantity } } = this.state;
+        const { quantity: { [ uid ]: quantity = defaultQuantity } } = this.state;
 
         return getEncodedBundleUid(uid, quantity);
     }
@@ -88,7 +88,7 @@ export class ProductBundleOptionContainer extends PureComponent {
         this.setState({
             quantity: {
                 ...quantity,
-                [uid]: rangedValue
+                [ uid ]: rangedValue
             }
         });
     }
@@ -102,7 +102,7 @@ export class ProductBundleOptionContainer extends PureComponent {
     setDefaultOption() {
         const { options } = this.props;
 
-        const [defaultOption = null] = bundleOptionsToSelectTransform(options).filter(({ isDefault }) => isDefault);
+        const [ defaultOption = null ] = bundleOptionsToSelectTransform(options).filter(({ isDefault }) => isDefault);
         const { isAvailable = false } = defaultOption || {};
 
         if (defaultOption && isAvailable) {
@@ -158,8 +158,8 @@ export class ProductBundleOptionContainer extends PureComponent {
     render() {
         return (
             <ProductBundleOption
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

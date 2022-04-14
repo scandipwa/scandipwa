@@ -75,7 +75,7 @@ export class ProductActionsContainer extends ProductContainer {
         };
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState): void {
         super.componentDidUpdate(prevProps, prevState);
 
         const { selectedProduct: prevSelectedProduct } = prevState;

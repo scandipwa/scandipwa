@@ -40,7 +40,7 @@ export class SliderWidgetContainer extends DataContainer {
     state = {
         slider: {
             slideSpeed: 0,
-            slides: [{ image: '', slide_text: '', isPlaceholder: true }]
+            slides: [ { image: '', slide_text: '', isPlaceholder: true } ]
         }
     };
 
@@ -50,11 +50,11 @@ export class SliderWidgetContainer extends DataContainer {
         super.__construct(props, `SliderWidgetContainer-${sliderId}`);
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.requestSlider();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { sliderId } = this.props;
         const { sliderId: pSliderId } = prevProps;
 
@@ -74,7 +74,7 @@ export class SliderWidgetContainer extends DataContainer {
         const { sliderId, showNotification, isOffline } = this.props;
 
         this.fetchData(
-            [SliderQuery.getQuery({ sliderId })],
+            [ SliderQuery.getQuery({ sliderId }) ],
             ({ slider }) => this.setState({ slider }),
             (e) => showNotification('error', __('Error fetching Slider!'), e),
             isOffline
@@ -90,7 +90,7 @@ export class SliderWidgetContainer extends DataContainer {
     render() {
         return (
             <SliderWidget
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

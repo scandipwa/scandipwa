@@ -53,7 +53,7 @@ export class ProductGalleryBaseImageContainer extends Component {
         return false;
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const {
             scale,
             previousScale,
@@ -104,7 +104,7 @@ export class ProductGalleryBaseImageContainer extends Component {
     render() {
         return (
             <ProductGallery
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

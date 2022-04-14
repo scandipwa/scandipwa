@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { StartFill } from './StarIcon.config';
 import { StarIconProps } from './StarIcon.type';
 
@@ -18,7 +20,7 @@ import './StarIcon.style';
 
 /** @namespace Component/StarIcon/Component */
 export class AddIcon extends PureComponent<StarIconProps> {
-    getStarPath(): JSX.Element | null {
+    getStarPath(): ReactElement {
         const { starFill } = this.props;
 
         if (starFill === StartFill.EMPTY) {
@@ -42,7 +44,7 @@ export class AddIcon extends PureComponent<StarIconProps> {
         return null;
     }
 
-    render(): JSX.Element {
+    render(): ReactElement {
         return (
             <svg
               block="StarIcon"

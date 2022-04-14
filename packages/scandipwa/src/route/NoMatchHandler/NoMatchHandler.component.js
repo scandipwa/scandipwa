@@ -26,11 +26,11 @@ export class NoMatchHandler extends PureComponent {
         location: LocationType.isRequired
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         scrollToTop();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { location: { pathname: newPathname } } = this.props;
         const { location: { pathname } } = prevProps;
 
@@ -40,7 +40,7 @@ export class NoMatchHandler extends PureComponent {
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         const {
             noMatch,
             updateNoMatch

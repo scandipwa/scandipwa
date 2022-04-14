@@ -78,7 +78,7 @@ export class FormContainer extends PureComponent {
 
     //#region VALIDATION
     // Removes event listener for validation from field
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         const { validationRule } = this.props;
 
         if (this.formRef) {
@@ -146,11 +146,11 @@ export class FormContainer extends PureComponent {
         const fields = getFieldsData(
             this.formRef,
             false,
-            [FIELD_TYPE.number, FIELD_TYPE.button],
+            [ FIELD_TYPE.number, FIELD_TYPE.button ],
             returnAsObject
         );
 
-        hook(...[...args, { ...attr, formRef: this.formRef, fields }]);
+        hook(...[ ...args, { ...attr, formRef: this.formRef, fields } ]);
     }
     //#endregion
 
@@ -165,7 +165,7 @@ export class FormContainer extends PureComponent {
         } = this.props;
 
         const fields = getFieldsData(
-            this.formRef, false, [FIELD_TYPE.number, FIELD_TYPE.button], returnAsObject
+            this.formRef, false, [ FIELD_TYPE.number, FIELD_TYPE.button ], returnAsObject
         );
         const isValid = validateGroup(this.formRef, validationRule);
 
@@ -196,16 +196,16 @@ export class FormContainer extends PureComponent {
         const { validate, onSubmit } = this.containerFunctions;
         const { validationResponse } = this.state;
 
-        const newEvents = { };
+        const newEvents = {};
         Object.keys(events).forEach((eventName) => {
-            const { [eventName]: event } = events;
-            newEvents[eventName] = this.surroundEvent.bind(this, event);
+            const { [ eventName ]: event } = events;
+            newEvents[ eventName ] = this.surroundEvent.bind(this, event);
         });
 
         // Surrounds events with validation
         validateOn.forEach((eventName) => {
-            const { [eventName]: baseEvent } = events;
-            newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
+            const { [ eventName ]: baseEvent } = events;
+            newEvents[ eventName ] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 
         return {
@@ -226,8 +226,8 @@ export class FormContainer extends PureComponent {
     render() {
         return (
             <Form
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

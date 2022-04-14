@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { HeartIconProps } from './HeartIcon.type';
 
 import './HeartIcon.style';
@@ -21,7 +23,7 @@ export class HeartIcon extends PureComponent<HeartIconProps> {
         isActive: false
     };
 
-    render(): JSX.Element {
+    render(): ReactElement {
         const { isActive } = this.props;
 
         return (

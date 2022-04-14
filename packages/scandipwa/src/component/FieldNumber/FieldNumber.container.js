@@ -41,12 +41,12 @@ export class FieldNumberContainer extends PureComponent {
 
     fieldRef = createRef();
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { attr: { defaultValue = 0 } } = this.props;
         this.handleInitialLoad(defaultValue);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { attr: { value, defaultValue = 0 } = {} } = this.props;
         const { attr: { value: prevValue, defaultValue: prevDefaultValue } = {} } = prevProps;
 
@@ -139,8 +139,8 @@ export class FieldNumberContainer extends PureComponent {
     render() {
         return (
             <FieldNumber
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

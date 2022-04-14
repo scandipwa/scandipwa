@@ -11,11 +11,13 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import './UploadIcon.style';
 
 /** @namespace Component/UploadIcon/Component */
 export class UploadIcon extends PureComponent {
-    render(): JSX.Element {
+    render(): ReactElement {
         return (
             <svg
               block="UploadIcon"

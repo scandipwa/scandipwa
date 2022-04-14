@@ -55,13 +55,13 @@ export class NoMatchContainer extends PureComponent {
         updateBreadcrumbs: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.updateHeaderState();
         this.updateMeta();
         this.updateNoMatch();
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         const { updateNoMatch } = this.props;
 
         updateNoMatch(false);
@@ -97,13 +97,13 @@ export class NoMatchContainer extends PureComponent {
 
     render() {
         return (
-            <Subscribe to={ [SharedTransitionContainer] }>
-                { ({ cleanUpTransition }) => (
+            <Subscribe to={[ SharedTransitionContainer ]}>
+                {({ cleanUpTransition }) => (
                     <NoMatch
-                      { ...this.containerProps() }
-                      cleanUpTransition={ cleanUpTransition }
+                        {...this.containerProps()}
+                        cleanUpTransition={cleanUpTransition}
                     />
-                ) }
+                )}
             </Subscribe>
         );
     }

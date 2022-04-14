@@ -45,7 +45,7 @@ export class MenuPageContainer extends PureComponent {
         this.redirectIfNotOnMobile();
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { updateMeta, changeHeaderState } = this.props;
 
         updateMeta({ title: __('Menu') });
@@ -55,7 +55,7 @@ export class MenuPageContainer extends PureComponent {
         });
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(): void {
         this.redirectIfNotOnMobile();
     }
 

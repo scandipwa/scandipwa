@@ -31,7 +31,7 @@ export class SomethingWentWrongContainer extends PureComponent {
         errorDetails: ErrorDetailsType.isRequired
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { updateMeta } = this.props;
 
         updateMeta({ title: __('Something went wrong!') });
@@ -46,7 +46,7 @@ export class SomethingWentWrongContainer extends PureComponent {
     render() {
         return (
             <SomethingWentWrong
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

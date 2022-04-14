@@ -128,11 +128,11 @@ export class RouterContainer extends PureComponent {
         this.handleResize();
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         window.addEventListener('resize', this.handleResize);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { isLoading, updateMeta } = this.props;
         const { isLoading: prevIsLoading } = prevProps;
 
@@ -163,7 +163,7 @@ export class RouterContainer extends PureComponent {
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         window.removeEventListener('resize', this.handleResize);
     }
 
@@ -222,7 +222,7 @@ export class RouterContainer extends PureComponent {
     render() {
         return (
             <Router
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

@@ -36,11 +36,11 @@ export class CmsBlockContainer extends DataContainer {
         return { cmsBlock, blockType };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this._getCmsBlock();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { identifier } = this.props;
         const { identifier: prevIdentifier } = prevProps;
 
@@ -53,13 +53,13 @@ export class CmsBlockContainer extends DataContainer {
         const { identifier } = this.props;
 
         this.fetchData(
-            [CmsBlockQuery.getQuery({ identifiers: [identifier] })],
+            [ CmsBlockQuery.getQuery({ identifiers: [ identifier ] }) ],
             ({ cmsBlocks: { items } }) => {
                 if (!items.length) {
                     return;
                 }
 
-                this.setState({ cmsBlock: items[0] });
+                this.setState({ cmsBlock: items[ 0 ] });
             }
         );
     }
@@ -67,7 +67,7 @@ export class CmsBlockContainer extends DataContainer {
     render() {
         return (
             <CmsBlock
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

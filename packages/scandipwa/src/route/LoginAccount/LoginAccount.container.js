@@ -53,14 +53,14 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     };
 
     onCreateAccountClick() {
-        history.replace(appendWithStoreCode(`${ ACCOUNT_REGISTRATION_URL }`));
+        history.replace(appendWithStoreCode(`${ACCOUNT_REGISTRATION_URL}`));
     }
 
     handleForgotPassword() {
-        history.replace(appendWithStoreCode(`${ ACCOUNT_FORGOT_PASSWORD_URL }`));
+        history.replace(appendWithStoreCode(`${ACCOUNT_FORGOT_PASSWORD_URL}`));
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const {
             setHeaderState,
             toggleBreadcrumbs,
@@ -81,7 +81,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
         scrollToTop({ behavior: 'smooth' });
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState): void {
         if (isSignedIn()) {
             // remove login url from history to skip it when navigating back
             history.replace(appendWithStoreCode(ACCOUNT_URL));
@@ -95,8 +95,8 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     render() {
         return (
             <LoginAccount
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

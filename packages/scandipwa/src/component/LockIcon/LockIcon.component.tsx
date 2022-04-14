@@ -11,11 +11,13 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import './LockIcon.style';
 
 /** @namespace Component/LockIcon/Component */
 export class LockIcon extends PureComponent {
-    render(): JSX.Element {
+    render(): ReactElement {
         return (
             <svg
               block="LockIcon"

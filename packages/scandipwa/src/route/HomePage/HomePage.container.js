@@ -42,7 +42,7 @@ export class HomePageContainer extends PureComponent {
         match: MatchType.isRequired
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { changeHeaderState } = this.props;
 
         changeHeaderState({
@@ -71,7 +71,7 @@ export class HomePageContainer extends PureComponent {
         return (
             <div block="HomePage">
                 <InstallPrompt />
-                <CmsPage { ...this.containerProps() } />
+                <CmsPage {...this.containerProps()} />
                 <Footer isVisibleOnMobile />
             </div>
         );

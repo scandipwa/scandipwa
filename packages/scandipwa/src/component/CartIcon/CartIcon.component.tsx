@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { CartIconProps } from './CartIcon.type';
 
 import './CartIcon.style';
@@ -21,7 +23,7 @@ export class CartIcon extends PureComponent<CartIconProps> {
         isActive: false
     };
 
-    render(): JSX.Element {
+    render(): ReactElement {
         const { isActive } = this.props;
 
         return (

@@ -158,14 +158,14 @@ export class SearchPageContainer extends CategoryPageContainer {
         return search === currentSearch;
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.updateMeta();
         this.updateBreadcrumbs();
         this.updateHeaderState();
         this.updateNavigationState();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const {
             isOffline,
             match: { params: { query } }

@@ -82,7 +82,7 @@ export class FieldContainer extends PureComponent {
 
     //#region VALIDATION
     // Removes event listener for validation from field
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         const { validationRule } = this.props;
 
         if (this.fieldRef) {
@@ -175,9 +175,9 @@ export class FieldContainer extends PureComponent {
         if (hook) {
             const { attr, type } = this.props;
             const { value } = this.fieldRef;
-            hook(...[...args, {
+            hook(...[ ...args, {
                 ...attr, fieldRef: this.fieldRef, value, type
-            }]);
+            } ]);
         }
         this.validate();
     }
@@ -209,8 +209,8 @@ export class FieldContainer extends PureComponent {
         // Surrounds events with validation
         const newEvents = { ...events };
         validateOn.forEach((eventName) => {
-            const { [eventName]: baseEvent } = events;
-            newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
+            const { [ eventName ]: baseEvent } = events;
+            newEvents[ eventName ] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 
         return {
@@ -239,7 +239,7 @@ export class FieldContainer extends PureComponent {
     render() {
         return (
             <Field
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

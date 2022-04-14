@@ -41,7 +41,7 @@ export class InstallPromptContainer extends PureComponent {
         handleBannerClose: this.handleBannerClose.bind(this)
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.listenForInstallPrompt();
     }
 
@@ -96,8 +96,8 @@ export class InstallPromptContainer extends PureComponent {
     render() {
         return (
             <InstallPrompt
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

@@ -56,7 +56,7 @@ export const CartDispatcher = import(
 /** @namespace Route/CartPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
-    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+    headerState: state.NavigationReducer[ TOP_NAVIGATION_TYPE ].navigationState,
     guest_checkout: state.ConfigReducer.guest_checkout,
     device: state.ConfigReducer.device,
     cartDisplayConfig: state.ConfigReducer.cartDisplayConfig,
@@ -105,7 +105,7 @@ export class CartPageContainer extends PureComponent {
         isCartItemLoading: false
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { updateMeta } = this.props;
 
         updateMeta({ title: __('Cart') });
@@ -115,7 +115,7 @@ export class CartPageContainer extends PureComponent {
         this._updateCrossSellProducts();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const {
             changeHeaderState,
             totals: { items_qty = 0 },
@@ -258,8 +258,8 @@ export class CartPageContainer extends PureComponent {
     render() {
         return (
             <CartPage
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                {...this.containerFunctions}
+                {...this.containerProps()}
             />
         );
     }

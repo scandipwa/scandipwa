@@ -24,5 +24,11 @@
     ],
     "stylelint.enable": true,
     "css.validate": false,
-    "scss.validate": false
+    "scss.validate": false,
+    "javascript.preferences.quoteStyle": "single",
+    "javascript.referencesCodeLens.showOnAllFunctions": true,
+    "javascript.referencesCodeLens.enabled": true,
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.referencesCodeLens.enabled": true,
+    "typescript.referencesCodeLens.showOnAllFunctions": true
 }

@@ -125,21 +125,21 @@ export class Checkout extends PureComponent {
     };
 
     stepMap = {
-        [SHIPPING_STEP]: {
+        [ SHIPPING_STEP ]: {
             number: 1,
             title: __('Personal information'),
             url: '/shipping',
             render: this.renderShippingStep.bind(this),
             areTotalsVisible: true
         },
-        [BILLING_STEP]: {
+        [ BILLING_STEP ]: {
             number: 2,
             title: __('Payment'),
             url: '/billing',
             render: this.renderBillingStep.bind(this),
             areTotalsVisible: true
         },
-        [DETAILS_STEP]: {
+        [ DETAILS_STEP ]: {
             title: __('Thank you for your purchase!'),
             mobileTitle: __('Order details'),
             url: '/success',
@@ -150,16 +150,16 @@ export class Checkout extends PureComponent {
 
     stepsCount = 2;
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { checkoutStep, history } = this.props;
-        const { url } = this.stepMap[checkoutStep];
+        const { url } = this.stepMap[ checkoutStep ];
 
         this.updateHeader();
 
-        history.replace(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        history.replace(appendWithStoreCode(`${CHECKOUT_URL}${url}`));
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { checkoutStep } = this.props;
         const { checkoutStep: prevCheckoutStep } = prevProps;
 
@@ -171,7 +171,7 @@ export class Checkout extends PureComponent {
 
     updateHeader() {
         const { setHeaderState, checkoutStep, goBack } = this.props;
-        const { mobileTitle, title } = this.stepMap[checkoutStep];
+        const { mobileTitle, title } = this.stepMap[ checkoutStep ];
 
         setHeaderState({
             name: checkoutStep === DETAILS_STEP ? CHECKOUT_SUCCESS : CHECKOUT,
@@ -182,20 +182,20 @@ export class Checkout extends PureComponent {
 
     updateStep() {
         const { checkoutStep, history } = this.props;
-        const { url } = this.stepMap[checkoutStep];
+        const { url } = this.stepMap[ checkoutStep ];
 
-        history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        history.push(appendWithStoreCode(`${CHECKOUT_URL}${url}`));
         scrollToTop({ behavior: 'smooth' });
     }
 
     renderTitle() {
         const { checkoutStep, totals: { is_virtual } } = this.props;
-        const { title = '', number } = this.stepMap[checkoutStep];
+        const { title = '', number } = this.stepMap[ checkoutStep ];
 
         if (is_virtual || !number) {
             return (
                 <div block="Checkout" elem="Header">
-                    <div block="Checkout" elem="Title">{ title }</div>
+                    <div block="Checkout" elem="Title">{title}</div>
                 </div>
             );
         }
@@ -203,15 +203,15 @@ export class Checkout extends PureComponent {
         return (
             <div block="Checkout" elem="ProgressSection">
                 <div block="Checkout" elem="Header">
-                    <div block="Checkout" elem="Title">{ title }</div>
+                    <div block="Checkout" elem="Title">{title}</div>
                     <div block="Checkout" elem="Step">
-                        <span block="Checkout" elem="SelectedStep">{ number }</span>
+                        <span block="Checkout" elem="SelectedStep">{number}</span>
                         <span block="Checkout" elem="StepsBorder">/</span>
-                        <span block="Checkout" elem="TotalSteps">{ this.stepsCount }</span>
+                        <span block="Checkout" elem="TotalSteps">{this.stepsCount}</span>
                     </div>
                 </div>
                 <div block="Checkout" elem="StepBarTotal" />
-                <div block="Checkout" elem="StepBarActive" mods={ { isSecond: number === 2 } } />
+                <div block="Checkout" elem="StepBarActive" mods={{ isSecond: number === 2 }} />
             </div>
         );
     }
@@ -234,12 +234,12 @@ export class Checkout extends PureComponent {
 
         return (
             <CheckoutGuestForm
-              isBilling={ isBilling }
-              isCreateUser={ isCreateUser }
-              onEmailChange={ onEmailChange }
-              onCreateUserChange={ onCreateUserChange }
-              onPasswordChange={ onPasswordChange }
-              isGuestEmailSaved={ isGuestEmailSaved }
+                isBilling={isBilling}
+                isCreateUser={isCreateUser}
+                onEmailChange={onEmailChange}
+                onCreateUserChange={onCreateUserChange}
+                onPasswordChange={onPasswordChange}
+                isGuestEmailSaved={isGuestEmailSaved}
             />
         );
     }
@@ -264,23 +264,23 @@ export class Checkout extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
+            <Suspense fallback={<Loader />}>
                 <CheckoutShipping
-                  isLoading={ isDeliveryOptionsLoading }
-                  shippingMethods={ shippingMethods }
-                  cartTotalSubPrice={ cartTotalSubPrice }
-                  saveAddressInformation={ saveAddressInformation }
-                  onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-                  onShippingMethodSelect={ onShippingMethodSelect }
-                  onPasswordChange={ onPasswordChange }
-                  onCreateUserChange={ onCreateUserChange }
-                  onEmailChange={ onEmailChange }
-                  isCreateUser={ isCreateUser }
-                  estimateAddress={ estimateAddress }
-                  handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
-                  isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
-                  onStoreSelect={ onStoreSelect }
-                  selectedStoreAddress={ selectedStoreAddress }
+                    isLoading={isDeliveryOptionsLoading}
+                    shippingMethods={shippingMethods}
+                    cartTotalSubPrice={cartTotalSubPrice}
+                    saveAddressInformation={saveAddressInformation}
+                    onShippingEstimationFieldsChange={onShippingEstimationFieldsChange}
+                    onShippingMethodSelect={onShippingMethodSelect}
+                    onPasswordChange={onPasswordChange}
+                    onCreateUserChange={onCreateUserChange}
+                    onEmailChange={onEmailChange}
+                    isCreateUser={isCreateUser}
+                    estimateAddress={estimateAddress}
+                    handleSelectDeliveryMethod={handleSelectDeliveryMethod}
+                    isPickInStoreMethodSelected={isPickInStoreMethodSelected}
+                    onStoreSelect={onStoreSelect}
+                    selectedStoreAddress={selectedStoreAddress}
                 />
             </Suspense>
         );
@@ -297,14 +297,14 @@ export class Checkout extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
+            <Suspense fallback={<Loader />}>
                 <CheckoutBilling
-                  setLoading={ setLoading }
-                  paymentMethods={ paymentMethods }
-                  setDetailsStep={ setDetailsStep }
-                  shippingAddress={ shippingAddress }
-                  savePaymentInformation={ savePaymentInformation }
-                  selectedShippingMethod={ selectedShippingMethod }
+                    setLoading={setLoading}
+                    paymentMethods={paymentMethods}
+                    setDetailsStep={setDetailsStep}
+                    shippingAddress={shippingAddress}
+                    savePaymentInformation={savePaymentInformation}
+                    selectedShippingMethod={selectedShippingMethod}
                 />
             </Suspense>
         );
@@ -322,13 +322,13 @@ export class Checkout extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
+            <Suspense fallback={<Loader />}>
                 <CheckoutSuccess
-                  email={ email }
-                  firstName={ firstname }
-                  lastName={ lastname }
-                  isEmailAvailable={ isEmailAvailable }
-                  orderID={ orderID }
+                    email={email}
+                    firstName={firstname}
+                    lastName={lastname}
+                    isEmailAvailable={isEmailAvailable}
+                    orderID={orderID}
                 />
             </Suspense>
         );
@@ -346,18 +346,18 @@ export class Checkout extends PureComponent {
 
         return (
             <ExpandableContent
-              heading={ __('Have a discount code?') }
-              mix={ { block: 'Checkout', elem: 'Discount' } }
-              isArrow
+                heading={__('Have a discount code?')}
+                mix={{ block: 'Checkout', elem: 'Discount' }}
+                isArrow
             >
-                <CartCoupon couponCode={ coupon_code } />
+                <CartCoupon couponCode={coupon_code} />
             </ExpandableContent>
         );
     }
 
     renderStep() {
         const { checkoutStep } = this.props;
-        const { render } = this.stepMap[checkoutStep];
+        const { render } = this.stepMap[ checkoutStep ];
 
         if (render) {
             return render();
@@ -369,7 +369,7 @@ export class Checkout extends PureComponent {
     renderLoader() {
         const { isLoading } = this.props;
 
-        return <Loader isLoading={ isLoading } />;
+        return <Loader isLoading={isLoading} />;
     }
 
     renderSummary(showOnMobile = false) {
@@ -380,7 +380,7 @@ export class Checkout extends PureComponent {
             isMobile,
             onCouponCodeUpdate
         } = this.props;
-        const { areTotalsVisible } = this.stepMap[checkoutStep];
+        const { areTotalsVisible } = this.stepMap[ checkoutStep ];
         const { renderPromo } = this.renderPromo(true);
 
         if (!areTotalsVisible || (showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
@@ -390,15 +390,15 @@ export class Checkout extends PureComponent {
         return (
             <>
                 <CheckoutOrderSummary
-                  checkoutStep={ checkoutStep }
-                  totals={ checkoutTotals }
-                  paymentTotals={ paymentTotals }
-                  isExpandable={ isMobile }
-                  onCouponCodeUpdate={ onCouponCodeUpdate }
-                  renderCmsBlock={ renderPromo }
-                  showItems
+                    checkoutStep={checkoutStep}
+                    totals={checkoutTotals}
+                    paymentTotals={paymentTotals}
+                    isExpandable={isMobile}
+                    onCouponCodeUpdate={onCouponCodeUpdate}
+                    renderCmsBlock={renderPromo}
+                    showItems
                 />
-                { !showOnMobile && this.renderDiscountCode() }
+                {!showOnMobile && this.renderDiscountCode()}
             </>
         );
     }
@@ -413,7 +413,7 @@ export class Checkout extends PureComponent {
 
         const {
             checkout_content: {
-                [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo
+                [ isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms' ]: promo
             } = {}
         } = window.contentConfiguration;
 
@@ -423,7 +423,7 @@ export class Checkout extends PureComponent {
 
         return (
             <div block="Checkout" elem="Promo">
-                <CmsBlock identifier={ promo } />
+                <CmsBlock identifier={promo} />
             </div>
         );
     }
@@ -449,28 +449,28 @@ export class Checkout extends PureComponent {
 
         return (
             <div
-              block="Checkout"
-              elem="DeliverySelect"
+                block="Checkout"
+                elem="DeliverySelect"
             >
                 <button
-                  block="Checkout"
-                  elem="ShippingButton"
-                  mix={ { block: 'Button', mods: { isHollow: !isPickInStoreMethodSelected } } }
-                  type="button"
-                  disabled={ !isPickInStoreMethodSelected }
-                  onClick={ handleSelectDeliveryMethod }
+                    block="Checkout"
+                    elem="ShippingButton"
+                    mix={{ block: 'Button', mods: { isHollow: !isPickInStoreMethodSelected } }}
+                    type="button"
+                    disabled={!isPickInStoreMethodSelected}
+                    onClick={handleSelectDeliveryMethod}
                 >
-                   { __('Shipping') }
+                    {__('Shipping')}
                 </button>
                 <button
-                  block="Checkout"
-                  elem="PickInStore"
-                  mix={ { block: 'Button', mods: { isHollow: isPickInStoreMethodSelected } } }
-                  type="button"
-                  disabled={ isPickInStoreMethodSelected }
-                  onClick={ handleSelectDeliveryMethod }
+                    block="Checkout"
+                    elem="PickInStore"
+                    mix={{ block: 'Button', mods: { isHollow: isPickInStoreMethodSelected } }}
+                    type="button"
+                    disabled={isPickInStoreMethodSelected}
+                    onClick={handleSelectDeliveryMethod}
                 >
-                    { __('Pick in Store') }
+                    {__('Pick in Store')}
                 </button>
             </div>
         );
@@ -480,23 +480,23 @@ export class Checkout extends PureComponent {
         return (
             <main block="Checkout">
                 <ContentWrapper
-                  wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
-                  label={ __('Checkout page') }
+                    wrapperMix={{ block: 'Checkout', elem: 'Wrapper' }}
+                    label={__('Checkout page')}
                 >
-                    { this.renderSummary(true) }
+                    {this.renderSummary(true)}
                     <div>
                         <div block="Checkout" elem="Step">
-                            { this.renderTitle() }
-                            { this.renderStoreInPickUpMethod() }
-                            { this.renderGuestForm() }
-                            { this.renderStep() }
-                            { this.renderLoader() }
+                            {this.renderTitle()}
+                            {this.renderStoreInPickUpMethod()}
+                            {this.renderGuestForm()}
+                            {this.renderStep()}
+                            {this.renderLoader()}
                         </div>
                     </div>
                     <div>
-                        <Suspense fallback={ <Loader /> }>
-                            { this.renderSummary() }
-                            { this.renderPromo() }
+                        <Suspense fallback={<Loader />}>
+                            {this.renderSummary()}
+                            {this.renderPromo()}
                         </Suspense>
                     </div>
                 </ContentWrapper>

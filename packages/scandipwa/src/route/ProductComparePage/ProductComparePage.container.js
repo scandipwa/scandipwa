@@ -61,7 +61,7 @@ export class ProductComparePageContainer extends DataContainer {
         super.__construct(props, 'ProductComparePageContainer');
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         scrollToTop();
         this.updateMeta();
         this.updateBreadcrumbs();
@@ -104,7 +104,7 @@ export class ProductComparePageContainer extends DataContainer {
     render() {
         return (
             <ProductComparePage
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

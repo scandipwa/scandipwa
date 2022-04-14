@@ -25,7 +25,7 @@ export class NoMatch extends PureComponent {
         cleanUpTransition: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.updateBreadcrumbs();
         this.cleanUpTransition();
         scrollToTop();
@@ -51,29 +51,29 @@ export class NoMatch extends PureComponent {
 
     render() {
         return (
-            <main block="NoMatch" aria-label={ __('Page not found') }>
+            <main block="NoMatch" aria-label={__('Page not found')}>
                 <ContentWrapper
-                  mix={ { block: 'NoMatch' } }
-                  wrapperMix={ { block: 'NoMatch', elem: 'Wrapper' } }
-                  label={ __('Page Not Found Content') }
+                    mix={{ block: 'NoMatch' }}
+                    wrapperMix={{ block: 'NoMatch', elem: 'Wrapper' }}
+                    label={__('Page Not Found Content')}
                 >
                     <h1>
                         404
                     </h1>
                     <p block="NoMatch" elem="Subtitle">
-                        { __('Page not found') }
+                        {__('Page not found')}
                     </p>
                     <p>
-                        { /* eslint-disable-next-line max-len */ }
-                        { __('Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.') }
+                        { /* eslint-disable-next-line max-len */}
+                        {__('Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.')}
                     </p>
                     <Link
-                      to="/"
-                      block="NoMatch"
-                      elem="Button"
-                      mix={ { block: 'Button' } }
+                        to="/"
+                        block="NoMatch"
+                        elem="Button"
+                        mix={{ block: 'Button' }}
                     >
-                        { __('Back to homepage') }
+                        {__('Back to homepage')}
                     </Link>
                 </ContentWrapper>
             </main>

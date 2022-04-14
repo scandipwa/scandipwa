@@ -91,7 +91,7 @@ export class ProductListContainer extends PureComponent {
         pagesCount: 1
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { pages, isPreventRequest } = this.props;
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
@@ -106,7 +106,7 @@ export class ProductListContainer extends PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const {
             sort,
             search,
@@ -144,15 +144,15 @@ export class ProductListContainer extends PureComponent {
     isEmptyFilter() {
         const { filter } = this.props;
 
-        const validFilters = Object.entries(filter).filter(([key, value]) => {
+        const validFilters = Object.entries(filter).filter(([ key, value ]) => {
             switch (key) {
-            case 'priceRange':
-                return value.min > 0 || value.max > 0;
-            case 'customFilters':
-                return Object.keys(value).length > 0;
-            case 'categoryIds':
-            default:
-                return true;
+                case 'priceRange':
+                    return value.min > 0 || value.max > 0;
+                case 'customFilters':
+                    return Object.keys(value).length > 0;
+                case 'categoryIds':
+                default:
+                    return true;
             }
         });
 
@@ -332,8 +332,8 @@ export class ProductListContainer extends PureComponent {
     render() {
         return (
             <ProductList
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                {...this.containerFunctions}
+                {...this.containerProps()}
             />
         );
     }

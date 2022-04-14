@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { LinkType } from 'Type/Router.type';
+import { UrlType } from 'Type/Router.type';
 import { noopFn } from 'Util/Common';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -114,8 +114,8 @@ export class LinkContainer extends PureComponent {
     render() {
         return (
             <Link
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

@@ -49,7 +49,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class AddToCartContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
-        quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.objectOf(PropTypes.number)]),
+        quantity: PropTypes.oneOfType([ PropTypes.number, PropTypes.objectOf(PropTypes.number) ]),
         cartId: PropTypes.string,
         showNotification: PropTypes.func.isRequired,
         addToCart: PropTypes.func,
@@ -88,10 +88,10 @@ export class AddToCartContainer extends PureComponent {
     ];
 
     typeValidationMap = {
-        [PRODUCT_TYPE.bundle]: this.validateBundle.bind(this),
-        [PRODUCT_TYPE.downloadable]: this.validateDownloadable.bind(this),
-        [PRODUCT_TYPE.configurable]: this.validateConfigurable.bind(this),
-        [PRODUCT_TYPE.grouped]: this.validateGroup.bind(this)
+        [ PRODUCT_TYPE.bundle ]: this.validateBundle.bind(this),
+        [ PRODUCT_TYPE.downloadable ]: this.validateDownloadable.bind(this),
+        [ PRODUCT_TYPE.configurable ]: this.validateConfigurable.bind(this),
+        [ PRODUCT_TYPE.grouped ]: this.validateGroup.bind(this)
     };
 
     async addProductToCart(e) {
@@ -181,7 +181,7 @@ export class AddToCartContainer extends PureComponent {
 
     validateByType() {
         const { product: { type_id } = {} } = this.props;
-        const { [type_id]: typeValidationFn } = this.typeValidationMap;
+        const { [ type_id ]: typeValidationFn } = this.typeValidationMap;
 
         if (!typeValidationFn) {
             return true;
@@ -234,8 +234,8 @@ export class AddToCartContainer extends PureComponent {
     render() {
         return (
             <AddToCart
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

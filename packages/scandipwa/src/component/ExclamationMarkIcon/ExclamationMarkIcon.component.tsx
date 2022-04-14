@@ -11,11 +11,13 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import './ExclamationMarkIcon.style';
 
 /** @namespace Component/ExclamationMarkIcon/Component */
 export class ExclamationMarkIcon extends PureComponent {
-    render(): JSX.Element {
+    render(): ReactElement {
         return (
             <svg
               block="ExclamationMarkIcon"

@@ -83,12 +83,12 @@ export class ProductCompareContainer extends PureComponent {
         handleBlockScroll: this.handleBlockScroll.bind(this)
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.fetchCompareList();
         scrollToTop({ behavior: 'smooth' });
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(): void {
         const { device } = this.props;
 
         const productCompareRow = document.getElementById('productCompareRow');
@@ -100,7 +100,7 @@ export class ProductCompareContainer extends PureComponent {
                 ? productCompareRow.offsetWidth
                 : productCompareRow.offsetWidth - PRODUCT_COMPARE_FIRST_COLUMN_WIDTH;
 
-            scrollerContent.style.width = `${ width }px`;
+            scrollerContent.style.width = `${width}px`;
         }
     }
 
@@ -159,7 +159,7 @@ export class ProductCompareContainer extends PureComponent {
                 ({ product, attributes }) => {
                     if (code === 'description' || code === 'short_description') {
                         const {
-                            [code]: {
+                            [ code ]: {
                                 html
                             } = {}
                         } = product || {};
@@ -178,8 +178,8 @@ export class ProductCompareContainer extends PureComponent {
     render() {
         return (
             <ProductCompare
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

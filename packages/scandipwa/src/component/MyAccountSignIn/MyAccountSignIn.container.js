@@ -82,7 +82,7 @@ export class MyAccountSignInContainer extends PureComponent {
         onSignInSuccess: this.onSignInSuccess.bind(this)
     };
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { isCheckout, isEmailAvailable, setSignInState } = this.props;
         const { isEmailAvailable: prevIsEmailAvailable } = prevProps;
 
@@ -160,8 +160,8 @@ export class MyAccountSignInContainer extends PureComponent {
     render() {
         return (
             <MyAccountSignIn
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                {...this.containerFunctions}
+                {...this.containerProps()}
             />
         );
     }

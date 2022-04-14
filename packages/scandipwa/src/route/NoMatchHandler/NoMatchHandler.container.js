@@ -54,7 +54,7 @@ export class NoMatchHandlerContainer extends PureComponent {
         noMatch: false
     };
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { noMatch, updateMeta } = this.props;
         const { noMatch: prevNoMatch } = prevProps;
 
@@ -84,7 +84,7 @@ export class NoMatchHandlerContainer extends PureComponent {
     render() {
         return (
             <NoMatchHandler
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

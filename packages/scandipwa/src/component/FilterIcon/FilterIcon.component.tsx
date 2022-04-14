@@ -11,11 +11,13 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import './FilterIcon.style';
 
 /** @namespace Component/FilterIcon/Component */
 export class FilterIcon extends PureComponent {
-    render(): JSX.Element {
+    render(): ReactElement {
         return (
             <svg
               block="FilterIcon"

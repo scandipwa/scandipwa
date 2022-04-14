@@ -94,7 +94,7 @@ export class MyAccountOrderContainer extends PureComponent {
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         const { changeTabName, setTabSubheading } = this.props;
 
         changeTabName();
@@ -165,7 +165,7 @@ export class MyAccountOrderContainer extends PureComponent {
         const order = await getOrderById(orderId);
 
         if (!order) {
-            history.replace(appendWithStoreCode(`${ ACCOUNT_ORDER_HISTORY }`));
+            history.replace(appendWithStoreCode(`${ACCOUNT_ORDER_HISTORY}`));
 
             return;
         }
@@ -180,8 +180,8 @@ export class MyAccountOrderContainer extends PureComponent {
     render() {
         return (
             <MyAccountOrder
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                {...this.containerFunctions}
+                {...this.containerProps()}
             />
         );
     }

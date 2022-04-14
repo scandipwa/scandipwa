@@ -48,7 +48,7 @@ export class StyleGuidePageContainer extends PureComponent {
         fakeFunction: this.fakeFunction.bind(this)
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { updateProductDetails } = this.props;
 
         updateProductDetails(product);
@@ -69,8 +69,8 @@ export class StyleGuidePageContainer extends PureComponent {
     render() {
         return (
             <StyleGuide
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

@@ -74,11 +74,11 @@ export class FieldSelectContainer extends PureComponent {
         return { isExpanded: isExpanded || stateIsExpanded };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.handleIsScrollableList();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(): void {
         const { selectedOptionIndex: prevSelectedOptionIndex } = this.state;
         const selectedOptionIndex = this.fieldRef.options.selectedIndex;
 
@@ -90,7 +90,7 @@ export class FieldSelectContainer extends PureComponent {
     isSelectedOptionAvailable() {
         const options = this.getOptions();
         const selectedOptionIndex = this.fieldRef.options.selectedIndex;
-        const selectedOption = options[selectedOptionIndex];
+        const selectedOption = options[ selectedOptionIndex ];
         const isAvailable = selectedOption.isAvailable !== false;
 
         this.setState({
@@ -193,7 +193,7 @@ export class FieldSelectContainer extends PureComponent {
 
         const pressedKeyValue = String.fromCharCode(keyCode).toLowerCase();
 
-        const searchString = (prevSearchString[prevSearchString.length - 1] !== pressedKeyValue)
+        const searchString = (prevSearchString[ prevSearchString.length - 1 ] !== pressedKeyValue)
             ? `${prevSearchString}${pressedKeyValue}`
             : pressedKeyValue;
 
@@ -208,7 +208,7 @@ export class FieldSelectContainer extends PureComponent {
         }
 
         // if no items were found, take only the latest letter of the search string
-        const newSearchString = searchString[searchString.length - 1];
+        const newSearchString = searchString[ searchString.length - 1 ];
 
         const newValueIndex = options.findIndex(({ label }) => (
             label && label.toLowerCase().startsWith(newSearchString)
@@ -256,7 +256,7 @@ export class FieldSelectContainer extends PureComponent {
         this.updateValue(valueIndex);
 
         this.setState({ searchString, valueIndex }, () => {
-            const { id, value } = options[valueIndex];
+            const { id, value } = options[ valueIndex ];
 
             // converting to string for avoiding the error with the first select option
             if (onChange && value) {
@@ -274,7 +274,7 @@ export class FieldSelectContainer extends PureComponent {
     updateValue(valueIndex) {
         if (this.fieldRef) {
             const { options } = this.props;
-            const { value } = options[valueIndex];
+            const { value } = options[ valueIndex ];
 
             if (value) {
                 this.fieldRef.value = value;
@@ -346,8 +346,8 @@ export class FieldSelectContainer extends PureComponent {
     render() {
         return (
             <FieldSelect
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

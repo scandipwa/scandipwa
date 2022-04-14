@@ -57,11 +57,11 @@ export class NewProductsContainer extends PureComponent {
         siblingsHaveConfigurableOptions: false
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.requestProducts();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const {
             category,
             productsCount,
@@ -161,7 +161,7 @@ export class NewProductsContainer extends PureComponent {
             }
         };
 
-        const query = [ProductListQuery.getQuery(options)];
+        const query = [ ProductListQuery.getQuery(options) ];
         executeGet(prepareQuery(query), 'NewProducts', cacheLifetime)
             .then(
                 /** @namespace Component/NewProducts/Container/NewProductsContainer/requestProducts/then/catch/executeGet/then */
@@ -176,7 +176,7 @@ export class NewProductsContainer extends PureComponent {
     render() {
         return (
             <NewProducts
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

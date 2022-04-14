@@ -82,11 +82,11 @@ export class UrlRewritesContainer extends PureComponent {
         this.requestUrlRewrite();
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.initialUrl = location.pathname;
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(): void {
         const { isLoading } = this.props;
 
         /**
@@ -109,7 +109,7 @@ export class UrlRewritesContainer extends PureComponent {
 
         const type = this.getType();
 
-        if ([TYPE_CATEGORY, TYPE_PRODUCT].includes(type)) {
+        if ([ TYPE_CATEGORY, TYPE_PRODUCT ].includes(type)) {
             if (location.pathname.endsWith('/')) {
                 history.replace(
                     location.pathname.slice(0, -1),
@@ -137,51 +137,51 @@ export class UrlRewritesContainer extends PureComponent {
         const isLoading = this.getIsLoading();
 
         switch (this.getType()) {
-        case TYPE_PRODUCT:
-            /**
-             * In case we are not yet sure what product ID it is:
-             * - check if there is a hint in browser history
-             * - fallback to none
-             */
-            if (isLoading) {
-                const product = history?.state?.state?.product;
+            case TYPE_PRODUCT:
+                /**
+                 * In case we are not yet sure what product ID it is:
+                 * - check if there is a hint in browser history
+                 * - fallback to none
+                 */
+                if (isLoading) {
+                    const product = history?.state?.state?.product;
 
-                if (product) {
-                    const { sku: historySKU, id } = product;
+                    if (product) {
+                        const { sku: historySKU, id } = product;
 
-                    return { productSKU: historySKU, id };
+                        return { productSKU: historySKU, id };
+                    }
+
+                    return {};
                 }
 
-                return {};
-            }
-
-            return { productSKU: sku, id };
-        case TYPE_CMS_PAGE:
-            if (isLoading) {
-                return { isOnlyPlaceholder: true };
-            }
-
-            return { pageIds: id };
-        case TYPE_CATEGORY:
-            /**
-             * In case we are not yet sure what category ID it is:
-             * - check if there is a hint in browser history
-             * - fallback to none
-             */
-            if (isLoading) {
-                const category = history?.state?.state?.category;
-
-                if (category && category !== true) {
-                    return { categoryIds: category };
+                return { productSKU: sku, id };
+            case TYPE_CMS_PAGE:
+                if (isLoading) {
+                    return { isOnlyPlaceholder: true };
                 }
 
-                return {};
-            }
+                return { pageIds: id };
+            case TYPE_CATEGORY:
+                /**
+                 * In case we are not yet sure what category ID it is:
+                 * - check if there is a hint in browser history
+                 * - fallback to none
+                 */
+                if (isLoading) {
+                    const category = history?.state?.state?.category;
 
-            return { categoryIds: id };
-        case TYPE_NOTFOUND:
-        default:
-            return {};
+                    if (category && category !== true) {
+                        return { categoryIds: category };
+                    }
+
+                    return {};
+                }
+
+                return { categoryIds: id };
+            case TYPE_NOTFOUND:
+            default:
+                return {};
         }
     }
 
@@ -228,10 +228,10 @@ export class UrlRewritesContainer extends PureComponent {
          */
         if (this.getIsLoading()) {
             const state = history?.state?.state || {};
-            const typeKey = Object.keys(state).find((key) => UrlRewritesContainer.stateMapping[key]);
+            const typeKey = Object.keys(state).find((key) => UrlRewritesContainer.stateMapping[ key ]);
 
             if (typeKey) {
-                return UrlRewritesContainer.stateMapping[typeKey];
+                return UrlRewritesContainer.stateMapping[ typeKey ];
             }
 
             /**
@@ -260,7 +260,7 @@ export class UrlRewritesContainer extends PureComponent {
     render() {
         return (
             <UrlRewrites
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

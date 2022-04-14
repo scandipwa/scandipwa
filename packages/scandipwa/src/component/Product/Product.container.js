@@ -134,10 +134,10 @@ export class ProductContainer extends PureComponent {
     }
 
     setDefaultProductOptions(keyProp, keyState) {
-        const { [keyProp]: value } = this.props;
+        const { [ keyProp ]: value } = this.props;
 
         if (Array.isArray(value) && value.length > 0) {
-            this.setState({ [keyState]: value || [] }, () => {
+            this.setState({ [ keyState ]: value || [] }, () => {
                 this.updateAdjustedPrice();
             });
         }
@@ -184,12 +184,12 @@ export class ProductContainer extends PureComponent {
         return null;
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.updateSelectedValues();
         this.updateAdjustedPrice();
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState): void {
         const {
             enteredOptions,
             selectedOptions,
@@ -248,11 +248,11 @@ export class ProductContainer extends PureComponent {
         } = activeProduct || {};
 
         const output = {
-            inStock: fromCache(getProductInStock, [activeProduct, product]),
+            inStock: fromCache(getProductInStock, [ activeProduct, product ]),
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
             productName: getName(product),
-            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type, options])
+            productPrice: fromCache(getPrice, [ priceRange, dynamicPrice, adjustedPrice, type, options ])
         };
 
         return {
@@ -292,7 +292,7 @@ export class ProductContainer extends PureComponent {
             });
         }
 
-        const values = getFieldsData(current, true, [FIELD_TYPE.number]);
+        const values = getFieldsData(current, true, [ FIELD_TYPE.number ]);
 
         values.forEach(({ name, value, type }) => {
             if (type === FIELD_TYPE.select) {
@@ -334,7 +334,7 @@ export class ProductContainer extends PureComponent {
         this.setState({
             adjustedPrice: {
                 ...adjustedPrice,
-                [type]: amount
+                [ type ]: amount
             }
         });
     }
@@ -350,7 +350,7 @@ export class ProductContainer extends PureComponent {
 
         const { product: { configurable_options } } = this.props;
         const unselectedOptions = Object.keys(configurable_options).reduce((accumulator, value) => {
-            if (!parameters[value]) {
+            if (!parameters[ value ]) {
                 accumulator.push(value);
             }
 
@@ -452,7 +452,7 @@ export class ProductContainer extends PureComponent {
 
         const newParameters = getNewParameters(prevParameters, key, value);
 
-        const { [key]: oldValue, ...currentParameters } = newParameters;
+        const { [ key ]: oldValue, ...currentParameters } = newParameters;
         const parameters = oldValue === '' && checkEmptyValue ? currentParameters : newParameters;
 
         this.setState({ parameters });
@@ -465,7 +465,7 @@ export class ProductContainer extends PureComponent {
             // Not all parameters are selected yet, therefore variantIndex must be invalid
             : -1;
 
-        const newProduct = newIndex === -1 ? null : variants[newIndex];
+        const newProduct = newIndex === -1 ? null : variants[ newIndex ];
 
         if (newProduct !== selectedProduct) {
             this.setState({
@@ -495,7 +495,7 @@ export class ProductContainer extends PureComponent {
      * @param options State value
      */
     setStateOptions(type, options) {
-        this.setState({ [type]: options });
+        this.setState({ [ type ]: options });
     }
 
     /**
@@ -520,7 +520,7 @@ export class ProductContainer extends PureComponent {
             product,
             quantity,
             enteredOptions,
-            [...selectedOptions, ...downloadableLinks, ...configurableOptions],
+            [ ...selectedOptions, ...downloadableLinks, ...configurableOptions ],
         );
     }
 

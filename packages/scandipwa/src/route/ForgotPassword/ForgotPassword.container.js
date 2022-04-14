@@ -55,7 +55,7 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
         onCreateAccountClick: this.onCreateAccountClick.bind(this)
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { setHeaderState, toggleBreadcrumbs } = this.props;
 
         toggleBreadcrumbs(false);
@@ -63,7 +63,7 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
             name: CUSTOMER_SUB_ACCOUNT,
             title: __('Forgot password'),
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode(`${ ACCOUNT_LOGIN_URL }`) });
+                history.push({ pathname: appendWithStoreCode(`${ACCOUNT_LOGIN_URL}`) });
                 this.handleSignIn(e);
             }
         });
@@ -71,18 +71,18 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
     }
 
     onLoginClick() {
-        history.replace(appendWithStoreCode(`${ ACCOUNT_LOGIN_URL }`));
+        history.replace(appendWithStoreCode(`${ACCOUNT_LOGIN_URL}`));
     }
 
     onCreateAccountClick() {
-        history.replace(appendWithStoreCode(`${ ACCOUNT_REGISTRATION_URL }`));
+        history.replace(appendWithStoreCode(`${ACCOUNT_REGISTRATION_URL}`));
     }
 
     render() {
         return (
             <ForgotPassword
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

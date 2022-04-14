@@ -70,7 +70,7 @@ export class FieldGroupContainer extends PureComponent {
 
     //#region VALIDATION
     // Removes event listener for validation from field
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         const { validationRule } = this.props;
 
         if (this.groupRef && validationRule && Object.keys(validationRule).length > 0) {
@@ -127,10 +127,10 @@ export class FieldGroupContainer extends PureComponent {
         const fields = getFieldsData(
             this.groupRef,
             false,
-            [FIELD_TYPE.number, FIELD_TYPE.button]
+            [ FIELD_TYPE.number, FIELD_TYPE.button ]
         );
 
-        hook(...[...args, { ...attr, formRef: this.groupRef, fields }]);
+        hook(...[ ...args, { ...attr, formRef: this.groupRef, fields } ]);
     }
     //#endregion
 
@@ -151,13 +151,13 @@ export class FieldGroupContainer extends PureComponent {
         // Surrounds events with validation
         const newEvents = {};
         Object.keys(events).forEach((eventName) => {
-            const { [eventName]: event } = events;
-            newEvents[eventName] = this.surroundEvent.bind(this, event);
+            const { [ eventName ]: event } = events;
+            newEvents[ eventName ] = this.surroundEvent.bind(this, event);
         });
 
         validateOn.forEach((eventName) => {
-            const { [eventName]: baseEvent } = events;
-            newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
+            const { [ eventName ]: baseEvent } = events;
+            newEvents[ eventName ] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 
         return {
@@ -176,7 +176,7 @@ export class FieldGroupContainer extends PureComponent {
     render() {
         return (
             <FieldGroup
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

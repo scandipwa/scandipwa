@@ -94,11 +94,11 @@ export class CartItemContainer extends PureComponent {
         getProductVariant: this.getProductVariant.bind(this)
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.setStateNotLoading();
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         this.notifyAboutLoadingStateChange(false);
 
         if (this.handlers.length) {
@@ -121,7 +121,7 @@ export class CartItemContainer extends PureComponent {
 
         return variantIndex < 0
             ? product
-            : product.variants[variantIndex];
+            : product.variants[ variantIndex ];
     }
 
     setStateNotLoading() {
@@ -253,7 +253,7 @@ export class CartItemContainer extends PureComponent {
             }
         } = this.props;
 
-        return variants[this._getVariantIndex()];
+        return variants[ this._getVariantIndex() ];
     }
 
     /**
@@ -303,9 +303,9 @@ export class CartItemContainer extends PureComponent {
         const { attributes } = variant;
 
         const parameters = Object.entries(attributes).reduce(
-            (parameters, [code, { attribute_value }]) => {
+            (parameters, [ code, { attribute_value } ]) => {
                 if (Object.keys(configurable_options).includes(code)) {
-                    return { ...parameters, [code]: attribute_value };
+                    return { ...parameters, [ code ]: attribute_value };
                 }
 
                 return parameters;
@@ -328,7 +328,7 @@ export class CartItemContainer extends PureComponent {
         return thumbnail || '';
     }
 
-    getConfigurationOptionLabel([key, attribute]) {
+    getConfigurationOptionLabel([ key, attribute ]) {
         const {
             item: {
                 product: {
@@ -344,9 +344,9 @@ export class CartItemContainer extends PureComponent {
         }
 
         const {
-            [attribute_code]: { // configurable option attribute
+            [ attribute_code ]: { // configurable option attribute
                 attribute_options: {
-                    [attribute_value]: { // attribute option value label
+                    [ attribute_value ]: { // attribute option value label
                         label
                     }
                 }
@@ -373,7 +373,7 @@ export class CartItemContainer extends PureComponent {
         const { attributes = [] } = this.getCurrentProduct() || {};
 
         return Object.entries(attributes)
-            .filter(([attrKey]) => Object.keys(configurable_options).includes(attrKey))
+            .filter(([ attrKey ]) => Object.keys(configurable_options).includes(attrKey))
             .map(this.getConfigurationOptionLabel.bind(this))
             .filter((label) => label);
     }
@@ -391,12 +391,12 @@ export class CartItemContainer extends PureComponent {
 
         return (
             <button
-              block="CartItem"
-              elem="SwipeToDeleteRightSide"
-              onClick={ handleRemoveItem }
-              aria-label={ __('Remove') }
+                block="CartItem"
+                elem="SwipeToDeleteRightSide"
+                onClick={handleRemoveItem}
+                aria-label={__('Remove')}
             >
-                { __('Delete') }
+                {__('Delete')}
             </button>
         );
     }
@@ -406,13 +406,13 @@ export class CartItemContainer extends PureComponent {
 
         return (
             <SwipeToDelete
-              renderRightSideContent={ this.renderRightSideContent }
-              onAheadOfDragItemRemoveThreshold={ this.handleRemoveItemOnSwipe }
-              isLoading={ isLoading }
+                renderRightSideContent={this.renderRightSideContent}
+                onAheadOfDragItemRemoveThreshold={this.handleRemoveItemOnSwipe}
+                isLoading={isLoading}
             >
                 <CartItem
-                  { ...this.containerFunctions }
-                  { ...this.containerProps() }
+                    {...this.containerFunctions}
+                    {...this.containerProps()}
                 />
             </SwipeToDelete>
         );

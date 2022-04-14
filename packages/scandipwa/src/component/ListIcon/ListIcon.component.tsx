@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { ListIconProps } from './ListIcon.type';
 
 import './ListIcon.style';
@@ -21,7 +23,7 @@ export class ListIcon extends PureComponent<ListIconProps> {
         isActive: false
     };
 
-    render(): JSX.Element {
+    render(): ReactElement {
         const { isActive } = this.props;
 
         return (

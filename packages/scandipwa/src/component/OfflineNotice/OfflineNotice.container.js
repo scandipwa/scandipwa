@@ -45,7 +45,7 @@ export class OfflineNoticeContainer extends PureComponent {
         isPage: false
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { isPage } = this.props;
 
         if (!isPage) {
@@ -55,7 +55,7 @@ export class OfflineNoticeContainer extends PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const {
             location: { pathname },
             isBig,
@@ -82,7 +82,7 @@ export class OfflineNoticeContainer extends PureComponent {
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         const { isPage } = this.props;
 
         if (!isPage) {
@@ -132,8 +132,8 @@ export class OfflineNoticeContainer extends PureComponent {
     render() {
         return (
             <OfflineNotice
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

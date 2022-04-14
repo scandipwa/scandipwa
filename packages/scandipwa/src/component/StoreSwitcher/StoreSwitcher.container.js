@@ -58,11 +58,11 @@ export class StoreSwitcherContainer extends DataContainer {
         super.__construct(props, 'StoreSwitcherContainer');
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this._getStoreList();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { currentStoreCode } = this.props;
         const { prevStoreCode } = prevProps;
         const { storeLabel, storeList } = this.state;
@@ -101,7 +101,7 @@ export class StoreSwitcherContainer extends DataContainer {
 
     _getStoreList() {
         this.fetchData(
-            [ConfigQuery.getStoreListField()],
+            [ ConfigQuery.getStoreListField() ],
             ({ storeList }) => this.setState({
                 storeList: this._formatStoreList(storeList)
             })
@@ -119,7 +119,7 @@ export class StoreSwitcherContainer extends DataContainer {
             return [
                 ...acc,
                 {
-                    id: `store_${ code }`,
+                    id: `store_${code}`,
                     value: code,
                     storeUrl: base_url,
                     storeLinkUrl: base_link_url,
@@ -166,8 +166,8 @@ export class StoreSwitcherContainer extends DataContainer {
     render() {
         return (
             <StoreSwitcher
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                {...this.containerFunctions}
+                {...this.containerProps()}
             />
         );
     }

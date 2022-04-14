@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { UserIconProps } from './UserIcon.type';
 
 import './UserIcon.style';
@@ -21,7 +23,7 @@ export class UserIcon extends PureComponent<UserIconProps> {
         isActive: false
     };
 
-    render(): JSX.Element {
+    render(): ReactElement {
         const { isActive } = this.props;
 
         return (

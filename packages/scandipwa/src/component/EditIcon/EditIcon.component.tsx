@@ -11,11 +11,13 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import './EditIcon.style';
 
 /** @namespace Component/EditIcon/Component */
 export class EditIcon extends PureComponent {
-    render(): JSX.Element {
+    render(): ReactElement {
         return (
             <svg
               block="EditIcon"

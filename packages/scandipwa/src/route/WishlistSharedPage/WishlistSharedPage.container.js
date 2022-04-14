@@ -65,11 +65,11 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         isLoading: false
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.requestWishlist();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { match: { params: { code } } } = prevProps;
 
         if (this.getCode() !== code) {
@@ -99,7 +99,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         const { showError, showNoMatch, updateBreadcrumbs } = this.props;
 
         const code = this.getCode();
-        const query = prepareQuery([WishlistQuery.getWishlistQuery(code)]);
+        const query = prepareQuery([ WishlistQuery.getWishlistQuery(code) ]);
 
         updateBreadcrumbs([]);
         this.setLoading();
@@ -126,7 +126,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
 
                     return {
                         ...prev,
-                        [id]: {
+                        [ id ]: {
                             quantity,
                             wishlist: {
                                 id,
@@ -174,8 +174,8 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
     render() {
         return (
             <WishlistShared
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

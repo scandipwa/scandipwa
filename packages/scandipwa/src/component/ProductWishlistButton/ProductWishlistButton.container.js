@@ -74,7 +74,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         removeFromWishlist: this.toggleProductInWishlist.bind(this, false)
     };
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { isAddingWishlistItem: isPrevAddingWishlistItem } = prevProps;
         const { isAddingWishlistItem } = this.props;
 
@@ -102,7 +102,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
     async toggleProductInWishlist(add = true) {
         const {
             magentoProduct,
-            magentoProduct: [{ sku }] = [],
+            magentoProduct: [ { sku } ] = [],
             showNotification,
             addProductToWishlist,
             removeProductFromWishlist,
@@ -174,7 +174,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
     isInWishlist() {
         const { magentoProduct = [] } = this.props;
-        const [{ sku: productSku }] = magentoProduct;
+        const [ { sku: productSku } ] = magentoProduct;
 
         if (!productSku) {
             return false;
@@ -188,9 +188,9 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         return (
             <ProductWishlistButton
-              isLoading={ isWishlistButtonLoading }
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                isLoading={isWishlistButtonLoading}
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

@@ -152,7 +152,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState): void {
         const { isSignedIn: prevIsSignedIn } = prevProps;
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
@@ -333,8 +333,8 @@ export class MyAccountOverlayContainer extends PureComponent {
     render() {
         return (
             <MyAccountOverlay
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

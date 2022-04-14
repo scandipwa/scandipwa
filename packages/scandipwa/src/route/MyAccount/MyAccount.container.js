@@ -108,42 +108,42 @@ export class MyAccountContainer extends PureComponent {
     };
 
     static tabMap = {
-        [MY_ACCOUNT]: {
+        [ MY_ACCOUNT ]: {
             url: '',
             tabName: __('My Account'),
             section: FIRST_SECTION
         },
-        [MY_ORDERS]: {
+        [ MY_ORDERS ]: {
             url: '/sales/order/history',
             tabName: __('My Orders'),
             section: FIRST_SECTION,
             isFullUrl: true
         },
-        [MY_DOWNLOADABLE]: {
+        [ MY_DOWNLOADABLE ]: {
             url: '/downloadable/customer/products',
             tabName: __('My Downloadable'),
             section: FIRST_SECTION,
             isFullUrl: true
         },
-        [MY_WISHLIST]: {
+        [ MY_WISHLIST ]: {
             url: '/wishlist',
             tabName: __('My Wish List'),
             section: FIRST_SECTION,
             isFullUrl: true
         },
-        [ADDRESS_BOOK]: {
+        [ ADDRESS_BOOK ]: {
             url: '/customer/address',
             tabName: __('Address Book'),
             section: SECOND_SECTION,
             isFullUrl: true
         },
-        [ACCOUNT_INFORMATION]: {
+        [ ACCOUNT_INFORMATION ]: {
             url: '/edit',
             tabName: __('Account Information'),
             title: __('Edit Account Information'),
             section: SECOND_SECTION
         },
-        [NEWSLETTER_SUBSCRIPTION]: {
+        [ NEWSLETTER_SUBSCRIPTION ]: {
             url: '/newsletter/manage',
             tabName: __('Newsletter Subscription'),
             section: THIRD_SECTION,
@@ -155,12 +155,12 @@ export class MyAccountContainer extends PureComponent {
         const { isWishlistEnabled, newsletterActive } = props;
 
         switch (tabName) {
-        case MY_WISHLIST:
-            return isWishlistEnabled;
-        case NEWSLETTER_SUBSCRIPTION:
-            return newsletterActive;
-        default:
-            return true;
+            case MY_WISHLIST:
+                return isWishlistEnabled;
+            case NEWSLETTER_SUBSCRIPTION:
+                return newsletterActive;
+            default:
+                return true;
         }
     }
 
@@ -176,18 +176,18 @@ export class MyAccountContainer extends PureComponent {
         } = props;
         const { activeTab } = state;
 
-        if (this.tabMap[selectedTab] && isSignedIn()) {
+        if (this.tabMap[ selectedTab ] && isSignedIn()) {
             return { activeTab: selectedTab };
         }
 
         // redirect to Dashboard, if user visited non-existent or disabled page
-        const newActiveTab = this.tabMap[historyActiveTab] && MyAccountContainer.isTabEnabled(props, historyActiveTab)
+        const newActiveTab = this.tabMap[ historyActiveTab ] && MyAccountContainer.isTabEnabled(props, historyActiveTab)
             ? historyActiveTab
             : MY_ACCOUNT;
-        const { url: activeTabUrl } = this.tabMap[newActiveTab];
+        const { url: activeTabUrl } = this.tabMap[ newActiveTab ];
 
         if (historyActiveTab !== newActiveTab && activeTab !== MY_ACCOUNT && isSignedIn() && !isMobile) {
-            history.push(appendWithStoreCode(`${ ACCOUNT_URL }${ activeTabUrl }`));
+            history.push(appendWithStoreCode(`${ACCOUNT_URL}${activeTabUrl}`));
         }
 
         if (activeTab !== newActiveTab) {
@@ -207,7 +207,7 @@ export class MyAccountContainer extends PureComponent {
     };
 
     subHeadingRenderMap = {
-        [MY_WISHLIST]: this.getMyWishlistSubHeading.bind(this)
+        [ MY_WISHLIST ]: this.getMyWishlistSubHeading.bind(this)
     };
 
     __construct(props) {
@@ -241,7 +241,7 @@ export class MyAccountContainer extends PureComponent {
         return MyAccountContainer.navigateToSelectedTab(props, state);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState): void {
         const {
             wishlistItems: prevWishlistItems,
             IsSignedInFromState: prevIsSignedInFromState
@@ -300,7 +300,7 @@ export class MyAccountContainer extends PureComponent {
     getSubHeading() {
         const { activeTab, stateSubHeading } = this.state;
 
-        const subHeadingFunc = this.subHeadingRenderMap[activeTab];
+        const subHeadingFunc = this.subHeadingRenderMap[ activeTab ];
 
         if (!subHeadingFunc) {
             return stateSubHeading;
@@ -312,7 +312,7 @@ export class MyAccountContainer extends PureComponent {
     getTabName() {
         const { location: { pathname } } = this.props;
         const { tabName: stateTabName, activeTab } = this.state;
-        const { tabName, url } = MyAccountContainer.tabMap[activeTab];
+        const { tabName, url } = MyAccountContainer.tabMap[ activeTab ];
 
         if (!pathname.includes(url)) {
             return stateTabName;
@@ -324,7 +324,7 @@ export class MyAccountContainer extends PureComponent {
     getMyWishlistSubHeading() {
         const count = this.getWishlistItemsCount();
 
-        return ` (${ count })`;
+        return ` (${count})`;
     }
 
     getWishlistItemsCount() {
@@ -338,7 +338,7 @@ export class MyAccountContainer extends PureComponent {
     getMyWishlistHeaderTitle() {
         const count = this.getWishlistItemsCount();
 
-        return `${ count } ${ count === 1 ? __('item') : __('items') }`;
+        return `${count} ${count === 1 ? __('item') : __('items')}`;
     }
     // #endregion
 
@@ -351,23 +351,23 @@ export class MyAccountContainer extends PureComponent {
         const { isWishlistEnabled, newsletterActive } = this.props;
 
         switch (tabName) {
-        case MY_WISHLIST:
-            return isWishlistEnabled;
-        case NEWSLETTER_SUBSCRIPTION:
-            return newsletterActive;
-        default:
-            return true;
+            case MY_WISHLIST:
+                return isWishlistEnabled;
+            case NEWSLETTER_SUBSCRIPTION:
+                return newsletterActive;
+            default:
+                return true;
         }
     }
 
     tabsFilterEnabled() {
         return Object.fromEntries(Object.entries(MyAccountContainer.tabMap)
-            .filter(([tabName]) => MyAccountContainer.isTabEnabled(this.props, tabName)));
+            .filter(([ tabName ]) => MyAccountContainer.isTabEnabled(this.props, tabName)));
     }
 
     changeActiveTab(activeTab) {
         const {
-            [activeTab]: {
+            [ activeTab ]: {
                 url,
                 isFullUrl = false
             }
@@ -376,7 +376,7 @@ export class MyAccountContainer extends PureComponent {
         if (isFullUrl) {
             history.push(appendWithStoreCode(url));
         } else {
-            history.push(appendWithStoreCode(`${ ACCOUNT_URL }${ url }`));
+            history.push(appendWithStoreCode(`${ACCOUNT_URL}${url}`));
         }
 
         this.changeMyAccountHeaderState();
@@ -451,12 +451,12 @@ export class MyAccountContainer extends PureComponent {
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const { activeTab } = this.state;
-        const { url, tabName, isFullUrl } = MyAccountContainer.tabMap[activeTab];
+        const { url, tabName, isFullUrl } = MyAccountContainer.tabMap[ activeTab ];
         const breadcrumbs = [];
 
         if (activeTab !== MY_ACCOUNT) {
             breadcrumbs.push({
-                url: isFullUrl ? url : `${ ACCOUNT_URL }${ url }`,
+                url: isFullUrl ? url : `${ACCOUNT_URL}${url}`,
                 name: tabName
             });
         }
@@ -507,9 +507,9 @@ export class MyAccountContainer extends PureComponent {
     render() {
         return (
             <MyAccount
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
-              tabMap={ this.tabsFilterEnabled(MyAccountContainer.tabMap) }
+                {...this.containerProps()}
+                {...this.containerFunctions}
+                tabMap={this.tabsFilterEnabled(MyAccountContainer.tabMap)}
             />
         );
     }

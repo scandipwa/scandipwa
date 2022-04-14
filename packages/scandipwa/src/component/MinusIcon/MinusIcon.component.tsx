@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { MinusIconProps } from './MinusIcon.type';
 
 import './MinusIcon.style';
@@ -21,7 +23,7 @@ export class MinusIcon extends PureComponent<MinusIconProps> {
         isPrimary: false
     };
 
-    render(): JSX.Element {
+    render(): ReactElement {
         const { isPrimary } = this.props;
 
         return (

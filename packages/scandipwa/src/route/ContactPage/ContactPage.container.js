@@ -63,7 +63,7 @@ export class ContactPageContainer extends DataContainer {
         this.updateBreadcrumbs();
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.updateMeta();
         this.updateBreadcrumbs();
         this.updateHeader();
@@ -116,7 +116,7 @@ export class ContactPageContainer extends DataContainer {
             ({ contactPageConfig: { enabled } = {} }) => {
                 this.setState({ isEnabled: enabled, isLoading: false });
             },
-            ([e]) => {
+            ([ e ]) => {
                 this.setState({ isLoading: false });
                 showNotification(e.message);
             }
@@ -126,7 +126,7 @@ export class ContactPageContainer extends DataContainer {
     render() {
         return (
             <ContactPage
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

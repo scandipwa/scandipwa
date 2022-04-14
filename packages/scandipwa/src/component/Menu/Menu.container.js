@@ -53,7 +53,7 @@ export class MenuContainer extends DataContainer {
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { device: { isMobile } } = this.props;
 
         this._getMenu();
@@ -71,7 +71,7 @@ export class MenuContainer extends DataContainer {
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         window.removeEventListener('popstate', this.historyBackHook);
     }
 
@@ -100,7 +100,7 @@ export class MenuContainer extends DataContainer {
 
     _getMenu() {
         this.fetchData(
-            [MenuQuery.getQuery(this._getMenuOptions())],
+            [ MenuQuery.getQuery(this._getMenuOptions()) ],
             ({ menu }) => this.setState({
                 menu: MenuHelper.reduce(menu)
             })
@@ -112,7 +112,7 @@ export class MenuContainer extends DataContainer {
             return activeMenuItemsStack.filter((id) => id !== item_id);
         }
 
-        return [item_id, ...activeMenuItemsStack];
+        return [ item_id, ...activeMenuItemsStack ];
     }
 
     handleSubcategoryClick(e, activeSubcategory) {
@@ -139,7 +139,7 @@ export class MenuContainer extends DataContainer {
             return;
         }
 
-        this.setState({ activeMenuItemsStack: [item_id] });
+        this.setState({ activeMenuItemsStack: [ item_id ] });
     }
 
     closeMenu() {
@@ -155,8 +155,8 @@ export class MenuContainer extends DataContainer {
     render() {
         return (
             <Menu
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

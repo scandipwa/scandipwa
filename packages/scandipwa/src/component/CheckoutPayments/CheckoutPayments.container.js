@@ -55,20 +55,20 @@ export class CheckoutPaymentsContainer extends PureComponent {
     };
 
     dataMap = {
-        [KLARNA]: this.getKlarnaData.bind(this)
+        [ KLARNA ]: this.getKlarnaData.bind(this)
     };
 
     __construct(props) {
         super.__construct(props);
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         if (window.formPortalCollector) {
             window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData, 'CheckoutPaymentsContainer');
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         if (window.formPortalCollector) {
             window.formPortalCollector.unsubscribe(BILLING_STEP, 'CheckoutPaymentsContainer');
         }
@@ -99,7 +99,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
     collectAdditionalData() {
         const { selectedPaymentCode } = this.state;
-        const additionalDataGetter = this.dataMap[selectedPaymentCode];
+        const additionalDataGetter = this.dataMap[ selectedPaymentCode ];
 
         if (!additionalDataGetter) {
             return {};
@@ -125,8 +125,8 @@ export class CheckoutPaymentsContainer extends PureComponent {
     render() {
         return (
             <CheckoutPayments
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

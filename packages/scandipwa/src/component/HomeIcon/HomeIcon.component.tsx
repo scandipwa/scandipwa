@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { HomeIconProps } from './HomeIcon.type';
 
 import './HomeIcon.style';
@@ -21,7 +23,7 @@ export class HomeIcon extends PureComponent<HomeIconProps> {
         isActive: false
     };
 
-    render(): JSX.Element {
+    render(): ReactElement {
         const { isActive } = this.props;
 
         return (

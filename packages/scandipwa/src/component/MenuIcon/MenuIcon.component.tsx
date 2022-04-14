@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { MenuIconProps } from './MenuIcon.type';
 
 import './MenuIcon.style';
@@ -21,7 +23,7 @@ export class MenuIcon extends PureComponent<MenuIconProps> {
         isActive: false
     };
 
-    render(): JSX.Element {
+    render(): ReactElement {
         const { isActive } = this.props;
 
         return (

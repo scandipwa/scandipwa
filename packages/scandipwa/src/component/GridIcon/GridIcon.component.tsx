@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { GridIconProps } from './GridIcon.type';
 
 import './GridIcon.style';
@@ -21,7 +23,7 @@ export class GridIcon extends PureComponent<GridIconProps> {
         isActive: false
     };
 
-    render(): JSX.Element {
+    render(): ReactElement {
         const { isActive } = this.props;
 
         return (

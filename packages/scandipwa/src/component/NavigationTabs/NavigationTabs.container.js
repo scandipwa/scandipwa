@@ -36,8 +36,8 @@ import {
 
 /** @namespace Component/NavigationTabs/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    navigationState: state.NavigationReducer[BOTTOM_NAVIGATION_TYPE].navigationState,
-    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+    navigationState: state.NavigationReducer[ BOTTOM_NAVIGATION_TYPE ].navigationState,
+    headerState: state.NavigationReducer[ TOP_NAVIGATION_TYPE ].navigationState,
     device: state.ConfigReducer.device,
     cartTotals: state.CartReducer.cartTotals,
     noMatch: state.NoMatchReducer.noMatch
@@ -81,7 +81,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         onHomeButtonClick: this.onHomeButtonClick.bind(this)
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.handleNavVisibility();
 
         const SCROLL_DEBOUNCE_DELAY = 10;
@@ -92,7 +92,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         super.componentDidMount();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { navigationState: { isHidden } } = this.props;
         const { navigationState: { isHidden: prevHidden } } = prevProps;
 
@@ -189,15 +189,15 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     onMinicartButtonClick() {
         const { pathname } = location;
 
-        if (pathname !== appendWithStoreCode(`/${ CART }`)) {
+        if (pathname !== appendWithStoreCode(`/${CART}`)) {
             scrollToTop();
-            browserHistory.push(appendWithStoreCode(`/${ CART }`));
+            browserHistory.push(appendWithStoreCode(`/${CART}`));
         }
     }
 
     onMyAccountButtonClick() {
         const { pathname } = location;
-        const url = appendWithStoreCode(isSignedIn() ? `${ ACCOUNT_URL }` : ACCOUNT_LOGIN_URL);
+        const url = appendWithStoreCode(isSignedIn() ? `${ACCOUNT_URL}` : ACCOUNT_LOGIN_URL);
 
         if (pathname !== url) {
             browserHistory.push(url);
@@ -266,8 +266,8 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     render() {
         return (
             <NavigationTabs
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

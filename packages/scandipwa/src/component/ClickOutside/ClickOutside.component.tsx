@@ -1,0 +1,78 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+import {
+    Children,
+    cloneElement,
+    createRef,
+    PureComponent
+} from 'react';
+
+import { ChildrenType } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
+
+/** @namespace Component/ClickOutside/Component */
+export class ClickOutside extends PureComponent {
+    static propTypes = {
+        onClick: PropTypes.func,
+        children: ChildrenType
+    };
+
+    static defaultProps = {
+        onClick: noopFn,
+        children: []
+    };
+
+    handleClick = this.handleClick.bind(this);
+
+    __construct(props): void {
+        super.__construct(props);
+
+        const { children } = this.props;
+
+        this.childrenRefs = Children.map(
+            children,
+            () => createRef()
+        );
+    }
+
+    componentDidMount(): void {
+        document.addEventListener('click', this.handleClick);
+    }
+
+    componentWillUnmount(): void {
+        document.removeEventListener('click', this.handleClick);
+    }
+
+    handleClick({ target }) {
+        const { onClick } = this.props;
+
+        if (this.childrenRefs.every(
+            (ref) => {
+                const elementRef = ref.current?.overlayRef?.current || ref.current;
+
+                return !elementRef.contains(target);
+            }
+        )) {
+            onClick();
+        }
+    }
+
+    render(): ReactElement {
+        const { children } = this.props;
+
+        return Children.map(children, (element, idx) => (
+            cloneElement(element, { ref: this.childrenRefs[idx] })
+        ));
+    }
+}
+
+export default ClickOutside;

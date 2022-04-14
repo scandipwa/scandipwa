@@ -59,14 +59,14 @@ export class CheckoutAddressBookContainer extends PureComponent {
     static _getDefaultAddressId(props) {
         const { customer, isBilling } = props;
         const defaultKey = isBilling ? 'default_billing' : 'default_shipping';
-        const { [defaultKey]: defaultAddressId, addresses } = customer;
+        const { [ defaultKey ]: defaultAddressId, addresses } = customer;
 
         if (defaultAddressId) {
             return +defaultAddressId;
         }
 
         if (addresses && addresses.length) {
-            return addresses[0].id;
+            return addresses[ 0 ].id;
         }
 
         return 0;
@@ -116,7 +116,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         return null;
     }
 
-    componentDidUpdate(_, prevState) {
+    componentDidUpdate(_, prevState): void {
         const {
             onAddressSelect,
             requestCustomerData,
@@ -198,8 +198,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
     render() {
         return (
             <CheckoutAddressBook
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { ReactNode } from 'react';
+
 export type Mods = Record<string, string | boolean>;
 
 export type Mix = {
@@ -17,9 +19,11 @@ export type Mix = {
     mods?: Mods;
 };
 
-export type Children = React.ReactNode[] | React.ReactNode;
+export type ReactElement = ReactNode | ReactNode[];
 
-export type Ref = () => void | { current: Element };
+export type Children = ReactNode[];
+
+export type Ref = <T extends HTMLElement>() => void | { current: T };
 
 // TODO unknown
 export type MetaTitle = string | unknown;

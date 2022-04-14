@@ -214,7 +214,7 @@ export class CheckoutContainer extends PureComponent {
         }
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const {
             history,
             showInfoNotification,
@@ -250,7 +250,7 @@ export class CheckoutContainer extends PureComponent {
         updateMeta({ title: __('Checkout') });
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState): void {
         const { match: { params: { step: urlStep } }, isEmailAvailable, updateEmail } = this.props;
         const { match: { params: { step: prevUrlStep } } } = prevProps;
         const { email } = this.state;
@@ -278,7 +278,7 @@ export class CheckoutContainer extends PureComponent {
         return null;
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         const { toggleBreadcrumbs } = this.props;
         toggleBreadcrumbs(true);
     }
@@ -790,7 +790,7 @@ export class CheckoutContainer extends PureComponent {
                 guest_cart_id,
                 payment_method: {
                     code,
-                    [code]: additional_data,
+                    [ code ]: additional_data,
                     purchase_order_number
                 }
             }));
@@ -807,8 +807,8 @@ export class CheckoutContainer extends PureComponent {
     render() {
         return (
             <Checkout
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                {...this.containerFunctions}
+                {...this.containerProps()}
             />
         );
     }

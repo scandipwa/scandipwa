@@ -43,7 +43,7 @@ export class MyAccountOrderTotalsContainer extends PureComponent {
         this.state = this.getColSpanCounts(activeTab, isMobile);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { isMobile: prevIsMobile } = prevProps;
         const { isMobile } = this.props;
 
@@ -65,7 +65,7 @@ export class MyAccountOrderTotalsContainer extends PureComponent {
                 colSpanLabelCount: '3'
             };
 
-            return colSpanCountsMobile[activeTab] ?? defaultSpanCount;
+            return colSpanCountsMobile[ activeTab ] ?? defaultSpanCount;
         }
 
         const defaultSpanCount = {
@@ -73,7 +73,7 @@ export class MyAccountOrderTotalsContainer extends PureComponent {
             colSpanLabelCount: '4'
         };
 
-        return colSpanCounts[activeTab] ?? defaultSpanCount;
+        return colSpanCounts[ activeTab ] ?? defaultSpanCount;
     }
 
     containerProps() {
@@ -91,7 +91,7 @@ export class MyAccountOrderTotalsContainer extends PureComponent {
     render() {
         return (
             <MyAccountOrderTotals
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

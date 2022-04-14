@@ -51,12 +51,12 @@ export class MyAccountMyOrdersContainer extends PureComponent {
         location: LocationType.isRequired
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { getOrderList } = this.props;
         getOrderList(this._getPageFromUrl());
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const { getOrderList } = this.props;
         const { location: prevLocation } = prevProps;
 
@@ -85,7 +85,7 @@ export class MyAccountMyOrdersContainer extends PureComponent {
     render() {
         return (
             <MyAccountMyOrders
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

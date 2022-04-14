@@ -92,11 +92,11 @@ export class ProductGalleryContainer extends PureComponent {
         return { prevProdId: id, activeImage };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.cacheImages();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         const {
             product: { media_gallery_entries: mediaGallery = [] },
             isZoomEnabled,
@@ -128,7 +128,7 @@ export class ProductGalleryContainer extends PureComponent {
         const urls = [];
         variants.forEach(({ media_gallery_entries: mediaGallery = [] }) => {
             if (mediaGallery.length > 0) {
-                const { base: { url } = {} } = mediaGallery[0];
+                const { base: { url } = {} } = mediaGallery[ 0 ];
                 urls.push(url);
             }
         });
@@ -183,8 +183,8 @@ export class ProductGalleryContainer extends PureComponent {
             areDetailsLoaded,
             product: {
                 media_gallery_entries: mediaGallery = [],
-                [THUMBNAIL_KEY]: { url: thumbnailUrl } = {},
-                [IMAGE_TYPE]: { url: imageTypeUrl } = {},
+                [ THUMBNAIL_KEY ]: { url: thumbnailUrl } = {},
+                [ IMAGE_TYPE ]: { url: imageTypeUrl } = {},
                 name
             }
         } = this.props;
@@ -275,19 +275,19 @@ export class ProductGalleryContainer extends PureComponent {
 
         return (
             <ImageZoomPopup
-              isActive={ isImageZoomPopupActive }
-              onClose={ this.handleImageZoomPopupClose }
-              activeImageId={ activeImage }
-              popupId={ PRODUCT_GALERY_POPUP_ID }
+                isActive={isImageZoomPopupActive}
+                onClose={this.handleImageZoomPopupClose}
+                activeImageId={activeImage}
+                popupId={PRODUCT_GALERY_POPUP_ID}
             >
-                <Subscribe to={ [SharedTransitionContainer] }>
-                    { ({ registerSharedElementDestination }) => (
+                <Subscribe to={[ SharedTransitionContainer ]}>
+                    {({ registerSharedElementDestination }) => (
                         <ProductGallery
-                          registerSharedElementDestination={ registerSharedElementDestination }
-                          { ...this.containerProps() }
-                          { ...this.containerFunctions }
+                            registerSharedElementDestination={registerSharedElementDestination}
+                            {...this.containerProps()}
+                            {...this.containerFunctions}
                         />
-                    ) }
+                    )}
                 </Subscribe>
             </ImageZoomPopup>
         );

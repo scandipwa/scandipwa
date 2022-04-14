@@ -64,7 +64,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
         onLoginClick: this.onLoginClick.bind(this)
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { setHeaderState, toggleBreadcrumbs } = this.props;
 
         if (isSignedIn()) {
@@ -79,7 +79,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
             name: CUSTOMER_SUB_ACCOUNT,
             title: __('Create account'),
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode(`${ ACCOUNT_LOGIN_URL }`) });
+                history.push({ pathname: appendWithStoreCode(`${ACCOUNT_LOGIN_URL}`) });
                 this.handleSignIn(e);
             }
         });
@@ -87,14 +87,14 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
     }
 
     onLoginClick() {
-        history.replace(appendWithStoreCode(`${ ACCOUNT_LOGIN_URL }`));
+        history.replace(appendWithStoreCode(`${ACCOUNT_LOGIN_URL}`));
     }
 
     render() {
         return (
             <CreateAccount
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

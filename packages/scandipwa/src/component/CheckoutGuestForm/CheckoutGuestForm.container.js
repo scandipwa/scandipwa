@@ -119,7 +119,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
         clearEmailStatus();
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         setTimeout(
             () => {
                 const field = document.getElementById(GUEST_EMAIL_FIELD_ID);
@@ -218,8 +218,8 @@ export class CheckoutGuestFormContainer extends PureComponent {
 
         return (
             <CheckoutGuestForm
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

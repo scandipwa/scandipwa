@@ -44,7 +44,7 @@ import {
 
 /** @namespace Component/Header/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+    navigationState: state.NavigationReducer[ TOP_NAVIGATION_TYPE ].navigationState,
     cartTotals: state.CartReducer.cartTotals,
     totals: state.CartReducer.cartTotals,
     compareTotals: state.ProductCompareReducer.count,
@@ -191,12 +191,12 @@ export class HeaderContainer extends NavigationAbstractContainer {
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.handleHeaderVisibility();
         super.componentDidMount();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps): void {
         this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
         this.navigateToShippingStep(prevProps);
@@ -237,7 +237,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             return navigationState;
         }
 
-        return this.routeMap[activeRoute] || this.default_state;
+        return this.routeMap[ activeRoute ] || this.default_state;
     }
 
     getUserName() {
@@ -405,7 +405,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             device
         } = this.props;
 
-        if (device.isMobile || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT].includes(name)) {
+        if (device.isMobile || ![ CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT ].includes(name)) {
             return;
         }
 
@@ -459,7 +459,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             return;
         }
 
-        history.push(appendWithStoreCode(`/${ CART }`));
+        history.push(appendWithStoreCode(`/${CART}`));
     }
 
     onMinicartOutsideClick() {
@@ -517,8 +517,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
     render() {
         return (
             <Header
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

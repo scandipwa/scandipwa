@@ -49,7 +49,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
         isLoading: false
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.requestDownloadable();
     }
 
@@ -110,7 +110,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
     render() {
         return (
             <MyAccountDownloadable
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

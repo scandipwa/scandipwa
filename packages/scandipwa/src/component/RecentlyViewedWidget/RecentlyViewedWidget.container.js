@@ -54,7 +54,7 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
         siblingsHaveConfigurableOptions: false
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const {
             updateRecentViewedProductsInfo,
             recentProducts,
@@ -81,7 +81,7 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
             isLoading
         } = this.props;
 
-        const products = recentProducts[store] ?? [];
+        const products = recentProducts[ store ] ?? [];
 
         return {
             productCardFunctions: {
@@ -105,7 +105,7 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
     render() {
         return (
             <RecentlyViewedWidget
-              { ...this.containerProps() }
+                {...this.containerProps()}
             />
         );
     }

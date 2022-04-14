@@ -55,7 +55,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
 
     formRef = createRef();
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { links } = this.props;
 
         if (links) {
@@ -63,7 +63,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         }
     }
 
-    componentDidUpdate(_, prevState) {
+    componentDidUpdate(_, prevState): void {
         const { links } = this.props;
         const {
             selectedLinks,
@@ -140,8 +140,8 @@ export class ProductDownloadableLinksContainer extends PureComponent {
     render() {
         return (
             <ProductDownloadableLinks
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                {...this.containerProps()}
+                {...this.containerFunctions}
             />
         );
     }

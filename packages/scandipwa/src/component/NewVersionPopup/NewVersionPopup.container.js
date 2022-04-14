@@ -50,7 +50,7 @@ export class NewVersionPopupContainer extends PureComponent {
         handleDismiss: this.handleDismiss.bind(this)
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { showPopup, goToPreviousHeaderState, device } = this.props;
 
         if (isCrawler() || isSSR()) {
@@ -91,7 +91,7 @@ export class NewVersionPopupContainer extends PureComponent {
     render() {
         return (
             <NewVersionPopup
-              { ...this.containerFunctions }
+                {...this.containerFunctions}
             />
         );
     }

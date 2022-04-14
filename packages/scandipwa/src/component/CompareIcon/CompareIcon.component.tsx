@@ -11,6 +11,8 @@
 
 import { PureComponent } from 'react';
 
+import { ReactElement } from 'Type/Common.type';
+
 import { CompareIconProps } from './CompareIcon.type';
 
 import './CompareIcon.style';
@@ -21,7 +23,7 @@ export class CompareIcon extends PureComponent<CompareIconProps> {
         isActive: false
     };
 
-    render(): JSX.Element {
+    render(): ReactElement {
         const { isActive } = this.props;
 
         return (

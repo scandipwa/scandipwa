@@ -53,7 +53,7 @@ export class NavigationAbstractContainer extends PureComponent {
         prevPathname: ''
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { setNavigationState } = this.props;
         setNavigationState(this.getNavigationState());
         history.listen((history) => {
@@ -81,7 +81,7 @@ export class NavigationAbstractContainer extends PureComponent {
         const activeRoute = Object.keys(this.routeMap).find((route) => (
             (route !== '/' && route !== '') || isHomePageUrl(pathname)) && pathname.includes(route));
 
-        return this.routeMap[activeRoute] || this.default_state;
+        return this.routeMap[ activeRoute ] || this.default_state;
     }
 
     goToDefaultHeaderState() {
@@ -130,7 +130,7 @@ export class NavigationAbstractContainer extends PureComponent {
             setNavigationState
         } = this.props;
 
-        setNavigationState(this.routeMap['/']);
+        setNavigationState(this.routeMap[ '/' ]);
         hideActiveOverlay();
 
         return {};
