@@ -31,10 +31,6 @@
                     padding-inline-start: 0;
                     border: none;
                 }
-
-                &-ErrorMessages {
-                    margin-block-start: -4px;
-                }
             }
         }
     }
@@ -52,7 +48,7 @@
         display: flex;
         flex-direction: column;
         row-gap: 24px;
-      
+
         .Field {
             margin-block-start: 12px;
 
