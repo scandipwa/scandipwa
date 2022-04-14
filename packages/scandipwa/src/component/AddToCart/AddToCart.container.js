@@ -169,8 +169,12 @@ export class AddToCartContainer extends PureComponent {
         const isValid = typeId === PRODUCT_TYPE.grouped || inRange;
 
         if (!isValid) {
-            if (quantity < minQty) {
-                showNotification('info', __('Sorry! Minimum quantity for this product is %s!', minQty));
+            if (maxQty > minQty) {
+                if (quantity < minQty) {
+                    showNotification('info', __('Sorry! Minimum quantity for this product is %s!', minQty));
+                } else {
+                    showNotification('info', __('Sorry! Maximum quantity for this product is %s!', maxQty));
+                }
             } else {
                 showNotification('info', __('Sorry! Maximum quantity for this product is %s!', maxQty));
             }

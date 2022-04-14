@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -53,12 +54,9 @@ export class FieldNumberContainer extends PureComponent {
         if (defaultValue <= 0 || prevDefaultValue <= 0) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ value: min });
-            return;
         }
 
-        if (defaultValue === prevDefaultValue) {
-            this.handleInitialLoad(defaultValue);
-        } else if (defaultValue <= min) {
+        if (defaultValue <= min) {
             this.handleInitialLoad(min);
         }
     }
