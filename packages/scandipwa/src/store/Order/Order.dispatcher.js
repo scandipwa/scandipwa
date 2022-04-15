@@ -10,6 +10,7 @@
  */
 
 import OrderQuery from 'Query/Order.query';
+import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
 import { getAuthorizationToken } from 'Util/Auth';
@@ -51,7 +52,7 @@ export class OrderDispatcher {
         const cartDispatcher = (await CartDispatcher).default;
         cartDispatcher.updateInitialCartData(dispatch, getAuthorizationToken());
 
-        history.push(appendWithStoreCode('/cart'));
+        history.push(appendWithStoreCode(CART_URL));
 
         if (userInputErrors.length) {
             userInputErrors.map(({ message }) => dispatch(showNotification('error', message)));
