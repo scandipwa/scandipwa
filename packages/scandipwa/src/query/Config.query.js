@@ -45,14 +45,13 @@ export class ConfigQuery {
     }
 
     getCurrencyRates() {
-        return new Field('currency').addFieldList(this.getCurrencyRatesField())
-            .addFieldList(this._getCurrencyRatesField());
+        return new Field('currency').addFieldList(this.getCurrencyRatesField());
     }
 
     getCurrencyRatesField() {
         return [
             'base_currency_code',
-            'exchange_rates'
+            new Field('exchange_rates').addFieldList(this._getExchangeRatesField())
         ];
     }
 
