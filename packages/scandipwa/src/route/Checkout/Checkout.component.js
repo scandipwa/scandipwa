@@ -263,6 +263,7 @@ export class Checkout extends PureComponent {
             setLoading,
             setDetailsStep,
             shippingAddress,
+            onEmailChange,
             paymentMethods = [],
             savePaymentInformation,
             selectedShippingMethod
@@ -274,6 +275,7 @@ export class Checkout extends PureComponent {
                   setLoading={ setLoading }
                   paymentMethods={ paymentMethods }
                   setDetailsStep={ setDetailsStep }
+                  onEmailChange={ onEmailChange }
                   shippingAddress={ shippingAddress }
                   savePaymentInformation={ savePaymentInformation }
                   selectedShippingMethod={ selectedShippingMethod }
