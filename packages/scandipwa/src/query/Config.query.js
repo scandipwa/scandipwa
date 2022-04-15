@@ -23,16 +23,6 @@ export class ConfigQuery {
             .addFieldList(this._getCheckoutAgreementFields());
     }
 
-    getCurrencyField() {
-        return new Field('available_currencies_data')
-            .addFieldList([
-                'id',
-                'label',
-                'value',
-                new Field('exchange_rates').addFieldList(['currency_to', 'rate'])
-            ]);
-    }
-
     getCurrencyData() {
         return new Field('currencyData')
             .addFieldList([
@@ -41,11 +31,36 @@ export class ConfigQuery {
             ]);
     }
 
+    getCurrencyField() {
+        return new Field('available_currencies_data')
+            .addFieldList(this._getCurrencyField());
+    }
+
+    _getCurrencyField() {
+        return [
+            'id',
+            'label',
+            'value'
+        ];
+    }
+
     getCurrencyRates() {
-        return new Field('currency')
-            .addField('base_currency_code')
-            .addField(new Field('exchange_rates')
-                .addFieldList(['currency_to', 'rate']));
+        return new Field('currency').addFieldList(this.getCurrencyRatesField())
+            .addFieldList(this._getCurrencyRatesField());
+    }
+
+    getCurrencyRatesField() {
+        return [
+            'base_currency_code',
+            'exchange_rates'
+        ];
+    }
+
+    _getExchangeRatesField() {
+        return [
+            'currency_to',
+            'rate'
+        ];
     }
 
     getPriceDisplayTypeField() {
