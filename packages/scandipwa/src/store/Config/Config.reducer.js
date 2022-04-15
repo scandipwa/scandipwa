@@ -24,12 +24,23 @@ export const filterStoreConfig = (config) => Object.entries(config).reduce(
 );
 
 /** @namespace Store/Config/Reducer/filterAvailableCurrencies */
-export const filterAvailableCurrencies = ({ available_currencies_data: availableCurrencies },
-    { base_currency_code: base, exchange_rates: rates }) => ({
-    available_currencies_data: availableCurrencies.filter(({ value }) => (
-        value === base || rates?.find(({ currency_to }) => currency_to === value).rate > 0
-    ))
-});
+export const filterAvailableCurrencies = (currencyData, currencyRates) => {
+    if (currencyData.available_currencies_data.length < 1 || currencyRates.exchange_rates.length < 1) {
+        return ({ currencyData, currencyRates });
+    }
+    const { available_currencies_data: availableCurrencies = [] } = currencyData;
+    const { base_curreny_code: base, exchange_rates: rates = [] } = currencyRates;
+    return ({
+        currencyData: {
+            ...currencyData,
+            available_currencies_data:
+     availableCurrencies.filter(({ value }) => (
+         value === base || rates?.find(({ currency_to }) => currency_to === value).rate > 0
+     ))
+        },
+        currencyRates
+    });
+};
 
 export const {
     countries, reviewRatings, storeConfig, currencyData, currency, cartDisplayConfig
@@ -67,14 +78,10 @@ export const getCheckoutAgreementData = (base, state) => (base || state.checkout
 /** @namespace Store/Config/Reducer/getInitialState */
 export const getInitialState = () => ({
     ...filterStoreConfig(storeConfig),
+    ...filterAvailableCurrencies(currencyData, currency),
     countries,
     reviewRatings,
     checkoutAgreements: [],
-    currencyData: {
-        ...currencyData,
-        ...filterAvailableCurrencies(currencyData, currency)
-    },
-    currency,
     isLoading: true,
     cartDisplayConfig,
     priceTaxDisplay: {},
@@ -112,10 +119,10 @@ export const ConfigReducer = (
     switch (type) {
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
-        const filteredCurrencyData = {
-            ...currencyData,
-            ...filterAvailableCurrencies(currencyData, currency)
-        };
+        // const filteredCurrencyData = {
+        //     ...currencyData,
+        //     ...filterAvailableCurrencies(currencyData, currency)
+        // };
         const { secure_base_media_url } = filteredStoreConfig;
         window.secure_base_media_url = secure_base_media_url;
 
@@ -124,8 +131,12 @@ export const ConfigReducer = (
             countries: getCountryData(countries, state),
             reviewRatings: getIndexedRatings(reviewRatings),
             checkoutAgreements: getCheckoutAgreementData(checkoutAgreements, state),
-            currency: getCurrencyRates(currency, state),
-            ...filteredCurrencyData,
+            ...filterAvailableCurrencies(
+                getCurrencyData(currencyData, state),
+                getCurrencyRates(currency, state)
+            ),
+            // currency: getCurrencyRates(currency, state),
+            // ...filteredCurrencyData,
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
             // and header_logo_src takes old value
