@@ -177,7 +177,6 @@ export class ProductCustomizableOption extends PureComponent {
                   events={ {
                       onChange: updateSelectedValues
                   } }
-                  validateOn={ ['onChange', 'onBlur'] }
                 />
             </>
         );

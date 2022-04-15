@@ -25,7 +25,8 @@ export class FieldFileContainer extends PureComponent {
         // Field attributes
         attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
-        setRef: PropTypes.func.isRequired
+        setRef: PropTypes.func.isRequired,
+        validate: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -50,12 +51,14 @@ export class FieldFileContainer extends PureComponent {
     }
 
     onChange(value) {
-        const { events: { onChange } = {} } = this.props;
+        const { events: { onChange } = {}, validate } = this.props;
 
         if (this.fieldRef) {
             const { files } = this.fieldRef;
             this.setState({ isLoading: true });
             const { name } = files[0] || {};
+
+            validate();
 
             if (!name) {
                 this.setState({

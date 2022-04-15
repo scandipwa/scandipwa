@@ -240,6 +240,7 @@ export class FieldContainer extends PureComponent {
         return (
             <Field
               { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }
