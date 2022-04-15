@@ -30,6 +30,7 @@ import {
     trimCheckoutCustomerAddress
 } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
+import scrollToError from 'Util/Form/Form';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import CheckoutBilling from './CheckoutBilling.component';
@@ -107,6 +108,7 @@ export class CheckoutBillingContainer extends PureComponent {
 
     containerFunctions = {
         onBillingSuccess: this.onBillingSuccess.bind(this),
+        onBillingError: this.onBillingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),
         onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this),
@@ -213,6 +215,10 @@ export class CheckoutBillingContainer extends PureComponent {
             paymentMethod,
             same_as_shipping: isSameAsShipping
         });
+    }
+
+    onBillingError(_, fields, validation) {
+        scrollToError(fields, validation);
     }
 
     showPopup() {
