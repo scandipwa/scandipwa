@@ -38,6 +38,13 @@
                 margin-block-end: 6px;
             }
 
+            &_type_select + .Field-ErrorMessages {
+                position: absolute;
+                inset-inline-start: 0;
+                inset-block-end: 10px;
+                transform: translateY(100%);
+            }
+
             &-Wrapper {
                 &_type {
                     &_select, &_checkbox, &_radio {
