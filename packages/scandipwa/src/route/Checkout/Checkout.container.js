@@ -344,19 +344,10 @@ export class CheckoutContainer extends PureComponent {
         const { savedEmail } = this.props;
         const { checkoutStep } = this.state;
 
-        const shippingData = (
-            is_virtual
-                ? {}
-                : {
-                    shippingAddress: data,
-                    selectedShippingMethod: shipping_method?.split('_', 1)[0] || ''
-                }
-        );
-
         this.setState({
             isGuestEmailSaved: checkoutStep !== SHIPPING_STEP,
             email: savedEmail,
-            ...shippingData
+            shippingAddress: is_virtual ? {} : data
         });
     }
 

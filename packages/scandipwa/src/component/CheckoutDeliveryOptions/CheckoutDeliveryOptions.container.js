@@ -20,7 +20,11 @@ import { ShippingMethodsType } from 'Type/Checkout.type';
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 
 /** @namespace Component/CheckoutDeliveryOptions/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    checkoutReducerShippingMethod: (
+        state.CheckoutReducer.shippingFields.shipping_method?.split('_', 1)[0]
+    )
+});
 
 /** @namespace Component/CheckoutDeliveryOptions/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
@@ -44,7 +48,8 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             error_message: PropTypes.string,
             price_excl_tax: PropTypes.number,
             price_incl_tax: PropTypes.number
-        })
+        }),
+        checkoutReducerShippingMethod: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -80,7 +85,8 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             onStoreSelect,
             shippingMethods,
             handleSelectDeliveryMethod,
-            selectedShippingMethod
+            selectedShippingMethod,
+            checkoutReducerShippingMethod
         } = this.props;
         const { isShippingMethodPreSelected } = this.state;
 
@@ -91,7 +97,8 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             selectedShippingMethod,
             shippingMethods,
             handleSelectDeliveryMethod,
-            isShippingMethodPreSelected
+            isShippingMethodPreSelected,
+            checkoutReducerShippingMethod
         };
     }
 

@@ -25,16 +25,47 @@ export class CheckoutDeliveryOptions extends PureComponent {
         selectShippingMethod: PropTypes.func.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         selectedShippingMethod: ShippingMethodType,
-        isShippingMethodPreSelected: PropTypes.bool.isRequired
+        isShippingMethodPreSelected: PropTypes.bool.isRequired,
+        checkoutReducerShippingMethod: PropTypes.string.isRequired
     };
 
     static defaultProps = {
         selectedShippingMethod: {}
     };
 
+    state = {
+        initialSelectedMethod: null
+    };
+
     shippingRenderMap = {
         [STORE_IN_PICK_UP_METHOD_CODE]: this.handleSelectStoreInPickUp.bind(this)
     };
+
+    componentDidUpdate(prevProps) {
+        const { checkoutReducerShippingMethod, shippingMethods, selectShippingMethod } = this.props;
+        const { shippingMethods: prevShippingMethods } = prevProps;
+        const { initialSelectedMethod } = this.state;
+
+        if (
+            checkoutReducerShippingMethod
+            && (!prevShippingMethods.length && shippingMethods.length)
+        ) {
+            shippingMethods.forEach(
+                (method) => {
+                    const { available, method_code } = method;
+
+                    if (available && method_code === checkoutReducerShippingMethod) {
+                        // eslint-disable-next-line react/no-did-update-set-state
+                        this.setState({ initialSelectedMethod: method });
+                    }
+                }
+            );
+        } else if (initialSelectedMethod) {
+            selectShippingMethod(initialSelectedMethod);
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ initialSelectedMethod: null });
+        }
+    }
 
     renderHeading() {
         return (
@@ -62,9 +93,10 @@ export class CheckoutDeliveryOptions extends PureComponent {
             selectShippingMethod,
             selectedShippingMethod: { method_code: selectedMethodCode }
         } = this.props;
+        const { initialSelectedMethod } = this.state;
 
         const { carrier_code, method_code } = option;
-        const isSelected = selectedMethodCode === method_code;
+        const isSelected = (initialSelectedMethod?.method_code || selectedMethodCode) === method_code;
 
         return (
             <CheckoutDeliveryOption
@@ -96,7 +128,9 @@ export class CheckoutDeliveryOptions extends PureComponent {
 
     renderSelectedShippingMethod() {
         const { selectedShippingMethod: { method_code } } = this.props;
-        const render = this.shippingRenderMap[method_code];
+        const { initialSelectedMethod } = this.state;
+        const initialMethodCode = initialSelectedMethod?.method_code;
+        const render = this.shippingRenderMap[initialMethodCode || method_code];
 
         if (!render) {
             return null;
