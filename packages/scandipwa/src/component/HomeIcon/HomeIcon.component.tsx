@@ -13,12 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { HomeIconProps } from './HomeIcon.type';
+import { HomeIconComponentProps } from './HomeIcon.type';
 
 import './HomeIcon.style';
 
 /** @namespace Component/HomeIcon/Component */
-export class HomeIcon extends PureComponent<HomeIconProps> {
+export class HomeIcon extends PureComponent<HomeIconComponentProps> {
     static defaultProps = {
         isActive: false
     };

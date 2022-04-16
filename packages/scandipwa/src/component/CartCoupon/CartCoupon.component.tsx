@@ -12,41 +12,35 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
-import { MixType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { CartCouponComponentProps, CartCouponComponentState } from './CartCoupon.type';
 
 import './CartCoupon.style';
 
 /** @namespace Component/CartCoupon/Component */
-export class CartCoupon extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        couponCode: PropTypes.string,
-        handleApplyCouponToCart: PropTypes.func.isRequired,
-        handleRemoveCouponFromCart: PropTypes.func.isRequired,
-        mix: MixType.isRequired,
-        title: PropTypes.string.isRequired
-    };
-
+export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCouponComponentState> {
     static defaultProps = {
         couponCode: ''
     };
 
-    state = {
+    state: CartCouponComponentState = {
         enteredCouponCode: ''
     };
 
-    handleCouponCodeChange = this.handleCouponCodeChange.bind(this);
+    __construct(props: CartCouponComponentProps): void {
+        super.__construct?.(props);
 
-    handleApplyCoupon = this.handleApplyCoupon.bind(this);
+        this.handleCouponCodeChange = this.handleCouponCodeChange.bind(this);
+        this.handleApplyCoupon = this.handleApplyCoupon.bind(this);
+        this.handleRemoveCoupon = this.handleRemoveCoupon.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    }
 
-    handleRemoveCoupon = this.handleRemoveCoupon.bind(this);
-
-    handleFormSubmit = this.handleFormSubmit.bind(this);
-
-    handleCouponCodeChange(event, field) {
+    handleCouponCodeChange(event: Event, field: HTMLInputElement): void {
         const { value = '' } = field;
 
         this.setState({
@@ -54,14 +48,14 @@ export class CartCoupon extends PureComponent {
         });
     }
 
-    handleApplyCoupon() {
+    handleApplyCoupon(): void {
         const { handleApplyCouponToCart } = this.props;
         const { enteredCouponCode } = this.state;
 
         handleApplyCouponToCart(enteredCouponCode);
     }
 
-    handleRemoveCoupon() {
+    handleRemoveCoupon(): void {
         const { handleRemoveCouponFromCart } = this.props;
 
         handleRemoveCouponFromCart();
@@ -73,7 +67,7 @@ export class CartCoupon extends PureComponent {
         });
     }
 
-    handleFormSubmit() {
+    handleFormSubmit(): void {
         const { couponCode } = this.props;
 
         if (couponCode) {
@@ -85,14 +79,14 @@ export class CartCoupon extends PureComponent {
         this.handleApplyCoupon();
     }
 
-    renderApplyCoupon() {
+    renderApplyCoupon(): ReactElement {
         const { enteredCouponCode } = this.state;
 
         return (
             <>
                 <div block="CartCoupon" elem="Input">
                     <Field
-                      type={ FIELD_TYPE.text }
+                      type={ FieldType.TEXT }
                       attr={ {
                           id: 'couponCode',
                           name: 'couponCode',
@@ -112,7 +106,7 @@ export class CartCoupon extends PureComponent {
                 <button
                   block="CartCoupon"
                   elem="Button"
-                  type={ FIELD_TYPE.button }
+                  type={ FieldType.BUTTON }
                   mods={ { isHollow: true } }
                   disabled={ !enteredCouponCode }
                   onClick={ this.handleApplyCoupon }
@@ -123,7 +117,7 @@ export class CartCoupon extends PureComponent {
         );
     }
 
-    renderRemoveCoupon() {
+    renderRemoveCoupon(): ReactElement {
         const { couponCode } = this.props;
 
         return (
@@ -147,7 +141,7 @@ export class CartCoupon extends PureComponent {
         );
     }
 
-    renderTitle() {
+    renderTitle(): ReactElement {
         const { title } = this.props;
 
         if (!title) {

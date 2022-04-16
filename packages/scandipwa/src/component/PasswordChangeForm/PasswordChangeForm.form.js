@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import { validatePassword } from 'Util/Validator';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import { ValidationInputType } from 'Util/Validator/Config';
 
 /**
  * Returns password change forms fields
@@ -20,7 +20,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @namespace Component/PasswordChangeForm/Form/customerEmailAndPasswordFields */
 export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) => [
     {
-        type: FIELD_TYPE.password,
+        type: FieldType.password,
         label: __('New password'),
         attr: {
             id: 'password',
@@ -28,16 +28,16 @@ export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) 
             placeholder: __('Enter your password'),
             autocomplete: 'new-password'
         },
-        validateOn: ['onChange'],
+        validateOn: [ 'onChange' ],
         validationRule: {
             isRequired: true,
-            inputType: VALIDATION_INPUT_TYPE.password,
+            inputType: ValidationInputType.password,
             match: (value) => validatePassword(value, range, minimunPasswordCharacter)
         },
         addRequiredTag: true
     },
     {
-        type: FIELD_TYPE.password,
+        type: FieldType.password,
         label: __('Confirm password'),
         attr: {
             id: 'password_confirmation',
@@ -45,10 +45,10 @@ export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) 
             placeholder: __('Retype your password'),
             autocomplete: 'new-password'
         },
-        validateOn: ['onChange'],
+        validateOn: [ 'onChange' ],
         validationRule: {
             isRequired: true,
-            inputType: VALIDATION_INPUT_TYPE.password,
+            inputType: ValidationInputType.password,
             match: (value) => {
                 const password = document.getElementById('password');
                 return password.value === value;

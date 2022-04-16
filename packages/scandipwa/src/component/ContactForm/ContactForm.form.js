@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/Field/Field.config';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import FieldType from 'Component/Field/Field.config';
+import { ValidationInputType } from 'Util/Validator/Config';
 
 /**
  * Form for contacts
@@ -18,53 +18,53 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  */
 export const contactForm = () => [
     {
-        type: FIELD_TYPE.text,
+        type: FieldType.text,
         label: __('Name'),
         attr: {
             name: 'name',
             placeholder: __('Your name')
         },
         addRequiredTag: true,
-        validateOn: ['onChange'],
+        validateOn: [ 'onChange' ],
         validationRule: {
             isRequired: true
         }
     },
     {
-        type: FIELD_TYPE.email,
+        type: FieldType.email,
         label: __('Email'),
         attr: {
             name: 'email',
             placeholder: __('Your email')
         },
         addRequiredTag: true,
-        validateOn: ['onChange'],
+        validateOn: [ 'onChange' ],
         validationRule: {
-            inputType: VALIDATION_INPUT_TYPE.email,
+            inputType: ValidationInputType.email,
             isRequired: true
         }
     },
     {
-        type: FIELD_TYPE.text,
+        type: FieldType.text,
         label: __('Phone number'),
         attr: {
             name: 'telephone',
             placeholder: __('Phone number')
         },
-        validateOn: ['onChange'],
+        validateOn: [ 'onChange' ],
         validationRule: {
-            inputType: VALIDATION_INPUT_TYPE.phone
+            inputType: ValidationInputType.phone
         }
     },
     {
-        type: FIELD_TYPE.textarea,
+        type: FieldType.textarea,
         label: __('What\'s on your mind?'),
         attr: {
             name: 'message',
             placeholder: __('Message')
         },
         addRequiredTag: true,
-        validateOn: ['onChange'],
+        validateOn: [ 'onChange' ],
         validationRule: {
             isRequired: true
         }

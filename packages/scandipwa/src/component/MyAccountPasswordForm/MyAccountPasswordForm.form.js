@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import { validatePassword } from 'Util/Validator';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import { ValidationInputType } from 'Util/Validator/Config';
 
 /**
  * Returns password-change fields
@@ -21,7 +21,7 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 export const myAccountPasswordForm = (range, minimunPasswordCharacter) => [
     {
         label: __('Current password'),
-        type: FIELD_TYPE.password,
+        type: FieldType.password,
         attr: {
             id: 'my-account-currentPassword',
             name: 'currentPassword',
@@ -29,15 +29,15 @@ export const myAccountPasswordForm = (range, minimunPasswordCharacter) => [
             'aria-label': __('Current password')
         },
         addRequiredTag: true,
-        validateOn: ['onChange'],
+        validateOn: [ 'onChange' ],
         validationRule: {
-            inputType: VALIDATION_INPUT_TYPE.password,
+            inputType: ValidationInputType.password,
             isRequired: true
         }
     },
     {
         label: __('New password'),
-        type: FIELD_TYPE.password,
+        type: FieldType.password,
         attr: {
             id: 'my-account-newPassword',
             name: 'newPassword',
@@ -45,9 +45,9 @@ export const myAccountPasswordForm = (range, minimunPasswordCharacter) => [
             'aria-label': __('New password')
         },
         addRequiredTag: true,
-        validateOn: ['onChange'],
+        validateOn: [ 'onChange' ],
         validationRule: {
-            inputType: VALIDATION_INPUT_TYPE.password,
+            inputType: ValidationInputType.password,
             isRequired: true,
             match: (value) => {
                 const password = document.getElementById('my-account-currentPassword');

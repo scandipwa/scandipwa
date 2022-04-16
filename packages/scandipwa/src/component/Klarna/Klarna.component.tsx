@@ -88,7 +88,7 @@ export class Klarna extends PureComponent {
         this.setState({ isLoading: false });
     }
 
-    renderScript() {
+    renderScript(): ReactElement {
         window.klarnaAsyncCallback = this.initiateKlarna.bind(this);
         const script = document.getElementById(KLARNA_SCRIPT_ID);
 
@@ -126,7 +126,7 @@ export class Klarna extends PureComponent {
         this.loadPaymentMethod('pay_over_time');
     }
 
-    renderPaymentSelector() {
+    renderPaymentSelector(): ReactElement {
         const { canShowPaymentSelector } = this.state;
 
         if (!canShowPaymentSelector) {

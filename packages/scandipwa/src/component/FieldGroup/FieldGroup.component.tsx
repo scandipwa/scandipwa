@@ -12,7 +12,9 @@
 
 import { PureComponent } from 'react';
 
-import { ChildrenType, ModsType, ReactElement } from 'Type/Common.type';
+import {
+    ChildrenType, ModsType, ReactElement
+} from 'Type/Common.type';
 import { EventsType, FieldAttrType, FieldGroupValidationResponseType } from 'Type/Field.type';
 
 import './FieldGroup.style';
@@ -46,11 +48,11 @@ export class FieldGroup extends PureComponent {
 
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under group
-    renderErrorMessage(message) {
+    renderErrorMessage(message): ReactElement {
         return <div block="Field" key={ message } elem="ErrorMessage">{ message }</div>;
     }
 
-    renderErrorMessages() {
+    renderErrorMessages(): ReactElement {
         const {
             showErrorAsLabel,
             validationResponse
@@ -74,7 +76,7 @@ export class FieldGroup extends PureComponent {
     }
 
     // Renders group label above field
-    renderLabel() {
+    renderLabel(): ReactElement {
         const { label } = this.props;
 
         if (!label) {
@@ -87,7 +89,7 @@ export class FieldGroup extends PureComponent {
     }
 
     // Renders group label under field
-    renderSubLabel() {
+    renderSubLabel(): ReactElement {
         const { subLabel } = this.props;
 
         if (!subLabel) {

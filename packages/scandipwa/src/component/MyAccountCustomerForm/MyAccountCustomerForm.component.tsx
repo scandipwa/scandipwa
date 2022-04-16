@@ -100,7 +100,7 @@ export class MyAccountCustomerForm extends FieldForm {
         });
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         return (
             <button
               type="submit"
@@ -118,7 +118,7 @@ export class MyAccountCustomerForm extends FieldForm {
         };
     }
 
-    renderEmailAndPasswordFields() {
+    renderEmailAndPasswordFields(): ReactElement {
         const { showEmailChangeField, showPasswordChangeField } = this.props;
 
         if (!showEmailChangeField && !showPasswordChangeField) {
@@ -152,7 +152,7 @@ export class MyAccountCustomerForm extends FieldForm {
         return 'Email and Password';
     }
 
-    renderFormBody() {
+    renderFormBody(): ReactElement {
         return (
             <div block="FieldForm" elem="Body">
                 <div block="FieldForm" elem="Fields">

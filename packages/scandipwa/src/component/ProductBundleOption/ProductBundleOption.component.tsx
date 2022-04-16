@@ -13,7 +13,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import { ReactElement } from 'Type/Common.type';
 import { ItemOptionsType } from 'Type/ProductList.type';
@@ -50,10 +50,10 @@ export class ProductBundleOption extends PureComponent {
     };
 
     renderMap = {
-        [FIELD_TYPE.checkbox]: this.renderCheckBoxValues.bind(this),
-        [FIELD_TYPE.multi]: this.renderCheckBoxValues.bind(this),
-        [FIELD_TYPE.radio]: this.renderRadioValues.bind(this),
-        [FIELD_TYPE.select]: this.renderSelectValue.bind(this)
+        [FieldType.checkbox]: this.renderCheckBoxValues.bind(this),
+        [FieldType.multi]: this.renderCheckBoxValues.bind(this),
+        [FieldType.radio]: this.renderRadioValues.bind(this),
+        [FieldType.select]: this.renderSelectValue.bind(this)
     };
 
     componentDidMount(): void {
@@ -89,7 +89,7 @@ export class ProductBundleOption extends PureComponent {
         setQuantity(uid, quantity);
     }
 
-    renderQuantityChange(uid, quantity, product = null) {
+    renderQuantityChange(uid, quantity, product = null): ReactElement {
         const min = !product ? DEFAULT_MIN_PRODUCTS : getMinQuantity(product);
         const max = !product ? DEFAULT_MAX_PRODUCTS : getMaxQuantity(product);
         // eslint-disable-next-line no-nested-ternary
@@ -101,7 +101,7 @@ export class ProductBundleOption extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.number }
+              type={ FieldType.number }
               attr={ {
                   id: `item_qty_${uid}`,
                   name: `item_qty_${uid}`,
@@ -126,7 +126,7 @@ export class ProductBundleOption extends PureComponent {
     //#endregion
 
     //#region CHECKBOXES
-    renderCheckBox(option) {
+    renderCheckBox(option): ReactElement {
         const {
             uid,
             can_change_quantity: canChangeQuantity,
@@ -148,7 +148,7 @@ export class ProductBundleOption extends PureComponent {
         return (
             <div block="ProductBundleItem" elem="Checkbox" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
                 <Field
-                  type={ FIELD_TYPE.checkbox }
+                  type={ FieldType.checkbox }
                   label={ label }
                   attr={ {
                       id: `option-${ uid }`,
@@ -170,7 +170,7 @@ export class ProductBundleOption extends PureComponent {
         );
     }
 
-    renderCheckBoxValues(options) {
+    renderCheckBoxValues(options): ReactElement {
         const { isRequired } = this.props;
 
         return (
@@ -188,7 +188,7 @@ export class ProductBundleOption extends PureComponent {
     //#endregion
 
     //#region RADIO
-    renderRadio(name, option) {
+    renderRadio(name, option): ReactElement {
         const {
             uid,
             can_change_quantity: canChangeQuantity,
@@ -208,7 +208,7 @@ export class ProductBundleOption extends PureComponent {
         return (
             <div block="ProductBundleItem" elem="Radio" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
                 <Field
-                  type={ FIELD_TYPE.radio }
+                  type={ FieldType.radio }
                   label={ label }
                   attr={ {
                       id: `option-${ uid }`,
@@ -230,7 +230,7 @@ export class ProductBundleOption extends PureComponent {
         );
     }
 
-    renderRadioValues(options) {
+    renderRadioValues(options): ReactElement {
         const { isRequired, uid } = this.props;
 
         return (
@@ -255,7 +255,7 @@ export class ProductBundleOption extends PureComponent {
         updateSelectedValues();
     }
 
-    renderSelectValue() {
+    renderSelectValue(): ReactElement {
         const {
             getDropdownOptions,
             isRequired,
@@ -284,7 +284,7 @@ export class ProductBundleOption extends PureComponent {
         return (
             <div block="ProductBundleItem" elem="DropdownWrapper" mods={ { customQuantity: canChangeQuantity } }>
                 <Field
-                  type={ FIELD_TYPE.select }
+                  type={ FieldType.select }
                   attr={ {
                       id: `bundle-options-dropdown-${ uid }`,
                       name: `bundle-options-dropdown-${ uid }`,
@@ -309,7 +309,7 @@ export class ProductBundleOption extends PureComponent {
     //#endregion
 
     //#region TITLE
-    renderOptionGroupTitle(title) {
+    renderOptionGroupTitle(title): ReactElement {
         const { isRequired } = this.props;
 
         return (

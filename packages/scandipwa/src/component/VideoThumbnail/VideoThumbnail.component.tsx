@@ -32,7 +32,7 @@ export class VideoThumbnail extends PureComponent {
     /**
      * Renders an icon indicating that the video can be played
      */
-    renderPlayIcon() {
+    renderPlayIcon(): ReactElement {
         return (
             <span block="VideoThumbnail" elem="PlayIcon">
                 { __('Play video') }

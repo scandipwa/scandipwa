@@ -73,7 +73,7 @@ export class ProductReviewRating extends PureComponent {
         );
     }
 
-    renderPlaceholder() {
+    renderPlaceholder(): ReactElement {
         return (
             <div
               block="ProductReviewRating"
@@ -92,7 +92,7 @@ export class ProductReviewRating extends PureComponent {
         return [fullCount, halfFullCount, emptyCount];
     }
 
-    renderStar(count, type) {
+    renderStar(count, type): ReactElement {
         return Array.from(Array(count), (_, i) => <Star key={ i } starFill={ type } />);
     }
 

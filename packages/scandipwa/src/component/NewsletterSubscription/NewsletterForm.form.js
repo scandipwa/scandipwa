@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/Field/Field.config';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import FieldType from 'Component/Field/Field.config';
+import { ValidationInputType } from 'Util/Validator/Config';
 
 /**
  * Returns fields for newsletter
@@ -18,15 +18,15 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @namespace Component/NewsletterSubscription/NewsletterForm/Form/newsletterSubscriptionForm */
 export const newsletterSubscriptionForm = () => [
     {
-        type: FIELD_TYPE.email,
+        type: FieldType.email,
         attr: {
             name: 'newsletterEmail',
             placeholder: __('Enter your email address'),
             'aria-label': __('Email address')
         },
-        validateOn: ['onChange'],
+        validateOn: [ 'onChange' ],
         validationRule: {
-            inputType: VALIDATION_INPUT_TYPE.email,
+            inputType: ValidationInputType.email,
             isRequired: true
         }
     }

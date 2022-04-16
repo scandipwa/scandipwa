@@ -51,7 +51,7 @@ export class Menu extends PureComponent {
         window.removeEventListener('scroll', this.debouncedCloseMenu);
     }
 
-    renderDesktopSubLevelItems(item, mods) {
+    renderDesktopSubLevelItems(item, mods): ReactElement {
         const { item_id } = item;
         const { closeMenu, activeMenuItemsStack } = this.props;
 
@@ -67,7 +67,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderDesktopSubLevel(category) {
+    renderDesktopSubLevel(category): ReactElement {
         const { device } = this.props;
         const { children, item_class, item_id } = category;
         const childrenArray = getSortedItems(Object.values(children));
@@ -102,7 +102,7 @@ export class Menu extends PureComponent {
         e.stopPropagation();
     }
 
-    renderSubLevelItems(item, isSecondLevel) {
+    renderSubLevelItems(item, isSecondLevel): ReactElement {
         const {
             handleSubcategoryClick,
             activeMenuItemsStack,
@@ -160,7 +160,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderSubLevel(category, isSecondLevel = false) {
+    renderSubLevel(category, isSecondLevel = false): ReactElement {
         const { activeMenuItemsStack, device } = this.props;
         const { item_id, children, title } = category;
         const childrenArray = getSortedItems(Object.values(children));
@@ -193,7 +193,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderSubMenuDesktopItems(item) {
+    renderSubMenuDesktopItems(item): ReactElement {
         const { item_id, children } = item;
 
         if (!Object.keys(children).length) {
@@ -237,7 +237,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderSubMenuDesktop(itemList) {
+    renderSubMenuDesktop(itemList): ReactElement {
         const { device } = this.props;
 
         if (device.isMobile) {
@@ -249,7 +249,7 @@ export class Menu extends PureComponent {
         return childrenArray.map(this.renderSubMenuDesktopItems.bind(this));
     }
 
-    renderAdditionalInformation(checkMobile = false) {
+    renderAdditionalInformation(checkMobile = false): ReactElement {
         const { device } = this.props;
 
         if (checkMobile && !device.isMobile) {
@@ -265,7 +265,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderFirstLevelItems(item) {
+    renderFirstLevelItems(item): ReactElement {
         const {
             activeMenuItemsStack,
             handleSubcategoryClick,
@@ -314,7 +314,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderFirstLevel(item) {
+    renderFirstLevel(item): ReactElement {
         const { item_id } = item;
 
         return (
@@ -328,7 +328,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderTopLevel() {
+    renderTopLevel(): ReactElement {
         const { menu } = this.props;
         const categoryArray = Object.values(menu);
 
@@ -357,7 +357,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderCurrencySwitcher() {
+    renderCurrencySwitcher(): ReactElement {
         const { device } = this.props;
 
         if (!device.isMobile) {
@@ -367,7 +367,7 @@ export class Menu extends PureComponent {
         return <CurrencySwitcher />;
     }
 
-    renderStoreSwitcher() {
+    renderStoreSwitcher(): ReactElement {
         const { device } = this.props;
 
         if (!device.isMobile) {
@@ -377,7 +377,7 @@ export class Menu extends PureComponent {
         return <StoreSwitcher />;
     }
 
-    renderCompareCount() {
+    renderCompareCount(): ReactElement {
         const { compareTotals } = this.props;
 
         if (compareTotals < 1) {
@@ -394,7 +394,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderComparePageLink() {
+    renderComparePageLink(): ReactElement {
         const { device } = this.props;
 
         if (!device.isMobile) {

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import FieldForm from 'Component/FieldForm';
 import { CustomerType } from 'Type/Account.type';
 
@@ -29,7 +29,7 @@ export class MyAccountNewsletterSubscription extends FieldForm {
 
         return [
             {
-                type: FIELD_TYPE.checkbox,
+                type: FieldType.checkbox,
                 attr: {
                     name: 'isSubscribed',
                     defaultChecked: isSubscriptionSelected
@@ -42,7 +42,7 @@ export class MyAccountNewsletterSubscription extends FieldForm {
         ];
     }
 
-    renderFormBody() {
+    renderFormBody(): ReactElement {
         return (
             <div
               block="FieldForm"
@@ -64,10 +64,10 @@ export class MyAccountNewsletterSubscription extends FieldForm {
         };
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         return (
             <button
-              type={ FIELD_TYPE.submit }
+              type={ FieldType.submit }
               block="Button"
               mix={ { block: 'MyAccountNewsletterSubscription', elem: 'Button' } }
               aria-label={ __('Submit') }

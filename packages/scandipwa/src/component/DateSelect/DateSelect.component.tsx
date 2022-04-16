@@ -15,14 +15,14 @@ import {
     AMPM_FORMAT,
     DEFAULT_MONTH_DAYS,
     FIELD_NAME_ATTR,
-    FIELD_TYPE_ATTR,
+    FieldType_ATTR,
     HOURS_12H_COUNT,
     HOURS_24H_COUNT,
     MINUTES_COUNT,
     MONTHS_COUNT
 } from 'Component/DateSelect/DateSelect.config';
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 import { ReactElement } from 'Type/Common.type';
 import { DateType } from 'Type/Field.type';
@@ -113,7 +113,7 @@ export class DateSelectComponent extends PureComponent {
         }));
     }
 
-    renderYear() {
+    renderYear(): ReactElement {
         const {
             uid,
             isRequired,
@@ -124,14 +124,14 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.select }
+              type={ FieldType.select }
               label={ __('Year') }
               attr={ {
                   id: `${type}-year-${ uid }`,
                   name: uid,
                   selectPlaceholder: __('Year'),
                   value: selectedYear,
-                  [FIELD_TYPE_ATTR]: type,
+                  [FieldType_ATTR]: type,
                   [FIELD_NAME_ATTR]: 'year'
               } }
               key={ `${type}-year-${ uid }` }
@@ -148,7 +148,7 @@ export class DateSelectComponent extends PureComponent {
         );
     }
 
-    renderMonth() {
+    renderMonth(): ReactElement {
         const {
             uid,
             isRequired,
@@ -159,14 +159,14 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.select }
+              type={ FieldType.select }
               label={ __('Month') }
               attr={ {
                   id: `${type}-month-${ uid }`,
                   name: uid,
                   selectPlaceholder: __('Month'),
                   value: selectedMonth,
-                  [FIELD_TYPE_ATTR]: type,
+                  [FieldType_ATTR]: type,
                   [FIELD_NAME_ATTR]: 'month'
               } }
               key={ `${type}-month-${ uid }` }
@@ -183,7 +183,7 @@ export class DateSelectComponent extends PureComponent {
         );
     }
 
-    renderDay() {
+    renderDay(): ReactElement {
         const {
             onSetDay,
             uid,
@@ -194,14 +194,14 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.select }
+              type={ FieldType.select }
               label={ __('Day') }
               attr={ {
                   id: `${type}-day-${ uid }`,
                   name: uid,
                   selectPlaceholder: __('Day'),
                   value: selectedDay,
-                  [FIELD_TYPE_ATTR]: type,
+                  [FieldType_ATTR]: type,
                   [FIELD_NAME_ATTR]: 'day'
               } }
               key={ `${type}-day-${ uid }` }
@@ -218,7 +218,7 @@ export class DateSelectComponent extends PureComponent {
         );
     }
 
-    renderHours() {
+    renderHours(): ReactElement {
         const {
             onSetHours,
             uid,
@@ -229,14 +229,14 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.select }
+              type={ FieldType.select }
               label={ __('Hours') }
               attr={ {
                   id: `${type}-hours-${ uid }`,
                   name: uid,
                   selectPlaceholder: __('Hours'),
                   value: selectedHours,
-                  [FIELD_TYPE_ATTR]: type,
+                  [FieldType_ATTR]: type,
                   [FIELD_NAME_ATTR]: 'hours'
               } }
               key={ `${type}-hours-${ uid }` }
@@ -253,7 +253,7 @@ export class DateSelectComponent extends PureComponent {
         );
     }
 
-    renderMinutes() {
+    renderMinutes(): ReactElement {
         const {
             onSetMinutes,
             uid,
@@ -264,14 +264,14 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.select }
+              type={ FieldType.select }
               label={ __('Minutes') }
               attr={ {
                   id: `${type}-minutes-${ uid }`,
                   name: uid,
                   selectPlaceholder: __('Minutes'),
                   value: selectedMinutes,
-                  [FIELD_TYPE_ATTR]: type,
+                  [FieldType_ATTR]: type,
                   [FIELD_NAME_ATTR]: 'minutes'
               } }
               key={ `${type}-minutes-${ uid }` }
@@ -288,7 +288,7 @@ export class DateSelectComponent extends PureComponent {
         );
     }
 
-    renderAMPM() {
+    renderAMPM(): ReactElement {
         const {
             onSetAMPM,
             uid,
@@ -304,14 +304,14 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.select }
+              type={ FieldType.select }
               label={ __('AM / PM') }
               attr={ {
                   id: `${type}-ampm-${ uid }`,
                   name: uid,
                   value: selectedAMPM,
                   noPlaceholder: true,
-                  [FIELD_TYPE_ATTR]: type,
+                  [FieldType_ATTR]: type,
                   [FIELD_NAME_ATTR]: 'ampm'
               } }
               options={ this.getAMPMOptions() }
@@ -327,7 +327,7 @@ export class DateSelectComponent extends PureComponent {
         );
     }
 
-    renderDate() {
+    renderDate(): ReactElement {
         const { dateFieldsOrder, showDateSelect } = this.props;
 
         if (!showDateSelect) {
@@ -345,7 +345,7 @@ export class DateSelectComponent extends PureComponent {
         );
     }
 
-    renderTime() {
+    renderTime(): ReactElement {
         const { showTimeSelect } = this.props;
 
         if (!showTimeSelect) {

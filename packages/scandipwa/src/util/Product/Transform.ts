@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
 import {
@@ -383,9 +383,9 @@ export const magentoProductTransform = (
 export const nonRequiredRadioOptions = (
     options: ItemOption[],
     isRequired = false,
-    type: string = FIELD_TYPE.radio
+    type: string = FieldType.radio
 ): any => {
-    if (isRequired || type !== FIELD_TYPE.radio) {
+    if (isRequired || type !== FieldType.radio) {
         return options;
     }
 

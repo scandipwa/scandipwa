@@ -33,7 +33,7 @@ import './ProductCard.style';
 export class ProductCard extends Product {
     static propTypes = {
         ...Product.propTypes,
-        linkTo: LinkType,
+        linkTo: UrlType,
         device: DeviceType.isRequired,
         thumbnail: PropTypes.string,
         isLoading: PropTypes.bool,
@@ -87,7 +87,7 @@ export class ProductCard extends Product {
     }
 
     //#region PRICE
-    renderEmptyProductPrice() {
+    renderEmptyProductPrice(): ReactElement {
         return (
             <div
               block="ProductCard"
@@ -97,7 +97,7 @@ export class ProductCard extends Product {
         );
     }
 
-    renderPrice() {
+    renderPrice(): ReactElement {
         const {
             getActiveProduct,
             product: {
@@ -121,7 +121,7 @@ export class ProductCard extends Product {
     }
     //#endregion
 
-    renderPicture(mix = {}) {
+    renderPicture(mix = {}): ReactElement {
         const { product: { id, name }, thumbnail } = this.props;
 
         this.sharedComponent = (
@@ -147,7 +147,7 @@ export class ProductCard extends Product {
         );
     }
 
-    renderReviews() {
+    renderReviews(): ReactElement {
         const { layout } = this.props;
 
         return (
@@ -161,7 +161,7 @@ export class ProductCard extends Product {
         );
     }
 
-    renderProductCompareButton() {
+    renderProductCompareButton(): ReactElement {
         const {
             hideCompareButton
         } = this.props;
@@ -173,7 +173,7 @@ export class ProductCard extends Product {
         return this.renderCompareButton();
     }
 
-    renderProductCardWishlistButton() {
+    renderProductCardWishlistButton(): ReactElement {
         const { hideWishlistButton, isWishlistEnabled } = this.props;
 
         if (hideWishlistButton || !isWishlistEnabled) {
@@ -183,7 +183,7 @@ export class ProductCard extends Product {
         return this.renderWishlistButton();
     }
 
-    renderProductActions() {
+    renderProductActions(): ReactElement {
         return (
             <div block="ProductCard" elem="ProductActions">
                 { this.renderProductCardWishlistButton() }
@@ -192,7 +192,7 @@ export class ProductCard extends Product {
         );
     }
 
-    renderMainDetails() {
+    renderMainDetails(): ReactElement {
         const { product: { name } } = this.props;
 
         return (
@@ -206,7 +206,7 @@ export class ProductCard extends Product {
         );
     }
 
-    renderCardLinkWrapper(children, mix = {}) {
+    renderCardLinkWrapper(children, mix = {}): ReactElement {
         const { linkTo, product: { url } } = this.props;
 
         if (!url) {
@@ -252,7 +252,7 @@ export class ProductCard extends Product {
         return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
     }
 
-    renderAddToCart() {
+    renderAddToCart(): ReactElement {
         const {
             layout,
             showSelectOptionsNotification,
@@ -294,7 +294,7 @@ export class ProductCard extends Product {
         }));
     }
 
-    renderVisibleOnHover() {
+    renderVisibleOnHover(): ReactElement {
         const { device } = this.props;
 
         if (device.isMobile) {
@@ -312,7 +312,7 @@ export class ProductCard extends Product {
         );
     }
 
-    renderCardContent() {
+    renderCardContent(): ReactElement {
         const { renderContent } = this.props;
 
         if (renderContent) {
@@ -341,7 +341,7 @@ export class ProductCard extends Product {
         );
     }
 
-    renderCardListContent() {
+    renderCardListContent(): ReactElement {
         const {
             children, layout, renderContent
         } = this.props;

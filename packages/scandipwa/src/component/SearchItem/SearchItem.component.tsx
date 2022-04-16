@@ -24,7 +24,7 @@ import './SearchItem.style';
 /** @namespace Component/SearchItem/Component */
 export class SearchItem extends PureComponent {
     static propTypes = {
-        linkTo: LinkType,
+        linkTo: UrlType,
         imgSrc: PropTypes.string,
         customAttribute: AttributeType,
         product: ProductType,
@@ -38,7 +38,7 @@ export class SearchItem extends PureComponent {
         product: {}
     };
 
-    renderCustomAttribute() {
+    renderCustomAttribute(): ReactElement {
         const { customAttribute } = this.props;
 
         if (!customAttribute) {
@@ -58,7 +58,7 @@ export class SearchItem extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { product: { name } } = this.props;
 
         return (
@@ -71,7 +71,7 @@ export class SearchItem extends PureComponent {
         );
     }
 
-    renderImage() {
+    renderImage(): ReactElement {
         const {
             product: { name },
             imgSrc
@@ -97,7 +97,7 @@ export class SearchItem extends PureComponent {
         );
     }
 
-    renderLink() {
+    renderLink(): ReactElement {
         const { linkTo, onClick } = this.props;
 
         return (

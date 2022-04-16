@@ -11,7 +11,9 @@
 
 import { PureComponent } from 'react';
 
-import { ChildrenType, MixType, ReactElement } from 'Type/Common.type';
+import {
+    ChildrenType, MixType, ReactElement
+} from 'Type/Common.type';
 import { LabelType } from 'Type/Field.type';
 
 import './ContentWrapper.style';
@@ -40,7 +42,7 @@ export class ContentWrapper extends PureComponent {
         isNotSection: false
     };
 
-    renderContentWrapper() {
+    renderContentWrapper(): ReactElement {
         const {
             children, wrapperMix
         } = this.props;

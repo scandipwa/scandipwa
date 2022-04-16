@@ -25,7 +25,7 @@ export class ProductCompareAttributeRow extends PureComponent {
         device: DeviceType.isRequired
     };
 
-    renderTitle() {
+    renderTitle(): ReactElement {
         const { title } = this.props;
 
         return (
@@ -35,7 +35,7 @@ export class ProductCompareAttributeRow extends PureComponent {
         );
     }
 
-    renderValue(value, i) {
+    renderValue(value, i): ReactElement {
         if (value === null) {
             return <div block="ProductCompareAttributeRow" elem="Value" key={ i }>&mdash;</div>;
         }
@@ -47,7 +47,7 @@ export class ProductCompareAttributeRow extends PureComponent {
         );
     }
 
-    renderValues() {
+    renderValues(): ReactElement {
         const {
             device: { isMobile },
             values = []

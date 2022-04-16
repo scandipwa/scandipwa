@@ -41,7 +41,7 @@ export const UrlRewriteType = PropTypes.shape({
     notFound: PropTypes.bool
 });
 
-export const LinkType = PropTypes.oneOfType([
+export const UrlType = PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.shape({
         pathname: PropTypes.string

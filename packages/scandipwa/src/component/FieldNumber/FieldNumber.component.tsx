@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import AddIcon from 'Component/AddIcon';
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import MinusIcon from 'Component/MinusIcon';
 import { ReactElement } from 'Type/Common.type';
 import { EventsType, FieldAttrType } from 'Type/Field.type';
@@ -51,7 +51,7 @@ export class FieldNumber extends PureComponent {
                   { ...attr }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
                   { ...events }
-                  type={ FIELD_TYPE.number }
+                  type={ FieldType.number }
                   readOnly
                   aria-label={ __('Value') }
                   value={ value }
@@ -62,7 +62,7 @@ export class FieldNumber extends PureComponent {
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleValueChange(+value + 1) }
                   aria-label={ __('Add') }
-                  type={ FIELD_TYPE.button }
+                  type={ FieldType.button }
                 >
                     <AddIcon block="SubtractButton" isPrimary />
                 </button>
@@ -71,7 +71,7 @@ export class FieldNumber extends PureComponent {
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleValueChange(+value - 1) }
                   aria-label={ __('Subtract') }
-                  type={ FIELD_TYPE.button }
+                  type={ FieldType.button }
                 >
                     <MinusIcon block="AddButton" isPrimary />
                 </button>

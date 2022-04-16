@@ -27,7 +27,7 @@ export class MyAccountOrderTotals extends PureComponent {
         colSpanLabelCount: PropTypes.string.isRequired
     };
 
-    renderTax(tax) {
+    renderTax(tax): ReactElement {
         const { colSpanPriceCount, colSpanLabelCount } = this.props;
         const { amount: { value, currency }, title, rate } = tax;
 
@@ -39,13 +39,13 @@ export class MyAccountOrderTotals extends PureComponent {
         );
     }
 
-    renderTaxes() {
+    renderTaxes(): ReactElement {
         const { total: { taxes } } = this.props;
 
         return taxes.map(this.renderTax.bind(this));
     }
 
-    renderDiscounts() {
+    renderDiscounts(): ReactElement {
         const { total: { discounts = [] } } = this.props;
 
         if (!discounts.length) {
@@ -55,13 +55,13 @@ export class MyAccountOrderTotals extends PureComponent {
         return discounts.map(this.renderDiscount.bind(this));
     }
 
-    renderDiscount({ label, amount: { value } }, index) {
+    renderDiscount({ label, amount: { value } }, index): ReactElement {
         const discountLabel = label ? __('Discount (%s)', label) : __('Discount');
 
         return this.renderPriceLine(discountLabel, -value, null, {}, `discount-${index}`);
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const {
             total: {
                 subtotal: {
@@ -102,7 +102,7 @@ export class MyAccountOrderTotals extends PureComponent {
         );
     }
 
-    renderBaseGrandTotal() {
+    renderBaseGrandTotal(): ReactElement {
         const {
             activeTab,
             total: {
@@ -120,7 +120,7 @@ export class MyAccountOrderTotals extends PureComponent {
         return this.renderPriceLine(__('Grand Total to be Charged'), baseGrandTotalPrice, baseGrandTotalCurrency);
     }
 
-    renderPriceLine(title, price, currency, mix = {}, key) {
+    renderPriceLine(title, price, currency, mix = {}, key): ReactElement {
         const {
             total: { grand_total: { currency: defaultCurrency } },
             colSpanLabelCount,

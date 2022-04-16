@@ -80,7 +80,7 @@ export class ProductPrice extends PureComponent {
         [PRODUCT_TYPE.configurable]: __('As Low as')
     };
 
-    renderPlaceholder() {
+    renderPlaceholder(): ReactElement {
         const { mix } = this.props;
 
         return (
@@ -114,7 +114,7 @@ export class ProductPrice extends PureComponent {
         return isSchemaRequired ? { itemProp: 'price', content: contentPrice } : {};
     }
 
-    renderPrice(price, label) {
+    renderPrice(price, label): ReactElement {
         const {
             discountPercentage
         } = this.props;
@@ -150,7 +150,7 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    renderPriceBadge(label) {
+    renderPriceBadge(label): ReactElement {
         if (!label) {
             return null;
         }
@@ -158,7 +158,7 @@ export class ProductPrice extends PureComponent {
         return <span mix={ { block: 'ProductPrice', elem: 'PriceBadge' } }>{ label }</span>;
     }
 
-    renderSubPrice(price) {
+    renderSubPrice(price): ReactElement {
         const {
             value: priceExclTax = 0,
             valueFormatted: priceExclTaxFormatted = 0
@@ -179,7 +179,7 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    renderOldPrice() {
+    renderOldPrice(): ReactElement {
         const {
             price: {
                 originalPrice: {
@@ -208,7 +208,7 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    renderSchema() {
+    renderSchema(): ReactElement {
         const { isSchemaRequired } = this.props;
 
         if (isSchemaRequired) {
@@ -222,7 +222,7 @@ export class ProductPrice extends PureComponent {
         return null;
     }
 
-    renderRequiredWithChangePrice() {
+    renderRequiredWithChangePrice(): ReactElement {
         const {
             configuration: {
                 containsRequiredOptionsWithPrice = false
@@ -240,7 +240,7 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    renderBundlePrice() {
+    renderBundlePrice(): ReactElement {
         const {
             originalPrice: {
                 minFinalPrice = {},
@@ -285,7 +285,7 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    renderRegularPrice(price) {
+    renderRegularPrice(price): ReactElement {
         const {
             value,
             valueFormatted
@@ -300,7 +300,7 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    renderGroupedPrice() {
+    renderGroupedPrice(): ReactElement {
         const {
             originalPrice: {
                 minFinalPrice = {},
@@ -313,7 +313,7 @@ export class ProductPrice extends PureComponent {
         return this.renderPriceWithOrWithoutTax(minFinalPrice, minFinalPriceExclTax, label);
     }
 
-    renderCustomisablePrice() {
+    renderCustomisablePrice(): ReactElement {
         const {
             originalPrice: {
                 minFinalPrice = {},
@@ -333,7 +333,7 @@ export class ProductPrice extends PureComponent {
         return this.renderPriceWithOrWithoutTax(minFinalPrice, minFinalPriceExclTax, label);
     }
 
-    renderConfigurablePrice() {
+    renderConfigurablePrice(): ReactElement {
         const {
             originalPrice: {
                 minFinalPrice: { value: minValue = 0 } = {},
@@ -358,7 +358,7 @@ export class ProductPrice extends PureComponent {
         return this.renderPriceWithOrWithoutTax(finalPrice, finalPriceExclTax, label);
     }
 
-    renderDefaultPrice(defaultLabel = null) {
+    renderDefaultPrice(defaultLabel = null): ReactElement {
         const {
             price: { finalPrice = {}, finalPriceExclTax = {} } = {},
             label
@@ -373,7 +373,7 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    renderPriceWithOrWithoutTax(basePrice, taxPrice, label) {
+    renderPriceWithOrWithoutTax(basePrice, taxPrice, label): ReactElement {
         const { displayTaxInPrice } = this.props;
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX) {
@@ -392,7 +392,7 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    renderTierPrice() {
+    renderTierPrice(): ReactElement {
         const {
             tierPrice,
             price: {

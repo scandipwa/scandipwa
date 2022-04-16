@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import { PaymentMethodType } from 'Type/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
 
@@ -58,7 +58,7 @@ export class CheckoutPayment extends PureComponent {
                   onClick={ this.onClick }
                 >
                     <Field
-                      type={ FIELD_TYPE.checkbox }
+                      type={ FieldType.checkbox }
                       attr={ {
                           id: `option-${ title }`,
                           name: `option-${ title }`,

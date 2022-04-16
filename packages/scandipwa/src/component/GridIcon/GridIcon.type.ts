@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface GridIconProps {
+export interface GridIconComponentProps {
     isActive: boolean;
 }

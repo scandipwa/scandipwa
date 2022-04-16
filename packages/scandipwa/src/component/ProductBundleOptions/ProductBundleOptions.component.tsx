@@ -28,7 +28,7 @@ export class ProductBundleOptions extends PureComponent {
         updateSelectedValues: PropTypes.func.isRequired
     };
 
-    renderOptionGroup(group) {
+    renderOptionGroup(group): ReactElement {
         const {
             title,
             options,

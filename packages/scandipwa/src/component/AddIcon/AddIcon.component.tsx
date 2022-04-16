@@ -13,12 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { AddIconProps } from './AddIcon.type';
+import { AddIconComponentProps } from './AddIcon.type';
 
 import './AddIcon.style';
 
 /** @namespace Component/AddIcon/Component */
-export class AddIcon extends PureComponent<AddIconProps> {
+export class AddIcon extends PureComponent<AddIconComponentProps> {
     static defaultProps = {
         isPrimary: false
     };

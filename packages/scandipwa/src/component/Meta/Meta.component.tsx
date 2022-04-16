@@ -52,7 +52,7 @@ export class Meta extends PureComponent {
         });
     }
 
-    renderTitle() {
+    renderTitle(): ReactElement {
         const {
             default_title,
             title_prefix,
@@ -71,7 +71,7 @@ export class Meta extends PureComponent {
         );
     }
 
-    renderCanonical() {
+    renderCanonical(): ReactElement {
         const { canonical_url } = this.props;
 
         if (!canonical_url) {
@@ -83,7 +83,7 @@ export class Meta extends PureComponent {
         );
     }
 
-    renderMeta() {
+    renderMeta(): ReactElement {
         const { metadata } = this.props;
 
         return (

@@ -36,7 +36,7 @@ export class MyAccountCustomerPopup extends PureComponent {
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired
     };
 
-    renderChangePasswordForm() {
+    renderChangePasswordForm(): ReactElement {
         const { onPasswordChange, range } = this.props;
 
         return (
@@ -47,7 +47,7 @@ export class MyAccountCustomerPopup extends PureComponent {
         );
     }
 
-    renderCustomerForm() {
+    renderCustomerForm(): ReactElement {
         const { payload: { customer }, onCustomerSave } = this.props;
 
         return (
@@ -58,7 +58,7 @@ export class MyAccountCustomerPopup extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { payload: { action } } = this.props;
 
         switch (action) {

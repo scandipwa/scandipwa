@@ -12,11 +12,11 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import { SignInStateType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import { ValidationInputType } from 'Util/Validator/Config';
 
 /** @namespace Component/MyAccountForgotPassword/Component */
 export class MyAccountForgotPassword extends PureComponent {
@@ -29,7 +29,7 @@ export class MyAccountForgotPassword extends PureComponent {
         isCheckout: PropTypes.bool.isRequired
     };
 
-    renderForgotPasswordForm() {
+    renderForgotPasswordForm(): ReactElement {
         const { onForgotPasswordSuccess, onFormError } = this.props;
 
         return (
@@ -39,7 +39,7 @@ export class MyAccountForgotPassword extends PureComponent {
               onError={ onFormError }
             >
                 <Field
-                  type={ FIELD_TYPE.email }
+                  type={ FieldType.email }
                   label={ __('Email') }
                   attr={ {
                       id: 'email',
@@ -51,7 +51,7 @@ export class MyAccountForgotPassword extends PureComponent {
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: VALIDATION_INPUT_TYPE.email
+                      inputType: ValidationInputType.email
                   } }
                   addRequiredTag
                 />
@@ -68,7 +68,7 @@ export class MyAccountForgotPassword extends PureComponent {
         );
     }
 
-    renderCreateAccountLabel() {
+    renderCreateAccountLabel(): ReactElement {
         const { isCheckout, handleCreateAccount } = this.props;
 
         if (isCheckout) {
@@ -89,7 +89,7 @@ export class MyAccountForgotPassword extends PureComponent {
         );
     }
 
-    renderAdditionalField() {
+    renderAdditionalField(): ReactElement {
         const { state, handleSignIn } = this.props;
 
         return (

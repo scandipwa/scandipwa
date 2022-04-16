@@ -57,9 +57,7 @@ export class App extends PureComponent<unknown, AppComponentState> {
     };
 
     __construct(props: unknown): void {
-        if (super.__construct) {
-            super.__construct(props);
-        }
+        super.__construct?.(props);
 
         this.configureAppBasedOnEnvironment();
         this.configureApp();

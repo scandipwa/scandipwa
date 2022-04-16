@@ -13,7 +13,8 @@
 import { PureComponent } from 'react';
 
 import {
-    ChildrenType, MixType, ReactElement, RefType
+    ChildrenType, MixType, ReactElement,
+    ReactElement, RefType
 } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 

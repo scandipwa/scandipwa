@@ -38,7 +38,7 @@ export class CmsBlock extends PureComponent {
         blockType: ''
     };
 
-    renderPlaceholder() {
+    renderPlaceholder(): ReactElement {
         const {
             children
         } = this.props;

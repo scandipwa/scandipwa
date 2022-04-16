@@ -43,7 +43,7 @@ export class CategoryFilterOverlay extends PureComponent {
         isSearchPage: PropTypes.bool.isRequired
     };
 
-    renderFilters() {
+    renderFilters(): ReactElement {
         const {
             availableFilters,
             customFiltersValues,
@@ -68,7 +68,7 @@ export class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    renderSeeResults() {
+    renderSeeResults(): ReactElement {
         const { onSeeResultsClick } = this.props;
 
         return (
@@ -88,7 +88,7 @@ export class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    renderResetButton() {
+    renderResetButton(): ReactElement {
         const { onSeeResultsClick } = this.props;
 
         return (
@@ -99,7 +99,7 @@ export class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    renderResetAttributes() {
+    renderResetAttributes(): ReactElement {
         const { customFiltersValues, availableFilters, toggleCustomFilter } = this.props;
 
         return (
@@ -111,7 +111,7 @@ export class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         const { isContentFiltered } = this.props;
 
         return (
@@ -121,7 +121,7 @@ export class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    renderNoResults() {
+    renderNoResults(): ReactElement {
         return (
             <p block="CategoryFilterOverlay" elem="NoResults">
                 { __(`The selected filter combination returned no results.
@@ -130,7 +130,7 @@ export class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    renderEmptyFilters() {
+    renderEmptyFilters(): ReactElement {
         return (
             <>
                 { this.renderNoResults() }
@@ -140,11 +140,11 @@ export class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    renderMinimalFilters() {
+    renderMinimalFilters(): ReactElement {
         return this.renderSeeResults();
     }
 
-    renderDefaultFilters() {
+    renderDefaultFilters(): ReactElement {
         return (
             <>
                 { this.renderHeading() }
@@ -157,7 +157,7 @@ export class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const {
             totalPages,
             areFiltersEmpty,

@@ -11,19 +11,14 @@
 
 import { PureComponent } from 'react';
 
-import { ChildrenType, ReactElement, RefType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { CarouselScrollItemComponentProps } from './CarouselScrollItem.type';
 
 import './CarouselScrollItem.style';
 
 /** @namespace Component/CarouselScrollItem/Component */
-export class CarouselScrollItem extends PureComponent {
-    static propTypes = {
-        isActive: PropTypes.bool.isRequired,
-        itemRef: RefType.isRequired,
-        onClick: PropTypes.func.isRequired,
-        children: ChildrenType.isRequired
-    };
-
+export class CarouselScrollItem extends PureComponent<CarouselScrollItemComponentProps> {
     render(): ReactElement {
         const {
             isActive,

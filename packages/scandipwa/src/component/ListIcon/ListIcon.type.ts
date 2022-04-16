@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface ListIconProps {
+export interface ListIconComponentProps {
     isActive: boolean;
 }

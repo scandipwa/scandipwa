@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
@@ -54,7 +54,7 @@ export class ProductConfigurableAttributeDropdown extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.select }
+              type={ FieldType.select }
               attr={ {
                   id: selectName,
                   name: selectName,

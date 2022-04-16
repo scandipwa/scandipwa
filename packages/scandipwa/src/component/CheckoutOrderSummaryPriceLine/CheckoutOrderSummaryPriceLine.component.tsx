@@ -11,7 +11,9 @@
 
 import { PureComponent } from 'react';
 
-import { ChildrenType, ModsType, ReactElement } from 'Type/Common.type';
+import {
+    ChildrenType, ModsType, ReactElement
+} from 'Type/Common.type';
 import { formatPrice } from 'Util/Price';
 
 /** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
@@ -35,7 +37,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         currency: 'USD'
     };
 
-    renderPrice() {
+    renderPrice(): ReactElement {
         const { price, currency } = this.props;
 
         return (
@@ -45,7 +47,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         );
     }
 
-    renderSubPrice() {
+    renderSubPrice(): ReactElement {
         const { subPrice, currency } = this.props;
 
         if (!subPrice) {
@@ -59,7 +61,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         );
     }
 
-    renderTitle() {
+    renderTitle(): ReactElement {
         const { title } = this.props;
 
         return (
@@ -70,7 +72,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         );
     }
 
-    renderCoupon() {
+    renderCoupon(): ReactElement {
         const { coupon_code } = this.props;
 
         if (!coupon_code) {

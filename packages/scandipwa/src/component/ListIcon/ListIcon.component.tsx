@@ -13,12 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { ListIconProps } from './ListIcon.type';
+import { ListIconComponentProps } from './ListIcon.type';
 
 import './ListIcon.style';
 
 /** @namespace Component/ListIcon/Component */
-export class ListIcon extends PureComponent<ListIconProps> {
+export class ListIcon extends PureComponent<ListIconComponentProps> {
     static defaultProps = {
         isActive: false
     };

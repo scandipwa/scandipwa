@@ -79,7 +79,7 @@ export class TierPrices extends PureComponent {
         );
     }
 
-    renderProductTierPrice(quantity, formattedPrice, percentOff) {
+    renderProductTierPrice(quantity, formattedPrice, percentOff): ReactElement {
         return (
             <>
                 { __(
@@ -97,7 +97,7 @@ export class TierPrices extends PureComponent {
         );
     }
 
-    renderBundleTierPrice(quantity, percentOff) {
+    renderBundleTierPrice(quantity, percentOff): ReactElement {
         return (
             <>
                 { __(
@@ -113,7 +113,7 @@ export class TierPrices extends PureComponent {
         );
     }
 
-    renderLowestTierPrice() {
+    renderLowestTierPrice(): ReactElement {
         const {
             product: {
                 price_tiers,
@@ -139,13 +139,13 @@ export class TierPrices extends PureComponent {
         );
     }
 
-    renderDetailedTierPriceList() {
+    renderDetailedTierPriceList(): ReactElement {
         const { product: { price_tiers } } = this.props;
 
         return price_tiers.map(this.renderDetailedTierPrice.bind(this));
     }
 
-    renderTierPrice() {
+    renderTierPrice(): ReactElement {
         const { isLowestPrice } = this.props;
 
         if (isLowestPrice) {

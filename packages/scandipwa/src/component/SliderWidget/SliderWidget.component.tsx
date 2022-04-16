@@ -122,7 +122,7 @@ export class SliderWidget extends PureComponent {
         return `/${desktop_image}`;
     }
 
-    renderSlide(slide, i) {
+    renderSlide(slide, i): ReactElement {
         const {
             slide_text,
             isPlaceholder,

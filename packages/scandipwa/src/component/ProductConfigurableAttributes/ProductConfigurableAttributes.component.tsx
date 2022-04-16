@@ -49,7 +49,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         showProductAttributeAsLink: true
     };
 
-    renderConfigurableAttributeValue(attribute) {
+    renderConfigurableAttributeValue(attribute): ReactElement {
         const {
             getIsConfigurableAttributeAvailable,
             handleOptionClick,
@@ -74,7 +74,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderSwatch(option, isUnselected) {
+    renderSwatch(option, isUnselected): ReactElement {
         const {
             handleShakeAnimationEnd
         } = this.props;
@@ -95,7 +95,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderDropdown(option, isUnselected) {
+    renderDropdown(option, isUnselected): ReactElement {
         const {
             updateConfigurableVariant,
             getIsConfigurableAttributeAvailable,
@@ -115,7 +115,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderAttributesPlaceholder() {
+    renderAttributesPlaceholder(): ReactElement {
         const { renderPlaceholder } = this.props;
 
         return (
@@ -125,7 +125,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderConfigurableAttributes() {
+    renderConfigurableAttributes(): ReactElement {
         const {
             configurable_options,
             isExpandable,

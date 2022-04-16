@@ -34,7 +34,7 @@ export class StoreInPickUpStoreComponent extends PureComponent {
         isSelectedStore: PropTypes.bool.isRequired
     };
 
-    renderActions() {
+    renderActions(): ReactElement {
         const { isSelectedStore, handleSelectStore } = this.props;
 
         if (isSelectedStore) {

@@ -28,7 +28,7 @@ export class ResetAttributes extends PureComponent {
         }))).isRequired
     };
 
-    renderSelectedOption(selectedOption) {
+    renderSelectedOption(selectedOption): ReactElement {
         const { toggleCustomFilter } = this.props;
         const { attribute_code, attribute_label, value_string } = selectedOption;
         const onRemove = () => toggleCustomFilter(attribute_code, value_string);
@@ -54,7 +54,7 @@ export class ResetAttributes extends PureComponent {
         );
     }
 
-    renderResetItem(title, selectedOptions) {
+    renderResetItem(title, selectedOptions): ReactElement {
         return (
             <div key={ title }>
                 { selectedOptions.map((o) => this.renderSelectedOption(o)) }
@@ -62,7 +62,7 @@ export class ResetAttributes extends PureComponent {
         );
     }
 
-    renderDesktopTitle() {
+    renderDesktopTitle(): ReactElement {
         return (
             <h3 block="ResetAttributes" elem="Title">
                 { __('Now shopping by:') }
@@ -70,7 +70,7 @@ export class ResetAttributes extends PureComponent {
         );
     }
 
-    renderMobileTitle() {
+    renderMobileTitle(): ReactElement {
         const { filtersData = {} } = this.props;
 
         const count = getFiltersCount(filtersData);

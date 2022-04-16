@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ReactElement } from 'Type/Common.type';
 import { SortDirectionType } from 'Type/Direction.type';
@@ -53,7 +53,7 @@ export class CategorySort extends PureComponent {
         onSortChange(direction, key);
     }
 
-    renderPlaceholder() {
+    renderPlaceholder(): ReactElement {
         return (
             <p block="CategorySort" elem="Placeholder">
                 <TextPlaceholder length="short" />
@@ -61,7 +61,7 @@ export class CategorySort extends PureComponent {
         );
     }
 
-    renderSortField() {
+    renderSortField(): ReactElement {
         const {
             sortKey,
             sortDirection,
@@ -75,7 +75,7 @@ export class CategorySort extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.select }
+              type={ FieldType.select }
               attr={ {
                   id: 'category-sort',
                   name: 'category-sort',

@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
 import { getCurrency } from 'Util/Currency';
 
@@ -59,7 +59,7 @@ export class CurrencySwitcher extends PureComponent {
             return (
                 <div block="CurrencySwitcher">
                     <Field
-                      type={ FIELD_TYPE.select }
+                      type={ FieldType.select }
                       attr={ {
                           id: 'CurrencySwitcherList',
                           name: 'CurrencySwitcherList',

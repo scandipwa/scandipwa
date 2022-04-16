@@ -12,7 +12,9 @@
 
 import { PureComponent } from 'react';
 
-import { ChildrenType, MixType, ReactElement } from 'Type/Common.type';
+import {
+    ChildrenType, MixType, ReactElement
+} from 'Type/Common.type';
 import { EventsType, FieldAttrType } from 'Type/Field.type';
 
 /**
@@ -47,11 +49,11 @@ export class Form extends PureComponent {
 
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under form
-    renderErrorMessage(message) {
+    renderErrorMessage(message): ReactElement {
         return <div block="Field" elem="ErrorMessage">{ message }</div>;
     }
 
-    renderErrorMessages() {
+    renderErrorMessages(): ReactElement {
         const {
             showErrorAsLabel,
             validationResponse
@@ -75,7 +77,7 @@ export class Form extends PureComponent {
     }
 
     // Renders group label above form
-    renderLabel() {
+    renderLabel(): ReactElement {
         const { label } = this.props;
 
         if (!label) {
@@ -88,7 +90,7 @@ export class Form extends PureComponent {
     }
 
     // Renders group label under form
-    renderSubLabel() {
+    renderSubLabel(): ReactElement {
         const { subLabel } = this.props;
 
         if (!subLabel) {

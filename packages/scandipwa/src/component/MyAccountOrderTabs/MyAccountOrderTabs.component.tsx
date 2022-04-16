@@ -28,13 +28,13 @@ export class MyAccountOrderTabs extends PureComponent {
         activeTab: PropTypes.string.isRequired
     };
 
-    renderActiveTab() {
+    renderActiveTab(): ReactElement {
         const { tabs, activeTab } = this.props;
 
         return tabs[activeTab].render();
     }
 
-    renderTab(item, i) {
+    renderTab(item, i): ReactElement {
         const { handleChangeActiveTab, activeTab } = this.props;
         const { title, tabName } = item;
 
@@ -49,7 +49,7 @@ export class MyAccountOrderTabs extends PureComponent {
         );
     }
 
-    renderTabs() {
+    renderTabs(): ReactElement {
         const { tabs } = this.props;
 
         return (

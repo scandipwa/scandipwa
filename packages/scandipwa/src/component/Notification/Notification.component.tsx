@@ -76,7 +76,7 @@ export class Notification extends PureComponent {
         }, ANIMATION_DURATION);
     }
 
-    renderDebug() {
+    renderDebug(): ReactElement {
         const { notification: { msgDebug } } = this.props;
 
         if (!msgDebug) {

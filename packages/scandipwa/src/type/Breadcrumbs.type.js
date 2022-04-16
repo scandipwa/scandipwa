@@ -11,10 +11,10 @@
 
 import PropTypes from 'prop-types';
 
-import { LinkType } from 'Type/Router.type';
+import { UrlType } from 'Type/Router.type';
 
 export const BreadcrumbType = PropTypes.shape({
-    url: LinkType,
+    url: UrlType,
     name: PropTypes.string
 });
 

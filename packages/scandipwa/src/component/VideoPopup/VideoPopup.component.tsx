@@ -61,7 +61,7 @@ export class VideoPopup extends PureComponent {
      * @returns {*}
      * @private
      */
-    _renderVimeoVideo(videoId) {
+    _renderVimeoVideo(videoId): ReactElement {
         const Vimeo = this.vimeoComponent;
 
         if (!Vimeo) {
@@ -82,7 +82,7 @@ export class VideoPopup extends PureComponent {
      * @returns {*}
      * @private
      */
-    _renderYoutubeVideo(videoId) {
+    _renderYoutubeVideo(videoId): ReactElement {
         const YouTube = this.youTubeComponent;
 
         if (!YouTube) {
@@ -127,7 +127,7 @@ export class VideoPopup extends PureComponent {
      * @returns {null|*}
      * @private
      */
-    _renderVideoContent() {
+    _renderVideoContent(): ReactElement {
         const {
             payload: {
                 media: {

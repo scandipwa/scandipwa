@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/Field/Field.config';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import FieldType from 'Component/Field/Field.config';
+import { ValidationInputType } from 'Util/Validator/Config';
 
 /**
  * Returns fields for street
@@ -24,20 +24,20 @@ export const getStreetFields = (props) => {
     } = props;
 
     if (addressLinesQty === 1) {
-        return [{
-            type: FIELD_TYPE.text,
+        return [ {
+            type: FieldType.text,
             label: __('Street address'),
             attr: {
                 name: 'street',
-                defaultValue: street[0] || '',
+                defaultValue: street[ 0 ] || '',
                 placeholder: __('Your street address')
             },
             addRequiredTag: true,
-            validateOn: ['onChange'],
+            validateOn: [ 'onChange' ],
             validationRule: {
                 isRequired: true
             }
-        }];
+        } ];
     }
 
     const streets = [];
@@ -45,15 +45,15 @@ export const getStreetFields = (props) => {
     // eslint-disable-next-line fp/no-loops, fp/no-let
     for (let i = 0; i < addressLinesQty; i++) {
         streets.push({
-            type: FIELD_TYPE.text,
+            type: FieldType.text,
             label: __('Street address line %s', i + 1),
             attr: {
                 name: `street_${i}`,
-                defaultValue: street[i] || '',
+                defaultValue: street[ i ] || '',
                 placeholder: __('Your street address line %s', i + 1)
             },
             addRequiredTag: i === 0,
-            validateOn: i === 0 ? ['onChange'] : [],
+            validateOn: i === 0 ? [ 'onChange' ] : [],
             validationRule: {
                 isRequired: i === 0
             }
@@ -88,7 +88,7 @@ export const getRegionFields = (props, events) => {
     if (!availableRegions || !availableRegions.length) {
         return [
             {
-                type: FIELD_TYPE.text,
+                type: FieldType.text,
                 label: __('State / Province'),
                 attr: {
                     id: 'address-region-id',
@@ -100,7 +100,7 @@ export const getRegionFields = (props, events) => {
                     onChange: onRegionChange
                 },
                 addRequiredTag: isStateRequired,
-                validateOn: isStateRequired ? ['onChange'] : [],
+                validateOn: isStateRequired ? [ 'onChange' ] : [],
                 validationRule: {
                     isRequired: isStateRequired
                 }
@@ -110,7 +110,7 @@ export const getRegionFields = (props, events) => {
 
     return [
         {
-            type: FIELD_TYPE.select,
+            type: FieldType.select,
             label: __('State / Province'),
             attr: {
                 name: 'region_id',
@@ -122,7 +122,7 @@ export const getRegionFields = (props, events) => {
             },
             options: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
             addRequiredTag: isStateRequired,
-            validateOn: isStateRequired ? ['onChange'] : [],
+            validateOn: isStateRequired ? [ 'onChange' ] : [],
             validationRule: {
                 isRequired: isStateRequired
             }
@@ -144,7 +144,7 @@ export const getVatFields = (props) => {
 
     return [
         {
-            type: FIELD_TYPE.text,
+            type: FieldType.text,
             label: __('VAT Number'),
             attr: {
                 placeholder: __('Your VAT number'),
@@ -152,7 +152,7 @@ export const getVatFields = (props) => {
                 defaultValue: vatID
             },
             addRequiredTag: false,
-            validateOn: ['onChange'],
+            validateOn: [ 'onChange' ],
             validationRule: {
                 isRequired: false
             }
@@ -188,7 +188,7 @@ export const myAccountAddressForm = (props, events = {}) => {
 
     return [
         {
-            type: FIELD_TYPE.checkbox,
+            type: FieldType.checkbox,
             label: __('This is default Billing Address'),
             attr: {
                 name: 'default_billing',
@@ -196,7 +196,7 @@ export const myAccountAddressForm = (props, events = {}) => {
             }
         },
         {
-            type: FIELD_TYPE.checkbox,
+            type: FieldType.checkbox,
             label: __('This is default Shipping Address'),
             attr: {
                 name: 'default_shipping',
@@ -204,7 +204,7 @@ export const myAccountAddressForm = (props, events = {}) => {
             }
         },
         {
-            type: FIELD_TYPE.text,
+            type: FieldType.text,
             label: __('First name'),
             attr: {
                 name: 'firstname',
@@ -212,13 +212,13 @@ export const myAccountAddressForm = (props, events = {}) => {
                 placeholder: __('Your first name')
             },
             addRequiredTag: true,
-            validateOn: ['onChange'],
+            validateOn: [ 'onChange' ],
             validationRule: {
                 isRequired: true
             }
         },
         {
-            type: FIELD_TYPE.text,
+            type: FieldType.text,
             label: __('Last name'),
             attr: {
                 name: 'lastname',
@@ -226,7 +226,7 @@ export const myAccountAddressForm = (props, events = {}) => {
                 placeholder: __('Your last name')
             },
             addRequiredTag: true,
-            validateOn: ['onChange'],
+            validateOn: [ 'onChange' ],
             validationRule: {
                 isRequired: true
             }
@@ -245,7 +245,7 @@ export const myAccountAddressForm = (props, events = {}) => {
             mods: { address: true },
             fields: [
                 {
-                    type: FIELD_TYPE.select,
+                    type: FieldType.select,
                     label: __('Country'),
                     attr: {
                         id: 'address-country-id',
@@ -258,14 +258,14 @@ export const myAccountAddressForm = (props, events = {}) => {
                     },
                     options: countries,
                     addRequiredTag: true,
-                    validateOn: ['onChange'],
+                    validateOn: [ 'onChange' ],
                     validationRule: {
                         isRequired: true
                     }
                 },
                 ...getRegionFields(props, events),
                 {
-                    type: FIELD_TYPE.text,
+                    type: FieldType.text,
                     label: __('Zip / Postal code'),
                     attr: {
                         name: 'postcode',
@@ -276,13 +276,13 @@ export const myAccountAddressForm = (props, events = {}) => {
                         onChange: onZipcodeChange
                     },
                     addRequiredTag: true,
-                    validateOn: ['onChange', 'onBlur'],
+                    validateOn: [ 'onChange', 'onBlur' ],
                     validationRule: {
                         isRequired: true
                     }
                 },
                 {
-                    type: FIELD_TYPE.text,
+                    type: FieldType.text,
                     label: __('City'),
                     attr: {
                         name: 'city',
@@ -293,7 +293,7 @@ export const myAccountAddressForm = (props, events = {}) => {
                         onChange: onCityChange
                     },
                     addRequiredTag: true,
-                    validateOn: ['onChange'],
+                    validateOn: [ 'onChange' ],
                     validationRule: {
                         isRequired: true
                     }
@@ -302,7 +302,7 @@ export const myAccountAddressForm = (props, events = {}) => {
         },
         ...getVatFields(props),
         {
-            type: FIELD_TYPE.text,
+            type: FieldType.text,
             label: __('Phone number'),
             attr: {
                 name: 'telephone',
@@ -310,9 +310,9 @@ export const myAccountAddressForm = (props, events = {}) => {
                 placeholder: __('Your phone number')
             },
             addRequiredTag: true,
-            validateOn: ['onChange'],
+            validateOn: [ 'onChange' ],
             validationRule: {
-                inputType: VALIDATION_INPUT_TYPE.phone,
+                inputType: ValidationInputType.phone,
                 isRequired: true
             }
         }

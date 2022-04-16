@@ -27,7 +27,7 @@ export class CheckoutTermsAndConditionsPopup extends PureComponent {
         }).isRequired
     };
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { payload: { text = 'No text was passed' } } = this.props;
 
         return (

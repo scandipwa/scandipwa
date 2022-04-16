@@ -31,7 +31,7 @@ export class NavigationAbstract extends Component {
 
     renderMap = {};
 
-    renderNavigationState() {
+    renderNavigationState(): ReactElement {
         const { navigationState: { name, hiddenElements = [] } } = this.props;
 
         // Get current page/state render methods

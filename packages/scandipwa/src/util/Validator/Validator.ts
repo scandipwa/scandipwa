@@ -9,7 +9,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import { ValidationRule } from 'Type/Field.type';
 import { VALIDATION_MESSAGES, VALIDATION_RULES, ValidationInputTypeNumber } from 'Util/Validator/Config';
 
@@ -140,14 +140,14 @@ export const validateGroup = (DOM: Document, rule: ValidationRule): boolean | Va
         const {
             name,
             value,
-            tagName = FIELD_TYPE.select,
-            type = FIELD_TYPE.select
+            tagName = FieldType.select,
+            type = FieldType.select
         } = field as HTMLInputElement;
 
-        const fieldType = tagName.toLowerCase() === FIELD_TYPE.textarea ? FIELD_TYPE.textarea : type;
+        const fieldType = tagName.toLowerCase() === FieldType.textarea ? FieldType.textarea : type;
         // TODO change logic so that checked won't fill as value
         // eslint-disable-next-line max-len
-        const fieldValue = fieldType === (FIELD_TYPE.checkbox || fieldType === FIELD_TYPE.radio) && field.checked ? '' : value;
+        const fieldValue = fieldType === (FieldType.checkbox || fieldType === FieldType.radio) && field.checked ? '' : value;
         output.values.push({ name, value: fieldValue, type: fieldType });
 
         // Invokes validation event for all fields
@@ -176,7 +176,7 @@ export const validateGroup = (DOM: Document, rule: ValidationRule): boolean | Va
 
         if (isRequired) {
             const containsValue = output.values.some(({ value, type }) => {
-                if (type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio) {
+                if (type === FieldType.checkbox || type === FieldType.radio) {
                     return value;
                 }
 

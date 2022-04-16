@@ -49,7 +49,7 @@ export class CookiePopup extends PureComponent {
         this.setState({ isAccepted: true });
     }
 
-    renderCookieLink() {
+    renderCookieLink(): ReactElement {
         const { cookieLink } = this.props;
 
         if (!cookieLink) {
@@ -67,7 +67,7 @@ export class CookiePopup extends PureComponent {
         );
     }
 
-    renderCookieText() {
+    renderCookieText(): ReactElement {
         const { cookieText } = this.props;
 
         return (
@@ -78,7 +78,7 @@ export class CookiePopup extends PureComponent {
         );
     }
 
-    renderCTA() {
+    renderCTA(): ReactElement {
         return (
             <div
               block="CookiePopup"

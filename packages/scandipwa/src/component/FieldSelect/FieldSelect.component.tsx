@@ -41,7 +41,7 @@ export class FieldSelect extends PureComponent {
         isSortSelect: PropTypes.bool.isRequired
     };
 
-    renderNativeOption(option) {
+    renderNativeOption(option): ReactElement {
         const {
             id,
             value,
@@ -65,7 +65,7 @@ export class FieldSelect extends PureComponent {
         );
     }
 
-    renderNativeSelect() {
+    renderNativeSelect(): ReactElement {
         const {
             setRef, attr, events, isDisabled, options, handleSelectListOptionClick, isSelectedOptionAvailable
         } = this.props;
@@ -88,7 +88,7 @@ export class FieldSelect extends PureComponent {
         );
     }
 
-    renderOption(option) {
+    renderOption(option): ReactElement {
         const {
             id,
             label,
@@ -138,7 +138,7 @@ export class FieldSelect extends PureComponent {
         );
     }
 
-    renderOptions() {
+    renderOptions(): ReactElement {
         const {
             options,
             isExpanded,
@@ -162,7 +162,7 @@ export class FieldSelect extends PureComponent {
         );
     }
 
-    renderSortSelect() {
+    renderSortSelect(): ReactElement {
         const { isSortSelect } = this.props;
 
         if (!isSortSelect) {

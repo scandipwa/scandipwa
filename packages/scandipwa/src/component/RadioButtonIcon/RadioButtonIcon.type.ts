@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface RadioButtonIconProps {
+export interface RadioButtonIconComponentProps {
     isActive: boolean;
 }

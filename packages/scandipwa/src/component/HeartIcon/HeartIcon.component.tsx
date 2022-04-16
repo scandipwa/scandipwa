@@ -13,12 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { HeartIconProps } from './HeartIcon.type';
+import { HeartIconComponentProps } from './HeartIcon.type';
 
 import './HeartIcon.style';
 
 /** @namespace Component/HeartIcon/Component */
-export class HeartIcon extends PureComponent<HeartIconProps> {
+export class HeartIcon extends PureComponent<HeartIconComponentProps> {
     static defaultProps = {
         isActive: false
     };

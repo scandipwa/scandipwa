@@ -14,7 +14,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { forwardRef, PureComponent } from 'react';
 import DatePicker from 'react-datepicker';
 
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
 
 import './DatePicker.style.scss';
@@ -36,9 +36,9 @@ export class DatePickerComponent extends PureComponent {
     };
 
     placeholderMap = {
-        [FIELD_TYPE.date]: __('Select date'),
-        [FIELD_TYPE.dateTime]: __('Select date & time'),
-        [FIELD_TYPE.time]: __('Select time')
+        [FieldType.date]: __('Select date'),
+        [FieldType.dateTime]: __('Select date & time'),
+        [FieldType.time]: __('Select time')
     };
 
     getPlaceholder() {
@@ -47,14 +47,14 @@ export class DatePickerComponent extends PureComponent {
         return this.placeholderMap[type] || '';
     }
 
-    renderCustomInput({ value, onClick }, ref) {
+    renderCustomInput({ value, onClick }, ref): ReactElement {
         const { selectedDate, uid } = this.props;
 
         return (
             <input
               id={ uid }
               name={ uid }
-              type={ FIELD_TYPE.text }
+              type={ FieldType.text }
               value={ value }
               onClick={ onClick }
               ref={ ref }

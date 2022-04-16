@@ -77,23 +77,23 @@ export class CheckoutPayments extends PureComponent {
         );
     }
 
-    renderKlarnaPayment() {
+    renderKlarnaPayment(): ReactElement {
         const { setOrderButtonEnableStatus } = this.props;
 
         return <Klarna setOrderButtonEnableStatus={ setOrderButtonEnableStatus } />;
     }
 
-    renderPurchaseOrderPayment() {
+    renderPurchaseOrderPayment(): ReactElement {
         return <PurchaseOrder id={ BILLING_STEP } />;
     }
 
-    renderNotSupported() {
+    renderNotSupported(): ReactElement {
         const { setOrderButtonEnableStatus } = this.props;
 
         return <NotSupportedPayment disableButton={ setOrderButtonEnableStatus } />;
     }
 
-    renderPayment(method) {
+    renderPayment(method): ReactElement {
         const {
             selectPaymentMethod,
             selectedPaymentCode
@@ -112,13 +112,13 @@ export class CheckoutPayments extends PureComponent {
         );
     }
 
-    renderPayments() {
+    renderPayments(): ReactElement {
         const { paymentMethods } = this.props;
 
         return paymentMethods.map(this.renderPayment);
     }
 
-    renderSelectedPayment() {
+    renderSelectedPayment(): ReactElement {
         const { selectedPaymentCode } = this.props;
         const render = this.paymentRenderMap[selectedPaymentCode];
 
@@ -129,7 +129,7 @@ export class CheckoutPayments extends PureComponent {
         return render();
     }
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         return (
             <h2 block="Checkout" elem="Heading">
                 { __('Payment method') }
@@ -137,7 +137,7 @@ export class CheckoutPayments extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { hasError } = this.state;
 
         if (hasError) {

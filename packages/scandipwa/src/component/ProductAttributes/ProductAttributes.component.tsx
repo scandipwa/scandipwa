@@ -24,7 +24,7 @@ export class ProductAttributes extends PureComponent {
         attributesWithValues: AttributeType.isRequired
     };
 
-    renderGroups() {
+    renderGroups(): ReactElement {
         const { attributesWithValues } = this.props;
 
         const groups = Object.values(attributesWithValues).map(
@@ -54,7 +54,7 @@ export class ProductAttributes extends PureComponent {
         );
     }
 
-    renderAttribute(attribute) {
+    renderAttribute(attribute): ReactElement {
         return (
             <Fragment key={ attribute.attribute_label }>
                 <dt block="ProductAttributes" elem="AttributeLabel">
@@ -71,7 +71,7 @@ export class ProductAttributes extends PureComponent {
         );
     }
 
-    renderAttributes(attribute_group_id) {
+    renderAttributes(attribute_group_id): ReactElement {
         const { attributesWithValues } = this.props;
 
         if (!Object.keys(attributesWithValues).length) {
@@ -93,7 +93,7 @@ export class ProductAttributes extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { areDetailsLoaded } = this.props;
         const heading = areDetailsLoaded ? __('Details') : '';
 

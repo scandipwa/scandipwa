@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface MenuIconProps {
+export interface MenuIconComponentProps {
     isActive: boolean;
 }

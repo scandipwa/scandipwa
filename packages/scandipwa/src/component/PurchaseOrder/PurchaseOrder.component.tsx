@@ -13,7 +13,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import { ReactElement } from 'Type/Common.type';
 
@@ -36,7 +36,7 @@ export class PurchaseOrder extends PureComponent {
               } }
             >
                 <Field
-                  type={ FIELD_TYPE.text }
+                  type={ FieldType.text }
                   attr={ {
                       id: 'purchaseOrderNumber',
                       name: 'purchaseOrderNumber',

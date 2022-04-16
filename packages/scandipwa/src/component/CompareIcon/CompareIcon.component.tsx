@@ -13,12 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { CompareIconProps } from './CompareIcon.type';
+import { CompareIconComponentProps } from './CompareIcon.type';
 
 import './CompareIcon.style';
 
 /** @namespace Component/CompareIcon/Component */
-export class CompareIcon extends PureComponent<CompareIconProps> {
+export class CompareIcon extends PureComponent<CompareIconComponentProps> {
     static defaultProps = {
         isActive: false
     };

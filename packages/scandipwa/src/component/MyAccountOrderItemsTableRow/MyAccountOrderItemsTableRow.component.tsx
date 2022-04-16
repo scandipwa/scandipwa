@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PropTypes } from 'prop-types';
 import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
@@ -46,7 +45,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         renderEnteredOptionAsRow: this.renderEnteredOptionAsRow.bind(this)
     };
 
-    renderItemPrice() {
+    renderItemPrice(): ReactElement {
         const {
             product: {
                 product_sale_price: {
@@ -64,7 +63,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         return this.renderPrice(value, currency, (__('Price')));
     }
 
-    renderQty([type, qty], index) {
+    renderQty([type, qty], index): ReactElement {
         const { activeTab } = this.props;
 
         if (qty === 0) {
@@ -82,7 +81,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderRowQty() {
+    renderRowQty(): ReactElement {
         const { product } = this.props;
         const { renderQty } = this.renderMap;
 
@@ -98,7 +97,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderRowSubtotal() {
+    renderRowSubtotal(): ReactElement {
         const {
             activeTab,
             product: {
@@ -116,7 +115,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         return this.renderPrice(value, currency, __('Subtotal'));
     }
 
-    renderPrice(value, currency, title) {
+    renderPrice(value, currency, title): ReactElement {
         const { isMobile, colSpanCount } = this.props;
 
         if (isMobile) {
@@ -140,7 +139,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderSelectedAndEnteredOptions() {
+    renderSelectedAndEnteredOptions(): ReactElement {
         const {
             selectedOptions,
             enteredOptions,
@@ -175,7 +174,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderNameAndOptions() {
+    renderNameAndOptions(): ReactElement {
         const { product: { product_name } } = this.props;
 
         return (
@@ -191,7 +190,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderOptionItem(item, isLastOptionItem) {
+    renderOptionItem(item, isLastOptionItem): ReactElement {
         const { product: { quantity_ordered = 1, product_sale_price: { currency } }, isMobile } = this.props;
         const { qty, title, price } = item;
 
@@ -220,7 +219,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderEnteredOptionPrice(price) {
+    renderEnteredOptionPrice(price): ReactElement {
         const { activeTab } = this.props;
 
         if (activeTab === ORDER_SHIPMENTS) {
@@ -237,7 +236,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderMobileOptionItem(item) {
+    renderMobileOptionItem(item): ReactElement {
         const { product: { product_sale_price: { currency } } } = this.props;
         const { qty, title, price } = item;
 
@@ -252,7 +251,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderEnteredOptionAsRow(option, index) {
+    renderEnteredOptionAsRow(option, index): ReactElement {
         const { colSpanCount, enteredOptions } = this.props;
         const { label, items } = option;
         const { renderOptionItem } = this.renderMap;
@@ -281,7 +280,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderEnteredOptionsAsRow() {
+    renderEnteredOptionsAsRow(): ReactElement {
         const { enteredOptions } = this.props;
         const { renderEnteredOptionAsRow } = this.renderMap;
 
@@ -292,7 +291,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         return enteredOptions.map(renderEnteredOptionAsRow);
     }
 
-    renderOption(option) {
+    renderOption(option): ReactElement {
         const {
             label,
             items,
@@ -316,7 +315,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderOptionContent(option) {
+    renderOptionContent(option): ReactElement {
         const {
             value = '',
             linkItems = []
@@ -329,7 +328,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         return <dd block="MyAccountOrderItemsTableRow" elem="OptionValue"><Html content={ value } /></dd>;
     }
 
-    renderLink(title, index) {
+    renderLink(title, index): ReactElement {
         return (
             <dd
               block="MyAccountOrderItemsTableRow"
@@ -341,7 +340,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderDiscountAndRowTotal() {
+    renderDiscountAndRowTotal(): ReactElement {
         const {
             activeTab,
             product: {
@@ -385,7 +384,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderMobileBodyContentRow(label, value, mix = {}) {
+    renderMobileBodyContentRow(label, value, mix = {}): ReactElement {
         const { colSpanCount } = this.props;
 
         return (
@@ -402,7 +401,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderMobileTableRow() {
+    renderMobileTableRow(): ReactElement {
         const {
             activeTab,
             product: {
@@ -433,7 +432,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-    renderDesktopTableRow() {
+    renderDesktopTableRow(): ReactElement {
         const {
             activeTab,
             product: {

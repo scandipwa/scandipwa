@@ -13,12 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { GridIconProps } from './GridIcon.type';
+import { GridIconComponentProps } from './GridIcon.type';
 
 import './GridIcon.style';
 
 /** @namespace Component/GridIcon/Component */
-export class GridIcon extends PureComponent<GridIconProps> {
+export class GridIcon extends PureComponent<GridIconComponentProps> {
     static defaultProps = {
         isActive: false
     };

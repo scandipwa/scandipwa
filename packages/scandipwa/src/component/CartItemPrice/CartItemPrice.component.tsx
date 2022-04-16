@@ -11,23 +11,18 @@
 
 import { PureComponent } from 'react';
 
-import { MixType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { formatPrice, roundPrice } from 'Util/Price';
 
-/** @namespace Component/CartItemPrice/Component */
-export class CartItemPrice extends PureComponent {
-    static propTypes = {
-        price: PropTypes.number.isRequired,
-        subPrice: PropTypes.number,
-        currency_code: PropTypes.string.isRequired,
-        mix: MixType.isRequired
-    };
+import { CartItemPriceComponentProps } from './CartItemPrice.type';
 
+/** @namespace Component/CartItemPrice/Component */
+export class CartItemPrice extends PureComponent<CartItemPriceComponentProps> {
     static defaultProps = {
         subPrice: null
     };
 
-    renderPrice() {
+    renderPrice(): ReactElement {
         const { price, currency_code } = this.props;
         const value = roundPrice(price);
 
@@ -38,7 +33,7 @@ export class CartItemPrice extends PureComponent {
         );
     }
 
-    renderSubPrice() {
+    renderSubPrice(): ReactElement {
         const { subPrice, currency_code } = this.props;
 
         if (!subPrice) {

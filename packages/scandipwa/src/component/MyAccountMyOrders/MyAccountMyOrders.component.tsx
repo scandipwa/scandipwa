@@ -38,7 +38,7 @@ export class MyAccountMyOrders extends Component {
         return device !== nextDevice || orderList !== nextOrderList || isLoading !== nextIsLoading;
     }
 
-    renderNoOrders() {
+    renderNoOrders(): ReactElement {
         const { device } = this.props;
 
         return (
@@ -49,7 +49,7 @@ export class MyAccountMyOrders extends Component {
         );
     }
 
-    renderOrderHeadingRow() {
+    renderOrderHeadingRow(): ReactElement {
         return (
             <tr>
                 <th>{ __('Order') }</th>
@@ -60,7 +60,7 @@ export class MyAccountMyOrders extends Component {
         );
     }
 
-    renderTable() {
+    renderTable(): ReactElement {
         return (
             <table block="MyAccountMyOrders" elem="Table">
                 <thead>
@@ -73,7 +73,7 @@ export class MyAccountMyOrders extends Component {
         );
     }
 
-    renderOrderRow(order) {
+    renderOrderRow(order): ReactElement {
         const { id, base_order_info: { id: defaultId } = {} } = order;
 
         return (
@@ -84,7 +84,7 @@ export class MyAccountMyOrders extends Component {
         );
     }
 
-    renderOrderRows() {
+    renderOrderRows(): ReactElement {
         const { orderList: { items = [] }, isLoading } = this.props;
 
         if (!isLoading && !items.length) {
@@ -101,7 +101,7 @@ export class MyAccountMyOrders extends Component {
         );
     }
 
-    renderPagination() {
+    renderPagination(): ReactElement {
         const {
             isLoading,
             orderList: {

@@ -15,7 +15,7 @@ import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutPayments from 'Component/CheckoutPayments';
 import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
@@ -93,7 +93,7 @@ export class CheckoutBilling extends PureComponent {
         showPopup();
     }
 
-    renderTermsAndConditions() {
+    renderTermsAndConditions(): ReactElement {
         const {
             termsAreEnabled,
             termsAndConditions
@@ -121,7 +121,7 @@ export class CheckoutBilling extends PureComponent {
                   htmlFor="termsAndConditions"
                 >
                     <Field
-                      type={ FIELD_TYPE.checkbox }
+                      type={ FieldType.checkbox }
                       attr={ {
                           id: 'termsAndConditions',
                           name: 'termsAndConditions',
@@ -147,7 +147,7 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
-    renderOrderTotalExlTax() {
+    renderOrderTotalExlTax(): ReactElement {
         const {
             cartTotalSubPrice,
             totals: { quote_currency_code }
@@ -166,7 +166,7 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
-    renderOrderTotal() {
+    renderOrderTotal(): ReactElement {
         const { totals: { grand_total, quote_currency_code } } = this.props;
 
         const orderTotal = formatPrice(grand_total, quote_currency_code);
@@ -184,7 +184,7 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         const {
             isOrderButtonVisible,
             isOrderButtonEnabled,
@@ -217,7 +217,7 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
-    renderAddressBook() {
+    renderAddressBook(): ReactElement {
         const {
             onAddressSelect,
             isSameAsShipping,
@@ -237,7 +237,7 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
-    renderSameAsShippingCheckbox() {
+    renderSameAsShippingCheckbox(): ReactElement {
         const {
             isSameAsShipping,
             onSameAsShippingChange,
@@ -251,7 +251,7 @@ export class CheckoutBilling extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.checkbox }
+              type={ FieldType.checkbox }
               attr={ {
                   id: 'sameAsShippingAddress',
                   name: 'sameAsShippingAddress',
@@ -269,7 +269,7 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         return (
             <h2 block="Checkout" elem="Heading">
                 { __('Billing address') }
@@ -277,7 +277,7 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
-    renderAddresses() {
+    renderAddresses(): ReactElement {
         return (
             <>
                 { this.renderHeading() }
@@ -287,7 +287,7 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
-    renderPayments() {
+    renderPayments(): ReactElement {
         const {
             paymentMethods,
             onPaymentMethodSelect,
@@ -313,7 +313,7 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
-    renderPopup() {
+    renderPopup(): ReactElement {
         return <CheckoutTermsAndConditionsPopup />;
     }
 

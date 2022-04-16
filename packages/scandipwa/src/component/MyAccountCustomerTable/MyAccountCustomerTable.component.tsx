@@ -47,7 +47,7 @@ export class MyAccountCustomerTable extends KeyValueTable {
         ];
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         const { handleOnEditInformation, handleOnEditPassword } = this.props;
 
         return (

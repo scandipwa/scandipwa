@@ -46,7 +46,7 @@ export class KeyValueTable extends PureComponent {
         return Array.isArray(value) ? value.join(', ') : value;
     }
 
-    renderTableRow(data) {
+    renderTableRow(data): ReactElement {
         const { key, label } = data;
         const value = this.getValueFromSource(data);
 
@@ -62,7 +62,7 @@ export class KeyValueTable extends PureComponent {
         );
     }
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         const { title, isSelected } = this.props;
 
         if (!title) {
@@ -83,7 +83,7 @@ export class KeyValueTable extends PureComponent {
         );
     }
 
-    renderTable() {
+    renderTable(): ReactElement {
         return (
             <div block="KeyValueTable" elem="Wrapper">
                 <table block="KeyValueTable">

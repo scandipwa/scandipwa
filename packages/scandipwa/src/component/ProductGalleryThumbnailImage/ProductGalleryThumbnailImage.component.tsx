@@ -37,7 +37,7 @@ export class ProductGalleryThumbnailImage extends PureComponent {
         }).isRequired
     };
 
-    renderMedia() {
+    renderMedia(): ReactElement {
         const { media: { media_type } } = this.props;
 
         switch (media_type) {
@@ -52,7 +52,7 @@ export class ProductGalleryThumbnailImage extends PureComponent {
         }
     }
 
-    renderPlaceholder() {
+    renderPlaceholder(): ReactElement {
         return (
             <Image
               ratio="custom"
@@ -62,7 +62,7 @@ export class ProductGalleryThumbnailImage extends PureComponent {
         );
     }
 
-    renderVideo() {
+    renderVideo(): ReactElement {
         const {
             media: {
                 thumbnail: { url },
@@ -80,7 +80,7 @@ export class ProductGalleryThumbnailImage extends PureComponent {
         );
     }
 
-    renderImage() {
+    renderImage(): ReactElement {
         const {
             media: {
                 label: alt,

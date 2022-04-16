@@ -11,7 +11,7 @@
 
 import AddToCart from 'Component/AddToCart';
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import ProductCard from 'Component/ProductCard';
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
@@ -20,7 +20,7 @@ import './SharedWishlistItem.style';
 
 /** @namespace Component/SharedWishlistItem/Component */
 export class SharedWishlistItem extends SourceWishlistItem {
-    renderAddToCart() {
+    renderAddToCart(): ReactElement {
         const {
             product,
             product: {
@@ -41,7 +41,7 @@ export class SharedWishlistItem extends SourceWishlistItem {
               mix={ { block: 'SharedWishlistItem', elem: 'Row' } }
             >
                 <Field
-                  type={ FIELD_TYPE.number }
+                  type={ FieldType.number }
                   attr={ {
                       id: `item_qty_wishlist_${id}`,
                       name: `item_qty_wishlist_${id}`,

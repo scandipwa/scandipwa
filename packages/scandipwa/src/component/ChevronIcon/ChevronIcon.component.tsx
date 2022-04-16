@@ -14,12 +14,12 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 
 import { Directions } from './ChevronIcon.config';
-import { ChevronIconProps } from './ChevronIcon.type';
+import { ChevronIconComponentProps } from './ChevronIcon.type';
 
 import './ChevronIcon.style';
 
 /** @namespace Component/ChevronIcon/Component */
-export class ChevronIcon extends PureComponent<ChevronIconProps> {
+export class ChevronIcon extends PureComponent<ChevronIconComponentProps> {
     static defaultProps = {
         direction: Directions.RIGHT
     };

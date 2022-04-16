@@ -21,7 +21,7 @@ export class InstallPromptIOS extends PureComponent {
         handleBannerClose: PropTypes.func.isRequired
     };
 
-    renderCloseButton() {
+    renderCloseButton(): ReactElement {
         const { handleBannerClose } = this.props;
 
         return (
@@ -35,7 +35,7 @@ export class InstallPromptIOS extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         return (
             <p block="InstallPromptIOS" elem="Content">
                 <span>{ __('Tap:') }</span>
@@ -47,7 +47,7 @@ export class InstallPromptIOS extends PureComponent {
         );
     }
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         return (
             <p block="InstallPromptIOS" elem="Heading">
                 { __('Browse website in full-screen:') }

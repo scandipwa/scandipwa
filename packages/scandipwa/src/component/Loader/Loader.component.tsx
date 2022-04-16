@@ -32,7 +32,7 @@ export class Loader extends PureComponent {
         mix: {}
     };
 
-    renderMain() {
+    renderMain(): ReactElement {
         return (
             <div block="Loader" elem="Main">
                 <span />

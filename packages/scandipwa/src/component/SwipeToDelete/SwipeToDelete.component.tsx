@@ -176,7 +176,7 @@ export class SwipeToDelete extends PureComponent {
         this.setTranslateXStyle(-dragRightOpenThreshold);
     }
 
-    renderRightSideContent() {
+    renderRightSideContent(): ReactElement {
         const { renderRightSideContent } = this.props;
         const { isAheadRemoveItemThreshold } = this.state;
 
@@ -200,7 +200,7 @@ export class SwipeToDelete extends PureComponent {
         event.stopPropagation();
     }
 
-    renderChildren() {
+    renderChildren(): ReactElement {
         const { children } = this.props;
 
         return (

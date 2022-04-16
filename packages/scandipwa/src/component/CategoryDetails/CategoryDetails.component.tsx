@@ -34,7 +34,7 @@ export class CategoryDetails extends PureComponent {
         isCurrentCategoryLoaded: true
     };
 
-    renderCategoryText() {
+    renderCategoryText(): ReactElement {
         const {
             category: { name },
             isCurrentCategoryLoaded
@@ -51,7 +51,7 @@ export class CategoryDetails extends PureComponent {
         );
     }
 
-    renderCategoryName() {
+    renderCategoryName(): ReactElement {
         const {
             category: { name, id }
         } = this.props;
@@ -67,7 +67,7 @@ export class CategoryDetails extends PureComponent {
         );
     }
 
-    renderCategoryDescription() {
+    renderCategoryDescription(): ReactElement {
         const {
             category: { description, id },
             isCurrentCategoryLoaded
@@ -84,7 +84,7 @@ export class CategoryDetails extends PureComponent {
         return <Html content={ description } />;
     }
 
-    renderCategoryDescriptionPlaceholder() {
+    renderCategoryDescriptionPlaceholder(): ReactElement {
         return (
             <p>
                 <TextPlaceholder length="long" />
@@ -92,7 +92,7 @@ export class CategoryDetails extends PureComponent {
         );
     }
 
-    renderCategoryImagePlaceholder() {
+    renderCategoryImagePlaceholder(): ReactElement {
         return (
             <Image
               mix={ { block: 'CategoryDetails', elem: 'Picture' } }
@@ -103,7 +103,7 @@ export class CategoryDetails extends PureComponent {
         );
     }
 
-    renderCategoryImage() {
+    renderCategoryImage(): ReactElement {
         const {
             category: { image, id },
             isCurrentCategoryLoaded

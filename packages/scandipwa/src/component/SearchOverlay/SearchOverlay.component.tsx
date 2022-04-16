@@ -54,7 +54,7 @@ export class SearchOverlay extends PureComponent {
         }
     }
 
-    renderSearchItem(product, i) {
+    renderSearchItem(product, i): ReactElement {
         return (
             <SearchItem
               product={ product }
@@ -63,11 +63,11 @@ export class SearchOverlay extends PureComponent {
         );
     }
 
-    renderNoResults() {
+    renderNoResults(): ReactElement {
         return <p>{ __('No results found!') }</p>;
     }
 
-    renderSearchResults() {
+    renderSearchResults(): ReactElement {
         const { searchResults, isLoading } = this.props;
 
         if (!searchResults.length && !isLoading && !this.timeout) {

@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/Field/Field.config';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import FieldType from 'Component/Field/Field.config';
+import { ValidationInputType } from 'Util/Validator/Config';
 
 /**
  * Returns fields for share wishlist form
@@ -19,23 +19,23 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  */
 export const shareWishlistForm = () => [
     {
-        type: FIELD_TYPE.email,
+        type: FieldType.email,
         label: __('Email addresses, separated by commas'),
         attr: {
             name: 'emails',
             placeholder: __('Email addresses, separated by commas'),
             'aria-label': __('Email address')
         },
-        validateOn: ['onChange'],
+        validateOn: [ 'onChange' ],
         validationRule: {
-            inputType: VALIDATION_INPUT_TYPE.emailList,
+            inputType: ValidationInputType.emailList,
             isRequired: true
         },
         addRequiredTag: true
     },
     {
         label: __('Message'),
-        type: FIELD_TYPE.textarea,
+        type: FieldType.textarea,
         attr: {
             name: 'message',
             placeholder: __('Message'),

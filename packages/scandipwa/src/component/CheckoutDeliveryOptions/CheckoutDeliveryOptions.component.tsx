@@ -36,7 +36,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
         [STORE_IN_PICK_UP_METHOD_CODE]: this.handleSelectStoreInPickUp.bind(this)
     };
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         return (
             <h2 block="Checkout" elem="Heading">
                 { __('Shipping method') }
@@ -57,7 +57,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
         handleSelectDeliveryMethod();
     }
 
-    renderDeliveryOption(option) {
+    renderDeliveryOption(option): ReactElement {
         const {
             selectShippingMethod,
             selectedShippingMethod: { method_code: selectedMethodCode }
@@ -76,7 +76,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
         );
     }
 
-    renderNoDeliveryOptions() {
+    renderNoDeliveryOptions(): ReactElement {
         return (
             <p block="CheckoutDeliveryOptions" elem="NoOptions">
                 { __('There are no shipping methods available, try different address.') }
@@ -84,7 +84,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
         );
     }
 
-    renderShippingMethods() {
+    renderShippingMethods(): ReactElement {
         const { shippingMethods } = this.props;
 
         if (!shippingMethods.length) {
@@ -94,7 +94,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
         return shippingMethods.map(this.renderDeliveryOption.bind(this));
     }
 
-    renderSelectedShippingMethod() {
+    renderSelectedShippingMethod(): ReactElement {
         const { selectedShippingMethod: { method_code } } = this.props;
         const render = this.shippingRenderMap[method_code];
 

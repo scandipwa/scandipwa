@@ -12,13 +12,13 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import { SignInStateType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { validatePassword } from 'Util/Validator';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import { ValidationInputType } from 'Util/Validator/Config';
 
 import './MyAccountCreateAccount.style.scss';
 
@@ -36,7 +36,7 @@ export class MyAccountCreateAccount extends PureComponent {
         minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
-    renderVatNumberField() {
+    renderVatNumberField(): ReactElement {
         const { showTaxVatNumber, vatNumberRequired } = this.props;
 
         if (!showTaxVatNumber) {
@@ -45,7 +45,7 @@ export class MyAccountCreateAccount extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.text }
+              type={ FieldType.text }
               label={ __('Tax/VAT Number') }
               attr={ {
                   id: 'taxvat',
@@ -61,10 +61,10 @@ export class MyAccountCreateAccount extends PureComponent {
         );
     }
 
-    renderSubscribeToNewsletter() {
+    renderSubscribeToNewsletter(): ReactElement {
         return (
             <Field
-              type={ FIELD_TYPE.checkbox }
+              type={ FieldType.checkbox }
               label={ __('Subscribe to newsletter') }
               attr={ {
                   id: 'is_subscribed',
@@ -76,7 +76,7 @@ export class MyAccountCreateAccount extends PureComponent {
         );
     }
 
-    renderCreateAccountPersonalInfoFields() {
+    renderCreateAccountPersonalInfoFields(): ReactElement {
         const { newsletterActive } = this.props;
         const { location: { state: { firstName = '', lastName = '' } = {} } } = history;
 
@@ -84,7 +84,7 @@ export class MyAccountCreateAccount extends PureComponent {
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend block="MyAccountOverlay" elem="PersonalInfoLegend">{ __('Personal Information') }</legend>
                 <Field
-                  type={ FIELD_TYPE.text }
+                  type={ FieldType.text }
                   label={ __('First Name') }
                   attr={ {
                       id: 'firstname',
@@ -95,13 +95,13 @@ export class MyAccountCreateAccount extends PureComponent {
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
-                      inputType: VALIDATION_INPUT_TYPE.alphaSpace,
+                      inputType: ValidationInputType.alphaSpace,
                       isRequired: true
                   } }
                   addRequiredTag
                 />
                 <Field
-                  type={ FIELD_TYPE.text }
+                  type={ FieldType.text }
                   label={ __('Last Name') }
                   attr={ {
                       id: 'lastname',
@@ -112,7 +112,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
-                      inputType: VALIDATION_INPUT_TYPE.alphaSpace,
+                      inputType: ValidationInputType.alphaSpace,
                       isRequired: true
                   } }
                   addRequiredTag
@@ -123,7 +123,7 @@ export class MyAccountCreateAccount extends PureComponent {
         );
     }
 
-    renderCreateAccountSignUpInfoFields() {
+    renderCreateAccountSignUpInfoFields(): ReactElement {
         const { location: { state: { email = '' } = {} } } = history;
         const { range, minimunPasswordCharacter } = this.props;
 
@@ -131,7 +131,7 @@ export class MyAccountCreateAccount extends PureComponent {
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend block="MyAccountOverlay" elem="SignUpLegend">{ __('Sign-Up Information') }</legend>
                 <Field
-                  type={ FIELD_TYPE.email }
+                  type={ FieldType.email }
                   label={ __('Email') }
                   attr={ {
                       id: 'email',
@@ -143,13 +143,13 @@ export class MyAccountCreateAccount extends PureComponent {
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: VALIDATION_INPUT_TYPE.email
+                      inputType: ValidationInputType.email
                   } }
                   addRequiredTag
                 />
                 <div block="MyAccountOverlay" elem="PasswordBlock">
                     <Field
-                      type={ FIELD_TYPE.password }
+                      type={ FieldType.password }
                       label={ __('Password') }
                       attr={ {
                           id: 'password',
@@ -160,7 +160,7 @@ export class MyAccountCreateAccount extends PureComponent {
                       validateOn={ ['onChange'] }
                       validationRule={ {
                           isRequired: true,
-                          inputType: VALIDATION_INPUT_TYPE.password,
+                          inputType: ValidationInputType.password,
                           match: (value) => {
                               const email = document.getElementById('email');
 
@@ -174,7 +174,7 @@ export class MyAccountCreateAccount extends PureComponent {
                       addRequiredTag
                     />
                     <Field
-                      type={ FIELD_TYPE.password }
+                      type={ FieldType.password }
                       label={ __('Confirm password') }
                       attr={ {
                           id: 'confirm_password',
@@ -185,7 +185,7 @@ export class MyAccountCreateAccount extends PureComponent {
                       validateOn={ ['onChange'] }
                       validationRule={ {
                           isRequired: true,
-                          inputType: VALIDATION_INPUT_TYPE.password,
+                          inputType: ValidationInputType.password,
                           match: (value) => {
                               const password = document.getElementById('password');
                               return value && password.value === value;
@@ -201,7 +201,7 @@ export class MyAccountCreateAccount extends PureComponent {
         );
     }
 
-    renderSubmitButton() {
+    renderSubmitButton(): ReactElement {
         return (
             <div block="MyAccountOverlay" elem="Buttons">
                 <button
@@ -215,7 +215,7 @@ export class MyAccountCreateAccount extends PureComponent {
         );
     }
 
-    renderCreateAccountForm() {
+    renderCreateAccountForm(): ReactElement {
         const { onError, onSuccess } = this.props;
 
         return (
@@ -231,7 +231,7 @@ export class MyAccountCreateAccount extends PureComponent {
         );
     }
 
-    renderAdditionalField() {
+    renderAdditionalField(): ReactElement {
         const { state, handleSignIn } = this.props;
 
         return (

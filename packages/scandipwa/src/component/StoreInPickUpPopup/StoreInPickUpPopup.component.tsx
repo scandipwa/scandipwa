@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
 import Popup from 'Component/Popup';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
@@ -45,7 +45,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         isLoading: true
     };
 
-    renderNoResult() {
+    renderNoResult(): ReactElement {
         return (
             <span
               block="StoreInPickUpPopup"
@@ -56,7 +56,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         );
     }
 
-    renderInput() {
+    renderInput(): ReactElement {
         const {
             countries,
             selectedCountryId,
@@ -68,7 +68,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         return (
             <>
                 <Field
-                  type={ FIELD_TYPE.select }
+                  type={ FieldType.select }
                   attr={ {
                       id: 'country_id',
                       name: 'country_id',
@@ -81,7 +81,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
                   mix={ { block: 'StoreInPickUpPopup', elem: 'Input' } }
                 />
                 <Field
-                  type={ FIELD_TYPE.text }
+                  type={ FieldType.text }
                   attr={ {
                       id: 'store-finder',
                       name: 'store-finder',
@@ -98,7 +98,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         );
     }
 
-    renderInfo() {
+    renderInfo(): ReactElement {
         const { storeSearchCriteria, isLoading } = this.props;
 
         if (storeSearchCriteria.length || isLoading) {
@@ -112,7 +112,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         );
     }
 
-    renderStore(store) {
+    renderStore(store): ReactElement {
         const { selectStore } = this.props;
         const { pickup_location_code } = store;
 
@@ -125,7 +125,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         );
     }
 
-    renderResult() {
+    renderResult(): ReactElement {
         const { stores, isLoading } = this.props;
 
         if (!stores.length) {
@@ -140,7 +140,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         return (
             <>
                 { this.renderInput() }

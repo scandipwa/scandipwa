@@ -105,7 +105,7 @@ export class Overlay extends PureComponent {
         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }
 
-    renderInMobilePortal(content) {
+    renderInMobilePortal(content): ReactElement {
         const { isStatic, isRenderInPortal, isMobile } = this.props;
 
         if (!isStatic && isMobile && isRenderInPortal) {

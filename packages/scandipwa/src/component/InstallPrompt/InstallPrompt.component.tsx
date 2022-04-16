@@ -51,7 +51,7 @@ export class InstallPrompt extends PureComponent {
             && !isBannerClosed;
     }
 
-    renderPrompt() {
+    renderPrompt(): ReactElement {
         const {
             device,
             handleAppInstall,

@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import { validatePassword } from 'Util/Validator';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import { ValidationInputType } from 'Util/Validator/Config';
 
 /**
  * Form for guest checkout
@@ -28,7 +28,7 @@ export const checkoutGuestForm = (props, events) => {
 
     return [
         {
-            type: FIELD_TYPE.email,
+            type: FieldType.email,
             label: __('Email'),
             attr: {
                 name: 'guest_email',
@@ -41,14 +41,14 @@ export const checkoutGuestForm = (props, events) => {
                 onChange: handleEmailInput
             },
             addRequiredTag: true,
-            validateOn: ['onChange'],
+            validateOn: [ 'onChange' ],
             validationRule: {
-                inputType: VALIDATION_INPUT_TYPE.email,
+                inputType: ValidationInputType.email,
                 isRequired: true
             }
         },
-        ...(isCreateUser ? [{
-            type: FIELD_TYPE.password,
+        ...(isCreateUser ? [ {
+            type: FieldType.password,
             label: __('Create Password'),
             attr: {
                 name: 'guest_password',
@@ -59,13 +59,13 @@ export const checkoutGuestForm = (props, events) => {
             events: {
                 onChange: handlePasswordInput
             },
-            validateOn: ['onChange'],
+            validateOn: [ 'onChange' ],
             validationRule: {
-                inputType: VALIDATION_INPUT_TYPE.password,
+                inputType: ValidationInputType.password,
                 isRequired: true,
                 match: (value) => validatePassword(value, range, minimunPasswordCharacter)
             }
-        }] : [])
+        } ] : [])
     ];
 };
 

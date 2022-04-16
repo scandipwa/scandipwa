@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { FIELD_NAME_ATTR, FIELD_TYPE_ATTR, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import { FIELD_NAME_ATTR, FieldType_ATTR, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
+import FieldType from 'Component/Field/Field.config';
 import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 
 import {
@@ -199,7 +199,7 @@ export const transformDateFieldsData = (
 /** @namespace Util/Form/Extract/groupDateFieldsData */
 export const groupDateFieldsData = (fields: NodeListOf<Element>): Record<string, DatesData> => Array.from(fields)
     .reduce((prev, field) => {
-        const dataType = field.getAttribute(FIELD_TYPE_ATTR) || '';
+        const dataType = field.getAttribute(FieldType_ATTR) || '';
 
         if (!Object.values(FIELD_DATE_TYPE).includes(dataType)) {
             return prev;
@@ -241,13 +241,13 @@ export const getFieldsData = (
     output.push(...transformDateFieldsData(dateFieldsGrouped));
 
     fields.forEach((field) => {
-        if (Object.values(FIELD_DATE_TYPE).includes(field.getAttribute(FIELD_TYPE_ATTR) || '')) {
+        if (Object.values(FIELD_DATE_TYPE).includes(field.getAttribute(FieldType_ATTR) || '')) {
             return;
         }
 
         const { tagName } = field;
         const tag = tagName.toLowerCase();
-        const type = tag === FIELD_TYPE.textarea || tag === FIELD_TYPE.select || tag === FIELD_TYPE.button
+        const type = tag === FieldType.textarea || tag === FieldType.select || tag === FieldType.button
             ? tag : field.type;
 
         if (ignoreTypes.some((ignoreType) => ignoreType === type)) {
@@ -255,10 +255,10 @@ export const getFieldsData = (
         }
 
         // eslint-disable-next-line no-nested-ternary
-        const value = field instanceof HTMLInputElement && (type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio)
+        const value = field instanceof HTMLInputElement && (type === FieldType.checkbox || type === FieldType.radio)
             // eslint-disable-next-line no-nested-ternary
             ? (field.checked ? field.value === 'on' ? true : field.value : false)
-            : field instanceof HTMLInputElement && type === FIELD_TYPE.file
+            : field instanceof HTMLInputElement && type === FieldType.file
                 ? field.fileData
                 : field.value;
 

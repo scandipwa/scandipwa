@@ -41,7 +41,7 @@ export class StoreInPickUpComponent extends PureComponent {
         setSelectedShippingMethodCode: null
     };
 
-    renderEmptyResult() {
+    renderEmptyResult(): ReactElement {
         return (
             <span block="StoreInPickUp" elem="Empty">
                 { __('We could not preselect pickup location based on available information, '
@@ -50,7 +50,7 @@ export class StoreInPickUpComponent extends PureComponent {
         );
     }
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         return (
             <h3
               block="StoreInPickUp"
@@ -61,7 +61,7 @@ export class StoreInPickUpComponent extends PureComponent {
         );
     }
 
-    renderStore() {
+    renderStore(): ReactElement {
         const { selectStore, selectedStore, setSelectedShippingMethodCode } = this.props;
         const { pickup_location_code } = selectedStore;
 
@@ -76,7 +76,7 @@ export class StoreInPickUpComponent extends PureComponent {
         );
     }
 
-    renderResult() {
+    renderResult(): ReactElement {
         const { selectedStore } = this.props;
 
         if (!selectedStore) {
@@ -90,7 +90,7 @@ export class StoreInPickUpComponent extends PureComponent {
         );
     }
 
-    renderPopup() {
+    renderPopup(): ReactElement {
         const {
             countryId,
             estimateAddress,
@@ -114,7 +114,7 @@ export class StoreInPickUpComponent extends PureComponent {
         );
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         const { handleOpenPopup, selectedStore } = this.props;
 
         return (

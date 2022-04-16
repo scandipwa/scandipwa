@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import FieldDate from 'Component/FieldDate';
 import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
 import FieldGroup from 'Component/FieldGroup';
@@ -22,7 +22,7 @@ import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { getSubLabelFromMaxCharacters } from 'Util/Product/Extract';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
-import { CONFIG_FIELD_TYPE } from './ProductCustomizableOption.config';
+import { CONFIG_FieldType } from './ProductCustomizableOption.config';
 
 /**
  * Product Customizable Option
@@ -47,17 +47,17 @@ export class ProductCustomizableOption extends PureComponent {
     };
 
     renderMap = {
-        [CONFIG_FIELD_TYPE.text]: this.renderDefaultValue.bind(this),
-        [CONFIG_FIELD_TYPE.textarea]: this.renderDefaultValue.bind(this),
-        [CONFIG_FIELD_TYPE.date]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.date),
-        [CONFIG_FIELD_TYPE.dateTime]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.dateTime),
-        [CONFIG_FIELD_TYPE.time]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.time),
+        [CONFIG_FieldType.text]: this.renderDefaultValue.bind(this),
+        [CONFIG_FieldType.textarea]: this.renderDefaultValue.bind(this),
+        [CONFIG_FieldType.date]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.date),
+        [CONFIG_FieldType.dateTime]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.dateTime),
+        [CONFIG_FieldType.time]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.time),
 
-        [CONFIG_FIELD_TYPE.file]: this.renderFileValue.bind(this),
-        [CONFIG_FIELD_TYPE.select]: this.renderSelectValues.bind(this),
-        [CONFIG_FIELD_TYPE.radio]: this.renderRadioValues.bind(this),
-        [CONFIG_FIELD_TYPE.checkbox]: this.renderCheckboxValues.bind(this),
-        [CONFIG_FIELD_TYPE.multi]: this.renderCheckboxValues.bind(this)
+        [CONFIG_FieldType.file]: this.renderFileValue.bind(this),
+        [CONFIG_FieldType.select]: this.renderSelectValues.bind(this),
+        [CONFIG_FieldType.radio]: this.renderRadioValues.bind(this),
+        [CONFIG_FieldType.checkbox]: this.renderCheckboxValues.bind(this),
+        [CONFIG_FieldType.multi]: this.renderCheckboxValues.bind(this)
     };
 
     state = {
@@ -95,7 +95,7 @@ export class ProductCustomizableOption extends PureComponent {
         updateSelectedValues();
     }
 
-    renderDefaultValue(option) {
+    renderDefaultValue(option): ReactElement {
         const {
             title, fieldType, isRequired, uid
         } = this.props;
@@ -128,7 +128,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderDatePicker(type, option) {
+    renderDatePicker(type, option): ReactElement {
         const {
             title,
             uid,
@@ -151,7 +151,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderFileValue(option) {
+    renderFileValue(option): ReactElement {
         const {
             title, uid, isRequired, updateSelectedValues
         } = this.props;
@@ -162,7 +162,7 @@ export class ProductCustomizableOption extends PureComponent {
             <>
                 { this.renderOptionGroupTitle(label) }
                 <Field
-                  type={ FIELD_TYPE.file }
+                  type={ FieldType.file }
                   validationRule={ {
                       isRequired,
                       fileExtension: {
@@ -183,7 +183,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderCheckBox(option) {
+    renderCheckBox(option): ReactElement {
         const {
             uid,
             is_default: isDefault = false
@@ -194,7 +194,7 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <div key={ uid }>
                 <Field
-                  type={ FIELD_TYPE.checkbox }
+                  type={ FieldType.checkbox }
                   label={ label }
                   attr={ {
                       id: `option-${ uid }`,
@@ -210,7 +210,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderCheckboxValues(options) {
+    renderCheckboxValues(options): ReactElement {
         const { isRequired } = this.props;
 
         return (
@@ -225,7 +225,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderRadio(name, option) {
+    renderRadio(name, option): ReactElement {
         const {
             uid,
             is_default
@@ -236,7 +236,7 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <div key={ uid }>
                 <Field
-                  type={ FIELD_TYPE.radio }
+                  type={ FieldType.radio }
                   label={ label }
                   attr={ {
                       id: `option-${ uid }`,
@@ -252,7 +252,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderRadioValues(options) {
+    renderRadioValues(options): ReactElement {
         const { isRequired, uid } = this.props;
 
         return (
@@ -267,7 +267,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderSelectValues() {
+    renderSelectValues(): ReactElement {
         const {
             getDropdownOptions,
             updateSelectedValues,
@@ -278,7 +278,7 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <div block="ProductCustomizableItem" elem="DropdownWrapper">
                 <Field
-                  type={ FIELD_TYPE.select }
+                  type={ FieldType.select }
                   attr={ {
                       id: `customizable-options-dropdown-${ uid }`,
                       name: `customizable-options-dropdown-${ uid }`,
@@ -298,7 +298,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderOptionGroupTitle(title) {
+    renderOptionGroupTitle(title): ReactElement {
         const { isRequired } = this.props;
 
         return (
@@ -318,10 +318,10 @@ export class ProductCustomizableOption extends PureComponent {
         }
 
         const renderTitle = title
-            && (type === CONFIG_FIELD_TYPE.select
-            || type === CONFIG_FIELD_TYPE.radio
-            || type === CONFIG_FIELD_TYPE.checkbox
-            || type === CONFIG_FIELD_TYPE.multi);
+            && (type === CONFIG_FieldType.select
+            || type === CONFIG_FieldType.radio
+            || type === CONFIG_FieldType.checkbox
+            || type === CONFIG_FieldType.multi);
 
         return (
             <div block="ProductCustomizableItem" elem="Wrapper">

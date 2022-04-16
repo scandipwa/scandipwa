@@ -15,7 +15,7 @@ import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import StoreItem from 'Component/StoreItem';
 import { ReactElement } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';
@@ -43,7 +43,7 @@ export class StoreSwitcher extends PureComponent {
         storeLabel: ''
     };
 
-    renderStore(item) {
+    renderStore(item): ReactElement {
         const { handleStoreSelect } = this.props;
         const { value } = item;
 
@@ -56,7 +56,7 @@ export class StoreSwitcher extends PureComponent {
         );
     }
 
-    renderMobileStoreSwitcher() {
+    renderMobileStoreSwitcher(): ReactElement {
         const {
             storeList,
             handleStoreSelect,
@@ -66,7 +66,7 @@ export class StoreSwitcher extends PureComponent {
         return (
             <div block="StoreSwitcher">
                 <Field
-                  type={ FIELD_TYPE.select }
+                  type={ FieldType.select }
                   attr={ {
                       id: 'StoreSwitcher',
                       name: 'StoreSwitcher',
@@ -82,7 +82,7 @@ export class StoreSwitcher extends PureComponent {
         );
     }
 
-    renderDesktopStoreSwitcher() {
+    renderDesktopStoreSwitcher(): ReactElement {
         const {
             storeList,
             onStoreSwitcherOutsideClick,

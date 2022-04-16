@@ -139,7 +139,7 @@ export class ProductListPage extends PureComponent {
         }
     }
 
-    renderPlaceholders() {
+    renderPlaceholders(): ReactElement {
         const {
             numberOfPlaceholders, mix: {
                 mods: {
@@ -172,7 +172,7 @@ export class ProductListPage extends PureComponent {
         };
     }
 
-    renderPageItems() {
+    renderPageItems(): ReactElement {
         const {
             items,
             selectedFilters,
@@ -195,7 +195,7 @@ export class ProductListPage extends PureComponent {
         ));
     }
 
-    renderPlaceholderItems() {
+    renderPlaceholderItems(): ReactElement {
         return (
             <>
                 <li
@@ -208,7 +208,7 @@ export class ProductListPage extends PureComponent {
         );
     }
 
-    renderItems() {
+    renderItems(): ReactElement {
         const { items, isLoading } = this.props;
 
         if (!items.length || isLoading) {

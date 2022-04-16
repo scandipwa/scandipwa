@@ -45,7 +45,7 @@ export class DemoNotice extends PureComponent {
         }
     }
 
-    renderText() {
+    renderText(): ReactElement {
         const { device } = this.props;
 
         if (device.isMobile) {

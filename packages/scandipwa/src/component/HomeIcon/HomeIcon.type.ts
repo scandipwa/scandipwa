@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface HomeIconProps {
+export interface HomeIconComponentProps {
     isActive: boolean;
 }

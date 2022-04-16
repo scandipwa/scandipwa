@@ -24,7 +24,7 @@ export class OfflineNotice extends PureComponent {
         isBig: PropTypes.bool.isRequired
     };
 
-    renderLogo() {
+    renderLogo(): ReactElement {
         const { isBig } = this.props;
 
         return (
@@ -35,7 +35,7 @@ export class OfflineNotice extends PureComponent {
         );
     }
 
-    renderText() {
+    renderText(): ReactElement {
         const { isBig } = this.props;
 
         if (isBig) {

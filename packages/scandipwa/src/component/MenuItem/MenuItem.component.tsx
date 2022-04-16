@@ -36,7 +36,7 @@ export class MenuItem extends PureComponent {
         onItemClick: noopFn
     };
 
-    renderPlusMinusIcon() {
+    renderPlusMinusIcon(): ReactElement {
         const { itemMods: { isExpanded } } = this.props;
 
         if (isExpanded) {
@@ -46,7 +46,7 @@ export class MenuItem extends PureComponent {
         return <AddIcon />;
     }
 
-    renderExpandButton() {
+    renderExpandButton(): ReactElement {
         const { isExpandable, itemMods } = this.props;
 
         if (!isExpandable) {
@@ -64,7 +64,7 @@ export class MenuItem extends PureComponent {
         );
     }
 
-    renderItemContent(item, itemMods) {
+    renderItemContent(item, itemMods): ReactElement {
         const { title } = item;
 
         return (
@@ -79,7 +79,7 @@ export class MenuItem extends PureComponent {
         );
     }
 
-    renderItemLinkContent() {
+    renderItemLinkContent(): ReactElement {
         const {
             activeMenuItemsStack,
             item,

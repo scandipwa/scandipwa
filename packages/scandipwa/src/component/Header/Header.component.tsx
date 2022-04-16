@@ -234,7 +234,7 @@ export class Header extends NavigationAbstract {
         return Object.keys(nextProps).some((key) => nextProps[key] !== this.props[key]);
     }
 
-    renderBackButton(isVisible = false) {
+    renderBackButton(isVisible = false): ReactElement {
         const { onBackButtonClick, device: { isMobile } } = this.props;
 
         if (!isMobile) {
@@ -257,7 +257,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderCloseButton(isVisible = false) {
+    renderCloseButton(isVisible = false): ReactElement {
         const { onCloseButtonClick, device: { isMobile } } = this.props;
 
         if (!isMobile) {
@@ -280,7 +280,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderMenu() {
+    renderMenu(): ReactElement {
         const { isCheckout, device: { isMobile } } = this.props;
 
         if (isMobile || isCheckout) {
@@ -290,7 +290,7 @@ export class Header extends NavigationAbstract {
         return <Menu />;
     }
 
-    renderSearchField(isVisible = false) {
+    renderSearchField(isVisible = false): ReactElement {
         const {
             searchCriteria,
             onSearchOutsideClick,
@@ -321,7 +321,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderShareWishListButton(isVisible = false) {
+    renderShareWishListButton(isVisible = false): ReactElement {
         const {
             isWishlistLoading,
             shareWishlist
@@ -343,7 +343,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderCompareCount() {
+    renderCompareCount(): ReactElement {
         const { compareTotals, Loading } = this.props;
 
         if (!compareTotals || Loading === true) {
@@ -361,7 +361,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderComparePageButton() {
+    renderComparePageButton(): ReactElement {
         const {
             device: {
                 isMobile
@@ -394,7 +394,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderTitle(isVisible = false) {
+    renderTitle(isVisible = false): ReactElement {
         const { navigationState: { title } } = this.props;
 
         return (
@@ -409,7 +409,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderLogoImage() {
+    renderLogoImage(): ReactElement {
         const {
             header_logo_src,
             logo_alt,
@@ -433,7 +433,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderLogo(isVisible = false) {
+    renderLogo(isVisible = false): ReactElement {
         const { isLoading } = this.props;
 
         if (isLoading) {
@@ -456,7 +456,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderAccountOverlayFallback() {
+    renderAccountOverlayFallback(): ReactElement {
         return (
             <PopupSuspense
               actualOverlayKey={ CUSTOMER_ACCOUNT_OVERLAY_KEY }
@@ -464,7 +464,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderAccountOverlay() {
+    renderAccountOverlay(): ReactElement {
         const {
             isCheckout,
             showMyAccountLogin,
@@ -486,7 +486,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderAccountButton() {
+    renderAccountButton(): ReactElement {
         const {
             onMyAccountButtonClick,
             device
@@ -510,7 +510,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderAccount(isVisible = false) {
+    renderAccount(isVisible = false): ReactElement {
         const {
             onMyAccountOutsideClick,
             isCheckout,
@@ -545,7 +545,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderMinicartItemsQty() {
+    renderMinicartItemsQty(): ReactElement {
         const { cartTotals: { items_qty } } = this.props;
 
         if (!items_qty) {
@@ -563,7 +563,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderMinicartOverlayFallback() {
+    renderMinicartOverlayFallback(): ReactElement {
         return (
             <PopupSuspense
               actualOverlayKey={ CART_OVERLAY }
@@ -571,7 +571,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderMinicartOverlay() {
+    renderMinicartOverlay(): ReactElement {
         const { shouldRenderCartOverlay } = this.props;
 
         if (!shouldRenderCartOverlay) {
@@ -585,7 +585,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderMinicartButton() {
+    renderMinicartButton(): ReactElement {
         const {
             onMinicartButtonClick
         } = this.props;
@@ -604,7 +604,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderMinicart(isVisible = false) {
+    renderMinicart(isVisible = false): ReactElement {
         const {
             onMinicartOutsideClick,
             isCheckout,
@@ -632,7 +632,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderDesktopIcons() {
+    renderDesktopIcons(): ReactElement {
         return (
             <div
               block="Header"
@@ -645,7 +645,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderOkButton(isVisible = false) {
+    renderOkButton(isVisible = false): ReactElement {
         const { onOkButtonClick } = this.props;
 
         return (
@@ -664,7 +664,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderWelcomeMessage() {
+    renderWelcomeMessage(): ReactElement {
         const { firstname } = this.props;
 
         if (!isSignedIn() || !firstname) {
@@ -682,7 +682,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderCancelButton(isVisible = false) {
+    renderCancelButton(isVisible = false): ReactElement {
         const { onCancelButtonClick } = this.props;
 
         return (
@@ -701,7 +701,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderTopMenu() {
+    renderTopMenu(): ReactElement {
         const { device: { isMobile } } = this.props;
 
         if (isMobile) {

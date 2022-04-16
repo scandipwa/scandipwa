@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface HeartIconProps {
+export interface HeartIconComponentProps {
     isActive: boolean;
 }

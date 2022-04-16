@@ -67,7 +67,7 @@ export class CheckoutOrderSummary extends PureComponent {
         checkoutStep: null
     };
 
-    renderPriceLine(price, title, mods) {
+    renderPriceLine(price, title, mods): ReactElement {
         if (!price) {
             return null;
         }
@@ -84,7 +84,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderItem(item) {
+    renderItem(item): ReactElement {
         const { totals: { quote_currency_code } } = this.props;
 
         const { item_id } = item;
@@ -98,7 +98,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderDiscount() {
+    renderDiscount(): ReactElement {
         const {
             totals: {
                 applied_rule_ids,
@@ -122,7 +122,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderMobileDiscount(coupon_code) {
+    renderMobileDiscount(coupon_code): ReactElement {
         return (
             <>
                 <div
@@ -137,7 +137,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderDiscountCode() {
+    renderDiscountCode(): ReactElement {
         const {
             totals: { coupon_code, items },
             checkoutStep,
@@ -163,7 +163,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderItems() {
+    renderItems(): ReactElement {
         const { showItems, totals: { items_qty, items = [] } } = this.props;
 
         if (!showItems) {
@@ -184,7 +184,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         return (
             <div
               block="CheckoutOrderSummary"
@@ -196,7 +196,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderSubTotal() {
+    renderSubTotal(): ReactElement {
         const {
             totals: { quote_currency_code },
             cartSubtotal,
@@ -229,7 +229,7 @@ export class CheckoutOrderSummary extends PureComponent {
         return __('Estimated Shipping');
     }
 
-    renderShipping() {
+    renderShipping(): ReactElement {
         const {
             totals: {
                 quote_currency_code
@@ -255,7 +255,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderOrderTotal() {
+    renderOrderTotal(): ReactElement {
         const {
             totals: {
                 grand_total,
@@ -280,7 +280,7 @@ export class CheckoutOrderSummary extends PureComponent {
         return this.renderPriceLine(grand_total, title, { isTotal: true });
     }
 
-    renderTaxFullSummary() {
+    renderTaxFullSummary(): ReactElement {
         const {
             totals: {
                 applied_taxes = []
@@ -305,7 +305,7 @@ export class CheckoutOrderSummary extends PureComponent {
             ));
     }
 
-    renderTax() {
+    renderTax(): ReactElement {
         const {
             totals: {
                 tax_amount = 0,
@@ -335,7 +335,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderTotals() {
+    renderTotals(): ReactElement {
         const { children, totals: { items = [] } } = this.props;
 
         return (
@@ -354,7 +354,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderCmsBlock() {
+    renderCmsBlock(): ReactElement {
         const { renderCmsBlock } = this.props;
 
         const content = renderCmsBlock();
@@ -373,7 +373,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderExpandableContent() {
+    renderExpandableContent(): ReactElement {
         return (
             <ExpandableContent
               heading={ __('Summary') }
@@ -387,7 +387,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { isExpandable } = this.props;
 
         if (isExpandable) {

@@ -30,7 +30,7 @@ export class ProductDownloadableSamples extends PureComponent {
         isOpenInNewTab: false
     };
 
-    renderDownloadableProductSampleItems() {
+    renderDownloadableProductSampleItems(): ReactElement {
         const {
             samples,
             isOpenInNewTab

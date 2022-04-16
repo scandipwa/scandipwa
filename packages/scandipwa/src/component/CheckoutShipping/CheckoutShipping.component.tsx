@@ -53,7 +53,7 @@ export class CheckoutShipping extends PureComponent {
         cartTotalSubPrice: null
     };
 
-    renderOrderTotalExclTax() {
+    renderOrderTotalExclTax(): ReactElement {
         const {
             cartTotalSubPrice,
             totals: { quote_currency_code }
@@ -72,13 +72,13 @@ export class CheckoutShipping extends PureComponent {
         );
     }
 
-    renderPriceLine(price) {
+    renderPriceLine(price): ReactElement {
         const { totals: { quote_currency_code } } = this.props;
 
         return formatPrice(price, quote_currency_code);
     }
 
-    renderOrderTotal() {
+    renderOrderTotal(): ReactElement {
         const {
             totals: {
                 grand_total,
@@ -101,7 +101,7 @@ export class CheckoutShipping extends PureComponent {
         );
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         const { selectedShippingMethod } = this.props;
 
         return (
@@ -120,7 +120,7 @@ export class CheckoutShipping extends PureComponent {
         );
     }
 
-    renderPickInStoreMethod() {
+    renderPickInStoreMethod(): ReactElement {
         const {
             estimateAddress: { country_id },
             shippingMethods,
@@ -144,7 +144,7 @@ export class CheckoutShipping extends PureComponent {
         );
     }
 
-    renderDelivery() {
+    renderDelivery(): ReactElement {
         const {
             shippingMethods,
             onShippingMethodSelect,
@@ -166,7 +166,7 @@ export class CheckoutShipping extends PureComponent {
         );
     }
 
-    renderAddressBook() {
+    renderAddressBook(): ReactElement {
         const {
             onAddressSelect,
             onShippingEstimationFieldsChange,
@@ -182,7 +182,7 @@ export class CheckoutShipping extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { isLoading, isPickInStoreMethodSelected } = this.props;
 
         if (isPickInStoreMethodSelected) {

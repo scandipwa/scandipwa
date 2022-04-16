@@ -39,7 +39,7 @@ export class ContactForm extends FieldForm {
         };
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         const { isLoading } = this.props;
 
         return (

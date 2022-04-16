@@ -27,7 +27,7 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
         isOpenInNewTab: PropTypes.bool.isRequired
     };
 
-    renderOrderIncrementId() {
+    renderOrderIncrementId(): ReactElement {
         const {
             order: {
                 order_increment_id
@@ -43,7 +43,7 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
         );
     }
 
-    renderLink() {
+    renderLink(): ReactElement {
         const {
             order: {
                 download_url,

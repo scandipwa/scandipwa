@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import { ShippingMethodType } from 'Type/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
 import { formatPrice } from 'Util/Price';
@@ -38,7 +38,7 @@ export class CheckoutDeliveryOption extends PureComponent {
         optionSubPrice: 0
     };
 
-    renderSubPrice() {
+    renderSubPrice(): ReactElement {
         const {
             currency,
             optionSubPrice
@@ -67,7 +67,7 @@ export class CheckoutDeliveryOption extends PureComponent {
         return formatPrice(optionPrice, currency);
     }
 
-    renderPrice() {
+    renderPrice(): ReactElement {
         const {
             option: {
                 available
@@ -86,7 +86,7 @@ export class CheckoutDeliveryOption extends PureComponent {
         );
     }
 
-    renderRate() {
+    renderRate(): ReactElement {
         const {
             option: {
                 method_title,
@@ -106,7 +106,7 @@ export class CheckoutDeliveryOption extends PureComponent {
         );
     }
 
-    renderAvailabilityMessage() {
+    renderAvailabilityMessage(): ReactElement {
         const {
             option: {
                 available
@@ -127,7 +127,7 @@ export class CheckoutDeliveryOption extends PureComponent {
         );
     }
 
-    renderRow() {
+    renderRow(): ReactElement {
         const {
             option: {
                 carrier_title,
@@ -177,7 +177,7 @@ export class CheckoutDeliveryOption extends PureComponent {
                   disabled={ !available }
                 >
                     <Field
-                      type={ FIELD_TYPE.radio }
+                      type={ FieldType.radio }
                       attr={ {
                           id: `option-${ carrier_title }`,
                           name: `option-${ carrier_title }`,

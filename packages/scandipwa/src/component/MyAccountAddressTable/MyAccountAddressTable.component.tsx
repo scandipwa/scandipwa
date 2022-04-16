@@ -46,7 +46,7 @@ export class MyAccountAddressTable extends KeyValueTable {
         return getAddressTablePairArray(this.props);
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         const {
             onEditClick,
             onDeleteClick,

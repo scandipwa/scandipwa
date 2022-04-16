@@ -31,7 +31,7 @@ export class ProductLinks extends PureComponent {
 
     renderProductCard = this.renderProductCard.bind(this);
 
-    renderProductCard(product, i) {
+    renderProductCard(product, i): ReactElement {
         const {
             productCardProps: {
                 siblingsHaveBrands,
@@ -66,7 +66,7 @@ export class ProductLinks extends PureComponent {
         );
     }
 
-    renderItems() {
+    renderItems(): ReactElement {
         const {
             linkType,
             linkedProducts: { [linkType]: { items } },
@@ -83,7 +83,7 @@ export class ProductLinks extends PureComponent {
         return items.slice(0, numberOfProductsToDisplay).map(this.renderProductCard);
     }
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         const { title } = this.props;
 
         return (

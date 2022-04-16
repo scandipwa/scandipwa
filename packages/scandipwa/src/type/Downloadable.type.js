@@ -10,7 +10,7 @@
  */
 import PropTypes from 'prop-types';
 
-export const DownloadableLinkType = PropTypes.shape({
+export const DownloadableUrlType = PropTypes.shape({
     sample_url: PropTypes.string,
     sort_order: PropTypes.number,
     title: PropTypes.string,
@@ -19,4 +19,4 @@ export const DownloadableLinkType = PropTypes.shape({
     price: PropTypes.number
 });
 
-export const DownloadableLinksType = PropTypes.oneOfType([PropTypes.arrayOf(DownloadableLinkType), PropTypes.string]);
+export const DownloadableLinksType = PropTypes.oneOfType([ PropTypes.arrayOf(DownloadableUrlType), PropTypes.string ]);

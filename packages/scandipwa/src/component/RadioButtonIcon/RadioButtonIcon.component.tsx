@@ -13,12 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { RadioButtonIconProps } from './RadioButtonIcon.type';
+import { RadioButtonIconComponentProps } from './RadioButtonIcon.type';
 
 import './RadioButtonIcon.style';
 
 /** @namespace Component/RadioButtonIcon/Component */
-export class RadioButton extends PureComponent<RadioButtonIconProps> {
+export class RadioButton extends PureComponent<RadioButtonIconComponentProps> {
     static defaultProps = {
         isActive: false
     };

@@ -45,7 +45,7 @@ export class ProductCompare extends Component {
         return products !== nextProducts || isLoading !== nextIsLoading;
     }
 
-    renderScroll() {
+    renderScroll(): ReactElement {
         const { handleScroll } = this.props;
 
         return (
@@ -68,7 +68,7 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         const { device } = this.props;
 
         if (device.isMobile) {
@@ -82,7 +82,7 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderClearButton() {
+    renderClearButton(): ReactElement {
         const { clearCompareList } = this.props;
 
         return (
@@ -102,7 +102,7 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderProductCards() {
+    renderProductCards(): ReactElement {
         const { products, isInStock } = this.props;
 
         return products.map((product) => (
@@ -115,7 +115,7 @@ export class ProductCompare extends Component {
         ));
     }
 
-    renderPriceLabel() {
+    renderPriceLabel(): ReactElement {
         return (
             <div
               block="ProductCompareAttributeRow"
@@ -126,7 +126,7 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderProductPrice(product) {
+    renderProductPrice(product): ReactElement {
         const { isInStock } = this.props;
 
         if (!isInStock(product)) {
@@ -154,12 +154,12 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderProductPrices() {
+    renderProductPrices(): ReactElement {
         const { products } = this.props;
         return products.map((product) => this.renderProductPrice(product));
     }
 
-    renderAttributes() {
+    renderAttributes(): ReactElement {
         const { getAttributes } = this.props;
         const attributes = getAttributes();
 
@@ -172,7 +172,7 @@ export class ProductCompare extends Component {
         ));
     }
 
-    renderProducts() {
+    renderProducts(): ReactElement {
         const { handleBlockScroll } = this.props;
 
         return (
@@ -209,7 +209,7 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderEmpty() {
+    renderEmpty(): ReactElement {
         return (
             <div block="ProductCompare" elem="Empty">
                 { __('You have nothing to compare') }
@@ -217,7 +217,7 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const {
             isLoading,
             products

@@ -39,7 +39,7 @@ export class MyAccountPasswordForm extends FieldForm {
         };
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         return (
             <button block="Button" mix={ { block: 'MyAccount', elem: 'Button' } }>
                 { __('Change password') }

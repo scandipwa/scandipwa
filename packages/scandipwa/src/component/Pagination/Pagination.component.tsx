@@ -42,7 +42,7 @@ export class Pagination extends PureComponent {
         mix: MixType.isRequired
     };
 
-    renderPreviousPageLink() {
+    renderPreviousPageLink(): ReactElement {
         const {
             anchorTextPrevious,
             currentPage,
@@ -68,7 +68,7 @@ export class Pagination extends PureComponent {
         );
     }
 
-    renderPageLinks() {
+    renderPageLinks(): ReactElement {
         const {
             currentPage,
             firstFramePage,
@@ -83,13 +83,13 @@ export class Pagination extends PureComponent {
         ));
     }
 
-    renderPageIcon(isNext = false) {
+    renderPageIcon(isNext = false): ReactElement {
         return (
             <ChevronIcon direction={ isNext ? RIGHT : LEFT } />
         );
     }
 
-    renderNextPageLink() {
+    renderNextPageLink(): ReactElement {
         const {
             anchorTextNext,
             currentPage,
@@ -145,7 +145,7 @@ export class Pagination extends PureComponent {
         );
     }
 
-    renderFirstPageLink() {
+    renderFirstPageLink(): ReactElement {
         const { shouldRenderJumps, firstFramePage } = this.props;
 
         if (!shouldRenderJumps || firstFramePage === 1) {
@@ -159,7 +159,7 @@ export class Pagination extends PureComponent {
         );
     }
 
-    renderLastPageLink() {
+    renderLastPageLink(): ReactElement {
         const { totalPages, shouldRenderJumps, lastFramePage } = this.props;
 
         if (!shouldRenderJumps || lastFramePage === totalPages) {
@@ -174,7 +174,7 @@ export class Pagination extends PureComponent {
     }
 
     // displayed as '...' by default
-    renderPreviousJump() {
+    renderPreviousJump(): ReactElement {
         const { prevPageJump, shouldRenderPreviousJump } = this.props;
 
         if (!shouldRenderPreviousJump) {
@@ -189,7 +189,7 @@ export class Pagination extends PureComponent {
     }
 
     // displayed as '...' by default
-    renderNextJump() {
+    renderNextJump(): ReactElement {
         const { nextPageJump, shouldRenderNextJump } = this.props;
 
         if (!shouldRenderNextJump) {
@@ -203,7 +203,7 @@ export class Pagination extends PureComponent {
         );
     }
 
-    renderPlaceholder() {
+    renderPlaceholder(): ReactElement {
         return (
             <ul block="Pagination" mods={ { isLoading: true } }>
                 { Array.from({ length: 4 }, (_, i) => (

@@ -14,7 +14,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import Html from 'Component/Html';
 import { MixType, ReactElement } from 'Type/Common.type';
 import { AttributeType } from 'Type/ProductList.type';
@@ -110,19 +110,19 @@ export class ProductAttributeValue extends PureComponent {
         onClick(attribute);
     }
 
-    renderTextAttribute() {
+    renderTextAttribute(): ReactElement {
         const { attribute: { attribute_value } } = this.props;
 
         return this.renderStringValue(attribute_value);
     }
 
-    renderBooleanAttribute() {
+    renderBooleanAttribute(): ReactElement {
         const { attribute: { attribute_value } } = this.props;
 
         return this.renderStringValue(+attribute_value ? __('Yes') : __('No'));
     }
 
-    renderMultiSelectAttribute() {
+    renderMultiSelectAttribute(): ReactElement {
         const { attribute: { attribute_value } } = this.props;
 
         const labelsArray = attribute_value.split(',').reduce((labels, value) => {
@@ -138,7 +138,7 @@ export class ProductAttributeValue extends PureComponent {
         return this.renderStringValue(labelsArray.length ? labelsArray.join(', ') : __('N/A'));
     }
 
-    renderSelectAttribute() {
+    renderSelectAttribute(): ReactElement {
         const { attribute: { attribute_value, attribute_code, has_swatch } } = this.props;
         const attributeOption = this.getOptionLabel(attribute_value);
         const {
@@ -168,7 +168,7 @@ export class ProductAttributeValue extends PureComponent {
         }
     }
 
-    renderImageAttribute() {
+    renderImageAttribute(): ReactElement {
         const {
             attribute: {
                 attribute_label,
@@ -190,7 +190,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderTextAreaAttribute() {
+    renderTextAreaAttribute(): ReactElement {
         const {
             attribute: { attribute_value }
         } = this.props;
@@ -205,7 +205,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderPlaceholder() {
+    renderPlaceholder(): ReactElement {
         return (
             <div
               block="ProductAttributeValue"
@@ -214,7 +214,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderColorValue(color, label) {
+    renderColorValue(color, label): ReactElement {
         const { isFormattedAsText, isSelected } = this.props;
         const isLight = this.getIsColorLight(color);
 
@@ -241,7 +241,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderImageValue(img, label) {
+    renderImageValue(img, label): ReactElement {
         const { isFormattedAsText, isSelected } = this.props;
 
         if (isFormattedAsText) {
@@ -272,7 +272,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderSublabel(subLabel) {
+    renderSublabel(subLabel): ReactElement {
         const { isProductCountVisible } = this.props;
 
         if (!subLabel || !isProductCountVisible) {
@@ -301,12 +301,12 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderDropdown(value, subLabel) {
+    renderDropdown(value, subLabel): ReactElement {
         const { isSelected } = this.props;
 
         return (
             <Field
-              type={ FIELD_TYPE.checkbox }
+              type={ FieldType.checkbox }
               attr={ {
                   id: value,
                   name: value,
@@ -322,7 +322,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderStringValue(value, label, count) {
+    renderStringValue(value, label, count): ReactElement {
         const { isFormattedAsText, isSelected } = this.props;
         const isSwatch = label;
 
@@ -346,13 +346,13 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderNumericAttribute() {
+    renderNumericAttribute(): ReactElement {
         const { attribute: { attribute_value } } = this.props;
 
         return this.renderStringValue(parseFloat(attribute_value).toFixed(2));
     }
 
-    renderAttributeByType() {
+    renderAttributeByType(): ReactElement {
         const { attribute: { attribute_type } } = this.props;
 
         switch (attribute_type) {

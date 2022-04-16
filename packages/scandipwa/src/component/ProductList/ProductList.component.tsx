@@ -170,7 +170,7 @@ export class ProductList extends PureComponent {
         );
     }
 
-    renderLoadButton() {
+    renderLoadButton(): ReactElement {
         const {
             isShowLoading,
             isInfiniteLoaderEnabled,
@@ -195,7 +195,7 @@ export class ProductList extends PureComponent {
         );
     }
 
-    renderNoProducts() {
+    renderNoProducts(): ReactElement {
         return (
             <div block="ProductList">
                 <div
@@ -210,7 +210,7 @@ export class ProductList extends PureComponent {
         );
     }
 
-    renderPages() {
+    renderPages(): ReactElement {
         const {
             pages,
             isVisible,
@@ -247,7 +247,7 @@ export class ProductList extends PureComponent {
         return restProps;
     }
 
-    renderPage(props = {}) {
+    renderPage(props = {}): ReactElement {
         const {
             isInfiniteLoaderEnabled,
             loadPage,
@@ -281,7 +281,7 @@ export class ProductList extends PureComponent {
         );
     }
 
-    renderProductPage([key, items = []]) {
+    renderProductPage([key, items = []]): ReactElement {
         const { selectedFilters } = this.props;
 
         const pageNumber = +key;
@@ -297,7 +297,7 @@ export class ProductList extends PureComponent {
         });
     }
 
-    renderPagination() {
+    renderPagination(): ReactElement {
         const {
             isLoading,
             totalPages,
@@ -316,7 +316,7 @@ export class ProductList extends PureComponent {
         );
     }
 
-    renderTitle() {
+    renderTitle(): ReactElement {
         const { title } = this.props;
 
         if (!title) {

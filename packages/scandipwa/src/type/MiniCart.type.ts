@@ -11,6 +11,12 @@
 
 import { MetaTitle } from 'Type/Common.type';
 
+import {
+    GQLSelectedBundleOption,
+    GQLSelectedCustomizableOption,
+    GQLSelectedDownloadableLinks,
+    GQLTotalsItem
+} from './Graphql.type';
 import { Product } from './ProductList.type';
 
 export type Page = {
@@ -32,6 +38,13 @@ export type Totals = {
     subTotalPrice?: string;
     taxPrice?: string;
     grandTotalPrice?: string;
+    items?: GQLTotalsItem[];
+    applied_rule_ids?: string;
+    discount_amount?: number;
+    coupon_code?: string;
+    tax_amount?: number;
+    grand_total?: number;
+    quote_currency_code: string;
 };
 
 export type CartItem = {
@@ -42,9 +55,13 @@ export type CartItem = {
     product?: Product;
     qty?: number;
     row_total?: number;
+    row_total_incl_tax?: number;
     sku?: string;
     tax_amount?: number;
     tax_percent?: number;
+    customizable_options?: GQLSelectedCustomizableOption[];
+    bundle_options?: GQLSelectedBundleOption[];
+    downloadable_links?: GQLSelectedDownloadableLinks[];
 };
 
 export type CartDisplay = {

@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface CartIconProps {
+export interface CartIconComponentProps {
     isActive: boolean;
 }

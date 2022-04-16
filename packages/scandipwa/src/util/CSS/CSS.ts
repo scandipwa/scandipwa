@@ -24,9 +24,16 @@ export class CSS {
      * @return {void}
      * @memberof CSS
      */
-    static setVariable(ref: React.RefObject<HTMLElement>, name: string, value: string): void {
+    static setVariable(
+        ref: React.RefObject<HTMLElement>,
+        name: string,
+        value: string | number | null
+    ): void {
         if (ref && ref.current) {
-            ref.current.style.setProperty(`--${name}`, value);
+            ref.current.style.setProperty(
+                `--${name}`,
+                value === null ? null : String(value)
+            );
         }
     }
 }

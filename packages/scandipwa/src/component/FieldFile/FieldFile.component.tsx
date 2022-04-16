@@ -11,7 +11,7 @@
 
 import { PureComponent } from 'react';
 
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
 import UploadIcon from 'Component/UploadIcon';
 import { ReactElement } from 'Type/Common.type';
@@ -30,7 +30,7 @@ export class FieldFile extends PureComponent {
         isLoading: PropTypes.bool.isRequired
     };
 
-    renderSubLabel(allowedTypes) {
+    renderSubLabel(allowedTypes): ReactElement {
         return (
             <p block="FieldFile" elem="AllowedTypes">
                 { __('Compatible file extensions to upload:') }
@@ -39,7 +39,7 @@ export class FieldFile extends PureComponent {
         );
     }
 
-    renderFileLabel() {
+    renderFileLabel(): ReactElement {
         const {
             attr: { id = '', multiple = false } = {},
             fileName = '',
@@ -87,7 +87,7 @@ export class FieldFile extends PureComponent {
             <>
                 <input
                   ref={ (elem) => setRef(elem) }
-                  type={ FIELD_TYPE.file }
+                  type={ FieldType.file }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
                   { ...attr }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction

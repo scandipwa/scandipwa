@@ -304,12 +304,12 @@ export class Router extends PureComponent {
         this.setState({ hasError: false });
     }
 
-    renderComponentsOfType(type) {
+    renderComponentsOfType(type): ReactElement {
         return this.getSortedItems(type)
             .map(({ position, component }) => cloneElement(component, { key: position }));
     }
 
-    renderSectionOfType(type) {
+    renderSectionOfType(type): ReactElement {
         return (
             <Suspense fallback={ <Loader isLoading /> }>
                 { this.renderComponentsOfType(type) }
@@ -317,7 +317,7 @@ export class Router extends PureComponent {
         );
     }
 
-    renderMainItems() {
+    renderMainItems(): ReactElement {
         const { isBigOffline } = this.props;
 
         if (!navigator.onLine && isBigOffline) {
@@ -331,7 +331,7 @@ export class Router extends PureComponent {
         );
     }
 
-    renderErrorRouterContent() {
+    renderErrorRouterContent(): ReactElement {
         const { errorDetails } = this.state;
 
         return (
@@ -342,7 +342,7 @@ export class Router extends PureComponent {
         );
     }
 
-    renderFallbackPage() {
+    renderFallbackPage(): ReactElement {
         return (
             <main style={ { height: '100vh' } }>
                 <Loader isLoading />
@@ -350,7 +350,7 @@ export class Router extends PureComponent {
         );
     }
 
-    renderDefaultRouterContent() {
+    renderDefaultRouterContent(): ReactElement {
         if (location.pathname.match('/styleguide')) {
             return this.renderMainItems();
         }
@@ -364,7 +364,7 @@ export class Router extends PureComponent {
         );
     }
 
-    renderRouterContent() {
+    renderRouterContent(): ReactElement {
         const { hasError } = this.state;
 
         if (hasError) {

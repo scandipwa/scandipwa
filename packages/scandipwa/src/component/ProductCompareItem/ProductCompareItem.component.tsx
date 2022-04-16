@@ -35,7 +35,7 @@ export class ProductCompareItem extends PureComponent {
         removeComparedProduct: PropTypes.func.isRequired,
         imgUrl: PropTypes.string.isRequired,
         overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
-        linkTo: LinkType,
+        linkTo: UrlType,
         overriddenAddToCartBtnHandler: PropTypes.func.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         isInStock: PropTypes.func.isRequired
@@ -45,7 +45,7 @@ export class ProductCompareItem extends PureComponent {
         linkTo: {}
     };
 
-    renderProductImage() {
+    renderProductImage(): ReactElement {
         const {
             product: {
                 id,
@@ -69,7 +69,7 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderTitle() {
+    renderTitle(): ReactElement {
         const { product: { name }, linkTo } = this.props;
 
         return (
@@ -83,7 +83,7 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderRating() {
+    renderRating(): ReactElement {
         const { product: { rating_summary, review_count } } = this.props;
 
         if (review_count < 1) {
@@ -93,7 +93,7 @@ export class ProductCompareItem extends PureComponent {
         return <ProductReviewRating summary={ rating_summary } count={ review_count } />;
     }
 
-    renderWishlistButton() {
+    renderWishlistButton(): ReactElement {
         const { product, isWishlistEnabled } = this.props;
 
         if (!isWishlistEnabled) {
@@ -108,7 +108,7 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderAddToCartBtnEnabled() {
+    renderAddToCartBtnEnabled(): ReactElement {
         const {
             addItemToCart
         } = this.props;
@@ -121,7 +121,7 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderAddToCartButtonWithLink() {
+    renderAddToCartButtonWithLink(): ReactElement {
         const { linkTo, overriddenAddToCartBtnHandler } = this.props;
 
         return (
@@ -142,7 +142,7 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderAddToCartBtnDisabled() {
+    renderAddToCartBtnDisabled(): ReactElement {
         return (
             <AddToCart
               product={ {} }
@@ -154,7 +154,7 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderAddToCartBtn() {
+    renderAddToCartBtn(): ReactElement {
         const {
             overrideAddToCartBtnBehavior,
             product,
@@ -172,7 +172,7 @@ export class ProductCompareItem extends PureComponent {
         return this.renderAddToCartBtnEnabled();
     }
 
-    renderProductDetails() {
+    renderProductDetails(): ReactElement {
         return (
             <div>
                 { this.renderRating() }
@@ -181,7 +181,7 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderProductRemoveBtn() {
+    renderProductRemoveBtn(): ReactElement {
         const { removeComparedProduct } = this.props;
 
         return (
@@ -196,7 +196,7 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderLoader() {
+    renderLoader(): ReactElement {
         const { isLoading } = this.props;
 
         return <Loader isLoading={ isLoading } />;

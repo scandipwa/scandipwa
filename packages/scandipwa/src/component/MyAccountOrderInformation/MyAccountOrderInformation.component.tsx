@@ -12,6 +12,7 @@
 
 import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import { OrderType } from 'Type/Order.type';
@@ -24,7 +25,7 @@ export class MyAccountOrderInformation extends PureComponent {
         order: OrderType.isRequired
     };
 
-    renderShippingMethod() {
+    renderShippingMethod(): ReactElement {
         const { order: { shipping_method } } = this.props;
 
         if (!shipping_method) {
@@ -54,7 +55,7 @@ export class MyAccountOrderInformation extends PureComponent {
         )
     }
 
-    renderBillingAddress() {
+    renderBillingAddress(): ReactElement {
         const { order: { billing_address } = {} } = this.props;
 
         if (!billing_address) {
@@ -99,7 +100,7 @@ export class MyAccountOrderInformation extends PureComponent {
         )
     }
 
-    renderPurchaseNumber(purchaseNumber) {
+    renderPurchaseNumber(purchaseNumber): ReactElement {
         if (!purchaseNumber) {
             return null;
         }
@@ -107,7 +108,7 @@ export class MyAccountOrderInformation extends PureComponent {
         return <span>{ __('Purchase Order Number: %s', purchaseNumber) }</span>
     }
 
-    renderPaymentMethods() {
+    renderPaymentMethods(): ReactElement {
         const { order: { payment_methods = [] } } = this.props;
 
         return (
@@ -128,7 +129,7 @@ export class MyAccountOrderInformation extends PureComponent {
         )
     }
 
-    renderShippingAddress() {
+    renderShippingAddress(): ReactElement {
         const { order: { shipping_address } = {} } = this.props;
 
         if (!shipping_address) {
@@ -158,7 +159,7 @@ export class MyAccountOrderInformation extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         return (
             <>
                 <div

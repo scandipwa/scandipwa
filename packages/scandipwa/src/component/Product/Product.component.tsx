@@ -14,7 +14,7 @@ import { createRef, PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
 import FieldContainer from 'Component/Field';
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import GroupedProductList from 'Component/GroupedProductList';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductBundleOptions from 'Component/ProductBundleOptions';
@@ -75,11 +75,11 @@ export class Product extends PureComponent {
     className = this.constructor.name.slice(0, -1) || 'Product';
 
     //#region PLACEHOLDERS
-    renderTextPlaceholder() {
+    renderTextPlaceholder(): ReactElement {
         return <TextPlaceholder />;
     }
 
-    renderBlockPlaceholder() {
+    renderBlockPlaceholder(): ReactElement {
         return (
             <div
               block={ this.className }
@@ -90,7 +90,7 @@ export class Product extends PureComponent {
     //#endregion
 
     //#region PRODUCT OPTIONS
-    renderBundleOptions() {
+    renderBundleOptions(): ReactElement {
         const {
             product: {
                 items
@@ -106,7 +106,7 @@ export class Product extends PureComponent {
         );
     }
 
-    renderCustomizableOptions() {
+    renderCustomizableOptions(): ReactElement {
         const {
             product: {
                 options
@@ -124,7 +124,7 @@ export class Product extends PureComponent {
         );
     }
 
-    renderDownloadableLinks() {
+    renderDownloadableLinks(): ReactElement {
         const {
             setDownloadableLinks,
             setAdjustedPrice,
@@ -153,7 +153,7 @@ export class Product extends PureComponent {
         );
     }
 
-    renderDownloadableSamples() {
+    renderDownloadableSamples(): ReactElement {
         const {
             product: {
                 type_id,
@@ -182,7 +182,7 @@ export class Product extends PureComponent {
         return filterConfigurableOptions(configurableOptions, variants);
     }
 
-    renderConfigurableOptions() {
+    renderConfigurableOptions(): ReactElement {
         const {
             setActiveProduct,
             parameters,
@@ -219,7 +219,7 @@ export class Product extends PureComponent {
         );
     }
 
-    renderGroupedOptions() {
+    renderGroupedOptions(): ReactElement {
         const {
             product,
             product: {
@@ -247,7 +247,7 @@ export class Product extends PureComponent {
         );
     }
 
-    renderCustomAndBundleOptions() {
+    renderCustomAndBundleOptions(): ReactElement {
         const { product: { type_id }, configFormRef } = this.props;
 
         return (
@@ -260,7 +260,7 @@ export class Product extends PureComponent {
     //#endregion
 
     //#region BUTTONS
-    renderAddToCartButton(layout = GRID_LAYOUT) {
+    renderAddToCartButton(layout = GRID_LAYOUT): ReactElement {
         const {
             addToCart,
             inStock,
@@ -281,7 +281,7 @@ export class Product extends PureComponent {
         );
     }
 
-    renderWishlistButton() {
+    renderWishlistButton(): ReactElement {
         const { magentoProduct, isWishlistEnabled } = this.props;
 
         if (magentoProduct.length === 0 || !isWishlistEnabled) {
@@ -299,7 +299,7 @@ export class Product extends PureComponent {
         );
     }
 
-    renderCompareButton() {
+    renderCompareButton(): ReactElement {
         const { product: { id } } = this.props;
 
         if (!id) {
@@ -318,7 +318,7 @@ export class Product extends PureComponent {
         );
     }
 
-    renderQuantityChanger() {
+    renderQuantityChanger(): ReactElement {
         const {
             quantity,
             minQuantity,
@@ -334,7 +334,7 @@ export class Product extends PureComponent {
 
         return (
             <FieldContainer
-              type={ FIELD_TYPE.number }
+              type={ FieldType.number }
               attr={ {
                   id: 'item_qty',
                   name: 'item_qty',
@@ -360,7 +360,7 @@ export class Product extends PureComponent {
     //#endregion
 
     //#region FIELDS
-    renderRatingSummary() {
+    renderRatingSummary(): ReactElement {
         const {
             product: {
                 review_summary: {
@@ -377,7 +377,7 @@ export class Product extends PureComponent {
         return <ProductReviewRating summary={ rating_summary || 0 } count={ review_count } />;
     }
 
-    renderBrand(withMeta = false) {
+    renderBrand(withMeta = false): ReactElement {
         const {
             product: {
                 attributes: { brand: { attribute_value: brand } = {} } = {}
@@ -398,7 +398,7 @@ export class Product extends PureComponent {
         );
     }
 
-    renderPrice(isPreview = false) {
+    renderPrice(isPreview = false): ReactElement {
         const { getActiveProduct, productPrice } = this.props;
         const product = getActiveProduct();
 
@@ -428,7 +428,7 @@ export class Product extends PureComponent {
         );
     }
 
-    renderStock() {
+    renderStock(): ReactElement {
         // const { displayProductStockStatus } = this.props;
         //
         // if (!displayProductStockStatus) {
@@ -442,7 +442,7 @@ export class Product extends PureComponent {
         return <span block={ this.className } elem="Stock">{ stockStatusLabel }</span>;
     }
 
-    renderSku() {
+    renderSku(): ReactElement {
         const { getActiveProduct } = this.props;
         const { sku } = getActiveProduct();
 
@@ -457,7 +457,7 @@ export class Product extends PureComponent {
      * @param dynamic Name type (false - shows parent product only)
      * @returns {ReactElement}
      */
-    renderName(header = true, dynamic = false) {
+    renderName(header = true, dynamic = false): ReactElement {
         const { product: { name }, productName } = this.props;
         const nameToRender = dynamic ? productName : name;
 

@@ -11,6 +11,6 @@
 
 import { Directions } from './ChevronIcon.config';
 
-export interface ChevronIconProps {
+export interface ChevronIconComponentProps {
     direction: Directions;
 }

@@ -40,7 +40,7 @@ export class MyAccountAddressPopup extends PureComponent {
         }).isRequired
     };
 
-    renderAddressForm() {
+    renderAddressForm(): ReactElement {
         const { payload: { address }, handleAddress } = this.props;
 
         return (
@@ -51,7 +51,7 @@ export class MyAccountAddressPopup extends PureComponent {
         );
     }
 
-    renderDeleteNotice() {
+    renderDeleteNotice(): ReactElement {
         const { payload: { address }, handleDeleteAddress } = this.props;
 
         return (
@@ -67,7 +67,7 @@ export class MyAccountAddressPopup extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { payload: { action } } = this.props;
 
         switch (action) {

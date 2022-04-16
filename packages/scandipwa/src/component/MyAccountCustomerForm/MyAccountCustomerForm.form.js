@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import { validatePassword } from 'Util/Validator';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import { ValidationInputType } from 'Util/Validator/Config';
 
 /**
  * Returns customer forms fields
@@ -33,7 +33,7 @@ export const customerInformationFields = (props) => {
 
     return [
         {
-            type: FIELD_TYPE.text,
+            type: FieldType.text,
             label: __('First Name'),
             attr: {
                 name: 'firstname',
@@ -41,13 +41,13 @@ export const customerInformationFields = (props) => {
                 placeholder: __('Your first name')
             },
             addRequiredTag: true,
-            validateOn: ['onChange'],
+            validateOn: [ 'onChange' ],
             validationRule: {
                 isRequired: true
             }
         },
         {
-            type: FIELD_TYPE.text,
+            type: FieldType.text,
             label: __('Last Name'),
             attr: {
                 name: 'lastname',
@@ -55,14 +55,14 @@ export const customerInformationFields = (props) => {
                 placeholder: __('Your last name')
             },
             addRequiredTag: true,
-            validateOn: ['onChange'],
+            validateOn: [ 'onChange' ],
             validationRule: {
                 isRequired: true
             }
         },
         ...(showTaxVatNumber ? [
             {
-                type: FIELD_TYPE.text,
+                type: FieldType.text,
                 label: __('Tax/VAT Number'),
                 attr: {
                     name: 'taxvat',
@@ -70,14 +70,14 @@ export const customerInformationFields = (props) => {
                     placeholder: __('Your tax/VAT number')
                 },
                 addRequiredTag: vatNumberRequired,
-                validateOn: ['onChange'],
+                validateOn: [ 'onChange' ],
                 validationRule: {
                     isRequired: vatNumberRequired
                 }
             }
         ] : []),
         {
-            type: FIELD_TYPE.checkbox,
+            type: FieldType.checkbox,
             attr: {
                 name: 'showEmailChangeField',
                 defaultChecked: showEmailChangeField
@@ -88,7 +88,7 @@ export const customerInformationFields = (props) => {
             label: __('Change Email')
         },
         {
-            type: FIELD_TYPE.checkbox,
+            type: FieldType.checkbox,
             attr: {
                 name: 'showPasswordChangeField',
                 defaultChecked: showPasswordChangeField
@@ -121,7 +121,7 @@ export const customerEmailAndPasswordFields = (props) => {
     return [
         ...(showEmailChangeField ? [
             {
-                type: FIELD_TYPE.email,
+                type: FieldType.email,
                 label: __('Email'),
                 attr: {
                     name: 'email',
@@ -133,9 +133,9 @@ export const customerEmailAndPasswordFields = (props) => {
                     onChange: handleEmailInput
                 },
                 addRequiredTag: true,
-                validateOn: ['onChange'],
+                validateOn: [ 'onChange' ],
                 validationRule: {
-                    inputType: VALIDATION_INPUT_TYPE.email,
+                    inputType: ValidationInputType.email,
                     isRequired: true
                 }
             }
@@ -143,7 +143,7 @@ export const customerEmailAndPasswordFields = (props) => {
         ...(showPasswordChangeField || showEmailChangeField ? [
             {
                 label: __('Current password'),
-                type: FIELD_TYPE.password,
+                type: FieldType.password,
                 attr: {
                     id: 'currentPassword',
                     name: 'password',
@@ -155,9 +155,9 @@ export const customerEmailAndPasswordFields = (props) => {
                     onChange: handlePasswordInput
                 },
                 addRequiredTag: true,
-                validateOn: ['onChange'],
+                validateOn: [ 'onChange' ],
                 validationRule: {
-                    inputType: VALIDATION_INPUT_TYPE.password,
+                    inputType: ValidationInputType.password,
                     isRequired: true
                 }
             }
@@ -165,7 +165,7 @@ export const customerEmailAndPasswordFields = (props) => {
         ...(showPasswordChangeField ? [
             {
                 label: __('New password'),
-                type: FIELD_TYPE.password,
+                type: FieldType.password,
                 attr: {
                     id: 'newPassword',
                     name: 'newPassword',
@@ -173,9 +173,9 @@ export const customerEmailAndPasswordFields = (props) => {
                     'aria-label': __('New password')
                 },
                 addRequiredTag: true,
-                validateOn: ['onChange'],
+                validateOn: [ 'onChange' ],
                 validationRule: {
-                    inputType: VALIDATION_INPUT_TYPE.password,
+                    inputType: ValidationInputType.password,
                     isRequired: true,
                     match: (value) => {
                         const password = document.getElementById('currentPassword');
@@ -189,7 +189,7 @@ export const customerEmailAndPasswordFields = (props) => {
                 }
             },
             {
-                type: FIELD_TYPE.password,
+                type: FieldType.password,
                 label: __('Confirm New Password '),
                 attr: {
                     name: 'confirmNewPassword',
@@ -197,10 +197,10 @@ export const customerEmailAndPasswordFields = (props) => {
                     'aria-label': __('Confirm New password')
                 },
                 addRequiredTag: true,
-                validateOn: ['onChange'],
+                validateOn: [ 'onChange' ],
                 validationRule: {
                     isRequired: true,
-                    inputType: VALIDATION_INPUT_TYPE.password,
+                    inputType: ValidationInputType.password,
                     match: (value) => {
                         const password = document.getElementById('newPassword');
                         return password.value === value;

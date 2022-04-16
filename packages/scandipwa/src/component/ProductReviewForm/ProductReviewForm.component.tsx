@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import FieldGroup from 'Component//FieldGroup';
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import ReviewStar from 'Component/ReviewStar';
@@ -50,7 +50,7 @@ export class ProductReviewForm extends PureComponent {
         5: __('Awesome')
     };
 
-    renderReviewStar(options, rating_id) {
+    renderReviewStar(options, rating_id): ReactElement {
         const { ratingData, onStarRatingClick } = this.props;
         const { option_id, value } = options;
         const isChecked = !!ratingData[rating_id] && ratingData[rating_id] === option_id;
@@ -69,7 +69,7 @@ export class ProductReviewForm extends PureComponent {
         );
     }
 
-    renderReviewRating() {
+    renderReviewRating(): ReactElement {
         const { reviewRatings } = this.props;
         return reviewRatings.map((rating) => {
             const { rating_id, rating_code, rating_options } = rating;
@@ -93,7 +93,7 @@ export class ProductReviewForm extends PureComponent {
         });
     }
 
-    renderButton() {
+    renderButton(): ReactElement {
         return (
             <button
               block="ProductReviewForm"
@@ -106,7 +106,7 @@ export class ProductReviewForm extends PureComponent {
         );
     }
 
-    renderReviewFormContent() {
+    renderReviewFormContent(): ReactElement {
         const { reviewData } = this.props;
 
         const {
@@ -131,7 +131,7 @@ export class ProductReviewForm extends PureComponent {
                   elem="Content"
                 >
                     <Field
-                      type={ FIELD_TYPE.text }
+                      type={ FieldType.text }
                       label={ __('Nickname') }
                       attr={ {
                           id: 'nickname',
@@ -146,7 +146,7 @@ export class ProductReviewForm extends PureComponent {
                       addRequiredTag
                     />
                     <Field
-                      type={ FIELD_TYPE.text }
+                      type={ FieldType.text }
                       label={ __('Summary') }
                       attr={ {
                           id: 'title',
@@ -161,7 +161,7 @@ export class ProductReviewForm extends PureComponent {
                       addRequiredTag
                     />
                     <Field
-                      type={ FIELD_TYPE.textarea }
+                      type={ FieldType.textarea }
                       label={ __('Review') }
                       attr={ {
                           id: 'detail',

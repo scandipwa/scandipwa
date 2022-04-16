@@ -12,12 +12,12 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import { SignInStateType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import { ValidationInputType } from 'Util/Validator/Config';
 
 import './MyAccountSignIn.style.scss';
 
@@ -39,7 +39,7 @@ export class MyAccountSignIn extends PureComponent {
         isLoading: false
     };
 
-    renderSignInForm() {
+    renderSignInForm(): ReactElement {
         const {
             onSignInSuccess,
             onFormError,
@@ -58,7 +58,7 @@ export class MyAccountSignIn extends PureComponent {
             >
                 <Field
                   label={ __('Email') }
-                  type={ FIELD_TYPE.email }
+                  type={ FieldType.email }
                   attr={ {
                       id: 'email',
                       name: 'email',
@@ -69,14 +69,14 @@ export class MyAccountSignIn extends PureComponent {
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: VALIDATION_INPUT_TYPE.email
+                      inputType: ValidationInputType.email
                   } }
                   events={ { onChange: handleEmailInput } }
                   addRequiredTag
                 />
                 <Field
                   label={ __('Password') }
-                  type={ FIELD_TYPE.password }
+                  type={ FieldType.password }
                   attr={ {
                       id: 'password',
                       name: 'password',
@@ -86,7 +86,7 @@ export class MyAccountSignIn extends PureComponent {
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: VALIDATION_INPUT_TYPE.password
+                      inputType: ValidationInputType.password
                   } }
                   addRequiredTag
                 />
@@ -107,7 +107,7 @@ export class MyAccountSignIn extends PureComponent {
         );
     }
 
-    renderAdditionalField() {
+    renderAdditionalField(): ReactElement {
         const {
             isCheckout,
             handleCreateAccount,

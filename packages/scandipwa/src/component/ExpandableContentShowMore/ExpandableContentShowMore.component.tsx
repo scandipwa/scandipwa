@@ -114,7 +114,7 @@ export class ExpandableContentShowMore extends PureComponent {
         }
     }
 
-    renderShowAllButton() {
+    renderShowAllButton(): ReactElement {
         const { showElemCount, children: { length } } = this.props;
 
         if (length <= showElemCount) {
@@ -138,7 +138,7 @@ export class ExpandableContentShowMore extends PureComponent {
         );
     }
 
-    renderExpandableChildren() {
+    renderExpandableChildren(): ReactElement {
         const { isOpen, isExpanding } = this.state;
         const { children, showElemCount } = this.props;
 
@@ -159,7 +159,7 @@ export class ExpandableContentShowMore extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { children, showElemCount } = this.props;
 
         const child = children.slice(0, showElemCount);

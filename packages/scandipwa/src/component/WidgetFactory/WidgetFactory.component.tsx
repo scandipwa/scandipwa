@@ -63,17 +63,17 @@ export class WidgetFactory extends PureComponent {
         }
     };
 
-    renderSliderFallback() {
+    renderSliderFallback(): ReactElement {
         return (
             <div block="WidgetFactory" elem="SliderPlaceholder" />
         );
     }
 
-    renderDefaultFallback() {
+    renderDefaultFallback(): ReactElement {
         return <div />;
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const {
             type,
             sliderId = null,
@@ -108,7 +108,7 @@ export class WidgetFactory extends PureComponent {
         return null;
     }
 
-    renderFallback() {
+    renderFallback(): ReactElement {
         const { type } = this.props;
         const { fallback = this.renderDefaultFallback } = this.renderMap[type] || {};
 

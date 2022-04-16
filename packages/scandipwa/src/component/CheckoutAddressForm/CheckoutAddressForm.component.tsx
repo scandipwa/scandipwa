@@ -99,7 +99,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         this.lastRequest = request;
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         return null;
     }
 

@@ -27,7 +27,7 @@ export class ProductInformation extends PureComponent {
         areDetailsLoaded: PropTypes.bool.isRequired
     };
 
-    renderDescription() {
+    renderDescription(): ReactElement {
         const { product: { description: { html } = {} } } = this.props;
 
         if (!html) {
@@ -46,7 +46,7 @@ export class ProductInformation extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { areDetailsLoaded } = this.props;
         const heading = areDetailsLoaded ? __('About') : '';
 

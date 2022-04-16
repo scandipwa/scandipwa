@@ -19,12 +19,12 @@ import { noopFn } from 'Util/Common';
 import CSS from 'Util/CSS';
 import { isRtl } from 'Util/CSS/CSS';
 
-import { CarouselScrollComponentProps } from './CarouselScroll.type';
+import { CarouselScrollComponentProps, CarouselScrollComponentState } from './CarouselScroll.type';
 
 import './CarouselScroll.style';
 
 /** @namespace Component/CarouselScroll/Component */
-export class CarouselScroll extends PureComponent<CarouselScrollComponentProps> {
+export class CarouselScroll extends PureComponent<CarouselScrollComponentProps, CarouselScrollComponentState> {
     static defaultProps = {
         showArrow: true,
         showedItemCount: 1,
@@ -33,18 +33,20 @@ export class CarouselScroll extends PureComponent<CarouselScrollComponentProps> 
         isImageZoomPopupActive: false
     };
 
-    state = {
+    state: CarouselScrollComponentState = {
         activeItemId: 0,
         firstCarouselItemId: 0
     };
 
     itemRef = createRef<HTMLElement>();
 
-    carouselRef = createRef<HTMLElement>();
+    carouselRef = createRef<HTMLDivElement>();
 
-    handleArrowClick = this.handleArrowClick.bind(this);
-
-    handleChange = this.handleChange.bind(this);
+    __construct(props: CarouselScrollComponentProps): void {
+        super.__construct?.(props);
+        this.handleArrowClick = this.handleArrowClick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
 
     componentDidMount(): void {
         const { showedItemCount } = this.props;

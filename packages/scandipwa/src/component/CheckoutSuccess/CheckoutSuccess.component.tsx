@@ -29,7 +29,7 @@ export class CheckoutSuccess extends PureComponent {
         lastName: PropTypes.string.isRequired
     };
 
-    renderButtons() {
+    renderButtons(): ReactElement {
         return (
             <div block="CheckoutSuccess" elem="ButtonWrapper">
                 <Link
@@ -43,7 +43,7 @@ export class CheckoutSuccess extends PureComponent {
         );
     }
 
-    renderCreateAccountButton() {
+    renderCreateAccountButton(): ReactElement {
         const {
             isEmailAvailable,
             email,

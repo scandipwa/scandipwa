@@ -30,7 +30,7 @@ export class MyAccountInformation extends PureComponent {
         handleChangePasswordCheckbox: PropTypes.func.isRequired
     };
 
-    renderCustomerForm() {
+    renderCustomerForm(): ReactElement {
         const {
             customer,
             onCustomerSave,

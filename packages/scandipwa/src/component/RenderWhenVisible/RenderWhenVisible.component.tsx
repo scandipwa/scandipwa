@@ -70,7 +70,7 @@ export class RenderWhenVisible extends PureComponent {
         }
     }
 
-    renderFallback() {
+    renderFallback(): ReactElement {
         const { fallback } = this.props;
         const fallbackRender = fallback();
 
@@ -83,7 +83,7 @@ export class RenderWhenVisible extends PureComponent {
         );
     }
 
-    renderVisibilitySensor() {
+    renderVisibilitySensor(): ReactElement {
         return (
             <InView onChange={ this.handleVisibilityToggle }>
                 { this.renderFallback() }
@@ -91,13 +91,13 @@ export class RenderWhenVisible extends PureComponent {
         );
     }
 
-    renderChildren() {
+    renderChildren(): ReactElement {
         const { children } = this.props;
 
         return children;
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         if (this.shouldRender()) {
             return this.renderVisibilitySensor();
         }

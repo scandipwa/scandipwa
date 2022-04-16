@@ -27,6 +27,7 @@ declare global {
         prefetchedImages: Record<string, HTMLImageElement>;
         storeList: Array<string>;
         dataCache?: Record<number, unknown>;
+        contentConfiguration?: ContentConfiguration;
     }
 
     function __(message: string, ...args: unknown[]): string;
@@ -79,6 +80,11 @@ declare global {
     interface HTMLInputElement {
         fileData?: string;
     }
+
+    type ContentConfiguration = Record<
+    string,
+    Record<string, string>
+    >;
 
     // interface HTMLElementEventMap {
     //     validate: ValidationData

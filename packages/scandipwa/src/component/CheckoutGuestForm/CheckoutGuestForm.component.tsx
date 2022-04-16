@@ -100,7 +100,7 @@ export class CheckoutGuestForm extends FieldForm {
         });
     }
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         return (
             <h2 block="Checkout" elem="Heading">
                 { __('Enter personal information') }
@@ -108,7 +108,7 @@ export class CheckoutGuestForm extends FieldForm {
         );
     }
 
-    renderSignIn() {
+    renderSignIn(): ReactElement {
         const {
             signInState,
             onFormError,
@@ -139,7 +139,7 @@ export class CheckoutGuestForm extends FieldForm {
         );
     }
 
-    renderConfirmEmail() {
+    renderConfirmEmail(): ReactElement {
         const { signInState, handleSignIn } = this.props;
 
         return (
@@ -150,7 +150,7 @@ export class CheckoutGuestForm extends FieldForm {
         );
     }
 
-    renderForgotPassword() {
+    renderForgotPassword(): ReactElement {
         const {
             signInState,
             onFormError,
@@ -173,7 +173,7 @@ export class CheckoutGuestForm extends FieldForm {
         );
     }
 
-    renderForgotPasswordSuccess() {
+    renderForgotPasswordSuccess(): ReactElement {
         const { signInState, handleSignIn } = this.props;
 
         return (
@@ -184,7 +184,7 @@ export class CheckoutGuestForm extends FieldForm {
         );
     }
 
-    renderSignInForm() {
+    renderSignInForm(): ReactElement {
         const {
             signInState,
             onFormError,
@@ -208,7 +208,7 @@ export class CheckoutGuestForm extends FieldForm {
         );
     }
 
-    renderFormBody() {
+    renderFormBody(): ReactElement {
         return (
             <>
                 { super.renderFormBody() }
@@ -217,7 +217,7 @@ export class CheckoutGuestForm extends FieldForm {
         );
     }
 
-    renderForm() {
+    renderForm(): ReactElement {
         const { signInState } = this.props;
         const { render } = this.renderMap[signInState] || {};
 

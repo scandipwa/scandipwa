@@ -23,7 +23,7 @@ export class InstallPromptAndroid extends PureComponent {
         handleAppInstall: PropTypes.func.isRequired
     };
 
-    renderCloseButton() {
+    renderCloseButton(): ReactElement {
         const { handleBannerClose } = this.props;
 
         return (
@@ -38,7 +38,7 @@ export class InstallPromptAndroid extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         return (
             <p block="InstallPromptAndroid" elem="Content">
                 { __('Add website to your home screen for the full-screen browsing experience!') }
@@ -46,7 +46,7 @@ export class InstallPromptAndroid extends PureComponent {
         );
     }
 
-    renderInstallButton() {
+    renderInstallButton(): ReactElement {
         const { handleAppInstall } = this.props;
 
         return (

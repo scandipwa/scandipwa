@@ -25,7 +25,7 @@ export class NewVersionPopup extends PureComponent {
         handleDismiss: PropTypes.func.isRequired
     };
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         return (
             <h3
               block="NewVersionPopup"
@@ -36,7 +36,7 @@ export class NewVersionPopup extends PureComponent {
         );
     }
 
-    renderNotice() {
+    renderNotice(): ReactElement {
         return (
             <p>
                 { __('We have updated the website. Reload is required to apply changes.') }
@@ -44,7 +44,7 @@ export class NewVersionPopup extends PureComponent {
         );
     }
 
-    renderReloadThePageButton() {
+    renderReloadThePageButton(): ReactElement {
         const { toggleNewVersion } = this.props;
 
         return (
@@ -59,7 +59,7 @@ export class NewVersionPopup extends PureComponent {
         );
     }
 
-    renderDismissButton() {
+    renderDismissButton(): ReactElement {
         const { handleDismiss } = this.props;
 
         return (
@@ -74,7 +74,7 @@ export class NewVersionPopup extends PureComponent {
         );
     }
 
-    renderButtons() {
+    renderButtons(): ReactElement {
         return (
             <div block="NewVersionPopup" elem="Buttons">
                 { this.renderReloadThePageButton() }
@@ -83,7 +83,7 @@ export class NewVersionPopup extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         return (
             <div block="NewVersionPopup" elem="Content">
                 { this.renderHeading() }

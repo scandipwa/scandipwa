@@ -34,7 +34,7 @@ export class CheckoutAddressTable extends MyAccountAddressTable {
         onClick(address);
     }
 
-    renderTable() {
+    renderTable(): ReactElement {
         const { isSelected } = this.props;
 
         return (

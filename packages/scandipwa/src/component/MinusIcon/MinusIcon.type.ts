@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface MinusIconProps {
+export interface MinusIconComponentProps {
     isPrimary: boolean;
 }

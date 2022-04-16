@@ -40,7 +40,7 @@ export class PasswordChangeForm extends FieldForm {
         };
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         return (
             <div block="PasswordChangeForm" elem="Action">
                 <button

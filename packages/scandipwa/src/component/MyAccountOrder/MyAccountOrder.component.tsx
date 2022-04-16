@@ -114,7 +114,7 @@ export class MyAccountOrder extends PureComponent {
         return Object.values(this.tabMap).filter(({ shouldTabRender }) => shouldTabRender());
     }
 
-    renderOrderItemsTable(items, index) {
+    renderOrderItemsTable(items, index): ReactElement {
         const { activeTab, order: { total: orderTotal, items: allOrderItems, id } } = this.props;
         const { total: itemsTotal } = items;
 
@@ -129,7 +129,7 @@ export class MyAccountOrder extends PureComponent {
         );
     }
 
-    renderBaseInfo() {
+    renderBaseInfo(): ReactElement {
         const { order: { order_date } } = this.props;
 
         return (
@@ -140,7 +140,7 @@ export class MyAccountOrder extends PureComponent {
         );
     }
 
-    renderOrderIncrementIdAndStatus() {
+    renderOrderIncrementIdAndStatus(): ReactElement {
         const { order: { increment_id, status }, isMobile } = this.props;
 
         if (!isMobile) {
@@ -157,7 +157,7 @@ export class MyAccountOrder extends PureComponent {
         );
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         const {
             handleChangeActiveTab,
             activeTab
@@ -179,7 +179,7 @@ export class MyAccountOrder extends PureComponent {
         );
     }
 
-    renderOrderComments() {
+    renderOrderComments(): ReactElement {
         const { activeTab, order: { comments = [] } } = this.props;
 
         if (activeTab !== ORDER_ITEMS || !comments || !comments.length) {
@@ -209,7 +209,7 @@ export class MyAccountOrder extends PureComponent {
         );
     }
 
-    renderSubscriptionButton() {
+    renderSubscriptionButton(): ReactElement {
         const { order: { rss_link }, rss_order_subscribe_allow } = this.props;
 
         if (!rss_order_subscribe_allow) {
@@ -228,7 +228,7 @@ export class MyAccountOrder extends PureComponent {
         );
     }
 
-    renderReorderButton() {
+    renderReorderButton(): ReactElement {
         const { is_allowed_reorder, handleReorder, order: { can_reorder } } = this.props;
 
         if (!is_allowed_reorder || !can_reorder) {
@@ -247,7 +247,7 @@ export class MyAccountOrder extends PureComponent {
         );
     }
 
-    renderOrderInformation() {
+    renderOrderInformation(): ReactElement {
         const { order, activeTab } = this.props;
 
         if (activeTab === ORDER_REFUNDS) {
@@ -257,13 +257,13 @@ export class MyAccountOrder extends PureComponent {
         return <MyAccountOrderInformation order={ order } />;
     }
 
-    renderActiveTab() {
+    renderActiveTab(): ReactElement {
         const { activeTab } = this.props;
 
         return this.tabMap[activeTab].render();
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { order: { items } } = this.props;
 
         if (!items) {

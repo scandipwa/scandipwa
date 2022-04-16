@@ -30,7 +30,7 @@ export class ProductReviews extends PureComponent {
         device: DeviceType.isRequired
     };
 
-    renderButton() {
+    renderButton(): ReactElement {
         return (
             <button
               block="ProductReviews"
@@ -43,7 +43,7 @@ export class ProductReviews extends PureComponent {
         );
     }
 
-    renderNoRating() {
+    renderNoRating(): ReactElement {
         const { device: { isMobile } } = this.props;
 
         if (isMobile) {
@@ -61,7 +61,7 @@ export class ProductReviews extends PureComponent {
         );
     }
 
-    renderRatingSchema(percent, reviewCount) {
+    renderRatingSchema(percent, reviewCount): ReactElement {
         return (
             <>
                 <meta itemProp="ratingValue" content={ percent } />
@@ -72,7 +72,7 @@ export class ProductReviews extends PureComponent {
         );
     }
 
-    renderRatingData() {
+    renderRatingData(): ReactElement {
         const {
             product: {
                 review_summary: {
@@ -107,7 +107,7 @@ export class ProductReviews extends PureComponent {
         );
     }
 
-    renderSummary() {
+    renderSummary(): ReactElement {
         const {
             product: {
                 review_summary: {
@@ -130,7 +130,7 @@ export class ProductReviews extends PureComponent {
         );
     }
 
-    renderList() {
+    renderList(): ReactElement {
         const { product } = this.props;
 
         return (

@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FIELD_TYPE from 'Component/Field/Field.config';
+import FieldType from 'Component/Field/Field.config';
 import FieldForm from 'Component/FieldForm';
 import { Addresstype } from 'Type/Account.type';
 import { CountriesType } from 'Type/Config.type';
@@ -130,10 +130,10 @@ export class MyAccountAddressForm extends FieldForm {
     }
 
     //#region RENDERERS
-    renderActions() {
+    renderActions(): ReactElement {
         return (
             <button
-              type={ FIELD_TYPE.submit }
+              type={ FieldType.submit }
               block="Button"
               mix={ { block: 'MyAccount', elem: 'Button' } }
               mods={ { isHollow: true } }

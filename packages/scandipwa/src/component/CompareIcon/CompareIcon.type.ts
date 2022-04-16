@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface CompareIconProps {
+export interface CompareIconComponentProps {
     isActive: boolean;
 }

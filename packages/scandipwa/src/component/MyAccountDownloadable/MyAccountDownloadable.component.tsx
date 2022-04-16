@@ -33,7 +33,7 @@ export class MyAccountDownloadableComponent extends Component {
         return items !== nextItems;
     }
 
-    renderNoOrders() {
+    renderNoOrders(): ReactElement {
         return (
             <tr
               block="MyAccountMyOrders"
@@ -47,7 +47,7 @@ export class MyAccountDownloadableComponent extends Component {
         );
     }
 
-    renderOrderHeadingRow() {
+    renderOrderHeadingRow(): ReactElement {
         return (
             <tr>
                 <th>{ __('Order') }</th>
@@ -59,7 +59,7 @@ export class MyAccountDownloadableComponent extends Component {
         );
     }
 
-    renderTable() {
+    renderTable(): ReactElement {
         return (
             <table
               block="MyAccountMyOrders"
@@ -78,7 +78,7 @@ export class MyAccountDownloadableComponent extends Component {
         );
     }
 
-    renderOrderRow(order) {
+    renderOrderRow(order): ReactElement {
         const { id } = order;
 
         return (
@@ -89,7 +89,7 @@ export class MyAccountDownloadableComponent extends Component {
         );
     }
 
-    renderOrderRows() {
+    renderOrderRows(): ReactElement {
         const { items, isLoading } = this.props;
 
         if (!isLoading && !items.length) {

@@ -52,7 +52,7 @@ export class FieldForm extends PureComponent {
         ];
     }
 
-    renderSection(section) {
+    renderSection(section): ReactElement {
         const {
             fields,
             attr: {
@@ -73,11 +73,11 @@ export class FieldForm extends PureComponent {
         return <Field { ...section } key={ name } />;
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         return null;
     }
 
-    renderFormBody() {
+    renderFormBody(): ReactElement {
         return (
             <div block="FieldForm" elem="Body">
                 <div block="FieldForm" elem="Fields">

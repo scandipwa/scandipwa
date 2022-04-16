@@ -65,7 +65,7 @@ export class ProductTabs extends PureComponent {
         this.setState({ activeTab });
     }
 
-    renderActiveTab() {
+    renderActiveTab(): ReactElement {
         const { tabs } = this.props;
         const { activeTab } = this.state;
         const { render } = tabs.find(({ id }) => id === activeTab) || {};
@@ -77,13 +77,13 @@ export class ProductTabs extends PureComponent {
         return render();
     }
 
-    renderAllTabs() {
+    renderAllTabs(): ReactElement {
         const { tabs } = this.props;
 
         return tabs.map(({ render, name }) => render(name));
     }
 
-    renderTab(item) {
+    renderTab(item): ReactElement {
         const { activeTab } = this.state;
         const { id, name } = item;
 
@@ -97,7 +97,7 @@ export class ProductTabs extends PureComponent {
         );
     }
 
-    renderTabs() {
+    renderTabs(): ReactElement {
         const { tabs } = this.props;
 
         if (isMobile.any() || isSSR() || isCrawler()) {

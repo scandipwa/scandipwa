@@ -22,7 +22,7 @@ import './Logo.style';
 
 /** @namespace Component/Logo/Component */
 export class Logo extends Image {
-    renderPlaceholderLogo() {
+    renderPlaceholderLogo(): ReactElement {
         return (
             <div
               block="Logo"
@@ -37,7 +37,7 @@ export class Logo extends Image {
         );
     }
 
-    renderImage() {
+    renderImage(): ReactElement {
         const { imageStatus } = this.state;
         const { src } = this.props;
 

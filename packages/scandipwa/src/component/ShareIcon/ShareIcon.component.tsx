@@ -13,12 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { ShareIconProps } from './ShareIcon.type';
+import { ShareIconComponentProps } from './ShareIcon.type';
 
 import './ShareIcon.style';
 
 /** @namespace Component/ShareIcon/Component */
-export class ShareIcon extends PureComponent<ShareIconProps> {
+export class ShareIcon extends PureComponent<ShareIconComponentProps> {
     static defaultProps = {
         isPrimary: false
     };

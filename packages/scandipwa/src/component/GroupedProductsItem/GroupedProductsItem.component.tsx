@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import FieldContainer from 'Component/Field';
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
@@ -38,7 +38,7 @@ export class GroupedProductsItem extends PureComponent {
         itemCount: PropTypes.number.isRequired
     };
 
-    renderTitle() {
+    renderTitle(): ReactElement {
         const {
             product: {
                 name,
@@ -61,7 +61,7 @@ export class GroupedProductsItem extends PureComponent {
         );
     }
 
-    renderTierPrices() {
+    renderTierPrices(): ReactElement {
         const { product } = this.props;
 
         return <TierPrices product={ product } />;
@@ -87,7 +87,7 @@ export class GroupedProductsItem extends PureComponent {
         return true;
     }
 
-    renderQuantity() {
+    renderQuantity(): ReactElement {
         const {
             product = {},
             product: { id } = {},
@@ -107,7 +107,7 @@ export class GroupedProductsItem extends PureComponent {
 
         return (
             <FieldContainer
-              type={ FIELD_TYPE.number }
+              type={ FieldType.number }
               attr={ {
                   id: `item_qty_${id}`,
                   name: `item_qty_${id}`,
@@ -130,7 +130,7 @@ export class GroupedProductsItem extends PureComponent {
         );
     }
 
-    renderImage() {
+    renderImage(): ReactElement {
         const { product } = this.props;
         const imageUrl = getThumbnailImage(product);
 

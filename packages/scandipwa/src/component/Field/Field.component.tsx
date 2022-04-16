@@ -24,7 +24,7 @@ import {
 } from 'Type/Field.type';
 import { noopFn } from 'Util/Common';
 
-import { FIELD_TYPE } from './Field.config';
+import { FieldType } from './Field.config';
 
 import './Field.style';
 
@@ -36,7 +36,7 @@ import './Field.style';
 export class Field extends PureComponent {
     static propTypes = {
         // Field attributes
-        type: PropTypes.oneOf(Object.values(FIELD_TYPE)).isRequired,
+        type: PropTypes.oneOf(Object.values(FieldType)).isRequired,
         attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
         isDisabled: PropTypes.bool.isRequired,
@@ -81,30 +81,30 @@ export class Field extends PureComponent {
 
     renderMap = {
         // Checkboxes & Radio
-        [FIELD_TYPE.radio]: this.renderCheckboxOrRadio.bind(this),
-        [FIELD_TYPE.checkbox]: this.renderCheckboxOrRadio.bind(this),
-        [FIELD_TYPE.multi]: this.renderCheckboxOrRadio.bind(this),
+        [FieldType.radio]: this.renderCheckboxOrRadio.bind(this),
+        [FieldType.checkbox]: this.renderCheckboxOrRadio.bind(this),
+        [FieldType.multi]: this.renderCheckboxOrRadio.bind(this),
 
         // Default input
-        [FIELD_TYPE.email]: this.renderDefaultInput.bind(this),
-        [FIELD_TYPE.text]: this.renderDefaultInput.bind(this),
-        [FIELD_TYPE.time]: this.renderDefaultInput.bind(this),
-        [FIELD_TYPE.dateTime]: this.renderDefaultInput.bind(this),
-        [FIELD_TYPE.date]: this.renderDefaultInput.bind(this),
-        [FIELD_TYPE.password]: this.renderDefaultInput.bind(this),
-        [FIELD_TYPE.submit]: this.renderDefaultInput.bind(this),
+        [FieldType.email]: this.renderDefaultInput.bind(this),
+        [FieldType.text]: this.renderDefaultInput.bind(this),
+        [FieldType.time]: this.renderDefaultInput.bind(this),
+        [FieldType.dateTime]: this.renderDefaultInput.bind(this),
+        [FieldType.date]: this.renderDefaultInput.bind(this),
+        [FieldType.password]: this.renderDefaultInput.bind(this),
+        [FieldType.submit]: this.renderDefaultInput.bind(this),
 
         // Custom fields
-        [FIELD_TYPE.file]: this.renderFile.bind(this),
-        [FIELD_TYPE.select]: this.renderSelect.bind(this),
-        [FIELD_TYPE.textarea]: this.renderTextArea.bind(this),
-        [FIELD_TYPE.button]: this.renderButton.bind(this),
-        [FIELD_TYPE.number]: this.renderNumber.bind(this)
+        [FieldType.file]: this.renderFile.bind(this),
+        [FieldType.select]: this.renderSelect.bind(this),
+        [FieldType.textarea]: this.renderTextArea.bind(this),
+        [FieldType.button]: this.renderButton.bind(this),
+        [FieldType.number]: this.renderNumber.bind(this)
 
     };
 
     //#region INPUT TYPE RENDER
-    renderDefaultInput() {
+    renderDefaultInput(): ReactElement {
         const {
             type, setRef, attr, events, isDisabled
         } = this.props;
@@ -120,7 +120,7 @@ export class Field extends PureComponent {
         );
     }
 
-    renderFile() {
+    renderFile(): ReactElement {
         const { attr, events, setRef } = this.props;
 
         return (
@@ -128,7 +128,7 @@ export class Field extends PureComponent {
         );
     }
 
-    renderNumber() {
+    renderNumber(): ReactElement {
         const {
             attr,
             events,
@@ -146,7 +146,7 @@ export class Field extends PureComponent {
         );
     }
 
-    renderSelect() {
+    renderSelect(): ReactElement {
         const {
             attr,
             events,
@@ -170,7 +170,7 @@ export class Field extends PureComponent {
         );
     }
 
-    renderButton() {
+    renderButton(): ReactElement {
         const {
             setRef, attr, events, isDisabled
         } = this.props;
@@ -188,7 +188,7 @@ export class Field extends PureComponent {
         );
     }
 
-    renderCheckboxOrRadio() {
+    renderCheckboxOrRadio(): ReactElement {
         const {
             type,
             setRef,
@@ -225,7 +225,7 @@ export class Field extends PureComponent {
         );
     }
 
-    renderTextArea() {
+    renderTextArea(): ReactElement {
         const {
             setRef, attr, events, isDisabled
         } = this.props;
@@ -243,11 +243,11 @@ export class Field extends PureComponent {
 
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under field
-    renderErrorMessage(message, key) {
+    renderErrorMessage(message, key): ReactElement {
         return <div block="Field" elem="ErrorMessage" key={ key }>{ message }</div>;
     }
 
-    renderErrorMessages() {
+    renderErrorMessages(): ReactElement {
         const {
             showErrorAsLabel,
             validationResponse,
@@ -272,7 +272,7 @@ export class Field extends PureComponent {
     }
 
     // Renders fields label above field
-    renderLabel() {
+    renderLabel(): ReactElement {
         const { type, label, attr: { name } = {} } = this.props;
 
         if (!label) {
@@ -290,7 +290,7 @@ export class Field extends PureComponent {
     }
 
     // Renders * for required fields
-    renderRequiredTag() {
+    renderRequiredTag(): ReactElement {
         const { addRequiredTag } = this.props;
 
         if (!addRequiredTag) {
@@ -305,7 +305,7 @@ export class Field extends PureComponent {
     }
 
     // Renders fields label under field
-    renderSubLabel() {
+    renderSubLabel(): ReactElement {
         const { subLabel } = this.props;
 
         if (!subLabel) {
@@ -339,7 +339,7 @@ export class Field extends PureComponent {
                   } }
                   mix={ mix }
                 >
-                    { type !== FIELD_TYPE.checkbox && type !== FIELD_TYPE.radio && this.renderLabel() }
+                    { type !== FieldType.checkbox && type !== FieldType.radio && this.renderLabel() }
                     { inputRenderer && inputRenderer() }
                 </div>
                 { this.renderErrorMessages() }

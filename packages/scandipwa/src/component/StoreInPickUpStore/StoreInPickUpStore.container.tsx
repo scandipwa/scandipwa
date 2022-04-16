@@ -1,0 +1,59 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
+ */
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { ReactElement } from 'Type/Common.type';
+
+import { StoreType } from 'Type/Checkout.type';
+
+import StoreInPickUpStoreComponent from './StoreInPickUpStore.component';
+
+/** @namespace Component/StoreInPickUpStore/Container */
+export class StoreInPickUpStoreContainer extends PureComponent {
+    static propTypes = {
+        selectStore: PropTypes.func,
+        isSelectedStore: PropTypes.bool,
+        store: StoreType
+    };
+
+    static defaultProps = {
+        selectStore: null,
+        isSelectedStore: false,
+        store: null
+    };
+
+    containerFunctions = {
+        handleSelectStore: this.handleSelectStore.bind(this)
+    };
+
+    containerProps() {
+        const { store, isSelectedStore } = this.props;
+
+        return { store, isSelectedStore };
+    }
+
+    handleSelectStore() {
+        const { selectStore, store } = this.props;
+
+        selectStore(store);
+    }
+
+    render(): ReactElement {
+        return (
+            <StoreInPickUpStoreComponent
+                {...this.containerFunctions}
+                {...this.containerProps()}
+            />
+        );
+    }
+}
+
+export default StoreInPickUpStoreContainer;

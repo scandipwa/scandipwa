@@ -84,7 +84,7 @@ export class MyAccountOverlay extends PureComponent {
         }
     };
 
-    renderMyAccount() {
+    renderMyAccount(): ReactElement {
         const { state } = this.props;
         const { render, title } = this.renderMap[state];
 
@@ -96,7 +96,7 @@ export class MyAccountOverlay extends PureComponent {
         );
     }
 
-    renderConfirmEmail() {
+    renderConfirmEmail(): ReactElement {
         const { state, handleSignIn } = this.props;
 
         return (
@@ -107,7 +107,7 @@ export class MyAccountOverlay extends PureComponent {
         );
     }
 
-    renderForgotPassword() {
+    renderForgotPassword(): ReactElement {
         const {
             state,
             onFormError,
@@ -133,7 +133,7 @@ export class MyAccountOverlay extends PureComponent {
         );
     }
 
-    renderForgotPasswordSuccess() {
+    renderForgotPasswordSuccess(): ReactElement {
         const { state, handleSignIn } = this.props;
 
         return (
@@ -144,7 +144,7 @@ export class MyAccountOverlay extends PureComponent {
         );
     }
 
-    renderCreateAccount(isLandingPage = false) {
+    renderCreateAccount(isLandingPage = false): ReactElement {
         const {
             state,
             handleSignIn,
@@ -165,7 +165,7 @@ export class MyAccountOverlay extends PureComponent {
         );
     }
 
-    renderSignIn() {
+    renderSignIn(): ReactElement {
         const {
             state,
             onFormError,

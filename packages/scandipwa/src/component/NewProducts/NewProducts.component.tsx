@@ -57,7 +57,7 @@ export class NewProducts extends Component {
         CSS.setVariable(this.newProductsRef, 'new-products-per-page-count', productsPerPage);
     }
 
-    renderProductCard(product, i) {
+    renderProductCard(product, i): ReactElement {
         const {
             productCardProps: {
                 siblingsHaveBrands,

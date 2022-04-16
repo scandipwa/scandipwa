@@ -13,12 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { MenuIconProps } from './MenuIcon.type';
+import { MenuIconComponentProps } from './MenuIcon.type';
 
 import './MenuIcon.style';
 
 /** @namespace Component/MenuIcon/Component */
-export class MenuIcon extends PureComponent<MenuIconProps> {
+export class MenuIcon extends PureComponent<MenuIconComponentProps> {
     static defaultProps = {
         isActive: false
     };

@@ -36,7 +36,7 @@ export const TotalsType = PropTypes.shape({
     grandTotalPrice: PropTypes.string
 });
 
-export const CartItemType = PropTypes.shape({
+export const CartItem = PropTypes.shape({
     discount_amount: PropTypes.number,
     discount_percent: PropTypes.number,
     item_id: PropTypes.number,

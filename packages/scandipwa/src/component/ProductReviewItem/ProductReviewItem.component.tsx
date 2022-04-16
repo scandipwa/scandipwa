@@ -34,7 +34,7 @@ export class ProductReviewItem extends PureComponent {
         return date ? date.toDateString() : created_at;
     }
 
-    renderReviewListItemRating(ratingVoteItem, i) {
+    renderReviewListItemRating(ratingVoteItem, i): ReactElement {
         const {
             rating_code,
             percent
@@ -61,7 +61,7 @@ export class ProductReviewItem extends PureComponent {
         );
     }
 
-    renderAuthor(reviewItem) {
+    renderAuthor(reviewItem): ReactElement {
         const { nickname, created_at } = reviewItem;
 
         return (

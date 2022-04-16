@@ -114,7 +114,7 @@ export class SearchField extends PureComponent {
         this.onClearSearchButtonClick(false);
     }
 
-    renderClearSearch() {
+    renderClearSearch(): ReactElement {
         const { isVisible } = this.props;
 
         return (
@@ -131,11 +131,11 @@ export class SearchField extends PureComponent {
         );
     }
 
-    renderOverlayFallback() {
+    renderOverlayFallback(): ReactElement {
         return <Loader isLoading />;
     }
 
-    renderSearch() {
+    renderSearch(): ReactElement {
         const {
             searchCriteria,
             onSearchBarFocus,
@@ -174,7 +174,7 @@ export class SearchField extends PureComponent {
         );
     }
 
-    renderSearchIcon() {
+    renderSearchIcon(): ReactElement {
         const { isActive } = this.props;
 
         if (isActive) {

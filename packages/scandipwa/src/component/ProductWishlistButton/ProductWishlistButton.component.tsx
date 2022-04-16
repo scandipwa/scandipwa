@@ -75,7 +75,7 @@ export class ProductWishlistButton extends PureComponent {
         return removeFromWishlist(magentoProduct);
     }
 
-    renderButton() {
+    renderButton(): ReactElement {
         const { isInWishlist, isDisabled, mix } = this.props;
 
         return (
@@ -92,7 +92,7 @@ export class ProductWishlistButton extends PureComponent {
         );
     }
 
-    renderLoader() {
+    renderLoader(): ReactElement {
         const { isLoading } = this.props;
 
         return (
@@ -100,7 +100,7 @@ export class ProductWishlistButton extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         return (
             <div block="ProductWishlistButton">
                 { this.renderButton() }

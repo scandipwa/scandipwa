@@ -441,7 +441,7 @@ export class Slider extends PureComponent {
         }
     }
 
-    renderCounter() {
+    renderCounter(): ReactElement {
         const { children, showCounter, activeImage } = this.props;
 
         if (!showCounter || children.length <= 1) {
@@ -460,7 +460,7 @@ export class Slider extends PureComponent {
         );
     }
 
-    renderCrumbs() {
+    renderCrumbs(): ReactElement {
         const { children, showCrumbs } = this.props;
 
         if (!showCrumbs || children.length <= 1) {
@@ -477,7 +477,7 @@ export class Slider extends PureComponent {
         );
     }
 
-    renderCrumb(_, i) {
+    renderCrumb(_, i): ReactElement {
         const { activeImage } = this.props;
         const isActive = i === Math.abs(-activeImage);
 
@@ -499,7 +499,7 @@ export class Slider extends PureComponent {
         );
     }
 
-    renderArrows() {
+    renderArrows(): ReactElement {
         const { showArrows, activeImage, children } = this.props;
         const nextIsDisabled = activeImage + 1 === children.length;
         const prevIsDisabled = activeImage === 0;
@@ -532,7 +532,7 @@ export class Slider extends PureComponent {
         );
     }
 
-    renderSliderContent() {
+    renderSliderContent(): ReactElement {
         const { activeImage, children, isVertical } = this.props;
         const dir = this.getDir();
 

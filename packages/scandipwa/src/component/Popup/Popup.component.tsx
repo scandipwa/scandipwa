@@ -131,7 +131,7 @@ export class Popup extends Overlay {
         }
     }
 
-    renderTitle() {
+    renderTitle(): ReactElement {
         const { title } = this.props;
 
         if (!title) {
@@ -145,7 +145,7 @@ export class Popup extends Overlay {
         );
     }
 
-    renderCloseButton() {
+    renderCloseButton(): ReactElement {
         return (
             <button
               block="Popup"
@@ -158,7 +158,7 @@ export class Popup extends Overlay {
         );
     }
 
-    renderNotifications() {
+    renderNotifications(): ReactElement {
         const { isMobile } = this.props;
 
         if (!isMobile) {
@@ -168,7 +168,7 @@ export class Popup extends Overlay {
         return <NotificationList />;
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { children, contentMix } = this.props;
         const isVisible = this.getIsVisible();
 

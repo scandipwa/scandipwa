@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import ExpandableContent from 'Component/ExpandableContent';
 import FieldContainer from 'Component/Field';
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import Link from 'Component/Link';
 import { ReactElement } from 'Type/Common.type';
@@ -39,7 +39,7 @@ export class ProductDownloadableLinks extends PureComponent {
         links: []
     };
 
-    renderLabel(link) {
+    renderLabel(link): ReactElement {
         const { title, price } = link;
         const { isRequired, currencyCode = 'USD' } = this.props;
 
@@ -59,7 +59,7 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderCheckBox(link) {
+    renderCheckBox(link): ReactElement {
         const { setSelectedCheckboxValues, isRequired } = this.props;
         const { uid } = link;
         const label = this.renderLabel(link);
@@ -70,7 +70,7 @@ export class ProductDownloadableLinks extends PureComponent {
 
         return (
             <FieldContainer
-              type={ FIELD_TYPE.checkbox }
+              type={ FieldType.checkbox }
               attr={ {
                   id: `link-${ uid }`,
                   value: uid,
@@ -85,7 +85,7 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderLink(link) {
+    renderLink(link): ReactElement {
         const { isOpenInNewTab } = this.props;
         const { sample_url } = link;
 
@@ -105,7 +105,7 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderDownloadableLink(link) {
+    renderDownloadableLink(link): ReactElement {
         const { isRequired } = this.props;
         const { id } = link;
 
@@ -117,7 +117,7 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderLinks() {
+    renderLinks(): ReactElement {
         const { links, isRequired, setRef } = this.props;
 
         return (
@@ -134,7 +134,7 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderTitle() {
+    renderTitle(): ReactElement {
         const { title, isRequired } = this.props;
 
         return (
@@ -145,7 +145,7 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         return (
             <>
             { this.renderTitle() }
@@ -154,7 +154,7 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderPlaceholder() {
+    renderPlaceholder(): ReactElement {
         const { isLoading } = this.props;
 
         return (

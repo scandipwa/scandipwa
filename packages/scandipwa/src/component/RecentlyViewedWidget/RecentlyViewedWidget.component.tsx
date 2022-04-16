@@ -38,7 +38,7 @@ export class RecentlyViewedWidget extends Component {
         return products !== nextProducts || pageSize !== nextPageSize;
     }
 
-    renderProducts(products) {
+    renderProducts(products): ReactElement {
         const { pageSize } = this.props;
 
         return (
@@ -48,7 +48,7 @@ export class RecentlyViewedWidget extends Component {
         );
     }
 
-    renderProductCard(product) {
+    renderProductCard(product): ReactElement {
         const {
             productCardProps: {
                 siblingsHaveBrands,

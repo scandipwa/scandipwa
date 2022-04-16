@@ -34,7 +34,7 @@ export class ShareWishlistForm extends FieldForm {
         await onSave(transformToNameValuePair(fields));
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         const { isFormLoading } = this.props;
 
         return (

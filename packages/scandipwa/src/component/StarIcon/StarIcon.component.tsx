@@ -14,12 +14,12 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 
 import { StartFill } from './StarIcon.config';
-import { StarIconProps } from './StarIcon.type';
+import { StarIconComponentProps } from './StarIcon.type';
 
 import './StarIcon.style';
 
 /** @namespace Component/StarIcon/Component */
-export class AddIcon extends PureComponent<StarIconProps> {
+export class AddIcon extends PureComponent<StarIconComponentProps> {
     getStarPath(): ReactElement {
         const { starFill } = this.props;
 

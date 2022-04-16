@@ -128,7 +128,7 @@ export class ExpandableContent extends PureComponent {
         );
     }
 
-    renderButton() {
+    renderButton(): ReactElement {
         const { isContentExpanded } = this.state;
         const { heading, mix } = this.props;
 
@@ -159,7 +159,7 @@ export class ExpandableContent extends PureComponent {
         );
     }
 
-    renderButtonIcon() {
+    renderButtonIcon(): ReactElement {
         const { isContentExpanded } = this.state;
         const { isArrow, device: { isMobile } } = this.props;
 
@@ -174,7 +174,7 @@ export class ExpandableContent extends PureComponent {
         return this.renderTogglePlusMinus();
     }
 
-    renderTogglePlusMinus() {
+    renderTogglePlusMinus(): ReactElement {
         const { isContentExpanded } = this.state;
 
         if (isContentExpanded) {
@@ -184,7 +184,7 @@ export class ExpandableContent extends PureComponent {
         return <AddIcon />;
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { children, mix } = this.props;
         const { isContentExpanded } = this.state;
         const mods = { isContentExpanded };

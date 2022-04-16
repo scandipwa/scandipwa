@@ -29,7 +29,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         parameters: SelectedFiltersType.isRequired
     };
 
-    renderSubCategories(option) {
+    renderSubCategories(option): ReactElement {
         const { getSubCategories } = this.props;
 
         const optionWithSubcategories = getSubCategories(option);
@@ -42,7 +42,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         return this.renderDropdownOrSwatch(optionWithSubcategories);
     }
 
-    renderPriceSwatch(option) {
+    renderPriceSwatch(option): ReactElement {
         const { currencyCode } = this.props;
         const { attribute_options, ...priceOption } = option;
 
@@ -65,7 +65,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         return this.renderDropdownOrSwatch(priceOption);
     }
 
-    renderDropdownOrSwatch(option) {
+    renderDropdownOrSwatch(option): ReactElement {
         const {
             isContentExpanded,
             getSubHeading
@@ -96,7 +96,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         );
     }
 
-    renderConfigurableAttributeValue(attribute) {
+    renderConfigurableAttributeValue(attribute): ReactElement {
         const {
             getIsConfigurableAttributeAvailable,
             handleOptionClick,
@@ -120,7 +120,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         );
     }
 
-    renderConfigurableOption(option) {
+    renderConfigurableOption(option): ReactElement {
         const { attribute_code } = option;
 
         switch (attribute_code) {
@@ -133,14 +133,14 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         }
     }
 
-    renderConfigurableAttributes() {
+    renderConfigurableAttributes(): ReactElement {
         const { configurable_options } = this.props;
 
         return sortBySortOrder(Object.values(configurable_options), 'attribute_position')
             .map(this.renderConfigurableOption.bind(this));
     }
 
-    renderDropdown(option) {
+    renderDropdown(option): ReactElement {
         const { attribute_values } = option;
 
         return (

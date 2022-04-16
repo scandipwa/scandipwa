@@ -13,34 +13,21 @@ import { PureComponent } from 'react';
 
 import CartItem from 'Component/CartItem';
 import CmsBlock from 'Component/CmsBlock';
-import { CART_OVERLAY } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
 import LockIcon from 'Component/LockIcon';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
 import { ReactElement } from 'Type/Common.type';
-import { CartDisplayType, TotalsType } from 'Type/MiniCart.type';
 import { scrollToTop } from 'Util/Browser';
 import { formatPrice } from 'Util/Price';
+
+import { CartOverlayComponentProps } from './CartOverlay.type';
 
 import './CartOverlay.style';
 
 /** @namespace Component/CartOverlay/Component */
-export class CartOverlay extends PureComponent {
-    static propTypes = {
-        totals: TotalsType.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
-        handleCheckoutClick: PropTypes.func.isRequired,
-        currencyCode: PropTypes.string,
-        showOverlay: PropTypes.func.isRequired,
-        activeOverlay: PropTypes.string.isRequired,
-        hasOutOfStockProductsInCart: PropTypes.bool,
-        cartTotalSubPrice: PropTypes.number,
-        cartDisplaySettings: CartDisplayType.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        onCartItemLoading: PropTypes.func
-    };
-
+export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     static defaultProps = {
         hasOutOfStockProductsInCart: false,
         onCartItemLoading: null,
@@ -52,17 +39,17 @@ export class CartOverlay extends PureComponent {
         const { showOverlay, isMobile, activeOverlay } = this.props;
 
         if (!isMobile && activeOverlay === OVERLAY_PLACEHOLDER) {
-            showOverlay(CART_OVERLAY);
+            showOverlay(Page.CART_OVERLAY);
         }
     }
 
-    renderPriceLine(price) {
+    renderPriceLine(price: number): ReactElement {
         const { currencyCode } = this.props;
 
         return formatPrice(price, currencyCode);
     }
 
-    renderCartItems() {
+    renderCartItems(): ReactElement {
         const {
             totals: {
                 items = [],
@@ -91,7 +78,7 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderNoCartItems() {
+    renderNoCartItems(): ReactElement {
         return (
             <p block="CartOverlay" elem="Empty">
                 { __('You have no items in your shopping cart.') }
@@ -99,7 +86,7 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderOrderTotalExlTax() {
+    renderOrderTotalExlTax(): ReactElement {
         const { cartTotalSubPrice } = this.props;
 
         if (!cartTotalSubPrice) {
@@ -113,7 +100,7 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderTotals() {
+    renderTotals(): ReactElement {
         const { totals: { grand_total = 0 } } = this.props;
 
         return (
@@ -130,7 +117,7 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderTax() {
+    renderTax(): ReactElement {
         const {
             totals: {
                 tax_amount = 0
@@ -155,7 +142,7 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderCouponCode(code) {
+    renderCouponCode(code: string): ReactElement {
         if (!code) {
             return null;
         }
@@ -163,12 +150,12 @@ export class CartOverlay extends PureComponent {
         return <strong block="CartOverlay" elem="DiscountCoupon">{ `${code.toUpperCase()}:` }</strong>;
     }
 
-    renderDiscount() {
+    renderDiscount(): ReactElement {
         const {
             totals: {
                 applied_rule_ids,
                 discount_amount,
-                coupon_code
+                coupon_code = ''
             }
         } = this.props;
 
@@ -192,7 +179,7 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderSecureCheckoutButton() {
+    renderSecureCheckoutButton(): ReactElement {
         const { handleCheckoutClick, hasOutOfStockProductsInCart } = this.props;
 
         return (
@@ -209,7 +196,7 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         return (
             <div block="CartOverlay" elem="Actions">
                 <Link
@@ -226,7 +213,7 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderCartAdditional() {
+    renderCartAdditional(): ReactElement {
         const { totals: { items = [] } } = this.props;
 
         if (items.length < 1) {
@@ -244,8 +231,12 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderPromo() {
-        const { minicart_content: { minicart_cms } = {} } = window.contentConfiguration;
+    renderPromo(): ReactElement {
+        const {
+            minicart_content: {
+                minicart_cms = ''
+            } = {}
+        } = window.contentConfiguration || {};
 
         if (minicart_cms) {
             return <CmsBlock identifier={ minicart_cms } />;
@@ -261,7 +252,7 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderOutOfStockProductsWarning() {
+    renderOutOfStockProductsWarning(): ReactElement {
         const { hasOutOfStockProductsInCart } = this.props;
 
         if (!hasOutOfStockProductsInCart) {
@@ -280,7 +271,7 @@ export class CartOverlay extends PureComponent {
 
         return (
             <Overlay
-              id={ CART_OVERLAY }
+              id={ Page.CART_OVERLAY }
               onVisible={ changeHeaderState }
               mix={ { block: 'CartOverlay' } }
             >

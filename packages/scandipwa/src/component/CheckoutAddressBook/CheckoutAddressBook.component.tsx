@@ -64,7 +64,7 @@ export class CheckoutAddressBook extends PureComponent {
         onAddressSelect({});
     }
 
-    renderNoAddresses() {
+    renderNoAddresses(): ReactElement {
         return (
             <div>
                 <p>{ __('You have no configured addresses.') }</p>
@@ -77,13 +77,13 @@ export class CheckoutAddressBook extends PureComponent {
         );
     }
 
-    renderLoading() {
+    renderLoading(): ReactElement {
         return (
             <Loader isLoading />
         );
     }
 
-    renderAddress(address, index) {
+    renderAddress(address, index): ReactElement {
         const { onAddressSelect, selectedAddressId } = this.props;
         const addressNumber = index + 1;
         const { id } = address;
@@ -100,7 +100,7 @@ export class CheckoutAddressBook extends PureComponent {
         );
     }
 
-    renderAddressList() {
+    renderAddressList(): ReactElement {
         const { customer: { addresses } } = this.props;
 
         if (!addresses) {
@@ -114,7 +114,7 @@ export class CheckoutAddressBook extends PureComponent {
         return addresses.map(this.renderAddress);
     }
 
-    renderHeading() {
+    renderHeading(): ReactElement {
         const { isBilling } = this.props;
 
         if (isBilling) {
@@ -128,7 +128,7 @@ export class CheckoutAddressBook extends PureComponent {
         );
     }
 
-    renderCustomAddress() {
+    renderCustomAddress(): ReactElement {
         const { isBilling, onShippingEstimationFieldsChange, isSubmitted } = this.props;
         const formPortalId = isBilling ? BILLING_STEP : SHIPPING_STEP;
 
@@ -142,7 +142,7 @@ export class CheckoutAddressBook extends PureComponent {
         );
     }
 
-    renderOptionalCustomAddress() {
+    renderOptionalCustomAddress(): ReactElement {
         const { isCustomAddressExpanded } = this.state;
 
         return (
@@ -165,7 +165,7 @@ export class CheckoutAddressBook extends PureComponent {
         );
     }
 
-    renderSignedInContent() {
+    renderSignedInContent(): ReactElement {
         return (
             <>
                 <div block="CheckoutAddressBook" elem="Wrapper">
@@ -176,11 +176,11 @@ export class CheckoutAddressBook extends PureComponent {
         );
     }
 
-    renderGuestContent() {
+    renderGuestContent(): ReactElement {
         return this.renderCustomAddress();
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         if (isSignedIn()) {
             return this.renderSignedInContent();
         }

@@ -74,7 +74,7 @@ export class Footer extends Component {
             || newsletterActive !== nextNewsletterActive;
     }
 
-    renderColumnItemContent(src, title) {
+    renderColumnItemContent(src, title): ReactElement {
         if (!src) {
             return title;
         }
@@ -87,7 +87,7 @@ export class Footer extends Component {
         );
     }
 
-    renderColumnItemLink({ href = '/', title, src }, i) {
+    renderColumnItemLink({ href = '/', title, src }, i): ReactElement {
         const mods = src ? { type: 'image' } : {};
         const { onItemClick } = this.props;
 
@@ -106,7 +106,7 @@ export class Footer extends Component {
         );
     }
 
-    renderColumnItem(item, i) {
+    renderColumnItem(item, i): ReactElement {
         const { render } = item;
 
         if (render) {
@@ -116,7 +116,7 @@ export class Footer extends Component {
         return this.renderColumnItemLink(item, i);
     }
 
-    renderColumn(column, i) {
+    renderColumn(column, i): ReactElement {
         const {
             title,
             columnActiveKey,
@@ -149,7 +149,7 @@ export class Footer extends Component {
         );
     }
 
-    renderColumns() {
+    renderColumns(): ReactElement {
         return (
             <ContentWrapper
               isNotSection
@@ -161,11 +161,11 @@ export class Footer extends Component {
         );
     }
 
-    renderNewsletterSubscriptionBlock() {
+    renderNewsletterSubscriptionBlock(): ReactElement {
         return <NewsletterSubscription key="NewsletterSubscription" />;
     }
 
-    renderCmsBlockWrapper() {
+    renderCmsBlockWrapper(): ReactElement {
         const { footer_content: { footer_cms } = {} } = window.contentConfiguration;
 
         return (
@@ -189,7 +189,7 @@ export class Footer extends Component {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { footer_content: { footer_cms } = {} } = window.contentConfiguration;
 
         if (footer_cms) {
@@ -203,7 +203,7 @@ export class Footer extends Component {
         );
     }
 
-    renderCopyrightContent() {
+    renderCopyrightContent(): ReactElement {
         const { copyright } = this.props;
 
         return (

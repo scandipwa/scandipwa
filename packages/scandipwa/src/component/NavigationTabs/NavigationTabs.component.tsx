@@ -71,7 +71,7 @@ export class NavigationTabs extends NavigationAbstract {
         return prevName !== nextName || nextQty !== prevQty || prevDevice !== nextDevice;
     }
 
-    renderHomeButton(isActive = false) {
+    renderHomeButton(isActive = false): ReactElement {
         const { onHomeButtonClick } = this.props;
 
         return (
@@ -87,7 +87,7 @@ export class NavigationTabs extends NavigationAbstract {
         );
     }
 
-    renderMenuButton(isActive = false) {
+    renderMenuButton(isActive = false): ReactElement {
         const { onMenuButtonClick } = this.props;
 
         return (
@@ -103,7 +103,7 @@ export class NavigationTabs extends NavigationAbstract {
         );
     }
 
-    renderAccountButton(isActive = false) {
+    renderAccountButton(isActive = false): ReactElement {
         const { onMyAccountButtonClick } = this.props;
 
         return (
@@ -119,7 +119,7 @@ export class NavigationTabs extends NavigationAbstract {
         );
     }
 
-    renderMinicartItemsQty() {
+    renderMinicartItemsQty(): ReactElement {
         const { cartTotals: { items_qty } } = this.props;
 
         if (!items_qty) {
@@ -137,7 +137,7 @@ export class NavigationTabs extends NavigationAbstract {
         );
     }
 
-    renderMinicartButton(isActive = false) {
+    renderMinicartButton(isActive = false): ReactElement {
         const { onMinicartButtonClick } = this.props;
 
         return (

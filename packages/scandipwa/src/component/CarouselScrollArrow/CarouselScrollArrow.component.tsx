@@ -12,18 +12,15 @@
 import { PureComponent } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
-import { ModsType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+
+import { CarouselScrollArrowComponentProps } from './CarouselScrollArrow.type';
 
 import './CarouselScrollArrow.style';
 
 /** @namespace Component/CarouselScrollArrow/Component */
-export class CarouselScrollArrow extends PureComponent {
-    static propTypes = {
-        mods: ModsType,
-        onClick: PropTypes.func
-    };
-
+export class CarouselScrollArrow extends PureComponent<CarouselScrollArrowComponentProps> {
     static defaultProps = {
         mods: {},
         onClick: noopFn

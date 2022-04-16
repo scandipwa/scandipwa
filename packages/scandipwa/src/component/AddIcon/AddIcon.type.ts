@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface AddIconProps {
+export interface AddIconComponentProps {
     isPrimary: boolean;
 }

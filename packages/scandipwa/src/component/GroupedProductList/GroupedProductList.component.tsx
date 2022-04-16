@@ -27,7 +27,7 @@ export class GroupedProductList extends PureComponent {
         setQuantity: PropTypes.func.isRequired
     };
 
-    renderProductList(items) {
+    renderProductList(items): ReactElement {
         const {
             quantity,
             setQuantity

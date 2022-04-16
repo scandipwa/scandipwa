@@ -118,7 +118,7 @@ export class MyAccountMyWishlist extends PureComponent {
         this.setState({ selectedIdMap: [] });
     }
 
-    renderNoProductsFound() {
+    renderNoProductsFound(): ReactElement {
         return (
             <div block="MyAccountMyWishlist" elem="NoProducts">
                 <p>{ __('Wishlist is empty!') }</p>
@@ -126,7 +126,7 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    renderProduct([id, product]) {
+    renderProduct([id, product]): ReactElement {
         const { isEditingActive, loadingItemsMap, setIsQtyUpdateInProgress } = this.props;
 
         return (
@@ -141,7 +141,7 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    renderProducts() {
+    renderProducts(): ReactElement {
         const {
             isWishlistLoading,
             isWishlistEmpty,
@@ -155,7 +155,7 @@ export class MyAccountMyWishlist extends PureComponent {
         return Object.entries(wishlistItems).map(this.renderProduct.bind(this));
     }
 
-    renderClearWishlist() {
+    renderClearWishlist(): ReactElement {
         const {
             removeAll,
             isActionsDisabled,
@@ -175,7 +175,7 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    renderAddAllToCart() {
+    renderAddAllToCart(): ReactElement {
         const {
             addAllToCart,
             isActionsDisabled,
@@ -200,7 +200,7 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    renderShareWishlistButton() {
+    renderShareWishlistButton(): ReactElement {
         const {
             isWishlistLoading,
             shareWishlist,
@@ -223,7 +223,7 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    renderRemoveItemsButton() {
+    renderRemoveItemsButton(): ReactElement {
         const { isActionsDisabled, isMobile, isQtyUpdateInProgress } = this.props;
         const { selectedIdMap } = this.state;
 
@@ -244,7 +244,7 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    renderActionBarAction() {
+    renderActionBarAction(): ReactElement {
         const { isEditingActive } = this.props;
 
         if (!isEditingActive) {
@@ -259,7 +259,7 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    renderActionBarMobile() {
+    renderActionBarMobile(): ReactElement {
         return (
             <div
               ref={ this.actionLineMobileRef }
@@ -272,7 +272,7 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    renderActionBar() {
+    renderActionBar(): ReactElement {
         const { isMobile } = this.props;
 
         if (isMobile) {
@@ -288,15 +288,15 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    renderPlaceholders() {
+    renderPlaceholders(): ReactElement {
         return Array.from({ length: 2 }, (_, i) => <ProductCard key={ i } product={ {} } />);
     }
 
-    renderShareWishlist() {
+    renderShareWishlist(): ReactElement {
         return <ShareWishlistPopup />;
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const {
             isWishlistLoading,
             isWishlistEmpty,

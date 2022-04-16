@@ -33,7 +33,7 @@ export class ProductAlerts extends PureComponent {
         stockStatus: null
     };
 
-    renderPriceDropSubscribeButton() {
+    renderPriceDropSubscribeButton(): ReactElement {
         const { handlePriceDropSubscribeAlertPriceDrop, isPriceAlertEnabled } = this.props;
 
         if (!isPriceAlertEnabled) {
@@ -51,7 +51,7 @@ export class ProductAlerts extends PureComponent {
         );
     }
 
-    renderInStockSubscribeButton() {
+    renderInStockSubscribeButton(): ReactElement {
         const {
             handlePriceDropSubscribeAlertInStock,
             isInStockAlertEnabled,

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import FieldForm from 'Component/FieldForm';
 
 import newsletterSubscriptionForm from './NewsletterForm.form';
@@ -31,10 +31,10 @@ export class NewsletterSubscription extends FieldForm {
         return newsletterSubscriptionForm();
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         return (
             <button
-              type={ FIELD_TYPE.submit }
+              type={ FieldType.submit }
               block="Button"
               mods={ { isHollow: true } }
               aria-label={ __('Submit') }
@@ -44,7 +44,7 @@ export class NewsletterSubscription extends FieldForm {
         );
     }
 
-    renderFormBody() {
+    renderFormBody(): ReactElement {
         const { isLoading } = this.props;
 
         return (

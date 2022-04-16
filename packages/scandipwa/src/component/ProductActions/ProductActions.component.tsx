@@ -63,7 +63,7 @@ export class ProductActions extends Product {
         }
     }
 
-    renderReviewButton() {
+    renderReviewButton(): ReactElement {
         const { device, areReviewsEnabled } = this.props;
 
         if (!areReviewsEnabled) {
@@ -89,7 +89,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderSkuAndStock() {
+    renderSkuAndStock(): ReactElement {
         const {
             getActiveProduct,
             showOnlyIfLoaded
@@ -118,7 +118,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderShortDescriptionContent() {
+    renderShortDescriptionContent(): ReactElement {
         const { product: { short_description } } = this.props;
         const { html } = short_description || {};
 
@@ -131,7 +131,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderShortDescription() {
+    renderShortDescription(): ReactElement {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
 
@@ -151,7 +151,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderOfferCount() {
+    renderOfferCount(): ReactElement {
         const { offerCount } = this.props;
 
         if (offerCount > 1) {
@@ -166,7 +166,7 @@ export class ProductActions extends Product {
         return null;
     }
 
-    renderSchema() {
+    renderSchema(): ReactElement {
         const {
             productName,
             stockMeta,
@@ -191,7 +191,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderPriceWithSchema() {
+    renderPriceWithSchema(): ReactElement {
         const {
             productPrice
         } = this.props;
@@ -222,7 +222,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderPriceWithGlobalSchema() {
+    renderPriceWithGlobalSchema(): ReactElement {
         const {
             offerType,
             product: {
@@ -247,7 +247,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderReviewSection() {
+    renderReviewSection(): ReactElement {
         return (
             <div
               block="ProductActions"
@@ -259,7 +259,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderPrice() {
+    renderPrice(): ReactElement {
         const {
             getActiveProduct,
             inStock,
@@ -273,7 +273,7 @@ export class ProductActions extends Product {
         return super.renderPrice(!inStock || notConfigured || isPricePreview);
     }
 
-    renderTierPrices() {
+    renderTierPrices(): ReactElement {
         const { getActiveProduct } = this.props;
 
         return (
@@ -283,7 +283,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderProductAlerts() {
+    renderProductAlerts(): ReactElement {
         const {
             areDetailsLoaded,
             isInStockAlertEnabled,
@@ -315,7 +315,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderAddToCartActionBlock() {
+    renderAddToCartActionBlock(): ReactElement {
         return (
             <div
               block="ProductActions"
@@ -332,7 +332,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderAddToCartMobile() {
+    renderAddToCartMobile(): ReactElement {
         return (
             <div
               block="ProductActions"
@@ -346,7 +346,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderDesktop() {
+    renderDesktop(): ReactElement {
         return (
             <>
                 { this.renderBrand(true) }
@@ -367,7 +367,7 @@ export class ProductActions extends Product {
         );
     }
 
-    renderMobile() {
+    renderMobile(): ReactElement {
         const { product: { type_id: type } } = this.props;
         const isWithoutPriceTotal = type === PRODUCT_TYPE.grouped;
 

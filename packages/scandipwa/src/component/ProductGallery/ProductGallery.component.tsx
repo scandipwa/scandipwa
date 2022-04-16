@@ -181,7 +181,7 @@ export class ProductGallery extends PureComponent {
         registerSharedElementDestination(this.imageRef);
     }
 
-    renderAdditionalPicture(media, index = 0) {
+    renderAdditionalPicture(media, index = 0): ReactElement {
         return (
             <ProductGalleryThumbnailImage
               key={ index }
@@ -197,7 +197,7 @@ export class ProductGallery extends PureComponent {
      * @returns {*}
      * @private
      */
-    renderVideo(media, index) {
+    renderVideo(media, index): ReactElement {
         const { isImageZoomPopupActive, handleImageZoomPopupActiveChange } = this.props;
 
         return (
@@ -210,7 +210,7 @@ export class ProductGallery extends PureComponent {
         );
     }
 
-    renderPlaceholder(index) {
+    renderPlaceholder(index): ReactElement {
         return (
             <Image
               key={ index }
@@ -255,7 +255,7 @@ export class ProductGallery extends PureComponent {
      * @returns {*}
      * @private
      */
-    renderImage(mediaData, index) {
+    renderImage(mediaData, index): ReactElement {
         const {
             isZoomEnabled,
             handleZoomChange,
@@ -342,7 +342,7 @@ export class ProductGallery extends PureComponent {
      * @param index
      * @returns {null|*}
      */
-    renderSlide(media, index) {
+    renderSlide(media, index): ReactElement {
         const { media_type } = media;
 
         switch (media_type) {
@@ -357,7 +357,7 @@ export class ProductGallery extends PureComponent {
         }
     }
 
-    renderAdditionalPictures() {
+    renderAdditionalPictures(): ReactElement {
         const {
             gallery,
             isImageZoomPopupActive,
@@ -400,7 +400,7 @@ export class ProductGallery extends PureComponent {
         return url;
     }
 
-    renderSlider() {
+    renderSlider(): ReactElement {
         const {
             gallery,
             activeImage,

@@ -29,7 +29,7 @@ export class MyAccountTabList extends PureComponent {
         toggleExpandableContent: PropTypes.func.isRequired
     };
 
-    renderTabListItem(tabEntry, index, tabArray) {
+    renderTabListItem(tabEntry, index, tabArray): ReactElement {
         const { activeTab, onTabClick } = this.props;
         const [key, tab] = tabEntry;
         const { section } = tab;
@@ -48,13 +48,13 @@ export class MyAccountTabList extends PureComponent {
         );
     }
 
-    renderLine() {
+    renderLine(): ReactElement {
         return (
             <div block="MyAccountTabList" elem="Separator" />
         );
     }
 
-    renderLogoutTab() {
+    renderLogoutTab(): ReactElement {
         const { handleLogout } = this.props;
 
         return (

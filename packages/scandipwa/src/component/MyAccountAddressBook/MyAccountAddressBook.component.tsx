@@ -32,11 +32,11 @@ export class MyAccountAddressBook extends Component {
         return customer !== nextCustomer;
     }
 
-    renderPopup() {
+    renderPopup(): ReactElement {
         return <MyAccountAddressPopup />;
     }
 
-    renderAddress(address, index) {
+    renderAddress(address, index): ReactElement {
         const addressNumber = index + 1;
         const postfix = getDefaultAddressLabel(address);
 
@@ -50,7 +50,7 @@ export class MyAccountAddressBook extends Component {
         );
     }
 
-    renderNoAddresses() {
+    renderNoAddresses(): ReactElement {
         return (
             <div>
                 <p>{ __('You have no configured addresses.') }</p>
@@ -58,7 +58,7 @@ export class MyAccountAddressBook extends Component {
         );
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         const { showCreateNewPopup } = this.props;
 
         return (
@@ -73,7 +73,7 @@ export class MyAccountAddressBook extends Component {
         );
     }
 
-    renderAddressList() {
+    renderAddressList(): ReactElement {
         const { customer: { addresses = [] } } = this.props;
 
         if (!addresses.length) {

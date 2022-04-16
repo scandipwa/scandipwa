@@ -28,7 +28,7 @@ export class MyAccountDashboard extends PureComponent {
         getDefaultAddress: PropTypes.func.isRequired
     };
 
-    renderNoDefaultAddressConfigured(name) {
+    renderNoDefaultAddressConfigured(name): ReactElement {
         return (
             <div
               key={ name }
@@ -41,7 +41,7 @@ export class MyAccountDashboard extends PureComponent {
         );
     }
 
-    renderLinkToAddressBook() {
+    renderLinkToAddressBook(): ReactElement {
         return (
             <p block="MyAccountDashboard" elem="Info">
                 <Link to={ `${ACCOUNT_URL}/${ADDRESS_BOOK}` }>
@@ -51,7 +51,7 @@ export class MyAccountDashboard extends PureComponent {
         );
     }
 
-    renderDefaultAddressTable(isBilling) {
+    renderDefaultAddressTable(isBilling): ReactElement {
         const { getDefaultAddress } = this.props;
         const name = isBilling ? __('billing') : __('shipping');
         const address = getDefaultAddress(isBilling);
@@ -75,7 +75,7 @@ export class MyAccountDashboard extends PureComponent {
         );
     }
 
-    renderAddressBlockTitle() {
+    renderAddressBlockTitle(): ReactElement {
         return (
             <div block="MyAccountDashboard" elem="BlockTitle">
                 <span>{ __('Address Book') }</span>
@@ -86,7 +86,7 @@ export class MyAccountDashboard extends PureComponent {
         );
     }
 
-    renderNoAddresses() {
+    renderNoAddresses(): ReactElement {
         return (
             <div>
                 { this.renderAddressBlockTitle() }
@@ -96,7 +96,7 @@ export class MyAccountDashboard extends PureComponent {
         );
     }
 
-    renderDefaultAddressTables() {
+    renderDefaultAddressTables(): ReactElement {
         const { customer: { addresses = [] } } = this.props;
 
         if (!addresses.length) {
@@ -114,7 +114,7 @@ export class MyAccountDashboard extends PureComponent {
         );
     }
 
-    renderCustomerTable() {
+    renderCustomerTable(): ReactElement {
         const { customer } = this.props;
 
         return (

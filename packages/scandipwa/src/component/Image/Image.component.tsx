@@ -125,7 +125,7 @@ export class Image extends PureComponent {
         this.setState({ imageStatus: IMAGE_LOADED });
     }
 
-    renderImageNotFound() {
+    renderImageNotFound(): ReactElement {
         if (navigator.onLine) {
             return (
                 <span block="Image" elem="Content">{ __('Image not found') }</span>
@@ -135,7 +135,7 @@ export class Image extends PureComponent {
         return <span block="Image" elem="Content" mods={ { isOffline: true } } />;
     }
 
-    renderStyledImage() {
+    renderStyledImage(): ReactElement {
         const {
             alt,
             src,
@@ -160,7 +160,7 @@ export class Image extends PureComponent {
         );
     }
 
-    renderPlainImage() {
+    renderPlainImage(): ReactElement {
         const {
             alt,
             src,
@@ -183,13 +183,13 @@ export class Image extends PureComponent {
         );
     }
 
-    renderImageNotSpecified() {
+    renderImageNotSpecified(): ReactElement {
         return (
             <span block="Image" elem="Content">{ __('Image not specified') }</span>
         );
     }
 
-    renderLoadedImage() {
+    renderLoadedImage(): ReactElement {
         const { isPlain } = this.props;
 
         if (isPlain) {
@@ -199,7 +199,7 @@ export class Image extends PureComponent {
         return this.renderStyledImage();
     }
 
-    renderImage() {
+    renderImage(): ReactElement {
         const { isPlaceholder } = this.props;
         const { imageStatus } = this.state;
 
@@ -216,7 +216,7 @@ export class Image extends PureComponent {
         return render();
     }
 
-    renderLoader() {
+    renderLoader(): ReactElement {
         const { showIsLoading } = this.props;
         const { imageStatus } = this.state;
 

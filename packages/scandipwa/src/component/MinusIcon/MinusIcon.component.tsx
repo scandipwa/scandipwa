@@ -13,12 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { MinusIconProps } from './MinusIcon.type';
+import { MinusIconComponentProps } from './MinusIcon.type';
 
 import './MinusIcon.style';
 
 /** @namespace Component/MinusIcon/Component */
-export class MinusIcon extends PureComponent<MinusIconProps> {
+export class MinusIcon extends PureComponent<MinusIconComponentProps> {
     static defaultProps = {
         isPrimary: false
     };

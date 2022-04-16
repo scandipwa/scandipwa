@@ -26,7 +26,7 @@ export class ProductReviewList extends PureComponent {
         product: ProductType.isRequired
     };
 
-    renderReviews() {
+    renderReviews(): ReactElement {
         const { product: { reviews } } = this.props;
 
         return reviews.map((reviewItem, i) => (

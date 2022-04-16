@@ -9,20 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { KeyboardEvent, MouseEvent, PureComponent } from 'react';
 
 import CartItemPrice from 'Component/CartItemPrice';
 import CloseIcon from 'Component/CloseIcon';
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { ReactElement } from 'Type/Common.type';
-import { CartItemType } from 'Type/MiniCart.type';
-import { UrlType } from 'Type/Router.type';
+import {
+    GQLSelectedBundleOption,
+    GQLSelectedBundleOptionValue,
+    GQLSelectedCustomizableOption,
+    GQLSelectedCustomizableOptionValue,
+    GQLSelectedDownloadableLinks
+} from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import { ValidationInputType } from 'Util/Validator/Config';
+
+import { CartItemComponentProps } from './CartItem.type';
 
 import './CartItem.style';
 
@@ -31,26 +38,7 @@ import './CartItem.style';
  * @class CartItem
  * @namespace Component/CartItem/Component
  */
-export class CartItem extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        item: CartItemType.isRequired,
-        currency_code: PropTypes.string.isRequired,
-        isEditing: PropTypes.bool.isRequired,
-        isCartOverlay: PropTypes.bool,
-        handleRemoveItem: PropTypes.func.isRequired,
-        minSaleQuantity: PropTypes.number.isRequired,
-        maxSaleQuantity: PropTypes.number.isRequired,
-        handleChangeQuantity: PropTypes.func.isRequired,
-        linkTo: LinkType.isRequired,
-        thumbnail: PropTypes.string.isRequired,
-        isProductInStock: PropTypes.bool.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        optionsLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
-        isMobileLayout: PropTypes.bool,
-        showLoader: PropTypes.bool
-    };
-
+export class CartItem extends PureComponent<CartItemComponentProps> {
     static defaultProps = {
         isCartOverlay: false,
         isMobileLayout: false,
@@ -59,7 +47,7 @@ export class CartItem extends PureComponent {
 
     renderProductOption = this._renderProductOption.bind(this);
 
-    renderProductConfigurations() {
+    renderProductConfigurations(): ReactElement {
         const { optionsLabels } = this.props;
 
         return (
@@ -72,7 +60,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderWrapperContent() {
+    renderWrapperContent(): ReactElement {
         const { isEditing, isMobileLayout } = this.props;
 
         if (isMobileLayout) {
@@ -82,7 +70,7 @@ export class CartItem extends PureComponent {
         return isEditing ? this.renderDesktopContent() : this.renderDesktopSummary();
     }
 
-    renderDesktopSummary() {
+    renderDesktopSummary(): ReactElement {
         return (
             <div block="CartItem" elem="Wrapper" mods={ { isSummary: true } }>
                 { this.renderImage() }
@@ -99,7 +87,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderTitle() {
+    renderTitle(): ReactElement {
         const { isMobileLayout } = this.props;
 
         const {
@@ -122,7 +110,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderMobileContent() {
+    renderMobileContent(): ReactElement {
         const { isMobileLayout, isProductInStock } = this.props;
 
         return (
@@ -142,7 +130,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderDesktopContent() {
+    renderDesktopContent(): ReactElement {
         return (
             <div block="CartItem" elem="Wrapper" mods={ { isCart: true } }>
                 <div block="CartItem" elem="ProductInfo">
@@ -161,7 +149,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { linkTo = {}, isProductInStock, isMobile } = this.props;
 
         if (!isProductInStock || Object.keys(linkTo).length === 0 || isMobile) {
@@ -180,7 +168,9 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductOptionLabel(option) {
+    renderProductOptionLabel(
+        option: GQLSelectedCustomizableOption | GQLSelectedDownloadableLinks & { values?: never[] }
+    ): ReactElement {
         const { label, values = [] } = option;
 
         if (Array.isArray(values) && values.length > 0) {
@@ -188,7 +178,9 @@ export class CartItem extends PureComponent {
                 <>
                     <strong>{ `${label}: ` }</strong>
                     <span>
-                    { values.map(({ label, value }) => label || value).join(', ') }
+                    { (values as GQLSelectedCustomizableOptionValue[])
+                        .map(({ label, value }) => label || value)
+                        .join(', ') }
                     </span>
                 </>
             );
@@ -197,7 +189,7 @@ export class CartItem extends PureComponent {
         return label;
     }
 
-    renderBundleProductOptionValue(value, index) {
+    renderBundleProductOptionValue(value: GQLSelectedBundleOptionValue, index: number): ReactElement {
         const {
             label, quantity, price, id
         } = value;
@@ -212,7 +204,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderBundleProductOptionLabel(option) {
+    renderBundleProductOptionLabel(option: GQLSelectedBundleOption): ReactElement {
         const { label, values = [] } = option;
 
         if (values.length === 0) {
@@ -225,13 +217,13 @@ export class CartItem extends PureComponent {
                     <strong>{ `${label}:` }</strong>
                 </div>
                 <div block="CartItem" elem="BundleGroupValues">
-                    { values.map(this.renderBundleProductOptionValue.bind(this)) }
+                    { (values as GQLSelectedBundleOptionValue[]).map(this.renderBundleProductOptionValue.bind(this)) }
                 </div>
             </>
         );
     }
 
-    renderProductBundleOption(option) {
+    renderProductBundleOption(option: GQLSelectedBundleOption): ReactElement {
         const { id } = option;
 
         return (
@@ -246,7 +238,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductBundleOptions(itemOptions = []) {
+    renderProductBundleOptions(itemOptions: GQLSelectedBundleOption[] = []): ReactElement {
         if (!itemOptions.length) {
             return null;
         }
@@ -261,7 +253,9 @@ export class CartItem extends PureComponent {
         );
     }
 
-    _renderProductOption(option) {
+    _renderProductOption(
+        option: GQLSelectedCustomizableOption | GQLSelectedDownloadableLinks
+    ): ReactElement {
         const { id } = option;
 
         return (
@@ -275,7 +269,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductOptions(itemOptions = []) {
+    renderProductOptions(itemOptions: GQLSelectedCustomizableOption[] = []): ReactElement {
         if (!itemOptions.length) {
             return null;
         }
@@ -290,7 +284,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductLinks(itemOptions = []) {
+    renderProductLinks(itemOptions: GQLSelectedDownloadableLinks[] = []): ReactElement {
         if (!itemOptions.length) {
             return null;
         }
@@ -316,12 +310,12 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductName() {
+    renderProductName(): ReactElement {
         const {
             item: {
                 product: {
-                    name
-                }
+                    name = ''
+                } = {}
             }
         } = this.props;
 
@@ -335,7 +329,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductPrice() {
+    renderProductPrice(): ReactElement {
         const {
             currency_code,
             item: {
@@ -360,7 +354,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderOutOfStockMessage() {
+    renderOutOfStockMessage(): ReactElement {
         const { isProductInStock } = this.props;
 
         if (isProductInStock) {
@@ -374,11 +368,11 @@ export class CartItem extends PureComponent {
         );
     }
 
-    quantityClickHandler(e) {
+    quantityClickHandler(e: MouseEvent | KeyboardEvent): void {
         e.preventDefault();
     }
 
-    renderQuantityChangeField() {
+    renderQuantityChangeField(): ReactElement {
         const {
             item: {
                 sku,
@@ -408,11 +402,11 @@ export class CartItem extends PureComponent {
               onClick={ this.quantityClickHandler }
               onKeyDown={ this.quantityClickHandler }
               role="button"
-              tabIndex="-1"
+              tabIndex={ -1 }
             >
                 <Field
                   id="item_qty"
-                  type={ FIELD_TYPE.number }
+                  type={ FieldType.NUMBER }
                   attr={ {
                       id: `${sku}_item_qty`,
                       name: `${sku}_item_qty`,
@@ -426,7 +420,7 @@ export class CartItem extends PureComponent {
                       onChange: handleChangeQuantity
                   } }
                   validationRule={ {
-                      inputType: VALIDATION_INPUT_TYPE.numeric,
+                      inputType: ValidationInputType.NUMERIC,
                       range: {
                           min: minSaleQuantity,
                           max: maxSaleQuantity
@@ -439,7 +433,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderDeleteButton() {
+    renderDeleteButton(): ReactElement {
         const { handleRemoveItem, isMobileLayout } = this.props;
 
         return (
@@ -460,10 +454,10 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderImageElement() {
+    renderImageElement(): ReactElement {
         const {
             item: {
-                product: { name }
+                product: { name = '' } = {}
             },
             thumbnail,
             isProductInStock,
@@ -494,7 +488,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderImage() {
+    renderImage(): ReactElement {
         const { linkTo, isMobile } = this.props;
 
         if (isMobile) {
@@ -508,7 +502,7 @@ export class CartItem extends PureComponent {
         return this.renderImageElement();
     }
 
-    renderQuantity() {
+    renderQuantity(): ReactElement {
         const { item: { qty } } = this.props;
 
         return (
@@ -521,7 +515,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderLoader() {
+    renderLoader(): ReactElement {
         const { showLoader, isLoading } = this.props;
 
         if (!showLoader) {

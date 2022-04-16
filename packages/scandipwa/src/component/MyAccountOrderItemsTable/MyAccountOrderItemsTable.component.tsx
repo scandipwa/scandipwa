@@ -31,13 +31,13 @@ export class MyAccountOrderItemsTable extends PureComponent {
         allOrderItems: OrderProductsType.isRequired
     };
 
-    renderItems() {
+    renderItems(): ReactElement {
         const { items: { items: products = [] } } = this.props;
 
         return products.map(this.renderItemRow.bind(this));
     }
 
-    renderItemRow(product, i) {
+    renderItemRow(product, i): ReactElement {
         const { activeTab, allOrderItems, items: { comments = [] } } = this.props;
         const { product_sku } = product;
         const {
@@ -57,7 +57,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
         );
     }
 
-    renderOrderTitle() {
+    renderOrderTitle(): ReactElement {
         const { activeTab, items: { number }, isMobile } = this.props;
 
         if (isMobile && activeTab === ORDER_ITEMS) {
@@ -75,7 +75,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
         );
     }
 
-    renderRefundsTableHeading() {
+    renderRefundsTableHeading(): ReactElement {
         const { activeTab } = this.props;
 
         if (activeTab !== ORDER_REFUNDS) {
@@ -100,7 +100,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
         );
     }
 
-    renderPriceHeading() {
+    renderPriceHeading(): ReactElement {
         const { activeTab } = this.props;
 
         if (activeTab === ORDER_SHIPMENTS) {
@@ -117,7 +117,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
         );
     }
 
-    renderSubtotalHeading() {
+    renderSubtotalHeading(): ReactElement {
         const { activeTab } = this.props;
 
         if (activeTab === ORDER_SHIPMENTS) {
@@ -134,7 +134,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
         );
     }
 
-    renderItemsHeading() {
+    renderItemsHeading(): ReactElement {
         return (
             <tr
               block="MyAccountOrderItemsTable"
@@ -165,7 +165,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
         );
     }
 
-    renderTotals() {
+    renderTotals(): ReactElement {
         const { total, activeTab } = this.props;
 
         if (activeTab === ORDER_SHIPMENTS) {
@@ -175,7 +175,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
         return <MyAccountOrderTotals activeTab={ activeTab } total={ total } />;
     }
 
-    renderComments() {
+    renderComments(): ReactElement {
         const { items: { comments = [] }, activeTab } = this.props;
 
         if (activeTab === ORDER_ITEMS || !comments.length) {
@@ -211,7 +211,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
         );
     }
 
-    renderDesktopTable() {
+    renderDesktopTable(): ReactElement {
         return (
             <div block="MyAccountOrderItemsTable" elem="ProductsWrapper">
                 { this.renderOrderTitle() }
@@ -235,7 +235,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
         );
     }
 
-    renderMobileTable() {
+    renderMobileTable(): ReactElement {
         return (
             <div block="MyAccountOrderItemsTable" elem="ProductsWrapper">
                 { this.renderOrderTitle() }

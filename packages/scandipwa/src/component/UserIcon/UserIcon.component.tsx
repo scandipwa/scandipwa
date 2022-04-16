@@ -13,12 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { UserIconProps } from './UserIcon.type';
+import { UserIconComponentProps } from './UserIcon.type';
 
 import './UserIcon.style';
 
 /** @namespace Component/UserIcon/Component */
-export class UserIcon extends PureComponent<UserIconProps> {
+export class UserIcon extends PureComponent<UserIconComponentProps> {
     static defaultProps = {
         isActive: false
     };

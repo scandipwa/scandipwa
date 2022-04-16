@@ -28,7 +28,7 @@ export class ShareWishlistPopup extends PureComponent {
         isFormLoading: PropTypes.bool.isRequired
     };
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { handleFormData, isFormLoading } = this.props;
 
         return (

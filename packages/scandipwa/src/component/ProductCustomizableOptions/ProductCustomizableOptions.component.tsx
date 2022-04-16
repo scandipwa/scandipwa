@@ -32,7 +32,7 @@ export class ProductCustomizableOptions extends PureComponent {
         options: []
     };
 
-    renderOptionGroup(group) {
+    renderOptionGroup(group): ReactElement {
         const {
             title,
             value,
