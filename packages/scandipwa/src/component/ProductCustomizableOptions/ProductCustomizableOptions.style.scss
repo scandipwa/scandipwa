@@ -39,17 +39,19 @@
 
             &_type {
                 &_textarea, &_text {
+                    line-height: 0px;
+
                     & + .Field-SubLabelContainer {
                         margin-block-start: 6px;
 
                         .Field-SubLabel {
                             font-weight: normal;
                         }
-                    }   
+                    }
 
                     & + .Field-ErrorMessages {
                         margin-block-end: 0;
-                    }    
+                    }
 
                     & + .Field-ErrorMessages + .Field-SubLabelContainer {
                         margin-block-start: 0;
@@ -58,7 +60,7 @@
                             font-weight: normal;
                         }
                     }
-                }   
+                }
 
                 &_textarea {
                     textarea {
