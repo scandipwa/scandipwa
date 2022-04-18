@@ -16,7 +16,7 @@ import ReviewQuery from 'Query/Review.query';
 import { updateConfig } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { setCurrency } from 'Util/Currency';
+import { returnFilteredCurrencies, setCurrency } from 'Util/Currency';
 import { fetchMutation, QueryDispatcher } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
@@ -39,8 +39,10 @@ export class ConfigDispatcher extends QueryDispatcher {
 
     onSuccess(data, dispatch) {
         if (data) {
-            BrowserDatabase.setItem(data, 'config', ONE_MONTH_IN_SECONDS);
-            dispatch(updateConfig(data));
+            const { currencyData, currency } = data;
+            const filteredData = { ...data, ...returnFilteredCurrencies(currencyData, currency) };
+            BrowserDatabase.setItem(filteredData, 'config', ONE_MONTH_IN_SECONDS);
+            dispatch(updateConfig(filteredData));
         }
     }
 

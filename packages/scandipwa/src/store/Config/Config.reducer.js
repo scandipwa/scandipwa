@@ -23,28 +23,6 @@ export const filterStoreConfig = (config) => Object.entries(config).reduce(
     {}
 );
 
-/** @namespace Store/Config/Reducer/filterAvailableCurrencies */
-export const filterAvailableCurrencies = (currencyData, currencyRates) => {
-    if (
-        currencyData?.available_currencies_data?.length < 1 || currencyRates?.exchange_rates?.length < 1) {
-        return ({ currencyData, currencyRates });
-    }
-
-    const { available_currencies_data: availableCurrencies = [] } = currencyData;
-    const { base_curreny_code: base, exchange_rates: rates = [] } = currencyRates;
-
-    return ({
-        currencyData: {
-            ...currencyData,
-            available_currencies_data:
-                availableCurrencies.filter(({ value }) => (
-                    value === base || rates?.find(({ currency_to }) => currency_to === value).rate > 0
-                ))
-        },
-        currencyRates
-    });
-};
-
 export const {
     countries, reviewRatings, storeConfig, currencyData, currency, cartDisplayConfig
 } = BrowserDatabase.getItem('config') || {
@@ -81,7 +59,8 @@ export const getCheckoutAgreementData = (base, state) => (base || state.checkout
 /** @namespace Store/Config/Reducer/getInitialState */
 export const getInitialState = () => ({
     ...filterStoreConfig(storeConfig),
-    ...filterAvailableCurrencies(currencyData, currency),
+    currencyData,
+    currency,
     countries,
     reviewRatings,
     checkoutAgreements: [],
@@ -129,7 +108,8 @@ export const ConfigReducer = (
             countries: getCountryData(countries, state),
             reviewRatings: getIndexedRatings(reviewRatings),
             checkoutAgreements: getCheckoutAgreementData(checkoutAgreements, state),
-            ...filterAvailableCurrencies(currencyData, currency),
+            currency: getCurrencyRates(currency, state),
+            currencyData: getCurrencyData(currencyData, state),
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
             // and header_logo_src takes old value

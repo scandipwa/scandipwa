@@ -26,17 +26,17 @@ export class ConfigQuery {
     getCurrencyData() {
         return new Field('currencyData')
             .addFieldList([
-                this.getCurrencyField(),
+                this.getCurrencyFields(),
                 'current_currency_code'
             ]);
     }
 
-    getCurrencyField() {
+    getCurrencyFields() {
         return new Field('available_currencies_data')
-            .addFieldList(this._getCurrencyField());
+            .addFieldList(this._getAvailableCurrenciesFields());
     }
 
-    _getCurrencyField() {
+    _getAvailableCurrenciesFields() {
         return [
             'id',
             'label',
@@ -45,17 +45,17 @@ export class ConfigQuery {
     }
 
     getCurrencyRates() {
-        return new Field('currency').addFieldList(this.getCurrencyRatesField());
+        return new Field('currency').addFieldList(this.getCurrencyRatesFields());
     }
 
-    getCurrencyRatesField() {
+    getCurrencyRatesFields() {
         return [
             'base_currency_code',
-            new Field('exchange_rates').addFieldList(this._getExchangeRatesField())
+            new Field('exchange_rates').addFieldList(this._getExchangeRatesFields())
         ];
     }
 
-    _getExchangeRatesField() {
+    _getExchangeRatesFields() {
         return [
             'currency_to',
             'rate'
