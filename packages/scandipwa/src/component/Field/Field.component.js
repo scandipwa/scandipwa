@@ -207,7 +207,7 @@ export class Field extends PureComponent {
         };
         // if button value is "none" do not disable
         const isButtonDisabled = (!value.match('none') && isDisabled);
-        const isChecked = isButtonDisabled ? !isDisabled : null;
+        const isChecked = checked || (isButtonDisabled || defaultChecked ? !isDisabled : null);
 
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
@@ -218,8 +218,7 @@ export class Field extends PureComponent {
                   { ...newAttr }
                   { ...inputEvents }
                   // shipping options have checked attr assigned so prioritize its value
-                  checked={ checked || isChecked }
-                  defaultChecked={ defaultChecked }
+                  defaultChecked={ isChecked }
                 />
                 <div block="input-control" disabled={ isDisabled } />
                 { label }
