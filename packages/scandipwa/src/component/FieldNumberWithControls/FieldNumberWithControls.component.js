@@ -18,12 +18,12 @@ import MinusIcon from 'Component/MinusIcon';
 import { EventsType, FieldAttrType } from 'Type/Field.type';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
-import './FieldNumber.style.scss';
+import './FieldNumberWithControls.style.scss';
 /**
- * Field Number
- * @class FieldNumber
- * @namespace Component/FieldNumber/Component */
-export class FieldNumber extends PureComponent {
+ * Field Number With Controls
+ * @class FieldNumberWithControls
+ * @namespace Component/FieldNumberWithControls/Component */
+export class FieldNumberWithControls extends PureComponent {
     static propTypes = {
         attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
@@ -83,4 +83,4 @@ export class FieldNumber extends PureComponent {
     }
 }
 
-export default FieldNumber;
+export default FieldNumberWithControls;

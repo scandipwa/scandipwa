@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import FieldFile from 'Component/FieldFile';
-import { FieldNumberContainer } from 'Component/FieldNumber/FieldNumber.container';
+import { FieldNumberWithControlsContainer } from 'Component/FieldNumberWithControls/FieldNumberWithControls.container';
 import FieldSelectContainer from 'Component/FieldSelect/FieldSelect.container';
 import { MixType } from 'Type/Common.type';
 import {
@@ -140,7 +140,7 @@ export class Field extends PureComponent {
         } = this.props;
 
         return (
-            <FieldNumberContainer
+            <FieldNumberWithControlsContainer
               attr={ attr }
               events={ events }
               setRef={ setRef }

@@ -15,13 +15,13 @@ import { createRef, PureComponent } from 'react';
 import { EventsType, FieldAttrType } from 'Type/Field.type';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
-import FieldNumber from './FieldNumber.component';
+import FieldNumberWithControls from './FieldNumberWithControls.component';
 
 /**
- * Field Number
- * @class FieldNumberContainer
- * @namespace Component/FieldNumber/Container */
-export class FieldNumberContainer extends PureComponent {
+ * Field Number With Controls
+ * @class FieldNumberWithControlsContainer
+ * @namespace Component/FieldNumberWithControls/Container */
+export class FieldNumberWithControlsContainer extends PureComponent {
     static propTypes = {
         // Field attributes
         attr: FieldAttrType.isRequired,
@@ -147,7 +147,7 @@ export class FieldNumberContainer extends PureComponent {
 
     render() {
         return (
-            <FieldNumber
+            <FieldNumberWithControls
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />
@@ -155,4 +155,4 @@ export class FieldNumberContainer extends PureComponent {
     }
 }
 
-export default FieldNumber;
+export default FieldNumberWithControls;
