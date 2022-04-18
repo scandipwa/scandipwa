@@ -11,19 +11,16 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
-import {
-    ACCOUNT_LOGIN_URL,
-    ACCOUNT_URL
-} from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateIsLoading } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
 import history from 'Util/History';
@@ -145,7 +142,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
 
             if (!isOverlayVisible) {
-                history.push({ pathname: appendWithStoreCode(ACCOUNT_LOGIN_URL) });
+                history.push({ pathname: appendWithStoreCode(AccountPageUrl.LOGIN_URL) });
             }
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
@@ -182,17 +179,17 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         if (
             newMyAccountState !== STATE_LOGGED_IN
-            && pathname.includes(ACCOUNT_URL)
+            && pathname.includes(AccountPageUrl.ACCOUNT_URL)
             && !isOverlayVisible
         ) {
-            history.push({ pathname: appendWithStoreCode(ACCOUNT_LOGIN_URL) });
+            history.push({ pathname: appendWithStoreCode(AccountPageUrl.LOGIN_URL) });
         }
 
         if (newMyAccountState === STATE_LOGGED_IN) {
-            if (pathname.includes(ACCOUNT_URL)) {
+            if (pathname.includes(AccountPageUrl.ACCOUNT_URL)) {
                 history.push({ pathname: appendWithStoreCode('/') });
             } else if (!pathname.includes(CHECKOUT_URL) && redirectToDashboard) {
-                history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
+                history.push({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
             }
         }
     }
@@ -257,13 +254,13 @@ export class MyAccountOverlayContainer extends PureComponent {
             name: CUSTOMER_SUB_ACCOUNT,
             title: 'Forgot password',
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
+                history.push({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
                 this.handleSignIn(e);
             }
         });
 
         if (isMobile) {
-            history.push({ pathname: appendWithStoreCode(ACCOUNT_URL), state: { isForgotPassword: true } });
+            history.push({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL), state: { isForgotPassword: true } });
 
             return state;
         }
@@ -334,8 +331,8 @@ export class MyAccountOverlayContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountOverlay
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

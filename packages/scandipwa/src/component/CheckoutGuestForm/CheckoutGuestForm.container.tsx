@@ -56,7 +56,7 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
+    showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
     clearEmailStatus: () => dispatch(updateEmailAvailable(true)),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, email)

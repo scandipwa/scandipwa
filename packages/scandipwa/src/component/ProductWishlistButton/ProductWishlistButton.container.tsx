@@ -115,7 +115,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         } = this.state;
 
         if (!isSignedIn()) {
-            return showNotification('info', __('You must login or register to add items to your wishlist.'));
+            return showNotification(NotificationType.INFO, __('You must login or register to add items to your wishlist.'));
         }
 
         this.setWishlistButtonLoading(true);

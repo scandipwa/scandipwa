@@ -16,7 +16,7 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { Product } from 'Component/Product/Product.component';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { MixType } from 'Type/Common.type';
@@ -115,7 +115,7 @@ export class ProductCard extends Product {
         }
 
         // If product is not a variant.
-        const notConfigured = baseType !== PRODUCT_TYPE.configurable || typeId === baseType;
+        const notConfigured = baseType !== ProductType.configurable || typeId === baseType;
 
         return super.renderPrice(notConfigured);
     }
@@ -242,12 +242,12 @@ export class ProductCard extends Product {
             }
         } = this.props;
 
-        const configureBundleAndGrouped = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.grouped;
-        const configureConfig = type === PRODUCT_TYPE.configurable
+        const configureBundleAndGrouped = type === ProductType.bundle || type === ProductType.grouped;
+        const configureConfig = type === ProductType.configurable
             // eslint-disable-next-line max-len
             && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
         const configureCustomize = options.some(({ required = false }) => required);
-        const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
+        const configureDownloadableLinks = ProductType.downloadable && links_purchased_separately === 1;
 
         return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
     }

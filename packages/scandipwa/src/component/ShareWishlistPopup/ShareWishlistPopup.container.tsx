@@ -26,8 +26,8 @@ import ShareWishlistPopup from './ShareWishlistPopup.component';
 
 /** @namespace Component/ShareWishlistPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showNotification: (message) => dispatch(showNotification('success', message)),
-    showError: (message) => dispatch(showNotification('error', message)),
+    showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
+    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     hidePopup: () => dispatch(showPopup('', {})),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });

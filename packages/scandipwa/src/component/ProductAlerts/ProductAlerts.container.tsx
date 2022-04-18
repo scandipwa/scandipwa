@@ -32,7 +32,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/ProductAlerts/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    showErrorNotification: (message) => dispatch(showNotification('error', message))
+    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message))
 });
 
 /** @namespace Component/ProductAlerts/Container */
@@ -81,7 +81,7 @@ export class ProductAlertsContainer extends PureComponent {
         } = this.props;
 
         if (!isSignedIn) {
-            showNotification('info', __('Please sign in to subscribe for notification'));
+            showNotification(NotificationType.INFO, __('Please sign in to subscribe for notification'));
             return;
         }
 
@@ -91,7 +91,7 @@ export class ProductAlertsContainer extends PureComponent {
             const productAlertSubscribe = await fetchMutation(query);
 
             if (productAlertSubscribe) {
-                showNotification('success', __('You saved the alert subscription'));
+                showNotification(NotificationType.SUCCESS, __('You saved the alert subscription'));
             }
         } catch (error) {
             showErrorNotification(getErrorMessage(error));

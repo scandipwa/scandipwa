@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import FieldForm from 'Component/FieldForm';
 import { Addresstype } from 'Type/Account.type';
 import { CountriesType } from 'Type/Config.type';

@@ -17,7 +17,7 @@ import Loader from 'Component/Loader';
 import {
     MyAccountOverlay
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
-import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { isSignedIn } from 'Util/Auth';
 
 import './ForgotPassword.style';
@@ -102,7 +102,7 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
         } = this.props;
 
         if (isSignedIn()) {
-            return <Redirect to={ACCOUNT_URL} />;
+            return <Redirect to={AccountPageUrl.ACCOUNT_URL} />;
         }
 
         return (

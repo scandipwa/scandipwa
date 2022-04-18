@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export enum PRODUCT_TYPE {
+export enum ProductType {
     CONFIGURABLE = 'configurable',
     GROUPED = 'grouped',
     SIMPLE = 'simple',

@@ -11,7 +11,7 @@
 
 import { PureComponent } from 'react';
 
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import { ReactElement } from 'Type/Common.type';
 import { ProductType } from 'Type/ProductList.type';
 import { formatPrice, getLowestPriceTiersPrice } from 'Util/Price';
@@ -72,7 +72,7 @@ export class TierPrices extends PureComponent {
 
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
-                { type_id === PRODUCT_TYPE.bundle
+                { type_id === ProductType.bundle
                     ? this.renderBundleTierPrice(quantity, tierDiscount)
                     : this.renderProductTierPrice(quantity, formattedPrice, percentOff) }
             </li>

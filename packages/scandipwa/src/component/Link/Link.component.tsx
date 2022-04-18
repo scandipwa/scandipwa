@@ -36,7 +36,7 @@ export class Link extends PureComponent<LinkComponentProps> {
         } = this.props;
 
         const elem = document.querySelector<HTMLElement>(
-            cssIdentifier !== '#' ? cssIdentifier : 'body'
+            cssIdentifier !== '#' ? cssIdentifier as string : 'body'
         );
 
         e.preventDefault();
@@ -65,7 +65,7 @@ export class Link extends PureComponent<LinkComponentProps> {
                 <a
                   { ...props }
                   onClick={ this.scrollToElement }
-                  href={ to }
+                  href={ to as string }
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -79,7 +79,7 @@ export class Link extends PureComponent<LinkComponentProps> {
             <a
               { ...props }
               onClick={ this.scrollToElement }
-              href={ to }
+              href={ to as string }
             >
                 { children }
             </a>
@@ -99,7 +99,7 @@ export class Link extends PureComponent<LinkComponentProps> {
             return (
                 <a
                   { ...props }
-                  href={ to }
+                  href={ to as string }
                     // eslint-disable-next-line react/forbid-dom-props
                   className={ classNameConverted }
                   rel="noopener noreferrer"
@@ -113,7 +113,7 @@ export class Link extends PureComponent<LinkComponentProps> {
         return (
             <a
               { ...props }
-              href={ to }
+              href={ to as string }
                 // eslint-disable-next-line react/forbid-dom-props
               className={ classNameConverted }
             >
@@ -140,13 +140,13 @@ export class Link extends PureComponent<LinkComponentProps> {
             );
         }
 
-        if (/^#/.test(to)) {
+        if (/^#/.test(to as string)) {
             return this.renderRelativePathLink();
         }
 
         const classNameConverted = `${ className } ${ stringify(bemProps)}`;
 
-        if (/^https?:\/\//.test(to)) {
+        if (/^https?:\/\//.test(to as string)) {
             return this.renderAbsolutePathLink(classNameConverted);
         }
 

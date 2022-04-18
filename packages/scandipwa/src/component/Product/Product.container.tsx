@@ -14,7 +14,7 @@ import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { FIELD_RADIO_NONE, FieldType } from 'Component/Field/Field.config';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { RefType } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';
@@ -44,7 +44,7 @@ export const mapDispatchToProps = (dispatch) => ({
     addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
-    showError: (message) => dispatch(showNotification('error', message))
+    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message))
 });
 
 /** @namespace Component/Product/Container/mapStateToProps */
@@ -165,7 +165,7 @@ export class ProductContainer extends PureComponent {
             return null;
         }
 
-        if (typeId === PRODUCT_TYPE.grouped) {
+        if (typeId === ProductType.grouped) {
             return getGroupedProductsInStockQuantity(product);
         }
 
@@ -248,11 +248,11 @@ export class ProductContainer extends PureComponent {
         } = activeProduct || {};
 
         const output = {
-            inStock: fromCache(getProductInStock, [ activeProduct, product ]),
+            inStock: fromCache(getProductInStock, [activeProduct, product]),
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
             productName: getName(product),
-            productPrice: fromCache(getPrice, [ priceRange, dynamicPrice, adjustedPrice, type, options ])
+            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type, options])
         };
 
         return {
@@ -292,7 +292,7 @@ export class ProductContainer extends PureComponent {
             });
         }
 
-        const values = getFieldsData(current, true, [ FieldType.number ]);
+        const values = getFieldsData(current, true, [FieldType.number]);
 
         values.forEach(({ name, value, type }) => {
             if (type === FieldType.select) {
@@ -520,7 +520,7 @@ export class ProductContainer extends PureComponent {
             product,
             quantity,
             enteredOptions,
-            [ ...selectedOptions, ...downloadableLinks, ...configurableOptions ],
+            [...selectedOptions, ...downloadableLinks, ...configurableOptions],
         );
     }
 

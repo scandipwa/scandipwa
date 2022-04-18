@@ -14,7 +14,7 @@ export enum AccountPageUrl {
     FORGOT_PASSWORD_URL = 'customer/account/forgotpassword',
     REGISTRATION_URL = '/customer/account/create',
     LOGIN_URL = '/customer/account/login',
-    URL = '/customer/account',
+    ACCOUNT_URL = '/customer/account',
     ORDER_URL = '/sales/order/view/order_id',
     ORDER_PRINT_URL = 'sales/order/print/order_id',
     ORDER_HISTORY = 'sales/order/history'

@@ -12,6 +12,6 @@
 import { Url } from './Common.type';
 
 export type Breadcrumb = {
-    url: Url<unknown>;
+    url: Url;
     name: string;
 };

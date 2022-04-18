@@ -13,7 +13,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import { ReactElement } from 'Type/Common.type';
 

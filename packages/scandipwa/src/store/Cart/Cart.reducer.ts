@@ -11,7 +11,6 @@
 
 import { Reducer } from 'redux';
 
-import { GQLProductInterface, GQLTotalsItem } from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 
@@ -31,13 +30,11 @@ export const updateCartTotals = (action: UpdateTotalsAction): CartStore => {
     };
 
     if (items.length) {
-        const normalizedItemsProduct = (items as GQLTotalsItem[]).map((item) => {
-            // const { ...normalizedItem } = item;
+        const normalizedItemsProduct = items.map((item) => {
             const normalizedItem = {
                 ...item,
-                product: getIndexedProduct(item.product as GQLProductInterface, item?.sku)
+                product: getIndexedProduct(item.product, item?.sku)
             };
-            // normalizedItem.product = getIndexedProduct(item.product as GQLProductInterface, item?.sku);
 
             return normalizedItem;
         });

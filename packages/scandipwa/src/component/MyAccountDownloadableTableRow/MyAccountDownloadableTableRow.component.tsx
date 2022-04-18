@@ -15,18 +15,13 @@ import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import { STATUS_EXPIRED } from 'Component/MyAccountDownloadableTableRow/MyAccountDownloadableTableRow.config';
 import { ReactElement } from 'Type/Common.type';
-import { DownloadableType } from 'Type/Order.type';
+
+import { MyAccountDownloadableTableRowComponentProps } from './MyAccountDownloadableTableRow.type';
 
 import './MyAccountDownloadableTableRow.style';
 
 /** @namespace Component/MyAccountDownloadableTableRow/Component */
-export class MyAccountDownloadableTableRowComponent extends PureComponent {
-    static propTypes = {
-        order: DownloadableType.isRequired,
-        onOrderIdClick: PropTypes.func.isRequired,
-        isOpenInNewTab: PropTypes.bool.isRequired
-    };
-
+export class MyAccountDownloadableTableRowComponent extends PureComponent<MyAccountDownloadableTableRowComponentProps> {
     renderOrderIncrementId(): ReactElement {
         const {
             order: {

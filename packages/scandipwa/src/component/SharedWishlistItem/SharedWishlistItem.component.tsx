@@ -11,7 +11,7 @@
 
 import AddToCart from 'Component/AddToCart';
 import Field from 'Component/Field';
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import ProductCard from 'Component/ProductCard';
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';

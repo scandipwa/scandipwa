@@ -12,7 +12,10 @@
 import { Device } from 'Type/Device.type';
 
 import {
-    ConfigActionType, ConfigStore, UpdateConfigAction, UpdateConfigDeviceAction
+    ConfigActionType,
+    ConfigStore,
+    UpdateConfigAction,
+    UpdateConfigDeviceAction
 } from './Config.type';
 
 /** @namespace Store/Config/Action/updateConfig */

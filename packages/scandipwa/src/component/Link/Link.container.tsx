@@ -11,16 +11,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
+import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { UrlType } from 'Type/Router.type';
+import { ReactElement, Url } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import Link from './Link.component';
+import {
+    LinkComponentProps, LinkContainerDispatchProps, LinkContainerMapStateProps, LinkContainerProps
+} from './Link.type';
 
 export const NoMatchDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -28,26 +31,19 @@ export const NoMatchDispatcher = import(
 );
 
 /** @namespace Component/Link/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): LinkContainerMapStateProps => ({
     baseLinkUrl: state.ConfigReducer.base_link_url || ''
 });
 
 /** @namespace Component/Link/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    updateNoMatch: (options) => NoMatchDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
+export const mapDispatchToProps = (dispatch: Dispatch): LinkContainerDispatchProps => ({
+    updateNoMatch: (noMatch) => NoMatchDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, { noMatch })
     )
 });
 
 /** @namespace Component/Link/Container */
-export class LinkContainer extends PureComponent {
-    static propTypes = {
-        baseLinkUrl: PropTypes.string.isRequired,
-        updateNoMatch: PropTypes.func.isRequired,
-        onClick: PropTypes.func,
-        to: UrlType
-    };
-
+export class LinkContainer extends PureComponent<LinkContainerProps> {
     static defaultProps = {
         onClick: noopFn
     };
@@ -56,7 +52,7 @@ export class LinkContainer extends PureComponent {
         onClick: this.onClick.bind(this)
     };
 
-    containerProps() {
+    containerProps(): LinkComponentProps {
         const {
             block,
             elem,
@@ -80,7 +76,7 @@ export class LinkContainer extends PureComponent {
         };
     }
 
-    getTo() {
+    getTo(): Url {
         const { to: toProp } = this.props;
         // fix null, undefined and empty links
         const to = toProp || '/';
@@ -103,7 +99,7 @@ export class LinkContainer extends PureComponent {
     }
 
     // Resets no match state on redirect
-    onClick(e) {
+    onClick(e: MouseEvent): void {
         const { updateNoMatch, onClick } = this.props;
         updateNoMatch(false);
 
@@ -115,8 +111,8 @@ export class LinkContainer extends PureComponent {
     render(): ReactElement {
         return (
             <Link
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

@@ -15,7 +15,7 @@ import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
-import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { ADDRESS_BOOK, CustomerType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 
@@ -44,7 +44,7 @@ export class MyAccountDashboard extends PureComponent {
     renderLinkToAddressBook(): ReactElement {
         return (
             <p block="MyAccountDashboard" elem="Info">
-                <Link to={ `${ACCOUNT_URL}/${ADDRESS_BOOK}` }>
+                <Link to={ `${AccountPageUrl.ACCOUNT_URL}/${ADDRESS_BOOK}` }>
                     { __('Go to "Address Book", to configure them!') }
                 </Link>
             </p>
@@ -79,7 +79,7 @@ export class MyAccountDashboard extends PureComponent {
         return (
             <div block="MyAccountDashboard" elem="BlockTitle">
                 <span>{ __('Address Book') }</span>
-                <Link to={ `${ACCOUNT_URL}/${ADDRESS_BOOK}` }>
+                <Link to={ `${AccountPageUrl.ACCOUNT_URL}/${ADDRESS_BOOK}` }>
                     { __('Manage Addresses') }
                 </Link>
             </div>

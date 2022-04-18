@@ -11,9 +11,8 @@
 
 import { Reducer } from 'redux';
 
-import {
-    GQLCheckoutAgreement, GQLCountry, GQLCurrencyConfig, GQLStoreConfig
-} from 'Type/Graphql.type';
+import { CheckoutAgreement, CurrencyConfig, StoreConfig } from 'Query/Config.type';
+import { Country } from 'Query/Region.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import {
@@ -29,7 +28,7 @@ export const MAX_HEIGHT = 40;
 export const DEFAULT_CATGORY_URL_SUFFIX = '.html';
 
 /** @namespace Store/Config/Reducer/filterStoreConfig */
-export const filterStoreConfig = (config: GQLStoreConfig): Partial<GQLStoreConfig> => Object.entries(config).reduce(
+export const filterStoreConfig = (config: StoreConfig): Partial<StoreConfig> => Object.entries(config).reduce(
     (acc, [key, value]) => (value !== null ? { ...acc, [key]: value } : acc),
     {}
 );
@@ -58,21 +57,24 @@ export const getIndexedRatings = (
 
 /** @namespace Store/Config/Reducer/getCurrencyData */
 export const getCurrencyData = (
-    base: GQLCurrencyConfig,
-    state: ConfigStore
-): GQLCurrencyConfig => (base || state.currencyData || {});
+    base: CurrencyConfig,
+    state: Partial<ConfigStore>
+): CurrencyConfig => (base || state.currencyData || {});
 
 /** @namespace Store/Config/Reducer/getCountryData */
-export const getCountryData = (base: GQLCountry[], state: ConfigStore): GQLCountry[] => (base || state.countries || {});
+export const getCountryData = (
+    base: Country[],
+    state: Partial<ConfigStore>
+): Country[] => (base || state.countries || {});
 
 /** @namespace Store/Config/Reducer/getCheckoutAgreementData */
 export const getCheckoutAgreementData = (
-    base: GQLCheckoutAgreement[],
-    state: ConfigStore
-): GQLCheckoutAgreement[] => (base || state.checkoutAgreements || {});
+    base: CheckoutAgreement[],
+    state: Partial<ConfigStore>
+): CheckoutAgreement[] => (base || state.checkoutAgreements || {});
 
 /** @namespace Store/Config/Reducer/getInitialState */
-export const getInitialState = (): ConfigStore => ({
+export const getInitialState = (): Partial<ConfigStore> => ({
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
@@ -80,7 +82,10 @@ export const getInitialState = (): ConfigStore => ({
     currencyData,
     isLoading: true,
     cartDisplayConfig,
-    priceTaxDisplay: {},
+    priceTaxDisplay: {
+        product_price_display_type: '',
+        shipping_price_display_type: ''
+    },
     category_url_suffix: DEFAULT_CATGORY_URL_SUFFIX,
     device: {
         isMobile: true,
@@ -89,12 +94,13 @@ export const getInitialState = (): ConfigStore => ({
         blackberry: false,
         opera: false,
         windows: false,
+        safari: false,
         standaloneMode: window.matchMedia('(display-mode: standalone)').matches
     }
 });
 
 /** @namespace Store/Config/Reducer/ConfigReducer */
-export const ConfigReducer: Reducer<ConfigStore, ConfigAction> = (
+export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
     state = getInitialState(),
     action
 ) => {

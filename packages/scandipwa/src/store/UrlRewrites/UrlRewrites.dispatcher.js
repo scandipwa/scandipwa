@@ -35,7 +35,7 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
         dispatch(setIsUrlRewritesLoading(false));
         dispatch(updateUrlRewrite({ notFound: true }, urlParam));
         dispatch(updateNoMatch(true));
-        dispatch(showNotification('error', __('Error fetching URL-rewrites!'), error));
+        dispatch(showNotification(NotificationType.ERROR, __('Error fetching URL-rewrites!'), error));
     }
 
     /**

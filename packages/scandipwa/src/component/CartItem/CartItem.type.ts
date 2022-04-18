@@ -30,3 +30,22 @@ export interface CartItemComponentProps {
     isMobileLayout: boolean;
     showLoader: boolean;
 }
+
+export interface CartItemContainerProps {
+    item: CartItem;
+    currency_code: string;
+    changeItemQty: () => void;
+    removeProduct: () => void;
+    updateCrossSellProducts: () => void;
+    updateCrossSellsOnRemove: boolean;
+    isCartOverlay: boolean;
+    isMobile: boolean;
+    isEditing: boolean;
+    cartId: string;
+    onCartItemLoading: () => void;
+    showLoader: boolean;
+}
+
+export interface CartItemContainerState {
+    isLoading: boolean;
+}

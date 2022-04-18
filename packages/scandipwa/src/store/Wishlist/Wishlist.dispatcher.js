@@ -81,7 +81,7 @@ export class WishlistDispatcher {
 
                         return {
                             ...prev,
-                            [id]: {
+                            [ id ]: {
                                 ...product,
                                 ...priceRange,
                                 quantity,
@@ -118,10 +118,10 @@ export class WishlistDispatcher {
             const { items = [], wishlistId = '' } = options;
             dispatch(updateIsLoading(true));
             await fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items));
-            dispatch(showNotification('success', __('Product added to wish-list!')));
+            dispatch(showNotification(NotificationType.SUCCESS, __('Product added to wish-list!')));
             await this._syncWishlistWithBE(dispatch);
         } catch {
-            dispatch(showNotification('error', __('Error updating wish list!')));
+            dispatch(showNotification(NotificationType.ERROR, __('Error updating wish list!')));
         } finally {
             dispatch(updateIsLoading(false));
         }
@@ -154,7 +154,7 @@ export class WishlistDispatcher {
             )
             .catch(
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/clearWishlist/then/catch/dispatch */
-                () => dispatch(showNotification('error', __('Error clearing wish list!')))
+                () => dispatch(showNotification(NotificationType.ERROR, __('Error clearing wish list!')))
             );
     }
 
@@ -170,7 +170,7 @@ export class WishlistDispatcher {
             CartDispatcher.then(
                 ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, getAuthorizationToken())
             );
-            dispatch(showNotification('success', __('Available items moved to cart')));
+            dispatch(showNotification(NotificationType.SUCCESS, __('Available items moved to cart')));
         }
     }
 
@@ -185,7 +185,7 @@ export class WishlistDispatcher {
             await fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id));
         } catch (e) {
             if (!noMessages) {
-                dispatch(showNotification('error', __('Error updating wish list!')));
+                dispatch(showNotification(NotificationType.ERROR, __('Error updating wish list!')));
             }
 
             return Promise.reject();
@@ -194,7 +194,7 @@ export class WishlistDispatcher {
         dispatch(removeItemFromWishlist(item_id));
 
         if (!noMessages) {
-            dispatch(showNotification('success', __('Product has been removed from your Wish List!')));
+            dispatch(showNotification(NotificationType.SUCCESS, __('Product has been removed from your Wish List!')));
         }
 
         return Promise.resolve();
@@ -211,11 +211,11 @@ export class WishlistDispatcher {
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemsFromWishlist/itemIdMap/map/fetchMutation/then */
                 () => {
                     dispatch(removeItemFromWishlist(id));
-                    dispatch(showNotification('success', __('Product has been removed from your Wish List!')));
+                    dispatch(showNotification(NotificationType.SUCCESS, __('Product has been removed from your Wish List!')));
                 },
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemsFromWishlist/itemIdMap/map/fetchMutation/then/catch */
                 (error) => {
-                    dispatch(showNotification('error', getErrorMessage(error, __('Error updating wishlist!'))));
+                    dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error, __('Error updating wishlist!'))));
                 }
             )
         ));

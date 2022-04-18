@@ -39,8 +39,8 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountAddressPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
+    showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
+    showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     updateCustomerDetails: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     ),

@@ -17,7 +17,7 @@ import { ReactElement } from 'Type/Common.type';
 import Breadcrumbs from 'Component/Breadcrumbs/Breadcrumbs.component';
 import ContentWrapper from 'Component/ContentWrapper';
 import Field from 'Component/Field';
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import LockIcon from 'Component/LockIcon';
 import Notification from 'Component/Notification';
 

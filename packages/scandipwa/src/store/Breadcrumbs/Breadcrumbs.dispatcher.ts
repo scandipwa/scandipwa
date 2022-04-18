@@ -11,10 +11,12 @@
 
 import { Dispatch } from 'redux';
 
-import { toggleBreadcrumbs, updateBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
-import { Breadcrumb } from 'Type/Breadcrumbs.type';
-import { GQLCategoryTree } from 'Type/Graphql.type';
-import { Product, ProductCategory } from 'Type/ProductList.type';
+import {
+    toggleBreadcrumbs,
+    updateBreadcrumbs
+} from 'Store/Breadcrumbs/Breadcrumbs.action';
+
+import { Breadcrumb, Category, Product } from './Breadcrumbs.type';
 
 /**
  * Breadcrumbs Dispatcher
@@ -39,7 +41,7 @@ export class BreadcrumbsDispatcher {
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    updateWithCategory(category: GQLCategoryTree, dispatch: Dispatch): void {
+    updateWithCategory(category: Category, dispatch: Dispatch): void {
         const breadcrumbs = this._getCategoryBreadcrumbs(category);
         dispatch(toggleBreadcrumbs(true));
         dispatch(updateBreadcrumbs(breadcrumbs));
@@ -83,7 +85,7 @@ export class BreadcrumbsDispatcher {
      * @return {Array<Object>} Breadcrumbs array
      * @memberof BreadcrumbsDispatcher
      */
-    _getCategoryBreadcrumbs(category: GQLCategoryTree): Breadcrumb[] {
+    _getCategoryBreadcrumbs(category: Partial<Category>): Breadcrumb[] {
         const { url = '', name = '', breadcrumbs } = category;
         const breadcrumbsList: Breadcrumb[] = [];
 
@@ -123,11 +125,11 @@ export class BreadcrumbsDispatcher {
         ];
     }
 
-    findCategoryById(categories: ProductCategory[], categoryId: number): ProductCategory | undefined {
+    findCategoryById(categories: Category[], categoryId: number): Category | undefined {
         return categories.find(({ id }) => id === categoryId);
     }
 
-    findLongestBreadcrumbs(categories: ProductCategory[]): ProductCategory {
+    findLongestBreadcrumbs(categories: Category[]): Partial<Category> {
         const {
             breadcrumbsCategory = {}
         } = categories.reduce((acc, category) => {
@@ -156,7 +158,7 @@ export class BreadcrumbsDispatcher {
             longestBreadcrumbsLength: 0
         });
 
-        return breadcrumbsCategory as ProductCategory;
+        return breadcrumbsCategory;
     }
 
     /**
@@ -167,7 +169,7 @@ export class BreadcrumbsDispatcher {
      * @return {Array<Object>} Breadcrumbs array
      * @memberof BreadcrumbsDispatcher
      */
-    _getProductBreadcrumbs(product: Product, prevCategoryId: number | null = null): Breadcrumb[] {
+    _getProductBreadcrumbs(product: Product, prevCategoryId = 0): Breadcrumb[] {
         const { categories, url, name } = product;
 
         if (!categories) {
@@ -181,7 +183,7 @@ export class BreadcrumbsDispatcher {
         return [
             { url, name },
             ...this._getCategoryBreadcrumbs(
-                this.findCategoryById(categories, prevCategoryId || 0) as GQLCategoryTree
+                this.findCategoryById(categories, prevCategoryId || 0)
                 || this.findLongestBreadcrumbs(categories)
             )
         ];

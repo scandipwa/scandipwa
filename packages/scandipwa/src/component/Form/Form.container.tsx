@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import { ChildrenType, MixType, RefType } from 'Type/Common.type';
 import { EventsType, FieldAttrType, ValidationRuleType } from 'Type/Field.type';
 import getFieldsData from 'Util/Form/Extract';

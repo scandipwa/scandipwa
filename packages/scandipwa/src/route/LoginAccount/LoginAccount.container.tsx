@@ -20,7 +20,7 @@ import {
     mapStateToProps,
     MyAccountOverlayContainer
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
-import { ACCOUNT_FORGOT_PASSWORD_URL, ACCOUNT_REGISTRATION_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router.type';
@@ -53,11 +53,11 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     };
 
     onCreateAccountClick() {
-        history.replace(appendWithStoreCode(`${ACCOUNT_REGISTRATION_URL}`));
+        history.replace(appendWithStoreCode(`${AccountPageUrl.REGISTRATION_URL}`));
     }
 
     handleForgotPassword() {
-        history.replace(appendWithStoreCode(`${ACCOUNT_FORGOT_PASSWORD_URL}`));
+        history.replace(appendWithStoreCode(`${AccountPageUrl.FORGOT_PASSWORD_URL}`));
     }
 
     componentDidMount(): void {
@@ -73,7 +73,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
         } = this.props;
 
         if (isSignedIn() && (!isFromEmailChange && !isFromLocked)) {
-            history.replace(appendWithStoreCode(ACCOUNT_URL));
+            history.replace(appendWithStoreCode(AccountPageUrl.ACCOUNT_URL));
         }
 
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
@@ -84,7 +84,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     componentDidUpdate(prevProps, prevState): void {
         if (isSignedIn()) {
             // remove login url from history to skip it when navigating back
-            history.replace(appendWithStoreCode(ACCOUNT_URL));
+            history.replace(appendWithStoreCode(AccountPageUrl.ACCOUNT_URL));
 
             return;
         }
@@ -95,8 +95,8 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     render(): ReactElement {
         return (
             <LoginAccount
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

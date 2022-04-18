@@ -9,20 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { CartItem } from 'Type/MiniCart.type';
+import { ReactElement } from 'Type/Common.type';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import { makeCancelable } from 'Util/Promise';
+import { CancelablePromise } from 'Util/Promise/Promise.type';
 import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
+import { CartItemContainerProps, CartItemContainerState } from './CartItem.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -53,22 +53,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/CartItem/Container */
-export class CartItemContainer extends PureComponent {
-    static propTypes = {
-        item: CartItem.isRequired,
-        currency_code: PropTypes.string.isRequired,
-        changeItemQty: PropTypes.func.isRequired,
-        removeProduct: PropTypes.func.isRequired,
-        updateCrossSellProducts: PropTypes.func.isRequired,
-        updateCrossSellsOnRemove: PropTypes.bool,
-        isCartOverlay: PropTypes.bool,
-        isMobile: PropTypes.bool.isRequired,
-        isEditing: PropTypes.bool,
-        cartId: PropTypes.string,
-        onCartItemLoading: PropTypes.func,
-        showLoader: PropTypes.bool
-    };
-
+export class CartItemContainer extends PureComponent<CartItemContainerProps, CartItemContainerState> {
     static defaultProps = {
         updateCrossSellsOnRemove: false,
         isCartOverlay: false,
@@ -78,15 +63,9 @@ export class CartItemContainer extends PureComponent {
         showLoader: true
     };
 
-    state = { isLoading: false };
+    state: CartItemContainerState = { isLoading: false };
 
     handlers = [];
-
-    setStateNotLoading = this.setStateNotLoading.bind(this);
-
-    renderRightSideContent = this.renderRightSideContent.bind(this);
-
-    handleRemoveItemOnSwipe = this.handleRemoveItemOnSwipe.bind(this);
 
     containerFunctions = {
         handleChangeQuantity: this.handleChangeQuantity.bind(this),
@@ -94,6 +73,14 @@ export class CartItemContainer extends PureComponent {
         getCurrentProduct: this.getCurrentProduct.bind(this),
         getProductVariant: this.getProductVariant.bind(this)
     };
+
+    __construct(props: CartItemContainerProps): void {
+        super.__construct?.(props);
+
+        this.setStateNotLoading = this.setStateNotLoading.bind(this);
+        this.renderRightSideContent = this.renderRightSideContent.bind(this);
+        this.handleRemoveItemOnSwipe = this.handleRemoveItemOnSwipe.bind(this);
+    }
 
     componentDidMount(): void {
         this.setStateNotLoading();
@@ -103,11 +90,11 @@ export class CartItemContainer extends PureComponent {
         this.notifyAboutLoadingStateChange(false);
 
         if (this.handlers.length) {
-            [].forEach.call(this.handlers, (cancelablePromise) => cancelablePromise.cancel());
+            [].forEach.call(this.handlers, (cancelablePromise: CancelablePromise) => cancelablePromise.cancel());
         }
     }
 
-    productIsInStock() {
+    productIsInStock(): boolean {
         const { item: { product } } = this.props;
 
         return getProductInStock(product);
@@ -125,7 +112,7 @@ export class CartItemContainer extends PureComponent {
             : product.variants[ variantIndex ];
     }
 
-    setStateNotLoading() {
+    setStateNotLoading(): void {
         this.notifyAboutLoadingStateChange(false);
         this.setState({ isLoading: false });
     }
@@ -164,7 +151,7 @@ export class CartItemContainer extends PureComponent {
      * @return {void}
      * @param quantity
      */
-    handleChangeQuantity(quantity) {
+    handleChangeQuantity(quantity): void {
         this.setState({ isLoading: true }, () => {
             const { changeItemQty, item: { item_id, qty = 1 }, cartId } = this.props;
 
@@ -185,12 +172,12 @@ export class CartItemContainer extends PureComponent {
     /**
      * @return {void}
      */
-    handleRemoveItem(e) {
+    handleRemoveItem(e): void {
         this.handleRemoveItemOnSwipe(e);
         this.notifyAboutLoadingStateChange(true);
     }
 
-    handleRemoveItemOnSwipe(e) {
+    handleRemoveItemOnSwipe(e): void {
         if (e) {
             e.preventDefault();
         }
@@ -200,7 +187,7 @@ export class CartItemContainer extends PureComponent {
         });
     }
 
-    getIsMobileLayout() {
+    getIsMobileLayout(): boolean {
         // "isMobileLayout" check is required to render mobile content in some additional cases
         // where screen width exceeds 810px (e.g. CartOverlay)
         const { isMobile, isCartOverlay } = this.props;
@@ -240,7 +227,7 @@ export class CartItemContainer extends PureComponent {
      * @param {Promise} promise
      * @returns {void}
      */
-    hideLoaderAfterPromise(promise) {
+    hideLoaderAfterPromise(promise): void {
         this.registerCancelablePromise(promise)
             .promise.then(this.setStateNotLoading, this.setStateNotLoading);
     }
@@ -289,7 +276,7 @@ export class CartItemContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        if (type_id !== PRODUCT_TYPE.configurable) {
+        if (type_id !== ProductType.configurable) {
             return {
                 pathname: url,
                 state: { product }
@@ -304,7 +291,7 @@ export class CartItemContainer extends PureComponent {
         const { attributes } = variant;
 
         const parameters = Object.entries(attributes).reduce(
-            (parameters, [ code, { attribute_value } ]) => {
+            (parameters, [code, { attribute_value }]) => {
                 if (Object.keys(configurable_options).includes(code)) {
                     return { ...parameters, [ code ]: attribute_value };
                 }
@@ -322,14 +309,14 @@ export class CartItemContainer extends PureComponent {
         };
     }
 
-    _getProductThumbnail() {
+    _getProductThumbnail(): string {
         const product = this.getCurrentProduct();
         const { thumbnail: { url: thumbnail } = {} } = product;
 
         return thumbnail || '';
     }
 
-    getConfigurationOptionLabel([ key, attribute ]) {
+    getConfigurationOptionLabel([key, attribute]): string | null {
         const {
             item: {
                 product: {
@@ -374,12 +361,12 @@ export class CartItemContainer extends PureComponent {
         const { attributes = [] } = this.getCurrentProduct() || {};
 
         return Object.entries(attributes)
-            .filter(([ attrKey ]) => Object.keys(configurable_options).includes(attrKey))
+            .filter(([attrKey]) => Object.keys(configurable_options).includes(attrKey))
             .map(this.getConfigurationOptionLabel.bind(this))
             .filter((label) => label);
     }
 
-    notifyAboutLoadingStateChange(isLoading) {
+    notifyAboutLoadingStateChange(isLoading): void {
         const { onCartItemLoading } = this.props;
 
         if (onCartItemLoading) {
@@ -392,12 +379,12 @@ export class CartItemContainer extends PureComponent {
 
         return (
             <button
-                block="CartItem"
-                elem="SwipeToDeleteRightSide"
-                onClick={handleRemoveItem}
-                aria-label={__('Remove')}
+              block="CartItem"
+              elem="SwipeToDeleteRightSide"
+              onClick={ handleRemoveItem }
+              aria-label={ __('Remove') }
             >
-                {__('Delete')}
+                { __('Delete') }
             </button>
         );
     }
@@ -407,13 +394,13 @@ export class CartItemContainer extends PureComponent {
 
         return (
             <SwipeToDelete
-                renderRightSideContent={this.renderRightSideContent}
-                onAheadOfDragItemRemoveThreshold={this.handleRemoveItemOnSwipe}
-                isLoading={isLoading}
+              renderRightSideContent={ this.renderRightSideContent }
+              onAheadOfDragItemRemoveThreshold={ this.handleRemoveItemOnSwipe }
+              isLoading={ isLoading }
             >
                 <CartItem
-                    {...this.containerFunctions}
-                    {...this.containerProps()}
+                  { ...this.containerFunctions }
+                  { ...this.containerProps() }
                 />
             </SwipeToDelete>
         );

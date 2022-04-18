@@ -11,10 +11,10 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { ACCOUNT_ORDER_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+import { ReactElement } from 'Type/Common.type';
 import { OrderType } from 'Type/Order.type';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
@@ -48,7 +48,7 @@ export class MyAccountOrderTableRowContainer extends PureComponent {
     onViewClick() {
         const { order: { id } } = this.props;
 
-        history.push({ pathname: appendWithStoreCode(`${ACCOUNT_ORDER_URL}/${id}`) });
+        history.push({ pathname: appendWithStoreCode(`${AccountPageUrl.ORDER_URL}/${id}`) });
     }
 
     containerProps() {
@@ -66,8 +66,8 @@ export class MyAccountOrderTableRowContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountOrderTableRow
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

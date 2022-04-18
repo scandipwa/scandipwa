@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
-import { ACCOUNT_REGISTRATION_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { appendWithStoreCode } from 'Util/Url';
@@ -65,7 +65,7 @@ export class CheckoutSuccess extends PureComponent {
                 </p>
                 <Link
                   to={ {
-                      pathname: appendWithStoreCode(`${ ACCOUNT_REGISTRATION_URL }`),
+                      pathname: appendWithStoreCode(`${ AccountPageUrl.REGISTRATION_URL }`),
                       state: {
                           firstName,
                           lastName,

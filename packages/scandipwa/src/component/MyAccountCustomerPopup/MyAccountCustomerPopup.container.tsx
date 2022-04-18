@@ -40,8 +40,8 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
+    showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
+    showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 

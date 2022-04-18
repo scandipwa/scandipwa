@@ -13,10 +13,7 @@ import { connect } from 'react-redux';
 
 import { CART } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import {
-    ACCOUNT_LOGIN_URL,
-    ACCOUNT_URL
-} from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
@@ -197,7 +194,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     onMyAccountButtonClick() {
         const { pathname } = location;
-        const url = appendWithStoreCode(isSignedIn() ? `${ACCOUNT_URL}` : ACCOUNT_LOGIN_URL);
+        const url = appendWithStoreCode(isSignedIn() ? `${AccountPageUrl.ACCOUNT_URL}` : ACCOUNT_LOGIN_URL);
 
         if (pathname !== url) {
             browserHistory.push(url);
@@ -266,8 +263,8 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     render(): ReactElement {
         return (
             <NavigationTabs
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

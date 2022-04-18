@@ -14,7 +14,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import Html from 'Component/Html';
 import { MixType, ReactElement } from 'Type/Common.type';
 import { AttributeType } from 'Type/ProductList.type';

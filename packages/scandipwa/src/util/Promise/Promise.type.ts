@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type CancelablePromise<T> = {
+export type CancelablePromise<T = unknown> = {
     promise: Promise<T>;
     cancel: () => void;
 };

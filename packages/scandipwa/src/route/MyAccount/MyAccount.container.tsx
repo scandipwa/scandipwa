@@ -40,7 +40,7 @@ import history from 'Util/History';
 import { appendWithStoreCode, replace } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
-import { ACCOUNT_LOGIN_URL, ACCOUNT_URL, LOCKED_ACCOUNT_ERROR_MESSAGE } from './MyAccount.config';
+import { ACCOUNT_LOGIN_URL, AccountPageUrl.ACCOUNT_URL, LOCKED_ACCOUNT_ERROR_MESSAGE } from './MyAccount.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -188,7 +188,7 @@ export class MyAccountContainer extends PureComponent {
         const { url: activeTabUrl } = this.tabMap[ newActiveTab ];
 
         if (historyActiveTab !== newActiveTab && activeTab !== MY_ACCOUNT && isSignedIn() && !isMobile) {
-            history.push(appendWithStoreCode(`${ACCOUNT_URL}${activeTabUrl}`));
+            history.push(appendWithStoreCode(`${AccountPageUrl.ACCOUNT_URL}${activeTabUrl}`));
         }
 
         if (activeTab !== newActiveTab) {
@@ -377,7 +377,7 @@ export class MyAccountContainer extends PureComponent {
         if (isFullUrl) {
             history.push(appendWithStoreCode(url));
         } else {
-            history.push(appendWithStoreCode(`${ACCOUNT_URL}${url}`));
+            history.push(appendWithStoreCode(`${AccountPageUrl.ACCOUNT_URL}${url}`));
         }
 
         this.changeMyAccountHeaderState();
@@ -457,12 +457,12 @@ export class MyAccountContainer extends PureComponent {
 
         if (activeTab !== MY_ACCOUNT) {
             breadcrumbs.push({
-                url: isFullUrl ? url : `${ACCOUNT_URL}${url}`,
+                url: isFullUrl ? url : `${AccountPageUrl.ACCOUNT_URL}${url}`,
                 name: tabName
             });
         }
 
-        breadcrumbs.push({ name: __('My Account'), url: ACCOUNT_URL });
+        breadcrumbs.push({ name: __('My Account'), url: AccountPageUrl.ACCOUNT_URL });
 
         updateBreadcrumbs(breadcrumbs);
     }
@@ -486,7 +486,7 @@ export class MyAccountContainer extends PureComponent {
             : replace(/\/customer\/account\/?.*/i, ACCOUNT_LOGIN_URL);
 
         history.replace({ pathname: path });
-        showNotification('info', __('Please, sign in to access this page contents!'));
+        showNotification(NotificationType.INFO, __('Please, sign in to access this page contents!'));
     }
 
     handleLocked() {
@@ -499,7 +499,7 @@ export class MyAccountContainer extends PureComponent {
             : replace(/\/customer\/account\/?.*/i, ACCOUNT_LOGIN_URL);
 
         history.replace({ pathname: path, state: { isFromLocked: true } });
-        showNotification('error', LOCKED_ACCOUNT_ERROR_MESSAGE);
+        showNotification(NotificationType.ERROR, LOCKED_ACCOUNT_ERROR_MESSAGE);
         logout();
         updateIsLocked(false);
     }

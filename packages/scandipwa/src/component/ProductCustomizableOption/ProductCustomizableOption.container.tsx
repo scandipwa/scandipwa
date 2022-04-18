@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { sortBySortOrder } from 'Util/Product';
 import { customizableOptionsToSelectTransform, nonRequiredRadioOptions } from 'Util/Product/Transform';

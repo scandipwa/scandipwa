@@ -33,7 +33,7 @@ import {
 import { LocationType, MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 
-import { ACCOUNT_ORDER_URL } from './MyAccount.config';
+import { AccountPageUrl } from './MyAccount.config';
 
 import './MyAccount.style';
 
@@ -122,7 +122,7 @@ export class MyAccount extends Component {
     getTabContent() {
         const { activeTab, location: { pathname } } = this.props;
 
-        if (activeTab === MY_ORDERS && pathname.includes(ACCOUNT_ORDER_URL)) {
+        if (activeTab === MY_ORDERS && pathname.includes(AccountPageUrl.ORDER_URL)) {
             return this.renderMap[ MY_ORDER ];
         }
 
@@ -134,7 +134,7 @@ export class MyAccount extends Component {
 
         return (
             <MyAccountOverlay
-                onSignIn={onSignIn}
+              onSignIn={ onSignIn }
             />
         );
     }
@@ -146,7 +146,7 @@ export class MyAccount extends Component {
             return null;
         }
 
-        return <span block="MyAccount" elem="SubHeading">{subHeading}</span>;
+        return <span block="MyAccount" elem="SubHeading">{ subHeading }</span>;
     }
 
     renderContent(): ReactElement {
@@ -171,30 +171,30 @@ export class MyAccount extends Component {
 
         return (
             <ContentWrapper
-                label={__('My Account page')}
-                wrapperMix={{ block: 'MyAccount', elem: 'Wrapper' }}
+              label={ __('My Account page') }
+              wrapperMix={ { block: 'MyAccount', elem: 'Wrapper' } }
             >
                 <MyAccountTabList
-                    tabMap={tabMap}
-                    activeTab={activeTab}
-                    changeActiveTab={changeActiveTab}
-                    onSignOut={onSignOut}
+                  tabMap={ tabMap }
+                  activeTab={ activeTab }
+                  changeActiveTab={ changeActiveTab }
+                  onSignOut={ onSignOut }
                 />
                 <div
-                    block="MyAccount"
-                    elem="TabContent"
-                    mods={{ activeTab }}
+                  block="MyAccount"
+                  elem="TabContent"
+                  mods={ { activeTab } }
                 >
                     <h2 block="MyAccount" elem="Heading">
-                        {title || tabName}
-                        {this.renderSubHeading()}
+                        { title || tabName }
+                        { this.renderSubHeading() }
                     </h2>
-                    <Suspense fallback={<Loader />}>
+                    <Suspense fallback={ <Loader /> }>
                         <TabContent
-                            isEditingActive={isEditingActive}
-                            match={match}
-                            changeTabName={changeTabName}
-                            setTabSubheading={setTabSubheading}
+                          isEditingActive={ isEditingActive }
+                          match={ match }
+                          changeTabName={ changeTabName }
+                          setTabSubheading={ setTabSubheading }
                         />
                     </Suspense>
                 </div>
@@ -205,7 +205,7 @@ export class MyAccount extends Component {
     render(): ReactElement {
         return (
             <main block="MyAccount">
-                {this.renderContent()}
+                { this.renderContent() }
             </main>
         );
     }

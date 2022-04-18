@@ -9,7 +9,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import { ValidationRule } from 'Type/Field.type';
 import { VALIDATION_MESSAGES, VALIDATION_RULES, ValidationInputTypeNumber } from 'Util/Validator/Config';
 

@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
 import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
-import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -107,13 +107,13 @@ export class PasswordChangePageContainer extends PureComponent {
 
             switch (passwordResetStatus) {
                 case STATUS_PASSWORD_UPDATED:
-                    showNotification('success', __('Password has been successfully updated!'));
+                    showNotification(NotificationType.SUCCESS, __('Password has been successfully updated!'));
                     break;
                 case STATUS_PASSWORD_MISS_MATCH:
-                    showNotification('info', __('Your password and confirmation password do not match.'));
+                    showNotification(NotificationType.INFO, __('Your password and confirmation password do not match.'));
                     break;
                 default:
-                    showNotification('error', passwordResetMessage);
+                    showNotification(NotificationType.ERROR, passwordResetMessage);
             }
         }
 
@@ -131,7 +131,7 @@ export class PasswordChangePageContainer extends PureComponent {
         this.toggleBreadcrumbs(false);
 
         if (isSignedIn()) {
-            history.replace({ pathname: appendWithStoreCode(ACCOUNT_URL) });
+            history.replace({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
         }
 
         setHeaderState({

@@ -170,7 +170,7 @@ export class NewProductsContainer extends PureComponent {
             )
             .catch(
                 /** @namespace Component/NewProducts/Container/NewProductsContainer/requestProducts/then/catch/showNotification */
-                (e) => showNotification('error', __('Error fetching NewProducts!'), e)
+                (e) => showNotification(NotificationType.ERROR, __('Error fetching NewProducts!'), e)
             );
     }
 

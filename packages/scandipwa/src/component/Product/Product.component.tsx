@@ -16,7 +16,7 @@ import AddToCart from 'Component/AddToCart';
 import FieldContainer from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import GroupedProductList from 'Component/GroupedProductList';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import ProductBundleOptions from 'Component/ProductBundleOptions';
 import ProductCompareButton from 'Component/ProductCompareButton';
 // eslint-disable-next-line max-len
@@ -136,7 +136,7 @@ export class Product extends PureComponent {
             }
         } = this.props;
 
-        if (type_id !== PRODUCT_TYPE.downloadable || (Array.isArray(links) && !links.length)) {
+        if (type_id !== ProductType.downloadable || (Array.isArray(links) && !links.length)) {
             return null;
         }
 
@@ -162,7 +162,7 @@ export class Product extends PureComponent {
             }
         } = this.props;
 
-        if (type_id !== PRODUCT_TYPE.downloadable || !samples || (Array.isArray(samples) && !samples.length)) {
+        if (type_id !== ProductType.downloadable || !samples || (Array.isArray(samples) && !samples.length)) {
             return null;
         }
 
@@ -192,7 +192,7 @@ export class Product extends PureComponent {
             updateAddToCartTriggeredWithError
         } = this.props;
 
-        if (type !== PRODUCT_TYPE.configurable) {
+        if (type !== ProductType.configurable) {
             return null;
         }
 
@@ -229,7 +229,7 @@ export class Product extends PureComponent {
             quantity
         } = this.props;
 
-        if (typeId !== PRODUCT_TYPE.grouped) {
+        if (typeId !== ProductType.grouped) {
             return null;
         }
 
@@ -252,7 +252,7 @@ export class Product extends PureComponent {
 
         return (
             <form ref={ configFormRef }>
-                    { type_id === PRODUCT_TYPE.bundle && this.renderBundleOptions() }
+                    { type_id === ProductType.bundle && this.renderBundleOptions() }
                     { this.renderCustomizableOptions() }
             </form>
         );
@@ -328,7 +328,7 @@ export class Product extends PureComponent {
             product: { type_id }
         } = this.props;
 
-        if (type_id === PRODUCT_TYPE.grouped) {
+        if (type_id === ProductType.grouped) {
             return null;
         }
 

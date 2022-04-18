@@ -152,7 +152,7 @@ export class ProductCardContainer extends ProductContainer {
     showSelectOptionsNotification() {
         const { showNotification } = this.props;
 
-        showNotification('info', __('Please, select product options!'));
+        showNotification(NotificationType.INFO, __('Please, select product options!'));
     }
 
     render(): ReactElement {

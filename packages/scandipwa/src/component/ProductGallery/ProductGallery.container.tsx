@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import ImageZoomPopup from 'Component/ImageZoomPopup';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { ProductType } from 'Type/ProductList.type';
 import { cacheImages } from 'Util/Cache/Cache';
@@ -121,7 +121,7 @@ export class ProductGalleryContainer extends PureComponent {
             }
         } = this.props;
 
-        if (type !== PRODUCT_TYPE.configurable) {
+        if (type !== ProductType.configurable) {
             return;
         }
 
@@ -275,19 +275,19 @@ export class ProductGalleryContainer extends PureComponent {
 
         return (
             <ImageZoomPopup
-                isActive={isImageZoomPopupActive}
-                onClose={this.handleImageZoomPopupClose}
-                activeImageId={activeImage}
-                popupId={PRODUCT_GALERY_POPUP_ID}
+              isActive={ isImageZoomPopupActive }
+              onClose={ this.handleImageZoomPopupClose }
+              activeImageId={ activeImage }
+              popupId={ PRODUCT_GALERY_POPUP_ID }
             >
-                <Subscribe to={[ SharedTransitionContainer ]}>
-                    {({ registerSharedElementDestination }) => (
+                <Subscribe to={ [SharedTransitionContainer] }>
+                    { ({ registerSharedElementDestination }) => (
                         <ProductGallery
-                            registerSharedElementDestination={registerSharedElementDestination}
-                            {...this.containerProps()}
-                            {...this.containerFunctions}
+                          registerSharedElementDestination={ registerSharedElementDestination }
+                          { ...this.containerProps() }
+                          { ...this.containerFunctions }
                         />
-                    )}
+                    ) }
                 </Subscribe>
             </ImageZoomPopup>
         );

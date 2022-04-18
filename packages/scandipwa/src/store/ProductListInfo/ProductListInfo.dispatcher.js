@@ -40,7 +40,7 @@ export class ProductListInfoDispatcher extends QueryDispatcher {
     }
 
     onError(error, dispatch) {
-        dispatch(showNotification('error', __('Error fetching Product List Information!'), error));
+        dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List Information!'), error));
         dispatch(updateNoMatch(true));
     }
 

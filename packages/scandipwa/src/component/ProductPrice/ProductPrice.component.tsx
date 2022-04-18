@@ -11,7 +11,7 @@
 
 import { PureComponent } from 'react';
 
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { MixType, ReactElement } from 'Type/Common.type';
 import { OriginalPriceType, ProductPriceType } from 'Type/Price.type';
@@ -32,7 +32,7 @@ import './ProductPrice.style';
 export class ProductPrice extends PureComponent {
     static propTypes = {
         price: ProductPriceType,
-        priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
+        priceType: PropTypes.oneOf(Object.values(ProductType)),
         originalPrice: OriginalPriceType,
         tierPrice: PropTypes.string,
         configuration: PriceConfiguration,
@@ -48,7 +48,7 @@ export class ProductPrice extends PureComponent {
 
     static defaultProps = {
         price: {},
-        priceType: PRODUCT_TYPE.simple,
+        priceType: ProductType.simple,
         originalPrice: {},
         priceCurrency: 'USD',
         discountPercentage: 0,
@@ -63,21 +63,21 @@ export class ProductPrice extends PureComponent {
     };
 
     pricePreviewRenderMap = {
-        [PRODUCT_TYPE.simple]: this.renderDefaultPrice.bind(this),
-        [PRODUCT_TYPE.virtual]: this.renderDefaultPrice.bind(this),
-        [PRODUCT_TYPE.bundle]: this.renderBundlePrice.bind(this),
-        [PRODUCT_TYPE.grouped]: this.renderGroupedPrice.bind(this),
-        [PRODUCT_TYPE.downloadable]: this.renderDefaultPrice.bind(this),
-        [PRODUCT_TYPE.configurable]: this.renderConfigurablePrice.bind(this)
+        [ProductType.simple]: this.renderDefaultPrice.bind(this),
+        [ProductType.virtual]: this.renderDefaultPrice.bind(this),
+        [ProductType.bundle]: this.renderBundlePrice.bind(this),
+        [ProductType.grouped]: this.renderGroupedPrice.bind(this),
+        [ProductType.downloadable]: this.renderDefaultPrice.bind(this),
+        [ProductType.configurable]: this.renderConfigurablePrice.bind(this)
     };
 
     priceLabelTypeMap = {
-        [PRODUCT_TYPE.simple]: __('Starting at'),
-        [PRODUCT_TYPE.virtual]: __('Starting at'),
-        [PRODUCT_TYPE.bundle]: __('Starting at'),
-        [PRODUCT_TYPE.grouped]: __('Starting at'),
-        [PRODUCT_TYPE.downloadable]: __('Starting at'),
-        [PRODUCT_TYPE.configurable]: __('As Low as')
+        [ProductType.simple]: __('Starting at'),
+        [ProductType.virtual]: __('Starting at'),
+        [ProductType.bundle]: __('Starting at'),
+        [ProductType.grouped]: __('Starting at'),
+        [ProductType.downloadable]: __('Starting at'),
+        [ProductType.configurable]: __('As Low as')
     };
 
     renderPlaceholder(): ReactElement {
@@ -444,7 +444,7 @@ export class ProductPrice extends PureComponent {
             >
                 { isPreview && renderer && renderer() }
                 { (!isPreview || !renderer) && this.renderDefaultPrice() }
-                { priceType !== PRODUCT_TYPE.bundle && this.renderTierPrice() }
+                { priceType !== ProductType.bundle && this.renderTierPrice() }
             </div>
         );
     }

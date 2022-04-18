@@ -15,7 +15,7 @@ import ChevronIcon from 'Component/ChevronIcon';
 import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 import Field from 'Component/Field';
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import StoreItem from 'Component/StoreItem';
 import { ReactElement } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';

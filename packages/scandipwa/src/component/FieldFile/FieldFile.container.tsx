@@ -74,7 +74,7 @@ export class FieldFileContainer extends PureComponent {
                 }
             };
             reader.onerror = () => {
-                // TODO: Add showNotification('error', __('Failed to upload file'))
+                // TODO: Add showNotification(NotificationType.ERROR, __('Failed to upload file'))
                 this.setState({ fileName: '', isLoading: false });
 
                 if (typeof onChange === 'function') {

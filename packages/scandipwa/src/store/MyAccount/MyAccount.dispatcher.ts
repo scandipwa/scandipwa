@@ -18,7 +18,7 @@ import MyAccountQuery from 'Query/MyAccount.query';
 import {
     ConfirmAccountOptions, CreateAccountOptions, ResetPasswordOptions, SignInOptions
 } from 'Query/Query.type';
-import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import {
     updateCustomerDetails,
     updateCustomerPasswordForgotStatus,
@@ -289,7 +289,7 @@ export class MyAccountDispatcher {
         }, false);
 
         if (doRedirect) {
-            history.push({ pathname: ACCOUNT_LOGIN_URL });
+            history.push({ pathname: AccountPageUrl.LOGIN_URL });
         }
     }
 

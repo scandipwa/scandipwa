@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import {
     mapDispatchToProps,
     mapStateToProps as sourceMapStateToProps,
@@ -163,7 +163,7 @@ export class ProductActionsContainer extends ProductContainer {
         return (
             enteredOptions.length <= 0
             && selectedOptions.length <= 0
-            && type === PRODUCT_TYPE.bundle
+            && type === ProductType.bundle
             && dynamicPrice
         );
     }
@@ -171,8 +171,8 @@ export class ProductActionsContainer extends ProductContainer {
     render(): ReactElement {
         return (
             <ProductActions
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

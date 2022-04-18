@@ -11,13 +11,12 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { MixType } from 'Type/Common.type';
+import { MixType, ReactElement } from 'Type/Common.type';
 import { LayoutType } from 'Type/Layout.type';
 import { ProductType } from 'Type/ProductList.type';
 import { ADD_TO_CART } from 'Util/Product';
@@ -50,7 +49,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class AddToCartContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
-        quantity: PropTypes.oneOfType([ PropTypes.number, PropTypes.objectOf(PropTypes.number) ]),
+        quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.objectOf(PropTypes.number)]),
         cartId: PropTypes.string,
         showNotification: PropTypes.func.isRequired,
         addToCart: PropTypes.func,
@@ -89,10 +88,10 @@ export class AddToCartContainer extends PureComponent {
     ];
 
     typeValidationMap = {
-        [ PRODUCT_TYPE.bundle ]: this.validateBundle.bind(this),
-        [ PRODUCT_TYPE.downloadable ]: this.validateDownloadable.bind(this),
-        [ PRODUCT_TYPE.configurable ]: this.validateConfigurable.bind(this),
-        [ PRODUCT_TYPE.grouped ]: this.validateGroup.bind(this)
+        [ ProductType.bundle ]: this.validateBundle.bind(this),
+        [ ProductType.downloadable ]: this.validateDownloadable.bind(this),
+        [ ProductType.configurable ]: this.validateConfigurable.bind(this),
+        [ ProductType.grouped ]: this.validateGroup.bind(this)
     };
 
     async addProductToCart(e) {
@@ -154,7 +153,7 @@ export class AddToCartContainer extends PureComponent {
 
         if (!inStock) {
             const name = getName(product);
-            showNotification('info', __('Sorry! The product %s is out of stock!', name));
+            showNotification(NotificationType.INFO, __('Sorry! The product %s is out of stock!', name));
         }
 
         return inStock;
@@ -167,13 +166,13 @@ export class AddToCartContainer extends PureComponent {
         const minQty = getMinQuantity(product);
         const maxQty = getMaxQuantity(product);
         const inRange = quantity >= minQty && quantity <= maxQty;
-        const isValid = typeId === PRODUCT_TYPE.grouped || inRange;
+        const isValid = typeId === ProductType.grouped || inRange;
 
         if (!isValid) {
             if (quantity < minQty) {
-                showNotification('info', __('Sorry! Minimum quantity for this product is %s!', minQty));
+                showNotification(NotificationType.INFO, __('Sorry! Minimum quantity for this product is %s!', minQty));
             } else {
-                showNotification('info', __('Sorry! Maximum quantity for this product is %s!', maxQty));
+                showNotification(NotificationType.INFO, __('Sorry! Maximum quantity for this product is %s!', maxQty));
             }
         }
 
@@ -235,8 +234,8 @@ export class AddToCartContainer extends PureComponent {
     render(): ReactElement {
         return (
             <AddToCart
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

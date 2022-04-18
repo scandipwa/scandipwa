@@ -19,7 +19,7 @@ import {
     mapStateToProps,
     MyAccountOverlayContainer
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
-import { ACCOUNT_LOGIN_URL, ACCOUNT_REGISTRATION_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
@@ -63,7 +63,7 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
             name: CUSTOMER_SUB_ACCOUNT,
             title: __('Forgot password'),
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode(`${ACCOUNT_LOGIN_URL}`) });
+                history.push({ pathname: appendWithStoreCode(`${AccountPageUrl.LOGIN_URL}`) });
                 this.handleSignIn(e);
             }
         });
@@ -71,18 +71,18 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
     }
 
     onLoginClick() {
-        history.replace(appendWithStoreCode(`${ACCOUNT_LOGIN_URL}`));
+        history.replace(appendWithStoreCode(`${AccountPageUrl.LOGIN_URL}`));
     }
 
     onCreateAccountClick() {
-        history.replace(appendWithStoreCode(`${ACCOUNT_REGISTRATION_URL}`));
+        history.replace(appendWithStoreCode(`${AccountPageUrl.REGISTRATION_URL}`));
     }
 
     render(): ReactElement {
         return (
             <ForgotPassword
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

@@ -11,14 +11,13 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
-import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
 import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
@@ -27,6 +26,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CustomerType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
 import { removeEmptyStreets } from 'Util/Address';
@@ -89,9 +89,9 @@ export const mapDispatchToProps = (dispatch) => ({
         }
     ),
     toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
-    showErrorNotification: (message) => dispatch(showNotification('error', message)),
-    showInfoNotification: (message) => dispatch(showNotification('info', message)),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
+    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
+    showInfoNotification: (message) => dispatch(showNotification(NotificationType.INFO, message)),
+    showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     setNavigationState: (stateName) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
     createAccount: (options) => MyAccountDispatcher.then(
@@ -337,14 +337,14 @@ export class CheckoutContainer extends PureComponent {
     handleRedirectIfDownloadableInCart() {
         const { totals: { items }, showInfoNotification } = this.props;
 
-        const isDownloadable = items.find(({ product }) => product.type_id === PRODUCT_TYPE.downloadable);
+        const isDownloadable = items.find(({ product }) => product.type_id === ProductType.downloadable);
 
         if (!isDownloadable) {
             return;
         }
 
         showInfoNotification(__('Please sign in or remove downloadable products from cart!'));
-        history.replace(appendWithStoreCode(ACCOUNT_LOGIN_URL));
+        history.replace(appendWithStoreCode(AccountPageUrl.LOGIN_URL));
     }
 
     handleSelectDeliveryMethod() {
@@ -808,8 +808,8 @@ export class CheckoutContainer extends PureComponent {
     render(): ReactElement {
         return (
             <Checkout
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

@@ -9,61 +9,57 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { ACCOUNT_ORDER_URL } from 'Route/MyAccount/MyAccount.config';
-import { DeviceType } from 'Type/Device.type';
-import { DownloadableType } from 'Type/Order.type';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountDownloadableTableRow from './MyAccountDownloadableTableRow.component';
+import {
+    MyAccountDownloadableTableRowComponentProps,
+    MyAccountDownloadableTableRowContainerMapStateProps,
+    MyAccountDownloadableTableRowContainerProps
+} from './MyAccountDownloadableTableRow.type';
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountDownloadableTableRowContainerMapStateProps => ({
     device: state.ConfigReducer.device,
     isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window
 });
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): unknown => ({});
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container */
-export class MyAccountDownloadableTableRowContainer extends PureComponent {
-    static propTypes = {
-        order: DownloadableType.isRequired,
-        device: DeviceType.isRequired,
-        isOpenInNewTab: PropTypes.bool.isRequired
-    };
-
+export class MyAccountDownloadableTableRowContainer extends PureComponent<MyAccountDownloadableTableRowContainerProps> {
     containerFunctions = {
         onOrderIdClick: this.onOrderIdClick.bind(this)
     };
 
-    onOrderIdClick() {
+    onOrderIdClick(): void {
         const { order: { order_id } } = this.props;
 
-        history.push({ pathname: appendWithStoreCode(`${ACCOUNT_ORDER_URL}/${order_id}`) });
+        history.push({ pathname: appendWithStoreCode(`${AccountPageUrl.ORDER_URL}/${order_id}`) });
     }
 
-    containerProps() {
-        const { device, order, isOpenInNewTab } = this.props;
+    containerProps(): Omit<MyAccountDownloadableTableRowComponentProps, 'onOrderIdClick'> {
+        const { order, isOpenInNewTab } = this.props;
 
-        return ({
+        return {
             order,
-            device,
             isOpenInNewTab
-        });
+        };
     }
 
     render(): ReactElement {
         return (
             <MyAccountDownloadableTableRow
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

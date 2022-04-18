@@ -142,7 +142,7 @@ export class MyAccountSignInContainer extends PureComponent {
                 await signIn(fieldPairs);
                 onSignIn();
             } catch (error) {
-                showNotification('error', getErrorMessage(error));
+                showNotification(NotificationType.ERROR, getErrorMessage(error));
                 this.setState({ isSignIn: false });
             } finally {
                 setLoadingState(false);

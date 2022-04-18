@@ -11,8 +11,8 @@
 
 import { Query } from '@tilework/opus';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import { makeCancelable } from 'Util/Promise';
 import { CancelablePromise } from 'Util/Promise/Promise.type';

@@ -10,7 +10,32 @@
  */
 import { AnyAction } from 'redux';
 
-import { Breadcrumb } from 'Type/Breadcrumbs.type';
+import { Url } from 'Type/Common.type';
+
+export type Breadcrumb = {
+    url: Url;
+    name: string;
+};
+
+export type CategoryBreadcrumb = {
+    category_level: number;
+    category_url: string;
+    category_name: string;
+    category_is_active: boolean;
+};
+
+export type Category = {
+    id: number;
+    url: string;
+    name: string;
+    breadcrumbs: CategoryBreadcrumb[];
+};
+
+export type Product = {
+    name: string;
+    url: Url;
+    categories: Category[];
+};
 
 export enum BreadcrumbsActionType {
     UPDATE_BREADCRUMBS = 'UPDATE_BREADCRUMBS',

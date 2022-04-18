@@ -39,7 +39,7 @@ export class RecentlyViewedProductsDispatcher extends QueryDispatcher {
     }
 
     onError(error, dispatch) {
-        dispatch(showNotification('error', __('Error fetching Recently Viewed Products Information!'), error));
+        dispatch(showNotification(NotificationType.ERROR, __('Error fetching Recently Viewed Products Information!'), error));
     }
 
     /**
@@ -52,7 +52,7 @@ export class RecentlyViewedProductsDispatcher extends QueryDispatcher {
         const { store } = options;
         const {
             recentProducts: {
-                [store]: storeRecentProducts
+                [ store ]: storeRecentProducts
             } = {}
         } = options;
 
@@ -63,7 +63,7 @@ export class RecentlyViewedProductsDispatcher extends QueryDispatcher {
         const recentlyViewedProductsSKUs = storeRecentProducts.reduce((productSKUs, item) => {
             const { sku } = item;
 
-            return [...productSKUs, `${ sku.replace(/ /g, '%20') }`];
+            return [ ...productSKUs, `${sku.replace(/ /g, '%20')}` ];
         }, []);
 
         dispatch(updateLoadStatus(true));

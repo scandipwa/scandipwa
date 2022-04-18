@@ -41,8 +41,8 @@ export const mapDispatchToProps = (dispatch) => ({
     moveWishlistToCart: (sharingCode) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch, sharingCode)
     ),
-    showNotification: (message) => dispatch(showNotification('success', message)),
-    showError: (message) => dispatch(showNotification('error', message)),
+    showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
+    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     showNoMatch: () => dispatch(updateNoMatch(true)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)

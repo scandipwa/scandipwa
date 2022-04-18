@@ -11,9 +11,6 @@
 
 import { AnyAction } from 'redux';
 
-import { GQLPaymentTotals, GQLQuoteData } from 'Type/Graphql.type';
-import { Product } from 'Type/ProductList.type';
-
 export enum CartActionType {
     ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART',
     REMOVE_PRODUCT_FROM_CART = 'REMOVE_PRODUCT_FROM_CART',

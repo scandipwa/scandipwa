@@ -26,7 +26,7 @@ import { KLARNA } from './CheckoutPayments.config';
 
 /** @namespace Component/CheckoutPayments/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showError: (message) => dispatch(showNotification('error', message))
+    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message))
 });
 
 /** @namespace Component/CheckoutPayments/Container/mapStateToProps */

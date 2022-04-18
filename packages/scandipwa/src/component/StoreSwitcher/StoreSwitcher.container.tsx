@@ -28,7 +28,7 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/StoreSwitcher/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showErrorNotification: (message) => dispatch(showNotification('error', message))
+    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message))
 });
 
 /** @namespace Component/StoreSwitcher/Container */

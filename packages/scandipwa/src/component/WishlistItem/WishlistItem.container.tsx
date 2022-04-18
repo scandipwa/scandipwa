@@ -11,14 +11,14 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { ReactElement } from 'Type/Common.type';
 import { ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
@@ -112,10 +112,10 @@ export class WishlistItemContainer extends PureComponent {
 
         updateWishlistItem({
             wishlistId,
-            wishlistItems: [ {
+            wishlistItems: [{
                 wishlist_item_id: item_id,
                 description
-            } ]
+            }]
         });
     }, UPDATE_WISHLIST_FREQUENCY);
 
@@ -137,10 +137,10 @@ export class WishlistItemContainer extends PureComponent {
 
         await updateWishlistItem({
             wishlistId,
-            wishlistItems: [ {
+            wishlistItems: [{
                 wishlist_item_id: item_id,
                 quantity
-            } ]
+            }]
         });
 
         setIsQtyUpdateInProgress(false);
@@ -253,7 +253,7 @@ export class WishlistItemContainer extends PureComponent {
             }
         } = this.props;
 
-        if (typeId !== PRODUCT_TYPE.grouped) {
+        if (typeId !== ProductType.grouped) {
             return quantity;
         }
 
@@ -283,12 +283,12 @@ export class WishlistItemContainer extends PureComponent {
             return;
         }
 
-        if (type_id === PRODUCT_TYPE.configurable) {
+        if (type_id === ProductType.configurable) {
             const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
 
             if (!configurableVariantIndex) {
                 history.push({ pathname: appendWithStoreCode(url) });
-                showNotification('info', __('Please, select product options!'));
+                showNotification(NotificationType.INFO, __('Please, select product options!'));
 
                 return;
             }
@@ -331,7 +331,7 @@ export class WishlistItemContainer extends PureComponent {
         try {
             removeFromWishlist({ item_id, noMessages });
         } catch (e) {
-            this.showNotification('error', __('Error cleaning wishlist'));
+            this.showNotification(NotificationType.ERROR, __('Error cleaning wishlist'));
         }
     }
 
@@ -346,12 +346,12 @@ export class WishlistItemContainer extends PureComponent {
 
         return (
             <button
-                block="WishlistItem"
-                elem="SwipeToDeleteRightSide"
-                onClick={removeItem}
-                aria-label={__('Remove')}
+              block="WishlistItem"
+              elem="SwipeToDeleteRightSide"
+              onClick={ removeItem }
+              aria-label={ __('Remove') }
             >
-                {__('Delete')}
+                { __('Delete') }
             </button>
         );
     }
@@ -361,14 +361,14 @@ export class WishlistItemContainer extends PureComponent {
 
         return (
             <SwipeToDelete
-                renderRightSideContent={this.renderRightSideContent}
-                topElemMix={{ block: 'WishlistItem' }}
-                onAheadOfDragItemRemoveThreshold={this.containerFunctions.removeItem}
-                isLoading={isLoading}
+              renderRightSideContent={ this.renderRightSideContent }
+              topElemMix={ { block: 'WishlistItem' } }
+              onAheadOfDragItemRemoveThreshold={ this.containerFunctions.removeItem }
+              isLoading={ isLoading }
             >
                 <WishlistItem
-                    {...this.containerProps()}
-                    {...this.containerFunctions}
+                  { ...this.containerProps() }
+                  { ...this.containerFunctions }
                 />
             </SwipeToDelete>
         );

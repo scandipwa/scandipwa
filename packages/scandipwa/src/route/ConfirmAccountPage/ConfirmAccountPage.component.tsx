@@ -15,10 +15,10 @@ import { Redirect } from 'react-router';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Field from 'Component/Field';
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
-import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { isSignedIn } from 'Util/Auth';
 import { ValidationInputType } from 'Util/Validator/Config';
 
@@ -131,7 +131,7 @@ export class ConfirmAccountPage extends PureComponent {
         } = this.props;
 
         if (redirect || isSignedIn()) {
-            return <Redirect to={ACCOUNT_URL} />;
+            return <Redirect to={AccountPageUrl.ACCOUNT_URL} />;
         }
 
         return (

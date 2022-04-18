@@ -10,14 +10,42 @@
  */
 
 import { MouseEvent } from 'react';
+import { Dispatch } from 'redux';
 
-import { Children, Mix } from 'Type/Common.type';
+import {
+    Children,
+    Mix,
+    Mods,
+    Url
+} from 'Type/Common.type';
+
+export interface LinkContainerMapStateProps {
+    baseLinkUrl: string;
+}
+
+export interface LinkContainerDispatchProps {
+    updateNoMatch: (noMatch: boolean) => void;
+}
+
+export type LinkContainerProps =
+    LinkContainerMapStateProps & LinkContainerDispatchProps & {
+        onClick: (e: MouseEvent) => void;
+        to: Url;
+        children: Children;
+        isOpenInNewTab?: boolean;
+        className?: string;
+        block?: string;
+        elem?: string;
+        mods?: Mods;
+        mix?: Mix;
+        dispatch?: Dispatch;
+    };
 
 export interface LinkComponentProps {
-    to: string;
-    className: string;
-    bemProps: Mix;
+    to: Url;
     children: Children;
     onClick: (e: MouseEvent) => void;
-    isOpenInNewTab: boolean;
+    bemProps: Mix & { mix?: Mix };
+    className?: string;
+    isOpenInNewTab?: boolean;
 }

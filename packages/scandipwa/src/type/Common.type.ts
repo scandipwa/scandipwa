@@ -21,14 +21,14 @@ export type Mix = {
 
 export type ReactElement = ReactNode | ReactNode[];
 
-export type Children = ReactNode[];
+export type Children = ReactElement;
 
 export type Ref = <T extends HTMLElement>() => void | { current: T };
 
 // TODO unknown
 export type MetaTitle = string | unknown;
 
-export type Url<T> = string | {
+export type Url<T = unknown> = string | {
     pathname: string;
     state: T;
 };

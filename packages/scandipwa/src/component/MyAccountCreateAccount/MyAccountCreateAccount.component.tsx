@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import { SignInStateType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';

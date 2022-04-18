@@ -11,14 +11,14 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import { CUSTOMER_ORDER } from 'Component/Header/Header.config';
-import { ACCOUNT_ORDER_HISTORY } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { ReactElement } from 'Type/Common.type';
 import { MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
@@ -166,7 +166,7 @@ export class MyAccountOrderContainer extends PureComponent {
         const order = await getOrderById(orderId);
 
         if (!order) {
-            history.replace(appendWithStoreCode(`${ACCOUNT_ORDER_HISTORY}`));
+            history.replace(appendWithStoreCode(`${AccountPageUrl.ORDER_HISTORY}`));
 
             return;
         }
@@ -181,8 +181,8 @@ export class MyAccountOrderContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountOrder
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

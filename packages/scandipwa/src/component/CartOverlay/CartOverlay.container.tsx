@@ -156,7 +156,7 @@ export class CartOverlayContainer extends PureComponent {
         const hasOutOfStockProductsInCart = this.hasOutOfStockProductsInCartItems(totals.items);
 
         if (hasOutOfStockProductsInCart) {
-            showNotification('error', __('Cannot proceed to checkout. Remove out of stock products first.'));
+            showNotification(NotificationType.ERROR, __('Cannot proceed to checkout. Remove out of stock products first.'));
             e.preventDefault();
 
             return;
@@ -173,7 +173,7 @@ export class CartOverlayContainer extends PureComponent {
 
         // there is no mobile, as cart overlay is not visible here
         showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
-        showNotification('info', __('Please sign-in to complete checkout!'));
+        showNotification(NotificationType.INFO, __('Please sign-in to complete checkout!'));
         setNavigationState({ name: CUSTOMER_ACCOUNT_OVERLAY_KEY, title: 'Sign in' });
     }
 

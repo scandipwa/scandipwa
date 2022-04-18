@@ -28,7 +28,7 @@ export type Notification<T> = {
     msgDebug?: T;
 };
 
-export interface ShowNotificationAction<T> extends AnyAction {
+export interface ShowNotificationAction<T = unknown> extends AnyAction {
     type: NotificationActionType.SHOW_NOTIFICATION;
     msgType: NotificationType;
     msgText: string;

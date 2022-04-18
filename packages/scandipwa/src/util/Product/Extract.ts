@@ -12,7 +12,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PRODUCT_TYPE } from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import { StockStatus } from 'Component/Product/Stock.config';
 import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
 import { PriceRange } from 'Type/Price.type';
@@ -170,7 +170,7 @@ export const getProductInStock = (
         } = {}
     } = product;
 
-    if (type === PRODUCT_TYPE.bundle) {
+    if (type === ProductType.bundle) {
         const { items = [] } = product as ProductBundle;
         const requiredItems = items.filter(({ required }) => required);
         const requiredItemsInStock = requiredItems.filter(
@@ -180,7 +180,7 @@ export const getProductInStock = (
         return inStock && requiredItemsInStock.length === requiredItems.length;
     }
 
-    if (type === PRODUCT_TYPE.configurable && parentProduct === product) {
+    if (type === ProductType.configurable && parentProduct === product) {
         const { variants = [] } = product as FormattedProduct;
 
         return inStock && !!variants.some((variant) => getProductInStock(variant, product));
@@ -188,7 +188,7 @@ export const getProductInStock = (
 
     const { type_id: parentTypeId = false } = parentProduct || {};
 
-    if (parentTypeId === PRODUCT_TYPE.configurable && parentProduct !== product) {
+    if (parentTypeId === ProductType.configurable && parentProduct !== product) {
         const {
             stock_item: {
                 in_stock: parentInStock = true
@@ -199,7 +199,7 @@ export const getProductInStock = (
         return parentInStock && parentStockStatus !== StockStatus.OUT_OF_STOCK && getProductInStock(product);
     }
 
-    if (type === PRODUCT_TYPE.grouped) {
+    if (type === ProductType.grouped) {
         const { items = [] } = product as ProductGrouped;
 
         return inStock && !!items.some(({ product: groupedProduct }) => getProductInStock(groupedProduct));
@@ -262,16 +262,16 @@ export const getPrice = (
     priceRange: PriceRange,
     dynamicPrice = false,
     adjustedPrice: AdjustedPrices = {},
-    type = PRODUCT_TYPE.simple,
+    type = ProductType.simple,
     options = []
 ): FormattedPrice => {
-    const priceAcc = type === PRODUCT_TYPE.bundle
+    const priceAcc = type === ProductType.bundle
         ? 'default_final_price'
         : 'regular_price';
-    const priceExcTaxAcc = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.configurable
+    const priceExcTaxAcc = type === ProductType.bundle || type === ProductType.configurable
         ? 'default_final_price_excl_tax'
         : 'regular_price_excl_tax';
-    const accessRange = type === PRODUCT_TYPE.virtual || type === PRODUCT_TYPE.downloadable
+    const accessRange = type === ProductType.virtual || type === ProductType.downloadable
         ? 'maximum_price'
         : 'minimum_price';
 
@@ -475,7 +475,7 @@ export const getAdjustedPrice = (
     };
 
     // #region DOWNLOADABLE
-    if (typeId === PRODUCT_TYPE.downloadable) {
+    if (typeId === ProductType.downloadable) {
         const { downloadable_product_links = [] } = product as ProductDownloadable;
         downloadableLinks.forEach((uid) => {
             const link = downloadable_product_links.find(({ uid: linkUid }) => linkUid === uid);
@@ -490,7 +490,7 @@ export const getAdjustedPrice = (
     // #endregion
 
     // #region BUNDLE
-    if (typeId === PRODUCT_TYPE.bundle) {
+    if (typeId === ProductType.bundle) {
         const { items = [], dynamic_price: dynamicPrice = false } = product as ProductBundle;
 
         selectedOptions.forEach((uid) => {

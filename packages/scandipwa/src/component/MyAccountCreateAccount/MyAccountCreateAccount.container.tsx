@@ -107,7 +107,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
 
     onError() {
         const { showNotification } = this.props;
-        showNotification('info', __('Incorrect data! Please resolve all field validation errors.'));
+        showNotification(NotificationType.INFO, __('Incorrect data! Please resolve all field validation errors.'));
     }
 
     async onSuccess(form, fields) {

@@ -109,7 +109,7 @@ export class ProductListWidgetContainer extends DataContainer {
 
     onError(error) {
         const { showNotification, updateNoMatch } = this.props;
-        showNotification('error', __('Error fetching Product List!'), error);
+        showNotification(NotificationType.ERROR, __('Error fetching Product List!'), error);
         updateNoMatch(true);
     }
 

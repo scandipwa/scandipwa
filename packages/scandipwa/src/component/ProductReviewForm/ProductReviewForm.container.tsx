@@ -141,7 +141,7 @@ export class ProductReviewFormContainer extends PureComponent {
             goToPreviousHeaderState();
             hideActiveOverlay();
         } catch (error) {
-            showNotification('error', getErrorMessage(error));
+            showNotification(NotificationType.ERROR, getErrorMessage(error));
         } finally {
             this.setState({ isLoading: false });
         }

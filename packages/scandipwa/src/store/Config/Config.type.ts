@@ -11,15 +11,15 @@
 
 import { AnyAction } from 'redux';
 
-import { Device } from 'Type/Device.type';
+import { CartDisplayConfig } from 'Query/Cart.type';
 import {
-    GQLCartDisplayConfig,
-    GQLCheckoutAgreement,
-    GQLCountry,
-    GQLCurrencyConfig,
-    GQLPriceTaxDisplay,
-    GQLStoreConfig
-} from 'Type/Graphql.type';
+    CheckoutAgreement,
+    CurrencyConfig,
+    PriceTaxDisplay,
+    StoreConfig
+} from 'Query/Config.type';
+import { Country } from 'Query/Region.type';
+import { Device } from 'Type/Device.type';
 
 export enum ConfigActionType {
     UPDATE_CONFIG = 'UPDATE_CONFIG',
@@ -53,20 +53,20 @@ export type ReviewRatings = {
     items: ReviewRatingItem[];
 };
 
-export type ConfigStore = GQLStoreConfig & {
-    countries: GQLCountry[];
+export type ConfigStore = StoreConfig & {
+    countries: Country[];
     reviewRatings: ReviewRatingItem[];
     // storeConfig: GQLStoreConfig;
-    checkoutAgreements: GQLCheckoutAgreement[];
-    currencyData: GQLCurrencyConfig;
-    cartDisplayConfig: GQLCartDisplayConfig;
-    priceTaxDisplay: GQLPriceTaxDisplay;
+    checkoutAgreements: CheckoutAgreement[];
+    currencyData: CurrencyConfig;
+    cartDisplayConfig: CartDisplayConfig;
+    priceTaxDisplay: PriceTaxDisplay;
     isLoading: boolean;
     category_url_suffix: string;
     device: Device;
 };
 
-declare module 'Util/Store/type' {
+declare module 'Util/Store/Store.type' {
     export interface RootState {
         ConfigReducer: ConfigStore;
     }

@@ -22,7 +22,7 @@ import {
     MONTHS_COUNT
 } from 'Component/DateSelect/DateSelect.config';
 import Field from 'Component/Field';
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 import { ReactElement } from 'Type/Common.type';
 import { DateType } from 'Type/Field.type';

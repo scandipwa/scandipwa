@@ -9,9 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Breadcrumb } from 'Type/Breadcrumbs.type';
-
-import { BreadcrumbsActionType, ToggleBreadcrumbsAction, UpdateBreadcrumbsAction } from './Breadcrumbs.type';
+import {
+    Breadcrumb,
+    BreadcrumbsActionType,
+    ToggleBreadcrumbsAction,
+    UpdateBreadcrumbsAction
+} from './Breadcrumbs.type';
 
 /**
  * Update current breadcrumbs with new breadcrumbs (rewrite if already exists).

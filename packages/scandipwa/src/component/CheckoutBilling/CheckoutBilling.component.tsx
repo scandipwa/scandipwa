@@ -15,7 +15,7 @@ import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutPayments from 'Component/CheckoutPayments';
 import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
 import Field from 'Component/Field';
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';

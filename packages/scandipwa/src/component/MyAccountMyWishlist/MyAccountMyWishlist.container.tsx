@@ -44,8 +44,8 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch)
     ),
     showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
-    showNotification: (message) => dispatch(showNotification('success', message)),
-    showError: (message) => dispatch(showNotification('error', message)),
+    showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
+    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     removeSelectedFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemsFromWishlist(dispatch, options)
     )

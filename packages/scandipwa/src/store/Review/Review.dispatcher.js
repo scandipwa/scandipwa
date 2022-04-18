@@ -36,7 +36,7 @@ export class ReviewDispatcher {
             ratings: Object.keys(rating_data).map(
                 (key) => ({
                     id: key,
-                    value_id: rating_data[key]
+                    value_id: rating_data[ key ]
                 })
             )
         };
@@ -44,7 +44,7 @@ export class ReviewDispatcher {
 
     async submitProductReview(dispatch, options) {
         await fetchMutation(ReviewQuery.getAddProductReviewMutation(this.prepareReviewData(options)));
-        dispatch(showNotification('success', 'You submitted your review for moderation.'));
+        dispatch(showNotification(NotificationType.SUCCESS, 'You submitted your review for moderation.'));
     }
 }
 

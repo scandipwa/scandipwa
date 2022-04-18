@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import FieldGroup from 'Component//FieldGroup';
 import Field from 'Component/Field';
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import ReviewStar from 'Component/ReviewStar';

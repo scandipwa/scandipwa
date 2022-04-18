@@ -193,7 +193,7 @@ export class StoreInPickUpContainer extends PureComponent {
             this.setState({ isLoading: false });
         } catch (e) {
             this.setState({ stores: [] });
-            showNotification('error', getErrorMessage(e));
+            showNotification(NotificationType.ERROR, getErrorMessage(e));
         }
     }
 

@@ -11,10 +11,10 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
-import { ACCOUNT_INFORMATION_EDIT_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { CustomerType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -50,20 +50,20 @@ export class MyAccountCustomerTableContainer extends PureComponent {
 
     handleOnEditPassword() {
         history.push({
-            pathname: appendWithStoreCode(ACCOUNT_INFORMATION_EDIT_URL),
+            pathname: appendWithStoreCode(AccountPageUrl.INFORMATION_EDIT_URL),
             state: { editPassword: true }
         });
     }
 
     handleOnEditInformation() {
-        history.push({ pathname: appendWithStoreCode(ACCOUNT_INFORMATION_EDIT_URL) });
+        history.push({ pathname: appendWithStoreCode(AccountPageUrl.INFORMATION_EDIT_URL) });
     }
 
     render(): ReactElement {
         return (
             <MyAccountCustomerTable
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

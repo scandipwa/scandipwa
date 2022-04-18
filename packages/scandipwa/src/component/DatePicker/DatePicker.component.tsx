@@ -14,7 +14,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { forwardRef, PureComponent } from 'react';
 import DatePicker from 'react-datepicker';
 
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
 
 import './DatePicker.style.scss';

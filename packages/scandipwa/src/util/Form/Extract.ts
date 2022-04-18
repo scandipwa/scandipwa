@@ -10,7 +10,7 @@
  */
 
 import { FIELD_NAME_ATTR, FieldType_ATTR, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
-import FieldType from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
 
 import {

@@ -24,7 +24,7 @@ export const mapStateToProps = () => ({});
 
 /** @namespace Component/Klarna/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showError: (message) => dispatch(showNotification('error', message))
+    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message))
 });
 
 /** @namespace Component/Klarna/Container */

@@ -11,7 +11,7 @@
 
 import Html from 'Component/Html';
 import { Product } from 'Component/Product/Product.component';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import { StockType } from 'Component/Product/Stock.config';
 import ProductAlerts from 'Component/ProductAlerts';
 import TextPlaceholder from 'Component/TextPlaceholder';
@@ -230,7 +230,7 @@ export class ProductActions extends Product {
             }
         } = this.props;
 
-        if (type === PRODUCT_TYPE.grouped) {
+        if (type === ProductType.grouped) {
             return null;
         }
 
@@ -268,7 +268,7 @@ export class ProductActions extends Product {
         } = this.props;
         const { type_id: activeType } = getActiveProduct();
 
-        const notConfigured = baseType === PRODUCT_TYPE.configurable && activeType === baseType;
+        const notConfigured = baseType === ProductType.configurable && activeType === baseType;
 
         return super.renderPrice(!inStock || notConfigured || isPricePreview);
     }
@@ -369,7 +369,7 @@ export class ProductActions extends Product {
 
     renderMobile(): ReactElement {
         const { product: { type_id: type } } = this.props;
-        const isWithoutPriceTotal = type === PRODUCT_TYPE.grouped;
+        const isWithoutPriceTotal = type === ProductType.grouped;
 
         return (
             <>

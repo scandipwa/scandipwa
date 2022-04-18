@@ -49,7 +49,7 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showErrorNotification: (message) => dispatch(showNotification('error', message)),
+    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     showPopup: (payload) => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
 });
 

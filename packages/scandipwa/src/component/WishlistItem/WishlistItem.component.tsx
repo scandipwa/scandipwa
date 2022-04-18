@@ -15,12 +15,10 @@ import { PureComponent } from 'react';
 import CloseIcon from 'Component/CloseIcon';
 import EditIcon from 'Component/EditIcon';
 import Field from 'Component/Field';
-import FieldType from 'Component/Field/Field.config';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { FieldType } from 'Component/Field/Field.config';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
 import { noopFn } from 'Util/Common';
 
 import './WishlistItem.style';
@@ -57,8 +55,8 @@ export class WishlistItem extends PureComponent {
     renderContent = this.renderContent.bind(this);
 
     optionRenderMap = {
-        [PRODUCT_TYPE.grouped]: this.renderGroupedOption.bind(this),
-        [PRODUCT_TYPE.bundle]: this.renderBundleOption.bind(this)
+        [ProductType.grouped]: this.renderGroupedOption.bind(this),
+        [ProductType.bundle]: this.renderBundleOption.bind(this)
     };
 
     renderCommentField(): ReactElement {
@@ -202,7 +200,7 @@ export class WishlistItem extends PureComponent {
             product: { url, type_id }
         } = this.props;
 
-        if (type_id !== PRODUCT_TYPE.configurable) {
+        if (type_id !== ProductType.configurable) {
             return product;
         }
 

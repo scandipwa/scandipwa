@@ -9,9 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { GQLPaymentTotals, GQLQuoteData } from 'Type/Graphql.type';
-import { Product } from 'Type/ProductList.type';
-
 import {
     AddProductToCartAction,
     ApplyCouponToCartAction,

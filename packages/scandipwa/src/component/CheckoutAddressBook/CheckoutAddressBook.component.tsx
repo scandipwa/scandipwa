@@ -16,7 +16,7 @@ import CheckoutAddressTable from 'Component/CheckoutAddressTable';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { ADDRESS_BOOK, CustomerType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import { getDefaultAddressLabel } from 'Util/Address';
@@ -69,7 +69,7 @@ export class CheckoutAddressBook extends PureComponent {
             <div>
                 <p>{ __('You have no configured addresses.') }</p>
                 <p>
-                    <Link to={ `${ ACCOUNT_URL }/${ ADDRESS_BOOK }` }>
+                    <Link to={ `${ AccountPageUrl.ACCOUNT_URL }/${ ADDRESS_BOOK }` }>
                         { __('Go to Address Book to configure them!') }
                     </Link>
                 </p>

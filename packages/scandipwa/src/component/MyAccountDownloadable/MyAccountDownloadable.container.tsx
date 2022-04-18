@@ -9,17 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import OrderQuery from 'Query/Order.query';
+import { CustomerDownloadableProduct } from 'Query/Order.type';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { DeviceType } from 'Type/Device.type';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 
 import MyAccountDownloadable from './MyAccountDownloadable.component';
+import {
+    CustomerDownloadableProductExtended,
+    MyAccountDownloadableComponentProps,
+    MyAccountDownloadableContainerDispatchProps,
+    MyAccountDownloadableContainerProps,
+    MyAccountDownloadableContainerState
+} from './MyAccountDownloadable.type';
 
 export const OrderDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -27,25 +35,20 @@ export const OrderDispatcher = import(
 );
 
 /** @namespace Component/MyAccountDownloadable/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
-});
+export const mapStateToProps = (): unknown => ({});
 
 /** @namespace Component/MyAccountDownloadable/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showErrorNotification: (message) => dispatch(showNotification('error', message)),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message))
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountDownloadableContainerDispatchProps => ({
+    showErrorNotification: (message: string) => dispatch(showNotification(NotificationType.ERROR, message)),
+    showSuccessNotification: (message: string) => dispatch(showNotification(NotificationType.SUCCESS, message))
 });
 
 /** @namespace Component/MyAccountDownloadable/Container */
-export class MyAccountDownloadableContainer extends PureComponent {
-    static propTypes = {
-        device: DeviceType.isRequired,
-        showErrorNotification: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired
-    };
-
-    state = {
+export class MyAccountDownloadableContainer extends PureComponent<
+MyAccountDownloadableContainerProps,
+MyAccountDownloadableContainerState
+> {
+    state: MyAccountDownloadableContainerState = {
         items: [],
         isLoading: false
     };
@@ -54,25 +57,27 @@ export class MyAccountDownloadableContainer extends PureComponent {
         this.requestDownloadable();
     }
 
-    containerProps() {
-        const { device } = this.props;
+    containerProps(): MyAccountDownloadableComponentProps {
         const { isLoading } = this.state;
 
         return {
-            device,
             isLoading,
             items: this._prepareDownloadableProps()
         };
     }
 
-    _prepareDownloadableProps() {
+    _prepareDownloadableProps(): CustomerDownloadableProductExtended[] {
         const { items } = this.state;
 
         if (!items?.length) {
             return [];
         }
 
-        return items.reduce((acc, item, index) => {
+        return items.reduce((
+            acc: CustomerDownloadableProductExtended[],
+            item: CustomerDownloadableProduct,
+            index: number
+        ) => {
             acc.push({
                 id: index,
                 order_id: item.order_id,
@@ -89,7 +94,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
         }, []);
     }
 
-    async requestDownloadable() {
+    async requestDownloadable(): Promise<void> {
         const { showErrorNotification } = this.props;
 
         this.setState({ isLoading: true });
@@ -111,7 +116,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountDownloadable
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

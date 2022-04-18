@@ -18,7 +18,7 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
 import { BILLING_URL, CHECKOUT_URL, SHIPPING_URL } from 'Route/Checkout/Checkout.config';
-import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -382,7 +382,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         } = this.props;
 
         if (isSignedIn()) {
-            history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
+            history.push({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
 
             return;
         }

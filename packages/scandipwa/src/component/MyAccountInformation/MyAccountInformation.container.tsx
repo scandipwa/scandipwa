@@ -11,16 +11,16 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import MyAccountQuery from 'Query/MyAccount.query';
-import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateCustomerDetails, updateIsLoading, updateIsLocked } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CustomerType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -52,7 +52,7 @@ export const mapDispatchToProps = (dispatch) => ({
         'error',
         typeof error === 'string' ? error : getErrorMessage(error)
     )),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
+    showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
     logout: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch)
@@ -171,7 +171,7 @@ export class MyAccountInformationContainer extends PureComponent {
         if (showEmailChangeField || showPasswordChangeField) {
             this.handleLogout({ isFromEmailChange: true });
         } else {
-            history.push({ pathname: appendWithStoreCode(ACCOUNT_URL) });
+            history.push({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
         }
 
         showSuccessNotification(__('You saved the account information.'));
@@ -181,8 +181,8 @@ export class MyAccountInformationContainer extends PureComponent {
         const { baseLinkUrl, logout } = this.props;
 
         const path = baseLinkUrl
-            ? appendWithStoreCode(ACCOUNT_LOGIN_URL)
-            : replace(/\/customer\/account\/.*/, ACCOUNT_LOGIN_URL);
+            ? appendWithStoreCode(AccountPageUrl.LOGIN_URL)
+            : replace(/\/customer\/account\/.*/, AccountPageUrl.LOGIN_URL);
 
         history.push({
             pathname: path,
@@ -241,8 +241,8 @@ export class MyAccountInformationContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountInformation
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

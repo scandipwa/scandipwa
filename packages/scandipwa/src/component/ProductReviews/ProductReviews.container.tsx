@@ -29,7 +29,7 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/ProductReviews/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showInfoNotification: (message) => dispatch(showNotification('info', message))
+    showInfoNotification: (message) => dispatch(showNotification(NotificationType.INFO, message))
 });
 
 /** @namespace Component/ProductReviews/Container */

@@ -10,8 +10,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FieldType from 'Component/Field/Field.config';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { FieldType } from 'Component/Field/Field.config';
+import { ProductType } from 'Component/Product/Product.config';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
 import {
     Attribute, CustomizableOption, ItemOption, Product, ProductGrouped
@@ -339,7 +339,7 @@ export const magentoProductTransform = (
 
     const productData: ProductTransformData[] = [];
 
-    if (typeId === PRODUCT_TYPE.grouped && action === ADD_TO_CART) {
+    if (typeId === ProductType.grouped && action === ADD_TO_CART) {
         if (Object.keys(quantity).length === 0) {
             return productData;
         }

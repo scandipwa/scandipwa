@@ -11,11 +11,11 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import PRODUCT_TYPE from 'Component/Product/Product.config';
+import { ProductType } from 'Component/Product/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { ReactElement } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';
 import { ProductType } from 'Type/ProductList.type';
 import history from 'Util/History';
@@ -158,14 +158,14 @@ export class ProductCompareItemContainer extends PureComponent {
 
     getOverrideAddToCartBtnBehavior() {
         const { product: { type_id, options } } = this.props;
-        const types = [ PRODUCT_TYPE.bundle, PRODUCT_TYPE.configurable, PRODUCT_TYPE.grouped ];
+        const types = [ProductType.bundle, ProductType.configurable, ProductType.grouped];
 
         return !!(types.indexOf(type_id) !== -1 || options?.length);
     }
 
     overriddenAddToCartBtnHandler() {
         const { showNotification } = this.props;
-        showNotification('info', __('Please, select required options!'));
+        showNotification(NotificationType.INFO, __('Please, select required options!'));
     }
 
     redirectToProductPage() {
@@ -203,8 +203,8 @@ export class ProductCompareItemContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductCompareItem
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

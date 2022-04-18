@@ -13,20 +13,16 @@ import { Component } from 'react';
 
 import Loader from 'Component/Loader';
 import MyAccountDownloadableTableRow from 'Component/MyAccountDownloadableTableRow';
-import { DownloadableType } from 'Type/Order.type';
+import { ReactElement } from 'Type/Common.type';
 
 import { NUMBER_OF_COLUMNS_IN_DOWNLOADABLE_TABLE } from './MyAccountDownloadable.config';
+import { CustomerDownloadableProductExtended, MyAccountDownloadableComponentProps } from './MyAccountDownloadable.type';
 
 import './MyAccountDownloadable.style';
 
 /** @namespace Component/MyAccountDownloadable/Component */
-export class MyAccountDownloadableComponent extends Component {
-    static propTypes = {
-        items: PropTypes.arrayOf(DownloadableType).isRequired,
-        isLoading: PropTypes.bool.isRequired
-    };
-
-    shouldComponentUpdate(nextProps) {
+export class MyAccountDownloadableComponent extends Component<MyAccountDownloadableComponentProps> {
+    shouldComponentUpdate(nextProps: MyAccountDownloadableComponentProps): boolean {
         const { items } = this.props;
         const { items: nextItems } = nextProps;
 
@@ -78,7 +74,7 @@ export class MyAccountDownloadableComponent extends Component {
         );
     }
 
-    renderOrderRow(order): ReactElement {
+    renderOrderRow(order: Partial<CustomerDownloadableProductExtended>): ReactElement {
         const { id } = order;
 
         return (
@@ -102,7 +98,7 @@ export class MyAccountDownloadableComponent extends Component {
 
         return orders.reduceRight(
             (acc, e) => [...acc, this.renderOrderRow(e)],
-            []
+            [] as ReactElement[]
         );
     }
 

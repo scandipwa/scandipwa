@@ -12,18 +12,13 @@
 import { Dispatch } from 'redux';
 
 import CartQuery from 'Query/Cart.query';
+import { QuoteData } from 'Query/Cart.type';
 import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import {
-    GQLCartItemInput,
-    GQLConfigurableProduct,
-    GQLConfigurableVariant,
-    GQLProductLinksInterface,
-    GQLQuoteData,
-    GQLTotalsItem
+    GQLCartItemInput
 } from 'Type/Graphql.type';
-import { LinkedProductType } from 'Type/ProductList.type';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
@@ -187,7 +182,7 @@ export class CartDispatcher {
         return Promise.resolve();
     }
 
-    async removeProductFromCart(dispatch: Dispatch, item_id: number): Promise<GQLQuoteData | null> {
+    async removeProductFromCart(dispatch: Dispatch, item_id: number): Promise<Partial<QuoteData> | null> {
         try {
             const isCustomerSignedIn = isSignedIn();
             const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
@@ -250,38 +245,35 @@ export class CartDispatcher {
         }
     }
 
-    updateCrossSellProducts(items: GQLTotalsItem[], dispatch: Dispatch): void {
+    updateCrossSellProducts(items, dispatch: Dispatch): void {
         if (items && items.length) {
             const product_links = items.reduce((links, product) => {
-                const { product: { product_links, variants = [] }, sku: variantSku } = product as {
-                    product: GQLConfigurableProduct;
-                    sku: string;
-                };
+                const { product: { product_links, variants = [] }, sku: variantSku } = product;
 
                 const {
                     product: {
                         product_links: childProductLinks = []
                     } = {}
-                } = (variants as GQLConfigurableVariant[]).find(
+                } = variants.find(
                     ({ product: { sku } = {} }) => sku === variantSku
-                ) || {} as GQLConfigurableVariant;
+                ) || {};
 
                 if (childProductLinks) {
-                    Object.values(childProductLinks as GQLProductLinksInterface[]).filter(
+                    Object.values(childProductLinks).filter(
                         ({ link_type }) => link_type === LinkedProductType.CROSS_SELL
                     )
                         .map((item) => links.push(item));
                 }
 
                 if (product_links) {
-                    (Object.values(product_links) as GQLProductLinksInterface[]).filter(
+                    (Object.values(product_links)).filter(
                         ({ link_type }) => link_type === LinkedProductType.CROSS_SELL
                     )
                         .map((item) => links.push(item));
                 }
 
                 return links;
-            }, [] as GQLProductLinksInterface[]);
+            }, []);
 
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.then(
@@ -299,7 +291,7 @@ export class CartDispatcher {
         }
     }
 
-    _updateCartData(cartData: GQLQuoteData, dispatch: Dispatch): void {
+    _updateCartData(cartData: Partial<QuoteData>, dispatch: Dispatch): void {
         dispatch(updateTotals(cartData));
     }
 

@@ -18,7 +18,7 @@ import {
     mapStateToProps,
     MyAccountOverlayContainer
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
-import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
@@ -70,7 +70,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
         if (isSignedIn()) {
             // remove login url from history to skip it when navigating back after account create
             // + block access to create account for signed in user
-            history.replace(appendWithStoreCode(ACCOUNT_URL));
+            history.replace(appendWithStoreCode(AccountPageUrl.ACCOUNT_URL));
         }
 
         toggleBreadcrumbs(false);
@@ -79,7 +79,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
             name: CUSTOMER_SUB_ACCOUNT,
             title: __('Create account'),
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode(`${ACCOUNT_LOGIN_URL}`) });
+                history.push({ pathname: appendWithStoreCode(`${AccountPageUrl.LOGIN_URL}`) });
                 this.handleSignIn(e);
             }
         });
@@ -87,14 +87,14 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
     }
 
     onLoginClick() {
-        history.replace(appendWithStoreCode(`${ACCOUNT_LOGIN_URL}`));
+        history.replace(appendWithStoreCode(`${AccountPageUrl.LOGIN_URL}`));
     }
 
     render(): ReactElement {
         return (
             <CreateAccount
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }
