@@ -103,6 +103,7 @@
         height: 100%;
         object-position: 50% 50%;
         object-fit: contain;
+        color: transparent;
 
         &::after {
             content: '';
