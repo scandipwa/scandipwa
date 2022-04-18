@@ -106,7 +106,6 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
         if (shippingMethod.method_code === 'pickup') {
             handleSelectDeliveryMethod();
-            onShippingMethodSelect(shippingMethod);
             return;
         }
 
