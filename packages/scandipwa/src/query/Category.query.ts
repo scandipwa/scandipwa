@@ -11,9 +11,13 @@
 
 import { Argument, Field, Query } from '@tilework/opus';
 
-import { GQLCategoryTree } from 'Type/Graphql.type';
-
-import { CategoryQueryOptions, CommonField } from './Query.type';
+import {
+    Breadcrumb,
+    Category,
+    CategoryQueryOptions,
+    CategoryTree,
+    CmsBlock
+} from './Category.type';
 
 /**
  * Category Query
@@ -21,11 +25,9 @@ import { CategoryQueryOptions, CommonField } from './Query.type';
  * @namespace Query/Category/Query
  */
 export class CategoryQuery {
-    options = {} as CategoryQueryOptions;
+    options: Partial<CategoryQueryOptions> = {};
 
-    getQuery(options: CategoryQueryOptions = {} as CategoryQueryOptions): Query<'category', GQLCategoryTree & {
-        children: GQLCategoryTree[];
-    }, false> {
+    getQuery(options: Partial<CategoryQueryOptions> = {}): Query<'category', Category> {
         this.options = options;
         const {
             name,
@@ -33,7 +35,7 @@ export class CategoryQuery {
             value
         } = this._getConditionalArguments();
 
-        return new Query<'category', GQLCategoryTree>('category')
+        return new Query<'category', Category>('category')
             .addArgument(name, type, value)
             .addFieldList(this._getDefaultFields())
             .addField(this._getChildrenFields());
@@ -54,58 +56,88 @@ export class CategoryQuery {
         throw new Error(__('There was an error requesting the category'));
     }
 
-    _getChildrenFields(): Field<'children', GQLCategoryTree, true> {
-        return new Field<'children', GQLCategoryTree, true>('children')
+    _getChildrenFields(): Field<'children', CategoryTree, true> {
+        return new Field<'children', CategoryTree, true>('children')
             .addFieldList(this._getDefaultFields());
     }
 
-    _getBreadcrumbsField(): CommonField {
-        return new Field('breadcrumbs')
+    _getBreadcrumbsField(): Field<'breadcrumbs', Breadcrumb, true> {
+        return new Field<'breadcrumbs', Breadcrumb, true>('breadcrumbs', true)
             .addFieldList(this._getBreadcrumbFields());
     }
 
-    _getBreadcrumbFields(): string[] {
+    _getBreadcrumbFields(): Array<
+    Field<'category_name', string>
+    | Field<'category_level', number>
+    | Field<'category_url', string>
+    | Field<'category_is_active', boolean>
+    > {
         return [
-            'category_name',
-            'category_level',
-            'category_url',
-            'category_is_active'
+            new Field<'category_name', string>('category_name'),
+            new Field<'category_level', number>('category_level'),
+            new Field<'category_url', string>('category_url'),
+            new Field<'category_is_active', boolean>('category_is_active')
         ];
     }
 
-    _getCmsBlockFields(): string[] {
+    _getCmsBlockFields(): Array<
+    Field<'content', string>
+    | Field<'disabled', boolean>
+    | Field<'title', string>
+    | Field<'identifier', string>
+    > {
         return [
-            'content',
-            'disabled',
-            'title',
-            'identifier'
+            new Field<'content', string>('content'),
+            new Field<'disabled', boolean>('disabled'),
+            new Field<'title', string>('title'),
+            new Field<'identifier', string>('identifier')
         ];
     }
 
-    _getCmsBlockField(): CommonField {
-        return new Field('cms_block')
+    _getCmsBlockField(): Field<'cms_block', CmsBlock> {
+        return new Field<'cms_block', CmsBlock>('cms_block')
             .addFieldList(this._getCmsBlockFields());
     }
 
-    _getDefaultFields(): CommonField[] {
+    _getDefaultFields(): Array<
+    Field<'id', number>
+    | Field<'url', string>
+    | Field<'name', string>
+    | Field<'image', string>
+    | Field<'url_key', string>
+    | Field<'url_path', string>
+    | Field<'is_active', boolean>
+    | Field<'meta_title', string>
+    | Field<'description', string>
+    | Field<'canonical_url', string>
+    | Field<'product_count', number>
+    | Field<'meta_keywords', string>
+    | Field<'default_sort_by', string>
+    | Field<'meta_description', string>
+    | Field<'landing_page', number>
+    | Field<'display_mode', string>
+    | Field<'is_anchor', boolean>
+    | Field<'cms_block', CmsBlock>
+    | Field<'breadcrumbs', Breadcrumb, true>
+    > {
         return [
-            'id',
-            'url',
-            'name',
-            'image',
-            'url_key',
-            'url_path',
-            'is_active',
-            'meta_title',
-            'description',
-            'canonical_url',
-            'product_count',
-            'meta_keywords',
-            'default_sort_by',
-            'meta_description',
-            'landing_page',
-            'display_mode',
-            'is_anchor',
+            new Field<'id', number>('id'),
+            new Field<'url', string>('url'),
+            new Field<'name', string>('name'),
+            new Field<'image', string>('image'),
+            new Field<'url_key', string>('url_key'),
+            new Field<'url_path', string>('url_path'),
+            new Field<'is_active', boolean>('is_active'),
+            new Field<'meta_title', string>('meta_title'),
+            new Field<'description', string>('description'),
+            new Field<'canonical_url', string>('canonical_url'),
+            new Field<'product_count', number>('product_count'),
+            new Field<'meta_keywords', string>('meta_keywords'),
+            new Field<'default_sort_by', string>('default_sort_by'),
+            new Field<'meta_description', string>('meta_description'),
+            new Field<'landing_page', number>('landing_page'),
+            new Field<'display_mode', string>('display_mode'),
+            new Field<'is_anchor', boolean>('is_anchor'),
             this._getCmsBlockField(),
             this._getBreadcrumbsField()
         ];

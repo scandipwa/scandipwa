@@ -14,20 +14,27 @@ import { Field, Mutation, Query } from '@tilework/opus';
 
 import ProductListQuery from 'Query/ProductList.query';
 import {
-    GQLAddProductsToCartOutput,
-    GQLAppliedTaxItemRate,
-    GQLCart,
-    GQLCartDisplayConfig,
     GQLCartItemInput,
-    GQLQuery,
-    GQLQuoteData,
-    GQLUpdateCartItemsInput,
-    GQLUpdateCartItemsOutput,
-    GQLWishListUserInputError
+    GQLCartUserInputErrorType,
+    GQLUpdateCartItemsInput
 } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 
-import { CommonField } from './Query.type';
+import {
+    AppliedTaxItem,
+    AppliedTaxItemRate,
+    CartDisplayConfig,
+    CartProductInterface,
+    CartUserInputError,
+    CartWithId,
+    QuoteData,
+    SelectedBundleOption,
+    SelectedBundleOptionValue,
+    SelectedCustomizableOption,
+    SelectedCustomizableOptionValue,
+    SelectedDownloadableLinks,
+    TotalsItem
+} from './Cart.type';
 
 /** @namespace Query/Cart/Query */
 export class CartQuery {
@@ -35,10 +42,14 @@ export class CartQuery {
     getAddProductToCartMutation(
         cartId: string,
         cartItems: GQLCartItemInput[]
-    ): Mutation<'addProductsToCart', GQLAddProductsToCartOutput & {
-            user_errors: GQLWishListUserInputError[];
+    ): Mutation<'addProductsToCart', {
+            cart: CartWithId;
+            user_errors: CartUserInputError[];
         }> {
-        return new Mutation<'addProductsToCart', GQLAddProductsToCartOutput>('addProductsToCart')
+        return new Mutation<'addProductsToCart', {
+            cart: CartWithId;
+            user_errors: CartUserInputError[];
+        }>('addProductsToCart')
             .addArgument('cartId', 'String!', cartId)
             .addArgument('cartItems', '[CartItemInput!]!', cartItems)
             .addField(this._getUserErrorsField());
@@ -46,8 +57,8 @@ export class CartQuery {
 
     getUpdateCartItemsMutation(
         input: GQLUpdateCartItemsInput
-    ): Mutation<'updateCartItems', GQLUpdateCartItemsOutput> {
-        return new Mutation<'updateCartItems', GQLUpdateCartItemsOutput>('updateCartItems')
+    ): Mutation<'updateCartItems', { cart: CartWithId }> {
+        return new Mutation<'updateCartItems', { cart: CartWithId }>('updateCartItems')
             .addArgument('input', 'UpdateCartItemsInput', input)
             .addField(this._getCartUpdateField());
     }
@@ -58,8 +69,8 @@ export class CartQuery {
     //#endregion
 
     //#region QUERIES
-    getCartQuery(quoteId: string): Query<'cartData', GQLQuoteData> {
-        const query = new Query<'getCartForCustomer', GQLQuoteData>('getCartForCustomer')
+    getCartQuery(quoteId: string): Query<'cartData', QuoteData> {
+        const query = new Query<'getCartForCustomer', QuoteData>('getCartForCustomer')
             .addFieldList(this._getCartTotalsFields())
             .setAlias('cartData');
 
@@ -72,30 +83,29 @@ export class CartQuery {
     //#endregion
 
     //#region ERROR
-    _getUserErrorsFields(): string[] {
+    _getUserErrorsFields(): Array<
+    Field<'message', string>
+    | Field<'code', GQLCartUserInputErrorType>
+    > {
         return [
-            'message',
-            'code'
+            new Field<'message', string>('message'),
+            new Field<'code', GQLCartUserInputErrorType>('code')
         ];
     }
 
-    _getUserErrorsField(): Field<'user_errors', GQLWishListUserInputError, true> {
-        return new Field<'user_errors', GQLWishListUserInputError, true>('user_errors')
+    _getUserErrorsField(): Field<'user_errors', CartUserInputError, true> {
+        return new Field<'user_errors', CartUserInputError, true>('user_errors', true)
             .addFieldList(this._getUserErrorsFields());
     }
     //#endregion
 
-    _getCartUpdateField(): Field<'cart', GQLCart & {
-        id: string;
-    }> {
-        return new Field<'cart', GQLCart>('cart')
+    _getCartUpdateField(): Field<'cart', CartWithId> {
+        return new Field<'cart', CartWithId>('cart')
             .addField('id');
     }
 
-    getRemoveCartItemMutation(item_id: number, quoteId: string): Mutation<'removeCartItem', GQLQuery & {
-        cartData: GQLQuoteData;
-    }> {
-        const mutation = new Mutation<'removeCartItem', GQLQuery>('removeCartItem')
+    getRemoveCartItemMutation(item_id: number, quoteId: string): Mutation<'removeCartItem', { cartData: QuoteData }> {
+        const mutation = new Mutation<'removeCartItem', { cartData: QuoteData }>('removeCartItem')
             .addArgument('item_id', 'Int!', item_id)
             .addFieldList(this._getRemoveCartItemFields(quoteId));
 
@@ -106,10 +116,8 @@ export class CartQuery {
         return mutation;
     }
 
-    getApplyCouponMutation(couponCode: string, quoteId: string): Mutation<'applyCoupon', GQLQuery & {
-        cartData: GQLQuoteData;
-    }> {
-        const mutation = new Mutation<'applyCoupon', GQLQuery>('applyCoupon')
+    getApplyCouponMutation(couponCode: string, quoteId: string): Mutation<'applyCoupon', { cartData: QuoteData }> {
+        const mutation = new Mutation<'applyCoupon', { cartData: QuoteData }>('applyCoupon')
             .addArgument('coupon_code', 'String!', couponCode)
             .addField(this._getCartQueryField(quoteId));
 
@@ -120,10 +128,8 @@ export class CartQuery {
         return mutation;
     }
 
-    getRemoveCouponMutation(quoteId: string): Mutation<'removeCoupon', GQLQuery & {
-        cartData: GQLQuoteData;
-    }> {
-        const mutation = new Mutation<'removeCoupon', GQLQuery>('removeCoupon')
+    getRemoveCouponMutation(quoteId: string): Mutation<'removeCoupon', { cartData: QuoteData }> {
+        const mutation = new Mutation<'removeCoupon', { cartData: QuoteData }>('removeCoupon')
             .addField(this._getCartQueryField(quoteId));
 
         if (!isSignedIn()) {
@@ -133,33 +139,33 @@ export class CartQuery {
         return mutation;
     }
 
-    getCartDisplayConfig(): Field<'cartDisplayConfig', GQLCartDisplayConfig> {
-        return new Field<'getCartDisplayConfig', GQLCartDisplayConfig>('getCartDisplayConfig')
+    getCartDisplayConfig(): Field<'cartDisplayConfig', CartDisplayConfig> {
+        return new Field<'getCartDisplayConfig', CartDisplayConfig>('getCartDisplayConfig')
             .setAlias('cartDisplayConfig')
             .addFieldList(this._getCartDisplayConfigFields());
     }
 
-    getMergeCartQuery(sourceCartId: string, destinationCartId: string): Mutation<'mergeCarts', GQLCart> {
-        return new Mutation<'mergeCarts', GQLCart>('mergeCarts')
+    getMergeCartQuery(sourceCartId: string, destinationCartId: string): Mutation<'mergeCarts', CartWithId> {
+        return new Mutation<'mergeCarts', CartWithId>('mergeCarts')
             .addArgument('source_cart_id', 'String!', sourceCartId)
             .addArgument('destination_cart_id', 'String!', destinationCartId)
             .addField('id');
     }
 
-    _getSaveCartItemFields(quoteId: string): Query<'cartData', GQLQuoteData, false>[] {
+    _getSaveCartItemFields(quoteId: string): Query<'cartData', QuoteData>[] {
         return [
             this.getCartQuery(quoteId)
         ];
     }
 
-    _getRemoveCartItemFields(quoteId: string): Field<'cartData', GQLQuoteData, false>[] {
+    _getRemoveCartItemFields(quoteId: string): Field<'cartData', QuoteData>[] {
         return [
             this._getCartQueryField(quoteId)
         ];
     }
 
-    _getCartQueryField(quoteId: string): Field<'cartData', GQLQuoteData> {
-        const query = new Field<'getCartForCustomer', GQLQuoteData>('getCartForCustomer')
+    _getCartQueryField(quoteId: string): Field<'cartData', QuoteData> {
+        const query = new Field<'getCartForCustomer', QuoteData>('getCartForCustomer')
             .addFieldList(this._getCartTotalsFields())
             .setAlias('cartData');
 
@@ -170,106 +176,154 @@ export class CartQuery {
         return query;
     }
 
-    _getCartTotalsFields(): CommonField[] {
+    _getCartTotalsFields(): Array<
+    Field<'id', number>
+    | Field<'subtotal', number>
+    | Field<'subtotal_incl_tax', number>
+    | Field<'items_qty', number>
+    | Field<'tax_amount', number>
+    | Field<'grand_total', number>
+    | Field<'discount_amount', number>
+    | Field<'quote_currency_code', string>
+    | Field<'subtotal_with_discount', number>
+    | Field<'coupon_code', string>
+    | Field<'shipping_amount', number>
+    | Field<'shipping_incl_tax', number>
+    | Field<'shipping_tax_amount', number>
+    | Field<'is_virtual', boolean>
+    | Field<'applied_rule_ids', string>
+    | Field<'shipping_method', string>
+    | Field<'is_in_store_pickup_available', boolean>
+    | Field<'items', TotalsItem, true>
+    | Field<'applied_taxes', AppliedTaxItem, true>
+    > {
         return [
-            'id',
-            'subtotal',
-            'subtotal_incl_tax',
-            'items_qty',
-            'tax_amount',
-            'grand_total',
-            'discount_amount',
-            'quote_currency_code',
-            'subtotal_with_discount',
-            'coupon_code',
-            'shipping_amount',
-            'shipping_incl_tax',
-            'shipping_tax_amount',
-            'is_virtual',
-            'applied_rule_ids',
-            'shipping_amount',
-            'shipping_incl_tax',
-            'shipping_tax_amount',
-            'shipping_method',
-            'is_in_store_pickup_available',
+            new Field<'id', number>('id'),
+            new Field<'subtotal', number>('subtotal'),
+            new Field<'subtotal_incl_tax', number>('subtotal_incl_tax'),
+            new Field<'items_qty', number>('items_qty'),
+            new Field<'tax_amount', number>('tax_amount'),
+            new Field<'grand_total', number>('grand_total'),
+            new Field<'discount_amount', number>('discount_amount'),
+            new Field<'quote_currency_code', string>('quote_currency_code'),
+            new Field<'subtotal_with_discount', number>('subtotal_with_discount'),
+            new Field<'coupon_code', string>('coupon_code'),
+            new Field<'shipping_amount', number>('shipping_amount'),
+            new Field<'shipping_incl_tax', number>('shipping_incl_tax'),
+            new Field<'shipping_tax_amount', number>('shipping_tax_amount'),
+            new Field<'is_virtual', boolean>('is_virtual'),
+            new Field<'applied_rule_ids', string>('applied_rule_ids'),
+            new Field<'shipping_method', string>('shipping_method'),
+            new Field<'is_in_store_pickup_available', boolean>('is_in_store_pickup_available'),
             this._getCartItemsField(),
             this._getAppliedTaxesField()
         ];
     }
 
-    _getBundleOptionValuesFields(): string[] {
+    _getBundleOptionValuesFields(): Array<
+    Field<'id', number>
+    | Field<'label', string>
+    | Field<'quantity', number>
+    | Field<'price', number>
+    > {
         return [
-            'id',
-            'label',
-            'quantity',
-            'price'
+            new Field<'id', number>('id'),
+            new Field<'label', string>('label'),
+            new Field<'quantity', number>('quantity'),
+            new Field<'price', number>('price')
         ];
     }
 
-    _getBundleOptionValuesField(): CommonField {
-        return new Field('values')
+    _getBundleOptionValuesField(): Field<'values', SelectedBundleOptionValue, true> {
+        return new Field<'values', SelectedBundleOptionValue, true>('values', true)
             .addFieldList(this._getBundleOptionValuesFields());
     }
 
-    _getBundleOptionsFields(): CommonField[] {
+    _getBundleOptionsFields(): Array<
+    Field<'id', number>
+    | Field<'label', string>
+    | Field<'values', SelectedBundleOptionValue, true>
+    > {
         return [
-            'id',
-            'label',
+            new Field<'id', number>('id'),
+            new Field<'label', string>('label'),
             this._getBundleOptionValuesField()
         ];
     }
 
-    _getBundleOptionsField(): CommonField {
-        return new Field('bundle_options')
+    _getBundleOptionsField(): Field<'bundle_options', SelectedBundleOption, true> {
+        return new Field<'bundle_options', SelectedBundleOption, true>('bundle_options', true)
             .addFieldList(this._getBundleOptionsFields());
     }
 
-    _getCustomizableOptionValueFields(): string[] {
+    _getCustomizableOptionValueFields(): Array<
+    Field<'id', number>
+    | Field<'label', string>
+    | Field<'value', string>
+    > {
         return [
-            'id',
-            'label',
-            'value'
+            new Field<'id', number>('id'),
+            new Field<'label', string>('label'),
+            new Field<'value', string>('value')
         ];
     }
 
-    _getCustomizableOptionValueField(): CommonField {
-        return new Field('values')
+    _getCustomizableOptionValueField(): Field<'values', SelectedCustomizableOptionValue, true> {
+        return new Field<'values', SelectedCustomizableOptionValue, true>('values', true)
             .addFieldList(this._getCustomizableOptionValueFields());
     }
 
-    _getCustomizableOptionsFields(): CommonField {
-        return new Field('customizable_options')
+    _getCustomizableOptionsFields(): Field<'customizable_options', SelectedCustomizableOption> {
+        return new Field<'customizable_options', SelectedCustomizableOption>('customizable_options')
             .addFieldList([
-                'id',
-                'label',
+                new Field<'id', number>('id'),
+                new Field<'label', string>('label'),
                 this._getCustomizableOptionValueField()
             ]);
     }
 
-    _getDownloadableLinksField(): CommonField {
-        return new Field('downloadable_links')
+    _getDownloadableLinksField(): Field<'downloadable_links', SelectedDownloadableLinks, true> {
+        return new Field<'downloadable_links', SelectedDownloadableLinks, true>('downloadable_links', true)
             .addFieldList(this._getDownloadableLinksFields());
     }
 
-    _getDownloadableLinksFields(): string[] {
+    _getDownloadableLinksFields(): Array<
+    Field<'id', number>
+    | Field<'label', string>
+    > {
         return [
-            'id',
-            'label'
+            new Field<'id', number>('id'),
+            new Field<'label', string>('label')
         ];
     }
 
-    _getCartItemFields(): CommonField[] {
+    _getCartItemFields(): Array<
+    Field<'qty', number>
+    | Field<'sku', string>
+    | Field<'price', number>
+    | Field<'item_id', number>
+    | Field<'row_total', number>
+    | Field<'row_total_incl_tax', number>
+    | Field<'tax_amount', number>
+    | Field<'tax_percent', number>
+    | Field<'discount_amount', number>
+    | Field<'discount_percent', number>
+    | Field<'customizable_options', SelectedCustomizableOption>
+    | Field<'downloadable_links', SelectedDownloadableLinks, true>
+    | Field<'bundle_options', SelectedBundleOption, true>
+    | Field<'product', CartProductInterface>
+    > {
         return [
-            'qty',
-            'sku',
-            'price',
-            'item_id',
-            'row_total',
-            'row_total_incl_tax',
-            'tax_amount',
-            'tax_percent',
-            'discount_amount',
-            'discount_percent',
+            new Field<'qty', number>('qty'),
+            new Field<'sku', string>('sku'),
+            new Field<'price', number>('price'),
+            new Field<'item_id', number>('item_id'),
+            new Field<'row_total', number>('row_total'),
+            new Field<'row_total_incl_tax', number>('row_total_incl_tax'),
+            new Field<'tax_amount', number>('tax_amount'),
+            new Field<'tax_percent', number>('tax_percent'),
+            new Field<'discount_amount', number>('discount_amount'),
+            new Field<'discount_percent', number>('discount_percent'),
             this._getCustomizableOptionsFields(),
             this._getDownloadableLinksField(),
             this._getBundleOptionsField(),
@@ -277,41 +331,50 @@ export class CartQuery {
         ];
     }
 
-    _getProductField(): CommonField {
-        return new Field('product')
+    _getProductField(): Field<'product', CartProductInterface> {
+        return new Field<'product', CartProductInterface>('product')
             .addFieldList(ProductListQuery._getCartProductInterfaceFields());
     }
 
-    _getCartItemsField(): CommonField {
-        return new Field('items')
+    _getCartItemsField(): Field<'items', TotalsItem, true> {
+        return new Field<'items', TotalsItem, true>('items', true)
             .addFieldList(this._getCartItemFields());
     }
 
-    _getCartDisplayConfigFields(): string[] {
+    _getCartDisplayConfigFields(): Array<
+    Field<'display_tax_in_price', string>
+    | Field<'display_tax_in_subtotal', string>
+    | Field<'display_tax_in_shipping_amount', string>
+    | Field<'include_tax_in_order_total', boolean>
+    | Field<'display_full_tax_summary', boolean>
+    | Field<'display_zero_tax_subtotal', boolean>
+    > {
         return [
-            'display_tax_in_price',
-            'display_tax_in_subtotal',
-            'display_tax_in_shipping_amount',
-            'include_tax_in_order_total',
-            'display_full_tax_summary',
-            'display_zero_tax_subtotal'
+            new Field<'display_tax_in_price', string>('display_tax_in_price'),
+            new Field<'display_tax_in_subtotal', string>('display_tax_in_subtotal'),
+            new Field<'display_tax_in_shipping_amount', string>('display_tax_in_shipping_amount'),
+            new Field<'include_tax_in_order_total', boolean>('include_tax_in_order_total'),
+            new Field<'display_full_tax_summary', boolean>('display_full_tax_summary'),
+            new Field<'display_zero_tax_subtotal', boolean>('display_zero_tax_subtotal')
         ];
     }
 
-    _getAppliedTaxesField(): CommonField {
-        return new Field('applied_taxes')
+    _getAppliedTaxesField(): Field<'applied_taxes', AppliedTaxItem, true> {
+        return new Field<'applied_taxes', AppliedTaxItem, true>('applied_taxes', true)
             .addField(this._getAppliedTaxesRatesField());
     }
 
-    _getAppliedTaxesRatesField(): Field<'rates', GQLAppliedTaxItemRate, true> {
-        return new Field<'rates', GQLAppliedTaxItemRate, true>('rates', true)
+    _getAppliedTaxesRatesField(): Field<'rates', AppliedTaxItemRate, true> {
+        return new Field<'rates', AppliedTaxItemRate, true>('rates', true)
             .addFieldList(this._getAppliedTaxesRatesFields());
     }
 
-    _getAppliedTaxesRatesFields(): string[] {
+    _getAppliedTaxesRatesFields(): Array<
+    Field<'percent', number> | Field<'title', string>
+    > {
         return [
-            'percent',
-            'title'
+            new Field<'percent', number>('percent'),
+            new Field<'title', string>('title')
         ];
     }
 }

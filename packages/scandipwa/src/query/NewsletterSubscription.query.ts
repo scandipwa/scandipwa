@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Mutation } from '@tilework/opus';
+import { Field, Mutation } from '@tilework/opus';
 
-import { GQLSubscribeEmailToNewsletterOutput } from 'Type/Graphql.type';
+import { GQLSubscriptionStatusesEnum } from 'Type/Graphql.type';
 
 /**
  * NewsletterSubscription Mutations
@@ -20,17 +20,17 @@ import { GQLSubscribeEmailToNewsletterOutput } from 'Type/Graphql.type';
 export class NewsletterSubscriptionQuery {
     getSubscribeToNewsletterMutation(
         email: string
-    ): Mutation<'subscribeEmailToNewsletter', GQLSubscribeEmailToNewsletterOutput> {
-        return new Mutation<'subscribeEmailToNewsletter', GQLSubscribeEmailToNewsletterOutput>(
+    ): Mutation<'subscribeEmailToNewsletter', { status: GQLSubscriptionStatusesEnum }> {
+        return new Mutation<'subscribeEmailToNewsletter', { status: GQLSubscriptionStatusesEnum }>(
             'subscribeEmailToNewsletter'
         )
             .addArgument('email', 'String!', email)
             .addFieldList(this._getPageFields());
     }
 
-    _getPageFields(): string[] {
+    _getPageFields(): Field<'status', GQLSubscriptionStatusesEnum>[] {
         return [
-            'status'
+            new Field<'status', GQLSubscriptionStatusesEnum>('status')
         ];
     }
 }

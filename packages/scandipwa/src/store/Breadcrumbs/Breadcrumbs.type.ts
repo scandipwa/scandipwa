@@ -10,7 +10,7 @@
  */
 import { AnyAction } from 'redux';
 
-import { Breadcrumbs } from 'Type/Breadcrumbs.type';
+import { Breadcrumb } from 'Type/Breadcrumbs.type';
 
 export enum BreadcrumbsActionType {
     UPDATE_BREADCRUMBS = 'UPDATE_BREADCRUMBS',
@@ -24,13 +24,13 @@ export interface ToggleBreadcrumbsAction extends AnyAction {
 
 export interface UpdateBreadcrumbsAction extends AnyAction {
     type: BreadcrumbsActionType.UPDATE_BREADCRUMBS;
-    breadcrumbs: Breadcrumbs;
+    breadcrumbs: Breadcrumb[];
 }
 
 export type BreadcrumbsAction = ToggleBreadcrumbsAction | UpdateBreadcrumbsAction;
 
 export type BreadcrumbsStore = {
-    breadcrumbs: Breadcrumbs;
+    breadcrumbs: Breadcrumb[];
     areBreadcrumbsVisible: boolean;
 };
 

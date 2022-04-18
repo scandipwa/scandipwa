@@ -11,15 +11,18 @@
 
 import { Reducer } from 'redux';
 
+import { GQLProductInterface, GQLTotalsItem } from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 
-import { CartAction, CartActionType, CartStore } from './Cart.type';
+import {
+    CartAction, CartActionType, CartStore, UpdateShippingPriceAction, UpdateTotalsAction
+} from './Cart.type';
 
 export const CART_TOTALS = 'cart_totals';
 
 /** @namespace Store/Cart/Reducer/updateCartTotals */
-export const updateCartTotals = (action) => {
+export const updateCartTotals = (action: UpdateTotalsAction): CartStore => {
     const { cartData: { items = [], ...rest } = {} } = action;
 
     const cartTotals = {
@@ -28,9 +31,13 @@ export const updateCartTotals = (action) => {
     };
 
     if (items.length) {
-        const normalizedItemsProduct = items.map((item) => {
-            const { variants, ...normalizedItem } = item;
-            normalizedItem.product = getIndexedProduct(item.product, item.sku);
+        const normalizedItemsProduct = (items as GQLTotalsItem[]).map((item) => {
+            // const { ...normalizedItem } = item;
+            const normalizedItem = {
+                ...item,
+                product: getIndexedProduct(item.product as GQLProductInterface, item?.sku)
+            };
+            // normalizedItem.product = getIndexedProduct(item.product as GQLProductInterface, item?.sku);
 
             return normalizedItem;
         });
@@ -47,7 +54,10 @@ export const updateCartTotals = (action) => {
 };
 
 /** @namespace Store/Cart/Reducer/updateShippingPrice */
-export const updateShippingPrice = (action, state) => {
+export const updateShippingPrice = (
+    action: UpdateShippingPriceAction,
+    state: CartStore
+): CartStore => {
     const {
         data: {
             items,
@@ -56,6 +66,7 @@ export const updateShippingPrice = (action, state) => {
     } = action;
 
     return {
+        ...state,
         cartTotals: {
             ...state.cartTotals,
             ...rest

@@ -11,32 +11,36 @@
 
 import { Field, Query } from '@tilework/opus';
 
-import { GQLProductInfoInput, GQLStores } from 'Type/Graphql.type';
+import { GQLProductInfoInput } from 'Type/Graphql.type';
 
-import { CommonField } from './Query.type';
+import { Store } from './StoreInPickUp.type';
 
 /** @namespace Query/StoreInPickUp/Query */
 export class StoreInPickUpQuery {
-    getStores(country: string, search = '', productsInfo?: GQLProductInfoInput): Query<'getStores', GQLStores> {
-        return new Query<'getStores', GQLStores>('getStores')
+    getStores(
+        country: string,
+        search = '',
+        productsInfo?: GQLProductInfoInput
+    ): Query<'getStores', { stores: Store[] }> {
+        return new Query<'getStores', { stores: Store[] }>('getStores')
             .addFieldList([this.getStoreFields()])
             .addArgument('search', 'String', search)
             .addArgument('country', 'String', country)
             .addArgument('productsInfo', '[ProductInfoInput]', productsInfo);
     }
 
-    getStoreFields(): CommonField {
-        return new Field('stores', true)
+    getStoreFields(): Field<'stores', Store, true> {
+        return new Field<'stores', Store, true>('stores', true)
             .addFieldList([
-                'city',
-                'country',
-                'description',
-                'name',
-                'phone',
-                'pickup_location_code',
-                'postcode',
-                'region',
-                'street'
+                new Field<'city', string>('city'),
+                new Field<'country', string>('country'),
+                new Field<'description', string>('description'),
+                new Field<'name', string>('name'),
+                new Field<'phone', string>('phone'),
+                new Field<'pickup_location_code', string>('pickup_location_code'),
+                new Field<'postcode', string>('postcode'),
+                new Field<'region', string>('region'),
+                new Field<'street', string>('street')
             ]);
     }
 }

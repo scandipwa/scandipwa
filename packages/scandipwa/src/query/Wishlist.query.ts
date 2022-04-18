@@ -14,18 +14,17 @@ import { Field, Mutation, Query } from '@tilework/opus';
 
 import ProductListQuery from 'Query/ProductList.query';
 import {
-    GQLAddProductsToWishlistOutput,
     GQLShareWishlistInput,
-    GQLUpdateProductsInWishlistOutput,
     GQLWishlistItemInput,
-    GQLWishlistItemUpdateInput,
-    GQLWishlistOutput,
-    GQLWishListUserInputError
+    GQLWishlistItemUpdateInput
 } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId } from 'Util/Cart';
 
-import { CommonField } from './Query.type';
+import { ProductItem } from './ProductList.type';
+import {
+    ItemOption, Wishlist, WishlistItem, WishListUserInputError
+} from './Wishlist.type';
 
 /** @namespace Query/Wishlist/Query */
 export class WishlistQuery {
@@ -33,11 +32,8 @@ export class WishlistQuery {
     addProductsToWishlist(
         wishlistId: string,
         wishlistItems: GQLWishlistItemInput[]
-    ): Mutation<
-        'addProductsToWishlist',
-        GQLAddProductsToWishlistOutput & { user_errors: GQLWishListUserInputError[] }
-        > {
-        return new Mutation<'addProductsToWishlist', GQLAddProductsToWishlistOutput>('addProductsToWishlist')
+    ): Mutation<'addProductsToWishlist', { user_errors: WishListUserInputError[] }> {
+        return new Mutation<'addProductsToWishlist', { user_errors: WishListUserInputError[] }>('addProductsToWishlist')
             .addArgument('wishlistId', 'ID!', wishlistId)
             .addArgument('wishlistItems', '[WishlistItemInput!]!', wishlistItems)
             .addField(this._getWishlistErrorsField());
@@ -46,11 +42,10 @@ export class WishlistQuery {
     updateProductsInWishlist(
         wishlistId: string,
         wishlistItems: GQLWishlistItemUpdateInput
-    ): Mutation<
-        'updateProductsInWishlist',
-        GQLUpdateProductsInWishlistOutput & { user_errors: GQLWishListUserInputError[] }
-        > {
-        return new Mutation<'updateProductsInWishlist', GQLUpdateProductsInWishlistOutput>('updateProductsInWishlist')
+    ): Mutation<'updateProductsInWishlist', { user_errors: WishListUserInputError[] }> {
+        return new Mutation<'updateProductsInWishlist', { user_errors: WishListUserInputError[] }>(
+            'updateProductsInWishlist'
+        )
             .addArgument('wishlistId', 'ID!', wishlistId)
             .addArgument('wishlistItems', '[WishlistItemUpdateInput!]!', wishlistItems)
             .addField(this._getWishlistErrorsField());
@@ -58,21 +53,24 @@ export class WishlistQuery {
     //#endregion
 
     //#region ERROR
-    _getWishlistErrorsFields(): string[] {
+    _getWishlistErrorsFields(): Array<
+    Field<'message', string>
+    | Field<'code', string>
+    > {
         return [
-            'message',
-            'code'
+            new Field<'message', string>('message'),
+            new Field<'code', string>('code')
         ];
     }
 
-    _getWishlistErrorsField(): Field<'user_errors', GQLWishListUserInputError, true> {
-        return new Field<'user_errors', GQLWishListUserInputError, true>('user_errors', true)
+    _getWishlistErrorsField(): Field<'user_errors', WishListUserInputError, true> {
+        return new Field<'user_errors', WishListUserInputError, true>('user_errors', true)
             .addFieldList(this._getWishlistErrorsFields());
     }
     //#endregion
 
-    getWishlistQuery(sharingCode: string): Query<'wishlist', GQLWishlistOutput> {
-        const field = new Query<'s_wishlist', GQLWishlistOutput>('s_wishlist')
+    getWishlistQuery(sharingCode: string): Query<'wishlist', Wishlist> {
+        const field = new Query<'s_wishlist', Wishlist>('s_wishlist')
             .setAlias('wishlist')
             .addFieldList(this._getWishlistFields());
 
@@ -116,55 +114,83 @@ export class WishlistQuery {
             .addArgument('itemId', 'ID!', item_id);
     }
 
-    _getWishlistFields(): CommonField[] {
+    _getWishlistFields(): Array<
+    Field<'id', number>
+    | Field<'updated_at', string>
+    | Field<'items_count', number>
+    | Field<'creators_name', string>
+    | Field<'items', WishlistItem, true>
+    > {
         return [
-            'id',
-            'updated_at',
-            'items_count',
-            'creators_name',
+            new Field<'id', number>('id'),
+            new Field<'updated_at', string>('updated_at'),
+            new Field<'items_count', number>('items_count'),
+            new Field<'creators_name', string>('creators_name'),
             this._getItemsField()
         ];
     }
 
-    _getItemOptionsFields(): string[] {
+    _getItemOptionsFields(): Array<
+    Field<'label', string>
+    | Field<'value', string>
+    > {
         return [
-            'label',
-            'value'
+            new Field<'label', string>('label'),
+            new Field<'value', string>('value')
         ];
     }
 
-    _getItemOptionsField(): CommonField {
-        return new Field('options')
+    _getItemOptionsField(): Field<'options', ItemOption, true> {
+        return new Field<'options', ItemOption, true>('options')
             .addFieldList(this._getItemOptionsFields());
     }
 
-    _getWishlistItemsFields(): CommonField[] {
+    _getWishlistItemsFields(): Array<
+    Field<'id', number>
+    | Field<'sku', string>
+    | Field<'qty', string>
+    | Field<'description', string>
+    | Field<'price', number>
+    | Field<'price_without_tax', number>
+    | Field<'buy_request', string>
+    | Field<'options', ItemOption, true>
+    > {
         return [
-            'id',
-            'sku',
-            'qty',
-            'description',
-            'price',
-            'price_without_tax',
-            'buy_request',
+            new Field<'id', number>('id'),
+            new Field<'sku', string>('sku'),
+            new Field<'qty', string>('qty'),
+            new Field<'description', string>('description'),
+            new Field<'price', number>('price'),
+            new Field<'price_without_tax', number>('price_without_tax'),
+            new Field<'buy_request', string>('buy_request'),
             this._getItemOptionsField()
         ];
     }
 
-    _getItemsFields(): CommonField[] {
+    _getItemsFields(): Array<
+    Field<'id', number>
+    | Field<'sku', string>
+    | Field<'qty', string>
+    | Field<'description', string>
+    | Field<'price', number>
+    | Field<'price_without_tax', number>
+    | Field<'buy_request', string>
+    | Field<'options', ItemOption, true>
+    | Field<'product', ProductItem>
+    > {
         return [
             ...this._getWishlistItemsFields(),
             this._getProductField()
         ];
     }
 
-    _getProductField(): CommonField {
-        return new Field('product')
+    _getProductField(): Field<'product', ProductItem> {
+        return new Field<'product', ProductItem>('product')
             .addFieldList(ProductListQuery._getProductInterfaceFields(false, false, true));
     }
 
-    _getItemsField(): CommonField {
-        return new Field('items')
+    _getItemsField(): Field<'items', WishlistItem, true> {
+        return new Field<'items', WishlistItem, true>('items')
             .addFieldList(this._getItemsFields());
     }
 }

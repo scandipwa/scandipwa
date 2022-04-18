@@ -9,23 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Query } from '@tilework/opus';
+import { Field, Query } from '@tilework/opus';
 
-import { GQLCmsPage } from 'Type/Graphql.type';
-
-import { CmsPage } from './Query.type';
+import { CmsPageFields, CmsPageQueryOptions } from './CmsPage.type';
 
 /**
  * CMS Page Query
  * @class CmsPageQuery
  * @namespace Query/CmsPage/Query */
 export class CmsPageQuery {
-    getQuery({ id, url_key, identifier }: CmsPage): Query<'cmsPage', GQLCmsPage> {
+    getQuery({ id, url_key, identifier }: CmsPageQueryOptions): Query<'cmsPage', CmsPageFields> {
         if (!id && !url_key && !identifier) {
             throw new Error('Missing argument `id` or `url_key`!');
         }
 
-        const cmsPage = new Query<'cmsPage', GQLCmsPage>('cmsPage')
+        const cmsPage = new Query<'cmsPage', CmsPageFields>('cmsPage')
             .addFieldList(this._getPageFields());
 
         if (identifier) {
@@ -37,15 +35,23 @@ export class CmsPageQuery {
         return cmsPage;
     }
 
-    _getPageFields(): string[] {
+    _getPageFields(): Array<
+    Field<'title', string>
+    | Field<'content', string>
+    | Field<'page_width', string>
+    | Field<'content_heading', string>
+    | Field<'meta_title', string>
+    | Field<'meta_description', string>
+    | Field<'meta_keywords', string>
+    > {
         return [
-            'title',
-            'content',
-            'page_width',
-            'content_heading',
-            'meta_title',
-            'meta_description',
-            'meta_keywords'
+            new Field<'title', string>('title'),
+            new Field<'content', string>('content'),
+            new Field<'page_width', string>('page_width'),
+            new Field<'content_heading', string>('content_heading'),
+            new Field<'meta_title', string>('meta_title'),
+            new Field<'meta_description', string>('meta_description'),
+            new Field<'meta_keywords', string>('meta_keywords')
         ];
     }
 }

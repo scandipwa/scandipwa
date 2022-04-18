@@ -12,7 +12,6 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import { CART } from 'Component/Header/Header.config';
@@ -24,6 +23,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { ReactElement } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
@@ -40,6 +40,7 @@ import {
 } from 'Util/Cart';
 import history from 'Util/History';
 import { getProductInStock } from 'Util/Product/Extract';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import CartPage from './CartPage.component';
@@ -55,7 +56,7 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Route/CartPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState) => ({
     totals: state.CartReducer.cartTotals,
     headerState: state.NavigationReducer[ TOP_NAVIGATION_TYPE ].navigationState,
     guest_checkout: state.ConfigReducer.guest_checkout,
@@ -259,8 +260,8 @@ export class CartPageContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CartPage
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

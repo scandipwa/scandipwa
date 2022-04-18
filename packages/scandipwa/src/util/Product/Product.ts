@@ -14,6 +14,7 @@ import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config'
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
+import { GQLProductInterface, GQLProductReview, GQLProductReviews } from 'Type/Graphql.type';
 import {
     Attribute,
     AttributeOption,
@@ -26,6 +27,7 @@ import {
     Product,
     ProductBundle,
     ProductBundleItem,
+    ProductInterface,
     ProductVariant,
     RatingVote,
     Review,
@@ -249,7 +251,7 @@ export const getIndexedCustomOptions = (options: Option[]) => options.reduce(
 );
 
 /** @namespace Util/Product/getIndexedReviews */
-export const getIndexedReviews = (reviews: Reviews): Review[] | null => {
+export const getIndexedReviews = (reviews: GQLProductReviews): GQLProductReview[] | null => {
     if (!reviews) {
         return null;
     }
@@ -257,8 +259,8 @@ export const getIndexedReviews = (reviews: Reviews): Review[] | null => {
     const { items } = reviews;
     const ONE_FIFTH_OF_A_HUNDRED = 20;
 
-    return items.reduce((acc, review) => {
-        const { rating_votes = [], ...restOfReview } = review as Review;
+    return (items as GQLProductReview[]).reduce((acc, review) => {
+        const { rating_votes = [], ...restOfReview } = review;
 
         const newRatingVotes = rating_votes.reduce((ratingVotesAcc, vote) => {
             const { rating_code, value } = vote as RatingVote;
@@ -281,7 +283,7 @@ export const getIndexedReviews = (reviews: Reviews): Review[] | null => {
                 rating_votes: newRatingVotes
             }
         ];
-    }, [] as Review[]);
+    }, [] as GQLProductReview[]);
 };
 
 /** @namespace Util/Product/getBundleId */
@@ -330,7 +332,7 @@ export const getBundleOptions = (options: BundleOption[], items: ProductBundleIt
 // TODO Works with all types
 /** @namespace Util/Product/getIndexedProduct */
 export const getIndexedProduct = (
-    product: Product | ProductBundle,
+    product: ProductInterface & { attributes?: Attribute[] },
     itemSku?: string
 ): IndexedProduct => {
     const {

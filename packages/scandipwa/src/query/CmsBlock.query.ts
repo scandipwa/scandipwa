@@ -11,7 +11,7 @@
 
 import { Field, Query } from '@tilework/opus';
 
-import { GQLCmsBlock, GQLCmsBlocks } from 'Type/Graphql.type';
+import { CmsBlock } from './CmsBlock.type';
 
 /**
  * CMS Blocks Query
@@ -24,29 +24,32 @@ export class CmsBlockQuery {
      * @return {Field} CMS Block query
      * @memberof CmsBlocksQuery
      */
-    getQuery({ identifiers }: { identifiers: string[] }): Query<'cmsBlocks', GQLCmsBlocks & {
-        items: GQLCmsBlock[];
-    }> {
+    getQuery({ identifiers }: { identifiers: string[] }): Query<'cmsBlocks', { items: CmsBlock[] }> {
         if (!identifiers) {
             throw new Error('Missing argument `options`');
         }
 
-        return new Query<'cmsBlocks', GQLCmsBlocks>('cmsBlocks')
+        return new Query<'cmsBlocks', { items: CmsBlock[] }>('cmsBlocks')
             .addArgument('identifiers', '[String]', identifiers)
             .addField(this._getItemsField());
     }
 
-    _getItemFields(): string[] {
+    _getItemFields(): Array<
+    Field<'title', string>
+    | Field<'content', string>
+    | Field<'identifier', string>
+    | Field<'disabled', boolean>
+    > {
         return [
-            'title',
-            'content',
-            'identifier',
-            'disabled'
+            new Field<'title', string>('title'),
+            new Field<'content', string>('content'),
+            new Field<'identifier', string>('identifier'),
+            new Field<'disabled', boolean>('disabled')
         ];
     }
 
-    _getItemsField(): Field<'items', GQLCmsBlock, true> {
-        return new Field<'items', GQLCmsBlock, true>('items', true)
+    _getItemsField(): Field<'items', CmsBlock, true> {
+        return new Field<'items', CmsBlock, true>('items', true)
             .addFieldList(this._getItemFields());
     }
 }

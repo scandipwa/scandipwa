@@ -11,28 +11,21 @@
 
 import { Field, Mutation } from '@tilework/opus';
 
-import {
-    GQLCreateCustomerType,
-    GQLCustomer,
-    GQLCustomerActionConfirmationType,
-    GQLCustomerAddress,
-    GQLCustomerAddressInput,
-    GQLCustomerAddressRegion,
-    GQLCustomerOutput,
-    GQLCustomerToken,
-    GQLCustomerUpdateInput,
-    GQLResetPasswordType,
-    GQLRevokeCustomerTokenOutput
-} from 'Type/Graphql.type';
+import { GQLCustomerAddressInput, GQLCustomerUpdateInput } from 'Type/Graphql.type';
 
 import {
     ChangeCustomerPasswordOptions,
-    CommonField,
     ConfirmAccountOptions,
     CreateAccountOptions,
+    CreateCustomerOutput,
+    Customer,
+    CustomerAddress,
+    CustomerAddressFields,
+    CustomerAddressRegion,
+    CustomerFields,
     ResetPasswordOptions,
     SignInOptions
-} from './Query.type';
+} from './MyAccount.type';
 
 /**
  * MyAccount Mutations
@@ -45,12 +38,10 @@ export class MyAccountQuery {
      * @return {Field}
      * @memberof MyAccount
      */
-    getResetPasswordMutation(options: ResetPasswordOptions): Mutation<'s_resetPassword', GQLResetPasswordType & {
-        status: string;
-    }> {
+    getResetPasswordMutation(options: ResetPasswordOptions): Mutation<'s_resetPassword', { status: string }> {
         const { token, password, password_confirmation } = options;
 
-        return new Mutation<'s_resetPassword', GQLResetPasswordType>('s_resetPassword')
+        return new Mutation<'s_resetPassword', { status: string }>('s_resetPassword')
             .addArgument('token', 'String!', token)
             .addArgument('password', 'String!', password)
             .addArgument('password_confirmation', 'String!', password_confirmation)
@@ -63,27 +54,27 @@ export class MyAccountQuery {
      * @return {Field}
      * @memberof MyAccount
      */
-    getSignInMutation(options: SignInOptions): Mutation<'generateCustomerToken', GQLCustomerToken & {
-        token: string;
-    }> {
+    getSignInMutation(options: SignInOptions): Mutation<'generateCustomerToken', { token: string }> {
         const { email, password } = options;
 
-        return new Mutation<'generateCustomerToken', GQLCustomerToken>('generateCustomerToken')
+        return new Mutation<'generateCustomerToken', { token: string }>('generateCustomerToken')
             .addArgument('email', 'String!', email)
             .addArgument('password', 'String!', password)
             .addField('token');
     }
 
-    getUpdateInformationMutation(options: GQLCustomerUpdateInput): Mutation<'updateCustomerV2', GQLCustomerOutput> {
-        return new Mutation<'updateCustomerV2', GQLCustomerOutput>('updateCustomerV2')
+    getUpdateInformationMutation(
+        options: GQLCustomerUpdateInput
+    ): Mutation<'updateCustomerV2', { customer: Customer }> {
+        return new Mutation<'updateCustomerV2', { customer: Customer }>('updateCustomerV2')
             .addArgument('input', 'CustomerUpdateInput!', options)
             .addField(this._getCustomerField());
     }
 
-    getUpdateEmailMutation(options: SignInOptions): Mutation<'updateCustomerEmail', GQLCustomerOutput> {
+    getUpdateEmailMutation(options: SignInOptions): Mutation<'updateCustomerEmail', { customer: Customer }> {
         const { email, password } = options;
 
-        return new Mutation<'updateCustomerEmail', GQLCustomerOutput>('updateCustomerEmail')
+        return new Mutation<'updateCustomerEmail', { customer: Customer }>('updateCustomerEmail')
             .addArgument('email', 'String!', email)
             .addArgument('password', 'String!', password)
             .addField(this._getCustomerField());
@@ -91,21 +82,18 @@ export class MyAccountQuery {
 
     getChangeCustomerPasswordMutation(
         options: ChangeCustomerPasswordOptions
-    ): Mutation<'changeCustomerPassword', GQLCustomer & {
-            id: string;
-            email: string;
-        }> {
+    ): Mutation<'changeCustomerPassword', Customer> {
         const { password, newPassword } = options;
 
-        return new Mutation<'changeCustomerPassword', GQLCustomer>('changeCustomerPassword')
+        return new Mutation<'changeCustomerPassword', Customer>('changeCustomerPassword')
             .addArgument('currentPassword', 'String!', password)
             .addArgument('newPassword', 'String!', newPassword)
             .addField('id')
             .addField('email');
     }
 
-    getCreateAddressMutation(options: GQLCustomerAddressInput): Field<'createCustomerAddress', GQLCustomerAddress> {
-        return new Field<'createCustomerAddress', GQLCustomerAddress>('createCustomerAddress')
+    getCreateAddressMutation(options: GQLCustomerAddressInput): Mutation<'createCustomerAddress', CustomerAddress> {
+        return new Mutation<'createCustomerAddress', CustomerAddress>('createCustomerAddress')
             .addArgument('input', 'CustomerAddressInput!', options)
             .addFieldList(this._getAddressFields());
     }
@@ -118,115 +106,123 @@ export class MyAccountQuery {
     getUpdateAddressMutation(
         id: number,
         options: GQLCustomerAddressInput
-    ): Field<'updateCustomerAddress', GQLCustomerAddress> {
-        return new Field<'updateCustomerAddress', GQLCustomerAddress>('updateCustomerAddress')
+    ): Mutation<'updateCustomerAddress', CustomerAddress> {
+        return new Mutation<'updateCustomerAddress', CustomerAddress>('updateCustomerAddress')
             .addArgument('id', 'Int!', id)
             .addArgument('input', 'CustomerAddressInput!', options)
             .addFieldList(this._getAddressFields());
     }
 
-    getCreateAccountMutation(options: CreateAccountOptions): Mutation<'createCustomer', GQLCustomerOutput> {
+    getCreateAccountMutation(options: CreateAccountOptions): Mutation<'createCustomer', { customer: Customer }> {
         const { customer, password } = options;
 
-        return new Mutation<'createCustomer', GQLCustomerOutput>('createCustomer')
+        return new Mutation<'createCustomer', { customer: Customer }>('createCustomer')
             .addArgument('input', 'CustomerInput!', { ...customer, password })
             .addField(this._getCustomerField());
     }
 
-    getConfirmAccountMutation(options: ConfirmAccountOptions): Mutation<'confirmCustomerEmail', GQLCreateCustomerType> {
+    getConfirmAccountMutation(options: ConfirmAccountOptions): Mutation<'confirmCustomerEmail', CreateCustomerOutput> {
         const { key, email, password } = options;
 
-        return new Mutation<'confirmCustomerEmail', GQLCreateCustomerType>('confirmCustomerEmail')
+        return new Mutation<'confirmCustomerEmail', CreateCustomerOutput>('confirmCustomerEmail')
             .addArgument('key', 'String!', key)
             .addArgument('email', 'String!', email)
             .addArgument('password', 'String!', password)
             .addFieldList(this._getConfirmAccountFields());
     }
 
-    getRevokeAccountToken(): Mutation<'revokeCustomerToken', GQLRevokeCustomerTokenOutput> {
-        return new Mutation<'revokeCustomerToken', GQLRevokeCustomerTokenOutput>('revokeCustomerToken')
+    getRevokeAccountToken(): Mutation<'revokeCustomerToken', { result: boolean }> {
+        return new Mutation<'revokeCustomerToken', { result: boolean }>('revokeCustomerToken')
             .addFieldList(this.getRevokeAccountTokenFields());
     }
 
-    getCustomerQuery(): Field<'customer', GQLCustomer> {
+    getCustomerQuery(): Field<'customer', Customer> {
         return this._getCustomerField();
     }
 
-    _getConfirmAccountFields(): CommonField[] {
+    _getConfirmAccountFields(): Array<
+    Field<'status', string>
+    | Field<'token', string>
+    | Field<'customer', Customer>
+    > {
         return [
-            'status',
-            'token',
+            new Field<'status', string>('status'),
+            new Field<'token', string>('token'),
             this._getCustomerField()
         ];
     }
 
-    getRevokeAccountTokenFields(): string[] {
+    getRevokeAccountTokenFields(): Field<'result', boolean>[] {
         return [
-            'result'
+            new Field<'result', boolean>('result')
         ];
     }
 
-    _getCustomerField(): Field<'customer', GQLCustomer> {
-        return new Field<'customer', GQLCustomer>('customer')
+    _getCustomerField(): Field<'customer', Customer> {
+        return new Field<'customer', Customer>('customer')
             .addFieldList(this._getCustomerFields());
     }
 
-    _getCustomerFields(): CommonField[] {
+    _getCustomerFields(): CustomerFields {
         return [
-            'created_at',
-            'confirmation_required',
-            'group_id',
-            'prefix',
-            'firstname',
-            'middlename',
-            'lastname',
-            'suffix',
-            'email',
-            'default_billing',
-            'default_shipping',
-            'dob',
-            'taxvat',
-            'id',
-            'is_subscribed',
+            new Field<'created_at', string>('created_at'),
+            new Field<'confirmation_required', boolean>('confirmation_required'),
+            new Field<'group_id', number>('group_id'),
+            new Field<'prefix', string>('prefix'),
+            new Field<'firstname', string>('firstname'),
+            new Field<'middlename', string>('middlename'),
+            new Field<'lastname', string>('lastname'),
+            new Field<'suffix', string>('suffix'),
+            new Field<'email', string>('email'),
+            new Field<'default_billing', string>('default_billing'),
+            new Field<'default_shipping', string>('default_shipping'),
+            new Field<'dob', string>('dob'),
+            new Field<'taxvat', string>('taxvat'),
+            new Field<'id', number>('id'),
+            new Field<'is_subscribed', boolean>('is_subscribed'),
             this._getAddressesField()
         ];
     }
 
-    _getAddressesField(): Field<'addresses', GQLCustomerAddress, true> {
-        return new Field<'addresses', GQLCustomerAddress, true>('addresses', true)
+    _getAddressesField(): Field<'addresses', CustomerAddress, true> {
+        return new Field<'addresses', CustomerAddress, true>('addresses', true)
             .addFieldList(this._getAddressFields());
     }
 
-    _getRegionField(): Field<'region', GQLCustomerAddressRegion> {
-        return new Field<'region', GQLCustomerAddressRegion>('region')
+    _getRegionField(): Field<'region', CustomerAddressRegion> {
+        return new Field<'region', CustomerAddressRegion>('region')
             .addFieldList(this._getRegionFields());
     }
 
-    _getRegionFields(): string[] {
+    _getRegionFields(): Array<
+    Field<'region_code', string>
+    | Field<'region', string>
+    | Field<'region_id', number>
+    > {
         return [
-            'region_code',
-            'region',
-            'region_id'
+            new Field<'region_code', string>('region_code'),
+            new Field<'region', string>('region'),
+            new Field<'region_id', number>('region_id')
         ];
     }
 
-    _getAddressFields(): CommonField[] {
+    _getAddressFields(): CustomerAddressFields {
         return [
-            'id',
-            'customer_id',
-            'country_id',
-            'street',
-            'telephone',
-            'postcode',
-            'city',
-            'firstname',
-            'lastname',
-            'middlename',
-            'prefix',
-            'suffix',
-            'default_shipping',
-            'default_billing',
-            'vat_id',
+            new Field<'id', number>('id'),
+            new Field<'customer_id', number>('customer_id'),
+            new Field<'country_id', number>('country_id'),
+            new Field<'street', string>('street'),
+            new Field<'telephone', string>('telephone'),
+            new Field<'postcode', string>('postcode'),
+            new Field<'city', string>('city'),
+            new Field<'firstname', string>('firstname'),
+            new Field<'lastname', string>('lastname'),
+            new Field<'middlename', string>('middlename'),
+            new Field<'prefix', string>('prefix'),
+            new Field<'suffix', string>('suffix'),
+            new Field<'default_shipping', boolean>('default_shipping'),
+            new Field<'default_billing', boolean>('default_billing'),
+            new Field<'vat_id', string>('vat_id'),
             this._getRegionField()
         ];
     }
@@ -239,12 +235,10 @@ export class MyAccountQuery {
      */
     getForgotPasswordMutation(
         options: { email: string }
-    ): Mutation<'forgotPassword', GQLCustomerActionConfirmationType & {
-            status: string;
-        }> {
+    ): Mutation<'forgotPassword', { status: string }> {
         const { email } = options;
 
-        return new Mutation<'forgotPassword', GQLCustomerActionConfirmationType>('forgotPassword')
+        return new Mutation<'forgotPassword', { status: string }>('forgotPassword')
             .addArgument('email', 'String!', email)
             .addField('status');
     }

@@ -9,21 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Query } from '@tilework/opus';
-
-import { GQLIsEmailAvailableOutput } from 'Type/Graphql.type';
+import { Field, Query } from '@tilework/opus';
 
 /**
  * Email availability check Query
  * @class CheckEmailQuery
  * @namespace Query/CheckEmail/Query */
 export class CheckEmailQuery {
-    getIsEmailAvailableQuery(email: string): Query<'isEmailAvailable', GQLIsEmailAvailableOutput & {
-        is_email_available: boolean;
-    }> {
-        const query = new Query<'isEmailAvailable', GQLIsEmailAvailableOutput>('isEmailAvailable')
+    getIsEmailAvailableQuery(email: string): Query<'isEmailAvailable', { is_email_available: boolean }> {
+        const query = new Query<'isEmailAvailable', { is_email_available: boolean }>('isEmailAvailable')
             .addArgument('email', 'String!', email)
-            .addField('is_email_available');
+            .addField(new Field<'is_email_available', boolean>('is_email_available'));
 
         return query;
     }

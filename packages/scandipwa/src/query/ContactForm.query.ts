@@ -9,38 +9,38 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Mutation, Query } from '@tilework/opus';
+import { Field, Mutation, Query } from '@tilework/opus';
 
-import { GQLContactForm, GQLContactFormResponse, GQLContactPageConfig } from 'Type/Graphql.type';
+import { GQLContactForm } from 'Type/Graphql.type';
 
 /** @namespace Query/ContactForm/Query */
 export class ContactFormQuery {
-    getSendContactFormMutation(options: GQLContactForm): Mutation<'contactForm', GQLContactFormResponse> {
-        const mutation = new Mutation<'contactForm', GQLContactFormResponse>('contactForm');
-        this._addSendContactFormMutationArguments(mutation as Mutation<string, unknown>, options);
+    getSendContactFormMutation(options: GQLContactForm): Mutation<'contactForm', { message: string }> {
+        const mutation = new Mutation<'contactForm', { message: string }>('contactForm');
+        this._addSendContactFormMutationArguments(mutation, options);
         mutation.addFieldList(this._getSendContactFormMutationResponse());
 
         return mutation;
     }
 
-    getContactPageConfigQuery(): Query<'contactPageConfig', GQLContactPageConfig> {
-        return new Query<'contactPageConfig', GQLContactPageConfig>('contactPageConfig')
+    getContactPageConfigQuery(): Query<'contactPageConfig', { enabled: boolean }> {
+        return new Query<'contactPageConfig', { enabled: boolean }>('contactPageConfig')
             .addFieldList(this._getContactPageConfigFields());
     }
 
     _addSendContactFormMutationArguments(
-        mutation: Mutation<string, unknown>,
+        mutation: Mutation<'contactForm', { message: string }>,
         options: GQLContactForm
-    ): Mutation<string, unknown> {
+    ): Mutation<'contactForm', { message: string }> {
         return mutation.addArgument('contact', 'ContactForm!', options);
     }
 
-    _getSendContactFormMutationResponse(): string[] {
-        return ['message'];
+    _getSendContactFormMutationResponse(): Field<'message', string>[] {
+        return [new Field<'message', string>('message')];
     }
 
-    _getContactPageConfigFields(): string[] {
-        return ['enabled'];
+    _getContactPageConfigFields(): Field<'enabled', boolean>[] {
+        return [new Field<'enabled', boolean>('enabled')];
     }
 }
 

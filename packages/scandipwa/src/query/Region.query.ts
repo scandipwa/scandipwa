@@ -11,39 +11,46 @@
 
 import { Field, Query } from '@tilework/opus';
 
-import { GQLCountry, GQLRegion } from 'Type/Graphql.type';
-
-import { CommonField } from './Query.type';
+import { Country, Region } from './Region.type';
 
 /**
  * RegionQuery Mutations
  * @class RegionQuery
  * @namespace Query/Region/Query */
 export class RegionQuery {
-    getCountriesQuery(): Query<'countries', GQLCountry, true> {
-        return new Query<'countries', GQLCountry, true>('countries', true)
+    getCountriesQuery(): Query<'countries', Country, true> {
+        return new Query<'countries', Country, true>('countries', true)
             .addFieldList(this._getCountryFields());
     }
 
-    _getCountryFields(): CommonField[] {
+    _getCountryFields(): Array<
+    Field<'id', number>
+    | Field<'is_state_required', boolean>
+    | Field<'available_regions', Region, true>
+    | Field<'label', string>
+    > {
         return [
-            'id',
-            'is_state_required',
+            new Field<'id', number>('id'),
+            new Field<'is_state_required', boolean>('is_state_required'),
             this._getAvailableRegionsField(),
             new Field<'full_name_locale', string>('full_name_locale').setAlias('label')
         ];
     }
 
-    _getAvailableRegionFields(): string[] {
+    _getAvailableRegionFields(): Array<
+    Field<'code', string>
+    | Field<'name', string>
+    | Field<'id', number>
+    > {
         return [
-            'code',
-            'name',
-            'id'
+            new Field<'code', string>('code'),
+            new Field<'name', string>('name'),
+            new Field<'id', number>('id')
         ];
     }
 
-    _getAvailableRegionsField(): Field<'available_regions', GQLRegion, true> {
-        return new Field<'available_regions', GQLRegion, true>('available_regions', true)
+    _getAvailableRegionsField(): Field<'available_regions', Region, true> {
+        return new Field<'available_regions', Region, true>('available_regions', true)
             .addFieldList(this._getAvailableRegionFields());
     }
 }

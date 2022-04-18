@@ -11,63 +11,68 @@
 
 import { Field, Mutation, Query } from '@tilework/opus';
 
-import {
-    GQLCreateProductReviewInput,
-    GQLCreateProductReviewOutput,
-    GQLProductReviewRatingMetadata,
-    GQLProductReviewRatingsMetadata,
-    GQLProductReviewRatingValueMetadata
-} from 'Type/Graphql.type';
+import { GQLCreateProductReviewInput } from 'Type/Graphql.type';
 
-import { CommonField } from './Query.type';
+import {
+    CreateProductReviewOutput,
+    ReviewRatingItem,
+    ReviewRatingValue
+} from './Review.type';
 
 /** @namespace Query/Review/Query */
 export class ReviewQuery {
     getAddProductReviewMutation(
         reviewItem: GQLCreateProductReviewInput
-    ): Mutation<'addProductReview', GQLCreateProductReviewOutput> {
-        return new Mutation<'createProductReview', GQLCreateProductReviewOutput>('createProductReview')
+    ): Mutation<'addProductReview', CreateProductReviewOutput> {
+        return new Mutation<'createProductReview', CreateProductReviewOutput>('createProductReview')
             .setAlias('addProductReview')
             .addArgument('input', 'CreateProductReviewInput!', reviewItem)
             .addField(new Field('review').addField('nickname'));
     }
 
-    getRatingQuery(): Query<'reviewRatings', GQLProductReviewRatingsMetadata> {
-        return new Query<'productReviewRatingsMetadata', GQLProductReviewRatingsMetadata>(
+    getRatingQuery(): Query<'reviewRatings', { items: ReviewRatingItem[] }> {
+        return new Query<'productReviewRatingsMetadata', { items: ReviewRatingItem[] }>(
             'productReviewRatingsMetadata'
         )
             .setAlias('reviewRatings')
             .addFieldList(this._getRatingFields());
     }
 
-    _getRatingFields(): CommonField[] {
+    _getRatingFields(): Field<'items', ReviewRatingItem, true>[] {
         return [
             this._getRatingItemsField()
         ];
     }
 
-    _getRatingItemsField(): Field<'items', GQLProductReviewRatingMetadata, true> {
-        return new Field<'items', GQLProductReviewRatingMetadata, true>('items', true)
+    _getRatingItemsField(): Field<'items', ReviewRatingItem, true> {
+        return new Field<'items', ReviewRatingItem, true>('items', true)
             .addFieldList(this._getRatingItemsFields());
     }
 
-    _getRatingItemsFields(): CommonField[] {
+    _getRatingItemsFields(): Array<
+    Field<'rating_id', number>
+    | Field<'rating_code', string>
+    | Field<'rating_options', ReviewRatingValue, true>
+    > {
         return [
-            new Field('id').setAlias('rating_id'),
-            new Field('name').setAlias('rating_code'),
+            new Field<'id', number>('id').setAlias('rating_id'),
+            new Field<'name', string>('name').setAlias('rating_code'),
             this._getRatingOptionsField()
         ];
     }
 
-    _getRatingOptionFields(): CommonField[] {
+    _getRatingOptionFields(): Array<
+    Field<'option_id', string>
+    | Field<'value', string>
+    > {
         return [
-            new Field('value_id').setAlias('option_id'),
-            'value'
+            new Field<'value_id', string>('value_id').setAlias('option_id'),
+            new Field<'value', string>('value')
         ];
     }
 
-    _getRatingOptionsField(): Field<'rating_options', GQLProductReviewRatingValueMetadata, true> {
-        return new Field<'values', GQLProductReviewRatingValueMetadata, true>('values', true)
+    _getRatingOptionsField(): Field<'rating_options', ReviewRatingValue, true> {
+        return new Field<'values', ReviewRatingValue, true>('values', true)
             .setAlias('rating_options')
             .addFieldList(this._getRatingOptionFields());
     }
