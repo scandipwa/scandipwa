@@ -10,7 +10,6 @@
  */
 
 :root {
-    
     --checkbox-border-color: var(--imported_checkboxes_border_color, var(--primary-base-color));
 }
 
@@ -34,6 +33,10 @@
         display: flex;
         align-items: center;
 
+        @media only screen and (max-width: 383px) {
+            align-items: flex-end;
+        }
+
         @include mobile {
             font-size: 15px;
             margin-block-end: 28px;
@@ -52,9 +55,13 @@
         display: flex;
         align-items: center;
 
+        @media only screen and (max-width: 383px) {
+            max-width: 146px;
+        }
+
         &:hover {
             cursor: pointer;
-            
+
             @include desktop {
                 color: var(--primary-base-color);
             }
