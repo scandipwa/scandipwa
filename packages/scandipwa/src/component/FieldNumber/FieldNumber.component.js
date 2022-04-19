@@ -43,7 +43,7 @@ export class FieldNumber extends PureComponent {
             isDisabled
         } = this.props;
 
-        const numberValue = +value;
+        const numberValue = +attr.value || +value;
 
         return (
             <>
@@ -56,7 +56,7 @@ export class FieldNumber extends PureComponent {
                   type={ FIELD_TYPE.number }
                   readOnly
                   aria-label={ __('Value') }
-                  value={ value }
+                  value={ attr.value || value }
                   disabled={ isDisabled }
                 />
                 <button
