@@ -21,9 +21,12 @@
     &-RatingWrapper {
         display: flex;
         flex-direction: column;
-        row-gap: 24px;
 
         .FieldGroup-Wrapper {
+            &:not(:last-child) {
+                margin-block-end: 24px;
+            }
+
             .FieldGroup {
                 &_hasError, &_isValid {
                     padding-inline-start: 0;
@@ -133,7 +136,7 @@
     textarea {
         width: 100%;
     }
-    
+
     textarea {
         margin-block-end: -3px;
     }
