@@ -106,11 +106,20 @@ export class CheckoutShippingContainer extends PureComponent {
         };
     }
 
+    componentDidMount() {
+        const { isPickInStoreMethodSelected, shippingMethods } = this.props;
+        const instore = shippingMethods.find((el) => el.method_code === STORE_IN_PICK_UP_METHOD_CODE);
+
+        if (isPickInStoreMethodSelected) {
+            this.onShippingMethodSelect(instore);
+        }
+    }
+
     componentDidUpdate(prevProps) {
         const { isPickInStoreMethodSelected, shippingMethods = [] } = this.props;
         const { isPickInStoreMethodSelected: prevIsPickInStoreMethodSelected } = prevProps;
 
-        const instore = shippingMethods.find((el) => el.method_code === 'pickup');
+        const instore = shippingMethods.find((el) => el.method_code === STORE_IN_PICK_UP_METHOD_CODE);
 
         if (isPickInStoreMethodSelected !== prevIsPickInStoreMethodSelected) {
             if (isPickInStoreMethodSelected) {
@@ -156,10 +165,6 @@ export class CheckoutShippingContainer extends PureComponent {
 
     resetShippingMethod() {
         this.onShippingMethodSelect({ method_code: '' });
-    }
-
-    handlePickupMethodSelect(selectedShippingMethod) {
-        this.setState({ selectedShippingMethod });
     }
 
     getStoreAddress(shippingAddress, isBillingAddress = false) {
