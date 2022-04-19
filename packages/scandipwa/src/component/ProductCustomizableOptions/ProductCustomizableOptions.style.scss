@@ -39,7 +39,7 @@
 
             &_type {
                 &_textarea, &_text {
-                    line-height: 0px;
+                    line-height: 0;
 
                     & + .Field-SubLabelContainer {
                         margin-block-start: 6px;
