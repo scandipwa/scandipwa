@@ -36,8 +36,10 @@ $select-arrow-width: 14px !default;
         inset-inline-end: 12px;
     }
 
-    &_isExpanded::after {
-        transform: rotate(-90deg);
+    &_isExpanded {
+        &::after {
+            transform: rotate(-90deg);
+        }
     }
 
     &-Select {
@@ -45,7 +47,7 @@ $select-arrow-width: 14px !default;
         margin-block-start: -2px;
         padding-inline-end: 40px;
         min-height: 30px;
-        height: 48px;
+        height: max-content;
 
         @include desktop {
             pointer-events: none;
@@ -87,6 +89,10 @@ $select-arrow-width: 14px !default;
                     max-height: $select-option-height * 5;
                 }
             }
+        }
+
+        @include mobile {
+            height: 0;
         }
 
         &_isExpanded {

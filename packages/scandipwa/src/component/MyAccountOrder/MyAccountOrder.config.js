@@ -17,20 +17,20 @@ export const ORDER_REFUNDS = 'Refund';
 export const ORDER_ACTION_LABELS = {
     [ORDER_INVOICES]: {
         print: __('Print Invoice'),
-        printUrl: 'sales/order/printInvoice/invoice_id',
+        printUrl: '/sales/order/printInvoice/invoice_id',
         printAll: __('Print All Invoices'),
-        printAllUrl: 'sales/order/printInvoice/order_id'
+        printAllUrl: '/sales/order/printInvoice/order_id'
     },
     [ORDER_SHIPMENTS]: {
         print: __('Print Shipment'),
-        printUrl: 'sales/order/printShipment/shipment_id',
+        printUrl: '/sales/order/printShipment/shipment_id',
         printAll: __('Print All Shipments'),
-        printAllUrl: 'sales/order/printShipment/order_id'
+        printAllUrl: '/sales/order/printShipment/order_id'
     },
     [ORDER_REFUNDS]: {
         print: __('Print Refund'),
-        printUrl: 'sales/order/printCreditmemo/creditmemo_id',
+        printUrl: '/sales/order/printCreditmemo/creditmemo_id',
         printAll: __('Print All Refunds'),
-        printAllUrl: 'sales/order/printCreditmemo/order_id'
+        printAllUrl: '/sales/order/printCreditmemo/order_id'
     }
 };
