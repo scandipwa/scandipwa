@@ -139,7 +139,8 @@ export class FieldContainer extends PureComponent {
             ? !!this.fieldRef.checked
             : this.fieldRef.value;
         const newValidRule = this.handleShowLengthError();
-        const response = validate(type === FIELD_TYPE.file
+        // eslint-disable-next-line max-len
+        const response = data === 'errorRequired' ? validate('', { isRequired: true }) : validate(type === FIELD_TYPE.file
             ? value.toLowerCase()
             : value, newValidRule);
         const output = response !== true ? { ...response, type, name } : response;

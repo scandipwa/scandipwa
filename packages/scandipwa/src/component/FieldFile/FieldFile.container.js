@@ -30,7 +30,8 @@ export class FieldFileContainer extends PureComponent {
     };
 
     containerFunctions = {
-        setRef: this.setRef.bind(this)
+        setRef: this.setRef.bind(this),
+        cancelFileField: this.cancelFileField.bind(this)
     };
 
     state = {
@@ -48,6 +49,18 @@ export class FieldFileContainer extends PureComponent {
         if (elem && this.fieldRef !== elem) {
             this.fieldRef = elem;
         }
+    }
+
+    cancelFileField() {
+        const { validate } = this.props;
+
+        this.setState({
+            fileName: '',
+            isLoading: false,
+            value: ''
+        });
+
+        validate('errorRequired');
     }
 
     onChange(value) {

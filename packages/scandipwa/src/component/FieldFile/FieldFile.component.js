@@ -27,6 +27,7 @@ export class FieldFile extends PureComponent {
         events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
         fileName: PropTypes.string.isRequired,
+        cancelFileField: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired
     };
 
@@ -75,7 +76,8 @@ export class FieldFile extends PureComponent {
             attr = {},
             attr: { accept = '' } = {},
             events = {},
-            setRef
+            setRef,
+            cancelFileField
         } = this.props;
 
         const allowedFieldTypes = (accept || '')
@@ -92,6 +94,7 @@ export class FieldFile extends PureComponent {
                   { ...attr }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
                   { ...events }
+                  onClick={ cancelFileField }
                 />
                 { this.renderFileLabel() }
                 { allowedFieldTypes.length > 0 && this.renderSubLabel(allowedFieldTypes) }
