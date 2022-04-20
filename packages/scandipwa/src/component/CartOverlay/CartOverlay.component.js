@@ -38,14 +38,16 @@ export class CartOverlay extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         cartDisplaySettings: CartDisplayType.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        onCartItemLoading: PropTypes.func
+        onCartItemLoading: PropTypes.func,
+        minimumOrderAmountReached: PropTypes.bool
     };
 
     static defaultProps = {
         hasOutOfStockProductsInCart: false,
         onCartItemLoading: null,
         currencyCode: null,
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
+        minimumOrderAmountReached: true
     };
 
     componentDidMount() {
@@ -193,7 +195,11 @@ export class CartOverlay extends PureComponent {
     }
 
     renderSecureCheckoutButton() {
-        const { handleCheckoutClick, hasOutOfStockProductsInCart } = this.props;
+        const {
+            handleCheckoutClick,
+            minimumOrderAmountReached,
+            hasOutOfStockProductsInCart
+        } = this.props;
 
         return (
             <button
@@ -201,7 +207,7 @@ export class CartOverlay extends PureComponent {
               elem="CheckoutButton"
               mix={ { block: 'Button' } }
               onClick={ handleCheckoutClick }
-              disabled={ hasOutOfStockProductsInCart }
+              disabled={ hasOutOfStockProductsInCart || !minimumOrderAmountReached }
             >
                 <LockIcon />
                 { __('Secure checkout') }

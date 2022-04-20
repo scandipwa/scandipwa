@@ -135,8 +135,8 @@ export class CartQuery {
             'subtotal_incl_tax',
             'items_qty',
             'tax_amount',
-            'grand_total',
-            'discount_amount',
+            // 'grand_total',
+            // 'discount_amount',
             'quote_currency_code',
             'subtotal_with_discount',
             'coupon_code',
@@ -149,9 +149,10 @@ export class CartQuery {
             'shipping_incl_tax',
             'shipping_tax_amount',
             'shipping_method',
-            'is_in_store_pickup_available',
+            // 'is_in_store_pickup_available',
             this._getCartItemsField(),
-            this._getAppliedTaxesField()
+            this._getAppliedTaxesField(),
+            this._getMinimumOrderAmount()
         ];
     }
 
@@ -270,6 +271,18 @@ export class CartQuery {
         return [
             'percent',
             'title'
+        ];
+    }
+
+    _getMinimumOrderAmount() {
+        return new Field('minimum_order_amount')
+            .addFieldList(this._getMinimumOrderAmountFields());
+    }
+
+    _getMinimumOrderAmountFields() {
+        return [
+            'minimum_order_amount_reached',
+            'minimum_order_description'
         ];
     }
 }
