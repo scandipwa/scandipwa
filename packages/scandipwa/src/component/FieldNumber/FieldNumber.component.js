@@ -56,7 +56,7 @@ export class FieldNumber extends PureComponent {
                   type={ FIELD_TYPE.number }
                   readOnly
                   aria-label={ __('Value') }
-                  value={ attr.value || value }
+                  value={ numberValue }
                   disabled={ isDisabled }
                 />
                 <button
