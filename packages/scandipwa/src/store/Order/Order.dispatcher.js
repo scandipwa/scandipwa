@@ -12,6 +12,7 @@
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
+import { getAuthorizationToken } from 'Util/Auth';
 import history from 'Util/History';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -48,7 +49,7 @@ export class OrderDispatcher {
         } = await this.handleReorderMutation(dispatch, incrementId);
 
         const cartDispatcher = (await CartDispatcher).default;
-        cartDispatcher.updateInitialCartData(dispatch);
+        cartDispatcher.updateInitialCartData(dispatch, getAuthorizationToken());
 
         history.push(appendWithStoreCode('/cart'));
 
@@ -76,6 +77,57 @@ export class OrderDispatcher {
             } = await fetchQuery(OrderQuery.getOrderListQuery({ orderId }));
 
             return items[0];
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+
+            return null;
+        }
+    }
+
+    async getOrderInvoice(dispatch, invoiceId) {
+        try {
+            const {
+                orderByInvoice
+            } = await fetchQuery(OrderQuery.getOrderByInvoice(invoiceId));
+
+            const invoice = orderByInvoice.invoices.find(({ id }) => atob(id) === invoiceId);
+            orderByInvoice.invoices = [invoice];
+
+            return orderByInvoice;
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+
+            return null;
+        }
+    }
+
+    async getOrderShipment(dispatch, shipmentId) {
+        try {
+            const {
+                orderByShipment
+            } = await fetchQuery(OrderQuery.getOrderByShipment(shipmentId));
+
+            const shipment = orderByShipment.shipments.find(({ id }) => atob(id) === shipmentId);
+            orderByShipment.shipments = [shipment];
+
+            return orderByShipment;
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+
+            return null;
+        }
+    }
+
+    async getOrderRefund(dispatch, refundId) {
+        try {
+            const {
+                orderByRefund
+            } = await fetchQuery(OrderQuery.getOrderByRefund(refundId));
+
+            const refund = orderByRefund.credit_memos.find(({ id }) => atob(id) === refundId);
+            orderByRefund.credit_memos = [refund];
+
+            return orderByRefund;
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
 

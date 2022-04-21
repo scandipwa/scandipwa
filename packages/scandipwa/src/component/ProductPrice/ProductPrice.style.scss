@@ -46,6 +46,10 @@
         opacity: .48;
         display: inline-block;
         margin-inline-end: 12px;
+
+        @include mobile {
+            margin-block-start: 6px;
+        }
     }
 
     &-HighPrice {
@@ -63,6 +67,10 @@
 
         @include desktop {
             line-height: 28px;
+        }
+
+        @include mobile {
+            margin-block-start: 4px;
         }
     }
 

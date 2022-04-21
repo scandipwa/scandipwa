@@ -59,6 +59,7 @@ export class Breadcrumb extends PureComponent {
         } = this.props;
 
         const url = this.getLinkUrl() || {};
+        const nameToString = String(name);
 
         return (
             <Link
@@ -68,8 +69,8 @@ export class Breadcrumb extends PureComponent {
               tabIndex={ isDisabled ? '-1' : '0' }
             >
                 <meta itemProp="item" content={ window.location.origin + url.pathname } />
-                <span itemProp="name">
-                    <TextPlaceholder content={ name } />
+                <span block="Breadcrumb" elem="Link-Name" itemProp="name">
+                    <TextPlaceholder content={ nameToString } />
                 </span>
                 <ChevronIcon />
                 <meta itemProp="position" content={ index } />

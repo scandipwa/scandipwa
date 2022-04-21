@@ -15,6 +15,7 @@
         padding: 6px 12px;
         white-space: nowrap;
         width: 100%;
+        cursor: pointer;
 
         @include mobile {
             font-size: 14px;

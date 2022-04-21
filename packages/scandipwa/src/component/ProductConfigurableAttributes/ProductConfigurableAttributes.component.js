@@ -47,8 +47,8 @@ export class ProductConfigurableAttributes extends PureComponent {
     static defaultProps = {
         isReady: true,
         mix: {},
-        numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
         getIsConfigurableAttributeAvailable: () => true,
+        numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
         handleShakeAnimationEnd: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true
@@ -124,22 +124,22 @@ export class ProductConfigurableAttributes extends PureComponent {
         const { numberOfPlaceholders, isExpandable } = this.props;
         const numberOfPlaceholdersToRender = isExpandable ? numberOfPlaceholders : SMALL_PLACEHOLDER_CONFIG;
 
+        const arr = Array.from({ length: 30 }, (_, index) => index + 1);
+
         return numberOfPlaceholdersToRender.map((length, i) => (
-                <div
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={ i }
-                  block="ProductConfigurableAttributes"
-                  elem="SwatchList"
-                >
-                    { Array.from({ length }, (_, i) => (
-                        <div
-                          // eslint-disable-next-line react/no-array-index-key
-                          key={ i }
-                          block="ProductConfigurableAttributes"
-                          elem="Placeholder"
-                        />
-                    )) }
-                </div>
+            <div
+              key={ arr[i] }
+              block="ProductConfigurableAttributes"
+              elem="SwatchList"
+            >
+                { Array.from({ length }, (_, i) => (
+                    <div
+                      key={ `child-${arr[i]}` }
+                      block="ProductConfigurableAttributes"
+                      elem="Placeholder"
+                    />
+                )) }
+            </div>
         ));
     }
 

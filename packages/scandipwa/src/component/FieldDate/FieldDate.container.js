@@ -32,7 +32,7 @@ export class FieldDateContainer extends PureComponent {
         type: PropTypes.oneOf(Object.values(FIELD_DATE_TYPE)).isRequired,
         uid: PropTypes.string.isRequired,
         isRequired: PropTypes.bool,
-        updateSelectedValues: PropTypes.bool.isRequired,
+        updateSelectedValues: PropTypes.func.isRequired,
         useCalendar: PropTypes.bool.isRequired
     };
 

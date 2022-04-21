@@ -25,8 +25,8 @@ export class CmsBlockContainer extends DataContainer {
         cmsBlock: {}
     };
 
-    __construct() {
-        super.__construct('CmsBlockContainer');
+    __construct(props) {
+        super.__construct(props, 'CmsBlockContainer');
     }
 
     containerProps() {

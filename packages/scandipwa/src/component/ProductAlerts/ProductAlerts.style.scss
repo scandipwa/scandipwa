@@ -22,9 +22,11 @@
         color: var(--primary-base-color);
         cursor: pointer;
         font-size: 14px;
-
-        &:hover {
-            color: var(--primary-dark-color);
+        
+        @include hoverable {
+            &:hover {
+                color: var(--primary-dark-color);
+            }
         }
 
         [dir="rtl"] & {

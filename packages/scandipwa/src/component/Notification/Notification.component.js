@@ -45,6 +45,8 @@ export class Notification extends PureComponent {
 
     notification = createRef();
 
+    hideNotification = this.hideNotification.bind(this);
+
     componentDidMount() {
         const { notification: { msgType }, lifeTime } = this.props;
 
@@ -113,7 +115,7 @@ export class Notification extends PureComponent {
 
         return (
             <div block="Notification" mods={ mods } ref={ this.notification } id={ id }>
-                <button block="Notification" elem="Button" onClick={ this.hideNotification }>Close</button>
+                <button block="Notification" elem="Button" onClick={ this.hideNotification }> Close </button>
                 <p block="Notification" elem="Text">
                     <Html content={ message } />
                 </p>

@@ -162,6 +162,16 @@ export const getProductInStock = (product, parentProduct = {}) => {
 };
 
 /**
+ * Checks if items in Grouped Product are in stock
+ * @param product: productGroup
+ * @param products: products in stock
+ * @namespace Util/Product/Extract/getGroupedProductsInStockQuantity */
+
+export const getGroupedProductsInStockQuantity = ({ items = [] }) => items.reduce((acc, {
+    product, product: { id }, qty = 1
+}) => (getProductInStock(product) ? { ...acc, [id]: qty } : acc), {});
+
+/**
  * Checks if bundle option exist in options (ignoring quantity)
  * @param uid
  * @param options
@@ -478,6 +488,33 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
 
     return adjustedPrice;
 };
+
+//#region SubLabel
+/**
+ * Returns ProductCustomizable Text/TextArea Option Sublabel based on Maximum characters setup in BE
+ * @param maxCharacters
+ * @param value
+ * @namespace Util/Product/Extract/getSubLabelFromMaxCharacters
+ */
+export const getSubLabelFromMaxCharacters = (maxCharacters, value = '') => {
+    const valueLength = value.length;
+    const remainingCharacters = maxCharacters - valueLength;
+
+    if (maxCharacters > 0) {
+        if (valueLength > 0 && valueLength <= maxCharacters) {
+            return __('Maximum %s characters (%s remaining)', maxCharacters, remainingCharacters);
+        }
+
+        if (valueLength >= maxCharacters) {
+            return null;
+        }
+
+        return __('Maximum %s characters', maxCharacters);
+    }
+
+    return null;
+};
+//#endregion
 
 //#region IMAGE
 /**

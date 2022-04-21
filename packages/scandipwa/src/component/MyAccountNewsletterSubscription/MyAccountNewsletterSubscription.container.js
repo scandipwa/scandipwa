@@ -61,7 +61,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         super.__construct(props);
         this.state = {
             isLoading: false,
-            isSubscriptionSelected: is_subscribed
+            isSubscriptionSelected: is_subscribed || false
         };
     }
 

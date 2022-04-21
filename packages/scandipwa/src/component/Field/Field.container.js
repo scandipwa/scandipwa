@@ -70,7 +70,8 @@ export class FieldContainer extends PureComponent {
     };
 
     state = {
-        validationResponse: null
+        validationResponse: null,
+        showLengthError: false
     };
 
     containerFunctions = {
@@ -109,6 +110,7 @@ export class FieldContainer extends PureComponent {
             if (!validationRule || Object.keys(validationRule).length === 0) {
                 return;
             }
+
             elem.addEventListener('validate', this.validate.bind(this));
         }
     }
@@ -117,12 +119,29 @@ export class FieldContainer extends PureComponent {
         this.setState({ validationResponse: null });
     }
 
+    handleShowLengthError() {
+        const { validationRule, type } = this.props;
+        const { showLengthError } = this.state;
+
+        if (type === FIELD_TYPE.textarea || type === FIELD_TYPE.text) {
+            validationRule.range = { ...validationRule.range, showLengthError };
+        }
+
+        return validationRule;
+    }
+
     validate(data) {
-        const { validationRule, type, attr: { name } = {} } = this.props;
+        const {
+            validationRule: { range: { max: maxValidLength = 0 } = {} }, type, attr: { name } = {}
+        } = this.props;
+        const { showLengthError } = this.state;
         const value = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio
             ? !!this.fieldRef.checked
             : this.fieldRef.value;
-        const response = validate(value, validationRule);
+        const newValidRule = this.handleShowLengthError();
+        const response = validate(type === FIELD_TYPE.file
+            ? value.toLowerCase()
+            : value, newValidRule);
         const output = response !== true ? { ...response, type, name } : response;
 
         // If validation is called from different object you can pass object
@@ -132,8 +151,21 @@ export class FieldContainer extends PureComponent {
                 // eslint-disable-next-line no-param-reassign
                 data.detail.errors = [];
             }
+
+            // Validates length on submit, renders special message
+            if (maxValidLength && value.length > maxValidLength && !showLengthError) {
+                this.setState({ showLengthError: true });
+                output.errorMessages.unshift(__('Please enter no more than %s characters.', maxValidLength));
+            }
+
             data.detail.errors.push(output);
         }
+
+        // When submit and response equals true (it can be object) reset show length error
+        if (response === true) {
+            this.setState({ showLengthError: false });
+        }
+
         this.setState({ validationResponse: output });
 
         return output;
@@ -171,7 +203,7 @@ export class FieldContainer extends PureComponent {
             changeValueOnDoubleClick,
             isSortSelect
         } = this.props;
-        const { validationResponse } = this.state;
+        const { validationResponse, lengthError } = this.state;
         const { validate } = this.containerFunctions;
 
         // Surrounds events with validation
@@ -199,7 +231,8 @@ export class FieldContainer extends PureComponent {
             validationResponse,
             events: newEvents,
             fieldRef: this.fieldRef,
-            setRef: this.setRef.bind(this)
+            setRef: this.setRef.bind(this),
+            lengthError
         };
     }
 

@@ -59,9 +59,13 @@
 
     &-Wrapper {
         margin: auto;
-        padding: 0 16px;
+
+        @include mobile {
+            padding: 0 16px;
+        }
 
         @include desktop {
+            padding: 0 32px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-gap: 7%;

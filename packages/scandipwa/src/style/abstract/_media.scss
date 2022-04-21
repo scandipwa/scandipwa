@@ -62,7 +62,7 @@
 }
 
 @mixin mobile {
-    @media (max-width: 810px) {
+    @media screen and (max-width: 810px) {
         @content;
     }
 }
@@ -70,6 +70,12 @@
 @mixin standalone {
     /* stylelint-disable-next-line media-feature-name-no-unknown */
     @media all and (display-mode: standalone) {
+        @content;
+    }
+}
+
+@mixin hoverable {
+    @media (hover: hover) and (pointer: fine) { 
         @content;
     }
 }

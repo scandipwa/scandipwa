@@ -24,6 +24,7 @@ import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import {
     CategoryTreeType, FilterInputType, FilterType, SortFieldsType
 } from 'Type/Category.type';
@@ -180,10 +181,17 @@ export class CategoryPage extends PureComponent {
             isContentFiltered,
             totalPages,
             category: { is_anchor },
-            isSearchPage
+            isSearchPage,
+            isCurrentCategoryLoaded,
+            isMatchingInfoFilter
+
         } = this.props;
 
-        if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage)) {
+        if (!isMatchingInfoFilter) {
+            return this.renderFilterButtonPlaceholder();
+        }
+
+        if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage) || !isCurrentCategoryLoaded) {
             return null;
         }
 
@@ -202,9 +210,27 @@ export class CategoryPage extends PureComponent {
 
     renderFilterPlaceholder() {
         return (
-            <div block="CategoryPage" elem="FilterPlaceholder">
-                <Loader isLoading />
+            <div block="CategoryPage" elem="PlaceholderWrapper">
+                <div block="CategoryPage" elem="PlaceholderContainer">
+                    <h3 block="CategoryPage" elem="PlaceholderHeading">
+                        { __('Shopping Options') }
+                    </h3>
+                    <div block="CategoryPage" elem="PlaceholderList">
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
+                    </div>
+                    <Loader isLoading />
+                </div>
             </div>
+        );
+    }
+
+    renderFilterButtonPlaceholder() {
+        return (
+            <p block="CategoryPage" elem="FilterButtonPlaceholder">
+                <TextPlaceholder length="short" />
+            </p>
         );
     }
 
@@ -230,6 +256,7 @@ export class CategoryPage extends PureComponent {
                   isMatchingInfoFilter={ isMatchingInfoFilter }
                   isCategoryAnchor={ !!is_anchor }
                   isSearchPage={ isSearchPage }
+                  renderPlaceholder={ this.renderPlaceholder }
                 />
             </Suspense>
         );
@@ -240,12 +267,17 @@ export class CategoryPage extends PureComponent {
             sortFields,
             selectedSort,
             onSortChange,
-            isMatchingInfoFilter
+            isMatchingInfoFilter,
+            isMobile
         } = this.props;
 
         const { options = {} } = sortFields;
         const updatedSortFields = Object.values(options).map(({ value: id, label }) => ({ id, label }));
         const { sortDirection, sortKey } = selectedSort;
+
+        if (isMobile && !isMatchingInfoFilter) {
+            return this.renderFilterButtonPlaceholder();
+        }
 
         return (
             <CategorySort
@@ -313,9 +345,9 @@ export class CategoryPage extends PureComponent {
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
-        const { isMatchingListFilter, isMobile, totalItems } = this.props;
+        const { isMatchingListFilter, isMobile } = this.props;
 
-        if ((isVisibleOnMobile && !isMobile) || (!isVisibleOnMobile && isMobile) || totalItems === 0) {
+        if ((isVisibleOnMobile && !isMobile) || (!isVisibleOnMobile && isMobile)) {
             return null;
         }
 
@@ -388,24 +420,29 @@ export class CategoryPage extends PureComponent {
     }
 
     renderMiscellaneous() {
-        const { totalItems } = this.props;
-
-        if (totalItems === 0 || !this.displayProducts()) {
-            return <aside block="CategoryPage" elem="Miscellaneous" mods={ { noResults: true } } />;
-        }
-
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
                 { this.renderItemsCount() }
                 <div
                   block="CategoryPage"
-                  elem="LayoutWrapper"
-                  mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  elem="MiscellaneousLayoutWrapper"
                 >
-                    { this.renderLayoutButtons() }
-                    { this.renderCategorySort() }
+                  <div
+                    block="CategoryPage"
+                    elem="LayoutWrapper"
+                    mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  >
+                      { this.renderLayoutButtons() }
+                      { this.renderCategorySort() }
+                  </div>
+                  <div
+                    block="CategoryPage"
+                    elem="LayoutWrapper"
+                    mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  >
+                      { this.renderFilterButton() }
+                  </div>
                 </div>
-                { this.renderFilterButton() }
             </aside>
         );
     }

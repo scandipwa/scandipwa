@@ -65,8 +65,10 @@ export const errorFieldShape = PropTypes.arrayOf(PropTypes.shape({
     ...ValuesShape
 }));
 
-export const FieldGroupValidationResponseType = PropTypes.shape({
+export const FieldGroupValidationResponseType = PropTypes.oneOfType([PropTypes.shape({
     errorFields: PropTypes.arrayOf(errorFieldShape),
     errorMessages: PropTypes.arrayOf(ErrorMessageShape),
     values: PropTypes.arrayOf(ValuesShape)
-});
+}), PropTypes.bool]);
+
+export const DateType = PropTypes.oneOfType([PropTypes.number, PropTypes.string]);

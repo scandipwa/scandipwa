@@ -61,12 +61,12 @@ Here are some awesome resources to start with!
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://https://40kskudemo.scandipwa.com/?utm_source=github&utm_medium=readme&utm_campaign=general">
+        <a href="https://40kskudemo.scandipwa.com/?utm_source=github&utm_medium=readme&utm_campaign=general">
           <img
             src="https://user-images.githubusercontent.com/52198221/102813236-23a25880-43d1-11eb-802d-047bce753f72.png"
             alt="40000 SKU Demo" width="300px"/>
         </a>
-        <a href="https://https://40kskudemo.scandipwa.com/?utm_source=github&utm_medium=readme&utm_campaign=general"><br><strong>Visit demo</strong></a><br>
+        <a href="https://40kskudemo.scandipwa.com/?utm_source=github&utm_medium=readme&utm_campaign=general"><br><strong>Visit demo</strong></a><br>
       </td>
       <td align="left" valign="center">
         <h3>40 000 SKUs Store</h3>

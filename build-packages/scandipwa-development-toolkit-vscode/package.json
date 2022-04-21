@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"version": "1.0.24",
+	"version": "1.0.25",
 	"name": "scandipwa-development-toolkit-vscode",
 	"publisher": "ScandiPWA",
 	"displayName": "ScandiPWA devtools",

@@ -15,7 +15,8 @@ import { UPDATE_PRODUCT_DETAILS } from './Product.action';
 /** @namespace Store/Product/Reducer/getInitialState */
 export const getInitialState = () => ({
     product: {},
-    formattedConfigurableOptions: {}
+    formattedConfigurableOptions: {},
+    showLengthError: false
 });
 
 /** @namespace Store/Product/Reducer/formatConfigurableOptions */
@@ -49,7 +50,6 @@ export const ProductReducer = (
             ...state,
             product: getIndexedProduct(product)
         };
-
     default:
         return state;
     }

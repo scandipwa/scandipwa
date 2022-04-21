@@ -271,6 +271,7 @@ export class WishlistItemContainer extends PureComponent {
         const {
             type_id,
             variants,
+            url,
             wishlist: {
                 id,
                 sku
@@ -285,7 +286,7 @@ export class WishlistItemContainer extends PureComponent {
             const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
 
             if (!configurableVariantIndex) {
-                history.push({ pathname: appendWithStoreCode(item.url) });
+                history.push({ pathname: appendWithStoreCode(url) });
                 showNotification('info', __('Please, select product options!'));
 
                 return;
@@ -304,7 +305,8 @@ export class WishlistItemContainer extends PureComponent {
             await addProductToCart({ products });
             this.removeItem(id);
         } catch {
-            this.setState({ isLoading: false }, this.redirectToProductPage);
+            this.setState({ isLoading: false });
+            history.push({ pathname: appendWithStoreCode(url) });
         }
     }
 

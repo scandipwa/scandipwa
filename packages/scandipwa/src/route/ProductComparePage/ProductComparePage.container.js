@@ -57,8 +57,8 @@ export class ProductComparePageContainer extends DataContainer {
         isLoading: false
     };
 
-    __construct() {
-        super.__construct('ProductComparePageContainer');
+    __construct(props) {
+        super.__construct(props, 'ProductComparePageContainer');
     }
 
     componentDidMount() {

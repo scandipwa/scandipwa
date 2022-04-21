@@ -125,7 +125,7 @@ export class ProductDownloadableLinks extends PureComponent {
               validationRule={ {
                   isRequired
               } }
-              validateOn={ ['onBlur'] }
+              validateOn={ ['onSubmit', 'onChange'] }
             >
                 <div ref={ (elem) => setRef(elem) }>
                     { links.map(this.renderDownloadableLink.bind(this)) }

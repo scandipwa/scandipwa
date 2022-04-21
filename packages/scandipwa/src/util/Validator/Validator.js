@@ -67,7 +67,7 @@ export const validate = (value, rule) => {
 
     //#region RANGE
     if (range) {
-        const { min, max } = range;
+        const { min, max, showLengthError } = range;
         const isNumber = !!VALIDATION_INPUT_TYPE_NUMBER[inputType];
 
         if (isNumber) {
@@ -84,7 +84,12 @@ export const validate = (value, rule) => {
             }
 
             if (max && value.length > max) {
-                output.errorMessages.push(onRangeFailMax || __('Maximum %s characters!', max));
+                const tooMany = value.length - max;
+                output.errorMessages.push(onRangeFailMax || __('Maximum %s characters (%s too many)', max, tooMany));
+
+                if (showLengthError) {
+                    output.errorMessages.unshift(__('Please enter no more than %s characters.', max));
+                }
             }
         }
     }
@@ -195,4 +200,47 @@ export const validateGroup = (DOM, rule = null) => {
     return errorMessages.length === 0 && errorFields.length === 0 ? true : output;
 };
 
+/**
+ * Get number of different character classes
+ * @param {String} value
+ * @return {Number}
+ * @namespace Util/Validator/getNumberOfCharacterClasses
+ */
+export const getNumberOfCharacterClasses = (value) => Number(/\d+/.test(value))
+      + Number(/[a-z]+/.test(value))
+      + Number(/[A-Z]+/.test(value))
+      + Number(/[^a-zA-Z0-9]+/.test(value));
+
 export default validate;
+
+/**
+ * Validates password
+ * @param {String} value
+ * @param {{min: {Number|Object}, max: {Number|Object}}} range
+ * @param {String} minCharacter
+ * @returns {String|Boolean}
+ * @namespace Util/Validator/validatePassword
+ */
+export const validatePassword = (value, range, minCharacter) => {
+    if (value.length === 0) {
+        return true;
+    }
+
+    if (value.length < range.min) {
+        return __('Minimum %s characters!', range.min);
+    }
+
+    if (value.length > range.max) {
+        return __('Maximum %s characters!', range.max);
+    }
+
+    const counter = getNumberOfCharacterClasses(value);
+
+    if (counter < Number(minCharacter)) {
+        return __('Minimum of different classes of characters in password is %s. ',
+            minCharacter)
+            + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
+    }
+
+    return true;
+};

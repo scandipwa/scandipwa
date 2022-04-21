@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/eslint-config",
     "description": "Shareable ESLint configuration used by CSA.",
-    "version": "0.1.36",
+    "version": "0.1.38",
     "main": "index.js",
     "license": "OSL-3.0",
     "publishConfig": {
@@ -24,5 +24,5 @@
         "eslint-plugin-simple-import-sort": "^5.0.3",
         "typescript": "^4.0.3"
     },
-    "gitHead": "7498042540d3d4560e140d9674f3abd99343a037"
+    "gitHead": "187276597fcf17521bcccdac1238b4e0061e5418"
 }

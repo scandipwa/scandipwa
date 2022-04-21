@@ -58,6 +58,10 @@ export class ProductListWidgetContainer extends DataContainer {
         getIsNewCategory: this.getIsNewCategory.bind(this)
     };
 
+    __construct(props) {
+        super.__construct(props, 'ProductListWidgetContainer', false);
+    }
+
     containerProps() {
         const {
             currentPage,

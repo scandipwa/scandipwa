@@ -10,6 +10,7 @@
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
+import { validatePassword } from 'Util/Validator';
 import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
 
 /**
@@ -20,7 +21,9 @@ import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
  * @namespace Component/CheckoutGuestForm/Form/checkoutGuestForm
  */
 export const checkoutGuestForm = (props, events) => {
-    const { emailValue, isCreateUser } = props;
+    const {
+        emailValue, isCreateUser, range, minimunPasswordCharacter
+    } = props;
     const { handleEmailInput, handlePasswordInput } = events;
 
     return [
@@ -59,7 +62,8 @@ export const checkoutGuestForm = (props, events) => {
             validateOn: ['onChange'],
             validationRule: {
                 inputType: VALIDATION_INPUT_TYPE.password,
-                isRequired: true
+                isRequired: true,
+                match: (value) => validatePassword(value, range, minimunPasswordCharacter)
             }
         }] : [])
     ];

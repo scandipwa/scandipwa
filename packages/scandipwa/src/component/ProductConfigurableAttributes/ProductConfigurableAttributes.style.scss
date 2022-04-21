@@ -53,10 +53,6 @@
         }
     }
 
-    &-DropDownList {
-        width: 100%;
-    }
-
     &-Placeholder {
         animation: var(--placeholder-animation);
         background-image: var(--placeholder-image);
@@ -67,7 +63,7 @@
         margin-block-start: var(--option-margin-block);
         margin-inline-end: var(--option-margin-inline);
         margin-inline-start: var(--option-margin-inline);
-    }
+    } 
 
     &-Expandable:first-of-type {
         border-block-start: none;

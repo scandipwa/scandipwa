@@ -22,6 +22,7 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { ACCOUNT_FORGOT_PASSWORD_URL, ACCOUNT_REGISTRATION_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
@@ -33,7 +34,8 @@ import LoginAccount from './LoginAccount.component';
 /** @namespace Route/LoginAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     ...sourceMapDispatchToProps(dispatch),
-    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible))
+    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 /** @namespace Route/LoginAccount/Container */
@@ -41,7 +43,8 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     static propTypes = {
         ...MyAccountOverlayContainer.propTypes,
         toggleBreadcrumbs: PropTypes.func.isRequired,
-        location: LocationType.isRequired
+        location: LocationType.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -63,12 +66,13 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
             toggleBreadcrumbs,
             location: {
                 state: {
-                    isFromEmailChange = false
+                    isFromEmailChange = false,
+                    isFromLocked = false
                 } = {}
             }
         } = this.props;
 
-        if (isSignedIn() && !isFromEmailChange) {
+        if (isSignedIn() && (!isFromEmailChange && !isFromLocked)) {
             history.replace(appendWithStoreCode(ACCOUNT_URL));
         }
 

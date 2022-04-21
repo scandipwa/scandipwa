@@ -23,7 +23,13 @@ a {
     font-size: 14px;
     font-weight: 700;
 
-    &:hover {
+    @include hoverable { 
+        &:hover {
+            color: var(--link-hover);
+        }
+    }
+    
+    &:active {
         color: var(--link-hover);
     }
 

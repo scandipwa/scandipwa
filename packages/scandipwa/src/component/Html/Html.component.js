@@ -135,6 +135,10 @@ export class Html extends PureComponent {
         return attributesToProps(properties);
     }
 
+    scrollToTopFunction() {
+        document.documentElement.scrollIntoView();
+    }
+
     /**
      * Replace links to native React Router links
      * @param  {{ attribs: Object, children: Array }}
@@ -150,7 +154,10 @@ export class Html extends PureComponent {
 
             if (!isAbsoluteUrl(href) && !isSpecialLink(href)) {
                 return (
-                    <Link { ...attributesToProps({ ...attrs, to: href }) }>
+                    <Link
+                      onClick={ this.scrollToTopFunction }
+                      { ...attributesToProps({ ...attrs, to: href }) }
+                    >
                         { domToReact(children, this.parserOptions) }
                     </Link>
                 );

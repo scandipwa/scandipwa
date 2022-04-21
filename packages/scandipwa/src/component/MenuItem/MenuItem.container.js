@@ -22,17 +22,27 @@ import history from 'Util/History';
 import MenuItem from './MenuItem.component';
 import { HOVER_TIMEOUT } from './MenuItem.config';
 
+export const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+
 /** @namespace Component/MenuItem/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/MenuItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (dispatch) => ({
+    updateBreadcrumbs: () => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.update([], dispatch)
+    )
+});
 
 /** @namespace Component/MenuItem/Container */
 export class MenuItemContainer extends PureComponent {
     static propTypes = {
+        updateBreadcrumbs: PropTypes.func.isRequired,
         closeMenu: PropTypes.func,
         onCategoryHover: PropTypes.func,
         item: MenuItemType.isRequired,
@@ -77,13 +87,23 @@ export class MenuItemContainer extends PureComponent {
     }
 
     onItemClick() {
-        const { closeMenu, activeMenuItemsStack } = this.props;
+        const {
+            closeMenu,
+            updateBreadcrumbs,
+            activeMenuItemsStack,
+            item: { url: { pathname: newPathname = '' } = {} } = {}
+        } = this.props;
+
         scrollToTop();
         closeMenu();
 
         // keep the stack here, so later we can deconstruct menu out of it
         const { pathname } = location;
         history.push(pathname, { stack: activeMenuItemsStack });
+
+        if (pathname !== newPathname) {
+            updateBreadcrumbs();
+        }
     }
 
     handleCategoryHover() {

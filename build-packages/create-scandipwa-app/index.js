@@ -19,7 +19,7 @@ const createApp = async (options) => {
 
     try {
         const generator = templateMap[template];
-        const timeStamp = Date.now() / 1000;
+        const timeStamp = Date.now();
 
         if (generator) {
             // Run generator if it is available
@@ -37,7 +37,7 @@ const createApp = async (options) => {
             `The available templates are: ${ templatesAvailable.join(', ') }.`
         );
 
-        googleAnalytics.trackTiming('CSA installation time', Date.now() / 1000 - timeStamp);
+        googleAnalytics.trackTiming('CSA template bootstrap time', Date.now() - timeStamp);
         googleAnalytics.printAboutAnalytics();
     } catch (e) {
         logger.logN(e);

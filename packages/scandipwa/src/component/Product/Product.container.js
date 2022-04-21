@@ -24,6 +24,7 @@ import getFieldsData from 'Util/Form/Extract';
 import { ADD_TO_CART, getNewParameters, getVariantIndex } from 'Util/Product';
 import {
     getAdjustedPrice,
+    getGroupedProductsInStockQuantity,
     getMaxQuantity,
     getMinQuantity,
     getName,
@@ -65,7 +66,6 @@ export class ProductContainer extends PureComponent {
         addProductToCart: PropTypes.func.isRequired,
         showError: PropTypes.func.isRequired,
         configFormRef: RefType,
-
         parameters: PropTypes.objectOf(PropTypes.string),
         cartId: PropTypes.string,
 
@@ -101,7 +101,7 @@ export class ProductContainer extends PureComponent {
         setActiveProduct: this.updateConfigurableVariant.bind(this),
         getMagentoProduct: this.getMagentoProduct.bind(this),
         setValidator: this.setValidator.bind(this),
-        scrollAttributesIntoView: this.scrollAttributesIntoView.bind(this),
+        scrollOptionsIntoView: this.scrollOptionsIntoView.bind(this),
         updateAddToCartTriggeredWithError: this.updateAddToCartTriggeredWithError.bind(this)
     };
 
@@ -166,9 +166,7 @@ export class ProductContainer extends PureComponent {
         }
 
         if (typeId === PRODUCT_TYPE.grouped) {
-            const { items = [] } = product;
-
-            return items.reduce((o, { qty = 1, product: { id } }) => ({ ...o, [id]: qty }), {});
+            return getGroupedProductsInStockQuantity(product);
         }
 
         const minQty = getMinQuantity(selectedProduct || product);
@@ -341,6 +339,10 @@ export class ProductContainer extends PureComponent {
         });
     }
 
+    /**
+     * checks for unselected options on add to cart event
+     * @returns {boolean}
+    */
     validateConfigurableProduct() {
         const {
             parameters
@@ -364,11 +366,21 @@ export class ProductContainer extends PureComponent {
         this.setState({ addToCartTriggeredWithError: false });
     }
 
-    scrollAttributesIntoView() {
-        const attributes = this.validator.querySelector('[class$=-AttributesWrapper]');
+    /**
+     * Scrolls Product Options into view on error.
+    */
+    scrollOptionsIntoView() {
+        // PLP Products do not have validator so we omit scrolling
+        if (this.validator.classList) {
+            const attributes = this.validator.querySelector('[class$=-AttributesWrapper]');
 
-        if (attributes) {
-            attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
+            // For product configurable attributes
+            if (attributes) {
+                attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
+                return;
+            }
+
+            this.validator.scrollIntoView();
         }
     }
 
@@ -378,22 +390,14 @@ export class ProductContainer extends PureComponent {
      */
     async addToCart() {
         this.updateSelectedValues();
-        const isValid = validateGroup(this.validator);
         const { showError } = this.props;
 
-        if (this.validateConfigurableProduct()
-        || (isValid !== true && !this.filterAddToCartFileErrors(isValid.values))) {
-            const { showError } = this.props;
-            this.setState({ addToCartTriggeredWithError: true });
-            this.validator.scrollIntoView();
-            this.scrollAttributesIntoView();
-            showError(__('Incorrect or missing options!'));
+        if (this.hasError()) {
             return;
         }
 
         const { addProductToCart, cartId } = this.props;
         const products = this.getMagentoProduct();
-
         await addProductToCart({ products, cartId })
             .catch(
                 /** @namespace Component/Product/Container/ProductContainer/addToCart/addProductToCart/catch */
@@ -406,12 +410,36 @@ export class ProductContainer extends PureComponent {
     }
 
     /**
+     * checks if product has errors before adding to cart
+     * @returns {boolean}
+    */
+    hasError() {
+        const { errorMessages, errorFields, values } = validateGroup(this.validator);
+        const { showError } = this.props;
+
+        if (
+            errorFields
+            || errorMessages
+            || this.validateConfigurableProduct()
+            || this.filterAddToCartFileErrors(values)
+        ) {
+            this.scrollOptionsIntoView();
+            this.setState({ addToCartTriggeredWithError: true });
+            showError(__('Incorrect or missing options!'));
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * filters error messages by non empty file value
      * @param errors
      * @returns {boolean}
     */
     filterAddToCartFileErrors(errors) {
-        return errors.filter((e) => (e.type === 'file' && e.value !== '')).length !== 0;
+        return errors ? errors.filter((e) => (e.type === 'file' && e.value !== '')).length !== 0 : false;
     }
 
     /**
