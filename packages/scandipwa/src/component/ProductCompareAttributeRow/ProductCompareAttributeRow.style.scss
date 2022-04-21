@@ -55,6 +55,10 @@
         width: var(--product-compare-column-width);
         text-align: justify;
 
+        .Image-Content {
+            position: inherit;
+        }
+
         img {
             height: auto;
         }
