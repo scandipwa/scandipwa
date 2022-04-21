@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -139,7 +138,7 @@ export class FieldNumberContainer extends PureComponent {
             events,
             setRef,
             isDisabled,
-            value: stateValue
+            stateValue
         };
     }
 
