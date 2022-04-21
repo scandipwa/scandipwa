@@ -36,7 +36,8 @@ export class FieldNumber extends PureComponent {
     render() {
         const {
             attr,
-            attr: { min = 1, max = DEFAULT_MAX_PRODUCTS, value },
+            attr: { min = 1, max = DEFAULT_MAX_PRODUCTS },
+            value,
             events,
             setRef,
             stateValue,
@@ -54,7 +55,7 @@ export class FieldNumber extends PureComponent {
                   { ...attr }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
                   { ...events }
-                  value={ numberValue }
+                  value={ value }
                   type={ FIELD_TYPE.number }
                   readOnly
                   aria-label={ __('Value') }

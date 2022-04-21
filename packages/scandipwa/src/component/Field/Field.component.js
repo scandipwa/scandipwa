@@ -46,6 +46,7 @@ export class Field extends PureComponent {
         options: PropTypes.arrayOf(OptionType).isRequired,
         changeValueOnDoubleClick: PropTypes.bool,
         isSortSelect: PropTypes.bool,
+        value: PropTypes.number.isRequired,
 
         // Validation
         showErrorAsLabel: PropTypes.bool.isRequired,
@@ -134,11 +135,13 @@ export class Field extends PureComponent {
             attr,
             events,
             setRef,
+            value,
             isDisabled = false
         } = this.props;
 
         return (
             <FieldNumberContainer
+              value={ value }
               attr={ attr }
               events={ events }
               setRef={ setRef }
