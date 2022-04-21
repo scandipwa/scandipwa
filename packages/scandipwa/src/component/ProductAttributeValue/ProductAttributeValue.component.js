@@ -277,7 +277,7 @@ export class ProductAttributeValue extends PureComponent {
         const { isProductCountVisible } = this.props;
 
         if (!subLabel || !isProductCountVisible) {
-            return null;
+            // return null;
         }
 
         return (
@@ -296,7 +296,11 @@ export class ProductAttributeValue extends PureComponent {
               block="ProductAttributeValue"
               elem="Label"
             >
-                { value }
+                { typeof value === 'string' ? (
+                    <Html content={ value } />
+                ) : (
+                    value
+                ) }
                 { this.renderSublabel(subLabel) }
             </div>
         );
@@ -328,7 +332,7 @@ export class ProductAttributeValue extends PureComponent {
         const isSwatch = label;
 
         if (isFormattedAsText) {
-            return label || value || __('N/A');
+            return label || <Html content={ `${value}` } /> || __('N/A');
         }
 
         if (!isSwatch) {

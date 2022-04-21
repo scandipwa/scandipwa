@@ -182,6 +182,13 @@
                     }
                 }
             }
+
+            img {
+                max-height: 32px;
+                max-width: 32px;
+                object-fit: cover;
+                vertical-align: middle;
+            }
         }
 
         &:hover,
