@@ -58,6 +58,10 @@
         font-weight: bold;
         margin-inline-end: 40px;
         margin-block-end: 0;
+
+        a {
+            color: var(--color-white);
+        }
     }
 
     &-Debug {
