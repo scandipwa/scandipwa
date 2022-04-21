@@ -188,6 +188,10 @@
                 max-width: 32px;
                 object-fit: cover;
                 vertical-align: middle;
+
+                @include mobile {
+                    margin: 5px 0px;
+                }
             }
         }
 
