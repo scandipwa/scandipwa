@@ -277,7 +277,7 @@ export class ProductAttributeValue extends PureComponent {
         const { isProductCountVisible } = this.props;
 
         if (!subLabel || !isProductCountVisible) {
-            // return null;
+            return null;
         }
 
         return (
