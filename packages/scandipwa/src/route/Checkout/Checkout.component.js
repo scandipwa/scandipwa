@@ -153,7 +153,7 @@ export class Checkout extends PureComponent {
 
     componentDidMount() {
         this.updateHeader();
-        this.updateStepURL();
+        this.updateStepURL(true);
     }
 
     componentDidUpdate(prevProps) {
@@ -177,7 +177,7 @@ export class Checkout extends PureComponent {
         });
     }
 
-    updateStepURL() {
+    updateStepURL(isMounting = false) {
         const { checkoutStep, history, isCartLoading } = this.props;
         const { url } = this.stepMap[checkoutStep];
         const { pathname = '' } = location;
@@ -189,7 +189,11 @@ export class Checkout extends PureComponent {
                 || pathname === appendWithStoreCode(CHECKOUT_URL)
             )
         )) {
-            history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+            if (isMounting) {
+                history.replace(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+            } else {
+                history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+            }
         }
     }
 
