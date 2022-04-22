@@ -152,12 +152,8 @@ export class Checkout extends PureComponent {
     stepsCount = 2;
 
     componentDidMount() {
-        const { checkoutStep, history } = this.props;
-        const { url } = this.stepMap[checkoutStep];
-
         this.updateHeader();
-
-        history.replace(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        this.updateStepURL();
     }
 
     componentDidUpdate(prevProps) {
@@ -181,11 +177,24 @@ export class Checkout extends PureComponent {
         });
     }
 
-    updateStep() {
-        const { checkoutStep, history } = this.props;
+    updateStepURL() {
+        const { checkoutStep, history, isCartLoading } = this.props;
         const { url } = this.stepMap[checkoutStep];
+        const { pathname = '' } = location;
 
-        history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        if (!(
+            isCartLoading
+            && (
+                pathname === CHECKOUT_URL
+                || pathname === appendWithStoreCode(`${ CHECKOUT_URL }`)
+            )
+        )) {
+            history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        }
+    }
+
+    updateStep() {
+        this.updateStepURL();
         scrollToTop({ behavior: 'smooth' });
     }
 

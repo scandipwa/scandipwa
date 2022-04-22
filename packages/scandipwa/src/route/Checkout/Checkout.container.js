@@ -46,11 +46,14 @@ import { appendWithStoreCode } from 'Util/Url';
 import Checkout from './Checkout.component';
 import {
     BILLING_STEP,
+    BILLING_URL,
     BILLING_URL_STEP,
+    CHECKOUT_URL,
     DETAILS_STEP,
     DETAILS_URL_STEP,
     PAYMENT_TOTALS,
     SHIPPING_STEP,
+    SHIPPING_URL,
     SHIPPING_URL_STEP,
     UPDATE_EMAIL_CHECK_FREQUENCY
 } from './Checkout.config';
@@ -285,10 +288,25 @@ export class CheckoutContainer extends PureComponent {
 
         const { email, checkoutStep } = this.state;
         const { email: prevEmail } = prevState;
+        const { pathname = '' } = location;
 
         this.handleRedirectIfNoItemsInCart();
 
         if (prevIsCartLoading && !isCartLoading) {
+            if (checkoutStep === SHIPPING_STEP) {
+                if (is_virtual) {
+                    history.replace(appendWithStoreCode(BILLING_URL));
+                    this._getPaymentMethods();
+                    // eslint-disable-next-line react/no-did-update-set-state
+                    this.setState({ checkoutStep: BILLING_STEP });
+                } else if (
+                    pathname === CHECKOUT_URL
+                    || pathname === appendWithStoreCode(`${ CHECKOUT_URL }`)
+                ) {
+                    history.replace(appendWithStoreCode(SHIPPING_URL));
+                }
+            }
+
             if (!city && !is_virtual && checkoutStep === BILLING_STEP) {
                 showInfoNotification(__('Please add a shipping address!'));
                 // eslint-disable-next-line react/no-did-update-set-state
@@ -344,10 +362,18 @@ export class CheckoutContainer extends PureComponent {
         const { savedEmail } = this.props;
         const { checkoutStep } = this.state;
 
+        const checkoutData = (
+            is_virtual
+                ? { shippingAddress: {}, isGuestEmailSaved: false }
+                : {
+                    shippingAddress: data,
+                    isGuestEmailSaved: savedEmail && checkoutStep !== SHIPPING_STEP
+                }
+        );
+
         this.setState({
-            isGuestEmailSaved: checkoutStep !== SHIPPING_STEP,
             email: savedEmail,
-            shippingAddress: is_virtual ? {} : data
+            ...checkoutData
         });
     }
 
