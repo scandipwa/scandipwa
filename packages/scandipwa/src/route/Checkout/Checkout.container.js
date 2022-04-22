@@ -301,7 +301,7 @@ export class CheckoutContainer extends PureComponent {
                     this.setState({ checkoutStep: BILLING_STEP });
                 } else if (
                     pathname === CHECKOUT_URL
-                    || pathname === appendWithStoreCode(`${ CHECKOUT_URL }`)
+                    || pathname === appendWithStoreCode(CHECKOUT_URL)
                 ) {
                     history.replace(appendWithStoreCode(SHIPPING_URL));
                 }

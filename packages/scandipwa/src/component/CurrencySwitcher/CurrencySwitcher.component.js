@@ -15,7 +15,10 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
+import { CART_URL } from 'Route/CartPage/CartPage.config';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { getCurrency } from 'Util/Currency';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './CurrencySwitcher.style';
 
@@ -54,14 +57,15 @@ export class CurrencySwitcher extends PureComponent {
         return availableCurrencies.some((e) => e.id === currency) ? currency : currentCurrencyCode;
     }
 
-    /* eslint-disable */
     onCurrencyChange(currencyCode) {
         const { handleCurrencySelect } = this.props;
+        const { pathname = '' } = location;
 
-        this.setState({ isPageReloading: true });
-
-        document.documentElement.style.setProperty("--page-overflow", "hidden");
-        document.documentElement.style.setProperty("--cookie-z-index", "-1");
+        if (pathname.match(CART_URL) || pathname.match(appendWithStoreCode(CHECKOUT_URL))) {
+            this.setState({ isPageReloading: true });
+            document.documentElement.style.setProperty('--page-overflow', 'hidden');
+            document.documentElement.style.setProperty('--cookie-z-index', '-1');
+        }
 
         handleCurrencySelect(currencyCode);
     }

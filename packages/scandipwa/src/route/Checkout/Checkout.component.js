@@ -186,7 +186,7 @@ export class Checkout extends PureComponent {
             isCartLoading
             && (
                 pathname === CHECKOUT_URL
-                || pathname === appendWithStoreCode(`${ CHECKOUT_URL }`)
+                || pathname === appendWithStoreCode(CHECKOUT_URL)
             )
         )) {
             history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
