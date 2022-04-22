@@ -39,7 +39,7 @@ export class FieldContainer extends PureComponent {
         elemRef: RefType,
         changeValueOnDoubleClick: PropTypes.bool,
         isSortSelect: PropTypes.bool,
-
+        resetFieldValue: PropTypes.func.isRequired,
         // Validation
         validationRule: ValidationRuleType,
         validateOn: PropTypes.arrayOf(PropTypes.string),
@@ -119,6 +119,10 @@ export class FieldContainer extends PureComponent {
         this.setState({ validationResponse: null });
     }
 
+    resetFieldValue() {
+        console.log('reset');
+    }
+
     handleShowLengthError() {
         const { validationRule, type } = this.props;
         const { showLengthError } = this.state;
@@ -130,6 +134,19 @@ export class FieldContainer extends PureComponent {
         return validationRule;
     }
 
+    getResponseValue(data, value) {
+        const { type } = this.props;
+        const newValidRule = this.handleShowLengthError();
+
+        if (data === 'errorRequired') {
+            return validate('', { isRequired: true });
+        }
+
+        return validate(type === FIELD_TYPE.file
+            ? value.toLowerCase()
+            : value, newValidRule);
+    }
+
     validate(data) {
         const {
             validationRule: { range: { max: maxValidLength = 0 } = {} }, type, attr: { name } = {}
@@ -138,11 +155,8 @@ export class FieldContainer extends PureComponent {
         const value = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio
             ? !!this.fieldRef.checked
             : this.fieldRef.value;
-        const newValidRule = this.handleShowLengthError();
-        // eslint-disable-next-line max-len
-        const response = data === 'errorRequired' ? validate('', { isRequired: true }) : validate(type === FIELD_TYPE.file
-            ? value.toLowerCase()
-            : value, newValidRule);
+
+        const response = this.getResponseValue(data, value);
         const output = response !== true ? { ...response, type, name } : response;
 
         // If validation is called from different object you can pass object
@@ -230,6 +244,7 @@ export class FieldContainer extends PureComponent {
             changeValueOnDoubleClick,
             isSortSelect,
             validationResponse,
+            resetFieldValue: this.resetFieldValue.bind(this),
             events: newEvents,
             fieldRef: this.fieldRef,
             setRef: this.setRef.bind(this),
