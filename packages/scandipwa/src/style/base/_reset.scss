@@ -89,6 +89,8 @@
     --caption-line-height-mobile: var(--imported_captionMobile_line_height, 16px);
     --caption-text-transform-mobile: var(--imported_captionMobile_text_transform, none);
     --caption-font-style-mobile: var(--imported_captionMobile_font_style, normal);
+
+    --page-overflow: auto;
 }
 
 * {
@@ -175,6 +177,7 @@ img {
 
 html {
     font-size: $font-standard-size;
+    overflow: var(--page-overflow);
 }
 
 body {

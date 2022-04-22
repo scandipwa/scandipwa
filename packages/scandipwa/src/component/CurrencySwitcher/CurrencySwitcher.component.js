@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
+import Loader from 'Component/Loader';
 import { getCurrency } from 'Util/Currency';
 
 import './CurrencySwitcher.style';
@@ -32,6 +33,12 @@ export class CurrencySwitcher extends PureComponent {
         handleCurrencySelect: PropTypes.func.isRequired
     };
 
+    state = {
+        isPageReloading: false
+    };
+
+    onCurrencyChange = this.onCurrencyChange.bind(this);
+
     getCurrencyValue() {
         const {
             currencyData: {
@@ -47,13 +54,33 @@ export class CurrencySwitcher extends PureComponent {
         return availableCurrencies.some((e) => e.id === currency) ? currency : currentCurrencyCode;
     }
 
+    /* eslint-disable */
+    onCurrencyChange(currencyCode) {
+        const { handleCurrencySelect } = this.props;
+
+        this.setState({ isPageReloading: true });
+
+        document.documentElement.style.setProperty("--page-overflow", "hidden");
+        document.documentElement.style.setProperty("--cookie-z-index", "-1");
+
+        handleCurrencySelect(currencyCode);
+    }
+
     render() {
         const {
-            handleCurrencySelect,
             currencyData: {
                 available_currencies_data: availableCurrencies
             } = {}
         } = this.props;
+        const { isPageReloading } = this.state;
+
+        if (isPageReloading) {
+            return (
+                <div block="CurrencySwitcher" mods={ { isPageReloading } }>
+                    <Loader isLoading />
+                </div>
+            );
+        }
 
         if (availableCurrencies && availableCurrencies.length > 1) {
             return (
@@ -67,7 +94,7 @@ export class CurrencySwitcher extends PureComponent {
                           noPlaceholder: true
                       } }
                       events={ {
-                          onChange: handleCurrencySelect
+                          onChange: this.onCurrencyChange
                       } }
                       options={ availableCurrencies }
                     />
