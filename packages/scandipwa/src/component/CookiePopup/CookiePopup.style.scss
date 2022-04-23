@@ -9,10 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
-    --cookie-z-index: 200;
-}
-
 .CookiePopup {
     --cookie-popup-bottom-margin: 10px;
 
@@ -23,7 +19,11 @@
     opacity: 0.9;
     align-items: center;
     width: fit-content;
-    z-index: var(--cookie-z-index);
+    z-index: 200;
+
+    .PageIsLoading & {
+        z-index: -1;
+    }
 
     @include desktop {
         inset-inline-start: 50%;

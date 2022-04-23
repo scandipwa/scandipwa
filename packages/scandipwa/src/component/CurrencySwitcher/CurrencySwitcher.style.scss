@@ -14,16 +14,6 @@
 
     border-block-end: 1px solid var(--primary-divider-color);
 
-    &_isPageReloading {
-        height: 100vh;
-        position: fixed;
-        inset-block-start: 0;
-        inset-inline-start: 0;
-        z-index: 200;
-        width: 100vw;
-        background: #fff;
-    }
-
     @include mobile {
         margin: 0 16px;
         padding-block-end: 1px;

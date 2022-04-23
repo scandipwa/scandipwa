@@ -15,10 +15,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
-import { CART_URL } from 'Route/CartPage/CartPage.config';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { getCurrency } from 'Util/Currency';
-import { appendWithStoreCode } from 'Util/Url';
 
 import './CurrencySwitcher.style';
 
@@ -33,14 +30,9 @@ export class CurrencySwitcher extends PureComponent {
             ),
             current_currency_code: PropTypes.string
         }).isRequired,
-        handleCurrencySelect: PropTypes.func.isRequired
+        handleCurrencySelect: PropTypes.func.isRequired,
+        isPageReloading: PropTypes.bool.isRequired
     };
-
-    state = {
-        isPageReloading: false
-    };
-
-    onCurrencyChange = this.onCurrencyChange.bind(this);
 
     getCurrencyValue() {
         const {
@@ -57,32 +49,18 @@ export class CurrencySwitcher extends PureComponent {
         return availableCurrencies.some((e) => e.id === currency) ? currency : currentCurrencyCode;
     }
 
-    onCurrencyChange(currencyCode) {
-        const { handleCurrencySelect } = this.props;
-        const { pathname = '' } = location;
-
-        if (pathname.match(CART_URL) || pathname.match(appendWithStoreCode(CHECKOUT_URL))) {
-            this.setState({ isPageReloading: true });
-            document.documentElement.style.setProperty('--page-overflow', 'hidden');
-            document.documentElement.style.setProperty('--cookie-z-index', '-1');
-        }
-
-        handleCurrencySelect(currencyCode);
-    }
-
     render() {
         const {
             currencyData: {
                 available_currencies_data: availableCurrencies
-            } = {}
+            } = {},
+            handleCurrencySelect,
+            isPageReloading
         } = this.props;
-        const { isPageReloading } = this.state;
 
         if (isPageReloading) {
             return (
-                <div block="CurrencySwitcher" mods={ { isPageReloading } }>
-                    <Loader isLoading />
-                </div>
+                <Loader isLoading />
             );
         }
 
@@ -98,7 +76,7 @@ export class CurrencySwitcher extends PureComponent {
                           noPlaceholder: true
                       } }
                       events={ {
-                          onChange: this.onCurrencyChange
+                          onChange: handleCurrencySelect
                       } }
                       options={ availableCurrencies }
                     />
