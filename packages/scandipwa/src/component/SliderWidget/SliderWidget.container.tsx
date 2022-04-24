@@ -9,42 +9,55 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import SliderQuery from 'Query/Slider.query';
+import { Slider } from 'Query/Slider.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 import DataContainer from 'Util/Request/DataContainer';
+import { RootState } from 'Util/Store/Store.type';
 
 import SliderWidget from './SliderWidget.component';
+import {
+    SliderWidgetComponentProps,
+    SliderWidgetContainerMapDispatchProps,
+    SliderWidgetContainerMapStateProps,
+    SliderWidgetContainerProps,
+    SliderWidgetContainerState
+} from './SliderWidget.type';
 
 /** @namespace Component/SliderWidget/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): SliderWidgetContainerMapStateProps => ({
     device: state.ConfigReducer.device,
     isOffline: state.OfflineReducer.isOffline
 });
 
 /** @namespace Component/SliderWidget/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): SliderWidgetContainerMapDispatchProps => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
 /** @namespace Component/SliderWidget/Container */
-export class SliderWidgetContainer extends DataContainer {
-    static propTypes = {
-        sliderId: PropTypes.number.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        isOffline: PropTypes.bool.isRequired
-    };
-
-    state = {
+export class SliderWidgetContainer extends DataContainer<SliderWidgetContainerProps, SliderWidgetContainerState> {
+    state: SliderWidgetContainerState = {
         slider: {
             slideSpeed: 0,
-            slides: [ { image: '', slide_text: '', isPlaceholder: true } ]
+            slides: [{
+                slide_id: 0,
+                slide_text: '',
+                mobile_image: '',
+                desktop_image: '',
+                title: '',
+                is_active: true,
+                isPlaceholder: true
+            }]
         }
     };
 
-    __construct(props) {
+    __construct(props: SliderWidgetContainerProps): void {
         const { sliderId } = props;
 
         super.__construct(props, `SliderWidgetContainer-${sliderId}`);
@@ -54,7 +67,7 @@ export class SliderWidgetContainer extends DataContainer {
         this.requestSlider();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: SliderWidgetContainerProps): void {
         const { sliderId } = this.props;
         const { sliderId: pSliderId } = prevProps;
 
@@ -63,34 +76,28 @@ export class SliderWidgetContainer extends DataContainer {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<SliderWidgetComponentProps, 'device' | 'slider'> {
         const { device } = this.props;
         const { slider } = this.state;
 
         return { device, slider };
     }
 
-    requestSlider() {
+    requestSlider(): void {
         const { sliderId, showNotification, isOffline } = this.props;
 
-        this.fetchData(
-            [ SliderQuery.getQuery({ sliderId }) ],
+        this.fetchData<{ slider: Slider }>(
+            [SliderQuery.getQuery({ sliderId: String(sliderId) })],
             ({ slider }) => this.setState({ slider }),
             (e) => showNotification(NotificationType.ERROR, __('Error fetching Slider!'), e),
             isOffline
         );
     }
 
-    _getGalleryPictures() {
-        const { gallery } = this.state;
-
-        return gallery;
-    }
-
     render(): ReactElement {
         return (
             <SliderWidget
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

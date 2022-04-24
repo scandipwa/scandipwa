@@ -11,18 +11,18 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { PDP } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import ProductReducer from 'Store/Product/Product.reducer';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
+import { ReactElement } from 'Type/Common.type';
 import { ProductType } from 'Type/ProductList.type';
 import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
@@ -64,8 +64,8 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: (options) => {
         // TODO: check linked products, there might be issues :'(
         ProductDispatcher.then(
@@ -79,7 +79,7 @@ export const mapDispatchToProps = (dispatch) => ({
     updateMetaFromProduct: (product) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
-    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     addRecentlyViewedProduct: (product, store) => dispatch(addRecentlyViewedProduct(product, store))
 });
 
@@ -158,7 +158,7 @@ export class ProductPageContainer extends PureComponent {
         }
 
         const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
-            .reduce((acc, [ key, value ]) => {
+            .reduce((acc, [key, value]) => {
                 if (key in configurable_options) {
                     return { ...acc, [ key ]: value };
                 }
@@ -182,7 +182,7 @@ export class ProductPageContainer extends PureComponent {
         }, []);
 
         const prevRequiredOptions = productOptionsData?.requiredOptions || [];
-        const requiredOptions = [ ...prevRequiredOptions, ...newOptionsData ];
+        const requiredOptions = [...prevRequiredOptions, ...newOptionsData];
 
         return {
             parameters,
@@ -530,7 +530,7 @@ export class ProductPageContainer extends PureComponent {
         const { changeHeaderState } = this.props;
 
         changeHeaderState({
-            name: PDP,
+            name: Page.PDP,
             title: name,
             onBackClick: () => history.back()
         });
@@ -545,8 +545,8 @@ export class ProductPageContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductPage
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

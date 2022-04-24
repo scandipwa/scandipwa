@@ -16,6 +16,7 @@ import ProductList from 'Component/ProductList';
 import ProductListQuery from 'Query/ProductList.query';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { getIndexedProducts } from 'Util/Product';
 import DataContainer from 'Util/Request/DataContainer';
 
@@ -171,7 +172,7 @@ export class ProductListWidgetContainer extends DataContainer {
         }
 
         this.fetchData(
-            [ ProductListQuery.getQuery(options) ],
+            [ProductListQuery.getQuery(options)],
             isNext ? this.appendPage : this.updateProductListItems,
             this.onError
         );
@@ -195,12 +196,12 @@ export class ProductListWidgetContainer extends DataContainer {
     render(): ReactElement {
         return (
             <ProductList
-                {...this.containerProps()}
-                {...this.containerFunctions}
-                isInfiniteLoaderEnabled={false}
-                numberOfPlaceholders={6}
-                mix={{ block: 'ProductListWidget' }}
-                isWidget
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+              isInfiniteLoaderEnabled={ false }
+              numberOfPlaceholders={ 6 }
+              mix={ { block: 'ProductListWidget' } }
+              isWidget
             />
         );
     }

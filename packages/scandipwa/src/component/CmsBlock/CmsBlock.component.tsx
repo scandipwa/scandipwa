@@ -12,7 +12,9 @@
 import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
-import { ChildrenType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { CmsBlockComponentProps } from './CmsBlock.type';
 
 import './CmsBlock.style';
 
@@ -21,20 +23,9 @@ import './CmsBlock.style';
  * @class CmsBlock
  * @namespace Component/CmsBlock/Component
  */
-export class CmsBlock extends PureComponent {
-    static propTypes = {
-        cmsBlock: PropTypes.shape({
-            identifier: PropTypes.string,
-            content: PropTypes.string,
-            disabled: PropTypes.bool
-        }),
-        blockType: PropTypes.string,
-        children: ChildrenType
-    };
-
+export class CmsBlock extends PureComponent<CmsBlockComponentProps> {
     static defaultProps = {
         cmsBlock: {},
-        children: [],
         blockType: ''
     };
 
@@ -43,7 +34,7 @@ export class CmsBlock extends PureComponent {
             children
         } = this.props;
 
-        if (children.length) {
+        if (children && (!Array.isArray(children) || children.length)) {
             return children;
         }
 

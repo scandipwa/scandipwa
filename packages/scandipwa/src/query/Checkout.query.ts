@@ -12,8 +12,10 @@
 import { Field, Mutation, Query } from '@tilework/opus';
 
 import {
+    GQLEstimateShippingCostsAddress,
     GQLS_SetBillingAddressOnCartInput,
-    GQLS_SetPaymentMethodOnCartInput
+    GQLS_SetPaymentMethodOnCartInput,
+    GQLSaveAddressInformation
 } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 
@@ -50,7 +52,7 @@ export class CheckoutQuery {
     }
 
     getEstimateShippingCosts(
-        address: string,
+        address: GQLEstimateShippingCostsAddress,
         guestCartId: string
     ): Mutation<'estimateShippingCosts', ShippingMethod, true> {
         const mutation = new Mutation<'estimateShippingCosts', ShippingMethod, true>('estimateShippingCosts', true)
@@ -63,7 +65,7 @@ export class CheckoutQuery {
     }
 
     getSaveAddressInformation(
-        addressInformation: string,
+        addressInformation: GQLSaveAddressInformation,
         guestCartId: string
     ): Mutation<'saveAddressInformation', PaymentDetails> {
         const mutation = new Mutation<'saveAddressInformation', PaymentDetails>('saveAddressInformation')

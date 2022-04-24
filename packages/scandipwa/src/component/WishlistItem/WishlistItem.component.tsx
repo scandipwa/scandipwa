@@ -68,7 +68,7 @@ export class WishlistItem extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.text }
+              type={ FieldType.TEXT }
               attr={ {
                   id: 'description',
                   name: 'description',
@@ -96,7 +96,7 @@ export class WishlistItem extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.number }
+              type={ FieldType.NUMBER }
               attr={ {
                   id: 'item_qty',
                   name: 'item_qty',
@@ -312,7 +312,7 @@ export class WishlistItem extends PureComponent {
         return (
             <div block="WishlistItem" elem="Select" mods={ { isEditingActive } }>
                 <Field
-                  type={ FieldType.checkbox }
+                  type={ FieldType.CHECKBOX }
                   attr={ {
                       id: `option-${ id }`,
                       name: `option-${ id }`

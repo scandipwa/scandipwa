@@ -9,28 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
 import CmsBlock from 'Component/CmsBlock';
 import ContactForm from 'Component/ContactForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import NoMatch from 'Route/NoMatch';
+import { ReactElement } from 'Type/Common.type';
 
 import { DEFAULT_CONTACT_US_CMS_BLOCK } from './ContactPage.config';
+import { ContactPageComponentProps } from './ContactPage.type';
 
 import './ContactPage.style';
 
 /** @namespace Route/ContactPage/Component */
-export class ContactPage extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool,
-        isEnabled: PropTypes.bool.isRequired,
-        isMobile: PropTypes.bool.isRequired
-    };
-
+export class ContactPage extends PureComponent<ContactPageComponentProps> {
     static defaultProps = {
         isLoading: false
     };
@@ -44,7 +38,7 @@ export class ContactPage extends PureComponent {
 
         return (
             <h1 block="ContactPage" elem="Heading">
-                {__('Contact Us')}
+                { __('Contact Us') }
             </h1>
         );
     }
@@ -54,18 +48,18 @@ export class ContactPage extends PureComponent {
             contact_us_content: {
                 contact_us_cms_block = DEFAULT_CONTACT_US_CMS_BLOCK
             } = {}
-        } = window.contentConfiguration;
+        } = window.contentConfiguration || {};
 
-        return <CmsBlock identifier={contact_us_cms_block} />;
+        return <CmsBlock identifier={ contact_us_cms_block } />;
     }
 
     renderPage(): ReactElement {
         return (
             <ContentWrapper label="Contact Page">
-                {this.renderHeading()}
+                { this.renderHeading() }
                 <div block="ContactPage" elem="ColumnWrapper">
-                    <div block="ContactPage" elem="Column" mods={{ isContent: true }}>
-                        {this.renderCmsBlock()}
+                    <div block="ContactPage" elem="Column" mods={ { isContent: true } }>
+                        { this.renderCmsBlock() }
                     </div>
                     <div block="ContactPage" elem="Column">
                         <ContactForm />
@@ -98,8 +92,8 @@ export class ContactPage extends PureComponent {
 
         return (
             <main block="ContactPage">
-                <Loader isLoading={isLoading} />
-                {this.renderPageContents()}
+                <Loader isLoading={ isLoading } />
+                { this.renderPageContents() }
             </main>
         );
     }

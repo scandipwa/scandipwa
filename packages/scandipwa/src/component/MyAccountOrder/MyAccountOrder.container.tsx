@@ -13,10 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CUSTOMER_ORDER } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
 import { MatchType } from 'Type/Router.type';
@@ -49,8 +49,8 @@ export const mapDispatchToProps = (dispatch) => ({
     reorder: (incrementId) => OrderDispatcher.then(
         ({ default: dispatcher }) => dispatcher.reorder(dispatch, incrementId)
     ),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE))
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE))
 });
 
 /** @namespace Component/MyAccountOrder/Container */
@@ -141,7 +141,7 @@ export class MyAccountOrderContainer extends PureComponent {
         const { changeHeaderState } = this.props;
 
         changeHeaderState({
-            name: CUSTOMER_ORDER,
+            name: Page.CUSTOMER_ORDER,
             title: __('Order'),
             onBackClick: () => history.goBack()
         });

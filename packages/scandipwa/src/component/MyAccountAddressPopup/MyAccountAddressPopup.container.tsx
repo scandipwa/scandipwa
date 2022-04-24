@@ -11,15 +11,16 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import MyAccountQuery from 'Query/MyAccount.query';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { Addresstype } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 
@@ -44,7 +45,7 @@ export const mapDispatchToProps = (dispatch) => ({
     updateCustomerDetails: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     ),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE))
 });
 
 /** @namespace Component/MyAccountAddressPopup/Container */
@@ -165,8 +166,8 @@ export class MyAccountAddressPopupContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountAddressPopup
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

@@ -9,7 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { MenuItem } from 'Type/Menu.type';
+import { MenuItem } from 'Query/Menu.type';
+import { Merge } from 'Type/Common.type';
 
 export type MenuLocation = {
     pathname: string;
@@ -18,20 +19,17 @@ export type MenuLocation = {
         category?: number;
         page?: boolean;
     };
-} | string;
-
-export type FormattedMenuItem = Omit<MenuItem, 'cms_page_identifier' | 'url_type' | 'url'> & {
-    url: MenuLocation;
-    children: Record<string, FormattedMenuItem>;
 };
+
+export type FormattedMenuItem = Merge<
+Omit<MenuItem, 'cms_page_identifier' | 'url_type' | 'category_id' >,
+{
+    url: MenuLocation | string;
+    children: Record<string, FormattedMenuItem>;
+}>;
 
 export enum MenuItemType {
     TYPE_CUSTOM_URL,
     TYPE_CMS_PAGE,
     TYPE_CATEGORY
-}
-
-export enum QtyDefault {
-    DEFAULT_MIN_PRODUCTS = 1,
-    DEFAULT_MAX_PRODUCTS = 999
 }

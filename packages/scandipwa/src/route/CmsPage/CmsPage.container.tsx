@@ -9,25 +9,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { CMS_PAGE } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import CmsPageQuery from 'Query/CmsPage.query';
+import { CmsPageFields, CmsPageQueryOptions } from 'Query/CmsPage.type';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { LocationType, MatchType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
+import { RootState } from 'Util/Store/Store.type';
 import { getUrlParam, isHomePageUrl } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
 import { LOADING_TIME } from './CmsPage.config';
+import {
+    CmsPageComponentProps,
+    CmsPageContainerDispatchStateProps, CmsPageContainerMapStateProps, CmsPageContainerProps, CmsPageContainerState
+} from './CmsPage.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -35,16 +41,16 @@ export const BreadcrumbsDispatcher = import(
 );
 
 /** @namespace Route/CmsPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CmsPageContainerMapStateProps => ({
     isOffline: state.OfflineReducer.isOffline
 });
 
 /** @namespace Route/CmsPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatchStateProps => ({
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch)
     ),
-    setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (isActive) => {
@@ -56,20 +62,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/CmsPage/Container */
-export class CmsPageContainer extends DataContainer {
-    static propTypes = {
-        match: MatchType.isRequired,
-        setHeaderState: PropTypes.func.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired,
-        setBigOfflineNotice: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
-        toggleBreadcrumbs: PropTypes.func.isRequired,
-        pageIds: PropTypes.number,
-        pageIdentifiers: PropTypes.string,
-        isOnlyPlaceholder: PropTypes.bool,
-        isBreadcrumbsActive: PropTypes.bool
-    };
-
+export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPageContainerState> {
     static defaultProps = {
         pageIds: -1,
         pageIdentifiers: '',
@@ -83,18 +76,18 @@ export class CmsPageContainer extends DataContainer {
         isPageLoaded: false
     };
 
-    setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
-
-    __construct(props) {
+    __construct(props: CmsPageContainerProps): void {
         const params = this.getRequestQueryParams();
         const { id, identifier } = params;
 
         super.__construct(props, `CmsPageContainer-${id || identifier}`);
 
+        this.setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
+
         this.updateBreadcrumbs();
     }
 
-    updateBreadcrumbs() {
+    updateBreadcrumbs(): void {
         const {
             toggleBreadcrumbs,
             isBreadcrumbsActive
@@ -103,7 +96,10 @@ export class CmsPageContainer extends DataContainer {
         toggleBreadcrumbs(isBreadcrumbsActive);
     }
 
-    containerProps() {
+    containerProps(): Pick<
+    CmsPageComponentProps,
+    'isBreadcrumbsActive' | 'isLoading' | 'isPageLoaded' | 'page'
+    > {
         const { isBreadcrumbsActive } = this.props;
         const { page, isPageLoaded, isLoading } = this.state;
 
@@ -134,7 +130,7 @@ export class CmsPageContainer extends DataContainer {
         }
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: CmsPageContainerProps): void {
         const {
             location: { pathname },
             pageIdentifiers,
@@ -156,7 +152,7 @@ export class CmsPageContainer extends DataContainer {
         }
     }
 
-    setOfflineNoticeSize() {
+    setOfflineNoticeSize(): void {
         const { setBigOfflineNotice } = this.props;
         const { isLoading } = this.state;
 
@@ -167,7 +163,7 @@ export class CmsPageContainer extends DataContainer {
         }
     }
 
-    onPageLoad({ cmsPage: page }) {
+    onPageLoad({ cmsPage: page }: { cmsPage: CmsPageFields }): void {
         const {
             location: { pathname },
             updateMeta,
@@ -195,7 +191,7 @@ export class CmsPageContainer extends DataContainer {
 
         if (!isHomePageUrl(pathname)) {
             setHeaderState({
-                name: CMS_PAGE,
+                name: Page.CMS_PAGE,
                 title: content_heading,
                 onBackClick: () => history.goBack()
             });
@@ -204,7 +200,7 @@ export class CmsPageContainer extends DataContainer {
         this.setState({ page, isLoading: false, isPageLoaded: true });
     }
 
-    getRequestQueryParams() {
+    getRequestQueryParams(): Partial<CmsPageQueryOptions> {
         const {
             location,
             match,
@@ -227,7 +223,7 @@ export class CmsPageContainer extends DataContainer {
         };
     }
 
-    requestPage() {
+    requestPage(): void {
         const { isOffline } = this.props;
         const params = this.getRequestQueryParams();
         const { id, identifier } = params;
@@ -238,8 +234,8 @@ export class CmsPageContainer extends DataContainer {
 
         this.setState({ isLoading: true });
 
-        this.fetchData(
-            [ CmsPageQuery.getQuery(params) ],
+        this.fetchData<{ cmsPage: CmsPageFields }>(
+            [CmsPageQuery.getQuery(params)],
             this.onPageLoad.bind(this),
             () => this.setState({ isLoading: false }),
             isOffline
@@ -249,7 +245,7 @@ export class CmsPageContainer extends DataContainer {
     render(): ReactElement {
         return (
             <CmsPage
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

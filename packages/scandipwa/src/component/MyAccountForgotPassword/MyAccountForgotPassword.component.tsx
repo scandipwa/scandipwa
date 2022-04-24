@@ -39,7 +39,7 @@ export class MyAccountForgotPassword extends PureComponent {
               onError={ onFormError }
             >
                 <Field
-                  type={ FieldType.email }
+                  type={ FieldType.EMAIL }
                   label={ __('Email') }
                   attr={ {
                       id: 'email',

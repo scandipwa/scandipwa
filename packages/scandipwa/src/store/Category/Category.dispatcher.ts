@@ -13,7 +13,7 @@ import { Query } from '@tilework/opus';
 import { Dispatch } from 'redux';
 
 import CategoryQuery from 'Query/Category.query';
-import { CategoryQueryOptions } from 'Query/Query.type';
+import { Category, CategoryQueryOptions } from 'Query/Category.type';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -33,8 +33,15 @@ export class CategoryDispatcher extends QueryDispatcher<CategoryQueryOptions, Ca
         super.__construct('Category');
     }
 
-    onSuccess(data: CategoryDispatcherData, dispatch: Dispatch, { isSearchPage }: CategoryQueryOptions): void {
-        const { category = {}, category: { id } } = data;
+    onSuccess(
+        data: CategoryDispatcherData,
+        dispatch: Dispatch,
+        { isSearchPage }: CategoryQueryOptions
+    ): void {
+        const {
+            category,
+            category: { id }
+        } = data;
 
         if (!id && !isSearchPage) {
             dispatch(updateNoMatch(true));
@@ -48,14 +55,16 @@ export class CategoryDispatcher extends QueryDispatcher<CategoryQueryOptions, Ca
             dispatch(updateNoMatch(true));
             dispatch(showNotification(NotificationType.ERROR, __('Error fetching Category!'), error));
         } else {
-            dispatch(updateCurrentCategory({ id: 'all-products' }));
+            dispatch(updateCurrentCategory({
+                id: 'all-products'
+            }));
         }
     }
 
     prepareRequest(
         options: CategoryQueryOptions
-    ): Query<'category', unknown, false> {
-        return CategoryQuery.getQuery(options) as Query<'category', unknown, false>;
+    ): Query<'category', Category, false> {
+        return CategoryQuery.getQuery(options);
     }
 }
 

@@ -12,8 +12,10 @@
 import { Dispatch } from 'redux';
 
 import CartQuery from 'Query/Cart.query';
-import { QuoteData } from 'Query/Cart.type';
+import { QuoteData, TotalsItem } from 'Query/Cart.type';
+import { ProductLink } from 'Query/ProductList.type';
 import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
+import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import {
@@ -245,9 +247,9 @@ export class CartDispatcher {
         }
     }
 
-    updateCrossSellProducts(items, dispatch: Dispatch): void {
+    updateCrossSellProducts(items: TotalsItem[], dispatch: Dispatch): void {
         if (items && items.length) {
-            const product_links = items.reduce((links, product) => {
+            const product_links = items.reduce((links: ProductLink[], product) => {
                 const { product: { product_links, variants = [] }, sku: variantSku } = product;
 
                 const {

@@ -15,8 +15,6 @@ import {
     Store
 } from 'redux';
 
-import { store } from 'Util/Store';
-
 /**
   * Extend this interface from reducers!
   *
@@ -33,13 +31,9 @@ import { store } from 'Util/Store';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface RootState {}
 
-export type AppDispatch = typeof store.dispatch;
-
 declare global {
-    export type InjectReducer<S> = (key: string, asyncReducer: Reducer<S, AnyAction>) => void;
-
-    export type ModifiedReduxStore<S> = (Store<S, AnyAction> & {
+    export type ModifiedReduxStore<S> = Store<S, AnyAction> & {
         asyncReducers?: ReducersMapObject;
-        injectReducer?: InjectReducer<S>;
-    });
+        injectReducer?: (key: string, reducer: Reducer) => void;
+    };
 }

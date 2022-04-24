@@ -24,7 +24,7 @@ export interface Breadcrumb {
 }
 
 export interface CategoryTree {
-    id: number;
+    id: number | string;
     url: string;
     name: string;
     image: string;

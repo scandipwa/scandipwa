@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Country } from 'Type/Config.type';
+import { Country } from 'Query/Region.type';
 
 /**
  * Transforms countries list into select options

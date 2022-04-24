@@ -121,7 +121,7 @@ export class CheckoutBilling extends PureComponent {
                   htmlFor="termsAndConditions"
                 >
                     <Field
-                      type={ FieldType.checkbox }
+                      type={ FieldType.CHECKBOX }
                       attr={ {
                           id: 'termsAndConditions',
                           name: 'termsAndConditions',
@@ -251,7 +251,7 @@ export class CheckoutBilling extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.checkbox }
+              type={ FieldType.CHECKBOX }
               attr={ {
                   id: 'sameAsShippingAddress',
                   name: 'sameAsShippingAddress',

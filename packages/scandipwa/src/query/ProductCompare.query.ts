@@ -172,7 +172,7 @@ export class ProductCompareQuery extends ProductListQuery {
     }
 
     _getComparableItemField(): Field<'items', ComparableItem, true> {
-        return new Field<'items', ComparableItem, true>('items')
+        return new Field<'items', ComparableItem, true>('items', true)
             .addFieldList(this._getComparableItemFields());
     }
 

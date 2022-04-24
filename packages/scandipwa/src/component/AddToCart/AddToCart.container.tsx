@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { ProductType } from 'Component/Product/Product.config';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { MixType, ReactElement } from 'Type/Common.type';
 import { LayoutType } from 'Type/Layout.type';
 import { ProductType } from 'Type/ProductList.type';

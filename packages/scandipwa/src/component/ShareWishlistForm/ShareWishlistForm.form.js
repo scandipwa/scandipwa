@@ -19,7 +19,7 @@ import { ValidationInputType } from 'Util/Validator/Config';
  */
 export const shareWishlistForm = () => [
     {
-        type: FieldType.email,
+        type: FieldType.EMAIL,
         label: __('Email addresses, separated by commas'),
         attr: {
             name: 'emails',
@@ -35,7 +35,7 @@ export const shareWishlistForm = () => [
     },
     {
         label: __('Message'),
-        type: FieldType.textarea,
+        type: FieldType.TEXTAREA,
         attr: {
             name: 'message',
             placeholder: __('Message'),

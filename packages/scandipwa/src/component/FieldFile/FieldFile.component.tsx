@@ -87,7 +87,7 @@ export class FieldFile extends PureComponent {
             <>
                 <input
                   ref={ (elem) => setRef(elem) }
-                  type={ FieldType.file }
+                  type={ FieldType.FILE }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
                   { ...attr }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction

@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import StoreItem from 'Component/StoreItem';
+import { Country, Region } from 'Query/Region.type';
+import { Store } from 'Query/StoreInPickUp.type';
 import { Address, TrimmedAddress } from 'Type/Account.type';
-import { Country, Region } from 'Type/Config.type';
 
 import { FormattedRegion, ZippopotamResponseResult } from './Address.type';
 
@@ -229,7 +229,7 @@ export const getRegionIdFromAvailableRegions = (
 };
 
 /** @namespace Util/Address/Index/checkIfStoreIncluded */
-export const checkIfStoreIncluded = (stores: StoreItem[], selectedStore: StoreItem): boolean => {
+export const checkIfStoreIncluded = (stores: Store[], selectedStore: Store): boolean => {
     const selectedStoreInString = JSON.stringify(selectedStore);
 
     return !!stores.find((store) => JSON.stringify(store) === selectedStoreInString);

@@ -11,17 +11,18 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import transformToNameValuePair from 'Util/Form/Transform';
@@ -52,7 +53,7 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (visibility) => dispatch(toggleBreadcrumbs(visibility)),
-    setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState)),
+    setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
     resetPassword(options) {
         MyAccountDispatcher.then(
             ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch)
@@ -106,14 +107,14 @@ export class PasswordChangePageContainer extends PureComponent {
             stateToBeUpdated.passwordResetStatus = passwordResetStatus;
 
             switch (passwordResetStatus) {
-                case STATUS_PASSWORD_UPDATED:
-                    showNotification(NotificationType.SUCCESS, __('Password has been successfully updated!'));
-                    break;
-                case STATUS_PASSWORD_MISS_MATCH:
-                    showNotification(NotificationType.INFO, __('Your password and confirmation password do not match.'));
-                    break;
-                default:
-                    showNotification(NotificationType.ERROR, passwordResetMessage);
+            case STATUS_PASSWORD_UPDATED:
+                showNotification(NotificationType.SUCCESS, __('Password has been successfully updated!'));
+                break;
+            case STATUS_PASSWORD_MISS_MATCH:
+                showNotification(NotificationType.INFO, __('Your password and confirmation password do not match.'));
+                break;
+            default:
+                showNotification(NotificationType.ERROR, passwordResetMessage);
             }
         }
 
@@ -135,7 +136,7 @@ export class PasswordChangePageContainer extends PureComponent {
         }
 
         setHeaderState({
-            name: CUSTOMER_SUB_ACCOUNT,
+            name: Page.CUSTOMER_SUB_ACCOUNT,
             title: __('Change My Password'),
             onBackClick: () => {
                 history.push({ pathname: appendWithStoreCode('/') });
@@ -202,8 +203,8 @@ export class PasswordChangePageContainer extends PureComponent {
 
         return (
             <PasswordChangePage
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

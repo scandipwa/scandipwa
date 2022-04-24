@@ -54,7 +54,7 @@ export class ProductConfigurableAttributeDropdown extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.select }
+              type={ FieldType.SELECT }
               attr={ {
                   id: selectName,
                   name: selectName,

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { GQLCustomerOrders } from 'Type/Graphql.type';
+import { CustomerOrders } from 'Query/Order.type';
 
 import {
     GetOrderListAction,
@@ -18,7 +18,7 @@ import {
 } from './Order.type';
 
 /** @namespace Store/Order/Action/getOrderList */
-export const getOrderList = (orderList: GQLCustomerOrders, status: boolean): GetOrderListAction => ({
+export const getOrderList = (orderList: CustomerOrders, status: boolean): GetOrderListAction => ({
     type: OrderActionType.GET_ORDER_LIST,
     orderList,
     status

@@ -13,9 +13,13 @@ import { Query } from '@tilework/opus';
 import { Dispatch } from 'redux';
 
 import CartQuery from 'Query/Cart.query';
+import { CartDisplayConfig } from 'Query/Cart.type';
 import ConfigQuery from 'Query/Config.query';
+import { CheckoutAgreement, CurrencyConfig, StoreConfig } from 'Query/Config.type';
 import RegionQuery from 'Query/Region.query';
+import { Country } from 'Query/Region.type';
 import ReviewQuery from 'Query/Review.query';
+import { ReviewRatingItem } from 'Query/Review.type';
 import { updateConfig } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -39,7 +43,7 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
             await fetchMutation(ConfigQuery.getSaveSelectedCurrencyMutation(currencyCode));
             setCurrency(currencyCode);
         } catch (e) {
-            dispatch(updateConfig({} as ConfigStore));
+            dispatch(updateConfig({}));
         }
     }
 
@@ -54,7 +58,14 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
         dispatch(showNotification(NotificationType.ERROR, __('Error fetching Config!'), error));
     }
 
-    prepareRequest(): Query<string, unknown, boolean>[] {
+    prepareRequest(): Array<
+    Query<'countries', Country, true>
+    | Query<'reviewRatings', { items: ReviewRatingItem[] }>
+    | Query<'storeConfig', StoreConfig>
+    | Query<'checkoutAgreements', CheckoutAgreement, true>
+    | Query<'currencyData', CurrencyConfig>
+    | Query<'cartDisplayConfig', CartDisplayConfig>
+    > {
         return [
             RegionQuery.getCountriesQuery(),
             ReviewQuery.getRatingQuery(),
@@ -62,7 +73,7 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
             ConfigQuery.getCheckoutAgreements(),
             ConfigQuery.getCurrencyData(),
             CartQuery.getCartDisplayConfig()
-        ] as Query<string, unknown, boolean>[];
+        ];
     }
 }
 

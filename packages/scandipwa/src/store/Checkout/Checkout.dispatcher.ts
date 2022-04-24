@@ -40,8 +40,8 @@ export class CheckoutDispatcher extends QueryDispatcher<string, CheckoutDispatch
         return error;
     }
 
-    prepareRequest(email: string): Query<'isEmailAvailable', unknown, false> {
-        return CheckEmailQuery.getIsEmailAvailableQuery(email) as Query<'isEmailAvailable', unknown, false>;
+    prepareRequest(email: string): Query<'isEmailAvailable', { is_email_available: boolean }> {
+        return CheckEmailQuery.getIsEmailAvailableQuery(email);
     }
 }
 

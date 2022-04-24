@@ -20,13 +20,13 @@ import {
     PriceTaxDisplay,
     StoreConfig,
     StoreConfigFields,
-    StoreList
+    StoreItem
 } from './Config.type';
 
 /** @namespace Query/Config/Query */
 export class ConfigQuery {
-    getStoreListField(): Query<'storeList', StoreList, true> {
-        return new Query<'storeList', StoreList, true>('storeList', true)
+    getStoreListField(): Query<'storeList', StoreItem, true> {
+        return new Query<'storeList', StoreItem, true>('storeList', true)
             .addFieldList(this._getStoreListFields());
     }
 
@@ -38,7 +38,7 @@ export class ConfigQuery {
     getCurrencyField(): Field<'available_currencies_data', Currency, true> {
         return new Field<'available_currencies_data', Currency, true>('available_currencies_data', true)
             .addFieldList([
-                new Field<'id', number>('id'),
+                new Field<'id', string>('id'),
                 new Field<'label', string>('label'),
                 new Field<'value', string>('value')
             ]);
@@ -116,8 +116,8 @@ export class ConfigQuery {
         ];
     }
 
-    getQuery(): Field<'storeConfig', StoreConfig> {
-        return new Field<'storeConfig', StoreConfig>('storeConfig')
+    getQuery(): Query<'storeConfig', StoreConfig> {
+        return new Query<'storeConfig', StoreConfig>('storeConfig')
             .addFieldList(this._getStoreConfigFields());
     }
 

@@ -25,7 +25,7 @@ export const getStreetFields = (props) => {
 
     if (addressLinesQty === 1) {
         return [ {
-            type: FieldType.text,
+            type: FieldType.TEXT,
             label: __('Street address'),
             attr: {
                 name: 'street',
@@ -45,7 +45,7 @@ export const getStreetFields = (props) => {
     // eslint-disable-next-line fp/no-loops, fp/no-let
     for (let i = 0; i < addressLinesQty; i++) {
         streets.push({
-            type: FieldType.text,
+            type: FieldType.TEXT,
             label: __('Street address line %s', i + 1),
             attr: {
                 name: `street_${i}`,
@@ -88,7 +88,7 @@ export const getRegionFields = (props, events) => {
     if (!availableRegions || !availableRegions.length) {
         return [
             {
-                type: FieldType.text,
+                type: FieldType.TEXT,
                 label: __('State / Province'),
                 attr: {
                     id: 'address-region-id',
@@ -110,7 +110,7 @@ export const getRegionFields = (props, events) => {
 
     return [
         {
-            type: FieldType.select,
+            type: FieldType.SELECT,
             label: __('State / Province'),
             attr: {
                 name: 'region_id',
@@ -144,7 +144,7 @@ export const getVatFields = (props) => {
 
     return [
         {
-            type: FieldType.text,
+            type: FieldType.TEXT,
             label: __('VAT Number'),
             attr: {
                 placeholder: __('Your VAT number'),
@@ -188,7 +188,7 @@ export const myAccountAddressForm = (props, events = {}) => {
 
     return [
         {
-            type: FieldType.checkbox,
+            type: FieldType.CHECKBOX,
             label: __('This is default Billing Address'),
             attr: {
                 name: 'default_billing',
@@ -196,7 +196,7 @@ export const myAccountAddressForm = (props, events = {}) => {
             }
         },
         {
-            type: FieldType.checkbox,
+            type: FieldType.CHECKBOX,
             label: __('This is default Shipping Address'),
             attr: {
                 name: 'default_shipping',
@@ -204,7 +204,7 @@ export const myAccountAddressForm = (props, events = {}) => {
             }
         },
         {
-            type: FieldType.text,
+            type: FieldType.TEXT,
             label: __('First name'),
             attr: {
                 name: 'firstname',
@@ -218,7 +218,7 @@ export const myAccountAddressForm = (props, events = {}) => {
             }
         },
         {
-            type: FieldType.text,
+            type: FieldType.TEXT,
             label: __('Last name'),
             attr: {
                 name: 'lastname',
@@ -245,7 +245,7 @@ export const myAccountAddressForm = (props, events = {}) => {
             mods: { address: true },
             fields: [
                 {
-                    type: FieldType.select,
+                    type: FieldType.SELECT,
                     label: __('Country'),
                     attr: {
                         id: 'address-country-id',
@@ -265,7 +265,7 @@ export const myAccountAddressForm = (props, events = {}) => {
                 },
                 ...getRegionFields(props, events),
                 {
-                    type: FieldType.text,
+                    type: FieldType.TEXT,
                     label: __('Zip / Postal code'),
                     attr: {
                         name: 'postcode',
@@ -282,7 +282,7 @@ export const myAccountAddressForm = (props, events = {}) => {
                     }
                 },
                 {
-                    type: FieldType.text,
+                    type: FieldType.TEXT,
                     label: __('City'),
                     attr: {
                         name: 'city',
@@ -302,7 +302,7 @@ export const myAccountAddressForm = (props, events = {}) => {
         },
         ...getVatFields(props),
         {
-            type: FieldType.text,
+            type: FieldType.TEXT,
             label: __('Phone number'),
             attr: {
                 name: 'telephone',

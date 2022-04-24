@@ -8,7 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { AnyAction, Reducer } from 'redux';
+import { Reducer } from 'redux';
 
 import CartReducer from 'Store/Cart/Cart.reducer';
 import CheckoutReducer from 'Store/Checkout/Checkout.reducer';
@@ -28,28 +28,27 @@ import StoreInPickUpReducer from 'Store/StoreInPickUp/StoreInPickUp.reducer';
 import UrlRewritesReducer from 'Store/UrlRewrites/UrlRewrites.reducer';
 import WishlistReducer from 'Store/Wishlist/Wishlist.reducer';
 
-export type StaticReducers = {
-    // ProductListReducer: ReturnType<typeof ProductListReducer>;
-    // ProductListInfoReducer: ReturnType<typeof ProductListInfoReducer>;
-    CartReducer: ReturnType<typeof CartReducer>;
-    WishlistReducer: ReturnType<typeof WishlistReducer>;
-    NoMatchReducer: ReturnType<typeof NoMatchReducer>;
-    MyAccountReducer: ReturnType<typeof MyAccountReducer>;
-    NavigationReducer: ReturnType<typeof NavigationReducer>;
-    OverlayReducer: ReturnType<typeof OverlayReducer>;
-    OfflineReducer: ReturnType<typeof OfflineReducer>;
-    PopupReducer: ReturnType<typeof PopupReducer>;
-    UrlRewritesReducer: ReturnType<typeof UrlRewritesReducer>;
-    ConfigReducer: ReturnType<typeof ConfigReducer>;
-    MetaReducer: ReturnType<typeof MetaReducer>;
-    CheckoutReducer: ReturnType<typeof CheckoutReducer>;
-    ContactFormReducer: ReturnType<typeof ContactFormReducer>;
-    ProductCompareReducer: ReturnType<typeof ProductCompareReducer>;
-    StoreInPickUpReducer: ReturnType<typeof StoreInPickUpReducer>;
-};
+export type StaticReducerKeys =
+| 'ProductListReducer'
+| 'ProductListInfoReducer'
+| 'CartReducer'
+| 'WishlistReducer'
+| 'NoMatchReducer'
+| 'MyAccountReducer'
+| 'NavigationReducer'
+| 'OverlayReducer'
+| 'OfflineReducer'
+| 'PopupReducer'
+| 'UrlRewritesReducer'
+| 'ConfigReducer'
+| 'MetaReducer'
+| 'CheckoutReducer'
+| 'ContactFormReducer'
+| 'ProductCompareReducer'
+| 'StoreInPickUpReducer';
 
 /** @namespace Store/Index/getStaticReducers */
-export const getStaticReducers = (): StaticReducers => ({
+export const getStaticReducers = (): Record<StaticReducerKeys, Reducer> => ({
     ProductListReducer,
     ProductListInfoReducer,
     CartReducer,
@@ -67,14 +66,12 @@ export const getStaticReducers = (): StaticReducers => ({
     ContactFormReducer,
     ProductCompareReducer,
     StoreInPickUpReducer
-} as unknown as StaticReducers);
-
-export type StaticReducersType = ReturnType<typeof getStaticReducers>;
+} as Record<StaticReducerKeys, Reducer>);
 
 export default function injectStaticReducers<
     S,
     T extends ModifiedReduxStore<S>
->(store: T): T & StaticReducersType {
+>(store: T): T {
     // eslint-disable-next-line no-param-reassign
     // store.asyncReducers = {};
 
@@ -82,10 +79,10 @@ export default function injectStaticReducers<
     Object.entries(getStaticReducers()).forEach(
         ([name, reducer]) => {
             if (store.injectReducer) {
-                store.injectReducer(name, reducer as Reducer<S, AnyAction>);
+                store.injectReducer(name, reducer);
             }
         }
     );
 
-    return store as T & StaticReducersType;
+    return store;
 }

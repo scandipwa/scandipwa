@@ -70,7 +70,7 @@ export class ProductDownloadableLinks extends PureComponent {
 
         return (
             <FieldContainer
-              type={ FieldType.checkbox }
+              type={ FieldType.CHECKBOX }
               attr={ {
                   id: `link-${ uid }`,
                   value: uid,

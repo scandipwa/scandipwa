@@ -146,11 +146,11 @@ export class FormContainer extends PureComponent {
         const fields = getFieldsData(
             this.formRef,
             false,
-            [ FieldType.number, FieldType.button ],
+            [FieldType.NUMBER, FieldType.BUTTON],
             returnAsObject
         );
 
-        hook(...[ ...args, { ...attr, formRef: this.formRef, fields } ]);
+        hook(...[...args, { ...attr, formRef: this.formRef, fields }]);
     }
     //#endregion
 
@@ -165,7 +165,7 @@ export class FormContainer extends PureComponent {
         } = this.props;
 
         const fields = getFieldsData(
-            this.formRef, false, [ FieldType.number, FieldType.button ], returnAsObject
+            this.formRef, false, [FieldType.NUMBER, FieldType.BUTTON], returnAsObject
         );
         const isValid = validateGroup(this.formRef, validationRule);
 
@@ -226,8 +226,8 @@ export class FormContainer extends PureComponent {
     render(): ReactElement {
         return (
             <Form
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

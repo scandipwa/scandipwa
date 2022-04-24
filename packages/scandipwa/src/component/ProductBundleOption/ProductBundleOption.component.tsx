@@ -50,10 +50,10 @@ export class ProductBundleOption extends PureComponent {
     };
 
     renderMap = {
-        [FieldType.checkbox]: this.renderCheckBoxValues.bind(this),
-        [FieldType.multi]: this.renderCheckBoxValues.bind(this),
-        [FieldType.radio]: this.renderRadioValues.bind(this),
-        [FieldType.select]: this.renderSelectValue.bind(this)
+        [FieldType.CHECKBOX]: this.renderCheckBoxValues.bind(this),
+        [FieldType.MULTI]: this.renderCheckBoxValues.bind(this),
+        [FieldType.RADIO]: this.renderRadioValues.bind(this),
+        [FieldType.SELECT]: this.renderSelectValue.bind(this)
     };
 
     componentDidMount(): void {
@@ -101,7 +101,7 @@ export class ProductBundleOption extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.number }
+              type={ FieldType.NUMBER }
               attr={ {
                   id: `item_qty_${uid}`,
                   name: `item_qty_${uid}`,
@@ -148,7 +148,7 @@ export class ProductBundleOption extends PureComponent {
         return (
             <div block="ProductBundleItem" elem="Checkbox" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
                 <Field
-                  type={ FieldType.checkbox }
+                  type={ FieldType.CHECKBOX }
                   label={ label }
                   attr={ {
                       id: `option-${ uid }`,
@@ -208,7 +208,7 @@ export class ProductBundleOption extends PureComponent {
         return (
             <div block="ProductBundleItem" elem="Radio" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
                 <Field
-                  type={ FieldType.radio }
+                  type={ FieldType.RADIO }
                   label={ label }
                   attr={ {
                       id: `option-${ uid }`,
@@ -284,7 +284,7 @@ export class ProductBundleOption extends PureComponent {
         return (
             <div block="ProductBundleItem" elem="DropdownWrapper" mods={ { customQuantity: canChangeQuantity } }>
                 <Field
-                  type={ FieldType.select }
+                  type={ FieldType.SELECT }
                   attr={ {
                       id: `bundle-options-dropdown-${ uid }`,
                       name: `bundle-options-dropdown-${ uid }`,

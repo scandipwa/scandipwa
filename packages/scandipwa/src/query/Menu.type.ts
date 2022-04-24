@@ -13,7 +13,7 @@ export interface MenuItem {
     url: string;
     icon: string;
     title: string;
-    item_id: number;
+    item_id: string;
     position: number;
     url_type: number;
     parent_id: number;

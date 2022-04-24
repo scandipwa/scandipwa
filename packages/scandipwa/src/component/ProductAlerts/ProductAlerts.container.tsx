@@ -11,11 +11,12 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import ProductAlertsQuery from 'Query/ProductAlerts.query';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 import { StockStatusType } from 'Type/StockStatus.type';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 
@@ -101,8 +102,8 @@ export class ProductAlertsContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductAlerts
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

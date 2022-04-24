@@ -10,21 +10,24 @@
  */
 import { Field, Query } from '@tilework/opus';
 
-import { GQLEntityUrl, GQLUrlRewriteEntityTypeEnum } from 'Type/Graphql.type';
+import { GQLUrlRewriteEntityTypeEnum } from 'Type/Graphql.type';
+
+import {
+    EntityUrl,
+    UrlRewritesOutput,
+    UrlRewritesQueryOptions
+} from './UrlRewrites.type';
 
 /**
  * UrlRewrites Query
  * @class UrlRewritesQuery
  * @namespace Query/UrlRewrites/Query */
 export class UrlRewritesQuery {
-    getQuery({ urlParam }: { urlParam: string }): Query<'urlResolver', {
+    getQuery({ urlParam }: UrlRewritesQueryOptions): Query<'urlResolver', {
         sku: string;
-        type: GQLEntityUrl;
+        type: EntityUrl;
     }> {
-        return new Query<'urlResolver', {
-            sku: string;
-            type: GQLEntityUrl;
-        }>('urlResolver')
+        return new Query<'urlResolver', UrlRewritesOutput>('urlResolver')
             .addArgument('url', 'String!', urlParam)
             .addFieldList(this._getUrlResolverFields());
     }

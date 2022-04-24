@@ -10,12 +10,12 @@
  */
 import { Dispatch } from 'redux';
 
+import { CategoryTree } from 'Query/Category.type';
+import { BaseProductItem } from 'Query/ProductList.type';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { appendWithStoreCode } from 'Util/Url';
 
-import {
-    Category, CategoryMeta, Product, ProductMeta
-} from './Meta.type';
+import { PageMeta } from './Meta.type';
 
 /**
  * Meta Dispatcher
@@ -28,7 +28,7 @@ export class MetaDispatcher {
      * @param {Function} dispatch
      * @memberof MetaDispatcher
      */
-    updateWithCategory(category: Category, dispatch: Dispatch): void {
+    updateWithCategory(category: Partial<CategoryTree>, dispatch: Dispatch): void {
         const meta = this._getCategoryMeta(category);
         dispatch(updateMeta(meta));
     }
@@ -39,7 +39,7 @@ export class MetaDispatcher {
      * @param {Function} dispatch
      * @memberof MetaDispatcher
      */
-    updateWithProduct(product: Product, dispatch: Dispatch): void {
+    updateWithProduct(product: Partial<BaseProductItem>, dispatch: Dispatch): void {
         const meta = this._getProductMeta(product);
         dispatch(updateMeta(meta));
     }
@@ -50,12 +50,12 @@ export class MetaDispatcher {
      * @return {Object} Meta object
      * @memberof MetaDispatcher
      */
-    _getProductMeta(product: Product): ProductMeta {
+    _getProductMeta(product: Partial<BaseProductItem>): Partial<PageMeta> {
         const {
             name,
             meta_title,
             meta_keyword,
-            canonical_url,
+            canonical_url = '',
             meta_description
         } = product;
 
@@ -73,16 +73,16 @@ export class MetaDispatcher {
      * @return {Object} Meta object
      * @memberof MetaDispatcher
      */
-    _getCategoryMeta(category: Category): CategoryMeta {
+    _getCategoryMeta(category: Partial<CategoryTree>): Partial<PageMeta> {
         const {
             description,
             name,
-            canonical_url,
+            canonical_url = '',
             meta_title,
             meta_keywords,
-            meta_description,
-            meta_robots = 'follow, index'
+            meta_description
         } = category;
+        const meta_robots = 'follow, index';
 
         return {
             description: meta_description || description,

@@ -36,7 +36,7 @@ export class PurchaseOrder extends PureComponent {
               } }
             >
                 <Field
-                  type={ FieldType.text }
+                  type={ FieldType.TEXT }
                   attr={ {
                       id: 'purchaseOrderNumber',
                       name: 'purchaseOrderNumber',

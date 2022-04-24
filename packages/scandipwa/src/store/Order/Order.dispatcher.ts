@@ -12,11 +12,10 @@
 import { Dispatch } from 'redux';
 
 import OrderQuery from 'Query/Order.query';
-import { OrdersOptions } from 'Query/Query.type';
+import { OrderItem, ReorderOutput } from 'Query/Order.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
-import { GQLCheckoutUserInputError, GQLCustomerOrder, GQLReorderItemsOutput } from 'Type/Graphql.type';
 import { getAuthorizationToken } from 'Util/Auth';
 import history from 'Util/History';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
@@ -30,7 +29,7 @@ export const CartDispatcher = import(
 /** @namespace Store/Order/Dispatcher */
 export class OrderDispatcher {
     requestOrders(dispatch: Dispatch, page = 1): Promise<void> {
-        const query = OrderQuery.getOrderListQuery({ page } as OrdersOptions);
+        const query = OrderQuery.getOrderListQuery({ page });
         dispatch(setLoadingStatus(true));
 
         return fetchQuery(query).then(
@@ -68,9 +67,7 @@ export class OrderDispatcher {
     handleReorderMutation(
         dispatch: Dispatch,
         incrementId: string
-    ): Promise<Record<'reorderItems', GQLReorderItemsOutput & {
-            userInputErrors: GQLCheckoutUserInputError[];
-        }>> | null {
+    ): Promise<Record<'reorderItems', ReorderOutput>> | null {
         try {
             return fetchMutation(OrderQuery.getReorder(incrementId));
         } catch (error) {
@@ -79,7 +76,7 @@ export class OrderDispatcher {
         }
     }
 
-    async getOrderById(dispatch: Dispatch, orderId: number): Promise<GQLCustomerOrder | null> {
+    async getOrderById(dispatch: Dispatch, orderId: number): Promise<OrderItem | null> {
         try {
             const {
                 customer: {
@@ -87,7 +84,7 @@ export class OrderDispatcher {
                         items
                     }
                 }
-            } = await fetchQuery(OrderQuery.getOrderListQuery({ orderId } as OrdersOptions));
+            } = await fetchQuery(OrderQuery.getOrderListQuery({ orderId }));
 
             return items[0];
         } catch (error) {

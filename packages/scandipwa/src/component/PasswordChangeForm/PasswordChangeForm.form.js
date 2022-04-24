@@ -20,7 +20,7 @@ import { ValidationInputType } from 'Util/Validator/Config';
  * @namespace Component/PasswordChangeForm/Form/customerEmailAndPasswordFields */
 export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) => [
     {
-        type: FieldType.password,
+        type: FieldType.PASSWORD,
         label: __('New password'),
         attr: {
             id: 'password',
@@ -37,7 +37,7 @@ export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) 
         addRequiredTag: true
     },
     {
-        type: FieldType.password,
+        type: FieldType.PASSWORD,
         label: __('Confirm password'),
         attr: {
             id: 'password_confirmation',

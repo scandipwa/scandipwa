@@ -10,7 +10,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { MetaActionType, PageMeta, UpdateMetaAction } from './Meta.type';
+import {
+    MetaActionType,
+    PageMeta,
+    UpdateMetaAction
+} from './Meta.type';
 
 /** @namespace Store/Meta/Action/updateMeta */
 export const updateMeta = (metadata: Partial<PageMeta>): UpdateMetaAction => ({

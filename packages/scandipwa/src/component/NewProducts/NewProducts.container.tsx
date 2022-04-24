@@ -11,11 +11,12 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import ProductListQuery from 'Query/ProductList.query';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 import { getIndexedProducts } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
 import { executeGet } from 'Util/Request';
@@ -162,7 +163,7 @@ export class NewProductsContainer extends PureComponent {
             }
         };
 
-        const query = [ ProductListQuery.getQuery(options) ];
+        const query = [ProductListQuery.getQuery(options)];
         executeGet(prepareQuery(query), 'NewProducts', cacheLifetime)
             .then(
                 /** @namespace Component/NewProducts/Container/NewProductsContainer/requestProducts/then/catch/executeGet/then */
@@ -177,7 +178,7 @@ export class NewProductsContainer extends PureComponent {
     render(): ReactElement {
         return (
             <NewProducts
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

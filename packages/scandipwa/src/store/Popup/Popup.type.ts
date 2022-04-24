@@ -10,7 +10,10 @@
  */
 import { AnyAction } from 'redux';
 
-import { HideActiveOverlayAction, HideActivePopupAction } from 'Store/Overlay/Overlay.type';
+import {
+    HideActiveOverlayAction,
+    HideActivePopupAction
+} from 'Store/Overlay/Overlay.type';
 
 export enum PopupActionType {
     SHOW_POPUP = 'SHOW_POPUP'

@@ -8,39 +8,40 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
-
 import CmsBlockQuery from 'Query/CmsBlock.query';
+import { CmsBlockQueryOutput } from 'Query/CmsBlock.type';
+import { ReactElement } from 'Type/Common.type';
 import DataContainer from 'Util/Request/DataContainer';
 
 import CmsBlock from './CmsBlock.component';
+import { CmsBlockComponentProps, CmsBlockContainerProps, CmsBlockContainerState } from './CmsBlock.type';
 
 /** @namespace Component/CmsBlock/Container */
-export class CmsBlockContainer extends DataContainer {
-    static propTypes = {
-        identifier: PropTypes.string.isRequired
+export class CmsBlockContainer extends DataContainer<CmsBlockContainerProps, CmsBlockContainerState> {
+    static defaultProps = {
+        blockType: ''
     };
 
-    state = {
+    state: CmsBlockContainerState = {
         cmsBlock: {}
     };
 
-    __construct(props) {
+    __construct(props: CmsBlockContainerProps): void {
         super.__construct(props, 'CmsBlockContainer');
     }
 
-    containerProps() {
-        const { blockType } = this.props;
+    containerProps(): CmsBlockComponentProps {
+        const { blockType, children } = this.props;
         const { cmsBlock } = this.state;
 
-        return { cmsBlock, blockType };
+        return { cmsBlock, blockType, children };
     }
 
     componentDidMount(): void {
         this._getCmsBlock();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: CmsBlockContainerProps): void {
         const { identifier } = this.props;
         const { identifier: prevIdentifier } = prevProps;
 
@@ -49,17 +50,17 @@ export class CmsBlockContainer extends DataContainer {
         }
     }
 
-    _getCmsBlock() {
+    _getCmsBlock(): void {
         const { identifier } = this.props;
 
-        this.fetchData(
-            [ CmsBlockQuery.getQuery({ identifiers: [ identifier ] }) ],
+        this.fetchData<CmsBlockQueryOutput>(
+            [CmsBlockQuery.getQuery({ identifiers: [identifier] })],
             ({ cmsBlocks: { items } }) => {
                 if (!items.length) {
                     return;
                 }
 
-                this.setState({ cmsBlock: items[ 0 ] });
+                this.setState({ cmsBlock: items[0] });
             }
         );
     }
@@ -67,7 +68,7 @@ export class CmsBlockContainer extends DataContainer {
     render(): ReactElement {
         return (
             <CmsBlock
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

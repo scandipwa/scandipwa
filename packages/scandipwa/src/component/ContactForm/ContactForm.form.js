@@ -18,7 +18,7 @@ import { ValidationInputType } from 'Util/Validator/Config';
  */
 export const contactForm = () => [
     {
-        type: FieldType.text,
+        type: FieldType.TEXT,
         label: __('Name'),
         attr: {
             name: 'name',
@@ -31,7 +31,7 @@ export const contactForm = () => [
         }
     },
     {
-        type: FieldType.email,
+        type: FieldType.EMAIL,
         label: __('Email'),
         attr: {
             name: 'email',
@@ -45,7 +45,7 @@ export const contactForm = () => [
         }
     },
     {
-        type: FieldType.text,
+        type: FieldType.TEXT,
         label: __('Phone number'),
         attr: {
             name: 'telephone',
@@ -57,7 +57,7 @@ export const contactForm = () => [
         }
     },
     {
-        type: FieldType.textarea,
+        type: FieldType.TEXTAREA,
         label: __('What\'s on your mind?'),
         attr: {
             name: 'message',

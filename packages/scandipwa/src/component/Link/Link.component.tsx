@@ -26,7 +26,8 @@ export class Link extends PureComponent<LinkComponentProps> {
         bemProps: {},
         className: '',
         onClick: noopFn,
-        isOpenInNewTab: false
+        isOpenInNewTab: false,
+        id: ''
     };
 
     scrollToElement(e: MouseEvent): void {

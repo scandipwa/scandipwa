@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { FIELD_RADIO_NONE, FieldType } from 'Component/Field/Field.config';
 import { ProductType } from 'Component/Product/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { RefType } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';
 import { ProductType } from 'Type/ProductList.type';
@@ -292,16 +293,16 @@ export class ProductContainer extends PureComponent {
             });
         }
 
-        const values = getFieldsData(current, true, [FieldType.number]);
+        const values = getFieldsData(current, true, [FieldType.NUMBER]);
 
         values.forEach(({ name, value, type }) => {
-            if (type === FieldType.select) {
+            if (type === FieldType.SELECT) {
                 selectedOptions.push(value);
-            } else if (type === FieldType.checkbox || type === FieldType.radio) {
+            } else if (type === FieldType.CHECKBOX || type === FieldType.RADIO) {
                 if (value !== FIELD_RADIO_NONE) {
                     selectedOptions.push(value);
                 }
-            } else if (type !== FieldType.number) {
+            } else if (type !== FieldType.NUMBER) {
                 enteredOptions.push({
                     uid: name,
                     value

@@ -10,13 +10,8 @@
  */
 import { AnyAction } from 'redux';
 
-import { Product } from 'Type/ProductList.type';
-
-export type SearchBarResult = {
-    products: {
-        items: Product[];
-    };
-};
+import { ProductItem, ProductsQueryOutput } from 'Query/ProductList.type';
+import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum SearchBarActionType {
     UPDATE_SEARCH_BAR = 'UPDATE_SEARCH_BAR',
@@ -24,27 +19,26 @@ export enum SearchBarActionType {
     CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS'
 }
 
-export interface UpdateSearchBar extends AnyAction {
+export interface UpdateSearchBarAction extends AnyAction {
     type: SearchBarActionType.UPDATE_SEARCH_BAR;
-    result: SearchBarResult;
+    result: SearchBarDispatcherData;
 }
 
-export interface UpdateLoadStatus extends AnyAction {
+export interface UpdateLoadStatusAction extends AnyAction {
     type: SearchBarActionType.UPDATE_SEARCH_LOAD_STATUS;
     isLoading: boolean;
 }
 
-export interface ClearSearchResults extends AnyAction {
+export interface ClearSearchResultsAction extends AnyAction {
     type: SearchBarActionType.CLEAR_SEARCH_RESULTS;
 }
 
-export type SearchBarAction = UpdateSearchBar
-| UpdateLoadStatus
-| ClearSearchResults;
+export type SearchBarAction = UpdateSearchBarAction
+| UpdateLoadStatusAction
+| ClearSearchResultsAction;
 
-// TODO Check util return for indexed products and set correct type
 export type SearchBarStore = {
-    productsInSearch: unknown[];
+    productsInSearch: IndexedProduct<Partial<ProductItem>>[];
     isLoading: boolean;
 };
 
@@ -53,3 +47,7 @@ declare module 'Util/Store/Store.type' {
         SearchBarReducer: SearchBarStore;
     }
 }
+
+export type SearchBarDispatcherData = {
+    products: ProductsQueryOutput;
+};

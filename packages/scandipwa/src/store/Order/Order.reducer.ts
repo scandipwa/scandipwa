@@ -11,19 +11,17 @@
 
 import { Reducer } from 'redux';
 
-import { GQLCustomerOrder } from 'Type/Graphql.type';
 import { formatOrders } from 'Util/Orders';
 
 import {
     OrderAction,
     OrderActionType,
-    OrderList,
     OrderStore
 } from './Order.type';
 
 /** @namespace Store/Order/Reducer/getInitialState */
 export const getInitialState = (): OrderStore => ({
-    orderList: {} as OrderList,
+    orderList: {},
     isLoading: true
 });
 
@@ -41,13 +39,13 @@ export const OrderReducer: Reducer<OrderStore, OrderAction> = (
             status
         } = action;
         const { items = [], page_info } = orderList;
-        const formattedOrders = formatOrders(items as GQLCustomerOrder[]);
+        const formattedOrders = formatOrders(items);
 
         return {
             ...state,
             isLoading: status,
             orderList: { items: formattedOrders, pageInfo: page_info }
-        } as OrderStore;
+        };
     }
 
     case OrderActionType.SET_ORDER_LOADING_STATUS: {

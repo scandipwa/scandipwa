@@ -15,11 +15,11 @@ import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_WISHLIST } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { updateIsLocked } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import OrderReducer from 'Store/Order/Order.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
@@ -41,6 +41,7 @@ import { appendWithStoreCode, replace } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
 import { ACCOUNT_LOGIN_URL, AccountPageUrl.ACCOUNT_URL, LOCKED_ACCOUNT_ERROR_MESSAGE } from './MyAccount.config';
+import { NotificationType } from 'Store/Notification/Notification.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -67,7 +68,7 @@ export const mapDispatchToProps = (dispatch) => ({
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
     ),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     requestCustomerData: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     ),
@@ -227,7 +228,7 @@ export class MyAccountContainer extends PureComponent {
         };
 
         if (!isSignedIn()) {
-            toggleOverlayByKey(CUSTOMER_ACCOUNT);
+            toggleOverlayByKey(Page.CUSTOMER_ACCOUNT);
         }
 
         updateMeta({ title: __('My account') });
@@ -402,7 +403,7 @@ export class MyAccountContainer extends PureComponent {
     onSignOut() {
         const { toggleOverlayByKey } = this.props;
         this.setState({ activeTab: MY_ACCOUNT });
-        toggleOverlayByKey(CUSTOMER_ACCOUNT);
+        toggleOverlayByKey(Page.CUSTOMER_ACCOUNT);
         history.replace(appendWithStoreCode('/'));
     }
 
@@ -425,7 +426,7 @@ export class MyAccountContainer extends PureComponent {
 
         changeHeaderState({
             title: isActiveTabWishList ? this.getMyWishlistHeaderTitle() : __('My account'),
-            name: isActiveTabWishList ? CUSTOMER_WISHLIST : CUSTOMER_ACCOUNT_PAGE,
+            name: isActiveTabWishList ? Page.CUSTOMER_WISHLIST : Page.CUSTOMER_ACCOUNT_PAGE,
             onBackClick: () => {
                 history.push(appendWithStoreCode('/'));
             }

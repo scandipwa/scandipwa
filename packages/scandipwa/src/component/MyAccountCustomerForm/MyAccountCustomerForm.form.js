@@ -33,7 +33,7 @@ export const customerInformationFields = (props) => {
 
     return [
         {
-            type: FieldType.text,
+            type: FieldType.TEXT,
             label: __('First Name'),
             attr: {
                 name: 'firstname',
@@ -47,7 +47,7 @@ export const customerInformationFields = (props) => {
             }
         },
         {
-            type: FieldType.text,
+            type: FieldType.TEXT,
             label: __('Last Name'),
             attr: {
                 name: 'lastname',
@@ -62,7 +62,7 @@ export const customerInformationFields = (props) => {
         },
         ...(showTaxVatNumber ? [
             {
-                type: FieldType.text,
+                type: FieldType.TEXT,
                 label: __('Tax/VAT Number'),
                 attr: {
                     name: 'taxvat',
@@ -77,7 +77,7 @@ export const customerInformationFields = (props) => {
             }
         ] : []),
         {
-            type: FieldType.checkbox,
+            type: FieldType.CHECKBOX,
             attr: {
                 name: 'showEmailChangeField',
                 defaultChecked: showEmailChangeField
@@ -88,7 +88,7 @@ export const customerInformationFields = (props) => {
             label: __('Change Email')
         },
         {
-            type: FieldType.checkbox,
+            type: FieldType.CHECKBOX,
             attr: {
                 name: 'showPasswordChangeField',
                 defaultChecked: showPasswordChangeField
@@ -121,7 +121,7 @@ export const customerEmailAndPasswordFields = (props) => {
     return [
         ...(showEmailChangeField ? [
             {
-                type: FieldType.email,
+                type: FieldType.EMAIL,
                 label: __('Email'),
                 attr: {
                     name: 'email',
@@ -143,7 +143,7 @@ export const customerEmailAndPasswordFields = (props) => {
         ...(showPasswordChangeField || showEmailChangeField ? [
             {
                 label: __('Current password'),
-                type: FieldType.password,
+                type: FieldType.PASSWORD,
                 attr: {
                     id: 'currentPassword',
                     name: 'password',
@@ -165,7 +165,7 @@ export const customerEmailAndPasswordFields = (props) => {
         ...(showPasswordChangeField ? [
             {
                 label: __('New password'),
-                type: FieldType.password,
+                type: FieldType.PASSWORD,
                 attr: {
                     id: 'newPassword',
                     name: 'newPassword',
@@ -189,7 +189,7 @@ export const customerEmailAndPasswordFields = (props) => {
                 }
             },
             {
-                type: FieldType.password,
+                type: FieldType.PASSWORD,
                 label: __('Confirm New Password '),
                 attr: {
                     name: 'confirmNewPassword',

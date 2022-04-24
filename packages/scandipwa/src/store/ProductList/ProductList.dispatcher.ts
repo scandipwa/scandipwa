@@ -9,9 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Query } from '@tilework/opus';
+import { Dispatch } from 'redux';
+
 import ProductListQuery from 'Query/ProductList.query';
+import { ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import {
     appendPage,
     updateLoadStatus,
@@ -20,28 +25,41 @@ import {
 } from 'Store/ProductList/ProductList.action';
 import { QueryDispatcher } from 'Util/Request';
 
+import {
+    AppendPageAction,
+    ProductListDispatcherData,
+    UpdateProductListItemsAction
+} from './ProductList.type';
+
 /**
  * Product List Dispatcher
  * @class ProductListDispatcher
  * @extends QueryDispatcher
  * @namespace Store/ProductList/Dispatcher
  */
-export class ProductListDispatcher extends QueryDispatcher {
-    __construct() {
+export class ProductListDispatcher extends QueryDispatcher<
+Partial<ProductListOptions>,
+ProductListDispatcherData
+> {
+    __construct(): void {
         super.__construct('ProductList');
     }
 
-    onSuccess(data, dispatch, options) {
+    onSuccess(
+        data: ProductListDispatcherData,
+        dispatch: Dispatch,
+        options: Partial<ProductListOptions>
+    ): AppendPageAction | UpdateProductListItemsAction {
         const {
             products: {
-                items,
-                total_count,
-                page_info: { total_pages } = {}
+                items = [],
+                total_count = 0,
+                page_info: { total_pages = 0 } = {}
             } = {}
         } = data;
 
-        const { args, isNext } = options;
-        const { currentPage } = args;
+        const { args = {}, isNext } = options;
+        const { currentPage = 0 } = args;
 
         if (isNext) {
             return dispatch(
@@ -63,12 +81,15 @@ export class ProductListDispatcher extends QueryDispatcher {
         );
     }
 
-    onError(error, dispatch) {
+    onError(error: unknown, dispatch: Dispatch): void {
         dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List!'), error));
         dispatch(updateNoMatch(true));
     }
 
-    prepareRequest(options, dispatch) {
+    prepareRequest(
+        options: Partial<ProductListOptions>,
+        dispatch: Dispatch
+    ): Query<'products', ProductsQueryOutput> {
         const { isNext } = options;
 
         if (!isNext) {

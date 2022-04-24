@@ -12,6 +12,7 @@
 import { Dispatch } from 'redux';
 
 import ProductCompareQuery from 'Query/ProductCompare.query';
+import { CompareList } from 'Query/ProductCompare.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import {
@@ -21,7 +22,6 @@ import {
     toggleLoader,
     updateCompareTotals
 } from 'Store/ProductCompare/ProductCompare.action';
-import { GQLCompareList, GQLDeleteCompareListOutput } from 'Type/Graphql.type';
 import { getAuthorizationToken } from 'Util/Auth';
 import { getUid, removeUid, setUid } from 'Util/Compare';
 import { fetchMutation, fetchQuery } from 'Util/Request';
@@ -59,7 +59,7 @@ export class ProductCompareDispatcher {
         return true;
     }
 
-    async createCompareList(productId: string): Promise<GQLCompareList> {
+    async createCompareList(productId: string): Promise<CompareList> {
         const {
             createCompareList,
             createCompareList: {
@@ -78,7 +78,7 @@ export class ProductCompareDispatcher {
         return createCompareList;
     }
 
-    async addToCompareList(uid: string, productId: string): Promise<GQLCompareList> {
+    async addToCompareList(uid: string, productId: string): Promise<CompareList> {
         const {
             addProductsToCompareList
         } = await fetchMutation(
@@ -91,7 +91,7 @@ export class ProductCompareDispatcher {
         return addProductsToCompareList;
     }
 
-    async addProductToCompare(productId: string, dispatch: Dispatch): Promise<GQLCompareList | null> {
+    async addProductToCompare(productId: string, dispatch: Dispatch): Promise<CompareList | null> {
         const uid = getUid();
 
         try {
@@ -110,7 +110,7 @@ export class ProductCompareDispatcher {
         }
     }
 
-    async removeComparedProduct(productId: string, dispatch: Dispatch): Promise<GQLCompareList | null> {
+    async removeComparedProduct(productId: string, dispatch: Dispatch): Promise<CompareList | null> {
         const uid = getUid();
 
         if (!uid) {
@@ -193,7 +193,7 @@ export class ProductCompareDispatcher {
 
             if (result) {
                 setUid(newUid);
-                dispatch(setCompareList(compare_list as GQLCompareList));
+                dispatch(setCompareList(compare_list));
             }
 
             return result;
@@ -206,7 +206,7 @@ export class ProductCompareDispatcher {
 
     async clearComparedProducts(
         dispatch: Dispatch
-    ): Promise<Record<'deleteCompareList', GQLDeleteCompareListOutput> | null> {
+    ): Promise<Record<'deleteCompareList', { result: boolean }> | null> {
         const uid = getUid();
 
         if (!uid) {
@@ -236,7 +236,7 @@ export class ProductCompareDispatcher {
 
     async updateInitialProductCompareData(
         dispatch: Dispatch
-    ): Promise<Record<'deleteCompareList', GQLDeleteCompareListOutput> | boolean> {
+    ): Promise<boolean> {
         const uid = getUid();
 
         if (!uid) {
@@ -250,7 +250,7 @@ export class ProductCompareDispatcher {
                 ProductCompareQuery.getCompareListIds(uid)
             );
             const { items = [] } = compareList || {};
-            const compareIds = items.map((data) => data?.product?.id) as number[];
+            const compareIds = items.map((data) => data?.product?.id);
 
             dispatch(toggleLoader(false));
             dispatch(setCompareListIds(compareIds));

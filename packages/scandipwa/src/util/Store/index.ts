@@ -9,19 +9,19 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
 */
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, createStore, Reducer } from 'redux';
 
 /**
  * Configure the store
  * @namespace Util/Store/Index/configureStore
  */
-export function configureStore<S, A, T extends ModifiedReduxStore<S, A>>(store: T): T {
+export function configureStore<S, T extends ModifiedReduxStore<S>>(store: T): T {
     // Add a dictionary to keep track of the registered async reducers
     store.asyncReducers = {};
 
     // Create an inject reducer function
     // This function adds the async reducer, and creates a new combined reducer
-    store.injectReducer = (key, asyncReducer) => {
+    store.injectReducer = (key: string, asyncReducer: Reducer) => {
         if (store.asyncReducers) {
             store.asyncReducers[key] = asyncReducer;
             store.replaceReducer(combineReducers(store.asyncReducers));

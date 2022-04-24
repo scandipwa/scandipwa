@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, Mutation } from '@tilework/opus';
+import { Field, Mutation, Query } from '@tilework/opus';
 
 import { GQLCustomerAddressInput, GQLCustomerUpdateInput } from 'Type/Graphql.type';
 
@@ -136,8 +136,9 @@ export class MyAccountQuery {
             .addFieldList(this.getRevokeAccountTokenFields());
     }
 
-    getCustomerQuery(): Field<'customer', Customer> {
-        return this._getCustomerField();
+    getCustomerQuery(): Query<'customer', Customer> {
+        return new Query<'customer', Customer>('customer')
+            .addFieldList(this._getCustomerFields());
     }
 
     _getConfirmAccountFields(): Array<

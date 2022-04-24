@@ -14,14 +14,15 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CART } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';
@@ -58,7 +59,7 @@ export const CartDispatcher = import(
 /** @namespace Route/CartPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState) => ({
     totals: state.CartReducer.cartTotals,
-    headerState: state.NavigationReducer[ TOP_NAVIGATION_TYPE ].navigationState,
+    headerState: state.NavigationReducer[ NavigationType.TOP_NAVIGATION_TYPE ].navigationState,
     guest_checkout: state.ConfigReducer.guest_checkout,
     device: state.ConfigReducer.device,
     cartDisplayConfig: state.ConfigReducer.cartDisplayConfig,
@@ -71,7 +72,7 @@ export const mapStateToProps = (state: RootState) => ({
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
     ),
@@ -131,7 +132,7 @@ export class CartPageContainer extends PureComponent {
         } = prevProps;
 
         if (name !== prevName) {
-            if (name === CART) {
+            if (name === Page.CART) {
                 this._changeHeaderState();
             }
         }
@@ -191,7 +192,7 @@ export class CartPageContainer extends PureComponent {
 
         if (guest_checkout) {
             history.push({
-                pathname: appendWithStoreCode(CHECKOUT_URL)
+                pathname: appendWithStoreCode(CheckoutStepUrl.CHECKOUT_URL)
             });
             scrollToTop();
 
@@ -200,7 +201,7 @@ export class CartPageContainer extends PureComponent {
 
         if (isSignedIn()) {
             history.push({
-                pathname: appendWithStoreCode(CHECKOUT_URL)
+                pathname: appendWithStoreCode(CheckoutStepUrl.CHECKOUT_URL)
             });
             scrollToTop();
 
@@ -238,7 +239,7 @@ export class CartPageContainer extends PureComponent {
         const title = getItemsCountLabel(items_qty);
 
         changeHeaderState({
-            name: CART,
+            name: Page.CART,
             title,
             onCloseClick: () => history.goBack()
         });

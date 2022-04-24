@@ -12,8 +12,11 @@
 import { AnyAction } from 'redux';
 
 import {
-    GQLComparableAttribute, GQLComparableItem, GQLCompareList, GQLProductInterface
-} from 'Type/Graphql.type';
+    ComparableAttribute,
+    ComparableItem,
+    ComparableProduct,
+    CompareList
+} from 'Query/ProductCompare.type';
 
 export enum ProductCompareActionType {
     TOGGLE_COMPARE_LIST_LOADER = 'TOGGLE_COMPARE_LIST_LOADER',
@@ -32,7 +35,7 @@ export interface ToggleLoaderAction extends AnyAction {
 
 export interface SetCompareListAction extends AnyAction {
     type: ProductCompareActionType.SET_COMPARE_LIST;
-    payload: GQLCompareList;
+    payload: CompareList;
 }
 
 export interface RemoveComparedProductAction extends AnyAction {
@@ -67,17 +70,13 @@ export type ProductCompareAction = ToggleLoaderAction
 | AddComparedProductIdsAction
 | UpdateCompareTotalsAction;
 
-export type ComparableProduct = GQLProductInterface & {
-    attributes: GQLComparableAttribute[];
-};
-
 export type ProductCompareStore = {
     isLoading: boolean;
     count: number;
-    attributes: GQLComparableAttribute[];
+    attributes: ComparableAttribute[];
     products: ComparableProduct[];
     productIds: number[];
-    items: GQLComparableItem[];
+    items: ComparableItem[];
 };
 
 declare module 'Util/Store/Store.type' {

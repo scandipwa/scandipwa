@@ -140,14 +140,14 @@ export const validateGroup = (DOM: Document, rule: ValidationRule): boolean | Va
         const {
             name,
             value,
-            tagName = FieldType.select,
-            type = FieldType.select
+            tagName = FieldType.SELECT,
+            type = FieldType.SELECT
         } = field as HTMLInputElement;
 
-        const fieldType = tagName.toLowerCase() === FieldType.textarea ? FieldType.textarea : type;
+        const fieldType = tagName.toLowerCase() === FieldType.TEXTAREA ? FieldType.TEXTAREA : type;
         // TODO change logic so that checked won't fill as value
         // eslint-disable-next-line max-len
-        const fieldValue = fieldType === (FieldType.checkbox || fieldType === FieldType.radio) && field.checked ? '' : value;
+        const fieldValue = fieldType === (FieldType.CHECKBOX || fieldType === FieldType.RADIO) && field.checked ? '' : value;
         output.values.push({ name, value: fieldValue, type: fieldType });
 
         // Invokes validation event for all fields
@@ -176,7 +176,7 @@ export const validateGroup = (DOM: Document, rule: ValidationRule): boolean | Va
 
         if (isRequired) {
             const containsValue = output.values.some(({ value, type }) => {
-                if (type === FieldType.checkbox || type === FieldType.radio) {
+                if (type === FieldType.CHECKBOX || type === FieldType.RADIO) {
                     return value;
                 }
 

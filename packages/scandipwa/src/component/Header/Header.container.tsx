@@ -17,11 +17,11 @@ import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccou
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
-import { BILLING_URL, CHECKOUT_URL, SHIPPING_URL } from 'Route/Checkout/Checkout.config';
+import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { DeviceType } from 'Type/Device.type';
@@ -44,7 +44,7 @@ import {
 
 /** @namespace Component/Header/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    navigationState: state.NavigationReducer[ TOP_NAVIGATION_TYPE ].navigationState,
+    navigationState: state.NavigationReducer[ NavigationType.TOP_NAVIGATION_TYPE ].navigationState,
     cartTotals: state.CartReducer.cartTotals,
     totals: state.CartReducer.cartTotals,
     compareTotals: state.ProductCompareReducer.count,
@@ -64,9 +64,9 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setNavigationState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE))
 });
 
 export const DEFAULT_HEADER_STATE = {
@@ -156,7 +156,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             }
         } = history;
 
-        const isCheckout = pathname.includes(CHECKOUT_URL);
+        const isCheckout = pathname.includes(CheckoutStepUrl.CHECKOUT_URL);
 
         return {
             activeOverlay,
@@ -212,8 +212,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const { totals: { items: prevItems } } = prevProps;
         const { location: { pathname } } = history;
 
-        if (pathname.includes(BILLING_URL) && !is_virtual && prevItems.length !== items.length) {
-            history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
+        if (pathname.includes(CheckoutStepUrl.BILLING_URL) && !is_virtual && prevItems.length !== items.length) {
+            history.push({ pathname: appendWithStoreCode(CheckoutStepUrl.SHIPPING_URL) });
         }
     }
 
@@ -405,7 +405,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             device
         } = this.props;
 
-        if (device.isMobile || ![ CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT ].includes(name)) {
+        if (device.isMobile || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT].includes(name)) {
             return;
         }
 
@@ -420,7 +420,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     closeOverlay() {
         const { location: { pathname } } = history;
 
-        if (pathname.includes(CHECKOUT_URL)) {
+        if (pathname.includes(CheckoutStepUrl.CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
         }
     }
@@ -431,12 +431,12 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         goToPreviousNavigationState();
 
-        if (pathname.includes(CHECKOUT_URL)) {
+        if (pathname.includes(CheckoutStepUrl.CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
         }
 
-        if (pathname.includes(BILLING_URL) && title && !is_virtual) {
-            history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
+        if (pathname.includes(CheckoutStepUrl.BILLING_URL) && title && !is_virtual) {
+            history.push({ pathname: appendWithStoreCode(CheckoutStepUrl.SHIPPING_URL) });
         }
     }
 
@@ -517,8 +517,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
     render(): ReactElement {
         return (
             <Header
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

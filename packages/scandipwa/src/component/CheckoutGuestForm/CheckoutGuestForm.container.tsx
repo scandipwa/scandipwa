@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import {
@@ -26,6 +25,8 @@ import {
 import { SHIPPING_STEP, UPDATE_EMAIL_CHECK_FREQUENCY } from 'Route/Checkout/Checkout.config';
 import { updateEmail, updateEmailAvailable } from 'Store/Checkout/Checkout.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
 import { debounce, getErrorMessage } from 'Util/Request';
@@ -219,8 +220,8 @@ export class CheckoutGuestFormContainer extends PureComponent {
 
         return (
             <CheckoutGuestForm
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

@@ -9,16 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    APPEND_PAGE,
-    UPDATE_LOAD_STATUS,
-    UPDATE_PAGE_LOAD_STATUS,
-    UPDATE_PRODUCT_LIST_ITEMS
-} from 'Store/ProductList/ProductList.action';
+import { Reducer } from 'redux';
+
 import { getIndexedProducts } from 'Util/Product';
 
+import { ProductListAction, ProductListActionType, ProductListStore } from './ProductList.type';
+
 /** @namespace Store/ProductList/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): ProductListStore => ({
     pages: {},
     totalItems: 0,
     totalPages: 0,
@@ -31,9 +29,9 @@ export const defaultConfig = {
 };
 
 /** @namespace Store/ProductList/Reducer/ProductListReducer */
-export const ProductListReducer = (
-    state = getInitialState(),
-    action
+export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = (
+    state: ProductListStore = getInitialState(),
+    action: ProductListAction
 ) => {
     const {
         type,
@@ -46,7 +44,7 @@ export const ProductListReducer = (
     } = action;
 
     switch (type) {
-    case APPEND_PAGE:
+    case ProductListActionType.APPEND_PAGE:
         return {
             ...state,
             isPageLoading: false,
@@ -56,7 +54,7 @@ export const ProductListReducer = (
             }
         };
 
-    case UPDATE_PRODUCT_LIST_ITEMS:
+    case ProductListActionType.UPDATE_PRODUCT_LIST_ITEMS:
         return {
             ...state,
             currentArgs,
@@ -66,13 +64,13 @@ export const ProductListReducer = (
             pages: { [currentPage]: getIndexedProducts(initialItems) }
         };
 
-    case UPDATE_PAGE_LOAD_STATUS:
+    case ProductListActionType.UPDATE_PAGE_LOAD_STATUS:
         return {
             ...state,
             isPageLoading: true
         };
 
-    case UPDATE_LOAD_STATUS:
+    case ProductListActionType.UPDATE_LOAD_STATUS:
         return {
             ...state,
             isLoading

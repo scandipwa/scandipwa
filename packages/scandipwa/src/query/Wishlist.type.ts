@@ -19,7 +19,7 @@ export interface ItemOption {
 export interface WishlistItem {
     id: number;
     sku: string;
-    qty: string;
+    qty: number;
     description: string;
     price: number;
     price_without_tax: number;

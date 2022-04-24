@@ -11,14 +11,15 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { CustomerType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 import { ProductType } from 'Type/ProductList.type';
 import { RatingItemsType } from 'Type/Rating.type';
 import transformToNameValuePair from 'Util/Form/Transform';
@@ -44,7 +45,7 @@ export const mapDispatchToProps = (dispatch) => ({
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE))
 });
 
 /** @namespace Component/ProductReviewForm/Container */
@@ -162,8 +163,8 @@ export class ProductReviewFormContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductReviewForm
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

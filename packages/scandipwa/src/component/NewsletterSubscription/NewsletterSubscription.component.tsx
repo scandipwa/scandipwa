@@ -11,6 +11,7 @@
 
 import { FieldType } from 'Component/Field/Field.config';
 import FieldForm from 'Component/FieldForm';
+import { ReactElement } from 'Type/Common.type';
 
 import newsletterSubscriptionForm from './NewsletterForm.form';
 
@@ -34,7 +35,7 @@ export class NewsletterSubscription extends FieldForm {
     renderActions(): ReactElement {
         return (
             <button
-              type={ FieldType.submit }
+              type={ FieldType.SUBMIT }
               block="Button"
               mods={ { isHollow: true } }
               aria-label={ __('Submit') }

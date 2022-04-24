@@ -12,38 +12,24 @@
 import { PureComponent } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
-import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
+import { Directions } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import StoreItem from 'Component/StoreItem';
 import { ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
+
+import { FormattedStore, StoreSwitcherComponentProps } from './StoreSwitcher.type';
 
 import './StoreSwitcher.style';
 
 /** @namespace Component/StoreSwitcher/Component */
-export class StoreSwitcher extends PureComponent {
-    static propTypes = {
-        storeList: PropTypes.arrayOf(
-            PropTypes.objectOf(
-                PropTypes.string
-            )
-        ).isRequired,
-        isOpened: PropTypes.bool.isRequired,
-        currentStoreCode: PropTypes.string.isRequired,
-        handleStoreSelect: PropTypes.func.isRequired,
-        onStoreSwitcherClick: PropTypes.func.isRequired,
-        onStoreSwitcherOutsideClick: PropTypes.func.isRequired,
-        storeLabel: PropTypes.string,
-        device: DeviceType.isRequired
-    };
-
+export class StoreSwitcher extends PureComponent<StoreSwitcherComponentProps> {
     static defaultProps = {
         storeLabel: ''
     };
 
-    renderStore(item): ReactElement {
+    renderStore(item: FormattedStore): ReactElement {
         const { handleStoreSelect } = this.props;
         const { value } = item;
 
@@ -66,7 +52,7 @@ export class StoreSwitcher extends PureComponent {
         return (
             <div block="StoreSwitcher">
                 <Field
-                  type={ FieldType.select }
+                  type={ FieldType.SELECT }
                   attr={ {
                       id: 'StoreSwitcher',
                       name: 'StoreSwitcher',
@@ -103,7 +89,7 @@ export class StoreSwitcher extends PureComponent {
                       onClick={ onStoreSwitcherClick }
                     >
                         { storeLabel }
-                        <ChevronIcon direction={ isOpened ? TOP : BOTTOM } />
+                        <ChevronIcon direction={ isOpened ? Directions.TOP : Directions.BOTTOM } />
                     </button>
 
                     <div block="StoreSwitcher" elem="StoreList" mods={ mods }>

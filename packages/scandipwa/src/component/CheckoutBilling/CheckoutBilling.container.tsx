@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import { KLARNA, PURCHASE_ORDER } from 'Component/CheckoutPayments/CheckoutPayments.config';
@@ -20,9 +19,11 @@ import {
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { Addresstype, CustomerType } from 'Type/Account.type';
 import { PaymentMethodsType } from 'Type/Checkout.type';
+import { ReactElement } from 'Type/Common.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import {
     getFormFields,
@@ -88,7 +89,7 @@ export class CheckoutBillingContainer extends PureComponent {
         const { paymentMethods } = props;
 
         if (!prevPaymentMethods.length && !paymentMethod) {
-            const [ method ] = paymentMethods;
+            const [method] = paymentMethods;
             const { code: paymentMethod } = method || {};
 
             return {
@@ -112,7 +113,7 @@ export class CheckoutBillingContainer extends PureComponent {
         super.__construct(props);
 
         const { paymentMethods, customer } = props;
-        const [ method ] = paymentMethods;
+        const [method] = paymentMethods;
         const { code: paymentMethod } = method || {};
 
         this.state = {
@@ -214,26 +215,26 @@ export class CheckoutBillingContainer extends PureComponent {
         const { paymentMethod: code } = this.state;
 
         switch (code) {
-            case KLARNA:
-                const [ { authorization_token } ] = asyncData;
+        case KLARNA:
+            const [{ authorization_token }] = asyncData;
 
-                return {
-                    code,
-                    additional_data: {
-                        authorization_token
-                    }
-                };
+            return {
+                code,
+                additional_data: {
+                    authorization_token
+                }
+            };
 
-            case PURCHASE_ORDER:
-                const { purchaseOrderNumber } = fields;
+        case PURCHASE_ORDER:
+            const { purchaseOrderNumber } = fields;
 
-                return {
-                    code,
-                    purchase_order_number: purchaseOrderNumber
-                };
+            return {
+                code,
+                purchase_order_number: purchaseOrderNumber
+            };
 
-            default:
-                return { code };
+        default:
+            return { code };
         }
     }
 
@@ -281,8 +282,8 @@ export class CheckoutBillingContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CheckoutBilling
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

@@ -58,7 +58,7 @@ export class CheckoutPayment extends PureComponent {
                   onClick={ this.onClick }
                 >
                     <Field
-                      type={ FieldType.checkbox }
+                      type={ FieldType.CHECKBOX }
                       attr={ {
                           id: `option-${ title }`,
                           name: `option-${ title }`,

@@ -131,7 +131,7 @@ export class ProductReviewForm extends PureComponent {
                   elem="Content"
                 >
                     <Field
-                      type={ FieldType.text }
+                      type={ FieldType.TEXT }
                       label={ __('Nickname') }
                       attr={ {
                           id: 'nickname',
@@ -146,7 +146,7 @@ export class ProductReviewForm extends PureComponent {
                       addRequiredTag
                     />
                     <Field
-                      type={ FieldType.text }
+                      type={ FieldType.TEXT }
                       label={ __('Summary') }
                       attr={ {
                           id: 'title',
@@ -161,7 +161,7 @@ export class ProductReviewForm extends PureComponent {
                       addRequiredTag
                     />
                     <Field
-                      type={ FieldType.textarea }
+                      type={ FieldType.TEXTAREA }
                       label={ __('Review') }
                       attr={ {
                           id: 'detail',

@@ -11,14 +11,15 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { Addresstype } from 'Type/Account.type';
 import { PaymentMethodsType } from 'Type/Checkout.type';
+import { ReactElement } from 'Type/Common.type';
 import { TotalsType } from 'Type/MiniCart.type';
 
 import CheckoutPayments from './CheckoutPayments.component';
@@ -126,8 +127,8 @@ export class CheckoutPaymentsContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CheckoutPayments
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

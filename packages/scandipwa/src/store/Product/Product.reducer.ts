@@ -13,12 +13,16 @@ import { Reducer } from 'redux';
 
 import { getIndexedProduct } from 'Util/Product';
 
-import { ProductActionType, ProductStore, UpdateProductDetailsAction } from './Product.type';
+import {
+    ProductActionType,
+    ProductStore,
+    UpdateProductDetailsAction
+} from './Product.type';
 
 /** @namespace Store/Product/Reducer/getInitialState */
 export const getInitialState = (): ProductStore => ({
     product: {}
-} as ProductStore);
+});
 
 /** @namespace Store/Product/Reducer/ProductReducer */
 export const ProductReducer: Reducer<ProductStore, UpdateProductDetailsAction> = (
@@ -32,7 +36,7 @@ export const ProductReducer: Reducer<ProductStore, UpdateProductDetailsAction> =
         return {
             ...state,
             product: getIndexedProduct(product)
-        } as ProductStore;
+        };
     }
 
     default:

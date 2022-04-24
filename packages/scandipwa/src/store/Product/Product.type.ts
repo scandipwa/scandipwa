@@ -11,9 +11,8 @@
 
 import { AnyAction } from 'redux';
 
-import { GQLProducts } from 'Type/Graphql.type';
-import { Product, ProductBundle } from 'Type/ProductList.type';
-import { IndexedProduct } from 'Util/Product/Product';
+import { ProductItem, ProductsQueryOutput } from 'Query/ProductList.type';
+import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum ProductActionType {
     UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS'
@@ -21,13 +20,13 @@ export enum ProductActionType {
 
 export interface UpdateProductDetailsAction extends AnyAction {
     type: ProductActionType.UPDATE_PRODUCT_DETAILS;
-    product: Product | ProductBundle;
+    product: ProductItem;
 }
 
 export type ProductStore = {
-    product: IndexedProduct;
+    product: Partial<IndexedProduct>;
 };
 
 export type ProductDispatcherData = {
-    products: GQLProducts;
+    products: ProductsQueryOutput;
 };

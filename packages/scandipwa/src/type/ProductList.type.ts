@@ -13,7 +13,6 @@ import { StockStatus } from 'Component/Product/Stock.config';
 import { MetaTitle } from 'Type/Common.type';
 import { PriceRange } from 'Type/Price.type';
 import { UrlRewrite } from 'Type/Router.type';
-import { IndexedProduct } from 'Util/Product/Product';
 
 import {
     GQLBundleProduct,
@@ -345,13 +344,13 @@ export type BundleOptionSelection = {
     selection_id?: number;
 };
 
-export type BundleOption = {
-    option_id?: number;
-    price?: number;
-    qty?: number;
-    selection_details: BundleOptionSelection[];
-    title?: string;
-};
+// export type BundleOption = {
+//     option_id?: number;
+//     price?: number;
+//     qty?: number;
+//     selection_details: BundleOptionSelection[];
+//     title?: string;
+// };
 
 export interface ProductBundle extends Product {
     items: ProductBundleItem[];
@@ -414,20 +413,6 @@ export type Option = OptionTypes & {
     type?: string;
     uid?: string;
 };
-
-export enum LinkedProductType {
-    UPSELL = 'upsell',
-    RELATED = 'related',
-    CROSS_SELL = 'crosssell',
-    ASSOCIATED = 'associated'
-}
-
-export type LinkedProducts = {
-    items: IndexedProduct[];
-    total_count: number;
-};
-
-export type LinkedProductsMap = Partial<Record<LinkedProductType, LinkedProducts>>;
 
 export type ProductInterface = GQLBundleProduct
 & GQLConfigurableProduct

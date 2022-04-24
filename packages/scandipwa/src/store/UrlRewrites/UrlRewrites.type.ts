@@ -10,25 +10,30 @@
  */
 import { AnyAction } from 'redux';
 
-import { UrlRewrite } from 'Type/Router.type';
+import { UrlRewritesOutput } from 'Query/UrlRewrites.type';
+import { Merge } from 'Type/Common.type';
+
+export type UrlRewrite = Merge<Partial<UrlRewritesOutput>, {
+    notFound?: boolean;
+}>;
 
 export enum UrlRewritesActionType {
     UPDATE_URL_REWRITE = 'UPDATE_URL_REWRITE',
     IS_LOADING_URL_REWRITE = 'IS_LOADING_URL_REWRITE'
 }
 
-export interface UpdateUrlRewrite extends AnyAction {
+export interface UpdateUrlRewriteAction extends AnyAction {
     type: UrlRewritesActionType.UPDATE_URL_REWRITE;
-    urlRewrite: Record<string, UrlRewrite>;
+    urlRewrite: UrlRewrite;
     requestedUrl: string;
 }
 
-export interface SetIsUrlRewritesLoading extends AnyAction {
+export interface SetIsUrlRewritesLoadingAction extends AnyAction {
     type: UrlRewritesActionType.IS_LOADING_URL_REWRITE;
     isLoading: boolean;
 }
 
-export type UrlRewritesAction = UpdateUrlRewrite | SetIsUrlRewritesLoading;
+export type UrlRewritesAction = UpdateUrlRewriteAction | SetIsUrlRewritesLoadingAction;
 
 export type UrlRewritesStore = {
     urlRewrite: UrlRewrite;
@@ -41,3 +46,7 @@ declare module 'Util/Store/Store.type' {
         UrlRewritesReducer: UrlRewritesStore;
     }
 }
+
+export type UrlRewritesDispatcherData = {
+    urlResolver: UrlRewritesOutput;
+};

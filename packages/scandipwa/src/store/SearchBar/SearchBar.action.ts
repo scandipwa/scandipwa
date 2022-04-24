@@ -10,26 +10,26 @@
  */
 
 import {
-    ClearSearchResults,
+    ClearSearchResultsAction,
     SearchBarActionType,
-    SearchBarResult,
-    UpdateLoadStatus,
-    UpdateSearchBar
+    SearchBarDispatcherData,
+    UpdateLoadStatusAction,
+    UpdateSearchBarAction
 } from './SearchBar.type';
 
 /** @namespace Store/SearchBar/Action/updateSearchBar */
-export const updateSearchBar = (result: SearchBarResult): UpdateSearchBar => ({
+export const updateSearchBar = (result: SearchBarDispatcherData): UpdateSearchBarAction => ({
     type: SearchBarActionType.UPDATE_SEARCH_BAR,
     result
 });
 
 /** @namespace Store/SearchBar/Action/updateLoadStatus */
-export const updateLoadStatus = (status: boolean): UpdateLoadStatus => ({
+export const updateLoadStatus = (status: boolean): UpdateLoadStatusAction => ({
     type: SearchBarActionType.UPDATE_SEARCH_LOAD_STATUS,
     isLoading: status
 });
 
 /** @namespace Store/SearchBar/Action/clearSearchResults */
-export const clearSearchResults = (): ClearSearchResults => ({
+export const clearSearchResults = (): ClearSearchResultsAction => ({
     type: SearchBarActionType.CLEAR_SEARCH_RESULTS
 });

@@ -10,9 +10,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { LinkedProductsMap } from 'Type/ProductList.type';
-
-import { LinkedProductsActionType, UpdateLinkedProductsAction } from './LinkedProducts.type';
+import {
+    LinkedProductsActionType,
+    LinkedProductsMap,
+    UpdateLinkedProductsAction
+} from './LinkedProducts.type';
 
 /**
  * Update upsell products list (rewrite if already exists).

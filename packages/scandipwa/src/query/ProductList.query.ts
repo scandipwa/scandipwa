@@ -15,6 +15,7 @@ import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import {
+    GQLCurrencyEnum,
     GQLPriceTypeEnum,
     GQLProductStockStatus,
     GQLShipBundleItemsEnum
@@ -65,16 +66,16 @@ import {
     ProductDiscount,
     ProductItem,
     ProductItemFields,
-    ProductLinks,
+    ProductLink,
     ProductListOptions,
     ProductMediaGalleryEntriesVideoContent,
     ProductPrice,
     ProductReview,
-    ProductsQuery,
+    ProductReviews,
+    ProductsQueryOutput,
     ProductStockItem,
     RatingsBreakdown,
     SearchResultPageInfo,
-    SimpleProduct,
     SortField,
     SortFields,
     SwatchData,
@@ -90,7 +91,7 @@ import {
 export class ProductListQuery {
     options: Partial<ProductListOptions> = {};
 
-    getQuery(options: Partial<ProductListOptions>): Query<'products', ProductsQuery> {
+    getQuery(options: Partial<ProductListOptions>): Query<'products', ProductsQueryOutput> {
         if (!options) {
             throw new Error('Missing argument `options`');
         }
@@ -100,8 +101,8 @@ export class ProductListQuery {
         return this._getProductsField();
     }
 
-    _getProductsField(): Query<'products', ProductsQuery> {
-        const products = new Query<'products', ProductsQuery>('products')
+    _getProductsField(): Query<'products', ProductsQueryOutput> {
+        const products = new Query<'products', ProductsQueryOutput>('products')
             .addFieldList(this._getProductFields());
 
         this._getProductArguments().forEach((arg) => products.addArgument(...arg));
@@ -324,7 +325,7 @@ export class ProductListQuery {
     | Field<'thumbnail', OptimizedProductImage>
     | InlineFragment<'ConfigurableProduct', ConfigurableCartProductFragment>
     | Field<'attributes', AttributeWithValue, true>
-    | Field<'product_links', ProductLinks, true>
+    | Field<'product_links', ProductLink, true>
     > {
         return [
             new Field<'uid', string>('uid'),
@@ -356,14 +357,14 @@ export class ProductListQuery {
             .addFieldList(this._getCartVariantFields());
     }
 
-    _getCartVariantFields(): Field<'product', SimpleProduct>[] {
+    _getCartVariantFields(): Field<'product', ProductItem>[] {
         return [
             this._getCartProductField()
         ];
     }
 
-    _getCartProductField(): Field<'product', SimpleProduct> {
-        return new Field<'product', SimpleProduct>('product')
+    _getCartProductField(): Field<'product', ProductItem> {
+        return new Field<'product', ProductItem>('product')
             .addFieldList(this._getCartProductFields());
     }
 
@@ -930,8 +931,8 @@ export class ProductListQuery {
             .addFieldList(this._getMediaGalleryFields());
     }
 
-    _getProductLinksField(): Field<'product_links', ProductLinks, true> {
-        return new Field<'product_links', ProductLinks, true>('product_links', true)
+    _getProductLinksField(): Field<'product_links', ProductLink, true> {
+        return new Field<'product_links', ProductLink, true>('product_links', true)
             .addFieldList(this._getProductLinkFields());
     }
 
@@ -1008,8 +1009,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getReviewsField(): Field<'reviews', { items: ProductReview[] }> {
-        return new Field<'reviews', { items: ProductReview[] }>('reviews')
+    _getReviewsField(): Field<'reviews', ProductReviews> {
+        return new Field<'reviews', ProductReviews>('reviews')
             // Hard-coded pages, it will be very hard to
             // paginate using current implementation
             // eslint-disable-next-line no-magic-numbers
@@ -1117,11 +1118,11 @@ export class ProductListQuery {
 
     _getBundlePriceOptionFields(): Array<
     Field<'option_id', number>
-    | Field<'selection_details', BundleOptionSelection>
+    | Field<'selection_details', BundleOptionSelection, true>
     > {
         return [
             new Field<'option_id', number>('option_id'),
-            new Field<'selection_details', BundleOptionSelection>('selection_details')
+            new Field<'selection_details', BundleOptionSelection, true>('selection_details', true)
                 .addFieldList(this._getBundlePriceOptionSelectionFields())
         ];
     }
@@ -1447,45 +1448,45 @@ export class ProductListQuery {
     }
 
     _getFinalPriceField(): Field<'final_price', Money> {
-        return new Field<'final_price', Money>('final_price')
-            .addField('currency')
-            .addField('value');
+        return new Field<'final_price', Required<Money>>('final_price')
+            .addField(new Field<'currency', GQLCurrencyEnum>('currency'))
+            .addField(new Field<'value', number>('value'));
     }
 
     _getFinalPriceExclTaxField(): Field<'final_price_excl_tax', Money> {
         return new Field<'final_price_excl_tax', Money>('final_price_excl_tax')
-            .addField('currency')
-            .addField('value');
+            .addField(new Field<'currency', GQLCurrencyEnum>('currency'))
+            .addField(new Field<'value', number>('value'));
     }
 
     _getRegularPriceField(): Field<'regular_price', Money> {
         return new Field<'regular_price', Money>('regular_price')
-            .addField('currency')
-            .addField('value');
+            .addField(new Field<'currency', GQLCurrencyEnum>('currency'))
+            .addField(new Field<'value', number>('value'));
     }
 
     _getRegularPriceExclTaxField(): Field<'regular_price_excl_tax', Money> {
         return new Field<'regular_price_excl_tax', Money>('regular_price_excl_tax')
-            .addField('currency')
-            .addField('value');
+            .addField(new Field<'currency', GQLCurrencyEnum>('currency'))
+            .addField(new Field<'value', number>('value'));
     }
 
     _getDefaultFinalPriceExclTaxField(): Field<'default_final_price_excl_tax', Money> {
         return new Field<'default_final_price_excl_tax', Money>('default_final_price_excl_tax')
-            .addField('currency')
-            .addField('value');
+            .addField(new Field<'currency', GQLCurrencyEnum>('currency'))
+            .addField(new Field<'value', number>('value'));
     }
 
     _getDefaultPriceField(): Field<'default_price', Money> {
         return new Field<'default_price', Money>('default_price')
-            .addField('currency')
-            .addField('value');
+            .addField(new Field<'currency', GQLCurrencyEnum>('currency'))
+            .addField(new Field<'value', number>('value'));
     }
 
     _getDefaultFinalPriceField(): Field<'default_final_price', Money> {
         return new Field<'default_final_price', Money>('default_final_price')
-            .addField('currency')
-            .addField('value');
+            .addField(new Field<'currency', GQLCurrencyEnum>('currency'))
+            .addField(new Field<'value', number>('value'));
     }
 
     _getBundleProductFragment(): InlineFragment<'BundleProduct', BundleProductFragment> {

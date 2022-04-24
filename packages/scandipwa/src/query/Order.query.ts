@@ -33,6 +33,7 @@ import {
     OrderTotal,
     PaymentMethodAdditionalData,
     RefundItem,
+    ReorderOutput,
     SalesCommentItem,
     SearchResultPageInfo,
     ShipmentItemInterface,
@@ -46,26 +47,26 @@ import {
  * @class OrderQuery
  * @namespace Query/Order/Query */
 export class OrderQuery {
-    getReorder(incrementId: string): Mutation<'reorderItems', { userInputErrors: CheckoutUserInputError[] }> {
+    getReorder(incrementId: string): Mutation<'reorderItems', ReorderOutput> {
         return new Mutation<'reorderItems', { userInputErrors: CheckoutUserInputError[] }>('reorderItems')
             .addArgument('orderNumber', 'String!', incrementId)
             .addField(this._getReorderField());
     }
 
-    getOrderListQuery(options: OrdersOptions): Query<'customer', { orders: CustomerOrders[] }> {
-        return new Query<'customer', { orders: CustomerOrders[] }>('customer')
+    getOrderListQuery(options: Partial<OrdersOptions>): Query<'customer', { orders: CustomerOrders }> {
+        return new Query<'customer', { orders: CustomerOrders }>('customer')
             .addFieldList(this._getOrderListFields(options));
     }
 
-    _getOrderListFields(options: OrdersOptions): Field<'orders', CustomerOrders, true>[] {
+    _getOrderListFields(options: Partial<OrdersOptions>): Field<'orders', CustomerOrders>[] {
         return [
             this._getOrdersField(options)
         ];
     }
 
-    _getOrdersField(options: OrdersOptions): Field<'orders', CustomerOrders, true> {
-        const { orderId, page = 1 } = options || {};
-        const ordersField = new Field<'orders', CustomerOrders, true>('orders', true);
+    _getOrdersField(options: Partial<OrdersOptions>): Field<'orders', CustomerOrders> {
+        const { orderId = 0, page = 1 } = options || {};
+        const ordersField = new Field<'orders', CustomerOrders>('orders');
 
         if (orderId) {
             return ordersField

@@ -19,7 +19,7 @@ import InstallPrompt from 'Component/InstallPrompt';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import CmsPage from 'Route/CmsPage';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { LocationType, MatchType } from 'Type/Router.type';
 
 import './HomePage.style';
@@ -31,7 +31,7 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Route/HomePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state))
 });
 
 /** @namespace Route/HomePage/Container */

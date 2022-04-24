@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps,
@@ -60,7 +60,7 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
 
         toggleBreadcrumbs(false);
         setHeaderState({
-            name: CUSTOMER_SUB_ACCOUNT,
+            name: Page.CUSTOMER_SUB_ACCOUNT,
             title: __('Forgot password'),
             onBackClick: (e) => {
                 history.push({ pathname: appendWithStoreCode(`${AccountPageUrl.LOGIN_URL}`) });

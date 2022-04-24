@@ -10,7 +10,10 @@
  */
 
 import {
-    HideNotificationAction, NotificationActionType, NotificationType, ShowNotificationAction
+    HideNotificationAction,
+    NotificationActionType,
+    NotificationType,
+    ShowNotificationAction
 } from './Notification.type';
 
 /**

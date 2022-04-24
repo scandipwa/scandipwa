@@ -9,13 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Reducer } from 'redux';
+
+import { Aggregation, AggregationOption } from 'Query/ProductList.type';
+
 import {
-    UPDATE_INFO_LOAD_STATUS,
-    UPDATE_PRODUCT_LIST_INFO
-} from 'Store/ProductListInfo/ProductListInfo.action';
+    ProductListFilter,
+    ProductListInfoAction,
+    ProductListInfoActionType,
+    ProductListInfoStore
+} from './ProductListInfo.type';
 
 /** @namespace Store/ProductListInfo/Reducer/reduceFilters */
-export const reduceFilters = (filters) => filters.reduce((co, item) => {
+export const reduceFilters = (filters: Aggregation[]): Record<string, ProductListFilter> => filters.reduce((
+    co: Record<string, ProductListFilter>,
+    item
+) => {
     const {
         request_var: attribute_code,
         name: attribute_label,
@@ -25,20 +34,26 @@ export const reduceFilters = (filters) => filters.reduce((co, item) => {
         has_swatch
     } = item;
 
-    const { attribute_values, attribute_options } = filter_items.reduce((attribute, option) => {
-        const { value_string } = option;
-        const { attribute_values, attribute_options } = attribute;
+    const { attribute_values, attribute_options } = filter_items.reduce(
+        (
+            attribute: { attribute_values: string[]; attribute_options: Record<string, AggregationOption> },
+            option
+        ) => {
+            const { value_string } = option;
+            const { attribute_values, attribute_options } = attribute;
 
-        attribute_values.push(value_string);
+            attribute_values.push(value_string);
 
-        return {
-            ...attribute,
-            attribute_options: {
-                ...attribute_options,
-                [value_string]: option
-            }
-        };
-    }, { attribute_values: [], attribute_options: {} });
+            return {
+                ...attribute,
+                attribute_options: {
+                    ...attribute_options,
+                    [value_string]: option
+                }
+            };
+        },
+        { attribute_values: [], attribute_options: {} }
+    );
 
     return {
         ...co,
@@ -56,7 +71,7 @@ export const reduceFilters = (filters) => filters.reduce((co, item) => {
 }, {});
 
 /** @namespace Store/ProductListInfo/Reducer/getInitialState */
-export const getInitialState = () => ({
+export const getInitialState = (): ProductListInfoStore => ({
     minPrice: 0,
     maxPrice: 0,
     sortFields: {},
@@ -65,21 +80,19 @@ export const getInitialState = () => ({
 });
 
 /** @namespace Store/ProductListInfo/Reducer/ProductListReducer */
-export const ProductListReducer = (
-    state = getInitialState(),
+export const ProductListReducer: Reducer<ProductListInfoStore, ProductListInfoAction> = (
+    state: ProductListInfoStore = getInitialState(),
     action
 ) => {
     const { type } = action;
 
     switch (type) {
-    case UPDATE_PRODUCT_LIST_INFO: {
+    case ProductListInfoActionType.UPDATE_PRODUCT_LIST_INFO: {
         const {
             selectedFilter,
             products: {
                 filters: availableFilters = [],
-                min_price,
-                max_price,
-                sort_fields: sortFields
+                sort_fields: sortFields = {}
             } = {}
         } = action;
 
@@ -87,14 +100,12 @@ export const ProductListReducer = (
             ...state,
             filters: reduceFilters(availableFilters),
             sortFields,
-            minPrice: Math.floor(min_price),
-            maxPrice: Math.ceil(max_price),
             isLoading: false,
             selectedFilter
         };
     }
 
-    case UPDATE_INFO_LOAD_STATUS: {
+    case ProductListInfoActionType.UPDATE_INFO_LOAD_STATUS: {
         const { isLoading } = action;
 
         return {

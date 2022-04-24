@@ -19,6 +19,7 @@ import {
     StoreConfig
 } from 'Query/Config.type';
 import { Country } from 'Query/Region.type';
+import { ReviewRatingItem } from 'Query/Review.type';
 import { Device } from 'Type/Device.type';
 
 export enum ConfigActionType {
@@ -28,7 +29,7 @@ export enum ConfigActionType {
 
 export interface UpdateConfigAction extends AnyAction {
     type: ConfigActionType.UPDATE_CONFIG;
-    config: ConfigStore;
+    config: Partial<ConfigStore>;
 }
 
 export interface UpdateConfigDeviceAction extends AnyAction {
@@ -38,17 +39,6 @@ export interface UpdateConfigDeviceAction extends AnyAction {
 
 export type ConfigAction = UpdateConfigAction | UpdateConfigDeviceAction;
 
-export type ReviewRatingOption = {
-    option_id: string;
-    value: string;
-};
-
-export type ReviewRatingItem = {
-    rating_id: string;
-    rating_code: string;
-    rating_options: ReviewRatingOption[];
-};
-
 export type ReviewRatings = {
     items: ReviewRatingItem[];
 };
@@ -56,7 +46,6 @@ export type ReviewRatings = {
 export type ConfigStore = StoreConfig & {
     countries: Country[];
     reviewRatings: ReviewRatingItem[];
-    // storeConfig: GQLStoreConfig;
     checkoutAgreements: CheckoutAgreement[];
     currencyData: CurrencyConfig;
     cartDisplayConfig: CartDisplayConfig;

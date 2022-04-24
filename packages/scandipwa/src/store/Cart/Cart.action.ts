@@ -9,6 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { QuoteData } from 'Query/Cart.type';
+import { TotalsObject } from 'Query/Checkout.type';
+import { ProductItem } from 'Query/ProductList.type';
+
 import {
     AddProductToCartAction,
     ApplyCouponToCartAction,
@@ -27,7 +31,7 @@ import {
  * @return {void}
  * @namespace Store/Cart/Action/addProductToCart
  */
-export const addProductToCart = (newProduct: Product): AddProductToCartAction => ({
+export const addProductToCart = (newProduct: ProductItem): AddProductToCartAction => ({
     type: CartActionType.ADD_PRODUCT_TO_CART,
     newProduct
 });
@@ -38,7 +42,7 @@ export const addProductToCart = (newProduct: Product): AddProductToCartAction =>
  * @return {void}
  * @namespace Store/Cart/Action/removeProductFromCart
  */
-export const removeProductFromCart = (product: Product): RemoveProductFromCartAction => ({
+export const removeProductFromCart = (product: ProductItem): RemoveProductFromCartAction => ({
     type: CartActionType.REMOVE_PRODUCT_FROM_CART,
     product
 });
@@ -49,7 +53,7 @@ export const removeProductFromCart = (product: Product): RemoveProductFromCartAc
  * @return {void}
  * @namespace Store/Cart/Action/updateTotals
  */
-export const updateTotals = (cartData: GQLQuoteData): UpdateTotalsAction => ({
+export const updateTotals = (cartData: Partial<QuoteData>): UpdateTotalsAction => ({
     type: CartActionType.UPDATE_TOTALS,
     cartData
 });
@@ -60,7 +64,7 @@ export const updateTotals = (cartData: GQLQuoteData): UpdateTotalsAction => ({
  * @return {void}
  * @namespace Store/Cart/Action/updateShippingPrice
  */
-export const updateShippingPrice = (data: GQLPaymentTotals): UpdateShippingPriceAction => ({
+export const updateShippingPrice = (data: TotalsObject): UpdateShippingPriceAction => ({
     type: CartActionType.UPDATE_SHIPPING_PRICE,
     data
 });

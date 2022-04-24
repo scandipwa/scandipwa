@@ -21,7 +21,7 @@ import { ValidationInputType } from 'Util/Validator/Config';
 export const myAccountPasswordForm = (range, minimunPasswordCharacter) => [
     {
         label: __('Current password'),
-        type: FieldType.password,
+        type: FieldType.PASSWORD,
         attr: {
             id: 'my-account-currentPassword',
             name: 'currentPassword',
@@ -37,7 +37,7 @@ export const myAccountPasswordForm = (range, minimunPasswordCharacter) => [
     },
     {
         label: __('New password'),
-        type: FieldType.password,
+        type: FieldType.PASSWORD,
         attr: {
             id: 'my-account-newPassword',
             name: 'newPassword',

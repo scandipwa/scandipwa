@@ -247,7 +247,7 @@ export const getFieldsData = (
 
         const { tagName } = field;
         const tag = tagName.toLowerCase();
-        const type = tag === FieldType.textarea || tag === FieldType.select || tag === FieldType.button
+        const type = tag === FieldType.TEXTAREA || tag === FieldType.SELECT || tag === FieldType.BUTTON
             ? tag : field.type;
 
         if (ignoreTypes.some((ignoreType) => ignoreType === type)) {
@@ -255,10 +255,10 @@ export const getFieldsData = (
         }
 
         // eslint-disable-next-line no-nested-ternary
-        const value = field instanceof HTMLInputElement && (type === FieldType.checkbox || type === FieldType.radio)
+        const value = field instanceof HTMLInputElement && (type === FieldType.CHECKBOX || type === FieldType.RADIO)
             // eslint-disable-next-line no-nested-ternary
             ? (field.checked ? field.value === 'on' ? true : field.value : false)
-            : field instanceof HTMLInputElement && type === FieldType.file
+            : field instanceof HTMLInputElement && type === FieldType.FILE
                 ? field.fileData
                 : field.value;
 

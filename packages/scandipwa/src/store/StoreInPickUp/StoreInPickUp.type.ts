@@ -10,26 +10,26 @@
  */
 import { AnyAction } from 'redux';
 
-import { PickUpInStore } from 'Type/IsStorePickUp.type';
+import { Store } from 'Query/StoreInPickUp.type';
 
 export enum StoreInPickUpActionType {
     SET_PICK_UP_STORE = 'SET_PICK_UP_STORE',
     CLEAR_PICK_UP_STORE = 'CLEAR_PICK_UP_STORE'
 }
 
-export interface SetPickUpStore extends AnyAction {
+export interface SetPickUpStoreAction extends AnyAction {
     type: StoreInPickUpActionType.SET_PICK_UP_STORE;
-    store: PickUpInStore;
+    store: Store;
 }
 
-export interface ClearPickUpStore extends AnyAction {
+export interface ClearPickUpStoreAction extends AnyAction {
     type: StoreInPickUpActionType.CLEAR_PICK_UP_STORE;
 }
 
-export type StoreInPickUpAction = SetPickUpStore | ClearPickUpStore;
+export type StoreInPickUpAction = SetPickUpStoreAction | ClearPickUpStoreAction;
 
 export type StoreInPickUpStore = {
-    store: PickUpInStore | null;
+    store: Store | null;
 };
 
 declare module 'Util/Store/Store.type' {

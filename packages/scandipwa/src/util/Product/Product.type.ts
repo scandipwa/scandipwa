@@ -9,10 +9,19 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PriceItem } from 'Type/Price.type';
-import { Product } from 'Type/ProductList.type';
-
-import { IndexedVariant } from './Product';
+import {
+    AttributeWithValue,
+    BundleItem,
+    BundleOption,
+    ConfigurableProductOptions,
+    CustomizableFieldValue,
+    CustomizableFileValue,
+    CustomizableProductFragmentOptions,
+    CustomizableSelectionValue,
+    ProductItem,
+    ProductReview
+} from 'Query/ProductList.type';
+import { Merge } from 'Type/Common.type';
 
 export enum QtyFields {
     SALABLE_QTY = 'salable_qty',
@@ -20,94 +29,55 @@ export enum QtyFields {
     MAX_SALE_QTY = 'max_sale_qty'
 }
 
-export enum QtyDefault {
-    DEFAULT_MIN_PRODUCTS = 1,
-    DEFAULT_MAX_PRODUCTS = 999
-}
+export const DEFAULT_MIN_PRODUCTS = 1;
 
-export type FormattedProduct = Omit<Product, 'variants'> & {
-    variants?: IndexedVariant[];
-};
+export const DEFAULT_MAX_PRODUCTS = 999;
 
-export type AdjustedPrices = Record<string, AdjustedPrice>;
-
-export type FormattedPriceConfiguration = {
-    containsOptions: boolean;
-    containsOptionsWithPrice: boolean;
-    containsRequiredOptions: boolean;
-    containsRequiredOptionsWithPrice: boolean;
-};
-
-export type FormattedPrice = {
-    price: {
-        finalPrice: PriceItem;
-        finalPriceExclTax: PriceItem;
-        originalPrice: PriceItem;
-        originalPriceExclTax: PriceItem;
-        discount: {
-            percentOff: number;
-        };
-    };
-    originalPrice: {
-        minRegularPrice: PriceItem;
-        minFinalPrice: PriceItem;
-        minFinalPriceExclTax: PriceItem;
-        maxRegularPrice: PriceItem;
-        maxFinalPrice: PriceItem;
-        maxFinalPriceExclTax: PriceItem;
-    };
-    configuration: FormattedPriceConfiguration;
-};
-
-export type EnteredOption = {
-    uid: string;
-    value: string;
-};
-
-export type FormattedAdjustedPrices = {
-    downloadable: {
-        exclTax: number;
-        inclTax: number;
-        requiresDiscountCalculations: boolean;
-        hasDiscountCalculated: boolean;
-    };
-    bundle: {
-        exclTax: number;
-        inclTax: number;
-        requiresDiscountCalculations: boolean;
-        hasDiscountCalculated: boolean;
-    };
-    config: {
-        exclTax: number;
-        inclTax: number;
-        requiresDiscountCalculations: boolean;
-    };
-};
-
-export type AdjustedPrice = {
-    exclTax: number;
-    inclTax: number;
-    hasDiscountCalculated: boolean;
-    requiresDiscountCalculations: boolean;
-};
-
-export type IndexedOption = AttributeOption & {
-    swatch_data: SwatchData | null;
-};
-
-export type IndexedConfigurableOption = Attribute & {
+export type IndexedConfigurableOption = ConfigurableProductOptions & AttributeWithValue & {
     attribute_values: string[];
-    values: {
-        value_index: number;
-    }[];
 };
 
-export type IndexedVariant = Omit<ItemShape, 'attributes'> & {
-    attributes: Record<string, Attribute>;
+export type IndexedConfigurableOptions = Record<string, IndexedConfigurableOption>;
+
+export type IndexedVariant = Merge<ProductItem, {
+    attributes: Record<string, AttributeWithValue>;
+}>;
+
+export type IndexedCustomOption = Merge<
+CustomizableProductFragmentOptions,
+{
+    value: CustomizableSelectionValue[]
+    | CustomizableFieldValue[]
+    | CustomizableFieldValue[]
+    | CustomizableFileValue[]
+    | Omit<
+    CustomizableProductFragmentOptions,
+    'checkboxValues' | 'dropdownValues' | 'fieldValues' | 'areaValues' | 'fileValues'
+    >;
+}>;
+
+export type ReviewSummary = {
+    rating_summary: number;
+    review_count: number;
 };
 
-export type IndexedCustomOption = Omit<Option, 'value' | keyof OptionTypes> & {
-    value: Value[];
-};
+export type IndexedProduct<T extends Partial<ProductItem> = Partial<ProductItem>> = Merge<T, {
+    configurable_options?: IndexedConfigurableOptions;
+    variants?: IndexedVariant[];
+    options?: IndexedCustomOption[];
+    attributes?: Record<string, AttributeWithValue>;
+    reviews?: ProductReview[] | null;
+    review_summary?: ReviewSummary;
+    items?: BundleItem[] | IndexedBundleItem[];
+}>;
 
-export type FormattedBundleOptions = Pick<BundleOption, 'option_id'> & BundleOptionSelection;
+export type IndexedBundleOption = Merge<BundleOption, {
+    regularOptionPrice: number;
+    regularOptionPriceExclTax: number;
+    finalOptionPrice: number;
+    finalOptionPriceExclTax: number;
+}>;
+
+export type IndexedBundleItem = Merge<BundleItem, {
+    options?: IndexedBundleOption[];
+}>;

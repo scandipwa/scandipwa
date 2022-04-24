@@ -75,7 +75,7 @@ export class CategorySort extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.select }
+              type={ FieldType.SELECT }
               attr={ {
                   id: 'category-sort',
                   name: 'category-sort',

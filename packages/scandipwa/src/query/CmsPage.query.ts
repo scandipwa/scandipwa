@@ -18,7 +18,7 @@ import { CmsPageFields, CmsPageQueryOptions } from './CmsPage.type';
  * @class CmsPageQuery
  * @namespace Query/CmsPage/Query */
 export class CmsPageQuery {
-    getQuery({ id, url_key, identifier }: CmsPageQueryOptions): Query<'cmsPage', CmsPageFields> {
+    getQuery({ id, url_key, identifier }: Partial<CmsPageQueryOptions>): Query<'cmsPage', CmsPageFields> {
         if (!id && !url_key && !identifier) {
             throw new Error('Missing argument `id` or `url_key`!');
         }

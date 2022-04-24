@@ -10,7 +10,11 @@
  */
 import { Reducer } from 'redux';
 
-import { StoreInPickUpAction, StoreInPickUpActionType, StoreInPickUpStore } from './StoreInPickUp.type';
+import {
+    StoreInPickUpAction,
+    StoreInPickUpActionType,
+    StoreInPickUpStore
+} from './StoreInPickUp.type';
 
 /** @namespace Store/StoreInPickUp/Reducer/getInitialState */
 export const getInitialState = (): StoreInPickUpStore => ({

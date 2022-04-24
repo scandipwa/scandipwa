@@ -11,11 +11,12 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { BILLING_URL, SHIPPING_URL } from 'Route/Checkout/Checkout.config';
+import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
@@ -152,17 +153,17 @@ export class MyAccountSignInContainer extends PureComponent {
         setLoadingState(false);
 
         if (is_virtual && isCheckout) {
-            history.push({ pathname: appendWithStoreCode(BILLING_URL) });
+            history.push({ pathname: appendWithStoreCode(CheckoutStepUrl.BILLING_URL) });
         } else if (!is_virtual && isCheckout) {
-            history.push({ pathname: appendWithStoreCode(SHIPPING_URL) });
+            history.push({ pathname: appendWithStoreCode(CheckoutStepUrl.SHIPPING_URL) });
         }
     }
 
     render(): ReactElement {
         return (
             <MyAccountSignIn
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

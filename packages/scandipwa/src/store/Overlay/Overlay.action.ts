@@ -10,7 +10,10 @@
  */
 
 import {
-    HideActiveOverlayAction, HideActivePopupAction, OverlayActionType, ToggleOverlayByKeyAction
+    HideActiveOverlayAction,
+    HideActivePopupAction,
+    OverlayActionType,
+    ToggleOverlayByKeyAction
 } from './Overlay.type';
 
 /** @namespace Store/Overlay/Action/toggleOverlayByKey */

@@ -27,7 +27,7 @@ export const FIVE_MINUTES_IN_SECONDS = 300;
  * @class QueryDispatcher
  * @namespace Util/Request/QueryDispatcher
  */
-export abstract class QueryDispatcher<Options, Data> {
+export abstract class QueryDispatcher<Options, Data, Error = unknown> {
     protected name = '';
 
     protected cacheTTL = 0;
@@ -114,7 +114,8 @@ export abstract class QueryDispatcher<Options, Data> {
     abstract prepareRequest(
         options: Options,
         dispatch: Dispatch
-    ): Query<string, unknown, boolean> | Query<string, unknown, boolean>[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ): Query<any, any, any> | Query<any, any, any>[];
 
     /**
      * Is triggered on successful fetch of GraphQL endpoint.
@@ -134,7 +135,7 @@ export abstract class QueryDispatcher<Options, Data> {
      * @param  {any} dispatch
      * @return {void}@memberof QueryDispatcher
      */
-    abstract onError(error: unknown, dispatch: Dispatch, options: Options): void;
+    abstract onError(error: Error, dispatch: Dispatch, options: Options): void;
 }
 
 export default QueryDispatcher;

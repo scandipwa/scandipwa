@@ -11,14 +11,13 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { POPUP } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, hideActivePopup } from 'Store/Overlay/Overlay.action';
-import { ChildrenType, MixType } from 'Type/Common.type';
+import { ChildrenType, MixType, ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import Popup from './Popup.component';
@@ -36,8 +35,8 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     resetHideActivePopup: () => dispatch(hideActivePopup(false)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state))
 });
 
 /** @namespace Component/Popup/Container */
@@ -84,7 +83,7 @@ export class PopupContainer extends PureComponent {
         const { changeHeaderState, onVisible } = this.props;
 
         changeHeaderState({
-            name: POPUP,
+            name: Page.POPUP,
             title: this._getPopupTitle(),
             onCloseClick: () => {
                 history.back();
@@ -145,8 +144,8 @@ export class PopupContainer extends PureComponent {
     render(): ReactElement {
         return (
             <Popup
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

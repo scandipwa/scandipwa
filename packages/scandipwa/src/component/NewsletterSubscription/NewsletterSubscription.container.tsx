@@ -11,11 +11,12 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 import { LocationType } from 'Type/Router.type';
 
 import NewsletterSubscription from './NewsletterSubscription.component';
@@ -101,9 +102,9 @@ export class NewsletterSubscriptionContainer extends PureComponent {
 
         return (
             <NewsletterSubscription
-                {...this.containerProps()}
-                {...this.containerFunctions}
-                key={pathname}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+              key={ pathname }
             />
         );
     }

@@ -35,8 +35,8 @@ export interface OrderPaymentMethod {
 }
 
 export interface Money {
-    value: string;
-    currency: GQLCurrencyEnum;
+    value?: string;
+    currency?: GQLCurrencyEnum;
 }
 
 export interface BundleOption {
@@ -182,7 +182,7 @@ export interface OrderAddress {
 }
 
 export interface OrderItem {
-    id: number;
+    id: string;
     increment_id: number;
     order_date: string;
     status: string;
@@ -213,7 +213,11 @@ export interface CustomerOrders {
     page_info: SearchResultPageInfo;
 }
 
-export type OrdersOptions = {
+export interface OrdersOptions {
     orderId: number;
     page: number;
-};
+}
+
+export interface ReorderOutput {
+    userInputErrors: CheckoutUserInputError[];
+}

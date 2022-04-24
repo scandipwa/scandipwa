@@ -45,7 +45,7 @@ export class MyAccountCreateAccount extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.text }
+              type={ FieldType.TEXT }
               label={ __('Tax/VAT Number') }
               attr={ {
                   id: 'taxvat',
@@ -64,7 +64,7 @@ export class MyAccountCreateAccount extends PureComponent {
     renderSubscribeToNewsletter(): ReactElement {
         return (
             <Field
-              type={ FieldType.checkbox }
+              type={ FieldType.CHECKBOX }
               label={ __('Subscribe to newsletter') }
               attr={ {
                   id: 'is_subscribed',
@@ -84,7 +84,7 @@ export class MyAccountCreateAccount extends PureComponent {
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend block="MyAccountOverlay" elem="PersonalInfoLegend">{ __('Personal Information') }</legend>
                 <Field
-                  type={ FieldType.text }
+                  type={ FieldType.TEXT }
                   label={ __('First Name') }
                   attr={ {
                       id: 'firstname',
@@ -101,7 +101,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   addRequiredTag
                 />
                 <Field
-                  type={ FieldType.text }
+                  type={ FieldType.TEXT }
                   label={ __('Last Name') }
                   attr={ {
                       id: 'lastname',
@@ -131,7 +131,7 @@ export class MyAccountCreateAccount extends PureComponent {
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend block="MyAccountOverlay" elem="SignUpLegend">{ __('Sign-Up Information') }</legend>
                 <Field
-                  type={ FieldType.email }
+                  type={ FieldType.EMAIL }
                   label={ __('Email') }
                   attr={ {
                       id: 'email',
@@ -149,7 +149,7 @@ export class MyAccountCreateAccount extends PureComponent {
                 />
                 <div block="MyAccountOverlay" elem="PasswordBlock">
                     <Field
-                      type={ FieldType.password }
+                      type={ FieldType.PASSWORD }
                       label={ __('Password') }
                       attr={ {
                           id: 'password',
@@ -174,7 +174,7 @@ export class MyAccountCreateAccount extends PureComponent {
                       addRequiredTag
                     />
                     <Field
-                      type={ FieldType.password }
+                      type={ FieldType.PASSWORD }
                       label={ __('Confirm password') }
                       attr={ {
                           id: 'confirm_password',

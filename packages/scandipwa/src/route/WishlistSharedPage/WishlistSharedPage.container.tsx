@@ -16,6 +16,7 @@ import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAc
 import WishlistQuery from 'Query/Wishlist.query';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { MatchType } from 'Type/Router.type';
 import { getIndexedProduct } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
@@ -99,7 +100,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         const { showError, showNoMatch, updateBreadcrumbs } = this.props;
 
         const code = this.getCode();
-        const query = prepareQuery([ WishlistQuery.getWishlistQuery(code) ]);
+        const query = prepareQuery([WishlistQuery.getWishlistQuery(code)]);
 
         updateBreadcrumbs([]);
         this.setLoading();
@@ -174,8 +175,8 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
     render(): ReactElement {
         return (
             <WishlistShared
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

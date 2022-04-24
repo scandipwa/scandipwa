@@ -11,11 +11,11 @@
 
 import { connect } from 'react-redux';
 
-import { CART } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
@@ -33,8 +33,8 @@ import {
 
 /** @namespace Component/NavigationTabs/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    navigationState: state.NavigationReducer[ BOTTOM_NAVIGATION_TYPE ].navigationState,
-    headerState: state.NavigationReducer[ TOP_NAVIGATION_TYPE ].navigationState,
+    navigationState: state.NavigationReducer[ NavigationType.BOTTOM_NAVIGATION_TYPE ].navigationState,
+    headerState: state.NavigationReducer[ NavigationType.TOP_NAVIGATION_TYPE ].navigationState,
     device: state.ConfigReducer.device,
     cartTotals: state.CartReducer.cartTotals,
     noMatch: state.NoMatchReducer.noMatch
@@ -44,9 +44,9 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setNavigationState: (stateName) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE))
+    setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName)),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE))
 });
 
 export const DEFAULT_NAVIGATION_TABS_STATE = { name: MENU_TAB };
@@ -186,9 +186,9 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     onMinicartButtonClick() {
         const { pathname } = location;
 
-        if (pathname !== appendWithStoreCode(`/${CART}`)) {
+        if (pathname !== appendWithStoreCode(`/${Page.CART}`)) {
             scrollToTop();
-            browserHistory.push(appendWithStoreCode(`/${CART}`));
+            browserHistory.push(appendWithStoreCode(`/${Page.CART}`));
         }
     }
 

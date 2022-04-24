@@ -17,8 +17,10 @@ import {
 import {
     AttributeWithValue,
     ConfigurableCartProductFragment,
+    ConfigurableProductOptions,
+    ConfigurableVariant,
     OptimizedProductImage,
-    ProductLinks,
+    ProductLink,
     ProductStockItem
 } from './ProductList.type';
 
@@ -70,7 +72,7 @@ export interface SelectedBundleOption {
     values: SelectedBundleOptionValue[];
 }
 
-export interface CartProductInterface {
+export interface CartProductItem {
     uid: string;
     id: number;
     sku: string;
@@ -81,9 +83,11 @@ export interface CartProductInterface {
     salable_qty: number;
     stock_item: ProductStockItem;
     thumbnail: OptimizedProductImage;
+    attributes: AttributeWithValue[];
+    product_links: ProductLink[];
     ConfigurableProduct: ConfigurableCartProductFragment;
-    attributes: AttributeWithValue;
-    product_links: ProductLinks;
+    configurable_options: ConfigurableProductOptions[];
+    variants: ConfigurableVariant[];
 }
 
 export interface TotalsItem {
@@ -100,7 +104,7 @@ export interface TotalsItem {
     customizable_options: SelectedCustomizableOption;
     downloadable_links: SelectedDownloadableLinks;
     bundle_options: SelectedBundleOption;
-    product: CartProductInterface;
+    product: CartProductItem;
 }
 
 export interface QuoteData {
@@ -121,7 +125,7 @@ export interface QuoteData {
     applied_rule_ids: string;
     shipping_method: string;
     is_in_store_pickup_available: boolean;
-    items: TotalsItem;
+    items: TotalsItem[];
     applied_taxes: AppliedTaxItem;
 }
 

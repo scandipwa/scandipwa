@@ -9,14 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Query } from '@tilework/opus';
+import { Dispatch } from 'redux';
+
 import ProductListQuery from 'Query/ProductList.query';
+import { ProductsQueryOutput } from 'Query/ProductList.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import {
     updateLoadStatus,
     updateRecentlyViewedProducts
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { QueryDispatcher } from 'Util/Request';
 import getStore from 'Util/Store';
+import { RootState } from 'Util/Store/Store.type';
+
+import {
+    RecentlyViewedProductsDispatcherData,
+    RecentlyViewedProductsDispatcherOptions
+} from './RecentlyViewedProducts.type';
 
 /**
  * RecentlyViewedProducts Dispatcher
@@ -24,13 +35,16 @@ import getStore from 'Util/Store';
  * @extends QueryDispatcher
  * @namespace Store/RecentlyViewedProducts/Dispatcher
  */
-export class RecentlyViewedProductsDispatcher extends QueryDispatcher {
-    __construct() {
+export class RecentlyViewedProductsDispatcher extends QueryDispatcher<
+RecentlyViewedProductsDispatcherOptions,
+RecentlyViewedProductsDispatcherData
+> {
+    __construct(): void {
         super.__construct('recentlyViewedProducts');
     }
 
-    onSuccess({ products: { items } }, dispatch) {
-        const state = getStore().getState();
+    onSuccess({ products: { items } }: RecentlyViewedProductsDispatcherData, dispatch: Dispatch): void {
+        const state = getStore().getState() as RootState;
         const {
             code: storeCode
         } = state.ConfigReducer;
@@ -38,8 +52,12 @@ export class RecentlyViewedProductsDispatcher extends QueryDispatcher {
         dispatch(updateRecentlyViewedProducts(items, storeCode));
     }
 
-    onError(error, dispatch) {
-        dispatch(showNotification(NotificationType.ERROR, __('Error fetching Recently Viewed Products Information!'), error));
+    onError(error: unknown, dispatch: Dispatch): void {
+        dispatch(showNotification(
+            NotificationType.ERROR,
+            __('Error fetching Recently Viewed Products Information!'),
+            error
+        ));
     }
 
     /**
@@ -48,7 +66,10 @@ export class RecentlyViewedProductsDispatcher extends QueryDispatcher {
      * @memberof recentlyViewedProductsDispatcher
      * @param recentlyViewedProducts
      */
-    prepareRequest(options, dispatch) {
+    prepareRequest(
+        options: RecentlyViewedProductsDispatcherOptions,
+        dispatch: Dispatch
+    ): Query<'products', ProductsQueryOutput>[] {
         const { store } = options;
         const {
             recentProducts: {
@@ -57,13 +78,13 @@ export class RecentlyViewedProductsDispatcher extends QueryDispatcher {
         } = options;
 
         if (!Array.isArray(storeRecentProducts)) {
-            return null;
+            return [];
         }
 
         const recentlyViewedProductsSKUs = storeRecentProducts.reduce((productSKUs, item) => {
             const { sku } = item;
 
-            return [ ...productSKUs, `${sku.replace(/ /g, '%20')}` ];
+            return [...productSKUs, `${sku.replace(/ /g, '%20')}`];
         }, []);
 
         dispatch(updateLoadStatus(true));

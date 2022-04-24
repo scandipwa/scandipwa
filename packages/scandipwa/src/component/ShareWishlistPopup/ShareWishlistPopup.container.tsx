@@ -11,14 +11,15 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import WishlistQuery from 'Query/Wishlist.query';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 
@@ -29,7 +30,7 @@ export const mapDispatchToProps = (dispatch) => ({
     showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     hidePopup: () => dispatch(showPopup('', {})),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE))
 });
 
 /** @namespace Component/ShareWishlistPopup/Container/mapStateToProps */
@@ -92,8 +93,8 @@ export class ShareWishlistPopupContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ShareWishlistPopup
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

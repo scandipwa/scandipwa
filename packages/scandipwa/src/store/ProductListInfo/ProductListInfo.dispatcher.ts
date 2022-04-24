@@ -9,14 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Query } from '@tilework/opus';
+import { Dispatch } from 'redux';
+
 import ProductListQuery from 'Query/ProductList.query';
+import { ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import {
     updateInfoLoadStatus,
     updateProductListInfo
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { QueryDispatcher } from 'Util/Request';
+
+import { ProductListInfoDispatcherData } from './ProductListInfo.type';
 
 /**
  * Product List Info Dispatcher
@@ -24,27 +31,37 @@ import { QueryDispatcher } from 'Util/Request';
  * @extends QueryDispatcher
  * @namespace Store/ProductListInfo/Dispatcher
  */
-export class ProductListInfoDispatcher extends QueryDispatcher {
-    __construct() {
+export class ProductListInfoDispatcher extends QueryDispatcher<
+Partial<ProductListOptions>,
+ProductListInfoDispatcherData
+> {
+    __construct(): void {
         super.__construct('ProductListInfo');
     }
 
-    onSuccess({ products }, dispatch, options) {
+    onSuccess(
+        { products }: ProductListInfoDispatcherData,
+        dispatch: Dispatch,
+        options: Partial<ProductListOptions>
+    ): void {
         const {
             args: {
-                filter
-            }
+                filter = {}
+            } = {}
         } = options;
 
         dispatch(updateProductListInfo(products, filter));
     }
 
-    onError(error, dispatch) {
+    onError(error: unknown, dispatch: Dispatch): void {
         dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List Information!'), error));
         dispatch(updateNoMatch(true));
     }
 
-    prepareRequest(options, dispatch) {
+    prepareRequest(
+        options: Partial<ProductListOptions>,
+        dispatch: Dispatch
+    ): Query<'products', ProductsQueryOutput> {
         dispatch(updateInfoLoadStatus(true));
 
         return ProductListQuery.getQuery({

@@ -15,3 +15,11 @@ export interface CmsBlock {
     identifier: string;
     disabled: boolean;
 }
+
+export interface CmsBlocks {
+    items: CmsBlock[];
+}
+
+export interface CmsBlockQueryOutput {
+    cmsBlocks: CmsBlocks;
+}

@@ -10,34 +10,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { MouseEvent, PureComponent } from 'react';
 
 import CompareIcon from 'Component/CompareIcon';
 import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import { ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
-import { MenuType } from 'Type/Menu.type';
+import { Mods, ReactElement } from 'Type/Common.type';
 import { getSortedItems } from 'Util/Menu';
+import { FormattedMenuItem } from 'Util/Menu/Menu.type';
 import { debounce } from 'Util/Request';
 
 import { SCROLL_DEBOUNCE_DELAY } from './Menu.config';
+import { MenuComponentProps } from './Menu.type';
 
 import './Menu.style';
 
 /** @namespace Component/Menu/Component */
-export class Menu extends PureComponent {
-    static propTypes = {
-        menu: MenuType.isRequired,
-        compareTotals: PropTypes.number.isRequired,
-        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
-        handleSubcategoryClick: PropTypes.func.isRequired,
-        closeMenu: PropTypes.func.isRequired,
-        onCategoryHover: PropTypes.func.isRequired,
-        device: DeviceType.isRequired
-    };
+export class Menu extends PureComponent<MenuComponentProps> {
+    debouncedCloseMenu?: () => void;
 
     componentDidMount(): void {
         const { closeMenu } = this.props;
@@ -48,10 +40,12 @@ export class Menu extends PureComponent {
     }
 
     componentWillUnmount(): void {
-        window.removeEventListener('scroll', this.debouncedCloseMenu);
+        if (this.debouncedCloseMenu) {
+            window.removeEventListener('scroll', this.debouncedCloseMenu);
+        }
     }
 
-    renderDesktopSubLevelItems(item, mods): ReactElement {
+    renderDesktopSubLevelItems(item: FormattedMenuItem, mods: Mods): ReactElement {
         const { item_id } = item;
         const { closeMenu, activeMenuItemsStack } = this.props;
 
@@ -67,7 +61,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderDesktopSubLevel(category): ReactElement {
+    renderDesktopSubLevel(category: FormattedMenuItem): ReactElement {
         const { device } = this.props;
         const { children, item_class, item_id } = category;
         const childrenArray = getSortedItems(Object.values(children));
@@ -98,11 +92,11 @@ export class Menu extends PureComponent {
         );
     }
 
-    stopPropagation(e) {
+    stopPropagation(e: MouseEvent): void {
         e.stopPropagation();
     }
 
-    renderSubLevelItems(item, isSecondLevel): ReactElement {
+    renderSubLevelItems(item: FormattedMenuItem, isSecondLevel: boolean): ReactElement {
         const {
             handleSubcategoryClick,
             activeMenuItemsStack,
@@ -123,7 +117,7 @@ export class Menu extends PureComponent {
                   // TODO: split into smaller components
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ (e) => handleSubcategoryClick(e, item) }
-                  tabIndex="0"
+                  tabIndex={ 0 }
                   role="button"
                 >
                     <MenuItem
@@ -146,7 +140,7 @@ export class Menu extends PureComponent {
               key={ item_id }
               onClick={ this.stopPropagation }
               role="button"
-              tabIndex="-1"
+              tabIndex={ -1 }
             >
                 <MenuItem
                   activeMenuItemsStack={ activeMenuItemsStack }
@@ -160,7 +154,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderSubLevel(category, isSecondLevel = false): ReactElement {
+    renderSubLevel(category: FormattedMenuItem, isSecondLevel = false): ReactElement {
         const { activeMenuItemsStack, device } = this.props;
         const { item_id, children, title } = category;
         const childrenArray = getSortedItems(Object.values(children));
@@ -193,7 +187,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderSubMenuDesktopItems(item): ReactElement {
+    renderSubMenuDesktopItems(item: FormattedMenuItem): ReactElement {
         const { item_id, children } = item;
 
         if (!Object.keys(children).length) {
@@ -237,7 +231,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderSubMenuDesktop(itemList): ReactElement {
+    renderSubMenuDesktop(itemList: Record<string, FormattedMenuItem>): ReactElement {
         const { device } = this.props;
 
         if (device.isMobile) {
@@ -265,7 +259,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderFirstLevelItems(item): ReactElement {
+    renderFirstLevelItems(item: FormattedMenuItem): ReactElement {
         const {
             activeMenuItemsStack,
             handleSubcategoryClick,
@@ -284,7 +278,7 @@ export class Menu extends PureComponent {
                   // TODO: split into smaller components
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ (e) => handleSubcategoryClick(e, item) }
-                  tabIndex="0"
+                  tabIndex={ 0 }
                   block="Menu"
                   elem="SubCatLink"
                   role="button"
@@ -314,7 +308,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderFirstLevel(item): ReactElement {
+    renderFirstLevel(item: FormattedMenuItem): ReactElement {
         const { item_id } = item;
 
         return (

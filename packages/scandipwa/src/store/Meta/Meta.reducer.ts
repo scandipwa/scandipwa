@@ -12,7 +12,10 @@
 import { Reducer } from 'redux';
 
 import {
-    MetaActionType, MetaStore, PageMeta, UpdateMetaAction
+    MetaActionType,
+    MetaStore,
+    PageMeta,
+    UpdateMetaAction
 } from './Meta.type';
 
 export const updateEveryTime: Array<keyof PageMeta> = [
@@ -26,11 +29,11 @@ export const updateEveryTime: Array<keyof PageMeta> = [
 
 /** @namespace Store/Meta/Reducer/filterData */
 export const filterData = (data: Partial<PageMeta>): Partial<PageMeta> => {
-    const updated = updateEveryTime.reduce((acc, key) => {
+    const updated = updateEveryTime.reduce((acc: Partial<PageMeta>, key) => {
         acc[key] = data[key];
 
         return acc;
-    }, {} as Partial<PageMeta>);
+    }, {});
 
     return { ...data, ...updated };
 };

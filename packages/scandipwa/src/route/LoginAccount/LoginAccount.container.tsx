@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { CUSTOMER_ACCOUNT } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps,
@@ -76,7 +76,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
             history.replace(appendWithStoreCode(AccountPageUrl.ACCOUNT_URL));
         }
 
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
+        setHeaderState({ name: Page.CUSTOMER_ACCOUNT, title: __('Sign in') });
         toggleBreadcrumbs(false);
         scrollToTop({ behavior: 'smooth' });
     }

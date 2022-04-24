@@ -11,7 +11,22 @@
 
 import { AnyAction } from 'redux';
 
-import { LinkedProductsMap } from 'Type/ProductList.type';
+import { ProductsQueryOutput } from 'Query/ProductList.type';
+import { IndexedProduct } from 'Util/Product/Product.type';
+
+export enum LinkedProductType {
+    UPSELL = 'upsell',
+    RELATED = 'related',
+    CROSS_SELL = 'crosssell',
+    ASSOCIATED = 'associated'
+}
+
+export type LinkedProducts = {
+    items: IndexedProduct[];
+    total_count: number;
+};
+
+export type LinkedProductsMap = Partial<Record<LinkedProductType, Partial<LinkedProducts>>>;
 
 export enum LinkedProductsActionType {
     UPDATE_LINKED_PRODUCTS = 'UPDATE_LINKED_PRODUCTS'
@@ -33,3 +48,7 @@ declare module 'Util/Store/Store.type' {
         LinkedProductsReducer: LinkedProductsStore;
     }
 }
+
+export type LinkedProductsDispatcherData = {
+    products: ProductsQueryOutput;
+};

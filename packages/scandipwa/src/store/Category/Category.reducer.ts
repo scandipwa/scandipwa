@@ -11,7 +11,11 @@
 
 import { Reducer } from 'redux';
 
-import { CategoryActionType, CategoryStore, UpdateCurrentCategoryAction } from './Category.type';
+import {
+    CategoryActionType,
+    CategoryStore,
+    UpdateCurrentCategoryAction
+} from './Category.type';
 
 /** @namespace Store/Category/Reducer/getInitialState */
 export const getInitialState = (): CategoryStore => ({

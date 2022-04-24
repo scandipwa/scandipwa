@@ -41,36 +41,3 @@ declare module 'Util/Store/Store.type' {
         MetaReducer: MetaStore;
     }
 }
-
-export type Category = {
-    description: string;
-    name: string;
-    canonical_url: string;
-    meta_title: string;
-    meta_keywords: string;
-    meta_description: string;
-    meta_robots: string;
-};
-
-export type CategoryMeta = {
-    description: string;
-    title: string;
-    keywords: string;
-    canonical_url: string;
-    robots: string;
-};
-
-export type Product = {
-    name: string;
-    meta_title: string;
-    meta_keyword: string;
-    canonical_url: string;
-    meta_description: string;
-};
-
-export type ProductMeta = {
-    description: string;
-    keywords: string;
-    title: string;
-    canonical_url: string;
-};

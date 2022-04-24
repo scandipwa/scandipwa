@@ -383,9 +383,9 @@ export const magentoProductTransform = (
 export const nonRequiredRadioOptions = (
     options: ItemOption[],
     isRequired = false,
-    type: string = FieldType.radio
-): any => {
-    if (isRequired || type !== FieldType.radio) {
+    type: string = FieldType.RADIO
+) => {
+    if (isRequired || type !== FieldType.RADIO) {
         return options;
     }
 

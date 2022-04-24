@@ -9,7 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { OfflineActionType, SetBigOfflineNoticeAction, ShowOfflineNoticeAction } from './Offline.type';
+import {
+    OfflineActionType,
+    SetBigOfflineNoticeAction,
+    ShowOfflineNoticeAction
+} from './Offline.type';
 
 /**
  * Show offline notice.

@@ -9,26 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import NoMatch from 'Route/NoMatch';
-import { BlockListType } from 'Type/CMS.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { CmsPageComponentProps } from './CmsPage.type';
 
 import './CmsPage.style';
 
 /** @namespace Route/CmsPage/Component */
-export class CmsPage extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        isBreadcrumbsActive: PropTypes.bool,
-        page: BlockListType.isRequired,
-        isPageLoaded: PropTypes.bool.isRequired
-    };
-
+export class CmsPage extends PureComponent<CmsPageComponentProps> {
     static defaultProps = {
         isBreadcrumbsActive: true
     };
@@ -42,7 +35,7 @@ export class CmsPage extends PureComponent {
 
         return (
             <h1 block="CmsPage" elem="Heading">
-                <TextPlaceholder content={content_heading} />
+                <TextPlaceholder content={ content_heading } />
             </h1>
         );
     }
@@ -67,7 +60,7 @@ export class CmsPage extends PureComponent {
             return null;
         }
 
-        return <Html content={content} />;
+        return <Html content={ content } />;
     }
 
     render(): ReactElement {
@@ -85,13 +78,13 @@ export class CmsPage extends PureComponent {
 
         return (
             <main
-                block="CmsPage"
-                mods={{ isBreadcrumbsHidden: !isBreadcrumbsActive }}
+              block="CmsPage"
+              mods={ { isBreadcrumbsHidden: !isBreadcrumbsActive } }
             >
-                <div block="CmsPage" elem="Wrapper" mods={{ page_width }}>
-                    {this.renderHeading()}
+                <div block="CmsPage" elem="Wrapper" mods={ { page_width } }>
+                    { this.renderHeading() }
                     <div block="CmsPage" elem="Content">
-                        {this.renderContent()}
+                        { this.renderContent() }
                     </div>
                 </div>
             </main>

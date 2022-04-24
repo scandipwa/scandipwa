@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { MenuItem } from 'Type/Menu.type';
+import { Menu as MenuData, MenuItem } from 'Query/Menu.type';
 
-import { FormattedMenuItem, MenuItemType } from './Menu.type';
+import { FormattedMenuItem, MenuItemType, MenuLocation } from './Menu.type';
 
 /**
  * Given an array of menu items, returns a copy of the array, sorted by their parent ID, then by their sort order (position)
@@ -20,10 +20,12 @@ import { FormattedMenuItem, MenuItemType } from './Menu.type';
  * @returns {array} the sorted array
  * @namespace Util/Menu/getSortedItems
  */
-export const getSortedItems = (unsortedItems: MenuItem[]): MenuItem[] => Array.from(unsortedItems).sort((
-    { parent_id: PID, position: P },
-    { parent_id: prevPID, position: prevP }
-) => (PID - prevPID) || (P - prevP));
+export const getSortedItems = <T extends MenuItem | FormattedMenuItem>(
+    unsortedItems: T[]
+): T[] => Array.from(unsortedItems).sort((
+        { parent_id: PID, position: P },
+        { parent_id: prevPID, position: prevP }
+    ) => (PID - prevPID) || (P - prevP));
 
 /** @namespace Util/Menu */
 export class Menu {
@@ -31,7 +33,9 @@ export class Menu {
 
     menuPositionReference: Record<string, number[]> = {};
 
-    getMenuUrl({ url, url_type, category_id }: Pick<MenuItem, 'url' | 'url_type' | 'category_id'>): MenuLocation {
+    getMenuUrl(
+        { url, url_type, category_id }: Pick<MenuItem, 'url' | 'url_type' | 'category_id'>
+    ): MenuLocation | string {
         switch (url_type) {
         case MenuItemType.TYPE_CATEGORY:
             return {
@@ -64,17 +68,21 @@ export class Menu {
         };
     }
 
-    // TODO from child to menu item ??? Any
-    setToValue(obj: Record<string, FormattedMenuItem> | any, path: string, value: FormattedMenuItem): void {
+    setToValue(obj: Record<string, FormattedMenuItem>, path: string, value: FormattedMenuItem): void {
         // eslint-disable-next-line fp/no-let
         let i;
+
         const pathArray = path.split('.');
+
+        // eslint-disable-next-line fp/no-let, @typescript-eslint/no-explicit-any
+        let tmpObj: Record<string, any> = obj;
+
         // eslint-disable-next-line fp/no-loops
         for (i = 0; i < pathArray.length - 1; i++) {
-            obj = obj[pathArray[i]];
+            tmpObj = tmpObj[pathArray[i]];
         }
 
-        obj[pathArray[i]] = value;
+        tmpObj[pathArray[i]] = value;
     }
 
     createItem(data: MenuItem): void {
@@ -97,7 +105,7 @@ export class Menu {
         }
     }
 
-    reduce({ items: unsortedItems }: Record<string, MenuItem[]>): Record<string, FormattedMenuItem> {
+    reduce({ items: unsortedItems }: MenuData): Record<string, FormattedMenuItem> {
         this.menu = {};
         this.menuPositionReference = {};
 

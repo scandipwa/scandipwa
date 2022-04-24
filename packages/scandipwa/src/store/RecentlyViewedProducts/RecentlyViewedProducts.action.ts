@@ -9,9 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_RECENTLY_VIEWED_PRODUCTS = 'UPDATE_RECENTLY_VIEWED_PRODUCTS';
-export const ADD_RECENTLY_VIEWED_PRODUCT = 'ADD_RECENTLY_VIEWED_PRODUCT';
-export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
+import { ProductItem } from 'Query/ProductList.type';
+
+import {
+    AddRecentlyViewedProductAction,
+    RecentlyViewedProductsActionType,
+    UpdateLoadStatusAction,
+    UpdateRecentlyViewedProductsAction
+} from './RecentlyViewedProducts.type';
 
 /**
  * Add RecentlyViewed product into list.
@@ -20,8 +25,11 @@ export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
  * @return {void}
  * @namespace Store/RecentlyViewedProducts/Action/addRecentlyViewedProduct
  */
-export const addRecentlyViewedProduct = (product, store) => ({
-    type: ADD_RECENTLY_VIEWED_PRODUCT,
+export const addRecentlyViewedProduct = (
+    product: ProductItem,
+    store: string
+): AddRecentlyViewedProductAction => ({
+    type: RecentlyViewedProductsActionType.ADD_RECENTLY_VIEWED_PRODUCT,
     product,
     store
 });
@@ -32,8 +40,11 @@ export const addRecentlyViewedProduct = (product, store) => ({
  * @return {void}
  * @namespace Store/RecentlyViewedProducts/Action/updateRecentlyViewedProducts
  */
-export const updateRecentlyViewedProducts = (products, storeCode) => ({
-    type: UPDATE_RECENTLY_VIEWED_PRODUCTS,
+export const updateRecentlyViewedProducts = (
+    products: ProductItem[],
+    storeCode: string
+): UpdateRecentlyViewedProductsAction => ({
+    type: RecentlyViewedProductsActionType.UPDATE_RECENTLY_VIEWED_PRODUCTS,
     products,
     storeCode
 });
@@ -44,7 +55,7 @@ export const updateRecentlyViewedProducts = (products, storeCode) => ({
  * @return {void}
  * @namespace Store/RecentlyViewedProducts/Action/updateLoadStatus
  */
-export const updateLoadStatus = (status) => ({
-    type: UPDATE_LOAD_STATUS,
+export const updateLoadStatus = (status: boolean): UpdateLoadStatusAction => ({
+    type: RecentlyViewedProductsActionType.UPDATE_LOAD_STATUS,
     isLoading: status
 });

@@ -12,10 +12,11 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 
 import KlarnaComponent from './Klarna.component';
 
@@ -59,7 +60,7 @@ export class KlarnaContainer extends PureComponent {
     }
 
     render(): ReactElement {
-        return <KlarnaComponent {...this.containerProps()} />;
+        return <KlarnaComponent { ...this.containerProps() } />;
     }
 }
 

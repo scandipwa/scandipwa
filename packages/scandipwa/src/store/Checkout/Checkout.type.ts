@@ -10,8 +10,6 @@
  */
 import { AnyAction } from 'redux';
 
-import { GQLIsEmailAvailableOutput } from 'Type/Graphql.type';
-
 export enum CheckoutActionType {
     UPDATE_SHIPPING_FIELDS = 'UPDATE_SHIPPING_FIELDS',
     UPDATE_EMAIL = 'UPDATE_EMAIL',
@@ -48,7 +46,7 @@ declare module 'Util/Store/Store.type' {
 }
 
 export type CheckoutDispatcherData = {
-    isEmailAvailable: GQLIsEmailAvailableOutput & {
+    isEmailAvailable: {
         is_email_available: boolean;
     };
 };

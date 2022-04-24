@@ -219,7 +219,7 @@ export type QueryVariables = Record<string, string>;
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/executeGet
  */
-export const executeGet = (queryObject: QueryObject, name: string, cacheTTL: number): Promise<unknown> => {
+export const executeGet = <T>(queryObject: QueryObject, name: string, cacheTTL: number): Promise<T> => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
 
@@ -277,7 +277,7 @@ export const executePost = <T>(queryObject: QueryObject): Promise<T> => {
  * @return {Promise<any>} Broadcast message promise
  * @namespace Util/Request/listenForBroadCast
  */
-export const listenForBroadCast = (name: string): Promise<unknown> => new Promise((resolve) => {
+export const listenForBroadCast = <T = unknown>(name: string): Promise<T> => new Promise((resolve) => {
     const { BroadcastChannel } = window;
     const windowId = getWindowId();
 
@@ -292,7 +292,7 @@ export const listenForBroadCast = (name: string): Promise<unknown> => new Promis
 
 // TODO
 /** @namespace Util/Request/debounce */
-export const debounce = <T>(callback: () => void, delay: number): (...args: T[]) => void => {
+export const debounce = <T>(callback: (...args: T[]) => void, delay: number): (...args: T[]) => void => {
     // eslint-disable-next-line fp/no-let
     let timeout: NodeJS.Timeout;
 
@@ -303,18 +303,17 @@ export const debounce = <T>(callback: () => void, delay: number): (...args: T[])
 };
 
 /** @namespace Util/Request */
-export class Debouncer <
-    T extends () => void,
-    U extends number,
-    S
-> {
+export class Debouncer {
     timeout!: NodeJS.Timeout;
 
     handler = (): void => {};
 
-    startDebounce = (callback:T, delay: U) => (...args: S[]): void => {
+    startDebounce = <T = unknown>(
+        callback: (...args: T[]) => void,
+        delay: number
+    ) => (...args: T[]): void => {
         clearTimeout(this.timeout);
-        this.handler = () => callback.apply(this, args as []);
+        this.handler = () => callback.apply(this, args);
         this.timeout = setTimeout(this.handler, delay);
     };
 

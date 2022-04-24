@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const APPEND_PAGE = 'APPEND_PAGE';
-export const UPDATE_PRODUCT_LIST_ITEMS = 'UPDATE_PRODUCT_LIST_ITEMS';
-export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
-export const UPDATE_PAGE_LOAD_STATUS = 'UPDATE_PAGE_LOAD_STATUS';
+import { ProductItem, ProductListOptionArgs } from 'Query/ProductList.type';
+
+import {
+    AppendPageAction,
+    ProductListActionType, UpdateLoadStatusAction, UpdatePageLoadingStatusAction, UpdateProductListItemsAction
+} from './ProductList.type';
 
 /**
  * Append page to the list.
@@ -22,8 +24,8 @@ export const UPDATE_PAGE_LOAD_STATUS = 'UPDATE_PAGE_LOAD_STATUS';
  * @param {Number} currentPage Number of requested page
  * @namespace Store/ProductList/Action/appendPage
  */
-export const appendPage = (items, currentPage) => ({
-    type: APPEND_PAGE,
+export const appendPage = (items: ProductItem[], currentPage: number): AppendPageAction => ({
+    type: ProductListActionType.APPEND_PAGE,
     items,
     currentPage
 });
@@ -37,13 +39,13 @@ export const appendPage = (items, currentPage) => ({
  * @namespace Store/ProductList/Action/updateProductListItems
  */
 export const updateProductListItems = (
-    items,
-    currentPage,
-    total_count,
-    total_pages,
-    args
-) => ({
-    type: UPDATE_PRODUCT_LIST_ITEMS,
+    items: ProductItem[],
+    currentPage: number,
+    total_count: number,
+    total_pages: number,
+    args: ProductListOptionArgs
+): UpdateProductListItemsAction => ({
+    type: ProductListActionType.UPDATE_PRODUCT_LIST_ITEMS,
     items,
     currentPage,
     total_pages,
@@ -57,12 +59,12 @@ export const updateProductListItems = (
  * @return {void}
  * @namespace Store/ProductList/Action/updateLoadStatus
  */
-export const updateLoadStatus = (status) => ({
-    type: UPDATE_LOAD_STATUS,
+export const updateLoadStatus = (status: boolean): UpdateLoadStatusAction => ({
+    type: ProductListActionType.UPDATE_LOAD_STATUS,
     isLoading: status
 });
 
 /** @namespace Store/ProductList/Action/updatePageLoadingStatus */
-export const updatePageLoadingStatus = () => ({
-    type: UPDATE_PAGE_LOAD_STATUS
+export const updatePageLoadingStatus = (): UpdatePageLoadingStatusAction => ({
+    type: ProductListActionType.UPDATE_PAGE_LOAD_STATUS
 });

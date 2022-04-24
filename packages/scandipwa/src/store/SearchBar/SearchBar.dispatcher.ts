@@ -9,10 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Query } from '@tilework/opus';
+import { Dispatch } from 'redux';
+
 import ProductListQuery from 'Query/ProductList.query';
+import { ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
 import { QueryDispatcher } from 'Util/Request';
 
 import { clearSearchResults, updateLoadStatus, updateSearchBar } from './SearchBar.action';
+import { SearchBarDispatcherData } from './SearchBar.type';
 
 /**
  * Search Bar Dispatcher
@@ -20,25 +25,28 @@ import { clearSearchResults, updateLoadStatus, updateSearchBar } from './SearchB
  * @extends QueryDispatcher
  * @namespace Store/SearchBar/Dispatcher
  */
-export class SearchBarDispatcher extends QueryDispatcher {
-    __construct() {
+export class SearchBarDispatcher extends QueryDispatcher<
+Partial<ProductListOptions>,
+SearchBarDispatcherData
+> {
+    __construct(): void {
         super.__construct('SearchBar');
     }
 
-    onSuccess(data, dispatch) {
+    onSuccess(data: SearchBarDispatcherData, dispatch: Dispatch): void {
         dispatch(updateLoadStatus(false));
         dispatch(updateSearchBar(data));
     }
 
-    onError(_, dispatch) {
+    onError(_: unknown, dispatch: Dispatch): void {
         dispatch(updateLoadStatus(false));
     }
 
-    clearSearchResults(dispatch) {
+    clearSearchResults(dispatch: Dispatch): void {
         dispatch(clearSearchResults());
     }
 
-    prepareRequest(options, dispatch) {
+    prepareRequest(options: Partial<ProductListOptions>, dispatch: Dispatch): Query<'products', ProductsQueryOutput> {
         dispatch(updateLoadStatus(true));
 
         return ProductListQuery.getQuery({

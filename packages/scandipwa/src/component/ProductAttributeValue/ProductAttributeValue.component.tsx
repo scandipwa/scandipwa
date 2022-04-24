@@ -306,7 +306,7 @@ export class ProductAttributeValue extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.checkbox }
+              type={ FieldType.CHECKBOX }
               attr={ {
                   id: value,
                   name: value,

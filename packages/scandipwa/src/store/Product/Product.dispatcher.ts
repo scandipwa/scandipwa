@@ -13,11 +13,9 @@ import { Query } from '@tilework/opus';
 import { Dispatch } from 'redux';
 
 import ProductListQuery from 'Query/ProductList.query';
-import { ProductListOptions } from 'Query/Query.type';
+import { ProductLink, ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { updateProductDetails } from 'Store/Product/Product.action';
-import { GQLProductInterface, GQLProductLinksInterface } from 'Type/Graphql.type';
-import { Product, ProductBundle } from 'Type/ProductList.type';
 import { QueryDispatcher } from 'Util/Request';
 
 import { ProductDispatcherData } from './Product.type';
@@ -53,17 +51,17 @@ export class ProductDispatcher extends QueryDispatcher<ProductListOptions, Produ
 
         const [product] = items;
 
-        const product_links = (items as GQLProductInterface[]).reduce((links, product) => {
+        const product_links = items.reduce((links: ProductLink[], product) => {
             const { product_links } = product;
 
             if (product_links) {
-                (Object.values(product_links) as GQLProductLinksInterface[]).forEach((item) => {
+                Object.values(product_links).forEach((item) => {
                     links.push(item);
                 });
             }
 
             return links;
-        }, [] as GQLProductLinksInterface[]);
+        }, []);
 
         LinkedProductsDispatcher.then(
             ({ default: dispatcher }) => {
@@ -75,15 +73,15 @@ export class ProductDispatcher extends QueryDispatcher<ProductListOptions, Produ
             }
         );
 
-        dispatch(updateProductDetails(product as unknown as Product | ProductBundle));
+        dispatch(updateProductDetails(product));
     }
 
     onError(_: unknown, dispatch: Dispatch): void {
         dispatch(updateNoMatch(true));
     }
 
-    prepareRequest(options: ProductListOptions): Query<'products', unknown, false> {
-        return ProductListQuery.getQuery(options) as Query<'products', unknown, false>;
+    prepareRequest(options: ProductListOptions): Query<'products', ProductsQueryOutput> {
+        return ProductListQuery.getQuery(options);
     }
 }
 

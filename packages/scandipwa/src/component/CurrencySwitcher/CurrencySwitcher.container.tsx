@@ -9,46 +9,43 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { ConfigDispatcher } from 'Store/Config/Config.dispatcher';
+import { ReactElement } from 'Type/Common.type';
 import DataContainer from 'Util/Request/DataContainer';
+import { RootState } from 'Util/Store/Store.type';
 
 import CurrencySwitcher from './CurrencySwitcher.component';
+import {
+    CurrencySwitcherComponentProps,
+    CurrencySwitcherContainerProps,
+    CurrencySwitcherMapDispatchProps,
+    CurrencySwitcherMapStateProps
+} from './CurrencySwitcher.type';
 
 /** @namespace Component/CurrencySwitcher/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CurrencySwitcherMapStateProps => ({
     currencyData: state.ConfigReducer.currencyData
 });
 
 /** @namespace Component/CurrencySwitcher/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): CurrencySwitcherMapDispatchProps => ({
     updateCurrency: (options) => ConfigDispatcher.updateCurrency(dispatch, options)
 });
 
 /** @namespace Component/CurrencySwitcher/Container */
-export class CurrencySwitcherContainer extends DataContainer {
-    static propTypes = {
-        currencyData: PropTypes.shape({
-            available_currencies_data: PropTypes.arrayOf(
-                PropTypes.objectOf(
-                    PropTypes.string
-                )
-            ),
-            current_currency_code: PropTypes.string
-        }).isRequired
-    };
-
+export class CurrencySwitcherContainer extends DataContainer<CurrencySwitcherContainerProps> {
     containerFunctions = {
         handleCurrencySelect: this._handleCurrencySelect.bind(this)
     };
 
-    __construct(props) {
+    __construct(props: CurrencySwitcherContainerProps): void {
         super.__construct(props, 'CurrencySwitcherContainer');
     }
 
-    _handleCurrencySelect(currencyCode) {
+    _handleCurrencySelect(currencyCode: string): void {
         const { updateCurrency } = this.props;
 
         updateCurrency({ currencyCode }).then(
@@ -57,7 +54,7 @@ export class CurrencySwitcherContainer extends DataContainer {
         );
     }
 
-    containerProps() {
+    containerProps(): Pick<CurrencySwitcherComponentProps, 'currencyData'> {
         const { currencyData } = this.props;
 
         return { currencyData };
@@ -66,8 +63,8 @@ export class CurrencySwitcherContainer extends DataContainer {
     render(): ReactElement {
         return (
             <CurrencySwitcher
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

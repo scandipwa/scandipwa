@@ -12,7 +12,6 @@
 import { Query } from '@tilework/opus';
 import { PureComponent } from 'react';
 
-import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import { makeCancelable } from 'Util/Promise';
 import { CancelablePromise } from 'Util/Promise/Promise.type';
@@ -23,7 +22,10 @@ import { hash } from 'Util/Request/Hash';
 import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
 
 /** @namespace Util/Request/DataContainer */
-export class DataContainer extends PureComponent {
+export class DataContainer<
+P = Record<string, unknown>,
+S = Record<string, unknown>
+> extends PureComponent<P, S> {
     protected dataModelName = '';
 
     protected isShouldListenForBroadcast = true;
@@ -33,7 +35,7 @@ export class DataContainer extends PureComponent {
     protected promise?: CancelablePromise<unknown>;
 
     __construct(
-        props: Record<string, unknown>,
+        props: P,
         dataModelName = '',
         isShouldListenForBroadcast = true,
         cacheTTL = ONE_MONTH_IN_SECONDS
@@ -52,9 +54,10 @@ export class DataContainer extends PureComponent {
         }
     }
 
-    fetchData(
-        rawQueries: Query<string, unknown, boolean>[],
-        onSuccess: (x: unknown) => void = noopFn,
+    fetchData<T = unknown>(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rawQueries: Query<string, any, boolean>[],
+        onSuccess: (x: T) => void = noopFn,
         onError: (x: unknown) => void = noopFn,
         takeFromWindowCache = true
     ): void {
@@ -67,7 +70,7 @@ export class DataContainer extends PureComponent {
         }
 
         if (takeFromWindowCache && window.dataCache[queryHash]) {
-            onSuccess(window.dataCache[queryHash]);
+            onSuccess(window.dataCache[queryHash] as T);
 
             return;
         }
@@ -80,14 +83,14 @@ export class DataContainer extends PureComponent {
             /** @namespace Util/Request/DataContainer/DataContainer/fetchData/then */
             (response) => {
                 (window.dataCache || {})[queryHash] = response;
-                onSuccess(response);
+                onSuccess(response as T);
             },
             /** @namespace Util/Request/DataContainer/DataContainer/fetchData/then/onError/catch */
             (err) => onError(err)
         );
 
         if (this.isShouldListenForBroadcast) {
-            listenForBroadCast(this.dataModelName).then(
+            listenForBroadCast<T>(this.dataModelName).then(
                 /** @namespace Util/Request/DataContainer/DataContainer/fetchData/listenForBroadCast/then/onSuccess */
                 onSuccess
             );

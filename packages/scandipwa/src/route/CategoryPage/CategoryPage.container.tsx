@@ -11,10 +11,9 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { CATEGORY } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import {
     GRID_LAYOUT,
@@ -25,11 +24,12 @@ import {
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
 import { CategoryTreeType, SelectedFiltersType, SortFieldsType } from 'Type/Category.type';
+import { ReactElement } from 'Type/Common.type';
 import { AttributesType } from 'Type/ProductList.type';
 import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
@@ -89,8 +89,8 @@ export const mapStateToProps = (state) => ({
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
     requestCategory: (options) => CategoryDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
@@ -207,7 +207,7 @@ export class CategoryPageContainer extends PureComponent {
                 Object.assign(update, { defaultPlpType: defaultType, plpTypes });
             } else {
                 const defaultType = isMobile ? GRID_LAYOUT : plpType;
-                Object.assign(update, { defaultPlpType: defaultType, plpTypes: [ plpType ] });
+                Object.assign(update, { defaultPlpType: defaultType, plpTypes: [plpType] });
             }
         }
 
@@ -472,7 +472,7 @@ export class CategoryPageContainer extends PureComponent {
         const { location: { search } } = this.props;
 
         return search.substr(1).split('&').reduce((acc, part) => {
-            const [ key, value ] = part.split('=');
+            const [key, value] = part.split('=');
 
             return { ...acc, [ key ]: value };
         }, {});
@@ -486,7 +486,7 @@ export class CategoryPageContainer extends PureComponent {
             if (!filter) {
                 return acc;
             }
-            const [ key, value ] = filter.split(':');
+            const [key, value] = filter.split(':');
 
             return { ...acc, [ key ]: value.split(',') };
         }, {});
@@ -659,7 +659,7 @@ export class CategoryPageContainer extends PureComponent {
         const title = isUnmatchedCategory ? undefined : name;
 
         changeHeaderState({
-            name: CATEGORY,
+            name: Page.CATEGORY,
             title,
             onBackClick
         });
@@ -716,12 +716,12 @@ export class CategoryPageContainer extends PureComponent {
 
         return (
             <CategoryPage
-                pageSize={pageSize}
-                defaultPlpType={defaultPlpType}
-                selectedLayoutType={selectedLayoutType}
-                activeLayoutType={activeLayoutType}
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              pageSize={ pageSize }
+              defaultPlpType={ defaultPlpType }
+              selectedLayoutType={ selectedLayoutType }
+              activeLayoutType={ activeLayoutType }
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

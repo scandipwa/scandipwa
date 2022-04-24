@@ -22,6 +22,7 @@ import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
+import { NotificationType } from 'Store/Notification/Notification.type';
 
 export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */

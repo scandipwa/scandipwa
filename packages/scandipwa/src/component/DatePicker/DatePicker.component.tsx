@@ -36,9 +36,9 @@ export class DatePickerComponent extends PureComponent {
     };
 
     placeholderMap = {
-        [FieldType.date]: __('Select date'),
-        [FieldType.dateTime]: __('Select date & time'),
-        [FieldType.time]: __('Select time')
+        [FieldType.DATE]: __('Select date'),
+        [FieldType.DATETIME]: __('Select date & time'),
+        [FieldType.TIME]: __('Select time')
     };
 
     getPlaceholder() {
@@ -54,7 +54,7 @@ export class DatePickerComponent extends PureComponent {
             <input
               id={ uid }
               name={ uid }
-              type={ FieldType.text }
+              type={ FieldType.TEXT }
               value={ value }
               onClick={ onClick }
               ref={ ref }

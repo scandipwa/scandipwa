@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { ProductType } from 'Component/Product/Product.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';
 import { ProductType } from 'Type/ProductList.type';

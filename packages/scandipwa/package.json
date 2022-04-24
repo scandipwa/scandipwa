@@ -134,6 +134,7 @@
         },
         "ignorePatterns": [
             "package.json",
+            "tsconfig.json",
             "*.js"
         ],
         "env": {

@@ -11,7 +11,7 @@
 
 import { Field, Query } from '@tilework/opus';
 
-import { CmsBlock } from './CmsBlock.type';
+import { CmsBlock, CmsBlocks } from './CmsBlock.type';
 
 /**
  * CMS Blocks Query
@@ -24,12 +24,12 @@ export class CmsBlockQuery {
      * @return {Field} CMS Block query
      * @memberof CmsBlocksQuery
      */
-    getQuery({ identifiers }: { identifiers: string[] }): Query<'cmsBlocks', { items: CmsBlock[] }> {
+    getQuery({ identifiers }: { identifiers: string[] }): Query<'cmsBlocks', CmsBlocks> {
         if (!identifiers) {
             throw new Error('Missing argument `options`');
         }
 
-        return new Query<'cmsBlocks', { items: CmsBlock[] }>('cmsBlocks')
+        return new Query<'cmsBlocks', CmsBlocks>('cmsBlocks')
             .addArgument('identifiers', '[String]', identifiers)
             .addField(this._getItemsField());
     }

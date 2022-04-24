@@ -9,15 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Query } from '@tilework/opus';
 import { Dispatch } from 'redux';
 
-import { CHECKOUT, MY_ACCOUNT } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { CONFIRMATION_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import MyAccountQuery from 'Query/MyAccount.query';
 import {
-    ConfirmAccountOptions, CreateAccountOptions, ResetPasswordOptions, SignInOptions
-} from 'Query/Query.type';
+    ConfirmAccountOptions, CreateAccountOptions, Customer, ResetPasswordOptions, SignInOptions
+} from 'Query/MyAccount.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import {
     updateCustomerDetails,
@@ -31,7 +30,6 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearComparedProducts } from 'Store/ProductCompare/ProductCompare.action';
-import { GQLCustomer } from 'Type/Graphql.type';
 import {
     deleteAuthorizationToken,
     getAuthorizationToken,
@@ -74,17 +72,17 @@ export const ONE_MONTH_IN_SECONDS = 2628000;
  */
 export class MyAccountDispatcher {
     forceLogoutRedirectPages = [
-        CHECKOUT,
-        MY_ACCOUNT
+        Page.CHECKOUT,
+        Page.MY_ACCOUNT
     ];
 
     requestCustomerData(dispatch: Dispatch): Promise<void> {
-        const query = MyAccountQuery.getCustomerQuery() as unknown as Query<'customer', GQLCustomer, false>;
+        const query = MyAccountQuery.getCustomerQuery();
 
-        return executePost(prepareQuery([query])).then(
+        return executePost<{ customer: Customer }>(prepareQuery([query])).then(
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then */
             (data) => {
-                const { customer } = data as { customer: GQLCustomer };
+                const { customer } = data;
 
                 if (!getAuthorizationToken()) {
                     return;
@@ -129,7 +127,7 @@ export class MyAccountDispatcher {
         removeUid();
 
         dispatch(updateCustomerSignInStatus(false));
-        dispatch(updateCustomerDetails({} as GQLCustomer));
+        dispatch(updateCustomerDetails({}));
 
         // After logout cart, wishlist and compared product list is always empty.
         // There is no need to fetch it from the backend.
@@ -144,7 +142,7 @@ export class MyAccountDispatcher {
         );
 
         dispatch(clearComparedProducts());
-        dispatch(updateCustomerDetails({} as GQLCustomer));
+        dispatch(updateCustomerDetails({}));
     }
 
     /**
@@ -156,7 +154,7 @@ export class MyAccountDispatcher {
     forgotPassword(
         options: { email: string },
         dispatch: Dispatch
-    ): Promise<UpdateCustomerPasswordForgotStatusAction | ShowNotificationAction<unknown>> {
+    ): Promise<UpdateCustomerPasswordForgotStatusAction | ShowNotificationAction> {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
 
         return fetchMutation(mutation).then(
@@ -208,7 +206,7 @@ export class MyAccountDispatcher {
             return await this.signIn({ email, password }, dispatch);
         } catch (error) {
             dispatch(updateIsLoading(false));
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as Error)));
             return false;
         }
     }
@@ -218,7 +216,7 @@ export class MyAccountDispatcher {
      * @param {{key: String, email: String, password: String}} [options={}]
      * @memberof MyAccountDispatcher
      */
-    confirmAccount(options: ConfirmAccountOptions, dispatch: Dispatch): Promise<ShowNotificationAction<unknown>> {
+    confirmAccount(options: ConfirmAccountOptions, dispatch: Dispatch): Promise<ShowNotificationAction> {
         const mutation = MyAccountQuery.getConfirmAccountMutation(options);
 
         return fetchMutation(mutation).then(

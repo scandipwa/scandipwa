@@ -177,7 +177,7 @@ export class CheckoutDeliveryOption extends PureComponent {
                   disabled={ !available }
                 >
                     <Field
-                      type={ FieldType.radio }
+                      type={ FieldType.RADIO }
                       attr={ {
                           id: `option-${ carrier_title }`,
                           name: `option-${ carrier_title }`,

@@ -10,9 +10,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { CategoryFragment } from 'Type/Category.type';
+import { Category } from 'Query/Category.type';
 
-import { CategoryActionType, UpdateCurrentCategoryAction } from './Category.type';
+import {
+    CategoryActionType,
+    UpdateCurrentCategoryAction
+} from './Category.type';
 
 /**
  * Update Current Category
@@ -21,7 +24,7 @@ import { CategoryActionType, UpdateCurrentCategoryAction } from './Category.type
  * @namespace Store/Category/Action/updateCurrentCategory
  */
 export const updateCurrentCategory = (
-    category: CategoryFragment | Record<string, unknown>
+    category: Partial<Category>
 ): UpdateCurrentCategoryAction => ({
     type: CategoryActionType.UPDATE_CURRENT_CATEGORY,
     category

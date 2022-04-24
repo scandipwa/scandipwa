@@ -15,7 +15,7 @@ import { ReducersMapObject } from 'redux';
  * @param store
  * @param reducers
  */
-export default function injectToReducers <S, A, T extends ModifiedReduxStore<S, A>>(
+export default function injectToReducers <S, T extends ModifiedReduxStore<S>>(
     store: T,
     reducers: ReducersMapObject
 ): void {

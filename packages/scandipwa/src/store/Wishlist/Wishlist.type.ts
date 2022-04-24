@@ -10,7 +10,9 @@
  */
 import { AnyAction } from 'redux';
 
-import { Product } from 'Type/ProductList.type';
+import { PriceRange, ProductItem } from 'Query/ProductList.type';
+import { WishlistItem } from 'Query/Wishlist.type';
+import { Merge } from 'Type/Common.type';
 
 export enum WishlistActionType {
     CLEAR_WISHLIST = 'CLEAR_WISHLIST',
@@ -20,32 +22,32 @@ export enum WishlistActionType {
     UPDATE_IS_LOADING_IN_WISHLIST = 'UPDATE_IS_LOADING_IN_WISHLIST'
 }
 
-export interface RemoveItemFromWishlist extends AnyAction {
+export interface RemoveItemFromWishlistAction extends AnyAction {
     type: WishlistActionType.REMOVE_ITEM_FROM_WISHLIST;
-    item_id: number;
+    item_id: string;
 }
 
-export interface UpdateAllProductsInWishlist extends AnyAction {
+export interface UpdateAllProductsInWishlistAction extends AnyAction {
     type: WishlistActionType.UPDATE_ALL_PRODUCTS_IN_WISHLIST;
-    products: Record<string, Product>;
+    products: Record<string, WishlistProduct>;
 }
 
-export interface UpdateIsLoading extends AnyAction {
+export interface UpdateIsLoadingAction extends AnyAction {
     type: WishlistActionType.UPDATE_IS_LOADING_IN_WISHLIST;
     isLoading: boolean;
 }
 
-export interface ClearWishlist extends AnyAction {
+export interface ClearWishlistAction extends AnyAction {
     type: WishlistActionType.CLEAR_WISHLIST;
 }
 
-export type WishlistAction = RemoveItemFromWishlist
-| UpdateAllProductsInWishlist
-| UpdateIsLoading
-| ClearWishlist;
+export type WishlistAction = RemoveItemFromWishlistAction
+| UpdateAllProductsInWishlistAction
+| UpdateIsLoadingAction
+| ClearWishlistAction;
 
 export type WishlistStore = {
-    productsInWishlist: Record<string, Product>;
+    productsInWishlist: Record<string, WishlistProduct>;
     isLoading: boolean;
 };
 
@@ -54,3 +56,11 @@ declare module 'Util/Store/Store.type' {
         WishlistReducer: WishlistStore;
     }
 }
+
+export type WishlistProduct = Merge<ProductItem, {
+    price_range?: PriceRange;
+    quantity: number;
+    wishlist: Merge<Partial<WishlistItem>, {
+        quantity: number;
+    }>;
+}>;

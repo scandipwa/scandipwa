@@ -11,16 +11,17 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { CART_EDITING, CART_OVERLAY } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { ReactElement } from 'Type/Common.type';
 import { CartDisplayType, TotalsType } from 'Type/MiniCart.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
@@ -55,8 +56,8 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    setNavigationState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     updateTotals: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateTotals(dispatch, options)
     ),
@@ -165,7 +166,7 @@ export class CartOverlayContainer extends PureComponent {
         // Guest checkout enabled or user is signed in => proceed to the checkout
         if (guest_checkout || isSignedIn()) {
             hideActiveOverlay();
-            history.push({ pathname: appendWithStoreCode(CHECKOUT_URL) });
+            history.push({ pathname: appendWithStoreCode(CheckoutStepUrl.CHECKOUT_URL) });
             scrollToTop();
 
             return;
@@ -185,12 +186,12 @@ export class CartOverlayContainer extends PureComponent {
         const title = __('%s Items', count || 0);
 
         changeHeaderState({
-            name: CART_OVERLAY,
+            name: Page.CART_OVERLAY,
             title,
             onEditClick: () => {
                 this.setState({ isEditing: true });
                 changeHeaderState({
-                    name: CART_EDITING,
+                    name: Page.CART_EDITING,
                     title,
                     onOkClick: () => this.setState({ isEditing: false }),
                     onCancelClick: () => this.setState({ isEditing: false })
@@ -207,8 +208,8 @@ export class CartOverlayContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CartOverlay
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

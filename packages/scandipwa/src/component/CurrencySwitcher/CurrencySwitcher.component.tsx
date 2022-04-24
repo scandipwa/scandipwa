@@ -16,23 +16,13 @@ import { FieldType } from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
 import { getCurrency } from 'Util/Currency';
 
+import { CurrencySwitcherComponentProps } from './CurrencySwitcher.type';
+
 import './CurrencySwitcher.style';
 
 /** @namespace Component/CurrencySwitcher/Component */
-export class CurrencySwitcher extends PureComponent {
-    static propTypes = {
-        currencyData: PropTypes.shape({
-            available_currencies_data: PropTypes.arrayOf(
-                PropTypes.objectOf(
-                    PropTypes.string
-                )
-            ),
-            current_currency_code: PropTypes.string
-        }).isRequired,
-        handleCurrencySelect: PropTypes.func.isRequired
-    };
-
-    getCurrencyValue() {
+export class CurrencySwitcher extends PureComponent<CurrencySwitcherComponentProps> {
+    getCurrencyValue(): string | undefined {
         const {
             currencyData: {
                 available_currencies_data: availableCurrencies,
@@ -44,7 +34,7 @@ export class CurrencySwitcher extends PureComponent {
         // otherwise use default currency for current store.
         const currency = getCurrency();
 
-        return availableCurrencies.some((e) => e.id === currency) ? currency : currentCurrencyCode;
+        return availableCurrencies?.some((e) => e.id === currency) ? currency : currentCurrencyCode;
     }
 
     render(): ReactElement {
@@ -59,7 +49,7 @@ export class CurrencySwitcher extends PureComponent {
             return (
                 <div block="CurrencySwitcher">
                     <Field
-                      type={ FieldType.select }
+                      type={ FieldType.SELECT }
                       attr={ {
                           id: 'CurrencySwitcherList',
                           name: 'CurrencySwitcherList',

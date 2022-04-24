@@ -14,7 +14,10 @@ import { Reducer } from 'redux';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedParameteredProducts } from 'Util/Product';
 
-import { WishlistAction, WishlistActionType, WishlistStore } from './Wishlist.type';
+import {
+    UpdateAllProductsInWishlistAction,
+    WishlistAction, WishlistActionType, WishlistProduct, WishlistStore
+} from './Wishlist.type';
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
 
@@ -25,12 +28,15 @@ export const getInitialState = (): WishlistStore => ({
 });
 
 /** @namespace Store/Wishlist/Reducer/deleteProperty */
-export const deleteProperty = <T extends Record<string, unknown>, U extends keyof T>(
-    key: U, { [key]: _, ...newObj }: T
-): Omit<T, U> => newObj;
+export const deleteProperty = (
+    key: string, { [key]: _, ...newObj }: Record<string, WishlistProduct>
+): Record<string, WishlistProduct> => newObj;
 
 /** @namespace Store/Wishlist/Reducer/removeItemFromWishlist */
-export const removeItemFromWishlist = (item_id: number, { productsInWishlist: initialProducts }) => {
+export const removeItemFromWishlist = (
+    item_id: string,
+    { productsInWishlist: initialProducts }: WishlistStore
+): { productsInWishlist: Record<string, WishlistProduct> } => {
     const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
 
     BrowserDatabase.setItem(
@@ -42,8 +48,8 @@ export const removeItemFromWishlist = (item_id: number, { productsInWishlist: in
 };
 
 /** @namespace Store/Wishlist/Reducer/clearWishlist */
-export const clearWishlist = () => {
-    const productsInWishlist = {};
+export const clearWishlist = (): { productsInWishlist: Record<string, WishlistProduct> } => {
+    const productsInWishlist: Record<string, WishlistProduct> = {};
 
     BrowserDatabase.setItem(productsInWishlist, PRODUCTS_IN_WISHLIST);
 
@@ -51,7 +57,7 @@ export const clearWishlist = () => {
 };
 
 /** @namespace Store/Wishlist/Reducer/updateAllProductsInWishlist */
-export const updateAllProductsInWishlist = (action) => {
+export const updateAllProductsInWishlist = (action: UpdateAllProductsInWishlistAction): WishlistStore => {
     const { products: initialProducts } = action;
 
     const products = getIndexedParameteredProducts(initialProducts);

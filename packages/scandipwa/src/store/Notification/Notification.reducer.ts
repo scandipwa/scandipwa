@@ -11,7 +11,11 @@
 
 import { Reducer } from 'redux';
 
-import { NotificationAction, NotificationActionType, NotificationStore } from './Notification.type';
+import {
+    NotificationAction,
+    NotificationActionType,
+    NotificationStore
+} from './Notification.type';
 
 /** @namespace Store/Notification/Reducer/getInitialState */
 export const getInitialState = (): NotificationStore => ({

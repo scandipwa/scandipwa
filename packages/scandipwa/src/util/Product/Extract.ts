@@ -30,11 +30,12 @@ import { formatPrice } from 'Util/Price';
 import { IndexedVariant } from './Product';
 import {
     AdjustedPrices,
+    DEFAULT_MAX_PRODUCTS,
+    DEFAULT_MIN_PRODUCTS,
     EnteredOption,
     FormattedAdjustedPrices,
     FormattedPrice,
     FormattedProduct,
-    QtyDefault,
     QtyFields
 } from './Product.type';
 
@@ -99,7 +100,7 @@ export const getQuantity = (
  * @namespace Util/Product/Extract/getMinQuantity
  */
 export const getMinQuantity = (product: FormattedProduct, configIndex = -1): number => (
-    getQuantity(product, QtyDefault.DEFAULT_MIN_PRODUCTS, QtyFields.MIN_SALE_QTY, configIndex)
+    getQuantity(product, DEFAULT_MIN_PRODUCTS, QtyFields.MIN_SALE_QTY, configIndex)
 );
 
 /**
@@ -111,12 +112,12 @@ export const getMinQuantity = (product: FormattedProduct, configIndex = -1): num
  */
 export const getMaxQuantity = (product: FormattedProduct, configIndex = -1): number => {
     const maxQuantity: number = getQuantity(
-        product, QtyDefault.DEFAULT_MAX_PRODUCTS,
+        product, DEFAULT_MAX_PRODUCTS,
         QtyFields.MAX_SALE_QTY,
         configIndex
     );
     const salableQuantity: number = getQuantity(
-        product, QtyDefault.DEFAULT_MAX_PRODUCTS,
+        product, DEFAULT_MAX_PRODUCTS,
         QtyFields.SALABLE_QTY,
         configIndex
     );

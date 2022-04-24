@@ -21,6 +21,7 @@ import {
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { FilterType } from 'Type/Category.type';
 import { ChildrenType, MixType } from 'Type/Common.type';
 import { LayoutType } from 'Type/Layout.type';
@@ -64,7 +65,7 @@ export class ProductCardContainer extends ProductContainer {
         hideWishlistButton: PropTypes.bool,
         isLoading: PropTypes.bool,
 
-        renderContent: PropTypes.oneOfType([ PropTypes.func, PropTypes.bool ]),
+        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
         showNotification: PropTypes.func.isRequired,
 
         children: ChildrenType,
@@ -157,14 +158,14 @@ export class ProductCardContainer extends ProductContainer {
 
     render(): ReactElement {
         return (
-            <Subscribe to={[ SharedTransitionContainer ]}>
-                {({ registerSharedElement }) => (
+            <Subscribe to={ [SharedTransitionContainer] }>
+                { ({ registerSharedElement }) => (
                     <ProductCard
-                        {...this.containerFunctions}
-                        {...this.containerProps()}
-                        registerSharedElement={registerSharedElement}
+                      { ...this.containerFunctions }
+                      { ...this.containerProps() }
+                      registerSharedElement={ registerSharedElement }
                     />
-                )}
+                ) }
             </Subscribe>
         );
     }

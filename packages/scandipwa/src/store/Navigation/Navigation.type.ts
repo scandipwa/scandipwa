@@ -23,7 +23,9 @@ export enum NavigationType {
 
 export type NavigationState = {
     name: string;
+    title?: string;
     force?: boolean;
+    onBackClick?: () => void;
 };
 
 export interface ChangeNavigationStateAction extends AnyAction {

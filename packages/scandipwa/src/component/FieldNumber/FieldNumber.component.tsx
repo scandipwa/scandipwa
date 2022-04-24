@@ -51,7 +51,7 @@ export class FieldNumber extends PureComponent {
                   { ...attr }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
                   { ...events }
-                  type={ FieldType.number }
+                  type={ FieldType.NUMBER }
                   readOnly
                   aria-label={ __('Value') }
                   value={ value }
@@ -62,7 +62,7 @@ export class FieldNumber extends PureComponent {
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleValueChange(+value + 1) }
                   aria-label={ __('Add') }
-                  type={ FieldType.button }
+                  type={ FieldType.BUTTON }
                 >
                     <AddIcon block="SubtractButton" isPrimary />
                 </button>
@@ -71,7 +71,7 @@ export class FieldNumber extends PureComponent {
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleValueChange(+value - 1) }
                   aria-label={ __('Subtract') }
-                  type={ FieldType.button }
+                  type={ FieldType.BUTTON }
                 >
                     <MinusIcon block="AddButton" isPrimary />
                 </button>

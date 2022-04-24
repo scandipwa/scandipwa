@@ -11,8 +11,7 @@
 
 import { AnyAction } from 'redux';
 
-import { GQLCustomerOrders, GQLSearchResultPageInfo } from 'Type/Graphql.type';
-import { Order } from 'Type/Order.type';
+import { CustomerOrders, OrderItem, SearchResultPageInfo } from 'Query/Order.type';
 
 export enum OrderActionType {
     GET_ORDER_LIST = 'GET_ORDER_LIST',
@@ -20,13 +19,13 @@ export enum OrderActionType {
 }
 
 export type OrderList = {
-    items: Order[];
-    pageInfo: GQLSearchResultPageInfo;
+    items: OrderItem[];
+    pageInfo: SearchResultPageInfo;
 };
 
 export interface GetOrderListAction extends AnyAction {
     type: OrderActionType.GET_ORDER_LIST;
-    orderList: GQLCustomerOrders;
+    orderList: CustomerOrders;
     status: boolean;
 }
 
@@ -38,7 +37,7 @@ export interface SetLoadingStatusAction extends AnyAction {
 export type OrderAction = GetOrderListAction | SetLoadingStatusAction;
 
 export type OrderStore = {
-    orderList: OrderList;
+    orderList: Partial<OrderList>;
     isLoading: boolean;
 };
 

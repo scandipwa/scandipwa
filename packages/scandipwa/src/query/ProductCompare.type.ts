@@ -49,8 +49,8 @@ export interface ComparableItem {
 export interface CompareList {
     uid: string;
     item_count: number;
-    attributes: ComparableAttribute;
-    items: ComparableItem;
+    attributes: ComparableAttribute[];
+    items: ComparableItem[];
 }
 
 export interface AssignCompareListToCustomerOutput {

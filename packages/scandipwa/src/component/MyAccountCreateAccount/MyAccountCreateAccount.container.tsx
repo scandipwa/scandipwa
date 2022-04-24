@@ -11,12 +11,13 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { SignInStateType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
@@ -175,8 +176,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountCreateAccount
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

@@ -127,10 +127,10 @@ export class FieldGroupContainer extends PureComponent {
         const fields = getFieldsData(
             this.groupRef,
             false,
-            [ FieldType.number, FieldType.button ]
+            [FieldType.NUMBER, FieldType.BUTTON]
         );
 
-        hook(...[ ...args, { ...attr, formRef: this.groupRef, fields } ]);
+        hook(...[...args, { ...attr, formRef: this.groupRef, fields }]);
     }
     //#endregion
 
@@ -176,7 +176,7 @@ export class FieldGroupContainer extends PureComponent {
     render(): ReactElement {
         return (
             <FieldGroup
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

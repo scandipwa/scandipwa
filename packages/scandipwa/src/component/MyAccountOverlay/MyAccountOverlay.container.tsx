@@ -13,12 +13,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { Page } from 'Component/Header/Header.config';
+import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateIsLoading } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -41,7 +41,7 @@ export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     isMobile: state.ConfigReducer.device.isMobile,
     isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
-    isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT,
+    isOverlayVisible: state.OverlayReducer.activeOverlay === Page.CUSTOMER_ACCOUNT,
     redirectToDashboard: state.ConfigReducer.redirect_dashboard,
     isLoading: state.MyAccountReducer.isLoading,
     device: state.ConfigReducer.device
@@ -51,8 +51,8 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
-    setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
     updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status))
 });
 
@@ -129,7 +129,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         if (myAccountState !== STATE_LOGGED_IN && customerIsSignedIn) {
             stateToBeUpdated.state = STATE_LOGGED_IN;
 
-            if (pathname.includes(CHECKOUT_URL)) {
+            if (pathname.includes(CheckoutStepUrl.CHECKOUT_URL)) {
                 goToPreviousHeaderState();
             }
         }
@@ -188,7 +188,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         if (newMyAccountState === STATE_LOGGED_IN) {
             if (pathname.includes(AccountPageUrl.ACCOUNT_URL)) {
                 history.push({ pathname: appendWithStoreCode('/') });
-            } else if (!pathname.includes(CHECKOUT_URL) && redirectToDashboard) {
+            } else if (!pathname.includes(CheckoutStepUrl.CHECKOUT_URL) && redirectToDashboard) {
                 history.push({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
             }
         }
@@ -251,7 +251,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         state.state = STATE_FORGOT_PASSWORD;
 
         setHeaderState({
-            name: CUSTOMER_SUB_ACCOUNT,
+            name: Page.CUSTOMER_SUB_ACCOUNT,
             title: 'Forgot password',
             onBackClick: (e) => {
                 history.push({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
@@ -274,7 +274,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         const { setHeaderState, isCheckout, isMobile } = this.props;
 
         if (isMobile && !isCheckout) {
-            setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
+            setHeaderState({ name: Page.CUSTOMER_ACCOUNT, title: __('Sign in') });
         }
     }
 
@@ -297,7 +297,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         this.setState({ state: STATE_FORGOT_PASSWORD });
 
         setHeaderState({
-            name: CUSTOMER_SUB_ACCOUNT,
+            name: Page.CUSTOMER_SUB_ACCOUNT,
             title: __('Forgot password'),
             onBackClick: () => this.handleSignIn(e)
         });
@@ -310,7 +310,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         this.setState({ state: STATE_SIGN_IN });
 
         setHeaderState({
-            name: CUSTOMER_ACCOUNT,
+            name: Page.CUSTOMER_ACCOUNT,
             title: __('Sign in')
         });
     }
@@ -322,7 +322,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         this.setState({ state: STATE_CREATE_ACCOUNT });
 
         setHeaderState({
-            name: CUSTOMER_SUB_ACCOUNT,
+            name: Page.CUSTOMER_SUB_ACCOUNT,
             title: __('Create account'),
             onBackClick: () => this.handleSignIn(e)
         });

@@ -19,7 +19,7 @@ import {
 } from './Config.type';
 
 /** @namespace Store/Config/Action/updateConfig */
-export const updateConfig = (config: ConfigStore): UpdateConfigAction => ({
+export const updateConfig = (config: Partial<ConfigStore>): UpdateConfigAction => ({
     type: ConfigActionType.UPDATE_CONFIG,
     config
 });

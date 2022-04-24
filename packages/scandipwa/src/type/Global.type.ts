@@ -81,10 +81,30 @@ declare global {
         fileData?: string;
     }
 
-    type ContentConfiguration = Record<
-    string,
-    Record<string, string>
-    >;
+    type ContentConfiguration = {
+        header_content?: {
+            header_menu?: string;
+        };
+        minicart_content?: {
+            minicart_cms?: string;
+        };
+        footer_content?: {
+            footer_cms?: string;
+        };
+        product_list_content?: {
+            attribute_to_display?: string;
+        };
+        cart_content?: {
+            cart_cms?: string;
+        };
+        checkout_content?: {
+            checkout_billing_cms?: string;
+            checkout_shipping_cms?: string;
+        };
+        contact_us_content?: {
+            contact_us_cms_block?: string;
+        };
+    };
 
     // interface HTMLElementEventMap {
     //     validate: ValidationData

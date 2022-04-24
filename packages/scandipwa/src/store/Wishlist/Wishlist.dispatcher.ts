@@ -9,18 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Dispatch } from 'redux';
+
 import WishlistQuery from 'Query/Wishlist.query';
+import { Wishlist } from 'Query/Wishlist.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
 import {
     clearWishlist,
     removeItemFromWishlist,
     updateAllProductsInWishlist,
     updateIsLoading
 } from 'Store/Wishlist/Wishlist.action';
+import { GQLWishlistItemInput, GQLWishlistItemUpdateInput } from 'Type/Graphql.type';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 import getStore from 'Util/Store';
+import { RootState } from 'Util/Store/Store.type';
 import { getPriceRange } from 'Util/Wishlist';
+
+import { ClearWishlistAction, WishlistProduct } from './Wishlist.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -30,8 +38,8 @@ export const CartDispatcher = import(
 /**
  * Get wishlist setting.
  * @namespace Store/Wishlist/Dispatcher/isWishlistEnabled */
-export const isWishlistEnabled = () => {
-    const state = getStore().getState();
+export const isWishlistEnabled = (): boolean => {
+    const state = getStore().getState() as RootState;
     const {
         wishlist_general_active = false
     } = state.ConfigReducer;
@@ -45,7 +53,7 @@ export const isWishlistEnabled = () => {
  * @namespace Store/Wishlist/Dispatcher
  */
 export class WishlistDispatcher {
-    updateInitialWishlistData(dispatch) {
+    updateInitialWishlistData(dispatch: Dispatch): void {
         if (isSignedIn() && isWishlistEnabled()) {
             this._syncWishlistWithBE(dispatch);
         } else {
@@ -53,18 +61,21 @@ export class WishlistDispatcher {
         }
     }
 
-    _syncWishlistWithBE(dispatch) {
+    _syncWishlistWithBE(dispatch: Dispatch): Promise<void> {
         // Need to get current wishlist from BE, update wishlist
-        return fetchQuery(WishlistQuery.getWishlistQuery()).then(
+        return fetchQuery<'wishlist', Wishlist>(WishlistQuery.getWishlistQuery()).then(
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/_syncWishlistWithBE/fetchQuery/then */
-            (data) => {
+            (data: { wishlist: Wishlist }) => {
                 if (!getAuthorizationToken()) {
                     return;
                 }
 
                 if (data && data.wishlist) {
                     const { wishlist } = data;
-                    const productsToAdd = wishlist.items.reduce((prev, wishlistItem) => {
+                    const productsToAdd = wishlist.items.reduce((
+                        prev: Record<string, WishlistProduct>,
+                        wishlistItem
+                    ) => {
                         const {
                             id,
                             sku,
@@ -77,23 +88,25 @@ export class WishlistDispatcher {
                             qty: quantity
                         } = wishlistItem;
 
-                        const priceRange = getPriceRange(product, price, price_without_tax);
+                        const { price_range } = getPriceRange(product, price, price_without_tax);
+
+                        const result: WishlistProduct = {
+                            ...product,
+                            price_range,
+                            quantity,
+                            wishlist: {
+                                id,
+                                sku,
+                                quantity,
+                                description,
+                                buy_request,
+                                options
+                            }
+                        };
 
                         return {
                             ...prev,
-                            [ id ]: {
-                                ...product,
-                                ...priceRange,
-                                quantity,
-                                wishlist: {
-                                    id,
-                                    sku,
-                                    quantity,
-                                    description,
-                                    buy_request,
-                                    options
-                                }
-                            }
+                            [id]: result
                         };
                     }, {});
 
@@ -109,7 +122,10 @@ export class WishlistDispatcher {
         );
     }
 
-    async addItemToWishlist(dispatch, options) {
+    async addItemToWishlist(
+        dispatch: Dispatch,
+        options: { items: GQLWishlistItemInput[]; wishlistId: string }
+    ): Promise<void> {
         if (!isSignedIn()) {
             return;
         }
@@ -127,7 +143,10 @@ export class WishlistDispatcher {
         }
     }
 
-    updateWishlistItem(dispatch, options) {
+    updateWishlistItem(
+        dispatch: Dispatch,
+        options: { wishlistItems: GQLWishlistItemUpdateInput[]; wishlistId: string }
+    ): Promise<void> {
         if (!isSignedIn()) {
             return Promise.reject();
         }
@@ -142,12 +161,12 @@ export class WishlistDispatcher {
         );
     }
 
-    clearWishlist(dispatch) {
+    clearWishlist(dispatch: Dispatch): Promise<ClearWishlistAction | ShowNotificationAction> {
         if (!isSignedIn()) {
             return Promise.reject();
         }
 
-        return fetchMutation(WishlistQuery.getClearWishlist())
+        return fetchMutation<'clearWishlist', boolean>(WishlistQuery.getClearWishlist())
             .then(
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/clearWishlist/then/catch/fetchMutation/then/dispatch */
                 () => dispatch(clearWishlist())
@@ -158,23 +177,26 @@ export class WishlistDispatcher {
             );
     }
 
-    async moveWishlistToCart(dispatch, sharingCode) {
+    async moveWishlistToCart(dispatch: Dispatch, sharingCode = ''): Promise<void> {
         if (!isSignedIn()) {
             await Promise.reject();
         }
 
         try {
-            await fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode));
+            await fetchMutation<'moveWishlistToCart', boolean>(WishlistQuery.getMoveWishlistToCart(sharingCode));
         } finally {
             await this._syncWishlistWithBE(dispatch);
             CartDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, getAuthorizationToken())
+                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken())
             );
             dispatch(showNotification(NotificationType.SUCCESS, __('Available items moved to cart')));
         }
     }
 
-    async removeItemFromWishlist(dispatch, { item_id, noMessages }) {
+    async removeItemFromWishlist(
+        dispatch: Dispatch,
+        { item_id, noMessages }: { item_id: string; noMessages: boolean }
+    ): Promise<void> {
         if (!item_id || !isSignedIn()) {
             return Promise.reject();
         }
@@ -201,27 +223,35 @@ export class WishlistDispatcher {
     }
 
     // TODO: Need to make it in one request
-    removeItemsFromWishlist(dispatch, itemIdMap) {
+    removeItemsFromWishlist(dispatch: Dispatch, itemIdMap: string[]): Promise<never> | Promise<void>[] {
         if (!itemIdMap.length || !isSignedIn()) {
             return Promise.reject();
         }
 
         return itemIdMap.map((id) => (
-            fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(id)).then(
+            fetchMutation<'removeProductFromWishlist', boolean>(
+                WishlistQuery.getRemoveProductFromWishlistMutation(id)
+            ).then(
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemsFromWishlist/itemIdMap/map/fetchMutation/then */
                 () => {
                     dispatch(removeItemFromWishlist(id));
-                    dispatch(showNotification(NotificationType.SUCCESS, __('Product has been removed from your Wish List!')));
+                    dispatch(showNotification(
+                        NotificationType.SUCCESS,
+                        __('Product has been removed from your Wish List!')
+                    ));
                 },
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemsFromWishlist/itemIdMap/map/fetchMutation/then/catch */
                 (error) => {
-                    dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error, __('Error updating wishlist!'))));
+                    dispatch(showNotification(
+                        NotificationType.ERROR,
+                        getErrorMessage(error, __('Error updating wishlist!'))
+                    ));
                 }
             )
         ));
     }
 
-    resetWishlist(dispatch) {
+    resetWishlist(dispatch: Dispatch): void {
         dispatch(clearWishlist());
     }
 }

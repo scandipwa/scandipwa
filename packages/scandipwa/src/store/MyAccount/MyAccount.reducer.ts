@@ -17,7 +17,7 @@ import { MyAccountAction, MyAccountActionType, MyAccountStore } from './MyAccoun
 /** @namespace Store/MyAccount/Reducer/getInitialState */
 export const getInitialState = (): MyAccountStore => ({
     isSignedIn: isInitiallySignedIn(),
-    passwordResetStatus: false,
+    passwordResetStatus: '',
     isPasswordForgotSend: false,
     isLoading: false,
     isLocked: false,

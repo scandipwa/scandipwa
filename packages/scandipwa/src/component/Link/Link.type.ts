@@ -39,6 +39,9 @@ export type LinkContainerProps =
         mods?: Mods;
         mix?: Mix;
         dispatch?: Dispatch;
+        id?: string;
+        onMouseEnter?: () => void;
+        onMouseLeave?: () => void;
     };
 
 export interface LinkComponentProps {
@@ -48,4 +51,7 @@ export interface LinkComponentProps {
     bemProps: Mix & { mix?: Mix };
     className?: string;
     isOpenInNewTab?: boolean;
+    id?: string;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
 }

@@ -23,7 +23,10 @@ import { getGuestQuoteId } from 'Util/Cart';
 
 import { ProductItem } from './ProductList.type';
 import {
-    ItemOption, Wishlist, WishlistItem, WishListUserInputError
+    ItemOption,
+    Wishlist,
+    WishlistItem,
+    WishListUserInputError
 } from './Wishlist.type';
 
 /** @namespace Query/Wishlist/Query */
@@ -41,7 +44,7 @@ export class WishlistQuery {
 
     updateProductsInWishlist(
         wishlistId: string,
-        wishlistItems: GQLWishlistItemUpdateInput
+        wishlistItems: GQLWishlistItemUpdateInput[]
     ): Mutation<'updateProductsInWishlist', { user_errors: WishListUserInputError[] }> {
         return new Mutation<'updateProductsInWishlist', { user_errors: WishListUserInputError[] }>(
             'updateProductsInWishlist'
@@ -69,7 +72,7 @@ export class WishlistQuery {
     }
     //#endregion
 
-    getWishlistQuery(sharingCode: string): Query<'wishlist', Wishlist> {
+    getWishlistQuery(sharingCode = ''): Query<'wishlist', Wishlist> {
         const field = new Query<'s_wishlist', Wishlist>('s_wishlist')
             .setAlias('wishlist')
             .addFieldList(this._getWishlistFields());
@@ -87,13 +90,13 @@ export class WishlistQuery {
             .addArgument('input', 'ShareWishlistInput!', input);
     }
 
-    getClearWishlist(): Query<'clearWishlist', boolean> {
-        return new Query<'s_clearWishlist', boolean>('s_clearWishlist')
+    getClearWishlist(): Mutation<'clearWishlist', boolean> {
+        return new Mutation<'s_clearWishlist', boolean>('s_clearWishlist')
             .setAlias('clearWishlist');
     }
 
-    getMoveWishlistToCart(sharingCode: string): Query<'moveWishlistToCart', boolean> {
-        const field = new Query<'s_moveWishlistToCart', boolean>('s_moveWishlistToCart')
+    getMoveWishlistToCart(sharingCode: string): Mutation<'moveWishlistToCart', boolean> {
+        const field = new Mutation<'s_moveWishlistToCart', boolean>('s_moveWishlistToCart')
             .setAlias('moveWishlistToCart');
 
         if (sharingCode) {
@@ -148,7 +151,7 @@ export class WishlistQuery {
     _getWishlistItemsFields(): Array<
     Field<'id', number>
     | Field<'sku', string>
-    | Field<'qty', string>
+    | Field<'qty', number>
     | Field<'description', string>
     | Field<'price', number>
     | Field<'price_without_tax', number>
@@ -158,7 +161,7 @@ export class WishlistQuery {
         return [
             new Field<'id', number>('id'),
             new Field<'sku', string>('sku'),
-            new Field<'qty', string>('qty'),
+            new Field<'qty', number>('qty'),
             new Field<'description', string>('description'),
             new Field<'price', number>('price'),
             new Field<'price_without_tax', number>('price_without_tax'),
@@ -170,7 +173,7 @@ export class WishlistQuery {
     _getItemsFields(): Array<
     Field<'id', number>
     | Field<'sku', string>
-    | Field<'qty', string>
+    | Field<'qty', number>
     | Field<'description', string>
     | Field<'price', number>
     | Field<'price_without_tax', number>

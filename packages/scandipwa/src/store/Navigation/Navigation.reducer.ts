@@ -18,7 +18,6 @@ import {
 import {
     NavigationAction,
     NavigationActionType,
-    NavigationState,
     NavigationStore,
     NavigationType
 } from './Navigation.type';
@@ -44,9 +43,9 @@ export const NavigationReducer: Reducer<NavigationStore, NavigationAction> = (
 
     const {
         [navigationType]: {
-            navigationStateHistory = [],
-            navigationState: prevNavigationState = {} as NavigationState
-        } = {}
+            navigationStateHistory,
+            navigationState: prevNavigationState
+        }
     } = state;
 
     switch (action.type) {

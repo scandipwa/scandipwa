@@ -11,6 +11,10 @@
 
 import { AnyAction } from 'redux';
 
+import { QuoteData } from 'Query/Cart.type';
+import { TotalsObject } from 'Query/Checkout.type';
+import { ProductItem } from 'Query/ProductList.type';
+
 export enum CartActionType {
     ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART',
     REMOVE_PRODUCT_FROM_CART = 'REMOVE_PRODUCT_FROM_CART',
@@ -23,22 +27,22 @@ export enum CartActionType {
 
 export interface AddProductToCartAction extends AnyAction {
     type: CartActionType.ADD_PRODUCT_TO_CART;
-    newProduct: Product;
+    newProduct: ProductItem;
 }
 
 export interface RemoveProductFromCartAction extends AnyAction {
     type: CartActionType.REMOVE_PRODUCT_FROM_CART;
-    product: Product;
+    product: ProductItem;
 }
 
 export interface UpdateTotalsAction extends AnyAction {
     type: CartActionType.UPDATE_TOTALS;
-    cartData: GQLQuoteData;
+    cartData: Partial<QuoteData>;
 }
 
 export interface UpdateShippingPriceAction extends AnyAction {
     type: CartActionType.UPDATE_SHIPPING_PRICE;
-    data: GQLPaymentTotals;
+    data: TotalsObject;
 }
 
 export interface ApplyCouponToCartAction extends AnyAction {

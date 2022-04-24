@@ -9,40 +9,47 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import ConfigQuery from 'Query/Config.query';
+import { StoreItem } from 'Query/Config.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import DataContainer from 'Util/Request/DataContainer';
+import { RootState } from 'Util/Store/Store.type';
 
 import StoreSwitcher from './StoreSwitcher.component';
 import { STORE_CONFIG_KEY } from './StoreSwitcher.config';
+import {
+    FormattedStore,
+    StoreSwitcherComponentProps,
+    StoreSwitcherContainerMapDispatchProps,
+    StoreSwitcherContainerMapStateProps,
+    StoreSwitcherContainerProps,
+    StoreSwitcherContainerState
+} from './StoreSwitcher.type';
 
 /** @namespace Component/StoreSwitcher/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): StoreSwitcherContainerMapStateProps => ({
     device: state.ConfigReducer.device,
     currentStoreCode: state.ConfigReducer.code
 });
 
 /** @namespace Component/StoreSwitcher/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): StoreSwitcherContainerMapDispatchProps => ({
     showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message))
 });
 
 /** @namespace Component/StoreSwitcher/Container */
-export class StoreSwitcherContainer extends DataContainer {
-    static propTypes = {
-        showErrorNotification: PropTypes.func.isRequired,
-        currentStoreCode: PropTypes.string
-    };
-
+export class StoreSwitcherContainer extends DataContainer<StoreSwitcherContainerProps, StoreSwitcherContainerState> {
     static defaultProps = {
         currentStoreCode: 'default'
     };
 
-    state = {
+    state: StoreSwitcherContainerState = {
         storeList: [],
         isOpened: false,
         storeLabel: ''
@@ -54,7 +61,7 @@ export class StoreSwitcherContainer extends DataContainer {
         onStoreSwitcherOutsideClick: this.onStoreSwitcherOutsideClick.bind(this)
     };
 
-    __construct(props) {
+    __construct(props: StoreSwitcherContainerProps): void {
         super.__construct(props, 'StoreSwitcherContainer');
     }
 
@@ -62,7 +69,7 @@ export class StoreSwitcherContainer extends DataContainer {
         this._getStoreList();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: StoreSwitcherContainerProps): void {
         const { currentStoreCode } = this.props;
         const { prevStoreCode } = prevProps;
         const { storeLabel, storeList } = this.state;
@@ -76,8 +83,11 @@ export class StoreSwitcherContainer extends DataContainer {
         }
     }
 
-    containerProps() {
-        const { currentStoreCode, device } = this.props;
+    containerProps(): Pick<
+    StoreSwitcherComponentProps,
+    'currentStoreCode' | 'device' | 'isOpened' | 'storeLabel' | 'storeList'
+    > {
+        const { currentStoreCode = '', device } = this.props;
         const { storeList, isOpened, storeLabel } = this.state;
 
         return {
@@ -89,28 +99,32 @@ export class StoreSwitcherContainer extends DataContainer {
         };
     }
 
-    onStoreSwitcherClick() {
+    onStoreSwitcherClick(): void {
         const { isOpened } = this.state;
 
         this.setState({ isOpened: !isOpened });
     }
 
-    onStoreSwitcherOutsideClick() {
+    onStoreSwitcherOutsideClick(): void {
         this.setState({ isOpened: false });
     }
 
-    _getStoreList() {
-        this.fetchData(
-            [ ConfigQuery.getStoreListField() ],
+    _getStoreList(): void {
+        this.fetchData<{ storeList: StoreItem[] }>(
+            [ConfigQuery.getStoreListField()],
             ({ storeList }) => this.setState({
                 storeList: this._formatStoreList(storeList)
             })
         );
     }
 
-    _formatStoreList(storeList) {
-        return storeList.reduce((acc, {
-            name, code, is_active, base_url, base_link_url
+    _formatStoreList(storeList: StoreItem[]): FormattedStore[] {
+        return storeList.reduce((acc: FormattedStore[], {
+            name,
+            code,
+            is_active,
+            base_url,
+            base_link_url
         }) => {
             if (!is_active) {
                 return acc;
@@ -129,7 +143,7 @@ export class StoreSwitcherContainer extends DataContainer {
         }, []);
     }
 
-    getCurrentLabel(storeCode) {
+    getCurrentLabel(storeCode: string): void {
         const { storeList } = this.state;
 
         const store = storeList.find(
@@ -145,7 +159,7 @@ export class StoreSwitcherContainer extends DataContainer {
         this.setState({ storeLabel: label });
     }
 
-    handleStoreSelect(storeCode) {
+    handleStoreSelect(storeCode: string): void {
         const { showErrorNotification } = this.props;
         const { storeList } = this.state;
 
@@ -160,14 +174,14 @@ export class StoreSwitcherContainer extends DataContainer {
         }
 
         BrowserDatabase.deleteItem(STORE_CONFIG_KEY);
-        window.location = store.storeLinkUrl;
+        window.location.href = store.storeLinkUrl;
     }
 
     render(): ReactElement {
         return (
             <StoreSwitcher
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

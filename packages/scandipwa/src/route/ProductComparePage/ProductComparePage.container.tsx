@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { PRODUCT_COMPARE } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { scrollToTop } from 'Util/Browser';
 import DataContainer from 'Util/Request/DataContainer';
@@ -37,7 +37,7 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
             ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
@@ -95,7 +95,7 @@ export class ProductComparePageContainer extends DataContainer {
         const { setHeaderState } = this.props;
 
         setHeaderState({
-            name: PRODUCT_COMPARE,
+            name: Page.PRODUCT_COMPARE,
             title: __('Compare'),
             onBackClick: () => history.back()
         });
@@ -104,7 +104,7 @@ export class ProductComparePageContainer extends DataContainer {
     render(): ReactElement {
         return (
             <ProductComparePage
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

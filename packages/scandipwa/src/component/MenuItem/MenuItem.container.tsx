@@ -9,19 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { ModsType } from 'Type/Common.type';
-import { MenuItemType } from 'Type/Menu.type';
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
 import history from 'Util/History';
+import { MenuLocation } from 'Util/Menu/Menu.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import MenuItem from './MenuItem.component';
 import { HOVER_TIMEOUT } from './MenuItem.config';
+import {
+    MenuItemComponentProps, MenuItemContainerProps, MenuItemMapDispatchProps, MenuItemMapStateProps
+} from './MenuItem.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -29,30 +32,19 @@ export const BreadcrumbsDispatcher = import(
 );
 
 /** @namespace Component/MenuItem/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MenuItemMapStateProps => ({
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/MenuItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MenuItemMapDispatchProps => ({
     updateBreadcrumbs: () => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update([], dispatch)
     )
 });
 
 /** @namespace Component/MenuItem/Container */
-export class MenuItemContainer extends PureComponent {
-    static propTypes = {
-        updateBreadcrumbs: PropTypes.func.isRequired,
-        closeMenu: PropTypes.func,
-        onCategoryHover: PropTypes.func,
-        item: MenuItemType.isRequired,
-        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
-        isExpandable: PropTypes.bool,
-        itemMods: ModsType,
-        isLink: PropTypes.bool
-    };
-
+export class MenuItemContainer extends PureComponent<MenuItemContainerProps> {
     static defaultProps = {
         closeMenu: noopFn,
         onCategoryHover: noopFn,
@@ -67,9 +59,12 @@ export class MenuItemContainer extends PureComponent {
         onItemClick: this.onItemClick.bind(this)
     };
 
-    menuHoverTimeout = null;
+    menuHoverTimeout?: NodeJS.Timeout;
 
-    containerProps() {
+    containerProps(): Pick<
+    MenuItemComponentProps,
+    'activeMenuItemsStack' | 'isExpandable' | 'isLink' | 'item' | 'itemMods'
+    > {
         const {
             activeMenuItemsStack,
             isExpandable,
@@ -87,13 +82,27 @@ export class MenuItemContainer extends PureComponent {
         };
     }
 
-    onItemClick() {
+    getPathname(url: MenuLocation | string): string {
+        if (typeof url === 'string') {
+            return url;
+        }
+
+        const { pathname } = url;
+
+        return pathname;
+    }
+
+    onItemClick(): void {
         const {
             closeMenu,
             updateBreadcrumbs,
             activeMenuItemsStack,
-            item: { url: { pathname: newPathname = '' } = {} } = {}
+            item: {
+                url
+            } = {}
         } = this.props;
+
+        const newPathname = this.getPathname(url || '');
 
         scrollToTop();
         closeMenu();
@@ -107,7 +116,7 @@ export class MenuItemContainer extends PureComponent {
         }
     }
 
-    handleCategoryHover() {
+    handleCategoryHover(): void {
         const { onCategoryHover, item, activeMenuItemsStack } = this.props;
 
         const hoverTimeOut = activeMenuItemsStack.length === 0 ? HOVER_TIMEOUT : 0;
@@ -117,15 +126,17 @@ export class MenuItemContainer extends PureComponent {
         }, hoverTimeOut);
     }
 
-    handleLinkLeave() {
-        clearTimeout(this.menuHoverTimeout);
+    handleLinkLeave(): void {
+        if (this.menuHoverTimeout) {
+            clearTimeout(this.menuHoverTimeout);
+        }
     }
 
     render(): ReactElement {
         return (
             <MenuItem
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

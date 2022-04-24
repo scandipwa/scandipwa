@@ -11,6 +11,8 @@
 
 import { ReactNode } from 'react';
 
+export type Merge<A, B> = Omit<A, keyof B> & B;
+
 export type Mods = Record<string, string | boolean>;
 
 export type Mix = {

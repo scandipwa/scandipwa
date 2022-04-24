@@ -124,7 +124,7 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.select }
+              type={ FieldType.SELECT }
               label={ __('Year') }
               attr={ {
                   id: `${type}-year-${ uid }`,
@@ -159,7 +159,7 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.select }
+              type={ FieldType.SELECT }
               label={ __('Month') }
               attr={ {
                   id: `${type}-month-${ uid }`,
@@ -194,7 +194,7 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.select }
+              type={ FieldType.SELECT }
               label={ __('Day') }
               attr={ {
                   id: `${type}-day-${ uid }`,
@@ -229,7 +229,7 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.select }
+              type={ FieldType.SELECT }
               label={ __('Hours') }
               attr={ {
                   id: `${type}-hours-${ uid }`,
@@ -264,7 +264,7 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.select }
+              type={ FieldType.SELECT }
               label={ __('Minutes') }
               attr={ {
                   id: `${type}-minutes-${ uid }`,
@@ -304,7 +304,7 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <Field
-              type={ FieldType.select }
+              type={ FieldType.SELECT }
               label={ __('AM / PM') }
               attr={ {
                   id: `${type}-ampm-${ uid }`,

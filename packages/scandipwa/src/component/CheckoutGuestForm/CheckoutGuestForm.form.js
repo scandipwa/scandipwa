@@ -28,7 +28,7 @@ export const checkoutGuestForm = (props, events) => {
 
     return [
         {
-            type: FieldType.email,
+            type: FieldType.EMAIL,
             label: __('Email'),
             attr: {
                 name: 'guest_email',
@@ -48,7 +48,7 @@ export const checkoutGuestForm = (props, events) => {
             }
         },
         ...(isCreateUser ? [ {
-            type: FieldType.password,
+            type: FieldType.PASSWORD,
             label: __('Create Password'),
             attr: {
                 name: 'guest_password',

@@ -9,18 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { CONTACT_US } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import ContactFormQuery from 'Query/ContactForm.query';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
+import { getErrorMessage } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
+import { RootState } from 'Util/Store/Store.type';
 
 import ContactPage from './ContactPage.component';
+import {
+    ContactPageComponentProps,
+    ContactPageContainerProps, ContactPageContainerState, ContactPageMapDispatchProps, ContactPageMapStateProps
+} from './ContactPage.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -28,15 +36,15 @@ export const BreadcrumbsDispatcher = import(
 );
 
 /** @namespace Route/ContactPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ContactPageMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Route/ContactPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ContactPageMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
             ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
@@ -45,19 +53,13 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/ContactPage/Container */
-export class ContactPageContainer extends DataContainer {
-    static propTypes = {
-        updateMeta: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        isMobile: PropTypes.bool.isRequired
-    };
-
+export class ContactPageContainer extends DataContainer<ContactPageContainerProps, ContactPageContainerState> {
     state = {
         isLoading: false,
         isEnabled: false
     };
 
-    __construct(props) {
+    __construct(props: ContactPageContainerProps): void {
         super.__construct(props, 'ContactPageContainer');
 
         this.updateBreadcrumbs();
@@ -70,7 +72,7 @@ export class ContactPageContainer extends DataContainer {
         this.getEnabledState();
     }
 
-    containerProps() {
+    containerProps(): Pick<ContactPageComponentProps, 'isMobile' | 'isLoading' | 'isEnabled'> {
         const { isMobile } = this.props;
         const { isLoading, isEnabled } = this.state;
 
@@ -81,12 +83,12 @@ export class ContactPageContainer extends DataContainer {
         };
     }
 
-    updateMeta() {
+    updateMeta(): void {
         const { updateMeta } = this.props;
         updateMeta({ title: __('Contact Us') });
     }
 
-    updateBreadcrumbs() {
+    updateBreadcrumbs(): void {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
             {
@@ -98,27 +100,27 @@ export class ContactPageContainer extends DataContainer {
         updateBreadcrumbs(breadcrumbs);
     }
 
-    updateHeader() {
+    updateHeader(): void {
         const { setHeaderState } = this.props;
 
         setHeaderState({
-            name: CONTACT_US,
+            name: Page.CONTACT_US,
             title: __('Contact Us')
         });
     }
 
-    getEnabledState() {
+    getEnabledState(): void {
         const { showNotification } = this.props;
         this.setState({ isLoading: true });
 
-        this.fetchData(
-            ContactFormQuery.getContactPageConfigQuery(),
-            ({ contactPageConfig: { enabled } = {} }) => {
+        this.fetchData<{ contactPageConfig: { enabled: boolean } }>(
+            [ContactFormQuery.getContactPageConfigQuery()],
+            ({ contactPageConfig: { enabled = false } = {} }) => {
                 this.setState({ isEnabled: enabled, isLoading: false });
             },
-            ([ e ]) => {
+            (e) => {
                 this.setState({ isLoading: false });
-                showNotification(e.message);
+                showNotification(NotificationType.ERROR, getErrorMessage(e as Error));
             }
         );
     }
@@ -126,7 +128,7 @@ export class ContactPageContainer extends DataContainer {
     render(): ReactElement {
         return (
             <ContactPage
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

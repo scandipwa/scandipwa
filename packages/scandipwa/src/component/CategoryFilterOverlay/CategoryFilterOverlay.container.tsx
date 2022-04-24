@@ -11,15 +11,15 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { FILTER } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { SelectedFiltersType } from 'Type/Category.type';
+import { ReactElement } from 'Type/Common.type';
 import { FilterAttributeType } from 'Type/ProductList.type';
 import { HistoryType, LocationType } from 'Type/Router.type';
 import { getQueryParam, setQueryParams } from 'Util/Url';
@@ -37,10 +37,10 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/CategoryFilterOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state))
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state))
 });
 
 /** @namespace Component/CategoryFilterOverlay/Container */
@@ -111,7 +111,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             if (!filter) {
                 return acc;
             }
-            const [ key, value ] = filter.split(':');
+            const [key, value] = filter.split(':');
 
             return { ...acc, [ key ]: value.split(',') };
         }, {});
@@ -125,7 +125,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         };
 
         return Object.entries(customFilers)
-            .reduce((accumulator, [ filterKey, filterValue ]) => {
+            .reduce((accumulator, [filterKey, filterValue]) => {
                 if (filterValue.length) {
                     const filterValues = filterValue.sort().join(',');
 
@@ -175,7 +175,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         } = this.props;
 
         changeHeaderState({
-            name: FILTER,
+            name: Page.FILTER,
             title: __('Filters'),
             onCloseClick: () => {
                 hideActiveOverlay();
@@ -184,7 +184,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         });
 
         changeNavigationState({
-            name: FILTER,
+            name: Page.FILTER,
             isHidden: true
         });
 
@@ -265,7 +265,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         const { location: { search } } = this.props;
 
         return search.substr(1).split('&').reduce((acc, part) => {
-            const [ key, value ] = part.split('=');
+            const [key, value] = part.split('=');
 
             return { ...acc, [ key ]: value };
         }, {});
@@ -294,7 +294,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             // if price is already selected and new other price is selected, replace
             return price && price.includes(value)
                 ? []
-                : [ value ];
+                : [value];
         }
 
         if (filterValueIndex === -1) {
@@ -309,8 +309,8 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CategoryFilterOverlay
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

@@ -11,10 +11,10 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import { FieldType } from 'Component/Field/Field.config';
+import { ReactElement } from 'Type/Common.type';
 import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { sortBySortOrder } from 'Util/Product';
 import { customizableOptionsToSelectTransform, nonRequiredRadioOptions } from 'Util/Product/Transform';
@@ -64,7 +64,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     getDropdownOptions() {
         const { options, currencyCode, type } = this.props;
 
-        if (type !== CONFIG_FieldType.select) {
+        if (type !== CONFIG_FieldType.SELECT) {
             return null;
         }
 
@@ -106,8 +106,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductCustomizableOption
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

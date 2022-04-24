@@ -9,7 +9,10 @@
  */
 
 import {
-    CheckoutActionType, UpdateEmailAction, UpdateEmailAvailableAction, UpdateShippingFieldsAction
+    CheckoutActionType,
+    UpdateEmailAction,
+    UpdateEmailAvailableAction,
+    UpdateShippingFieldsAction
 } from './Checkout.type';
 
 /** @namespace Store/Checkout/Action/updateShippingFields */

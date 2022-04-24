@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { GQLCompareList } from 'Type/Graphql.type';
+import { CompareList } from 'Query/ProductCompare.type';
 
 import {
     AddComparedProductIdsAction,
@@ -29,7 +29,7 @@ export const toggleLoader = (isLoading: boolean): ToggleLoaderAction => ({
 });
 
 /** @namespace Store/ProductCompare/Action/setCompareList */
-export const setCompareList = (payload: GQLCompareList): SetCompareListAction => ({
+export const setCompareList = (payload: CompareList): SetCompareListAction => ({
     type: ProductCompareActionType.SET_COMPARE_LIST,
     payload
 });

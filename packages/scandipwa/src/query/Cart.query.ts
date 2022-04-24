@@ -24,7 +24,7 @@ import {
     AppliedTaxItem,
     AppliedTaxItemRate,
     CartDisplayConfig,
-    CartProductInterface,
+    CartProductItem,
     CartUserInputError,
     CartWithId,
     QuoteData,
@@ -139,8 +139,8 @@ export class CartQuery {
         return mutation;
     }
 
-    getCartDisplayConfig(): Field<'cartDisplayConfig', CartDisplayConfig> {
-        return new Field<'getCartDisplayConfig', CartDisplayConfig>('getCartDisplayConfig')
+    getCartDisplayConfig(): Query<'cartDisplayConfig', CartDisplayConfig> {
+        return new Query<'getCartDisplayConfig', CartDisplayConfig>('getCartDisplayConfig')
             .setAlias('cartDisplayConfig')
             .addFieldList(this._getCartDisplayConfigFields());
     }
@@ -311,7 +311,7 @@ export class CartQuery {
     | Field<'customizable_options', SelectedCustomizableOption>
     | Field<'downloadable_links', SelectedDownloadableLinks, true>
     | Field<'bundle_options', SelectedBundleOption, true>
-    | Field<'product', CartProductInterface>
+    | Field<'product', CartProductItem>
     > {
         return [
             new Field<'qty', number>('qty'),
@@ -331,8 +331,8 @@ export class CartQuery {
         ];
     }
 
-    _getProductField(): Field<'product', CartProductInterface> {
-        return new Field<'product', CartProductInterface>('product')
+    _getProductField(): Field<'product', CartProductItem> {
+        return new Field<'product', CartProductItem>('product')
             .addFieldList(ProductListQuery._getCartProductInterfaceFields());
     }
 

@@ -19,6 +19,7 @@ import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateCustomerDetails, updateIsLoading, updateIsLocked } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { CustomerType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import { LocationType } from 'Type/Router.type';

@@ -9,8 +9,7 @@
 * @link https://github.com/scandipwa/base-theme
 */
 
-import { PriceRange } from 'Type/Price.type';
-import { Product } from 'Type/ProductList.type';
+import { PriceRange, ProductItem } from 'Query/ProductList.type';
 
 /**
  * Updates wishlist item price for option based products
@@ -18,10 +17,10 @@ import { Product } from 'Type/ProductList.type';
  * @namespace Util/Wishlist/getPriceRange
  */
 export const getPriceRange = (
-    product: Product,
+    product: ProductItem,
     price: number,
     priceWithoutTax: number
-): PriceRange | Record<string, unknown> => {
+): { price_range?: PriceRange } => {
     if (!price) {
         return {};
     }
@@ -29,7 +28,9 @@ export const getPriceRange = (
     const {
         price_range: {
             minimum_price: {
-                regular_price: { currency }
+                regular_price: {
+                    currency
+                } = {}
             }
         }
     } = product;

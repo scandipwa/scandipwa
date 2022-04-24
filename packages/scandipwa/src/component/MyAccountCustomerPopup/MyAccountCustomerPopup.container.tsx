@@ -11,17 +11,18 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import MyAccountQuery from 'Query/MyAccount.query';
 import { updateCustomerDetails } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { CustomerType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
@@ -39,7 +40,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountCustomerPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
@@ -149,8 +150,8 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountCustomerPopup
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

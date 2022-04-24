@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { GQLCustomer } from 'Type/Graphql.type';
+import { Customer } from 'Query/MyAccount.type';
 
 import {
     MyAccountActionType,
@@ -29,7 +29,7 @@ export const updateCustomerSignInStatus = (status: boolean): UpdateCustomerSignI
 });
 
 /** @namespace Store/MyAccount/Action/updateCustomerDetails */
-export const updateCustomerDetails = (customer: GQLCustomer): UpdateCustomerDetailsAction => ({
+export const updateCustomerDetails = (customer: Partial<Customer>): UpdateCustomerDetailsAction => ({
     type: MyAccountActionType.UPDATE_CUSTOMER_DETAILS,
     customer
 });

@@ -24,7 +24,7 @@ export const NOT_ACTIVE = 'NOT_ACTIVE';
  * @namespace Store/NewsletterSubscription/Dispatcher
  */
 export class NewsletterSubscriptionDispatcher {
-    subscribeToNewsletter(dispatch: Dispatch, email: string): Promise<ShowNotificationAction<unknown>> {
+    subscribeToNewsletter(dispatch: Dispatch, email: string): Promise<ShowNotificationAction> {
         return fetchMutation(NewsletterSubscriptionQuery.getSubscribeToNewsletterMutation(email)).then(
             /** @namespace Store/NewsletterSubscription/Dispatcher/NewsletterSubscriptionDispatcher/subscribeToNewsletter/fetchMutation/then */
             ({ subscribeEmailToNewsletter: { status } }) => {

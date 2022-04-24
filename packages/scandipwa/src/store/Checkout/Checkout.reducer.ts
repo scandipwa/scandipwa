@@ -11,7 +11,11 @@
 
 import { Reducer } from 'redux';
 
-import { CheckoutAction, CheckoutActionType, CheckoutStore } from './Checkout.type';
+import {
+    CheckoutAction,
+    CheckoutActionType,
+    CheckoutStore
+} from './Checkout.type';
 
 /** @namespace Store/Checkout/Reducer/getInitialState */
 export const getInitialState = (): CheckoutStore => ({

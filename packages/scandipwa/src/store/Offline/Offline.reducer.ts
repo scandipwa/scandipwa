@@ -10,7 +10,11 @@
  */
 import { Reducer } from 'redux';
 
-import { OfflineAction, OfflineActionType, OfflineStore } from './Offline.type';
+import {
+    OfflineAction,
+    OfflineActionType,
+    OfflineStore
+} from './Offline.type';
 
 /** @namespace Store/Offline/Reducer/getInitialState */
 export const getInitialState = (): OfflineStore => ({

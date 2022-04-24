@@ -12,6 +12,7 @@
 import { FieldType } from 'Component/Field/Field.config';
 import FieldForm from 'Component/FieldForm';
 import { CustomerType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 
 import './MyAccountNewsletterSubscription.style.scss';
 
@@ -29,7 +30,7 @@ export class MyAccountNewsletterSubscription extends FieldForm {
 
         return [
             {
-                type: FieldType.checkbox,
+                type: FieldType.CHECKBOX,
                 attr: {
                     name: 'isSubscribed',
                     defaultChecked: isSubscriptionSelected
@@ -67,7 +68,7 @@ export class MyAccountNewsletterSubscription extends FieldForm {
     renderActions(): ReactElement {
         return (
             <button
-              type={ FieldType.submit }
+              type={ FieldType.SUBMIT }
               block="Button"
               mix={ { block: 'MyAccountNewsletterSubscription', elem: 'Button' } }
               aria-label={ __('Submit') }

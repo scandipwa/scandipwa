@@ -58,7 +58,7 @@ export class MyAccountSignIn extends PureComponent {
             >
                 <Field
                   label={ __('Email') }
-                  type={ FieldType.email }
+                  type={ FieldType.EMAIL }
                   attr={ {
                       id: 'email',
                       name: 'email',
@@ -76,7 +76,7 @@ export class MyAccountSignIn extends PureComponent {
                 />
                 <Field
                   label={ __('Password') }
-                  type={ FieldType.password }
+                  type={ FieldType.PASSWORD }
                   attr={ {
                       id: 'password',
                       name: 'password',

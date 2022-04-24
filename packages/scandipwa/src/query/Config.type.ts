@@ -148,7 +148,7 @@ export interface StoreConfig {
     priceTaxDisplay: PriceTaxDisplay;
 }
 
-export interface StoreList {
+export interface StoreItem {
     name: string;
     is_active: boolean;
     base_url: string;
@@ -157,7 +157,7 @@ export interface StoreList {
 }
 
 export interface Currency {
-    id: number;
+    id: string;
     label: string;
     value: string;
 }

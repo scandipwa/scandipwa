@@ -22,7 +22,7 @@ import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { getSubLabelFromMaxCharacters } from 'Util/Product/Extract';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
-import { CONFIG_FieldType } from './ProductCustomizableOption.config';
+import { ConfigFieldType } from './ProductCustomizableOption.config';
 
 /**
  * Product Customizable Option
@@ -47,17 +47,17 @@ export class ProductCustomizableOption extends PureComponent {
     };
 
     renderMap = {
-        [CONFIG_FieldType.text]: this.renderDefaultValue.bind(this),
-        [CONFIG_FieldType.textarea]: this.renderDefaultValue.bind(this),
-        [CONFIG_FieldType.date]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.date),
-        [CONFIG_FieldType.dateTime]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.dateTime),
-        [CONFIG_FieldType.time]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.time),
+        [ConfigFieldType.TEXT]: this.renderDefaultValue.bind(this),
+        [ConfigFieldType.TEXTAREA]: this.renderDefaultValue.bind(this),
+        [ConfigFieldType.DATE]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.date),
+        [ConfigFieldType.DATETIME]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.dateTime),
+        [ConfigFieldType.TIME]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.time),
 
-        [CONFIG_FieldType.file]: this.renderFileValue.bind(this),
-        [CONFIG_FieldType.select]: this.renderSelectValues.bind(this),
-        [CONFIG_FieldType.radio]: this.renderRadioValues.bind(this),
-        [CONFIG_FieldType.checkbox]: this.renderCheckboxValues.bind(this),
-        [CONFIG_FieldType.multi]: this.renderCheckboxValues.bind(this)
+        [ConfigFieldType.FILE]: this.renderFileValue.bind(this),
+        [ConfigFieldType.SELECT]: this.renderSelectValues.bind(this),
+        [ConfigFieldType.RADIO]: this.renderRadioValues.bind(this),
+        [ConfigFieldType.CHECKBOX]: this.renderCheckboxValues.bind(this),
+        [ConfigFieldType.MULTI]: this.renderCheckboxValues.bind(this)
     };
 
     state = {
@@ -162,7 +162,7 @@ export class ProductCustomizableOption extends PureComponent {
             <>
                 { this.renderOptionGroupTitle(label) }
                 <Field
-                  type={ FieldType.file }
+                  type={ FieldType.FILE }
                   validationRule={ {
                       isRequired,
                       fileExtension: {
@@ -194,7 +194,7 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <div key={ uid }>
                 <Field
-                  type={ FieldType.checkbox }
+                  type={ FieldType.CHECKBOX }
                   label={ label }
                   attr={ {
                       id: `option-${ uid }`,
@@ -236,7 +236,7 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <div key={ uid }>
                 <Field
-                  type={ FieldType.radio }
+                  type={ FieldType.RADIO }
                   label={ label }
                   attr={ {
                       id: `option-${ uid }`,
@@ -278,7 +278,7 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <div block="ProductCustomizableItem" elem="DropdownWrapper">
                 <Field
-                  type={ FieldType.select }
+                  type={ FieldType.SELECT }
                   attr={ {
                       id: `customizable-options-dropdown-${ uid }`,
                       name: `customizable-options-dropdown-${ uid }`,
@@ -318,10 +318,10 @@ export class ProductCustomizableOption extends PureComponent {
         }
 
         const renderTitle = title
-            && (type === CONFIG_FieldType.select
-            || type === CONFIG_FieldType.radio
-            || type === CONFIG_FieldType.checkbox
-            || type === CONFIG_FieldType.multi);
+            && (type === ConfigFieldType.SELECT
+            || type === ConfigFieldType.RADIO
+            || type === ConfigFieldType.CHECKBOX
+            || type === ConfigFieldType.MULTI);
 
         return (
             <div block="ProductCustomizableItem" elem="Wrapper">

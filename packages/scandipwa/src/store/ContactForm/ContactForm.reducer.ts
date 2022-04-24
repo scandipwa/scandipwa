@@ -11,7 +11,11 @@
 
 import { Reducer } from 'redux';
 
-import { ContactFormActionType, ContactFormStore, UpdateContactFormAction } from './ContactForm.type';
+import {
+    ContactFormActionType,
+    ContactFormStore,
+    UpdateContactFormAction
+} from './ContactForm.type';
 
 export const initialState = {
     isLoading: false

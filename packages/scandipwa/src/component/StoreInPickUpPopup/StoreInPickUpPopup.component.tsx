@@ -68,7 +68,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         return (
             <>
                 <Field
-                  type={ FieldType.select }
+                  type={ FieldType.SELECT }
                   attr={ {
                       id: 'country_id',
                       name: 'country_id',
@@ -81,7 +81,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
                   mix={ { block: 'StoreInPickUpPopup', elem: 'Input' } }
                 />
                 <Field
-                  type={ FieldType.text }
+                  type={ FieldType.TEXT }
                   attr={ {
                       id: 'store-finder',
                       name: 'store-finder',

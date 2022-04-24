@@ -20,7 +20,7 @@ export class StoreInPickUpQuery {
     getStores(
         country: string,
         search = '',
-        productsInfo?: GQLProductInfoInput
+        productsInfo?: GQLProductInfoInput[]
     ): Query<'getStores', { stores: Store[] }> {
         return new Query<'getStores', { stores: Store[] }>('getStores')
             .addFieldList([this.getStoreFields()])

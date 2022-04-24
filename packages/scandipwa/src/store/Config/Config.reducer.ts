@@ -13,13 +13,13 @@ import { Reducer } from 'redux';
 
 import { CheckoutAgreement, CurrencyConfig, StoreConfig } from 'Query/Config.type';
 import { Country } from 'Query/Region.type';
+import { ReviewRatingItem } from 'Query/Review.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import {
     ConfigAction,
     ConfigActionType,
     ConfigStore,
-    ReviewRatingItem,
     ReviewRatings
 } from './Config.type';
 

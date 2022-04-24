@@ -17,10 +17,13 @@ export const DEFAULT_ERROR_MESSAGE = __('Something went wrong!');
  * @param string optional default error message if couldn't get any from the given error
  * @return string message
  * @namespace Util/Request/Error/getErrorMessage */
-export const getErrorMessage = (error, defaultMessage = DEFAULT_ERROR_MESSAGE) => {
-    const {
-        message = defaultMessage
-    } = error?.length ? error[0] : error || {};
+export const getErrorMessage = (
+    error: { message: string } | { message: string }[],
+    defaultMessage: string = DEFAULT_ERROR_MESSAGE
+): string => {
+    if (Array.isArray(error)) {
+        return error?.[0].message || defaultMessage;
+    }
 
-    return message;
+    return error?.message || defaultMessage;
 };

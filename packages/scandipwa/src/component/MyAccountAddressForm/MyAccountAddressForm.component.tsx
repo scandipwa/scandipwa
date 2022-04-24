@@ -133,7 +133,7 @@ export class MyAccountAddressForm extends FieldForm {
     renderActions(): ReactElement {
         return (
             <button
-              type={ FieldType.submit }
+              type={ FieldType.SUBMIT }
               block="Button"
               mix={ { block: 'MyAccount', elem: 'Button' } }
               mods={ { isHollow: true } }

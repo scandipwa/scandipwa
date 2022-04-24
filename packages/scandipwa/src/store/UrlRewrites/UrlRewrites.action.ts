@@ -9,15 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { UrlRewrite } from 'Type/Router.type';
-
-import { SetIsUrlRewritesLoading, UpdateUrlRewrite, UrlRewritesActionType } from './UrlRewrites.type';
+import {
+    SetIsUrlRewritesLoadingAction,
+    UpdateUrlRewriteAction,
+    UrlRewrite,
+    UrlRewritesActionType
+} from './UrlRewrites.type';
 
 /** @namespace Store/UrlRewrites/Action/updateUrlRewrite */
 export const updateUrlRewrite = (
-    urlRewrite: Record<string, UrlRewrite>,
+    urlRewrite: UrlRewrite,
     requestedUrl: string
-): UpdateUrlRewrite => ({
+): UpdateUrlRewriteAction => ({
     type: UrlRewritesActionType.UPDATE_URL_REWRITE,
     urlRewrite,
     requestedUrl
@@ -26,7 +29,7 @@ export const updateUrlRewrite = (
 /** @namespace Store/UrlRewrites/Action/setIsUrlRewritesLoading */
 export const setIsUrlRewritesLoading = (
     isLoading: boolean
-): SetIsUrlRewritesLoading => ({
+): SetIsUrlRewritesLoadingAction => ({
     type: UrlRewritesActionType.IS_LOADING_URL_REWRITE,
     isLoading
 });

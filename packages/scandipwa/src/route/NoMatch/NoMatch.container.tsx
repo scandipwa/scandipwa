@@ -10,16 +10,16 @@
  */
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
-import { NO_MATCH } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { ReactElement } from 'Type/Common.type';
 import { UrlRewriteType } from 'Type/Router.type';
 
 import NoMatch from './NoMatch.component';
@@ -37,7 +37,7 @@ export const mapDispatchToProps = (dispatch) => ({
         );
     },
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     updateNoMatch: (options) => dispatch(updateNoMatch(options))
 });
 
@@ -78,7 +78,7 @@ export class NoMatchContainer extends PureComponent {
         const { changeHeaderState } = this.props;
 
         changeHeaderState({
-            name: NO_MATCH,
+            name: Page.NO_MATCH,
             title: __('Page not found'),
             isHiddenOnMobile: true
         });
@@ -98,13 +98,13 @@ export class NoMatchContainer extends PureComponent {
 
     render(): ReactElement {
         return (
-            <Subscribe to={[ SharedTransitionContainer ]}>
-                {({ cleanUpTransition }) => (
+            <Subscribe to={ [SharedTransitionContainer] }>
+                { ({ cleanUpTransition }) => (
                     <NoMatch
-                        {...this.containerProps()}
-                        cleanUpTransition={cleanUpTransition}
+                      { ...this.containerProps() }
+                      cleanUpTransition={ cleanUpTransition }
                     />
-                )}
+                ) }
             </Subscribe>
         );
     }

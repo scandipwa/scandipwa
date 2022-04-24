@@ -15,23 +15,14 @@ import { PureComponent } from 'react';
 import AddIcon from 'Component/AddIcon';
 import Link from 'Component/Link';
 import MinusIcon from 'Component/MinusIcon';
-import { ModsType, ReactElement } from 'Type/Common.type';
-import { MenuItemType } from 'Type/Menu.type';
+import { Mods, ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { FormattedMenuItem } from 'Util/Menu/Menu.type';
+
+import { MenuItemComponentProps } from './MenuItem.type';
 
 /** @namespace Component/MenuItem/Component */
-export class MenuItem extends PureComponent {
-    static propTypes = {
-        activeMenuItemsStack: PropTypes.arrayOf(PropTypes.string).isRequired,
-        item: MenuItemType.isRequired,
-        itemMods: ModsType.isRequired,
-        handleCategoryHover: PropTypes.func.isRequired,
-        handleLinkLeave: PropTypes.func.isRequired,
-        isLink: PropTypes.bool.isRequired,
-        onItemClick: PropTypes.func,
-        isExpandable: PropTypes.bool.isRequired
-    };
-
+export class MenuItem extends PureComponent<MenuItemComponentProps> {
     static defaultProps = {
         onItemClick: noopFn
     };
@@ -64,7 +55,7 @@ export class MenuItem extends PureComponent {
         );
     }
 
-    renderItemContent(item, itemMods): ReactElement {
+    renderItemContent(item: FormattedMenuItem, itemMods: Mods): ReactElement {
         const { title } = item;
 
         return (

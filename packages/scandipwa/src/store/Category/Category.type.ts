@@ -10,8 +10,7 @@
  */
 import { AnyAction } from 'redux';
 
-import { CategoryFragment } from 'Type/Category.type';
-import { GQLCategoryTree } from 'Type/Graphql.type';
+import { Category } from 'Query/Category.type';
 
 export enum CategoryActionType {
     UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY'
@@ -19,11 +18,11 @@ export enum CategoryActionType {
 
 export interface UpdateCurrentCategoryAction extends AnyAction {
     type: CategoryActionType.UPDATE_CURRENT_CATEGORY;
-    category: CategoryFragment | Record<string, unknown>;
+    category: Partial<Category>;
 }
 
 export type CategoryStore = {
-    category: CategoryFragment | Record<string, unknown>;
+    category: Partial<Category>;
 };
 
 declare module 'Util/Store/Store.type' {
@@ -33,7 +32,5 @@ declare module 'Util/Store/Store.type' {
 }
 
 export type CategoryDispatcherData = {
-    category: GQLCategoryTree & {
-        children: GQLCategoryTree[];
-    };
+    category: Category;
 };

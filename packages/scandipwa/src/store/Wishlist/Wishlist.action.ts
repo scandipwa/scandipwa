@@ -9,14 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Product } from 'Type/ProductList.type';
-
 import {
-    ClearWishlist,
-    RemoveItemFromWishlist,
-    UpdateAllProductsInWishlist,
-    UpdateIsLoading,
-    WishlistActionType
+    ClearWishlistAction,
+    RemoveItemFromWishlistAction,
+    UpdateAllProductsInWishlistAction,
+    UpdateIsLoadingAction,
+    WishlistActionType,
+    WishlistProduct
 } from './Wishlist.type';
 
 /**
@@ -26,8 +25,8 @@ import {
  * @namespace Store/Wishlist/Action/removeItemFromWishlist
  */
 export const removeItemFromWishlist = (
-    item_id: number
-): RemoveItemFromWishlist => ({
+    item_id: string
+): RemoveItemFromWishlistAction => ({
     type: WishlistActionType.REMOVE_ITEM_FROM_WISHLIST,
     item_id
 });
@@ -39,8 +38,8 @@ export const removeItemFromWishlist = (
  * @namespace Store/Wishlist/Action/updateAllProductsInWishlist
  */
 export const updateAllProductsInWishlist = (
-    products: Record<string, Product>
-): UpdateAllProductsInWishlist => ({
+    products: Record<string, WishlistProduct>
+): UpdateAllProductsInWishlistAction => ({
     type: WishlistActionType.UPDATE_ALL_PRODUCTS_IN_WISHLIST,
     products
 });
@@ -48,12 +47,12 @@ export const updateAllProductsInWishlist = (
 /** @namespace Store/Wishlist/Action/updateIsLoading */
 export const updateIsLoading = (
     isLoading: boolean
-): UpdateIsLoading => ({
+): UpdateIsLoadingAction => ({
     type: WishlistActionType.UPDATE_IS_LOADING_IN_WISHLIST,
     isLoading
 });
 
 /** @namespace Store/Wishlist/Action/clearWishlist */
-export const clearWishlist = (): ClearWishlist => ({
+export const clearWishlist = (): ClearWishlistAction => ({
     type: WishlistActionType.CLEAR_WISHLIST
 });

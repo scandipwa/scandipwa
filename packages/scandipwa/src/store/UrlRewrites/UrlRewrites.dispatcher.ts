@@ -9,11 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Query } from '@tilework/opus';
+import { Dispatch } from 'redux';
+
 import UrlRewritesQuery from 'Query/UrlRewrites.query';
+import { UrlRewritesOutput, UrlRewritesQueryOptions } from 'Query/UrlRewrites.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites/UrlRewrites.action';
 import { QueryDispatcher } from 'Util/Request';
+
+import { UrlRewritesDispatcherData } from './UrlRewrites.type';
 
 /**
  * Url Rewrite Dispathcer
@@ -21,17 +28,25 @@ import { QueryDispatcher } from 'Util/Request';
  * @extends RequestDispatcher
  * @namespace Store/UrlRewrites/Dispatcher
  */
-export class UrlRewritesDispatcher extends QueryDispatcher {
-    __construct() {
+export class UrlRewritesDispatcher extends QueryDispatcher<UrlRewritesQueryOptions, UrlRewritesDispatcherData> {
+    __construct(): void {
         super.__construct('UrlRewrites');
     }
 
-    onSuccess({ urlResolver }, dispatch, { urlParam }) {
+    onSuccess(
+        { urlResolver }: UrlRewritesDispatcherData,
+        dispatch: Dispatch,
+        { urlParam }: UrlRewritesQueryOptions
+    ): void {
         dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
         dispatch(updateNoMatch(!urlResolver));
     }
 
-    onError(error, dispatch, { urlParam }) {
+    onError(
+        error: unknown,
+        dispatch: Dispatch,
+        { urlParam }: UrlRewritesQueryOptions
+    ): void {
         dispatch(setIsUrlRewritesLoading(false));
         dispatch(updateUrlRewrite({ notFound: true }, urlParam));
         dispatch(updateNoMatch(true));
@@ -44,7 +59,7 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
      * @return {Query} UrlRewrite query
      * @memberof UrlRewritesDispatcher
      */
-    prepareRequest(options, dispatch) {
+    prepareRequest(options: UrlRewritesQueryOptions, dispatch: Dispatch): Query<'urlResolver', UrlRewritesOutput>[] {
         dispatch(setIsUrlRewritesLoading(true));
 
         return [
@@ -52,7 +67,7 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
         ];
     }
 
-    processUrlOptions(options) {
+    processUrlOptions(options: UrlRewritesQueryOptions): UrlRewritesQueryOptions {
         const { urlParam } = options;
 
         // FAILSAFE: Trim index.php if someone forgot to set "Use Web Server Rewrites" to "Yes"

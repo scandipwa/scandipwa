@@ -15,7 +15,7 @@ import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { DeviceType } from 'Type/Device.type';
@@ -33,7 +33,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/NewVersionPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showPopup: (payload) => dispatch(showPopup(NEW_VERSION_POPUP_ID, payload)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 

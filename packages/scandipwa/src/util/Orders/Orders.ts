@@ -10,11 +10,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { GQLCustomerOrder } from 'Type/Graphql.type';
-import {
-    Discount, Order, OrderProduct, OrderProductQuantity,
-    OrderProducts
-} from 'Type/Order.type';
+import { OrderItem } from 'Query/Order.type';
 
 /** @namespace Util/Orders/getFormattedDate */
 export const getFormattedDate = (rawDate = ''): string => {
@@ -30,22 +26,22 @@ export const getFormattedDate = (rawDate = ''): string => {
 };
 
 /** @namespace Util/Orders/formatOrders */
-export const formatOrders = (orders: GQLCustomerOrder[]): Order[] => orders.reduceRight((acc, order) => {
+export const formatOrders = (orders: OrderItem[]): OrderItem[] => orders.reduceRight((acc: OrderItem[], order) => {
     const { order_date, id: uid } = order;
     const formattedDate = getFormattedDate(order_date);
 
     return [
         ...acc,
         {
-            ...order as unknown as Order,
+            ...order,
             id: atob(uid),
             created_at: formattedDate
         }
     ];
-}, [] as Order[]);
+}, []);
 
 /** @namespace Util/Orders/getOrderItemQtyToArray */
-export const getOrderItemQtyToArray = (product: OrderProduct): OrderProductQuantity => {
+export const getOrderItemQtyToArray = (product) => {
     const {
         quantity_ordered = 0,
         quantity_canceled = 0,
@@ -67,10 +63,10 @@ export const getOrderItemQtyToArray = (product: OrderProduct): OrderProductQuant
 
 /** @namespace Util/Orders/getProductFromOrder */
 export const getProductFromOrder = (
-    allProducts: OrderProducts,
+    allProducts,
     requiredProductSku: string
-): OrderProduct | undefined => allProducts.find(({ product_sku }) => product_sku === requiredProductSku);
+) => allProducts.find(({ product_sku }) => product_sku === requiredProductSku);
 
 /** @namespace Util/Orders/getOrderItemRowDiscount */
-export const getOrderItemRowDiscount = (discounts: Discount[]): number => discounts
+export const getOrderItemRowDiscount = (discounts): number => discounts
     .reduce((currentValue, { amount: { value } }) => value + currentValue, 0);

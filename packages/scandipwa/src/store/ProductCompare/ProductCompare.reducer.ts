@@ -11,6 +11,7 @@
 
 import { Reducer } from 'redux';
 
+import { ComparableProduct } from 'Query/ProductCompare.type';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 
 import {
@@ -55,7 +56,7 @@ export const ProductCompareReducer: Reducer<ProductCompareStore, ProductCompareA
     case ProductCompareActionType.SET_COMPARE_LIST: {
         const { item_count = 0, items = [], attributes = [] } = action.payload;
 
-        const products = items.map((item) => ({
+        const products = items.map((item): ComparableProduct => ({
             ...(item?.product || {}),
             attributes: []
         }));
@@ -73,7 +74,7 @@ export const ProductCompareReducer: Reducer<ProductCompareStore, ProductCompareA
             products,
             productIds,
             items
-        } as ProductCompareStore;
+        };
     }
 
     case ProductCompareActionType.UPDATE_COMPARE_TOTALS: {

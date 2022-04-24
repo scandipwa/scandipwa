@@ -53,7 +53,7 @@ export class MenuQuery {
     Field<'url', string>
     | Field<'icon', string>
     | Field<'title', string>
-    | Field<'item_id', number>
+    | Field<'item_id', string>
     | Field<'position', number>
     | Field<'url_type', number>
     | Field<'parent_id', number>
@@ -66,7 +66,7 @@ export class MenuQuery {
             new Field<'url', string>('url'),
             new Field<'icon', string>('icon'),
             new Field<'title', string>('title'),
-            new Field<'item_id', number>('item_id'),
+            new Field<'item_id', string>('item_id'),
             new Field<'position', number>('position'),
             new Field<'url_type', number>('url_type'),
             new Field<'parent_id', number>('parent_id'),

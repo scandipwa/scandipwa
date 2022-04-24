@@ -12,13 +12,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // TODO: try SEARCH type
-import { CATEGORY } from 'Component/Header/Header.config';
+import { Page } from 'Component/Header/Header.config';
 import { LOADING_TIME, SortDirectionType } from 'Route/CategoryPage/CategoryPage.config';
 import { CategoryPageContainer } from 'Route/CategoryPage/CategoryPage.container';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
@@ -70,8 +70,8 @@ export const mapStateToProps = (state) => ({
 /** @namespace Route/SearchPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
     requestCategory: (options) => CategoryDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
@@ -116,10 +116,10 @@ export class SearchPageContainer extends CategoryPageContainer {
         const { updateBreadcrumbs } = this.props;
         const search = decodeString(this.getSearchParam());
 
-        updateBreadcrumbs([ {
+        updateBreadcrumbs([{
             url: '',
             name: search
-        } ]);
+        }]);
     }
 
     updateHeaderState() {
@@ -136,7 +136,7 @@ export class SearchPageContainer extends CategoryPageContainer {
             : () => history.push(appendWithStoreCode('/menu'));
 
         changeHeaderState({
-            name: CATEGORY,
+            name: Page.CATEGORY,
             title: search,
             onBackClick
         });
@@ -215,11 +215,11 @@ export class SearchPageContainer extends CategoryPageContainer {
     render(): ReactElement {
         return (
             <SearchPage
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
                 // addded here to not override the container props
-                search={this.getSearchParam()}
-                sortFields={this.getSortFields()}
+              search={ this.getSearchParam() }
+              sortFields={ this.getSortFields() }
             />
         );
     }

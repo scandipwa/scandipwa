@@ -108,7 +108,7 @@ MyAccountDownloadableContainerState
 
             this.setState({ items, isLoading: false });
         } catch (e) {
-            showErrorNotification(getErrorMessage(e));
+            showErrorNotification(getErrorMessage(e as Error));
             this.setState({ isLoading: false });
         }
     }

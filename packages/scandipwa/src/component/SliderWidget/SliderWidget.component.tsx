@@ -12,13 +12,18 @@
 
 import { PureComponent } from 'react';
 
+import { Directions } from 'Component/ChevronIcon/ChevronIcon.config';
 import Html from 'Component/Html';
 import Image from 'Component/Image';
 import Slider from 'Component/Slider';
-import { DIRECTION_LEFT, DIRECTION_RIGHT } from 'Component/SliderWidget/SliderWidget.config';
 import { ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
 import { debounce } from 'Util/Request';
+
+import {
+    SliderWidgetComponenState,
+    SliderWidgetComponentProps,
+    SlideWithPlaceholder
+} from './SliderWidget.type';
 
 import './SliderWidget.style';
 
@@ -27,35 +32,28 @@ import './SliderWidget.style';
  * @class SliderWidget
  * @namespace Component/SliderWidget/Component
  */
-export class SliderWidget extends PureComponent {
-    static propTypes = {
-        slider: PropTypes.shape({
-            title: PropTypes.string,
-            slideSpeed: PropTypes.number,
-            slides: PropTypes.arrayOf(
-                PropTypes.shape({
-                    desktop_image: PropTypes.string,
-                    mobile_image: PropTypes.string,
-                    slide_text: PropTypes.string,
-                    isPlaceholder: PropTypes.bool
-                })
-            )
-        }),
-        device: DeviceType.isRequired
-    };
-
+export class SliderWidget extends PureComponent<SliderWidgetComponentProps, SliderWidgetComponenState> {
     static defaultProps = {
         slider: [{}]
     };
 
-    state = {
+    changeSlideDebounced?: () => void;
+
+    state: SliderWidgetComponenState = {
         activeImage: 0,
-        carouselDirection: DIRECTION_RIGHT
+        carouselDirection: Directions.RIGHT
     };
 
-    onActiveImageChange = this.onActiveImageChange.bind(this);
+    __construct(props: SliderWidgetComponentProps): void {
+        super.__construct?.(props);
 
-    componentDidUpdate(prevProps, prevState): void {
+        this.onActiveImageChange = this.onActiveImageChange.bind(this);
+    }
+
+    componentDidUpdate(
+        prevProps: SliderWidgetComponentProps,
+        prevState: SliderWidgetComponenState
+    ): void {
         const { slider: { slideSpeed, slides } } = this.props;
         const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
 
@@ -66,45 +64,45 @@ export class SliderWidget extends PureComponent {
             return;
         }
 
-        if (slideSpeed !== prevSlideSpeed && slides.length !== 1) {
+        if (slideSpeed !== prevSlideSpeed && slides?.length !== 1) {
             this.changeSlideDebounced = debounce(this.changeSlide.bind(this), slideSpeed);
             this.changeSlideDebounced();
         }
 
         if (prevActiveImage !== activeImage) {
-            this.changeSlideDebounced();
+            this.changeSlideDebounced?.();
         }
     }
 
-    changeSlide() {
+    changeSlide(): void {
         const imageToShow = this.getImageToShow();
         this.onActiveImageChange(imageToShow);
     }
 
-    onActiveImageChange(activeImage) {
+    onActiveImageChange(activeImage: number): void {
         this.setState({ activeImage });
         this.changeDirection(activeImage);
     }
 
-    changeDirection(activeImage) {
+    changeDirection(activeImage: number): void {
         const { slider: { slides } } = this.props;
 
         if (activeImage === 0) {
-            this.setState({ carouselDirection: DIRECTION_RIGHT });
+            this.setState({ carouselDirection: Directions.RIGHT });
         }
 
-        if (activeImage === slides.length - 1) {
-            this.setState({ carouselDirection: DIRECTION_LEFT });
+        if (activeImage === (slides?.length || 0) - 1) {
+            this.setState({ carouselDirection: Directions.LEFT });
         }
     }
 
-    getImageToShow() {
+    getImageToShow(): number {
         const { activeImage, carouselDirection } = this.state;
 
-        return carouselDirection === DIRECTION_RIGHT ? activeImage + 1 : activeImage - 1;
+        return carouselDirection === Directions.RIGHT ? activeImage + 1 : activeImage - 1;
     }
 
-    getSlideImage(slide) {
+    getSlideImage(slide: SlideWithPlaceholder): string {
         const {
             desktop_image,
             mobile_image
@@ -122,7 +120,7 @@ export class SliderWidget extends PureComponent {
         return `/${desktop_image}`;
     }
 
-    renderSlide(slide, i): ReactElement {
+    renderSlide(slide: SlideWithPlaceholder, i: number): ReactElement {
         const {
             slide_text,
             isPlaceholder,
@@ -163,7 +161,7 @@ export class SliderWidget extends PureComponent {
               activeImage={ activeImage }
               onActiveImageChange={ this.onActiveImageChange }
             >
-                { slides.map(this.renderSlide.bind(this)) }
+                { slides?.map(this.renderSlide.bind(this)) }
             </Slider>
         );
     }

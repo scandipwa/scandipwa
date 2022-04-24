@@ -11,19 +11,24 @@
 
 import { Reducer } from 'redux';
 
-import { LinkedProducts, LinkedProductsMap, LinkedProductType } from 'Type/ProductList.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import { LINKED_PRODUCTS } from './LinkedProducts.dispatcher';
-import { LinkedProductsActionType, LinkedProductsStore, UpdateLinkedProductsAction } from './LinkedProducts.type';
+import {
+    LinkedProducts,
+    LinkedProductsActionType,
+    LinkedProductsStore,
+    LinkedProductType,
+    UpdateLinkedProductsAction
+} from './LinkedProducts.type';
 
 /** @namespace Store/LinkedProducts/Reducer/getInitialState */
 export const getInitialState = (): LinkedProductsStore => ({
     linkedProducts: BrowserDatabase.getItem(LINKED_PRODUCTS) || {
-        [LinkedProductType.UPSELL]: {} as LinkedProducts,
-        [LinkedProductType.RELATED]: {} as LinkedProducts,
-        [LinkedProductType.CROSS_SELL]: {} as LinkedProducts
-    } as LinkedProductsMap
+        [LinkedProductType.UPSELL]: {},
+        [LinkedProductType.RELATED]: {},
+        [LinkedProductType.CROSS_SELL]: {}
+    }
 });
 
 /** @namespace Store/LinkedProducts/Reducer/LinkedProductsReducer */

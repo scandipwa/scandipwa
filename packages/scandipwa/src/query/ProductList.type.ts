@@ -70,19 +70,20 @@ export interface SimpleProduct {
     stock_item: ProductStockItem;
     thumbnail: OptimizedProductImage;
     attributes: AttributeWithValue[];
+    product_links: ProductLink[];
 }
 
 export interface ConfigurableVariant {
-    product: SimpleProduct;
+    product: ProductItem;
 }
 
 export interface ConfigurableCartProductFragment {
-    configurable_options: ConfigurableProductOptions;
+    configurable_options: ConfigurableProductOptions[];
     variants: ConfigurableVariant[];
 
 }
 
-export interface ProductLinks {
+export interface ProductLink {
     position: number;
     link_type: string;
     linked_product_sku: string;
@@ -233,7 +234,7 @@ InlineFragment<'CustomizableDropDownOption', {
 | Field<'uid', string>
 >;
 
-export interface CustomizableProductFragmentOptions {
+export interface BaseCustomizableProductFragmentOptions {
     CustomizableDropDownOption: {
         dropdownValues: CustomizableSelectionValue[];
     };
@@ -258,6 +259,13 @@ export interface CustomizableProductFragmentOptions {
     type: string;
     uid: string;
 }
+
+export type CustomizableProductFragmentOptions = BaseCustomizableProductFragmentOptions
+& CustomizableFieldOptionFragment & CustomizableAreaOptionFragment & {
+    dropdownValues: CustomizableSelectionValue[];
+    checkboxValues: CustomizableSelectionValue[];
+    fileValues: CustomizableFileValue[];
+};
 
 export interface ComplexTextValue {
     html: string;
@@ -302,7 +310,7 @@ export interface BundleOptionSelection {
 
 export interface BundlePriceOption {
     option_id: number;
-    selection_details: BundleOptionSelection;
+    selection_details: BundleOptionSelection[];
 }
 
 export interface BundleProductFragment {
@@ -330,6 +338,10 @@ export interface ProductReview {
     detail: string;
     created_at: string;
     rating_votes: RatingsBreakdown[];
+}
+
+export interface ProductReviews {
+    items: ProductReview[];
 }
 
 export interface ProductMediaGalleryEntriesVideoContent {
@@ -419,7 +431,7 @@ Field<'uid', string>
     options: CustomizableProductFragmentOptions[];
 }>
 | InlineFragment<'BundleProduct', BundleProductFragment>
-| Field<'product_links', ProductLinks, true>
+| Field<'product_links', ProductLink, true>
 | Field<'description', ComplexTextValue>
 | Field<'media_gallery_entries', MediaGalleryEntry, true>
 | InlineFragment<'SimpleProduct', {
@@ -430,7 +442,7 @@ Field<'uid', string>
 | Field<'meta_keyword', string>
 | Field<'meta_description', string>
 | Field<'categories', CategoryInterface, true>
-| Field<'reviews', { items: ProductReview[] }>
+| Field<'reviews', ProductReviews>
 | InlineFragment<'VirtualProduct', {
     price_tiers: TierPrice[];
 }>
@@ -440,7 +452,7 @@ Field<'uid', string>
 }>
 >;
 
-export interface ProductItem {
+export interface BaseProductItem {
     uid: string;
     id: number;
     sku: string;
@@ -462,22 +474,22 @@ export interface ProductItem {
     url_rewrites: UrlRewrite[];
     review_count: number;
     rating_summary: number;
-    CustomizableProductInterface: {
-        options: CustomizableProductFragmentOptions[];
-    };
-    BundleProduct: BundleProductFragment;
-    product_links: ProductLinks[];
+    product_links: ProductLink[];
     description: ComplexTextValue;
     media_gallery_entries: MediaGalleryEntry[];
-    SimpleProduct: {
-        price_tiers: TierPrice[];
-    };
     canonical_url: string;
     meta_title: string;
     meta_keyword: string;
     meta_description: string;
     categories: CategoryInterface[];
-    reviews: { items: ProductReview[] };
+    reviews: ProductReviews;
+    CustomizableProductInterface: {
+        options: CustomizableProductFragmentOptions[];
+    };
+    BundleProduct: BundleProductFragment;
+    SimpleProduct: {
+        price_tiers: TierPrice[];
+    };
     VirtualProduct: {
         price_tiers: TierPrice[];
     };
@@ -485,12 +497,21 @@ export interface ProductItem {
     GroupedProduct: {
         items: GroupedProductItem[];
     };
+    DownloadableProduct: DownloadableProductFragment;
 }
 
-export interface ProductsQuery {
-    items: Array<ProductItem & {
-        DownloadableProduct: DownloadableProductFragment;
-    }>;
+export type ProductItem = BaseProductItem
+& BundleProductFragment
+& ConfigurableProductFragment
+& DownloadableProductFragment
+& {
+    options: CustomizableProductFragmentOptions[];
+    price_tiers: TierPrice[];
+    items: GroupedProductItem[];
+};
+
+export interface ProductsQueryOutput {
+    items: ProductItem[];
     sort_fields: SortFields;
     filters: Aggregation[];
     total_count: number;
@@ -523,7 +544,14 @@ export type ProductListOptions = {
     requireInfo: boolean;
     notRequireInfo: boolean;
     categoryIds: number[];
-    args: Record<string, unknown>;
+    args: ProductListOptionArgs;
+    isNext?: boolean;
+};
+
+export type ProductListOptionArgs = {
+    filter?: Partial<ProductAttributeFilterOptions>;
+    search?: string;
+    currentPage?: number;
 };
 
 export type PriceRangeMap = {

@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Product, ProductBundle } from 'Type/ProductList.type';
+import { ProductItem } from 'Query/ProductList.type';
 
 import { ProductActionType, UpdateProductDetailsAction } from './Product.type';
 
@@ -21,7 +21,7 @@ import { ProductActionType, UpdateProductDetailsAction } from './Product.type';
  * @return {void}
  * @namespace Store/Product/Action/updateProductDetails
  */
-export const updateProductDetails = (product: Product | ProductBundle): UpdateProductDetailsAction => ({
+export const updateProductDetails = (product: ProductItem): UpdateProductDetailsAction => ({
     type: ProductActionType.UPDATE_PRODUCT_DETAILS,
     product
 });
