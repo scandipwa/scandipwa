@@ -268,7 +268,8 @@ export class CheckoutContainer extends PureComponent {
             isCartLoading,
             shippingFields,
             shippingFields: {
-                city
+                city,
+                shipping_method
             },
             totals: {
                 is_virtual
@@ -286,7 +287,7 @@ export class CheckoutContainer extends PureComponent {
             isCartLoading: prevIsCartLoading
         } = prevProps;
 
-        const { email, checkoutStep, selectedShippingMethod } = this.state;
+        const { email, checkoutStep } = this.state;
         const { email: prevEmail } = prevState;
         const { pathname = '' } = location;
 
@@ -305,7 +306,7 @@ export class CheckoutContainer extends PureComponent {
             }
 
             const shouldGoToShipping = (
-                (!city || !selectedShippingMethod)
+                (!city || !shipping_method)
                 && !is_virtual
                 && checkoutStep === BILLING_STEP
             );
