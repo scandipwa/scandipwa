@@ -25,11 +25,6 @@
     opacity: 0;
     animation: appear 1ms 200ms forwards;
 
-    .PageIsLoading & {
-        background: #fff;
-        position: fixed;
-    }
-
     &-Main {
         @extend %loader;
     }

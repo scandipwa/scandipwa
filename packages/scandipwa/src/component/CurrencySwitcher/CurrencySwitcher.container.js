@@ -12,11 +12,8 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { CART_URL } from 'Route/CartPage/CartPage.config';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { ConfigDispatcher } from 'Store/Config/Config.dispatcher';
 import DataContainer from 'Util/Request/DataContainer';
-import { appendWithStoreCode } from 'Util/Url';
 
 import CurrencySwitcher from './CurrencySwitcher.component';
 
@@ -49,38 +46,21 @@ export class CurrencySwitcherContainer extends DataContainer {
 
     __construct(props) {
         super.__construct(props, 'CurrencySwitcherContainer');
-
-        this.state = {
-            isPageReloading: false
-        };
     }
 
     _handleCurrencySelect(currencyCode) {
         const { updateCurrency } = this.props;
-        const { pathname = '' } = location;
-
-        if (pathname.match(CART_URL) || pathname.match(appendWithStoreCode(CHECKOUT_URL))) {
-            this.setState({ isPageReloading: true });
-            document.body.classList.add('PageIsLoading');
-        }
 
         updateCurrency({ currencyCode }).then(
-            /** @namespace Component/CurrencySwitcher/Container/CurrencySwitcherContainer/_handleCurrencySelect/then/catch/updateCurrency/then */
+            /** @namespace Component/CurrencySwitcher/Container/CurrencySwitcherContainer/_handleCurrencySelect/updateCurrency/then */
             () => location.reload()
-        ).catch(
-            /** @namespace Component/CurrencySwitcher/Container/CurrencySwitcherContainer/_handleCurrencySelect/then/catch */
-            () => {
-                document.body.classList.remove('PageIsLoading');
-                this.setState({ isPageReloading: false });
-            }
         );
     }
 
     containerProps() {
         const { currencyData } = this.props;
-        const { isPageReloading } = this.state;
 
-        return { currencyData, isPageReloading };
+        return { currencyData };
     }
 
     render() {

@@ -182,10 +182,6 @@ body {
     color: $black;
     scroll-behavior: smooth;
     background-color: #fff;
-
-    &.PageIsLoading {
-        overflow: hidden;
-    }
 }
 
 a {

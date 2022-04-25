@@ -14,7 +14,6 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
-import Loader from 'Component/Loader';
 import { getCurrency } from 'Util/Currency';
 
 import './CurrencySwitcher.style';
@@ -30,8 +29,7 @@ export class CurrencySwitcher extends PureComponent {
             ),
             current_currency_code: PropTypes.string
         }).isRequired,
-        handleCurrencySelect: PropTypes.func.isRequired,
-        isPageReloading: PropTypes.bool.isRequired
+        handleCurrencySelect: PropTypes.func.isRequired
     };
 
     getCurrencyValue() {
@@ -54,15 +52,8 @@ export class CurrencySwitcher extends PureComponent {
             currencyData: {
                 available_currencies_data: availableCurrencies
             } = {},
-            handleCurrencySelect,
-            isPageReloading
+            handleCurrencySelect
         } = this.props;
-
-        if (isPageReloading) {
-            return (
-                <Loader isLoading />
-            );
-        }
 
         if (availableCurrencies && availableCurrencies.length > 1) {
             return (

@@ -21,10 +21,6 @@
     width: fit-content;
     z-index: 200;
 
-    .PageIsLoading & {
-        z-index: -1;
-    }
-
     @include desktop {
         inset-inline-start: 50%;
         transform: translateX(-50%);
