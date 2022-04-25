@@ -286,7 +286,7 @@ export class CheckoutContainer extends PureComponent {
             isCartLoading: prevIsCartLoading
         } = prevProps;
 
-        const { email, checkoutStep } = this.state;
+        const { email, checkoutStep, selectedShippingMethod } = this.state;
         const { email: prevEmail } = prevState;
         const { pathname = '' } = location;
 
@@ -304,8 +304,14 @@ export class CheckoutContainer extends PureComponent {
                 }
             }
 
-            if (!city && !is_virtual && checkoutStep === BILLING_STEP) {
-                showInfoNotification(__('Please add a shipping address!'));
+            const shouldGoToShipping = (
+                (!city || !selectedShippingMethod)
+                && !is_virtual
+                && checkoutStep === BILLING_STEP
+            );
+
+            if (shouldGoToShipping) {
+                showInfoNotification(__('Please add a shipping address and a shipping method!'));
                 // eslint-disable-next-line react/no-did-update-set-state
                 this.setState({ checkoutStep: SHIPPING_STEP });
             }
