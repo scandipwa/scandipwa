@@ -54,8 +54,10 @@
             }
         }
 
-        .Field_type_email {
-            margin-block-end: 12px;
+        .Field {
+            &-Wrapper {
+                margin-block-end: 12px;
+            }
         }
     }
 
