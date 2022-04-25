@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ProductType } from 'Type/ProductList.type';
+import { getProductInStock } from 'Util/Product/Extract';
 
 import GroupedProductsItem from './GroupedProductsItem.component';
 
@@ -59,8 +60,12 @@ export class GroupedProductsItemContainer extends PureComponent {
     }
 
     setQuantity(itemCount) {
-        const { setQuantity, product: { id } } = this.props;
-        setQuantity({ [id]: itemCount }, true);
+        const { setQuantity, product, product: { id } } = this.props;
+        const inStock = getProductInStock(product);
+
+        if (inStock) {
+            setQuantity({ [id]: itemCount }, true);
+        }
     }
 
     render() {
