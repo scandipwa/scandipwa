@@ -32,6 +32,7 @@ import { appendWithStoreCode } from 'Util/Url';
 import {
     BILLING_STEP,
     CHECKOUT_URL,
+    CHECKOUT_URL_REGEX,
     DETAILS_STEP,
     SHIPPING_STEP
 } from './Checkout.config';
@@ -182,13 +183,7 @@ export class Checkout extends PureComponent {
         const { url } = this.stepMap[checkoutStep];
         const { pathname = '' } = location;
 
-        if (!(
-            isCartLoading
-            && (
-                pathname === CHECKOUT_URL
-                || pathname === appendWithStoreCode(CHECKOUT_URL)
-            )
-        )) {
+        if (!(isCartLoading && pathname.match(CHECKOUT_URL_REGEX))) {
             if (isMounting) {
                 history.replace(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
             } else {

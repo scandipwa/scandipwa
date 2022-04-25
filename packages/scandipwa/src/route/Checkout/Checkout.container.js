@@ -48,7 +48,7 @@ import {
     BILLING_STEP,
     BILLING_URL,
     BILLING_URL_STEP,
-    CHECKOUT_URL,
+    CHECKOUT_URL_REGEX,
     DETAILS_STEP,
     DETAILS_URL_STEP,
     PAYMENT_TOTALS,
@@ -299,10 +299,7 @@ export class CheckoutContainer extends PureComponent {
                     this._getPaymentMethods();
                     // eslint-disable-next-line react/no-did-update-set-state
                     this.setState({ checkoutStep: BILLING_STEP });
-                } else if (
-                    pathname === CHECKOUT_URL
-                    || pathname === appendWithStoreCode(CHECKOUT_URL)
-                ) {
+                } else if (pathname.match(CHECKOUT_URL_REGEX)) {
                     history.replace(appendWithStoreCode(SHIPPING_URL));
                 }
             }
@@ -438,12 +435,17 @@ export class CheckoutContainer extends PureComponent {
                 is_virtual
             }
         } = this.props;
+        const { pathname = '' } = location;
 
         if (urlStep.includes(DETAILS_URL_STEP)) {
             return DETAILS_STEP;
         }
 
         if (urlStep.includes(BILLING_URL_STEP) || is_virtual) {
+            if (pathname.match(CHECKOUT_URL_REGEX)) {
+                history.replace(appendWithStoreCode(BILLING_URL));
+            }
+
             this._getPaymentMethods();
 
             return BILLING_STEP;
