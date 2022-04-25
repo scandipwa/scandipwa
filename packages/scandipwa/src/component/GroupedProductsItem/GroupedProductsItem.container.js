@@ -61,9 +61,8 @@ export class GroupedProductsItemContainer extends PureComponent {
 
     setQuantity(itemCount) {
         const { setQuantity, product, product: { id } } = this.props;
-        const inStock = getProductInStock(product);
 
-        if (inStock) {
+        if (getProductInStock(product)) {
             setQuantity({ [id]: itemCount }, true);
         }
     }
