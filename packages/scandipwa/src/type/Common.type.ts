@@ -34,3 +34,5 @@ export type Url<T = unknown> = string | {
     pathname: string;
     state: T;
 };
+
+export type NetworkError = { message: string };

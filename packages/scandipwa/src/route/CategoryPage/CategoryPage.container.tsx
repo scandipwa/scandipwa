@@ -16,10 +16,9 @@ import { connect } from 'react-redux';
 import { Page } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import {
-    GRID_LAYOUT,
+    CategoryPageLayout,
     LAYOUT_KEY,
-    LIST_LAYOUT,
-    SortDirectionType
+    SortDirections
 } from 'Route/CategoryPage/CategoryPage.config';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
@@ -170,7 +169,7 @@ export class CategoryPageContainer extends PureComponent {
 
     config = {
         sortKey: 'name',
-        sortDirection: SortDirectionType.asc
+        sortDirection: SortDirections.ASC
     };
 
     containerFunctions = {
@@ -202,11 +201,11 @@ export class CategoryPageContainer extends PureComponent {
         if (!defaultPlpType || !plpTypes) {
             if (plpType.match('-')) {
                 const plpTypes = plpType.split('-');
-                const defaultType = isMobile ? GRID_LAYOUT : plpTypes[ 0 ];
+                const defaultType = isMobile ? CategoryPageLayout.GRID : plpTypes[ 0 ];
 
                 Object.assign(update, { defaultPlpType: defaultType, plpTypes });
             } else {
-                const defaultType = isMobile ? GRID_LAYOUT : plpType;
+                const defaultType = isMobile ? CategoryPageLayout.GRID : plpType;
                 Object.assign(update, { defaultPlpType: defaultType, plpTypes: [plpType] });
             }
         }
@@ -345,13 +344,13 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     onGridButtonClick() {
-        BrowserDatabase.setItem(GRID_LAYOUT, LAYOUT_KEY);
-        this.setState({ selectedLayoutType: GRID_LAYOUT });
+        BrowserDatabase.setItem(CategoryPageLayout.GRID, LAYOUT_KEY);
+        this.setState({ selectedLayoutType: CategoryPageLayout.GRID });
     }
 
     onListButtonClick() {
-        BrowserDatabase.setItem(LIST_LAYOUT, LAYOUT_KEY);
-        this.setState({ selectedLayoutType: LIST_LAYOUT });
+        BrowserDatabase.setItem(CategoryPageLayout.LIST, LAYOUT_KEY);
+        this.setState({ selectedLayoutType: CategoryPageLayout.LIST });
     }
 
     onSortChange(sortDirection, sortKey) {

@@ -12,6 +12,7 @@
 import { Query } from '@tilework/opus';
 import { PureComponent } from 'react';
 
+import { NetworkError } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import { makeCancelable } from 'Util/Promise';
 import { CancelablePromise } from 'Util/Promise/Promise.type';
@@ -54,11 +55,11 @@ S = Record<string, unknown>
         }
     }
 
-    fetchData<T = unknown>(
+    fetchData<T = unknown, E = NetworkError | NetworkError[]>(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         rawQueries: Query<string, any, boolean>[],
         onSuccess: (x: T) => void = noopFn,
-        onError: (x: unknown) => void = noopFn,
+        onError: (x: E) => void = noopFn,
         takeFromWindowCache = true
     ): void {
         const preparedQuery = prepareQuery(rawQueries);

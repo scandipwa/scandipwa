@@ -13,6 +13,7 @@ import { Query } from '@tilework/opus';
 import { Dispatch } from 'redux';
 
 import CheckEmailQuery from 'Query/CheckEmail.query';
+import { NetworkError } from 'Type/Common.type';
 import { QueryDispatcher } from 'Util/Request';
 
 import { updateEmailAvailable } from './Checkout.action';
@@ -34,7 +35,7 @@ export class CheckoutDispatcher extends QueryDispatcher<string, CheckoutDispatch
         dispatch(updateEmailAvailable(is_email_available));
     }
 
-    onError(error: unknown, dispatch: Dispatch): unknown {
+    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): unknown {
         dispatch(updateEmailAvailable(true));
 
         return error;

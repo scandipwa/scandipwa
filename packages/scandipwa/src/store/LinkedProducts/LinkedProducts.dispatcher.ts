@@ -20,6 +20,7 @@ import {
 import { updateLinkedProducts } from 'Store/LinkedProducts/LinkedProducts.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import { NetworkError } from 'Type/Common.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 import { IndexedProduct } from 'Util/Product/Product.type';
@@ -56,7 +57,7 @@ LinkedProductsDispatcherData
         dispatch(updateLinkedProducts(linkedProducts));
     }
 
-    onError(error: unknown, dispatch: Dispatch): void {
+    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): void {
         dispatch(showNotification(NotificationType.ERROR, __('Error fetching LinkedProducts!'), error));
     }
 

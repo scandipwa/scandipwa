@@ -23,6 +23,7 @@ import {
     updatePageLoadingStatus,
     updateProductListItems
 } from 'Store/ProductList/ProductList.action';
+import { NetworkError } from 'Type/Common.type';
 import { QueryDispatcher } from 'Util/Request';
 
 import {
@@ -81,7 +82,7 @@ ProductListDispatcherData
         );
     }
 
-    onError(error: unknown, dispatch: Dispatch): void {
+    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): void {
         dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List!'), error));
         dispatch(updateNoMatch(true));
     }

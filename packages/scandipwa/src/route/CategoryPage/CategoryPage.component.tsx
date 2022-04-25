@@ -28,18 +28,16 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import {
     CategoryTreeType, FilterInputType, FilterType, SortFieldsType
 } from 'Type/Category.type';
+import { ReactElement } from 'Type/Common.type';
 import { SortDirectionType } from 'Type/Direction.type';
 import { AttributesType } from 'Type/ProductList.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import {
-    DISPLAY_MODE_BOTH,
-    DISPLAY_MODE_CMS_BLOCK,
-    DISPLAY_MODE_PRODUCTS,
-    GRID_LAYOUT,
-    LAYOUT_KEY,
-    LIST_LAYOUT
+    CategoryDisplayMode,
+    CategoryPageLayout,
+    LAYOUT_KEY
 } from './CategoryPage.config';
 
 import './CategoryPage.style';
@@ -111,14 +109,14 @@ export class CategoryPage extends PureComponent {
 
         if (storedPlpType) {
             const activeLayoutType = isMobile
-                ? GRID_LAYOUT
+                ? CategoryPageLayout.GRID
                 : storedPlpType || defaultPlpType;
 
             return { activeLayoutType };
         }
 
         const activeLayoutType = isMobile
-            ? GRID_LAYOUT
+            ? CategoryPageLayout.GRID
             : selectedLayoutType || defaultPlpType;
 
         return { activeLayoutType };
@@ -132,20 +130,20 @@ export class CategoryPage extends PureComponent {
     displayProducts() {
         const {
             category: {
-                display_mode = DISPLAY_MODE_PRODUCTS
+                display_mode = CategoryDisplayMode.PRODUCTS
             } = {}
         } = this.props;
 
         return display_mode === null
-            || display_mode === DISPLAY_MODE_PRODUCTS
-            || display_mode === DISPLAY_MODE_BOTH;
+            || display_mode === CategoryDisplayMode.PRODUCTS
+            || display_mode === CategoryDisplayMode.BOTH;
     }
 
     displayCmsBlock() {
         const { category: { display_mode } = {} } = this.props;
 
-        return display_mode === DISPLAY_MODE_CMS_BLOCK
-            || display_mode === DISPLAY_MODE_BOTH;
+        return display_mode === CategoryDisplayMode.CMS_BLOCK
+            || display_mode === CategoryDisplayMode.BOTH;
     }
 
     renderCategoryDetails(): ReactElement {
@@ -156,8 +154,8 @@ export class CategoryPage extends PureComponent {
 
         return (
             <CategoryDetails
-                category={category}
-                isCurrentCategoryLoaded={isCurrentCategoryLoaded}
+              category={ category }
+              isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
             />
         );
     }
@@ -171,7 +169,7 @@ export class CategoryPage extends PureComponent {
 
         return (
             <span block="CategoryPage" elem="Subheading">
-                {` (${appliedFiltersCount})`}
+                { ` (${appliedFiltersCount})` }
             </span>
         );
     }
@@ -196,13 +194,13 @@ export class CategoryPage extends PureComponent {
 
         return (
             <button
-                block="CategoryPage"
-                elem="Filter"
-                onClick={this.onFilterButtonClick}
+              block="CategoryPage"
+              elem="Filter"
+              onClick={ this.onFilterButtonClick }
             >
                 <FilterIcon />
-                <span>{__('Filters')}</span>
-                {this.renderFiltersCount()}
+                <span>{ __('Filters') }</span>
+                { this.renderFiltersCount() }
             </button>
         );
     }
@@ -210,10 +208,10 @@ export class CategoryPage extends PureComponent {
     renderPlaceholder(block): ReactElement {
         return (
             <>
-                <div block={block} elem="SwatchList">
-                    <div block={block} elem="Placeholder" />
-                    <div block={block} elem="Placeholder" />
-                    <div block={block} elem="Placeholder" />
+                <div block={ block } elem="SwatchList">
+                    <div block={ block } elem="Placeholder" />
+                    <div block={ block } elem="Placeholder" />
+                    <div block={ block } elem="Placeholder" />
                 </div>
                 <Loader isLoading />
             </>
@@ -224,10 +222,10 @@ export class CategoryPage extends PureComponent {
         return (
             <div block="CategoryPage" elem="PlaceholderWrapper">
                 <h3 block="CategoryPage" elem="PlaceholderHeading">
-                    {__('Shopping Options')}
+                    { __('Shopping Options') }
                 </h3>
                 <div block="CategoryPage" elem="FilterPlaceholderContainer">
-                    {this.renderPlaceholder('CategoryPage')}
+                    { this.renderPlaceholder('CategoryPage') }
                 </div>
             </div>
         );
@@ -256,14 +254,14 @@ export class CategoryPage extends PureComponent {
         }
 
         return (
-            <Suspense fallback={this.renderFilterPlaceholder()}>
+            <Suspense fallback={ this.renderFilterPlaceholder() }>
                 <CategoryFilterOverlay
-                    availableFilters={filters}
-                    customFiltersValues={selectedFilters}
-                    isMatchingInfoFilter={isMatchingInfoFilter}
-                    isCategoryAnchor={!!is_anchor}
-                    isSearchPage={isSearchPage}
-                    renderPlaceholder={this.renderPlaceholder}
+                  availableFilters={ filters }
+                  customFiltersValues={ selectedFilters }
+                  isMatchingInfoFilter={ isMatchingInfoFilter }
+                  isCategoryAnchor={ !!is_anchor }
+                  isSearchPage={ isSearchPage }
+                  renderPlaceholder={ this.renderPlaceholder }
                 />
             </Suspense>
         );
@@ -283,11 +281,11 @@ export class CategoryPage extends PureComponent {
 
         return (
             <CategorySort
-                isMatchingInfoFilter={isMatchingInfoFilter}
-                onSortChange={onSortChange}
-                sortFields={updatedSortFields}
-                sortKey={sortKey}
-                sortDirection={sortDirection}
+              isMatchingInfoFilter={ isMatchingInfoFilter }
+              onSortChange={ onSortChange }
+              sortFields={ updatedSortFields }
+              sortKey={ sortKey }
+              sortDirection={ sortDirection }
             />
         );
     }
@@ -301,30 +299,30 @@ export class CategoryPage extends PureComponent {
         const { activeLayoutType } = this.state;
 
         switch (type) {
-            case GRID_LAYOUT:
-                return (
+        case CategoryPageLayout.GRID:
+            return (
                     <button
-                        key={type}
-                        onClick={onGridButtonClick}
-                        mix={{ block: GRID_LAYOUT, mods: { isActive: activeLayoutType === GRID_LAYOUT } }}
-                        aria-label="grid"
+                      key={ type }
+                      onClick={ onGridButtonClick }
+                      mix={ { block: CategoryPageLayout.GRID, mods: { isActive: activeLayoutType === CategoryPageLayout.GRID } } }
+                      aria-label="grid"
                     >
-                        <GridIcon isActive={activeLayoutType === GRID_LAYOUT} />
+                        <GridIcon isActive={ activeLayoutType === CategoryPageLayout.GRID } />
                     </button>
-                );
-            case LIST_LAYOUT:
-                return (
+            );
+        case CategoryPageLayout.LIST:
+            return (
                     <button
-                        key={type}
-                        onClick={onListButtonClick}
-                        mix={{ block: LIST_LAYOUT, mods: { isActive: activeLayoutType === LIST_LAYOUT } }}
-                        aria-label="list"
+                      key={ type }
+                      onClick={ onListButtonClick }
+                      mix={ { block: CategoryPageLayout.LIST, mods: { isActive: activeLayoutType === CategoryPageLayout.LIST } } }
+                      aria-label="list"
                     >
-                        <ListIcon isActive={activeLayoutType === LIST_LAYOUT} />
+                        <ListIcon isActive={ activeLayoutType === CategoryPageLayout.LIST } />
                     </button>
-                );
-            default:
-                return false;
+            );
+        default:
+            return false;
         }
     }
 
@@ -341,7 +339,7 @@ export class CategoryPage extends PureComponent {
 
         return (
             <div block="CategoryPage" elem="LayoutButtons">
-                {plpTypes.map(this.renderLayoutButton.bind(this))}
+                { plpTypes.map(this.renderLayoutButton.bind(this)) }
             </div>
         );
     }
@@ -355,7 +353,7 @@ export class CategoryPage extends PureComponent {
 
         return (
             <CategoryItemsCount
-                isMatchingListFilter={isMatchingListFilter}
+              isMatchingListFilter={ isMatchingListFilter }
             />
         );
     }
@@ -379,20 +377,20 @@ export class CategoryPage extends PureComponent {
 
         return (
             <div
-                block="CategoryPage"
-                elem="ProductListWrapper"
-                mods={{ isPrerendered: isSSR() || isCrawler() }}
+              block="CategoryPage"
+              elem="ProductListWrapper"
+              mods={ { isPrerendered: isSSR() || isCrawler() } }
             >
-                {this.renderItemsCount(true)}
+                { this.renderItemsCount(true) }
                 <CategoryProductList
-                    filter={filter}
-                    search={search}
-                    sort={selectedSort}
-                    selectedFilters={selectedFilters}
-                    isCurrentCategoryLoaded={isCurrentCategoryLoaded}
-                    isMatchingListFilter={isMatchingListFilter}
-                    isMatchingInfoFilter={isMatchingInfoFilter}
-                    layout={activeLayoutType || GRID_LAYOUT}
+                  filter={ filter }
+                  search={ search }
+                  sort={ selectedSort }
+                  selectedFilters={ selectedFilters }
+                  isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
+                  isMatchingListFilter={ isMatchingListFilter }
+                  isMatchingInfoFilter={ isMatchingInfoFilter }
+                  layout={ activeLayoutType || CategoryPageLayout.GRID }
                 />
             </div>
         );
@@ -413,10 +411,10 @@ export class CategoryPage extends PureComponent {
 
         return (
             <div
-                block="CategoryPage"
-                elem="CMS"
+              block="CategoryPage"
+              elem="CMS"
             >
-                <Html content={content} />
+                <Html content={ content } />
             </div>
         );
     }
@@ -425,26 +423,26 @@ export class CategoryPage extends PureComponent {
         const { totalItems } = this.props;
 
         if (totalItems === 0 || !this.displayProducts()) {
-            return <aside block="CategoryPage" elem="Miscellaneous" mods={{ noResults: true }} />;
+            return <aside block="CategoryPage" elem="Miscellaneous" mods={ { noResults: true } } />;
         }
 
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
-                {this.renderItemsCount()}
+                { this.renderItemsCount() }
                 <div
-                    block="CategoryPage"
-                    elem="LayoutWrapper"
-                    mods={{ isPrerendered: isSSR() || isCrawler() }}
+                  block="CategoryPage"
+                  elem="LayoutWrapper"
+                  mods={ { isPrerendered: isSSR() || isCrawler() } }
                 >
-                    {this.renderLayoutButtons()}
-                    {this.renderCategorySort()}
+                    { this.renderLayoutButtons() }
+                    { this.renderCategorySort() }
                 </div>
                 <div
-                    block="CategoryPage"
-                    elem="LayoutWrapper"
-                    mods={{ isPrerendered: isSSR() || isCrawler() }}
+                  block="CategoryPage"
+                  elem="LayoutWrapper"
+                  mods={ { isPrerendered: isSSR() || isCrawler() } }
                 >
-                    {this.renderFilterButton()}
+                    { this.renderFilterButton() }
                 </div>
             </aside>
         );
@@ -453,11 +451,11 @@ export class CategoryPage extends PureComponent {
     renderContent(): ReactElement {
         return (
             <>
-                {this.renderFilterOverlay()}
-                {this.renderCategoryDetails()}
-                {this.renderCmsBlock()}
-                {this.renderMiscellaneous()}
-                {this.renderCategoryProductList()}
+                { this.renderFilterOverlay() }
+                { this.renderCategoryDetails() }
+                { this.renderCmsBlock() }
+                { this.renderMiscellaneous() }
+                { this.renderCategoryProductList() }
             </>
         );
     }
@@ -467,16 +465,16 @@ export class CategoryPage extends PureComponent {
         const { totalItems } = this.props;
 
         return (
-            <main block="CategoryPage" mods={{ noResults: totalItems === 0 }}>
+            <main block="CategoryPage" mods={ { noResults: totalItems === 0 } }>
                 <ContentWrapper
-                    wrapperMix={{
-                        block: 'CategoryPage',
-                        elem: 'Wrapper',
-                        mods: { hideProducts }
-                    }}
-                    label="Category page"
+                  wrapperMix={ {
+                      block: 'CategoryPage',
+                      elem: 'Wrapper',
+                      mods: { hideProducts }
+                  } }
+                  label="Category page"
                 >
-                    {this.renderContent()}
+                    { this.renderContent() }
                 </ContentWrapper>
             </main>
         );

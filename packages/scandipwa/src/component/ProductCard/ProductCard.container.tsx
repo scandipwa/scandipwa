@@ -19,7 +19,7 @@ import {
     ProductContainer
 } from 'Component/Product/Product.container';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
+import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { FilterType } from 'Type/Category.type';
@@ -82,7 +82,7 @@ export class ProductCardContainer extends ProductContainer {
         isLoading: false,
         children: null,
         mix: {},
-        layout: GRID_LAYOUT
+        layout: CategoryPageLayout.GRID
     };
 
     containerFunctions = {

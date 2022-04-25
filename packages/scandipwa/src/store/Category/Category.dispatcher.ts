@@ -18,6 +18,7 @@ import { updateCurrentCategory } from 'Store/Category/Category.action';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import { NetworkError } from 'Type/Common.type';
 import { QueryDispatcher } from 'Util/Request';
 
 import { CategoryDispatcherData } from './Category.type';
@@ -50,7 +51,7 @@ export class CategoryDispatcher extends QueryDispatcher<CategoryQueryOptions, Ca
         dispatch(updateCurrentCategory(category));
     }
 
-    onError(error: unknown, dispatch: Dispatch, { isSearchPage }: CategoryQueryOptions): void {
+    onError(error: NetworkError | NetworkError[], dispatch: Dispatch, { isSearchPage }: CategoryQueryOptions): void {
         if (!isSearchPage) {
             dispatch(updateNoMatch(true));
             dispatch(showNotification(NotificationType.ERROR, __('Error fetching Category!'), error));

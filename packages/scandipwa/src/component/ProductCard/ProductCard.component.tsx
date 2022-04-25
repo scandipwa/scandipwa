@@ -18,8 +18,8 @@ import Loader from 'Component/Loader';
 import { Product } from 'Component/Product/Product.component';
 import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import { MixType } from 'Type/Common.type';
+import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
+import { MixType, ReactElement } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';
 import { LayoutType } from 'Type/Layout.type';
 import { UrlType } from 'Type/Router.type';
@@ -59,7 +59,7 @@ export class ProductCard extends Product {
         renderContent: false,
         hideWishlistButton: false,
         hideCompareButton: false,
-        layout: GRID_LAYOUT
+        layout: CategoryPageLayout.GRID
     };
 
     contentObject = {
@@ -387,7 +387,7 @@ export class ProductCard extends Product {
             layout
         } = this.props;
 
-        if (layout === LIST_LAYOUT) {
+        if (layout === CategoryPageLayout.LIST) {
             return (
                 <li
                   block="ProductCard"

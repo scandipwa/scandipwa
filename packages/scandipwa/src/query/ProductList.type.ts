@@ -587,7 +587,7 @@ export type ProductAttributeFilterOptions = {
     categoryIds?: number | number[];
     categoryUrlPath?: string;
     priceRange?: { min: number; max: number };
-    productsSkuArray?: string;
+    productsSkuArray?: string[];
     productSKU?: string;
     productID?: number;
     productUrlPath?: string;

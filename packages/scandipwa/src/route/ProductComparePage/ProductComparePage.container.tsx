@@ -9,18 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import DataContainer from 'Util/Request/DataContainer';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductComparePage from './ProductComparePage.component';
+import {
+    ProductComparePageComponentProps,
+    ProductComparePageContainerMapDispatchProps,
+    ProductComparePageContainerMapStateProps,
+    ProductComparePageContainerProps
+} from './ProductComparePage.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -28,13 +36,13 @@ export const BreadcrumbsDispatcher = import(
 );
 
 /** @namespace Route/ProductComparePage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductComparePageContainerMapStateProps => ({
     device: state.ConfigReducer.device,
     isLoading: state.ProductCompareReducer.isLoading
 });
 
 /** @namespace Route/ProductComparePage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductComparePageContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
@@ -46,18 +54,12 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/ProductComparePage/Container */
-export class ProductComparePageContainer extends DataContainer {
-    static propTypes = {
-        updateMeta: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool
-    };
-
+export class ProductComparePageContainer extends DataContainer<ProductComparePageContainerProps> {
     static defaultProps = {
         isLoading: false
     };
 
-    __construct(props) {
+    __construct(props: ProductComparePageContainerProps): void {
         super.__construct(props, 'ProductComparePageContainer');
     }
 
@@ -68,18 +70,18 @@ export class ProductComparePageContainer extends DataContainer {
         this.updateHeaderState();
     }
 
-    containerProps() {
+    containerProps(): ProductComparePageComponentProps {
         const { isLoading } = this.props;
 
         return { isLoading };
     }
 
-    updateMeta() {
+    updateMeta(): void {
         const { updateMeta } = this.props;
         updateMeta({ title: __('Product Compare') });
     }
 
-    updateBreadcrumbs() {
+    updateBreadcrumbs(): void {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
             {
@@ -91,7 +93,7 @@ export class ProductComparePageContainer extends DataContainer {
         updateBreadcrumbs(breadcrumbs);
     }
 
-    updateHeaderState() {
+    updateHeaderState(): void {
         const { setHeaderState } = this.props;
 
         setHeaderState({

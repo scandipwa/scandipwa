@@ -23,6 +23,7 @@ import { ReviewRatingItem } from 'Query/Review.type';
 import { updateConfig } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import { NetworkError } from 'Type/Common.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { setCurrency } from 'Util/Currency';
 import { fetchMutation, QueryDispatcher } from 'Util/Request';
@@ -54,7 +55,7 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
         }
     }
 
-    onError(error: unknown, dispatch: Dispatch): void {
+    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): void {
         dispatch(showNotification(NotificationType.ERROR, __('Error fetching Config!'), error));
     }
 

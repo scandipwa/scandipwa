@@ -9,36 +9,43 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import ProductList from 'Component/ProductList';
 import ProductListQuery from 'Query/ProductList.query';
+import { ProductListOptions } from 'Query/ProductList.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import { NetworkError, ReactElement } from 'Type/Common.type';
 import { getIndexedProducts } from 'Util/Product';
 import DataContainer from 'Util/Request/DataContainer';
 
+import {
+    ProductListWidgetAdaptProps,
+    ProductListWidgetComponentContainerProps,
+    ProductListWidgetContainerMapDispatchProps,
+    ProductListWidgetContainerProps,
+    ProductListWidgetContainerState,
+    ProductListWidgetQueryResult
+} from './ProductListWidget.type';
+
 import './ProductListWidget.style';
 
+/** @namespace Component/ProductListWidget/Container/mapStateToProps */
+export const mapStateToProps = (): Record<string, never> => ({});
+
 /** @namespace Component/ProductListWidget/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({
+export const mapDispatchToProps = (): ProductListWidgetContainerMapDispatchProps => ({
     updateNoMatch,
     showNotification
 });
 
 /** @namespace Component/ProductListWidget/Container */
-export class ProductListWidgetContainer extends DataContainer {
-    static propTypes = {
-        showPager: PropTypes.number,
-        productsCount: PropTypes.number,
-        productsPerPage: PropTypes.number,
-        conditionsEncoded: PropTypes.string,
-        updateNoMatch: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
-    };
-
+export class ProductListWidgetContainer extends DataContainer<
+ProductListWidgetContainerProps,
+ProductListWidgetContainerState
+> {
     static defaultProps = {
         showPager: 0,
         productsCount: 10,
@@ -46,7 +53,7 @@ export class ProductListWidgetContainer extends DataContainer {
         conditionsEncoded: null
     };
 
-    state = {
+    state: ProductListWidgetContainerState = {
         pages: {},
         totalItems: 0,
         totalPages: 0,
@@ -59,22 +66,20 @@ export class ProductListWidgetContainer extends DataContainer {
         getIsNewCategory: this.getIsNewCategory.bind(this)
     };
 
-    __construct(props) {
+    __construct(props: ProductListWidgetContainerProps): void {
         super.__construct(props, 'ProductListWidgetContainer', false);
+
+        this.onError = this.onError.bind(this);
+        this.appendPage = this.appendPage.bind(this);
+        this.updateProductListItems = this.updateProductListItems.bind(this);
     }
 
-    containerProps() {
+    containerProps(): ProductListWidgetComponentContainerProps {
         const {
-            currentPage,
-            device,
-            isShowLoading,
-            isVisible,
-            loadPrevPage,
-            requestPage,
             selectedFilters,
-            title,
-            updatePage
+            title
         } = this.props;
+
         const {
             pages,
             totalItems,
@@ -83,48 +88,41 @@ export class ProductListWidgetContainer extends DataContainer {
         } = this.state;
 
         return {
-            currentPage,
-            device,
-            isShowLoading,
-            isVisible,
-            loadPrevPage,
-            requestPage,
             selectedFilters,
             title,
-            updatePage,
             pages,
             totalItems,
             totalPages,
             isLoading,
+            isInfiniteLoaderEnabled: false,
+            numberOfPlaceholders: 6,
+            mix: { block: 'ProductListWidget' },
+            isWidget: true,
             ...this.adaptProps()
         };
     }
 
-    onError = this.onError.bind(this);
-
-    appendPage = this.appendPage.bind(this);
-
-    updateProductListItems = this.updateProductListItems.bind(this);
-
     dataModelName = 'ProductListWidget';
 
-    onError(error) {
+    onError(error: NetworkError | NetworkError[]): void {
         const { showNotification, updateNoMatch } = this.props;
         showNotification(NotificationType.ERROR, __('Error fetching Product List!'), error);
         updateNoMatch(true);
     }
 
-    getIsNewCategory() {
+    getIsNewCategory(): boolean {
         return true;
     }
 
-    appendPage(data) {
+    appendPage(data: ProductListWidgetQueryResult): void {
         const { showPager } = this.props;
         const { pages } = this.state;
         const {
             products: {
                 items,
-                page_info: { current_page } = {}
+                page_info: {
+                    current_page = 0
+                } = {}
             } = {}
         } = data;
 
@@ -135,18 +133,20 @@ export class ProductListWidgetContainer extends DataContainer {
         this.setState({
             pages: {
                 ...pages,
-                [ current_page ]: getIndexedProducts(items)
+                [current_page]: getIndexedProducts(items || [])
             }
         });
     }
 
-    updateProductListItems(data) {
+    updateProductListItems(data: ProductListWidgetQueryResult): void {
         const { productsCount, productsPerPage } = this.props;
         const {
             products: {
                 items,
-                total_count: totalItems,
-                page_info: { current_page } = {}
+                total_count: totalItems = 0,
+                page_info: {
+                    current_page = 0
+                } = {}
             } = {}
         } = data;
 
@@ -156,29 +156,29 @@ export class ProductListWidgetContainer extends DataContainer {
             isLoading: false,
             totalItems,
             totalPages,
-            pages: { [ current_page ]: getIndexedProducts(items) }
+            pages: { [current_page]: getIndexedProducts(items || []) }
         });
     }
 
-    updateLoadStatus(isLoading) {
+    updateLoadStatus(isLoading: boolean): void {
         this.setState({ isLoading });
     }
 
-    requestProductList(options) {
+    requestProductList(options: Partial<ProductListOptions>): void {
         const { isNext } = options;
 
         if (!isNext) {
             this.updateLoadStatus(true);
         }
 
-        this.fetchData(
+        this.fetchData<ProductListWidgetQueryResult>(
             [ProductListQuery.getQuery(options)],
             isNext ? this.appendPage : this.updateProductListItems,
             this.onError
         );
     }
 
-    adaptProps() {
+    adaptProps(): ProductListWidgetAdaptProps {
         const {
             showPager,
             productsCount,
@@ -198,16 +198,9 @@ export class ProductListWidgetContainer extends DataContainer {
             <ProductList
               { ...this.containerProps() }
               { ...this.containerFunctions }
-              isInfiniteLoaderEnabled={ false }
-              numberOfPlaceholders={ 6 }
-              mix={ { block: 'ProductListWidget' } }
-              isWidget
             />
         );
     }
 }
-
-/** @namespace Component/ProductListWidget/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductListWidgetContainer);

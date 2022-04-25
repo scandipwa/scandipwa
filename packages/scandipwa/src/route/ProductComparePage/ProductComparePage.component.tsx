@@ -9,29 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import ProductCompare from 'Component/ProductCompare';
+import { ReactElement } from 'Type/Common.type';
+
+import { ProductComparePageComponentProps } from './ProductComparePage.type';
 
 import './ProductComparePage.style';
 
 /** @namespace Route/ProductComparePage/Component */
-export class ProductComparePage extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired
-    };
-
+export class ProductComparePage extends PureComponent<ProductComparePageComponentProps> {
     render(): ReactElement {
         const { isLoading } = this.props;
 
         return (
             <main block="ProductComparePage">
-                <Loader isLoading={isLoading} />
-                <ContentWrapper label={__('Product Compare Page')}>
+                <Loader isLoading={ isLoading } />
+                <ContentWrapper label={ __('Product Compare Page') }>
                     <ProductCompare />
                 </ContentWrapper>
             </main>

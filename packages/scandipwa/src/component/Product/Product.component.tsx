@@ -28,8 +28,8 @@ import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import { RefType } from 'Type/Common.type';
+import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
+import { ReactElement, RefType } from 'Type/Common.type';
 import { PriceType } from 'Type/Price.type';
 import { MagentoProductType, ProductType, QuantityType } from 'Type/ProductList.type';
 import { filterConfigurableOptions } from 'Util/Product';
@@ -260,7 +260,7 @@ export class Product extends PureComponent {
     //#endregion
 
     //#region BUTTONS
-    renderAddToCartButton(layout = GRID_LAYOUT): ReactElement {
+    renderAddToCartButton(layout = CategoryPageLayout.GRID): ReactElement {
         const {
             addToCart,
             inStock,

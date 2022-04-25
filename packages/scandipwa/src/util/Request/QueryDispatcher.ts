@@ -13,6 +13,7 @@
 import { Query } from '@tilework/opus';
 import { Dispatch } from 'redux';
 
+import { NetworkError } from 'Type/Common.type';
 import { makeCancelable } from 'Util/Promise';
 import { CancelablePromise } from 'Util/Promise/Promise.type';
 import { prepareQuery } from 'Util/Query';
@@ -27,7 +28,7 @@ export const FIVE_MINUTES_IN_SECONDS = 300;
  * @class QueryDispatcher
  * @namespace Util/Request/QueryDispatcher
  */
-export abstract class QueryDispatcher<Options, Data, Error = unknown> {
+export abstract class QueryDispatcher<Options, Data, Error = NetworkError | NetworkError[]> {
     protected name = '';
 
     protected cacheTTL = 0;

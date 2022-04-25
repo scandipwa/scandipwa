@@ -11,12 +11,13 @@
 
 import { Field, Mutation, Query } from '@tilework/opus';
 
+import { NetworkError } from 'Type/Common.type';
 import { GQLContactForm } from 'Type/Graphql.type';
 
 /** @namespace Query/ContactForm/Query */
 export class ContactFormQuery {
-    getSendContactFormMutation(options: GQLContactForm): Mutation<'contactForm', { message: string }> {
-        const mutation = new Mutation<'contactForm', { message: string }>('contactForm');
+    getSendContactFormMutation(options: GQLContactForm): Mutation<'contactForm', NetworkError> {
+        const mutation = new Mutation<'contactForm', NetworkError>('contactForm');
         this._addSendContactFormMutationArguments(mutation, options);
         mutation.addFieldList(this._getSendContactFormMutationResponse());
 
@@ -29,9 +30,9 @@ export class ContactFormQuery {
     }
 
     _addSendContactFormMutationArguments(
-        mutation: Mutation<'contactForm', { message: string }>,
+        mutation: Mutation<'contactForm', NetworkError>,
         options: GQLContactForm
-    ): Mutation<'contactForm', { message: string }> {
+    ): Mutation<'contactForm', NetworkError> {
         return mutation.addArgument('contact', 'ContactForm!', options);
     }
 

@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ProductType } from 'Component/Product/Product.config';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
+import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { MixType, ReactElement } from 'Type/Common.type';
@@ -66,7 +66,7 @@ export class AddToCartContainer extends PureComponent {
         quantity: 1,
         cartId: '',
         mix: {},
-        layout: GRID_LAYOUT,
+        layout: CategoryPageLayout.GRID,
         isIconEnabled: true,
         isDisabled: false,
         addToCart: null,

@@ -13,13 +13,12 @@ import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import ProductCard from 'Component/ProductCard';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import { FilterType } from 'Type/Category.type';
-import { MixType, ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
+import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import { DEFAULT_PLACEHOLDER_COUNT } from './ProductListPage.config';
+import { ProductListPageComponentProps, ProductListPageComponentState } from './ProductListPage.type';
 
 import './ProductListPage.style';
 
@@ -28,20 +27,10 @@ import './ProductListPage.style';
  * @class ProductListPage
  * @namespace Component/ProductListPage/Component
  */
-export class ProductListPage extends PureComponent {
-    static propTypes = {
-        isInfiniteLoaderEnabled: PropTypes.bool.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        isVisible: PropTypes.bool.isRequired,
-        updatePages: PropTypes.func.isRequired,
-        numberOfPlaceholders: PropTypes.number,
-        selectedFilters: FilterType,
-        wrapperRef: PropTypes.func,
-        pageNumber: PropTypes.number,
-        items: PropTypes.arrayOf(ProductType),
-        mix: MixType
-    };
-
+export class ProductListPage extends PureComponent<
+ProductListPageComponentProps,
+ProductListPageComponentState
+> {
     static defaultProps = {
         numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT,
         wrapperRef: noopFn,
@@ -57,6 +46,10 @@ export class ProductListPage extends PureComponent {
         siblingsHaveTierPrice: false,
         siblingsHaveConfigurableOptions: false
     };
+
+    observer?: IntersectionObserver;
+
+    node?: Element;
 
     componentDidMount(): void {
         this.startObserving();
@@ -94,7 +87,7 @@ export class ProductListPage extends PureComponent {
         };
     }
 
-    startObserving() {
+    startObserving(): void {
         const {
             items,
             updatePages,
@@ -125,7 +118,7 @@ export class ProductListPage extends PureComponent {
         }
     }
 
-    stopObserving() {
+    stopObserving(): void {
         if (this.observer) {
             if (this.observer.unobserve && this.node) {
                 this.observer.unobserve(this.node);
@@ -135,7 +128,7 @@ export class ProductListPage extends PureComponent {
                 this.observer.disconnect();
             }
 
-            this.observer = null;
+            this.observer = undefined;
         }
     }
 
@@ -143,7 +136,7 @@ export class ProductListPage extends PureComponent {
         const {
             numberOfPlaceholders, mix: {
                 mods: {
-                    layout = GRID_LAYOUT
+                    layout = CategoryPageLayout.GRID
                 } = {}
             }
         } = this.props;
@@ -160,7 +153,7 @@ export class ProductListPage extends PureComponent {
         );
     }
 
-    getPlaceholderRef() {
+    getPlaceholderRef(): ((node: Element | null) => void) | undefined {
         const { isVisible } = this.props;
 
         if (!isVisible) {
@@ -168,7 +161,7 @@ export class ProductListPage extends PureComponent {
         }
 
         return (node) => {
-            this.node = node;
+            this.node = node || undefined;
         };
     }
 
@@ -178,7 +171,7 @@ export class ProductListPage extends PureComponent {
             selectedFilters,
             mix: {
                 mods: {
-                    layout = GRID_LAYOUT
+                    layout = CategoryPageLayout.GRID
                 } = {}
             }
         } = this.props;

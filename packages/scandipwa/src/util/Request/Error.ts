@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { NetworkError } from 'Type/Common.type';
+
 export const DEFAULT_ERROR_MESSAGE = __('Something went wrong!');
 
 /**
@@ -18,7 +20,7 @@ export const DEFAULT_ERROR_MESSAGE = __('Something went wrong!');
  * @return string message
  * @namespace Util/Request/Error/getErrorMessage */
 export const getErrorMessage = (
-    error: { message: string } | { message: string }[],
+    error: NetworkError | NetworkError[],
     defaultMessage: string = DEFAULT_ERROR_MESSAGE
 ): string => {
     if (Array.isArray(error)) {

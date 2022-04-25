@@ -21,6 +21,7 @@ import {
     updateInfoLoadStatus,
     updateProductListInfo
 } from 'Store/ProductListInfo/ProductListInfo.action';
+import { NetworkError } from 'Type/Common.type';
 import { QueryDispatcher } from 'Util/Request';
 
 import { ProductListInfoDispatcherData } from './ProductListInfo.type';
@@ -53,7 +54,7 @@ ProductListInfoDispatcherData
         dispatch(updateProductListInfo(products, filter));
     }
 
-    onError(error: unknown, dispatch: Dispatch): void {
+    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): void {
         dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List Information!'), error));
         dispatch(updateNoMatch(true));
     }

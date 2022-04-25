@@ -20,6 +20,7 @@ import {
     updateLoadStatus,
     updateRecentlyViewedProducts
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
+import { NetworkError } from 'Type/Common.type';
 import { QueryDispatcher } from 'Util/Request';
 import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';
@@ -52,7 +53,7 @@ RecentlyViewedProductsDispatcherData
         dispatch(updateRecentlyViewedProducts(items, storeCode));
     }
 
-    onError(error: unknown, dispatch: Dispatch): void {
+    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): void {
         dispatch(showNotification(
             NotificationType.ERROR,
             __('Error fetching Recently Viewed Products Information!'),

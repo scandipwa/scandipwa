@@ -16,6 +16,7 @@ import { OrderItem, ReorderOutput } from 'Query/Order.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
+import { NetworkError } from 'Type/Common.type';
 import { getAuthorizationToken } from 'Util/Auth';
 import history from 'Util/History';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
@@ -59,7 +60,7 @@ export class OrderDispatcher {
 
         if (userInputErrors.length) {
             userInputErrors.map((
-                { message }: { message: string }
+                { message }: NetworkError
             ) => dispatch(showNotification(NotificationType.ERROR, message)));
         }
     }
