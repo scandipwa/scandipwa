@@ -97,8 +97,16 @@ export class HeaderContainer extends NavigationAbstractContainer {
     default_state = DEFAULT_HEADER_STATE;
 
     routeMap = {
-        // eslint-disable-next-line max-len
-        '/customer/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push(appendWithStoreCode('/')) },
+        '/customer/account/confirmation': {
+            name: CMS_PAGE,
+            title: __('Send confirmation link'),
+            onBackClick: () => history.push(appendWithStoreCode('/'))
+        },
+        '/customer/account/confirm': {
+            name: CMS_PAGE,
+            title: __('Confirm account'),
+            onBackClick: () => history.push(appendWithStoreCode('/'))
+        },
         '/category': { name: CATEGORY },
         '/checkout/success': { name: CHECKOUT_SUCCESS },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push(appendWithStoreCode('/cart')) },

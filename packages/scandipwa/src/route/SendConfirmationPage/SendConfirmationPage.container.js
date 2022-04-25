@@ -72,7 +72,7 @@ export class SendConfirmationPageContainer extends PureComponent {
     componentDidMount() {
         const { updateMeta, toggleBreadcrumbs } = this.props;
 
-        updateMeta({ title: __('Send confirmation') });
+        updateMeta({ title: __('Send confirmation link') });
         toggleBreadcrumbs(false);
     }
 

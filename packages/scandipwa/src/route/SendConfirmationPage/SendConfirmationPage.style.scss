@@ -14,7 +14,7 @@
 
     &-Wrapper {
         @include mobile {
-            padding-block-start: 7px;
+            padding: 28px;
         }
     }
 
@@ -24,10 +24,6 @@
         @include mobile {
             margin-block-start: 14px;
             width: 100%;
-        }
-
-        @include desktop {
-            margin-inline-start: 12px;
         }
     }
 
@@ -49,10 +45,6 @@
 
     &-Form {
         @include desktop {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-
             .Field {
                 &-ErrorMessages,
                 &-Message {
@@ -60,6 +52,10 @@
                     width: max-content;
                 }
             }
+        }
+
+        .Field_type_email {
+            margin-block-end: 12px;
         }
     }
 
@@ -75,8 +71,6 @@
     }
 
     input {
-        @include mobile {
-            width: 100%;
-        }
+        width: 100%;
     }
 }
