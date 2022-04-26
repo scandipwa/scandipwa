@@ -27,7 +27,6 @@ export class FieldFile extends PureComponent {
         events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
         fileName: PropTypes.string.isRequired,
-        cancelFileField: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         resetFieldValue: PropTypes.func.isRequired
     };
