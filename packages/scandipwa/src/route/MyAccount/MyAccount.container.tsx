@@ -275,7 +275,11 @@ export class MyAccountContainer extends PureComponent<MyAccountContainerProps, M
     MyAccountComponentProps,
     'activeTab'
     | 'isEditingActive'
-    | 'location' | 'match' | 'tabName' | 'subHeading'> {
+    | 'location'
+    | 'match'
+    | 'tabName'
+    | 'subHeading'
+    > {
         const { location, match } = this.props;
         const { activeTab, isEditingActive } = this.state;
 
