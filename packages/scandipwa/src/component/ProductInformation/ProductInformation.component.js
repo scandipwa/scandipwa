@@ -77,7 +77,7 @@ export class ProductInformation extends PureComponent {
 
         // check if at least one HTML element has content
         const elementsWithContent = Array.from(document.body.children).filter(
-            (element) => element.innerText !== '' || element.nodeName === 'IMG'
+            (element) => element.innerHTML !== '' || element.nodeName === 'IMG'
         );
 
         return elementsWithContent.length === 0;

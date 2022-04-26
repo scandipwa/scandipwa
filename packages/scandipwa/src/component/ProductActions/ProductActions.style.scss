@@ -296,8 +296,14 @@
                 cursor: default;
             }
 
-            &:hover {
+            &:active {
                 border-color: var(--primary-dark-color);
+            }
+
+            @include hoverable {
+                &:hover {
+                    border-color: var(--primary-dark-color);
+                }
             }
         }
     }

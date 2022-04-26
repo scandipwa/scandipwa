@@ -50,6 +50,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountAddressPopupContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
+        showSuccessNotification: PropTypes.func.isRequired,
         updateCustomerDetails: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
@@ -76,7 +77,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         return { isLoading, payload };
     }
 
-    async handleAfterAction() {
+    async handleAfterAction(status, operation) {
         const {
             hideActiveOverlay,
             updateCustomerDetails,
@@ -90,6 +91,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
                 hideActiveOverlay();
                 goToPreviousHeaderState();
             });
+            this.showAddressNotification(status, operation);
         } catch (e) {
             showErrorNotification(e);
         }
@@ -112,8 +114,24 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         return this.handleCreateAddress(address);
     }
 
+    showAddressNotification(status, operation) {
+        const { showSuccessNotification, showErrorNotification } = this.props;
+        const message = __('You %s the address', operation);
+        switch (status) {
+        case 'success':
+            showSuccessNotification(message);
+            break;
+        case 'error':
+            showErrorNotification(message);
+            break;
+        default:
+            break;
+        }
+    }
+
     async handleEditAddress(address) {
         const { payload: { address: { id } } } = this.props;
+
         const query = MyAccountQuery.getUpdateAddressMutation(id, address);
 
         if (!isSignedIn()) {
@@ -122,7 +140,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction();
+            this.handleAfterAction('success', 'edited');
         } catch (e) {
             this.handleError(e);
         }
@@ -140,7 +158,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction();
+            this.handleAfterAction('success', 'deleted');
         } catch (e) {
             this.handleError(e);
         }
@@ -155,7 +173,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction();
+            this.handleAfterAction('success', 'saved');
         } catch (e) {
             this.handleError(e);
         }

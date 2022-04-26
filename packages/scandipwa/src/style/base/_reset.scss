@@ -106,6 +106,17 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
+
+    @media print {
+        /* stylelint-disable-next-line declaration-no-important */
+        background: transparent !important;
+        /* stylelint-disable-next-line declaration-no-important */
+        color: #000000 !important;
+        /* stylelint-disable-next-line declaration-no-important */
+        filter: none !important;
+        /* stylelint-disable-next-line declaration-no-important */
+        text-shadow: none !important;
+    }
 }
 
 article,

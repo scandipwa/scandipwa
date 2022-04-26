@@ -57,6 +57,7 @@ export class Image extends PureComponent {
         isPlain: PropTypes.bool,
         isCached: PropTypes.bool,
 
+        onImageLoad: PropTypes.func,
         showIsLoading: PropTypes.bool
     };
 
@@ -73,7 +74,8 @@ export class Image extends PureComponent {
         ratio: 'square',
         mix: {},
         showIsLoading: false,
-        imageRef: noopFn
+        imageRef: noopFn,
+        onImageLoad: noopFn
     };
 
     image = createRef();
@@ -105,13 +107,15 @@ export class Image extends PureComponent {
     }
 
     onImageChange() {
-        const { src, isCached } = this.props;
+        const { src, isCached, onImageLoad } = this.props;
 
         if (!src) {
             return this.setState({ imageStatus: IMAGE_NOT_SPECIFIED });
         }
 
         if (isCached) {
+            onImageLoad();
+
             return this.setState({ imageStatus: IMAGE_LOADED });
         }
 
@@ -123,6 +127,9 @@ export class Image extends PureComponent {
     }
 
     onLoad() {
+        const { onImageLoad } = this.props;
+
+        onImageLoad();
         this.setState({ imageStatus: IMAGE_LOADED });
     }
 

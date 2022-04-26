@@ -194,6 +194,7 @@ export class MyAccount extends Component {
                           isEditingActive={ isEditingActive }
                           match={ match }
                           changeTabName={ changeTabName }
+                          tabMap={ tabMap }
                           setTabSubheading={ setTabSubheading }
                         />
                     </Suspense>

@@ -31,6 +31,9 @@ export class CartDispatcher {
         // Need to get current cart from BE, update cart
         try {
             // ! Get quote token first (local or from the backend) just to make sure it exists
+
+            dispatch(updateIsLoadingCart(true));
+
             const quoteId = await this._getGuestQuoteId(dispatch);
             const { cartData = {} } = await fetchQuery(
                 CartQuery.getCartQuery(
@@ -52,12 +55,13 @@ export class CartDispatcher {
 
     async createGuestEmptyCart(dispatch) {
         try {
+            dispatch(updateIsLoadingCart(true));
+
             const {
                 createEmptyCart: quoteId = ''
             } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
 
             setGuestQuoteId(quoteId);
-            dispatch(updateIsLoadingCart(false));
 
             return quoteId;
         } catch (error) {
@@ -190,7 +194,7 @@ export class CartDispatcher {
             const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
 
             if (!isCustomerSignedIn && !guestQuoteId) {
-                return;
+                return false;
             }
 
             const { applyCoupon: { cartData = {} } = {} } = await fetchMutation(
@@ -199,8 +203,12 @@ export class CartDispatcher {
 
             this._updateCartData(cartData, dispatch);
             dispatch(showNotification('success', __('Coupon was applied!')));
+
+            return true;
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
+
+            return false;
         }
     }
 

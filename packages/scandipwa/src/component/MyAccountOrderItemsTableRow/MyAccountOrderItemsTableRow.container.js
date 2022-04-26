@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
-import { OptionsType, OrderProductType } from 'Type/Order.type';
+import { OptionsType, OrderComments, OrderProductType } from 'Type/Order.type';
 
 import MyAccountOrderItemsTableRow from './MyAccountOrderItemsTableRow.component';
 
@@ -34,7 +34,7 @@ export class MyAccountOrderItemsTableRowContainer extends PureComponent {
         selectedOptions: OptionsType,
         enteredOptions: OptionsType,
         isMobile: PropTypes.bool.isRequired,
-        comments: PropTypes.arrayOf(PropTypes.string)
+        comments: OrderComments
     };
 
     static defaultProps = {

@@ -22,7 +22,7 @@ export const isMobile = {
         && !/FxiOS/i.test(agent),
     windows: (agent = navigator.userAgent) => /iemobile/i.test(agent),
     // iPad uses 810 so we need to handle that.
-    any: () => window.matchMedia('(max-width: 810px)').matches,
+    any: () => window.matchMedia('(max-width: 810px)').matches && window.matchMedia('screen').matches,
     standaloneMode: () => window.matchMedia('(display-mode: standalone)').matches
 };
 

@@ -17,10 +17,14 @@ import Loader from 'Component/Loader';
 import MyAccountOrderInformation from 'Component/MyAccountOrderInformation';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
+import { ACCOUNT_ORDER_PRINT_URL } from 'Route/MyAccount/MyAccount.config';
 import { OrderType } from 'Type/Order.type';
+import { noopFn } from 'Util/Common';
 import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
+import { appendWithStoreCode } from 'Util/Url';
 
 import {
+    ORDER_ACTION_LABELS,
     ORDER_INVOICES,
     ORDER_ITEMS,
     ORDER_REFUNDS,
@@ -33,13 +37,19 @@ import './MyAccountOrder.style';
 export class MyAccountOrder extends PureComponent {
     static propTypes = {
         order: OrderType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        handleReorder: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool,
+        handleReorder: PropTypes.func,
         is_allowed_reorder: PropTypes.bool.isRequired,
         rss_order_subscribe_allow: PropTypes.bool.isRequired,
-        handleChangeActiveTab: PropTypes.func.isRequired,
+        handleChangeActiveTab: PropTypes.func,
         activeTab: PropTypes.string.isRequired,
         isMobile: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        isLoading: true,
+        handleReorder: noopFn,
+        handleChangeActiveTab: noopFn
     };
 
     renderMap = {
@@ -116,7 +126,7 @@ export class MyAccountOrder extends PureComponent {
 
     renderOrderItemsTable(items, index) {
         const { activeTab, order: { total: orderTotal, items: allOrderItems, id } } = this.props;
-        const { total: itemsTotal } = items;
+        const { total: itemsTotal, id: itemId } = items;
 
         return (
             <MyAccountOrderItemsTable
@@ -125,6 +135,7 @@ export class MyAccountOrder extends PureComponent {
               items={ items }
               allOrderItems={ allOrderItems }
               total={ itemsTotal || orderTotal }
+              id={ activeTab === ORDER_ITEMS ? id : atob(itemId) }
             />
         );
     }
@@ -157,6 +168,27 @@ export class MyAccountOrder extends PureComponent {
         );
     }
 
+    renderPrintAllAction() {
+        const { activeTab, order: { id } } = this.props;
+
+        const { printAllUrl, printAll } = ORDER_ACTION_LABELS[activeTab] || {};
+
+        if (!printAllUrl) {
+            return null;
+        }
+
+        return (
+            <Link
+              block="MyAccountOrder"
+              elem="PrintOrder"
+              to={ appendWithStoreCode(`${printAllUrl}/${id}`) }
+              isOpenInNewTab
+            >
+                { printAll }
+            </Link>
+        );
+    }
+
     renderActions() {
         const {
             handleChangeActiveTab,
@@ -166,8 +198,11 @@ export class MyAccountOrder extends PureComponent {
         return (
             <div block="MyAccountOrder" elem="Actions">
                 <div block="MyAccountOrder" elem="Buttons">
-                    { this.renderReorderButton() }
-                    { this.renderSubscriptionButton() }
+                    <div>
+                        { this.renderReorderButton() }
+                        { this.renderSubscriptionButton() }
+                    </div>
+                    { this.renderPrintOrder() }
                 </div>
                 { this.renderOrderComments() }
                 <MyAccountOrderTabs
@@ -175,7 +210,23 @@ export class MyAccountOrder extends PureComponent {
                   handleChangeActiveTab={ handleChangeActiveTab }
                   activeTab={ activeTab }
                 />
+                { this.renderPrintAllAction() }
             </div>
+        );
+    }
+
+    renderPrintOrder() {
+        const { order: { id } } = this.props;
+
+        return (
+            <Link
+              block="MyAccountOrder"
+              elem="SubscribeToStatus"
+              to={ appendWithStoreCode(`${ACCOUNT_ORDER_PRINT_URL}/${id}`) }
+              isOpenInNewTab
+            >
+                { __('Print Order') }
+            </Link>
         );
     }
 
@@ -199,6 +250,7 @@ export class MyAccountOrder extends PureComponent {
                         <dl
                           block="MyAccountOrder"
                           elem="Comment"
+                          key={ `${activeTab}-comment-${timestamp}` }
                         >
                             <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
                             <dd>{ message }</dd>
