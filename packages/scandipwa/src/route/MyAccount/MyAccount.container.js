@@ -361,8 +361,13 @@ export class MyAccountContainer extends PureComponent {
     }
 
     tabsFilterEnabled() {
-        return Object.fromEntries(Object.entries(MyAccountContainer.tabMap)
-            .filter(([tabName]) => MyAccountContainer.isTabEnabled(this.props, tabName)));
+        const obj = {};
+        Object.entries(MyAccountContainer.tabMap)
+            .filter(([tabName]) => MyAccountContainer.isTabEnabled(this.props, tabName))
+            // eslint-disable-next-line no-return-assign
+            .map(([key, value]) => (obj[key] = value));
+
+        return obj;
     }
 
     changeActiveTab(activeTab) {
