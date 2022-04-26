@@ -46,6 +46,7 @@ export class Field extends PureComponent {
         options: PropTypes.arrayOf(OptionType).isRequired,
         changeValueOnDoubleClick: PropTypes.bool,
         isSortSelect: PropTypes.bool,
+        value: PropTypes.number.isRequired,
 
         // Validation
         showErrorAsLabel: PropTypes.bool.isRequired,
@@ -134,11 +135,13 @@ export class Field extends PureComponent {
             attr,
             events,
             setRef,
+            value,
             isDisabled = false
         } = this.props;
 
         return (
             <FieldNumberContainer
+              value={ value }
               attr={ attr }
               events={ events }
               setRef={ setRef }
@@ -207,7 +210,7 @@ export class Field extends PureComponent {
         };
         // if button value is "none" do not disable
         const isButtonDisabled = (!value.match('none') && isDisabled);
-        const isChecked = isButtonDisabled || defaultChecked ? !isDisabled : null;
+        const isChecked = checked || (isButtonDisabled || defaultChecked ? !isDisabled : null);
 
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
@@ -218,7 +221,7 @@ export class Field extends PureComponent {
                   { ...newAttr }
                   { ...inputEvents }
                   // shipping options have checked attr assigned so prioritize its value
-                  checked={ checked || isChecked }
+                  defaultChecked={ isChecked }
                 />
                 <div block="input-control" disabled={ isDisabled } />
                 { label }

@@ -27,7 +27,8 @@ export class FieldNumberContainer extends PureComponent {
         attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
-        isDisabled: PropTypes.bool.isRequired
+        isDisabled: PropTypes.bool.isRequired,
+        value: PropTypes.number.isRequired
     };
 
     state = {
@@ -53,12 +54,9 @@ export class FieldNumberContainer extends PureComponent {
         if (defaultValue <= 0 || prevDefaultValue <= 0) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ value: min });
-            return;
         }
 
-        if (defaultValue === prevDefaultValue) {
-            this.handleInitialLoad(defaultValue);
-        } else if (defaultValue <= min) {
+        if (defaultValue <= min) {
             this.handleInitialLoad(min);
         }
     }
@@ -119,12 +117,12 @@ export class FieldNumberContainer extends PureComponent {
     containerProps() {
         const {
             attr: {
-                value,
                 autoComplete,
                 autocomplete,
                 defaultValue,
                 ...attr
             } = {},
+            value,
             events,
             setRef,
             isDisabled
@@ -135,13 +133,13 @@ export class FieldNumberContainer extends PureComponent {
         return {
             attr: {
                 ...attr,
-                value,
                 autoComplete: autoComplete || autocomplete
             },
+            value,
             events,
             setRef,
             isDisabled,
-            value: stateValue
+            stateValue
         };
     }
 
