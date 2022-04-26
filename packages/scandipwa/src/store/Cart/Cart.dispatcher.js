@@ -62,7 +62,6 @@ export class CartDispatcher {
             } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
 
             setGuestQuoteId(quoteId);
-            dispatch(updateIsLoadingCart(false));
 
             return quoteId;
         } catch (error) {
@@ -195,7 +194,7 @@ export class CartDispatcher {
             const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
 
             if (!isCustomerSignedIn && !guestQuoteId) {
-                return;
+                return false;
             }
 
             const { applyCoupon: { cartData = {} } = {} } = await fetchMutation(
@@ -204,8 +203,12 @@ export class CartDispatcher {
 
             this._updateCartData(cartData, dispatch);
             dispatch(showNotification('success', __('Coupon was applied!')));
+
+            return true;
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
+
+            return false;
         }
     }
 

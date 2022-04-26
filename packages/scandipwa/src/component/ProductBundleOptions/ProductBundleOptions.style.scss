@@ -35,6 +35,7 @@
 
             &_type_select {
                 margin-block-start: 0;
+                margin-block-end: 6px;
             }
 
             &_type_select + .Field-ErrorMessages {
@@ -52,10 +53,6 @@
                 }
             }
         }
-    }
-
-    &-Select.Field_hasError {
-        margin-block-end: 20px;
     }
 
     &-PriceLabel {

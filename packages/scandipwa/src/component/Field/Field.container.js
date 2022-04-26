@@ -37,6 +37,7 @@ export class FieldContainer extends PureComponent {
         mix: MixType,
         options: FieldOptionsType,
         elemRef: RefType,
+        value: PropTypes.number.isRequired,
         changeValueOnDoubleClick: PropTypes.bool,
         isSortSelect: PropTypes.bool,
         resetFieldValue: PropTypes.func.isRequired,
@@ -203,6 +204,7 @@ export class FieldContainer extends PureComponent {
             } = {},
             isDisabled,
             mix,
+            value,
             options,
             showErrorAsLabel,
             label,
@@ -227,6 +229,7 @@ export class FieldContainer extends PureComponent {
                 ...attr,
                 autoComplete: autoComplete || autocomplete
             },
+            value,
             isDisabled,
             mix,
             options,

@@ -47,6 +47,7 @@ export class Field extends PureComponent {
         changeValueOnDoubleClick: PropTypes.bool,
         isSortSelect: PropTypes.bool,
         resetFieldValue: PropTypes.func.isRequired,
+        value: PropTypes.number.isRequired,
 
         // Validation
         validate: PropTypes.func.isRequired,
@@ -144,11 +145,13 @@ export class Field extends PureComponent {
             attr,
             events,
             setRef,
+            value,
             isDisabled = false
         } = this.props;
 
         return (
             <FieldNumberContainer
+              value={ value }
               attr={ attr }
               events={ events }
               setRef={ setRef }
@@ -217,7 +220,7 @@ export class Field extends PureComponent {
         };
         // if button value is "none" do not disable
         const isButtonDisabled = (!value.match('none') && isDisabled);
-        const isChecked = isButtonDisabled || defaultChecked ? !isDisabled : null;
+        const isChecked = checked || (isButtonDisabled || defaultChecked ? !isDisabled : null);
 
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
@@ -228,7 +231,7 @@ export class Field extends PureComponent {
                   { ...newAttr }
                   { ...inputEvents }
                   // shipping options have checked attr assigned so prioritize its value
-                  checked={ checked || isChecked }
+                  defaultChecked={ isChecked }
                 />
                 <div block="input-control" disabled={ isDisabled } />
                 { label }
@@ -338,6 +341,7 @@ export class Field extends PureComponent {
             type, validationResponse, mix
         } = this.props;
         const inputRenderer = this.renderMap[type];
+        const { mods: { hasError = false } = {} } = mix;
 
         return (
             <div block="Field" elem="Wrapper" mods={ { type } }>
@@ -345,7 +349,7 @@ export class Field extends PureComponent {
                   block="Field"
                   mods={ {
                       type,
-                      isValid: validationResponse === true,
+                      isValid: !hasError && validationResponse === true,
                       hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
                   } }
                   mix={ mix }

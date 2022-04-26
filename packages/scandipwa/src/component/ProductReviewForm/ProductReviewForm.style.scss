@@ -17,21 +17,20 @@
             grid-gap: 24px;
         }
     }
-    
+
     &-RatingWrapper {
         display: flex;
         flex-direction: column;
-        row-gap: 24px;
 
         .FieldGroup-Wrapper {
+            &:not(:last-child) {
+                margin-block-end: 24px;
+            }
+
             .FieldGroup {
                 &_hasError, &_isValid {
                     padding-inline-start: 0;
                     border: none;
-                }
-                
-                &-ErrorMessages {
-                    margin-block-start: -4px;
                 }
             }
         }
@@ -50,7 +49,7 @@
         display: flex;
         flex-direction: column;
         row-gap: 24px;
-      
+
         .Field {
             margin-block-start: 12px;
 
@@ -137,7 +136,7 @@
     textarea {
         width: 100%;
     }
-    
+
     textarea {
         margin-block-end: -3px;
     }
