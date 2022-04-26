@@ -102,6 +102,7 @@ export class AddToCartContainer extends PureComponent {
         }
 
         e.preventDefault();
+        e.stopPropagation();
         this.setState({ isAdding: true });
 
         if (!this.validate()) {
