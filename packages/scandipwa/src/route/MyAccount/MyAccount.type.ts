@@ -19,6 +19,8 @@ import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { MyAccountTabsSection } from 'Type/Account.type';
 import { Location, Match } from 'Type/Router.type';
 
+import { MyAccountContainer } from './MyAccount.container';
+
 export interface MyAccountMapStateProps {
     isMobile: boolean;
     isWishlistEnabled: boolean;
@@ -43,6 +45,7 @@ export interface MyAccountMapDispatchProps {
 export type MyAccountContainerProps = MyAccountMapStateProps
 & MyAccountMapDispatchProps
 & RouteComponentProps<{ tab: string }>
+& typeof MyAccountContainer.defaultProps
 & {
     selectedTab: string;
 };
