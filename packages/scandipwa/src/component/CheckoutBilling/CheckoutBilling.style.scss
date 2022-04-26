@@ -33,10 +33,6 @@
         display: flex;
         align-items: center;
 
-        @media only screen and (max-width: 383px) {
-            align-items: flex-end;
-        }
-
         @include mobile {
             font-size: 15px;
             margin-block-end: 28px;
@@ -55,10 +51,6 @@
         display: flex;
         align-items: center;
 
-        @media only screen and (max-width: 383px) {
-            max-width: 150px;
-        }
-
         &:hover {
             cursor: pointer;
 
@@ -73,7 +65,7 @@
         font-weight: 700;
         color: var(--link-color);
         margin-inline-start: 0.5em;
-        display: flex;
+        display: inline;
         cursor: pointer;
 
         &:hover {
