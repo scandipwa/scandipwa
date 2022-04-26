@@ -59,6 +59,7 @@
 
     &-ItemsCount {
         padding: 0;
+        margin-block-start: -2px;
 
         @include mobile {
             order: 1;
@@ -82,22 +83,62 @@
 
         &ButtonPlaceholder {
             animation: appear 100ms 300ms forwards;
+
+            @include desktop {
+                display: none;
+            }
         }
 
         @include desktop {
             display: none;
+        }
+    }
 
-            &Placeholder {
-                position: relative;
-                grid-row: 1/6;
-                width: 100%;
-                opacity: 1;
-                pointer-events: all;
-                display: flex;
-                flex-direction: column;
-                height: auto;
-                overflow: visible;
+    &-Placeholder {
+        &List {
+            display: flex;
+            flex-direction: column;
+
+            @include desktop {
+                padding-block-start: 24px;
+                padding-block-end: 35px;
             }
+        }
+
+        &ListItem {
+            animation: var(--placeholder-animation);
+            background-image: var(--placeholder-image);
+            background-size: var(--placeholder-size);
+            padding-inline-start: 3px;
+            padding-block-start: 3px;
+            margin-block-start: 2px;
+            margin-block-end: 12px;
+
+            &:nth-child(2) {
+                min-height: 67px;
+            }
+
+            &:first-child, &:nth-child(3) {
+                min-height: 35px;
+            }
+        }
+
+        &Wrapper {
+            grid-row: 1/6;
+            display: flex;
+            flex-direction: column;
+
+            .Loader-Scale {
+                inset-block-start: 50%;
+            }
+
+            @include mobile {
+                display: none;
+            }
+        }
+
+        &Heading {
+            margin: 0;
         }
     }
 
@@ -105,6 +146,14 @@
         font-weight: 600;
         font-size: 14px;
         white-space: pre;
+    }
+
+    &-MiscellaneousLayoutWrapper {
+        @include mobile {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
     }
 
     &-Miscellaneous {
@@ -130,7 +179,7 @@
             background: #fff;
             border-block-end: 1px solid var(--primary-divider-color);
             grid-template-columns: repeat(2, 1fr);
-            height: var(--category-page-miscellaneous-height);
+            height: 44px;
 
             &_noResults {
                 height: auto;

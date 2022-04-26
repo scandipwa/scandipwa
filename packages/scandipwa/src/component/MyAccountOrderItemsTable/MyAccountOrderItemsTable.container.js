@@ -32,7 +32,13 @@ export class MyAccountOrderItemsTableContainer extends PureComponent {
         activeTab: PropTypes.string.isRequired,
         items: OrderTabType.isRequired,
         total: OrderTotalType.isRequired,
-        allOrderItems: OrderProductsType.isRequired
+        allOrderItems: OrderProductsType.isRequired,
+        id: PropTypes.string.isRequired,
+        isPrintPage: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isPrintPage: false
     };
 
     containerProps() {
@@ -41,7 +47,9 @@ export class MyAccountOrderItemsTableContainer extends PureComponent {
             items,
             activeTab,
             total,
-            allOrderItems
+            allOrderItems,
+            id,
+            isPrintPage
         } = this.props;
 
         return {
@@ -49,7 +57,9 @@ export class MyAccountOrderItemsTableContainer extends PureComponent {
             items,
             activeTab,
             total,
-            allOrderItems
+            allOrderItems,
+            id,
+            isPrintPage
         };
     }
 

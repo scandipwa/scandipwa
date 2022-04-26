@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { ADD_ADDRESS, ADDRESS_POPUP_ID } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { CustomerType } from 'Type/Account.type';
+import { ADDRESS_BOOK, CustomerType, TabMapType } from 'Type/Account.type';
 
 import MyAccountAddressBook from './MyAccountAddressBook.component';
 
@@ -33,12 +33,21 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountAddressBookContainer extends PureComponent {
     static propTypes = {
         customer: CustomerType.isRequired,
-        showPopup: PropTypes.func.isRequired
+        showPopup: PropTypes.func.isRequired,
+        changeTabName: PropTypes.func.isRequired,
+        tabMap: TabMapType.isRequired
     };
 
     containerFunctions = {
         showCreateNewPopup: this.showCreateNewPopup.bind(this)
     };
+
+    componentDidMount() {
+        const { changeTabName, tabMap } = this.props;
+        const { tabName } = tabMap[ADDRESS_BOOK];
+
+        changeTabName(tabName);
+    }
 
     containerProps() {
         const { customer, showPopup } = this.props;

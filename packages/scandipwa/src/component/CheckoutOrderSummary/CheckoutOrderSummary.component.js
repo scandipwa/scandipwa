@@ -10,21 +10,27 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { lazy, PureComponent } from 'react';
 
 import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
 import Loader from 'Component/Loader';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
+import { BILLING_STEP, DETAILS_STEP } from 'Route/Checkout/Checkout.config';
 import { CheckoutStepType } from 'Type/Checkout.type';
 import { ChildrenType } from 'Type/Common.type';
 import { CartConfigType } from 'Type/Config.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { getItemsCountLabel } from 'Util/Cart';
-import { noopFn } from 'Util/Common';
+
+import { CmsBlock } from '../../route/Checkout/Checkout.component';
 
 import './CheckoutOrderSummary.style';
+
+export const CartCoupon = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-info" */
+    'Component/CartCoupon'
+));
 
 /**
  * Checkout Order Summary component
@@ -34,7 +40,6 @@ export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
         checkoutStep: CheckoutStepType,
-        renderCmsBlock: PropTypes.func,
         isExpandable: PropTypes.bool,
         cartDisplayConfig: CartConfigType.isRequired,
         cartShippingPrice: PropTypes.number,
@@ -44,13 +49,13 @@ export class CheckoutOrderSummary extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         showItems: PropTypes.bool,
         children: ChildrenType,
-        isLoading: PropTypes.bool
+        isLoading: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         totals: {},
         isLoading: false,
-        renderCmsBlock: noopFn,
         isExpandable: false,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
@@ -114,6 +119,47 @@ export class CheckoutOrderSummary extends PureComponent {
               title={ label }
               coupon_code={ coupon_code }
             />
+        );
+    }
+
+    renderMobileDiscount(coupon_code) {
+        return (
+            <>
+                <div
+                  block="ExpandableContent"
+                  elem="Heading"
+                  mix={ { block: 'CheckoutOrderSummary', elem: 'ExpandableContentHeading' } }
+                >
+                    { __('Have a discount code?') }
+                </div>
+                <CartCoupon couponCode={ coupon_code } />
+            </>
+        );
+    }
+
+    renderDiscountCode() {
+        const {
+            totals: { coupon_code, items },
+            checkoutStep,
+            isMobile
+        } = this.props;
+
+        if (!items || items.length < 1 || checkoutStep !== BILLING_STEP) {
+            return null;
+        }
+
+        if (isMobile) {
+            return this.renderMobileDiscount(coupon_code);
+        }
+
+        return (
+            <ExpandableContent
+              heading={ __('Have a discount code?') }
+              mix={ { block: 'CheckoutOrderSummary', elem: 'Discount' } }
+              isArrow
+            >
+                <CartCoupon couponCode={ coupon_code } />
+            </ExpandableContent>
         );
     }
 
@@ -309,11 +355,20 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderCmsBlock() {
-        const { renderCmsBlock } = this.props;
+        const { checkoutStep } = this.props;
+        const isBilling = checkoutStep === BILLING_STEP;
 
-        const content = renderCmsBlock();
+        if (checkoutStep === DETAILS_STEP) {
+            return null;
+        }
 
-        if (!content) {
+        const {
+            checkout_content: {
+                [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo
+            } = {}
+        } = window.contentConfiguration;
+
+        if (!promo) {
             return null;
         }
 
@@ -322,7 +377,7 @@ export class CheckoutOrderSummary extends PureComponent {
               block="CheckoutOrderSummary"
               elem="CmsBlock"
             >
-                { content }
+                <CmsBlock identifier={ promo } />
             </div>
         );
     }
@@ -335,6 +390,7 @@ export class CheckoutOrderSummary extends PureComponent {
             >
                 { this.renderItems() }
                 { this.renderTotals() }
+                { this.renderDiscountCode() }
                 { this.renderCmsBlock() }
             </ExpandableContent>
         );

@@ -31,6 +31,27 @@
                 text-align: end;
                 word-wrap: break-word;
             }
+
+            @include mobile {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            @media print {
+                th {
+                    text-align: end;
+                }
+            }
+        }
+
+        @include mobile {
+            display: block;
+            margin-block-start: 15px;
+        }
+
+        @media print {
+            border-block-start: var(--table-body-border);
+            break-inside: avoid;
         }
     }
 

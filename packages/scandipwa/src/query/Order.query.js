@@ -33,6 +33,24 @@ export class OrderQuery {
             .addFieldList(this._getOrderListFields(options));
     }
 
+    getOrderByInvoice(invoiceId) {
+        return new Field('orderByInvoice')
+            .addArgument('invoiceId', 'Int!', invoiceId)
+            .addFieldList(this._getOrderItemsFields(true));
+    }
+
+    getOrderByShipment(shipmentId) {
+        return new Field('orderByShipment')
+            .addArgument('shipmentId', 'Int!', shipmentId)
+            .addFieldList(this._getOrderItemsFields(true));
+    }
+
+    getOrderByRefund(refundId) {
+        return new Field('orderByRefund')
+            .addArgument('refundId', 'Int!', refundId)
+            .addFieldList(this._getOrderItemsFields(true));
+    }
+
     _getOrderListFields(options) {
         return [
             this._getOrdersField(options)

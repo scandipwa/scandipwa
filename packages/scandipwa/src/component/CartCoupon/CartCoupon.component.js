@@ -28,7 +28,9 @@ export class CartCoupon extends PureComponent {
         handleApplyCouponToCart: PropTypes.func.isRequired,
         handleRemoveCouponFromCart: PropTypes.func.isRequired,
         mix: MixType.isRequired,
-        title: PropTypes.string.isRequired
+        title: PropTypes.string.isRequired,
+        isIncorrectCoupon: PropTypes.bool.isRequired,
+        resetIsIncorrectCoupon: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -47,11 +49,28 @@ export class CartCoupon extends PureComponent {
 
     handleFormSubmit = this.handleFormSubmit.bind(this);
 
+    componentDidUpdate(prevProps) {
+        const { isIncorrectCoupon: prevIsIncorrectCoupon = false } = prevProps;
+        const { isIncorrectCoupon = false, resetIsIncorrectCoupon } = this.props;
+
+        if (isIncorrectCoupon && prevIsIncorrectCoupon !== isIncorrectCoupon) {
+            this.toggleIsFieldWithError(isIncorrectCoupon);
+            resetIsIncorrectCoupon();
+        }
+    }
+
+    toggleIsFieldWithError(value) {
+        this.setState({
+            isFieldWithError: value
+        });
+    }
+
     handleCouponCodeChange(event, field) {
         const { value = '' } = field;
 
         this.setState({
-            enteredCouponCode: value
+            enteredCouponCode: value,
+            isFieldWithError: false
         });
     }
 
@@ -87,7 +106,7 @@ export class CartCoupon extends PureComponent {
     }
 
     renderApplyCoupon() {
-        const { enteredCouponCode } = this.state;
+        const { enteredCouponCode, isFieldWithError } = this.state;
 
         return (
             <>
@@ -108,6 +127,7 @@ export class CartCoupon extends PureComponent {
                           isRequired: true
                       } }
                       validateOn={ ['onChange'] }
+                      mix={ { mods: { hasError: isFieldWithError }, block: 'Field' } }
                     />
                 </div>
                 <button

@@ -182,12 +182,14 @@ export class WishlistItem extends PureComponent {
     }
 
     renderRemove() {
-        const { removeItem } = this.props;
+        const { removeItem, product: { review_count } } = this.props;
+        const withReview = review_count >= 1;
 
         return (
             <button
               block="WishlistItem"
               elem="Remove"
+              mods={ { withReview } }
               onClick={ removeItem }
               aria-label={ __('Remove') }
             >

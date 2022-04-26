@@ -113,10 +113,17 @@
         font-weight: normal;
         text-align: start;
 
-        &:hover,
-        &:focus {
+        &:active {
             text-decoration: underline;
             padding: 0;
+        }
+
+        @include hoverable { 
+            &:hover,
+            &:focus {
+                text-decoration: underline;
+                padding: 0;
+            }
         }
     }
 }

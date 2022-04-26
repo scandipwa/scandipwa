@@ -23,6 +23,10 @@ table {
         border-block-end: var(--table-body-border) ;
     }
 
+    tr {
+        page-break-inside: avoid;
+    }
+
     td,
     th {
         padding: 10px;

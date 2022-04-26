@@ -84,6 +84,7 @@ export class ProductCard extends Product {
 
     registerSharedElement() {
         const { registerSharedElement } = this.props;
+        document.documentElement.scrollIntoView();
         registerSharedElement(this.imageRef);
     }
 
@@ -244,9 +245,11 @@ export class ProductCard extends Product {
         } = this.props;
 
         const configureBundleAndGrouped = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.grouped;
-        const configureConfig = type === PRODUCT_TYPE.configurable
+        const configureConfig = (type === PRODUCT_TYPE.configurable
             // eslint-disable-next-line max-len
-            && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
+            && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length)
+            // eslint-disable-next-line max-len
+            || (type === PRODUCT_TYPE.configurable && Object.values(this.getConfigurableAttributes()).some((value) => value.attribute_values.length === 0));
         const configureCustomize = options.some(({ required = false }) => required);
         const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
 
@@ -322,7 +325,7 @@ export class ProductCard extends Product {
 
         return (
             this.renderCardLinkWrapper((
-                <>
+                <div block="ProductCard" elem="LinkInnerWrapper">
                     <div block="ProductCard" elem="FigureReview">
                         <figure block="ProductCard" elem="Figure">
                             { this.renderPicture() }
@@ -337,7 +340,7 @@ export class ProductCard extends Product {
                     <div block="ProductCard" elem="VisibleOnHover">
                         { this.renderVisibleOnHover() }
                     </div>
-                </>
+                </div>
             ))
         );
     }
