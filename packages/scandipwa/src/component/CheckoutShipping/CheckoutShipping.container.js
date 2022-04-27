@@ -110,7 +110,7 @@ export class CheckoutShippingContainer extends PureComponent {
         const { isPickInStoreMethodSelected, shippingMethods = [] } = this.props;
         const { isPickInStoreMethodSelected: prevIsPickInStoreMethodSelected } = prevProps;
 
-        const instore = shippingMethods.find((el) => el.method_code === 'pickup');
+        const instore = shippingMethods.find((el) => el.method_code === STORE_IN_PICK_UP_METHOD_CODE);
 
         if (isPickInStoreMethodSelected !== prevIsPickInStoreMethodSelected) {
             if (isPickInStoreMethodSelected) {
