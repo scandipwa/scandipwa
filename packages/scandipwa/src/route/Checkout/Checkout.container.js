@@ -25,6 +25,7 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { CustomerType } from 'Type/Account.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
@@ -62,6 +63,7 @@ export const CheckoutDispatcher = import(
 
 /** @namespace Route/Checkout/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
+    selectedStore: state.StoreInPickUpReducer.store,
     totals: state.CartReducer.cartTotals,
     cartTotalSubPrice: getCartTotalSubPrice(state),
     customer: state.MyAccountReducer.customer,
@@ -77,6 +79,7 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
+    setPickUpStore: (store) => dispatch(setPickUpStore(store)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, getAuthorizationToken())
@@ -107,6 +110,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Route/Checkout/Container */
 export class CheckoutContainer extends PureComponent {
     static propTypes = {
+        setPickUpStore: PropTypes.func.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
         showInfoNotification: PropTypes.func.isRequired,
         showSuccessNotification: PropTypes.func.isRequired,
@@ -279,8 +283,9 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentWillUnmount() {
-        const { toggleBreadcrumbs } = this.props;
+        const { toggleBreadcrumbs, setPickUpStore } = this.props;
         toggleBreadcrumbs(true);
+        setPickUpStore({});
     }
 
     onEmailChange(email) {
