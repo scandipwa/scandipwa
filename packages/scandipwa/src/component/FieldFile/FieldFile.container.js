@@ -119,12 +119,12 @@ export class FieldFileContainer extends PureComponent {
             setRef,
             events: {
                 ...events,
-                onChange: this.onChange.bind(this)
+                onChange: this.onChange.bind(this),
+                onClick: resetFieldValue.bind(this, this)
             },
             fileName,
             isLoading,
-            value,
-            resetFieldValue: resetFieldValue.bind(this, this)
+            value
         };
     }
 
