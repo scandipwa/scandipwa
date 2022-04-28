@@ -32,9 +32,16 @@ export class ProductCompareButton extends PureComponent {
         isActive: false
     };
 
+    _handleClick = this._handleClick.bind(this);
+
+    _handleClick(e) {
+        const { handleClick } = this.props;
+        e.stopPropagation();
+        handleClick(e);
+    }
+
     render() {
         const {
-            handleClick,
             isLoading,
             isActive,
             mix
@@ -49,7 +56,7 @@ export class ProductCompareButton extends PureComponent {
                 <button
                   block="ProductCompareButton"
                   elem="Button"
-                  onClick={ handleClick }
+                  onClick={ this._handleClick }
                   mix={ { block: 'Button' } }
                   aria-label={ __('Compare') }
                 >
