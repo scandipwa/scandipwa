@@ -126,7 +126,11 @@ export class Field extends PureComponent {
 
     renderFile() {
         const {
-            attr, events, setRef, validate, resetFieldValue
+            attr,
+            events,
+            setRef,
+            validate,
+            resetFieldValue
         } = this.props;
 
         return (

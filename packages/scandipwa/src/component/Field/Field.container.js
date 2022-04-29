@@ -122,7 +122,9 @@ export class FieldContainer extends PureComponent {
 
     resetFieldValue(fieldContext) {
         fieldContext.setState({
-            value: '', fileName: '', isLoading: false
+            value: '',
+            fileName: '',
+            isLoading: false
         });
 
         this.fieldRef.value = '';
