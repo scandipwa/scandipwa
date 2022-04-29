@@ -268,7 +268,6 @@ export class CheckoutContainer extends PureComponent {
             isCartLoading,
             shippingFields,
             shippingFields: {
-                city,
                 shipping_method
             },
             totals: {
@@ -306,7 +305,7 @@ export class CheckoutContainer extends PureComponent {
             }
 
             const shouldGoToShipping = (
-                (!city || !shipping_method)
+                !shipping_method
                 && !is_virtual
                 && checkoutStep === BILLING_STEP
             );
@@ -376,8 +375,8 @@ export class CheckoutContainer extends PureComponent {
         );
 
         this.setState({
-            email: savedEmail,
-            ...checkoutData
+            ...checkoutData,
+            email: savedEmail
         });
     }
 

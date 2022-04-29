@@ -63,14 +63,12 @@ export class Breadcrumbs extends PureComponent {
         const { areBreadcrumbsVisible } = this.props;
         const { pathname = appendWithStoreCode('/') } = location;
 
-        const shouldHide = (
+        return (
             !areBreadcrumbsVisible
             || pathname.match(appendWithStoreCode(ACCOUNT_URL))
             || pathname.match(appendWithStoreCode(CHECKOUT_URL))
             || isHomePageUrl(pathname)
         );
-
-        return shouldHide;
     }
 
     render() {

@@ -171,6 +171,7 @@ export class CartQuery {
 
     _getOrderAddressFields() {
         return [
+            'id',
             'city',
             'country_id',
             'firstname',

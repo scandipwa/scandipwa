@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { appendWithStoreCode } from 'Util/Url/';
+import { appendWithStoreCode } from 'Util/Url';
 
 export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
