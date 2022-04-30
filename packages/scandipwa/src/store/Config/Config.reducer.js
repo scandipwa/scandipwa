@@ -11,7 +11,11 @@
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import { UPDATE_CONFIG, UPDATE_CONFIG_DEVICE } from './Config.action';
+import {
+    UPDATE_CONFIG,
+    UPDATE_CONFIG_DEVICE,
+    UPDATE_CURRENT_CURRENCY
+} from './Config.action';
 
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
@@ -92,6 +96,9 @@ export const ConfigReducer = (
         device
     } = action;
 
+    const { currentCurrency = '' } = action;
+    const { currencyData: prevCurrencyData } = state;
+
     switch (type) {
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
@@ -117,6 +124,15 @@ export const ConfigReducer = (
             device: {
                 ...state.device,
                 ...device
+            }
+        };
+
+    case UPDATE_CURRENT_CURRENCY:
+        return {
+            ...state,
+            currencyData: {
+                ...prevCurrencyData,
+                current_currency_code: currentCurrency
             }
         };
 

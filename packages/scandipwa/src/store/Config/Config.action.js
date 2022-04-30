@@ -8,6 +8,15 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
+export const UPDATE_CURRENT_CURRENCY = 'UPDATE_CURRENT_CURRENCY';
+
+/** @namespace Store/Config/Action/updateCurrentCurrency  */
+export const updateCurrentCurrency = (selectedCurrency) => ({
+    type: UPDATE_CURRENT_CURRENCY,
+    selectedCurrency
+});
+
 export const UPDATE_CONFIG = 'UPDATE_CONFIG';
 
 /** @namespace Store/Config/Action/updateConfig */
