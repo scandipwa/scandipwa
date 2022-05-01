@@ -11,5 +11,7 @@
 
 import { createBrowserHistory } from 'history';
 
-export const history = createBrowserHistory({ basename: '/' });
+import { HistoryState } from './History.type';
+
+export const history = createBrowserHistory<HistoryState>({ basename: '/' });
 export default history;

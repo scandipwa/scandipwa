@@ -9,19 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
+import {
+    createRef,
+    PureComponent,
+    RefObject
+} from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { FIELD_RADIO_NONE, FieldType } from 'Component/Field/Field.config';
 import { ProductType } from 'Component/Product/Product.config';
+import { ProductItem } from 'Query/ProductList.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { RefType } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
-import { ProductType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import fromCache from 'Util/Cache/Cache';
 import getFieldsData from 'Util/Form/Extract';
+import { FieldValue } from 'Util/Form/Form.type';
 import { ADD_TO_CART, getNewParameters, getVariantIndex } from 'Util/Product';
 import {
     getAdjustedPrice,
@@ -33,7 +37,17 @@ import {
     getProductInStock
 } from 'Util/Product/Extract';
 import { magentoProductTransform, transformParameters } from 'Util/Product/Transform';
+import { RootState } from 'Util/Store/Store.type';
 import { validateGroup } from 'Util/Validator';
+
+import {
+    ProductContainerMapDispatchProps,
+    ProductContainerMapStateProps,
+    ProductContainerProps,
+    ProductContainerState,
+    ProductOption,
+    ProductQuantity
+} from './Product.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -41,7 +55,7 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/Product/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductContainerMapDispatchProps => ({
     addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
@@ -49,8 +63,8 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/Product/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    cartId: state.CartReducer.id,
+export const mapStateToProps = (state: RootState): ProductContainerMapStateProps => ({
+    cartId: state.CartReducer.cartTotals.id || '',
     device: state.ConfigReducer.device,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
@@ -61,25 +75,7 @@ export const mapStateToProps = (state) => ({
  * @class ProductContainer
  * @namespace Component/Product/Container
 */
-export class ProductContainer extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        addProductToCart: PropTypes.func.isRequired,
-        showError: PropTypes.func.isRequired,
-        configFormRef: RefType,
-        parameters: PropTypes.objectOf(PropTypes.string),
-        cartId: PropTypes.string,
-
-        device: DeviceType,
-        isWishlistEnabled: PropTypes.bool.isRequired,
-
-        defaultEnteredOptions: PropTypes.arrayOf(PropTypes.shape({
-            uid: PropTypes.string,
-            value: PropTypes.string
-        })),
-        defaultSelectedOptions: PropTypes.arrayOf(PropTypes.string)
-    };
-
+export class ProductContainer extends PureComponent<ProductContainerProps, ProductContainerState> {
     static defaultProps = {
         configFormRef: createRef(),
         parameters: {},
@@ -106,47 +102,37 @@ export class ProductContainer extends PureComponent {
         updateAddToCartTriggeredWithError: this.updateAddToCartTriggeredWithError.bind(this)
     };
 
-    state = {
-        // Used for customizable & bundle options
-        enteredOptions: this.setDefaultProductOptions('defaultEnteredOptions', 'enteredOptions'),
-        selectedOptions: this.setDefaultProductOptions('defaultSelectedOptions', 'selectedOptions'),
-        addToCartTriggeredWithError: false,
-        // Used for downloadable
-        downloadableLinks: [],
+    validator = createRef<HTMLElement>();
 
-        quantity: 1,
+    __construct(props: ProductContainerProps): void {
+        const { parameters } = props;
 
-        // Used to add to the base price a selected option prices
-        adjustedPrice: {},
+        super.__construct?.(props);
 
-        // Used for configurable product - it can be ether parent or variant
-        selectedProduct: null,
-        // eslint-disable-next-line react/destructuring-assignment
-        parameters: this.props.parameters
-    };
+        this.state = {
+            // Used for customizable & bundle options
+            enteredOptions: this.setDefaultProductOptions('defaultEnteredOptions', 'enteredOptions'),
+            selectedOptions: this.setDefaultProductOptions('defaultSelectedOptions', 'selectedOptions'),
+            addToCartTriggeredWithError: false,
+            // Used for downloadable
+            downloadableLinks: [],
 
-    validator = createRef();
+            quantity: 1,
 
-    // eslint-disable-next-line react/sort-comp
-    setValidator(elem) {
-        if (elem && elem !== this.validator) {
-            this.validator = elem;
-        }
+            // Used to add to the base price a selected option prices
+            adjustedPrice: {},
+
+            // Used for configurable product - it can be ether parent or variant
+            selectedProduct: null,
+            parameters,
+            unselectedOptions: []
+        };
     }
 
-    setDefaultProductOptions(keyProp, keyState) {
-        const { [ keyProp ]: value } = this.props;
-
-        if (Array.isArray(value) && value.length > 0) {
-            this.setState({ [ keyState ]: value || [] }, () => {
-                this.updateAdjustedPrice();
-            });
-        }
-
-        return value || [];
-    }
-
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(
+        props: ProductContainerProps,
+        state: ProductContainerState
+    ): { quantity: ProductQuantity } | null {
         const { quantity: quantityState } = state;
         const quantity = ProductContainer.getDefaultQuantity(props, state);
 
@@ -158,7 +144,10 @@ export class ProductContainer extends PureComponent {
     }
 
     // eslint-disable-next-line react/sort-comp
-    static getDefaultQuantity(props, state) {
+    static getDefaultQuantity(
+        props: ProductContainerProps,
+        state: ProductContainerState
+    ): ProductQuantity | null {
         const { quantity, selectedProduct } = state;
         const { product, product: { type_id: typeId } = {} } = props;
 
@@ -166,7 +155,7 @@ export class ProductContainer extends PureComponent {
             return null;
         }
 
-        if (typeId === ProductType.grouped) {
+        if (typeId === ProductType.GROUPED) {
             return getGroupedProductsInStockQuantity(product);
         }
 
@@ -190,7 +179,10 @@ export class ProductContainer extends PureComponent {
         this.updateAdjustedPrice();
     }
 
-    componentDidUpdate(prevProps, prevState): void {
+    componentDidUpdate(
+        prevProps: ProductContainerProps,
+        prevState: ProductContainerState
+    ): void {
         const {
             enteredOptions,
             selectedOptions,
@@ -270,19 +262,43 @@ export class ProductContainer extends PureComponent {
         };
     }
 
+    setValidator(elem: RefObject<HTMLElement>): void {
+        if (elem && elem !== this.validator) {
+            this.validator = elem;
+        }
+    }
+
+    setDefaultProductOptions(
+        keyProp: 'defaultEnteredOptions' | 'defaultSelectedOptions',
+        keyState: 'enteredOptions' | 'selectedOptions'
+    ): string[] {
+        const { [keyProp]: value } = this.props;
+
+        if (Array.isArray(value) && value.length > 0) {
+            this.setState(
+                { [keyState]: value || [] } as unknown as ProductContainerState,
+                () => {
+                    this.updateAdjustedPrice();
+                }
+            );
+        }
+
+        return value || [];
+    }
+
     /**
      * Fetches form data for customizable and bundle options.
      * (Should be called when value is changed)
      */
-    updateSelectedValues(data = {}) {
+    updateSelectedValues(data: Partial<ProductOption> = {}): void {
         const { configFormRef: { current } = {} } = this.props;
 
         if (!current) {
             return;
         }
 
-        const enteredOptions = [];
-        const selectedOptions = [];
+        const enteredOptions: ProductOption[] = [];
+        const selectedOptions: FieldValue[] = [];
 
         const { uid, value } = data;
 
@@ -319,18 +335,21 @@ export class ProductContainer extends PureComponent {
     /**
      * Generates adjusted price from entered, selected, link options
      */
-    updateAdjustedPrice() {
+    updateAdjustedPrice(): void {
         const { product } = this.props;
         const { downloadableLinks, enteredOptions, selectedOptions } = this.state;
 
         const adjustedPrice = getAdjustedPrice(
-            product, downloadableLinks, enteredOptions, selectedOptions
+            product,
+            downloadableLinks,
+            enteredOptions,
+            selectedOptions
         );
 
         this.setState({ adjustedPrice });
     }
 
-    setAdjustedPrice(type, amount) {
+    setAdjustedPrice(type, amount): void {
         const { adjustedPrice } = this.state;
         this.setState({
             adjustedPrice: {
@@ -344,7 +363,7 @@ export class ProductContainer extends PureComponent {
      * checks for unselected options on add to cart event
      * @returns {boolean}
     */
-    validateConfigurableProduct() {
+    validateConfigurableProduct(): void {
         const {
             parameters
         } = this.state;
@@ -363,14 +382,14 @@ export class ProductContainer extends PureComponent {
         return unselectedOptions.length > 0;
     }
 
-    updateAddToCartTriggeredWithError() {
+    updateAddToCartTriggeredWithError(): void {
         this.setState({ addToCartTriggeredWithError: false });
     }
 
     /**
      * Scrolls Product Options into view on error.
     */
-    scrollOptionsIntoView() {
+    scrollOptionsIntoView(): void {
         // PLP Products do not have validator so we omit scrolling
         if (this.validator.classList) {
             const attributes = this.validator.querySelector('[class$=-AttributesWrapper]');
@@ -389,7 +408,7 @@ export class ProductContainer extends PureComponent {
      * Event that validates and invokes product adding into cart
      * @returns {*}
      */
-    async addToCart() {
+    async addToCart(): Promise<void> {
         this.updateSelectedValues();
         const { showError } = this.props;
 
@@ -414,7 +433,7 @@ export class ProductContainer extends PureComponent {
      * checks if product has errors before adding to cart
      * @returns {boolean}
     */
-    hasError() {
+    hasError(): boolean {
         const { errorMessages, errorFields, values } = validateGroup(this.validator);
         const { showError } = this.props;
 
@@ -439,7 +458,7 @@ export class ProductContainer extends PureComponent {
      * @param errors
      * @returns {boolean}
     */
-    filterAddToCartFileErrors(errors) {
+    filterAddToCartFileErrors(errors): boolean {
         return errors ? errors.filter((e) => (e.type === 'file' && e.value !== '')).length !== 0 : false;
     }
 
@@ -448,7 +467,7 @@ export class ProductContainer extends PureComponent {
      * @param key
      * @param value
      */
-    updateConfigurableVariant(key, value, checkEmptyValue = false) {
+    updateConfigurableVariant(key, value, checkEmptyValue = false): void {
         const { parameters: prevParameters } = this.state;
 
         const newParameters = getNewParameters(prevParameters, key, value);
@@ -481,7 +500,7 @@ export class ProductContainer extends PureComponent {
      * if any other product updates value
      * @param quantity
      */
-    setQuantity(quantity) {
+    setQuantity(quantity): void {
         if (typeof quantity === 'object') {
             const { quantity: oldQuantity = {} } = this.state;
             this.setState({ quantity: { ...oldQuantity, ...quantity } });
@@ -495,7 +514,7 @@ export class ProductContainer extends PureComponent {
      * @param type State name
      * @param options State value
      */
-    setStateOptions(type, options) {
+    setStateOptions(type, options): void {
         this.setState({ [ type ]: options });
     }
 
@@ -530,7 +549,7 @@ export class ProductContainer extends PureComponent {
      * configurable products, as active product can be one of variants.
      * @returns {*}
      */
-    getActiveProduct() {
+    getActiveProduct(): ProductItem {
         const { selectedProduct } = this.state;
         const { product } = this.props;
 

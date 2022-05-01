@@ -9,12 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
-import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import { NavigationTabs } from 'Component/NavigationTabs/NavigationTabs.config';
+import { FilterPriceRange, ProductAttributeFilterOptions } from 'Query/ProductList.type';
 import {
     CategoryPageLayout,
     LAYOUT_KEY,
@@ -27,15 +28,13 @@ import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
-import { CategoryTreeType, SelectedFiltersType, SortFieldsType } from 'Type/Category.type';
 import { ReactElement } from 'Type/Common.type';
-import { AttributesType } from 'Type/ProductList.type';
-import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
 import { withReducers } from 'Util/DynamicReducer';
 import { debounce } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 import {
     appendWithStoreCode,
     getQueryParam,
@@ -44,6 +43,16 @@ import {
 
 import CategoryPage from './CategoryPage.component';
 import { LOADING_TIME } from './CategoryPage.config';
+import {
+    CategoryPageComponentProps,
+    CategoryPageContainerMapDispatchProps,
+    CategoryPageContainerMapStateProps,
+    CategoryPageContainerProps,
+    CategoryPageContainerPropsKeys,
+    CategoryPageContainerState,
+    CategorySortOptions,
+    CategoryUrlParams
+} from './CategoryPage.type';
 
 export const ProductListInfoDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -71,7 +80,7 @@ export const NoMatchDispatcher = import(
 );
 
 /** @namespace Route/CategoryPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CategoryPageContainerMapStateProps => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
@@ -86,7 +95,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMapDispatchProps => ({
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
@@ -116,43 +125,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/CategoryPage/Container */
-export class CategoryPageContainer extends PureComponent {
-    static propTypes = {
-        history: HistoryType.isRequired,
-        category: CategoryTreeType.isRequired,
-        location: LocationType.isRequired,
-        match: MatchType.isRequired,
-        requestCategory: PropTypes.func.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
-        changeNavigationState: PropTypes.func.isRequired,
-        requestProductListInfo: PropTypes.func.isRequired,
-        setBigOfflineNotice: PropTypes.func.isRequired,
-        updateMetaFromCategory: PropTypes.func.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired,
-        updateLoadStatus: PropTypes.func.isRequired,
-        updateNoMatch: PropTypes.func.isRequired,
-        filters: AttributesType.isRequired,
-        sortFields: SortFieldsType.isRequired,
-        currentArgs: PropTypes.shape({
-            filter: PropTypes.shape({
-                categoryIds: PropTypes.number
-            })
-        }),
-        selectedInfoFilter: PropTypes.shape({
-            categoryIds: PropTypes.number,
-            customFilters: SelectedFiltersType
-        }),
-        isInfoLoading: PropTypes.bool.isRequired,
-        isOffline: PropTypes.bool.isRequired,
-        categoryIds: PropTypes.number,
-        isSearchPage: PropTypes.bool,
-        isMobile: PropTypes.bool.isRequired,
-        plpType: PropTypes.string,
-        totalPages: PropTypes.number.isRequired,
-        totalItems: PropTypes.number.isRequired,
-        toggleOverlayByKey: PropTypes.func.isRequired
-    };
-
+export class CategoryPageContainer extends PureComponent<CategoryPageContainerProps, CategoryPageContainerState> {
     static defaultProps = {
         categoryIds: -1,
         isSearchPage: false,
@@ -161,10 +134,13 @@ export class CategoryPageContainer extends PureComponent {
         plpType: ''
     };
 
-    state = {
+    state: CategoryPageContainerState = {
         currentCategoryIds: -1,
         breadcrumbsWereUpdated: false,
-        selectedLayoutType: null
+        selectedLayoutType: undefined,
+        activeLayoutType: '',
+        defaultPlpType: '',
+        plpTypes: []
     };
 
     config = {
@@ -178,9 +154,16 @@ export class CategoryPageContainer extends PureComponent {
         onListButtonClick: this.onListButtonClick.bind(this)
     };
 
-    setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
+    __construct(props: CategoryPageContainerProps): void {
+        super.__construct?.(props);
 
-    static getDerivedStateFromProps(props, state) {
+        this.setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
+    }
+
+    static getDerivedStateFromProps(
+        props: CategoryPageContainerProps,
+        state: CategoryPageContainerState
+    ): Partial<CategoryPageContainerState> | null {
         const {
             currentCategoryIds,
             defaultPlpType,
@@ -267,7 +250,7 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: CategoryPageContainerProps): void {
         const {
             isOffline,
             categoryIds,
@@ -335,32 +318,32 @@ export class CategoryPageContainer extends PureComponent {
         ** if category wasn't changed we still need to update meta for correct robots meta tag [#928](https://github.com/scandipwa/base-theme/issues/928)
         */
         if (!categoryChange
-            && filter
-            && prevFilter
+            && filter?.customFilters
+            && prevFilter?.customFilters
             && Object.keys(filter.customFilters).length !== Object.keys(prevFilter.customFilters).length
         ) {
             this.updateMeta();
         }
     }
 
-    onGridButtonClick() {
+    onGridButtonClick(): void {
         BrowserDatabase.setItem(CategoryPageLayout.GRID, LAYOUT_KEY);
         this.setState({ selectedLayoutType: CategoryPageLayout.GRID });
     }
 
-    onListButtonClick() {
+    onListButtonClick(): void {
         BrowserDatabase.setItem(CategoryPageLayout.LIST, LAYOUT_KEY);
         this.setState({ selectedLayoutType: CategoryPageLayout.LIST });
     }
 
-    onSortChange(sortDirection, sortKey) {
+    onSortChange(sortDirection: SortDirections, sortKey: string): void {
         const { location, history } = this.props;
 
         setQueryParams({ sortKey, sortDirection, page: '' }, location, history);
         this.updateMeta();
     }
 
-    setOfflineNoticeSize() {
+    setOfflineNoticeSize(): void {
         const { setBigOfflineNotice, isInfoLoading } = this.props;
 
         if (isInfoLoading) {
@@ -370,7 +353,7 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
-    getIsMatchingListFilter() {
+    getIsMatchingListFilter(): boolean {
         const {
             location,
             currentArgs: {
@@ -391,7 +374,7 @@ export class CategoryPageContainer extends PureComponent {
             && currentPage === +(getQueryParam('page', location) || 1);
     }
 
-    getIsMatchingInfoFilter() {
+    getIsMatchingInfoFilter(): boolean {
         const {
             categoryIds,
             selectedInfoFilter: {
@@ -403,7 +386,7 @@ export class CategoryPageContainer extends PureComponent {
         return categoryIds === selectedCategoryIds;
     }
 
-    getAppliedFiltersCount() {
+    getAppliedFiltersCount(): number {
         const {
             selectedInfoFilter: { customFilters = {} }
         } = this.props;
@@ -411,7 +394,7 @@ export class CategoryPageContainer extends PureComponent {
         return getFiltersCount(customFilters);
     }
 
-    isCurrentCategoryLoaded() {
+    isCurrentCategoryLoaded(): boolean {
         const {
             categoryIds,
             category: {
@@ -423,7 +406,7 @@ export class CategoryPageContainer extends PureComponent {
         return isSearchPage || categoryIds === id;
     }
 
-    containerProps() {
+    containerProps(): Pick<CategoryPageComponentProps, CategoryPageContainerPropsKeys> {
         const {
             category,
             filters,
@@ -434,6 +417,11 @@ export class CategoryPageContainer extends PureComponent {
             totalItems,
             isSearchPage
         } = this.props;
+
+        const {
+            selectedLayoutType,
+            activeLayoutType
+        } = this.state;
 
         return {
             appliedFiltersCount: this.getAppliedFiltersCount(),
@@ -453,11 +441,13 @@ export class CategoryPageContainer extends PureComponent {
             sortFields,
             toggleOverlayByKey,
             totalPages,
-            totalItems
+            totalItems,
+            selectedLayoutType,
+            activeLayoutType
         };
     }
 
-    isContentFiltered() {
+    isContentFiltered(): boolean {
         const {
             customFilters,
             priceMin,
@@ -467,17 +457,17 @@ export class CategoryPageContainer extends PureComponent {
         return !!(customFilters || priceMin || priceMax);
     }
 
-    urlStringToObject() {
+    urlStringToObject(): Partial<CategoryUrlParams> {
         const { location: { search } } = this.props;
 
-        return search.substr(1).split('&').reduce((acc, part) => {
+        return search.substr(1).split('&').reduce((acc: Partial<CategoryUrlParams>, part) => {
             const [key, value] = part.split('=');
 
-            return { ...acc, [ key ]: value };
+            return { ...acc, [key]: value };
         }, {});
     }
 
-    getSelectedFiltersFromUrl() {
+    getSelectedFiltersFromUrl(): Record<string, string> {
         const { location } = this.props;
         const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
 
@@ -491,7 +481,7 @@ export class CategoryPageContainer extends PureComponent {
         }, {});
     }
 
-    getSelectedSortFromUrl() {
+    getSelectedSortFromUrl(): CategorySortOptions {
         const {
             location,
             category: {
@@ -509,7 +499,8 @@ export class CategoryPageContainer extends PureComponent {
          * - URL param "sortDirection"
          * - CategoryPage class property "config"
          * */
-        const sortDirection = getQueryParam('sortDirection', location) || defaultSortDirection;
+        const sortDirection: SortDirections = (getQueryParam('sortDirection', location) as SortDirections)
+            || defaultSortDirection;
 
         /**
          * Default SORT KEY is taken from (sequentially):
@@ -526,7 +517,7 @@ export class CategoryPageContainer extends PureComponent {
         };
     }
 
-    getSelectedPriceRangeFromUrl() {
+    getSelectedPriceRangeFromUrl(): FilterPriceRange {
         const { location } = this.props;
         const min = +getQueryParam('priceMin', location);
         const max = +getQueryParam('priceMax', location);
@@ -534,19 +525,19 @@ export class CategoryPageContainer extends PureComponent {
         return { min, max };
     }
 
-    getDefaultPlpType() {
+    getDefaultPlpType(): string {
         const { defaultPlpType } = this.state;
 
         return defaultPlpType;
     }
 
-    getPlpTypes() {
+    getPlpTypes(): string[] {
         const { plpTypes } = this.state;
 
         return plpTypes;
     }
 
-    getFilter() {
+    getFilter(): ProductAttributeFilterOptions {
         const { categoryIds } = this.props;
         const customFilters = this.getSelectedFiltersFromUrl();
         const priceRange = this.getSelectedPriceRangeFromUrl();
@@ -565,7 +556,7 @@ export class CategoryPageContainer extends PureComponent {
         };
     }
 
-    updateHistory() {
+    updateHistory(): void {
         const {
             history,
             location,
@@ -599,7 +590,7 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
-    checkIsActive() {
+    checkIsActive(): void {
         const {
             category: { is_active },
             updateNoMatch
@@ -610,7 +601,7 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
-    updateMeta() {
+    updateMeta(): void {
         const { updateMetaFromCategory, category, history } = this.props;
         const meta_robots = history.location.search
             ? ''
@@ -622,21 +613,32 @@ export class CategoryPageContainer extends PureComponent {
         });
     }
 
-    updateBreadcrumbs(isUnmatchedCategory = false) {
+    updateBreadcrumbs(isUnmatchedCategory = false): void {
         const { updateBreadcrumbs, category } = this.props;
-        const breadcrumbs = isUnmatchedCategory ? {} : category;
-        updateBreadcrumbs(breadcrumbs);
+        const {
+            id = 0,
+            url = '',
+            name = '',
+            breadcrumbs = []
+        } = isUnmatchedCategory ? {} : category;
+
+        updateBreadcrumbs({
+            id: Number(id),
+            url,
+            name,
+            breadcrumbs
+        });
 
         this.setState({ breadcrumbsWereUpdated: true });
     }
 
-    updateNavigationState() {
+    updateNavigationState(): void {
         const { changeNavigationState } = this.props;
 
-        changeNavigationState({ name: MENU_TAB });
+        changeNavigationState({ name: NavigationTabs.MENU_TAB });
     }
 
-    updateHeaderState(isUnmatchedCategory = false) {
+    updateHeaderState(isUnmatchedCategory = false): void {
         const {
             changeHeaderState,
             category: {
@@ -664,7 +666,7 @@ export class CategoryPageContainer extends PureComponent {
         });
     }
 
-    requestCategory() {
+    requestCategory(): void {
         const {
             categoryIds,
             isSearchPage,
@@ -706,21 +708,10 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     render(): ReactElement {
-        const { pageSize } = this.config;
-        const {
-            defaultPlpType,
-            selectedLayoutType,
-            activeLayoutType
-        } = this.state;
-
         return (
             <CategoryPage
-              pageSize={ pageSize }
-              defaultPlpType={ defaultPlpType }
-              selectedLayoutType={ selectedLayoutType }
-              activeLayoutType={ activeLayoutType }
-              { ...this.containerFunctions }
               { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

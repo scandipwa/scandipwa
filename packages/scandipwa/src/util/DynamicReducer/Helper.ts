@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ReducersMapObject } from 'redux';
+import { Reducer } from 'redux';
 
 /**
  * @param store
@@ -17,7 +17,7 @@ import { ReducersMapObject } from 'redux';
  */
 export default function injectToReducers <S, T extends ModifiedReduxStore<S>>(
     store: T,
-    reducers: ReducersMapObject
+    reducers: Record<string, Reducer>
 ): void {
     Object.keys(reducers).forEach((key) => {
         if (store.asyncReducers && store.injectReducer && !Reflect.has(store.asyncReducers, key)) {

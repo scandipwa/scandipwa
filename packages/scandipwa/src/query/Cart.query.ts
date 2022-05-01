@@ -177,7 +177,7 @@ export class CartQuery {
     }
 
     _getCartTotalsFields(): Array<
-    Field<'id', number>
+    Field<'id', string>
     | Field<'subtotal', number>
     | Field<'subtotal_incl_tax', number>
     | Field<'items_qty', number>
@@ -198,7 +198,7 @@ export class CartQuery {
     | Field<'applied_taxes', AppliedTaxItem, true>
     > {
         return [
-            new Field<'id', number>('id'),
+            new Field<'id', string>('id'),
             new Field<'subtotal', number>('subtotal'),
             new Field<'subtotal_incl_tax', number>('subtotal_incl_tax'),
             new Field<'items_qty', number>('items_qty'),

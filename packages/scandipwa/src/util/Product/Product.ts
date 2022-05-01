@@ -31,6 +31,7 @@ import { showPopup } from 'Store/Popup/Popup.action';
 import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { GQLProductStockStatus } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
+import { decodeBase64 } from 'Util/Base64';
 import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -294,7 +295,7 @@ export const getIndexedReviews = (reviews?: ProductReviews): ProductReview[] | n
 
 /** @namespace Util/Product/getBundleId */
 export const getBundleId = (uid = ''): number => {
-    const arrayId = atob(uid).split('/');
+    const arrayId = decodeBase64(uid).split('/');
 
     if (Array.isArray(arrayId) && arrayId.length > 2) {
         return +arrayId[2];

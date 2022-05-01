@@ -11,16 +11,14 @@
 
 import { Reducer } from 'redux';
 
-import { CartProductItem, QuoteData, TotalsItem } from 'Query/Cart.type';
-import { Merge } from 'Type/Common.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
-import { IndexedProduct } from 'Util/Product/Product.type';
 
 import {
     CartAction,
     CartActionType,
     CartStore,
+    CartTotals,
     UpdateShippingPriceAction,
     UpdateTotalsAction
 } from './Cart.type';
@@ -31,14 +29,7 @@ export const CART_TOTALS = 'cart_totals';
 export const updateCartTotals = (action: UpdateTotalsAction): CartStore => {
     const { cartData: { items = [], ...rest } = {} } = action;
 
-    const cartTotals: Merge<
-    Partial<QuoteData>,
-    {
-        items: Merge<TotalsItem, {
-            product: IndexedProduct<CartProductItem>;
-        }>[];
-    }
-    > = {
+    const cartTotals: CartTotals = {
         ...rest,
         items: []
     };

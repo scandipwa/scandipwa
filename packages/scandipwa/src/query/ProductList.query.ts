@@ -55,6 +55,7 @@ import {
     DownloadableProductLinks,
     DownloadableProductSamples,
     FilterArgumentMap,
+    FilterPriceRange,
     GroupedProductItem,
     MediaGalleryEntry,
     Money,
@@ -153,7 +154,7 @@ export class ProductListQuery {
         return {
             categoryIds: (id: number | number[]) => ({ category_id: { eq: id } }),
             categoryUrlPath: (url: string) => ({ category_url_path: { eq: url } }),
-            priceRange: ({ min, max }: { min: number; max: number }) => {
+            priceRange: ({ min, max }: FilterPriceRange) => {
                 const price: PriceRangeMap = {};
 
                 if (min) {

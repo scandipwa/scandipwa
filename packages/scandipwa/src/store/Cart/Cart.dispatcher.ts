@@ -18,6 +18,7 @@ import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import { NetworkError } from 'Type/Common.type';
 import {
     GQLCartItemInput
 } from 'Type/Graphql.type';
@@ -70,7 +71,7 @@ export class CartDispatcher {
 
             return quoteId;
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }
@@ -92,7 +93,7 @@ export class CartDispatcher {
 
             return id;
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }
@@ -130,7 +131,7 @@ export class CartDispatcher {
 
             return await this.updateInitialCartData(dispatch);
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return Promise.reject();
         }
@@ -177,7 +178,7 @@ export class CartDispatcher {
                 return Promise.reject();
             }
 
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
             return Promise.reject();
         }
 
@@ -201,7 +202,7 @@ export class CartDispatcher {
 
             return cartData;
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }
@@ -223,7 +224,7 @@ export class CartDispatcher {
             this._updateCartData(cartData, dispatch);
             dispatch(showNotification(NotificationType.SUCCESS, __('Coupon was applied!')));
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
         }
     }
 
@@ -243,7 +244,7 @@ export class CartDispatcher {
             this._updateCartData(cartData, dispatch);
             dispatch(showNotification(NotificationType.SUCCESS, __('Coupon was removed!')));
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
         }
     }
 

@@ -15,6 +15,7 @@ import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 import {
     GQLCurrencyEnum,
     GQLPriceTypeEnum,
+    GQLProductAttributeSortInput,
     GQLProductStockStatus,
     GQLShipBundleItemsEnum
 } from 'Type/Graphql.type';
@@ -552,6 +553,7 @@ export type ProductListOptionArgs = {
     filter?: Partial<ProductAttributeFilterOptions>;
     search?: string;
     currentPage?: number;
+    sort?: Partial<GQLProductAttributeSortInput>;
 };
 
 export type PriceRangeMap = {
@@ -565,10 +567,15 @@ Field<'label', string>
 | Field<'swatch_data', SwatchData>
 >;
 
+export interface FilterPriceRange {
+    min: number;
+    max: number;
+}
+
 export type FilterArgumentMap = {
     categoryIds: (id: number | number[]) => ({ category_id: { eq: number | number[] } });
     categoryUrlPath: (url: string) => ({ category_url_path: { eq: string } });
-    priceRange: (price: { min: number; max: number }) => ({ price: PriceRangeMap });
+    priceRange: (price: FilterPriceRange) => ({ price: PriceRangeMap });
     productsSkuArray: (sku: string) => ({ sku: { in: string } });
     productSKU: (sku: string) => ({ sku: { eq: string } });
     productID: (id: number) => ({ id: { eq: number } });
@@ -583,15 +590,19 @@ export type FilterArgumentMap = {
     customerGroupId: (id: number) => ({ customer_group_id: { eq: number } });
 };
 
+export interface ProductAttributeCustomFilterOptions {
+    category_id?: string;
+}
+
 export type ProductAttributeFilterOptions = {
     categoryIds?: number | number[];
     categoryUrlPath?: string;
-    priceRange?: { min: number; max: number };
+    priceRange?: FilterPriceRange;
     productsSkuArray?: string[];
     productSKU?: string;
     productID?: number;
     productUrlPath?: string;
-    customFilters?: { category_id: string };
+    customFilters?: ProductAttributeCustomFilterOptions;
     newToDate?: string;
     conditions?: string;
     customerGroupId?: number;

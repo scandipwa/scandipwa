@@ -18,7 +18,7 @@ export enum CategoryActionType {
 
 export interface UpdateCurrentCategoryAction extends AnyAction {
     type: CategoryActionType.UPDATE_CURRENT_CATEGORY;
-    category: Partial<Category>;
+    category?: Partial<Category>;
 }
 
 export type CategoryStore = {

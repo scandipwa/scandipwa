@@ -10,12 +10,11 @@
  */
 import { Dispatch } from 'redux';
 
-import { CategoryTree } from 'Query/Category.type';
 import { BaseProductItem } from 'Query/ProductList.type';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { appendWithStoreCode } from 'Util/Url';
 
-import { PageMeta } from './Meta.type';
+import { Category, PageMeta } from './Meta.type';
 
 /**
  * Meta Dispatcher
@@ -28,7 +27,7 @@ export class MetaDispatcher {
      * @param {Function} dispatch
      * @memberof MetaDispatcher
      */
-    updateWithCategory(category: Partial<CategoryTree>, dispatch: Dispatch): void {
+    updateWithCategory(category: Category, dispatch: Dispatch): void {
         const meta = this._getCategoryMeta(category);
         dispatch(updateMeta(meta));
     }
@@ -73,16 +72,16 @@ export class MetaDispatcher {
      * @return {Object} Meta object
      * @memberof MetaDispatcher
      */
-    _getCategoryMeta(category: Partial<CategoryTree>): Partial<PageMeta> {
+    _getCategoryMeta(category: Category): Partial<PageMeta> {
         const {
             description,
             name,
             canonical_url = '',
             meta_title,
             meta_keywords,
-            meta_description
+            meta_description,
+            meta_robots = 'follow, index'
         } = category;
-        const meta_robots = 'follow, index';
 
         return {
             description: meta_description || description,

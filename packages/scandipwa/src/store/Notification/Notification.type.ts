@@ -30,14 +30,14 @@ export type Notification<T> = {
 
 export interface ShowNotificationAction<T = unknown> extends AnyAction {
     type: NotificationActionType.SHOW_NOTIFICATION;
-    msgType: NotificationType;
-    msgText: string;
+    msgType?: NotificationType;
+    msgText?: string;
     msgDebug?: T;
 }
 
 export interface HideNotificationAction extends AnyAction {
     type: NotificationActionType.HIDE_NOTIFICATION;
-    id: number;
+    id?: number;
 }
 
 export type NotificationAction = ShowNotificationAction<unknown> | HideNotificationAction;

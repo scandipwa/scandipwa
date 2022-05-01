@@ -36,3 +36,8 @@ export type Url<T = unknown> = string | {
 };
 
 export type NetworkError = { message: string };
+
+export type NameValue<T = string> = {
+    name: string;
+    value: T;
+};

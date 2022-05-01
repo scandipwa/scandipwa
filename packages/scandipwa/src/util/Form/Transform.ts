@@ -9,21 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { NameValue } from 'Type/Common.type';
+
 /**
  * Returns name: value pair object for form output.
  * @param fields (Array|Object)
  * @returns {{}}
  * @namespace Util/Form/Transform/transformToNameValuePair
  */
-export const transformToNameValuePair = <T>(fields: any | any[]): T => {
-    const filteredFields: Record<string, unknown> = {};
+export const transformToNameValuePair = (
+    fields: Record<string, NameValue> | NameValue[]
+): Record<string, string> => {
+    const filteredFields: Record<string, string> = {};
     const arrayFormat = !Array.isArray(fields) ? Object.values(fields) : fields;
 
     arrayFormat.forEach(({ value, name }) => {
         filteredFields[name] = value;
     });
 
-    return filteredFields as unknown as T;
+    return filteredFields;
 };
 
 export default transformToNameValuePair;
