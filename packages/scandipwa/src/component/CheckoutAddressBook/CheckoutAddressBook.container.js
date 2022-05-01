@@ -160,6 +160,43 @@ export class CheckoutAddressBookContainer extends PureComponent {
         };
     }
 
+    getAddressIdFromAddressBook() {
+        const {
+            shippingFields,
+            customer: {
+                addresses = []
+            } = {}
+        } = this.props;
+
+        // the main keys distinguishing addresses
+        const keys = [
+            'city',
+            'country_id',
+            'firstname',
+            'lastname',
+            'postcode',
+            'telephone',
+            'vat_id'
+        ];
+
+        const filteredAddresses = (
+            addresses.filter((address) => (
+                keys.every((key) => {
+                    if (shippingFields[key] !== address[key]) {
+                        return false;
+                    }
+
+                    return true;
+                })
+                && (
+                    JSON.stringify(shippingFields.street) === JSON.stringify(address.street)
+                )
+            ))
+        );
+
+        return filteredAddresses.length ? filteredAddresses[0].id : 0;
+    }
+
     getSelectedAddressId(defaultAddressId) {
         const {
             shippingFields: {
@@ -181,7 +218,10 @@ export class CheckoutAddressBookContainer extends PureComponent {
             return defaultAddressId;
         }
 
-        return 0;
+        // comparing address values to check if the fetched address is in the address book
+        const addressId = this.getAddressIdFromAddressBook();
+
+        return addressId;
     }
 
     onAddressSelect(address) {
