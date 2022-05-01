@@ -38,6 +38,7 @@ export interface ProductListInfoStore {
     maxPrice: number;
     sortFields: Partial<SortFields>;
     filters: Record<string, ProductListFilter>;
+    selectedFilter: Partial<ProductAttributeFilterOptions>;
     isLoading: boolean;
 }
 

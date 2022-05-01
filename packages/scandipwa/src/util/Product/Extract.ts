@@ -15,38 +15,20 @@
 import { ProductType } from 'Component/Product/Product.config';
 import { StockStatus } from 'Component/Product/Stock.config';
 import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
-import { PriceRange } from 'Type/Price.type';
-import {
-    ItemOption,
-    ItemShape,
-    Product,
-    ProductBundle,
-    ProductDownloadable,
-    ProductGrouped,
-    StockItem
-} from 'Type/ProductList.type';
+import { ProductItem } from 'Query/ProductList.type';
+import { decodeBase64 } from 'Util/Base64';
 import { formatPrice } from 'Util/Price';
 
-import { IndexedVariant } from './Product';
-import {
-    AdjustedPrices,
-    DEFAULT_MAX_PRODUCTS,
-    DEFAULT_MIN_PRODUCTS,
-    EnteredOption,
-    FormattedAdjustedPrices,
-    FormattedPrice,
-    FormattedProduct,
-    QtyFields
-} from './Product.type';
+import { DEFAULT_MIN_PRODUCTS, QtyFields } from './Product.type';
 
 // TODO unify keyof product and stockitem.
 /** @namespace Util/Product/Extract/getFieldQty */
 export const getFieldQty = (
-    product: IndexedVariant | FormattedProduct,
-    field: keyof FormattedProduct | keyof StockItem
-): number | undefined => {
+    product: ProductItem,
+    field: QtyFields
+): number => {
     if (field === QtyFields.MIN_SALE_QTY || field === QtyFields.MAX_SALE_QTY) {
-        const { stock_item: { [field]: qty } = {} } = product;
+        const { stock_item: { [field]: qty = 0 } = {} } = product;
 
         return qty;
     }
@@ -66,9 +48,9 @@ export const getFieldQty = (
  * @namespace Util/Product/Extract/getQuantity
  */
 export const getQuantity = (
-    product: FormattedProduct,
+    product: ProductItem,
     defaultValue: number,
-    field: keyof Product | keyof StockItem,
+    field: QtyFields,
     configIndex = -1
 ): number => {
     if (!product) {
@@ -99,7 +81,7 @@ export const getQuantity = (
  * @returns {*}
  * @namespace Util/Product/Extract/getMinQuantity
  */
-export const getMinQuantity = (product: FormattedProduct, configIndex = -1): number => (
+export const getMinQuantity = (product: ProductItem, configIndex = -1): number => (
     getQuantity(product, DEFAULT_MIN_PRODUCTS, QtyFields.MIN_SALE_QTY, configIndex)
 );
 
@@ -230,9 +212,9 @@ export const getGroupedProductsInStockQuantity = (
  * @namespace Util/Product/Extract/getBundleOption
  */
 export const getBundleOption = (uid: string, options: ItemOption[] = []): ItemOption | undefined => {
-    const uidParts = atob(uid).split('/');
+    const uidParts = decodeBase64(uid).split('/');
     return options.find(({ uid: linkedUid }) => {
-        const linkedUidParts = atob(linkedUid).split('/');
+        const linkedUidParts = decodeBase64(linkedUid).split('/');
 
         if (uidParts.length !== linkedUidParts.length) {
             return false;
@@ -496,7 +478,7 @@ export const getAdjustedPrice = (
 
         selectedOptions.forEach((uid) => {
             items.forEach(({ options: sldOptions = [] }) => {
-                const uidParts = atob(uid).split('/');
+                const uidParts = decodeBase64(uid).split('/');
                 const option = Array.isArray(options) && getBundleOption(uid, sldOptions);
                 const quantity = +uidParts[uidParts.length - 1];
 

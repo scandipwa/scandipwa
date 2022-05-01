@@ -44,12 +44,12 @@ export enum BreadcrumbsActionType {
 
 export interface ToggleBreadcrumbsAction extends AnyAction {
     type: BreadcrumbsActionType.TOGGLE_BREADCRUMBS;
-    areBreadcrumbsVisible: boolean;
+    areBreadcrumbsVisible?: boolean;
 }
 
 export interface UpdateBreadcrumbsAction extends AnyAction {
     type: BreadcrumbsActionType.UPDATE_BREADCRUMBS;
-    breadcrumbs: Breadcrumb[];
+    breadcrumbs?: Breadcrumb[];
 }
 
 export type BreadcrumbsAction = ToggleBreadcrumbsAction | UpdateBreadcrumbsAction;

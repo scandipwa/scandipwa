@@ -9,9 +9,4 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type HistoryState = {
-    isForgotPassword?: boolean;
-    isFromLocked?: boolean;
-    editPassword?: boolean;
-    category?: number;
-};
+export * from './Base64';

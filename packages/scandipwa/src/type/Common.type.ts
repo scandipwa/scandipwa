@@ -38,3 +38,7 @@ export type NetworkError = { message: string };
 export type ObjectEntries<T> = {
     [K in keyof T]: [K, T[K]];
 }[keyof T];
+export type NameValue<T = string> = {
+    name: string;
+    value: T;
+};

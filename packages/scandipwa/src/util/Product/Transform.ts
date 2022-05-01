@@ -13,31 +13,31 @@
 import { FieldType } from 'Component/Field/Field.config';
 import { ProductType } from 'Component/Product/Product.config';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
-import {
-    Attribute, CustomizableOption, ItemOption, Product, ProductGrouped
-} from 'Type/ProductList.type';
+import { ProductItem } from 'Query/ProductList.type';
+import { ItemOption } from 'Query/Wishlist.type';
+import { decodeBase64, encodeBase64 } from 'Util/Base64';
 import { formatPrice } from 'Util/Price';
 
-import { EnteredOption, FormattedProduct, getProductInStock } from './Extract';
+import { getProductInStock } from './Extract';
 import { ADD_TO_CART } from './Product';
 
 export const PRICE_TYPE_PERCENT = 'PERCENT';
 
-export type BuyRequest = {
-    qty: number;
-    bundle_option_qty: Record<string, string>;
-    bundle_option: Record<string, string | Product>;
-    action: string;
-    options?: Record<string, Variant | { id: number }[] | string>;
-    links?: string[];
-    super_attribute?: Record<string, string>;
-};
+// export type BuyRequest = {
+//     qty: number;
+//     bundle_option_qty: Record<string, string>;
+//     bundle_option: Record<string, string | ProductItem>;
+//     action: string;
+//     options?: Record<string, Variant | { id: number }[] | string>;
+//     links?: string[];
+//     super_attribute?: Record<string, string>;
+// };
 
-export interface Variant {
-    date_internal: string;
-    date: string;
-    type: string;
-}
+// export interface Variant {
+//     date_internal: string;
+//     date: string;
+//     type: string;
+// }
 
 /**
  * Generates correct UID for bundle with changed quantity
@@ -48,19 +48,19 @@ export interface Variant {
  * @namespace Util/Product/Transform/getEncodedBundleUid
  */
 export const getEncodedBundleUid = (uid: string, quantity: number): string => {
-    const decoded = atob(uid);
+    const decoded = decodeBase64(uid);
     const parts = decoded.split('/');
     // eslint-disable-next-line no-magic-numbers
     const newUid = parts.length === 3
         ? `bundle/${parts[1]}/${quantity}`
         : `bundle/${parts[1]}/${parts[2]}/${quantity}`;
 
-    return btoa(newUid);
+    return encodeBase64(newUid);
 };
 
 /** @namespace Util/Product/Transform/getBundleOptions */
 export const getBundleOptions = (buyRequest: string): string[] => {
-    const { bundle_option = {}, bundle_option_qty = {} }: BuyRequest = JSON.parse(buyRequest);
+    const { bundle_option = {}, bundle_option_qty = {} } = JSON.parse(buyRequest);
 
     if (!bundle_option) {
         return [];
@@ -70,16 +70,16 @@ export const getBundleOptions = (buyRequest: string): string[] => {
         const qty = bundle_option_qty[option] || 1;
 
         if (typeof variant === 'string') {
-            return [...prev, btoa(`bundle/${option}/${variant}/${qty}`)];
+            return [...prev, encodeBase64(`bundle/${option}/${variant}/${qty}`)];
         }
 
-        return [...prev, ...Object.keys(variant).map((id) => btoa(`bundle/${option}/${id}/${qty}`))];
+        return [...prev, ...Object.keys(variant).map((id) => encodeBase64(`bundle/${option}/${id}/${qty}`))];
     }, [] as string[]);
 };
 
 /** @namespace Util/Product/Transform/getCustomizableOptions */
 export const getCustomizableOptions = (buyRequest: string): string[] => {
-    const { options = {} }: BuyRequest = JSON.parse(buyRequest);
+    const { options = {} } = JSON.parse(buyRequest);
 
     // handle null
     if (!options) {
@@ -88,23 +88,23 @@ export const getCustomizableOptions = (buyRequest: string): string[] => {
 
     return Object.entries(options).reduce((prev, [option, variant]) => {
         if (typeof variant === 'string') {
-            return [...prev, btoa(`custom-option/${option}/${variant}`)];
+            return [...prev, encodeBase64(`custom-option/${option}/${variant}`)];
         }
 
         if (Array.isArray(variant)) {
-            return [...prev, ...variant.map((id) => btoa(`custom-option/${option}/${id}`))];
+            return [...prev, ...variant.map((id) => encodeBase64(`custom-option/${option}/${id}`))];
         }
 
         if (typeof variant === 'object' && (variant.date_internal || variant.date)) {
             const { date_internal, date } = variant;
-            return [...prev, btoa(`custom-option/${option}/${date_internal || date}`)];
+            return [...prev, encodeBase64(`custom-option/${option}/${date_internal || date}`)];
         }
 
         // Handle case when we need to pass previously uploaded file as selected option
         // Normally files are passed via entered_options, but when customer adds product with attachment from wishlist,
         // we need to reference data of the already uploaded file
         if (typeof variant === 'object' && variant.type === 'application/octet-stream') {
-            return [...prev, btoa(`custom-option/${option}/file-${btoa(JSON.stringify(variant))}`)];
+            return [...prev, encodeBase64(`custom-option/${option}/file-${encodeBase64(JSON.stringify(variant))}`)];
         }
 
         return prev;
@@ -114,24 +114,24 @@ export const getCustomizableOptions = (buyRequest: string): string[] => {
 
 /** @namespace Util/Product/Transform/getDownloadableOptions */
 export const getDownloadableOptions = (buyRequest: string): string[] => {
-    const { links }: BuyRequest = JSON.parse(buyRequest);
+    const { links } = JSON.parse(buyRequest);
 
     if (!links) {
         return [];
     }
 
-    return links.map((link) => btoa(`downloadable/${link}`));
+    return links.map((link) => encodeBase64(`downloadable/${link}`));
 };
 
 /** @namespace Util/Product/Transform/getConfigurableOptions */
 export const getConfigurableOptions = (buyRequest: string): string[] => {
-    const { super_attribute }: BuyRequest = JSON.parse(buyRequest);
+    const { super_attribute } = JSON.parse(buyRequest);
 
     if (!super_attribute) {
         return [];
     }
 
-    return Object.entries(super_attribute).map(([attr, value]) => btoa(`configurable/${attr}/${value}`));
+    return Object.entries(super_attribute).map(([attr, value]) => encodeBase64(`configurable/${attr}/${value}`));
 };
 
 /** @namespace Util/Product/Transform/getSelectedOptions */
@@ -150,7 +150,7 @@ export const transformParameters = (
     .map(([attrCode, selectedValue]) => {
         const attrId = attributes[attrCode]?.attribute_id;
 
-        return btoa(`configurable/${attrId}/${selectedValue}`);
+        return encodeBase64(`configurable/${attrId}/${selectedValue}`);
     });
 
 // TODO move
@@ -190,17 +190,6 @@ export const bundleOptionToLabel = (option: ItemOption, currencyCode = 'USD'): P
         baseLabel: !canChangeQuantity && quantity >= 0 ? `${ quantity } x ${ renderLabel } ` : `${ renderLabel } `,
         priceLabel: `${ priceLabel } ${ percentLabel }`
     };
-};
-
-export type OptionTransformResult = {
-    id: string;
-    name: string;
-    value: string;
-    label?: string;
-    subLabel: string;
-    sort_order: number;
-    isAvailable?: boolean;
-    isDefault?: boolean;
 };
 
 /**
@@ -349,7 +338,7 @@ export const magentoProductTransform = (
 
         items.forEach(({ product: { id } }) => {
             const { [id]: groupedQuantity = 0 } = quantity as Record<string, number>;
-            groupedProducts.push(btoa(`grouped/${id}/${groupedQuantity}`));
+            groupedProducts.push(encodeBase64(`grouped/${id}/${groupedQuantity}`));
         });
 
         productData.push({
@@ -381,7 +370,7 @@ export const magentoProductTransform = (
  * @namespace Util/Product/Transform/nonRequiredRadioOptions
  */
 export const nonRequiredRadioOptions = (
-    options: ItemOption[],
+    options,
     isRequired = false,
     type: string = FieldType.RADIO
 ) => {

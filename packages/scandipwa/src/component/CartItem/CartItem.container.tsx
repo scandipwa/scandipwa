@@ -16,6 +16,7 @@ import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
+import { encodeBase64 } from 'Util/Base64';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import { makeCancelable } from 'Util/Promise';
 import { CancelablePromise } from 'Util/Promise/Promise.type';
@@ -161,7 +162,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             }
 
             this.hideLoaderAfterPromise(changeItemQty({
-                uid: btoa(item_id),
+                uid: encodeBase64(item_id),
                 quantity,
                 cartId
             }));

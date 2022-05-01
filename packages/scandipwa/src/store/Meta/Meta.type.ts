@@ -11,6 +11,9 @@
 
 import { AnyAction } from 'redux';
 
+import { CategoryTree } from 'Query/Category.type';
+import { Merge } from 'Type/Common.type';
+
 export enum MetaActionType {
     UPDATE_META = 'UPDATE_META'
 }
@@ -41,3 +44,7 @@ declare module 'Util/Store/Store.type' {
         MetaReducer: MetaStore;
     }
 }
+
+export type Category = Merge<Partial<CategoryTree>, {
+    meta_robots: string;
+}>;

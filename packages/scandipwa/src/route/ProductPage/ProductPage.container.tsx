@@ -84,7 +84,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/ProductPage/Container */
-export class ProductPageContainer extends PureComponent {
+export class ProductPageContainer extends PureComponent<ProductContainerProps, ProductContainerState> {
     static propTypes = {
         location: LocationType,
         changeHeaderState: PropTypes.func.isRequired,
@@ -113,7 +113,7 @@ export class ProductPageContainer extends PureComponent {
         metaTitle: undefined
     };
 
-    state = {
+    state: ProductContainerState = {
         parameters: {},
         currentProductSKU: '',
         activeProduct: null
@@ -126,7 +126,11 @@ export class ProductPageContainer extends PureComponent {
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
 
-    setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
+    __construct(props: ProductContainerProps): void {
+        super.__construct?.(props);
+
+        this.setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
+    }
 
     static getDerivedStateFromProps(props, state) {
         const {
@@ -325,7 +329,7 @@ export class ProductPageContainer extends PureComponent {
         addRecentlyViewedProduct(productPreview, store);
     }
 
-    setOfflineNoticeSize() {
+    setOfflineNoticeSize(): void {
         const { setBigOfflineNotice, productSKU } = this.props;
         const { sku } = this.getDataSource();
 

@@ -10,14 +10,18 @@
  */
 
 import { ElementType } from 'react';
-import { Reducer, ReducersMapObject } from 'redux';
+import { Reducer } from 'redux';
 
 import injectReducers from 'Util/DynamicReducer/Helper';
 import { getStore } from 'Util/Store';
 
+import { Props, WithReducersResult } from './DynamicReducer.type';
+
 /** @namespace Util/DynamicReducer/Index/withReducers */
-export const withReducers = (reducers: ReducersMapObject) => (WrappedComponent: ElementType) => {
-    const injectAndExecute = (props) => {
+export const withReducers = (reducers: Record<string, Reducer>) => (
+    WrappedComponent: ElementType
+): WithReducersResult => {
+    const injectAndExecute = (props: Props) => {
         injectReducers(getStore(), reducers);
 
         // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction

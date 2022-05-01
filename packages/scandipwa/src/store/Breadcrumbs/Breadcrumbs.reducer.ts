@@ -32,7 +32,7 @@ BreadcrumbsAction
 ) => {
     switch (action.type) {
     case BreadcrumbsActionType.UPDATE_BREADCRUMBS:
-        const { breadcrumbs } = action;
+        const { breadcrumbs = [] } = action;
 
         return {
             ...state,
@@ -40,7 +40,7 @@ BreadcrumbsAction
         };
 
     case BreadcrumbsActionType.TOGGLE_BREADCRUMBS:
-        const { areBreadcrumbsVisible } = action;
+        const { areBreadcrumbsVisible = false } = action;
 
         return {
             ...state,

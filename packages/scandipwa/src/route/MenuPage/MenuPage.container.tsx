@@ -21,14 +21,17 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
 import { HistoryType } from 'Type/Router.type';
+import { RootState } from 'Util/Store/Store.type';
+
+import { MenuPageContainerMapDispatchProps, MenuPageContainerMapStateProps } from './MenuPage.type';
 
 /** @namespace Route/MenuPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MenuPageContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Route/MenuPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MenuPageContainerMapDispatchProps => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state))
 });

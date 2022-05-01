@@ -108,7 +108,7 @@ export interface TotalsItem {
 }
 
 export interface QuoteData {
-    id: number;
+    id: string;
     subtotal: number;
     subtotal_incl_tax: number;
     items_qty: number;

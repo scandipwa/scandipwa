@@ -112,11 +112,11 @@ export const appendWithStoreCode = (pathname: string): string => {
  * @return {String|false} Variable value
  * @namespace Util/Url/getQueryParam
  */
-export const getQueryParam = (variable: string, location: Location): boolean | string => {
+export const getQueryParam = (variable: string, location: Location): string | false => {
     const query = decodeString(location.search.substring(1));
     const vars = query.split('&');
 
-    return vars.reduce((acc: boolean | string, item: string) => {
+    return vars.reduce((acc: string | false, item: string) => {
         const splitIdx = item.indexOf('=');
         const [k, v] = [item.slice(0, splitIdx), item.slice(splitIdx + 1)];
 

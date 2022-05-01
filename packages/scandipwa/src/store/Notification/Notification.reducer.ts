@@ -14,7 +14,8 @@ import { Reducer } from 'redux';
 import {
     NotificationAction,
     NotificationActionType,
-    NotificationStore
+    NotificationStore,
+    NotificationType
 } from './Notification.type';
 
 /** @namespace Store/Notification/Reducer/getInitialState */
@@ -31,7 +32,7 @@ export const NotificationReducer: Reducer<NotificationStore, NotificationAction>
 
     switch (action.type) {
     case NotificationActionType.SHOW_NOTIFICATION:
-        const { msgType, msgText, msgDebug } = action;
+        const { msgType = NotificationType.INFO, msgText = '', msgDebug } = action;
         notifications[Date.now()] = { msgType, msgText, msgDebug };
 
         return {
@@ -39,14 +40,15 @@ export const NotificationReducer: Reducer<NotificationStore, NotificationAction>
             notifications
         };
 
-    case NotificationActionType.HIDE_NOTIFICATION:
-        const { [action.id]: id, ...shownNotifications } = notifications;
+    case NotificationActionType.HIDE_NOTIFICATION: {
+        const { id: actionId = '' } = action;
+        const { [actionId]: id, ...shownNotifications } = notifications;
 
         return {
             ...state,
             notifications: shownNotifications
         };
-
+    }
     default:
         return state;
     }

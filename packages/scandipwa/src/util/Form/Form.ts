@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ValidationDOMOutput } from 'Util/Validator';
+import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
 /**
  * Returns name: value pair object for form output.
@@ -17,7 +17,7 @@ import { ValidationDOMOutput } from 'Util/Validator';
  * @param validation ({})
  * @namespace Util/Form/scrollToError
  */
-export const scrollToError = (fields: any[] = [], validation: ValidationDOMOutput | any = {}): void => {
+export const scrollToError = (fields = [], validation: ValidationDOMOutput = {}): void => {
     if (!validation || !Array.isArray(fields) || fields.length === 0) {
         return;
     }

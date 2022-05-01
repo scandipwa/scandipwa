@@ -22,9 +22,7 @@ import SharedTransitionContainer from 'Component/SharedTransition/SharedTransiti
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { FilterType } from 'Type/Category.type';
-import { ChildrenType, MixType } from 'Type/Common.type';
-import { LayoutType } from 'Type/Layout.type';
+import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { getSmallImage } from 'Util/Product/Extract';
 import { appendWithStoreCode, objectToUri } from 'Util/Url';

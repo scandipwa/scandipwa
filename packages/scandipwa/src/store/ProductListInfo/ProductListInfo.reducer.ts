@@ -76,7 +76,8 @@ export const getInitialState = (): ProductListInfoStore => ({
     maxPrice: 0,
     sortFields: {},
     filters: {},
-    isLoading: true
+    isLoading: true,
+    selectedFilter: {}
 });
 
 /** @namespace Store/ProductListInfo/Reducer/ProductListReducer */

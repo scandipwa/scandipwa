@@ -11,9 +11,11 @@
 
 import { AnyAction } from 'redux';
 
-import { QuoteData } from 'Query/Cart.type';
+import { CartProductItem, QuoteData, TotalsItem } from 'Query/Cart.type';
 import { TotalsObject } from 'Query/Checkout.type';
 import { ProductItem } from 'Query/ProductList.type';
+import { Merge } from 'Type/Common.type';
+import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum CartActionType {
     ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART',
@@ -69,7 +71,7 @@ export type CartAction = AddProductToCartAction
 
 export type CartStore = {
     isLoading: boolean;
-    cartTotals: Record<string, unknown>;
+    cartTotals: CartTotals;
 };
 
 declare module 'Util/Store/Store.type' {
@@ -77,3 +79,12 @@ declare module 'Util/Store/Store.type' {
         CartReducer: CartStore;
     }
 }
+
+export type CartTotals = Merge<
+Partial<QuoteData>,
+{
+    items?: Merge<TotalsItem, {
+        product: IndexedProduct<CartProductItem>;
+    }>[];
+}
+>;

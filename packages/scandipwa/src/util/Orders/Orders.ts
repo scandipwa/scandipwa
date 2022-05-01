@@ -11,6 +11,7 @@
  */
 
 import { OrderItem } from 'Query/Order.type';
+import { decodeBase64 } from 'Util/Base64';
 
 /** @namespace Util/Orders/getFormattedDate */
 export const getFormattedDate = (rawDate = ''): string => {
@@ -34,7 +35,7 @@ export const formatOrders = (orders: OrderItem[]): OrderItem[] => orders.reduceR
         ...acc,
         {
             ...order,
-            id: atob(uid),
+            id: decodeBase64(uid),
             created_at: formattedDate
         }
     ];

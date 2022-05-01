@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createBrowserHistory, History } from 'history';
+import { createBrowserHistory } from 'history';
 
-import { HistoryLocationState } from './History.type';
+import { HistoryState } from './History.type';
 
-export const history: History<HistoryLocationState> = createBrowserHistory({ basename: '/' });
+export const history = createBrowserHistory<HistoryState>({ basename: '/' });
 export default history;

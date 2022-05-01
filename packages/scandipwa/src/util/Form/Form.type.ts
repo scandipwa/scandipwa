@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { FieldDateType } from 'Component/FieldDate/FieldDate.config';
+
 export type YearRangeAttribute = {
     minYear: number;
     maxYear: number;
@@ -26,7 +28,7 @@ export type DateMap = {
 };
 
 export type DatesData = {
-    type?: string;
+    type: FieldDateType;
     year?: string;
     month?: string;
     day?: string;
@@ -38,13 +40,19 @@ export type DatesData = {
 
 export type DateObject = {
     name: string;
+    type: FieldDateType;
     value: string;
-    type: string;
 };
 
 export type FieldData = {
     field: HTMLElement;
     name: string;
     type: string;
-    value?: string | number | boolean | Date;
+    value: FieldValue;
 };
+
+export type GetFieldsData<AsObject extends boolean = false> = AsObject extends true
+    ? Record<string, DateObject | FieldData>
+    : Array<DateObject | FieldData>;
+
+export type FieldValue = string | number | boolean | Date;

@@ -9,19 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from '@tilework/opus';
-import { RefObject } from 'react';
-
-import { FIELD_NAME_ATTR, FieldType_ATTR, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
+import { DateFieldAttr, HourFormat } from 'Component/DateSelect/DateSelect.config';
 import { FieldType } from 'Component/Field/Field.config';
-import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
-import { field } from 'Component/Form/Form.type';
+import {
+    DATE_FIELDS_COUNT,
+    FieldDateType,
+    TimeFormat
+} from 'Component/FieldDate/FieldDate.config';
 
 import {
     DateMap,
+    DateObject,
     DateRangeAttribute,
     DatesData,
     FieldData,
+    GetFieldsData,
     YearRangeAttribute
 } from './Form.type';
 
@@ -39,13 +41,13 @@ export const zeroBasedValue = <T>(value: T, lessThan = 10): string | T => (
 
 /** @namespace Util/Form/Extract/adjustHours */
 export const adjustHours = (hours: number, timeFormat: string): number => {
-    if (timeFormat === TIME_FORMAT.H12) {
-        if (hours > HOURS_12H_COUNT) {
-            return hours % HOURS_12H_COUNT;
+    if (timeFormat === TimeFormat.H12) {
+        if (hours > HourFormat.H12) {
+            return hours % HourFormat.H12;
         }
 
         if (hours === 0) {
-            return HOURS_12H_COUNT;
+            return HourFormat.H12;
         }
     }
 
@@ -114,7 +116,7 @@ export const isMagentoDateFormatValid = (dateFieldsOrder: string): boolean => ne
     .test(dateFieldsOrder);
 
 /** @namespace Util/Form/Extract/getTimeFormat */
-export const getTimeFormat = (timeFormat: string): string => (timeFormat === TIME_FORMAT.H12 ? 'h:mm aa' : 'HH:mm');
+export const getTimeFormat = (timeFormat: string): string => (timeFormat === TimeFormat.H12 ? 'h:mm aa' : 'HH:mm');
 
 /** @namespace Util/Form/Extract/getDateFormat */
 export const getDateFormat = (dateFieldsOrder: string): string => {
@@ -122,22 +124,25 @@ export const getDateFormat = (dateFieldsOrder: string): string => {
         return 'dd/MM/yyyy';
     }
 
-    const dateMap = {
+    const dateMap: DateMap = {
         d: 'dd',
         m: 'MM',
         y: 'yyyy'
-    } as DateMap;
+    };
 
-    return dateFieldsOrder.split(',').map((field) => dateMap[field as keyof DateMap]).join('/');
+    return dateFieldsOrder
+        .split(',')
+        .map((field) => dateMap[<keyof DateMap>field])
+        .join('/');
 };
 
 /** @namespace Util/Form/Extract/getDateTimeFormat */
 export const getDateTimeFormat = (type: string, dateFieldsOrder: string, timeFormat: string): string => {
-    const timePart = type === FIELD_DATE_TYPE.time || type === FIELD_DATE_TYPE.dateTime
+    const timePart = type === FieldDateType.TIME || type === FieldDateType.DATETIME
         ? getTimeFormat(timeFormat)
         : '';
 
-    const datePart = type === FIELD_DATE_TYPE.date || type === FIELD_DATE_TYPE.dateTime
+    const datePart = type === FieldDateType.DATE || type === FieldDateType.DATETIME
         ? getDateFormat(dateFieldsOrder)
         : '';
 
@@ -147,11 +152,11 @@ export const getDateTimeFormat = (type: string, dateFieldsOrder: string, timeFor
 /** @namespace Util/Form/Extract/adjustAmpmHours */
 export const adjustAmpmHours = (hours: number, ampm?: string): number => {
     if (ampm === 'PM') {
-        return (hours % HOURS_12H_COUNT) + HOURS_12H_COUNT;
+        return (hours % HourFormat.H12) + HourFormat.H12;
     }
 
     if (ampm === 'AM') {
-        return hours % HOURS_12H_COUNT;
+        return hours % HourFormat.H12;
     }
 
     return hours;
@@ -160,7 +165,10 @@ export const adjustAmpmHours = (hours: number, ampm?: string): number => {
 /** @namespace Util/Form/Extract/transformDateFieldsData */
 export const transformDateFieldsData = (
     datesData: Record<string, DatesData>
-): Array<string | DatesData> => Object.entries(datesData).reduce((prev, [name, data]) => {
+): DateObject[] => Object.entries(datesData).reduce((
+    prev: DateObject[],
+    [name, data]
+) => {
     const {
         type,
         year,
@@ -173,7 +181,7 @@ export const transformDateFieldsData = (
 
     const hoursAdjusted = adjustAmpmHours(Number(hours), ampm);
 
-    if (type === FIELD_DATE_TYPE.date && year && month && day) {
+    if (type === FieldDateType.DATE && year && month && day) {
         return [...prev, {
             name,
             type,
@@ -181,7 +189,7 @@ export const transformDateFieldsData = (
         }];
     }
 
-    if (type === FIELD_DATE_TYPE.dateTime && year && month && day && hours && minutes) {
+    if (type === FieldDateType.DATETIME && year && month && day && hours && minutes) {
         return [...prev, {
             name,
             type,
@@ -189,7 +197,7 @@ export const transformDateFieldsData = (
         }];
     }
 
-    if (type === FIELD_DATE_TYPE.time && hours && minutes) {
+    if (type === FieldDateType.TIME && hours && minutes) {
         return [...prev, {
             name,
             type,
@@ -198,32 +206,32 @@ export const transformDateFieldsData = (
     }
 
     return prev;
-}, [] as Array<string | DatesData>);
+}, []);
 
 /** @namespace Util/Form/Extract/groupDateFieldsData */
 export const groupDateFieldsData = (
-    fields: NodeListOf<Element>
+    fields: NodeListOf<HTMLSelectElement | HTMLInputElement>
 ): Record<string, DatesData> => Array.from(fields)
-    .reduce((prev, field) => {
-        const dataType = field.getAttribute(FieldType_ATTR) || '';
+    .reduce((prev: Record<string, DatesData>, field) => {
+        const dataType = field.getAttribute(DateFieldAttr.TYPE) || '';
 
-        if (!Object.values(FIELD_DATE_TYPE).includes(dataType)) {
+        if (!Object.values<string>(FieldDateType).includes(dataType)) {
             return prev;
         }
 
-        const { name, value } = field as HTMLSelectElement;
-        const fieldName = field.getAttribute(FIELD_NAME_ATTR);
-        const { [name as keyof DatesData]: prevData } = prev;
+        const { name, value } = field;
+        const fieldName = field.getAttribute(DateFieldAttr.NAME) || '';
+        const { [name]: prevData } = prev;
 
         return {
             ...prev,
             [name]: {
                 ...prevData,
-                type: dataType,
-                [fieldName as keyof DatesData]: value
+                type: <FieldDateType>dataType,
+                [fieldName]: value
             }
         };
-    }, {} as Record<string, DatesData>);
+    }, {});
 
 /**
  * Returns fields values from DOM/Form
@@ -234,42 +242,36 @@ export const groupDateFieldsData = (
  * @returns {{}|*[]}
  * @namespace Util/Form/Extract/getFieldsData
  */
-export const getFieldsData = (
-    DOM: RefObject<HTMLElement>,
+export const getFieldsData = <AsObject extends boolean = false>(
+    DOM: Document | HTMLElement,
     excludeEmpty = false,
     ignoreTypes: string[] = [],
-    asObject = false
-): field[] | null => {
-    const fields: NodeListOf<
-    HTMLInputElement
-    | HTMLTextAreaElement
-    | HTMLSelectElement
-    > | undefined = DOM.current?.querySelectorAll('input, textarea, select');
-    const output: Array<FieldData | DatesData | string> = [];
-
-    if (!fields) {
-        return null;
-    }
+    asObject?: AsObject
+): GetFieldsData<AsObject> => {
+    const fields: NodeListOf<HTMLSelectElement | HTMLInputElement> = DOM.querySelectorAll('input, textarea, select');
+    const output: Array<DateObject | FieldData> = [];
 
     const dateFieldsGrouped = groupDateFieldsData(fields);
     output.push(...transformDateFieldsData(dateFieldsGrouped));
 
     fields.forEach((field) => {
-        if (Object.values(FIELD_DATE_TYPE).includes(field.getAttribute(FieldType_ATTR) || '')) {
+        if (Object.values<string>(FieldDateType).includes(field.getAttribute(DateFieldAttr.TYPE) || '')) {
             return;
         }
 
         const { tagName } = field;
         const tag = tagName.toLowerCase();
         const type = tag === FieldType.TEXTAREA || tag === FieldType.SELECT || tag === FieldType.BUTTON
-            ? tag : field.type;
+            ? tag
+            : field.type;
 
         if (ignoreTypes.some((ignoreType) => ignoreType === type)) {
             return;
         }
 
         // eslint-disable-next-line no-nested-ternary
-        const value = field instanceof HTMLInputElement && (type === FieldType.CHECKBOX || type === FieldType.RADIO)
+        const value = field instanceof HTMLInputElement
+            && (type === FieldType.CHECKBOX || type === FieldType.RADIO)
             // eslint-disable-next-line no-nested-ternary
             ? (field.checked ? field.value === 'on' ? true : field.value : false)
             : field instanceof HTMLInputElement && type === FieldType.FILE
@@ -277,7 +279,7 @@ export const getFieldsData = (
                 : field.value;
 
         const dateValue = field.getAttribute('data-date');
-        const formattedValue = dateValue ? getDateValue(dateValue) : value;
+        const formattedValue = dateValue ? getDateValue(dateValue) : value || '';
 
         if (!excludeEmpty || value) {
             output.push({
@@ -290,16 +292,17 @@ export const getFieldsData = (
     });
 
     if (asObject) {
-        const objectOutput: Record<string, FieldData> = {};
+        const objectOutput: Record<string, DateObject | FieldData> = {};
+
         output.forEach((field) => {
-            const { name } = field as FieldData;
+            const { name } = field;
             objectOutput[name] = field;
         });
 
-        return objectOutput;
+        return <GetFieldsData<AsObject>>objectOutput;
     }
 
-    return output;
+    return <GetFieldsData<AsObject>>output;
 };
 
 export default getFieldsData;
