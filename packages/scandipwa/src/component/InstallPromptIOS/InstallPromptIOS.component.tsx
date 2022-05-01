@@ -13,14 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
+import { InstallPromptIOSComponentProps } from './InstallPromptIOS.type';
+
 import './InstallPromptIOS.style';
 
 /** @namespace Component/InstallPromptIOS/Component */
-export class InstallPromptIOS extends PureComponent {
-    static propTypes = {
-        handleBannerClose: PropTypes.func.isRequired
-    };
-
+export class InstallPromptIOS extends PureComponent<InstallPromptIOSComponentProps> {
     renderCloseButton(): ReactElement {
         const { handleBannerClose } = this.props;
 

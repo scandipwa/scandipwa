@@ -14,15 +14,12 @@ import { PureComponent } from 'react';
 import CloseIcon from 'Component/CloseIcon';
 import { ReactElement } from 'Type/Common.type';
 
+import { InstallPromptAndroidComponentProps } from './InstallPromptAndroid.type';
+
 import './InstallPromptAndroid.style';
 
 /** @namespace Component/InstallPromptAndroid/Component */
-export class InstallPromptAndroid extends PureComponent {
-    static propTypes = {
-        handleBannerClose: PropTypes.func.isRequired,
-        handleAppInstall: PropTypes.func.isRequired
-    };
-
+export class InstallPromptAndroid extends PureComponent<InstallPromptAndroidComponentProps> {
     renderCloseButton(): ReactElement {
         const { handleBannerClose } = this.props;
 

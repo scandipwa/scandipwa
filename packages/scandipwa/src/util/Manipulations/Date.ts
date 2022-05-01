@@ -14,7 +14,7 @@ import { getDateValue } from 'Util/Form/Extract';
 export const MILLISECONDS_PER_MINUTE = 60000;
 
 /** @namespace Util/Manipulations/Date/convertStringToDate */
-export const convertStringToDate = (stringDate: string, options: Intl.DateTimeFormatOptions): string => {
+export const convertStringToDate = (stringDate: string, options?: Intl.DateTimeFormatOptions): string => {
     const defaultOptions = {
         year: 'numeric',
         month: 'long',

@@ -28,6 +28,20 @@ declare global {
         storeList: Array<string>;
         dataCache?: Record<number, unknown>;
         contentConfiguration?: ContentConfiguration;
+        prompt_event?: BeforeInstallPromptEvent;
+    }
+
+    interface BeforeInstallPromptEvent extends Event {
+
+        readonly platforms: Array<string>;
+
+        readonly userChoice: Promise<{
+            outcome: 'accepted' | 'dismissed';
+            platform: string;
+        }>;
+
+        prompt(): Promise<void>;
+
     }
 
     function __(message: string, ...args: unknown[]): string;

@@ -32,8 +32,8 @@ export type DatesData = {
     day?: string;
     hours?: string;
     minutes?: string;
-    ampm: string;
-    name?: string;
+    ampm?: string;
+    name: string;
 };
 
 export type DateObject = {
@@ -46,5 +46,5 @@ export type FieldData = {
     field: HTMLElement;
     name: string;
     type: string;
-    value: string | boolean | number;
+    value?: string | number | boolean | Date;
 };

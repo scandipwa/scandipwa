@@ -10,38 +10,41 @@
  */
 
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { CustomerType } from 'Type/Account.type';
+import { CustomerAddress } from 'Query/MyAccount.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountDashboard from './MyAccountDashboard.component';
+import {
+    MyAccountDashboardComponentProps,
+    MyAccountDashboardContainerMapDispatchProps,
+    MyAccountDashboardContainerMapStateProps,
+    MyAccountDashboardContainerProps
+} from './MyAccountDashboard.type';
 
 /** @namespace Component/MyAccountDashboard/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountDashboardContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer
 });
 
 /** @namespace Component/MyAccountDashboard/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): MyAccountDashboardContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountDashboard/Container */
-export class MyAccountDashboardContainer extends PureComponent {
-    static propTypes = {
-        customer: CustomerType.isRequired
-    };
-
+export class MyAccountDashboardContainer extends PureComponent<MyAccountDashboardContainerProps> {
     containerFunctions = {
         getDefaultAddress: this.getDefaultAddress.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<MyAccountDashboardComponentProps, 'customer'> {
         const { customer } = this.props;
 
         return { customer };
     }
 
-    getDefaultAddress(isBilling) {
+    getDefaultAddress(isBilling: boolean): CustomerAddress | undefined {
         const { customer: { addresses = [] } } = this.props;
         const key = isBilling ? 'default_billing' : 'default_shipping';
 
@@ -51,8 +54,8 @@ export class MyAccountDashboardContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountDashboard
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

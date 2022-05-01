@@ -16,46 +16,34 @@ import Loader from 'Component/Loader';
 import MyAccountOrderInformation from 'Component/MyAccountOrderInformation';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
+import { СreditMemo } from 'Query/Order.type';
 import { ReactElement } from 'Type/Common.type';
-import { OrderType } from 'Type/Order.type';
 import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 
 import {
-    ORDER_INVOICES,
-    ORDER_ITEMS,
-    ORDER_REFUNDS,
-    ORDER_SHIPMENTS
+    OrderTabs
 } from './MyAccountOrder.config';
+import { MyAccountOrderComponentProps, OrderRenderItems } from './MyAccountOrder.type';
 
 import './MyAccountOrder.style';
 
 /** @namespace Component/MyAccountOrder/Component */
-export class MyAccountOrder extends PureComponent {
-    static propTypes = {
-        order: OrderType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        handleReorder: PropTypes.func.isRequired,
-        is_allowed_reorder: PropTypes.bool.isRequired,
-        rss_order_subscribe_allow: PropTypes.bool.isRequired,
-        handleChangeActiveTab: PropTypes.func.isRequired,
-        activeTab: PropTypes.string.isRequired,
-        isMobile: PropTypes.bool.isRequired
-    };
-
+export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> {
     renderMap = {
-        renderOrderItemsTable: this.renderOrderItemsTable.bind(this)
+        renderOrderItemsTable: this.renderOrderItemsTable.bind(this),
+        renderOrderCreditMemoTable: this.renderOrderCreditMemoTable.bind(this)
     };
 
     tabMap = {
-        [ORDER_ITEMS]: {
-            tabName: ORDER_ITEMS,
+        [OrderTabs.ORDER_ITEMS]: {
+            tabName: OrderTabs.ORDER_ITEMS,
             title: __('Items Ordered'),
-            shouldTabRender: () => {
+            shouldTabRender: (): boolean => {
                 const { order } = this.props;
 
-                return order;
+                return !!order;
             },
-            render: () => {
+            render: (): ReactElement => {
                 const { order: { items = [], increment_id } } = this.props;
                 const renderArray = [{ items, number: increment_id }];
                 const { renderOrderItemsTable } = this.renderMap;
@@ -63,60 +51,74 @@ export class MyAccountOrder extends PureComponent {
                 return renderArray.map(renderOrderItemsTable);
             }
         },
-        [ORDER_INVOICES]: {
-            tabName: ORDER_INVOICES,
+        [OrderTabs.ORDER_INVOICES]: {
+            tabName: OrderTabs.ORDER_INVOICES,
             title: __('Invoices'),
-            shouldTabRender: () => {
+            shouldTabRender: (): boolean => {
                 const { order: { invoices = [] } } = this.props;
 
-                return invoices.length;
+                return !!invoices.length;
             },
-            render: () => {
+            render: (): ReactElement => {
                 const { order: { invoices = [] } } = this.props;
                 const { renderOrderItemsTable } = this.renderMap;
 
                 return invoices.map(renderOrderItemsTable);
             }
         },
-        [ORDER_SHIPMENTS]: {
-            tabName: ORDER_SHIPMENTS,
+        [OrderTabs.ORDER_SHIPMENTS]: {
+            tabName: OrderTabs.ORDER_SHIPMENTS,
             title: __('Order Shipments'),
-            shouldTabRender: () => {
+            shouldTabRender: (): boolean => {
                 const { order: { shipments = [] } } = this.props;
 
-                return shipments.length;
+                return !!shipments.length;
             },
-            render: () => {
+            render: (): ReactElement => {
                 const { order: { shipments = [] } } = this.props;
                 const { renderOrderItemsTable } = this.renderMap;
 
                 return shipments.map(renderOrderItemsTable);
             }
         },
-        [ORDER_REFUNDS]: {
-            tabName: ORDER_REFUNDS,
+        [OrderTabs.ORDER_REFUNDS]: {
+            tabName: OrderTabs.ORDER_REFUNDS,
             title: __('Refunds'),
-            shouldTabRender: () => {
+            shouldTabRender: (): boolean => {
                 const { order: { credit_memos = [] } } = this.props;
 
-                return credit_memos.length;
+                return !!credit_memos.length;
             },
-            render: () => {
+            render: (): ReactElement => {
                 const { order: { credit_memos = [] } } = this.props;
-                const { renderOrderItemsTable } = this.renderMap;
+                const { renderOrderCreditMemoTable } = this.renderMap;
 
-                return credit_memos.map(renderOrderItemsTable);
+                return credit_memos.map(renderOrderCreditMemoTable);
             }
         }
     };
 
-    shouldTabsrender(): ReactElement {
+    shouldTabsRender(): ReactElement {
         return Object.values(this.tabMap).filter(({ shouldTabRender }) => shouldTabRender());
     }
 
-    renderOrderItemsTable(items, index): ReactElement {
+    renderOrderCreditMemoTable(items: CreditMemo, index: number): ReactElement {
+        const { activeTab, order: { items: creditMemoItems, id } } = this.props;
+        const { total } = items;
+
+        return (
+            <MyAccountOrderItemsTable
+              key={ `${activeTab}-${id}-${index}` }
+              activeTab={ activeTab }
+              items={ items }
+              allOrderItems={ creditMemoItems }
+              total={ total }
+            />
+        );
+    }
+
+    renderOrderItemsTable(items: OrderRenderItems, index: number): ReactElement {
         const { activeTab, order: { total: orderTotal, items: allOrderItems, id } } = this.props;
-        const { total: itemsTotal } = items;
 
         return (
             <MyAccountOrderItemsTable
@@ -124,7 +126,7 @@ export class MyAccountOrder extends PureComponent {
               activeTab={ activeTab }
               items={ items }
               allOrderItems={ allOrderItems }
-              total={ itemsTotal || orderTotal }
+              total={ orderTotal }
             />
         );
     }
@@ -182,7 +184,7 @@ export class MyAccountOrder extends PureComponent {
     renderOrderComments(): ReactElement {
         const { activeTab, order: { comments = [] } } = this.props;
 
-        if (activeTab !== ORDER_ITEMS || !comments || !comments.length) {
+        if (activeTab !== OrderTabs.ORDER_ITEMS || !comments || !comments.length) {
             return null;
         }
 
@@ -250,7 +252,7 @@ export class MyAccountOrder extends PureComponent {
     renderOrderInformation(): ReactElement {
         const { order, activeTab } = this.props;
 
-        if (activeTab === ORDER_REFUNDS) {
+        if (activeTab === OrderTabs.ORDER_REFUNDS) {
             return null;
         }
 

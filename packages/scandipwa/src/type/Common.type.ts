@@ -25,8 +25,6 @@ export type ReactElement = ReactNode | ReactNode[];
 
 export type Children = ReactElement;
 
-export type Ref = <T extends HTMLElement>() => void | { current: T };
-
 // TODO unknown
 export type MetaTitle = string | unknown;
 
@@ -36,3 +34,7 @@ export type Url<T = unknown> = string | {
 };
 
 export type NetworkError = { message: string };
+
+export type ObjectEntries<T> = {
+    [K in keyof T]: [K, T[K]];
+}[keyof T];

@@ -14,31 +14,36 @@ import { PureComponent } from 'react';
 import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
+import {
+    Invoice, InvoiceItem, OrderItem, OrderItemProduct, OrderShipment, RefundItem,
+    ShipmentItemInterface
+} from 'Query/Order.type';
 import { ReactElement } from 'Type/Common.type';
 import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
 import { getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { getProductFromOrder } from 'Util/Orders';
 
+import { MyAccountOrderItemsTableComponentProps } from './MyAccountOrderItemsTable.type';
+
 import './MyAccountOrderItemsTable.style';
 
 /** @namespace Component/MyAccountOrderItemsTable/Component */
-export class MyAccountOrderItemsTable extends PureComponent {
-    static propTypes = {
-        activeTab: PropTypes.string.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        items: OrderTabType.isRequired,
-        total: OrderTotalType.isRequired,
-        allOrderItems: OrderProductsType.isRequired
-    };
-
+export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsTableComponentProps> {
     renderItems(): ReactElement {
-        const { items: { items: products = [] } } = this.props;
+        const { items: { items: products } } = this.props;
+
+        if (!products.length) {
+            return null;
+        }
 
         return products.map(this.renderItemRow.bind(this));
     }
 
-    renderItemRow(product, i): ReactElement {
-        const { activeTab, allOrderItems, items: { comments = [] } } = this.props;
+    renderItemRow(
+        product,
+        i: number
+    ): ReactElement {
+        const { activeTab, allOrderItems, items } = this.props;
         const { product_sku } = product;
         const {
             entered_options = [],
@@ -52,7 +57,7 @@ export class MyAccountOrderItemsTable extends PureComponent {
               enteredOptions={ entered_options }
               key={ i }
               activeTab={ activeTab }
-              comments={ comments }
+              comments={ 'comments' in items ? items.comments : null }
             />
         );
     }
@@ -176,15 +181,24 @@ export class MyAccountOrderItemsTable extends PureComponent {
     }
 
     renderComments(): ReactElement {
-        const { items: { comments = [] }, activeTab } = this.props;
+        const { items, activeTab } = this.props;
 
-        if (activeTab === ORDER_ITEMS || !comments.length) {
+        if (
+            activeTab === ORDER_ITEMS
+            || !('comments' in items)
+        ) {
+            return null;
+        }
+
+        const { comments = [] } = items;
+
+        if (!comments.length) {
             return null;
         }
 
         const commentOrder = comments.sort(
             ({ timestamp: first }, { timestamp: second }) => (
-                new Date(second.replace(/-/g, '/')) - new Date(first.replace(/-/g, '/'))
+                new Date(second.replace(/-/g, '/')).getTime() - new Date(first.replace(/-/g, '/')).getTime()
             )
         );
 

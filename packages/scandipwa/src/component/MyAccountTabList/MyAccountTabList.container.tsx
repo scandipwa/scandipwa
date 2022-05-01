@@ -9,16 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { ActiveTabType, TabMapType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
 
 import MyAccountTabList from './MyAccountTabList.component';
+import {
+    MyAccountTabListComponentProps,
+    MyAccountTabListContainerDispatchProps,
+    MyAccountTabListContainerMapStateProps,
+    MyAccountTabListContainerProps,
+    MyAccountTabListContainerState
+} from './MyAccountTabList.type';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -26,25 +32,20 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountTabList/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (): MyAccountTabListContainerMapStateProps => ({});
 
 /** @namespace Component/MyAccountTabList/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountTabListContainerDispatchProps => ({
     logout: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.logout(false, true, dispatch)
     )
 });
 
 /** @namespace Component/MyAccountTabList/Container */
-export class MyAccountTabListContainer extends PureComponent {
-    static propTypes = {
-        onSignOut: PropTypes.func,
-        logout: PropTypes.func.isRequired,
-        tabMap: TabMapType.isRequired,
-        activeTab: ActiveTabType.isRequired,
-        changeActiveTab: PropTypes.func.isRequired
-    };
-
+export class MyAccountTabListContainer extends PureComponent<
+MyAccountTabListContainerProps,
+MyAccountTabListContainerState
+> {
     static defaultProps = {
         onSignOut: noopFn
     };
@@ -59,7 +60,7 @@ export class MyAccountTabListContainer extends PureComponent {
         toggleExpandableContent: this.toggleExpandableContent.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<MyAccountTabListComponentProps, 'tabMap' | 'activeTab' | 'isContentExpanded'> {
         const {
             tabMap,
             activeTab
@@ -73,14 +74,14 @@ export class MyAccountTabListContainer extends PureComponent {
         };
     }
 
-    handleLogout() {
+    handleLogout(): void {
         const { onSignOut, logout } = this.props;
 
         logout();
         onSignOut();
     }
 
-    onTabClick(key) {
+    onTabClick(key: string): void {
         const { changeActiveTab } = this.props;
 
         if (!isSignedIn()) {
@@ -91,15 +92,15 @@ export class MyAccountTabListContainer extends PureComponent {
         changeActiveTab(key);
     }
 
-    toggleExpandableContent() {
+    toggleExpandableContent(): void {
         this.setState(({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }));
     }
 
     render(): ReactElement {
         return (
             <MyAccountTabList
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

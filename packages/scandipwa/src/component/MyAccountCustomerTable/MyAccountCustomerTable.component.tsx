@@ -10,17 +10,14 @@
  */
 
 import KeyValueTable from 'Component/KeyValueTable';
-import { CustomerType } from 'Type/Account.type';
+import { DataPair } from 'Component/KeyValueTable/KeyValueTable.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { MyAccountCustomerTableComponentProps } from './yAccountCustomerTable.type';
 
 /** @namespace Component/MyAccountCustomerTable/Component */
-export class MyAccountCustomerTable extends KeyValueTable {
-    static propTypes = {
-        handleOnEditInformation: PropTypes.func.isRequired,
-        handleOnEditPassword: PropTypes.func.isRequired,
-        customer: CustomerType.isRequired
-    };
-
-    get dataPairArray() {
+export class MyAccountCustomerTable extends KeyValueTable<MyAccountCustomerTableComponentProps> {
+    get dataPairArray(): DataPair[] {
         const { customer } = this.props;
 
         return [

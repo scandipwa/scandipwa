@@ -10,39 +10,18 @@
  */
 
 import KeyValueTable from 'Component/KeyValueTable';
+import { DataPair } from 'Component/KeyValueTable/KeyValueTable.type';
 import Loader from 'Component/Loader';
-import { Addresstype } from 'Type/Account.type';
-import { MixType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 
 import { getAddressTablePairArray } from './MyAccountAddressTable.table';
+import { MyAccountAddressTableComponentProps } from './MyAccountAddressTable.type';
 
 import './MyAccountAddressTable.style';
 
 /** @namespace Component/MyAccountAddressTable/Component */
-export class MyAccountAddressTable extends KeyValueTable {
-    static propTypes = {
-        mix: MixType.isRequired,
-        address: Addresstype.isRequired,
-        showActions: PropTypes.bool.isRequired,
-        showAdditionalFields: PropTypes.bool.isRequired,
-        onEditClick: PropTypes.func.isRequired,
-        onDeleteClick: PropTypes.func.isRequired,
-        countries: PropTypes.arrayOf(
-            PropTypes.shape({
-                label: PropTypes.string,
-                id: PropTypes.string,
-                available_regions: PropTypes.arrayOf(
-                    PropTypes.shape({
-                        code: PropTypes.string,
-                        name: PropTypes.string,
-                        id: PropTypes.number
-                    })
-                )
-            })
-        ).isRequired
-    };
-
-    get dataPairArray() {
+export class MyAccountAddressTable extends KeyValueTable<MyAccountAddressTableComponentProps> {
+    get dataPairArray(): DataPair[] {
         return getAddressTablePairArray(this.props);
     }
 

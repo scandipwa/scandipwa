@@ -18,8 +18,8 @@ export class LogoContainer extends ImageContainer {
     render(): ReactElement {
         return (
             <Logo
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

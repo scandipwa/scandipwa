@@ -11,7 +11,7 @@
 
 import { AnyAction } from 'redux';
 
-import { ShowPopupAction } from 'Store/Popup/Popup.type';
+import { PopupPayload, ShowPopupAction } from 'Store/Popup/Popup.type';
 
 export enum OverlayActionType {
     TOGGLE_OVERLAY = 'TOGGLE_OVERLAY',
@@ -39,7 +39,7 @@ export type OverlayAction = ToggleOverlayByKeyAction
 | ShowPopupAction<string, unknown>;
 
 export type OverlayStore = {
-    activeOverlay: string;
+    activeOverlay: keyof PopupPayload;
     areOtherOverlaysOpen: boolean;
 };
 

@@ -14,21 +14,18 @@ import { PureComponent } from 'react';
 import RadioButton from 'Component/RadioButtonIcon';
 import { ReactElement } from 'Type/Common.type';
 
+import { DataPair, KeyValueTableComponentProps } from './KeyValueTable.type';
+
 import './KeyValueTable.style';
 
 /** @namespace Component/KeyValueTable/Component */
-export class KeyValueTable extends PureComponent {
-    static propTypes = {
-        title: PropTypes.string,
-        isSelected: PropTypes.bool
-    };
-
+export class KeyValueTable<T extends KeyValueTableComponentProps> extends PureComponent<T> {
     static defaultProps = {
         title: '',
         isSelected: false
     };
 
-    get dataPairArray() {
+    get dataPairArray(): DataPair[] {
         return [
             /**
              * {
@@ -40,13 +37,17 @@ export class KeyValueTable extends PureComponent {
         ];
     }
 
-    getValueFromSource({ key, source }) {
+    getValueFromSource({ key, source }: DataPair): string | number {
         const { [key]: value } = source;
+
+        if (!value) {
+            return '';
+        }
 
         return Array.isArray(value) ? value.join(', ') : value;
     }
 
-    renderTableRow(data): ReactElement {
+    renderTableRow(data: DataPair): ReactElement {
         const { key, label } = data;
         const value = this.getValueFromSource(data);
 

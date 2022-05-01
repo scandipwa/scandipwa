@@ -9,9 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Field } from '@tilework/opus';
+import { RefObject } from 'react';
+
 import { FIELD_NAME_ATTR, FieldType_ATTR, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
 import { FieldType } from 'Component/Field/Field.config';
 import { DATE_FIELDS_COUNT, FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
+import { field } from 'Component/Form/Form.type';
 
 import {
     DateMap,
@@ -141,7 +145,7 @@ export const getDateTimeFormat = (type: string, dateFieldsOrder: string, timeFor
 };
 
 /** @namespace Util/Form/Extract/adjustAmpmHours */
-export const adjustAmpmHours = (hours: number, ampm: string): number => {
+export const adjustAmpmHours = (hours: number, ampm?: string): number => {
     if (ampm === 'PM') {
         return (hours % HOURS_12H_COUNT) + HOURS_12H_COUNT;
     }
@@ -156,7 +160,7 @@ export const adjustAmpmHours = (hours: number, ampm: string): number => {
 /** @namespace Util/Form/Extract/transformDateFieldsData */
 export const transformDateFieldsData = (
     datesData: Record<string, DatesData>
-): Record<number, DatesData>[] => Object.entries(datesData).reduce((prev, [name, data]) => {
+): Array<string | DatesData> => Object.entries(datesData).reduce((prev, [name, data]) => {
     const {
         type,
         year,
@@ -194,10 +198,12 @@ export const transformDateFieldsData = (
     }
 
     return prev;
-}, [] as Record<number, DatesData>[]);
+}, [] as Array<string | DatesData>);
 
 /** @namespace Util/Form/Extract/groupDateFieldsData */
-export const groupDateFieldsData = (fields: NodeListOf<Element>): Record<string, DatesData> => Array.from(fields)
+export const groupDateFieldsData = (
+    fields: NodeListOf<Element>
+): Record<string, DatesData> => Array.from(fields)
     .reduce((prev, field) => {
         const dataType = field.getAttribute(FieldType_ATTR) || '';
 
@@ -229,13 +235,21 @@ export const groupDateFieldsData = (fields: NodeListOf<Element>): Record<string,
  * @namespace Util/Form/Extract/getFieldsData
  */
 export const getFieldsData = (
-    DOM: Document,
+    DOM: RefObject<HTMLElement>,
     excludeEmpty = false,
     ignoreTypes: string[] = [],
     asObject = false
-): any => {
-    const fields: NodeListOf<HTMLSelectElement | HTMLInputElement> = DOM.querySelectorAll('input, textarea, select');
-    const output: Record<number, FieldData | DatesData>[] = [];
+): field[] | null => {
+    const fields: NodeListOf<
+    HTMLInputElement
+    | HTMLTextAreaElement
+    | HTMLSelectElement
+    > | undefined = DOM.current?.querySelectorAll('input, textarea, select');
+    const output: Array<FieldData | DatesData | string> = [];
+
+    if (!fields) {
+        return null;
+    }
 
     const dateFieldsGrouped = groupDateFieldsData(fields);
     output.push(...transformDateFieldsData(dateFieldsGrouped));
@@ -276,9 +290,9 @@ export const getFieldsData = (
     });
 
     if (asObject) {
-        const objectOutput: any = {};
+        const objectOutput: Record<string, FieldData> = {};
         output.forEach((field) => {
-            const { name } = field as any;
+            const { name } = field as FieldData;
             objectOutput[name] = field;
         });
 

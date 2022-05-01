@@ -14,27 +14,16 @@
 import { createRef, PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ChildrenType, MixType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { toggleScroll } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
+
+import { OverlayComponentProps } from './Overlay.type';
 
 import './Overlay.style';
 
 /** @namespace Component/Overlay/Component */
-export class Overlay extends PureComponent {
-    static propTypes = {
-        mix: MixType,
-        id: PropTypes.string.isRequired,
-        onVisible: PropTypes.func,
-        onHide: PropTypes.func,
-        activeOverlay: PropTypes.string.isRequired,
-        areOtherOverlaysOpen: PropTypes.bool.isRequired,
-        isStatic: PropTypes.bool,
-        isRenderInPortal: PropTypes.bool,
-        children: ChildrenType,
-        isMobile: PropTypes.bool.isRequired
-    };
-
+export class Overlay<Props extends OverlayComponentProps> extends PureComponent<Props> {
     static defaultProps = {
         mix: {},
         children: [],
@@ -44,9 +33,11 @@ export class Overlay extends PureComponent {
         isRenderInPortal: true
     };
 
-    overlayRef = createRef();
+    overlayRef = createRef<HTMLDivElement>();
 
-    componentDidUpdate(prevProps): void {
+    YoffsetWhenScrollDisabled = window.pageYOffset || document.body.scrollTop;
+
+    componentDidUpdate(prevProps: Props): void {
         const prevWasVisible = this.getIsVisible(prevProps);
         const isVisible = this.getIsVisible();
 
@@ -59,7 +50,7 @@ export class Overlay extends PureComponent {
         }
     }
 
-    onVisible() {
+    onVisible(): void {
         const { onVisible, isStatic, isMobile } = this.props;
 
         if (isStatic) {
@@ -70,11 +61,11 @@ export class Overlay extends PureComponent {
             this.freezeScroll();
         }
 
-        this.overlayRef.current.focus();
+        this.overlayRef.current?.focus();
         onVisible();
     }
 
-    onHide() {
+    onHide(): void {
         const { onHide, isStatic, isMobile } = this.props;
 
         if (isStatic) {
@@ -84,28 +75,28 @@ export class Overlay extends PureComponent {
         if (isMobile) {
             this.unfreezeScroll();
         }
+
         onHide();
     }
 
-    getIsVisible(props = this.props) {
+    getIsVisible(props: Props = this.props): boolean {
         const { id, activeOverlay, isStatic } = props;
 
         return isStatic || id === activeOverlay;
     }
 
-    freezeScroll() {
-        this.YoffsetWhenScrollDisabled = window.pageYOffset || document.body.scrollTop;
+    freezeScroll(): void {
         toggleScroll(false);
         document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
     }
 
-    unfreezeScroll() {
+    unfreezeScroll(): void {
         toggleScroll(true);
-        document.body.style.marginTop = 0;
+        document.body.style.marginTop = '0';
         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }
 
-    renderInMobilePortal(content): ReactElement {
+    renderInMobilePortal(content: ReactElement): ReactElement {
         const { isStatic, isRenderInPortal, isMobile } = this.props;
 
         if (!isStatic && isMobile && isRenderInPortal) {

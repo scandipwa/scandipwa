@@ -9,23 +9,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import MyAccountQuery from 'Query/MyAccount.query';
+import { CustomerAddress } from 'Query/MyAccount.type';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { Addresstype } from 'Type/Account.type';
-import { ReactElement } from 'Type/Common.type';
+import { NetworkError, ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountAddressPopup from './MyAccountAddressPopup.component';
-import { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.config';
+import { MyAccountAddressPopupAction } from './MyAccountAddressPopup.config';
+import {
+    MyAccountAddressPopupComponentProps,
+    MyAccountAddressPopupContainerMapDispatchProps,
+    MyAccountAddressPopupContainerMapStateProps,
+    MyAccountAddressPopupContainerProps,
+    MyAccountAddressPopupContainerState
+} from './MyAccountAddressPopup.type';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -33,12 +41,12 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountAddressPopup/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    payload: state.PopupReducer.popupPayload[ ADDRESS_POPUP_ID ] || {}
+export const mapStateToProps = (state: RootState): MyAccountAddressPopupContainerMapStateProps => ({
+    payload: state.PopupReducer.popupPayload[ MyAccountAddressPopupAction.ADDRESS_POPUP_ID ]
 });
 
 /** @namespace Component/MyAccountAddressPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressPopupContainerMapDispatchProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
@@ -49,36 +57,32 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/MyAccountAddressPopup/Container */
-export class MyAccountAddressPopupContainer extends PureComponent {
-    static propTypes = {
-        showErrorNotification: PropTypes.func.isRequired,
-        updateCustomerDetails: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
-        goToPreviousHeaderState: PropTypes.func.isRequired,
-        payload: PropTypes.shape({
-            address: Addresstype
-        }).isRequired
-    };
-
+export class MyAccountAddressPopupContainer extends PureComponent<
+MyAccountAddressPopupContainerProps, MyAccountAddressPopupContainerState
+> {
     state = {
         isLoading: false
     };
-
-    handleAfterAction = this.handleAfterAction.bind(this);
 
     containerFunctions = {
         handleAddress: this.handleAddress.bind(this),
         handleDeleteAddress: this.handleDeleteAddress.bind(this)
     };
 
-    containerProps() {
+    __construct(props: MyAccountAddressPopupContainerProps): void {
+        super.__construct?.(props);
+
+        this.handleAfterAction = this.handleAfterAction.bind(this);
+    }
+
+    containerProps(): Pick<MyAccountAddressPopupComponentProps, 'payload' | 'isLoading'> {
         const { payload } = this.props;
         const { isLoading } = this.state;
 
         return { isLoading, payload };
     }
 
-    async handleAfterAction() {
+    async handleAfterAction(): Promise<void> {
         const {
             hideActiveOverlay,
             updateCustomerDetails,
@@ -97,13 +101,13 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         }
     }
 
-    handleError(error) {
+    handleError(error: NetworkError | NetworkError[]): void {
         const { showErrorNotification } = this.props;
         showErrorNotification(error);
         this.setState({ isLoading: false });
     }
 
-    handleAddress(address) {
+    handleAddress(address: CustomerAddress): Promise<void> {
         const { payload: { address: { id } } } = this.props;
         this.setState({ isLoading: true });
 
@@ -114,7 +118,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         return this.handleCreateAddress(address);
     }
 
-    async handleEditAddress(address) {
+    async handleEditAddress(address: CustomerAddress): Promise<void> {
         const { payload: { address: { id } } } = this.props;
         const query = MyAccountQuery.getUpdateAddressMutation(id, address);
 
@@ -130,7 +134,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         }
     }
 
-    async handleDeleteAddress() {
+    async handleDeleteAddress(): Promise<void> {
         const { payload: { address: { id } } } = this.props;
 
         if (!isSignedIn()) {
@@ -148,7 +152,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         }
     }
 
-    async handleCreateAddress(address) {
+    async handleCreateAddress(address: CustomerAddress): Promise<void> {
         if (!isSignedIn()) {
             return;
         }

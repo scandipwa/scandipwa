@@ -11,17 +11,23 @@
 
 import { connect } from 'react-redux';
 
+import { RootState } from 'Util/Store/Store.type';
+
 import OverlayComponent from './Overlay.component';
+import { OverlayContainerMapDispatchProps, OverlayContainerMapStateProps } from './Overlay.type';
 
 /** @namespace Component/Overlay/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): OverlayContainerMapStateProps => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
     isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/Overlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): OverlayContainerMapDispatchProps => ({});
 
 // eslint-disable-next-line @scandipwa/scandipwa-guidelines/always-both-mappings
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(OverlayComponent);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(OverlayComponent);

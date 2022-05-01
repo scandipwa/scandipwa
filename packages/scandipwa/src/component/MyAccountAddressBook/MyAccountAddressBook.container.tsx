@@ -9,49 +9,50 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { ADD_ADDRESS, ADDRESS_POPUP_ID } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
+import { MyAccountAddressPopupAction } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { CustomerType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountAddressBook from './MyAccountAddressBook.component';
+import {
+    MyAccountAddressBookComponentProps,
+    MyAccountAddressBookContainerMapDispatchProps,
+    MyAccountAddressBookContainerMapStateProps,
+    MyAccountAddressBookContainerProps
+} from './MyAccountAddressBook.type';
 
 /** @namespace Component/MyAccountAddressBook/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountAddressBookContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer
 });
 
 /** @namespace Component/MyAccountAddressBook/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (payload) => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressBookContainerMapDispatchProps => ({
+    showPopup: (payload) => dispatch(showPopup(MyAccountAddressPopupAction.ADDRESS_POPUP_ID, payload))
 });
 
 /** @namespace Component/MyAccountAddressBook/Container */
-export class MyAccountAddressBookContainer extends PureComponent {
-    static propTypes = {
-        customer: CustomerType.isRequired,
-        showPopup: PropTypes.func.isRequired
-    };
-
+export class MyAccountAddressBookContainer extends PureComponent<MyAccountAddressBookContainerProps> {
     containerFunctions = {
         showCreateNewPopup: this.showCreateNewPopup.bind(this)
     };
 
-    containerProps() {
-        const { customer, showPopup } = this.props;
+    containerProps(): Pick<MyAccountAddressBookComponentProps, 'customer'> {
+        const { customer } = this.props;
 
-        return { customer, showPopup };
+        return { customer };
     }
 
-    showCreateNewPopup() {
+    showCreateNewPopup(): void {
         const { showPopup } = this.props;
 
         showPopup({
-            action: ADD_ADDRESS,
+            action: MyAccountAddressPopupAction.ADD_ADDRESS,
             title: __('Add new address'),
             address: {}
         });
@@ -60,8 +61,8 @@ export class MyAccountAddressBookContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountAddressBook
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

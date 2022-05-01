@@ -9,6 +9,8 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { RefObject } from 'react';
+
 import { FieldType } from 'Component/Field/Field.config';
 import { ValidationRule } from 'Type/Field.type';
 import { VALIDATION_MESSAGES, VALIDATION_RULES, ValidationInputTypeNumber } from 'Util/Validator/Config';
@@ -119,15 +121,15 @@ export const validate = (value: string, rule: ValidationRule): boolean | Validat
  * @returns {boolean|{errorMessages: *[], values: *[], errorFields: *[]}}
  * @namespace Util/Validator/validateGroup
  */
-export const validateGroup = (DOM: Document, rule: ValidationRule): boolean | ValidationDOMOutput => {
-    if (typeof DOM.querySelectorAll !== 'function') {
+export const validateGroup = (DOM: RefObject<HTMLElement>, rule: ValidationRule): boolean | ValidationDOMOutput => {
+    if (typeof DOM.current?.querySelectorAll !== 'function') {
         return true;
     }
 
     const {
         selector = 'select, input, textarea, .js-validatabale, form, .FieldGroup'
     } = rule || {};
-    const fields = DOM?.querySelectorAll(selector) as NodeListOf<HTMLInputElement>;
+    const fields = DOM?.current?.querySelectorAll(selector) as NodeListOf<HTMLInputElement>;
 
     const output: ValidationDOMOutput = {
         values: [],

@@ -11,10 +11,9 @@
 
 import { PureComponent } from 'react';
 
-import {
-    ChildrenType, MixType, ReactElement
-} from 'Type/Common.type';
-import { LabelType } from 'Type/Field.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { ContentWrapperComponentProps } from './ContentWrapper.type';
 
 import './ContentWrapper.style';
 
@@ -23,18 +22,7 @@ import './ContentWrapper.style';
  * @class ContentWrapper
  * @namespace Component/ContentWrapper/Component
  */
-export class ContentWrapper extends PureComponent {
-    static propTypes = {
-        children: ChildrenType,
-        mix: MixType,
-        wrapperMix: PropTypes.shape({
-            block: PropTypes.string,
-            elem: PropTypes.string
-        }),
-        label: LabelType.isRequired,
-        isNotSection: PropTypes.bool
-    };
-
+export class ContentWrapper extends PureComponent<ContentWrapperComponentProps> {
     static defaultProps = {
         mix: {},
         wrapperMix: {},

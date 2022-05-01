@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { CustomerAddress } from 'Query/MyAccount.type';
 import { Country, Region } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
 import { Address, TrimmedAddress } from 'Type/Account.type';
@@ -152,7 +153,7 @@ export const getCityAndRegionFromZipcode = async (
 };
 
 /** @namespace Util/Address/Index/getDefaultAddressLabel */
-export const getDefaultAddressLabel = (address: Address): string => {
+export const getDefaultAddressLabel = (address: CustomerAddress): string => {
     const { default_billing, default_shipping } = address;
 
     if (!default_billing && !default_shipping) {

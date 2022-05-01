@@ -10,6 +10,8 @@
  */
 import { AnyAction } from 'redux';
 
+import { MyAccountAddressPopupAction } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
+import { MyAccountAddressPopupPayload } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.type';
 import {
     HideActiveOverlayAction,
     HideActivePopupAction
@@ -30,9 +32,13 @@ export type PopupType = ShowPopupAction<string, unknown>
 | HideActivePopupAction;
 
 export type PopupStore = {
-    popupPayload: Record<string, unknown>;
+    popupPayload: PopupPayload;
     shouldPopupClose: boolean;
-    payload: Record<string, unknown> | boolean;
+    payload: Record<string, unknown>;
+};
+
+export type PopupPayload = {
+    [MyAccountAddressPopupAction.ADDRESS_POPUP_ID]: MyAccountAddressPopupPayload;
 };
 
 declare module 'Util/Store/Store.type' {

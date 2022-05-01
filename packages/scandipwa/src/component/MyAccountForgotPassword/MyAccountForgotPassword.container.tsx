@@ -8,18 +8,25 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
-import { connect } from 'react-redux';
 
-import { STATE_FORGOT_PASSWORD_SUCCESS } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { PureComponent, RefObject } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+
+import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { updateCustomerPasswordForgotEmail } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { SignInStateType } from 'Type/Account.type';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import MyAccountForgotPassword from './MyAccountForgotPassword.component';
+import {
+    MyAccountForgotPasswordComponentProps,
+    MyAccountForgotPasswordContainerMapDispatchProps,
+    MyAccountForgotPasswordContainerMapStateProps,
+    MyAccountForgotPasswordContainerProps
+} from './MyAccountForgotPassword.type';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -27,10 +34,10 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountForgotPassword/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (): MyAccountForgotPasswordContainerMapStateProps => ({});
 
 /** @namespace Component/MyAccountForgotPassword/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountForgotPasswordContainerMapDispatchProps => ({
     forgotPassword: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)
     ),
@@ -40,26 +47,19 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/MyAccountForgotPassword/Container */
-export class MyAccountForgotPasswordContainer extends PureComponent {
-    static propTypes = {
-        state: SignInStateType.isRequired,
-        onFormError: PropTypes.func.isRequired,
-        handleSignIn: PropTypes.func.isRequired,
-        handleCreateAccount: PropTypes.func.isRequired,
-        isCheckout: PropTypes.bool.isRequired,
-        forgotPassword: PropTypes.func.isRequired,
-        forgotPasswordEmail: PropTypes.func.isRequired,
-        setLoadingState: PropTypes.func.isRequired,
-        setSignInState: PropTypes.func.isRequired,
-        isOverlayVisible: PropTypes.bool.isRequired,
-        showNotification: PropTypes.func.isRequired
-    };
-
+export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountForgotPasswordContainerProps> {
     containerFunctions = {
         onForgotPasswordSuccess: this.onForgotPasswordSuccess.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<
+    MyAccountForgotPasswordComponentProps,
+    'state'
+    | 'onFormError'
+    | 'handleSignIn'
+    | 'handleCreateAccount'
+    | 'isCheckout'
+    > {
         const {
             state,
             onFormError,
@@ -77,7 +77,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
         };
     }
 
-    async onForgotPasswordSuccess(form, fields) {
+    async onForgotPasswordSuccess(form: RefObject<HTMLFormElement>, fields): Promise<void> {
         const {
             forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible
         } = this.props;
@@ -86,12 +86,12 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
 
         try {
             await forgotPassword(transformToNameValuePair(fields));
-            setSignInState(STATE_FORGOT_PASSWORD_SUCCESS);
+            setSignInState(MyAccountPageState.STATE_FORGOT_PASSWORD_SUCCESS);
             forgotPasswordEmail(submittedEmail);
 
             // if on route /forgotpassword
             if (!isOverlayVisible) {
-                this.showSuccesNotification(submittedEmail);
+                this.showSuccessNotification(submittedEmail);
             }
             setLoadingState(false);
         } catch {
@@ -99,10 +99,10 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
         }
     }
 
-    showSuccesNotification(submittedEmail) {
+    showSuccessNotification(submittedEmail: string): void {
         const { showNotification } = this.props;
         showNotification(
-            'success',
+            NotificationType.SUCCESS,
             // eslint-disable-next-line max-len
             __('If there is an account associated with %s you will receive an email with a link to reset your password', submittedEmail)
         );
@@ -111,8 +111,8 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountForgotPassword
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

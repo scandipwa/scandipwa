@@ -13,34 +13,34 @@ import {
     Children,
     cloneElement,
     createRef,
-    PureComponent
+    PureComponent,
+    RefObject
 } from 'react';
 
-import { ChildrenType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
+import { ClickOutsideComponentProps } from './ClickOutside.type';
+
 /** @namespace Component/ClickOutside/Component */
-export class ClickOutside extends PureComponent {
-    static propTypes = {
-        onClick: PropTypes.func,
-        children: ChildrenType
-    };
+export class ClickOutside extends PureComponent<ClickOutsideComponentProps> {
+    childrenRefs: RefObject<HTMLElement>[] = [];
 
     static defaultProps = {
         onClick: noopFn,
         children: []
     };
 
-    handleClick = this.handleClick.bind(this);
-
-    __construct(props): void {
-        super.__construct(props);
+    __construct(props: ClickOutsideComponentProps): void {
+        super.__construct?.(props);
 
         const { children } = this.props;
 
+        this.handleClick = this.handleClick.bind(this);
+
         this.childrenRefs = Children.map(
             children,
-            () => createRef()
+            () => createRef<HTMLElement>()
         );
     }
 
@@ -52,10 +52,10 @@ export class ClickOutside extends PureComponent {
         document.removeEventListener('click', this.handleClick);
     }
 
-    handleClick({ target }) {
+    handleClick({ target }: MouseEvent): void {
         const { onClick } = this.props;
 
-        if (this.childrenRefs.every(
+        if (this.childrenRefs?.every(
             (ref) => {
                 const elementRef = ref.current?.overlayRef?.current || ref.current;
 

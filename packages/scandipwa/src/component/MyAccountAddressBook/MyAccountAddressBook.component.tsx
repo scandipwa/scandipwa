@@ -13,19 +13,17 @@ import { Component } from 'react';
 
 import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import { CustomerType } from 'Type/Account.type';
+import { CustomerAddress } from 'Query/MyAccount.type';
+import { ReactElement } from 'Type/Common.type';
 import { getDefaultAddressLabel } from 'Util/Address';
+
+import { MyAccountAddressBookComponentProps } from './MyAccountAddressBook.type';
 
 import './MyAccountAddressBook.style';
 
 /** @namespace Component/MyAccountAddressBook/Component */
-export class MyAccountAddressBook extends Component {
-    static propTypes = {
-        customer: CustomerType.isRequired,
-        showCreateNewPopup: PropTypes.func.isRequired
-    };
-
-    shouldComponentUpdate(nextProps) {
+export class MyAccountAddressBook extends Component<MyAccountAddressBookComponentProps> {
+    shouldComponentUpdate(nextProps: MyAccountAddressBookComponentProps): boolean {
         const { customer } = this.props;
         const { customer: nextCustomer } = nextProps;
 
@@ -36,7 +34,7 @@ export class MyAccountAddressBook extends Component {
         return <MyAccountAddressPopup />;
     }
 
-    renderAddress(address, index): ReactElement {
+    renderAddress(address: CustomerAddress, index: number): ReactElement {
         const addressNumber = index + 1;
         const postfix = getDefaultAddressLabel(address);
 

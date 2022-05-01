@@ -19,66 +19,44 @@ import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
 import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
 import MyAccountSignIn from 'Component/MyAccountSignIn';
 import Overlay from 'Component/Overlay';
-import { SignInStateType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
-    STATE_CONFIRM_EMAIL,
-    STATE_CREATE_ACCOUNT,
-    STATE_FORGOT_PASSWORD,
-    STATE_FORGOT_PASSWORD_SUCCESS,
-    STATE_LOGGED_IN,
-    STATE_SIGN_IN
+    MyAccountPageState
 } from './MyAccountOverlay.config';
+import { MyAccountOverlayComponentProps, MyAccountOverlayRenderMap } from './MyAccountOverlay.type';
 
 import './MyAccountOverlay.style';
 
 /** @namespace Component/MyAccountOverlay/Component */
-export class MyAccountOverlay extends PureComponent {
-    static propTypes = {
-        // eslint-disable-next-line react/no-unused-prop-types
-        isOverlayVisible: PropTypes.bool.isRequired,
-        state: SignInStateType.isRequired,
-        setSignInState: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        setLoadingState: PropTypes.func.isRequired,
-        onVisible: PropTypes.func.isRequired,
-        onFormError: PropTypes.func.isRequired,
-        handleForgotPassword: PropTypes.func.isRequired,
-        handleSignIn: PropTypes.func.isRequired,
-        handleCreateAccount: PropTypes.func.isRequired,
-        isCheckout: PropTypes.bool,
-        isMobile: PropTypes.bool.isRequired,
-        onSignIn: PropTypes.func
-    };
-
+export class MyAccountOverlay extends PureComponent<MyAccountOverlayComponentProps> {
     static defaultProps = {
         isCheckout: false,
         onSignIn: noopFn
     };
 
-    renderMap = {
-        [STATE_SIGN_IN]: {
+    renderMap: Record<MyAccountPageState, MyAccountOverlayRenderMap> = {
+        [MyAccountPageState.STATE_SIGN_IN]: {
             render: () => this.renderSignIn(),
             title: __('Sign in to your account')
         },
-        [STATE_FORGOT_PASSWORD]: {
+        [MyAccountPageState.STATE_FORGOT_PASSWORD]: {
             render: () => this.renderForgotPassword(),
             title: __('Get password link')
         },
-        [STATE_FORGOT_PASSWORD_SUCCESS]: {
+        [MyAccountPageState.STATE_FORGOT_PASSWORD_SUCCESS]: {
             render: () => this.renderForgotPasswordSuccess()
         },
-        [STATE_CREATE_ACCOUNT]: {
+        [MyAccountPageState.STATE_CREATE_ACCOUNT]: {
             render: () => this.renderCreateAccount(),
             title: __('Create new account')
         },
-        [STATE_LOGGED_IN]: {
+        [MyAccountPageState.STATE_LOGGED_IN]: {
             render: noopFn
         },
-        [STATE_CONFIRM_EMAIL]: {
+        [MyAccountPageState.STATE_CONFIRM_EMAIL]: {
             render: () => this.renderConfirmEmail(),
             title: __('Confirm the email')
         }

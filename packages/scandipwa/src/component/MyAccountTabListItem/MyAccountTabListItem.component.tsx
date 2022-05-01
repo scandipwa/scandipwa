@@ -12,33 +12,26 @@
 import { PureComponent } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
-import { TabType } from 'Type/Account.type';
-import { ChildrenType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { MyAccountTabListItemComponentProps } from './MyAccountTabListItem.type';
 
 import './MyAccountTabListItem.style';
 
 /** @namespace Component/MyAccountTabListItem/Component */
-export class MyAccountTabListItem extends PureComponent {
-    static propTypes = {
-        children: ChildrenType,
-        tabEntry: PropTypes.arrayOf(
-            PropTypes.oneOfType([
-                PropTypes.string,
-                TabType
-            ])
-        ).isRequired,
-        isActive: PropTypes.bool,
-        changeActiveTab: PropTypes.func.isRequired
-    };
-
+export class MyAccountTabListItem extends PureComponent<MyAccountTabListItemComponentProps> {
     static defaultProps = {
         isActive: false,
         children: []
     };
 
-    changeActiveTab = this.changeActiveTab.bind(this);
+    __construct(props: MyAccountTabListItemComponentProps): void {
+        super.__construct?.(props);
 
-    changeActiveTab() {
+        this.changeActiveTab = this.changeActiveTab.bind(this);
+    }
+
+    changeActiveTab(): void {
         const { changeActiveTab, tabEntry: [key] } = this.props;
 
         changeActiveTab(key);

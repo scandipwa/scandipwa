@@ -9,63 +9,40 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef, PureComponent } from 'react';
+import { createRef, PureComponent, ReactElement } from 'react';
 
 import AddIcon from 'Component/AddIcon';
 import ChevronIcon from 'Component/ChevronIcon';
-import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
+import { Directions } from 'Component/ChevronIcon/ChevronIcon.config';
 import MinusIcon from 'Component/MinusIcon';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { ChildrenType, MixType, ModsType } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import { getFixedElementHeight } from 'Util/CSS';
+
+import { ExpandableContentComponentProps, ExpandableContentComponentState } from './ExpandableContent.type';
 
 import './ExpandableContent.style';
 
 /** @namespace Component/ExpandableContent/Component */
-export class ExpandableContent extends PureComponent {
-    static propTypes = {
-        isContentExpanded: PropTypes.bool,
-        isArrow: PropTypes.bool,
-        heading: PropTypes.string,
-        children: ChildrenType,
-        mix: MixType.isRequired,
-        mods: ModsType,
-        device: DeviceType.isRequired,
-        onClick: (props, propName, componentName) => {
-            const propValue = props[propName];
-
-            if (propValue === null) {
-                return;
-            }
-
-            if (typeof propValue === 'function') {
-                return;
-            }
-
-            throw new Error(`${componentName} only accepts null or string`);
-        }
-    };
-
+export class ExpandableContent extends PureComponent<ExpandableContentComponentProps, ExpandableContentComponentState> {
     static defaultProps = {
         heading: '',
         isContentExpanded: false,
-        onClick: null,
+        onClick: undefined,
         children: [],
         isArrow: false,
         mods: {}
     };
 
-    expandableContentRef = createRef();
+    expandableContentRef = createRef<HTMLElement>();
 
-    toggleExpand = this.toggleExpand.bind(this);
-
-    __construct(props): void {
-        super.__construct(props);
+    __construct(props: ExpandableContentComponentProps): void {
+        super.__construct?.(props);
         const { isContentExpanded } = this.props;
 
         const isForceExpanded = isSSR() || isCrawler();
+
+        this.toggleExpand = this.toggleExpand.bind(this);
 
         this.state = {
             isContentExpanded: isForceExpanded || isContentExpanded,
@@ -74,7 +51,10 @@ export class ExpandableContent extends PureComponent {
         };
     }
 
-    static getDerivedStateFromProps({ isContentExpanded }, { prevIsContentExpanded }) {
+    static getDerivedStateFromProps(
+        { isContentExpanded }: Pick<ExpandableContentComponentProps, 'isContentExpanded'>,
+        { prevIsContentExpanded }: Pick<ExpandableContentComponentState, 'prevIsContentExpanded'>
+    ): ExpandableContentComponentState | null {
         if (isContentExpanded !== prevIsContentExpanded) {
             return {
                 prevIsContentExpanded: isContentExpanded,
@@ -85,17 +65,17 @@ export class ExpandableContent extends PureComponent {
         return null;
     }
 
-    scrollToExpandedContent() {
+    scrollToExpandedContent(): void {
         const { isContentExpanded } = this.state;
         const elem = this.expandableContentRef && this.expandableContentRef.current;
 
-        if (isContentExpanded && !elem) {
+        if ((isContentExpanded && !elem) || !elem) {
             return;
         }
 
-        const elemToWindowTopDist = elem.getBoundingClientRect().top;
-        const windowToPageTopDist = document.body.getBoundingClientRect().top;
-        const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
+        const elemToWindowTopDist: number = elem.getBoundingClientRect().top;
+        const windowToPageTopDist: number = document.body.getBoundingClientRect().top;
+        const topToElemDistance: number = elemToWindowTopDist - windowToPageTopDist;
         const {
             total: totalFixedElementHeight,
             bottom: bottomFixedElementHeight
@@ -114,7 +94,7 @@ export class ExpandableContent extends PureComponent {
         window.scrollTo({ behavior: 'smooth', top: scrollTo });
     }
 
-    toggleExpand() {
+    toggleExpand(): void {
         const { onClick } = this.props;
 
         if (onClick) {
@@ -159,7 +139,7 @@ export class ExpandableContent extends PureComponent {
         );
     }
 
-    renderButtonIcon(): ReactElement {
+    renderButtonIcon(): ReactElement | null {
         const { isContentExpanded } = this.state;
         const { isArrow, device: { isMobile } } = this.props;
 
@@ -168,7 +148,7 @@ export class ExpandableContent extends PureComponent {
         }
 
         if (isArrow) {
-            return <ChevronIcon direction={ isContentExpanded ? TOP : BOTTOM } />;
+            return <ChevronIcon direction={ isContentExpanded ? Directions.TOP : Directions.BOTTOM } />;
         }
 
         return this.renderTogglePlusMinus();

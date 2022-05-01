@@ -9,24 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { CustomerType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountCustomerTable from './MyAccountCustomerTable.component';
+import {
+    MyAccountCustomerTableComponentProps,
+    MyAccountCustomerTableContainerProps
+} from './yAccountCustomerTable.type';
 
 /** @namespace Component/MyAccountCustomerTable/Container */
-export class MyAccountCustomerTableContainer extends PureComponent {
-    static propTypes = {
-        customer: CustomerType.isRequired,
-        title: PropTypes.string
-    };
-
+export class MyAccountCustomerTableContainer extends PureComponent<MyAccountCustomerTableContainerProps> {
     static defaultProps = {
         title: ''
     };
@@ -36,7 +33,7 @@ export class MyAccountCustomerTableContainer extends PureComponent {
         handleOnEditInformation: this.handleOnEditInformation.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<MyAccountCustomerTableComponentProps, 'customer' | 'title'> {
         const {
             customer,
             title
@@ -48,14 +45,14 @@ export class MyAccountCustomerTableContainer extends PureComponent {
         };
     }
 
-    handleOnEditPassword() {
+    handleOnEditPassword(): void {
         history.push({
             pathname: appendWithStoreCode(AccountPageUrl.INFORMATION_EDIT_URL),
             state: { editPassword: true }
         });
     }
 
-    handleOnEditInformation() {
+    handleOnEditInformation(): void {
         history.push({ pathname: appendWithStoreCode(AccountPageUrl.INFORMATION_EDIT_URL) });
     }
 

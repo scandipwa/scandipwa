@@ -9,21 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, hideActivePopup } from 'Store/Overlay/Overlay.action';
-import { ChildrenType, MixType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { RootState } from 'Util/Store/Store.type';
 
 import Popup from './Popup.component';
+import {
+    PopupComponentProps, PopupContainerMapDispatchProps, PopupContainerMapStateProps, PopupContainerProps
+} from './Popup.type';
 
 /** @namespace Component/Popup/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): PopupContainerMapStateProps => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
     shouldPopupClose: state.PopupReducer.shouldPopupClose,
@@ -32,39 +36,17 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/Popup/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): PopupContainerMapDispatchProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     resetHideActivePopup: () => dispatch(hideActivePopup(false)),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state))
+    goToPreviousNavigationState: () => dispatch(
+        goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)
+    )
 });
 
 /** @namespace Component/Popup/Container */
-export class PopupContainer extends PureComponent {
-    static propTypes = {
-        mix: MixType,
-        contentMix: MixType,
-        payload: PropTypes.objectOf(
-            PropTypes.shape({
-                title: PropTypes.string
-            })
-        ).isRequired,
-        activeOverlay: PropTypes.string.isRequired,
-        goToPreviousNavigationState: PropTypes.func.isRequired,
-        areOtherOverlaysOpen: PropTypes.bool.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
-        onVisible: PropTypes.func,
-        onClose: PropTypes.func,
-        onHide: PropTypes.func,
-        isStatic: PropTypes.bool,
-        children: ChildrenType,
-        id: PropTypes.string.isRequired,
-        shouldPopupClose: PropTypes.bool.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
-        resetHideActivePopup: PropTypes.func.isRequired
-    };
-
+export class PopupContainer extends PureComponent<PopupContainerProps> {
     static defaultProps = {
         onVisible: noopFn,
         onClose: noopFn,
@@ -79,7 +61,7 @@ export class PopupContainer extends PureComponent {
         onVisible: this.onVisible.bind(this)
     };
 
-    onVisible() {
+    onVisible(): void {
         const { changeHeaderState, onVisible } = this.props;
 
         changeHeaderState({
@@ -93,7 +75,26 @@ export class PopupContainer extends PureComponent {
         onVisible();
     }
 
-    containerProps() {
+    containerProps(): Pick<
+    PopupComponentProps,
+    'activeOverlay'
+    | 'areOtherOverlaysOpen'
+    | 'changeHeaderState'
+    | 'children'
+    | 'id'
+    | 'isMobile'
+    | 'isStatic'
+    | 'mix'
+    | 'contentMix'
+    | 'onClose'
+    | 'onHide'
+    | 'onVisible'
+    | 'shouldPopupClose'
+    | 'hideActiveOverlay'
+    | 'resetHideActivePopup'
+    | 'goToPreviousNavigationState'
+    | 'title'
+    > {
         const {
             activeOverlay,
             areOtherOverlaysOpen,
@@ -134,7 +135,7 @@ export class PopupContainer extends PureComponent {
         };
     }
 
-    _getPopupTitle() {
+    _getPopupTitle(): string | undefined {
         const { payload, activeOverlay } = this.props;
         const { title } = payload[ activeOverlay ] || {};
 

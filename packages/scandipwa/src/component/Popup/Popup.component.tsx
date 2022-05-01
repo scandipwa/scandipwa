@@ -15,37 +15,35 @@ import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
 import NotificationList from 'Component/NotificationList';
 import Overlay from 'Component/Overlay/Overlay.component';
+import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 
 import { ESCAPE_KEY } from './Popup.config';
+import { PopupComponentProps } from './Popup.type';
 
 import './Popup.style';
 
 /** @namespace Component/Popup/Component */
-export class Popup extends Overlay {
-    static propTypes = {
-        ...Overlay.propTypes,
-        clickOutside: PropTypes.bool,
-        title: PropTypes.string
-    };
-
+export class Popup extends Overlay<PopupComponentProps> {
     static defaultProps = {
         ...Overlay.defaultProps,
         clickOutside: true,
         title: ''
     };
 
-    hidePopUp = this.hidePopUp.bind(this);
+    __construct(props: PopupComponentProps): void {
+        super.__construct?.(props);
 
-    hidePopupAndGoBack = this.hidePopupAndGoBack.bind(this);
-
-    handleClickOutside = this.handleClickOutside.bind(this);
+        this.hidePopUp = this.hidePopUp.bind(this);
+        this.hidePopupAndGoBack = this.hidePopupAndGoBack.bind(this);
+        this.handleClickOutside = this.handleClickOutside.bind(this);
+    }
 
     componentDidMount(): void {
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: PopupComponentProps): void {
         const { shouldPopupClose, resetHideActivePopup } = this.props;
         const { shouldPopupClose: prevShouldPopupClose } = prevProps;
 
@@ -61,11 +59,11 @@ export class Popup extends Overlay {
         document.removeEventListener('keydown', this.handleKeyDown.bind(this));
     }
 
-    onVisible() {
+    onVisible(): void {
         const { onVisible } = this.props;
 
         this.freezeScroll();
-        this.overlayRef.current.focus();
+        this.overlayRef.current?.focus();
 
         window.addEventListener('popstate', this.hidePopUp);
 
@@ -80,7 +78,7 @@ export class Popup extends Overlay {
         onVisible();
     }
 
-    onHide() {
+    onHide(): void {
         const { onHide } = this.props;
         window.removeEventListener('popstate', this.hidePopUp);
 
@@ -89,7 +87,7 @@ export class Popup extends Overlay {
         onHide();
     }
 
-    hidePopUp() {
+    hidePopUp(): void {
         const { hideActiveOverlay, goToPreviousNavigationState, onClose } = this.props;
         const isVisible = this.getIsVisible();
 
@@ -101,13 +99,13 @@ export class Popup extends Overlay {
         }
     }
 
-    hidePopupAndGoBack() {
+    hidePopupAndGoBack(): void {
         this.hidePopUp();
         history.goBack();
     }
 
     // Same with click outside
-    handleClickOutside() {
+    handleClickOutside(): void {
         const { clickOutside, isMobile } = this.props;
 
         if (!clickOutside) {
@@ -121,7 +119,7 @@ export class Popup extends Overlay {
         this.hidePopupAndGoBack();
     }
 
-    handleKeyDown(e) {
+    handleKeyDown(e: KeyboardEvent): void {
         switch (e.keyCode) {
         case ESCAPE_KEY:
             this.hidePopupAndGoBack();

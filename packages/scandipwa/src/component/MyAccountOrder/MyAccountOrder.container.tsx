@@ -9,23 +9,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
+import { OrderItem } from 'Query/Order.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
-import { MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountOrder from './MyAccountOrder.component';
-import { ORDER_ITEMS } from './MyAccountOrder.config';
+import { OrderTabs } from './MyAccountOrder.config';
+import {
+    MyAccountOrderComponentProps,
+    MyAccountOrderContainerMapDispatchProps,
+    MyAccountOrderContainerMapStateProps,
+    MyAccountOrderContainerProps,
+    MyAccountOrderContainerState
+} from './MyAccountOrder.type';
 
 export const OrderDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -33,7 +41,7 @@ export const OrderDispatcher = import(
 );
 
 /** @namespace Component/MyAccountOrder/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountOrderContainerMapStateProps => ({
     display_tax_in_shipping_amount: state.ConfigReducer.cartDisplayConfig.display_tax_in_shipping_amount,
     is_allowed_reorder: state.ConfigReducer.is_allowed_reorder,
     rss_order_subscribe_allow: state.ConfigReducer.rss_order_subscribe_allow,
@@ -41,7 +49,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/MyAccountOrder/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     getOrderById: (orderId) => OrderDispatcher.then(
         ({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId)
@@ -54,22 +62,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/MyAccountOrder/Container */
-export class MyAccountOrderContainer extends PureComponent {
-    static propTypes = {
-        match: MatchType.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        getOrderById: PropTypes.func.isRequired,
-        display_tax_in_shipping_amount: PropTypes.string.isRequired,
-        changeTabName: PropTypes.func.isRequired,
-        reorder: PropTypes.func.isRequired,
-        is_allowed_reorder: PropTypes.bool,
-        rss_order_subscribe_allow: PropTypes.bool.isRequired,
-        setTabSubheading: PropTypes.func.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
-        goToPreviousNavigationState: PropTypes.func.isRequired,
-        isMobile: PropTypes.bool.isRequired
-    };
-
+export class MyAccountOrderContainer extends PureComponent<MyAccountOrderContainerProps, MyAccountOrderContainerState> {
     static defaultProps = {
         is_allowed_reorder: false
     };
@@ -77,7 +70,7 @@ export class MyAccountOrderContainer extends PureComponent {
     state = {
         order: {},
         isLoading: true,
-        activeTab: ORDER_ITEMS
+        activeTab: OrderTabs.ORDER_ITEMS
     };
 
     containerFunctions = {
@@ -85,24 +78,34 @@ export class MyAccountOrderContainer extends PureComponent {
         handleChangeActiveTab: this.handleChangeActiveTab.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: MyAccountOrderContainerProps): void {
+        super.__construct?.(props);
 
         const { match: { params: { orderId } } } = this.props;
 
         if (orderId) {
-            this.requestOrderDetails();
+            this.requestOrderDetails(orderId);
         }
     }
 
     componentWillUnmount(): void {
         const { changeTabName, setTabSubheading } = this.props;
 
-        changeTabName();
-        setTabSubheading();
+        changeTabName('');
+        setTabSubheading('');
     }
 
-    containerProps() {
+    containerProps(): Pick<
+    MyAccountOrderComponentProps,
+    'order'
+    | 'isLoading'
+    | 'activeTab'
+    | 'display_tax_in_shipping_amount'
+    | 'is_allowed_reorder'
+    | 'rss_order_subscribe_allow'
+    | 'setTabSubheading'
+    | 'isMobile'
+    > {
         const { order: stateOrder, isLoading, activeTab } = this.state;
         const {
             display_tax_in_shipping_amount,
@@ -126,18 +129,24 @@ export class MyAccountOrderContainer extends PureComponent {
         };
     }
 
-    handleReorder() {
+    handleReorder(): void {
         const { reorder } = this.props;
-        const { order: { increment_id } } = this.state;
+        const { order } = this.state;
 
-        reorder(increment_id);
+        if (!('increment_id' in order)) {
+            return;
+        }
+
+        const { increment_id } = order as OrderItem;
+
+        reorder(String(increment_id));
     }
 
-    handleChangeActiveTab(tab) {
+    handleChangeActiveTab(tab: OrderTabs): void {
         this.setState({ activeTab: tab });
     }
 
-    handleChangeHeaderState() {
+    handleChangeHeaderState(): void {
         const { changeHeaderState } = this.props;
 
         changeHeaderState({
@@ -147,13 +156,8 @@ export class MyAccountOrderContainer extends PureComponent {
         });
     }
 
-    async requestOrderDetails() {
+    async requestOrderDetails(orderId: string): Promise<void> {
         const {
-            match: {
-                params: {
-                    orderId
-                }
-            },
             getOrderById,
             changeTabName,
             setTabSubheading
@@ -163,7 +167,7 @@ export class MyAccountOrderContainer extends PureComponent {
             return;
         }
 
-        const order = await getOrderById(orderId);
+        const order = await getOrderById(Number(orderId));
 
         if (!order) {
             history.replace(appendWithStoreCode(`${AccountPageUrl.ORDER_HISTORY}`));

@@ -16,19 +16,16 @@ import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { ADDRESS_BOOK, CustomerType } from 'Type/Account.type';
+import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
+
+import { MyAccountDashboardComponentProps } from './MyAccountDashboard.type';
 
 import './MyAccountDashboard.style';
 
 /** @namespace Component/MyAccountDashboard/Component */
-export class MyAccountDashboard extends PureComponent {
-    static propTypes = {
-        customer: CustomerType.isRequired,
-        getDefaultAddress: PropTypes.func.isRequired
-    };
-
-    renderNoDefaultAddressConfigured(name): ReactElement {
+export class MyAccountDashboard extends PureComponent<MyAccountDashboardComponentProps> {
+    renderNoDefaultAddressConfigured(name: string): ReactElement {
         return (
             <div
               key={ name }
@@ -44,14 +41,14 @@ export class MyAccountDashboard extends PureComponent {
     renderLinkToAddressBook(): ReactElement {
         return (
             <p block="MyAccountDashboard" elem="Info">
-                <Link to={ `${AccountPageUrl.ACCOUNT_URL}/${ADDRESS_BOOK}` }>
+                <Link to={ `${AccountPageUrl.ACCOUNT_URL}/${MyAccountTabs.ADDRESS_BOOK}` }>
                     { __('Go to "Address Book", to configure them!') }
                 </Link>
             </p>
         );
     }
 
-    renderDefaultAddressTable(isBilling): ReactElement {
+    renderDefaultAddressTable(isBilling: boolean): ReactElement {
         const { getDefaultAddress } = this.props;
         const name = isBilling ? __('billing') : __('shipping');
         const address = getDefaultAddress(isBilling);
@@ -79,7 +76,7 @@ export class MyAccountDashboard extends PureComponent {
         return (
             <div block="MyAccountDashboard" elem="BlockTitle">
                 <span>{ __('Address Book') }</span>
-                <Link to={ `${AccountPageUrl.ACCOUNT_URL}/${ADDRESS_BOOK}` }>
+                <Link to={ `${AccountPageUrl.ACCOUNT_URL}/${MyAccountTabs.ADDRESS_BOOK}` }>
                     { __('Manage Addresses') }
                 </Link>
             </div>
@@ -107,7 +104,7 @@ export class MyAccountDashboard extends PureComponent {
             <div block="MyAccountDashboard" elem="Addresses">
                 { this.renderAddressBlockTitle() }
                 <div block="MyAccountDashboard" elem="AddressesWrapper">
-                    { this.renderDefaultAddressTable() }
+                    { this.renderDefaultAddressTable(false) }
                     { this.renderDefaultAddressTable(true) }
                 </div>
             </div>

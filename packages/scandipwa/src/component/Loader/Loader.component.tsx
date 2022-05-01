@@ -11,7 +11,9 @@
 
 import { PureComponent } from 'react';
 
-import { MixType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { LoaderComponentProps } from './Loader.type';
 
 import './Loader.style';
 
@@ -21,12 +23,7 @@ import './Loader.style';
  * @class Loader
  * @namespace Component/Loader/Component
  */
-export class Loader extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool,
-        mix: MixType
-    };
-
+export class Loader extends PureComponent<LoaderComponentProps> {
     static defaultProps = {
         isLoading: true,
         mix: {}

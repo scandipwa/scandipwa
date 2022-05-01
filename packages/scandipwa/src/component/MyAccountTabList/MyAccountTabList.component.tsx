@@ -13,23 +13,20 @@ import { PureComponent } from 'react';
 
 import ExpandableContent from 'Component/ExpandableContent';
 import MyAccountTabListItem from 'Component/MyAccountTabListItem';
-import { ActiveTabType, TabMapType } from 'Type/Account.type';
-import { ReactElement } from 'Type/Common.type';
+import { MyAccountTab } from 'Route/MyAccount/MyAccount.type';
+import { ObjectEntries, ReactElement } from 'Type/Common.type';
+
+import { MyAccountTabListComponentProps } from './MyAccountTabList.type';
 
 import './MyAccountTabList.style';
 
 /** @namespace Component/MyAccountTabList/Component */
-export class MyAccountTabList extends PureComponent {
-    static propTypes = {
-        tabMap: TabMapType.isRequired,
-        activeTab: ActiveTabType.isRequired,
-        handleLogout: PropTypes.func.isRequired,
-        onTabClick: PropTypes.func.isRequired,
-        isContentExpanded: PropTypes.bool.isRequired,
-        toggleExpandableContent: PropTypes.func.isRequired
-    };
-
-    renderTabListItem(tabEntry, index, tabArray): ReactElement {
+export class MyAccountTabList extends PureComponent<MyAccountTabListComponentProps> {
+    renderTabListItem(
+        tabEntry: ObjectEntries<Record<string, MyAccountTab>>,
+        index: number,
+        tabArray: ObjectEntries<Record<string, MyAccountTab>>[]
+    ): ReactElement {
         const { activeTab, onTabClick } = this.props;
         const [key, tab] = tabEntry;
         const { section } = tab;

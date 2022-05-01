@@ -9,8 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { Component, lazy, Suspense } from 'react';
+import {
+    Component,
+    lazy,
+    ReactElement,
+    Suspense
+} from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
@@ -18,22 +22,11 @@ import MyAccountInformation from 'Component/MyAccountInformation';
 import MyAccountOrder from 'Component/MyAccountOrder';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
-import {
-    ACCOUNT_INFORMATION,
-    ActiveTabType,
-    ADDRESS_BOOK,
-    MY_ACCOUNT,
-    MY_DOWNLOADABLE,
-    MY_ORDER,
-    MY_ORDERS,
-    MY_WISHLIST,
-    NEWSLETTER_SUBSCRIPTION,
-    TabMapType
-} from 'Type/Account.type';
-import { LocationType, MatchType } from 'Type/Router.type';
+import { MyAccountTabs } from 'Type/Account.type';
 import { isSignedIn } from 'Util/Auth';
 
 import { AccountPageUrl } from './MyAccount.config';
+import { MyAccountComponentProps } from './MyAccount.type';
 
 import './MyAccount.style';
 
@@ -63,39 +56,24 @@ export const MyAccountNewsletterSubscription = lazy(() => import(
 ));
 
 /** @namespace Route/MyAccount/Component */
-export class MyAccount extends Component {
-    static propTypes = {
-        isEditingActive: PropTypes.bool.isRequired,
-        subHeading: PropTypes.string,
-        activeTab: ActiveTabType.isRequired,
-        tabMap: TabMapType.isRequired,
-        changeActiveTab: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired,
-        onSignOut: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
-        match: MatchType.isRequired,
-        changeTabName: PropTypes.func.isRequired,
-        tabName: PropTypes.string,
-        setTabSubheading: PropTypes.func.isRequired
-    };
-
+export class MyAccount extends Component<MyAccountComponentProps> {
     static defaultProps = {
         subHeading: '',
-        tabName: null
+        tabName: ''
     };
 
     renderMap = {
-        [ MY_ACCOUNT ]: MyAccountDashboard,
-        [ MY_ORDER ]: MyAccountOrder,
-        [ MY_ORDERS ]: MyAccountMyOrders,
-        [ MY_WISHLIST ]: MyAccountMyWishlist,
-        [ ADDRESS_BOOK ]: MyAccountAddressBook,
-        [ NEWSLETTER_SUBSCRIPTION ]: MyAccountNewsletterSubscription,
-        [ MY_DOWNLOADABLE ]: MyAccountDownloadable,
-        [ ACCOUNT_INFORMATION ]: MyAccountInformation
-    };
+        [ MyAccountTabs.MY_ACCOUNT ]: MyAccountDashboard,
+        [ MyAccountTabs.MY_ORDER ]: MyAccountOrder,
+        [ MyAccountTabs.MY_ORDERS ]: MyAccountMyOrders,
+        [ MyAccountTabs.MY_WISHLIST ]: MyAccountMyWishlist,
+        [ MyAccountTabs.ADDRESS_BOOK ]: MyAccountAddressBook,
+        [ MyAccountTabs.NEWSLETTER_SUBSCRIPTION ]: MyAccountNewsletterSubscription,
+        [ MyAccountTabs.MY_DOWNLOADABLE ]: MyAccountDownloadable,
+        [ MyAccountTabs.ACCOUNT_INFORMATION ]: MyAccountInformation
+    } as unknown as Record<string, ReactElement>;
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: MyAccountComponentProps): boolean {
         const {
             activeTab,
             location: { pathname },
@@ -119,11 +97,11 @@ export class MyAccount extends Component {
         );
     }
 
-    getTabContent() {
+    getTabContent(): ReactElement {
         const { activeTab, location: { pathname } } = this.props;
 
-        if (activeTab === MY_ORDERS && pathname.includes(AccountPageUrl.ORDER_URL)) {
-            return this.renderMap[ MY_ORDER ];
+        if (activeTab === MyAccountTabs.MY_ORDERS && pathname.includes(AccountPageUrl.ORDER_URL)) {
+            return this.renderMap[ MyAccountTabs.MY_ORDER ];
         }
 
         return this.renderMap[ activeTab ];
@@ -139,7 +117,7 @@ export class MyAccount extends Component {
         );
     }
 
-    renderSubHeading(): ReactElement {
+    renderSubHeading(): null | ReactElement {
         const { subHeading } = this.props;
 
         if (!subHeading) {

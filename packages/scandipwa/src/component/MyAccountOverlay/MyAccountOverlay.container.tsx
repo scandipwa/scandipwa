@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
@@ -24,19 +24,24 @@ import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
 import history from 'Util/History';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountOverlay from './MyAccountOverlay.component';
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
-    STATE_CREATE_ACCOUNT,
-    STATE_FORGOT_PASSWORD,
-    STATE_LOGGED_IN,
-    STATE_SIGN_IN
+    MyAccountPageState
 } from './MyAccountOverlay.config';
+import {
+    MyAccountOverlayComponentProps,
+    MyAccountOverlayContainerMapDispatchProps,
+    MyAccountOverlayContainerMapStateProps,
+    MyAccountOverlayContainerProps,
+    MyAccountOverlayContainerState
+} from './MyAccountOverlay.type';
 
 /** @namespace Component/MyAccountOverlay/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountOverlayContainerMapStateProps => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     customer: state.MyAccountReducer.customer,
     isMobile: state.ConfigReducer.device.isMobile,
@@ -48,7 +53,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/MyAccountOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOverlayContainerMapDispatchProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
@@ -57,24 +62,9 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/MyAccountOverlay/Container */
-export class MyAccountOverlayContainer extends PureComponent {
-    static propTypes = {
-        isCheckout: PropTypes.bool,
-        isLoading: PropTypes.bool,
-        isMobile: PropTypes.bool.isRequired,
-        isOverlayVisible: PropTypes.bool.isRequired,
-        isPasswordForgotSend: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool.isRequired,
-
-        goToPreviousHeaderState: PropTypes.func,
-        hideActiveOverlay: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func,
-        redirectToDashboard: PropTypes.bool.isRequired,
-        setHeaderState: PropTypes.func.isRequired,
-        showOverlay: PropTypes.func.isRequired,
-        updateCustomerLoadingStatus: PropTypes.func.isRequired
-    };
-
+export class MyAccountOverlayContainer extends PureComponent<
+MyAccountOverlayContainerProps, MyAccountOverlayContainerState
+> {
     static defaultProps = {
         isCheckout: false,
         isLoading: false,
@@ -92,13 +82,16 @@ export class MyAccountOverlayContainer extends PureComponent {
         setLoadingState: this.setLoadingState.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: MyAccountOverlayContainerProps): void {
+        super.__construct?.(props);
 
         this.state = this.redirectOrGetState(props);
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(
+        props: MyAccountOverlayContainerProps,
+        state: MyAccountOverlayContainerState
+    ): Partial<MyAccountOverlayContainerState> | null {
         const {
             isPasswordForgotSend,
             isOverlayVisible,
@@ -113,29 +106,30 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         const { location: { pathname, state: { isForgotPassword } = {} } } = history;
 
-        const stateToBeUpdated = {};
+        const stateToBeUpdated: Partial<MyAccountOverlayContainerState> = {};
+
         const customerIsSignedIn = isSignedIn();
 
         if (!isMobile) {
             if (!isOverlayVisible && !customerIsSignedIn) {
                 if (pathname !== '/forgot-password' && !isForgotPassword) {
-                    stateToBeUpdated.state = STATE_SIGN_IN;
+                    stateToBeUpdated.state = MyAccountPageState.STATE_SIGN_IN;
                 }
             } else if (!isOverlayVisible && customerIsSignedIn) {
-                stateToBeUpdated.state = STATE_LOGGED_IN;
+                stateToBeUpdated.state = MyAccountPageState.STATE_LOGGED_IN;
             }
         }
 
-        if (myAccountState !== STATE_LOGGED_IN && customerIsSignedIn) {
-            stateToBeUpdated.state = STATE_LOGGED_IN;
+        if (myAccountState !== MyAccountPageState.STATE_LOGGED_IN && customerIsSignedIn) {
+            stateToBeUpdated.state = MyAccountPageState.STATE_LOGGED_IN;
 
             if (pathname.includes(CheckoutStepUrl.CHECKOUT_URL)) {
                 goToPreviousHeaderState();
             }
         }
 
-        if (myAccountState === STATE_LOGGED_IN && !customerIsSignedIn) {
-            stateToBeUpdated.state = STATE_SIGN_IN;
+        if (myAccountState === MyAccountPageState.STATE_LOGGED_IN && !customerIsSignedIn) {
+            stateToBeUpdated.state = MyAccountPageState.STATE_SIGN_IN;
         }
 
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
@@ -144,13 +138,13 @@ export class MyAccountOverlayContainer extends PureComponent {
             if (!isOverlayVisible) {
                 history.push({ pathname: appendWithStoreCode(AccountPageUrl.LOGIN_URL) });
             }
-            stateToBeUpdated.state = STATE_SIGN_IN;
+            stateToBeUpdated.state = MyAccountPageState.STATE_SIGN_IN;
         }
 
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
     }
 
-    componentDidUpdate(prevProps, prevState): void {
+    componentDidUpdate(prevProps: MyAccountOverlayContainerProps, prevState: MyAccountOverlayContainerState): void {
         const { isSignedIn: prevIsSignedIn } = prevProps;
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
@@ -178,14 +172,14 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         if (
-            newMyAccountState !== STATE_LOGGED_IN
+            newMyAccountState !== MyAccountPageState.STATE_LOGGED_IN
             && pathname.includes(AccountPageUrl.ACCOUNT_URL)
             && !isOverlayVisible
         ) {
             history.push({ pathname: appendWithStoreCode(AccountPageUrl.LOGIN_URL) });
         }
 
-        if (newMyAccountState === STATE_LOGGED_IN) {
+        if (newMyAccountState === MyAccountPageState.STATE_LOGGED_IN) {
             if (pathname.includes(AccountPageUrl.ACCOUNT_URL)) {
                 history.push({ pathname: appendWithStoreCode('/') });
             } else if (!pathname.includes(CheckoutStepUrl.CHECKOUT_URL) && redirectToDashboard) {
@@ -194,16 +188,24 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<
+    MyAccountOverlayComponentProps,
+    'isCheckout'
+    | 'isLoading'
+    | 'isMobile'
+    | 'isOverlayVisible'
+    | 'onSignIn'
+    | 'state'
+    > {
         const {
             isOverlayVisible,
             isMobile,
             isLoading: propIsLoading,
-            onSignIn
+            onSignIn,
+            isCheckout
         } = this.props;
         const {
-            state,
-            isCheckout
+            state
         } = this.state;
 
         return {
@@ -216,17 +218,17 @@ export class MyAccountOverlayContainer extends PureComponent {
         };
     }
 
-    setSignInState(state) {
+    setSignInState(state: MyAccountPageState): void {
         this.setState({ state });
     }
 
-    setLoadingState(isLoading) {
+    setLoadingState(isLoading: boolean): void {
         const { updateCustomerLoadingStatus } = this.props;
 
         updateCustomerLoadingStatus(isLoading);
     }
 
-    redirectOrGetState(props) {
+    redirectOrGetState(props: MyAccountOverlayContainerProps): MyAccountOverlayContainerState {
         const {
             showOverlay,
             setHeaderState,
@@ -237,7 +239,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         const { location: { pathname, state: { isForgotPassword } = {} } } = history;
 
         const state = {
-            state: isSignedIn() ? STATE_LOGGED_IN : STATE_SIGN_IN,
+            state: isSignedIn() ? MyAccountPageState.STATE_LOGGED_IN : MyAccountPageState.STATE_SIGN_IN,
             // eslint-disable-next-line react/no-unused-state
             isPasswordForgotSend,
             isLoading: false
@@ -248,19 +250,21 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         // if customer got here from forgot-password
-        state.state = STATE_FORGOT_PASSWORD;
+        state.state = MyAccountPageState.STATE_FORGOT_PASSWORD;
 
         setHeaderState({
             name: Page.CUSTOMER_SUB_ACCOUNT,
             title: 'Forgot password',
-            onBackClick: (e) => {
+            onBackClick: (e: MouseEvent) => {
                 history.push({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
                 this.handleSignIn(e);
             }
         });
 
         if (isMobile) {
-            history.push({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL), state: { isForgotPassword: true } });
+            history.push(
+                { pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL), state: { isForgotPassword: true } }
+            );
 
             return state;
         }
@@ -270,7 +274,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         return state;
     }
 
-    onVisible() {
+    onVisible(): void {
         const { setHeaderState, isCheckout, isMobile } = this.props;
 
         if (isMobile && !isCheckout) {
@@ -278,23 +282,23 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
     }
 
-    onFormError() {
+    onFormError(): void {
         const { updateCustomerLoadingStatus } = this.props;
 
         updateCustomerLoadingStatus(false);
     }
 
-    stopLoadingAndHideOverlay() {
+    stopLoadingAndHideOverlay(): void {
         const { hideActiveOverlay, updateCustomerLoadingStatus } = this.props;
         updateCustomerLoadingStatus(false);
         hideActiveOverlay();
     }
 
-    handleForgotPassword(e) {
+    handleForgotPassword(e: MouseEvent): void {
         const { setHeaderState } = this.props;
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
-        this.setState({ state: STATE_FORGOT_PASSWORD });
+        this.setState({ state: MyAccountPageState.STATE_FORGOT_PASSWORD });
 
         setHeaderState({
             name: Page.CUSTOMER_SUB_ACCOUNT,
@@ -303,11 +307,11 @@ export class MyAccountOverlayContainer extends PureComponent {
         });
     }
 
-    handleSignIn(e) {
+    handleSignIn(e: MouseEvent): void {
         const { setHeaderState } = this.props;
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
-        this.setState({ state: STATE_SIGN_IN });
+        this.setState({ state: MyAccountPageState.STATE_SIGN_IN });
 
         setHeaderState({
             name: Page.CUSTOMER_ACCOUNT,
@@ -315,11 +319,11 @@ export class MyAccountOverlayContainer extends PureComponent {
         });
     }
 
-    handleCreateAccount(e) {
+    handleCreateAccount(e: MouseEvent): void {
         const { setHeaderState } = this.props;
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
-        this.setState({ state: STATE_CREATE_ACCOUNT });
+        this.setState({ state: MyAccountPageState.STATE_CREATE_ACCOUNT });
 
         setHeaderState({
             name: Page.CUSTOMER_SUB_ACCOUNT,

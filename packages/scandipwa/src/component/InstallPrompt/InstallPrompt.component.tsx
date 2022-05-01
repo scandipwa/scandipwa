@@ -14,20 +14,13 @@ import { PureComponent } from 'react';
 import InstallPromptAndroid from 'Component/InstallPromptAndroid';
 import InstallPromptIOS from 'Component/InstallPromptIOS';
 import { ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
+
+import { InstallPromptComponentProps } from './InstallPrompt.type';
 
 import './InstallPrompt.style';
 
 /** @namespace Component/InstallPrompt/Component */
-export class InstallPrompt extends PureComponent {
-    static propTypes = {
-        device: DeviceType.isRequired,
-        isBannerClosed: PropTypes.bool.isRequired,
-        hasInstallPromptEvent: PropTypes.bool.isRequired,
-        handleAppInstall: PropTypes.func.isRequired,
-        handleBannerClose: PropTypes.func.isRequired
-    };
-
+export class InstallPrompt extends PureComponent<InstallPromptComponentProps> {
     /**
      * Currently BeforeInstallPromptEvent is supported only on
      * - Android webview
@@ -35,7 +28,7 @@ export class InstallPrompt extends PureComponent {
      * - Samsung Internet
      * But iOS has own "Add to Home Screen button" on Safari share menu
      */
-    hasSupport() {
+    hasSupport():boolean {
         const { device, hasInstallPromptEvent, isBannerClosed } = this.props;
         const {
             android,
@@ -61,7 +54,6 @@ export class InstallPrompt extends PureComponent {
         if (device.ios) {
             return (
                 <InstallPromptIOS
-                  handleAppInstall={ handleAppInstall }
                   handleBannerClose={ handleBannerClose }
                 />
             );

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { RouteComponentProps } from 'react-router';
+import { match, RouteComponentProps } from 'react-router';
 
 import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
@@ -17,11 +17,9 @@ import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { MyAccountTabsSection } from 'Type/Account.type';
-import { Location, Match } from 'Type/Router.type';
+import { Location } from 'Type/Router.type';
 
-import { MyAccountContainer } from './MyAccount.container';
-
-export interface MyAccountMapStateProps {
+export interface MyAccountContainerMapStateProps {
     isMobile: boolean;
     isWishlistEnabled: boolean;
     wishlistItems: Record<string, WishlistProduct>;
@@ -31,7 +29,7 @@ export interface MyAccountMapStateProps {
     baseLinkUrl: string;
 }
 
-export interface MyAccountMapDispatchProps {
+export interface MyAccountContainerMapDispatchProps {
     updateBreadcrumbs: (breadcrumbs: Breadcrumb[]) => void;
     changeHeaderState: (state: NavigationState) => void;
     requestCustomerData: () => void;
@@ -42,10 +40,9 @@ export interface MyAccountMapDispatchProps {
     updateIsLocked: (isLocked: boolean) => void;
 }
 
-export type MyAccountContainerProps = MyAccountMapStateProps
-& MyAccountMapDispatchProps
-& RouteComponentProps<{ tab: string }>
-& typeof MyAccountContainer.defaultProps
+export type MyAccountContainerProps = MyAccountContainerMapStateProps
+& MyAccountContainerMapDispatchProps
+& RouteComponentProps<{ tab?: string; orderId?: string }>
 & {
     selectedTab: string;
 };
@@ -62,11 +59,14 @@ export interface MyAccountComponentProps {
     subHeading: string;
     activeTab: string;
     tabMap: Record<string, MyAccountTab>;
-    changeActiveTab: (activeTab: MyAccountTab) => void;
+    changeActiveTab: (activeTab: string) => void;
     onSignIn: () => void;
     onSignOut: () => void;
     location: Location;
-    match: Match;
+    match: match<{
+        tab?: string;
+        orderId?: string;
+    }>;
     changeTabName: (newTabName: string) => void;
     tabName: string;
     setTabSubheading: (subHeading: string) => void;

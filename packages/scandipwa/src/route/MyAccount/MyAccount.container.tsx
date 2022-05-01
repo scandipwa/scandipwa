@@ -38,10 +38,10 @@ import MyAccount from './MyAccount.component';
 import { AccountPageUrl, LOCKED_ACCOUNT_ERROR_MESSAGE } from './MyAccount.config';
 import {
     MyAccountComponentProps,
+    MyAccountContainerMapDispatchProps,
+    MyAccountContainerMapStateProps,
     MyAccountContainerProps,
     MyAccountContainerState,
-    MyAccountMapDispatchProps,
-    MyAccountMapStateProps,
     MyAccountTab
 } from './MyAccount.type';
 
@@ -55,7 +55,7 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Route/MyAccount/Container/mapStateToProps */
-export const mapStateToProps = (state: RootState): MyAccountMapStateProps => ({
+export const mapStateToProps = (state: RootState): MyAccountContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     wishlistItems: state.WishlistReducer.productsInWishlist,
@@ -66,7 +66,7 @@ export const mapStateToProps = (state: RootState): MyAccountMapStateProps => ({
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMapDispatchProps => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountContainerMapDispatchProps => ({
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
     ),
@@ -87,7 +87,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMapDispatchProp
 export class MyAccountContainer extends PureComponent<MyAccountContainerProps, MyAccountContainerState> {
     static defaultProps = {
         wishlistItems: {},
-        selectedTab: null
+        selectedTab: ''
     };
 
     static tabMap: Record<string, MyAccountTab> = {
@@ -278,6 +278,7 @@ export class MyAccountContainer extends PureComponent<MyAccountContainerProps, M
     | 'location'
     | 'match'
     | 'tabName'
+    | 'tabMap'
     | 'subHeading'
     > {
         const { location, match } = this.props;
@@ -289,7 +290,8 @@ export class MyAccountContainer extends PureComponent<MyAccountContainerProps, M
             location,
             match,
             tabName: this.getTabName(),
-            subHeading: this.getSubHeading()
+            subHeading: this.getSubHeading(),
+            tabMap: this.tabsFilterEnabled()
         };
     }
 
@@ -428,19 +430,6 @@ export class MyAccountContainer extends PureComponent<MyAccountContainerProps, M
         });
     }
 
-    changeHeaderState(activeTabParam: string): void {
-        const { activeTab: activeTabState } = this.state;
-        const activeTab = activeTabParam || activeTabState;
-
-        if (activeTab !== MyAccountTabs.MY_WISHLIST) {
-            this.changeDefaultHeaderState();
-
-            return;
-        }
-
-        this.changeWishlistHeaderState();
-    }
-
     changeTabName(newTabName: string): void {
         this.setState({ tabName: newTabName });
     }
@@ -506,7 +495,6 @@ export class MyAccountContainer extends PureComponent<MyAccountContainerProps, M
             <MyAccount
               { ...this.containerProps() }
               { ...this.containerFunctions }
-              tabMap={ this.tabsFilterEnabled() }
             />
         );
     }

@@ -22,10 +22,11 @@ export type Option = {
 export type CustomErrorMessages = {
     onRequirementFail?: string;
     onInputTypeFail?: string;
-    onMatchFail?: any | string; // TODO: Remove any
+    onMatchFail?: string;
     onRangeFailMin?: string;
     onRangeFailMax?: string;
     onExtensionFail?: string;
+    onGroupFail?: string;
 };
 
 export type ValidationRule = {
@@ -37,10 +38,10 @@ export type ValidationRule = {
 };
 
 // TODO
-export type Events = () => void;
+export type Events = Record<string, unknown>;
 
 // TODO
-export type FieldAttr = any;
+export type FieldAttr = unknown;
 
 export type FieldOptions = {
     id?: string | number;

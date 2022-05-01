@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { MouseEvent } from 'react';
 import { AnyAction } from 'redux';
 
 export enum NavigationActionType {
@@ -25,7 +26,8 @@ export type NavigationState = {
     name: string;
     title?: string;
     force?: boolean;
-    onBackClick?: () => void;
+    onBackClick?: (e: MouseEvent) => void;
+    onCloseClick?: (e: MouseEvent) => void;
 };
 
 export interface ChangeNavigationStateAction extends AnyAction {

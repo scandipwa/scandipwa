@@ -8,8 +8,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+export enum MyAccountAddressPopupAction {
 
-export const ADDRESS_POPUP_ID = 'MyAccountAddressPopup';
-export const EDIT_ADDRESS = 'EDIT_ADDRESS';
-export const DELETE_ADDRESS = 'DELETE_ADDRESS';
-export const ADD_ADDRESS = 'ADD_ADDRESS';
+    ADDRESS_POPUP_ID = 'MyAccountAddressPopup',
+    EDIT_ADDRESS = 'EDIT_ADDRESS',
+    DELETE_ADDRESS = 'DELETE_ADDRESS',
+    ADD_ADDRESS = 'ADD_ADDRESS'
+}

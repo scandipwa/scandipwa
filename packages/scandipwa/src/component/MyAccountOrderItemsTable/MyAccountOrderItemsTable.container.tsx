@@ -9,34 +9,38 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountOrderItemsTable from './MyAccountOrderItemsTable.component';
+import {
+    MyAccountOrderItemsTableComponentProps,
+    MyAccountOrderItemsTableContainerMapDispatchProps,
+    MyAccountOrderItemsTableContainerMapStateProps,
+    MyAccountOrderItemsTableContainerProps
+} from './MyAccountOrderItemsTable.type';
 
 /** @namespace Component/MyAccountOrderItemsTable/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountOrderItemsTableContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/MyAccountOrderItemsTable/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): MyAccountOrderItemsTableContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountOrderItemsTable/Container */
-export class MyAccountOrderItemsTableContainer extends PureComponent {
-    static propTypes = {
-        isMobile: PropTypes.bool.isRequired,
-        activeTab: PropTypes.string.isRequired,
-        items: OrderTabType.isRequired,
-        total: OrderTotalType.isRequired,
-        allOrderItems: OrderProductsType.isRequired
-    };
-
-    containerProps() {
+export class MyAccountOrderItemsTableContainer extends PureComponent<MyAccountOrderItemsTableContainerProps> {
+    containerProps(): Pick<
+    MyAccountOrderItemsTableComponentProps,
+    | 'isMobile'
+    | 'items'
+    | 'activeTab'
+    | 'total'
+    | 'allOrderItems'
+    > {
         const {
             isMobile,
             items,
@@ -57,7 +61,7 @@ export class MyAccountOrderItemsTableContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountOrderItemsTable
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

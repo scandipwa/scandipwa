@@ -14,21 +14,13 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
-import { SignInStateType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import { ValidationInputType } from 'Util/Validator/Config';
 
-/** @namespace Component/MyAccountForgotPassword/Component */
-export class MyAccountForgotPassword extends PureComponent {
-    static propTypes = {
-        state: SignInStateType.isRequired,
-        onForgotPasswordSuccess: PropTypes.func.isRequired,
-        onFormError: PropTypes.func.isRequired,
-        handleSignIn: PropTypes.func.isRequired,
-        handleCreateAccount: PropTypes.func.isRequired,
-        isCheckout: PropTypes.bool.isRequired
-    };
+import { MyAccountForgotPasswordComponentProps } from './MyAccountForgotPassword.type';
 
+/** @namespace Component/MyAccountForgotPassword/Component */
+export class MyAccountForgotPassword extends PureComponent<MyAccountForgotPasswordComponentProps> {
     renderForgotPasswordForm(): ReactElement {
         const { onForgotPasswordSuccess, onFormError } = this.props;
 
@@ -51,7 +43,7 @@ export class MyAccountForgotPassword extends PureComponent {
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputType.email
+                      inputType: ValidationInputType.EMAIL
                   } }
                   addRequiredTag
                 />

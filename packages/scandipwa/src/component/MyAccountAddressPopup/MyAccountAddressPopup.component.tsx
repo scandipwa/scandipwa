@@ -15,31 +15,15 @@ import Loader from 'Component/Loader';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import Popup from 'Component/Popup';
-import { Addresstype } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 
-import {
-    ADD_ADDRESS, ADDRESS_POPUP_ID, DELETE_ADDRESS, EDIT_ADDRESS
-} from './MyAccountAddressPopup.config';
+import { MyAccountAddressPopupAction } from './MyAccountAddressPopup.config';
+import { MyAccountAddressPopupComponentProps } from './MyAccountAddressPopup.type';
 
 import './MyAccountAddressPopup.style';
 
 /** @namespace Component/MyAccountAddressPopup/Component */
-export class MyAccountAddressPopup extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        handleAddress: PropTypes.func.isRequired,
-        handleDeleteAddress: PropTypes.func.isRequired,
-        payload: PropTypes.shape({
-            action: PropTypes.oneOf([
-                EDIT_ADDRESS,
-                DELETE_ADDRESS,
-                ADD_ADDRESS
-            ]),
-            address: Addresstype
-        }).isRequired
-    };
-
+export class MyAccountAddressPopup extends PureComponent<MyAccountAddressPopupComponentProps> {
     renderAddressForm(): ReactElement {
         const { payload: { address }, handleAddress } = this.props;
 
@@ -71,10 +55,10 @@ export class MyAccountAddressPopup extends PureComponent {
         const { payload: { action } } = this.props;
 
         switch (action) {
-        case EDIT_ADDRESS:
-        case ADD_ADDRESS:
+        case MyAccountAddressPopupAction.EDIT_ADDRESS:
+        case MyAccountAddressPopupAction.ADD_ADDRESS:
             return this.renderAddressForm();
-        case DELETE_ADDRESS:
+        case MyAccountAddressPopupAction.DELETE_ADDRESS:
             return this.renderDeleteNotice();
         default:
             return null;
@@ -86,7 +70,7 @@ export class MyAccountAddressPopup extends PureComponent {
 
         return (
             <Popup
-              id={ ADDRESS_POPUP_ID }
+              id={ MyAccountAddressPopupAction.ADDRESS_POPUP_ID }
               clickOutside={ false }
               mix={ { block: 'MyAccountAddressPopup' } }
             >
