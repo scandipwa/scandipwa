@@ -46,6 +46,11 @@
         width: min-content;
     }
 
+    &-Comments {
+        border: var(--table-body-border);
+        padding: 15px;
+    }
+
     &ItemsTable {
         &-ProductsWrapper {
             border: var(--table-body-border);
@@ -107,7 +112,7 @@
 
         &-Column {
             margin-block-end: 20px;
-            
+
             @media print {
                 display: block;
                 break-inside: avoid;
