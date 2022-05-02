@@ -69,7 +69,6 @@ export class MyAccountAddressFormContainer extends PureComponent {
         onCityChange: this.onCityChange.bind(this),
         onRegionChange: this.onRegionChange.bind(this),
         onRegionIdChange: this.onRegionIdChange.bind(this)
-        // setPreviouslySelectedAddressData: this.setPreviouslySelectedAddressData.bind(this)
     };
 
     containerProps() {
@@ -109,16 +108,6 @@ export class MyAccountAddressFormContainer extends PureComponent {
             currentRegionId
         };
     }
-
-    /* async setPreviouslySelectedAddressData(countryId, currentRegion, currentRegionId) {
-        await this.setState({
-            countryId,
-            currentRegion,
-            currentRegionId
-        });
-
-        console.log('>>>>>>>>>>>>>', this.state);
-    } */
 
     // #region GETTERS
     getCountry(countryId = null) {

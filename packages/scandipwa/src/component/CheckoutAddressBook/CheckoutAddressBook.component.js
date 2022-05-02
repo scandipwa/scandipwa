@@ -51,7 +51,7 @@ export class CheckoutAddressBook extends PureComponent {
             isCustomAddressExpanded: false,
             customAddress: (
                 !isBilling && !selectedAddressId
-                    ? this.prepareAddressFormat(shippingFields)
+                    ? shippingFields
                     : {}
             )
         };
@@ -65,32 +65,6 @@ export class CheckoutAddressBook extends PureComponent {
         }
 
         return { isCustomAddressExpanded: false };
-    }
-
-    prepareAddressFormat(address) {
-        const {
-            country_id: countryId,
-            region: {
-                region,
-                region_id: regionId
-            } = {},
-            region_id,
-            region: address_region,
-            region_string,
-            ...data
-        } = address;
-
-        return {
-            ...data,
-            countryId,
-            region: (
-                region_string
-                || region
-                || JSON.stringify(address_region) === '{}' ? '' : address_region
-                || ''
-            ),
-            regionId: region_id || regionId
-        };
     }
 
     expandCustomAddress() {

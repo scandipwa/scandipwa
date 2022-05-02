@@ -43,7 +43,6 @@ export class MyAccountAddressForm extends FieldForm {
         currentRegion: PropTypes.string,
         currentZipcode: PropTypes.string,
         currentRegionId: PropTypes.number
-        // setPreviouslySelectedAddressData: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -54,27 +53,14 @@ export class MyAccountAddressForm extends FieldForm {
         isStateRequired: false
     };
 
-    /* componentDidMount() {
-        const {
-            address: {
-                regionId,
-                region,
-                countryId
-            },
-            setPreviouslySelectedAddressData
-        } = this.props;
-
-        setPreviouslySelectedAddressData(countryId, region, regionId);
-    } */
-
     //#region GETTERS
     get fieldMap() {
         const {
             address,
             address: {
-                regionId,
-                countryId: country_id,
-                region
+                region_id: address_regionId,
+                region: address_region,
+                region_string: address_regionString
             },
             countries,
             addressLinesQty,
@@ -95,9 +81,6 @@ export class MyAccountAddressForm extends FieldForm {
             onRegionIdChange
         } = this.props;
 
-        console.log('>>>>>>>>AA', address, country_id, countryId, parseInt(regionId, 10), 'llll', region);
-        console.log('>>>>>>>>>>AQQ', currentRegion, currentRegionId);
-
         return myAccountAddressForm({
             address,
             countries,
@@ -107,10 +90,10 @@ export class MyAccountAddressForm extends FieldForm {
             defaultCountry,
             availableRegions,
             isStateRequired,
-            countryId: country_id || countryId,
-            currentRegion: region || currentRegion,
+            countryId,
+            currentRegion: address_regionString || address_region || currentRegion,
             currentCity,
-            currentRegionId: parseInt(regionId, 10) || currentRegionId,
+            currentRegionId: parseInt(address_regionId, 10) || currentRegionId,
             currentZipcode,
             ...address
         }, {
