@@ -51,10 +51,6 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         selectedShippingMethod: {}
     };
 
-    state = {
-        isShippingMethodPreSelected: true
-    };
-
     containerFunctions = {
         selectShippingMethod: this.selectShippingMethod.bind(this)
     };
@@ -82,7 +78,6 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             handleSelectDeliveryMethod,
             selectedShippingMethod
         } = this.props;
-        const { isShippingMethodPreSelected } = this.state;
 
         return {
             estimateAddress,
@@ -90,8 +85,7 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             onStoreSelect,
             selectedShippingMethod,
             shippingMethods,
-            handleSelectDeliveryMethod,
-            isShippingMethodPreSelected
+            handleSelectDeliveryMethod
         };
     }
 
@@ -106,12 +100,13 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         return additionalDataGetter();
     }
 
+    // eslint-disable-next-line consistent-return
     selectShippingMethod(shippingMethod) {
-        const { onShippingMethodSelect } = this.props;
-        const { isShippingMethodPreSelected } = this.state;
+        const { onShippingMethodSelect, handleSelectDeliveryMethod } = this.props;
 
-        if (isShippingMethodPreSelected) {
-            this.setState({ isShippingMethodPreSelected: false });
+        if (shippingMethod.method_code === 'pickup') {
+            handleSelectDeliveryMethod();
+            return;
         }
 
         onShippingMethodSelect(shippingMethod);

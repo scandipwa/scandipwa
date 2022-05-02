@@ -30,6 +30,7 @@ export class FieldNumberWithControls extends PureComponent {
         setRef: PropTypes.func.isRequired,
         value: PropTypes.number.isRequired,
         handleValueChange: PropTypes.func.isRequired,
+        stateValue: PropTypes.number.isRequired,
         isDisabled: PropTypes.bool.isRequired
     };
 
@@ -37,14 +38,15 @@ export class FieldNumberWithControls extends PureComponent {
         const {
             attr,
             attr: { min = 1, max = DEFAULT_MAX_PRODUCTS },
+            value,
             events,
             setRef,
-            value,
+            stateValue,
             handleValueChange,
             isDisabled
         } = this.props;
 
-        const numberValue = +value;
+        const numberValue = +value || +stateValue;
 
         return (
             <>
@@ -54,10 +56,10 @@ export class FieldNumberWithControls extends PureComponent {
                   { ...attr }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
                   { ...events }
+                  value={ value }
                   type={ FIELD_TYPE.number }
                   readOnly
                   aria-label={ __('Value') }
-                  value={ value }
                   disabled={ isDisabled }
                 />
                 <button
