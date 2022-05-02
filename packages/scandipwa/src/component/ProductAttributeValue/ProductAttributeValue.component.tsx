@@ -11,34 +11,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import {
+    CSSProperties, KeyboardEvent, MouseEvent, PureComponent
+} from 'react';
 
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import Html from 'Component/Html';
-import { MixType, ReactElement } from 'Type/Common.type';
-import { AttributeType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import { getBooleanLabel } from 'Util/Product';
 
 import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
+import { ProductAttributeValueComponentProps, ProductAttributeValueOption } from './ProductAttributeValue.type';
 
 import './ProductAttributeValue.style';
 
 /** @namespace Component/ProductAttributeValue/Component */
-export class ProductAttributeValue extends PureComponent {
-    static propTypes = {
-        getLink: PropTypes.func,
-        onClick: PropTypes.func,
-        attribute: AttributeType.isRequired,
-        isSelected: PropTypes.bool,
-        isAvailable: PropTypes.bool,
-        mix: MixType,
-        isFormattedAsText: PropTypes.bool,
-        isProductCountVisible: PropTypes.bool,
-        showProductAttributeAsLink: PropTypes.bool
-    };
-
+export class ProductAttributeValue extends PureComponent<ProductAttributeValueComponentProps> {
     static defaultProps = {
         isSelected: false,
         onClick: noopFn,
@@ -50,15 +40,16 @@ export class ProductAttributeValue extends PureComponent {
         showProductAttributeAsLink: true
     };
 
-    clickHandler = this.clickHandler.bind(this);
+    __construct(props: ProductAttributeValueComponentProps): void {
+        super.__construct?.(props);
 
-    renderSublabel = this.renderSublabel.bind(this);
+        this.clickHandler = this.clickHandler.bind(this);
+        this.renderSublabel = this.renderSublabel.bind(this);
+        this.getOptionLabel = this.getOptionLabel.bind(this);
+        this.getCheckboxLabel = this.getCheckboxLabel.bind(this);
+    }
 
-    getOptionLabel = this.getOptionLabel.bind(this);
-
-    getCheckboxLabel = this.getCheckboxLabel.bind(this);
-
-    getIsColorLight(hex) {
+    getIsColorLight(hex: string): boolean {
         const color = (hex.charAt(0) === '#') ? hex.substring(1, 7) : hex;
         const r = parseInt(color.substring(0, 2), 16); // hexToR
         const g = parseInt(color.substring(2, 4), 16); // hexToG
@@ -67,7 +58,7 @@ export class ProductAttributeValue extends PureComponent {
         return ((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186;
     }
 
-    getOptionLabel(value) {
+    getOptionLabel(value: string): Partial<ProductAttributeValueOption> {
         const {
             attribute: {
                 attribute_options,
@@ -102,7 +93,7 @@ export class ProductAttributeValue extends PureComponent {
         return {};
     }
 
-    clickHandler(e) {
+    clickHandler(e: MouseEvent | KeyboardEvent): void {
         const { onClick, attribute } = this.props;
 
         e.preventDefault();
@@ -125,7 +116,7 @@ export class ProductAttributeValue extends PureComponent {
     renderMultiSelectAttribute(): ReactElement {
         const { attribute: { attribute_value } } = this.props;
 
-        const labelsArray = attribute_value.split(',').reduce((labels, value) => {
+        const labelsArray = attribute_value.split(',').reduce((labels: string[], value) => {
             const { label } = this.getOptionLabel(value);
 
             if (label) {
@@ -214,7 +205,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderColorValue(color, label): ReactElement {
+    renderColorValue(color: string, label: string | undefined): ReactElement {
         const { isFormattedAsText, isSelected } = this.props;
         const isLight = this.getIsColorLight(color);
 
@@ -228,7 +219,7 @@ export class ProductAttributeValue extends PureComponent {
             '--option-check-mark-background': isLight ? '#000' : '#fff',
             // stylelint-disable-next-line value-keyword-case
             '--option-is-selected': isSelected ? 1 : 0
-        };
+        } as CSSProperties;
 
         return (
             <data
@@ -241,7 +232,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderImageValue(img, label): ReactElement {
+    renderImageValue(img: string, label: string | undefined): ReactElement {
         const { isFormattedAsText, isSelected } = this.props;
 
         if (isFormattedAsText) {
@@ -249,9 +240,8 @@ export class ProductAttributeValue extends PureComponent {
         }
 
         const style = {
-            // stylelint-disable-next-line value-keyword-case
             '--option-is-selected': isSelected ? 1 : 0
-        };
+        } as CSSProperties;
 
         return (
             <>
@@ -272,7 +262,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderSublabel(subLabel): ReactElement {
+    renderSublabel(subLabel: string): ReactElement {
         const { isProductCountVisible } = this.props;
 
         if (!subLabel || !isProductCountVisible) {
@@ -289,7 +279,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    getCheckboxLabel(value, subLabel) {
+    getCheckboxLabel(value: string, subLabel: string): ReactElement {
         return (
             <div
               block="ProductAttributeValue"
@@ -301,7 +291,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderDropdown(value, subLabel): ReactElement {
+    renderDropdown(value: string, subLabel: string): ReactElement {
         const { isSelected } = this.props;
 
         return (
@@ -322,16 +312,16 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderStringValue(value, label, count): ReactElement {
+    renderStringValue(value: string, label: string | null = null, count = 0): ReactElement {
         const { isFormattedAsText, isSelected } = this.props;
-        const isSwatch = label;
+        const isSwatch = !!label;
 
         if (isFormattedAsText) {
             return label || value || __('N/A');
         }
 
         if (!isSwatch) {
-            return this.renderDropdown(value, count);
+            return this.renderDropdown(value, String(count));
         }
 
         return (
@@ -413,7 +403,7 @@ export class ProductAttributeValue extends PureComponent {
                   onClick={ this.clickHandler }
                   onKeyDown={ this.clickHandler }
                   role="link"
-                  tabIndex="-1"
+                  tabIndex={ -1 }
                   aria-hidden={ isNotAvailable }
                   mix={ mix }
                 >

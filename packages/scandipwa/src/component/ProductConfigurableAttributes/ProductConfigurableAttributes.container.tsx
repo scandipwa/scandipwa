@@ -9,40 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
+import { AnimationEvent, PureComponent } from 'react';
 
-import { StockType } from 'Component/Product/Stock.config';
+import { StockStatus } from 'Component/Product/Stock.config';
 import {
     BIG_PLACEHOLDER_CONFIG
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
-import { MixType } from 'Type/Common.type';
-import { AttributesType, ItemsType, ItemType } from 'Type/ProductList.type';
+import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import { getBooleanLabel } from 'Util/Product';
 
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';
+import {
+    ProductConfigurableAttribute,
+    ProductConfigurableAttributesComponentContainerPropsKeys,
+    ProductConfigurableAttributesComponentProps,
+    ProductConfigurableAttributesContainerProps
+} from './ProductConfigurableAttributes.type';
 
 /** @namespace Component/ProductConfigurableAttributes/Container */
-export class ProductConfigurableAttributesContainer extends PureComponent {
-    static propTypes = {
-        renderPlaceholder: PropTypes.func,
-        getLink: PropTypes.func,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        updateConfigurableVariant: PropTypes.func.isRequired,
-        isExpandable: PropTypes.bool,
-        showProductAttributeAsLink: PropTypes.bool,
-        variants: PropTypes.oneOfType([ ItemsType, ItemType ]),
-        mix: MixType,
-        isReady: PropTypes.bool,
-        numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
-        configurable_options: AttributesType.isRequired,
-        addToCartTriggeredWithError: PropTypes.bool,
-        updateAddToCartTriggeredWithError: PropTypes.func,
-        inStock: PropTypes.bool
-    };
-
+export class ProductConfigurableAttributesContainer extends PureComponent<ProductConfigurableAttributesContainerProps> {
     static defaultProps = {
         renderPlaceholder: noopFn,
         getLink: noopFn,
@@ -67,7 +54,10 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         handleShakeAnimationEnd: this.handleShakeAnimationEnd.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<
+    ProductConfigurableAttributesComponentProps,
+    ProductConfigurableAttributesComponentContainerPropsKeys
+    > {
         const {
             renderPlaceholder,
             configurable_options,
@@ -99,29 +89,32 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         };
     }
 
-    getLink({ attribute_code, attribute_value }) {
+    getLink({ attribute_code, attribute_value }: ProductConfigurableAttribute): string {
         const { getLink } = this.props;
 
         return getLink(attribute_code, attribute_value);
     }
 
     getSubHeading({
-        attribute_values, attribute_code, attribute_options, is_boolean = false
-    }) {
-        return attribute_values.reduce((acc, attribute_value) => (this.isSelected({
+        attribute_values,
+        attribute_code,
+        attribute_options,
+        is_boolean = false
+    }: ProductListFilter): string {
+        return attribute_values.reduce((acc: string[], attribute_value) => (this.isSelected({
             attribute_code,
             attribute_value
         })
-            ? [ ...acc, getBooleanLabel(attribute_options[ attribute_value ].label, is_boolean) ]
+            ? [...acc, getBooleanLabel(attribute_options[ attribute_value ].label, is_boolean)]
             : acc), []).join(', ');
     }
 
-    handleOptionClick({ attribute_code, attribute_value }) {
+    handleOptionClick({ attribute_code, attribute_value }: ProductConfigurableAttribute): void {
         const { updateConfigurableVariant } = this.props;
         updateConfigurableVariant(attribute_code, attribute_value);
     }
 
-    isSelected({ attribute_code, attribute_value }) {
+    isSelected({ attribute_code = '', attribute_value = '' }: Partial<ProductConfigurableAttribute>): boolean {
         const { parameters = {} } = this.props;
         const parameter = parameters[ attribute_code ];
 
@@ -136,15 +129,15 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         return parameter === attribute_value;
     }
 
-    handleShakeAnimationEnd(e) {
+    handleShakeAnimationEnd(e: AnimationEvent<HTMLElement>): void {
         e.preventDefault();
         const { updateAddToCartTriggeredWithError } = this.props;
-        e.target.classList.remove('[class*=_isUnselected]');
+        (e.target as HTMLElement)?.classList?.remove('[class*=_isUnselected]');
 
         updateAddToCartTriggeredWithError();
     }
 
-    getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {
+    getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }: ProductConfigurableAttribute): boolean {
         const { parameters, variants } = this.props;
 
         // skip out of stock check, if variants data has not been provided
@@ -163,7 +156,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
 
         const selectedAttributes = isAttributeSelected
             // Need to exclude itself, otherwise different attribute_values of the same attribute_code will always be disabled
-            ? parameterPairs.filter(([ key ]) => key !== attribute_code)
+            ? parameterPairs.filter(([key]) => key !== attribute_code)
             : parameterPairs;
 
         return variants
@@ -171,11 +164,11 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
                 const { attribute_value: foundValue } = attributes[ attribute_code ] || {};
 
                 return (
-                    stock_status === StockType.IN_STOCK
+                    stock_status === StockStatus.IN_STOCK
                     // Variant must have currently checked attribute_code and attribute_value
                     && foundValue === attribute_value
                     // Variant must have all currently selected attributes
-                    && selectedAttributes.every(([ key, value ]) => attributes[ key ].attribute_value === value)
+                    && selectedAttributes.every(([key, value]) => attributes[ key ].attribute_value === value)
                 );
             });
     }
@@ -183,8 +176,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductConfigurableAttributes
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

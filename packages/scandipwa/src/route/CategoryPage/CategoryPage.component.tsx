@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
 import CategoryDetails from 'Component/CategoryDetails';
@@ -25,12 +24,7 @@ import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import {
-    CategoryTreeType, FilterInputType, FilterType, SortFieldsType
-} from 'Type/Category.type';
 import { ReactElement } from 'Type/Common.type';
-import { SortDirectionType } from 'Type/Direction.type';
-import { AttributesType } from 'Type/ProductList.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
@@ -39,6 +33,7 @@ import {
     CategoryPageLayout,
     LAYOUT_KEY
 } from './CategoryPage.config';
+import { CategoryPageComponentProps, CategoryPageComponentState } from './CategoryPage.type';
 
 import './CategoryPage.style';
 
@@ -47,36 +42,7 @@ export const CategoryFilterOverlay = lazy(() => import(
 ));
 
 /** @namespace Route/CategoryPage/Component */
-export class CategoryPage extends PureComponent {
-    static propTypes = {
-        category: CategoryTreeType.isRequired,
-        filters: AttributesType.isRequired,
-        sortFields: SortFieldsType.isRequired,
-        selectedSort: PropTypes.shape({
-            sortDirection: SortDirectionType,
-            sortKey: PropTypes.string
-        }).isRequired,
-        onSortChange: PropTypes.func.isRequired,
-        toggleOverlayByKey: PropTypes.func.isRequired,
-        selectedFilters: FilterType.isRequired,
-        filter: FilterInputType.isRequired,
-        search: PropTypes.string,
-        isContentFiltered: PropTypes.bool,
-        isCurrentCategoryLoaded: PropTypes.bool,
-        isMatchingListFilter: PropTypes.bool,
-        isMatchingInfoFilter: PropTypes.bool,
-        isSearchPage: PropTypes.bool.isRequired,
-        totalPages: PropTypes.number,
-        totalItems: PropTypes.number.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        onGridButtonClick: PropTypes.func.isRequired,
-        onListButtonClick: PropTypes.func.isRequired,
-        defaultPlpType: PropTypes.string,
-        selectedLayoutType: PropTypes.string,
-        plpTypes: PropTypes.arrayOf(PropTypes.string),
-        appliedFiltersCount: PropTypes.number
-    };
-
+export class CategoryPage extends PureComponent<CategoryPageComponentProps, CategoryPageComponentState> {
     static defaultProps = {
         isContentFiltered: true,
         isMatchingListFilter: false,
@@ -90,11 +56,16 @@ export class CategoryPage extends PureComponent {
         selectedLayoutType: ''
     };
 
-    state = {};
+    state: CategoryPageComponentState = {
+        activeLayoutType: undefined
+    };
 
-    onFilterButtonClick = this.onFilterButtonClick.bind(this);
+    __construct(props: CategoryPageComponentProps): void {
+        super.__construct?.(props);
+        this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
+    }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props: CategoryPageComponentProps): Partial<CategoryPageComponentState> {
         const {
             isMobile,
             defaultPlpType,
@@ -105,7 +76,7 @@ export class CategoryPage extends PureComponent {
         * Use stored plpType from the BrowserDatabase
         * if there is one
         */
-        const storedPlpType = BrowserDatabase.getItem(LAYOUT_KEY) || selectedLayoutType;
+        const storedPlpType = BrowserDatabase.getItem<CategoryPageLayout>(LAYOUT_KEY) || selectedLayoutType;
 
         if (storedPlpType) {
             const activeLayoutType = isMobile
@@ -122,12 +93,12 @@ export class CategoryPage extends PureComponent {
         return { activeLayoutType };
     }
 
-    onFilterButtonClick() {
+    onFilterButtonClick(): void {
         const { toggleOverlayByKey } = this.props;
         toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
     }
 
-    displayProducts() {
+    displayProducts(): boolean {
         const {
             category: {
                 display_mode = CategoryDisplayMode.PRODUCTS
@@ -139,7 +110,7 @@ export class CategoryPage extends PureComponent {
             || display_mode === CategoryDisplayMode.BOTH;
     }
 
-    displayCmsBlock() {
+    displayCmsBlock(): boolean {
         const { category: { display_mode } = {} } = this.props;
 
         return display_mode === CategoryDisplayMode.CMS_BLOCK
@@ -205,7 +176,7 @@ export class CategoryPage extends PureComponent {
         );
     }
 
-    renderPlaceholder(block): ReactElement {
+    renderPlaceholder(block: string): ReactElement {
         return (
             <>
                 <div block={ block } elem="SwatchList">
@@ -254,7 +225,7 @@ export class CategoryPage extends PureComponent {
         }
 
         return (
-            <Suspense fallback={ this.renderFilterPlaceholder() }>
+            <Suspense fallback={ this.renderFilterPlaceholder() || null }>
                 <CategoryFilterOverlay
                   availableFilters={ filters }
                   customFiltersValues={ selectedFilters }
@@ -290,7 +261,7 @@ export class CategoryPage extends PureComponent {
         );
     }
 
-    renderLayoutButton(type): ReactElement {
+    renderLayoutButton(type: CategoryPageLayout): ReactElement {
         const {
             onGridButtonClick,
             onListButtonClick

@@ -14,8 +14,9 @@ import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import Image from 'Component/Image';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { CategoryTreeType } from 'Type/Category.type';
 import { ReactElement } from 'Type/Common.type';
+
+import { CategoryDetailsComponentProps } from './CategoryDetails.type';
 
 import './CategoryDetails.style';
 
@@ -24,12 +25,7 @@ import './CategoryDetails.style';
  * @class CategoryDetails
  * @namespace Component/CategoryDetails/Component
  */
-export class CategoryDetails extends PureComponent {
-    static propTypes = {
-        category: CategoryTreeType.isRequired,
-        isCurrentCategoryLoaded: PropTypes.bool
-    };
-
+export class CategoryDetails extends PureComponent<CategoryDetailsComponentProps> {
     static defaultProps = {
         isCurrentCategoryLoaded: true
     };

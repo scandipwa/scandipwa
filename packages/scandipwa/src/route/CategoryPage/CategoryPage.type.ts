@@ -72,16 +72,17 @@ export interface CategoryPageContainerState {
     currentCategoryIds: number;
     breadcrumbsWereUpdated: boolean;
     selectedLayoutType?: CategoryPageLayout;
-    defaultPlpType: string;
-    activeLayoutType: string;
-    plpTypes: string[];
+    defaultPlpType?: CategoryPageLayout;
+    activeLayoutType?: CategoryPageLayout;
+    plpTypes: CategoryPageLayout[];
 }
 
 export interface CategoryPageComponentProps {
     appliedFiltersCount: number;
     category: Partial<Category>;
-    defaultPlpType: string;
+    defaultPlpType: CategoryPageLayout;
     filter: ProductAttributeFilterOptions;
+    search: string;
     filters: Record<string, ProductListFilter>;
     isContentFiltered: boolean;
     isCurrentCategoryLoaded: boolean;
@@ -90,17 +91,21 @@ export interface CategoryPageComponentProps {
     isMobile: boolean;
     isSearchPage: boolean;
     plpTypes: string[];
-    selectedFilters: Partial<ProductAttributeFilterOptions>;
+    selectedFilters: Record<string, string[]>;
     selectedSort: CategorySortOptions;
     sortFields: Partial<SortFields>;
     toggleOverlayByKey: (key: string) => void;
     totalPages: number;
     totalItems: number;
-    selectedLayoutType?: string;
-    activeLayoutType: string;
+    selectedLayoutType?: CategoryPageLayout;
+    activeLayoutType?: CategoryPageLayout;
     onSortChange: (sortDirection: SortDirections, sortKey: string) => void;
     onGridButtonClick: () => void;
     onListButtonClick: () => void;
+}
+
+export interface CategoryPageComponentState {
+    activeLayoutType?: CategoryPageLayout;
 }
 
 export type CategoryPageContainerPropsKeys =

@@ -13,22 +13,28 @@ import { connect } from 'react-redux';
 
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributesContainer from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
-import { SelectedFiltersType } from 'Type/Category.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.component';
+import {
+    CategoryConfigurableAttributesContainerMapStateProps,
+    CategoryConfigurableAttributesContainerProps
+} from './CategoryConfigurableAttributes.type';
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CategoryConfigurableAttributesContainerMapStateProps => ({
     currencyCode: state.ConfigReducer.currencyData.current_currency_code,
     showProductCount: state.ConfigReducer.layered_navigation_product_count_enabled,
     childrenCategories: state.CategoryReducer.category.children || []
 });
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): Record<string, never> => ({});
 
 /** @namespace Component/CategoryConfigurableAttributes/Container */
-export class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer {
+export class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer<
+CategoryConfigurableAttributesContainerProps
+> {
     static propTypes = {
         parameters: SelectedFiltersType.isRequired
     };
@@ -75,8 +81,8 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
     render(): ReactElement {
         return (
             <CategoryConfigurableAttributes
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

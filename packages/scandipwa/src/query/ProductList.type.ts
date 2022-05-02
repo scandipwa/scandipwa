@@ -606,6 +606,7 @@ export type ProductAttributeFilterOptions = {
     newToDate?: string;
     conditions?: string;
     customerGroupId?: number;
+    price?: number[];
 };
 
 export type ArgumentsMap = {

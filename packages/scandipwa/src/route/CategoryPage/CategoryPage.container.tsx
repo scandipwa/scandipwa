@@ -138,8 +138,8 @@ export class CategoryPageContainer extends PureComponent<CategoryPageContainerPr
         currentCategoryIds: -1,
         breadcrumbsWereUpdated: false,
         selectedLayoutType: undefined,
-        activeLayoutType: '',
-        defaultPlpType: '',
+        activeLayoutType: undefined,
+        defaultPlpType: undefined,
         plpTypes: []
     };
 
@@ -467,7 +467,7 @@ export class CategoryPageContainer extends PureComponent<CategoryPageContainerPr
         }, {});
     }
 
-    getSelectedFiltersFromUrl(): Record<string, string> {
+    getSelectedFiltersFromUrl(): Record<string, string[]> {
         const { location } = this.props;
         const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
 
@@ -525,8 +525,10 @@ export class CategoryPageContainer extends PureComponent<CategoryPageContainerPr
         return { min, max };
     }
 
-    getDefaultPlpType(): string {
-        const { defaultPlpType } = this.state;
+    getDefaultPlpType(): CategoryPageLayout {
+        const {
+            defaultPlpType = CategoryPageLayout.GRID
+        } = this.state;
 
         return defaultPlpType;
     }

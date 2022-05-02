@@ -8,3 +8,20 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
+
+import { CategoryTree } from 'Query/Category.type';
+
+export interface CategoryConfigurableAttributesContainerMapStateProps {
+    currencyCode: string;
+    showProductCount: boolean;
+    childrenCategories: CategoryTree[];
+}
+
+export interface CategoryConfigurableAttributesContainerBaseProps {
+    // parameters: SelectedFiltersType.isRequired
+    parameters;
+}
+
+export type CategoryConfigurableAttributesContainerProps =
+CategoryConfigurableAttributesContainerMapStateProps
+& CategoryConfigurableAttributesContainerBaseProps;

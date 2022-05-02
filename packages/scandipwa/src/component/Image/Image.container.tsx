@@ -9,45 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
 import { IMAGE_HUNDRED_PERCENT } from 'Component/Image/Image.config';
-import { MixType, RefType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import Image from './Image.component';
+import {
+    ImageComponentProps,
+    ImageContainerProps,
+    ImageSize,
+    WrapperSize
+} from './Image.type';
 
 /** @namespace Component/Image/Container */
-export class ImageContainer extends PureComponent {
-    static propTypes = {
-        isPlaceholder: PropTypes.bool,
-        src: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]),
-        style: PropTypes.objectOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ])),
-        width: PropTypes.string,
-        height: PropTypes.string,
-        alt: PropTypes.string,
-        ratio: PropTypes.oneOf([
-            '4x3',
-            '16x9',
-            'square',
-            'custom'
-        ]),
-        mix: MixType,
-        className: PropTypes.string,
-        imageRef: RefType,
-        title: PropTypes.string,
-        isPlain: PropTypes.bool,
-        showIsLoading: PropTypes.bool
-    };
-
+export class ImageContainer extends PureComponent<ImageContainerProps> {
     static defaultProps = {
         src: '',
         alt: '',
@@ -64,7 +41,7 @@ export class ImageContainer extends PureComponent {
         showIsLoading: false
     };
 
-    containerProps() {
+    containerProps(): ImageComponentProps {
         const {
             isPlaceholder,
             src,
@@ -94,7 +71,7 @@ export class ImageContainer extends PureComponent {
         };
     }
 
-    _isCached() {
+    _isCached(): boolean {
         const { showIsLoading, src } = this.props;
 
         if (!showIsLoading) {
@@ -103,14 +80,14 @@ export class ImageContainer extends PureComponent {
 
         if (
             window.prefetchedImages
-            && window.prefetchedImages[ src ]
-            && window.prefetchedImages[ src ].complete
+            && window.prefetchedImages[ src || '' ]
+            && window.prefetchedImages[ src || '' ].complete
         ) {
             return true;
         }
 
         const img = document.createElement('img');
-        img.src = src;
+        img.src = src || '';
 
         if (img.complete) {
             return true;
@@ -119,7 +96,7 @@ export class ImageContainer extends PureComponent {
         return false;
     }
 
-    _parseSize(size) {
+    _parseSize(size: string): string {
         const trimmedSize = size.trim();
 
         if (!trimmedSize) {
@@ -139,7 +116,7 @@ export class ImageContainer extends PureComponent {
         return `${trimmedSize}px`;
     }
 
-    _getCorrectClassNames() {
+    _getCorrectClassNames(): string {
         const { width, height, className } = this.props;
 
         const trueMap = [
@@ -153,10 +130,10 @@ export class ImageContainer extends PureComponent {
 
         const classes = classMap.filter((_, index) => trueMap[ index ]);
 
-        return [ className, ...classes ].join(' ');
+        return [className, ...classes].join(' ');
     }
 
-    _getCorrectSize() {
+    _getCorrectSize(): Partial<ImageSize> {
         const { width, height } = this.props;
 
         const correctHeight = this._parseSize(height);
@@ -177,13 +154,13 @@ export class ImageContainer extends PureComponent {
         return { width: correctWidth, height: correctHeight };
     }
 
-    _getStyle() {
+    _getStyle(): Record<string, string> {
         const { style } = this.props;
 
         return { ...this._getCorrectSize(), ...style };
     }
 
-    _getWrapperSize() {
+    _getWrapperSize(): Partial<WrapperSize> {
         const size = this._getCorrectSize();
         const { height, width } = size;
 
@@ -199,7 +176,7 @@ export class ImageContainer extends PureComponent {
     render(): ReactElement {
         return (
             <Image
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

@@ -15,34 +15,15 @@ import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttrib
 import Overlay from 'Component/Overlay';
 import ResetAttributes from 'Component/ResetAttributes';
 import ResetButton from 'Component/ResetButton';
-import { SelectedFiltersType } from 'Type/Category.type';
 import { ReactElement } from 'Type/Common.type';
-import { AttributesType } from 'Type/ProductList.type';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
+import { CategoryFilterOverlayComponentProps } from './CategoryFilterOverlay.type';
 
 import './CategoryFilterOverlay.style';
 
 /** @namespace Component/CategoryFilterOverlay/Component */
-export class CategoryFilterOverlay extends PureComponent {
-    static propTypes = {
-        renderPlaceholder: PropTypes.func.isRequired,
-        availableFilters: AttributesType.isRequired,
-        areFiltersEmpty: PropTypes.bool.isRequired,
-        isContentFiltered: PropTypes.bool.isRequired,
-        isMatchingInfoFilter: PropTypes.bool.isRequired,
-        isProductsLoading: PropTypes.bool.isRequired,
-        onSeeResultsClick: PropTypes.func.isRequired,
-        onVisible: PropTypes.func.isRequired,
-        onHide: PropTypes.func.isRequired,
-        customFiltersValues: SelectedFiltersType.isRequired,
-        toggleCustomFilter: PropTypes.func.isRequired,
-        getFilterUrl: PropTypes.func.isRequired,
-        totalPages: PropTypes.number.isRequired,
-        isCategoryAnchor: PropTypes.bool.isRequired,
-        isSearchPage: PropTypes.bool.isRequired
-    };
-
+export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayComponentProps> {
     renderFilters(): ReactElement {
         const {
             availableFilters,

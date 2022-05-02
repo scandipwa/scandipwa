@@ -26,6 +26,7 @@ export type NavigationState = {
     name: string;
     title?: string;
     force?: boolean;
+    isHidden?: boolean;
     onBackClick?: (e: MouseEvent) => void;
     onCloseClick?: (e: MouseEvent) => void;
 };

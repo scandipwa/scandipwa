@@ -8,3 +8,70 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
+
+import { AnimationEvent } from 'react';
+
+import { StockStatus } from 'Component/Product/Stock.config';
+import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
+import { Mix, ReactElement } from 'Type/Common.type';
+
+export interface ProductConfigurableAttributesContainerProps {
+    renderPlaceholder: (block: string) => ReactElement;
+    getLink: (filterKey: string, value: string) => string;
+    parameters: Record<string, string>;
+    updateConfigurableVariant: (requestVar: string, value: string) => void;
+    isExpandable: boolean;
+    showProductAttributeAsLink: boolean;
+    variants: ProductConfigurableVariant[];
+    mix: Mix;
+    isReady: boolean;
+    numberOfPlaceholders: number[];
+    configurable_options: Record<string, ProductListFilter>;
+    addToCartTriggeredWithError: boolean;
+    updateAddToCartTriggeredWithError: () => void;
+    inStock: boolean;
+}
+
+export interface ProductConfigurableAttributesComponentProps {
+    renderPlaceholder: (block: string) => ReactElement;
+    configurable_options: Record<string, ProductListFilter>;
+    isExpandable: boolean;
+    isReady: boolean;
+    mix: Mix;
+    numberOfPlaceholders: number[];
+    parameters: Record<string, string>;
+    showProductAttributeAsLink: boolean;
+    updateConfigurableVariant: (requestVar: string, value: string) => void;
+    inStock: boolean;
+    addToCartTriggeredWithError: boolean;
+    updateAddToCartTriggeredWithError: () => void;
+    handleOptionClick: (o: ProductConfigurableAttribute) => void;
+    getSubHeading: (o: ProductListFilter) => string;
+    isSelected: (o: ProductConfigurableAttribute) => boolean;
+    getLink: (o: ProductConfigurableAttribute) => string;
+    getIsConfigurableAttributeAvailable: (o: ProductConfigurableAttribute) => boolean;
+    handleShakeAnimationEnd: (e: AnimationEvent<HTMLElement>) => void;
+}
+
+export type ProductConfigurableAttributesComponentContainerPropsKeys =
+    | 'renderPlaceholder'
+    | 'configurable_options'
+    | 'isExpandable'
+    | 'isReady'
+    | 'mix'
+    | 'numberOfPlaceholders'
+    | 'parameters'
+    | 'showProductAttributeAsLink'
+    | 'updateConfigurableVariant'
+    | 'inStock'
+    | 'addToCartTriggeredWithError'
+    | 'updateAddToCartTriggeredWithError';
+
+export interface ProductConfigurableAttribute extends ProductListFilter {
+    attribute_value: string;
+}
+
+export interface ProductConfigurableVariant {
+    stock_status: StockStatus;
+    attributes: Record<string, ProductConfigurableAttribute>;
+}

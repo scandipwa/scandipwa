@@ -13,12 +13,11 @@
 
 import { createRef, PureComponent } from 'react';
 
-import { MixType, RefType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import {
-    IMAGE_LOADED, IMAGE_LOADING, IMAGE_NOT_FOUND, IMAGE_NOT_SPECIFIED
-} from './Image.config';
+import { ImageState } from './Image.config';
+import { ImageComponentProps } from './Image.type';
 
 import './Image.style';
 
@@ -28,37 +27,7 @@ import './Image.style';
  * @class Image
  * @namespace Component/Image/Component
  */
-export class Image extends PureComponent {
-    static propTypes = {
-        isPlaceholder: PropTypes.bool,
-        title: PropTypes.string,
-        src: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]),
-        style: PropTypes.shape({
-            width: PropTypes.string,
-            height: PropTypes.string
-        }),
-        alt: PropTypes.string,
-        className: PropTypes.string,
-        ratio: PropTypes.oneOf([
-            '4x3',
-            '16x9',
-            'square',
-            'custom'
-        ]),
-        wrapperSize: PropTypes.shape({
-            height: PropTypes.string
-        }),
-        mix: MixType,
-        imageRef: RefType,
-        isPlain: PropTypes.bool,
-        isCached: PropTypes.bool,
-
-        showIsLoading: PropTypes.bool
-    };
-
+export class Image extends PureComponent<ImageComponentProps> {
     static defaultProps = {
         src: '',
         alt: '',
@@ -77,24 +46,27 @@ export class Image extends PureComponent {
 
     image = createRef();
 
-    state = { imageStatus: IMAGE_LOADING };
+    state = { imageStatus: ImageState.IMAGE_LOADING };
 
     renderMap = {
-        [IMAGE_NOT_FOUND]: this.renderImageNotFound.bind(this),
-        [IMAGE_NOT_SPECIFIED]: this.renderImageNotSpecified.bind(this),
-        [IMAGE_LOADING]: this.renderLoadedImage.bind(this),
-        [IMAGE_LOADED]: this.renderLoadedImage.bind(this)
+        [ImageState.IMAGE_NOT_FOUND]: this.renderImageNotFound.bind(this),
+        [ImageState.IMAGE_NOT_SPECIFIED]: this.renderImageNotSpecified.bind(this),
+        [ImageState.IMAGE_LOADING]: this.renderLoadedImage.bind(this),
+        [ImageState.IMAGE_LOADED]: this.renderLoadedImage.bind(this)
     };
 
-    onError = this.onError.bind(this);
+    __construct(props: ImageComponentProps): void {
+        super.__construct?.(props);
 
-    onLoad = this.onLoad.bind(this);
+        this.onError = this.onError.bind(this);
+        this.onLoad = this.onLoad.bind(this);
+    }
 
     componentDidMount(): void {
         this.onImageChange();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: ImageComponentProps): void {
         const { src: prevSrc } = prevProps;
         const { src } = this.props;
 
@@ -103,26 +75,26 @@ export class Image extends PureComponent {
         }
     }
 
-    onImageChange() {
+    onImageChange(): void {
         const { src, isCached } = this.props;
 
         if (!src) {
-            return this.setState({ imageStatus: IMAGE_NOT_SPECIFIED });
+            return this.setState({ imageStatus: ImageState.IMAGE_NOT_SPECIFIED });
         }
 
         if (isCached) {
-            return this.setState({ imageStatus: IMAGE_LOADED });
+            return this.setState({ imageStatus: ImageState.IMAGE_LOADED });
         }
 
-        return this.setState({ imageStatus: IMAGE_LOADING });
+        return this.setState({ imageStatus: ImageState.IMAGE_LOADING });
     }
 
-    onError() {
-        this.setState({ imageStatus: IMAGE_NOT_FOUND });
+    onError(): void {
+        this.setState({ imageStatus: ImageState.IMAGE_NOT_FOUND });
     }
 
-    onLoad() {
-        this.setState({ imageStatus: IMAGE_LOADED });
+    onLoad(): void {
+        this.setState({ imageStatus: ImageState.IMAGE_LOADED });
     }
 
     renderImageNotFound(): ReactElement {
@@ -150,7 +122,7 @@ export class Image extends PureComponent {
               elem="Image"
               src={ src || '' }
               alt={ alt }
-              mods={ { isLoading: imageStatus === IMAGE_LOADING } }
+              mods={ { isLoading: imageStatus === ImageState.IMAGE_LOADING } }
               style={ style }
               title={ title }
               onLoad={ this.onLoad }
@@ -220,7 +192,7 @@ export class Image extends PureComponent {
         const { showIsLoading } = this.props;
         const { imageStatus } = this.state;
 
-        if (imageStatus !== IMAGE_LOADING || !showIsLoading) {
+        if (imageStatus !== ImageState.IMAGE_LOADING || !showIsLoading) {
             return null;
         }
 

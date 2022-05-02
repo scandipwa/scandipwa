@@ -53,6 +53,7 @@ export interface ProductListInfoDispatcherData {
 }
 
 export interface ProductListFilter {
+    attribute_id: number;
     attribute_code: string;
     attribute_label: string;
     attribute_position: number;

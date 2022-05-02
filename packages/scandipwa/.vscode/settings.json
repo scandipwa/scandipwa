@@ -30,5 +30,6 @@
     "javascript.referencesCodeLens.enabled": true,
     "typescript.preferences.quoteStyle": "single",
     "typescript.referencesCodeLens.enabled": true,
-    "typescript.referencesCodeLens.showOnAllFunctions": true
+    "typescript.referencesCodeLens.showOnAllFunctions": true,
+    "typescript.tsdk": "../../node_modules/typescript/lib"
 }

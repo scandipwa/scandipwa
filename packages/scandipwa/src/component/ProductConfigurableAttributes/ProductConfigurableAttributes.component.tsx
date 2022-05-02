@@ -13,43 +13,30 @@ import { PureComponent } from 'react';
 
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
-import { MixType, ReactElement } from 'Type/Common.type';
-import { AttributesType } from 'Type/ProductList.type';
+import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+
+import {
+    ProductConfigurableAttribute,
+    ProductConfigurableAttributesComponentProps
+} from './ProductConfigurableAttributes.type';
 
 import './ProductConfigurableAttributes.style';
 
 /** @namespace Component/ProductConfigurableAttributes/Component */
-export class ProductConfigurableAttributes extends PureComponent {
-    static propTypes = {
-        renderPlaceholder: PropTypes.func,
-        configurable_options: AttributesType.isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        updateConfigurableVariant: PropTypes.func.isRequired,
-        isReady: PropTypes.bool,
-        mix: MixType,
-        getIsConfigurableAttributeAvailable: PropTypes.func,
-        handleShakeAnimationEnd: PropTypes.func,
-        handleOptionClick: PropTypes.func.isRequired,
-        isSelected: PropTypes.func.isRequired,
-        getLink: PropTypes.func.isRequired,
-        isExpandable: PropTypes.bool,
-        showProductAttributeAsLink: PropTypes.bool,
-        inStock: PropTypes.bool.isRequired,
-        addToCartTriggeredWithError: PropTypes.bool.isRequired
-    };
-
+export class ProductConfigurableAttributes extends PureComponent<ProductConfigurableAttributesComponentProps> {
     static defaultProps = {
         isReady: true,
         mix: {},
-        getIsConfigurableAttributeAvailable: () => true,
+        getIsConfigurableAttributeAvailable: (): boolean => true,
         renderPlaceholder: noopFn,
         handleShakeAnimationEnd: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true
     };
 
-    renderConfigurableAttributeValue(attribute): ReactElement {
+    renderConfigurableAttributeValue(attribute: ProductConfigurableAttribute): ReactElement {
         const {
             getIsConfigurableAttributeAvailable,
             handleOptionClick,
@@ -74,7 +61,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderSwatch(option, isUnselected): ReactElement {
+    renderSwatch(option: ProductListFilter, isUnselected = false): ReactElement {
         const {
             handleShakeAnimationEnd
         } = this.props;
@@ -95,7 +82,7 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-    renderDropdown(option, isUnselected): ReactElement {
+    renderDropdown(option: ProductListFilter, isUnselected = false): ReactElement {
         const {
             updateConfigurableVariant,
             getIsConfigurableAttributeAvailable,
@@ -142,8 +129,10 @@ export class ProductConfigurableAttributes extends PureComponent {
                 attribute_options,
                 attribute_id
             } = option;
-            const isUnselected = addToCartTriggeredWithError ? !parameters[attribute_code] : null;
-            const [{ swatch_data }] = attribute_options ? Object.values(attribute_options) : [{}];
+            const isUnselected = addToCartTriggeredWithError ? !parameters[attribute_code] : false;
+            const [{ swatch_data }] = attribute_options
+                ? Object.values(attribute_options)
+                : [{ swatch_data: undefined }];
             const isSwatch = !!swatch_data;
 
             // render content without heading and subheading

@@ -8,24 +8,23 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
+
 import { PureComponent } from 'react';
+
 import { ReactElement } from 'Type/Common.type';
 
-import { AttributeType } from 'Type/ProductList.type';
-
 import ProductConfigurableAttributeDropdown from './ProductConfigurableAttributeDropdown.component';
+import {
+    ProductConfigurableAttributeDropdownComponentContainerProps,
+    ProductConfigurableAttributeDropdownComponentProps,
+    ProductConfigurableAttributeDropdownContainerProps,
+    ProductConfigurableAttributeDropdownOption
+} from './ProductConfigurableAttributeDropdown.type';
 
 /** @namespace Component/ProductConfigurableAttributeDropdown/Container */
-export class ProductConfigurableAttributeDropdownContainer extends PureComponent {
-    static propTypes = {
-        option: AttributeType.isRequired,
-        updateConfigurableVariant: PropTypes.func.isRequired,
-        getIsConfigurableAttributeAvailable: PropTypes.func.isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        isUnselected: PropTypes.bool
-    };
-
+export class ProductConfigurableAttributeDropdownContainer extends PureComponent<
+ProductConfigurableAttributeDropdownContainerProps
+> {
     static defaultProps = {
         isUnselected: false
     };
@@ -34,7 +33,7 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
         onChange: this.onChange.bind(this)
     };
 
-    onChange(value) {
+    onChange(value: boolean): void {
         const {
             updateConfigurableVariant,
             option: { attribute_code }
@@ -43,7 +42,10 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
         updateConfigurableVariant(attribute_code, value, true);
     }
 
-    containerProps() {
+    containerProps(): Pick<
+    ProductConfigurableAttributeDropdownComponentProps,
+    ProductConfigurableAttributeDropdownComponentContainerProps
+    > {
         const { option: { attribute_code, attribute_label }, isUnselected } = this.props;
 
         return {
@@ -72,7 +74,7 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
         }
 
         return Object.values(attribute_options)
-            .reduce((acc, option) => {
+            .reduce((acc: ProductConfigurableAttributeDropdownOption[], option) => {
                 const { value } = option;
 
                 const isAvailable = getIsConfigurableAttributeAvailable({
@@ -80,15 +82,15 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
                     attribute_value: value
                 });
 
-                return [ ...acc, {
+                return [...acc, {
                     ...option,
                     id: value,
                     isAvailable
-                } ];
+                }];
             }, []);
     }
 
-    _getSelectValue() {
+    _getSelectValue(): string {
         const { option: { attribute_code } } = this.props;
         const { parameters = {} } = this.props;
 
@@ -98,8 +100,8 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
     render(): ReactElement {
         return (
             <ProductConfigurableAttributeDropdown
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

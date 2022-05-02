@@ -22,7 +22,7 @@ import {
 
 /** @namespace Store/ProductListInfo/Reducer/reduceFilters */
 export const reduceFilters = (filters: Aggregation[]): Record<string, ProductListFilter> => filters.reduce((
-    co: Record<string, ProductListFilter>,
+    co,
     item
 ) => {
     const {
