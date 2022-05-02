@@ -22,9 +22,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
     static propTypes = {
         shippingMethods: ShippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,
-        handleSelectDeliveryMethod: PropTypes.func.isRequired,
         selectedShippingMethod: ShippingMethodType,
-        isShippingMethodPreSelected: PropTypes.bool.isRequired,
         checkoutReducerShippingMethod: PropTypes.string.isRequired
     };
 
@@ -34,10 +32,6 @@ export class CheckoutDeliveryOptions extends PureComponent {
 
     state = {
         initialSelectedMethod: null
-    };
-
-    shippingRenderMap = {
-        [STORE_IN_PICK_UP_METHOD_CODE]: this.handleSelectStoreInPickUp.bind(this)
     };
 
     componentDidUpdate(prevProps) {
@@ -110,19 +104,6 @@ export class CheckoutDeliveryOptions extends PureComponent {
         }
 
         return shippingMethods.map(this.renderDeliveryOption.bind(this));
-    }
-
-    renderSelectedShippingMethod() {
-        const { selectedShippingMethod: { method_code } } = this.props;
-        const { initialSelectedMethod } = this.state;
-        const initialMethodCode = initialSelectedMethod?.method_code;
-        const render = this.shippingRenderMap[initialMethodCode || method_code];
-
-        if (!render) {
-            return null;
-        }
-
-        return render();
     }
 
     render() {

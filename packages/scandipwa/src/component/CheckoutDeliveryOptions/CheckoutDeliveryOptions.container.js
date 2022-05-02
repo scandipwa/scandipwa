@@ -92,7 +92,6 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             selectedShippingMethod,
             shippingMethods,
             handleSelectDeliveryMethod,
-            isShippingMethodPreSelected,
             checkoutReducerShippingMethod
         };
     }
