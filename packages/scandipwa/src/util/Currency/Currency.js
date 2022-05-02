@@ -43,3 +43,31 @@ export const getCurrency = () => {
 
     return (typeof currency === 'string') ? currency : '';
 };
+
+/**
+ *
+ * @param {object} currencyData
+ * @param {object} currencyRates
+ * @returns {object} filtered currencyData object and currency (rates) object
+ * @namespace Util/Currency/returnFilteredCurrencies
+ */
+export const returnFilteredCurrencies = (currencyData, currencyRates) => {
+    if (
+        currencyData?.available_currencies_data?.length < 1 || currencyRates?.exchange_rates?.length < 1) {
+        return ({ currencyData, currencyRates });
+    }
+
+    const { available_currencies_data: availableCurrencies = [] } = currencyData;
+    const { base_curreny_code: base, exchange_rates: rates = [] } = currencyRates;
+
+    return ({
+        currencyData: {
+            ...currencyData,
+            available_currencies_data:
+                availableCurrencies.filter(({ value }) => (
+                    value === base || rates?.find(({ currency_to }) => currency_to === value)?.rate > 0
+                ))
+        },
+        currency: currencyRates
+    });
+};
