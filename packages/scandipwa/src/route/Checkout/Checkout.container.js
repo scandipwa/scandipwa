@@ -285,7 +285,7 @@ export class CheckoutContainer extends PureComponent {
     componentWillUnmount() {
         const { toggleBreadcrumbs, setPickUpStore } = this.props;
         toggleBreadcrumbs(true);
-        setPickUpStore({});
+        setPickUpStore(null);
     }
 
     onEmailChange(email) {
