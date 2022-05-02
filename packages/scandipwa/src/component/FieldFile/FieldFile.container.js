@@ -25,7 +25,9 @@ export class FieldFileContainer extends PureComponent {
         // Field attributes
         attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
-        setRef: PropTypes.func.isRequired
+        setRef: PropTypes.func.isRequired,
+        validate: PropTypes.func.isRequired,
+        resetFieldValue: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -50,12 +52,14 @@ export class FieldFileContainer extends PureComponent {
     }
 
     onChange(value) {
-        const { events: { onChange } = {} } = this.props;
+        const { events: { onChange } = {}, validate } = this.props;
 
         if (this.fieldRef) {
             const { files } = this.fieldRef;
             this.setState({ isLoading: true });
             const { name } = files[0] || {};
+
+            validate();
 
             if (!name) {
                 this.setState({
@@ -102,7 +106,8 @@ export class FieldFileContainer extends PureComponent {
                 autocomplete,
                 ...attr
             } = {},
-            setRef
+            setRef,
+            resetFieldValue
         } = this.props;
         const { fileName, isLoading, value } = this.state;
 
@@ -114,7 +119,8 @@ export class FieldFileContainer extends PureComponent {
             setRef,
             events: {
                 ...events,
-                onChange: this.onChange.bind(this)
+                onChange: this.onChange.bind(this),
+                onClick: resetFieldValue.bind(this, this)
             },
             fileName,
             isLoading,

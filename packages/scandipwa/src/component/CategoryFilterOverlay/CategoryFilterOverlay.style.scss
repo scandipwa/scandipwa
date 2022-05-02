@@ -133,6 +133,7 @@
             --option-margin-inline: 7px;
 
             padding: 16px;
+            padding-block-end: calc(var(--button-height) + 32px);
         }
 
         @include desktop {
@@ -175,7 +176,8 @@
         }
 
         @include mobile {
-            position: sticky;
+            position: fixed;
+            inset-block-end: 0;
             background-color: var(--color-white);
             border-block-start: 1px solid var(--primary-divider-color);
         }

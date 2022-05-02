@@ -10,7 +10,6 @@
  */
 
 :root {
-    
     --checkbox-border-color: var(--imported_checkboxes_border_color, var(--primary-base-color));
 }
 
@@ -54,7 +53,7 @@
 
         &:hover {
             cursor: pointer;
-            
+
             @include desktop {
                 color: var(--primary-base-color);
             }
@@ -65,8 +64,7 @@
         font-size: 14px;
         font-weight: 700;
         color: var(--link-color);
-        margin-inline-start: 0.5em;
-        display: flex;
+        display: inline;
         cursor: pointer;
 
         &:hover {

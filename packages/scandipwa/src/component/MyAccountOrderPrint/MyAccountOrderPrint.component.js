@@ -131,6 +131,7 @@ export class MyAccountOrderPrint extends MyAccountOrder {
             <>
                 { this.renderLogoImage() }
                 { this.renderBaseInfo() }
+                { this.renderOrderComments() }
                 { this.renderActiveTab() }
                 { this.renderOrderInformation() }
                 { this.renderCopyright() }

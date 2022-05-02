@@ -25,6 +25,7 @@ import {
     trimCheckoutAddress,
     trimCheckoutCustomerAddress
 } from 'Util/Address';
+import { scrollToTop } from 'Util/Browser';
 import { getCartTotalSubPrice } from 'Util/Cart';
 import scrollToError from 'Util/Form/Form';
 import transformToNameValuePair from 'Util/Form/Transform';
@@ -110,27 +111,26 @@ export class CheckoutShippingContainer extends PureComponent {
         };
     }
 
-    componentDidUpdate(prevProps) {
-        const { shippingMethods: prevShippingMethods } = prevProps;
-        const { shippingMethods } = this.props;
+    componentDidMount() {
+        const { isPickInStoreMethodSelected } = this.props;
 
-        if (prevShippingMethods !== shippingMethods) {
-            this.resetShippingMethod();
+        if (isPickInStoreMethodSelected) {
+            this.onShippingMethodSelect(this.returnInStorePickupMethod());
         }
     }
 
-    resetShippingMethod() {
-        const { selectedShippingMethod: { method_code: selectedMethodCode = '' } } = this.state;
-        const { shippingMethods } = this.props;
+    componentDidUpdate(prevProps) {
+        const { isPickInStoreMethodSelected } = this.props;
+        const { isPickInStoreMethodSelected: prevIsPickInStoreMethodSelected } = prevProps;
 
-        if (shippingMethods.find(({ method_code }) => method_code === selectedMethodCode)) {
-            return;
+        if (isPickInStoreMethodSelected !== prevIsPickInStoreMethodSelected) {
+            if (isPickInStoreMethodSelected) {
+                scrollToTop();
+                this.onShippingMethodSelect(this.returnInStorePickupMethod());
+            } else if (prevIsPickInStoreMethodSelected) {
+                this.resetShippingMethod();
+            }
         }
-
-        const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
-        const selectedShippingMethod = defaultShippingMethod || {};
-
-        this.setState({ selectedShippingMethod });
     }
 
     containerProps() {
@@ -173,6 +173,15 @@ export class CheckoutShippingContainer extends PureComponent {
             onPasswordChange,
             isGuestEmailSaved
         };
+    }
+
+    returnInStorePickupMethod() {
+        const { shippingMethods = [] } = this.props;
+        return shippingMethods.find((el) => el.method_code === STORE_IN_PICK_UP_METHOD_CODE);
+    }
+
+    resetShippingMethod() {
+        this.onShippingMethodSelect({ method_code: '' });
     }
 
     getStoreAddress(shippingAddress, isBillingAddress = false) {

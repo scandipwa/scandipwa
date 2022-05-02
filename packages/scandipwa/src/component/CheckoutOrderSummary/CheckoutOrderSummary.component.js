@@ -16,13 +16,14 @@ import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
 import Loader from 'Component/Loader';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
+import { BILLING_STEP, DETAILS_STEP } from 'Route/Checkout/Checkout.config';
 import { CheckoutStepType } from 'Type/Checkout.type';
 import { ChildrenType } from 'Type/Common.type';
 import { CartConfigType } from 'Type/Config.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { getItemsCountLabel } from 'Util/Cart';
-import { noopFn } from 'Util/Common';
+
+import { CmsBlock } from '../../route/Checkout/Checkout.component';
 
 import './CheckoutOrderSummary.style';
 
@@ -39,7 +40,6 @@ export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
         checkoutStep: CheckoutStepType,
-        renderCmsBlock: PropTypes.func,
         isExpandable: PropTypes.bool,
         cartDisplayConfig: CartConfigType.isRequired,
         cartShippingPrice: PropTypes.number,
@@ -56,7 +56,6 @@ export class CheckoutOrderSummary extends PureComponent {
     static defaultProps = {
         totals: {},
         isLoading: false,
-        renderCmsBlock: noopFn,
         isExpandable: false,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
@@ -356,11 +355,20 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderCmsBlock() {
-        const { renderCmsBlock } = this.props;
+        const { checkoutStep } = this.props;
+        const isBilling = checkoutStep === BILLING_STEP;
 
-        const content = renderCmsBlock();
+        if (checkoutStep === DETAILS_STEP) {
+            return null;
+        }
 
-        if (!content) {
+        const {
+            checkout_content: {
+                [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo
+            } = {}
+        } = window.contentConfiguration;
+
+        if (!promo) {
             return null;
         }
 
@@ -369,7 +377,7 @@ export class CheckoutOrderSummary extends PureComponent {
               block="CheckoutOrderSummary"
               elem="CmsBlock"
             >
-                { content }
+                <CmsBlock identifier={ promo } />
             </div>
         );
     }

@@ -102,6 +102,7 @@ export class AddToCartContainer extends PureComponent {
         }
 
         e.preventDefault();
+        e.stopPropagation();
         this.setState({ isAdding: true });
 
         if (!this.validate()) {
@@ -169,11 +170,17 @@ export class AddToCartContainer extends PureComponent {
         const isValid = typeId === PRODUCT_TYPE.grouped || inRange;
 
         if (!isValid) {
-            if (quantity < minQty) {
+            if (minQty > maxQty) {
+                showNotification('info', __('The requested qty is not available!'));
+            } else if (quantity < minQty) {
                 showNotification('info', __('Sorry! Minimum quantity for this product is %s!', minQty));
-            } else {
+            } else if (quantity > maxQty) {
                 showNotification('info', __('Sorry! Maximum quantity for this product is %s!', maxQty));
             }
+
+            this.setState({ isAdding: false });
+
+            return false;
         }
 
         return isValid;

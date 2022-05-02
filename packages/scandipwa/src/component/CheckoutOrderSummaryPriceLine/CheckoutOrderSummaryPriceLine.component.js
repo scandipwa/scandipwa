@@ -20,7 +20,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
     static propTypes = {
         price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         currency: PropTypes.string,
-        itemsQty: PropTypes.number.isRequired,
+        itemsQty: PropTypes.number,
         title: PropTypes.string.isRequired,
         coupon_code: PropTypes.string,
         mods: ModsType,
@@ -29,6 +29,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
     };
 
     static defaultProps = {
+        itemsQty: 0,
         mods: {},
         subPrice: null,
         children: [],

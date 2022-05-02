@@ -15,12 +15,13 @@
         0 -1px var(--star-outline-color);
     font-size: 40px;
     line-height: 1;
+    height: unset;
     /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
     font-family: Times; // make sure ★ appears correctly
     letter-spacing: 3px;
 
     @supports (-webkit-touch-callout: none) {
-        /* CSS specific to iOS devices */ 
+        /* CSS specific to iOS devices */
         height: 40px;
     }
 
