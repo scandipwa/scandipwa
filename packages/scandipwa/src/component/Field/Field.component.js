@@ -46,9 +46,11 @@ export class Field extends PureComponent {
         options: PropTypes.arrayOf(OptionType).isRequired,
         changeValueOnDoubleClick: PropTypes.bool,
         isSortSelect: PropTypes.bool,
+        resetFieldValue: PropTypes.func.isRequired,
         value: PropTypes.number.isRequired,
 
         // Validation
+        validate: PropTypes.func.isRequired,
         showErrorAsLabel: PropTypes.bool.isRequired,
         validationResponse: (props, propName, componentName) => {
             const propValue = props[propName];
@@ -123,10 +125,22 @@ export class Field extends PureComponent {
     }
 
     renderFile() {
-        const { attr, events, setRef } = this.props;
+        const {
+            attr,
+            events,
+            setRef,
+            validate,
+            resetFieldValue
+        } = this.props;
 
         return (
-            <FieldFile attr={ attr } events={ events } setRef={ setRef } />
+            <FieldFile
+              attr={ attr }
+              events={ events }
+              setRef={ setRef }
+              validate={ validate }
+              resetFieldValue={ resetFieldValue }
+            />
         );
     }
 

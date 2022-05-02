@@ -40,7 +40,7 @@ export class FieldContainer extends PureComponent {
         value: PropTypes.number.isRequired,
         changeValueOnDoubleClick: PropTypes.bool,
         isSortSelect: PropTypes.bool,
-
+        resetFieldValue: PropTypes.func.isRequired,
         // Validation
         validationRule: ValidationRuleType,
         validateOn: PropTypes.arrayOf(PropTypes.string),
@@ -120,6 +120,17 @@ export class FieldContainer extends PureComponent {
         this.setState({ validationResponse: null });
     }
 
+    resetFieldValue(fieldContext) {
+        fieldContext.setState({
+            value: '',
+            fileName: '',
+            isLoading: false
+        });
+
+        this.fieldRef.value = '';
+        this.validate();
+    }
+
     handleShowLengthError() {
         const { validationRule, type } = this.props;
         const { showLengthError } = this.state;
@@ -136,13 +147,12 @@ export class FieldContainer extends PureComponent {
             validationRule: { range: { max: maxValidLength = 0 } = {} }, type, attr: { name } = {}
         } = this.props;
         const { showLengthError } = this.state;
+        const newValidRule = this.handleShowLengthError();
         const value = type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio
             ? !!this.fieldRef.checked
             : this.fieldRef.value;
-        const newValidRule = this.handleShowLengthError();
-        const response = validate(type === FIELD_TYPE.file
-            ? value.toLowerCase()
-            : value, newValidRule);
+
+        const response = validate(type === FIELD_TYPE.file ? value.toLowerCase() : value, newValidRule);
         const output = response !== true ? { ...response, type, name } : response;
 
         // If validation is called from different object you can pass object
@@ -232,6 +242,7 @@ export class FieldContainer extends PureComponent {
             changeValueOnDoubleClick,
             isSortSelect,
             validationResponse,
+            resetFieldValue: this.resetFieldValue.bind(this),
             events: newEvents,
             fieldRef: this.fieldRef,
             setRef: this.setRef.bind(this),
@@ -243,6 +254,7 @@ export class FieldContainer extends PureComponent {
         return (
             <Field
               { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }
