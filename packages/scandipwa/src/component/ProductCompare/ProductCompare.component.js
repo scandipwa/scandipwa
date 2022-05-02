@@ -31,7 +31,11 @@ export class ProductCompare extends Component {
         products: ProductItemsType,
         device: DeviceType.isRequired,
         handleScroll: PropTypes.func.isRequired,
-        handleBlockScroll: PropTypes.func.isRequired
+        handleBlockScroll: PropTypes.func.isRequired,
+        scrollerScroll: PropTypes.node.isRequired,
+        productCompare: PropTypes.node.isRequired,
+        productCompareRow: PropTypes.node.isRequired,
+        scrollerContent: PropTypes.node.isRequired
     };
 
     static defaultProps = {
@@ -47,7 +51,7 @@ export class ProductCompare extends Component {
     }
 
     renderScroll() {
-        const { handleScroll } = this.props;
+        const { handleScroll, scrollerScroll, scrollerContent } = this.props;
 
         return (
             <div block="ProductCompare" elem="Scroller">
@@ -57,11 +61,13 @@ export class ProductCompare extends Component {
                       block="ProductCompare"
                       elem="ScrollerScroll"
                       onScroll={ handleScroll }
+                      ref={ scrollerScroll }
                     >
                         <div
                           id="scrollerContent"
                           block="ProductCompare"
                           elem="ScrollerContent"
+                          ref={ scrollerContent }
                         />
                     </div>
                 </div>
@@ -174,13 +180,14 @@ export class ProductCompare extends Component {
     }
 
     renderProducts() {
-        const { handleBlockScroll } = this.props;
+        const { handleBlockScroll, productCompare, productCompareRow } = this.props;
 
         return (
             <div
               id="productCompare"
               block="ProductCompare"
               onScroll={ handleBlockScroll }
+              ref={ productCompare }
             >
                 { this.renderScroll() }
                 <div
@@ -188,6 +195,7 @@ export class ProductCompare extends Component {
                   block="ProductCompare"
                   elem="Row"
                   mix={ { block: 'ProductCardRow' } }
+                  ref={ productCompareRow }
                 >
                     { this.renderClearButton() }
                     { this.renderProductCards() }

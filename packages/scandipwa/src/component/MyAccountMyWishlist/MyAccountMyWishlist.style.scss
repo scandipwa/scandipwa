@@ -46,6 +46,13 @@
             max-width: 100%;
             margin: 0 auto;
             margin-block-end: var(--myaccount-wihslist-products-margin-bottom);
+
+            & > .Loader .Loader-Scale {
+                position: fixed;
+                inset-block-start: auto;
+                inset-block-end: 50%;
+                transform: translate(-50%, 50%);
+            }
         }
 
         @include desktop {

@@ -11,7 +11,9 @@
 
 import CartQuery from 'Query/Cart.query';
 import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
+import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { getRegionIdOfRegionName } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
@@ -30,27 +32,79 @@ export class CartDispatcher {
     async updateInitialCartData(dispatch, isForCustomer = false) {
         // Need to get current cart from BE, update cart
         try {
-            // ! Get quote token first (local or from the backend) just to make sure it exists
-
             dispatch(updateIsLoadingCart(true));
 
+            // ! Get quote token first (local or from the backend) just to make sure it exists
             const quoteId = await this._getGuestQuoteId(dispatch);
-            const { cartData = {} } = await fetchQuery(
+            const {
+                cartData = {},
+                cartData: {
+                    is_virtual = false,
+                    shipping_address,
+                    shipping_address: {
+                        street = null,
+                        email = ''
+                    } = {},
+                    shipping_method
+                } = {}
+            } = await fetchQuery(
                 CartQuery.getCartQuery(
                     quoteId
                 )
             );
 
-            dispatch(updateIsLoadingCart(false));
+            if (shipping_address && street) {
+                if (!is_virtual) {
+                    await dispatch(
+                        updateShippingFields({
+                            ...this.prepareCheckoutAddressFormat(shipping_address),
+                            shipping_method
+                        })
+                    );
+                }
+
+                await dispatch(updateEmail(email));
+            }
 
             if (isForCustomer && !getAuthorizationToken()) {
+                dispatch(updateIsLoadingCart(false));
                 return null;
             }
 
-            return this._updateCartData(cartData, dispatch);
+            await this._updateCartData(cartData, dispatch);
+            dispatch(updateIsLoadingCart(false));
+
+            return null;
         } catch (error) {
             return this.createGuestEmptyCart(dispatch);
         }
+    }
+
+    prepareCheckoutAddressFormat(address) {
+        const {
+            street: addressStreet = '',
+            email,
+            country_id,
+            region,
+            region_id,
+            ...data
+        } = address;
+
+        const street = addressStreet.split('\n');
+
+        const street_index = {};
+        street.forEach((item, index) => {
+            street_index[`street_${index}`] = item;
+        });
+
+        return {
+            ...data,
+            country_id,
+            region,
+            region_id: getRegionIdOfRegionName(country_id, region),
+            street,
+            ...street_index
+        };
     }
 
     async createGuestEmptyCart(dispatch) {
@@ -62,7 +116,6 @@ export class CartDispatcher {
             } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
 
             setGuestQuoteId(quoteId);
-            dispatch(updateIsLoadingCart(false));
 
             return quoteId;
         } catch (error) {

@@ -27,7 +27,8 @@ export class FieldNumberContainer extends PureComponent {
         attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
-        isDisabled: PropTypes.bool.isRequired
+        isDisabled: PropTypes.bool.isRequired,
+        value: PropTypes.number.isRequired
     };
 
     state = {
@@ -47,16 +48,16 @@ export class FieldNumberContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { attr: { value, defaultValue = 0 } = {} } = this.props;
-        const { attr: { value: prevValue, defaultValue: prevDefaultValue } = {} } = prevProps;
+        const { attr: { min, defaultValue = min } = {} } = this.props;
+        const { attr: { defaultValue: prevDefaultValue } = {} } = prevProps;
 
-        if (defaultValue !== prevDefaultValue) {
-            this.handleInitialLoad(defaultValue);
+        if (defaultValue <= 0 || prevDefaultValue <= 0) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ value: min });
         }
 
-        if (value !== prevValue) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ value });
+        if (defaultValue <= min) {
+            this.handleInitialLoad(min);
         }
     }
 
@@ -74,13 +75,19 @@ export class FieldNumberContainer extends PureComponent {
             attr: { min = 0, max = DEFAULT_MAX_PRODUCTS } = {}
         } = this.props;
 
+        const { value: stateValue } = this.state;
+
         // eslint-disable-next-line no-nested-ternary
-        const rangedValue = value < min ? min : value > max ? max : value;
+        const rangedValue = value <= min ? min : value > max ? max : value;
 
-        this.fieldRef.value = value;
-        this.setState({ value: rangedValue });
+        if (stateValue >= 0) {
+            this.fieldRef.value = value;
+            this.setState({ value: rangedValue });
 
-        return rangedValue;
+            return rangedValue;
+        }
+
+        return null;
     }
 
     handleInitialLoad(value) {
@@ -110,12 +117,12 @@ export class FieldNumberContainer extends PureComponent {
     containerProps() {
         const {
             attr: {
-                value,
                 autoComplete,
                 autocomplete,
                 defaultValue,
                 ...attr
             } = {},
+            value,
             events,
             setRef,
             isDisabled
@@ -126,13 +133,13 @@ export class FieldNumberContainer extends PureComponent {
         return {
             attr: {
                 ...attr,
-                value,
                 autoComplete: autoComplete || autocomplete
             },
+            value,
             events,
             setRef,
             isDisabled,
-            value: stateValue
+            stateValue
         };
     }
 

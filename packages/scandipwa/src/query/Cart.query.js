@@ -11,6 +11,7 @@
  */
 
 import ProductListQuery from 'Query/ProductList.query';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { isSignedIn } from 'Util/Auth';
 import { Field } from 'Util/Query';
 
@@ -129,6 +130,13 @@ export class CartQuery {
     }
 
     _getCartTotalsFields() {
+        const { pathname = '' } = location;
+        const checkoutData = (
+            pathname.includes(CHECKOUT_URL)
+                ? [this._getOrderShippingAddressField()]
+                : []
+        );
+
         return [
             'id',
             'subtotal',
@@ -149,9 +157,30 @@ export class CartQuery {
             'shipping_incl_tax',
             'shipping_tax_amount',
             'shipping_method',
+            ...checkoutData,
             'is_in_store_pickup_available',
             this._getCartItemsField(),
             this._getAppliedTaxesField()
+        ];
+    }
+
+    _getOrderShippingAddressField() {
+        return new Field('shipping_address')
+            .addFieldList(this._getOrderAddressFields());
+    }
+
+    _getOrderAddressFields() {
+        return [
+            'city',
+            'country_id',
+            'firstname',
+            'lastname',
+            'postcode',
+            'region',
+            'telephone',
+            'vat_id',
+            'email',
+            'street'
         ];
     }
 

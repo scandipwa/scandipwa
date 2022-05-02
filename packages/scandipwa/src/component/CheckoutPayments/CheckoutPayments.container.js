@@ -51,7 +51,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
     };
 
     state = {
-        selectedPaymentCode: null
+        selectedPaymentCode: ''
     };
 
     dataMap = {
