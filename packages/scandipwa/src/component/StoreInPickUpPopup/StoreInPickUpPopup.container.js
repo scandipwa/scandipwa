@@ -55,7 +55,7 @@ export class StoreInPickUpContainer extends PureComponent {
         shippingMethods: ShippingMethodsType.isRequired,
         showNotification: PropTypes.func.isRequired,
         defaultCountry: PropTypes.string.isRequired,
-        cartItemsSku: PropTypes.arrayOf(PropTypes.string).isRequired,
+        cartItemsSku: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
         clearPickUpStore: PropTypes.func.isRequired,
         selectedStore: StoreType
     };
