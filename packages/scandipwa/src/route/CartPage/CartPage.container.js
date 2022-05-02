@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 
 import { CART } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -162,8 +163,7 @@ export class CartPageContainer extends PureComponent {
             totals: {
                 items = []
             } = {},
-            device,
-            isLoading
+            device
         } = this.props;
 
         const { isCartItemLoading, isInitialLoad } = this.state;
@@ -172,9 +172,8 @@ export class CartPageContainer extends PureComponent {
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
             totals,
             isCartItemLoading,
-            isInitialLoad,
             device,
-            isLoading
+            isInitialLoad
         };
     }
 
@@ -241,7 +240,7 @@ export class CartPageContainer extends PureComponent {
     _updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
-            { url: '/cart', name: __('Shopping cart') }
+            { url: CART_URL, name: __('Shopping cart') }
         ];
 
         updateBreadcrumbs(breadcrumbs);

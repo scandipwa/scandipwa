@@ -65,13 +65,14 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
-    init: () => {
+    init: async () => {
         ConfigDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
         );
-        MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleCustomerDataOnInit(dispatch)
-        );
+
+        const { default: dispatcher } = await MyAccountDispatcher;
+        await dispatcher.handleCustomerDataOnInit(dispatch);
+
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );

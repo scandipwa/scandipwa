@@ -17,6 +17,7 @@ import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
+import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
@@ -26,7 +27,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
-import { CustomerType } from 'Type/Account.type';
+import { Addresstype, CustomerType } from 'Type/Account.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { HistoryType } from 'Type/Router.type';
 import { removeEmptyStreets } from 'Util/Address';
@@ -45,7 +46,17 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import Checkout from './Checkout.component';
 import {
-    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP, UPDATE_EMAIL_CHECK_FREQUENCY
+    BILLING_STEP,
+    BILLING_URL,
+    BILLING_URL_STEP,
+    CHECKOUT_URL_REGEX,
+    DETAILS_STEP,
+    DETAILS_URL_STEP,
+    PAYMENT_TOTALS,
+    SHIPPING_STEP,
+    SHIPPING_URL,
+    SHIPPING_URL_STEP,
+    UPDATE_EMAIL_CHECK_FREQUENCY
 } from './Checkout.config';
 
 export const CartDispatcher = import(
@@ -65,6 +76,7 @@ export const CheckoutDispatcher = import(
 export const mapStateToProps = (state) => ({
     selectedStore: state.StoreInPickUpReducer.store,
     totals: state.CartReducer.cartTotals,
+    isCartLoading: state.CartReducer.isLoading,
     cartTotalSubPrice: getCartTotalSubPrice(state),
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout,
@@ -74,7 +86,8 @@ export const mapStateToProps = (state) => ({
     isInStoreActivated: state.ConfigReducer.delivery_instore_active,
     isGuestNotAllowDownloadable: state.ConfigReducer.downloadable_disable_guest_checkout,
     savedEmail: state.CheckoutReducer.email,
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    shippingFields: state.CheckoutReducer.shippingFields
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
@@ -152,11 +165,15 @@ export class CheckoutContainer extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         isInStoreActivated: PropTypes.bool.isRequired,
         isGuestNotAllowDownloadable: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
+        isSignedIn: PropTypes.bool.isRequired,
+        isCartLoading: PropTypes.bool.isRequired,
+        shippingFields: Addresstype,
+        savedEmail: PropTypes.string.isRequired
     };
 
     static defaultProps = {
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
+        shippingFields: {}
     };
 
     containerFunctions = {
@@ -203,7 +220,7 @@ export class CheckoutContainer extends PureComponent {
             shippingAddress: {},
             billingAddress: {},
             selectedShippingMethod: '',
-            checkoutStep: is_virtual ? BILLING_STEP : SHIPPING_STEP,
+            checkoutStep: this.determineCheckoutStepFromUrl(),
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
             email: savedEmail || '',
@@ -212,30 +229,19 @@ export class CheckoutContainer extends PureComponent {
             estimateAddress: {},
             isPickInStoreMethodSelected: false
         };
-
-        if (is_virtual) {
-            this._getPaymentMethods();
-        }
     }
 
     componentDidMount() {
         const {
             history,
-            showInfoNotification,
             guest_checkout,
             updateMeta,
-            isGuestNotAllowDownloadable,
-            totals: {
-                items = []
-            }
+            isGuestNotAllowDownloadable
         } = this.props;
 
         const { email } = this.state;
 
-        if (!items.length) {
-            showInfoNotification(__('Please add at least one product to cart!'));
-            history.push(appendWithStoreCode('/cart'));
-        }
+        this.handleRedirectIfNoItemsInCart();
 
         // if guest checkout is disabled and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
@@ -255,13 +261,73 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { match: { params: { step: urlStep } }, isEmailAvailable, updateEmail } = this.props;
-        const { match: { params: { step: prevUrlStep } } } = prevProps;
-        const { email } = this.state;
+        const {
+            match: {
+                params: {
+                    step: urlStep = ''
+                }
+            },
+            isEmailAvailable,
+            updateEmail,
+            isCartLoading,
+            shippingFields,
+            shippingFields: {
+                shipping_method
+            },
+            totals: {
+                is_virtual
+            },
+            showInfoNotification,
+            history
+        } = this.props;
+
+        const {
+            match: {
+                params: {
+                    step: prevUrlStep = ''
+                }
+            },
+            isCartLoading: prevIsCartLoading
+        } = prevProps;
+
+        const { email, checkoutStep } = this.state;
         const { email: prevEmail } = prevState;
+        const { pathname = '' } = location;
+
+        this.handleRedirectIfNoItemsInCart();
+
+        if (prevIsCartLoading && !isCartLoading) {
+            if (checkoutStep === SHIPPING_STEP) {
+                if (is_virtual) {
+                    history.replace(appendWithStoreCode(BILLING_URL));
+                    this._getPaymentMethods();
+                    // eslint-disable-next-line react/no-did-update-set-state
+                    this.setState({ checkoutStep: BILLING_STEP });
+                } else if (pathname.match(CHECKOUT_URL_REGEX)) {
+                    history.replace(appendWithStoreCode(SHIPPING_URL));
+                }
+            }
+
+            const shouldGoToShipping = (
+                !shipping_method
+                && !is_virtual
+                && checkoutStep === BILLING_STEP
+            );
+
+            if (shouldGoToShipping) {
+                showInfoNotification(__('Please add a shipping address and a shipping method!'));
+                // eslint-disable-next-line react/no-did-update-set-state
+                this.setState({ checkoutStep: SHIPPING_STEP });
+            }
+
+            this.saveShippingFieldsAsShippingAddress(shippingFields, is_virtual);
+        }
 
         // Handle going back from billing to shipping
-        if (/shipping/.test(urlStep) && /billing/.test(prevUrlStep)) {
+        if (
+            urlStep.includes(SHIPPING_URL_STEP)
+            && prevUrlStep.includes(BILLING_URL_STEP)
+        ) {
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
             // eslint-disable-next-line react/no-did-update-set-state
@@ -269,6 +335,11 @@ export class CheckoutContainer extends PureComponent {
                 checkoutStep: SHIPPING_STEP,
                 isGuestEmailSaved: false
             });
+        }
+
+        if (urlStep.includes(BILLING_URL_STEP) && prevUrlStep.includes(DETAILS_URL_STEP)) {
+            BrowserDatabase.deleteItem(PAYMENT_TOTALS);
+            history.push(appendWithStoreCode(CART_URL));
         }
 
         if (email !== prevEmail) {
@@ -286,6 +357,32 @@ export class CheckoutContainer extends PureComponent {
         const { toggleBreadcrumbs, setPickUpStore } = this.props;
         toggleBreadcrumbs(true);
         setPickUpStore(null);
+    }
+
+    saveShippingFieldsAsShippingAddress(address, is_virtual) {
+        const {
+            street_0,
+            street_1,
+            street_2,
+            shipping_method,
+            ...data
+        } = address;
+        const { savedEmail } = this.props;
+        const { checkoutStep } = this.state;
+
+        const checkoutData = (
+            is_virtual
+                ? { shippingAddress: {}, isGuestEmailSaved: false }
+                : {
+                    shippingAddress: data,
+                    isGuestEmailSaved: savedEmail && checkoutStep !== SHIPPING_STEP
+                }
+        );
+
+        this.setState({
+            ...checkoutData,
+            email: savedEmail
+        });
     }
 
     onEmailChange(email) {
@@ -336,6 +433,62 @@ export class CheckoutContainer extends PureComponent {
             },
             this._handleError
         );
+    }
+
+    determineCheckoutStepFromUrl() {
+        const {
+            match: {
+                params: {
+                    step: urlStep = ''
+                }
+            },
+            totals: {
+                is_virtual
+            }
+        } = this.props;
+        const { pathname = '' } = location;
+
+        if (urlStep.includes(DETAILS_URL_STEP)) {
+            return DETAILS_STEP;
+        }
+
+        if (urlStep.includes(BILLING_URL_STEP) || is_virtual) {
+            if (pathname.match(CHECKOUT_URL_REGEX)) {
+                history.replace(appendWithStoreCode(BILLING_URL));
+            }
+
+            this._getPaymentMethods();
+
+            return BILLING_STEP;
+        }
+
+        return SHIPPING_STEP;
+    }
+
+    handleRedirectIfNoItemsInCart() {
+        const {
+            totals: {
+                items = []
+            },
+            isCartLoading,
+            showInfoNotification,
+            history
+        } = this.props;
+
+        const { checkoutStep, orderID } = this.state;
+
+        if (
+            (!isCartLoading && !items.length)
+            || (checkoutStep === DETAILS_STEP && !orderID)
+        ) {
+            if (checkoutStep !== DETAILS_STEP) {
+                showInfoNotification(__('Please add at least one product to cart!'));
+            }
+
+            if (!(orderID && checkoutStep === DETAILS_STEP)) {
+                history.push(appendWithStoreCode(CART_URL));
+            }
+        }
     }
 
     handleRedirectIfDownloadableInCart() {
@@ -435,7 +588,8 @@ export class CheckoutContainer extends PureComponent {
             setHeaderState,
             totals,
             isInStoreActivated,
-            isSignedIn
+            isSignedIn,
+            isCartLoading
         } = this.props;
         const {
             billingAddress,
@@ -481,7 +635,8 @@ export class CheckoutContainer extends PureComponent {
             shippingMethods,
             totals,
             selectedStoreAddress,
-            isPickInStoreMethodSelected
+            isPickInStoreMethodSelected,
+            isCartLoading
         };
     }
 

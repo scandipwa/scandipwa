@@ -32,6 +32,7 @@ import { appendWithStoreCode } from 'Util/Url';
 import {
     BILLING_STEP,
     CHECKOUT_URL,
+    CHECKOUT_URL_REGEX,
     DETAILS_STEP,
     SHIPPING_STEP
 } from './Checkout.config';
@@ -113,7 +114,8 @@ export class Checkout extends PureComponent {
         onStoreSelect: PropTypes.func.isRequired,
         selectedStoreAddress: StoreType,
         onCouponCodeUpdate: PropTypes.func,
-        isSignedIn: PropTypes.bool.isRequired
+        isSignedIn: PropTypes.bool.isRequired,
+        isCartLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -151,12 +153,8 @@ export class Checkout extends PureComponent {
     stepsCount = 2;
 
     componentDidMount() {
-        const { checkoutStep, history } = this.props;
-        const { url } = this.stepMap[checkoutStep];
-
         this.updateHeader();
-
-        history.replace(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        this.updateStepURL(true);
     }
 
     componentDidUpdate(prevProps) {
@@ -180,11 +178,22 @@ export class Checkout extends PureComponent {
         });
     }
 
-    updateStep() {
-        const { checkoutStep, history } = this.props;
+    updateStepURL(isMounting = false) {
+        const { checkoutStep, history, isCartLoading } = this.props;
         const { url } = this.stepMap[checkoutStep];
+        const { pathname = '' } = location;
 
-        history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        if (!(isCartLoading && pathname.match(CHECKOUT_URL_REGEX))) {
+            if (isMounting) {
+                history.replace(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+            } else {
+                history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+            }
+        }
+    }
+
+    updateStep() {
+        this.updateStepURL();
         scrollToTop({ behavior: 'smooth' });
     }
 
@@ -372,6 +381,14 @@ export class Checkout extends PureComponent {
         return <Loader isLoading={ isLoading } />;
     }
 
+    renderFullPageLoader() {
+        return (
+            <main block="Checkout" elem="FullPageLoader">
+                <Loader isLoading />
+            </main>
+        );
+    }
+
     renderSummary(showOnMobile = false) {
         const {
             checkoutTotals,
@@ -478,6 +495,12 @@ export class Checkout extends PureComponent {
     }
 
     render() {
+        const { isCartLoading } = this.props;
+
+        if (isCartLoading) {
+            return this.renderFullPageLoader();
+        }
+
         return (
             <main block="Checkout">
                 <ContentWrapper
