@@ -9,42 +9,39 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
-import { OptionsType, OrderProductType } from 'Type/Order.type';
+import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountOrderItemsTableRow from './MyAccountOrderItemsTableRow.component';
+import {
+    MyAccountOrderItemsTableRowComponentProps,
+    MyAccountOrderItemsTableRowContainerMapDispatchProps,
+    MyAccountOrderItemsTableRowContainerMapStateProps,
+    MyAccountOrderItemsTableRowContainerProps,
+    MyAccountOrderItemsTableRowContainerPropsKeys
+} from './MyAccountOrderItemsTableRow.type';
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountOrderItemsTableRowContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): MyAccountOrderItemsTableRowContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Container */
-export class MyAccountOrderItemsTableRowContainer extends PureComponent {
-    static propTypes = {
-        product: OrderProductType.isRequired,
-        activeTab: PropTypes.string.isRequired,
-        selectedOptions: OptionsType,
-        enteredOptions: OptionsType,
-        isMobile: PropTypes.bool.isRequired,
-        comments: PropTypes.arrayOf(PropTypes.string)
-    };
-
+export class MyAccountOrderItemsTableRowContainer extends PureComponent<MyAccountOrderItemsTableRowContainerProps> {
     static defaultProps = {
         selectedOptions: [],
         enteredOptions: [],
         comments: []
     };
 
-    containerProps() {
+    containerProps(): Pick<MyAccountOrderItemsTableRowComponentProps, MyAccountOrderItemsTableRowContainerPropsKeys> {
         const {
             product,
             activeTab,
@@ -65,26 +62,26 @@ export class MyAccountOrderItemsTableRowContainer extends PureComponent {
         };
     }
 
-    getOrderColumnSpanCount() {
+    getOrderColumnSpanCount(): number {
         const { activeTab } = this.props;
 
         switch (activeTab) {
-            case ORDER_REFUNDS: {
-                return '7';
-            }
-            case ORDER_SHIPMENTS: {
-                return '3';
-            }
-            default: {
-                return '5';
-            }
+        case OrderTabs.ORDER_REFUNDS: {
+            return 7;
+        }
+        case OrderTabs.ORDER_SHIPMENTS: {
+            return 3;
+        }
+        default: {
+            return 5;
+        }
         }
     }
 
     render(): ReactElement {
         return (
             <MyAccountOrderItemsTableRow
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

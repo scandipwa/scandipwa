@@ -12,36 +12,19 @@
 import { PureComponent } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
-import { LEFT, RIGHT } from 'Component/ChevronIcon/ChevronIcon.config';
+import { Directions } from 'Component/ChevronIcon/ChevronIcon.config';
 import PaginationLink from 'Component/PaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { MixType, ReactElement } from 'Type/Common.type';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
+import { ReactElement } from 'Type/Common.type';
 import { range } from 'Util/Manipulations';
+
+import { PaginationComponentProps } from './Pagination.type';
 
 import './Pagination.style';
 
 /** @namespace Component/Pagination/Component */
-export class Pagination extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        pathname: PropTypes.string.isRequired,
-        totalPages: PropTypes.number.isRequired,
-        currentPage: PropTypes.number.isRequired,
-        getSearchQuery: PropTypes.func.isRequired,
-        anchorTextPrevious: PropTypes.string.isRequired,
-        anchorTextNext: PropTypes.string.isRequired,
-        firstFramePage: PropTypes.number.isRequired,
-        lastFramePage: PropTypes.number.isRequired,
-        prevPageJump: PropTypes.number.isRequired,
-        nextPageJump: PropTypes.number.isRequired,
-        shouldRenderNextJump: PropTypes.bool.isRequired,
-        shouldRenderPreviousJump: PropTypes.bool.isRequired,
-        shouldRenderJumps: PropTypes.bool.isRequired,
-        paginationFrame: PropTypes.number.isRequired,
-        id: PropTypes.string.isRequired,
-        mix: MixType.isRequired
-    };
-
+export class Pagination extends PureComponent<PaginationComponentProps> {
     renderPreviousPageLink(): ReactElement {
         const {
             anchorTextPrevious,
@@ -85,7 +68,7 @@ export class Pagination extends PureComponent {
 
     renderPageIcon(isNext = false): ReactElement {
         return (
-            <ChevronIcon direction={ isNext ? RIGHT : LEFT } />
+            <ChevronIcon direction={ isNext ? Directions.RIGHT : Directions.LEFT } />
         );
     }
 
@@ -116,11 +99,11 @@ export class Pagination extends PureComponent {
     }
 
     renderPageLink(
-        pageNumber,
-        label,
-        children,
+        pageNumber: number,
+        label: string,
+        children: string | ReactElement,
         isCurrent = false
-    ) {
+    ): ReactElement {
         const {
             pathname,
             getSearchQuery
@@ -212,7 +195,7 @@ export class Pagination extends PureComponent {
                       block="Pagination"
                       elem="ListItem"
                     >
-                        <TextPlaceholder length="block" />
+                        <TextPlaceholder length={ TextPlaceHolderLength.BLOCK } />
                     </li>
                 )) }
             </ul>

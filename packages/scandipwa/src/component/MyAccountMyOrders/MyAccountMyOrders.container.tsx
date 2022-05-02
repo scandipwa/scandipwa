@@ -9,19 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Dispatch } from 'redux';
 
-import { DeviceType } from 'Type/Device.type';
-import { OrdersListType } from 'Type/Order.type';
-import { LocationType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
+import { Location } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
+import { RootState } from 'Util/Store/Store.type';
 import { getQueryParam } from 'Util/Url';
 
 import MyAccountMyOrders from './MyAccountMyOrders.component';
+import {
+    MyAccountMyOrdersComponentProps,
+    MyAccountMyOrdersContainerMapDispatchProps,
+    MyAccountMyOrdersContainerMapStateProps,
+    MyAccountMyOrdersContainerProps,
+    MyAccountMyOrdersContainerPropsKeys
+} from './MyAccountMyOrders.type';
 
 export const OrderDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -29,35 +35,27 @@ export const OrderDispatcher = import(
 );
 
 /** @namespace Component/MyAccountMyOrders/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountMyOrdersContainerMapStateProps => ({
     orderList: state.OrderReducer.orderList,
     isLoading: state.OrderReducer.isLoading,
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/MyAccountMyOrders/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyOrdersContainerMapDispatchProps => ({
     getOrderList: (page) => OrderDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestOrders(dispatch, page)
     )
 });
 
 /** @namespace Component/MyAccountMyOrders/Container */
-export class MyAccountMyOrdersContainer extends PureComponent {
-    static propTypes = {
-        getOrderList: PropTypes.func.isRequired,
-        orderList: OrdersListType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired,
-        location: LocationType.isRequired
-    };
-
+export class MyAccountMyOrdersContainer extends PureComponent<MyAccountMyOrdersContainerProps> {
     componentDidMount(): void {
         const { getOrderList } = this.props;
         getOrderList(this._getPageFromUrl());
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: MyAccountMyOrdersContainerProps): void {
         const { getOrderList } = this.props;
         const { location: prevLocation } = prevProps;
 
@@ -70,13 +68,13 @@ export class MyAccountMyOrdersContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<MyAccountMyOrdersComponentProps, MyAccountMyOrdersContainerPropsKeys> {
         const { orderList, isLoading, device } = this.props;
 
         return { orderList, isLoading, device };
     }
 
-    _getPageFromUrl(url) {
+    _getPageFromUrl(url?: string | Location): number {
         const { location: currentLocation } = this.props;
         const location = url || currentLocation;
 
@@ -86,7 +84,7 @@ export class MyAccountMyOrdersContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountMyOrders
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

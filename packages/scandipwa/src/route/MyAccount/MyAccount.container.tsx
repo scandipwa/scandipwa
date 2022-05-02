@@ -84,7 +84,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountContainerMapDis
 });
 
 /** @namespace Route/MyAccount/Container */
-export class MyAccountContainer extends PureComponent<MyAccountContainerProps, MyAccountContainerState> {
+export class MyAccountContainer extends PureComponent<
+MyAccountContainerProps, MyAccountContainerState> {
     static defaultProps = {
         wishlistItems: {},
         selectedTab: ''

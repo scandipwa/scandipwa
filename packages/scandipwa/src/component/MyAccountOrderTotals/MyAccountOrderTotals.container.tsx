@@ -9,42 +9,46 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { OrderTotalType } from 'Type/Order.type';
+import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountOrderTotals from './MyAccountOrderTotals.component';
 import { colSpanCounts, colSpanCountsMobile } from './MyAccountOrderTotals.config';
+import {
+    MyAccountOrderTotalsComponentProps,
+    MyAccountOrderTotalsContainerMapDispatchProps,
+    MyAccountOrderTotalsContainerMapStateProps,
+    MyAccountOrderTotalsContainerProps,
+    MyAccountOrderTotalsContainerPropsKeys,
+    MyAccountOrderTotalsContainerState
+} from './MyAccountOrderTotals.type';
 
 import './MyAccountOrderTotals.style';
 
 /** @namespace Component/MyAccountOrderTotals/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountOrderTotalsContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/MyAccountOrderTotals/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): MyAccountOrderTotalsContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountOrderTotals/Container */
-export class MyAccountOrderTotalsContainer extends PureComponent {
-    static propTypes = {
-        total: OrderTotalType.isRequired,
-        activeTab: PropTypes.string.isRequired,
-        isMobile: PropTypes.bool.isRequired
-    };
-
-    __construct(props) {
-        super.__construct(props);
+export class MyAccountOrderTotalsContainer extends PureComponent<
+MyAccountOrderTotalsContainerProps, MyAccountOrderTotalsContainerState
+> {
+    __construct(props: MyAccountOrderTotalsContainerProps): void {
+        super.__construct?.(props);
         const { activeTab, isMobile } = this.props;
 
         this.state = this.getColSpanCounts(activeTab, isMobile);
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: MyAccountOrderTotalsContainerProps): void {
         const { isMobile: prevIsMobile } = prevProps;
         const { isMobile } = this.props;
 
@@ -53,31 +57,42 @@ export class MyAccountOrderTotalsContainer extends PureComponent {
         }
     }
 
-    setColSpanCount() {
+    setColSpanCount(): void {
         const { activeTab, isMobile } = this.props;
 
         this.setState(this.getColSpanCounts(activeTab, isMobile));
     }
 
-    getColSpanCounts(activeTab, isMobile) {
+    getColSpanCounts(
+        activeTab: OrderTabs,
+        isMobile: boolean
+    ): Pick<MyAccountOrderTotalsContainerState, 'colSpanLabelCount' | 'colSpanPriceCount'> {
         if (isMobile) {
             const defaultSpanCount = {
-                colSpanPriceCount: '2',
-                colSpanLabelCount: '3'
+                colSpanPriceCount: 2,
+                colSpanLabelCount: 3
             };
+
+            if (activeTab !== OrderTabs.ORDER_REFUNDS) {
+                return defaultSpanCount;
+            }
 
             return colSpanCountsMobile[ activeTab ] ?? defaultSpanCount;
         }
 
         const defaultSpanCount = {
-            colSpanPriceCount: '1',
-            colSpanLabelCount: '4'
+            colSpanPriceCount: 1,
+            colSpanLabelCount: 4
         };
+
+        if (activeTab !== OrderTabs.ORDER_REFUNDS) {
+            return defaultSpanCount;
+        }
 
         return colSpanCounts[ activeTab ] ?? defaultSpanCount;
     }
 
-    containerProps() {
+    containerProps(): Pick<MyAccountOrderTotalsComponentProps, MyAccountOrderTotalsContainerPropsKeys> {
         const { total, activeTab } = this.props;
         const { colSpanPriceCount, colSpanLabelCount } = this.state;
 
@@ -92,7 +107,7 @@ export class MyAccountOrderTotalsContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountOrderTotals
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

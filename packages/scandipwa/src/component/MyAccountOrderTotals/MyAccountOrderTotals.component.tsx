@@ -11,30 +11,25 @@
 
 import { PureComponent } from 'react';
 
-import { ORDER_ITEMS } from 'Component/MyAccountOrder/MyAccountOrder.config';
-import { ReactElement } from 'Type/Common.type';
-import { OrderTotalType } from 'Type/Order.type';
+import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
+import { Discount, TaxItem } from 'Query/Order.type';
+import { Mix, ReactElement } from 'Type/Common.type';
 import { formatPrice } from 'Util/Price';
+
+import { MyAccountOrderTotalsComponentProps } from './MyAccountOrderTotals.type';
 
 import './MyAccountOrderTotals.style';
 
 /** @namespace Component/MyAccountOrderTotals/Component */
-export class MyAccountOrderTotals extends PureComponent {
-    static propTypes = {
-        total: OrderTotalType.isRequired,
-        activeTab: PropTypes.string.isRequired,
-        colSpanPriceCount: PropTypes.string.isRequired,
-        colSpanLabelCount: PropTypes.string.isRequired
-    };
-
-    renderTax(tax): ReactElement {
+export class MyAccountOrderTotals extends PureComponent<MyAccountOrderTotalsComponentProps> {
+    renderTax(tax: TaxItem): ReactElement {
         const { colSpanPriceCount, colSpanLabelCount } = this.props;
         const { amount: { value, currency }, title, rate } = tax;
 
         return (
             <tr key={ `${title}-${rate}` }>
                 <th colSpan={ colSpanLabelCount }>{ `${title} (${rate})` }</th>
-                <td colSpan={ colSpanPriceCount }>{ formatPrice(value, currency) }</td>
+                <td colSpan={ colSpanPriceCount }>{ formatPrice(Number(value), currency) }</td>
             </tr>
         );
     }
@@ -55,10 +50,10 @@ export class MyAccountOrderTotals extends PureComponent {
         return discounts.map(this.renderDiscount.bind(this));
     }
 
-    renderDiscount({ label, amount: { value } }, index): ReactElement {
+    renderDiscount({ label, amount: { value } }: Discount, index: number): ReactElement {
         const discountLabel = label ? __('Discount (%s)', label) : __('Discount');
 
-        return this.renderPriceLine(discountLabel, -value, null, {}, `discount-${index}`);
+        return this.renderPriceLine(discountLabel, -Number(value), undefined, {}, `discount-${index}`);
     }
 
     renderContent(): ReactElement {
@@ -90,13 +85,13 @@ export class MyAccountOrderTotals extends PureComponent {
                 { this.renderPriceLine(__('Shipping & Handling'), shippingHandlingPrice) }
                 { this.renderPriceLine(
                     __('Grand Total (Excl.Tax)'),
-                    grandTotalPrice - totalTaxPrice,
-                    null,
+                    Number(grandTotalPrice) - Number(totalTaxPrice),
+                    undefined,
                     grandTotalMix
                 ) }
                 { this.renderTaxes() }
                 { this.renderPriceLine(__('Tax'), totalTaxPrice) }
-                { this.renderPriceLine(__('Grand Total (Incl.Tax)'), grandTotalPrice, null, grandTotalMix) }
+                { this.renderPriceLine(__('Grand Total (Incl.Tax)'), grandTotalPrice, undefined, grandTotalMix) }
                 { this.renderBaseGrandTotal() }
             </>
         );
@@ -113,14 +108,20 @@ export class MyAccountOrderTotals extends PureComponent {
             }
         } = this.props;
 
-        if (activeTab !== ORDER_ITEMS) {
+        if (activeTab !== OrderTabs.ORDER_ITEMS) {
             return null;
         }
 
         return this.renderPriceLine(__('Grand Total to be Charged'), baseGrandTotalPrice, baseGrandTotalCurrency);
     }
 
-    renderPriceLine(title, price, currency, mix = {}, key): ReactElement {
+    renderPriceLine(
+        title: string,
+        price?: string | number,
+        currency?: string,
+        mix: Mix = {},
+        key?: string | number
+    ): ReactElement {
         const {
             total: { grand_total: { currency: defaultCurrency } },
             colSpanLabelCount,
@@ -130,7 +131,7 @@ export class MyAccountOrderTotals extends PureComponent {
         return (
             <tr mix={ mix } key={ key }>
                 <th colSpan={ colSpanLabelCount }>{ title }</th>
-                <td colSpan={ colSpanPriceCount }>{ formatPrice(price, currency || defaultCurrency) }</td>
+                <td colSpan={ colSpanPriceCount }>{ formatPrice(Number(price), currency || defaultCurrency) }</td>
             </tr>
         );
     }

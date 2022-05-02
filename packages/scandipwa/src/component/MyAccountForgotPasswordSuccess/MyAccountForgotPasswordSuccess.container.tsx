@@ -9,32 +9,36 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { SignInStateType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountForgotPasswordSuccess from './MyAccountForgotPasswordSuccess.component';
+import {
+    MyAccountForgotPasswordSuccessContainerMapDispatchProps,
+    MyAccountForgotPasswordSuccessContainerMapStateProps,
+    MyAccountForgotPasswordSuccessContainerProps,
+    MyAccountForgotPasswordSuccessContainerPropsKeys
+} from './MyAccountForgotPasswordSuccess.type';
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountForgotPasswordSuccessContainerMapStateProps => ({
     submittedEmail: state.MyAccountReducer.email
 });
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({
-
-});
+export const mapDispatchToProps = (): MyAccountForgotPasswordSuccessContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Container */
-export class MyAccountForgotPasswordSuccessContainer extends PureComponent {
-    static propTypes = {
-        state: SignInStateType.isRequired,
-        handleSignIn: PropTypes.func.isRequired,
-        submittedEmail: PropTypes.string.isRequired
-    };
-
-    containerProps() {
+export class MyAccountForgotPasswordSuccessContainer extends PureComponent<
+MyAccountForgotPasswordSuccessContainerProps
+> {
+    containerProps(): Pick<
+    MyAccountForgotPasswordSuccessContainerProps,
+    MyAccountForgotPasswordSuccessContainerPropsKeys
+    > {
         const {
             state,
             handleSignIn,
@@ -51,7 +55,7 @@ export class MyAccountForgotPasswordSuccessContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountForgotPasswordSuccess
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

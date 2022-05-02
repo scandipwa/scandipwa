@@ -139,7 +139,7 @@ export class MyAccountOrderContainer extends PureComponent<MyAccountOrderContain
 
         const { increment_id } = order as OrderItem;
 
-        reorder(String(increment_id));
+        reorder(increment_id);
     }
 
     handleChangeActiveTab(tab: OrderTabs): void {

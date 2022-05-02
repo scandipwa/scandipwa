@@ -15,6 +15,7 @@ import { ProductType } from 'Component/Product/Product.config';
 import { StockType } from 'Component/Product/Stock.config';
 import ProductAlerts from 'Component/ProductAlerts';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import TierPrices from 'Component/TierPrices';
 import { isCrawler, isSSR } from 'Util/Browser';
 import {
@@ -126,7 +127,9 @@ export class ProductActions extends Product {
 
         return (
             <div block="ProductActions" elem="ShortDescription">
-                { html ? <Html content={ htmlWithItemProp } /> : <p><TextPlaceholder length="long" /></p> }
+                { html
+                    ? <Html content={ htmlWithItemProp } />
+                    : <p><TextPlaceholder length={ TextPlaceHolderLength.LONG } /></p> }
             </div>
         );
     }

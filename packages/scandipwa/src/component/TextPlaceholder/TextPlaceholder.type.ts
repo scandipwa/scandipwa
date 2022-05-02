@@ -9,6 +9,12 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type Props = unknown;
+import { Mix } from 'Type/Common.type';
 
-export type WithReducersResult = (props: Props) => JSX.Element;
+import { TextPlaceHolderLength } from './TextPlaceholder.config';
+
+export interface TextPlaceholderComponentProps {
+    content: string | boolean | number;
+    length: TextPlaceHolderLength;
+    mix: Mix;
+}

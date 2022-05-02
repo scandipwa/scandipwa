@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 import { SortDirectionType } from 'Type/Direction.type';
 
@@ -56,7 +57,7 @@ export class CategorySort extends PureComponent {
     renderPlaceholder(): ReactElement {
         return (
             <p block="CategorySort" elem="Placeholder">
-                <TextPlaceholder length="short" />
+                <TextPlaceholder length={ TextPlaceHolderLength.SHORT } />
             </p>
         );
     }

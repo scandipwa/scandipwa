@@ -14,20 +14,15 @@ import { Component } from 'react';
 import Loader from 'Component/Loader';
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
 import Pagination from 'Component/Pagination';
-import { DeviceType } from 'Type/Device.type';
-import { OrdersListType } from 'Type/Order.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { MyAccountMyOrdersComponentProps, OrderRow } from './MyAccountMyOrders.type';
 
 import './MyAccountMyOrders.style';
 
 /** @namespace Component/MyAccountMyOrders/Component */
-export class MyAccountMyOrders extends Component {
-    static propTypes = {
-        orderList: OrdersListType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired
-    };
-
-    shouldComponentUpdate(nextProps) {
+export class MyAccountMyOrders extends Component<MyAccountMyOrdersComponentProps> {
+    shouldComponentUpdate(nextProps: MyAccountMyOrdersComponentProps): boolean {
         const { device, orderList, isLoading } = this.props;
         const {
             device: nextDevice,
@@ -73,12 +68,10 @@ export class MyAccountMyOrders extends Component {
         );
     }
 
-    renderOrderRow(order): ReactElement {
-        const { id, base_order_info: { id: defaultId } = {} } = order;
-
+    renderOrderRow(order: OrderRow): ReactElement {
         return (
             <MyAccountOrderTableRow
-              key={ id || defaultId }
+              key={ 'base_order_info' in order ? order.base_order_info.id : order.id }
               order={ order }
             />
         );
@@ -91,12 +84,12 @@ export class MyAccountMyOrders extends Component {
             return this.renderNoOrders();
         }
 
-        const orders = items.length
+        const orders: OrderRow[] = items.length
             ? items
             : Array.from({ length: 10 }, (_, id) => ({ base_order_info: { id } }));
 
         return orders.reduceRight(
-            (acc, e) => [...acc, this.renderOrderRow(e)],
+            (acc: ReactElement[], e: OrderRow) => [...acc, this.renderOrderRow(e)],
             []
         );
     }

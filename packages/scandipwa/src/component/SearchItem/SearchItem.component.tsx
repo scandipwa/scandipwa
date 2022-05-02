@@ -15,6 +15,7 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 import { AttributeType, ProductType } from 'Type/ProductList.type';
 import { UrlType } from 'Type/Router.type';
@@ -65,7 +66,7 @@ export class SearchItem extends PureComponent {
             <figcaption block="SearchItem" elem="Content">
                 { this.renderCustomAttribute() }
                 <h4 block="SearchItem" elem="Title" mods={ { isLoaded: !!name } }>
-                    <TextPlaceholder content={ name } length="long" />
+                    <TextPlaceholder content={ name } length={ TextPlaceHolderLength.Long } />
                 </h4>
             </figcaption>
         );

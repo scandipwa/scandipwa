@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 
 import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { MixType, ReactElement } from 'Type/Common.type';
 import { OriginalPriceType, ProductPriceType } from 'Type/Price.type';
 import { PriceConfiguration } from 'Type/ProductList.type';
@@ -85,7 +86,10 @@ export class ProductPrice extends PureComponent {
 
         return (
             <p block="ProductPrice" aria-label="Product Price" mix={ mix }>
-                <TextPlaceholder mix={ { block: 'ProductPrice', elem: 'Placeholder' } } length="custom" />
+                <TextPlaceholder
+                  mix={ { block: 'ProductPrice', elem: 'Placeholder' } }
+                  length={ TextPlaceHolderLength.CUSTOM }
+                />
             </p>
         );
     }

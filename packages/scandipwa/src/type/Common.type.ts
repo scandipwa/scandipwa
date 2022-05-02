@@ -29,6 +29,7 @@ export type Children = ReactElement;
 export type MetaTitle = string | unknown;
 
 export type Url<T = unknown> = string | {
+    search?: string;
     pathname: string;
     state: T;
 };

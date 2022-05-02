@@ -26,12 +26,12 @@ export type OrderList = {
 export interface GetOrderListAction extends AnyAction {
     type: OrderActionType.GET_ORDER_LIST;
     orderList: CustomerOrders;
-    status: boolean;
+    status?: boolean;
 }
 
 export interface SetLoadingStatusAction extends AnyAction {
     type: OrderActionType.SET_ORDER_LOADING_STATUS;
-    status: boolean;
+    status?: boolean;
 }
 
 export type OrderAction = GetOrderListAction | SetLoadingStatusAction;

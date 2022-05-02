@@ -28,6 +28,7 @@ import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement, RefType } from 'Type/Common.type';
 import { PriceType } from 'Type/Price.type';
@@ -464,14 +465,14 @@ export class Product extends PureComponent {
         if (!header) {
             return (
                 <p block={ this.className } elem="Name">
-                    <TextPlaceholder content={ nameToRender } length="medium" />
+                    <TextPlaceholder content={ nameToRender } length={ TextPlaceHolderLength.MEDIUM } />
                 </p>
             );
         }
 
         return (
             <h1 block={ this.className } elem="Title" itemProp="name">
-                <TextPlaceholder content={ nameToRender } length="medium" />
+                <TextPlaceholder content={ nameToRender } length={ TextPlaceHolderLength.MEDIUM } />
             </h1>
         );
     }

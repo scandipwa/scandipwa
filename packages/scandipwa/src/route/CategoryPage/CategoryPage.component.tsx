@@ -25,6 +25,7 @@ import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import {
     CategoryTreeType, FilterInputType, FilterType, SortFieldsType
 } from 'Type/Category.type';
@@ -234,7 +235,7 @@ export class CategoryPage extends PureComponent {
     renderFilterButtonPlaceholder(): ReactElement {
         return (
             <p block="CategoryPage" elem="FilterButtonPlaceholder">
-                <TextPlaceholder length="short" />
+                <TextPlaceholder length={ TextPlaceHolderLength.SHORT } />
             </p>
         );
     }

@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import Image from 'Component/Image';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { CategoryTreeType } from 'Type/Category.type';
 import { ReactElement } from 'Type/Common.type';
 
@@ -87,7 +88,7 @@ export class CategoryDetails extends PureComponent {
     renderCategoryDescriptionPlaceholder(): ReactElement {
         return (
             <p>
-                <TextPlaceholder length="long" />
+                <TextPlaceholder length={ TextPlaceHolderLength.LONG } />
             </p>
         );
     }

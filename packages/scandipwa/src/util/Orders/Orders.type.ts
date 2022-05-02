@@ -9,6 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type Props = unknown;
-
-export type WithReducersResult = (props: Props) => JSX.Element;
+export type OrderItemQtyArray = {
+    quantity_ordered: number;
+    quantity_canceled: number;
+    quantity_invoiced: number;
+    quantity_refunded: number;
+    quantity_returned: number;
+    quantity_shipped: number;
+};

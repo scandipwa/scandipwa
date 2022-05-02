@@ -12,19 +12,15 @@
 
 import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
-import { ReactElement } from 'Type/Common.type';
 
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import { OrderType } from 'Type/Order.type';
 
 import './MyAccountOrderInformation.style';
+import { MyAccountOrderInformationComponentProps } from './MyAccountOrderInformation.type';
+import { OrderPaymentMethod } from 'Query/Order.type';
 
 /** @namespace Component/MyAccountOrderInformation/Component */
-export class MyAccountOrderInformation extends PureComponent {
-    static propTypes = {
-        order: OrderType.isRequired
-    };
-
+export class MyAccountOrderInformation extends PureComponent<MyAccountOrderInformationComponentProps> {
     renderShippingMethod(): ReactElement {
         const { order: { shipping_method } } = this.props;
 
@@ -85,7 +81,7 @@ export class MyAccountOrderInformation extends PureComponent {
         );
     }
 
-    renderPaymentMethod (paymentMethod, index) {
+    renderPaymentMethod (paymentMethod: OrderPaymentMethod, index: number): ReactElement {
         const { name, purchase_number } = paymentMethod;
 
         return (
@@ -100,7 +96,7 @@ export class MyAccountOrderInformation extends PureComponent {
         )
     }
 
-    renderPurchaseNumber(purchaseNumber): ReactElement {
+    renderPurchaseNumber(purchaseNumber: string): ReactElement {
         if (!purchaseNumber) {
             return null;
         }

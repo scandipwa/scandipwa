@@ -12,33 +12,45 @@
 import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
-import { OrderType } from 'Type/Order.type';
 import { formatPrice } from 'Util/Price';
+
+import { MyAccountOrderTableRowComponentProps } from './MyAccountOrderTableRow.type';
 
 import './MyAccountOrderTableRow.style';
 
 /** @namespace Component/MyAccountOrderTableRow/Component */
-export class MyAccountOrderTableRow extends PureComponent {
-    static propTypes = {
-        order: OrderType.isRequired,
-        onViewClick: PropTypes.func.isRequired
-    };
+export class MyAccountOrderTableRow extends PureComponent<MyAccountOrderTableRowComponentProps> {
+    renderEmptyRow(): ReactElement {
+        const { onViewClick } = this.props;
+
+        return (
+            <tr onClick={ onViewClick } block="MyAccountOrderTableRow">
+                <td />
+                <td />
+                <td />
+                <td block="hidden-mobile" />
+            </tr>
+        );
+    }
 
     render(): ReactElement {
+        const { order, onViewClick } = this.props;
+
+        if ('base_order_info' in order) {
+            return this.renderEmptyRow();
+        }
+
         const {
-            order: {
-                created_at,
-                status,
-                increment_id,
-                total: {
-                    grand_total: {
-                        value,
-                        currency
-                    } = {}
+            created_at,
+            status,
+            increment_id,
+            total: {
+                grand_total: {
+                    value,
+                    currency
                 } = {}
-            },
-            onViewClick
-        } = this.props;
+            } = {}
+        } = order;
 
         return (
             <tr onClick={ onViewClick } block="MyAccountOrderTableRow">
@@ -46,7 +58,7 @@ export class MyAccountOrderTableRow extends PureComponent {
                 <td>{ created_at }</td>
                 <td>{ status }</td>
                 <td block="hidden-mobile">
-                    { value ? formatPrice(value, currency) : '' }
+                    { value ? formatPrice(Number(value), currency) : '' }
                 </td>
             </tr>
         );

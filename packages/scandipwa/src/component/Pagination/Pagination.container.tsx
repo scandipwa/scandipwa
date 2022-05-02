@@ -6,24 +6,29 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { UTMOST_PAGES_COUNT } from 'Component/Pagination/Pagination.config';
-import { MixType } from 'Type/Common.type';
-import { HistoryType, LocationType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 import { generateQuery, getQueryParam } from 'Util/Url';
 
 import Pagination from './Pagination.component';
+import {
+    PaginationComponentProps,
+    PaginationContainerMapDispatchProps,
+    PaginationContainerMapStateProps,
+    PaginationContainerProps,
+    PaginationContainerPropsKeys
+} from './Pagination.type';
 
 /** @namespace Component/Pagination/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): PaginationContainerMapStateProps => ({
     paginationFrame: state.ConfigReducer.pagination_frame,
     paginationFrameSkip: state.ConfigReducer.pagination_frame_skip,
     anchorTextPrevious: state.ConfigReducer.anchor_text_for_previous,
@@ -31,29 +36,12 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/Pagination/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): PaginationContainerMapDispatchProps => ({});
 
 /** @namespace Component/Pagination/Container */
-export class PaginationContainer extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool,
-        history: HistoryType.isRequired,
-        location: LocationType.isRequired,
-        totalPages: PropTypes.number.isRequired,
-        paginationFrame: PropTypes.number,
-        paginationFrameSkip: PropTypes.number,
-        anchorTextPrevious: PropTypes.string,
-        anchorTextNext: PropTypes.string,
-        id: PropTypes.string,
-        mix: MixType
-    };
-
+export class PaginationContainer extends PureComponent<PaginationContainerProps> {
     static defaultProps = {
         isLoading: false,
-        paginationFrame: 5,
-        paginationFrameSkip: null,
-        anchorTextPrevious: '',
-        anchorTextNext: '',
         id: '',
         mix: {}
     };
@@ -62,14 +50,14 @@ export class PaginationContainer extends PureComponent {
         getSearchQuery: this.getSearchQuery.bind(this)
     };
 
-    getSearchQuery(pageNumber) {
+    getSearchQuery(pageNumber: number): string {
         const { history, location } = this.props;
         const page = pageNumber !== 1 ? pageNumber : '';
 
         return generateQuery({ page }, location, history);
     }
 
-    containerProps() {
+    containerProps(): Pick<PaginationComponentProps, PaginationContainerPropsKeys> {
         const {
             anchorTextNext,
             anchorTextPrevious,
@@ -101,14 +89,14 @@ export class PaginationContainer extends PureComponent {
         };
     }
 
-    _getCurrentPage() {
+    _getCurrentPage(): number {
         const { location } = this.props;
 
         return +(getQueryParam('page', location) || 1);
     }
 
     // e.g. 5 for pagination like 1 ... 5 6 7 ... 14
-    _getFirstFramePage() {
+    _getFirstFramePage(): number {
         const { paginationFrame, totalPages } = this.props;
         const maxFirstPage = this._getCurrentPage() - Math.ceil(paginationFrame / 2) + 1;
         const minFirstPage = totalPages - paginationFrame + 1;
@@ -117,32 +105,33 @@ export class PaginationContainer extends PureComponent {
     }
 
     // e.g. 7 for pagination like 1 ... 5 6 7 ... 14
-    _getLastFramePage() {
+    _getLastFramePage(): number {
         const { paginationFrame, totalPages } = this.props;
+
         return Math.min(totalPages, this._getFirstFramePage() + paginationFrame - 1);
     }
 
     // i.e. what page you go to on click on first '...'
-    _getPrevPageJump() {
+    _getPrevPageJump(): number {
         const { paginationFrameSkip } = this.props;
 
         return Math.max(UTMOST_PAGES_COUNT, this._getFirstFramePage() - paginationFrameSkip);
     }
 
     // i.e. what page you go to on click on second '...'
-    _getNextPageJump() {
+    _getNextPageJump(): number {
         const { paginationFrameSkip, totalPages } = this.props;
 
         return Math.min(totalPages - 1, this._getLastFramePage() + paginationFrameSkip);
     }
 
-    _shouldRenderJumps(): ReactElement {
+    _shouldRenderJumps(): boolean {
         const { paginationFrameSkip } = this.props;
 
         return !(!paginationFrameSkip || paginationFrameSkip < 2);
     }
 
-    _shouldRenderNextJump(): ReactElement {
+    _shouldRenderNextJump(): boolean {
         const { totalPages } = this.props;
 
         if (!this._shouldRenderJumps()) {
@@ -152,7 +141,7 @@ export class PaginationContainer extends PureComponent {
         return totalPages - this._getLastFramePage() >= UTMOST_PAGES_COUNT;
     }
 
-    _shouldRenderPreviousJump(): ReactElement {
+    _shouldRenderPreviousJump(): boolean {
         if (!this._shouldRenderJumps()) {
             return false;
         }
@@ -163,8 +152,8 @@ export class PaginationContainer extends PureComponent {
     render(): ReactElement {
         return (
             <Pagination
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
