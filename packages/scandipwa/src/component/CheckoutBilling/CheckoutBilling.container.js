@@ -78,6 +78,7 @@ export class CheckoutBillingContainer extends PureComponent {
     };
 
     static defaultProps = {
+        newShippingId: 1,
         termsAreEnabled: false,
         cartTotalSubPrice: null,
         newShippingId: 0

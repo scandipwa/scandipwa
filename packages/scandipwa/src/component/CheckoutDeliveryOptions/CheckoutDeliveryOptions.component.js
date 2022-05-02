@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
-import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout.type';
 
 import './CheckoutDeliveryOptions.style';
@@ -75,19 +74,6 @@ export class CheckoutDeliveryOptions extends PureComponent {
         );
     }
 
-    handleSelectStoreInPickUp() {
-        const {
-            handleSelectDeliveryMethod,
-            isShippingMethodPreSelected
-        } = this.props;
-
-        if (isShippingMethodPreSelected) {
-            return;
-        }
-
-        handleSelectDeliveryMethod();
-    }
-
     renderDeliveryOption(option) {
         const {
             selectShippingMethod,
@@ -146,7 +132,6 @@ export class CheckoutDeliveryOptions extends PureComponent {
                 <ul>
                     { this.renderShippingMethods() }
                 </ul>
-                { this.renderSelectedShippingMethod() }
             </div>
         );
     }

@@ -15,7 +15,6 @@
             color: var(--primary-error-color);
             font-size: 12px;
             margin-block-end: -.1em;
-            margin-block-start: 12px;
         }
     }
 
@@ -27,6 +26,7 @@
     &_hasError {
         border-inline-start: 2px solid var(--primary-error-color);
         padding-inline-start: 10px;
+        margin-block-end: 6px;
 
         .Field {
             color: var(--primary-error-color);

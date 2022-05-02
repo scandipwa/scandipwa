@@ -451,6 +451,7 @@ export class Checkout extends PureComponent {
             handleSelectDeliveryMethod,
             checkoutStep,
             isInStoreActivated,
+            shippingMethods,
             totals: {
                 is_in_store_pickup_available: isInStorePickupAvailable
             }
@@ -484,7 +485,7 @@ export class Checkout extends PureComponent {
                   elem="PickInStore"
                   mix={ { block: 'Button', mods: { isHollow: isPickInStoreMethodSelected } } }
                   type="button"
-                  disabled={ isPickInStoreMethodSelected }
+                  disabled={ isPickInStoreMethodSelected || shippingMethods?.length < 1 }
                   onClick={ handleSelectDeliveryMethod }
                 >
                     { __('Pick in Store') }
