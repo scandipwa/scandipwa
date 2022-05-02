@@ -113,7 +113,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
 
         if (defaultAddressId !== prevDefaultAddressId) {
             return {
-                selectedAddressId: defaultAddressId,
+                selectedAddressId: this?.getSelectedAddressId(defaultAddressId) || defaultAddressId,
                 prevDefaultAddressId: defaultAddressId
             };
         }
@@ -121,17 +121,30 @@ export class CheckoutAddressBookContainer extends PureComponent {
         return null;
     }
 
-    componentDidUpdate(_, prevState) {
+    componentDidUpdate(prevProps, prevState) {
         const {
             onAddressSelect,
             requestCustomerData,
-            customer
+            customer,
+            shippingFields: {
+                street: shippingFieldsStreet = []
+            }
         } = this.props;
+        const {
+            shippingFields: {
+                street: prevShippingFieldsStreet = []
+            }
+        } = prevProps;
         const { selectedAddressId: prevSelectedAddressId } = prevState;
-        const { selectedAddressId } = this.state;
+        const { selectedAddressId, prevDefaultAddressId } = this.state;
 
         if (isSignedIn() && !Object.keys(customer).length) {
             requestCustomerData();
+        }
+
+        if (shippingFieldsStreet.length && !prevShippingFieldsStreet.length) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ selectedAddressId: this.getSelectedAddressId(prevDefaultAddressId) });
         }
 
         if (selectedAddressId !== prevSelectedAddressId) {
