@@ -16,6 +16,7 @@ import ChevronIcon from 'Component/ChevronIcon';
 import { Directions } from 'Component/ChevronIcon/ChevronIcon.config';
 import MinusIcon from 'Component/MinusIcon';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { isCrawler, isSSR } from 'Util/Browser';
 import { getFixedElementHeight } from 'Util/CSS';
 
@@ -129,7 +130,7 @@ export class ExpandableContent extends PureComponent<ExpandableContentComponentP
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
                 >
                     { typeof heading === 'string' ? (
-                        <TextPlaceholder content={ heading } length="medium" />
+                        <TextPlaceholder content={ heading } length={ TextPlaceHolderLength.MEDIUM } />
                     ) : (
                         heading
                     ) }

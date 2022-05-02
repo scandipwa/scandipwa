@@ -12,26 +12,19 @@
 import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
-import { ChildrenType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { PaginationLinkComponentProps } from './PaginationLink.type';
 
 import './PaginationLink.style';
 
 /** @namespace Component/PaginationLink/Component */
-export class PaginationLink extends PureComponent {
-    static propTypes = {
-        children: ChildrenType,
-        label: PropTypes.string.isRequired,
-        isCurrent: PropTypes.bool.isRequired,
-        url_path: PropTypes.string.isRequired,
-        pageNumber: PropTypes.number.isRequired,
-        getSearchQueryForPage: PropTypes.func.isRequired
-    };
-
+export class PaginationLink extends PureComponent<PaginationLinkComponentProps> {
     static defaultProps = {
         children: []
     };
 
-    getSearchQueryForPage() {
+    getSearchQueryForPage(): string {
         const { getSearchQueryForPage, pageNumber } = this.props;
 
         return getSearchQueryForPage(pageNumber);

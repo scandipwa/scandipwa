@@ -6,59 +6,60 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { ReactElement } from 'Type/Common.type';
-import { OrderType } from 'Type/Order.type';
 import history from 'Util/History';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
+import {
+    MyAccountOrderTableRowComponentProps,
+    MyAccountOrderTableRowContainerMapDispatchProps,
+    MyAccountOrderTableRowContainerMapStateProps,
+    MyAccountOrderTableRowContainerProps,
+    MyAccountOrderTableRowContainerPropsKeys
+} from './MyAccountOrderTableRow.type';
 
 /** @namespace Component/MyAccountOrderTableRow/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({
+export const mapDispatchToProps = (): MyAccountOrderTableRowContainerMapDispatchProps => ({
 });
 
 /** @namespace Component/MyAccountOrderTableRow/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountOrderTableRowContainerMapStateProps => ({
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/MyAccountOrderTableRow/Container */
-export class MyAccountOrderTableRowContainer extends PureComponent {
-    static propTypes = {
-        order: OrderType.isRequired,
-        display_tax_in_shipping_amount: PropTypes.string
-    };
-
-    static defaultProps = {
-        display_tax_in_shipping_amount: ''
-    };
-
+export class MyAccountOrderTableRowContainer extends PureComponent<MyAccountOrderTableRowContainerProps> {
     containerFunctions = {
         onViewClick: this.onViewClick.bind(this)
     };
 
-    onViewClick() {
-        const { order: { id } } = this.props;
+    onViewClick(): void {
+        const { order } = this.props;
+
+        if (!('id' in order)) {
+            return;
+        }
+
+        const { id } = order;
 
         history.push({ pathname: appendWithStoreCode(`${AccountPageUrl.ORDER_URL}/${id}`) });
     }
 
-    containerProps() {
+    containerProps(): Pick<MyAccountOrderTableRowComponentProps, MyAccountOrderTableRowContainerPropsKeys> {
         const {
-            display_tax_in_shipping_amount,
             order
         } = this.props;
 
         return {
-            display_tax_in_shipping_amount,
             order
         };
     }

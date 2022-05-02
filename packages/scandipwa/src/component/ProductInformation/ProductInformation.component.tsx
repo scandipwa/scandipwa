@@ -15,6 +15,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 import { ProductType } from 'Type/ProductList.type';
 
@@ -32,7 +33,7 @@ export class ProductInformation extends PureComponent {
 
         if (!html) {
             return (
-                <TextPlaceholder length="long" />
+                <TextPlaceholder length={ TextPlaceHolderLength.LONG } />
             );
         }
 

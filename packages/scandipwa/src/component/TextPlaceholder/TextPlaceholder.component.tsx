@@ -11,7 +11,9 @@
 
 import { PureComponent } from 'react';
 
-import { MixType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { TextPlaceholderComponentProps } from './TextPlaceholder.type';
 
 import './TextPlaceholder.style';
 
@@ -20,24 +22,7 @@ import './TextPlaceholder.style';
  * @class TextPlaceholder
  * @namespace Component/TextPlaceholder/Component
  */
-export class TextPlaceholder extends PureComponent {
-    static propTypes = {
-        content: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool,
-            PropTypes.number
-        ]),
-        length: PropTypes.oneOf([
-            'block',
-            'short',
-            'medium',
-            'long',
-            'paragraph',
-            'custom'
-        ]),
-        mix: MixType
-    };
-
+export class TextPlaceholder extends PureComponent<TextPlaceholderComponentProps> {
     static defaultProps = {
         content: '',
         length: 'short',

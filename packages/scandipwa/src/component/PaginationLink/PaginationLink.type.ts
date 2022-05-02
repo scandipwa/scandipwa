@@ -9,6 +9,13 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type Props = unknown;
+import { Children } from 'Type/Common.type';
 
-export type WithReducersResult = (props: Props) => JSX.Element;
+export interface PaginationLinkComponentProps {
+    children: Children;
+    label: string;
+    isCurrent: boolean;
+    url_path: string;
+    pageNumber: number;
+    getSearchQueryForPage: (pageNumber: number) => string;
+}

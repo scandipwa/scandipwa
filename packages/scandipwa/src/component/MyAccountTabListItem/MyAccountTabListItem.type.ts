@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { MyAccountTab } from 'Route/MyAccount/MyAccount.type';
 import { Children, ObjectEntries } from 'Type/Common.type';
 
@@ -25,7 +26,7 @@ export type MyAccountTabListContainerState = {
 
 export type MyAccountTabListComponentProps = {
     tabMap: Record<string, MyAccountTab>;
-    activeTab: string;
+    activeTab: OrderTabs;
     handleLogout: () => void;
     onTabClick: (key: string) => void;
     isContentExpanded: boolean;

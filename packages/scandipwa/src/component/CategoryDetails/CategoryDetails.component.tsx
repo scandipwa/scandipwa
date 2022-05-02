@@ -13,7 +13,9 @@ import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
 import Image from 'Component/Image';
+import { ImageRatio } from 'Component/Image/Image.type';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 
 import { CategoryDetailsComponentProps } from './CategoryDetails.type';
@@ -83,7 +85,7 @@ export class CategoryDetails extends PureComponent<CategoryDetailsComponentProps
     renderCategoryDescriptionPlaceholder(): ReactElement {
         return (
             <p>
-                <TextPlaceholder length="long" />
+                <TextPlaceholder length={ TextPlaceHolderLength.LONG } />
             </p>
         );
     }
@@ -92,8 +94,7 @@ export class CategoryDetails extends PureComponent<CategoryDetailsComponentProps
         return (
             <Image
               mix={ { block: 'CategoryDetails', elem: 'Picture' } }
-              objectFit="cover"
-              ratio="custom"
+              ratio={ ImageRatio.IMG_CUSTOM }
               isPlaceholder
             />
         );
@@ -117,8 +118,7 @@ export class CategoryDetails extends PureComponent<CategoryDetailsComponentProps
             <Image
               mix={ { block: 'CategoryDetails', elem: 'Picture' } }
               src={ image || '' }
-              ratio="custom"
-              objectFit="cover"
+              ratio={ ImageRatio.IMG_CUSTOM }
             />
         );
     }

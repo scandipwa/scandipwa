@@ -51,7 +51,7 @@ export type MyAccountOrderContainerState = {
 };
 
 export interface MyAccountOrderComponentProps {
-    order: OrderItem;
+    order: OrderItem | Record<string, never>;
     isLoading: boolean;
     handleReorder: () => void;
     is_allowed_reorder: boolean;
@@ -64,5 +64,5 @@ export interface MyAccountOrderComponentProps {
 }
 
 export type OrderRenderItems = {
-    items: OrderItemProduct[]; number: number;
+    items: OrderItemProduct[]; number: string;
 } | OrderShipment | Invoice;

@@ -11,20 +11,15 @@
 
 import { PureComponent } from 'react';
 
-import { SignInStateType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 
-/** @namespace Component/MyAccountForgotPasswordSuccess/Component */
-export class MyAccountForgotPasswordSuccess extends PureComponent {
-    static propTypes = {
-        state: SignInStateType.isRequired,
-        handleSignIn: PropTypes.func.isRequired,
-        submittedEmail: PropTypes.string.isRequired
-    };
+import { MyAccountForgotPasswordSuccessContainerProps } from './MyAccountForgotPasswordSuccess.type';
 
+/** @namespace Component/MyAccountForgotPasswordSuccess/Component */
+export class MyAccountForgotPasswordSuccess extends PureComponent<MyAccountForgotPasswordSuccessContainerProps> {
     render(): ReactElement {
-        // eslint-disable-next-line react/prop-types
         const { state, handleSignIn, submittedEmail } = this.props;
+
         return (
             <article
               aria-labelledby="forgot-password-success"

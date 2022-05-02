@@ -18,6 +18,7 @@ import Loader from 'Component/Loader';
 import { Product } from 'Component/Product/Product.component';
 import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { MixType, ReactElement } from 'Type/Common.type';
 import { DeviceType } from 'Type/Device.type';
@@ -201,7 +202,7 @@ export class ProductCard extends Product {
               elem="Name"
               mods={ { isLoaded: !!name } }
             >
-                <TextPlaceholder content={ name } length="medium" />
+                <TextPlaceholder content={ name } length={ TextPlaceHolderLength.MEDIUM } />
             </p>
         );
     }

@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type Props = unknown;
+import { OrderItem } from 'Query/Order.type';
 
-export type WithReducersResult = (props: Props) => JSX.Element;
+export interface MyAccountOrderInformationComponentProps {
+    order: OrderItem | Record<string, never>;
+}

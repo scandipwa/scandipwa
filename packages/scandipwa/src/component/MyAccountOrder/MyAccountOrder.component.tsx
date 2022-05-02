@@ -16,7 +16,7 @@ import Loader from 'Component/Loader';
 import MyAccountOrderInformation from 'Component/MyAccountOrderInformation';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
-import { СreditMemo } from 'Query/Order.type';
+import { CreditMemo } from 'Query/Order.type';
 import { ReactElement } from 'Type/Common.type';
 import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 

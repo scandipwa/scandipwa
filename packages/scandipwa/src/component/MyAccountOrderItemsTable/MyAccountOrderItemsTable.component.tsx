@@ -11,15 +11,13 @@
 
 import { PureComponent } from 'react';
 
-import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
+import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
 import {
-    Invoice, InvoiceItem, OrderItem, OrderItemProduct, OrderShipment, RefundItem,
-    ShipmentItemInterface
+    InvoiceItem, OrderItemProduct, RefundItem, ShipmentItemInterface
 } from 'Query/Order.type';
 import { ReactElement } from 'Type/Common.type';
-import { OrderProductsType, OrderTabType, OrderTotalType } from 'Type/Order.type';
 import { getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { getProductFromOrder } from 'Util/Orders';
 
@@ -40,7 +38,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
     }
 
     renderItemRow(
-        product,
+        product: OrderItemProduct | ShipmentItemInterface | InvoiceItem | RefundItem,
         i: number
     ): ReactElement {
         const { activeTab, allOrderItems, items } = this.props;
@@ -57,7 +55,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
               enteredOptions={ entered_options }
               key={ i }
               activeTab={ activeTab }
-              comments={ 'comments' in items ? items.comments : null }
+              comments={ 'comments' in items ? items.comments : [] }
             />
         );
     }
@@ -65,7 +63,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
     renderOrderTitle(): ReactElement {
         const { activeTab, items: { number }, isMobile } = this.props;
 
-        if (isMobile && activeTab === ORDER_ITEMS) {
+        if (isMobile && activeTab === OrderTabs.ORDER_ITEMS) {
             return (
                 <div block="MyAccountOrderItemsTable" elem="OrderTitle">
                     { __('Items Ordered') }
@@ -83,7 +81,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
     renderRefundsTableHeading(): ReactElement {
         const { activeTab } = this.props;
 
-        if (activeTab !== ORDER_REFUNDS) {
+        if (activeTab !== OrderTabs.ORDER_REFUNDS) {
             return null;
         }
 
@@ -108,7 +106,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
     renderPriceHeading(): ReactElement {
         const { activeTab } = this.props;
 
-        if (activeTab === ORDER_SHIPMENTS) {
+        if (activeTab === OrderTabs.ORDER_SHIPMENTS) {
             return null;
         }
 
@@ -125,7 +123,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
     renderSubtotalHeading(): ReactElement {
         const { activeTab } = this.props;
 
-        if (activeTab === ORDER_SHIPMENTS) {
+        if (activeTab === OrderTabs.ORDER_SHIPMENTS) {
             return null;
         }
 
@@ -173,7 +171,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
     renderTotals(): ReactElement {
         const { total, activeTab } = this.props;
 
-        if (activeTab === ORDER_SHIPMENTS) {
+        if (activeTab === OrderTabs.ORDER_SHIPMENTS) {
             return null;
         }
 
@@ -184,7 +182,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
         const { items, activeTab } = this.props;
 
         if (
-            activeTab === ORDER_ITEMS
+            activeTab === OrderTabs.ORDER_ITEMS
             || !('comments' in items)
         ) {
             return null;

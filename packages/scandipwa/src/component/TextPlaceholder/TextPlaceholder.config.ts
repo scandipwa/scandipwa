@@ -9,6 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type Props = unknown;
-
-export type WithReducersResult = (props: Props) => JSX.Element;
+export enum TextPlaceHolderLength {
+    BLOCK = 'block',
+    SHORT = 'short',
+    MEDIUM = 'medium',
+    LONG = 'long',
+    PARAGRAPH = 'paragraph',
+    CUSTOM = 'custom'
+}

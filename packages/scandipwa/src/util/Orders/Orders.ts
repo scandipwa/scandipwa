@@ -10,8 +10,12 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { OrderItem } from 'Query/Order.type';
+import {
+    InvoiceItem, OrderItem, OrderItemProduct, RefundItem, ShipmentItemInterface
+} from 'Query/Order.type';
 import { decodeBase64 } from 'Util/Base64';
+
+import { OrderItemQtyArray } from './Orders.type';
 
 /** @namespace Util/Orders/getFormattedDate */
 export const getFormattedDate = (rawDate = ''): string => {
@@ -42,31 +46,25 @@ export const formatOrders = (orders: OrderItem[]): OrderItem[] => orders.reduceR
 }, []);
 
 /** @namespace Util/Orders/getOrderItemQtyToArray */
-export const getOrderItemQtyToArray = (product) => {
-    const {
-        quantity_ordered = 0,
-        quantity_canceled = 0,
-        quantity_invoiced = 0,
-        quantity_refunded = 0,
-        quantity_returned = 0,
-        quantity_shipped = 0
-    } = product;
-
-    return {
-        quantity_ordered,
-        quantity_canceled,
-        quantity_invoiced,
-        quantity_refunded,
-        quantity_returned,
-        quantity_shipped
-    };
-};
+export const getOrderItemQtyToArray = (
+    product: OrderItemProduct
+    | ShipmentItemInterface
+    | InvoiceItem
+    | RefundItem
+): OrderItemQtyArray => ({
+    quantity_ordered: 'quantity_ordered' in product ? product.quantity_ordered : 0,
+    quantity_canceled: 'quantity_canceled' in product ? product.quantity_canceled : 0,
+    quantity_invoiced: 'quantity_invoiced' in product ? product.quantity_invoiced : 0,
+    quantity_refunded: 'quantity_refunded' in product ? product.quantity_refunded : 0,
+    quantity_returned: 'quantity_returned' in product ? product.quantity_returned : 0,
+    quantity_shipped: 'quantity_shipped' in product ? product.quantity_shipped : 0
+});
 
 /** @namespace Util/Orders/getProductFromOrder */
 export const getProductFromOrder = (
-    allProducts,
+    allProducts: OrderItemProduct[],
     requiredProductSku: string
-) => allProducts.find(({ product_sku }) => product_sku === requiredProductSku);
+): OrderItemProduct | undefined => allProducts.find(({ product_sku }) => product_sku === requiredProductSku);
 
 /** @namespace Util/Orders/getOrderItemRowDiscount */
 export const getOrderItemRowDiscount = (discounts): number => discounts

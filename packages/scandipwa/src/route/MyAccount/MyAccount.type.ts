@@ -64,8 +64,8 @@ export interface MyAccountComponentProps {
     onSignOut: () => void;
     location: Location;
     match: match<{
-        tab?: string;
-        orderId?: string;
+        tab: string;
+        orderId: string;
     }>;
     changeTabName: (newTabName: string) => void;
     tabName: string;

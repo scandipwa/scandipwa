@@ -24,6 +24,7 @@ import Html from 'Component/Html';
 import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -205,7 +206,7 @@ export class CategoryPage extends PureComponent<CategoryPageComponentProps, Cate
     renderFilterButtonPlaceholder(): ReactElement {
         return (
             <p block="CategoryPage" elem="FilterButtonPlaceholder">
-                <TextPlaceholder length="short" />
+                <TextPlaceholder length={ TextPlaceHolderLength.SHORT } />
             </p>
         );
     }

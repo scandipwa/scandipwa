@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { OrderRenderItems } from 'Component/MyAccountOrder/MyAccountOrder.type';
 import { CreditMemo, OrderItemProduct, OrderTotal } from 'Query/Order.type';
 
@@ -21,14 +22,14 @@ export interface MyAccountOrderItemsTableContainerMapDispatchProps {}
 export type MyAccountOrderItemsTableContainerProps = MyAccountOrderItemsTableContainerMapStateProps
 & MyAccountOrderItemsTableContainerMapDispatchProps
 & {
-    activeTab: string;
+    activeTab: OrderTabs;
     items: OrderRenderItems | CreditMemo;
     total: OrderTotal;
     allOrderItems: OrderItemProduct[];
 };
 
 export interface MyAccountOrderItemsTableComponentProps {
-    activeTab: string;
+    activeTab: OrderTabs;
     isMobile: boolean;
     items: OrderRenderItems | CreditMemo;
     total: OrderTotal;

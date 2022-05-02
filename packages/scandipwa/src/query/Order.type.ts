@@ -126,6 +126,7 @@ export interface OrderItemProduct {
     quantity_shipped: number;
     quantity_refunded: number;
     quantity_canceled: number;
+    quantity_returned: number;
     entered_options: OrderProductSelectedOption[];
     selected_options: OrderProductSelectedOption[];
     row_subtotal: Money;
@@ -183,7 +184,8 @@ export interface OrderAddress {
 
 export interface OrderItem {
     id: string;
-    increment_id: number;
+    increment_id: string;
+    created_at: string;
     order_date: string;
     status: string;
     can_reorder: boolean;
