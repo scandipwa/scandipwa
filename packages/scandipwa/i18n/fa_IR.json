@@ -612,5 +612,9 @@
     "You saved the account information.": null,
     "Minimum of different classes of characters in password is %s. ": null,
     "Classes of characters: Lower Case, Upper Case, Digits, Special Characters.": null,
-    "You %s the address": null
+    "You %s the address": null,
+    "Please add a shipping address and a shipping method!": null,
+    "Number": null,
+    "Telephone": null,
+    "The requested qty is not available!": null
 }

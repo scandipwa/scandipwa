@@ -30,6 +30,7 @@ import {
     trimCheckoutCustomerAddress
 } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
+import scrollToError from 'Util/Form/Form';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import CheckoutBilling from './CheckoutBilling.component';
@@ -74,7 +75,13 @@ export class CheckoutBillingContainer extends PureComponent {
         setLoading: PropTypes.func.isRequired,
         termsAreEnabled: PropTypes.bool,
         newShippingId: PropTypes.number,
-        newShippingStreet: PropTypes.arrayOf(PropTypes.string).isRequired
+        newShippingStreet: PropTypes.arrayOf(PropTypes.string).isRequired,
+        isCreateUser: PropTypes.bool.isRequired,
+        onEmailChange: PropTypes.func.isRequired,
+        onCreateUserChange: PropTypes.func.isRequired,
+        onPasswordChange: PropTypes.func.isRequired,
+        isGuestEmailSaved: PropTypes.bool.isRequired,
+        onShippingEstimationFieldsChange: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -102,6 +109,7 @@ export class CheckoutBillingContainer extends PureComponent {
 
     containerFunctions = {
         onBillingSuccess: this.onBillingSuccess.bind(this),
+        onBillingError: this.onBillingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),
         onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this),
@@ -133,7 +141,13 @@ export class CheckoutBillingContainer extends PureComponent {
             shippingAddress,
             termsAndConditions,
             termsAreEnabled,
-            totals
+            totals,
+            onShippingEstimationFieldsChange,
+            isCreateUser,
+            onEmailChange,
+            onCreateUserChange,
+            onPasswordChange,
+            isGuestEmailSaved
         } = this.props;
         const { isSameAsShipping } = this.state;
 
@@ -147,7 +161,13 @@ export class CheckoutBillingContainer extends PureComponent {
             shippingAddress,
             termsAndConditions,
             termsAreEnabled,
-            totals
+            totals,
+            onShippingEstimationFieldsChange,
+            isCreateUser,
+            onEmailChange,
+            onCreateUserChange,
+            onPasswordChange,
+            isGuestEmailSaved
         };
     }
 
@@ -196,6 +216,10 @@ export class CheckoutBillingContainer extends PureComponent {
             paymentMethod,
             same_as_shipping: isSameAsShipping
         });
+    }
+
+    onBillingError(_, fields, validation) {
+        scrollToError(fields, validation);
     }
 
     showPopup() {
