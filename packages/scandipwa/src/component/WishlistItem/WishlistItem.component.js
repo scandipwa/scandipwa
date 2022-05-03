@@ -98,7 +98,7 @@ export class WishlistItem extends PureComponent {
 
         return (
             <Field
-              type={ FIELD_TYPE.number }
+              type={ FIELD_TYPE.numberWithControls }
               attr={ {
                   id: 'item_qty',
                   name: 'item_qty',

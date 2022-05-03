@@ -49,10 +49,10 @@ export class CurrencySwitcher extends PureComponent {
 
     render() {
         const {
-            handleCurrencySelect,
             currencyData: {
                 available_currencies_data: availableCurrencies
-            } = {}
+            } = {},
+            handleCurrencySelect
         } = this.props;
 
         if (availableCurrencies && availableCurrencies.length > 1) {

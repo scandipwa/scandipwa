@@ -32,7 +32,6 @@ import './CartPage.style';
 export class CartPage extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
         onCheckoutButtonClick: PropTypes.func.isRequired,
         hasOutOfStockProductsInCart: PropTypes.bool,
         onCouponCodeUpdate: PropTypes.func,
@@ -53,16 +52,19 @@ export class CartPage extends PureComponent {
                 items,
                 quote_currency_code
             },
-            isLoading,
             onCartItemLoading,
             isInitialLoad
         } = this.props;
 
-        if (items.length < 1 && isLoading) {
-            return '';
+        if (!items || isInitialLoad) {
+            return (
+                <div block="CartPage" elem="InitialLoaderContainer">
+                    <Loader isLoading />
+                </div>
+            );
         }
 
-        if (items.length < 1) {
+        if (!items.length) {
             return (
                 <p block="CartPage" elem="Empty">{ __('There are no products in cart.') }</p>
             );
@@ -87,11 +89,6 @@ export class CartPage extends PureComponent {
                           updateCrossSellsOnRemove
                         />
                     )) }
-                    { isLoading && isInitialLoad && (
-                        <div block="CartPage" elem="ItemsLoaderContainer">
-                            <Loader isLoading />
-                        </div>
-                    ) }
                 </div>
             </>
         );
@@ -273,25 +270,9 @@ export class CartPage extends PureComponent {
         return this.renderDesktop();
     }
 
-    renderInitialPlaceholder() {
-        const {
-            totals: {
-                items
-            },
-            isLoading
-        } = this.props;
-
-        return items.length < 1 && isLoading && (
-            <div block="CartPage" elem="InitialLoaderContainer">
-                <Loader isLoading />
-            </div>
-        );
-    }
-
     render() {
         return (
             <main block="CartPage" aria-label="Cart Page">
-                { this.renderInitialPlaceholder() }
                 <ContentWrapper
                   wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
                   label="Cart page details"

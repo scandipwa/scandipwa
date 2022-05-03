@@ -335,7 +335,7 @@ export class Product extends PureComponent {
 
         return (
             <FieldContainer
-              type={ FIELD_TYPE.number }
+              type={ FIELD_TYPE.numberWithControls }
               attr={ {
                   id: 'item_qty',
                   name: 'item_qty',
