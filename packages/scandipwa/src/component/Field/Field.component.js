@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import FieldFile from 'Component/FieldFile';
-import { FieldNumberContainer } from 'Component/FieldNumber/FieldNumber.container';
+import { FieldNumberWithControlsContainer } from 'Component/FieldNumberWithControls/FieldNumberWithControls.container';
 import FieldSelectContainer from 'Component/FieldSelect/FieldSelect.container';
 import { MixType } from 'Type/Common.type';
 import {
@@ -46,8 +46,11 @@ export class Field extends PureComponent {
         options: PropTypes.arrayOf(OptionType).isRequired,
         changeValueOnDoubleClick: PropTypes.bool,
         isSortSelect: PropTypes.bool,
+        resetFieldValue: PropTypes.func.isRequired,
+        value: PropTypes.number.isRequired,
 
         // Validation
+        validate: PropTypes.func.isRequired,
         showErrorAsLabel: PropTypes.bool.isRequired,
         validationResponse: (props, propName, componentName) => {
             const propValue = props[propName];
@@ -94,13 +97,15 @@ export class Field extends PureComponent {
         [FIELD_TYPE.date]: this.renderDefaultInput.bind(this),
         [FIELD_TYPE.password]: this.renderDefaultInput.bind(this),
         [FIELD_TYPE.submit]: this.renderDefaultInput.bind(this),
+        [FIELD_TYPE.tel]: this.renderDefaultInput.bind(this),
+        [FIELD_TYPE.number]: this.renderDefaultInput.bind(this),
 
         // Custom fields
         [FIELD_TYPE.file]: this.renderFile.bind(this),
         [FIELD_TYPE.select]: this.renderSelect.bind(this),
         [FIELD_TYPE.textarea]: this.renderTextArea.bind(this),
         [FIELD_TYPE.button]: this.renderButton.bind(this),
-        [FIELD_TYPE.number]: this.renderNumber.bind(this)
+        [FIELD_TYPE.numberWithControls]: this.renderNumberWithControls.bind(this)
 
     };
 
@@ -122,23 +127,37 @@ export class Field extends PureComponent {
     }
 
     renderFile() {
-        const { attr, events, setRef } = this.props;
-
-        return (
-            <FieldFile attr={ attr } events={ events } setRef={ setRef } />
-        );
-    }
-
-    renderNumber() {
         const {
             attr,
             events,
             setRef,
+            validate,
+            resetFieldValue
+        } = this.props;
+
+        return (
+            <FieldFile
+              attr={ attr }
+              events={ events }
+              setRef={ setRef }
+              validate={ validate }
+              resetFieldValue={ resetFieldValue }
+            />
+        );
+    }
+
+    renderNumberWithControls() {
+        const {
+            attr,
+            events,
+            setRef,
+            value,
             isDisabled = false
         } = this.props;
 
         return (
-            <FieldNumberContainer
+            <FieldNumberWithControlsContainer
+              value={ value }
               attr={ attr }
               events={ events }
               setRef={ setRef }
@@ -327,7 +346,7 @@ export class Field extends PureComponent {
         const {
             type, validationResponse, mix
         } = this.props;
-        const inputRenderer = this.renderMap[type];
+        const inputRenderer = this.renderMap[type] ?? this.renderDefaultInput.bind(this);
         const { mods: { hasError = false } = {} } = mix;
 
         return (

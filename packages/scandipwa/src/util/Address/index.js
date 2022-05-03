@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import getStore from 'Util/Store';
+
 /** @namespace Util/Address/Index/trimCustomerAddress */
 export const trimCustomerAddress = (customerAddress) => {
     const {
@@ -251,6 +253,17 @@ export const getRegionIdFromAvailableRegions = (availableRegions, cityAndRegion)
     const { region, regionAbbr } = cityAndRegion;
     const { id: regionId = 1 } = availableRegions.find(
         ({ name, code }) => name === region || code === regionAbbr
+    ) || {};
+
+    return regionId;
+};
+
+/** @namespace Util/Address/Index/getRegionIdOfRegionName */
+export const getRegionIdOfRegionName = (countryId, region) => {
+    const countries = getStore().getState().ConfigReducer.countries || [];
+    const availableRegions = getAvailableRegions(countryId, countries) || [];
+    const { id: regionId = 0 } = availableRegions.find(
+        ({ name }) => name === region
     ) || {};
 
     return regionId;

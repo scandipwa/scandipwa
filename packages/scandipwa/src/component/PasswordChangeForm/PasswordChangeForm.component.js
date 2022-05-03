@@ -26,13 +26,18 @@ export class PasswordChangeForm extends FieldForm {
         minimunPasswordCharacter: PropTypes.string.isRequired
     };
 
+    __construct(props) {
+        super.__construct(props);
+        this.passwordRef = React.createRef('');
+    }
+
     get fieldMap() {
         const {
             range,
             minimunPasswordCharacter
         } = this.props;
 
-        return customerEmailAndPasswordFields(range, minimunPasswordCharacter);
+        return customerEmailAndPasswordFields(range, minimunPasswordCharacter, this.passwordRef);
     }
 
     getFormProps() {
