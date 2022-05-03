@@ -129,6 +129,7 @@
         --option-margin-inline: 6px;
 
         @include mobile {
+            max-width: 100vw;
             --option-margin-block: 7px;
             --option-margin-inline: 7px;
 
