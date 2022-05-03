@@ -113,7 +113,6 @@ export class Checkout extends PureComponent {
         onStoreSelect: PropTypes.func.isRequired,
         selectedStoreAddress: StoreType,
         onCouponCodeUpdate: PropTypes.func,
-        isSignedIn: PropTypes.bool.isRequired,
         isCartLoading: PropTypes.bool.isRequired
     };
 
