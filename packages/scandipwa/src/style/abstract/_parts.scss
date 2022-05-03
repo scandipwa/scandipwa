@@ -58,7 +58,7 @@
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
         .hideOnScroll & {
-            transform: translateY(var(--footer-total-height));
+            transform: translateY(var(--footer-nav-height));
         }
     }
 }
