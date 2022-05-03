@@ -54,11 +54,11 @@
         width: 100%;
         z-index: 85;
         background-color: var(--color-white);
-        padding-block-end: var(--footer-nav-height);
+        padding-block-end: var(--footer-total-height);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
         .hideOnScroll & {
-            transform: translateY(var(--footer-nav-height));
+            transform: translateY(var(--footer-total-height));
         }
     }
 }
