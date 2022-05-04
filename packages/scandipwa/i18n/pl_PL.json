@@ -621,5 +621,6 @@
     "Send confirmation link": null,
     "Please enter your email below and we will send you the confirmation link.": null,
     "Send Confirmation Page": null,
-    "Send Confirmation Action": null
+    "Send Confirmation Action": null,
+    "This email does not require confirmation.": null
 }
