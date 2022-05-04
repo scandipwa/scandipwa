@@ -76,6 +76,7 @@ export class CartDispatcher {
             }
 
             await this._updateCartData(cartData, dispatch);
+
             if (!disableLoader) {
                 dispatch(updateIsLoadingCart(false));
             }
