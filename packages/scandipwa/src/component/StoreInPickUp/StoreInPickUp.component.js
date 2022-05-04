@@ -31,7 +31,7 @@ export class StoreInPickUpComponent extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         setSelectedStore: PropTypes.func.isRequired,
         setSelectedShippingMethodCode: PropTypes.func,
-        cartItemsSku: PropTypes.arrayOf(PropTypes.string).isRequired,
+        cartItemsSku: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
         selectedStore: StoreType
     };
 

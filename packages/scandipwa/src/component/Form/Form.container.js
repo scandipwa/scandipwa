@@ -146,7 +146,7 @@ export class FormContainer extends PureComponent {
         const fields = getFieldsData(
             this.formRef,
             false,
-            [FIELD_TYPE.number, FIELD_TYPE.button],
+            [FIELD_TYPE.numberWithControls, FIELD_TYPE.button],
             returnAsObject
         );
 
@@ -165,7 +165,7 @@ export class FormContainer extends PureComponent {
         } = this.props;
 
         const fields = getFieldsData(
-            this.formRef, false, [FIELD_TYPE.number, FIELD_TYPE.button], returnAsObject
+            this.formRef, false, [FIELD_TYPE.numberWithControls, FIELD_TYPE.button], returnAsObject
         );
         const isValid = validateGroup(this.formRef, validationRule);
 

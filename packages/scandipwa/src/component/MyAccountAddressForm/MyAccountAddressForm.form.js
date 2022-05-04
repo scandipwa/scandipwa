@@ -302,7 +302,7 @@ export const myAccountAddressForm = (props, events = {}) => {
         },
         ...getVatFields(props),
         {
-            type: FIELD_TYPE.text,
+            type: FIELD_TYPE.tel,
             label: __('Phone number'),
             attr: {
                 name: 'telephone',

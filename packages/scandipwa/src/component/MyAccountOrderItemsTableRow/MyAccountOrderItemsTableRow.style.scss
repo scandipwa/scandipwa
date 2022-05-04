@@ -53,7 +53,7 @@
                     padding-inline-end: 10px;
                     content: attr(data-th) ': ';
                     display: inline-block;
-                    color: #111111;
+                    color: $black;
                     font-weight: 700;
                     vertical-align: inherit;
                 }
@@ -77,7 +77,7 @@
         @include mobile {
             border-block-start: var(--my-account-content-border);
         }
-        
+
         &_lineBefore {
             border-block-end: var(--my-account-content-border);
         }
@@ -135,18 +135,35 @@
             padding-block-end: 5px;
             padding-inline: 10px;
 
-            &:first-of-type {
-                padding-inline-start: 20px;
+            @include desktop {
+                &:first-of-type {
+                    padding-inline-start: 20px;
+                }
+
+                &:nth-child(n+3) {
+                    text-align: end;
+                }
             }
 
-            &:nth-child(n+3) {
-                text-align: end;
+            @include mobile {
+                &[data-th] {
+                    &::before {
+                        content: attr(data-th) ": ";
+                        display: inline-block;
+                        color: $black;
+                        font-weight: 700;
+                        vertical-align: inherit;
+                        padding-inline-end: 10px;
+                    }
+                }
             }
         }
 
         &_isLastOptionItem {
-            td {
-                padding-block-end: 15px;
+            @include desktop {
+                td {
+                    padding-block-end: 15px;
+                }
             }
         }
     }
