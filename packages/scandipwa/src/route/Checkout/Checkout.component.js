@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
-import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
@@ -32,6 +31,7 @@ import { appendWithStoreCode } from 'Util/Url';
 import {
     BILLING_STEP,
     CHECKOUT_URL,
+    CHECKOUT_URL_REGEX,
     DETAILS_STEP,
     SHIPPING_STEP
 } from './Checkout.config';
@@ -113,7 +113,7 @@ export class Checkout extends PureComponent {
         onStoreSelect: PropTypes.func.isRequired,
         selectedStoreAddress: StoreType,
         onCouponCodeUpdate: PropTypes.func,
-        isSignedIn: PropTypes.bool.isRequired
+        isCartLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -151,12 +151,8 @@ export class Checkout extends PureComponent {
     stepsCount = 2;
 
     componentDidMount() {
-        const { checkoutStep, history } = this.props;
-        const { url } = this.stepMap[checkoutStep];
-
         this.updateHeader();
-
-        history.replace(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        this.updateStepURL(true);
     }
 
     componentDidUpdate(prevProps) {
@@ -180,11 +176,22 @@ export class Checkout extends PureComponent {
         });
     }
 
-    updateStep() {
-        const { checkoutStep, history } = this.props;
+    updateStepURL(isMounting = false) {
+        const { checkoutStep, history, isCartLoading } = this.props;
         const { url } = this.stepMap[checkoutStep];
+        const { pathname = '' } = location;
 
-        history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+        if (!(isCartLoading && pathname.match(CHECKOUT_URL_REGEX))) {
+            if (isMounting) {
+                history.replace(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+            } else {
+                history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
+            }
+        }
+    }
+
+    updateStep() {
+        this.updateStepURL();
         scrollToTop({ behavior: 'smooth' });
     }
 
@@ -216,34 +223,6 @@ export class Checkout extends PureComponent {
         );
     }
 
-    renderGuestForm() {
-        const {
-            checkoutStep,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved,
-            isSignedIn
-        } = this.props;
-        const isBilling = checkoutStep === BILLING_STEP;
-
-        if (isSignedIn) {
-            return null;
-        }
-
-        return (
-            <CheckoutGuestForm
-              isBilling={ isBilling }
-              isCreateUser={ isCreateUser }
-              onEmailChange={ onEmailChange }
-              onCreateUserChange={ onCreateUserChange }
-              onPasswordChange={ onPasswordChange }
-              isGuestEmailSaved={ isGuestEmailSaved }
-            />
-        );
-    }
-
     renderShippingStep() {
         const {
             shippingMethods,
@@ -260,7 +239,8 @@ export class Checkout extends PureComponent {
             cartTotalSubPrice,
             onShippingMethodSelect,
             onStoreSelect,
-            selectedStoreAddress
+            selectedStoreAddress,
+            isGuestEmailSaved
         } = this.props;
 
         return (
@@ -281,6 +261,7 @@ export class Checkout extends PureComponent {
                   isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
                   onStoreSelect={ onStoreSelect }
                   selectedStoreAddress={ selectedStoreAddress }
+                  isGuestEmailSaved={ isGuestEmailSaved }
                 />
             </Suspense>
         );
@@ -291,6 +272,7 @@ export class Checkout extends PureComponent {
             setLoading,
             setDetailsStep,
             shippingAddress,
+            onEmailChange,
             paymentMethods = [],
             savePaymentInformation,
             selectedShippingMethod
@@ -302,6 +284,7 @@ export class Checkout extends PureComponent {
                   setLoading={ setLoading }
                   paymentMethods={ paymentMethods }
                   setDetailsStep={ setDetailsStep }
+                  onEmailChange={ onEmailChange }
                   shippingAddress={ shippingAddress }
                   savePaymentInformation={ savePaymentInformation }
                   selectedShippingMethod={ selectedShippingMethod }
@@ -372,6 +355,14 @@ export class Checkout extends PureComponent {
         return <Loader isLoading={ isLoading } />;
     }
 
+    renderFullPageLoader() {
+        return (
+            <main block="Checkout" elem="FullPageLoader">
+                <Loader isLoading />
+            </main>
+        );
+    }
+
     renderSummary(showOnMobile = false) {
         const {
             checkoutTotals,
@@ -434,6 +425,7 @@ export class Checkout extends PureComponent {
             handleSelectDeliveryMethod,
             checkoutStep,
             isInStoreActivated,
+            shippingMethods,
             totals: {
                 is_in_store_pickup_available: isInStorePickupAvailable
             }
@@ -467,7 +459,7 @@ export class Checkout extends PureComponent {
                   elem="PickInStore"
                   mix={ { block: 'Button', mods: { isHollow: isPickInStoreMethodSelected } } }
                   type="button"
-                  disabled={ isPickInStoreMethodSelected }
+                  disabled={ isPickInStoreMethodSelected || shippingMethods?.length < 1 }
                   onClick={ handleSelectDeliveryMethod }
                 >
                     { __('Pick in Store') }
@@ -477,6 +469,12 @@ export class Checkout extends PureComponent {
     }
 
     render() {
+        const { isCartLoading } = this.props;
+
+        if (isCartLoading) {
+            return this.renderFullPageLoader();
+        }
+
         return (
             <main block="Checkout">
                 <ContentWrapper
@@ -488,7 +486,6 @@ export class Checkout extends PureComponent {
                         <div block="Checkout" elem="Step">
                             { this.renderTitle() }
                             { this.renderStoreInPickUpMethod() }
-                            { this.renderGuestForm() }
                             { this.renderStep() }
                             { this.renderLoader() }
                         </div>

@@ -18,17 +18,19 @@ import MinusIcon from 'Component/MinusIcon';
 import { EventsType, FieldAttrType } from 'Type/Field.type';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Extract';
 
+import './FieldNumberWithControls.style.scss';
 /**
- * Field Number
- * @class FieldNumber
- * @namespace Component/FieldNumber/Component */
-export class FieldNumber extends PureComponent {
+ * Field Number With Controls
+ * @class FieldNumberWithControls
+ * @namespace Component/FieldNumberWithControls/Component */
+export class FieldNumberWithControls extends PureComponent {
     static propTypes = {
         attr: FieldAttrType.isRequired,
         events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
         value: PropTypes.number.isRequired,
         handleValueChange: PropTypes.func.isRequired,
+        stateValue: PropTypes.number.isRequired,
         isDisabled: PropTypes.bool.isRequired
     };
 
@@ -36,14 +38,15 @@ export class FieldNumber extends PureComponent {
         const {
             attr,
             attr: { min = 1, max = DEFAULT_MAX_PRODUCTS },
+            value,
             events,
             setRef,
-            value,
+            stateValue,
             handleValueChange,
             isDisabled
         } = this.props;
 
-        const numberValue = +value;
+        const numberValue = +value || +stateValue;
 
         return (
             <>
@@ -53,10 +56,10 @@ export class FieldNumber extends PureComponent {
                   { ...attr }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
                   { ...events }
+                  value={ value }
                   type={ FIELD_TYPE.number }
                   readOnly
                   aria-label={ __('Value') }
-                  value={ value }
                   disabled={ isDisabled }
                 />
                 <button
@@ -82,4 +85,4 @@ export class FieldNumber extends PureComponent {
     }
 }
 
-export default FieldNumber;
+export default FieldNumberWithControls;

@@ -71,7 +71,6 @@ export class CurrencySwitcherContainer extends DataContainer {
 
     containerProps() {
         const { currencyData } = this.props;
-
         return { currencyData };
     }
 

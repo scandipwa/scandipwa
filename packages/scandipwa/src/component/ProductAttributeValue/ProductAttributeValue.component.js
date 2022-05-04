@@ -104,10 +104,15 @@ export class ProductAttributeValue extends PureComponent {
     }
 
     clickHandler(e) {
-        const { onClick, attribute } = this.props;
+        const { onClick, attribute, isAvailable } = this.props;
 
         e.preventDefault();
         e.stopPropagation();
+
+        if (!isAvailable) {
+            return;
+        }
+
         onClick(attribute);
     }
 

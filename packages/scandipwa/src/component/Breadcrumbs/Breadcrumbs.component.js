@@ -14,6 +14,8 @@ import { PureComponent } from 'react';
 
 import Breadcrumb from 'Component/Breadcrumb';
 import ContentWrapper from 'Component/ContentWrapper';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { BreadcrumbsType } from 'Type/Breadcrumbs.type';
 import { appendWithStoreCode, isHomePageUrl } from 'Util/Url';
 
@@ -57,15 +59,22 @@ export class Breadcrumbs extends PureComponent {
         ));
     }
 
-    render() {
-        const { breadcrumbs, areBreadcrumbsVisible } = this.props;
+    shouldHideBreadcrumbs() {
+        const { areBreadcrumbsVisible } = this.props;
         const { pathname = appendWithStoreCode('/') } = location;
 
-        if (
+        return (
             !areBreadcrumbsVisible
-            || pathname.match(appendWithStoreCode('/account'))
+            || pathname.match(appendWithStoreCode(ACCOUNT_URL))
+            || pathname.match(appendWithStoreCode(CHECKOUT_URL))
             || isHomePageUrl(pathname)
-        ) {
+        );
+    }
+
+    render() {
+        const { breadcrumbs } = this.props;
+
+        if (this.shouldHideBreadcrumbs()) {
             return null;
         }
 

@@ -19,6 +19,7 @@ import Link from 'Component/Link';
 import LockIcon from 'Component/LockIcon';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
+import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { CartDisplayType, TotalsType } from 'Type/MiniCart.type';
 import { scrollToTop } from 'Util/Browser';
 import { formatPrice } from 'Util/Price';
@@ -216,7 +217,7 @@ export class CartOverlay extends PureComponent {
                   block="CartOverlay"
                   elem="CartButton"
                   mix={ { block: 'Button', mods: { isHollow: true } } }
-                  to="/cart"
+                  to={ CART_URL }
                   onClick={ scrollToTop }
                 >
                     { __('View cart') }

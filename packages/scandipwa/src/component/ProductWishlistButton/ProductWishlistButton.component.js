@@ -68,6 +68,7 @@ export class ProductWishlistButton extends PureComponent {
         } = this.props;
 
         e.preventDefault();
+        e.stopPropagation();
 
         if (!isInWishlist) {
             return addToWishlist(magentoProduct);

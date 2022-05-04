@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './FieldNumber.container';
+export { default } from './FieldNumberWithControls.container';
