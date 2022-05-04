@@ -219,7 +219,6 @@ export class MyAccountDispatcher {
                 switch (status) {
                 case 'account_confirmation_not_required':
                     dispatch(showNotification('success', __('This email does not require confirmation.')));
-
                     history.push('/customer/account/login');
 
                     return false;
@@ -229,13 +228,14 @@ export class MyAccountDispatcher {
                     return true;
                 case 'wrong_email':
                     const { email = '' } = options;
-                    dispatch(showNotification('error', __('Wrong email! Please, try again!')));
 
+                    dispatch(showNotification('error', __('Wrong email! Please, try again!')));
                     history.push(`/customer/account/confirmation/?email=${ email }`);
 
                     return 'error';
                 default:
                     dispatch(showNotification('error', __('Something went wrong! Please, try again!')));
+
                     return 'error';
                 }
             },
