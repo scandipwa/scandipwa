@@ -18,6 +18,7 @@ import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router.type';
+import transformToNameValuePair from 'Util/Form/Transform';
 import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import SendConfirmationPage from './SendConfirmationPage.component';
@@ -98,17 +99,16 @@ export class SendConfirmationPageContainer extends PureComponent {
         return !email;
     }
 
-    onConfirmSuccess() {
+    onConfirmSuccess(_, fields) {
         const {
-            location: { search },
             resendConfirmation
         } = this.props;
 
         this.setState({ isLoading: true });
 
-        const options = convertQueryStringToKeyValuePairs(search);
+        const { email } = transformToNameValuePair(fields);
 
-        resendConfirmation({ ...options })
+        resendConfirmation({ email })
             .then(
                 /** @namespace Route/SendConfirmationPage/Container/SendConfirmationPageContainer/onConfirmSuccess/then/catch/resendConfirmation/then */
                 (data) => {
