@@ -131,6 +131,6 @@
     }
 
     @include mobile {
-        overflow-y: hidden;
+        overflow: hidden;
     }
 }
