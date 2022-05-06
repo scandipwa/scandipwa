@@ -84,7 +84,6 @@ export class ProductCard extends Product {
 
     registerSharedElement() {
         const { registerSharedElement } = this.props;
-        document.documentElement.scrollIntoView();
         registerSharedElement(this.imageRef);
     }
 
