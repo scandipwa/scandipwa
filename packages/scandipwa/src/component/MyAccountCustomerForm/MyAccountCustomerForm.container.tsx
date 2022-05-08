@@ -6,46 +6,44 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
+import { ChangeEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import {
     SHOW_VAT_NUMBER_OPTIONAL,
     SHOW_VAT_NUMBER_REQUIRED
 } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
-import { CustomerType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountCustomerForm from './MyAccountCustomerForm.component';
+import {
+    MyAccountCustomerFormComponentProps,
+    MyAccountCustomerFormContainerMapDispatchProps,
+    MyAccountCustomerFormContainerMapStateProps,
+    MyAccountCustomerFormContainerProps,
+    MyAccountCustomerFormContainerPropsKeys,
+    MyAccountCustomerFormContainerState
+} from './MyAccountCustomerForm.type';
 
 /** @namespace Component/MyAccountCustomerForm/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountCustomerFormContainerMapStateProps => ({
     showTaxVatNumber: state.ConfigReducer.show_tax_vat_number,
     minimunPasswordLength: state.ConfigReducer.minimun_password_length,
     minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number
 });
 
 /** @namespace Component/MyAccountCustomerForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): MyAccountCustomerFormContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountCustomerForm/Container */
-export class MyAccountCustomerFormContainer extends PureComponent {
-    static propTypes = {
-        customer: CustomerType.isRequired,
-        onSave: PropTypes.func.isRequired,
-        showTaxVatNumber: PropTypes.string.isRequired,
-        showEmailChangeField: PropTypes.bool.isRequired,
-        showPasswordChangeField: PropTypes.bool.isRequired,
-        handleChangeEmailCheckbox: PropTypes.func.isRequired,
-        handleChangePasswordCheckbox: PropTypes.func.isRequired,
-        minimunPasswordLength: PropTypes.number.isRequired,
-        minimunPasswordCharacter: PropTypes.string.isRequired
-    };
-
+export class MyAccountCustomerFormContainer extends PureComponent<
+MyAccountCustomerFormContainerProps,
+MyAccountCustomerFormContainerState
+> {
     containerFunctions = {
         handleEmailInput: this.handleEmailInput.bind(this),
         handlePasswordInput: this.handlePasswordInput.bind(this)
@@ -57,7 +55,10 @@ export class MyAccountCustomerFormContainer extends PureComponent {
         isEmailEdit: false
     };
 
-    containerProps() {
+    containerProps(): Pick<
+    MyAccountCustomerFormComponentProps,
+    MyAccountCustomerFormContainerPropsKeys
+    > {
         const {
             customer: { email: currentCustomerEmail },
             customer,
@@ -91,32 +92,32 @@ export class MyAccountCustomerFormContainer extends PureComponent {
         };
     }
 
-    getIsShowVatNumber() {
+    getIsShowVatNumber(): boolean {
         const { showTaxVatNumber } = this.props;
 
         return showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED
             || showTaxVatNumber === SHOW_VAT_NUMBER_OPTIONAL;
     }
 
-    getVatNumberRequired() {
+    getVatNumberRequired(): boolean {
         const { showTaxVatNumber } = this.props;
 
         return showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED;
     }
 
-    handleEmailInput(emailInput) {
+    handleEmailInput(emailInput: ChangeEvent<HTMLInputElement>): void {
         this.setState({ email: emailInput.target.value, isEmailEdit: true });
     }
 
-    handlePasswordInput(currentPasswordInput) {
+    handlePasswordInput(currentPasswordInput: ChangeEvent<HTMLInputElement>): void {
         this.setState({ currentPassword: currentPasswordInput.target.value });
     }
 
     render(): ReactElement {
         return (
             <MyAccountCustomerForm
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

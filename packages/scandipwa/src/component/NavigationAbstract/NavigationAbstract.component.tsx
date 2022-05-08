@@ -13,23 +13,22 @@
 
 import { Component } from 'react';
 
-import { NavigationStateHistoryType } from 'Type/Router.type';
+import { ObjectEntries, ReactElement } from 'Type/Common.type';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
+import { NavigationAbstractComponentProps } from './NavigationAbstract.type';
 
 /** @namespace Component/NavigationAbstract/Component */
-export class NavigationAbstract extends Component {
-    static propTypes = {
-        navigationState: NavigationStateHistoryType.isRequired
-    };
-
+export class NavigationAbstract<Props extends NavigationAbstractComponentProps> extends Component<
+Props
+> {
     defaultStateName = DEFAULT_STATE_NAME;
 
-    stateMap = {
+    stateMap: Record<string, Record<string, boolean>> = {
         [DEFAULT_STATE_NAME]: {}
     };
 
-    renderMap = {};
+    renderMap: Record<string, (isVisible?: boolean, key?: string) => ReactElement> = {};
 
     renderNavigationState(): ReactElement {
         const { navigationState: { name, hiddenElements = [] } } = this.props;
@@ -39,9 +38,11 @@ export class NavigationAbstract extends Component {
             ? this.stateMap[name]
             : this.stateMap[this.defaultStateName];
 
+        const renderMapEntries: ObjectEntries<typeof this.renderMap>[] = Object.entries(this.renderMap);
+
         // Return defined render methods for current page/state
         // * Don't render methods which ids are passed inside hiddenElements
-        return Object.entries(this.renderMap).map(
+        return renderMapEntries.map(
             ([key, renderFunction]) => renderFunction(source[key] && !hiddenElements.includes(key), key)
         );
     }

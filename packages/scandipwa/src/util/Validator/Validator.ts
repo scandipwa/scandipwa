@@ -24,7 +24,7 @@ import { ValidationDOMOutput, ValidationOutput } from './Validator.type';
  * @returns {boolean|{errorMessages: *[], value}}
  * @namespace Util/Validator/validate
  */
-export const validate = (value: string, rule: ValidationRule): boolean | ValidationOutput => {
+export const validate = (value: string | boolean, rule: ValidationRule): boolean | ValidationOutput => {
     const {
         isRequired,
         inputType,
@@ -121,15 +121,11 @@ export const validate = (value: string, rule: ValidationRule): boolean | Validat
  * @returns {boolean|{errorMessages: *[], values: *[], errorFields: *[]}}
  * @namespace Util/Validator/validateGroup
  */
-export const validateGroup = (DOM: RefObject<HTMLElement>, rule: ValidationRule): boolean | ValidationDOMOutput => {
-    if (typeof DOM.current?.querySelectorAll !== 'function') {
-        return true;
-    }
-
+export const validateGroup = (DOM: HTMLElement, rule: ValidationRule): boolean | ValidationDOMOutput => {
     const {
         selector = 'select, input, textarea, .js-validatabale, form, .FieldGroup'
     } = rule || {};
-    const fields = DOM?.current?.querySelectorAll(selector) as NodeListOf<HTMLInputElement>;
+    const fields = DOM.querySelectorAll(selector);
 
     const output: ValidationDOMOutput = {
         values: [],
@@ -144,10 +140,9 @@ export const validateGroup = (DOM: RefObject<HTMLElement>, rule: ValidationRule)
             value,
             tagName = FieldType.SELECT,
             type = FieldType.SELECT
-        } = field as HTMLInputElement;
+        } = field;
 
         const fieldType = tagName.toLowerCase() === FieldType.TEXTAREA ? FieldType.TEXTAREA : type;
-        // TODO change logic so that checked won't fill as value
         // eslint-disable-next-line max-len
         const fieldValue = fieldType === (FieldType.CHECKBOX || fieldType === FieldType.RADIO) && field.checked ? '' : value;
         output.values.push({ name, value: fieldValue, type: fieldType });

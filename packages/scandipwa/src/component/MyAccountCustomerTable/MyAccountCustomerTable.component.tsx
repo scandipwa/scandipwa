@@ -13,7 +13,7 @@ import KeyValueTable from 'Component/KeyValueTable';
 import { DataPair } from 'Component/KeyValueTable/KeyValueTable.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountCustomerTableComponentProps } from './yAccountCustomerTable.type';
+import { MyAccountCustomerTableComponentProps } from './MyAccountCustomerTable.type';
 
 /** @namespace Component/MyAccountCustomerTable/Component */
 export class MyAccountCustomerTable extends KeyValueTable<MyAccountCustomerTableComponentProps> {

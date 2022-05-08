@@ -35,6 +35,10 @@ export type ValidationRule = {
     inputType?: ValidationInputTypeText;
     match?: () => void; // TODO: Check argument types
     customErrorMessages?: CustomErrorMessages;
+    range?: {
+        max?: number;
+        min?: number;
+    };
 };
 
 // TODO
@@ -47,7 +51,7 @@ export type FieldOptions = {
     id?: string | number;
     label?: Label;
     value?: string | number;
-}[];
+};
 
 export type ValuesShape = {
     value?: string | boolean;

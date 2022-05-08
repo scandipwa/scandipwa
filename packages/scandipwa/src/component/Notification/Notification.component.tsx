@@ -11,12 +11,14 @@
 
 import { createRef, PureComponent } from 'react';
 
-import { NotificationType } from 'Type/NotificationList.type';
+import { ReactElement } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 import CSS from 'Util/CSS';
 
 import {
     ANIMATION_DURATION, ERROR_NOTIFICATION_LIFETIME, ERROR_TYPE, NOTIFICATION_LIFETIME
 } from './Notification.config';
+import { NotificationComponentProps } from './Notification.type';
 
 import './Notification.style';
 
@@ -25,15 +27,7 @@ import './Notification.style';
  * @class Notification
  * @namespace Component/Notification/Component
  */
-export class Notification extends PureComponent {
-    static propTypes = {
-        notificationId: PropTypes.string.isRequired,
-        notification: NotificationType.isRequired,
-        onHideNotification: PropTypes.func.isRequired,
-        lifeTime: PropTypes.number,
-        id: PropTypes.string
-    };
-
+export class Notification extends PureComponent<NotificationComponentProps> {
     static defaultProps = {
         lifeTime: 0,
         id: ''
@@ -41,7 +35,11 @@ export class Notification extends PureComponent {
 
     state = { isNotificationVisible: true };
 
-    notification = createRef();
+    notification = createRef<HTMLDivElement>();
+
+    hideTimeout: ReturnType<typeof setTimeout> = setTimeout(noopFn);
+
+    CSSHideTimeout: ReturnType<typeof setTimeout> = setTimeout(noopFn);
 
     componentDidMount(): void {
         const { notification: { msgType }, lifeTime } = this.props;
@@ -66,7 +64,7 @@ export class Notification extends PureComponent {
      * Remove notification from screen
      * @return {void
      */
-    hideNotification() {
+    hideNotification(): void {
         const { onHideNotification, notificationId } = this.props;
         this.setState({ isNotificationVisible: false });
 

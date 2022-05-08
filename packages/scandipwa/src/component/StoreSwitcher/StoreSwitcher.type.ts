@@ -23,7 +23,7 @@ export interface StoreSwitcherContainerMapDispatchProps {
 export type StoreSwitcherContainerProps = StoreSwitcherContainerMapStateProps
 & StoreSwitcherContainerMapDispatchProps
 & {
-    prevStoreCode: string;
+    prevStoreCode?: string;
 };
 
 export interface StoreSwitcherContainerState {

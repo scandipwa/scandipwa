@@ -37,7 +37,7 @@ export interface ShowNotificationAction<T = unknown> extends AnyAction {
 
 export interface HideNotificationAction extends AnyAction {
     type: NotificationActionType.HIDE_NOTIFICATION;
-    id?: number;
+    id?: string;
 }
 
 export type NotificationAction = ShowNotificationAction<unknown> | HideNotificationAction;

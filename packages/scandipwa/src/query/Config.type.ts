@@ -121,7 +121,7 @@ export interface StoreConfig {
     display_product_stock_status: boolean;
     base_link_url: string;
     show_vat_number_on_storefront: boolean;
-    show_tax_vat_number: boolean;
+    show_tax_vat_number: string;
     product_use_categories: boolean;
     category_url_suffix: string;
     cookie_lifetime: string;

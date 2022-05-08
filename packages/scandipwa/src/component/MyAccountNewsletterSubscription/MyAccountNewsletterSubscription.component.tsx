@@ -11,20 +11,14 @@
 
 import { FieldType } from 'Component/Field/Field.config';
 import FieldForm from 'Component/FieldForm';
-import { CustomerType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
+
+import { MyAccountNewsletterSubscriptionComponentProps } from './MyAccountNewsletterSubscription.type';
 
 import './MyAccountNewsletterSubscription.style.scss';
 
 /** @namespace Component/MyAccountNewsletterSubscription/Component */
-export class MyAccountNewsletterSubscription extends FieldForm {
-    static propTypes = {
-        customer: CustomerType.isRequired,
-        onCustomerSave: PropTypes.func.isRequired,
-        onError: PropTypes.func.isRequired,
-        isSubscriptionSelected: PropTypes.bool.isRequired
-    };
-
+export class MyAccountNewsletterSubscription extends FieldForm<MyAccountNewsletterSubscriptionComponentProps> {
     get fieldMap() {
         const { setSubscriptionStatus, isSubscriptionSelected } = this.props;
 

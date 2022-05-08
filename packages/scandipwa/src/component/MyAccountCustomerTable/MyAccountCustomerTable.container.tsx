@@ -20,7 +20,7 @@ import MyAccountCustomerTable from './MyAccountCustomerTable.component';
 import {
     MyAccountCustomerTableComponentProps,
     MyAccountCustomerTableContainerProps
-} from './yAccountCustomerTable.type';
+} from './MyAccountCustomerTable.type';
 
 /** @namespace Component/MyAccountCustomerTable/Container */
 export class MyAccountCustomerTableContainer extends PureComponent<MyAccountCustomerTableContainerProps> {

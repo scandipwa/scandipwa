@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -8,25 +6,20 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
 import ContentWrapper from 'Component/ContentWrapper';
-import { ErrorDetailsType } from 'Type/Error.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { SomethingWentWrongComponentProps } from './SomethingWentWrong.type';
 
 import './SomethingWentWrong.style';
 
 /** @namespace Route/SomethingWentWrong/Component */
-export class SomethingWentWrong extends PureComponent {
-    static propTypes = {
-        onClick: PropTypes.func.isRequired,
-        errorDetails: ErrorDetailsType.isRequired
-    };
-
+export class SomethingWentWrong extends PureComponent<SomethingWentWrongComponentProps> {
     renderErrorDetails(): ReactElement {
         const { errorDetails: { err, info: { componentStack } = {} } } = this.props;
         const errorString = err.toString();
@@ -41,8 +34,8 @@ export class SomethingWentWrong extends PureComponent {
 
         return (
             <div block="SomethingWentWrong" elem="Debug">
-                {errorString}
-                {componentStack}
+                { errorString }
+                { componentStack }
             </div>
         );
     }
@@ -53,19 +46,19 @@ export class SomethingWentWrong extends PureComponent {
         return (
             <main block="SomethingWentWrong">
                 <ContentWrapper label="Something went wrong on the page.">
-                    <h1 block="SomethingWentWrong" elem="Heading">{__('Ooops!')}</h1>
-                    <h2 block="SomethingWentWrong" elem="SubHeading">{__('Something went wrong!')}</h2>
-                    { /* eslint-disable-next-line react/forbid-elements */}
+                    <h1 block="SomethingWentWrong" elem="Heading">{ __('Ooops!') }</h1>
+                    <h2 block="SomethingWentWrong" elem="SubHeading">{ __('Something went wrong!') }</h2>
+                    { /* eslint-disable-next-line react/forbid-elements */ }
                     <a
-                        href="/"
-                        block="SomethingWentWrong"
-                        elem="Button"
-                        mix={{ block: 'Button' }}
-                        onClick={onClick}
+                      href="/"
+                      block="SomethingWentWrong"
+                      elem="Button"
+                      mix={ { block: 'Button' } }
+                      onClick={ onClick }
                     >
-                        {__('Back to homepage')}
+                        { __('Back to homepage') }
                     </a>
-                    {this.renderErrorDetails()}
+                    { this.renderErrorDetails() }
                 </ContentWrapper>
             </main>
         );

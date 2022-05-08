@@ -37,11 +37,11 @@ export const showNotification = <T>(
 
 /**
  * Hide notification with specific id (drop notification from global list).
- * @param  {number} id
+ * @param  {string} id
  * @return {void}
  * @namespace Store/Notification/Action/hideNotification
  */
-export const hideNotification = (id: number): HideNotificationAction => ({
+export const hideNotification = (id: string): HideNotificationAction => ({
     type: NotificationActionType.HIDE_NOTIFICATION,
     id
 });

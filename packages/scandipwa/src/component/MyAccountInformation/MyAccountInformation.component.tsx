@@ -13,23 +13,14 @@ import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
 import MyAccountCustomerForm from 'Component/MyAccountCustomerForm';
-import { CustomerType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
+
+import { MyAccountInformationComponentProps } from './MyAccountInformation.type';
 
 import './MyAccountInformation.style';
 
 /** @namespace Component/MyAccountInformation/Component */
-export class MyAccountInformation extends PureComponent {
-    static propTypes = {
-        onCustomerSave: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        customer: CustomerType.isRequired,
-        showEmailChangeField: PropTypes.bool.isRequired,
-        showPasswordChangeField: PropTypes.bool.isRequired,
-        handleChangeEmailCheckbox: PropTypes.func.isRequired,
-        handleChangePasswordCheckbox: PropTypes.func.isRequired
-    };
-
+export class MyAccountInformation extends PureComponent<MyAccountInformationComponentProps> {
     renderCustomerForm(): ReactElement {
         const {
             customer,

@@ -11,7 +11,9 @@
 
 import { Breadcrumb } from 'Type/Breadcrumbs.type';
 
-export interface BreadcrumbsComponentProps {
+export interface BreadcrumbsContainerMapStateProps {
     breadcrumbs: Breadcrumb[];
     areBreadcrumbsVisible: boolean;
 }
+
+export type BreadcrumbsComponentProps = BreadcrumbsContainerMapStateProps;

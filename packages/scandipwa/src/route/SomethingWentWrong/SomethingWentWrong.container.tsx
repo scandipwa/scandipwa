@@ -6,39 +6,38 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { ErrorDetailsType } from 'Type/Error.type';
+import { ReactElement } from 'Type/Common.type';
 
 import SomethingWentWrong from './SomethingWentWrong.component';
+import {
+    SomethingWentWrongComponentProps,
+    SomethingWentWrongContainerMapDispatchProps,
+    SomethingWentWrongContainerProps,
+    SomethingWentWrongContainerPropsKeys
+} from './SomethingWentWrong.type';
 
 /** @namespace Route/SomethingWentWrong/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): SomethingWentWrongContainerMapDispatchProps => ({
     updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 /** @namespace Route/SomethingWentWrong/Container */
-export class SomethingWentWrongContainer extends PureComponent {
-    static propTypes = {
-        updateMeta: PropTypes.func.isRequired,
-        onClick: PropTypes.func.isRequired,
-        errorDetails: ErrorDetailsType.isRequired
-    };
-
+export class SomethingWentWrongContainer extends PureComponent<SomethingWentWrongContainerProps> {
     componentDidMount(): void {
         const { updateMeta } = this.props;
 
         updateMeta({ title: __('Something went wrong!') });
     }
 
-    containerProps() {
+    containerProps(): Pick<SomethingWentWrongComponentProps, SomethingWentWrongContainerPropsKeys> {
         const { onClick, errorDetails } = this.props;
 
         return { onClick, errorDetails };
@@ -47,13 +46,13 @@ export class SomethingWentWrongContainer extends PureComponent {
     render(): ReactElement {
         return (
             <SomethingWentWrong
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }
 }
 
 /** @namespace Route/SomethingWentWrong/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (): Record<string, never> => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SomethingWentWrongContainer);

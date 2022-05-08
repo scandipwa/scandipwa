@@ -15,15 +15,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
+import { OfflineNoticeComponentProps } from './OfflineNotice.type';
+
 import './OfflineNotice.style';
 
 /** @namespace Component/OfflineNotice/Component */
-export class OfflineNotice extends PureComponent {
-    static propTypes = {
-        isPage: PropTypes.bool.isRequired,
-        isBig: PropTypes.bool.isRequired
-    };
-
+export class OfflineNotice extends PureComponent<OfflineNoticeComponentProps> {
     renderLogo(): ReactElement {
         const { isBig } = this.props;
 

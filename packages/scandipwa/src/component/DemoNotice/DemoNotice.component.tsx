@@ -12,17 +12,13 @@
 import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
+
+import { DemoNoticeComponentProps } from './DemoNotice.type';
 
 import './DemoNotice.style';
 
 /** @namespace Component/DemoNotice/Component */
-export class DemoNotice extends PureComponent {
-    static propTypes = {
-        isDemoNoticeEnabled: PropTypes.bool,
-        device: DeviceType.isRequired
-    };
-
+export class DemoNotice extends PureComponent<DemoNoticeComponentProps> {
     static defaultProps = {
         isDemoNoticeEnabled: false
     };
@@ -35,7 +31,7 @@ export class DemoNotice extends PureComponent {
         this.checkForDemoNotice();
     }
 
-    checkForDemoNotice() {
+    checkForDemoNotice(): void {
         const { isDemoNoticeEnabled } = this.props;
 
         if (isDemoNoticeEnabled) {

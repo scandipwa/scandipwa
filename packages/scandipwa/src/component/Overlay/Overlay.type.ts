@@ -18,8 +18,6 @@ export interface OverlayContainerMapStateProps {
     isMobile: boolean;
 }
 
-export interface OverlayContainerMapDispatchProps {}
-
 export type OverlayComponentProps = {
     mix: Mix;
     contentMix: Mix;
@@ -27,7 +25,7 @@ export type OverlayComponentProps = {
     onClose: () => void;
     onHide: () => void;
     isStatic: boolean;
-    children: Children;
+    children: Children | Children[];
     id: string;
     isRenderInPortal: boolean;
     activeOverlay: keyof PopupPayload;

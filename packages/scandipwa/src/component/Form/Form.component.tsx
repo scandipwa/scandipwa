@@ -12,44 +12,22 @@
 
 import { PureComponent } from 'react';
 
-import {
-    ChildrenType, MixType, ReactElement
-} from 'Type/Common.type';
-import { EventsType, FieldAttrType } from 'Type/Field.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { FormComponentProps } from './Form.type';
 
 /**
  * Form
  * @class Form
  * @namespace Component/Form/Component */
-export class Form extends PureComponent {
-    static propTypes = {
-        // Group attributes
-        children: ChildrenType.isRequired,
-        attr: FieldAttrType.isRequired,
-        events: EventsType.isRequired,
-        setRef: PropTypes.func.isRequired,
-
-        // Validation
-        showErrorAsLabel: PropTypes.bool.isRequired,
-        validationResponse: PropTypes.oneOfType([
-            PropTypes.shape({ errorMessages: PropTypes.string }),
-            PropTypes.bool
-        ]),
-
-        // Labels
-        label: PropTypes.string.isRequired,
-        subLabel: PropTypes.string.isRequired,
-
-        mix: MixType.isRequired
-    };
-
+export class Form extends PureComponent<FormComponentProps> {
     static defaultProps = {
         validationResponse: null
     };
 
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under form
-    renderErrorMessage(message): ReactElement {
+    renderErrorMessage(message: string): ReactElement {
         return <div block="Field" elem="ErrorMessage">{ message }</div>;
     }
 

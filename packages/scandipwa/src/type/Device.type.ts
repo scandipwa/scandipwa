@@ -17,5 +17,5 @@ export type Device = {
     opera: boolean;
     safari: boolean;
     windows: boolean;
-    standaloneMode: boolean;
+    standaloneMode?: boolean;
 };

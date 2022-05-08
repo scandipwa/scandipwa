@@ -40,6 +40,7 @@ export type PopupContainerProps = PopupContainerMapStateProps
     isStatic: boolean;
     children: Children;
     id: string;
+    clickOutside: boolean;
 };
 
 export type PopupComponentProps = OverlayComponentProps & {

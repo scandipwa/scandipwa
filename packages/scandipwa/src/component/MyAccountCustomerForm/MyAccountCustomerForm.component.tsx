@@ -10,38 +10,20 @@
  */
 
 import FieldForm from 'Component/FieldForm';
-import { CustomerType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import { customerEmailAndPasswordFields, customerInformationFields } from './MyAccountCustomerForm.form';
+import { MyAccountCustomerFormComponentProps } from './MyAccountCustomerForm.type';
 
 /** @namespace Component/MyAccountCustomerForm/Component */
-export class MyAccountCustomerForm extends FieldForm {
-    static propTypes = {
-        customer: CustomerType.isRequired,
-        onSave: PropTypes.func.isRequired,
-        showTaxVatNumber: PropTypes.bool.isRequired,
-        showEmailChangeField: PropTypes.bool.isRequired,
-        showPasswordChangeField: PropTypes.bool.isRequired,
-        handleChangeEmailCheckbox: PropTypes.func.isRequired,
-        handleChangePasswordCheckbox: PropTypes.func.isRequired,
-        handleEmailInput: PropTypes.func.isRequired,
-        handlePasswordInput: PropTypes.func.isRequired,
-        email: PropTypes.string,
-        currentPassword: PropTypes.string,
-        vatNumberRequired: PropTypes.bool.isRequired,
-        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }),
-        minimunPasswordCharacter: PropTypes.string.isRequired
-    };
-
+export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormComponentProps> {
     static defaultProps = {
         email: '',
         currentPassword: ''
     };
 
-    onFormSuccess = this.onFormSuccess.bind(this);
-
-    onFormSuccess(form, fields) {
+    onFormSuccess(form, fields): void {
         const { onSave } = this.props;
         onSave(transformToNameValuePair(fields));
     }
@@ -114,7 +96,7 @@ export class MyAccountCustomerForm extends FieldForm {
 
     getFormProps() {
         return {
-            onSubmit: this.onFormSuccess
+            onSubmit: this.onFormSuccess.bind(this)
         };
     }
 
@@ -138,7 +120,7 @@ export class MyAccountCustomerForm extends FieldForm {
         );
     }
 
-    getLegendString() {
+    getLegendString(): string {
         const { showEmailChangeField, showPasswordChangeField } = this.props;
 
         if (showEmailChangeField && !showPasswordChangeField) {

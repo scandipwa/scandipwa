@@ -8,35 +8,34 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
+
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { DeviceType } from 'Type/Device.type';
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
+import { RootState } from 'Util/Store/Store.type';
 
 import Footer from './Footer.component';
+import {
+    FooterComponentProps,
+    FooterContainerMapStateProps,
+    FooterContainerProps,
+    FooterContainerPropsKeys
+} from './Footer.type';
 
 /** @namespace Component/Footer/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): FooterContainerMapStateProps => ({
     copyright: state.ConfigReducer.copyright,
     device: state.ConfigReducer.device,
     newsletterActive: state.ConfigReducer.newsletter_general_active
 });
 
 /** @namespace Component/Footer/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): Record<string, never> => ({});
 
 /** @namespace Component/Footer/Container */
-export class FooterContainer extends PureComponent {
-    static propTypes = {
-        copyright: PropTypes.string,
-        isVisibleOnMobile: PropTypes.bool,
-        device: DeviceType.isRequired,
-        newsletterActive: PropTypes.bool.isRequired
-    };
-
+export class FooterContainer extends PureComponent<FooterContainerProps> {
     static defaultProps = {
         copyright: '',
         isVisibleOnMobile: false
@@ -46,7 +45,7 @@ export class FooterContainer extends PureComponent {
         onItemClick: this.onItemClick.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<FooterComponentProps, FooterContainerPropsKeys> {
         const {
             copyright,
             isVisibleOnMobile,
@@ -62,15 +61,15 @@ export class FooterContainer extends PureComponent {
         };
     }
 
-    onItemClick() {
+    onItemClick(): void {
         scrollToTop();
     }
 
     render(): ReactElement {
         return (
             <Footer
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

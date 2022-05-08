@@ -13,7 +13,8 @@ import { PureComponent } from 'react';
 
 import Notification from 'Component/Notification';
 import { ReactElement } from 'Type/Common.type';
-import { NotificationListType } from 'Type/NotificationList.type';
+
+import { NotificationListComponentProps } from './NotificationList.type';
 
 import './NotificationList.style';
 
@@ -22,12 +23,7 @@ import './NotificationList.style';
  * @class NotificationList
  * @namespace Component/NotificationList/Component
  */
-export class NotificationList extends PureComponent {
-    static propTypes = {
-        notifications: NotificationListType.isRequired,
-        onHideNotification: PropTypes.func.isRequired
-    };
-
+export class NotificationList extends PureComponent<NotificationListComponentProps> {
     render(): ReactElement {
         const { onHideNotification, notifications } = this.props;
 

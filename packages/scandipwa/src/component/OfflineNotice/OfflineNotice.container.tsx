@@ -6,42 +6,41 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Dispatch } from 'redux';
 
 import { setBigOfflineNotice, showOfflineNotice } from 'Store/Offline/Offline.action';
-import { LocationType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import OfflineNotice from './OfflineNotice.component';
+import {
+    OfflineNoticeComponentProps,
+    OfflineNoticeContainerMapDispatchProps,
+    OfflineNoticeContainerMapStateProps,
+    OfflineNoticeContainerProps,
+    OfflineNoticeContainerPropsKeys
+} from './OfflineNotice.type';
 
 /** @namespace Component/OfflineNotice/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): OfflineNoticeContainerMapStateProps => ({
     isOffline: state.OfflineReducer.isOffline,
     isBig: state.OfflineReducer.isBig
 });
 
 /** @namespace Component/OfflineNotice/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): OfflineNoticeContainerMapDispatchProps => ({
     showOfflineNotice: (isOffline) => dispatch(showOfflineNotice(isOffline)),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig))
 });
 
 /** @namespace Component/OfflineNotice/Container */
-export class OfflineNoticeContainer extends PureComponent {
-    static propTypes = {
-        setBigOfflineNotice: PropTypes.func.isRequired,
-        showOfflineNotice: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
-        isBig: PropTypes.bool.isRequired,
-        isPage: PropTypes.bool
-    };
-
+export class OfflineNoticeContainer extends PureComponent<OfflineNoticeContainerProps> {
     static defaultProps = {
         isPage: false
     };
@@ -56,7 +55,7 @@ export class OfflineNoticeContainer extends PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: OfflineNoticeContainerProps): void {
         const {
             location: { pathname },
             isBig,
@@ -92,25 +91,19 @@ export class OfflineNoticeContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<OfflineNoticeComponentProps, OfflineNoticeContainerPropsKeys> {
         const {
             isBig,
-            isPage,
-            location,
-            setBigOfflineNotice,
-            showOfflineNotice
+            isPage
         } = this.props;
 
         return {
             isBig,
-            isPage,
-            location,
-            setBigOfflineNotice,
-            showOfflineNotice
+            isPage
         };
     }
 
-    handleNetworkChange() {
+    handleNetworkChange(): void {
         const {
             isBig,
             showOfflineNotice,
@@ -133,8 +126,7 @@ export class OfflineNoticeContainer extends PureComponent {
     render(): ReactElement {
         return (
             <OfflineNotice
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
             />
         );
     }

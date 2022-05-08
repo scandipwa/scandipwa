@@ -25,11 +25,11 @@ export type ValidationOutput = {
 };
 
 export type ValidationDOMOutput = {
-    values: {
+    values?: {
         name: string;
         value: string;
         type: string;
     }[];
-    errorFields: unknown[];
-    errorMessages: string[];
+    errorFields?: unknown[];
+    errorMessages?: string[];
 };

@@ -14,36 +14,28 @@ import HomeIcon from 'Component/HomeIcon';
 import MenuIcon from 'Component/MenuIcon';
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
 import UserIcon from 'Component/UserIcon';
-import { DeviceType } from 'Type/Device.type';
+import { ReactElement } from 'Type/Common.type';
 
-import {
-    ACCOUNT_TAB,
-    CART_TAB,
-    HOME_TAB,
-    MENU_TAB
-} from './NavigationTabs.config';
+import { NavigationTabsMap } from './NavigationTabs.config';
+import { NavigationTabsComponentProps } from './NavigationTabs.type';
 
 import './NavigationTabs.style';
 
 /** @namespace Component/NavigationTabs/Component */
-export class NavigationTabs extends NavigationAbstract {
-    static propTypes = {
-        device: DeviceType.isRequired
-    };
+export class NavigationTabs extends NavigationAbstract<NavigationTabsComponentProps> {
+    defaultStateName = NavigationTabsMap.MENU_TAB;
 
-    defaultStateName = MENU_TAB;
-
-    stateMap = {
-        [HOME_TAB]: {
+    stateMap: Record<string, Record<string, boolean>> = {
+        [NavigationTabsMap.HOME_TAB]: {
             home: true
         },
-        [MENU_TAB]: {
+        [NavigationTabsMap.MENU_TAB]: {
             menu: true
         },
-        [CART_TAB]: {
+        [NavigationTabsMap.CART_TAB]: {
             minicart: true
         },
-        [ACCOUNT_TAB]: {
+        [NavigationTabsMap.ACCOUNT_TAB]: {
             account: true
         }
     };
@@ -55,7 +47,7 @@ export class NavigationTabs extends NavigationAbstract {
         minicart: this.renderMinicartButton.bind(this)
     };
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: NavigationTabsComponentProps): boolean {
         const {
             navigationState: { name: prevName },
             cartTotals: { items_qty: prevQty },

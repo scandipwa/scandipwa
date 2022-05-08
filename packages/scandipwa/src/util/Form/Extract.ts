@@ -243,11 +243,15 @@ export const groupDateFieldsData = (
  * @namespace Util/Form/Extract/getFieldsData
  */
 export const getFieldsData = <AsObject extends boolean = false>(
-    DOM: Document | HTMLElement,
+    DOM: Document | HTMLElement | null,
     excludeEmpty = false,
     ignoreTypes: string[] = [],
     asObject?: AsObject
-): GetFieldsData<AsObject> => {
+): GetFieldsData<AsObject> | null => {
+    if (!DOM) {
+        return null;
+    }
+
     const fields: NodeListOf<HTMLSelectElement | HTMLInputElement> = DOM.querySelectorAll('input, textarea, select');
     const output: Array<DateObject | FieldData> = [];
 

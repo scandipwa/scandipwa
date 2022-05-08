@@ -13,17 +13,19 @@ import { connect } from 'react-redux';
 
 import BreadcrumbsReducer from 'Store/Breadcrumbs/Breadcrumbs.reducer';
 import { withReducers } from 'Util/DynamicReducer';
+import { RootState } from 'Util/Store/Store.type';
 
 import Breadcrumbs from './Breadcrumbs.component';
+import { BreadcrumbsContainerMapStateProps } from './Breadcrumbs.type';
 
 /** @namespace Component/Breadcrumbs/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): BreadcrumbsContainerMapStateProps => ({
     breadcrumbs: state.BreadcrumbsReducer.breadcrumbs,
     areBreadcrumbsVisible: state.BreadcrumbsReducer.areBreadcrumbsVisible
 });
 
 /** @namespace Component/Breadcrumbs/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): Record<string, never> => ({});
 
 export default withReducers({
     BreadcrumbsReducer

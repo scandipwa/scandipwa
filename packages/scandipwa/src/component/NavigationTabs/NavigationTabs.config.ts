@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export enum NavigationTabs {
+export enum NavigationTabsMap {
     HOME_TAB = 'HOME_TAB',
     MENU_TAB = 'MENU_TAB',
     ACCOUNT_TAB = 'ACCOUNT_TAB',

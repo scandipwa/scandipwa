@@ -9,30 +9,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Location } from 'history';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import { NavigationAbstractContainerState } from 'Component/NavigationAbstract/NavigationAbstract.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { NavigationType } from 'Store/Navigation/Navigation.type';
+import { NavigationState, NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import browserHistory from 'Util/History';
 import { debounce } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import NavigationTabs from './NavigationTabs.component';
+import { NavigationTabsMap } from './NavigationTabs.config';
 import {
-    ACCOUNT_TAB,
-    CART_TAB,
-    CHECKOUT_TAB, HOME_TAB,
-    MENU_TAB
-} from './NavigationTabs.config';
+    NavigationTabsComponentProps,
+    NavigationTabsContainerMapDispatchProps,
+    NavigationTabsContainerMapStateProps,
+    NavigationTabsContainerProps,
+    NavigationTabsContainerPropsKeys
+} from './NavigationTabs.type';
 
 /** @namespace Component/NavigationTabs/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): NavigationTabsContainerMapStateProps => ({
     navigationState: state.NavigationReducer[ NavigationType.BOTTOM_NAVIGATION_TYPE ].navigationState,
     headerState: state.NavigationReducer[ NavigationType.TOP_NAVIGATION_TYPE ].navigationState,
     device: state.ConfigReducer.device,
@@ -41,34 +48,41 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/NavigationTabs/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): NavigationTabsContainerMapDispatchProps => ({
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName)),
+    setNavigationState: (stateName) => dispatch(
+        changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName)
+    ),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE))
 });
 
-export const DEFAULT_NAVIGATION_TABS_STATE = { name: MENU_TAB };
+export const DEFAULT_NAVIGATION_TABS_STATE = { name: NavigationTabsMap.MENU_TAB };
 
 /** @namespace Component/NavigationTabs/Container */
-export class NavigationTabsContainer extends NavigationAbstractContainer {
+export class NavigationTabsContainer extends NavigationAbstractContainer<
+NavigationTabsContainerProps,
+NavigationAbstractContainerState
+> {
     default_state = DEFAULT_NAVIGATION_TABS_STATE;
 
     scrollPosition = 0;
 
-    routeMap = {
-        '/customer/account': { name: ACCOUNT_TAB },
-        '/sales/order/history': { name: ACCOUNT_TAB },
-        '/downloadable/customer/products': { name: ACCOUNT_TAB },
-        '/customer/address': { name: ACCOUNT_TAB },
-        '/newsletter/manage': { name: ACCOUNT_TAB },
-        '/sales/order/view': { name: ACCOUNT_TAB },
-        '/wishlist': { name: ACCOUNT_TAB },
-        '/checkout': { name: CHECKOUT_TAB },
-        '/cart': { name: CART_TAB },
-        '/': { name: HOME_TAB },
-        '': { name: HOME_TAB }
+    lastSeenMenu = 0;
+
+    routeMap: Record<string, NavigationState> = {
+        '/customer/account': { name: NavigationTabsMap.ACCOUNT_TAB },
+        '/sales/order/history': { name: NavigationTabsMap.ACCOUNT_TAB },
+        '/downloadable/customer/products': { name: NavigationTabsMap.ACCOUNT_TAB },
+        '/customer/address': { name: NavigationTabsMap.ACCOUNT_TAB },
+        '/newsletter/manage': { name: NavigationTabsMap.ACCOUNT_TAB },
+        '/sales/order/view': { name: NavigationTabsMap.ACCOUNT_TAB },
+        '/wishlist': { name: NavigationTabsMap.ACCOUNT_TAB },
+        '/checkout': { name: NavigationTabsMap.CHECKOUT_TAB },
+        '/cart': { name: NavigationTabsMap.CART_TAB },
+        '/': { name: NavigationTabsMap.HOME_TAB },
+        '': { name: NavigationTabsMap.HOME_TAB }
     };
 
     containerFunctions = {
@@ -83,13 +97,13 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         const SCROLL_DEBOUNCE_DELAY = 10;
         const { name } = this.getNavigationState();
-        this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
+        this.lastSeenMenu = name === NavigationTabsMap.MENU_TAB ? 0 : -1;
         window.addEventListener('scroll', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY));
 
         super.componentDidMount();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: NavigationTabsContainerProps): void {
         const { navigationState: { isHidden } } = this.props;
         const { navigationState: { isHidden: prevHidden } } = prevProps;
 
@@ -98,13 +112,13 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<NavigationTabsComponentProps, NavigationTabsContainerPropsKeys> {
         const { device, navigationState, cartTotals } = this.props;
 
         return { device, navigationState, cartTotals };
     }
 
-    handleNavVisibility() {
+    handleNavVisibility(): void {
         const { navigationState: { isHidden } } = this.props;
 
         if (isHidden) {
@@ -116,15 +130,15 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         document.documentElement.classList.remove('hiddenNavigationTabs');
     }
 
-    hideNavigationTabs() {
+    hideNavigationTabs(): void {
         document.documentElement.classList.add('hideOnScroll');
     }
 
-    showNavigationTabs() {
+    showNavigationTabs(): void {
         document.documentElement.classList.remove('hideOnScroll');
     }
 
-    handleNavVisibilityOnScroll(windowY) {
+    handleNavVisibilityOnScroll(windowY: number): void {
         const ERROR_TOP_OFFSET = 10;
         const ERROR_BOTTOM_OFFSET = 20;
         const TOP_MIN_OFFSET = 70;
@@ -161,18 +175,18 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         }
     }
 
-    handleScroll() {
+    handleScroll(): void {
         const windowY = window.pageYOffset;
         this.handleNavVisibilityOnScroll(windowY);
         this.scrollPosition = windowY;
     }
 
-    onMenuButtonClick() {
+    onMenuButtonClick(): void {
         const { navigationState: { name } } = this.props;
 
         // TODO: resolve issue when coming from CMS page
 
-        if (name === MENU_TAB) { // if we already are in menu
+        if (name === NavigationTabsMap.MENU_TAB) { // if we already are in menu
             browserHistory.push(appendWithStoreCode('/menu'));
         } else if (this.lastSeenMenu <= 0) { // if we have not yet seen menu
             browserHistory.push(appendWithStoreCode('/menu'));
@@ -183,7 +197,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         this.lastSeenMenu = 0;
     }
 
-    onMinicartButtonClick() {
+    onMinicartButtonClick(): void {
         const { pathname } = location;
 
         if (pathname !== appendWithStoreCode(`/${Page.CART}`)) {
@@ -192,16 +206,16 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         }
     }
 
-    onMyAccountButtonClick() {
+    onMyAccountButtonClick(): void {
         const { pathname } = location;
-        const url = appendWithStoreCode(isSignedIn() ? `${AccountPageUrl.ACCOUNT_URL}` : ACCOUNT_LOGIN_URL);
+        const url = appendWithStoreCode(isSignedIn() ? `${AccountPageUrl.ACCOUNT_URL}` : AccountPageUrl.LOGIN_URL);
 
         if (pathname !== url) {
             browserHistory.push(url);
         }
     }
 
-    preserveState(name, newName) {
+    preserveState(name: string, newName: string): void {
         const { noMatch } = this.props;
 
         if (noMatch) {
@@ -214,16 +228,16 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (newName !== MENU_TAB) {
+        if (newName !== NavigationTabsMap.MENU_TAB) {
             this.lastSeenMenu++;
         }
 
-        if (newName === MENU_TAB && name === MENU_TAB) {
+        if (newName === NavigationTabsMap.MENU_TAB && name === NavigationTabsMap.MENU_TAB) {
             this.lastSeenMenu = 0;
         }
     }
 
-    handleMobileRouteChange(history) {
+    handleMobileRouteChange(history: Location): { prevPathname: string } {
         const {
             setNavigationState,
             navigationState: { name }
@@ -245,7 +259,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         return { prevPathname: pathname };
     }
 
-    onHomeButtonClick() {
+    onHomeButtonClick(): void {
         const {
             hideActiveOverlay
         } = this.props;

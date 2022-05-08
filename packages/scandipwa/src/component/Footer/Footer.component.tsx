@@ -16,10 +16,11 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import NewsletterSubscription from 'Component/NewsletterSubscription';
-import { DeviceType } from 'Type/Device.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import { COLUMN_MAP, NEWSLETTER_COLUMN, RENDER_NEWSLETTER } from './Footer.config';
+import { FooterComponentProps, FooterRenderColumn, FooterRenderColumnItem } from './Footer.type';
 
 import './Footer.style';
 
@@ -28,15 +29,7 @@ import './Footer.style';
  * @class Footer
  * @namespace Component/Footer/Component
  */
-export class Footer extends Component {
-    static propTypes = {
-        copyright: PropTypes.string,
-        isVisibleOnMobile: PropTypes.bool,
-        device: DeviceType.isRequired,
-        newsletterActive: PropTypes.bool.isRequired,
-        onItemClick: PropTypes.func
-    };
-
+export class Footer extends Component<FooterComponentProps> {
     static defaultProps = {
         copyright: '',
         isVisibleOnMobile: false,
@@ -49,7 +42,7 @@ export class Footer extends Component {
         }
     };
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: FooterComponentProps):boolean {
         const {
             device: {
                 isMobile
@@ -74,7 +67,7 @@ export class Footer extends Component {
             || newsletterActive !== nextNewsletterActive;
     }
 
-    renderColumnItemContent(src, title): ReactElement {
+    renderColumnItemContent(src?: string, title?: string): ReactElement {
         if (!src) {
             return title;
         }
@@ -87,16 +80,19 @@ export class Footer extends Component {
         );
     }
 
-    renderColumnItemLink({ href = '/', title, src }, i): ReactElement {
-        const mods = src ? { type: 'image' } : {};
+    renderColumnItemLink(
+        item: FooterRenderColumnItem,
+        i: number
+    ): ReactElement {
         const { onItemClick } = this.props;
+        const { href = '/', src, title } = item;
 
         return (
             <Link
               block="Footer"
               elem="ColumnItem"
               to={ href }
-              mods={ mods }
+              mods={ src ? { type: 'image' } : undefined }
               key={ i }
               aria-label={ title }
               onClick={ onItemClick }
@@ -106,17 +102,17 @@ export class Footer extends Component {
         );
     }
 
-    renderColumnItem(item, i): ReactElement {
+    renderColumnItem(item: FooterRenderColumnItem, i: number): ReactElement {
         const { render } = item;
 
-        if (render) {
-            return this.renderMap[render].render(item, i);
+        if (render && render in this.renderMap) {
+            return this.renderMap[render as keyof typeof this.renderMap].render();
         }
 
         return this.renderColumnItemLink(item, i);
     }
 
-    renderColumn(column, i): ReactElement {
+    renderColumn(column: FooterRenderColumn, i?: number): ReactElement {
         const {
             title,
             columnActiveKey,
@@ -127,9 +123,7 @@ export class Footer extends Component {
 
         const contentMods = isItemsHorizontal ? { direction: 'horizontal' } : {};
 
-        const { [columnActiveKey]: isColumnActive } = this.props;
-
-        if (columnActiveKey && !isColumnActive === true) {
+        if (columnActiveKey && !(columnActiveKey in this.props)) {
             return null;
         }
 

@@ -10,10 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    createRef, FormEvent,
-    PureComponent, RefObject
-} from 'react';
+import { FormEvent, PureComponent, SyntheticEvent } from 'react';
 
 import { FieldType } from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
@@ -23,7 +20,12 @@ import { validateGroup } from 'Util/Validator';
 import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
 import Form from './Form.component';
-import { FormContainerProps, FormContainerState } from './Form.type';
+import {
+    FormComponentProps,
+    FormContainerProps,
+    FormContainerPropsKeys,
+    FormContainerState
+} from './Form.type';
 
 /**
  * Form
@@ -56,7 +58,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         onSubmit: this.onSubmit.bind(this)
     };
 
-    formRef = createRef<HTMLElement>();
+    formRef: HTMLElement | null = null;
 
     //#region VALIDATION
     // Removes event listener for validation from field
@@ -64,16 +66,16 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         const { validationRule } = this.props;
 
         if (this.formRef) {
-            this.formRef.current?.removeEventListener('reset', this.resetField.bind(this));
+            this.formRef.removeEventListener('reset', this.resetField.bind(this));
 
             if (validationRule && Object.keys(validationRule).length > 0) {
-                this.formRef.current?.removeEventListener('validate', this.validate.bind(this));
+                this.formRef.removeEventListener('validate', this.validate.bind(this));
             }
         }
     }
 
     // Adds validation event listener to field
-    setRef(elem: RefObject<HTMLElement>): void {
+    setRef(elem: HTMLFormElement | null): void {
         const { validationRule, elemRef } = this.props;
 
         if (elem && this.formRef !== elem) {
@@ -83,16 +85,16 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
                 elemRef.current = elem;
             }
 
-            elem.current?.addEventListener('reset', this.resetField.bind(this));
+            this.formRef.addEventListener('reset', this.resetField.bind(this));
 
             if (validationRule && Object.keys(validationRule).length > 0) {
-                elem.current?.addEventListener('validate', this.validate.bind(this));
+                this.formRef.addEventListener('validate', this.validate.bind(this));
             }
         }
     }
 
     resetField(): void {
-        const fields = this.formRef.current?.querySelectorAll('input, textarea, select');
+        const fields = this.formRef?.querySelectorAll('input, textarea, select');
         const event = new CustomEvent('resetField');
 
         if (!fields) {
@@ -111,7 +113,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         return output;
     }
 
-    validateOnEvent(hook, ...args) {
+    validateOnEvent(hook, ...args: ((event?: SyntheticEvent) => void)[]): void{
         this.validate();
 
         if (typeof hook === 'function') {
@@ -119,7 +121,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         }
     }
 
-    surroundEvent(hook, ...args) {
+    surroundEvent(hook, ...args: ((event?: SyntheticEvent) => void)[]): void {
         const { attr, returnAsObject } = this.props;
         const fields = getFieldsData(
             this.formRef,
@@ -146,7 +148,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
             this.formRef, false, [FieldType.NUMBER, FieldType.BUTTON], returnAsObject
         );
 
-        if (!fields) {
+        if (!fields || Array.isArray(fields)) {
             return;
         }
 
@@ -165,10 +167,13 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<
+    FormComponentProps,
+    FormContainerPropsKeys
+    > {
         const {
-            // events,
-            // validateOn,
+            events,
+            validateOn,
             children,
             attr,
             showErrorAsLabel,
@@ -176,13 +181,11 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
             subLabel,
             mix
         } = this.props;
-        const {
-            // validate,
-            onSubmit
-        } = this.containerFunctions;
+        const { validate, onSubmit } = this.containerFunctions;
         const { validationResponse } = this.state;
 
-        const newEvents = {};
+        const newEvents: Record<keyof typeof events, unknown> = {};
+
         Object.keys(events).forEach((eventName) => {
             const { [ eventName ]: event } = events;
             newEvents[ eventName ] = this.surroundEvent.bind(this, event);
@@ -203,7 +206,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
             subLabel,
             mix,
             events: {
-                // ...newEvents,
+                ...newEvents,
                 onSubmit
             }
         };

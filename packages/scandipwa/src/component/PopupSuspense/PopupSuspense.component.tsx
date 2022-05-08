@@ -19,6 +19,7 @@ import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import { OVERLAY_PLACEHOLDER } from './PopupSuspense.config';
+import { PopupSuspenseComponentProps } from './PopupSuspense.type';
 
 import './PopupSuspense.style';
 // Import styles from different bundles
@@ -26,16 +27,7 @@ import 'Component/CartOverlay/CartOverlay.style';
 import 'Component/MyAccountOverlay/MyAccountOverlay.style';
 
 /** @namespace Component/PopupSuspense/Component */
-export class PopupSuspense extends PureComponent {
-    static propTypes = {
-        /** Passed props */
-        onVisible: PropTypes.func,
-        actualOverlayKey: PropTypes.string.isRequired,
-
-        /** Props from global state */
-        showOverlay: PropTypes.func.isRequired
-    };
-
+export class PopupSuspense extends PureComponent<PopupSuspenseComponentProps> {
     static defaultProps = {
         onVisible: noopFn
     };
@@ -51,11 +43,11 @@ export class PopupSuspense extends PureComponent {
         showOverlay(OVERLAY_PLACEHOLDER);
     }
 
-    handleNoStyle() {
+    handleNoStyle(): void {
         const { actualOverlayKey } = this.props;
 
         throw new Error(
-            `Please, provide a class in the stylemap for overlay ${actualOverlayKey} and import its style here.`
+            `Please, provide a class in the style map for overlay ${actualOverlayKey} and import its style here.`
         );
     }
 

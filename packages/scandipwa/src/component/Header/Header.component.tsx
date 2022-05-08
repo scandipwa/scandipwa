@@ -11,11 +11,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef, lazy, Suspense } from 'react';
+import {
+    createRef,
+    lazy,
+    Suspense
+} from 'react';
 
 import CartIcon from 'Component/CartIcon';
 import ChevronIcon from 'Component/ChevronIcon';
-import { LEFT } from 'Component/ChevronIcon/ChevronIcon.config';
+import { Directions } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
 import CompareIcon from 'Component/CompareIcon';
@@ -33,8 +37,7 @@ import SearchField from 'Component/SearchField';
 import ShareIcon from 'Component/ShareIcon';
 import StoreSwitcher from 'Component/StoreSwitcher';
 import UserIcon from 'Component/UserIcon';
-import { DeviceType } from 'Type/Device.type';
-import { TotalsType } from 'Type/MiniCart.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { isCrawler, isSSR } from 'Util/Browser';
 import { decodeString } from 'Util/Common';
@@ -42,30 +45,8 @@ import CSS from 'Util/CSS';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 
-import {
-    CART,
-    CART_EDITING,
-    CART_OVERLAY,
-    CATEGORY,
-    CHECKOUT,
-    CHECKOUT_ACCOUNT,
-    CHECKOUT_SUCCESS,
-    CMS_PAGE,
-    CONTACT_US,
-    CUSTOMER_ACCOUNT,
-    CUSTOMER_ACCOUNT_PAGE,
-    CUSTOMER_ORDER,
-    CUSTOMER_SUB_ACCOUNT,
-    CUSTOMER_WISHLIST,
-    FILTER,
-    MENU,
-    MENU_SUBCATEGORY,
-    NO_MATCH,
-    PDP,
-    POPUP,
-    PRODUCT_COMPARE,
-    SEARCH
-} from './Header.config';
+import { Page } from './Header.config';
+import { HeaderComponentProps } from './Header.type';
 
 import './Header.style';
 
@@ -73,45 +54,7 @@ export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChun
 export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "overlay" */ 'Component/MyAccountOverlay'));
 
 /** @namespace Component/Header/Component */
-export class Header extends NavigationAbstract {
-    static propTypes = {
-        navigationState: PropTypes.shape({
-            name: PropTypes.string,
-            onBackClick: PropTypes.func,
-            title: PropTypes.string
-        }).isRequired,
-        cartTotals: TotalsType.isRequired,
-        compareTotals: PropTypes.number.isRequired,
-        Loading: PropTypes.bool.isRequired,
-        onBackButtonClick: PropTypes.func.isRequired,
-        onCloseButtonClick: PropTypes.func.isRequired,
-        onSearchBarFocus: PropTypes.func.isRequired,
-        onClearSearchButtonClick: PropTypes.func.isRequired,
-        onMyAccountButtonClick: PropTypes.func.isRequired,
-        onSearchBarChange: PropTypes.func.isRequired,
-        isWishlistLoading: PropTypes.bool.isRequired,
-        onEditButtonClick: PropTypes.func.isRequired,
-        onMinicartButtonClick: PropTypes.func.isRequired,
-        onOkButtonClick: PropTypes.func.isRequired,
-        onCancelButtonClick: PropTypes.func.isRequired,
-        onSearchOutsideClick: PropTypes.func.isRequired,
-        onMyAccountOutsideClick: PropTypes.func.isRequired,
-        onMinicartOutsideClick: PropTypes.func.isRequired,
-        isClearEnabled: PropTypes.bool.isRequired,
-        searchCriteria: PropTypes.string.isRequired,
-        shareWishlist: PropTypes.func.isRequired,
-        header_logo_src: PropTypes.string,
-        logo_alt: PropTypes.string,
-        logo_height: PropTypes.number,
-        logo_width: PropTypes.number,
-        isLoading: PropTypes.bool,
-        showMyAccountLogin: PropTypes.bool,
-        isCheckout: PropTypes.bool.isRequired,
-        onSignIn: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
-        device: DeviceType.isRequired
-    };
-
+export class Header extends NavigationAbstract<HeaderComponentProps> {
     static defaultProps = {
         logo_alt: 'ScandiPWA logo',
         logo_height: 25,
@@ -121,94 +64,94 @@ export class Header extends NavigationAbstract {
         isLoading: true
     };
 
-    logoRef = createRef();
+    logoRef = createRef<HTMLElement>();
 
-    stateMap = {
+    stateMap: Record<string, Record<string, boolean>> = {
         [DEFAULT_STATE_NAME]: {
             title: true,
             logo: true
         },
-        [NO_MATCH]: {
+        [Page.NO_MATCH]: {
             title: true
         },
-        [POPUP]: {
+        [Page.POPUP]: {
             title: true,
             close: true
         },
-        [PDP]: {
+        [Page.PDP]: {
             back: true,
             title: true
         },
-        [CATEGORY]: {
+        [Page.CATEGORY]: {
             back: true,
             title: true
         },
-        [CUSTOMER_ACCOUNT]: {
+        [Page.CUSTOMER_ACCOUNT]: {
             title: true
         },
-        [CUSTOMER_SUB_ACCOUNT]: {
+        [Page.CUSTOMER_SUB_ACCOUNT]: {
             title: true,
             back: true
         },
-        [CUSTOMER_ACCOUNT_PAGE]: {
+        [Page.CUSTOMER_ACCOUNT_PAGE]: {
             title: true
         },
-        [CUSTOMER_WISHLIST]: {
+        [Page.CUSTOMER_WISHLIST]: {
             share: true,
             title: true
         },
-        [CUSTOMER_ORDER]: {
+        [Page.CUSTOMER_ORDER]: {
             title: true,
             back: true
         },
-        [MENU]: {
+        [Page.MENU]: {
             search: true
         },
-        [MENU_SUBCATEGORY]: {
+        [Page.MENU_SUBCATEGORY]: {
             back: true,
             title: true,
             search: true
         },
-        [SEARCH]: {
+        [Page.SEARCH]: {
             search: true
         },
-        [CART]: {
+        [Page.CART]: {
             title: true
         },
-        [CART_OVERLAY]: {
+        [Page.CART_OVERLAY]: {
             title: true
         },
-        [CART_EDITING]: {
+        [Page.CART_EDITING]: {
             ok: true,
             title: true,
             cancel: true
         },
-        [FILTER]: {
+        [Page.FILTER]: {
             close: true,
             title: true
         },
-        [CHECKOUT]: {
+        [Page.CHECKOUT]: {
             back: true,
             title: true,
             account: true
         },
-        [CHECKOUT_SUCCESS]: {
+        [Page.CHECKOUT_SUCCESS]: {
             title: true,
             account: true
         },
-        [CHECKOUT_ACCOUNT]: {
+        [Page.CHECKOUT_ACCOUNT]: {
             title: true,
             close: true
         },
-        [CMS_PAGE]: {
+        [Page.CMS_PAGE]: {
             back: true,
             title: true
         },
-        [CONTACT_US]: {
+        [Page.CONTACT_US]: {
             title: true,
             back: true
         },
-        [PRODUCT_COMPARE]: {
+        [Page.PRODUCT_COMPARE]: {
             title: true,
             back: true
         }
@@ -230,8 +173,8 @@ export class Header extends NavigationAbstract {
     // Yet shouldComponentUpdate() is overridden in another component also extending NavigationAbstract
     // (i.e. NavigationTabs) to minimize rerenders. => We can't extend PureComponent from Header.
     // This is why shallow comparison behavior for all props  (like in PureComponent) is used here.
-    shouldComponentUpdate(nextProps) {
-        return Object.keys(nextProps).some((key) => nextProps[key] !== this.props[key]);
+    shouldComponentUpdate(nextProps: HeaderComponentProps): boolean {
+        return (Object.keys(nextProps) as Array<keyof typeof nextProps>).some((key) => nextProps[key] !== this.props[key]);
     }
 
     renderBackButton(isVisible = false): ReactElement {
@@ -252,7 +195,7 @@ export class Header extends NavigationAbstract {
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
             >
-                <ChevronIcon direction={ LEFT } />
+                <ChevronIcon direction={ Directions.LEFT } />
             </button>
         );
     }
@@ -315,7 +258,7 @@ export class Header extends NavigationAbstract {
               onSearchBarChange={ onSearchBarChange }
               onClearSearchButtonClick={ onClearSearchButtonClick }
               isVisible={ isVisible }
-              isActive={ name === SEARCH }
+              isActive={ name === Page.SEARCH }
               hideActiveOverlay={ hideActiveOverlay }
             />
         );
@@ -456,7 +399,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderAccountOverlayFallback(): ReactElement {
+    renderAccountOverlayFallback(): JSX.Element {
         return (
             <PopupSuspense
               actualOverlayKey={ CUSTOMER_ACCOUNT_OVERLAY_KEY }
@@ -500,7 +443,7 @@ export class Header extends NavigationAbstract {
             <button
               block="Header"
               elem="MyAccountWrapper"
-              tabIndex="0"
+              tabIndex={ 0 }
               onClick={ onMyAccountButtonClick }
               aria-label="Open my account"
               id="myAccount"
@@ -510,7 +453,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderAccount(isVisible = false): ReactElement {
+    renderAccount(): ReactElement {
         const {
             onMyAccountOutsideClick,
             isCheckout,
@@ -537,7 +480,7 @@ export class Header extends NavigationAbstract {
                       block="Header"
                       elem="MyAccount"
                     >
-                        { this.renderAccountButton(isVisible) }
+                        { this.renderAccountButton() }
                         { this.renderAccountOverlay() }
                     </div>
                 </ClickOutside>
@@ -563,10 +506,10 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderMinicartOverlayFallback(): ReactElement {
+    renderMinicartOverlayFallback(): JSX.Element {
         return (
             <PopupSuspense
-              actualOverlayKey={ CART_OVERLAY }
+              actualOverlayKey={ Page.CART_OVERLAY }
             />
         );
     }
@@ -594,7 +537,7 @@ export class Header extends NavigationAbstract {
             <button
               block="Header"
               elem="MinicartButtonWrapper"
-              tabIndex="0"
+              tabIndex={ 0 }
               onClick={ onMinicartButtonClick }
               aria-label={ __('Cart') }
             >
@@ -740,9 +683,9 @@ export class Header extends NavigationAbstract {
 
         if (!isMobile) {
             // hide edit button on desktop
-            stateMap[CUSTOMER_WISHLIST].edit = false;
-            stateMap[CUSTOMER_WISHLIST].share = false;
-            stateMap[CART_OVERLAY].edit = false;
+            stateMap[Page.CUSTOMER_WISHLIST].edit = false;
+            stateMap[Page.CUSTOMER_WISHLIST].share = false;
+            stateMap[Page.CART_OVERLAY].edit = false;
         }
 
         return (

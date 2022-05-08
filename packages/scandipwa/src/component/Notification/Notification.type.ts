@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type HistoryState = {
-    isForgotPassword?: boolean;
-    isFromLocked?: boolean;
-    editPassword?: boolean;
-    category?: number;
-    isFromEmailChange?: boolean;
+import { Notification } from 'Store/Notification/Notification.type';
+
+export type NotificationComponentProps = {
+    notificationId: string;
+    notification: Notification<unknown>;
+    onHideNotification: (id: string) => void;
+    lifeTime: number;
+    id: string;
 };

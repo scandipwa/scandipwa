@@ -8,7 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
-import { OrderAddress } from 'Query/Order.type';
+import { CustomerAddress } from 'Query/MyAccount.type';
 import { Country } from 'Query/Region.type';
 import { Mix } from 'Type/Common.type';
 
@@ -23,7 +23,7 @@ export interface MyAccountAddressTableContainerMapDispatchProps {
 export type MyAccountAddressTableContainerProps = MyAccountAddressTableContainerMapStateProps
 & MyAccountAddressTableContainerMapDispatchProps & {
     mix: Mix;
-    address: OrderAddress;
+    address: CustomerAddress;
     showAdditionalFields: boolean;
     showActions: boolean;
     title: string;
@@ -31,7 +31,7 @@ export type MyAccountAddressTableContainerProps = MyAccountAddressTableContainer
 
 export type MyAccountAddressTableComponentProps = {
     mix: Mix;
-    address: OrderAddress;
+    address: CustomerAddress;
     showActions: boolean;
     showAdditionalFields: boolean;
     onEditClick: () => void;

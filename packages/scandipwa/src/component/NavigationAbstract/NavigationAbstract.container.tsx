@@ -1,5 +1,3 @@
-/* eslint-disable react/require-render-return */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -8,51 +6,52 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
+import { Location } from 'history';
+import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DeviceType } from 'Type/Device.type';
-import { NavigationStateHistoryType } from 'Type/Router.type';
+import { NavigationState } from 'Store/Navigation/Navigation.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { isScrollDisabled, toggleScroll } from 'Util/Browser';
 import history from 'Util/History';
+import { RootState } from 'Util/Store/Store.type';
 import { isHomePageUrl } from 'Util/Url';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
+import {
+    NavigationAbstractContainerMapStateProps,
+    NavigationAbstractContainerProps,
+    NavigationAbstractContainerState
+} from './NavigationAbstract.type';
 
 export const DEFAULT_STATE = { name: DEFAULT_STATE_NAME };
 
 /** @namespace Component/NavigationAbstract/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): NavigationAbstractContainerMapStateProps => ({
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/NavigationAbstract/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): Record<string, never> => ({});
 
 /** @namespace Component/NavigationAbstract/Container */
-export class NavigationAbstractContainer extends PureComponent {
-    static propTypes = {
-        setNavigationState: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
-        navigationState: NavigationStateHistoryType.isRequired,
-        device: DeviceType.isRequired
-    };
-
+export class NavigationAbstractContainer<
+Props extends NavigationAbstractContainerProps,
+State extends NavigationAbstractContainerState
+> extends PureComponent<Props, State> {
     default_state = DEFAULT_STATE;
 
-    routeMap = {
+    routeMap: Record<string, NavigationState> = {
         '/': this.default_state
     };
 
     state = {
         prevPathname: ''
-    };
+    } as State;
 
     componentDidMount(): void {
         const { setNavigationState } = this.props;
@@ -63,36 +62,40 @@ export class NavigationAbstractContainer extends PureComponent {
         });
     }
 
-    onRouteChanged(history) {
+    onRouteChanged(history: Location) {
         const { device } = this.props;
 
         // check if token is expired and logout
         isSignedIn();
 
         if (!device.isMobile) {
-            return this.handleDesktopRouteChange(history);
+            return this.handleDesktopRouteChange();
         }
 
         return this.handleMobileUrlChange(history);
     }
 
-    getNavigationState() {
+    getNavigationState(): { name: string } {
         const { pathname } = location;
 
         const activeRoute = Object.keys(this.routeMap).find((route) => (
             (route !== '/' && route !== '') || isHomePageUrl(pathname)) && pathname.includes(route));
 
-        return this.routeMap[ activeRoute ] || this.default_state;
+        if (activeRoute && this.routeMap[ activeRoute ]) {
+            return this.routeMap[ activeRoute ];
+        }
+
+        return this.default_state;
     }
 
-    goToDefaultHeaderState() {
+    goToDefaultHeaderState(): void {
         const { setNavigationState } = this.props;
         const state = this.getNavigationState();
 
         setNavigationState(state);
     }
 
-    handleMobileUrlChange(history) {
+    handleMobileUrlChange(history: Location) {
         const { prevPathname } = this.state;
         const { pathname } = history;
 
@@ -103,7 +106,7 @@ export class NavigationAbstractContainer extends PureComponent {
         return this.handleMobileRouteChange(history);
     }
 
-    handleMobileRouteChange(history) {
+    handleMobileRouteChange(history: Location) {
         const {
             // hideActiveOverlay,
             setNavigationState,
@@ -120,8 +123,6 @@ export class NavigationAbstractContainer extends PureComponent {
             setNavigationState(newNavigationState);
         }
 
-        // hideActiveOverlay();
-
         return { prevPathname: pathname };
     }
 
@@ -137,7 +138,7 @@ export class NavigationAbstractContainer extends PureComponent {
         return {};
     }
 
-    handlePageScroll() {
+    handlePageScroll(): void {
         if (isScrollDisabled()) {
             toggleScroll(true);
         }
@@ -145,7 +146,10 @@ export class NavigationAbstractContainer extends PureComponent {
 
     render(): ReactElement {
         throw new Error('Please re-define a "render" method.');
+        return null;
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavigationAbstractContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    NavigationAbstractContainer as unknown as ComponentType<never>
+);

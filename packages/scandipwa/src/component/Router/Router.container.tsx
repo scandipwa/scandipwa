@@ -6,24 +6,28 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { MetaTitleType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+import { history } from 'Util/History';
 import {
     isMobile,
     isMobileClientHints,
     isUsingClientHints
 } from 'Util/Mobile';
+import { RootState } from 'Util/Store/Store.type';
 
 import Router from './Router.component';
+import {
+    RouterComponentProps, RouterContainerMapDispatchProps, RouterContainerMapStateProps, RouterContainerProps
+} from './Router.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -47,7 +51,7 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/Router/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): RouterContainerMapStateProps => ({
     isLoading: state.ConfigReducer.isLoading,
     default_description: state.ConfigReducer.default_description,
     default_keywords: state.ConfigReducer.default_keywords,
@@ -58,11 +62,12 @@ export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
     isOffline: state.OfflineReducer.isOffline,
     isBigOffline: state.OfflineReducer.isBig,
-    status_code: state.MetaReducer.status_code
+    status_code: state.MetaReducer.status_code,
+    base_link_url: state.ConfigReducer.base_link_url
 });
 
 /** @namespace Component/Router/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispatchProps => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
     init: () => {
@@ -85,23 +90,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/Router/Container */
-export class RouterContainer extends PureComponent {
-    static propTypes = {
-        init: PropTypes.func.isRequired,
-        updateMeta: PropTypes.func.isRequired,
-        updateConfigDevice: PropTypes.func.isRequired,
-        base_link_url: PropTypes.string,
-        default_description: PropTypes.string,
-        default_keywords: PropTypes.string,
-        default_title: PropTypes.string,
-        title_prefix: PropTypes.string,
-        title_suffix: PropTypes.string,
-        isLoading: PropTypes.bool,
-        isBigOffline: PropTypes.bool,
-        meta_title: MetaTitleType,
-        status_code: PropTypes.string
-    };
-
+export class RouterContainer extends PureComponent<RouterContainerProps> {
     static defaultProps = {
         base_link_url: '',
         default_description: '',
@@ -115,10 +104,8 @@ export class RouterContainer extends PureComponent {
         status_code: ''
     };
 
-    handleResize = this.handleResize.bind(this);
-
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: RouterContainerProps): void {
+        super.__construct?.(props);
 
         this.state = ({
             currentUrl: window.location.pathname
@@ -127,13 +114,15 @@ export class RouterContainer extends PureComponent {
         this.initializeApplication();
         this.redirectFromPartialUrl();
         this.handleResize();
+
+        this.handleResize = this.handleResize.bind(this);
     }
 
     componentDidMount(): void {
         window.addEventListener('resize', this.handleResize);
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: RouterContainerProps): void {
         const { isLoading, updateMeta } = this.props;
         const { isLoading: prevIsLoading } = prevProps;
 
@@ -148,11 +137,9 @@ export class RouterContainer extends PureComponent {
                 status_code
             } = this.props;
 
-            const { value: metaTitle = meta_title } = meta_title;
-
             updateMeta({
                 default_title,
-                title: metaTitle || default_title,
+                title: meta_title || default_title,
                 default_description,
                 description: default_description,
                 default_keywords,
@@ -168,7 +155,7 @@ export class RouterContainer extends PureComponent {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    async handleResize() {
+    async handleResize(): Promise<void> {
         const { updateConfigDevice } = this.props;
 
         if (isUsingClientHints) {
@@ -195,18 +182,18 @@ export class RouterContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<RouterComponentProps, 'isBigOffline'> {
         const { isBigOffline } = this.props;
 
         return { isBigOffline };
     }
 
-    initializeApplication() {
+    initializeApplication(): void {
         const { init } = this.props;
         init();
     }
 
-    redirectFromPartialUrl() {
+    redirectFromPartialUrl(): void {
         const { base_link_url } = this.props;
         const { pathname: storePrefix } = new URL(base_link_url || window.location.origin);
         const { pathname } = location;
@@ -223,7 +210,7 @@ export class RouterContainer extends PureComponent {
     render(): ReactElement {
         return (
             <Router
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

@@ -9,17 +9,20 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { RefObject } from 'react';
+import {
+    DetailedHTMLProps, FormEvent, FormHTMLAttributes, RefObject, SyntheticEvent
+} from 'react';
 
 import { Children, Mix } from 'Type/Common.type';
-import { FieldAttr, ValidationRule } from 'Type/Field.type';
+import { ValidationRule } from 'Type/Field.type';
+import { GetFieldsData } from 'Util/Form/Form.type';
 import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
 export type FormContainerProps = {
     children: Children;
-    attr: FieldAttr;
-    onSubmit: (ref: RefObject<HTMLElement>, fields: field[]) => void;
-    onError: (ref: RefObject<HTMLElement>, fields: field[], isValid: boolean | ValidationDOMOutput) => void;
+    attr: DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
+    onSubmit: (ref: RefObject<HTMLElement>, fields: GetFieldsData<true>) => void;
+    onError: (ref: RefObject<HTMLElement>, fields: GetFieldsData<true>, isValid: boolean | ValidationDOMOutput) => void;
     returnAsObject: boolean;
     elemRef: RefObject<HTMLElement>;
     validationRule: ValidationRule;
@@ -27,11 +30,35 @@ export type FormContainerProps = {
     label: string;
     subLabel: string;
     mix: Mix;
+    events: Record<string, (event?: SyntheticEvent) => void>;
+    validateOn: string[];
 };
 
 export type FormContainerState = {
     validationResponse: boolean | ValidationDOMOutput;
 };
+
+export type FormComponentProps = {
+    children: Children;
+    attr: DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
+    events: Record<string, ((event?: SyntheticEvent) => void) | ((e: FormEvent<Element>) => Promise<void>)>;
+    setRef: (elem: HTMLFormElement | null) => void;
+    showErrorAsLabel: boolean;
+    validationResponse: boolean | ValidationDOMOutput;
+    label: string;
+    subLabel: string;
+    mix: Mix;
+};
+
+export type FormContainerPropsKeys =
+    | 'validationResponse'
+    | 'children'
+    | 'attr'
+    | 'showErrorAsLabel'
+    | 'label'
+    | 'subLabel'
+    | 'mix'
+    | 'events';
 
 export type field = {
     field: HTMLInputElement;

@@ -11,15 +11,18 @@
 
 import { connect } from 'react-redux';
 
+import { RootState } from 'Util/Store/Store.type';
+
 import DemoNotice from './DemoNotice.component';
+import { DemoNoticeContainerMapDispatchProps, DemoNoticeContainerMapStateProps } from './DemoNotice.type';
 
 /** @namespace Component/DemoNotice/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): DemoNoticeContainerMapStateProps => ({
     isDemoNoticeEnabled: state.ConfigReducer.demo_notice,
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/DemoNotice/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): DemoNoticeContainerMapDispatchProps => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DemoNotice);

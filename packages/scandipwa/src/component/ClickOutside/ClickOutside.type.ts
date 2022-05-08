@@ -9,9 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ReactElement } from 'react';
+import { MouseEvent } from 'react';
+
+import { ReactElement } from 'Type/Common.type';
 
 export interface ClickOutsideComponentProps {
-    onClick: () => void;
-    children: ReactElement;
+    onClick: (e: MouseEvent) => void;
+    children: ReactElement | ReactElement[];
 }

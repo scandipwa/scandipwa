@@ -6,31 +6,40 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Dispatch } from 'redux';
 
 import MyAccountQuery from 'Query/MyAccount.query';
+import { ChangeCustomerPasswordOptions } from 'Query/MyAccount.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateCustomerDetails, updateIsLoading, updateIsLocked } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { CustomerType } from 'Type/Account.type';
-import { ReactElement } from 'Type/Common.type';
-import { LocationType } from 'Type/Router.type';
+import { NetworkError, ReactElement } from 'Type/Common.type';
+import { GQLCustomerUpdateInput } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode, replace } from 'Util/Url';
 
 import MyAccountInformation from './MyAccountInformation.component';
+import {
+    MyAccountInformationComponentProps,
+    MyAccountInformationContainerMapDispatchProps,
+    MyAccountInformationContainerMapStateProps,
+    MyAccountInformationContainerProps,
+    MyAccountInformationContainerPropsKeys,
+    MyAccountInformationContainerState
+} from './MyAccountInformation.type';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -38,7 +47,7 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountInformation/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountInformationContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
     customer: state.MyAccountReducer.customer,
     isLoading: state.MyAccountReducer.isLoading,
@@ -47,10 +56,10 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/MyAccountInformation/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountInformationContainerMapDispatchProps => ({
     updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
     showErrorNotification: (error) => dispatch(showNotification(
-        'error',
+        NotificationType.ERROR,
         typeof error === 'string' ? error : getErrorMessage(error)
     )),
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
@@ -62,34 +71,18 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/MyAccountInformation/Container */
-export class MyAccountInformationContainer extends PureComponent {
-    static propTypes = {
-        customer: CustomerType.isRequired,
-        location: LocationType.isRequired,
-        baseLinkUrl: PropTypes.string.isRequired,
-
-        isLoading: PropTypes.bool.isRequired,
-        isLocked: PropTypes.bool.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-
-        showErrorNotification: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired,
-        updateCustomer: PropTypes.func.isRequired,
-        updateCustomerLoadingStatus: PropTypes.func.isRequired,
-        logout: PropTypes.func.isRequired,
-        updateIsLocked: PropTypes.func.isRequired
-    };
-
+export class MyAccountInformationContainer extends PureComponent<
+MyAccountInformationContainerProps,
+MyAccountInformationContainerState
+> {
     containerFunctions = {
         onCustomerSave: this.onCustomerSave.bind(this),
         handleChangeEmailCheckbox: this.handleChangeEmailCheckbox.bind(this),
         handleChangePasswordCheckbox: this.handleChangePasswordCheckbox.bind(this)
     };
 
-    onError = this.onError.bind(this);
-
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: MyAccountInformationContainerProps): void {
+        super.__construct?.(props);
 
         const {
             location: {
@@ -104,14 +97,18 @@ export class MyAccountInformationContainer extends PureComponent {
             showPasswordChangeField: editPassword,
             isErrorShow: false
         };
+
+        this.onError = this.onError.bind(this);
     }
 
-    containerProps() {
-        const { isMobile, customer, isLoading } = this.props;
+    containerProps(): Pick<
+    MyAccountInformationComponentProps,
+    MyAccountInformationContainerPropsKeys
+    > {
+        const { customer, isLoading } = this.props;
         const { showEmailChangeField, showPasswordChangeField } = this.state;
 
         return {
-            isMobile,
             isLoading,
             customer,
             showEmailChangeField,
@@ -119,13 +116,13 @@ export class MyAccountInformationContainer extends PureComponent {
         };
     }
 
-    onError(error) {
+    onError(error: NetworkError | NetworkError[] | string): void {
         const { showErrorNotification } = this.props;
 
         showErrorNotification(error);
     }
 
-    async onCustomerSave(fields) {
+    async onCustomerSave(fields): Promise<void> {
         const { updateCustomerLoadingStatus } = this.props;
         const { showPasswordChangeField, showEmailChangeField } = this.state;
         const {
@@ -155,11 +152,11 @@ export class MyAccountInformationContainer extends PureComponent {
 
             this.handleSuccessChange();
         } catch (e) {
-            this.handleLockAccount(e);
+            this.handleLockAccount(e as NetworkError[]);
         }
     }
 
-    handleSuccessChange() {
+    handleSuccessChange(): void {
         const {
             showSuccessNotification, updateCustomerLoadingStatus
         } = this.props;
@@ -170,7 +167,7 @@ export class MyAccountInformationContainer extends PureComponent {
         updateCustomerLoadingStatus(false);
 
         if (showEmailChangeField || showPasswordChangeField) {
-            this.handleLogout({ isFromEmailChange: true });
+            this.handleLogout();
         } else {
             history.push({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
         }
@@ -178,7 +175,7 @@ export class MyAccountInformationContainer extends PureComponent {
         showSuccessNotification(__('You saved the account information.'));
     }
 
-    handleLogout(state) {
+    handleLogout(): void {
         const { baseLinkUrl, logout } = this.props;
 
         const path = baseLinkUrl
@@ -187,19 +184,19 @@ export class MyAccountInformationContainer extends PureComponent {
 
         history.push({
             pathname: path,
-            state
+            state: { isFromEmailChange: true }
         });
 
         logout();
     }
 
-    async handlePasswordChange(passwords) {
+    async handlePasswordChange(passwords: ChangeCustomerPasswordOptions): Promise<void> {
         const mutation = MyAccountQuery.getChangeCustomerPasswordMutation(passwords);
 
         await fetchMutation(mutation);
     }
 
-    async handleInformationChange(options) {
+    async handleInformationChange(options: GQLCustomerUpdateInput): Promise<void> {
         const {
             updateCustomer
         } = this.props;
@@ -211,13 +208,13 @@ export class MyAccountInformationContainer extends PureComponent {
         updateCustomer(customer);
     }
 
-    async handleEmailChange(fields) {
+    async handleEmailChange(fields): Promise<void> {
         const mutation = MyAccountQuery.getUpdateEmailMutation(fields);
 
         await fetchMutation(mutation);
     }
 
-    handleLockAccount(e) {
+    handleLockAccount(e: NetworkError[]): void {
         const { updateIsLocked, updateCustomerLoadingStatus } = this.props;
         const { message } = e[ 0 ];
 
@@ -231,11 +228,11 @@ export class MyAccountInformationContainer extends PureComponent {
         this.onError(e);
     }
 
-    handleChangePasswordCheckbox() {
+    handleChangePasswordCheckbox(): void {
         this.setState(({ showPasswordChangeField }) => ({ showPasswordChangeField: !showPasswordChangeField }));
     }
 
-    handleChangeEmailCheckbox() {
+    handleChangeEmailCheckbox(): void {
         this.setState(({ showEmailChangeField }) => ({ showEmailChangeField: !showEmailChangeField }));
     }
 

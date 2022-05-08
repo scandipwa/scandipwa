@@ -6,12 +6,12 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import Loader from 'Component/Loader';
 import MyAccountQuery from 'Query/MyAccount.query';
@@ -19,65 +19,72 @@ import { updateCustomerDetails } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { CustomerType } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountNewsletterSubscription from './MyAccountNewsletterSubscription.component';
+import {
+    MyAccountNewsletterSubscriptionComponentProps,
+    MyAccountNewsletterSubscriptionContainerMapDispatchProps,
+    MyAccountNewsletterSubscriptionContainerMapStateProps,
+    MyAccountNewsletterSubscriptionContainerProps,
+    MyAccountNewsletterSubscriptionContainerPropsKeys,
+    MyAccountNewsletterSubscriptionContainerState
+} from './MyAccountNewsletterSubscription.type';
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountNewsletterSubscriptionContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer,
     newsletterConfirmStatus: state.ConfigReducer.newsletter_subscription_confirm
 });
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountNewsletterSubscriptionContainerMapDispatchProps => ({
     updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message))
 });
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container */
-export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
-    static propTypes = {
-        customer: CustomerType.isRequired,
-        updateCustomer: PropTypes.func.isRequired,
-        showErrorNotification: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired,
-        newsletterConfirmStatus: PropTypes.bool.isRequired
-    };
-
+export class MyAccountNewsletterSubscriptionContainer extends PureComponent<
+MyAccountNewsletterSubscriptionContainerProps,
+MyAccountNewsletterSubscriptionContainerState
+> {
     containerFunctions = {
         onError: this.onError,
         setSubscriptionStatus: this.setSubscriptionStatus.bind(this),
         onCustomerSave: this.onCustomerSave.bind(this)
     };
 
-    __construct(props) {
+    __construct(props: MyAccountNewsletterSubscriptionContainerProps): void {
         const { customer: { is_subscribed } = {} } = props;
 
-        super.__construct(props);
+        super.__construct?.(props);
         this.state = {
             isLoading: false,
             isSubscriptionSelected: is_subscribed || false
         };
     }
 
-    containerProps() {
+    containerProps(): Pick<
+    MyAccountNewsletterSubscriptionComponentProps,
+    MyAccountNewsletterSubscriptionContainerPropsKeys
+    > {
         const { customer } = this.props;
         const { isSubscriptionSelected } = this.state;
 
         return { customer, isSubscriptionSelected };
     }
 
-    setSubscriptionStatus() {
+    setSubscriptionStatus(): void {
         this.setState((state) => ({ isSubscriptionSelected: !state.isSubscriptionSelected }));
     }
 
-    showSubscriptionUpdateNotification(isSubscribed, wasSubscribed) {
+    showSubscriptionUpdateNotification(isSubscribed: boolean, wasSubscribed?: boolean): void {
         const {
             showSuccessNotification,
             newsletterConfirmStatus
@@ -95,7 +102,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         }
     }
 
-    onError() {
+    onError(): void {
         const { showErrorNotification } = this.props;
 
         this.setState({ isLoading: false }, () => {
@@ -103,7 +110,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         });
     }
 
-    async onCustomerSave(form, fields) {
+    async onCustomerSave(form, fields): Promise<void> {
         const {
             updateCustomer,
             customer: {
@@ -136,7 +143,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
                 this.showSubscriptionUpdateNotification(is_subscribed, wasSubscribed);
             });
         } catch (e) {
-            this.onError(e);
+            this.onError();
         }
     }
 

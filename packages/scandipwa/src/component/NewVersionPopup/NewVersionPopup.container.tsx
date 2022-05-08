@@ -6,46 +6,44 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { DeviceType } from 'Type/Device.type';
+import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import history from 'Util/History';
+import { RootState } from 'Util/Store/Store.type';
 
 import NewVersionPopup from './NewVersionPopup.component';
 import { NEW_VERSION_POPUP_ID } from './NewVersionPopup.config';
+import {
+    NewVersionPopupContainerMapDispatchProps,
+    NewVersionPopupContainerMapStateProps,
+    NewVersionPopupContainerProps
+} from './NewVersionPopup.type';
 
 /** @namespace Component/NewVersionPopup/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): NewVersionPopupContainerMapStateProps => ({
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/NewVersionPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): NewVersionPopupContainerMapDispatchProps => ({
     showPopup: (payload) => dispatch(showPopup(NEW_VERSION_POPUP_ID, payload)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
 /** @namespace Component/NewVersionPopup/Container */
-export class NewVersionPopupContainer extends PureComponent {
-    static propTypes = {
-        showPopup: PropTypes.func.isRequired,
-        goToPreviousHeaderState: PropTypes.func.isRequired,
-        device: DeviceType.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired
-    };
-
+export class NewVersionPopupContainer extends PureComponent<NewVersionPopupContainerProps> {
     containerFunctions = {
         toggleNewVersion: this.toggleNewVersion.bind(this),
         handleDismiss: this.handleDismiss.bind(this)
@@ -78,11 +76,11 @@ export class NewVersionPopupContainer extends PureComponent {
         }
     }
 
-    toggleNewVersion() {
+    toggleNewVersion(): void {
         window.location.reload();
     }
 
-    handleDismiss() {
+    handleDismiss(): void {
         const { hideActiveOverlay } = this.props;
 
         hideActiveOverlay();
@@ -92,7 +90,7 @@ export class NewVersionPopupContainer extends PureComponent {
     render(): ReactElement {
         return (
             <NewVersionPopup
-                {...this.containerFunctions}
+              { ...this.containerFunctions }
             />
         );
     }
