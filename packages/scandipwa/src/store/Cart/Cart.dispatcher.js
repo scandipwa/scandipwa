@@ -29,10 +29,14 @@ export const LinkedProductsDispatcher = import(
  * @namespace Store/Cart/Dispatcher
  */
 export class CartDispatcher {
-    async updateInitialCartData(dispatch, isForCustomer = false) {
+    async updateInitialCartData(dispatch, isForCustomer = false, disableLoader = false) {
         // Need to get current cart from BE, update cart
         try {
-            dispatch(updateIsLoadingCart(true));
+            // ! Get quote token first (local or from the backend) just to make sure it exists
+
+            if (!disableLoader) {
+                dispatch(updateIsLoadingCart(true));
+            }
 
             // ! Get quote token first (local or from the backend) just to make sure it exists
             const quoteId = await this._getGuestQuoteId(dispatch);
@@ -72,7 +76,10 @@ export class CartDispatcher {
             }
 
             await this._updateCartData(cartData, dispatch);
-            dispatch(updateIsLoadingCart(false));
+
+            if (!disableLoader) {
+                dispatch(updateIsLoadingCart(false));
+            }
 
             return null;
         } catch (error) {

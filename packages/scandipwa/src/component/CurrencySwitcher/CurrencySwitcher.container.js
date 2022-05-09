@@ -12,8 +12,11 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { CART_URL } from 'Route/CartPage/CartPage.config';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { ConfigDispatcher } from 'Store/Config/Config.dispatcher';
 import DataContainer from 'Util/Request/DataContainer';
+import { appendWithStoreCode } from 'Util/Url';
 
 import CurrencySwitcher from './CurrencySwitcher.component';
 
@@ -53,7 +56,16 @@ export class CurrencySwitcherContainer extends DataContainer {
 
         updateCurrency({ currencyCode }).then(
             /** @namespace Component/CurrencySwitcher/Container/CurrencySwitcherContainer/_handleCurrencySelect/updateCurrency/then */
-            () => location.reload()
+            () => {
+                const { pathname = '' } = location;
+                const checkoutOrCartUrlsRegex = (
+                    new RegExp(`^(${appendWithStoreCode('')})?((${CHECKOUT_URL})|(${CART_URL}(/)?$))`)
+                );
+
+                if (!pathname.match(checkoutOrCartUrlsRegex)) {
+                    location.reload();
+                }
+            }
         );
     }
 
