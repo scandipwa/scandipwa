@@ -19,6 +19,11 @@
     }
 
     &-Content {
+        @include mobile {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         h2 {
             @include mobile {
                 text-align: center;
@@ -109,7 +114,7 @@
     .widget {
         overflow-x: auto;
     }
-    
+
     ul,
     ol {
         li {
