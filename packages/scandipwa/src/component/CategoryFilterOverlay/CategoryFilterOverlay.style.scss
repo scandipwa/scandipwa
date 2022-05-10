@@ -181,6 +181,7 @@
             inset-block-end: 0;
             background-color: var(--color-white);
             border-block-start: 1px solid var(--primary-divider-color);
+            padding-block-end: calc(16px + env(safe-area-inset-bottom));
         }
 
         .CategoryFilterOverlay-NoResults ~ & {
