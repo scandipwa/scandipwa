@@ -268,6 +268,15 @@
                             word-break: break-word;
                             text-align: center;
                             border-color: var(--primary-success-color);
+
+                            & + button {
+                                border: 2px solid var(--primary-success-color);
+
+                                &:hover {
+                                    background-color: var(--primary-success-color);
+                                    color: #{$white};
+                                }
+                            }
                         }
                     }
                 }
@@ -278,8 +287,25 @@
                             word-break: break-word;
                             text-align: center;
                             border-color: var(--primary-error-color);
+
+                            & + button {
+                                border: 2px solid var(--primary-error-color);
+
+                                &:hover {
+                                    background-color: var(--primary-error-color);
+                                    color: #{$white};
+                                }
+                            }
                         }
                     }
+                }
+
+                button {
+                    position: absolute;
+                    inset-block-start: 10px;
+                    inset-inline-end: 10px;
+                    padding: 5px 10px;
+                    cursor: pointer;
                 }
             }
         }
