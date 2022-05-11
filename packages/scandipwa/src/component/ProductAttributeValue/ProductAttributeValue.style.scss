@@ -27,6 +27,10 @@
     --button-padding: 0;
     --option-is-selected: 0;
 
+    &-Label {
+        min-width: none;
+    }
+
     &-Color,
     &-String,
     &-Image,
@@ -184,10 +188,10 @@
             }
 
             img {
-                max-height: 32px;
-                max-width: 32px;
+                height: 32px;
                 object-fit: cover;
                 vertical-align: middle;
+                width: 32px;
 
                 @include mobile {
                     margin: 5px 0px;
