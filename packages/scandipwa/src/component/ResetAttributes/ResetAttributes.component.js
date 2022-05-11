@@ -29,6 +29,14 @@ export class ResetAttributes extends PureComponent {
         }))).isRequired
     };
 
+    renderSelectedOptionLabel(label) {
+        if (typeof label !== 'string') {
+            return label;
+        }
+
+        return <Html content={ label } />;
+    }
+
     renderSelectedOption(selectedOption) {
         const { toggleCustomFilter } = this.props;
         const { attribute_code, attribute_label, value_string } = selectedOption;
@@ -50,11 +58,7 @@ export class ResetAttributes extends PureComponent {
                 <div block="ResetAttributes" elem="AttributeText">
                     <span block="ResetAttributes" elem="AttributeLabel">{ `${attribute_label}: ` }</span>
                     <span block="ResetAttributes" elem="AttributeOption">
-                        { typeof selectedOption.label === 'string' ? (
-                            <Html content={ selectedOption.label } />
-                        ) : (
-                            selectedOption.label
-                        ) }
+                        { this.renderSelectedOptionLabel(selectedOption.label) }
                     </span>
                 </div>
             </div>
