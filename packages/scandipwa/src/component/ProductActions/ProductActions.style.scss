@@ -203,15 +203,11 @@
     }
 
     &-AddToCartFixed {
-        position: fixed;
-        inset-block-end: var(--footer-total-height);
-        z-index: 5;
-        background-color: var(--color-white);
-        width: 100%;
-        display: flex;
-        padding: 12px 16px;
-        border-block-start: 1px solid var(--primary-divider-color);
-        inset-inline-start: 0;
+        @include mobile-bottom-wrapper {
+            padding: 12px 16px;
+            inset-block-end: 16px;
+            display: flex;
+        }
 
         .ProductWishlistButton {
             margin-inline: 18px 4px;
@@ -228,10 +224,6 @@
                     }
                 }
             }
-        }
-
-        .hideOnScroll & {
-            transform: translateY(var(--footer-nav-height));
         }
     }
 
