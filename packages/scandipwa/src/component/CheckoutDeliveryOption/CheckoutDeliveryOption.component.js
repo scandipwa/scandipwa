@@ -82,14 +82,14 @@ export class CheckoutDeliveryOption extends PureComponent {
         }
 
         return (
-            <span
+            <div
               block="CheckoutDeliveryOption"
               elem="SubPrice"
               mods={ { isOverflowed } }
               ref={ this.subPriceRef }
             >
                 { __('Excl. tax: %s', formatPrice(optionSubPrice, currency)) }
-            </span>
+            </div>
         );
     }
 
@@ -116,7 +116,6 @@ export class CheckoutDeliveryOption extends PureComponent {
         return (
             <strong>
                 { ` - ${ this.getOptionPrice() }` }
-                { this.renderSubPrice() }
             </strong>
         );
     }
@@ -183,6 +182,7 @@ export class CheckoutDeliveryOption extends PureComponent {
                 <br />
                 { this.renderRate() }
                 { this.renderPrice() }
+                { this.renderSubPrice() }
                 { this.renderAvailabilityMessage() }
             </div>
         );
