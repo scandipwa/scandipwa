@@ -48,6 +48,7 @@
 
     &-Title {
         margin-block: 8px;
+        text-transform: none;
 
         @include mobile {
             font-weight: 400;
