@@ -54,7 +54,7 @@
         padding-inline-start: 0;
 
         @include mobile {
-            padding: 14px 0;
+            padding: 0 0 14px;
         }
 
         &:last-child {
@@ -247,23 +247,9 @@
     }
 
     &-ButtonWrapper {
-        @include mobile {
-            --footer-totals-height: 123px;
-
-            height: var(--footer-totals-height);
-            position: fixed;
-            width: 100%;
-            inset-inline-start: 0;
-            padding-inline: 16px;
-            padding-block-end: 16px;
-            inset-block-end: var(--footer-total-height);
-            background-color: var(--color-white);
-            border-block-start: 1px solid var(--primary-divider-color);
-            z-index: 80;
-
-            .hideOnScroll & {
-                transform: translateY(var(--footer-nav-height));
-            }
+        @include mobile-bottom-wrapper {
+            padding: 16px;
+            inset-block-end: 16px;
         }
 
         &_isEmpty {
