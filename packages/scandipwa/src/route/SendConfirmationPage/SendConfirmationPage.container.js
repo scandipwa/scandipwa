@@ -99,7 +99,7 @@ export class SendConfirmationPageContainer extends PureComponent {
         return !email;
     }
 
-    onConfirmSuccess(_, fields) {
+    onConfirmSuccess(form, fields) {
         const {
             resendConfirmation
         } = this.props;
@@ -113,6 +113,8 @@ export class SendConfirmationPageContainer extends PureComponent {
                 /** @namespace Route/SendConfirmationPage/Container/SendConfirmationPageContainer/onConfirmSuccess/then/catch/resendConfirmation/then */
                 (data) => {
                     if (data === ERROR_TYPE) {
+                        form.reset();
+
                         return Promise.reject();
                     }
 
