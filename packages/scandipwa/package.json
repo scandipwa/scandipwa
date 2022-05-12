@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "5.2.6",
+    "version": "5.2.7",
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
@@ -9,14 +9,14 @@
         "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/chunk-optimizer": "0.0.6",
+        "@scandipwa/chunk-optimizer": "0.0.7",
         "@scandipwa/m2-theme": "0.2.2",
         "@scandipwa/next-emulator": "0.0.3",
         "@scandipwa/postcss-config": "0.0.2",
-        "@scandipwa/scandipwa-scripts": "2.4.19",
+        "@scandipwa/scandipwa-scripts": "2.4.20",
         "@scandipwa/service-worker": "0.0.17",
-        "@scandipwa/stylelint-config": "0.0.5",
-        "@scandipwa/webpack-i18n-runtime": "0.0.29",
+        "@scandipwa/stylelint-config": "0.0.6",
+        "@scandipwa/webpack-i18n-runtime": "0.0.30",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
         "intersection-observer": "^0.12.0",
