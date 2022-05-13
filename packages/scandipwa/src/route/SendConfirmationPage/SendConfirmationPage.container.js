@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ERROR_TYPE } from 'Component/Notification/Notification.config';
+// import { ERROR_TYPE } from 'Component/Notification/Notification.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -99,8 +99,9 @@ export class SendConfirmationPageContainer extends PureComponent {
         return !email;
     }
 
-    onConfirmSuccess(form, fields) {
+    async onConfirmSuccess(form, fields) {
         const {
+            showNotification,
             resendConfirmation
         } = this.props;
 
@@ -108,25 +109,20 @@ export class SendConfirmationPageContainer extends PureComponent {
 
         const { email } = transformToNameValuePair(fields);
 
-        resendConfirmation({ email })
-            .then(
-                /** @namespace Route/SendConfirmationPage/Container/SendConfirmationPageContainer/onConfirmSuccess/then/catch/resendConfirmation/then */
-                (data) => {
-                    if (data === ERROR_TYPE) {
-                        form.reset();
+        try {
+            const data = await resendConfirmation({ email });
 
-                        return Promise.reject();
-                    }
+            this.setState({ redirect: data });
+        } catch (error) {
+            form.reset();
+            showNotification('error', error.message);
 
-                    this.setState({ redirect: true });
+            return false;
+        } finally {
+            this.setState({ isLoading: false });
+        }
 
-                    return true;
-                }
-            )
-            .catch(
-                /** @namespace Route/SendConfirmationPage/Container/SendConfirmationPageContainer/onConfirmSuccess/then/catch */
-                () => this.setState({ isLoading: false })
-            );
+        return true;
     }
 
     onFormError() {

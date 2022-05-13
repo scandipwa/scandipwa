@@ -12,7 +12,15 @@
 import { CHECKOUT, MY_ACCOUNT } from 'Component/Header/Header.config';
 import { CONFIRMATION_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import MyAccountQuery from 'Query/MyAccount.query';
-import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
+import {
+    ACCOUNT_CONFIRMATION_URL,
+    ACCOUNT_LOGIN_URL
+} from 'Route/MyAccount/MyAccount.config';
+import {
+    ACCOUNT_CONFIRMATION_NOT_REQUIRED,
+    CONFIRMATION_SENT,
+    WRONG_EMAIL
+} from 'Route/SendConfirmationPage/SendConfirmationPage.config';
 import {
     updateCustomerDetails,
     updateCustomerPasswordForgotStatus,
@@ -208,45 +216,34 @@ export class MyAccountDispatcher {
      * @param {{email: String}} [options={}]
      * @memberof MyAccountDispatcher
      */
-    resendConfirmation(options = {}, dispatch) {
+    async resendConfirmation(options = {}, dispatch) {
         const mutation = MyAccountQuery.getResendConfirmationMutation(options);
 
-        return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resendConfirmation/fetchMutation/then */
-            (data) => {
-                const { resendConfirmationEmail: { status = '' } } = data;
+        try {
+            const { resendConfirmationEmail: { status = '' } } = await fetchMutation(mutation);
 
-                switch (status) {
-                case 'account_confirmation_not_required':
-                    dispatch(showNotification('success', __('This email does not require confirmation.')));
-                    history.push('/customer/account/login');
+            switch (status) {
+            case ACCOUNT_CONFIRMATION_NOT_REQUIRED:
+                dispatch(showNotification('success', __('This email does not require confirmation.')));
+                history.push(ACCOUNT_LOGIN_URL);
 
-                    return false;
-                case 'confirmation_sent':
-                    dispatch(showNotification('success', __('Please check your email for confirmation key.')));
+                return false;
+            case CONFIRMATION_SENT:
+                dispatch(showNotification('success', __('Please check your email for confirmation key.')));
 
-                    return true;
-                case 'wrong_email':
-                    const { email = '' } = options;
+                return true;
+            case WRONG_EMAIL:
+                const { email = '' } = options;
 
-                    dispatch(showNotification('error', __('Wrong email! Please, try again!')));
-                    history.push(`/customer/account/confirmation/?email=${ email }`);
+                history.push(`${ ACCOUNT_CONFIRMATION_URL }/?email=${ email }`);
 
-                    return 'error';
-                default:
-                    dispatch(showNotification('error', __('Something went wrong! Please, try again!')));
-
-                    return 'error';
-                }
-            },
-            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resendConfirmation/fetchMutation/then/dispatch/catch */
-            (error) => dispatch(
-                showNotification(
-                    'error',
-                    getErrorMessage(error, __('Something went wrong! Please, try again!'))
-                )
-            )
-        );
+                throw __('Wrong email! Please, try again!');
+            default:
+                throw __('Something went wrong! Please, try again!');
+            }
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 
     /**
