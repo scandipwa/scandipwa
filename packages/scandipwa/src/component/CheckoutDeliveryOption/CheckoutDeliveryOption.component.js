@@ -98,10 +98,11 @@ export class CheckoutDeliveryOption extends PureComponent {
         }
 
         return (
-            <span>
+            <div>
                 { __('Rate: ') }
                 <strong>{ method_title }</strong>
-            </span>
+                { this.renderPrice() }
+            </div>
         );
     }
 
@@ -139,13 +140,11 @@ export class CheckoutDeliveryOption extends PureComponent {
               block="CheckoutDeliveryOption"
               elem="Row"
             >
-                <span block="CheckoutDeliveryOption" elem="Span" mods={ { isDisabled: !available } }>
+                <div block="CheckoutDeliveryOption" elem="Span" mods={ { isDisabled: !available } }>
                     { __('Carrier method: ') }
                     <strong>{ carrier_title }</strong>
-                </span>
-                <br />
+                </div>
                 { this.renderRate() }
-                { this.renderPrice() }
                 { this.renderSubPrice() }
                 { this.renderAvailabilityMessage() }
             </div>
