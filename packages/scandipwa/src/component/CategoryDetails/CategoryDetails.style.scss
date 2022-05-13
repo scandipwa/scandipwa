@@ -34,6 +34,7 @@
     }
 
     &-Heading {
+        text-transform: none;
         margin-block-end: 6px;
         margin-block-start: 0;
 
@@ -57,7 +58,7 @@
                 inset-block-start: -1px;
             }
         }
-        
+
         @include mobile {
             padding: 28px;
         }
