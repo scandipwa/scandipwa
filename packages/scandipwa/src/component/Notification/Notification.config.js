@@ -13,6 +13,6 @@
 
 // controls CSS animation speed
 export const ANIMATION_DURATION = 400;
-export const NOTIFICATION_LIFETIME = 25000; // 1500;
-export const ERROR_NOTIFICATION_LIFETIME = 25000;// 2500;
+export const NOTIFICATION_LIFETIME = 1500;
+export const ERROR_NOTIFICATION_LIFETIME = 2500;
 export const ERROR_TYPE = 'error';
