@@ -113,7 +113,6 @@ export class SendConfirmationPageContainer extends PureComponent {
 
             this.setState({ redirect: data });
         } catch (error) {
-            form.reset();
             showNotification('error', error.message);
 
             return false;
