@@ -96,7 +96,7 @@ export type FieldAttributes = (InputHTMLAttributes<HTMLInputElement>
 
 export type FieldEvents = Omit<DOMAttributes<HTMLElement>, 'children' | 'dangerouslySetInnerHTML' | 'onChange'>
 & {
-    onChange?: ((event: ChangeEvent<HTMLInputElement>, field?: EventFieldData) => void)
+    onChange?: ((event: ChangeEvent<HTMLInputElement>, field: EventFieldData) => void)
     | FieldNumberCustomEvents['onChange']
     | FieldSelectCustomEvents['onChange']
     | FieldInputCustomEvents['onChange'];
@@ -104,8 +104,8 @@ export type FieldEvents = Omit<DOMAttributes<HTMLElement>, 'children' | 'dangero
 };
 
 export type FieldNumberCustomEvents = {
-    onChange?: (value: number, field?: EventFieldData, event?: SyntheticEvent) => void;
-    onLoad?: (value: number, field?: EventFieldData, event?: SyntheticEvent) => void;
+    onChange?: (value: number, field: EventFieldData, event: SyntheticEvent) => void;
+    onLoad?: (value: number, field: EventFieldData, event: SyntheticEvent) => void;
 };
 
 export type FieldSelectCustomEvents = {
