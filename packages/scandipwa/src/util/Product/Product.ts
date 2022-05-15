@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { StockStatus } from 'Component/Product/Stock.config';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import {
     AttributeWithValue,
+    AttributeWithValueOption,
     BundleItem,
     BundleOption,
     BundleOptionSelection,
@@ -22,6 +22,7 @@ import {
     ProductItem,
     ProductReview,
     ProductReviews,
+    ProductStockItem,
     RatingsBreakdown,
     VariantItem
 } from 'Query/ProductList.type';
@@ -36,8 +37,11 @@ import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';
 
 import {
+    IndexedAttributeWithValueOption,
+    IndexedBaseProduct,
     IndexedBundleItem,
     IndexedBundleOption,
+    IndexedConfigurableOption,
     IndexedConfigurableOptions,
     IndexedCustomOption,
     IndexedProduct,
@@ -69,11 +73,11 @@ export const checkEveryOption = (
             return options[option] === attribute_value;
         }
 
-        return options[option].includes(attribute_value);
+        return Array.isArray(options[option]) && options[option].includes(attribute_value);
     });
 
 /** @namespace Util/Product/getIndexedAttributeOption */
-export const getIndexedAttributeOption = (option) => {
+export const getIndexedAttributeOption = (option: AttributeWithValueOption): IndexedAttributeWithValueOption => {
     const { swatch_data: defaultSwatchData } = option;
 
     if (!defaultSwatchData) {
@@ -256,9 +260,9 @@ export const getIndexedCustomOptions = (
 );
 
 /** @namespace Util/Product/getIndexedReviews */
-export const getIndexedReviews = (reviews?: ProductReviews): ProductReview[] | null => {
+export const getIndexedReviews = (reviews?: ProductReviews): ProductReview[] => {
     if (!reviews) {
-        return null;
+        return [];
     }
 
     const { items } = reviews;
@@ -348,7 +352,7 @@ export const getBundleOptions = (
 export const getIndexedProduct = <T extends Partial<ProductItem>>(
     product: T,
     itemSku?: string
-): IndexedProduct<T> => {
+): IndexedBaseProduct<T> => {
     const {
         variants: initialVariants = [],
         configurable_options: initialConfigurableOptions = [],
@@ -364,7 +368,7 @@ export const getIndexedProduct = <T extends Partial<ProductItem>>(
     const attributes = getIndexedAttributes(initialAttributes || []);
     const reviews = getIndexedReviews(initialReviews);
 
-    const updatedProduct: IndexedProduct<T> = {
+    const updatedProduct: IndexedBaseProduct<T> = {
         ...product,
         configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
         variants: itemSku ? getIndexedSingleVariant(initialVariants, itemSku) : getIndexedVariants(initialVariants),
@@ -386,9 +390,9 @@ export const getIndexedProduct = <T extends Partial<ProductItem>>(
 };
 
 /** @namespace Util/Product/getIndexedProducts */
-export const getIndexedProducts = (
-    products: ProductItem[]
-): IndexedProduct[] => products.map((product) => getIndexedProduct(product));
+export const getIndexedProducts = <T extends Partial<ProductItem>>(
+    products: T[]
+): IndexedBaseProduct<T>[] => products.map((product) => getIndexedProduct(product));
 
 /** @namespace Util/Product/getIndexedParameteredProducts */
 export const getIndexedParameteredProducts = (
@@ -404,9 +408,9 @@ export const getIndexedParameteredProducts = (
 
 /** @namespace Util/Product/sortBySortOrder */
 export const sortBySortOrder = (
-    options,
-    sortKey
-) => options.sort(
+    options: IndexedConfigurableOptions[],
+    sortKey: string
+): IndexedConfigurableOptions[] => options.sort(
     (a, b) => {
         if (a[sortKey] < b[sortKey]) {
             return -1;
@@ -422,18 +426,18 @@ export const sortBySortOrder = (
 
 /** @namespace Util/Product/getIsConfigurableParameterSelected */
 export const getIsConfigurableParameterSelected = (
-    parameters,
-    key,
-    value
-) => Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
+    parameters: Record<string, string>,
+    key: string,
+    value: string
+): boolean => Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
 
 /** @namespace Util/Product/getNewParameters */
 // eslint-disable-next-line max-len
 export const getNewParameters = (
-    parameters,
-    key,
+    parameters: Record<string, string>,
+    key: string,
     value = ''
-) => {
+): Record<string, string> => {
     // If value is already selected, than we remove the key to achieve deselection
     if (getIsConfigurableParameterSelected(parameters, key, value)) {
         const { [key]: oldValue, ...newParameters } = parameters;
@@ -478,19 +482,19 @@ export const getBooleanLabel = (label: string, isBoolean = false): string => {
 
 /** @namespace Util/Product/filterConfigurableOptions */
 export const filterConfigurableOptions = (
-    options,
-    variants
-) => Object.values(options)
-    .reduce((acc, option) => {
+    options: IndexedConfigurableOptions,
+    variants: IndexedVariant[]
+): Record<string, IndexedConfigurableOption> => Object.values(options)
+    .reduce((acc: Record<string, IndexedConfigurableOption>, option) => {
         const {
             attribute_values,
             attribute_code
         } = option;
 
         // show option if it exist as variant for configurable product
-        const filteredOptions = attribute_values.reduce((acc, value) => {
+        const filteredOptions = attribute_values.reduce((acc: string[], value) => {
             const isVariantExist = variants.find(({ attributes }) => {
-                const { attribute_value: foundValue } = attributes[attribute_code] || {};
+                const { attribute_value: foundValue } = attributes?.[attribute_code] || {};
 
                 return value === foundValue;
             });
@@ -512,7 +516,7 @@ export const filterConfigurableOptions = (
     }, {});
 
 /** @namespace Util/Product/validateProductQuantity */
-export const validateProductQuantity = (quantity: number, stockItem: StockItem): Array<string | boolean> => {
+export const validateProductQuantity = (quantity: number, stockItem: ProductStockItem): Array<string | boolean> => {
     const { min_sale_qty = 1, max_sale_qty, qty_increments = 1 } = stockItem;
 
     if (quantity < min_sale_qty) {
@@ -531,7 +535,7 @@ export const validateProductQuantity = (quantity: number, stockItem: StockItem):
 };
 
 /** @namespace Util/Product/getAttributesWithValues */
-export const getAttributesWithValues = (product: IndexedProduct): Record<string, Attribute> => {
+export const getAttributesWithValues = (product: IndexedProduct): Record<string, AttributeWithValue> => {
     const { attributes = {} } = product;
 
     return Object.entries(attributes).reduce((acc, [, val]) => {
@@ -542,5 +546,5 @@ export const getAttributesWithValues = (product: IndexedProduct): Record<string,
         }
 
         return acc;
-    }, {};
+    }, {});
 };

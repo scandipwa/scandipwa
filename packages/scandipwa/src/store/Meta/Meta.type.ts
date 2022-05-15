@@ -48,3 +48,11 @@ declare module 'Util/Store/Store.type' {
 export type Category = Merge<Partial<CategoryTree>, {
     meta_robots: string;
 }>;
+
+export interface ProductMeta {
+    name: string;
+    meta_title: string;
+    meta_keyword: string;
+    canonical_url?: string;
+    meta_description: string;
+}

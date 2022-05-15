@@ -31,16 +31,16 @@ export class ProductListPage extends PureComponent<
 ProductListPageComponentProps,
 ProductListPageComponentState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<ProductListPageComponentProps> = {
         numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT,
         wrapperRef: noopFn,
         selectedFilters: {},
-        pageNumber: null,
+        pageNumber: undefined,
         items: [],
         mix: {}
     };
 
-    state = {
+    state: ProductListPageComponentState = {
         siblingsHaveBrands: false,
         siblingsHavePriceBadge: false,
         siblingsHaveTierPrice: false,

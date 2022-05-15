@@ -9,15 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { History, Location, Match } from 'Type/Router.type';
+import { History, Location } from 'history';
+import { match as Match } from 'react-router-dom';
+
 import { decodeString } from 'Util/Common';
 import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';
-
-// TODO move
-export type KeyValuePairs = Record<string, number | string | Array<number | string>>;
-
-export type KeyValuePairsArray = Record<string, string[]>;
 
 /**
  * Update query params without adding to history
@@ -57,7 +54,7 @@ export const removeQueryParamWithoutHistory = (name: string, history: History, l
  * @param {Object} location location object from react-router
  * @namespace Util/Url/getUrlParam
  */
-export const getUrlParam = (match: Match, location: Location) => {
+export const getUrlParam = (match: Match, location: Location): string => {
     const baseUrl = match.path.replace(window.storeRegexText, '').replace('/', '');
     const currentUrl = location.pathname.replace(new RegExp(`^${window.storeRegexText}`, 'i'), '');
 
@@ -112,7 +109,7 @@ export const appendWithStoreCode = (pathname: string): string => {
  * @return {String|false} Variable value
  * @namespace Util/Url/getQueryParam
  */
-export const getQueryParam = (variable: string, location: Location | string): string | false => {
+export const getQueryParam = (variable: string, location: Location): string | false => {
     const query = decodeString(location.search.substring(1));
     const vars = query.split('&');
 
@@ -130,8 +127,10 @@ export const getQueryParam = (variable: string, location: Location | string): st
  * @return {Object} Key-Value pairs
  * @namespace Util/Url/convertQueryStringToKeyValuePairs
  */
-export const convertQueryStringToKeyValuePairs = (queryString: string): KeyValuePairs => {
-    const keyValuePairs: KeyValuePairs = {};
+export const convertQueryStringToKeyValuePairs = <T extends Record<string, string> = Record<string, string>>(
+    queryString: string
+): T => {
+    const keyValuePairs: Record<string, string> = {};
     const params = queryString.substring(1).split('&');
 
     params.forEach((param) => {
@@ -143,7 +142,7 @@ export const convertQueryStringToKeyValuePairs = (queryString: string): KeyValue
         }
     });
 
-    return keyValuePairs;
+    return keyValuePairs as T;
 };
 
 /**
@@ -155,11 +154,11 @@ export const convertQueryStringToKeyValuePairs = (queryString: string): KeyValue
  * @namespace Util/Url/updateKeyValuePairs
  */
 export const updateKeyValuePairs = (
-    keyValuePairs: KeyValuePairs,
+    keyValuePairs: Record<string, string>,
     currentKey: string,
-    currentValue: string | number | Array<number | string>
-): KeyValuePairs => {
-    const updatedKeyValuePairs: KeyValuePairs = {};
+    currentValue: string
+): Record<string, string> => {
+    const updatedKeyValuePairs: Record<string, string> = {};
 
     Object.entries(keyValuePairs).forEach((pair) => {
         const [key, value] = pair;
@@ -181,12 +180,12 @@ export const updateKeyValuePairs = (
  * @namespace Util/Url/convertKeyValuesToQueryString
  */
 export const convertKeyValuesToQueryString = (
-    keyValuePairs: KeyValuePairs
+    keyValuePairs: Record<string, string>
 ): string => Object.entries(keyValuePairs)
     .map((pair) => {
         const [key, value] = pair;
         const keyExists = key !== '';
-        const valueExists = typeof value === 'object' ? value.length : value !== '';
+        const valueExists = value !== '';
 
         if (valueExists && keyExists) {
             return `${key}=${value}`;
@@ -199,7 +198,7 @@ export const convertKeyValuesToQueryString = (
 
 /** @namespace Util/Url/generateQuery */
 export const generateQuery = (
-    keyValueObject: KeyValuePairs,
+    keyValueObject: Record<string, string>,
     location: Location,
     history: History
 ): string => Object.entries(keyValueObject)
@@ -235,7 +234,7 @@ export const generateQuery = (
  * @param {Object} variable is url flush required
  * @namespace Util/Url/setQueryParams
  */
-export const setQueryParams = (keyValueObject: KeyValuePairs, location: Location, history: History): void => {
+export const setQueryParams = (keyValueObject: Record<string, string>, location: Location, history: History): void => {
     const { state } = location;
     const query = generateQuery(keyValueObject, location, history);
 
@@ -257,7 +256,7 @@ export const clearQueriesFromUrl = (history: History): void => {
  * @return {String} Converted query string
  * @namespace Util/Url/objectToUri
  */
-export const objectToUri = (keyValueObject: KeyValuePairs = {}): string => {
+export const objectToUri = (keyValueObject: Record<string, string> = {}): string => {
     const paramString = Object.entries(keyValueObject).sort()
         .reduce((acc, [key, value]) => `${acc}&${key}=${value}`, '')
         .replace('&', '');

@@ -15,4 +15,5 @@ export type HistoryState = {
     editPassword?: boolean;
     category?: number;
     isFromEmailChange?: boolean;
+    prevCategoryId?: number;
 };

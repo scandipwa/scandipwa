@@ -19,12 +19,11 @@ import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
-import {
-    GQLCartItemInput
-} from 'Type/Graphql.type';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+
+import { AddProductToCartOptions } from './Cart.type';
 
 export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -139,10 +138,7 @@ export class CartDispatcher {
 
     async addProductToCart(
         dispatch: Dispatch,
-        options: {
-            cartId: string;
-            products: GQLCartItemInput[];
-        }
+        options: AddProductToCartOptions
     ): Promise<void> {
         const { products = [], cartId: userCartId } = options;
 

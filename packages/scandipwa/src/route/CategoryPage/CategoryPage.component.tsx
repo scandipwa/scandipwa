@@ -17,6 +17,7 @@ import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/Cate
 import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
+import { CategorySortField } from 'Component/CategorySort/CategorySort.type';
 import ContentWrapper from 'Component/ContentWrapper';
 import FilterIcon from 'Component/FilterIcon';
 import GridIcon from 'Component/GridIcon';
@@ -247,8 +248,8 @@ export class CategoryPage extends PureComponent<CategoryPageComponentProps, Cate
             isMatchingInfoFilter
         } = this.props;
 
-        const { options = {} } = sortFields;
-        const updatedSortFields = Object.values(options).map(({ value: id, label }) => ({ id, label }));
+        const { options = [] } = sortFields;
+        const updatedSortFields: CategorySortField[] = options.map(({ value: id, label }) => ({ id, label }));
         const { sortDirection, sortKey } = selectedSort;
 
         return (
@@ -276,7 +277,10 @@ export class CategoryPage extends PureComponent<CategoryPageComponentProps, Cate
                     <button
                       key={ type }
                       onClick={ onGridButtonClick }
-                      mix={ { block: CategoryPageLayout.GRID, mods: { isActive: activeLayoutType === CategoryPageLayout.GRID } } }
+                      mix={ {
+                          block: CategoryPageLayout.GRID,
+                          mods: { isActive: activeLayoutType === CategoryPageLayout.GRID }
+                      } }
                       aria-label="grid"
                     >
                         <GridIcon isActive={ activeLayoutType === CategoryPageLayout.GRID } />
@@ -287,7 +291,10 @@ export class CategoryPage extends PureComponent<CategoryPageComponentProps, Cate
                     <button
                       key={ type }
                       onClick={ onListButtonClick }
-                      mix={ { block: CategoryPageLayout.LIST, mods: { isActive: activeLayoutType === CategoryPageLayout.LIST } } }
+                      mix={ {
+                          block: CategoryPageLayout.LIST,
+                          mods: { isActive: activeLayoutType === CategoryPageLayout.LIST }
+                      } }
                       aria-label="list"
                     >
                         <ListIcon isActive={ activeLayoutType === CategoryPageLayout.LIST } />

@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
-import { NavigationTabs } from 'Component/NavigationTabs/NavigationTabs.config';
+import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
 import { FilterPriceRange, ProductAttributeFilterOptions } from 'Query/ProductList.type';
 import {
     CategoryPageLayout,
@@ -533,7 +533,7 @@ export class CategoryPageContainer extends PureComponent<CategoryPageContainerPr
         return defaultPlpType;
     }
 
-    getPlpTypes(): string[] {
+    getPlpTypes(): CategoryPageLayout[] {
         const { plpTypes } = this.state;
 
         return plpTypes;
@@ -637,7 +637,7 @@ export class CategoryPageContainer extends PureComponent<CategoryPageContainerPr
     updateNavigationState(): void {
         const { changeNavigationState } = this.props;
 
-        changeNavigationState({ name: NavigationTabs.MENU_TAB });
+        changeNavigationState({ name: NavigationTabsMap.MENU_TAB });
     }
 
     updateHeaderState(isUnmatchedCategory = false): void {

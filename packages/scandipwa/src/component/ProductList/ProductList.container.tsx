@@ -8,79 +8,55 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-import PropTypes from 'prop-types';
+import { Location } from 'history';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Dispatch } from 'redux';
 
+import { FilterPriceRange } from 'Query/ProductList.type';
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
-import { FilterInputType, SelectedFiltersType } from 'Type/Category.type';
-import { MixType } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
-import { PagesType } from 'Type/ProductList.type';
-import { HistoryType, LocationType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
+import { HistoryState } from 'Util/History/History.type';
+import { RootState } from 'Util/Store/Store.type';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import ProductList from './ProductList.component';
+import {
+    PageBounds,
+    ProductListComponentContainerPropKeys,
+    ProductListComponentProps,
+    ProductListContainerMapDispatchProps,
+    ProductListContainerMapStateProps,
+    ProductListContainerProps,
+    ProductListContainerState
+} from './ProductList.type';
 
 /** @namespace Component/ProductList/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductListContainerMapStateProps => ({
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/ProductList/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductListContainerMapDispatchProps => ({
     requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options)
 });
 
 /** @namespace Component/ProductList/Container */
-export class ProductListContainer extends PureComponent {
-    containerFunctions = {
-        loadPrevPage: this.loadPage.bind(this, false),
-        loadPage: this.loadPage.bind(this),
-        updatePage: this.updatePage.bind(this)
-    };
-
-    static propTypes = {
-        history: HistoryType.isRequired,
-        location: LocationType.isRequired,
-        pages: PagesType.isRequired,
-        pageSize: PropTypes.number,
-        isLoading: PropTypes.bool.isRequired,
-        isPageLoading: PropTypes.bool,
-        totalItems: PropTypes.number.isRequired,
-        requestProductList: PropTypes.func.isRequired,
-        requestProductListInfo: PropTypes.func.isRequired,
-        selectedFilters: SelectedFiltersType,
-        isPreventRequest: PropTypes.bool,
-        isInfiniteLoaderEnabled: PropTypes.bool,
-        isPaginationEnabled: PropTypes.bool,
-        filter: FilterInputType,
-        search: PropTypes.string,
-        sort: PropTypes.objectOf(PropTypes.string),
-        noAttributes: PropTypes.bool,
-        noVariants: PropTypes.bool,
-        isWidget: PropTypes.bool,
-        device: DeviceType.isRequired,
-        mix: MixType,
-        title: PropTypes.string,
-        totalPages: PropTypes.number
-    };
-
+export class ProductListContainer extends PureComponent<ProductListContainerProps, ProductListContainerState> {
     static defaultProps = {
         mix: {},
         pageSize: 24,
         filter: {},
         search: '',
         selectedFilters: {},
-        sort: undefined,
+        sort: null,
         isPreventRequest: false,
         isPaginationEnabled: true,
         isInfiniteLoaderEnabled: true,
         isPageLoading: false,
+        isLoading: false,
         noAttributes: false,
         noVariants: false,
         isWidget: false,
@@ -88,8 +64,14 @@ export class ProductListContainer extends PureComponent {
         totalPages: 1
     };
 
-    state = {
+    state: ProductListContainerState = {
         pagesCount: 1
+    };
+
+    containerFunctions = {
+        loadPrevPage: this.loadPage.bind(this, false),
+        loadPage: this.loadPage.bind(this),
+        updatePage: this.updatePage.bind(this)
     };
 
     componentDidMount(): void {
@@ -107,7 +89,7 @@ export class ProductListContainer extends PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: ProductListContainerProps): void {
         const {
             sort,
             search,
@@ -142,18 +124,18 @@ export class ProductListContainer extends PureComponent {
         }
     }
 
-    isEmptyFilter() {
+    isEmptyFilter(): boolean {
         const { filter } = this.props;
 
-        const validFilters = Object.entries(filter).filter(([ key, value ]) => {
+        const validFilters = Object.entries(filter).filter(([key, value]) => {
             switch (key) {
-                case 'priceRange':
-                    return value.min > 0 || value.max > 0;
-                case 'customFilters':
-                    return Object.keys(value).length > 0;
-                case 'categoryIds':
-                default:
-                    return true;
+            case 'priceRange':
+                return (value as FilterPriceRange).min > 0 || (value as FilterPriceRange).max > 0;
+            case 'customFilters':
+                return Object.keys(value).length > 0;
+            case 'categoryIds':
+            default:
+                return true;
             }
         });
 
@@ -163,7 +145,7 @@ export class ProductListContainer extends PureComponent {
         return validFilters.length > 0;
     }
 
-    requestPage(currentPage = 1, isNext = false) {
+    requestPage(currentPage = 1, isNext = false): void {
         const {
             sort,
             search,
@@ -201,7 +183,7 @@ export class ProductListContainer extends PureComponent {
             noAttributes,
             noVariants,
             args: {
-                sort,
+                sort: sort ?? undefined,
                 filter,
                 search,
                 pageSize,
@@ -227,16 +209,19 @@ export class ProductListContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<ProductListComponentProps, ProductListComponentContainerPropKeys> {
+        const {
+            isPaginationEnabled: defaultIsPaginationEnabled
+        } = ProductListContainer.defaultProps;
         const {
             device,
             isLoading,
-            isPaginationEnabled,
-            isWidget,
+            isPaginationEnabled = defaultIsPaginationEnabled,
+            isWidget = false,
             mix,
             pages,
             selectedFilters,
-            title,
+            title = '',
             totalPages
         } = this.props;
 
@@ -259,27 +244,37 @@ export class ProductListContainer extends PureComponent {
         };
     }
 
-    _getIsInfiniteLoaderEnabled() { // disable infinite scroll on mobile
+    _getIsInfiniteLoaderEnabled(): boolean { // disable infinite scroll on mobile
         const { isInfiniteLoaderEnabled, device } = this.props;
+        const {
+            isInfiniteLoaderEnabled: defaultIsInfiniteLoaderEnabled
+        } = ProductListContainer.defaultProps;
 
         // allow scroll and mobile
         if (device.isMobile) {
-            return isInfiniteLoaderEnabled;
+            return isInfiniteLoaderEnabled || defaultIsInfiniteLoaderEnabled;
         }
 
         return false;
     }
 
-    _getPageFromUrl(url) {
+    _getPageFromUrl(url?: Location<HistoryState>): number {
         const { location: currentLocation } = this.props;
         const location = url || currentLocation;
 
-        return +(getQueryParam('page', location) || 1);
+        return +(getQueryParam('page', location || '') || 1);
     }
 
-    _getPagesBounds() {
-        const { pages, totalItems, pageSize } = this.props;
-        const keys = Object.keys(pages);
+    _getPagesBounds(): PageBounds {
+        const {
+            pageSize: defaultPageSize
+        } = ProductListContainer.defaultProps;
+        const {
+            pages,
+            totalItems,
+            pageSize = defaultPageSize
+        } = this.props;
+        const keys: number[] = Object.keys(pages) as unknown as number[];
 
         return {
             maxPage: Math.max(...keys),
@@ -289,20 +284,20 @@ export class ProductListContainer extends PureComponent {
         };
     }
 
-    _isShowLoading() {
+    _isShowLoading(): boolean {
         const { isLoading } = this.props;
         const { minPage } = this._getPagesBounds();
 
         return minPage > 1 && !isLoading;
     }
 
-    _isVisible() {
+    _isVisible(): boolean {
         const { maxPage, totalPages } = this._getPagesBounds();
 
         return maxPage < totalPages;
     }
 
-    loadPage(next = true) {
+    loadPage(next = true): void {
         const { pagesCount } = this.state;
         const { isPageLoading } = this.props;
 
@@ -322,7 +317,7 @@ export class ProductListContainer extends PureComponent {
         }
     }
 
-    updatePage(pageNumber) {
+    updatePage(pageNumber: number): void {
         const { location, history } = this.props;
 
         setQueryParams({
@@ -333,11 +328,17 @@ export class ProductListContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductList
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductListContainer));
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(
+        ProductListContainer as unknown as React.ComponentType<
+        RouteComponentProps & ProductListContainerProps
+        >
+    )
+);

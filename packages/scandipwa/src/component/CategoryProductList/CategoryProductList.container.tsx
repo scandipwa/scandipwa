@@ -8,16 +8,25 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
+
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import ProductList from 'Component/ProductList';
+import { ProductListContainerProps } from 'Component/ProductList/ProductList.type';
+import { ProductListOptions } from 'Query/ProductList.type';
+import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
-import { FilterInputType, SelectedFiltersType } from 'Type/Category.type';
-import { LayoutType } from 'Type/Layout.type';
-import { PagesType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
+
+import {
+    CategoryProductListContainerMapDispatchProps,
+    CategoryProductListContainerMapStateProps,
+    CategoryProductListContainerPropKeys,
+    CategoryProductListContainerProps
+} from './CategoryProductList.type';
 
 import './CategoryProductList.style';
 
@@ -27,7 +36,7 @@ export const ProductListDispatcher = import(
 );
 
 /** @namespace Component/CategoryProductList/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CategoryProductListContainerMapStateProps => ({
     pages: state.ProductListReducer.pages,
     isOffline: state.OfflineReducer.isOffline,
     isLoading: state.ProductListReducer.isLoading,
@@ -37,7 +46,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/CategoryProductList/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): CategoryProductListContainerMapDispatchProps => ({
     requestProductList: (options) => ProductListDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
@@ -45,30 +54,13 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/CategoryProductList/Container */
-export class CategoryProductListContainer extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        isMatchingListFilter: PropTypes.bool,
-        isMatchingInfoFilter: PropTypes.bool,
-        layout: LayoutType,
-        filter: FilterInputType,
-        requestProductList: PropTypes.func.isRequired,
-        isCurrentCategoryLoaded: PropTypes.bool,
-        totalItems: PropTypes.number.isRequired,
-        totalPages: PropTypes.number,
-        search: PropTypes.string,
-        sort: PropTypes.objectOf(PropTypes.string),
-        selectedFilters: SelectedFiltersType,
-        pages: PagesType.isRequired,
-        isPageLoading: PropTypes.bool
-    };
-
+export class CategoryProductListContainer extends PureComponent<CategoryProductListContainerProps> {
     static defaultProps = {
         isMatchingListFilter: false,
         isMatchingInfoFilter: false,
         isCurrentCategoryLoaded: false,
         filter: {},
-        layout: 'grid',
+        layout: CategoryPageLayout.GRID,
         totalPages: 1,
         search: '',
         sort: undefined,
@@ -80,7 +72,7 @@ export class CategoryProductListContainer extends PureComponent {
         requestProductList: this.requestProductList.bind(this)
     };
 
-    getIsLoading() {
+    getIsLoading(): boolean {
         const {
             filter,
             isLoading,
@@ -118,24 +110,24 @@ export class CategoryProductListContainer extends PureComponent {
         return isLoading;
     }
 
-    getIsPreventRequest() {
+    getIsPreventRequest(): boolean {
         const { isMatchingListFilter, isMatchingInfoFilter } = this.props;
 
         return isMatchingListFilter && isMatchingInfoFilter; // if filter match - prevent request
     }
 
-    getLayout() {
+    getLayout(): CategoryPageLayout {
         const { layout } = this.props;
 
         return layout;
     }
 
-    requestProductList(options) {
+    requestProductList(options: Partial<ProductListOptions>): void {
         const { requestProductList } = this.props;
         requestProductList({ ...options, isPlp: true });
     }
 
-    containerProps() {
+    containerProps(): Pick<ProductListContainerProps, CategoryProductListContainerPropKeys> {
         const {
             filter,
             isPageLoading,
@@ -165,8 +157,8 @@ export class CategoryProductListContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductList
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

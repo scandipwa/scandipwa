@@ -13,14 +13,14 @@ import { PureComponent } from 'react';
 
 import Pagination from 'Component/Pagination';
 import ProductListPage from 'Component/ProductListPage';
-import { FilterType } from 'Type/Category.type';
-import { MixType, ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
-import { PagesType } from 'Type/ProductList.type';
+import { ProductItem } from 'Query/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
+import { IndexedProduct } from 'Util/Product/Product.type';
 
 import { OBSERVER_THRESHOLD } from './ProductList.config';
+import { PageProps, ProductListComponentProps } from './ProductList.type';
 
 import './ProductList.style';
 
@@ -29,26 +29,7 @@ import './ProductList.style';
  * @class ProductList
  * @namespace Component/ProductList/Component
  */
-export class ProductList extends PureComponent {
-    static propTypes = {
-        device: DeviceType.isRequired,
-        title: PropTypes.string,
-        pages: PagesType.isRequired,
-        selectedFilters: FilterType,
-        isLoading: PropTypes.bool,
-        updatePage: PropTypes.func,
-        totalPages: PropTypes.number,
-        loadPage: PropTypes.func,
-        loadPrevPage: PropTypes.func,
-        currentPage: PropTypes.number,
-        isShowLoading: PropTypes.bool,
-        isVisible: PropTypes.bool,
-        isInfiniteLoaderEnabled: PropTypes.bool,
-        isPaginationEnabled: PropTypes.bool,
-        isWidget: PropTypes.bool,
-        mix: MixType
-    };
-
+export class ProductList extends PureComponent<ProductListComponentProps> {
     static defaultProps = {
         mix: {},
         title: '',
@@ -66,13 +47,15 @@ export class ProductList extends PureComponent {
         isWidget: false
     };
 
-    nodes = {};
+    observer: IntersectionObserver | null = null;
 
-    observedNodes = [];
+    nodes: Record<string, HTMLElement> = {};
 
-    pagesIntersecting = [];
+    observedNodes: HTMLElement[] = [];
 
-    componentDidUpdate(prevProps): void {
+    pagesIntersecting: number[] = [];
+
+    componentDidUpdate(prevProps: ProductListComponentProps): void {
         const { isWidget, currentPage, device } = this.props;
         const { currentPage: prevCurrentPage } = prevProps;
 
@@ -96,7 +79,7 @@ export class ProductList extends PureComponent {
         this.observer = null;
     }
 
-    observePageChange() {
+    observePageChange(): void {
         const { updatePage, isLoading } = this.props;
 
         if (isLoading) {
@@ -110,7 +93,7 @@ export class ProductList extends PureComponent {
                 const { currentPage } = this.props;
 
                 entries.forEach(({ target, isIntersecting }) => {
-                    const page = +Object.keys(this.nodes).find((node) => this.nodes[ node ] === target);
+                    const page = +(Object.keys(this.nodes).find((node) => this.nodes[ node ] === target) || 0);
                     const index = this.pagesIntersecting.indexOf(page);
 
                     if (isIntersecting && index === -1) {
@@ -136,7 +119,7 @@ export class ProductList extends PureComponent {
         this.updateObserver();
     }
 
-    updateObserver() {
+    updateObserver(): void {
         const currentNodes = Object.values(this.nodes);
 
         if (!this.observer || currentNodes.length <= 0) {
@@ -145,14 +128,14 @@ export class ProductList extends PureComponent {
 
         currentNodes.forEach((node) => {
             if (node && !this.observedNodes.includes(node)) {
-                this.observer.observe(node);
+                this.observer?.observe(node);
                 this.observedNodes.push(node);
             }
         });
 
-        this.observedNodes = this.observedNodes.reduce((acc, node) => {
+        this.observedNodes = this.observedNodes.reduce((acc: HTMLElement[], node) => {
             if (!currentNodes.includes(node)) {
-                this.observer.unobserve(node);
+                this.observer?.unobserve(node);
             } else {
                 acc.push(node);
             }
@@ -161,7 +144,7 @@ export class ProductList extends PureComponent {
         }, []);
     }
 
-    _getThreshold() {
+    _getThreshold(): number[] {
         const hundredPercent = 100;
 
         return Array.from(
@@ -186,7 +169,7 @@ export class ProductList extends PureComponent {
               block="ProductList"
               elem="LoadButton"
               role="button"
-              tabIndex="0"
+              tabIndex={ 0 }
               onKeyUp={ loadPrevPage }
               onClick={ loadPrevPage }
             >
@@ -225,14 +208,14 @@ export class ProductList extends PureComponent {
         const pageRenders = Object.entries(pages).map(this.renderProductPage.bind(this));
 
         if (isVisible && isInfiniteLoaderEnabled) { // add placeholders to the end of pages if needed
-            const key = Math.max(Object.keys(pages)) + 1; // the key should match next page key
+            const key = Math.max(...(Object.keys(pages) as unknown as number[])) + 1; // the key should match next page key
             pageRenders.push(this.renderPage({ key }));
         }
 
         return pageRenders;
     }
 
-    _processProps(props) {
+    _processProps(props: Partial<PageProps>): Partial<PageProps> {
         const { isInfiniteLoaderEnabled } = this.props;
 
         if (isInfiniteLoaderEnabled) {
@@ -242,12 +225,11 @@ export class ProductList extends PureComponent {
         // there must be no more then one page per screen
         // if the "isInfiniteLoaderEnabled" is false
         const { key, ...restProps } = props;
-        restProps.key = 0;
 
-        return restProps;
+        return { ...restProps, key: 0 };
     }
 
-    renderPage(props = {}): ReactElement {
+    renderPage(props: Partial<PageProps> = {}): ReactElement {
         const {
             isInfiniteLoaderEnabled,
             loadPage,
@@ -281,17 +263,18 @@ export class ProductList extends PureComponent {
         );
     }
 
-    renderProductPage([key, items = []]): ReactElement {
+    renderProductPage([k, items = []]: [k: string, items: IndexedProduct[]]): ReactElement {
         const { selectedFilters } = this.props;
+        const key = Number(k);
 
-        const pageNumber = +key;
+        const pageNumber = key;
 
         return this.renderPage({
             selectedFilters,
             pageNumber,
             items,
             key,
-            wrapperRef: (node) => {
+            wrapperRef: (node: HTMLElement) => {
                 this.nodes[ pageNumber ] = node;
             }
         });

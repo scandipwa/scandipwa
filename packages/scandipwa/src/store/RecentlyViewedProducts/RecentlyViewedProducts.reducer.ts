@@ -18,13 +18,38 @@ import {
 import { ProductItem } from 'Query/ProductList.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProducts } from 'Util/Product';
-import { IndexedProduct } from 'Util/Product/Product.type';
+import { IndexedBaseProduct } from 'Util/Product/Product.type';
 
 import {
+    RecentlyViewedProductItem,
     RecentlyViewedProductsAction,
     RecentlyViewedProductsActionType,
     RecentlyViewedProductsStore
 } from './RecentlyViewedProducts.type';
+
+/** @namespace Store/RecentlyViewedProducts/Reducer/convertToRecentlyViewedProduct */
+export const convertToRecentlyViewedProduct = (
+    products: IndexedBaseProduct<ProductItem>[]
+): RecentlyViewedProductItem[] => products.map((product) => {
+    const {
+        canonical_url,
+        categories,
+        configurable_options,
+        description,
+        items,
+        meta_description,
+        meta_keyword,
+        meta_title,
+        options,
+        product_links,
+        reviews,
+        short_description,
+        variants,
+        ...result
+    } = product;
+
+    return result;
+});
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/getInitialState */
 export const getInitialState = (): RecentlyViewedProductsStore => ({
@@ -76,8 +101,8 @@ export const RecentlyViewedProductsReducer: Reducer<RecentlyViewedProductsStore,
         } = action;
         const { recentlyViewedProducts: recent = {} } = state;
 
-        const indexedProducts = getIndexedProducts(products);
-        const recentProductsFromStorage: Record<string, ProductItem[]> = BrowserDatabase.getItem(
+        const indexedProducts = convertToRecentlyViewedProduct(getIndexedProducts(products));
+        const recentProductsFromStorage: Record<string, RecentlyViewedProductItem[]> = BrowserDatabase.getItem(
             RECENTLY_VIEWED_PRODUCTS
         ) || { [storeCode]: [] };
 
@@ -89,7 +114,7 @@ export const RecentlyViewedProductsReducer: Reducer<RecentlyViewedProductsStore,
 
         // Sort products same as it is localstorage recentlyViewedProducts
         const sortedRecentProducts = recentProductsFromStorage[storeCode].reduce(
-            (acc: IndexedProduct<Partial<ProductItem>>[], { sku }) => {
+            (acc: RecentlyViewedProductItem[], { sku }) => {
                 const sortedProduct = indexedProducts.find((item) => item.sku === sku);
 
                 if (sortedProduct) {
@@ -104,7 +129,7 @@ export const RecentlyViewedProductsReducer: Reducer<RecentlyViewedProductsStore,
         const updatedRecentViewedProducts = {
             ...recent,
             [storeCode]: sortedRecentProducts
-        } as Record<string, ProductItem[]>;
+        };
 
         return {
             ...state,

@@ -51,10 +51,11 @@ export type ProductListAction = AppendPageAction
 | UpdatePageLoadingStatusAction;
 
 export interface ProductListStore {
-    pages: Record<number, IndexedProduct<Partial<ProductItem>>[]>;
+    pages: Record<number, IndexedProduct[]>;
     totalItems: number;
     totalPages: number;
     isLoading: boolean;
+    isPageLoading: boolean;
     currentArgs: ProductListOptionArgs;
 }
 

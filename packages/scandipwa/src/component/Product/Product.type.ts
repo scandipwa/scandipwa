@@ -11,9 +11,10 @@
 
 import { RefObject } from 'react';
 
-import { ProductItem } from 'Query/ProductList.type';
+import { PriceRange } from 'Query/ProductList.type';
+import { AddProductToCartOptions } from 'Store/Cart/Cart.type';
 import { Device } from 'Type/Device.type';
-import { FieldValue } from 'Util/Form/Form.type';
+import { IndexedProduct, ProductTransformData } from 'Util/Product/Product.type';
 
 export interface ProductContainerMapStateProps {
     cartId: string;
@@ -22,14 +23,14 @@ export interface ProductContainerMapStateProps {
 }
 
 export interface ProductContainerMapDispatchProps {
-    addProductToCart: (options) => void;
+    addProductToCart: (options: AddProductToCartOptions) => Promise<void>;
     showError: (message: string) => void;
 }
 
 export interface ProductContainerBaseProps {
-    product: ProductItem;
+    product: IndexedProduct;
     configFormRef: RefObject<HTMLElement>;
-    parameters;
+    parameters: Record<string, string>;
     cartId: string;
     device: Device;
     isWishlistEnabled: boolean;
@@ -43,21 +44,81 @@ export type ProductContainerProps = ProductContainerMapStateProps
 
 export interface ProductContainerState {
     enteredOptions: ProductOption[];
-    selectedOptions: FieldValue[];
+    selectedOptions: string[];
     addToCartTriggeredWithError: boolean;
-    downloadableLinks;
+    downloadableLinks: string[];
     quantity: ProductQuantity;
-    adjustedPrice;
-    selectedProduct: ProductItem | null;
-    parameters;
-    unselectedOptions;
+    adjustedPrice: Partial<AdjustedPriceMap>;
+    selectedProduct: IndexedProduct | null;
+    parameters: Record<string, string>;
+    unselectedOptions: string[];
     currentProductSKU: string;
-    activeProduct;
+    activeProduct: IndexedProduct | null;
 }
+
+export interface ProductComponentProps {
+    isWishlistEnabled: boolean;
+    unselectedOptions: string[];
+    quantity: ProductQuantity;
+    product: IndexedProduct;
+    configFormRef: RefObject<HTMLElement>;
+    parameters: Record<string, string>;
+    device: Device;
+    magentoProduct: ProductTransformData[];
+    addToCartTriggeredWithError: boolean;
+    inStock: boolean;
+    maxQuantity: number;
+    minQuantity: number;
+    productName: string;
+    productPrice: ProductPrice;
+    setQuantity: (quantity: ProductQuantity) => void;
+    addToCart: (options: AddProductToCartOptions) => Promise<void>;
+    updateSelectedValues: () => void;
+    setAdjustedPrice: () => void;
+    setDownloadableLinks: () => void;
+    updateAddToCartTriggeredWithError: () => void;
+
+    getActiveProduct: () => IndexedProduct;
+    setActiveProduct: (product: Partial<IndexedProduct>) => void;
+}
+
+export type ProductComponentContainerPropKeys =
+    | 'isWishlistEnabled'
+    | 'unselectedOptions'
+    | 'quantity'
+    | 'product'
+    | 'configFormRef'
+    | 'parameters'
+    | 'device'
+    | 'magentoProduct'
+    | 'addToCartTriggeredWithError'
+    | 'inStock'
+    | 'maxQuantity'
+    | 'minQuantity'
+    | 'productName'
+    | 'productPrice';
 
 export type ProductQuantity = number | Record<number, number>;
 
-export type ProductOption = {
+export interface ProductOption {
     uid: string;
-    value: FieldValue;
-};
+    value: string;
+}
+
+export interface AdjustedPrice {
+    exclTax: number;
+    inclTax: number;
+    requiresDiscountCalculations: boolean;
+    hasDiscountCalculated: boolean;
+}
+
+export interface AdjustedPriceMap {
+    downloadable: AdjustedPrice;
+    bundle: AdjustedPrice;
+    config: AdjustedPrice;
+}
+
+export interface ProductPrice {
+    minimum_price: Partial<PriceRange>;
+    maximum_price: Partial<PriceRange>;
+}

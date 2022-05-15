@@ -13,27 +13,23 @@ import { PureComponent } from 'react';
 
 import GroupedProductsItem from 'Component/GroupedProductsItem';
 import { ProductType } from 'Component/Product/Product.config';
+import { GroupedProductItem } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
+
+import { GroupedProductListComponentProps } from './GroupedProductList.type';
 
 /**
  * Product description
  * @class GroupedProductList
  * @namespace Component/GroupedProductList/Component */
-export class GroupedProductList extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        quantity: PropTypes.objectOf(PropTypes.number).isRequired,
-        setQuantity: PropTypes.func.isRequired
-    };
-
-    renderProductList(items): ReactElement {
+export class GroupedProductList extends PureComponent<GroupedProductListComponentProps> {
+    renderProductList(items: GroupedProductItem[]): ReactElement {
         const {
             quantity,
             setQuantity
         } = this.props;
 
-        const sortedItems = items.sort(({ position }, { position: cmpPosition }) => position > cmpPosition);
+        const sortedItems = items.sort(({ position }, { position: cmpPosition }) => position - cmpPosition);
 
         return (
             <ul>
@@ -55,7 +51,7 @@ export class GroupedProductList extends PureComponent {
             product: { items, type_id }
         } = this.props;
 
-        if (type_id !== ProductType.grouped) {
+        if (type_id !== ProductType.GROUPED) {
             return null;
         }
 
@@ -63,7 +59,7 @@ export class GroupedProductList extends PureComponent {
             return null;
         }
 
-        return this.renderProductList(items);
+        return this.renderProductList(items as GroupedProductItem[]);
     }
 }
 

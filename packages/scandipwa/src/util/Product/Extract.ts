@@ -13,18 +13,27 @@
  */
 
 import { ProductType } from 'Component/Product/Product.config';
-import { StockStatus } from 'Component/Product/Stock.config';
+import { AdjustedPriceMap, ProductOption } from 'Component/Product/Product.type';
 import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
-import { ProductItem } from 'Query/ProductList.type';
+import { BundleOption, GroupedProductItem } from 'Query/ProductList.type';
+import { GQLProductStockStatus } from 'Type/Graphql.type';
 import { decodeBase64 } from 'Util/Base64';
+import { FieldValue } from 'Util/Form/Form.type';
 import { formatPrice } from 'Util/Price';
 
-import { DEFAULT_MIN_PRODUCTS, QtyFields } from './Product.type';
+import {
+    DEFAULT_MAX_PRODUCTS,
+    DEFAULT_MIN_PRODUCTS,
+    IndexedBundleItem,
+    IndexedProduct,
+    IndexedVariant,
+    QtyFields
+} from './Product.type';
 
 // TODO unify keyof product and stockitem.
 /** @namespace Util/Product/Extract/getFieldQty */
 export const getFieldQty = (
-    product: ProductItem,
+    product: Partial<IndexedProduct> | Partial<IndexedVariant>,
     field: QtyFields
 ): number => {
     if (field === QtyFields.MIN_SALE_QTY || field === QtyFields.MAX_SALE_QTY) {
@@ -33,9 +42,9 @@ export const getFieldQty = (
         return qty;
     }
 
-    const { [field as QtyFields.SALABLE_QTY]: qty } = product;
+    const { [field]: qty } = product;
 
-    return qty;
+    return qty || 0;
 };
 
 /**
@@ -48,7 +57,7 @@ export const getFieldQty = (
  * @namespace Util/Product/Extract/getQuantity
  */
 export const getQuantity = (
-    product: ProductItem,
+    product: IndexedProduct,
     defaultValue: number,
     field: QtyFields,
     configIndex = -1
@@ -81,7 +90,7 @@ export const getQuantity = (
  * @returns {*}
  * @namespace Util/Product/Extract/getMinQuantity
  */
-export const getMinQuantity = (product: ProductItem, configIndex = -1): number => (
+export const getMinQuantity = (product: IndexedProduct, configIndex = -1): number => (
     getQuantity(product, DEFAULT_MIN_PRODUCTS, QtyFields.MIN_SALE_QTY, configIndex)
 );
 
@@ -92,7 +101,7 @@ export const getMinQuantity = (product: ProductItem, configIndex = -1): number =
  * @returns {*}
  * @namespace Util/Product/Extract/getMaxQuantity
  */
-export const getMaxQuantity = (product: FormattedProduct, configIndex = -1): number => {
+export const getMaxQuantity = (product: IndexedProduct, configIndex = -1): number => {
     const maxQuantity: number = getQuantity(
         product, DEFAULT_MAX_PRODUCTS,
         QtyFields.MAX_SALE_QTY,
@@ -114,7 +123,7 @@ export const getMaxQuantity = (product: FormattedProduct, configIndex = -1): num
  * @returns {*}
  * @namespace Util/Product/Extract/getName
  */
-export const getName = (product: FormattedProduct, configIndex = -1): string => {
+export const getName = (product: IndexedProduct, configIndex = -1): string => {
     const { variants = [] } = product;
 
     const {
@@ -125,10 +134,10 @@ export const getName = (product: FormattedProduct, configIndex = -1): string => 
 };
 
 /** @namespace Util/Product/Extract/getProductOptionInStock */
-export const getProductOptionInStock = (product: Product): boolean => {
+export const getProductOptionInStock = (product: IndexedProduct): boolean => {
     const { stock_status: stockStatus } = product;
 
-    return stockStatus !== StockStatus.OUT_OF_STOCK && stockStatus === StockStatus.IN_STOCK;
+    return stockStatus !== GQLProductStockStatus.OUT_OF_STOCK && stockStatus === GQLProductStockStatus.IN_STOCK;
 };
 
 /**
@@ -139,8 +148,8 @@ export const getProductOptionInStock = (product: Product): boolean => {
  * @namespace Util/Product/Extract/getProductInStock
  */
 export const getProductInStock = (
-    product: FormattedProduct | IndexedVariant | ItemShape,
-    parentProduct?: FormattedProduct
+    product: Partial<IndexedProduct>,
+    parentProduct?: IndexedProduct
 ): boolean => {
     if (!product) {
         return false;
@@ -153,25 +162,25 @@ export const getProductInStock = (
         } = {}
     } = product;
 
-    if (type === ProductType.bundle) {
-        const { items = [] } = product as ProductBundle;
-        const requiredItems = items.filter(({ required }) => required);
+    if (type === ProductType.BUNDLE) {
+        const { items = [] } = product;
+        const requiredItems = (items as IndexedBundleItem[]).filter(({ required }) => required);
         const requiredItemsInStock = requiredItems.filter(
-            ({ options }) => options.some(({ product: optionProduct }) => getProductOptionInStock(optionProduct))
+            ({ options }) => options?.some(({ product: optionProduct }) => getProductOptionInStock(optionProduct))
         );
 
         return inStock && requiredItemsInStock.length === requiredItems.length;
     }
 
-    if (type === ProductType.configurable && parentProduct === product) {
-        const { variants = [] } = product as FormattedProduct;
+    if (type === ProductType.CONFIGURABLE && parentProduct === product) {
+        const { variants = [] } = product;
 
         return inStock && !!variants.some((variant) => getProductInStock(variant, product));
     }
 
     const { type_id: parentTypeId = false } = parentProduct || {};
 
-    if (parentTypeId === ProductType.configurable && parentProduct !== product) {
+    if (parentTypeId === ProductType.CONFIGURABLE && parentProduct !== product) {
         const {
             stock_item: {
                 in_stock: parentInStock = true
@@ -179,18 +188,21 @@ export const getProductInStock = (
             stock_status: parentStockStatus
         } = parentProduct || {};
 
-        return parentInStock && parentStockStatus !== StockStatus.OUT_OF_STOCK && getProductInStock(product);
+        return parentInStock && parentStockStatus !== GQLProductStockStatus.OUT_OF_STOCK && getProductInStock(product);
     }
 
-    if (type === ProductType.grouped) {
-        const { items = [] } = product as ProductGrouped;
+    if (type === ProductType.GROUPED) {
+        const { items = [] } = product;
 
-        return inStock && !!items.some(({ product: groupedProduct }) => getProductInStock(groupedProduct));
+        return inStock && !!(items as GroupedProductItem[]).some(
+            ({ product: groupedProduct }) => getProductInStock(groupedProduct)
+        );
     }
 
     const { stock_status: stockStatus } = product;
 
-    return stockStatus !== StockStatus.OUT_OF_STOCK && (inStock || stockStatus === StockStatus.IN_STOCK);
+    return stockStatus !== GQLProductStockStatus.OUT_OF_STOCK
+        && (inStock || stockStatus === GQLProductStockStatus.IN_STOCK);
 };
 
 /**
@@ -200,8 +212,8 @@ export const getProductInStock = (
  * @namespace Util/Product/Extract/getGroupedProductsInStockQuantity */
 
 export const getGroupedProductsInStockQuantity = (
-    { items = [] }: ProductGrouped
-): Record<number, number> => items.reduce((acc, {
+    { items = [] }: Partial<IndexedProduct>
+): Record<number, number> => (items as GroupedProductItem[]).reduce((acc: Record<number, number>, {
     product, product: { id }, qty = 1
 }) => (getProductInStock(product) ? { ...acc, [id]: qty } : acc), {});
 
@@ -211,7 +223,7 @@ export const getGroupedProductsInStockQuantity = (
  * @param options
  * @namespace Util/Product/Extract/getBundleOption
  */
-export const getBundleOption = (uid: string, options: ItemOption[] = []): ItemOption | undefined => {
+export const getBundleOption = (uid: string, options: BundleOption[] = []): BundleOption | undefined => {
     const uidParts = decodeBase64(uid).split('/');
     return options.find(({ uid: linkedUid }) => {
         const linkedUidParts = decodeBase64(linkedUid).split('/');
@@ -242,25 +254,25 @@ export const getBundleOption = (uid: string, options: ItemOption[] = []): ItemOp
  * @namespace Util/Product/Extract/getPrice
  */
 export const getPrice = (
-    priceRange: PriceRange,
+    priceRange,
     dynamicPrice = false,
-    adjustedPrice: AdjustedPrices = {},
-    type = ProductType.simple,
+    adjustedPrice = {},
+    type = ProductType.SIMPLE,
     options = []
-): FormattedPrice => {
-    const priceAcc = type === ProductType.bundle
+) => {
+    const priceAcc = type === ProductType.BUNDLE
         ? 'default_final_price'
         : 'regular_price';
-    const priceExcTaxAcc = type === ProductType.bundle || type === ProductType.configurable
+    const priceExcTaxAcc = type === ProductType.BUNDLE || type === ProductType.CONFIGURABLE
         ? 'default_final_price_excl_tax'
         : 'regular_price_excl_tax';
-    const accessRange = type === ProductType.virtual || type === ProductType.downloadable
+    const accessRange = type === ProductType.VIRTUAL || type === ProductType.DOWNLOADABLE
         ? 'maximum_price'
         : 'minimum_price';
 
     const {
         [accessRange]: {
-            [priceAcc]: { currency = 'USD', value: basePrice = 0 } = {},
+            [priceAcc]: { currency = GQLCurrencyEnum.USD, value: basePrice = 0 } = {},
             [priceExcTaxAcc]: { value: basePriceExclTax = 0 } = {},
             discount: {
                 percent_off: percentOffRef = 0,
@@ -427,11 +439,11 @@ export const getPrice = (
  * @namespace Util/Product/Extract/getAdjustedPrice
  */
 export const getAdjustedPrice = (
-    product: Product,
+    product: IndexedProduct,
     downloadableLinks: string[],
-    enteredOptions: EnteredOption[],
-    selectedOptions: string[]
-): FormattedAdjustedPrices => {
+    enteredOptions: ProductOption[],
+    selectedOptions: FieldValue[]
+): AdjustedPriceMap => {
     const {
         options = [],
         type_id: typeId
@@ -453,13 +465,14 @@ export const getAdjustedPrice = (
         config: {
             exclTax: 0,
             inclTax: 0,
-            requiresDiscountCalculations: false
+            requiresDiscountCalculations: false,
+            hasDiscountCalculated: false
         }
     };
 
     // #region DOWNLOADABLE
-    if (typeId === ProductType.downloadable) {
-        const { downloadable_product_links = [] } = product as ProductDownloadable;
+    if (typeId === ProductType.DOWNLOADABLE) {
+        const { downloadable_product_links = [] } = product;
         downloadableLinks.forEach((uid) => {
             const link = downloadable_product_links.find(({ uid: linkUid }) => linkUid === uid);
 
@@ -473,8 +486,8 @@ export const getAdjustedPrice = (
     // #endregion
 
     // #region BUNDLE
-    if (typeId === ProductType.bundle) {
-        const { items = [], dynamic_price: dynamicPrice = false } = product as ProductBundle;
+    if (typeId === ProductType.BUNDLE) {
+        const { items = [], dynamic_price: dynamicPrice = false } = product;
 
         selectedOptions.forEach((uid) => {
             items.forEach(({ options: sldOptions = [] }) => {
@@ -578,7 +591,7 @@ export const getSubLabelFromMaxCharacters = (maxCharacters: number, value = ''):
  * @param field
  * @namespace Util/Product/Extract/getImage
  */
-export const getImage = (product: Product, field: ImageType): string => {
+export const getImage = (product: IndexedProduct, field: ImageType): string => {
     const { [field]: { url = 'no_selection' } = {} } = product;
     return url && url !== 'no_selection' ? url : '';
 };
@@ -588,19 +601,19 @@ export const getImage = (product: Product, field: ImageType): string => {
  * @param product
  * @namespace Util/Product/Extract/getThumbnailImage
  */
-export const getThumbnailImage = (product: Product): string => getImage(product, ImageType.THUMBNAIL);
+export const getThumbnailImage = (product: IndexedProduct): string => getImage(product, ImageType.THUMBNAIL);
 
 /**
  * Returns products small image
  * @param product
  * @namespace Util/Product/Extract/getSmallImage
  */
-export const getSmallImage = (product: Product): string => getImage(product, ImageType.SMALL);
+export const getSmallImage = (product: IndexedProduct): string => getImage(product, ImageType.SMALL);
 
 /**
  * Returns products base image
  * @param product
  * @namespace Util/Product/Extract/getBaseImage
  */
-export const getBaseImage = (product: Product): string => getImage(product, ImageType.IMAGE);
+export const getBaseImage = (product: IndexedProduct): string => getImage(product, ImageType.IMAGE);
 // #endregion

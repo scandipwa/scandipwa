@@ -30,7 +30,7 @@ export type ProductListWidgetContainerProps = ProductListWidgetContainerMapDispa
 };
 
 export interface ProductListWidgetContainerState {
-    pages: Record<number, IndexedProduct<Partial<ProductItem>>[]>;
+    pages: Record<number, IndexedProduct[]>;
     totalItems: number;
     totalPages: number;
     isLoading: boolean;
@@ -39,7 +39,7 @@ export interface ProductListWidgetContainerState {
 export interface ProductListWidgetComponentProps extends ProductListWidgetAdaptProps {
     selectedFilters;
     title: string;
-    pages: Record<number, IndexedProduct<Partial<ProductItem>>[]>;
+    pages: Record<number, IndexedProduct[]>;
     totalItems: number;
     totalPages: number;
     isLoading: boolean;

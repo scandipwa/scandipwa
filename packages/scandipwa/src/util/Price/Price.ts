@@ -15,11 +15,11 @@ import { CurrencyMap, HUNDRED_PERCENT } from './Price.config';
 
 /** @namespace Util/Price/formatCurrency */
 export const formatCurrency = (
-    currency = 'USD'
+    currency = GQLCurrencyEnum.USD
 ): string | null => (Object.keys(CurrencyMap).includes(currency) ? currency : null);
 
 /** @namespace Util/Price/formatPrice */
-export const formatPrice = (price: number, currency = 'USD') : string => {
+export const formatPrice = (price: number, currency = GQLCurrencyEnum.USD) : string => {
     const language = navigator.languages ? navigator.languages[0] : navigator.language;
 
     return new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);

@@ -12,14 +12,23 @@
 
 import { FieldType } from 'Component/Field/Field.config';
 import { ProductType } from 'Component/Product/Product.config';
+import { ProductOption } from 'Component/Product/Product.type';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
-import { ProductItem } from 'Query/ProductList.type';
-import { ItemOption } from 'Query/Wishlist.type';
+import { AttributeWithValue, GroupedProductItem } from 'Query/ProductList.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { decodeBase64, encodeBase64 } from 'Util/Base64';
 import { formatPrice } from 'Util/Price';
 
 import { getProductInStock } from './Extract';
 import { ADD_TO_CART } from './Product';
+import {
+    BuyRequestBundleOptions,
+    BuyRequestCustomizableOptions,
+    BuyRequestDownloadableOptions,
+    IndexedProduct,
+    PriceLabels,
+    ProductTransformData
+} from './Product.type';
 
 export const PRICE_TYPE_PERCENT = 'PERCENT';
 
@@ -60,13 +69,13 @@ export const getEncodedBundleUid = (uid: string, quantity: number): string => {
 
 /** @namespace Util/Product/Transform/getBundleOptions */
 export const getBundleOptions = (buyRequest: string): string[] => {
-    const { bundle_option = {}, bundle_option_qty = {} } = JSON.parse(buyRequest);
+    const { bundle_option = {}, bundle_option_qty = {} }: BuyRequestBundleOptions = JSON.parse(buyRequest);
 
     if (!bundle_option) {
         return [];
     }
 
-    return Object.entries(bundle_option).reduce((prev, [option, variant]) => {
+    return Object.entries(bundle_option).reduce((prev: string[], [option, variant]) => {
         const qty = bundle_option_qty[option] || 1;
 
         if (typeof variant === 'string') {
@@ -74,12 +83,12 @@ export const getBundleOptions = (buyRequest: string): string[] => {
         }
 
         return [...prev, ...Object.keys(variant).map((id) => encodeBase64(`bundle/${option}/${id}/${qty}`))];
-    }, [] as string[]);
+    }, []);
 };
 
 /** @namespace Util/Product/Transform/getCustomizableOptions */
 export const getCustomizableOptions = (buyRequest: string): string[] => {
-    const { options = {} } = JSON.parse(buyRequest);
+    const { options = {} }: BuyRequestCustomizableOptions = JSON.parse(buyRequest);
 
     // handle null
     if (!options) {
@@ -109,12 +118,12 @@ export const getCustomizableOptions = (buyRequest: string): string[] => {
 
         return prev;
     },
-    [] as string[]);
+    []);
 };
 
 /** @namespace Util/Product/Transform/getDownloadableOptions */
 export const getDownloadableOptions = (buyRequest: string): string[] => {
-    const { links } = JSON.parse(buyRequest);
+    const { links }: BuyRequestDownloadableOptions = JSON.parse(buyRequest);
 
     if (!links) {
         return [];
@@ -144,20 +153,14 @@ export const getSelectedOptions = (buyRequest: string): string[] => [
 
 /** @namespace Util/Product/Transform/transformParameters */
 export const transformParameters = (
-    parameters: string[] = [],
-    attributes: Record<string, Attribute> = {}
+    parameters: Record<string, string>,
+    attributes: Record<string, AttributeWithValue>
 ): string[] => Object.entries(parameters)
     .map(([attrCode, selectedValue]) => {
         const attrId = attributes[attrCode]?.attribute_id;
 
         return encodeBase64(`configurable/${attrId}/${selectedValue}`);
     });
-
-// TODO move
-export type PriceLabels = {
-    baseLabel?: string;
-    priceLabel: string;
-};
 
 /**
  * Generates label for bundle option
@@ -167,7 +170,7 @@ export type PriceLabels = {
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/bundleOptionToLabel
  */
-export const bundleOptionToLabel = (option: ItemOption, currencyCode = 'USD'): PriceLabels => {
+export const bundleOptionToLabel = (option, currencyCode = GQLCurrencyEnum.USD): PriceLabels => {
     const {
         price,
         finalOptionPrice,
@@ -200,10 +203,10 @@ export const bundleOptionToLabel = (option: ItemOption, currencyCode = 'USD'): P
  * @namespace Util/Product/Transform/bundleOptionsToSelectTransform
  */
 export const bundleOptionsToSelectTransform = (
-    options: ItemOption[],
-    currencyCode = 'USD',
+    options,
+    currencyCode = GQLCurrencyEnum.USD,
     quantity = {}
-): OptionTransformResult[] => (
+) => (
     options.reduce((result = [], option) => {
         const {
             uid: sourceUid = '',
@@ -235,7 +238,7 @@ export const bundleOptionsToSelectTransform = (
         });
 
         return result;
-    }, [] as OptionTransformResult[])
+    }, [])
 );
 
 /**
@@ -246,7 +249,7 @@ export const bundleOptionsToSelectTransform = (
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/customizableOptionToLabel
  */
-export const customizableOptionToLabel = (option: CustomizableOption, currencyCode = 'USD'): PriceLabels => {
+export const customizableOptionToLabel = (option: CustomizableOption, currencyCode = GQLCurrencyEnum.USD): PriceLabels => {
     const {
         price,
         priceInclTax,
@@ -271,9 +274,9 @@ export const customizableOptionToLabel = (option: CustomizableOption, currencyCo
  * @namespace Util/Product/Transform/customizableOptionsToSelectTransform
  */
 export const customizableOptionsToSelectTransform = (
-    options: CustomizableOption[],
-    currencyCode = 'USD'
-): OptionTransformResult[] => (
+    options,
+    currencyCode = GQLCurrencyEnum.USD
+) => (
     options.reduce((result = [], option) => {
         const {
             uid,
@@ -297,15 +300,8 @@ export const customizableOptionsToSelectTransform = (
         });
 
         return result;
-    }, [] as OptionTransformResult[])
+    }, [])
 );
-
-export type ProductTransformData = {
-    sku: string;
-    quantity: number | Record<string, number>;
-    selected_options: string[];
-    entered_options: EnteredOption[];
-};
 
 /**
  * Generates Magento type product interface for performing
@@ -319,25 +315,25 @@ export type ProductTransformData = {
  */
 export const magentoProductTransform = (
     action: string = ADD_TO_CART,
-    product: Product,
+    product: IndexedProduct,
     quantity: number | Record<string, number> = 1,
-    enteredOptions: EnteredOption[] = [],
+    enteredOptions: ProductOption[] = [],
     selectedOptions: string[] = []
 ): ProductTransformData[] => {
-    const { sku, type_id: typeId } = product;
+    const { sku = '', type_id: typeId } = product;
 
     const productData: ProductTransformData[] = [];
 
-    if (typeId === ProductType.grouped && action === ADD_TO_CART) {
+    if (typeId === ProductType.GROUPED && action === ADD_TO_CART) {
         if (Object.keys(quantity).length === 0) {
             return productData;
         }
 
-        const { items } = product as ProductGrouped;
+        const { items = [] } = product;
         const groupedProducts: string[] = [];
 
-        items.forEach(({ product: { id } }) => {
-            const { [id]: groupedQuantity = 0 } = quantity as Record<string, number>;
+        (items as GroupedProductItem[]).forEach(({ product: { id } }) => {
+            const { [String(id)]: groupedQuantity = 0 } = quantity as Record<string, number>;
             groupedProducts.push(encodeBase64(`grouped/${id}/${groupedQuantity}`));
         });
 
@@ -350,7 +346,7 @@ export const magentoProductTransform = (
     } else {
         const baseProductToAdd: ProductTransformData = {
             sku,
-            quantity,
+            quantity: quantity as number,
             selected_options: selectedOptions,
             entered_options: enteredOptions
         };

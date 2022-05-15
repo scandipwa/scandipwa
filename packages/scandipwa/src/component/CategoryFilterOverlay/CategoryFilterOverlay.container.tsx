@@ -310,6 +310,8 @@ export default withRouter(
         mapStateToProps,
         mapDispatchToProps
     )(
-        CategoryFilterOverlayContainer
-    ) as unknown as React.ComponentType<RouteComponentProps>
+        CategoryFilterOverlayContainer as unknown as React.ComponentType<
+        RouteComponentProps & CategoryFilterOverlayContainerProps
+        >
+    )
 );

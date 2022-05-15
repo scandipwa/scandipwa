@@ -9,13 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
-import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
+import { RouterComponentProps } from 'Component/Router/Router.type';
+import { AttributeWithValue } from 'Query/ProductList.type';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -23,12 +25,12 @@ import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import ProductReducer from 'Store/Product/Product.reducer';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
-import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import { getAttributesWithValues, getIsConfigurableParameterSelected } from 'Util/Product';
+import { IndexedProduct } from 'Util/Product/Product.type';
 import { debounce } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 import {
     convertQueryStringToKeyValuePairs,
     objectToUri,
@@ -37,6 +39,15 @@ import {
 } from 'Util/Url';
 
 import ProductPage from './ProductPage.component';
+import {
+    OptionWithId,
+    ProductPageComponentProps,
+    ProductPageContainerComponentPropKeys,
+    ProductPageContainerMapDispatchProps,
+    ProductPageContainerMapStateProps,
+    ProductPageContainerProps,
+    ProductPageContainerState
+} from './ProductPage.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -54,7 +65,7 @@ export const ProductDispatcher = import(
 );
 
 /** @namespace Route/ProductPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductPageContainerMapStateProps => ({
     isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product,
     metaTitle: state.MetaReducer.title,
@@ -63,7 +74,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductPageContainerMapDispatchProps => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: (options) => {
@@ -79,33 +90,12 @@ export const mapDispatchToProps = (dispatch) => ({
     updateMetaFromProduct: (product) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
-    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
     addRecentlyViewedProduct: (product, store) => dispatch(addRecentlyViewedProduct(product, store))
 });
 
 /** @namespace Route/ProductPage/Container */
-export class ProductPageContainer extends PureComponent<ProductContainerProps, ProductContainerState> {
-    static propTypes = {
-        location: LocationType,
-        changeHeaderState: PropTypes.func.isRequired,
-        setBigOfflineNotice: PropTypes.func.isRequired,
-        changeNavigationState: PropTypes.func.isRequired,
-        updateMetaFromProduct: PropTypes.func.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired,
-        requestProduct: PropTypes.func.isRequired,
-        isOffline: PropTypes.bool.isRequired,
-        productSKU: PropTypes.string,
-        productID: PropTypes.number,
-        product: ProductType.isRequired,
-        history: HistoryType.isRequired,
-        match: MatchType.isRequired,
-        goToPreviousNavigationState: PropTypes.func.isRequired,
-        metaTitle: PropTypes.string,
-        addRecentlyViewedProduct: PropTypes.func.isRequired,
-        store: PropTypes.string.isRequired,
-        isMobile: PropTypes.bool.isRequired
-    };
-
+export class ProductPageContainer extends PureComponent<ProductPageContainerProps, ProductPageContainerState> {
     static defaultProps = {
         location: { state: {} },
         productSKU: '',
@@ -113,7 +103,7 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         metaTitle: undefined
     };
 
-    state: ProductContainerState = {
+    state: ProductPageContainerState = {
         parameters: {},
         currentProductSKU: '',
         activeProduct: null
@@ -126,19 +116,23 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
 
-    __construct(props: ProductContainerProps): void {
+    __construct(props: ProductPageContainerProps): void {
         super.__construct?.(props);
 
         this.setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(
+        props: ProductPageContainerProps,
+        state: ProductPageContainerState
+    ): Partial<ProductPageContainerState> {
         const {
             product: {
                 sku,
                 variants,
                 configurable_options,
                 options,
+                // !FIXME: This property always is undefined. We must remove it later.
                 productOptionsData
             },
             location: { search }
@@ -163,21 +157,23 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
 
         const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
             .reduce((acc, [key, value]) => {
-                if (key in configurable_options) {
+                if (configurable_options && key in configurable_options) {
                     return { ...acc, [ key ]: value };
                 }
 
                 return acc;
             }, {});
 
-        if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
+        if (Object.keys(parameters).length !== Object.keys(configurable_options || {}).length) {
             return {
                 parameters,
                 currentProductSKU
             };
         }
 
-        const newOptionsData = options.reduce((acc, { option_id, required }) => {
+        // !FIXME: It seems that this code part is obsolete and never runs.
+
+        const newOptionsData = (options as OptionWithId[])?.reduce((acc: string[], { option_id, required }) => {
             if (required) {
                 acc.push(option_id);
             }
@@ -185,7 +181,7 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
             return acc;
         }, []);
 
-        const prevRequiredOptions = productOptionsData?.requiredOptions || [];
+        const prevRequiredOptions = (productOptionsData?.requiredOptions || []) as string[];
         const requiredOptions = [...prevRequiredOptions, ...newOptionsData];
 
         return {
@@ -222,7 +218,7 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         scrollToTop();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: ProductPageContainerProps): void {
         const {
             isOffline,
             productSKU,
@@ -278,24 +274,24 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         this._addToRecentlyViewedProducts();
     }
 
-    setActiveProduct(product) {
+    setActiveProduct(product: IndexedProduct): void {
         this.setState({ activeProduct: product });
     }
 
-    isProductInformationTabEmpty() {
+    isProductInformationTabEmpty(): boolean {
         const { description: { html = '' } = {} } = this.getDataSource();
         // handling cases when empty html tag is received
         const htmlElement = new DOMParser().parseFromString(html, 'text/html');
         return !htmlElement?.body?.innerText;
     }
 
-    isProductAttributesTabEmpty() {
+    isProductAttributesTabEmpty(): boolean {
         const dataSource = this.getDataSource();
 
         return Object.keys(getAttributesWithValues(dataSource) || {}).length === 0;
     }
 
-    _addToRecentlyViewedProducts() {
+    _addToRecentlyViewedProducts(): void {
         const {
             product,
             product: { sku },
@@ -345,7 +341,7 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         }
     }
 
-    getLink(key, value) {
+    getLink(key: string, value: string): string {
         const { location: { search, pathname } } = this.props;
         const obj = {
             ...convertQueryStringToKeyValuePairs(search)
@@ -360,7 +356,7 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         return `${pathname}${query}`;
     }
 
-    containerProps() {
+    containerProps(): Pick<ProductPageComponentProps, ProductPageContainerComponentPropKeys> {
         const { isMobile, location } = this.props;
         const { parameters } = this.state;
 
@@ -378,7 +374,7 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         };
     }
 
-    getIsVariant() {
+    getIsVariant(): boolean {
         const { activeProduct } = this.state;
 
         if (!activeProduct) {
@@ -391,7 +387,7 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         return id !== childId;
     }
 
-    updateUrl(key, value, parameters) {
+    updateUrl(key: string, value: string, parameters: Record<string, string>): void {
         const { location, history } = this.props;
 
         const isParameterSelected = getIsConfigurableParameterSelected(parameters, key, value);
@@ -403,14 +399,14 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         }
     }
 
-    getAreDetailsLoaded() {
+    getAreDetailsLoaded(): boolean {
         const { product } = this.props;
         const dataSource = this.getDataSource();
 
         return dataSource === product;
     }
 
-    getUseEmptyGallerySwitcher() {
+    getUseEmptyGallerySwitcher(): boolean {
         const { activeProduct } = this.state;
         const product = this.getDataSource();
 
@@ -424,7 +420,7 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         return mediaGallery.length > 1 || activeMediaGallery.length > 1;
     }
 
-    getActiveProductDataSource() {
+    getActiveProductDataSource(): Partial<IndexedProduct> {
         const { activeProduct } = this.state;
         const product = this.getDataSource();
 
@@ -435,10 +431,10 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         const { attributes: productAttr = {}, media_gallery_entries: mediaGallery = [] } = product;
         const { attributes: activeAttr = {}, media_gallery_entries: activeMediaGallery = [] } = activeProduct;
 
-        const attributes = {};
+        const attributes: Record<string, AttributeWithValue> = {};
         Object.keys(productAttr).forEach((attr) => {
             const { [ attr ]: { attribute_value: attrValue }, [ attr ]: currAttr } = productAttr;
-            const { [ attr ]: { attribute_value: activeAttrValue } = {} } = activeAttr;
+            const { [ attr ]: { attribute_value: activeAttrValue = '' } = {} } = activeAttr;
             attributes[ attr ] = {
                 ...currAttr,
                 attribute_value: activeAttrValue || attrValue
@@ -452,14 +448,14 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         };
     }
 
-    getDataSource() {
+    getDataSource(): Partial<IndexedProduct> {
         const {
             productSKU,
             product
         } = this.props;
 
         const { sku } = product;
-        const { product: stateProduct } = history?.state?.state || {};
+        const { product: stateProduct }: { product: Partial<IndexedProduct> } = history?.state?.state || {};
         const { sku: stateSKU } = stateProduct || {};
 
         /**
@@ -485,13 +481,13 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         return {};
     }
 
-    getProductRequestFilter() {
+    getProductRequestFilter(): { productID: number } {
         const { productID } = this.props;
 
         return { productID };
     }
 
-    requestProduct() {
+    requestProduct(): void {
         const { requestProduct, productSKU } = this.props;
         const { currentProductSKU } = this.state;
 
@@ -519,17 +515,31 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         requestProduct(options);
     }
 
-    updateNavigationState() {
+    updateNavigationState(): void {
         const { changeNavigationState } = this.props;
-        changeNavigationState({ name: MENU_TAB });
+        changeNavigationState({ name: NavigationTabsMap.MENU_TAB });
     }
 
-    updateMeta() {
+    updateMeta(): void {
         const { updateMetaFromProduct } = this.props;
-        updateMetaFromProduct(this.getDataSource());
+        const {
+            name = '',
+            meta_title = '',
+            meta_keyword = '',
+            canonical_url,
+            meta_description = ''
+        } = this.getDataSource();
+
+        updateMetaFromProduct({
+            name,
+            meta_title,
+            meta_keyword,
+            canonical_url,
+            meta_description
+        });
     }
 
-    updateHeaderState() {
+    updateHeaderState(): void {
         const { name = '' } = this.getDataSource();
         const { changeHeaderState } = this.props;
 
@@ -540,10 +550,20 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
         });
     }
 
-    updateBreadcrumbs() {
+    updateBreadcrumbs(): void {
         const { updateBreadcrumbs, location } = this.props;
-        const { state: { prevCategoryId = null } = {} } = location;
-        updateBreadcrumbs(this.getDataSource(), prevCategoryId);
+        const { state: { prevCategoryId = 0 } = {} } = location;
+        const {
+            name = '',
+            url = '',
+            categories = []
+        } = this.getDataSource();
+
+        updateBreadcrumbs({
+            name,
+            url,
+            categories
+        }, prevCategoryId);
     }
 
     render(): ReactElement {
@@ -559,5 +579,9 @@ export class ProductPageContainer extends PureComponent<ProductContainerProps, P
 export default withReducers({
     ProductReducer
 })(withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer)
+    connect(mapStateToProps, mapDispatchToProps)(
+        ProductPageContainer as unknown as React.ComponentType<
+        RouterComponentProps & ProductPageContainerProps
+        >
+    )
 ));

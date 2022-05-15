@@ -44,7 +44,9 @@ export class ContentWrapper extends PureComponent<ContentWrapperComponentProps> 
 
     render(): ReactElement {
         const {
-            mix, label, isNotSection
+            mix,
+            label,
+            isNotSection
         } = this.props;
 
         if (isNotSection) {

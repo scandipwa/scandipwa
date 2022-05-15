@@ -16,7 +16,6 @@ import AddToCart from 'Component/AddToCart';
 import FieldContainer from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import GroupedProductList from 'Component/GroupedProductList';
-import { ProductType } from 'Component/Product/Product.config';
 import ProductBundleOptions from 'Component/ProductBundleOptions';
 import ProductCompareButton from 'Component/ProductCompareButton';
 // eslint-disable-next-line max-len
@@ -30,45 +29,20 @@ import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
-import { ReactElement, RefType } from 'Type/Common.type';
-import { PriceType } from 'Type/Price.type';
-import { MagentoProductType, ProductType, QuantityType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import { filterConfigurableOptions } from 'Util/Product';
-import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
+import { IndexedConfigurableOption } from 'Util/Product/Product.type';
+import { ValidationInputTypeNumber } from 'Util/Validator/Config';
+
+import { ProductType } from './Product.config';
+import { ProductComponentProps } from './Product.type';
 
 /**
  * Product
  * @class Product
  * @namespace Component/Product/Component
  */
-export class Product extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        productName: PropTypes.string.isRequired,
-        productPrice: PriceType.isRequired,
-        inStock: PropTypes.bool.isRequired,
-        magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
-
-        quantity: QuantityType.isRequired,
-        maxQuantity: PropTypes.number.isRequired,
-        minQuantity: PropTypes.number.isRequired,
-        setQuantity: PropTypes.func.isRequired,
-
-        addToCart: PropTypes.func.isRequired,
-        updateSelectedValues: PropTypes.func.isRequired,
-        setAdjustedPrice: PropTypes.func.isRequired,
-        setDownloadableLinks: PropTypes.func.isRequired,
-        addToCartTriggeredWithError: PropTypes.bool.isRequired,
-        updateAddToCartTriggeredWithError: PropTypes.func.isRequired,
-
-        getActiveProduct: PropTypes.func.isRequired,
-        setActiveProduct: PropTypes.func.isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-
-        isWishlistEnabled: PropTypes.bool.isRequired,
-        configFormRef: RefType
-    };
-
+export class Product extends PureComponent<ProductComponentProps> {
     static defaultProps = {
         configFormRef: createRef()
     };
@@ -137,7 +111,7 @@ export class Product extends PureComponent {
             }
         } = this.props;
 
-        if (type_id !== ProductType.downloadable || (Array.isArray(links) && !links.length)) {
+        if (type_id !== ProductType.DOWNLOADABLE || (Array.isArray(links) && !links.length)) {
             return null;
         }
 
@@ -163,7 +137,7 @@ export class Product extends PureComponent {
             }
         } = this.props;
 
-        if (type_id !== ProductType.downloadable || !samples || (Array.isArray(samples) && !samples.length)) {
+        if (type_id !== ProductType.DOWNLOADABLE || !samples || (Array.isArray(samples) && !samples.length)) {
             return null;
         }
 
@@ -175,9 +149,9 @@ export class Product extends PureComponent {
         );
     }
 
-    getConfigurableAttributes() {
+    getConfigurableAttributes(): Record<string, IndexedConfigurableOption> {
         const {
-            product: { configurable_options: configurableOptions = {}, variants = {} }
+            product: { configurable_options: configurableOptions = {}, variants = [] }
         } = this.props;
 
         return filterConfigurableOptions(configurableOptions, variants);
@@ -193,7 +167,7 @@ export class Product extends PureComponent {
             updateAddToCartTriggeredWithError
         } = this.props;
 
-        if (type !== ProductType.configurable) {
+        if (type !== ProductType.CONFIGURABLE) {
             return null;
         }
 
@@ -230,7 +204,7 @@ export class Product extends PureComponent {
             quantity
         } = this.props;
 
-        if (typeId !== ProductType.grouped) {
+        if (typeId !== ProductType.GROUPED) {
             return null;
         }
 
@@ -253,7 +227,7 @@ export class Product extends PureComponent {
 
         return (
             <form ref={ configFormRef }>
-                    { type_id === ProductType.bundle && this.renderBundleOptions() }
+                    { type_id === ProductType.BUNDLE && this.renderBundleOptions() }
                     { this.renderCustomizableOptions() }
             </form>
         );
@@ -329,7 +303,7 @@ export class Product extends PureComponent {
             product: { type_id }
         } = this.props;
 
-        if (type_id === ProductType.grouped) {
+        if (type_id === ProductType.GROUPED) {
             return null;
         }
 
@@ -344,7 +318,7 @@ export class Product extends PureComponent {
                   min: minQuantity
               } }
               validationRule={ {
-                  inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
+                  inputType: ValidationInputTypeNumber.NUMERIC,
                   isRequired: true,
                   range: {
                       min: minQuantity,
@@ -381,7 +355,7 @@ export class Product extends PureComponent {
     renderBrand(withMeta = false): ReactElement {
         const {
             product: {
-                attributes: { brand: { attribute_value: brand } = {} } = {}
+                attributes: { brand: { attribute_value: brand = '' } = {} } = {}
             }
         } = this.props;
 

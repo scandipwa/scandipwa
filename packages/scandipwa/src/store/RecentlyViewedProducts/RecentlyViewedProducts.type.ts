@@ -12,6 +12,7 @@
 import { AnyAction } from 'redux';
 
 import { ProductItem, ProductsQueryOutput } from 'Query/ProductList.type';
+import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum RecentlyViewedProductsActionType {
     UPDATE_RECENTLY_VIEWED_PRODUCTS = 'UPDATE_RECENTLY_VIEWED_PRODUCTS',
@@ -21,7 +22,7 @@ export enum RecentlyViewedProductsActionType {
 
 export interface AddRecentlyViewedProductAction extends AnyAction {
     type: RecentlyViewedProductsActionType.ADD_RECENTLY_VIEWED_PRODUCT;
-    product: ProductItem;
+    product: RecentlyViewedProductItem;
     store: string;
 }
 
@@ -41,7 +42,7 @@ export type RecentlyViewedProductsAction = AddRecentlyViewedProductAction
 | UpdateLoadStatusAction;
 
 export interface RecentlyViewedProductsStore {
-    recentlyViewedProducts: Record<string, ProductItem[]>;
+    recentlyViewedProducts: Record<string, RecentlyViewedProductItem[]>;
     isLoading: boolean;
 }
 
@@ -53,9 +54,26 @@ declare module 'Util/Store/Store.type' {
 
 export interface RecentlyViewedProductsDispatcherOptions {
     store: string;
-    recentProducts: Record<string, ProductItem>;
+    recentProducts: Record<string, RecentlyViewedProductItem>;
 }
 
 export interface RecentlyViewedProductsDispatcherData {
     products: ProductsQueryOutput;
 }
+
+export type RecentlyViewedProductItem = Omit<
+IndexedProduct,
+| 'canonical_url'
+| 'categories'
+| 'configurable_options'
+| 'description'
+| 'items'
+| 'meta_description'
+| 'meta_keyword'
+| 'meta_title'
+| 'options'
+| 'product_links'
+| 'reviews'
+| 'short_description'
+| 'variants'
+>;

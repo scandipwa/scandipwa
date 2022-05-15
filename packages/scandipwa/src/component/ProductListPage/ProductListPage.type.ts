@@ -9,18 +9,20 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { ProductItem } from 'Query/ProductList.type';
 import { Mix } from 'Type/Common.type';
+import { IndexedProduct } from 'Util/Product/Product.type';
 
 export interface ProductListPageComponentProps {
     isInfiniteLoaderEnabled: boolean;
     isLoading: boolean;
     isVisible: boolean;
-    updatePages: () => void;
+    updatePages: (next?: boolean) => void;
     numberOfPlaceholders: number;
-    selectedFilters;
-    wrapperRef: () => void;
+    selectedFilters: Record<string, string[]>;
+    wrapperRef: (elm: HTMLElement | null) => void;
     pageNumber: number;
-    items;
+    items: IndexedProduct[];
     mix: Mix;
 }
 

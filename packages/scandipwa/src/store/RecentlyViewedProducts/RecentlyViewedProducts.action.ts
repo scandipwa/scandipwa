@@ -13,6 +13,7 @@ import { ProductItem } from 'Query/ProductList.type';
 
 import {
     AddRecentlyViewedProductAction,
+    RecentlyViewedProductItem,
     RecentlyViewedProductsActionType,
     UpdateLoadStatusAction,
     UpdateRecentlyViewedProductsAction
@@ -26,7 +27,7 @@ import {
  * @namespace Store/RecentlyViewedProducts/Action/addRecentlyViewedProduct
  */
 export const addRecentlyViewedProduct = (
-    product: ProductItem,
+    product: RecentlyViewedProductItem,
     store: string
 ): AddRecentlyViewedProductAction => ({
     type: RecentlyViewedProductsActionType.ADD_RECENTLY_VIEWED_PRODUCT,

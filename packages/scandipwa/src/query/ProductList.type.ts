@@ -12,10 +12,10 @@
 import { Field, InlineFragment } from '@tilework/opus';
 
 import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
+import { CategorySortOptions } from 'Route/CategoryPage/CategoryPage.type';
 import {
     GQLCurrencyEnum,
     GQLPriceTypeEnum,
-    GQLProductAttributeSortInput,
     GQLProductStockStatus,
     GQLShipBundleItemsEnum
 } from 'Type/Graphql.type';
@@ -553,7 +553,7 @@ export type ProductListOptionArgs = {
     filter?: Partial<ProductAttributeFilterOptions>;
     search?: string;
     currentPage?: number;
-    sort?: Partial<GQLProductAttributeSortInput>;
+    sort?: CategorySortOptions;
 };
 
 export type PriceRangeMap = {

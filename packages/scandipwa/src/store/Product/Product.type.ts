@@ -20,12 +20,18 @@ export enum ProductActionType {
 
 export interface UpdateProductDetailsAction extends AnyAction {
     type: ProductActionType.UPDATE_PRODUCT_DETAILS;
-    product: ProductItem;
+    product?: ProductItem;
 }
 
 export type ProductStore = {
     product: Partial<IndexedProduct>;
 };
+
+declare module 'Util/Store/Store.type' {
+    export interface RootState {
+        ProductReducer: ProductStore;
+    }
+}
 
 export type ProductDispatcherData = {
     products: ProductsQueryOutput;

@@ -13,14 +13,14 @@ export type ValidationRule = {
     isRequired: boolean;
     inputType: string;
     selector?: string;
-    match: string | ((args: string | Record<string, string>[]) => boolean);
+    match: string | ((args: string | Record<string, string>[] | undefined) => boolean);
     range: Record<string, number>;
     fileExtension: Record<string, string>;
     customErrorMessages: Record<string, string>;
 };
 
 export type ValidationOutput = {
-    value: string;
+    value: string | boolean;
     errorMessages: string[];
 };
 

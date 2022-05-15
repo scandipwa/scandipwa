@@ -21,6 +21,7 @@ export const getInitialState = (): ProductListStore => ({
     totalItems: 0,
     totalPages: 0,
     isLoading: true,
+    isPageLoading: false,
     currentArgs: {}
 });
 

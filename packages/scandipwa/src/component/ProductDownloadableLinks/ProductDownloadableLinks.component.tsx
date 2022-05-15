@@ -41,7 +41,7 @@ export class ProductDownloadableLinks extends PureComponent {
 
     renderLabel(link): ReactElement {
         const { title, price } = link;
-        const { isRequired, currencyCode = 'USD' } = this.props;
+        const { isRequired, currencyCode = GQLCurrencyEnum.USD } = this.props;
 
         if (!isRequired) {
             return (

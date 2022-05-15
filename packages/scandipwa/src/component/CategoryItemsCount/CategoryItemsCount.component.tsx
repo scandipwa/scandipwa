@@ -14,13 +14,10 @@ import { PureComponent } from 'react';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ReactElement } from 'Type/Common.type';
 
-/** @namespace Component/CategoryItemsCount/Component */
-export class CategoryItemsCount extends PureComponent {
-    static propTypes = {
-        totalItems: PropTypes.number.isRequired,
-        isMatchingListFilter: PropTypes.bool
-    };
+import { CategoryItemsCountComponentProps } from './CategoryItemsCount.type';
 
+/** @namespace Component/CategoryItemsCount/Component */
+export class CategoryItemsCount extends PureComponent<CategoryItemsCountComponentProps> {
     static defaultProps = {
         isMatchingListFilter: false
     };

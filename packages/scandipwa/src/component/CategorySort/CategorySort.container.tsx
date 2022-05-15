@@ -9,36 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
 import { ReactElement } from 'Type/Common.type';
 
-import { SortDirectionType } from 'Type/Direction.type';
-
 import CategorySort from './CategorySort.component';
+import {
+    CategorySortComponentProps,
+    CategorySortContainerProps, CategorySortField, CategorySortOption, CategorySortOptionLabelMap
+} from './CategorySort.type';
 
 /** @namespace Component/CategorySort/Container */
-export class CategorySortContainer extends PureComponent {
-    static propTypes = {
-        sortFields: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.arrayOf(PropTypes.shape({
-                id: PropTypes.string,
-                label: PropTypes.string
-            }))
-        ]),
-        isMatchingInfoFilter: PropTypes.bool,
-        onSortChange: PropTypes.func.isRequired,
-        sortKey: PropTypes.string.isRequired,
-        sortDirection: SortDirectionType.isRequired
-    };
-
+export class CategorySortContainer extends PureComponent<CategorySortContainerProps> {
     static defaultProps = {
         sortFields: [],
         isMatchingInfoFilter: false
     };
 
-    containerProps() {
+    containerProps(): CategorySortComponentProps {
         const {
             isMatchingInfoFilter,
             onSortChange,
@@ -55,48 +43,48 @@ export class CategorySortContainer extends PureComponent {
         };
     }
 
-    _getLabel(option) {
+    _getLabel(option: CategorySortField): Partial<CategorySortOptionLabelMap> {
         const { id, label: pureLabel } = option;
 
         // eslint-disable-next-line fp/no-let
-        let [ label ] = pureLabel.split(' ');
+        let [label] = pureLabel.split(' ');
         label = label.charAt(0).toUpperCase() + label.slice(1);
 
         switch (id) {
-            case 'name':
-                return {
-                    asc: __('Name: A to Z', label),
-                    desc: __('Name: Z to A', label)
-                };
-            case 'position':
-                return {
-                    asc: __('Best match')
-                };
-            case 'price':
-                return {
-                    asc: __('%s: Low to High', label),
-                    desc: __('%s: High to Low', label)
-                };
-            case 'none':
-                return {
-                    asc: __('Best match')
-                };
-            default:
-                return {
-                    asc: __('%s: Ascending', label),
-                    desc: __('%s: Descending', label)
-                };
+        case 'name':
+            return {
+                asc: __('Name: A to Z', label),
+                desc: __('Name: Z to A', label)
+            };
+        case 'position':
+            return {
+                asc: __('Best match')
+            };
+        case 'price':
+            return {
+                asc: __('%s: Low to High', label),
+                desc: __('%s: High to Low', label)
+            };
+        case 'none':
+            return {
+                asc: __('Best match')
+            };
+        default:
+            return {
+                asc: __('%s: Ascending', label),
+                desc: __('%s: Descending', label)
+            };
         }
     }
 
-    _prepareOptions() {
+    _prepareOptions(): CategorySortOption[] {
         const { sortFields } = this.props;
 
         if (!sortFields) {
             return [];
         }
 
-        const selectOptions = sortFields.reduce((acc, option) => {
+        const selectOptions = sortFields.reduce((acc: CategorySortOption[], option) => {
             const { id } = option;
             const label = this._getLabel(option);
             const { asc, desc } = label;
@@ -128,7 +116,7 @@ export class CategorySortContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CategorySort
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

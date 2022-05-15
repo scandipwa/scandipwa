@@ -9,23 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    createRef,
-    PureComponent,
-    RefObject
-} from 'react';
+import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { FIELD_RADIO_NONE, FieldType } from 'Component/Field/Field.config';
 import { ProductType } from 'Component/Product/Product.config';
-import { ProductItem } from 'Query/ProductList.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import fromCache from 'Util/Cache/Cache';
 import getFieldsData from 'Util/Form/Extract';
-import { FieldValue } from 'Util/Form/Form.type';
 import { ADD_TO_CART, getNewParameters, getVariantIndex } from 'Util/Product';
 import {
     getAdjustedPrice,
@@ -36,11 +30,15 @@ import {
     getPrice,
     getProductInStock
 } from 'Util/Product/Extract';
+import { IndexedProduct, ProductTransformData } from 'Util/Product/Product.type';
 import { magentoProductTransform, transformParameters } from 'Util/Product/Transform';
 import { RootState } from 'Util/Store/Store.type';
 import { validateGroup } from 'Util/Validator';
 
 import {
+    AdjustedPriceMap,
+    ProductComponentContainerPropKeys,
+    ProductComponentProps,
     ProductContainerMapDispatchProps,
     ProductContainerMapStateProps,
     ProductContainerProps,
@@ -75,11 +73,13 @@ export const mapStateToProps = (state: RootState): ProductContainerMapStateProps
  * @class ProductContainer
  * @namespace Component/Product/Container
 */
-export class ProductContainer extends PureComponent<ProductContainerProps, ProductContainerState> {
+export class ProductContainer<
+P extends ProductContainerProps,
+S extends ProductContainerState
+> extends PureComponent <P, S> {
     static defaultProps = {
         configFormRef: createRef(),
         parameters: {},
-        device: {},
         defaultSelectedOptions: [],
         defaultEnteredOptions: [],
         cartId: ''
@@ -102,13 +102,18 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
         updateAddToCartTriggeredWithError: this.updateAddToCartTriggeredWithError.bind(this)
     };
 
-    validator = createRef<HTMLElement>();
+    validator: HTMLElement | null = null;
 
     __construct(props: ProductContainerProps): void {
         const { parameters } = props;
 
         super.__construct?.(props);
 
+        // TODO: There is a strange error when type isn't compatible with the same type.
+        // Probably this is related to the fact that the class is generic.
+        // Need to investigate this later.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         this.state = {
             // Used for customizable & bundle options
             enteredOptions: this.setDefaultProductOptions('defaultEnteredOptions', 'enteredOptions'),
@@ -125,7 +130,9 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
             // Used for configurable product - it can be ether parent or variant
             selectedProduct: null,
             parameters,
-            unselectedOptions: []
+            unselectedOptions: [],
+            currentProductSKU: '',
+            activeProduct: null
         };
     }
 
@@ -216,7 +223,7 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<ProductComponentProps, ProductComponentContainerPropKeys> {
         const {
             quantity,
             parameters,
@@ -262,16 +269,16 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
         };
     }
 
-    setValidator(elem: RefObject<HTMLElement>): void {
+    setValidator(elem: HTMLElement): void {
         if (elem && elem !== this.validator) {
             this.validator = elem;
         }
     }
 
-    setDefaultProductOptions(
+    setDefaultProductOptions<T>(
         keyProp: 'defaultEnteredOptions' | 'defaultSelectedOptions',
         keyState: 'enteredOptions' | 'selectedOptions'
-    ): string[] {
+    ): T {
         const { [keyProp]: value } = this.props;
 
         if (Array.isArray(value) && value.length > 0) {
@@ -283,7 +290,7 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
             );
         }
 
-        return value || [];
+        return (value || []) as unknown as T;
     }
 
     /**
@@ -298,7 +305,7 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
         }
 
         const enteredOptions: ProductOption[] = [];
-        const selectedOptions: FieldValue[] = [];
+        const selectedOptions: string[] = [];
 
         const { uid, value } = data;
 
@@ -311,17 +318,17 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
 
         const values = getFieldsData(current, true, [FieldType.NUMBER]);
 
-        values.forEach(({ name, value, type }) => {
+        values?.forEach(({ name, value, type }) => {
             if (type === FieldType.SELECT) {
-                selectedOptions.push(value);
+                selectedOptions.push(String(value));
             } else if (type === FieldType.CHECKBOX || type === FieldType.RADIO) {
                 if (value !== FIELD_RADIO_NONE) {
-                    selectedOptions.push(value);
+                    selectedOptions.push(String(value));
                 }
             } else if (type !== FieldType.NUMBER) {
                 enteredOptions.push({
                     uid: name,
-                    value
+                    value: String(value)
                 });
             }
         });
@@ -349,7 +356,7 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
         this.setState({ adjustedPrice });
     }
 
-    setAdjustedPrice(type, amount): void {
+    setAdjustedPrice(type: keyof AdjustedPriceMap, amount: number): void {
         const { adjustedPrice } = this.state;
         this.setState({
             adjustedPrice: {
@@ -363,13 +370,13 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
      * checks for unselected options on add to cart event
      * @returns {boolean}
     */
-    validateConfigurableProduct(): void {
+    validateConfigurableProduct(): boolean {
         const {
             parameters
         } = this.state;
 
-        const { product: { configurable_options } } = this.props;
-        const unselectedOptions = Object.keys(configurable_options).reduce((accumulator, value) => {
+        const { product: { configurable_options = {} } } = this.props;
+        const unselectedOptions = Object.keys(configurable_options).reduce((accumulator: string[], value) => {
             if (!parameters[ value ]) {
                 accumulator.push(value);
             }
@@ -391,12 +398,12 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
     */
     scrollOptionsIntoView(): void {
         // PLP Products do not have validator so we omit scrolling
-        if (this.validator.classList) {
+        if (this.validator?.classList) {
             const attributes = this.validator.querySelector('[class$=-AttributesWrapper]');
 
             // For product configurable attributes
             if (attributes) {
-                attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
+                attributes.scrollIntoView({ block: 'center', behavior: 'smooth' });
                 return;
             }
 
@@ -421,7 +428,7 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
         await addProductToCart({ products, cartId })
             .catch(
                 /** @namespace Component/Product/Container/ProductContainer/addToCart/addProductToCart/catch */
-                (error) => {
+                (error: string) => {
                     if (error) {
                         showError(error);
                     }
@@ -434,7 +441,17 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
      * @returns {boolean}
     */
     hasError(): boolean {
-        const { errorMessages, errorFields, values } = validateGroup(this.validator);
+        if (!this.validator) {
+            return false;
+        }
+
+        const validationOutput = validateGroup(this.validator);
+
+        const {
+            errorMessages = [],
+            errorFields = [],
+            values = []
+        } = validationOutput !== true ? validationOutput : {};
         const { showError } = this.props;
 
         if (
@@ -458,7 +475,7 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
      * @param errors
      * @returns {boolean}
     */
-    filterAddToCartFileErrors(errors): boolean {
+    filterAddToCartFileErrors(errors: Array<{ type: string; value: string }>): boolean {
         return errors ? errors.filter((e) => (e.type === 'file' && e.value !== '')).length !== 0 : false;
     }
 
@@ -467,7 +484,7 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
      * @param key
      * @param value
      */
-    updateConfigurableVariant(key, value, checkEmptyValue = false): void {
+    updateConfigurableVariant(key: string, value: string, checkEmptyValue = false): void {
         const { parameters: prevParameters } = this.state;
 
         const newParameters = getNewParameters(prevParameters, key, value);
@@ -477,7 +494,7 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
 
         this.setState({ parameters });
 
-        const { product: { variants, configurable_options } } = this.props;
+        const { product: { variants = [], configurable_options = {} } } = this.props;
         const { selectedProduct } = this.state;
 
         const newIndex = Object.keys(parameters).length === Object.keys(configurable_options).length
@@ -500,10 +517,10 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
      * if any other product updates value
      * @param quantity
      */
-    setQuantity(quantity): void {
+    setQuantity(quantity: ProductQuantity): void {
         if (typeof quantity === 'object') {
             const { quantity: oldQuantity = {} } = this.state;
-            this.setState({ quantity: { ...oldQuantity, ...quantity } });
+            this.setState({ quantity: { ...(oldQuantity as Record<number, number>), ...quantity } });
         } else {
             this.setState({ quantity: +quantity });
         }
@@ -514,15 +531,18 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
      * @param type State name
      * @param options State value
      */
-    setStateOptions(type, options): void {
-        this.setState({ [ type ]: options });
+    setStateOptions(
+        type: keyof ProductContainerState,
+        options: ProductContainerState[keyof ProductContainerState]
+    ): void {
+        this.setState({ [ type ]: options } as unknown as ProductContainerState);
     }
 
     /**
      * Returns magento graphql compatible product data
      * @returns {*[]}
      */
-    getMagentoProduct() {
+    getMagentoProduct(): ProductTransformData[] {
         const {
             quantity,
             enteredOptions,
@@ -531,7 +551,7 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
             parameters
         } = this.state;
 
-        const { product, product: { attributes } } = this.props;
+        const { product, product: { attributes = {} } } = this.props;
 
         const configurableOptions = transformParameters(parameters, attributes);
 
@@ -549,7 +569,7 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
      * configurable products, as active product can be one of variants.
      * @returns {*}
      */
-    getActiveProduct(): ProductItem {
+    getActiveProduct(): IndexedProduct {
         const { selectedProduct } = this.state;
         const { product } = this.props;
 
@@ -561,4 +581,9 @@ export class ProductContainer extends PureComponent<ProductContainerProps, Produ
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    // !FIXME: React typescript declarations has some strange issues with the generic class components.
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    ProductContainer
+);

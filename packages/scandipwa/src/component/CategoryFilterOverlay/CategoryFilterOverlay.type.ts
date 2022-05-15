@@ -10,7 +10,6 @@
  */
 
 import { History, Location } from 'history';
-import { MouseEvent } from 'react';
 
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';

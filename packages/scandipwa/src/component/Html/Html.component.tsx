@@ -13,7 +13,7 @@
 
 /* eslint-disable consistent-return */
 // Disabled due `domToReact` internal logic
-import parser from 'html-react-parser';
+import parser, { DomElement, HTMLReactParserOptions } from 'html-react-parser';
 import attributesToProps from 'html-react-parser/lib/attributes-to-props';
 import domToReact from 'html-react-parser/lib/dom-to-react';
 import { lazy, PureComponent, Suspense } from 'react';
@@ -22,6 +22,8 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader/Loader.component';
 import { hash } from 'Util/Request/Hash';
+
+import { HtmlComponentProps, HtmlParserRule } from './Html.type';
 
 export const WidgetFactory = lazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "widget" */
@@ -34,14 +36,10 @@ export const WidgetFactory = lazy(() => import(
  * @class Html
  * @namespace Component/Html/Component
  */
-export class Html extends PureComponent {
-    static propTypes = {
-        content: PropTypes.string.isRequired
-    };
+export class Html extends PureComponent<HtmlComponentProps> {
+    createdOutsideElements: Record<number, boolean> = {};
 
-    createdOutsideElements = {};
-
-    rules = [
+    rules: HtmlParserRule[] = [
         {
             query: { name: ['widget'] },
             replace: this.replaceWidget
@@ -72,8 +70,8 @@ export class Html extends PureComponent {
         }
     ];
 
-    parserOptions = {
-        replace: (domNode) => {
+    parserOptions: HTMLReactParserOptions = {
+        replace: (domNode: DomElement): JSX.Element | undefined => {
             const { data, name: domName, attribs: domAttrs } = domNode;
 
             // Let's remove empty text nodes
@@ -82,7 +80,7 @@ export class Html extends PureComponent {
             }
 
             const rule = this.rules.find((rule) => {
-                const { query: { name, attribs } } = rule;
+                const { query: { name, attribs = [] } } = rule;
 
                 if (name && domName && name.indexOf(domName) !== -1) {
                     return true;
@@ -116,13 +114,15 @@ export class Html extends PureComponent {
         }
     };
 
-    attributesToProps(attribs) {
-        const toCamelCase = (string) => string.replace(/_[a-z]/g, (match) => match.substr(1).toUpperCase());
+    attributesToProps(attribs: Record<string, string | number>): Record<string, string | number> {
+        const toCamelCase = (str: string) => str.replace(/_[a-z]/g, (match: string) => match.substr(1).toUpperCase());
 
-        const convertPropertiesToValidFormat = (properties) => Object.entries(properties)
+        const convertPropertiesToValidFormat = (
+            properties: Record<string, string | number>
+        ) => Object.entries(properties)
             .reduce((validProps, [key, value]) => {
                 // eslint-disable-next-line no-restricted-globals
-                if (!isNaN(value)) {
+                if (!isNaN(+value)) {
                     return { ...validProps, [toCamelCase(key)]: +value };
                 }
 
@@ -140,16 +140,16 @@ export class Html extends PureComponent {
      * @return {void|JSX} Return JSX if link is allowed to be replaced
      * @memberof Html
      */
-    replaceLinks({ attribs, children }) {
+    replaceLinks({ attribs, children }: DomElement): JSX.Element | undefined {
         const { href, ...attrs } = attribs;
 
         if (href) {
-            const isAbsoluteUrl = (value) => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
-            const isSpecialLink = (value) => new RegExp('^(sms|tel|mailto):', 'i').test(value);
+            const isAbsoluteUrl = (value: string) => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
+            const isSpecialLink = (value: string) => new RegExp('^(sms|tel|mailto):', 'i').test(value);
 
             if (!isAbsoluteUrl(href) && !isSpecialLink(href)) {
                 return (
-                    <Link { ...attributesToProps({ ...attrs, to: href }) }>
+                    <Link { ...attributesToProps(attrs) } to={ href }>
                         { domToReact(children, this.parserOptions) }
                     </Link>
                 );
@@ -163,7 +163,7 @@ export class Html extends PureComponent {
      * @return {void|JSX} Return JSX with image
      * @memberof Html
      */
-    replaceImages({ attribs }) {
+    replaceImages({ attribs }: DomElement): JSX.Element | undefined {
         const attributes = attributesToProps(attribs);
 
         if (attribs.src) {
@@ -177,7 +177,7 @@ export class Html extends PureComponent {
      * @return {void|JSX} Return JSX with image
      * @memberof Html
      */
-    replaceInput({ attribs }) {
+    replaceInput({ attribs }: DomElement): JSX.Element | undefined {
         return <input { ...attributesToProps(attribs) } />;
     }
 
@@ -188,7 +188,7 @@ export class Html extends PureComponent {
      * @param children
      * @returns {*}
      */
-    wrapTable({ attribs, children }) {
+    wrapTable({ attribs, children }: DomElement): JSX.Element | undefined {
         return (
             <div block="Table" elem="Wrapper">
                 <table { ...attributesToProps(attribs) }>
@@ -205,7 +205,7 @@ export class Html extends PureComponent {
      * @returns {null|JSX} Return Widget
      * @memberof Html
      */
-    replaceWidget({ attribs }) {
+    replaceWidget({ attribs }: DomElement): JSX.Element | undefined {
         return (
             <Suspense fallback={ <Loader isLoading /> }>
                 <WidgetFactory { ...this.attributesToProps(attribs) } />
@@ -213,7 +213,7 @@ export class Html extends PureComponent {
         );
     }
 
-    replaceStyle(elem) {
+    replaceStyle(elem: DomElement): JSX.Element | undefined {
         const { children } = elem;
         const elemHash = hash(children[0].data);
 
@@ -233,7 +233,7 @@ export class Html extends PureComponent {
         return <></>;
     }
 
-    replaceScript(elem) {
+    replaceScript(elem: DomElement): JSX.Element | undefined {
         const { attribs, children } = elem;
         const { src = '' } = attribs;
         const scriptContent = children[0] ? children[0].data : '';
@@ -245,7 +245,7 @@ export class Html extends PureComponent {
 
         const script = document.createElement('script');
 
-        Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, value));
+        Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, String(value || '')));
 
         if (children && children[0]) {
             script.appendChild(document.createTextNode(children[0].data));
@@ -260,7 +260,7 @@ export class Html extends PureComponent {
         return <></>;
     }
 
-    render(): ReactElement {
+    render(): JSX.Element | JSX.Element[] {
         const { content } = this.props;
 
         return parser(content, this.parserOptions);

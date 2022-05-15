@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { ProductType } from 'Component/Product/Product.config';
@@ -19,12 +18,19 @@ import {
     mapStateToProps as sourceMapStateToProps,
     ProductContainer
 } from 'Component/Product/Product.container';
-import { StockType } from 'Component/Product/Stock.config';
+import { StockStatus } from 'Component/Product/Stock.config';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductActions from './ProductActions.component';
+import {
+    ProductActionsContainerMapStateProps,
+    ProductActionsContainerProps,
+    ProductActionsContainerState
+} from './ProductActions.type';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductActionsContainerMapStateProps => ({
     ...sourceMapStateToProps(state),
     isPriceAlertEnabled: state.ConfigReducer.product_alert_allow_price,
     isInStockAlertEnabled: state.ConfigReducer.product_alert_allow_stock,
@@ -34,16 +40,6 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/ProductActions/Container */
 export class ProductActionsContainer extends ProductContainer {
-    static propTypes = {
-        ...ProductContainer.propTypes,
-        areDetailsLoaded: PropTypes.bool.isRequired,
-        getLink: PropTypes.func.isRequired,
-        areReviewsEnabled: PropTypes.bool.isRequired,
-        displayProductStockStatus: PropTypes.bool.isRequired,
-        isInStockAlertEnabled: PropTypes.bool.isRequired,
-        setActiveProduct: PropTypes.func.isRequired
-    };
-
     containerFunctions = {
         ...this.containerFunctions,
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this)
@@ -75,7 +71,7 @@ export class ProductActionsContainer extends ProductContainer {
         };
     }
 
-    componentDidUpdate(prevProps, prevState): void {
+    componentDidUpdate(prevProps: ProductActionsContainerProps, prevState: ProductActionsContainerState): void {
         super.componentDidUpdate(prevProps, prevState);
 
         const { selectedProduct: prevSelectedProduct } = prevState;
@@ -90,13 +86,13 @@ export class ProductActionsContainer extends ProductContainer {
     }
 
     //#region META
-    getMetaLink() {
+    getMetaLink(): string {
         const { getLink } = this.props;
 
         return window.location.origin + getLink().replace(/\?.*/, '');
     }
 
-    getStockMeta() {
+    getStockMeta(): string {
         const {
             product,
             product: { variants = [] },
@@ -107,14 +103,14 @@ export class ProductActionsContainer extends ProductContainer {
             stock_status
         } = variants[ configurableVariantIndex ] || product;
 
-        if (stock_status === StockType.IN_STOCK) {
+        if (stock_status === StockStatus.IN_STOCK) {
             return 'https://schema.org/InStock';
         }
 
         return 'https://schema.org/OutOfStock';
     }
 
-    getOfferType() {
+    getOfferType(): string {
         const { product: { variants } } = this.props;
 
         if (variants && variants.length >= 1) {
@@ -124,7 +120,7 @@ export class ProductActionsContainer extends ProductContainer {
         return 'https://schema.org/Offer';
     }
 
-    getOfferCount() {
+    getOfferCount(): number {
         const { product: { variants } } = this.props;
 
         if (variants && variants.length) {
@@ -150,7 +146,7 @@ export class ProductActionsContainer extends ProductContainer {
     }
 
     // Display preview price for bundle when nothing is selected
-    isPricePreview() {
+    isPricePreview(): boolean {
         const {
             product: {
                 type_id: type,
@@ -163,8 +159,8 @@ export class ProductActionsContainer extends ProductContainer {
         return (
             enteredOptions.length <= 0
             && selectedOptions.length <= 0
-            && type === ProductType.bundle
-            && dynamicPrice
+            && type === ProductType.BUNDLE
+            && !!dynamicPrice
         );
     }
 

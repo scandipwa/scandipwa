@@ -9,24 +9,33 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { MixType, ReactElement } from 'Type/Common.type';
-import { LayoutType } from 'Type/Layout.type';
-import { ProductType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import { ADD_TO_CART } from 'Util/Product';
 import {
-    getMaxQuantity, getMinQuantity, getName, getProductInStock
+    getMaxQuantity,
+    getMinQuantity,
+    getName,
+    getProductInStock
 } from 'Util/Product/Extract';
 import { magentoProductTransform } from 'Util/Product/Transform';
+import { RootState } from 'Util/Store/Store.type';
 
 import AddToCart from './AddToCart.component';
+import {
+    AddToCartComponentContainerPropKeys,
+    AddToCartComponentProps,
+    AddToCartContainerMapDispatchProps,
+    AddToCartContainerMapStateProps,
+    AddToCartContainerProps
+} from './AddToCart.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -34,12 +43,12 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/AddToCart/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    cartId: state.CartReducer.id
+export const mapStateToProps = (state: RootState): AddToCartContainerMapStateProps => ({
+    cartId: state.CartReducer.cartTotals?.id || ''
 });
 
 /** @namespace Component/AddToCart/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): AddToCartContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     fallbackAddToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
@@ -47,29 +56,14 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /* @namespace Component/AddToCart/Container */
-export class AddToCartContainer extends PureComponent {
-    static propTypes = {
-        product: ProductType,
-        quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.objectOf(PropTypes.number)]),
-        cartId: PropTypes.string,
-        showNotification: PropTypes.func.isRequired,
-        addToCart: PropTypes.func,
-        fallbackAddToCart: PropTypes.func.isRequired,
-        isDisabled: PropTypes.bool,
-
-        isIconEnabled: PropTypes.bool,
-        mix: MixType,
-        layout: LayoutType
-    };
-
-    static defaultProps = {
+export class AddToCartContainer extends PureComponent<AddToCartContainerProps> {
+    static defaultProps: Partial<AddToCartContainerProps> = {
         quantity: 1,
         cartId: '',
         mix: {},
         layout: CategoryPageLayout.GRID,
         isIconEnabled: true,
         isDisabled: false,
-        addToCart: null,
         product: {}
     };
 
@@ -89,13 +83,13 @@ export class AddToCartContainer extends PureComponent {
     ];
 
     typeValidationMap = {
-        [ ProductType.bundle ]: this.validateBundle.bind(this),
-        [ ProductType.downloadable ]: this.validateDownloadable.bind(this),
-        [ ProductType.configurable ]: this.validateConfigurable.bind(this),
-        [ ProductType.grouped ]: this.validateGroup.bind(this)
+        [ ProductType.BUNDLE ]: this.validateBundle.bind(this),
+        [ ProductType.DOWNLOADABLE ]: this.validateDownloadable.bind(this),
+        [ ProductType.CONFIGURABLE ]: this.validateConfigurable.bind(this),
+        [ ProductType.GROUPED ]: this.validateGroup.bind(this)
     };
 
-    async addProductToCart(e) {
+    async addProductToCart(e: MouseEvent): Promise<void> {
         const { product, addToCart } = this.props;
 
         if ((!product || Object.keys(product).length === 0) && !addToCart) {
@@ -136,7 +130,7 @@ export class AddToCartContainer extends PureComponent {
         this.setState({ isAdding: false });
     }
 
-    validate() {
+    validate(): boolean {
         // eslint-disable-next-line fp/no-let
         let isValid = true;
         this.globalValidationMap.forEach((step) => {
@@ -148,7 +142,7 @@ export class AddToCartContainer extends PureComponent {
         return isValid;
     }
 
-    validateStock() {
+    validateStock(): boolean {
         const { product, showNotification } = this.props;
         const inStock = getProductInStock(product);
 
@@ -160,14 +154,14 @@ export class AddToCartContainer extends PureComponent {
         return inStock;
     }
 
-    validateQuantity() {
+    validateQuantity(): boolean {
         const {
             product, quantity, showNotification, product: { type_id: typeId }
         } = this.props;
         const minQty = getMinQuantity(product);
         const maxQty = getMaxQuantity(product);
         const inRange = quantity >= minQty && quantity <= maxQty;
-        const isValid = typeId === ProductType.grouped || inRange;
+        const isValid = typeId === ProductType.GROUPED || inRange;
 
         if (!isValid) {
             if (quantity < minQty) {
@@ -180,9 +174,9 @@ export class AddToCartContainer extends PureComponent {
         return isValid;
     }
 
-    validateByType() {
-        const { product: { type_id } = {} } = this.props;
-        const { [ type_id ]: typeValidationFn } = this.typeValidationMap;
+    validateByType(): boolean {
+        const { product: { type_id = '' } = {} } = this.props;
+        const { [type_id as keyof typeof this.typeValidationMap]: typeValidationFn } = this.typeValidationMap;
 
         if (!typeValidationFn) {
             return true;
@@ -191,27 +185,27 @@ export class AddToCartContainer extends PureComponent {
         return typeValidationFn();
     }
 
-    validateBundle() {
+    validateBundle(): boolean {
         return true;
     }
 
-    validateCustomizable() {
+    validateCustomizable(): boolean {
         return true;
     }
 
-    validateDownloadable() {
+    validateDownloadable(): boolean {
         return true;
     }
 
-    validateGroup() {
+    validateGroup(): boolean {
         return true;
     }
 
-    validateConfigurable() {
+    validateConfigurable(): boolean {
         return true;
     }
 
-    containerProps() {
+    containerProps(): Pick<AddToCartComponentProps, AddToCartComponentContainerPropKeys> {
         const {
             isDisabled,
             isIconEnabled,

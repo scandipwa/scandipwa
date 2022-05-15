@@ -9,13 +9,19 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { RefObject } from 'react';
 
 import { FieldType } from 'Component/Field/Field.config';
-import { ValidationRule } from 'Type/Field.type';
-import { VALIDATION_MESSAGES, VALIDATION_RULES, ValidationInputTypeNumber } from 'Util/Validator/Config';
+import {
+    VALIDATION_MESSAGES,
+    VALIDATION_RULES,
+    ValidationInputTypeNumber
+} from 'Util/Validator/Config';
 
-import { ValidationDOMOutput, ValidationOutput } from './Validator.type';
+import {
+    ValidationDOMOutput,
+    ValidationOutput,
+    ValidationRule
+} from './Validator.type';
 
 /**
  * Validates parameter based on rules
@@ -53,19 +59,23 @@ export const validate = (value: string | boolean, rule: ValidationRule): boolean
     //#endregion
 
     //#region INPUT TYPE
-    if (inputType && value && !value.match(VALIDATION_RULES[inputType])) {
-        output.errorMessages.push(onInputTypeFail || VALIDATION_MESSAGES[inputType]);
+    if (inputType && value && !(value as string).match(
+        VALIDATION_RULES[inputType as keyof typeof VALIDATION_RULES]
+    )) {
+        output.errorMessages.push(
+            onInputTypeFail || VALIDATION_MESSAGES[inputType as keyof typeof VALIDATION_MESSAGES]
+        );
     }
     //#endregion
 
     //#region MATCH
     if (typeof match === 'function') {
-        const response = match(value);
+        const response = match(value as string);
 
         if (response !== true) {
             output.errorMessages.push(response === false ? onMatchFail || VALIDATION_MESSAGES.match : response);
         }
-    } else if (match && !value.match(match)) {
+    } else if (match && !(value as string).match(match)) {
         output.errorMessages.push(onMatchFail || VALIDATION_MESSAGES.match);
     }
     //#endregion
@@ -84,12 +94,12 @@ export const validate = (value: string | boolean, rule: ValidationRule): boolean
                 output.errorMessages.push(onRangeFailMax || __('Maximum value is %s!', max));
             }
         } else {
-            if (min && value.length < min && value.length > 0) {
+            if (min && (value as string).length < min && (value as string).length > 0) {
                 output.errorMessages.push(onRangeFailMin || __('Minimum %s characters!', min));
             }
 
-            if (max && value.length > max) {
-                const tooMany = value.length - max;
+            if (max && (value as string).length > max) {
+                const tooMany = (value as string).length - max;
                 output.errorMessages.push(onRangeFailMax || __('Maximum %s characters (%s too many)', max, tooMany));
 
                 if (showLengthError) {
@@ -102,7 +112,7 @@ export const validate = (value: string | boolean, rule: ValidationRule): boolean
     if (fileExtension && value !== '') {
         const { accept } = fileExtension;
         const acceptedExtensions = accept.split(', ');
-        const currentFileExtension = value.split('.').pop() as string;
+        const currentFileExtension = (value as string).split('.').pop() as string;
 
         if (!acceptedExtensions.includes(currentFileExtension)) {
             output.errorMessages.push(onExtensionFail || VALIDATION_MESSAGES.fileExtension);
@@ -121,11 +131,11 @@ export const validate = (value: string | boolean, rule: ValidationRule): boolean
  * @returns {boolean|{errorMessages: *[], values: *[], errorFields: *[]}}
  * @namespace Util/Validator/validateGroup
  */
-export const validateGroup = (DOM: HTMLElement, rule: ValidationRule): boolean | ValidationDOMOutput => {
+export const validateGroup = (DOM: HTMLElement, rule?: ValidationRule): true | ValidationDOMOutput => {
     const {
         selector = 'select, input, textarea, .js-validatabale, form, .FieldGroup'
     } = rule || {};
-    const fields = DOM.querySelectorAll(selector);
+    const fields = DOM.querySelectorAll<HTMLInputElement>(selector);
 
     const output: ValidationDOMOutput = {
         values: [],
@@ -145,7 +155,7 @@ export const validateGroup = (DOM: HTMLElement, rule: ValidationRule): boolean |
         const fieldType = tagName.toLowerCase() === FieldType.TEXTAREA ? FieldType.TEXTAREA : type;
         // eslint-disable-next-line max-len
         const fieldValue = fieldType === (FieldType.CHECKBOX || fieldType === FieldType.RADIO) && field.checked ? '' : value;
-        output.values.push({ name, value: fieldValue, type: fieldType });
+        output.values?.push({ name, value: fieldValue, type: fieldType });
 
         // Invokes validation event for all fields
         const data = { errors: [] };
@@ -154,7 +164,7 @@ export const validateGroup = (DOM: HTMLElement, rule: ValidationRule): boolean |
         const { errors } = data;
 
         if (errors.length > 0) {
-            output.errorFields.push(errors);
+            output.errorFields?.push(errors);
         }
     });
     //#endregion
@@ -172,7 +182,7 @@ export const validateGroup = (DOM: HTMLElement, rule: ValidationRule): boolean |
         } = rule;
 
         if (isRequired) {
-            const containsValue = output.values.some(({ value, type }) => {
+            const containsValue = output.values?.some(({ value, type }) => {
                 if (type === FieldType.CHECKBOX || type === FieldType.RADIO) {
                     return value;
                 }
@@ -185,21 +195,21 @@ export const validateGroup = (DOM: HTMLElement, rule: ValidationRule): boolean |
             });
 
             if (!containsValue) {
-                output.errorMessages.push(onRequirementFail || VALIDATION_MESSAGES.isRequired);
+                output.errorMessages?.push(onRequirementFail || VALIDATION_MESSAGES.isRequired);
             }
         }
 
         if (typeof match === 'function' && !match(output.values)) {
-            output.errorMessages.push(onMatchFail || VALIDATION_MESSAGES.match);
+            output.errorMessages?.push(onMatchFail || VALIDATION_MESSAGES.match);
         }
 
-        if (output.errorMessages.length === 0 && output.errorFields.length > 0) {
-            output.errorMessages.push(onGroupFail || VALIDATION_MESSAGES.group);
+        if (output.errorMessages?.length === 0 && (output.errorFields?.length || 0) > 0) {
+            output.errorMessages?.push(onGroupFail || VALIDATION_MESSAGES.group);
         }
     }
     //#endregion
     const { errorMessages, errorFields } = output;
-    return errorMessages.length === 0 && errorFields.length === 0 ? true : output;
+    return !errorMessages?.length && !errorFields?.length ? true : output;
 };
 
 /**
@@ -208,7 +218,7 @@ export const validateGroup = (DOM: HTMLElement, rule: ValidationRule): boolean |
  * @return {Number}
  * @namespace Util/Validator/getNumberOfCharacterClasses
  */
-export const getNumberOfCharacterClasses = (value: string) => Number(/\d+/.test(value))
+export const getNumberOfCharacterClasses = (value: string): number => Number(/\d+/.test(value))
       + Number(/[a-z]+/.test(value))
       + Number(/[A-Z]+/.test(value))
       + Number(/[^a-zA-Z0-9]+/.test(value));

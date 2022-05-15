@@ -34,7 +34,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         subPrice: null,
         children: [],
         coupon_code: '',
-        currency: 'USD'
+        currency: GQLCurrencyEnum.USD
     };
 
     renderPrice(): ReactElement {

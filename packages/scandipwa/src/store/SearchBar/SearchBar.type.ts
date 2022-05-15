@@ -38,7 +38,7 @@ export type SearchBarAction = UpdateSearchBarAction
 | ClearSearchResultsAction;
 
 export type SearchBarStore = {
-    productsInSearch: IndexedProduct<Partial<ProductItem>>[];
+    productsInSearch: IndexedProduct[];
     isLoading: boolean;
 };
 

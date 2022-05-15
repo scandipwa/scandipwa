@@ -15,8 +15,10 @@ import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
+import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
-import { SortDirectionType } from 'Type/Direction.type';
+
+import { CategorySortComponentProps } from './CategorySort.type';
 
 import './CategorySort.style';
 
@@ -25,33 +27,18 @@ import './CategorySort.style';
  * @class ProductSort
  * @namespace Component/CategorySort/Component
  */
-export class CategorySort extends PureComponent {
-    static propTypes = {
-        onSortChange: PropTypes.func.isRequired,
-        sortKey: PropTypes.string.isRequired,
-        sortDirection: SortDirectionType.isRequired,
-        selectOptions: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            disabled: PropTypes.bool,
-            label: PropTypes.string
-        })).isRequired,
-        isMatchingInfoFilter: PropTypes.bool.isRequired
-    };
+export class CategorySort extends PureComponent<CategorySortComponentProps> {
+    __construct(props: CategorySortComponentProps): void {
+        super.__construct?.(props);
 
-    onChange = this.onChange.bind(this);
+        this.onChange = this.onChange.bind(this);
+    }
 
-    onChange(value) {
+    onChange(value: string): void {
         const { onSortChange } = this.props;
         const [direction, ...key] = value.split(' ');
 
-        onSortChange(direction, key);
+        onSortChange(direction as SortDirections, key);
     }
 
     renderPlaceholder(): ReactElement {

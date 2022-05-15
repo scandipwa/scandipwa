@@ -49,9 +49,9 @@ export class ProductPrice extends PureComponent {
 
     static defaultProps = {
         price: {},
-        priceType: ProductType.simple,
+        priceType: ProductType.SIMPLE,
         originalPrice: {},
-        priceCurrency: 'USD',
+        priceCurrency: GQLCurrencyEnum.USD,
         discountPercentage: 0,
         isPreview: false,
         isSchemaRequired: false,

@@ -11,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Subscribe } from 'unstated';
 
 import {
@@ -25,9 +26,11 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { getSmallImage } from 'Util/Product/Extract';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
+import { ProductCardContainerMapDispatchProps, ProductCardContainerMapStateProps } from './ProductCard.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -35,7 +38,7 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/ProductCard/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductCardContainerMapStateProps => ({
     ...sourceMapStateToProps(state),
     baseLinkUrl: state.ConfigReducer.base_link_url || '',
     productUsesCategories: state.ConfigReducer.product_use_categories || false,
@@ -43,7 +46,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductCardContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });

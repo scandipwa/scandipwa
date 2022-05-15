@@ -10,15 +10,11 @@
  */
 
 import { Children, Mix } from 'Type/Common.type';
-import { Label } from 'Type/Field.type';
 
 export interface ContentWrapperComponentProps {
     children?: Children;
     mix?: Mix;
-    wrapperMix?: {
-        block?: string;
-        elem?: string;
-    };
-    label: Label;
+    wrapperMix?: Mix;
+    label?: string;
     isNotSection?: boolean;
 }

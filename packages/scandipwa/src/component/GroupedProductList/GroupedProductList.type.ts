@@ -1,4 +1,3 @@
-/// <reference types="react-scripts" />
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,8 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-declare module 'html-react-parser/lib/attributes-to-props' {
-    export default function attributesToProps(
-        attributes: Record<string, string | number>
-    ): Record<string, string | number>;
+import { ProductQuantity } from 'Component/Product/Product.type';
+import { IndexedProduct } from 'Util/Product/Product.type';
+
+export interface GroupedProductListComponentProps {
+    product: IndexedProduct;
+    quantity: ProductQuantity;
+    setQuantity: (quantity: ProductQuantity) => void;
 }

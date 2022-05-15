@@ -31,7 +31,7 @@ export const ProductReducer: Reducer<ProductStore, UpdateProductDetailsAction> =
 ) => {
     switch (action.type) {
     case ProductActionType.UPDATE_PRODUCT_DETAILS: {
-        const { product } = action;
+        const { product = {} } = action;
 
         return {
             ...state,

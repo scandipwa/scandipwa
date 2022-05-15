@@ -10,11 +10,10 @@
  */
 import { Dispatch } from 'redux';
 
-import { BaseProductItem } from 'Query/ProductList.type';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { appendWithStoreCode } from 'Util/Url';
 
-import { Category, PageMeta } from './Meta.type';
+import { Category, PageMeta, ProductMeta } from './Meta.type';
 
 /**
  * Meta Dispatcher
@@ -38,7 +37,7 @@ export class MetaDispatcher {
      * @param {Function} dispatch
      * @memberof MetaDispatcher
      */
-    updateWithProduct(product: Partial<BaseProductItem>, dispatch: Dispatch): void {
+    updateWithProduct(product: ProductMeta, dispatch: Dispatch): void {
         const meta = this._getProductMeta(product);
         dispatch(updateMeta(meta));
     }
@@ -49,7 +48,7 @@ export class MetaDispatcher {
      * @return {Object} Meta object
      * @memberof MetaDispatcher
      */
-    _getProductMeta(product: Partial<BaseProductItem>): Partial<PageMeta> {
+    _getProductMeta(product: ProductMeta): Partial<PageMeta> {
         const {
             name,
             meta_title,

@@ -9,8 +9,10 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { ProductOption } from 'Component/Product/Product.type';
 import {
     AttributeWithValue,
+    AttributeWithValueOption,
     BundleItem,
     BundleOption,
     ConfigurableProductOptions,
@@ -18,8 +20,10 @@ import {
     CustomizableFileValue,
     CustomizableProductFragmentOptions,
     CustomizableSelectionValue,
+    GroupedProductItem,
     ProductItem,
-    ProductReview
+    ProductReview,
+    SwatchData
 } from 'Query/ProductList.type';
 import { Merge } from 'Type/Common.type';
 
@@ -44,7 +48,10 @@ export type IndexedVariant = Merge<ProductItem, {
 }>;
 
 export type IndexedCustomOption = Merge<
+Omit<
 CustomizableProductFragmentOptions,
+'checkboxValues' | 'dropdownValues' | 'fieldValues' | 'areaValues' | 'fileValues'
+>,
 {
     value: CustomizableSelectionValue[]
     | CustomizableFieldValue[]
@@ -61,15 +68,19 @@ export type ReviewSummary = {
     review_count: number;
 };
 
-export type IndexedProduct<T extends Partial<ProductItem> = Partial<ProductItem>> = Merge<T, {
+export type IndexedBaseProduct<T> = Merge<T, {
     configurable_options?: IndexedConfigurableOptions;
     variants?: IndexedVariant[];
     options?: IndexedCustomOption[];
     attributes?: Record<string, AttributeWithValue>;
-    reviews?: ProductReview[] | null;
+    reviews?: ProductReview[];
     review_summary?: ReviewSummary;
-    items?: BundleItem[] | IndexedBundleItem[];
+    items?: IndexedBundleItem[] | GroupedProductItem[];
+    // !FIXME: This prop is alway undefined. Added for compatibility with the legacy code.
+    productOptionsData?: Record<string, string | string[]>;
 }>;
+
+export type IndexedProduct = IndexedBaseProduct<Partial<ProductItem>>;
 
 export type IndexedBundleOption = Merge<BundleOption, {
     regularOptionPrice: number;
@@ -81,3 +92,36 @@ export type IndexedBundleOption = Merge<BundleOption, {
 export type IndexedBundleItem = Merge<BundleItem, {
     options?: IndexedBundleOption[];
 }>;
+
+export type IndexedAttributeWithValueOption = Merge<AttributeWithValueOption, {
+    swatch_data: SwatchData | null;
+}>;
+
+export interface BuyRequestBundleOptions {
+    bundle_option: Record<string, string | Record<string, string>>;
+    bundle_option_qty: Record<string, number>;
+}
+
+export interface BuyRequestCustomizableOptions {
+    options: Record<string, string | string[] | Record<string, string>>;
+}
+
+export interface BuyRequestDownloadableOptions {
+    links: string[];
+}
+
+export interface BuyRequestConfigurableOptions {
+    super_attribute: Record<string, string>;
+}
+
+export type PriceLabels = {
+    baseLabel?: string;
+    priceLabel: string;
+};
+
+export type ProductTransformData = {
+    sku: string;
+    quantity: number;
+    selected_options: string[];
+    entered_options: ProductOption[];
+};

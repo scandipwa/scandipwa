@@ -9,29 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductType } from 'Type/ProductList.type';
-
 import GroupedProductsItem from './GroupedProductsItem.component';
+import { GroupedProductsItemContainerProps } from './GroupedProductsItem.type';
 
 /** @namespace Component/GroupedProductsItem/Container */
-export class GroupedProductsItemContainer extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        quantity: PropTypes.objectOf(PropTypes.number).isRequired,
-        setQuantity: PropTypes.func.isRequired,
-        defaultQuantity: PropTypes.number.isRequired
-    };
-
+export class GroupedProductsItemContainer extends PureComponent<GroupedProductsItemContainerProps> {
     containerFunctions = {
         setQuantity: this.setQuantity.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: GroupedProductsItemContainerProps): void {
+        super.__construct?.(props);
 
         const { defaultQuantity } = this.props;
         this.setQuantity(defaultQuantity);
@@ -50,25 +42,25 @@ export class GroupedProductsItemContainer extends PureComponent {
      * Get the selected quantity of grouped product
      * @return {Number} product quantity
      */
-    _getCurrentQuantity() {
+    _getCurrentQuantity(): number {
         const {
-            product: { id },
+            product: { id = 0 },
             quantity
         } = this.props;
 
-        return quantity[ id ] || 0;
+        return (quantity as Record<number, number>)[ id ] || 0;
     }
 
-    setQuantity(itemCount) {
-        const { setQuantity, product: { id } } = this.props;
-        setQuantity({ [ id ]: itemCount }, true);
+    setQuantity(itemCount: number): void {
+        const { setQuantity, product: { id = 0 } } = this.props;
+        setQuantity({ [ id ]: itemCount });
     }
 
     render(): ReactElement {
         return (
             <GroupedProductsItem
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

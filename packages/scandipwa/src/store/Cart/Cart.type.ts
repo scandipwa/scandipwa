@@ -11,10 +11,11 @@
 
 import { AnyAction } from 'redux';
 
-import { CartProductItem, QuoteData, TotalsItem } from 'Query/Cart.type';
+import { QuoteData, TotalsItem } from 'Query/Cart.type';
 import { TotalsObject } from 'Query/Checkout.type';
 import { ProductItem } from 'Query/ProductList.type';
 import { Merge } from 'Type/Common.type';
+import { GQLCartItemInput } from 'Type/Graphql.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum CartActionType {
@@ -84,7 +85,12 @@ export type CartTotals = Merge<
 Partial<QuoteData>,
 {
     items?: Merge<TotalsItem, {
-        product: IndexedProduct<CartProductItem>;
+        product: IndexedProduct;
     }>[];
 }
 >;
+
+export interface AddProductToCartOptions {
+    cartId: string;
+    products: GQLCartItemInput[];
+}

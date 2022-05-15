@@ -15,7 +15,7 @@
  * @returns {Promise<void>}
  * @namespace Util/Cache/cacheImages
  */
-export const cacheImages = (urls: string[] = []) => {
+export const cacheImages = (urls: string[]): void => {
     if (!Array.isArray(urls) || urls.length === 0) {
         return;
     }
@@ -34,7 +34,6 @@ export const cacheImages = (urls: string[] = []) => {
     });
 };
 
-// TODO
 /**
  * Returns result from global cache for fn
  * @param {function} fn

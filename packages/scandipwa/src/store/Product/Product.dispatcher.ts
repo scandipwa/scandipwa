@@ -31,7 +31,7 @@ export const LinkedProductsDispatcher = import(
  * @extends ProductDispatcher
  * @namespace Store/Product/Dispatcher
  */
-export class ProductDispatcher extends QueryDispatcher<ProductListOptions, ProductDispatcherData> {
+export class ProductDispatcher extends QueryDispatcher<Partial<ProductListOptions>, ProductDispatcherData> {
     __construct(): void {
         super.__construct('Product');
     }
@@ -80,7 +80,7 @@ export class ProductDispatcher extends QueryDispatcher<ProductListOptions, Produ
         dispatch(updateNoMatch(true));
     }
 
-    prepareRequest(options: ProductListOptions): Query<'products', ProductsQueryOutput> {
+    prepareRequest(options: Partial<ProductListOptions>): Query<'products', ProductsQueryOutput> {
         return ProductListQuery.getQuery(options);
     }
 }

@@ -1,4 +1,3 @@
-/// <reference types="react-scripts" />
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,8 +9,16 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-declare module 'html-react-parser/lib/attributes-to-props' {
-    export default function attributesToProps(
-        attributes: Record<string, string | number>
-    ): Record<string, string | number>;
+import { DomElement } from 'html-react-parser';
+
+export interface HtmlComponentProps {
+    content: string;
+}
+
+export interface HtmlParserRule {
+    query: {
+        name: string[];
+        attribs?: Record<string, string>[];
+    };
+    replace: (elm: DomElement) => JSX.Element | undefined;
 }

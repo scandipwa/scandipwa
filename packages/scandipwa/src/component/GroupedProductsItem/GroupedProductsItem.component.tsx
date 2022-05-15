@@ -18,11 +18,12 @@ import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
 import {
     getMaxQuantity, getMinQuantity, getPrice, getProductInStock, getThumbnailImage
 } from 'Util/Product/Extract';
-import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
+import { ValidationInputTypeNumber } from 'Util/Validator/Config';
+
+import { GroupedProductsItemComponentProps } from './GroupedProductsItem.type';
 
 import './GroupedProductsItem.style';
 
@@ -31,19 +32,13 @@ import './GroupedProductsItem.style';
  * @class GroupedProduct
  * @namespace Component/GroupedProductsItem/Component
  */
-export class GroupedProductsItem extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        setQuantity: PropTypes.func.isRequired,
-        itemCount: PropTypes.number.isRequired
-    };
-
+export class GroupedProductsItem extends PureComponent<GroupedProductsItemComponentProps> {
     renderTitle(): ReactElement {
         const {
             product: {
                 name,
                 price_range: priceRange,
-                type_id: type,
+                type_id: type = '',
                 dynamic_price: dynamicPrice
             }
         } = this.props;
@@ -67,7 +62,7 @@ export class GroupedProductsItem extends PureComponent {
         return <TierPrices product={ product } />;
     }
 
-    getError(value) {
+    getError(value: string): true | string {
         const {
             product = {}
         } = this.props;
@@ -117,7 +112,7 @@ export class GroupedProductsItem extends PureComponent {
                   max
               } }
               validationRule={ {
-                  inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
+                  inputType: ValidationInputTypeNumber.NUMERIC,
                   isRequired: true,
                   match: this.getError.bind(this),
                   range: {

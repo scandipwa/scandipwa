@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-ProductReviewListtheme
  */
 
-import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
@@ -21,13 +20,11 @@ import ProductReviewForm from 'Component/ProductReviewForm/ProductReviewForm.con
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import ProductTabs from 'Component/ProductTabs';
 import NoMatchHandler from 'Route/NoMatchHandler';
-import {
-    PRODUCT_ATTRIBUTES,
-    PRODUCT_INFORMATION,
-    PRODUCT_REVIEWS
-} from 'Route/ProductPage/ProductPage.config';
-import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { ProductType } from 'Type/ProductList.type';
+import { ProductPageTabs } from 'Route/ProductPage/ProductPage.config';
+import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { ProductPageComponentProps } from './ProductPage.type';
 
 import './ProductPage.style';
 
@@ -49,44 +46,31 @@ export const ProductAttributes = lazy(() => import(
 ));
 
 /** @namespace Route/ProductPage/Component */
-export class ProductPage extends PureComponent {
-    static propTypes = {
-        getLink: PropTypes.func.isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        dataSource: ProductType.isRequired,
-        activeProduct: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired,
-        isInformationTabEmpty: PropTypes.bool.isRequired,
-        isAttributesTabEmpty: PropTypes.bool.isRequired,
-        setActiveProduct: PropTypes.func.isRequired,
-        useEmptyGallerySwitcher: PropTypes.bool.isRequired,
-        isVariant: PropTypes.bool.isRequired
-    };
-
+export class ProductPage extends PureComponent<ProductPageComponentProps> {
     tabMap = {
-        [ PRODUCT_INFORMATION ]: {
+        [ ProductPageTabs.INFORMATION ]: {
             name: __('About'),
-            shouldTabRender: () => {
+            shouldTabRender: (): boolean => {
                 const { isInformationTabEmpty } = this.props;
 
                 return !isInformationTabEmpty;
             },
-            render: (key) => this.renderProductInformationTab(key)
+            render: (key: string): ReactElement => this.renderProductInformationTab(key)
         },
-        [ PRODUCT_ATTRIBUTES ]: {
+        [ ProductPageTabs.ATTRIBUTES ]: {
             name: __('Details'),
-            shouldTabRender: () => {
+            shouldTabRender: (): boolean => {
                 const { isAttributesTabEmpty } = this.props;
 
                 return !isAttributesTabEmpty;
             },
-            render: (key) => this.renderProductAttributesTab(key)
+            render: (key: string): ReactElement => this.renderProductAttributesTab(key)
         },
-        [ PRODUCT_REVIEWS ]: {
+        [ ProductPageTabs.REVIEWS ]: {
             name: __('Reviews'),
             // Return true since we always show 'Add review' button
-            shouldTabRender: () => true,
-            render: (key) => this.renderProductReviewsTab(key)
+            shouldTabRender: (): boolean => true,
+            render: (key: string): ReactElement => this.renderProductReviewsTab(key)
         }
     };
 
@@ -104,26 +88,26 @@ export class ProductPage extends PureComponent {
 
         return (
             <>
-                <Suspense fallback={<Loader />}>
+                <Suspense fallback={ <Loader /> }>
                     <ProductGallery
-                        product={activeProduct}
-                        areDetailsLoaded={areDetailsLoaded}
-                        isWithEmptySwitcher={useEmptyGallerySwitcher}
-                        showLoader={isVariant}
+                      product={ activeProduct }
+                      areDetailsLoaded={ areDetailsLoaded }
+                      isWithEmptySwitcher={ useEmptyGallerySwitcher }
+                      showLoader={ isVariant }
                     />
                 </Suspense>
                 <ProductActions
-                    getLink={getLink}
-                    product={dataSource}
-                    parameters={parameters}
-                    areDetailsLoaded={areDetailsLoaded}
-                    setActiveProduct={setActiveProduct}
+                  getLink={ getLink }
+                  product={ dataSource }
+                  parameters={ parameters }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  setActiveProduct={ setActiveProduct }
                 />
             </>
         );
     }
 
-    renderProductInformationTab(key): ReactElement {
+    renderProductInformationTab(key: string): ReactElement {
         const {
             dataSource,
             parameters,
@@ -131,45 +115,45 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={<Loader />} key={key}>
+            <Suspense fallback={ <Loader /> } key={ key }>
                 <ProductInformation
-                    product={{ ...dataSource, parameters }}
-                    areDetailsLoaded={areDetailsLoaded}
-                    key={key}
+                  product={ { ...dataSource, parameters } }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  key={ key }
                 />
             </Suspense>
         );
     }
 
-    renderProductAttributesTab(key): ReactElement {
+    renderProductAttributesTab(key: string): ReactElement {
         const {
             activeProduct,
             areDetailsLoaded
         } = this.props;
 
         return (
-            <Suspense fallback={<Loader />} key={key}>
+            <Suspense fallback={ <Loader /> } key={ key }>
                 <ProductAttributes
-                    product={activeProduct}
-                    areDetailsLoaded={areDetailsLoaded}
-                    key={key}
+                  product={ activeProduct }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  key={ key }
                 />
             </Suspense>
         );
     }
 
-    renderProductReviewsTab(key): ReactElement {
+    renderProductReviewsTab(key: string): ReactElement {
         const {
             dataSource,
             areDetailsLoaded
         } = this.props;
 
         return (
-            <Suspense fallback={<Loader />} key={key}>
+            <Suspense fallback={ <Loader /> } key={ key }>
                 <ProductReviews
-                    product={dataSource}
-                    areDetailsLoaded={areDetailsLoaded}
-                    key={key}
+                  product={ dataSource }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  key={ key }
                 />
             </Suspense>
         );
@@ -177,7 +161,7 @@ export class ProductPage extends PureComponent {
 
     shouldTabsRender(): ReactElement {
         return Object.entries(this.tabMap)
-            .map(([ id, values ]) => ({ id, ...values }))
+            .map(([id, values]) => ({ id, ...values }))
             .filter(({ shouldTabRender }) => shouldTabRender());
     }
 
@@ -189,7 +173,7 @@ export class ProductPage extends PureComponent {
         }
 
         return (
-            <ProductTabs tabs={tabs} />
+            <ProductTabs tabs={ tabs } />
         );
     }
 
@@ -200,16 +184,16 @@ export class ProductPage extends PureComponent {
 
         return (
             <>
-                {this.renderProductTabs()}
+                { this.renderProductTabs() }
                 <ProductLinks
-                    linkType={RELATED}
-                    title={__('Recommended for you')}
-                    areDetailsLoaded={areDetailsLoaded}
+                  linkType={ LinkedProductType.RELATED }
+                  title={ __('Recommended for you') }
+                  areDetailsLoaded={ areDetailsLoaded }
                 />
                 <ProductLinks
-                    linkType={UPSELL}
-                    title={__('You might also like')}
-                    areDetailsLoaded={areDetailsLoaded}
+                  linkType={ LinkedProductType.UPSELL }
+                  title={ __('You might also like') }
+                  areDetailsLoaded={ areDetailsLoaded }
                 />
             </>
         );
@@ -220,10 +204,10 @@ export class ProductPage extends PureComponent {
 
         return (
             <Popup
-                id={REVIEW_POPUP_ID}
-                mix={{ block: 'ProductReviews', elem: 'Popup' }}
+              id={ REVIEW_POPUP_ID }
+              mix={ { block: 'ProductReviews', elem: 'Popup' } }
             >
-                <ProductReviewForm product={dataSource} />
+                <ProductReviewForm product={ dataSource } />
             </Popup>
         );
     }
@@ -232,19 +216,19 @@ export class ProductPage extends PureComponent {
         return (
             <NoMatchHandler>
                 <main
-                    block="ProductPage"
-                    aria-label="Product page"
-                    itemScope
-                    itemType="http://schema.org/Product"
+                  block="ProductPage"
+                  aria-label="Product page"
+                  itemScope
+                  itemType="http://schema.org/Product"
                 >
                     <ContentWrapper
-                        wrapperMix={{ block: 'ProductPage', elem: 'Wrapper' }}
-                        label={__('Main product details')}
+                      wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
+                      label={ __('Main product details') }
                     >
-                        {this.renderProductPageContent()}
+                        { this.renderProductPageContent() }
                     </ContentWrapper>
-                    {this.renderAdditionalSections()}
-                    {this.renderReviewPopup()}
+                    { this.renderAdditionalSections() }
+                    { this.renderReviewPopup() }
                 </main>
             </NoMatchHandler>
         );

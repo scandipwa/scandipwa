@@ -90,7 +90,7 @@ export interface CategoryPageComponentProps {
     isMatchingListFilter: boolean;
     isMobile: boolean;
     isSearchPage: boolean;
-    plpTypes: string[];
+    plpTypes: CategoryPageLayout[];
     selectedFilters: Record<string, string[]>;
     selectedSort: CategorySortOptions;
     sortFields: Partial<SortFields>;
@@ -99,7 +99,7 @@ export interface CategoryPageComponentProps {
     totalItems: number;
     selectedLayoutType?: CategoryPageLayout;
     activeLayoutType?: CategoryPageLayout;
-    onSortChange: (sortDirection: SortDirections, sortKey: string) => void;
+    onSortChange: (sortDirection: SortDirections, sortKey: string[]) => void;
     onGridButtonClick: () => void;
     onListButtonClick: () => void;
 }

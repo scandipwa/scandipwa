@@ -20,6 +20,7 @@ import { encodeBase64 } from 'Util/Base64';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import { makeCancelable } from 'Util/Promise';
 import { CancelablePromise } from 'Util/Promise/Promise.type';
+import { RootState } from 'Util/Store/Store.type';
 import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
@@ -31,9 +32,9 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/CartItem/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState) => ({
     isMobile: state.ConfigReducer.device.isMobile,
-    cartId: state.CartReducer.id
+    cartId: state.CartReducer.cartTotals?.id || ''
 });
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */

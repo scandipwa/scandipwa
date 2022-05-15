@@ -25,7 +25,7 @@ export type CategoryBreadcrumb = {
 };
 
 export type Category = {
-    id: number;
+    id: number | string;
     url: string;
     name: string;
     breadcrumbs: CategoryBreadcrumb[];
