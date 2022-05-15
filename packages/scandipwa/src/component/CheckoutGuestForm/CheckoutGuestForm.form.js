@@ -35,7 +35,7 @@ export const checkoutGuestForm = (props, events) => {
                 placeholder: __('Your email'),
                 defaultValue: emailValue,
                 'aria-label': __('Your email'),
-                autocomplete: 'email'
+                autoComplete: 'email'
             },
             events: {
                 onChange: handleEmailInput

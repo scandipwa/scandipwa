@@ -23,12 +23,18 @@ export enum NavigationType {
 }
 
 export type NavigationState = {
-    name: string;
-    title?: string;
     force?: boolean;
+    hiddenElements?: string[];
     isHidden?: boolean;
+    isHiddenOnMobile?: boolean;
+    name: string;
     onBackClick?: (e: MouseEvent) => void;
+    onCancelClick?: (e?: MouseEvent) => void;
     onCloseClick?: (e: MouseEvent) => void;
+    onEditClick?: (e?: MouseEvent) => void;
+    onOkClick?: (e?: MouseEvent) => void;
+    shouldNotGoToPrevState?: boolean;
+    title?: string;
 };
 
 export interface ChangeNavigationStateAction extends AnyAction {

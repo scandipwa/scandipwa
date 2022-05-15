@@ -370,21 +370,21 @@ export class StyleGuidePageComponent extends PureComponent {
 
                 <h4 block="StyleGuidePage" elem="SubHeading">{ __('Checkbox') }</h4>
                 <Field
-                  type="checkbox"
+                  type={ FieldType.CHECKBOX }
                   label="Remember me"
                   isDisabled
                 />
                 <Field
-                  type="checkbox"
+                  type={ FieldType.CHECKBOX }
                   label="Remember me"
                 />
                 <Field
-                  type="checkbox"
+                  type={ FieldType.CHECKBOX }
                   label="Remember me"
                   attr={ { block: 'StyleGuidePage', elem: 'HoveredInput', id: 'hoveredCheckbox' } }
                 />
                 <Field
-                  type="checkbox"
+                  type={ FieldType.CHECKBOX }
                   label="Remember me"
                   attr={ { block: 'StyleGuidePage', elem: 'ErrorInput', id: 'errorCheckbox' } }
                 />
@@ -392,7 +392,7 @@ export class StyleGuidePageComponent extends PureComponent {
                     This is an error message
                 </div>
                 <Field
-                  type="checkbox"
+                  type={ FieldType.CHECKBOX }
                   label="Remember me"
                   attr={ {
                       checked: true
@@ -401,21 +401,21 @@ export class StyleGuidePageComponent extends PureComponent {
 
                 <h4 block="StyleGuidePage" elem="SubHeading">{ __('Radio') }</h4>
                 <Field
-                  type="radio"
+                  type={ FieldType.RADIO }
                   label="Remember me"
                   isDisabled
                 />
                 <Field
-                  type="radio"
+                  type={ FieldType.RADIO }
                   label="Remember me"
                 />
                 <Field
-                  type="radio"
+                  type={ FieldType.RADIO }
                   label="Remember me"
                   attr={ { block: 'StyleGuidePage', elem: 'HoveredInput', id: 'hoveredRadio' } }
                 />
                 <Field
-                  type="radio"
+                  type={ FieldType.RADIO }
                   label="Remember me"
                   attr={ { block: 'StyleGuidePage', elem: 'ErrorInput', id: 'errorRadio' } }
                 />
@@ -423,7 +423,7 @@ export class StyleGuidePageComponent extends PureComponent {
                     This is an error message
                 </div>
                 <Field
-                  type="radio"
+                  type={ FieldType.RADIO }
                   label="Remember me"
                   attr={ { checked: true } }
                 />

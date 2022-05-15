@@ -9,14 +9,16 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { FieldType } from 'Component/Field/Field.config';
+
 export type ValidationRule = {
-    isRequired: boolean;
-    inputType: string;
+    isRequired?: boolean;
+    inputType?: string;
     selector?: string;
-    match: string | ((args: string | Record<string, string>[] | undefined) => boolean);
-    range: Record<string, number>;
-    fileExtension: Record<string, string>;
-    customErrorMessages: Record<string, string>;
+    match?: string | ((args: string | Record<string, string>[] | undefined) => boolean);
+    range?: { min?: number; max?: number; showLengthError?: boolean };
+    fileExtension?: Record<string, string>;
+    customErrorMessages?: Record<string, string>;
 };
 
 export type ValidationOutput = {
@@ -32,4 +34,11 @@ export type ValidationDOMOutput = {
     }[];
     errorFields?: unknown[];
     errorMessages?: string[];
+};
+
+export type FieldValidationOutput = {
+    errorMessages?: string[];
+    name?: string;
+    type: FieldType;
+    value?: string | boolean;
 };

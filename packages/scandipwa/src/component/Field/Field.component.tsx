@@ -10,21 +10,29 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import {
+    ButtonHTMLAttributes,
+    InputHTMLAttributes,
+    PureComponent,
+    SelectHTMLAttributes,
+    TextareaHTMLAttributes
+} from 'react';
 
 import FieldFile from 'Component/FieldFile';
 import { FieldNumberContainer } from 'Component/FieldNumber/FieldNumber.container';
 import FieldSelectContainer from 'Component/FieldSelect/FieldSelect.container';
-import { MixType, ReactElement } from 'Type/Common.type';
-import {
-    EventsType,
-    FieldAttrType,
-    LabelType,
-    OptionType
-} from 'Type/Field.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import { FieldType } from './Field.config';
+import {
+    FieldComponentProps,
+    FieldEvents,
+    FieldInputCustomEvents,
+    FieldNumberCustomEvents,
+    FieldReactEvents,
+    FieldSelectCustomEvents
+} from './Field.type';
 
 import './Field.style';
 
@@ -33,46 +41,7 @@ import './Field.style';
  * @class Field
  * @namespace Component/Field/Component
  */
-export class Field extends PureComponent {
-    static propTypes = {
-        // Field attributes
-        type: PropTypes.oneOf(Object.values(FieldType)).isRequired,
-        attr: FieldAttrType.isRequired,
-        events: EventsType.isRequired,
-        isDisabled: PropTypes.bool.isRequired,
-        setRef: PropTypes.func.isRequired,
-        mix: MixType.isRequired,
-        options: PropTypes.arrayOf(OptionType).isRequired,
-        changeValueOnDoubleClick: PropTypes.bool,
-        isSortSelect: PropTypes.bool,
-
-        // Validation
-        showErrorAsLabel: PropTypes.bool.isRequired,
-        validationResponse: (props, propName, componentName) => {
-            const propValue = props[propName];
-
-            if (propValue === null) {
-                return;
-            }
-
-            if (typeof propValue === 'boolean') {
-                return;
-            }
-
-            if (typeof propValue === 'object' && !Object.keys(propValue).includes('errorMessages')) {
-                throw new Error(
-                    // eslint-disable-next-line max-len
-                    `${componentName} only accepts null, bool or object of "errorMessages" as "validationResponse", received "${JSON.stringify(propValue)}"`
-                );
-            }
-        },
-
-        // Labels
-        label: LabelType.isRequired,
-        subLabel: PropTypes.string.isRequired,
-        addRequiredTag: PropTypes.bool.isRequired
-    };
-
+export class Field extends PureComponent<FieldComponentProps> {
     static defaultProps = {
         validationResponse: null,
         changeValueOnDoubleClick: false,
@@ -81,25 +50,25 @@ export class Field extends PureComponent {
 
     renderMap = {
         // Checkboxes & Radio
-        [FieldType.radio]: this.renderCheckboxOrRadio.bind(this),
-        [FieldType.checkbox]: this.renderCheckboxOrRadio.bind(this),
-        [FieldType.multi]: this.renderCheckboxOrRadio.bind(this),
+        [FieldType.RADIO]: this.renderCheckboxOrRadio.bind(this),
+        [FieldType.CHECKBOX]: this.renderCheckboxOrRadio.bind(this),
+        [FieldType.MULTI]: this.renderCheckboxOrRadio.bind(this),
 
         // Default input
-        [FieldType.email]: this.renderDefaultInput.bind(this),
-        [FieldType.text]: this.renderDefaultInput.bind(this),
-        [FieldType.time]: this.renderDefaultInput.bind(this),
-        [FieldType.dateTime]: this.renderDefaultInput.bind(this),
-        [FieldType.date]: this.renderDefaultInput.bind(this),
-        [FieldType.password]: this.renderDefaultInput.bind(this),
-        [FieldType.submit]: this.renderDefaultInput.bind(this),
+        [FieldType.EMAIL]: this.renderDefaultInput.bind(this),
+        [FieldType.TEXT]: this.renderDefaultInput.bind(this),
+        [FieldType.TIME]: this.renderDefaultInput.bind(this),
+        [FieldType.DATETIME]: this.renderDefaultInput.bind(this),
+        [FieldType.DATE]: this.renderDefaultInput.bind(this),
+        [FieldType.PASSWORD]: this.renderDefaultInput.bind(this),
+        [FieldType.SUBMIT]: this.renderDefaultInput.bind(this),
 
         // Custom fields
-        [FieldType.file]: this.renderFile.bind(this),
-        [FieldType.select]: this.renderSelect.bind(this),
-        [FieldType.textarea]: this.renderTextArea.bind(this),
-        [FieldType.button]: this.renderButton.bind(this),
-        [FieldType.number]: this.renderNumber.bind(this)
+        [FieldType.FILE]: this.renderFile.bind(this),
+        [FieldType.SELECT]: this.renderSelect.bind(this),
+        [FieldType.TEXTAREA]: this.renderTextArea.bind(this),
+        [FieldType.BUTTON]: this.renderButton.bind(this),
+        [FieldType.NUMBER]: this.renderNumber.bind(this)
 
     };
 
@@ -114,8 +83,8 @@ export class Field extends PureComponent {
               ref={ (elem) => setRef(elem) }
               disabled={ isDisabled }
               type={ type }
-              { ...attr }
-              { ...events }
+              { ...attr as InputHTMLAttributes<HTMLInputElement> }
+              { ...events as FieldReactEvents<HTMLInputElement> }
             />
         );
     }
@@ -124,7 +93,11 @@ export class Field extends PureComponent {
         const { attr, events, setRef } = this.props;
 
         return (
-            <FieldFile attr={ attr } events={ events } setRef={ setRef } />
+            <FieldFile
+              attr={ attr as InputHTMLAttributes<HTMLInputElement> }
+              events={ events as Omit<FieldEvents, 'onChange'> & FieldInputCustomEvents }
+              setRef={ setRef }
+            />
         );
     }
 
@@ -138,8 +111,8 @@ export class Field extends PureComponent {
 
         return (
             <FieldNumberContainer
-              attr={ attr }
-              events={ events }
+              attr={ attr as InputHTMLAttributes<HTMLInputElement> }
+              events={ events as Omit<FieldEvents, 'onChange'> & FieldNumberCustomEvents }
               setRef={ setRef }
               isDisabled={ isDisabled }
             />
@@ -159,8 +132,8 @@ export class Field extends PureComponent {
 
         return (
             <FieldSelectContainer
-              attr={ attr }
-              events={ events }
+              attr={ attr as SelectHTMLAttributes<HTMLSelectElement> }
+              events={ events as Omit<FieldEvents, 'onChange'> & FieldSelectCustomEvents }
               options={ options }
               setRef={ setRef }
               isDisabled={ isDisabled }
@@ -180,8 +153,8 @@ export class Field extends PureComponent {
             <button
               ref={ (elem) => setRef(elem) }
               disabled={ isDisabled }
-              { ...attr }
-              { ...events }
+              { ...attr as ButtonHTMLAttributes<HTMLButtonElement> }
+              { ...events as FieldReactEvents<HTMLButtonElement> }
             >
                 { value }
             </button>
@@ -198,15 +171,19 @@ export class Field extends PureComponent {
             isDisabled,
             label
         } = this.props;
-        const { id = '', checked, value = '' } = newAttr;
+
+        const {
+            id = '',
+            checked,
+            value = ''
+        } = newAttr as InputHTMLAttributes<HTMLInputElement>;
         const elem = type.charAt(0).toUpperCase() + type.slice(1);
         const inputEvents = {
             ...events,
             onChange: onChange || noopFn
         };
-        // if button value is "none" do not disable
-        const isButtonDisabled = (!value.match('none') && isDisabled);
-        const isChecked = isButtonDisabled || defaultChecked ? !isDisabled : null;
+        const isButtonDisabled = (typeof value === 'string' && !value.match('none') && isDisabled);
+        const isChecked = isButtonDisabled || defaultChecked ? !isDisabled : undefined;
 
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
@@ -214,12 +191,10 @@ export class Field extends PureComponent {
                   ref={ (elem) => setRef(elem) }
                   disabled={ isButtonDisabled ? isDisabled : false }
                   type={ type }
-                  { ...newAttr }
-                  { ...inputEvents }
-                  // shipping options have checked attr assigned so prioritize its value
-                  checked={ checked || isChecked }
+                  { ...{ ...newAttr, checked: checked || isChecked } as InputHTMLAttributes<HTMLInputElement> }
+                  { ...inputEvents as FieldReactEvents<HTMLInputElement> }
                 />
-                <div block="input-control" disabled={ isDisabled } />
+                <div block="input-control" mods={ { disabled: { isDisabled } } } />
                 { label }
             </label>
         );
@@ -233,9 +208,9 @@ export class Field extends PureComponent {
         return (
             <textarea
               ref={ (elem) => setRef(elem) }
+              { ...attr as TextareaHTMLAttributes<HTMLTextAreaElement> }
               disabled={ isDisabled }
-              { ...attr }
-              { ...events }
+              { ...events as FieldReactEvents<HTMLTextAreaElement> }
             />
         );
     }
@@ -243,7 +218,7 @@ export class Field extends PureComponent {
 
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under field
-    renderErrorMessage(message, key): ReactElement {
+    renderErrorMessage(message: string, key: string): ReactElement {
         return <div block="Field" elem="ErrorMessage" key={ key }>{ message }</div>;
     }
 
@@ -260,7 +235,7 @@ export class Field extends PureComponent {
 
         const { errorMessages = [] } = validationResponse;
 
-        if (!errorMessages) {
+        if (!errorMessages || !name) {
             return null;
         }
 
@@ -339,7 +314,7 @@ export class Field extends PureComponent {
                   } }
                   mix={ mix }
                 >
-                    { type !== FieldType.checkbox && type !== FieldType.radio && this.renderLabel() }
+                    { type !== FieldType.CHECKBOX && type !== FieldType.RADIO && this.renderLabel() }
                     { inputRenderer && inputRenderer() }
                 </div>
                 { this.renderErrorMessages() }

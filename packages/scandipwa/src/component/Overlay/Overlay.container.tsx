@@ -9,12 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 
 import { RootState } from 'Util/Store/Store.type';
 
 import OverlayComponent from './Overlay.component';
-import { OverlayContainerMapStateProps } from './Overlay.type';
+import { OverlayContainerMapDispatchProps, OverlayContainerMapStateProps } from './Overlay.type';
 
 /** @namespace Component/Overlay/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): OverlayContainerMapStateProps => ({
@@ -24,10 +25,10 @@ export const mapStateToProps = (state: RootState): OverlayContainerMapStateProps
 });
 
 /** @namespace Component/Overlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = (): Record<string, never> => ({});
+export const mapDispatchToProps = (): OverlayContainerMapDispatchProps => ({});
 
 // eslint-disable-next-line @scandipwa/scandipwa-guidelines/always-both-mappings
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(OverlayComponent);
+)(OverlayComponent as unknown as ComponentType<never>);

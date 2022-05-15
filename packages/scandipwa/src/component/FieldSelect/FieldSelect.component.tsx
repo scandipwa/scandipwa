@@ -12,10 +12,13 @@
 import { PureComponent } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
-import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
+import { Directions } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
+import { FieldReactEvents } from 'Component/Field/Field.type';
 import { ReactElement } from 'Type/Common.type';
-import { EventsType, FieldAttrType, FieldOptionsType } from 'Type/Field.type';
+import { Option } from 'Type/Field.type';
+
+import { FieldSelectComponentProps } from './FieldSelect.type';
 
 import './FieldSelect.style';
 
@@ -23,25 +26,8 @@ import './FieldSelect.style';
  * Field Select
  * @class FieldSelect
  * @namespace Component/FieldSelect/Component */
-export class FieldSelect extends PureComponent {
-    static propTypes = {
-        attr: FieldAttrType.isRequired,
-        events: EventsType.isRequired,
-        options: FieldOptionsType.isRequired,
-        setRef: PropTypes.func.isRequired,
-        isExpanded: PropTypes.bool.isRequired,
-        handleSelectListOptionClick: PropTypes.func.isRequired,
-        handleSelectListKeyPress: PropTypes.func.isRequired,
-        handleSelectExpandedExpand: PropTypes.func.isRequired,
-        handleSelectExpand: PropTypes.func.isRequired,
-        isSelectedOptionAvailable: PropTypes.bool.isRequired,
-        isDisabled: PropTypes.bool.isRequired,
-        isDropdownOpenUpwards: PropTypes.bool.isRequired,
-        isScrollable: PropTypes.bool.isRequired,
-        isSortSelect: PropTypes.bool.isRequired
-    };
-
-    renderNativeOption(option): ReactElement {
+export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
+    renderNativeOption(option: Option): ReactElement {
         const {
             id,
             value,
@@ -56,7 +42,7 @@ export class FieldSelect extends PureComponent {
         return (
             <option
               key={ id }
-              id={ id }
+              id={ String(id) }
               value={ value }
               disabled={ disabled || isDisabled || !isAvailable }
             >
@@ -80,7 +66,7 @@ export class FieldSelect extends PureComponent {
               // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
               { ...attr }
               // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
-              { ...events }
+              { ...events as FieldReactEvents<HTMLSelectElement> }
               onChange={ handleSelectListOptionClick }
             >
                 { options.map(this.renderNativeOption.bind(this)) }
@@ -88,7 +74,7 @@ export class FieldSelect extends PureComponent {
         );
     }
 
-    renderOption(option): ReactElement {
+    renderOption(option: Option): ReactElement {
         const {
             id,
             label,
@@ -126,7 +112,7 @@ export class FieldSelect extends PureComponent {
               onTouchStart={ () => handleSelectListOptionClick(option) }
               // eslint-disable-next-line react/jsx-no-bind
               onKeyPress={ () => handleSelectListOptionClick(option) }
-              tabIndex={ isExpanded ? '0' : '-1' }
+              tabIndex={ isExpanded ? 0 : -1 }
             >
                 { label }
                 { subLabel && (
@@ -192,14 +178,14 @@ export class FieldSelect extends PureComponent {
                   onClick={ handleSelectExpand }
                   onKeyPress={ handleSelectListKeyPress }
                   role="button"
-                  tabIndex="0"
+                  tabIndex={ 0 }
                   aria-label="Select dropdown"
                   aria-expanded={ isExpanded }
                 >
                     <div block="FieldSelect" elem="Clickable">
                         { this.renderSortSelect() }
                         { this.renderNativeSelect() }
-                        <ChevronIcon direction={ isExpanded ? TOP : BOTTOM } />
+                        <ChevronIcon direction={ isExpanded ? Directions.TOP : Directions.BOTTOM } />
                     </div>
                     { this.renderOptions() }
                 </div>

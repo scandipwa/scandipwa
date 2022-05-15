@@ -160,7 +160,7 @@ export class MyAccountCreateAccount extends PureComponent {
                       validateOn={ ['onChange'] }
                       validationRule={ {
                           isRequired: true,
-                          inputType: ValidationInputType.password,
+                          inputType: ValidationInputType.PASSWORD,
                           match: (value) => {
                               const email = document.getElementById('email');
 
@@ -185,7 +185,7 @@ export class MyAccountCreateAccount extends PureComponent {
                       validateOn={ ['onChange'] }
                       validationRule={ {
                           isRequired: true,
-                          inputType: ValidationInputType.password,
+                          inputType: ValidationInputType.PASSWORD,
                           match: (value) => {
                               const password = document.getElementById('password');
                               return value && password.value === value;

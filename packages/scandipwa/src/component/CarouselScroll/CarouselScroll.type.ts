@@ -15,7 +15,7 @@ export interface CarouselScrollComponentProps {
     children: Children;
     showArrow: boolean;
     showedItemCount: number;
-    onChange: (activeItem: number) => void;
+    onChange: (activeItem: string) => void;
     activeItemId: number;
     isImageZoomPopupActive: boolean;
 }

@@ -58,7 +58,7 @@ export class Breadcrumb extends PureComponent<BreadcrumbComponentProps> {
               block="Breadcrumb"
               elem="Link"
               to={ url }
-              tabIndex={ isDisabled ? '-1' : '0' }
+              tabIndex={ isDisabled ? -1 : 0 }
             >
                 <meta itemProp="item" content={ window.location.origin + url.pathname } />
                 <span block="Breadcrumb" elem="Link-Name" itemProp="name">

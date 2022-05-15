@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -76,7 +74,9 @@ export class Overlay<Props extends OverlayComponentProps> extends PureComponent<
             this.unfreezeScroll();
         }
 
-        onHide();
+        if (onHide) {
+            onHide();
+        }
     }
 
     getIsVisible(props: Props = this.props): boolean {

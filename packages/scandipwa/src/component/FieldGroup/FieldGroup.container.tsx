@@ -1,4 +1,3 @@
-/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -7,44 +6,31 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
+import { PureComponent, SyntheticEvent } from 'react';
 
 import { FieldType } from 'Component/Field/Field.config';
-import { ChildrenType, ModsType, RefType } from 'Type/Common.type';
-import { EventsType, FieldAttrType, ValidationRuleType } from 'Type/Field.type';
+import { FormValidationOutput } from 'Component/Form/Form.type';
+import { ReactElement } from 'Type/Common.type';
 import getFieldsData from 'Util/Form/Extract';
 import { validateGroup } from 'Util/Validator';
+import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
 import FieldGroup from './FieldGroup.component';
+import {
+    FormGroupComponentProps,
+    FormGroupContainerProps,
+    FormGroupContainerPropsKeys,
+    FormGroupContainerState
+} from './FieldGroup.type';
 
 /**
  * Field Group
  * @class FieldGroupContainer
  * @namespace Component/FieldGroup/Container */
-export class FieldGroupContainer extends PureComponent {
-    static propTypes = {
-        // Group attributes
-        children: ChildrenType,
-        attr: FieldAttrType,
-        events: EventsType,
-        elemRef: RefType,
-
-        // Validation
-        validationRule: ValidationRuleType,
-        validateOn: PropTypes.arrayOf(PropTypes.string),
-        showErrorAsLabel: PropTypes.bool,
-
-        // Labels
-        label: PropTypes.string,
-        subLabel: PropTypes.string,
-
-        mods: ModsType
-    };
-
+export class FieldGroupContainer extends PureComponent<FormGroupContainerProps, FormGroupContainerState> {
     static defaultProps = {
         attr: {},
         events: {},
@@ -66,9 +52,9 @@ export class FieldGroupContainer extends PureComponent {
         validate: this.validate.bind(this)
     };
 
-    groupRef = createRef();
+    groupRef: HTMLDivElement | null = null;
 
-    //#region VALIDATION
+    // #region VALIDATION
     // Removes event listener for validation from field
     componentWillUnmount(): void {
         const { validationRule } = this.props;
@@ -79,7 +65,7 @@ export class FieldGroupContainer extends PureComponent {
     }
 
     // Adds validation event listener to field
-    setRef(elem) {
+    setRef(elem: HTMLDivElement | null): void {
         const { validationRule, elemRef } = this.props;
 
         if (elem && this.groupRef !== elem) {
@@ -96,13 +82,13 @@ export class FieldGroupContainer extends PureComponent {
         }
     }
 
-    validate(data) {
+    validate(data?: (Event | SyntheticEvent) & FormValidationOutput): boolean | ValidationDOMOutput | null {
         const { validationRule } = this.props;
-        const output = validateGroup(this.groupRef, validationRule);
+        const output = this.groupRef && validateGroup(this.groupRef, validationRule);
 
         // If validation is called from different object you can pass object
         // to store validation error values
-        if (data && data.detail && output !== true) {
+        if (data && data.detail && output && output !== true) {
             if (!data.detail.errors) {
                 // eslint-disable-next-line no-param-reassign
                 data.detail.errors = [];
@@ -114,7 +100,7 @@ export class FieldGroupContainer extends PureComponent {
         return output;
     }
 
-    validateOnEvent(hook, ...args) {
+    validateOnEvent(hook: unknown, ...args: ((event?: SyntheticEvent) => void)[]): void{
         this.validate();
 
         if (typeof hook === 'function') {
@@ -122,7 +108,7 @@ export class FieldGroupContainer extends PureComponent {
         }
     }
 
-    surroundEvent(hook, ...args) {
+    surroundEvent(hook: any, ...args: ((event?: SyntheticEvent) => void)[]): void {
         const { attr } = this.props;
         const fields = getFieldsData(
             this.groupRef,
@@ -132,9 +118,9 @@ export class FieldGroupContainer extends PureComponent {
 
         hook(...[...args, { ...attr, formRef: this.groupRef, fields }]);
     }
-    //#endregion
+    // #endregion
 
-    containerProps() {
+    containerProps(): Pick<FormGroupComponentProps, FormGroupContainerPropsKeys> {
         const {
             events,
             validateOn,
@@ -149,14 +135,14 @@ export class FieldGroupContainer extends PureComponent {
         const { validationResponse } = this.state;
 
         // Surrounds events with validation
-        const newEvents = {};
+        const newEvents: Record<string, unknown> = {};
         Object.keys(events).forEach((eventName) => {
-            const { [ eventName ]: event } = events;
+            const { [ eventName as keyof typeof events]: event } = events;
             newEvents[ eventName ] = this.surroundEvent.bind(this, event);
         });
 
         validateOn.forEach((eventName) => {
-            const { [ eventName ]: baseEvent } = events;
+            const { [ eventName as keyof typeof events ]: baseEvent } = events;
             newEvents[ eventName ] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 

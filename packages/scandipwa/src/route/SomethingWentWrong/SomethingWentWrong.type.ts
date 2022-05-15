@@ -17,6 +17,8 @@ export interface SomethingWentWrongContainerMapDispatchProps {
     updateMeta: (meta: Partial<PageMeta>) => void;
 }
 
+export interface SomethingWentWrongContainerMapStateToProps {}
+
 export interface SomethingWentWrongContainerBaseProps {
     onClick: () => void;
     errorDetails: {

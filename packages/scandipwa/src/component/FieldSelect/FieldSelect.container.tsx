@@ -6,39 +6,26 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
+import { KeyboardEvent, MouseEvent, PureComponent } from 'react';
 
-import { KEY_CODE } from 'Component/Field/Keyboard.config';
-import {
-    EventsType,
-    FieldAttrType,
-    FieldOptionsType
-} from 'Type/Field.type';
+import { KeyCode } from 'Component/Field/Keyboard.config';
+import { ReactElement } from 'Type/Common.type';
+import { Option } from 'Type/Field.type';
 
 import FieldSelect from './FieldSelect.component';
 import { DROPDOWN_MIN_HEIGHT, DROPDOWN_SCROLL_MIN_ITEMS } from './FieldSelect.config';
+import {
+    FieldSelectComponentProps, FieldSelectContainerProps, FieldSelectContainerPropsKeys, FieldSelectContainerState
+} from './FieldSelect.type';
 
 /**
  * Field Select
  * @class FieldSelectContainer
  * @namespace Component/FieldSelect/Container */
-export class FieldSelectContainer extends PureComponent {
-    static propTypes = {
-        // Field attributes
-        attr: FieldAttrType.isRequired,
-        events: EventsType.isRequired,
-        options: FieldOptionsType.isRequired,
-        setRef: PropTypes.func.isRequired,
-        isDisabled: PropTypes.bool.isRequired,
-        noPlaceholder: PropTypes.bool,
-        changeValueOnDoubleClick: PropTypes.bool,
-        isSortSelect: PropTypes.bool
-    };
-
+export class FieldSelectContainer extends PureComponent<FieldSelectContainerProps, FieldSelectContainerState> {
     static defaultProps = {
         noPlaceholder: false,
         changeValueOnDoubleClick: false,
@@ -65,9 +52,12 @@ export class FieldSelectContainer extends PureComponent {
         handleDropdownOpenDirection: this.handleDropdownOpenDirection.bind(this)
     };
 
-    fieldRef = createRef();
+    fieldRef: HTMLSelectElement | null = null;
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(
+        props: FieldSelectContainerProps,
+        state: FieldSelectContainerState
+    ): { isExpanded: boolean } {
         const { attr: { isExpanded } = {} } = props;
         const { isExpanded: stateIsExpanded } = state;
 
@@ -80,18 +70,22 @@ export class FieldSelectContainer extends PureComponent {
 
     componentDidUpdate(): void {
         const { selectedOptionIndex: prevSelectedOptionIndex } = this.state;
-        const selectedOptionIndex = this.fieldRef.options.selectedIndex;
+        const selectedOptionIndex = this.fieldRef?.options.selectedIndex;
 
         if (prevSelectedOptionIndex !== selectedOptionIndex) {
             this.isSelectedOptionAvailable();
         }
     }
 
-    isSelectedOptionAvailable() {
+    isSelectedOptionAvailable(): void {
+        if (!this.fieldRef) {
+            return;
+        }
+
         const options = this.getOptions();
         const selectedOptionIndex = this.fieldRef.options.selectedIndex;
         const selectedOption = options[ selectedOptionIndex ];
-        const isAvailable = selectedOption.isAvailable !== false;
+        const isAvailable = 'isAvailable' in selectedOption ? selectedOption.isAvailable !== false : false;
 
         this.setState({
             selectedOptionIndex,
@@ -99,7 +93,7 @@ export class FieldSelectContainer extends PureComponent {
         });
     }
 
-    setRef(elem) {
+    setRef(elem: HTMLSelectElement | null): void {
         const { setRef } = this.props;
         setRef(elem);
 
@@ -108,7 +102,7 @@ export class FieldSelectContainer extends PureComponent {
         }
     }
 
-    getOptions() {
+    getOptions(): Option[] {
         const {
             options,
             attr: {
@@ -135,37 +129,41 @@ export class FieldSelectContainer extends PureComponent {
         ];
     }
 
-    handleSelectListOptionClick(option) {
+    handleSelectListOptionClick(option: Option): void {
         const { changeValueOnDoubleClick, events: { onChange } = {} } = this.props;
         const { value, target: { value: targetValue } = {} } = option;
 
         const fieldValue = value || targetValue || '';
 
+        if (!this.fieldRef) {
+            return;
+        }
+
         if (changeValueOnDoubleClick) {
-            this.fieldRef.value = this.fieldRef.value === value ? '' : fieldValue;
+            this.fieldRef.value = this.fieldRef.value === value ? '' : String(fieldValue);
         } else {
-            this.fieldRef.value = fieldValue;
+            this.fieldRef.value = String(fieldValue);
         }
 
         if (onChange) {
-            onChange(fieldValue);
+            onChange(String(fieldValue));
         }
     }
 
-    isSelectDisabled() {
+    isSelectDisabled(): boolean {
         const { options } = this.props;
 
         return options.length === 0;
     }
 
-    handleSelectExpand(event) {
+    handleSelectExpand(event?: MouseEvent): void {
         if (!this.isSelectDisabled()) {
             if (!event) {
                 this.setState({ isExpanded: false });
                 return;
             }
 
-            const { localName } = event.target;
+            const { localName } = event.currentTarget;
 
             if (localName === 'ul') {
                 this.setState({ isExpanded: true });
@@ -176,7 +174,7 @@ export class FieldSelectContainer extends PureComponent {
         this.handleDropdownOpenDirection();
     }
 
-    handleSelectExpandedExpand() {
+    handleSelectExpandedExpand(): void {
         const { isExpanded } = this.state;
 
         if (isExpanded) {
@@ -184,7 +182,7 @@ export class FieldSelectContainer extends PureComponent {
         }
     }
 
-    _getSelectedValueIndex(keyCode) {
+    _getSelectedValueIndex(keyCode: number): { searchString?: string; valueIndex?: number } {
         const { options } = this.props;
         const {
             searchString: prevSearchString,
@@ -198,7 +196,7 @@ export class FieldSelectContainer extends PureComponent {
             : pressedKeyValue;
 
         const nextValueIndex = options.findIndex(({ label }, i) => (
-            label && label.toLowerCase().startsWith(searchString) && (
+            typeof label === 'string' && label.toLowerCase().startsWith(searchString) && (
                 i > prevValueIndex || prevSearchString !== searchString
             )
         ));
@@ -211,7 +209,7 @@ export class FieldSelectContainer extends PureComponent {
         const newSearchString = searchString[ searchString.length - 1 ];
 
         const newValueIndex = options.findIndex(({ label }) => (
-            label && label.toLowerCase().startsWith(newSearchString)
+            typeof label === 'string' && label.toLowerCase().startsWith(newSearchString)
         ));
 
         if (newValueIndex !== -1) {
@@ -222,16 +220,16 @@ export class FieldSelectContainer extends PureComponent {
         return {};
     }
 
-    handleSelectListKeyPress(event) {
+    handleSelectListKeyPress(event: KeyboardEvent): void {
         const { isExpanded } = this.state;
         const {
             options,
             events: { onChange } = {}
         } = this.props;
-        const keyCode = event.which || event.keycode;
+        const keyCode = event.which || event.keyCode;
 
         // on Enter pressed
-        if (keyCode === KEY_CODE.enter) {
+        if (keyCode === KeyCode.ENTER) {
             this.handleSelectExpand();
 
             return;
@@ -239,9 +237,9 @@ export class FieldSelectContainer extends PureComponent {
 
         if (!isExpanded
             || !keyCode
-            || keyCode < KEY_CODE.A
-            || keyCode > KEY_CODE.z
-            || (keyCode > KEY_CODE.Z && keyCode < KEY_CODE.a)
+            || keyCode < KeyCode.A
+            || keyCode > KeyCode.z
+            || (keyCode > KeyCode.Z && keyCode < KeyCode.a)
         ) {
             return;
         }
@@ -249,7 +247,7 @@ export class FieldSelectContainer extends PureComponent {
         const { searchString, valueIndex } = this._getSelectedValueIndex(keyCode);
 
         // valueIndex can be 0, so !valueIndex === true
-        if (!searchString || valueIndex === null) {
+        if (!searchString || valueIndex === null || !valueIndex) {
             return;
         }
 
@@ -271,18 +269,22 @@ export class FieldSelectContainer extends PureComponent {
         });
     }
 
-    updateValue(valueIndex) {
+    updateValue(valueIndex: number): void {
         if (this.fieldRef) {
             const { options } = this.props;
             const { value } = options[ valueIndex ];
 
             if (value) {
-                this.fieldRef.value = value;
+                this.fieldRef.value = String(value);
             }
         }
     }
 
-    handleDropdownOpenDirection() {
+    handleDropdownOpenDirection(): void {
+        if (!this.fieldRef) {
+            return;
+        }
+
         const windowHeight = document.documentElement.clientHeight;
         const rect = this.fieldRef.getBoundingClientRect();
         const bottomPosition = Math.round(windowHeight - rect.bottom);
@@ -294,7 +296,7 @@ export class FieldSelectContainer extends PureComponent {
         }
     }
 
-    handleIsScrollableList() {
+    handleIsScrollableList(): void {
         const options = this.getOptions();
 
         if (options.length > DROPDOWN_SCROLL_MIN_ITEMS) {
@@ -304,11 +306,9 @@ export class FieldSelectContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<FieldSelectComponentProps, FieldSelectContainerPropsKeys> {
         const {
             attr: {
-                autoComplete,
-                autocomplete,
                 noPlaceholder,
                 selectPlaceholder,
                 ...attr
@@ -327,10 +327,7 @@ export class FieldSelectContainer extends PureComponent {
         } = this.state;
 
         return {
-            attr: {
-                ...attr,
-                autoComplete: autoComplete || autocomplete
-            },
+            attr,
             events,
             setRef,
             isDisabled,
@@ -346,8 +343,8 @@ export class FieldSelectContainer extends PureComponent {
     render(): ReactElement {
         return (
             <FieldSelect
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

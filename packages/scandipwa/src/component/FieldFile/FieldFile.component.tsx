@@ -12,25 +12,19 @@
 import { PureComponent } from 'react';
 
 import { FieldType } from 'Component/Field/Field.config';
+import { FieldReactEvents } from 'Component/Field/Field.type';
 import Loader from 'Component/Loader';
 import UploadIcon from 'Component/UploadIcon';
 import { ReactElement } from 'Type/Common.type';
-import { EventsType, FieldAttrType } from 'Type/Field.type';
+
+import { FieldFileComponentProps } from './FieldFile.type';
 
 /**
  * Field File
  * @class FieldFile
  * @namespace Component/FieldFile/Component */
-export class FieldFile extends PureComponent {
-    static propTypes = {
-        attr: FieldAttrType.isRequired,
-        events: EventsType.isRequired,
-        setRef: PropTypes.func.isRequired,
-        fileName: PropTypes.string.isRequired,
-        isLoading: PropTypes.bool.isRequired
-    };
-
-    renderSubLabel(allowedTypes): ReactElement {
+export class FieldFile extends PureComponent<FieldFileComponentProps> {
+    renderSubLabel(allowedTypes: string): ReactElement {
         return (
             <p block="FieldFile" elem="AllowedTypes">
                 { __('Compatible file extensions to upload:') }
@@ -91,7 +85,7 @@ export class FieldFile extends PureComponent {
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
                   { ...attr }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
-                  { ...events }
+                  { ...events as FieldReactEvents<HTMLInputElement> }
                 />
                 { this.renderFileLabel() }
                 { allowedFieldTypes.length > 0 && this.renderSubLabel(allowedFieldTypes) }

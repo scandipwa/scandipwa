@@ -80,6 +80,7 @@ declare global {
         platformVersion?: string;
         uaFullVersion?: string;
     }
+
     interface UALowEntropyJSON {
         brands: NavigatorUABrandVersion[];
         mobile: boolean;

@@ -9,7 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { MouseEvent, PureComponent } from 'react';
+import {
+    ComponentType,
+    MouseEvent,
+    PureComponent
+} from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -62,9 +66,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOverlayContaine
 });
 
 /** @namespace Component/MyAccountOverlay/Container */
-export class MyAccountOverlayContainer extends PureComponent<
-MyAccountOverlayContainerProps, MyAccountOverlayContainerState
-> {
+export class MyAccountOverlayContainer<
+Props extends MyAccountOverlayContainerProps,
+State extends MyAccountOverlayContainerState
+> extends PureComponent<Props, State> {
     static defaultProps = {
         isCheckout: false,
         isLoading: false,
@@ -85,7 +90,7 @@ MyAccountOverlayContainerProps, MyAccountOverlayContainerState
     __construct(props: MyAccountOverlayContainerProps): void {
         super.__construct?.(props);
 
-        this.state = this.redirectOrGetState(props);
+        this.state = this.redirectOrGetState(props) as State;
     }
 
     static getDerivedStateFromProps(
@@ -342,4 +347,6 @@ MyAccountOverlayContainerProps, MyAccountOverlayContainerState
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    MyAccountOverlayContainer as unknown as ComponentType<MyAccountOverlayContainerProps>
+);

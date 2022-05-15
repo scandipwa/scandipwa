@@ -1,4 +1,3 @@
-/* eslint-disable spaced-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -7,14 +6,13 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { FormEvent, PureComponent, SyntheticEvent } from 'react';
 
 import { FieldType } from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
-import { noopFn } from 'Util/Common';
 import getFieldsData from 'Util/Form/Extract';
 import { validateGroup } from 'Util/Validator';
 import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
@@ -24,7 +22,8 @@ import {
     FormComponentProps,
     FormContainerProps,
     FormContainerPropsKeys,
-    FormContainerState
+    FormContainerState,
+    FormValidationOutput
 } from './Form.type';
 
 /**
@@ -40,8 +39,8 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         showErrorAsLabel: true,
         label: '',
         subLabel: '',
-        onSubmit: noopFn,
-        onError: noopFn,
+        onSubmit: null,
+        onError: null,
         children: [],
         returnAsObject: false,
         mix: {},
@@ -49,7 +48,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
     };
 
     state = {
-        validationResponse: true
+        validationResponse: null
     };
 
     containerFunctions = {
@@ -58,9 +57,9 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         onSubmit: this.onSubmit.bind(this)
     };
 
-    formRef: HTMLElement | null = null;
+    formRef: HTMLFormElement | null = null;
 
-    //#region VALIDATION
+    // #region VALIDATION
     // Removes event listener for validation from field
     componentWillUnmount(): void {
         const { validationRule } = this.props;
@@ -85,35 +84,40 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
                 elemRef.current = elem;
             }
 
-            this.formRef.addEventListener('reset', this.resetField.bind(this));
+            elem.addEventListener('reset', this.resetField.bind(this));
 
             if (validationRule && Object.keys(validationRule).length > 0) {
-                this.formRef.addEventListener('validate', this.validate.bind(this));
+                elem.addEventListener('validate', this.validate.bind(this));
             }
         }
     }
 
     resetField(): void {
-        const fields = this.formRef?.querySelectorAll('input, textarea, select');
+        const fields = this.formRef && this.formRef.querySelectorAll('input, textarea, select');
         const event = new CustomEvent('resetField');
-
-        if (!fields) {
-            return;
-        }
-
-        fields.forEach((field) => field.dispatchEvent(event));
+        fields?.forEach((field) => field.dispatchEvent(event));
     }
 
-    validate(): boolean | ValidationDOMOutput {
+    validate(data?: (Event | SyntheticEvent) & FormValidationOutput): boolean | ValidationDOMOutput | null {
         const { validationRule } = this.props;
-        const output = validateGroup(this.formRef, validationRule);
+        const output = this.formRef && validateGroup(this.formRef, validationRule);
+
+        // If validation is called from different object you can pass object
+        // to store validation error values
+        if (data && data.detail && output && output !== true) {
+            if (!data.detail.errors) {
+                // eslint-disable-next-line no-param-reassign
+                data.detail.errors = [];
+            }
+            data.detail.errors.push(output);
+        }
 
         this.setState({ validationResponse: output });
 
         return output;
     }
 
-    validateOnEvent(hook, ...args: ((event?: SyntheticEvent) => void)[]): void{
+    validateOnEvent(hook: unknown, ...args: ((event?: SyntheticEvent) => void)[]): void{
         this.validate();
 
         if (typeof hook === 'function') {
@@ -121,7 +125,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         }
     }
 
-    surroundEvent(hook, ...args: ((event?: SyntheticEvent) => void)[]): void {
+    surroundEvent(hook: any, ...args: ((event?: SyntheticEvent) => void)[]): void {
         const { attr, returnAsObject } = this.props;
         const fields = getFieldsData(
             this.formRef,
@@ -132,10 +136,14 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
 
         hook(...[...args, { ...attr, formRef: this.formRef, fields }]);
     }
-    //#endregion
+    // #endregion
 
     async onSubmit(e: FormEvent): Promise<void> {
         e.preventDefault();
+
+        if (!this.formRef) {
+            return;
+        }
 
         const {
             onSubmit,
@@ -147,11 +155,6 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         const fields = getFieldsData(
             this.formRef, false, [FieldType.NUMBER, FieldType.BUTTON], returnAsObject
         );
-
-        if (!fields || Array.isArray(fields)) {
-            return;
-        }
-
         const isValid = validateGroup(this.formRef, validationRule);
 
         if (isValid !== true) {
@@ -167,10 +170,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         }
     }
 
-    containerProps(): Pick<
-    FormComponentProps,
-    FormContainerPropsKeys
-    > {
+    containerProps(): Pick<FormComponentProps, FormContainerPropsKeys> {
         const {
             events,
             validateOn,
@@ -183,18 +183,17 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         } = this.props;
         const { validate, onSubmit } = this.containerFunctions;
         const { validationResponse } = this.state;
-
-        const newEvents: Record<keyof typeof events, unknown> = {};
+        const newEvents: Record<string, unknown> = { };
 
         Object.keys(events).forEach((eventName) => {
-            const { [ eventName ]: event } = events;
-            newEvents[ eventName ] = this.surroundEvent.bind(this, event);
+            const { [eventName as keyof typeof events]: event } = events;
+            newEvents[eventName] = this.surroundEvent.bind(this, event);
         });
 
         // Surrounds events with validation
         validateOn.forEach((eventName) => {
-            const { [ eventName ]: baseEvent } = events;
-            newEvents[ eventName ] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
+            const { [eventName as keyof typeof events]: baseEvent } = events;
+            newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 
         return {

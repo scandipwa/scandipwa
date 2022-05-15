@@ -10,7 +10,7 @@
  */
 
 import { PopupPayload } from 'Store/Popup/Popup.type';
-import { Children, Mix } from 'Type/Common.type';
+import { Mix, ReactElement } from 'Type/Common.type';
 
 export interface OverlayContainerMapStateProps {
     activeOverlay: keyof PopupPayload;
@@ -18,17 +18,18 @@ export interface OverlayContainerMapStateProps {
     isMobile: boolean;
 }
 
-export type OverlayComponentProps = {
+export interface OverlayContainerMapDispatchProps {}
+
+export type OverlayComponentProps = OverlayContainerMapStateProps
+& OverlayContainerMapDispatchProps
+& {
     mix: Mix;
-    contentMix: Mix;
+    contentMix?: Mix;
     onVisible: () => void;
-    onClose: () => void;
-    onHide: () => void;
-    isStatic: boolean;
-    children: Children | Children[];
+    onClose?: () => void;
+    onHide?: () => void;
+    isStatic?: boolean;
+    children?: (ReactElement | Element)[];
     id: string;
-    isRenderInPortal: boolean;
-    activeOverlay: keyof PopupPayload;
-    areOtherOverlaysOpen: boolean;
-    isMobile: boolean;
+    isRenderInPortal?: boolean;
 };

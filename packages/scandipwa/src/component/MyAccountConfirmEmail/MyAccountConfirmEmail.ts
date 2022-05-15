@@ -6,14 +6,14 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { MouseEvent } from 'react';
 
-import { ReactElement } from 'Type/Common.type';
+import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 
-export interface ClickOutsideComponentProps {
-    onClick: (event?: MouseEvent) => void;
-    children: ReactElement | ReactElement[];
-}
+export type MyAccountConfirmEmailComponentProps = {
+    state: MyAccountPageState;
+    handleSignIn: (e: MouseEvent) => void;
+};

@@ -9,60 +9,61 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import {
-    DetailedHTMLProps, FormEvent, FormHTMLAttributes, RefObject, SyntheticEvent
-} from 'react';
+import { DOMAttributes, FormHTMLAttributes, MutableRefObject } from 'react';
 
 import { Children, Mix } from 'Type/Common.type';
-import { ValidationRule } from 'Type/Field.type';
-import { GetFieldsData } from 'Util/Form/Form.type';
-import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
+import { DateObject, FieldData } from 'Util/Form/Form.type';
+import { ValidationDOMOutput, ValidationRule } from 'Util/Validator/Validator.type';
 
-export type FormContainerProps = {
+export interface FormContainerProps {
     children: Children;
-    attr: DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
-    onSubmit: (ref: RefObject<HTMLElement>, fields: GetFieldsData<true>) => void;
-    onError: (ref: RefObject<HTMLElement>, fields: GetFieldsData<true>, isValid: boolean | ValidationDOMOutput) => void;
+    attr: FormHTMLAttributes<HTMLFormElement>;
+    events: Omit<DOMAttributes<HTMLFormElement>, 'children' | 'dangerouslySetInnerHTML'>;
+    onSubmit: (
+        form: HTMLFormElement,
+        fields: (DateObject | FieldData)[] | Record<string, DateObject | FieldData> | null
+    ) => void;
+    onError: (
+        form: HTMLFormElement,
+        fields: (DateObject | FieldData)[] | Record<string, DateObject | FieldData> | null,
+        validation: boolean | ValidationDOMOutput
+    ) => void;
     returnAsObject: boolean;
-    elemRef: RefObject<HTMLElement>;
+    elemRef: MutableRefObject<HTMLFormElement>;
     validationRule: ValidationRule;
-    showErrorAsLabel: boolean;
-    label: string;
-    subLabel: string;
-    mix: Mix;
-    events: Record<string, (event?: SyntheticEvent) => void>;
     validateOn: string[];
-};
-
-export type FormContainerState = {
-    validationResponse: boolean | ValidationDOMOutput;
-};
-
-export type FormComponentProps = {
-    children: Children;
-    attr: DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
-    events: Record<string, ((event?: SyntheticEvent) => void) | ((e: FormEvent<Element>) => Promise<void>)>;
-    setRef: (elem: HTMLFormElement | null) => void;
     showErrorAsLabel: boolean;
-    validationResponse: boolean | ValidationDOMOutput;
     label: string;
     subLabel: string;
     mix: Mix;
-};
+}
 
-export type FormContainerPropsKeys =
-    | 'validationResponse'
-    | 'children'
-    | 'attr'
-    | 'showErrorAsLabel'
-    | 'label'
-    | 'subLabel'
-    | 'mix'
-    | 'events';
+export interface FormContainerState {
+    validationResponse: true | ValidationDOMOutput | null;
+}
 
-export type field = {
-    field: HTMLInputElement;
-    name: string;
-    type: string;
-    value: string | boolean;
+export interface FormComponentProps {
+    children: Children;
+    attr: FormHTMLAttributes<HTMLFormElement>;
+    events: Omit<DOMAttributes<HTMLFormElement>, 'children' | 'dangerouslySetInnerHTML'>;
+    showErrorAsLabel: boolean;
+    label: string;
+    subLabel: string;
+    mix: Mix;
+    validationResponse: true | ValidationDOMOutput | null;
+}
+
+export type FormContainerPropsKeys = 'validationResponse'
+| 'children'
+| 'attr'
+| 'showErrorAsLabel'
+| 'label'
+| 'subLabel'
+| 'mix'
+| 'events';
+
+export type FormValidationOutput = {
+    detail?: {
+        errors?: ValidationDOMOutput[];
+    };
 };

@@ -16,7 +16,7 @@ import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
-import { MyAccountTabsSection } from 'Type/Account.type';
+import { MyAccountTabs, MyAccountTabsSection } from 'Type/Account.type';
 import { Location } from 'Type/Router.type';
 
 export interface MyAccountContainerMapStateProps {
@@ -44,7 +44,7 @@ export type MyAccountContainerProps = MyAccountContainerMapStateProps
 & MyAccountContainerMapDispatchProps
 & RouteComponentProps<{ tab?: string; orderId?: string }>
 & {
-    selectedTab: string;
+    selectedTab?: MyAccountTabs;
 };
 
 export type MyAccountContainerState = {
@@ -64,8 +64,8 @@ export interface MyAccountComponentProps {
     onSignOut: () => void;
     location: Location;
     match: match<{
-        tab: string;
-        orderId: string;
+        tab?: string;
+        orderId?: string;
     }>;
     changeTabName: (newTabName: string) => void;
     tabName: string;

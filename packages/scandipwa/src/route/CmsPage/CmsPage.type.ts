@@ -33,6 +33,7 @@ export type CmsPageContainerProps = CmsPageContainerMapStateProps & CmsPageConta
     pageIdentifiers: string;
     isOnlyPlaceholder: boolean;
     isBreadcrumbsActive: boolean;
+    changeHeaderState?: (state: NavigationState) => void;
 };
 
 export interface CmsPageContainerState {

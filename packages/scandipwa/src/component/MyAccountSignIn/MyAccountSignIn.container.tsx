@@ -6,25 +6,31 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { TotalsType } from 'Type/MiniCart.type';
 import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
 import { getErrorMessage } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountSignIn from './MyAccountSignIn.component';
+import {
+    MyAccountSignInContainerMapDispatchProps,
+    MyAccountSignInContainerMapStateProps,
+    MyAccountSignInContainerProps,
+    MyAccountSignInContainerState
+} from './MyAccountSignIn.type';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -32,14 +38,14 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountSignInContainerMapStateProps => ({
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
     isLocked: state.MyAccountReducer.isLocked,
     totals: state.CartReducer.cartTotals
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountSignInContainerMapDispatchProps => ({
     signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     ),
@@ -47,27 +53,10 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/MyAccountSignIn/Container */
-export class MyAccountSignInContainer extends PureComponent {
-    static propTypes = {
-        state: PropTypes.string.isRequired,
-        onFormError: PropTypes.func.isRequired,
-        handleForgotPassword: PropTypes.func.isRequired,
-        handleCreateAccount: PropTypes.func.isRequired,
-        isCheckout: PropTypes.bool.isRequired,
-        signIn: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired,
-        setLoadingState: PropTypes.func.isRequired,
-        emailValue: PropTypes.string,
-        isEmailAvailable: PropTypes.bool,
-        setSignInState: PropTypes.func,
-        handleEmailInput: PropTypes.func,
-        isLocked: PropTypes.string.isRequired,
-        updateCustomerLockedStatus: PropTypes.func.isRequired,
-        totals: TotalsType.isRequired,
-        isLoading: PropTypes.bool
-    };
-
+export class MyAccountSignInContainer extends PureComponent<
+MyAccountSignInContainerProps,
+MyAccountSignInContainerState
+> {
     static defaultProps = {
         emailValue: '',
         isEmailAvailable: true,
@@ -84,7 +73,7 @@ export class MyAccountSignInContainer extends PureComponent {
         onSignInSuccess: this.onSignInSuccess.bind(this)
     };
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: MyAccountSignInContainerProps): void {
         const { isCheckout, isEmailAvailable, setSignInState } = this.props;
         const { isEmailAvailable: prevIsEmailAvailable } = prevProps;
 

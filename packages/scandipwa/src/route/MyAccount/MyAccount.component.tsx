@@ -10,10 +10,7 @@
  */
 
 import {
-    Component,
-    lazy,
-    ReactElement,
-    Suspense
+    Component, ElementType, lazy, Suspense
 } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
@@ -23,6 +20,7 @@ import MyAccountOrder from 'Component/MyAccountOrder';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
 import { MyAccountTabs } from 'Type/Account.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 
 import { AccountPageUrl } from './MyAccount.config';
@@ -71,7 +69,7 @@ export class MyAccount extends Component<MyAccountComponentProps> {
         [ MyAccountTabs.NEWSLETTER_SUBSCRIPTION ]: MyAccountNewsletterSubscription,
         [ MyAccountTabs.MY_DOWNLOADABLE ]: MyAccountDownloadable,
         [ MyAccountTabs.ACCOUNT_INFORMATION ]: MyAccountInformation
-    } as unknown as Record<string, ReactElement>;
+    } as unknown as Record<string, ElementType>;
 
     shouldComponentUpdate(nextProps: MyAccountComponentProps): boolean {
         const {
@@ -97,7 +95,7 @@ export class MyAccount extends Component<MyAccountComponentProps> {
         );
     }
 
-    getTabContent(): ReactElement {
+    getTabContent(): ElementType {
         const { activeTab, location: { pathname } } = this.props;
 
         if (activeTab === MyAccountTabs.MY_ORDERS && pathname.includes(AccountPageUrl.ORDER_URL)) {
@@ -113,6 +111,7 @@ export class MyAccount extends Component<MyAccountComponentProps> {
         return (
             <MyAccountOverlay
               onSignIn={ onSignIn }
+              isCheckout={ false }
             />
         );
     }

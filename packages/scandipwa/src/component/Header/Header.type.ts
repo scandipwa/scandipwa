@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { MouseEvent } from 'react';
+import { ChangeEvent, MouseEvent } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import {
@@ -41,7 +41,7 @@ export interface HeaderMapDispatchToProps {
     showOverlay: (overlayKey: string) => void;
     hideActiveOverlay: () => void;
     setNavigationState: (stateName: NavigationState) => void;
-    showPopup: (payload: any) => void;
+    showPopup: <T>(payload: T) => void;
     goToPreviousNavigationState: () => void;
 }
 
@@ -65,18 +65,18 @@ export interface HeaderComponentProps extends NavigationAbstractComponentProps {
     Loading: boolean;
     onBackButtonClick: (e: MouseEvent) => void;
     onCloseButtonClick: (e: MouseEvent) => void;
-    onSearchBarFocus: (e: MouseEvent) => void;
-    onClearSearchButtonClick: (e: MouseEvent) => void;
-    onMyAccountButtonClick: (e: MouseEvent) => void;
-    onSearchBarChange: () => void;
+    onSearchBarFocus: () => void;
+    onClearSearchButtonClick: () => void;
+    onMyAccountButtonClick: () => void;
+    onSearchBarChange: (e: ChangeEvent<HTMLInputElement> | { target: { value: string } }) => void;
     isWishlistLoading: boolean;
     onEditButtonClick: (e: MouseEvent) => void;
-    onMinicartButtonClick: (e: MouseEvent) => void;
+    onMinicartButtonClick: () => void;
     onOkButtonClick: (e: MouseEvent) => void;
-    onCancelButtonClick: (e: MouseEvent) => void;
-    onSearchOutsideClick: (e: MouseEvent) => void;
-    onMyAccountOutsideClick: (e: MouseEvent) => void;
-    onMinicartOutsideClick: (e: MouseEvent) => void;
+    onCancelButtonClick: () => void;
+    onSearchOutsideClick: () => void;
+    onMyAccountOutsideClick: () => void;
+    onMinicartOutsideClick: () => void;
     isClearEnabled: boolean;
     searchCriteria: string;
     shareWishlist: () => void;
@@ -91,8 +91,26 @@ export interface HeaderComponentProps extends NavigationAbstractComponentProps {
     hideActiveOverlay: () => void;
     device: Device;
     firstname?: string;
-    shouldRenderCartOverlay: boolean;
+    shouldRenderCartOverlay?: boolean;
+    activeOverlay: string;
 }
 
-
-export interface HeaderComponentProps
+export type HeaderContainerPropsKeys =
+     'activeOverlay'
+     | 'navigationState'
+     | 'cartTotals'
+     | 'compareTotals'
+     | 'Loading'
+     | 'header_logo_src'
+     | 'logo_alt'
+     | 'logo_height'
+     | 'logo_width'
+     | 'isLoading'
+     | 'isClearEnabled'
+     | 'searchCriteria'
+     | 'isCheckout'
+     | 'showMyAccountLogin'
+     | 'device'
+     | 'isWishlistLoading'
+     | 'shouldRenderCartOverlay'
+     | 'firstname';

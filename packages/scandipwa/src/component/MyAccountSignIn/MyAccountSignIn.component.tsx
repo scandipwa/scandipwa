@@ -64,12 +64,12 @@ export class MyAccountSignIn extends PureComponent {
                       name: 'email',
                       placeholder: __('Your email address'),
                       defaultValue: emailValue,
-                      autocomplete: isCheckout ? 'off' : 'email'
+                      autoComplete: isCheckout ? 'off' : 'email'
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputType.email
+                      inputType: ValidationInputType.EMAIL
                   } }
                   events={ { onChange: handleEmailInput } }
                   addRequiredTag
@@ -81,12 +81,12 @@ export class MyAccountSignIn extends PureComponent {
                       id: 'password',
                       name: 'password',
                       placeholder: __('Enter your password'),
-                      autocomplete: 'current-password'
+                      autoComplete: 'current-password'
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputType.password
+                      inputType: ValidationInputType.PASSWORD
                   } }
                   addRequiredTag
                 />

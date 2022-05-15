@@ -18,7 +18,11 @@ export interface FooterContainerMapStateProps {
     newsletterActive: boolean;
 }
 
-export type FooterContainerProps = FooterContainerMapStateProps & {
+export interface FooterContainerMapDispatchProps {}
+
+export type FooterContainerProps = FooterContainerMapStateProps
+& FooterContainerMapDispatchProps
+& {
     isVisibleOnMobile: boolean;
 };
 

@@ -87,12 +87,12 @@ export class ConfirmAccountPage extends PureComponent {
                       id: 'password',
                       name: 'password',
                       placeholder: __('Enter your password'),
-                      autocomplete: 'new-password'
+                      autoComplete: 'new-password'
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputType.password
+                      inputType: ValidationInputType.PASSWORD
                   } }
                   addRequiredTag
                 />

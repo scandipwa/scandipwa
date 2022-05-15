@@ -20,7 +20,7 @@ import { ReactElement } from 'Type/Common.type';
 import './FieldForm.style';
 
 /** @namespace Component/FieldForm/Component */
-export class FieldForm extends PureComponent {
+export class FieldForm<T> extends PureComponent<T> {
     get fieldMap() {
         return [
             // // Field
@@ -88,7 +88,7 @@ export class FieldForm extends PureComponent {
         );
     }
 
-    getFormProps() {
+    getFormProps(): T {
         return { ...this.props };
     }
 

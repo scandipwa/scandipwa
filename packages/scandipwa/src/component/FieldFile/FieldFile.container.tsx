@@ -6,41 +6,38 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
+import { PureComponent } from 'react';
 
-import { EventsType, FieldAttrType } from 'Type/Field.type';
+import { ReactElement } from 'Type/Common.type';
 
 import FieldFile from './FieldFile.component';
+import {
+    FieldContainerPropsKeys,
+    FieldFileComponentProps,
+    FieldFileContainerProps,
+    FieldFileContainerState
+} from './FieldFile.type';
 
 /**
  * Field File
  * @class FieldFileContainer
  * @namespace Component/FieldFile/Container */
-export class FieldFileContainer extends PureComponent {
-    static propTypes = {
-        // Field attributes
-        attr: FieldAttrType.isRequired,
-        events: EventsType.isRequired,
-        setRef: PropTypes.func.isRequired
-    };
-
+export class FieldFileContainer extends PureComponent<FieldFileContainerProps, FieldFileContainerState> {
     containerFunctions = {
         setRef: this.setRef.bind(this)
     };
 
     state = {
         isLoading: false,
-        fileName: '',
-        value: ''
+        fileName: ''
     };
 
-    fieldRef = createRef();
+    fieldRef: HTMLInputElement | null = null;
 
-    setRef(elem) {
+    setRef(elem: HTMLInputElement | null): void {
         const { setRef } = this.props;
         setRef(elem);
 
@@ -49,25 +46,31 @@ export class FieldFileContainer extends PureComponent {
         }
     }
 
-    onChange(value) {
+    onChange(value: string): void {
         const { events: { onChange } = {} } = this.props;
 
         if (this.fieldRef) {
             const { files } = this.fieldRef;
             this.setState({ isLoading: true });
 
+            if (!files) {
+                return;
+            }
+
             const { name } = files[ 0 ];
             const reader = new FileReader();
             reader.onload = () => {
                 this.setState({
                     fileName: name,
-                    isLoading: false,
-                    value: reader.result
+                    isLoading: false
                 });
-                this.fieldRef.fileData = JSON.stringify({
-                    file_data: reader.result,
-                    file_name: name
-                });
+
+                if (this.fieldRef) {
+                    this.fieldRef.fileData = JSON.stringify({
+                        file_data: reader.result,
+                        file_name: name
+                    });
+                }
 
                 if (typeof onChange === 'function') {
                     onChange(value);
@@ -85,39 +88,34 @@ export class FieldFileContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<FieldFileComponentProps, FieldContainerPropsKeys> {
         const {
             events,
             attr: {
                 autoComplete,
-                autocomplete,
                 ...attr
             } = {},
             setRef
         } = this.props;
-        const { fileName, isLoading, value } = this.state;
+        const { fileName, isLoading } = this.state;
 
         return {
-            attr: {
-                ...attr,
-                autoComplete: autoComplete || autocomplete
-            },
+            attr,
             setRef,
             events: {
                 ...events,
                 onChange: this.onChange.bind(this)
             },
             fileName,
-            isLoading,
-            value
+            isLoading
         };
     }
 
     render(): ReactElement {
         return (
             <FieldFile
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

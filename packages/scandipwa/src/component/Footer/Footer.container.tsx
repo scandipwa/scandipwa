@@ -19,6 +19,7 @@ import { RootState } from 'Util/Store/Store.type';
 import Footer from './Footer.component';
 import {
     FooterComponentProps,
+    FooterContainerMapDispatchProps,
     FooterContainerMapStateProps,
     FooterContainerProps,
     FooterContainerPropsKeys
@@ -32,7 +33,7 @@ export const mapStateToProps = (state: RootState): FooterContainerMapStateProps 
 });
 
 /** @namespace Component/Footer/Container/mapDispatchToProps */
-export const mapDispatchToProps = (): Record<string, never> => ({});
+export const mapDispatchToProps = (): FooterContainerMapDispatchProps => ({});
 
 /** @namespace Component/Footer/Container */
 export class FooterContainer extends PureComponent<FooterContainerProps> {

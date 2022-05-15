@@ -9,10 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { ChangeEvent, PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
+import { EventFieldData } from 'Component/Field/Field.type';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import { ReactElement } from 'Type/Common.type';
@@ -40,7 +41,7 @@ export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCoup
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    handleCouponCodeChange(event: Event, field: HTMLInputElement): void {
+    handleCouponCodeChange(event: ChangeEvent, field: EventFieldData): void {
         const { value = '' } = field;
 
         this.setState({

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ValidationInputTypeText } from 'Util/Validator/Config';
+import { FieldType } from 'Component/Field/Field.config';
 
 export type Label = string | React.ReactNode;
 
@@ -17,6 +17,14 @@ export type Option = {
     id?: string | number;
     label?: Label;
     value?: string | number;
+    name?: string;
+    isAvailable?: boolean;
+    target?: { value: string | number };
+    sort_order?: number;
+    isPlaceholder?: boolean;
+    subLabel?: string;
+    isHovered?: boolean;
+    disabled?: boolean;
 };
 
 export type CustomErrorMessages = {
@@ -27,18 +35,6 @@ export type CustomErrorMessages = {
     onRangeFailMax?: string;
     onExtensionFail?: string;
     onGroupFail?: string;
-};
-
-export type ValidationRule = {
-    selector?: string;
-    isRequired?: boolean;
-    inputType?: ValidationInputTypeText;
-    match?: () => void; // TODO: Check argument types
-    customErrorMessages?: CustomErrorMessages;
-    range?: {
-        max?: number;
-        min?: number;
-    };
 };
 
 // TODO
@@ -78,3 +74,14 @@ export type FieldGroupValidationResponse = {
 } | boolean;
 
 export type Date = number | string;
+
+export type ValidationOutput = {
+    detail?: {
+        errors?: {
+            type: FieldType;
+            name?: string;
+            value?: string | boolean;
+            errorMessages?: string[];
+        }[];
+    };
+};

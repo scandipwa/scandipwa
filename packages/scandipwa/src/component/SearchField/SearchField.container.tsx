@@ -11,14 +11,17 @@
 
 import { connect } from 'react-redux';
 
+import { RootState } from 'Util/Store/Store.type';
+
 import SearchField from './SearchField.component';
+import { SearchFieldContainerMapDispatchToProps, SearchFieldContainerMapStateToProps } from './SearchField.type';
 
 /** @namespace Component/SearchField/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): SearchFieldContainerMapStateToProps => ({
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/SearchField/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): SearchFieldContainerMapDispatchToProps => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchField);

@@ -12,10 +12,9 @@
 
 import { PureComponent } from 'react';
 
-import {
-    ChildrenType, ModsType, ReactElement
-} from 'Type/Common.type';
-import { EventsType, FieldAttrType, FieldGroupValidationResponseType } from 'Type/Field.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { FormGroupComponentProps } from './FieldGroup.type';
 
 import './FieldGroup.style';
 
@@ -23,32 +22,14 @@ import './FieldGroup.style';
  * Field Group
  * @class FieldGroup
  * @namespace Component/FieldGroup/Component */
-export class FieldGroup extends PureComponent {
-    static propTypes = {
-        // Group attributes
-        children: ChildrenType.isRequired,
-        attr: FieldAttrType.isRequired,
-        events: EventsType.isRequired,
-        setRef: PropTypes.func.isRequired,
-
-        // Validation
-        showErrorAsLabel: PropTypes.bool.isRequired,
-        validationResponse: FieldGroupValidationResponseType,
-
-        // Labels
-        label: PropTypes.string.isRequired,
-        subLabel: PropTypes.string.isRequired,
-
-        mods: ModsType.isRequired
-    };
-
+export class FieldGroup extends PureComponent<FormGroupComponentProps> {
     static defaultProps = {
         validationResponse: null
     };
 
     //#region LABEL/TEXT RENDER
     // Renders validation error messages under group
-    renderErrorMessage(message): ReactElement {
+    renderErrorMessage(message: string): ReactElement {
         return <div block="Field" key={ message } elem="ErrorMessage">{ message }</div>;
     }
 

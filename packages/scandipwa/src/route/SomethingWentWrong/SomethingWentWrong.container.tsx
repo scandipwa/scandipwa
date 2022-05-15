@@ -20,6 +20,7 @@ import SomethingWentWrong from './SomethingWentWrong.component';
 import {
     SomethingWentWrongComponentProps,
     SomethingWentWrongContainerMapDispatchProps,
+    SomethingWentWrongContainerMapStateToProps,
     SomethingWentWrongContainerProps,
     SomethingWentWrongContainerPropsKeys
 } from './SomethingWentWrong.type';
@@ -53,6 +54,6 @@ export class SomethingWentWrongContainer extends PureComponent<SomethingWentWron
 }
 
 /** @namespace Route/SomethingWentWrong/Container/mapStateToProps */
-export const mapStateToProps = (): Record<string, never> => ({});
+export const mapStateToProps = (): SomethingWentWrongContainerMapStateToProps => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SomethingWentWrongContainer);

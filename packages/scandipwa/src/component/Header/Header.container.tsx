@@ -10,7 +10,7 @@
  */
 
 import { Location } from 'history';
-import { MouseEvent } from 'react';
+import { ChangeEvent, MouseEvent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
@@ -36,8 +36,10 @@ import { appendWithStoreCode } from 'Util/Url';
 import Header from './Header.component';
 import { Page } from './Header.config';
 import {
+    HeaderComponentProps,
     HeaderContainerMapStateProps,
     HeaderContainerProps,
+    HeaderContainerPropsKeys,
     HeaderContainerState,
     HeaderMapDispatchToProps
 } from './Header.type';
@@ -118,7 +120,7 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
         hideActiveOverlay: this.props.hideActiveOverlay
     };
 
-    containerProps(): Pick<HeaderComponentProps, > {
+    containerProps(): Pick<HeaderComponentProps, HeaderContainerPropsKeys> {
         const {
             activeOverlay,
             navigationState,
@@ -260,7 +262,9 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
 
         this.setState({ searchCriteria: '' });
 
-        document.activeElement?.blur();
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
 
         if (activeOverlay === Page.SEARCH) {
             hideActiveOverlay();
@@ -367,7 +371,9 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
         });
     }
 
-    onSearchBarChange({ target: { value: searchCriteria } }) {
+    onSearchBarChange(
+        { target: { value: searchCriteria } }: ChangeEvent<HTMLInputElement> | { target: { value: string } }
+    ): void {
         this.setState({ searchCriteria });
     }
 

@@ -31,7 +31,7 @@ import { MyAccountOverlayComponentProps, MyAccountOverlayRenderMap } from './MyA
 import './MyAccountOverlay.style';
 
 /** @namespace Component/MyAccountOverlay/Component */
-export class MyAccountOverlay extends PureComponent<MyAccountOverlayComponentProps> {
+export class MyAccountOverlay<Props extends MyAccountOverlayComponentProps> extends PureComponent<Props> {
     static defaultProps = {
         isCheckout: false,
         onSignIn: noopFn
@@ -167,7 +167,7 @@ export class MyAccountOverlay extends PureComponent<MyAccountOverlayComponentPro
         );
     }
 
-    render(): ReactElement {
+    render() {
         const {
             onVisible,
             isCheckout,

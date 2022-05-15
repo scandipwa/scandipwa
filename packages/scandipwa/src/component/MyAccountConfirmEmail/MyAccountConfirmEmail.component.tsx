@@ -11,16 +11,12 @@
 
 import { PureComponent } from 'react';
 
-import { SignInStateType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 
-/** @namespace Component/MyAccountConfirmEmail/Component */
-export class MyAccountConfirmEmail extends PureComponent {
-    static propTypes = {
-        state: SignInStateType.isRequired,
-        handleSignIn: PropTypes.func.isRequired
-    };
+import { MyAccountConfirmEmailComponentProps } from './MyAccountConfirmEmail';
 
+/** @namespace Component/MyAccountConfirmEmail/Component */
+export class MyAccountConfirmEmail extends PureComponent<MyAccountConfirmEmailComponentProps> {
     render(): ReactElement {
         const { state, handleSignIn } = this.props;
 

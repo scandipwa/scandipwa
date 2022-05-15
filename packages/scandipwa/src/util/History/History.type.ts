@@ -16,4 +16,5 @@ export type HistoryState = {
     category?: number;
     isFromEmailChange?: boolean;
     prevCategoryId?: number;
+    stack?: string[];
 };
