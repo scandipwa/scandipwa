@@ -89,15 +89,6 @@
     &-SubPrice {
         font-size: 12px;
         font-weight: 400;
-        text-align: end;
-        position: absolute;
-        inset-inline-end: 0;
-        inset-block-start: 1.5em;
-        white-space: nowrap;
-
-        &_isOverflowed {
-            inset-inline-start: 0;
-        }
     }
 
     &-Message {
