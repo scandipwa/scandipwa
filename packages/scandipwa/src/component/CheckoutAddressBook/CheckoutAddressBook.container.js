@@ -224,7 +224,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
             return defaultAddressId;
         }
 
-        return this.getAddressId();
+        return !this?.state ? 0 : this.getAddressId();
     }
 
     onAddressSelect(address) {
