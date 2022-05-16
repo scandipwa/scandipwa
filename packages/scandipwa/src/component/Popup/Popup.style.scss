@@ -74,7 +74,8 @@
         padding: var(--popup-content-padding);
         padding-block-end: 0;
         min-width: var(--popup-min-width);
-        max-width: calc(var(--content-wrapper-width) * .8);
+        max-width: 100%;
+        overflow-x: hidden;
         max-height: var(--popup-max-height);
         overflow-y: auto;
 
@@ -130,6 +131,6 @@
     }
 
     @include mobile {
-        overflow-y: hidden;
+        overflow: hidden;
     }
 }

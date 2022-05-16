@@ -46,19 +46,9 @@
     }
 
     &-StickyButtonWrapper {
-        @include mobile {
-            border-block-start: 1px solid var(--primary-divider-color);
-            position: fixed;
-            inset-inline-start: 0;
-            width: 100%;
-            z-index: 85;
-            inset-block-end: var(--footer-total-height);
-            background-color: var(--color-white);
+        @include mobile-bottom-wrapper {
             padding: 16px;
-
-            .hideOnScroll & {
-                transform: translateY(var(--footer-nav-height));
-            }
+            inset-block-end: 16px;
         }
 
         .Button {
