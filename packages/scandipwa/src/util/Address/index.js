@@ -275,3 +275,38 @@ export const checkIfStoreIncluded = (stores, selectedStore) => {
 
     return stores.find((store) => JSON.stringify(store) === selectedStoreInString);
 };
+
+/**
+ * Checks if an address is in the provided list of addresses
+ * and if found, it returns its id
+ */
+/** @namespace Util/Address/Index/getAddressIdFromAddressBook */
+export const getAddressIdFromAddressBook = (shippingFields, addresses) => {
+    // the main keys distinguishing addresses
+    const keys = [
+        'city',
+        'country_id',
+        'firstname',
+        'lastname',
+        'postcode',
+        'telephone',
+        'vat_id'
+    ];
+
+    const filteredAddresses = (
+        addresses.filter((address) => (
+            keys.every((key) => {
+                if (shippingFields[key] !== address[key]) {
+                    return false;
+                }
+
+                return true;
+            })
+            && (
+                JSON.stringify(shippingFields.street) === JSON.stringify(address.street)
+            )
+        ))
+    );
+
+    return filteredAddresses.length ? filteredAddresses[0].id : 0;
+};

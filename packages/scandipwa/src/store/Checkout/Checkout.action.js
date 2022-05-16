@@ -10,6 +10,13 @@
 export const UPDATE_SHIPPING_FIELDS = 'UPDATE_SHIPPING_FIELDS';
 export const UPDATE_EMAIL = 'UPDATE_EMAIL';
 export const UPDATE_EMAIL_AVAILABLE = 'UPDATE_EMAIL_AVAILABLE';
+export const UPDATE_SHIPPING_FIELDS_ID = 'UPDATE_SHIPPING_FIELDS_ID';
+
+/** @namespace Store/Checkout/Action/updateShippingFieldsId */
+export const updateShippingFieldsId = (id) => ({
+    type: UPDATE_SHIPPING_FIELDS_ID,
+    id
+});
 
 /** @namespace Store/Checkout/Action/updateShippingFields */
 export const updateShippingFields = (shippingFields) => ({

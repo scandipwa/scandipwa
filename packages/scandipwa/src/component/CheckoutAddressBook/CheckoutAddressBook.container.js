@@ -13,7 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { updateShippingFieldsId } from 'Store/Checkout/Checkout.action';
 import { Addresstype, CustomerType } from 'Type/Account.type';
+import { getAddressIdFromAddressBook } from 'Util/Address';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
 
@@ -34,7 +36,8 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     requestCustomerData: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
-    )
+    ),
+    updateShippingFieldsId: (id) => dispatch(updateShippingFieldsId(id))
 });
 
 /** @namespace Component/CheckoutAddressBook/Container */
@@ -139,8 +142,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         }
 
         if (!prevAddresses && addresses) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ selectedAddressId: this.getSelectedAddressId(prevDefaultAddressId) });
+            this.saveSelectedAddressId(prevDefaultAddressId);
         }
 
         if (selectedAddressId !== prevSelectedAddressId) {
@@ -169,45 +171,16 @@ export class CheckoutAddressBookContainer extends PureComponent {
         };
     }
 
-    getAddressIdFromAddressBook() {
-        const {
-            shippingFields,
-            customer: {
-                addresses = []
-            } = {}
-        } = this.props;
-
-        // the main keys distinguishing addresses
-        const keys = [
-            'city',
-            'country_id',
-            'firstname',
-            'lastname',
-            'postcode',
-            'telephone',
-            'vat_id'
-        ];
-
-        const filteredAddresses = (
-            addresses.filter((address) => (
-                keys.every((key) => {
-                    if (shippingFields[key] !== address[key]) {
-                        return false;
-                    }
-
-                    return true;
-                })
-                && (
-                    JSON.stringify(shippingFields.street) === JSON.stringify(address.street)
-                )
-            ))
-        );
-
-        return filteredAddresses.length ? filteredAddresses[0].id : 0;
+    saveSelectedAddressId(prevDefaultAddressId) {
+        this.setState({ selectedAddressId: this.getSelectedAddressId(prevDefaultAddressId) });
     }
 
     getSelectedAddressId(defaultAddressId) {
         const {
+            shippingFields,
+            customer: {
+                addresses = []
+            } = {},
             shippingFields: {
                 id: shippingFieldsId = 0,
                 street: shippingFieldsStreet = []
@@ -228,7 +201,15 @@ export class CheckoutAddressBookContainer extends PureComponent {
         }
 
         // comparing address values to check if the fetched address is in the address book
-        const addressId = this.getAddressIdFromAddressBook();
+        const addressId = (
+            isSignedIn()
+                ? getAddressIdFromAddressBook(shippingFields, addresses)
+                : 0
+        );
+
+        if (addressId) {
+            updateShippingFieldsId(addressId);
+        }
 
         return addressId;
     }
