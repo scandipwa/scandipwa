@@ -10,13 +10,14 @@
  */
 
 import { FieldType } from 'Component/Field/Field.config';
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import { ValidationInputType } from 'Util/Validator/Config';
 
 /**
  * Form for contacts
  * @namespace Component/ContactForm/Form/contactForm
  */
-export const contactForm = () => [
+export const contactForm = (): Partial<FieldContainerProps>[] => [
     {
         type: FieldType.TEXT,
         label: __('Name'),
@@ -25,7 +26,7 @@ export const contactForm = () => [
             placeholder: __('Your name')
         },
         addRequiredTag: true,
-        validateOn: [ 'onChange' ],
+        validateOn: ['onChange'],
         validationRule: {
             isRequired: true
         }
@@ -38,9 +39,9 @@ export const contactForm = () => [
             placeholder: __('Your email')
         },
         addRequiredTag: true,
-        validateOn: [ 'onChange' ],
+        validateOn: ['onChange'],
         validationRule: {
-            inputType: ValidationInputType.email,
+            inputType: ValidationInputType.EMAIL,
             isRequired: true
         }
     },
@@ -51,9 +52,9 @@ export const contactForm = () => [
             name: 'telephone',
             placeholder: __('Phone number')
         },
-        validateOn: [ 'onChange' ],
+        validateOn: ['onChange'],
         validationRule: {
-            inputType: ValidationInputType.phone
+            inputType: ValidationInputType.PHONE
         }
     },
     {
@@ -64,7 +65,7 @@ export const contactForm = () => [
             placeholder: __('Message')
         },
         addRequiredTag: true,
-        validateOn: [ 'onChange' ],
+        validateOn: ['onChange'],
         validationRule: {
             isRequired: true
         }

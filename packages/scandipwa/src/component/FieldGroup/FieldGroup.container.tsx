@@ -20,17 +20,17 @@ import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
 import FieldGroup from './FieldGroup.component';
 import {
-    FormGroupComponentProps,
-    FormGroupContainerProps,
-    FormGroupContainerPropsKeys,
-    FormGroupContainerState
+    FieldGroupComponentProps,
+    FieldGroupContainerProps,
+    FieldGroupContainerPropsKeys,
+    FieldGroupContainerState
 } from './FieldGroup.type';
 
 /**
  * Field Group
  * @class FieldGroupContainer
  * @namespace Component/FieldGroup/Container */
-export class FieldGroupContainer extends PureComponent<FormGroupContainerProps, FormGroupContainerState> {
+export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps, FieldGroupContainerState> {
     static defaultProps = {
         attr: {},
         events: {},
@@ -41,7 +41,8 @@ export class FieldGroupContainer extends PureComponent<FormGroupContainerProps, 
         subLabel: '',
         children: [],
         mods: {},
-        elemRef: null
+        elemRef: null,
+        returnAsObject: false
     };
 
     state = {
@@ -108,6 +109,7 @@ export class FieldGroupContainer extends PureComponent<FormGroupContainerProps, 
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     surroundEvent(hook: any, ...args: ((event?: SyntheticEvent) => void)[]): void {
         const { attr } = this.props;
         const fields = getFieldsData(
@@ -120,7 +122,7 @@ export class FieldGroupContainer extends PureComponent<FormGroupContainerProps, 
     }
     // #endregion
 
-    containerProps(): Pick<FormGroupComponentProps, FormGroupContainerPropsKeys> {
+    containerProps(): Pick<FieldGroupComponentProps, FieldGroupContainerPropsKeys> {
         const {
             events,
             validateOn,

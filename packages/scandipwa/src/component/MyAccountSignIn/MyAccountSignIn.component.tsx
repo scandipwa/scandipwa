@@ -15,26 +15,15 @@ import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
-import { SignInStateType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import { ValidationInputType } from 'Util/Validator/Config';
+
+import { MyAccountSignInComponentProps } from './MyAccountSignIn.type';
 
 import './MyAccountSignIn.style.scss';
 
 /** @namespace Component/MyAccountSignIn/Component */
-export class MyAccountSignIn extends PureComponent {
-    static propTypes = {
-        onSignInSuccess: PropTypes.func.isRequired,
-        onFormError: PropTypes.func.isRequired,
-        handleForgotPassword: PropTypes.func.isRequired,
-        handleCreateAccount: PropTypes.func.isRequired,
-        isCheckout: PropTypes.bool.isRequired,
-        state: SignInStateType.isRequired,
-        emailValue: PropTypes.string.isRequired,
-        handleEmailInput: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool
-    };
-
+export class MyAccountSignIn extends PureComponent<MyAccountSignInComponentProps> {
     static defaultProps = {
         isLoading: false
     };

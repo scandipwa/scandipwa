@@ -405,7 +405,6 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
               tabIndex={ -1 }
             >
                 <Field
-                  id="item_qty"
                   type={ FieldType.NUMBER }
                   attr={ {
                       id: `${sku}_item_qty`,

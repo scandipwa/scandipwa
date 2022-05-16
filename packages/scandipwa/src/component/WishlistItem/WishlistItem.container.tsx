@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
@@ -26,12 +27,20 @@ import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
+import { ProductTransformData } from 'Util/Product/Product.type';
 import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { Debouncer } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import WishlistItem from './WishlistItem.component';
 import { UPDATE_WISHLIST_FREQUENCY } from './WishlistItem.config';
+import {
+    WishlistItemContainerMapDispatchProps,
+    WishlistItemContainerMapStateProps,
+    WishlistItemContainerProps,
+    WishlistItemContainerState
+} from './WishlistItem.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -43,13 +52,13 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Component/WishlistItem/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    isMobile: state.ConfigReducer.device.isMobile,
-    wishlistId: state.WishlistReducer.id
+export const mapStateToProps = (state: RootState): WishlistItemContainerMapStateProps => ({
+    isMobile: state.ConfigReducer.device.isMobile
+    // wishlistId: state.WishlistReducer.id
 });
 
 /** @namespace Component/WishlistItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): WishlistItemContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
@@ -64,21 +73,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/WishlistItem/Container */
-export class WishlistItemContainer extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        addProductToCart: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        updateWishlistItem: PropTypes.func.isRequired,
-        removeFromWishlist: PropTypes.func.isRequired,
-        handleSelectIdChange: PropTypes.func.isRequired,
-        isRemoving: PropTypes.bool,
-        isMobile: PropTypes.bool.isRequired,
-        wishlistId: PropTypes.number,
-        isEditingActive: PropTypes.bool.isRequired,
-        setIsQtyUpdateInProgress: PropTypes.func
-    };
-
+export class WishlistItemContainer extends PureComponent<WishlistItemContainerProps, WishlistItemContainerState> {
     static defaultProps = {
         isRemoving: false,
         setIsQtyUpdateInProgress: noopFn,
@@ -92,22 +87,14 @@ export class WishlistItemContainer extends PureComponent {
         setQuantity: this.setQuantity.bind(this)
     };
 
-    state = {
-        isLoading: false
-    };
-
-    renderRightSideContent = this.renderRightSideContent.bind(this);
-
-    getAttributes = this.getAttributes.bind(this);
-
     changeQuantityDebouncer = new Debouncer();
 
     changeDescriptionDebouncer = new Debouncer();
 
-    changeDescription = this.changeDescriptionDebouncer.startDebounce((description) => {
+    changeDescription = this.changeDescriptionDebouncer.startDebounce((description: string) => {
         const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
 
-        if (!isSignedIn()) {
+        if (!isSignedIn() || !item_id) {
             return;
         }
 
@@ -120,7 +107,7 @@ export class WishlistItemContainer extends PureComponent {
         });
     }, UPDATE_WISHLIST_FREQUENCY);
 
-    changeQuantity = this.changeQuantityDebouncer.startDebounce(async (quantity) => {
+    changeQuantity = this.changeQuantityDebouncer.startDebounce(async (quantity: number) => {
         const {
             wishlistId,
             product: {
@@ -132,7 +119,7 @@ export class WishlistItemContainer extends PureComponent {
             setIsQtyUpdateInProgress
         } = this.props;
 
-        if (!isSignedIn()) {
+        if (!isSignedIn() || !item_id) {
             return;
         }
 
@@ -147,12 +134,16 @@ export class WishlistItemContainer extends PureComponent {
         setIsQtyUpdateInProgress(false);
     }, UPDATE_WISHLIST_FREQUENCY);
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: WishlistItemContainerProps): void {
+        super.__construct?.(props);
+
         this.state = {
             isLoading: false,
             currentQty: this.getQuantity()
         };
+
+        this.renderRightSideContent = this.renderRightSideContent.bind(this);
+        this.getAttributes = this.getAttributes.bind(this);
     }
 
     containerProps() {
@@ -181,20 +172,20 @@ export class WishlistItemContainer extends PureComponent {
         };
     }
 
-    productIsInStock() {
+    productIsInStock(): boolean {
         const { product } = this.props;
 
         return getProductInStock(product);
     }
 
-    setQuantity(quantity) {
+    setQuantity(quantity: number): void {
         const { setIsQtyUpdateInProgress } = this.props;
         this.setState({ currentQty: quantity });
 
         setIsQtyUpdateInProgress(true);
     }
 
-    getConfigurableVariantIndex(sku, variants) {
+    getConfigurableVariantIndex(sku: string, variants) {
         return Object.keys(variants).find((i) => variants[ i ].sku === sku);
     }
 
@@ -223,7 +214,7 @@ export class WishlistItemContainer extends PureComponent {
         }, []) : [];
     }
 
-    getProducts() {
+    getProducts(): ProductTransformData[] {
         const {
             product: {
                 wishlist: {
@@ -235,7 +226,7 @@ export class WishlistItemContainer extends PureComponent {
 
         const { currentQty } = this.state;
 
-        const selectedOptions = getSelectedOptions(buy_request);
+        const selectedOptions = getSelectedOptions(buy_request as string);
 
         // take input value in case item in wishlist hasn't been updated yet (if you change qty and click "Add to cart" immediately)
         const quantity = currentQty || this.getQuantity();
@@ -243,7 +234,7 @@ export class WishlistItemContainer extends PureComponent {
         return magentoProductTransform(ADD_TO_CART, item, quantity, [], selectedOptions);
     }
 
-    getQuantity() {
+    getQuantity(): number {
         const {
             product: {
                 type_id: typeId,
@@ -254,7 +245,7 @@ export class WishlistItemContainer extends PureComponent {
             }
         } = this.props;
 
-        if (typeId !== ProductType.grouped) {
+        if (typeId !== ProductType.GROUPED || !buyRequest) {
             return quantity;
         }
 
@@ -263,7 +254,7 @@ export class WishlistItemContainer extends PureComponent {
         return superGroup;
     }
 
-    async addItemToCart() {
+    async addItemToCart(): Promise<void> {
         const {
             product: item,
             addProductToCart,
@@ -312,16 +303,16 @@ export class WishlistItemContainer extends PureComponent {
         }
     }
 
-    showNotification(...args) {
+    showNotification(type: NotificationType, message: string): void {
         const { showNotification } = this.props;
         this.setState({ isLoading: false });
-        showNotification(...args);
+        showNotification(type, message);
     }
 
-    async removeItem(noMessages = true, isRemoveOnly = false) {
+    async removeItem(noMessages = true, isRemoveOnly = false): Promise<void> {
         const { product: { wishlist: { id: item_id } }, removeFromWishlist, handleSelectIdChange } = this.props;
 
-        if (!isSignedIn()) {
+        if (!isSignedIn() || !item_id) {
             return;
         }
 
@@ -336,7 +327,7 @@ export class WishlistItemContainer extends PureComponent {
         }
     }
 
-    redirectToProductPage() {
+    redirectToProductPage(): void {
         const { product: { url } } = this.props;
 
         history.push({ pathname: appendWithStoreCode(url) });

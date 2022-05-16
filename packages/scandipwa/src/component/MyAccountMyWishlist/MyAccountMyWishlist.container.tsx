@@ -6,23 +6,31 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
+import { NetworkError, ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { getErrorMessage } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
+import {
+    MyAccountMyWishlistComponentProps,
+    MyAccountMyWishlistContainerMapDispatchProps,
+    MyAccountMyWishlistContainerMapStateProps,
+    MyAccountMyWishlistContainerProps,
+    MyAccountMyWishlistContainerPropsKeys,
+    MyAccountMyWishlistContainerState
+} from './MyAccountMyWishlist.type';
 
 export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -30,14 +38,14 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Component/MyAccountMyWishlist/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountMyWishlistContainerMapStateProps => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isWishlistLoading: state.WishlistReducer.isLoading,
     isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyWishlistContainerMapDispatchProps => ({
     clearWishlist: () => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)
     ),
@@ -53,26 +61,15 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container */
-export class MyAccountMyWishlistContainer extends PureComponent {
-    static propTypes = {
-        showPopup: PropTypes.func.isRequired,
-        showError: PropTypes.func.isRequired,
-        clearWishlist: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        moveWishlistToCart: PropTypes.func.isRequired,
-        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-        isWishlistLoading: PropTypes.bool.isRequired,
-        removeSelectedFromWishlist: PropTypes.func.isRequired,
-        creatorsName: PropTypes.string,
-        isEditingActive: PropTypes.bool.isRequired,
-        isMobile: PropTypes.bool.isRequired
-    };
-
+export class MyAccountMyWishlistContainer<
+P extends MyAccountMyWishlistContainerProps,
+S extends MyAccountMyWishlistContainerState
+> extends PureComponent<P, S> {
     static defaultProps = {
         creatorsName: ''
     };
 
-    state = {
+    state: S = {
         isLoading: false,
         loadingItemsMap: {},
         isQtyUpdateInProgress: false
@@ -86,7 +83,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         setIsQtyUpdateInProgress: this.setIsQtyUpdateInProgress.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<MyAccountMyWishlistComponentProps, MyAccountMyWishlistContainerPropsKeys> {
         const {
             isLoading,
             loadingItemsMap,
@@ -117,17 +114,17 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         };
     }
 
-    setIsQtyUpdateInProgress(status) {
+    setIsQtyUpdateInProgress(status: boolean): void {
         this.setState({ isQtyUpdateInProgress: status });
     }
 
-    getIsComplete() {
+    getIsComplete(): boolean {
         const { isQtyUpdateInProgress } = this.state;
 
         return !isQtyUpdateInProgress;
     }
 
-    async addAllToCart() {
+    async addAllToCart(): Promise<void> {
         if (!isSignedIn()) {
             return;
         }
@@ -137,7 +134,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         await this.addAllToCartAsync();
     }
 
-    async addAllToCartAsync() {
+    async addAllToCartAsync(): Promise<void> {
         const { moveWishlistToCart } = this.props;
 
         if (!isSignedIn) {
@@ -147,11 +144,11 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         try {
             await moveWishlistToCart();
         } catch (error) {
-            this.showErrorAndRemoveLoading(getErrorMessage(error));
+            this.showErrorAndRemoveLoading(getErrorMessage(error as NetworkError));
         }
     }
 
-    async removeAll() {
+    async removeAll(): Promise<void> {
         const { clearWishlist } = this.props;
 
         if (!isSignedIn()) {
@@ -168,7 +165,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         }
     }
 
-    removeSelectedFromWishlist(selectedIdMap) {
+    removeSelectedFromWishlist(selectedIdMap: string[]): void | null {
         const { removeSelectedFromWishlist } = this.props;
         const { loadingItemsMap: prevLoadingItemsMap } = this.state;
 
@@ -178,7 +175,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
         const loadingItemsMap = { ...prevLoadingItemsMap };
 
-        selectedIdMap.forEach((id) => {
+        selectedIdMap.forEach((id: string) => {
             loadingItemsMap[ id ] = true;
         });
 
@@ -187,29 +184,29 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         return removeSelectedFromWishlist(selectedIdMap);
     }
 
-    shareWishlist() {
+    shareWishlist(): void {
         const { showPopup } = this.props;
         showPopup({ title: __('Share Wishlist') });
     }
 
-    _getIsWishlistEmpty() {
+    _getIsWishlistEmpty(): boolean {
         const { wishlistItems } = this.props;
 
         return Object.entries(wishlistItems).length <= 0;
     }
 
-    showNotificationAndRemoveLoading(message) {
+    showNotificationAndRemoveLoading(message: string): void {
         const { showNotification } = this.props;
         this.setState({ isLoading: false });
         showNotification(message);
     }
 
-    showErrorAndRemoveLoading(message) {
+    showErrorAndRemoveLoading(message: string): void {
         const { showError } = this.props;
 
         try {
             const errorMessages = JSON.parse(message);
-            errorMessages.forEach((err) => {
+            errorMessages.forEach((err: string) => {
                 showError(err);
             });
         } catch {

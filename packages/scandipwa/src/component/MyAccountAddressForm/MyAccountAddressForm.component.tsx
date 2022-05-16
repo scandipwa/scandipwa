@@ -12,8 +12,10 @@
 
 import { FieldType } from 'Component/Field/Field.config';
 import FieldForm from 'Component/FieldForm';
+import { FormContainerProps } from 'Component/Form/Form.type';
 import { Addresstype } from 'Type/Account.type';
 import { CountriesType } from 'Type/Config.type';
+import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import myAccountAddressForm from './MyAccountAddressForm.form';
@@ -95,7 +97,7 @@ export class MyAccountAddressForm extends FieldForm {
         });
     }
 
-    getFormProps() {
+    getFormProps(): Partial<FormContainerProps> {
         return {
             onSubmit: this.onSubmit.bind(this)
         };
@@ -106,7 +108,7 @@ export class MyAccountAddressForm extends FieldForm {
      * @param form
      * @param fields
      */
-    onSubmit(form, fields) {
+    onSubmit(form: HTMLFormElement, fields: FieldData[]) {
         const { onSave, addressLinesQty } = this.props;
         const newAddress = transformToNameValuePair(fields);
 

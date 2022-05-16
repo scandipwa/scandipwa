@@ -13,15 +13,17 @@
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import FieldGroup from 'Component/FieldGroup';
 import Form from 'Component/Form';
+import { FormContainerProps } from 'Component/Form/Form.type';
 import { ReactElement } from 'Type/Common.type';
 
 import './FieldForm.style';
 
 /** @namespace Component/FieldForm/Component */
 export class FieldForm<T> extends PureComponent<T> {
-    get fieldMap() {
+    get fieldMap(): Partial<FieldContainerProps>[] {
         return [
             // // Field
             // {
@@ -88,7 +90,7 @@ export class FieldForm<T> extends PureComponent<T> {
         );
     }
 
-    getFormProps(): T {
+    getFormProps(): Partial<FormContainerProps> {
         return { ...this.props };
     }
 

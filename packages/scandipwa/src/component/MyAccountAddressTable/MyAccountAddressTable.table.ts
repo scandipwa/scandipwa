@@ -9,10 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { DataPair } from 'Component/KeyValueTable/KeyValueTable.type';
+import { CustomerAddress } from 'Query/MyAccount.type';
+import { Country } from 'Query/Region.type';
 import { getFormattedRegion } from 'Util/Address';
+import { FormattedRegion } from 'Util/Address/Address.type';
+
+import { MyAccountAddressTableComponentProps } from './MyAccountAddressTable.type';
 
 /** @namespace Component/MyAccountAddressTable/Table/getAddressAdditionalTableFields */
-export const getAddressAdditionalTableFields = (address, countries) => {
+export const getAddressAdditionalTableFields = (
+    address: CustomerAddress,
+    countries: Country[]
+): DataPair<CustomerAddress | FormattedRegion>[] => {
     const regionData = getFormattedRegion(address, countries);
 
     return [
@@ -40,7 +49,9 @@ export const getAddressAdditionalTableFields = (address, countries) => {
 };
 
 /** @namespace Component/MyAccountAddressTable/Table/getAddressTablePairArray */
-export const getAddressTablePairArray = (props) => {
+export const getAddressTablePairArray = (
+    props: MyAccountAddressTableComponentProps
+): DataPair<CustomerAddress | FormattedRegion>[] => {
     const { address, countries, showAdditionalFields } = props;
 
     return [

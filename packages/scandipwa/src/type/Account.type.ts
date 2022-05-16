@@ -72,7 +72,7 @@ export type TrimmedAddress = {
     region_code: string | null;
     street: string | string[];
     telephone: string;
-    vat_id: number | null;
+    vat_id: string | null;
 };
 
 export type Customer = {

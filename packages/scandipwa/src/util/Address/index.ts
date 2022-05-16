@@ -12,12 +12,12 @@
 import { CustomerAddress } from 'Query/MyAccount.type';
 import { Country, Region } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
-import { Address, TrimmedAddress } from 'Type/Account.type';
+import { TrimmedAddress } from 'Type/Account.type';
 
 import { FormattedRegion, ZippopotamResponseResult } from './Address.type';
 
 /** @namespace Util/Address/Index/trimCheckoutCustomerAddress */
-export const trimCheckoutCustomerAddress = (customerAddress: Address): TrimmedAddress => {
+export const trimCheckoutCustomerAddress = (customerAddress: CustomerAddress): TrimmedAddress => {
     const {
         company = null,
         city = '',
@@ -182,7 +182,7 @@ export const getAvailableRegions = (country_id: string, countries: Country[]): R
 
 /** @namespace Util/Address/Index/getFormattedRegion */
 export const getFormattedRegion = (
-    address: Address,
+    address: CustomerAddress,
     countries: Country[]
 ): FormattedRegion => {
     const { country_id, region: regionData } = address;

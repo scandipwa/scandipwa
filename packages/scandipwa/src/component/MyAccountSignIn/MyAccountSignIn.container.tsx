@@ -13,11 +13,14 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { SignInOptions } from 'Query/MyAccount.type';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { ReactElement } from 'Type/Common.type';
+import { NetworkError, ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
 import { getErrorMessage } from 'Util/Request';
@@ -26,6 +29,8 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountSignIn from './MyAccountSignIn.component';
 import {
+    MyAccountContainerPropsKeys,
+    MyAccountSignInComponentProps,
     MyAccountSignInContainerMapDispatchProps,
     MyAccountSignInContainerMapStateProps,
     MyAccountSignInContainerProps,
@@ -78,18 +83,17 @@ MyAccountSignInContainerState
         const { isEmailAvailable: prevIsEmailAvailable } = prevProps;
 
         if (isCheckout && isEmailAvailable && !prevIsEmailAvailable) {
-            setSignInState('');
+            setSignInState(MyAccountPageState.STATE_SIGN_IN);
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<MyAccountSignInComponentProps, MyAccountContainerPropsKeys> {
         const {
             state,
             onFormError,
             handleForgotPassword,
             handleCreateAccount,
             isCheckout,
-            setLoadingState,
             emailValue,
             handleEmailInput,
             isLoading
@@ -101,14 +105,13 @@ MyAccountSignInContainerState
             handleForgotPassword,
             handleCreateAccount,
             isCheckout,
-            setLoadingState,
             emailValue,
             handleEmailInput,
             isLoading
         };
     }
 
-    async onSignInSuccess(form, fields) {
+    async onSignInSuccess(form: HTMLFormElement, fields: FieldData[]): Promise<void> {
         const {
             signIn,
             showNotification,
@@ -129,10 +132,10 @@ MyAccountSignInContainerState
             this.setState({ isSignIn: true });
 
             try {
-                await signIn(fieldPairs);
+                await signIn(fieldPairs as SignInOptions);
                 onSignIn();
             } catch (error) {
-                showNotification(NotificationType.ERROR, getErrorMessage(error));
+                showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError));
                 this.setState({ isSignIn: false });
             } finally {
                 setLoadingState(false);

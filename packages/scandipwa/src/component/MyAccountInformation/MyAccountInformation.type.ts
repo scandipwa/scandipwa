@@ -11,8 +11,9 @@
 
 import { RouteComponentProps } from 'react-router';
 
-import { Customer } from 'Query/MyAccount.type';
+import { ChangeCustomerPasswordOptions, Customer, SignInOptions } from 'Query/MyAccount.type';
 import { NetworkError } from 'Type/Common.type';
+import { GQLCustomerUpdateInput } from 'Type/Graphql.type';
 
 export interface MyAccountInformationContainerMapStateProps {
     customer: Partial<Customer>;
@@ -44,7 +45,11 @@ export type MyAccountInformationContainerState = {
 };
 
 export interface MyAccountInformationComponentProps {
-    onCustomerSave: (fields) => Promise<void>;
+    onCustomerSave: (fields:
+    ChangeCustomerPasswordOptions
+    & SignInOptions
+    & GQLCustomerUpdateInput
+    ) => Promise<void>;
     isLoading: boolean;
     customer: Partial<Customer>;
     showEmailChangeField: boolean;

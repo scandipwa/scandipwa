@@ -263,7 +263,6 @@ export class CheckoutBilling extends PureComponent {
               } }
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
               label={ __('My billing and shipping are the same') }
-              onChange={ onSameAsShippingChange }
               isDisabled={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
             />
         );

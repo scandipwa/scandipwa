@@ -41,13 +41,13 @@ export const checkoutGuestForm = (props, events) => {
                 onChange: handleEmailInput
             },
             addRequiredTag: true,
-            validateOn: [ 'onChange' ],
+            validateOn: ['onChange'],
             validationRule: {
-                inputType: ValidationInputType.email,
+                inputType: ValidationInputType.EMAIL,
                 isRequired: true
             }
         },
-        ...(isCreateUser ? [ {
+        ...(isCreateUser ? [{
             type: FieldType.PASSWORD,
             label: __('Create Password'),
             attr: {
@@ -59,13 +59,13 @@ export const checkoutGuestForm = (props, events) => {
             events: {
                 onChange: handlePasswordInput
             },
-            validateOn: [ 'onChange' ],
+            validateOn: ['onChange'],
             validationRule: {
-                inputType: ValidationInputType.password,
+                inputType: ValidationInputType.PASSWORD,
                 isRequired: true,
-                match: (value) => validatePassword(value, range, minimunPasswordCharacter)
+                match: (value: string) => validatePassword(value, range, minimunPasswordCharacter)
             }
-        } ] : [])
+        }] : [])
     ];
 };
 

@@ -21,7 +21,7 @@ import './MyAccountAddressTable.style';
 
 /** @namespace Component/MyAccountAddressTable/Component */
 export class MyAccountAddressTable extends KeyValueTable<MyAccountAddressTableComponentProps> {
-    get dataPairArray(): DataPair[] {
+    get dataPairArray(): DataPair<unknown>[] {
         return getAddressTablePairArray(this.props);
     }
 

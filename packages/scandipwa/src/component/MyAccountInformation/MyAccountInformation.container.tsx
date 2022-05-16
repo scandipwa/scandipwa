@@ -15,7 +15,7 @@ import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
 import MyAccountQuery from 'Query/MyAccount.query';
-import { ChangeCustomerPasswordOptions } from 'Query/MyAccount.type';
+import { ChangeCustomerPasswordOptions, SignInOptions } from 'Query/MyAccount.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateCustomerDetails, updateIsLoading, updateIsLocked } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
@@ -122,7 +122,10 @@ MyAccountInformationContainerState
         showErrorNotification(error);
     }
 
-    async onCustomerSave(fields): Promise<void> {
+    async onCustomerSave(fields:
+    ChangeCustomerPasswordOptions
+    & SignInOptions
+    & GQLCustomerUpdateInput): Promise<void> {
         const { updateCustomerLoadingStatus } = this.props;
         const { showPasswordChangeField, showEmailChangeField } = this.state;
         const {
@@ -208,7 +211,7 @@ MyAccountInformationContainerState
         updateCustomer(customer);
     }
 
-    async handleEmailChange(fields): Promise<void> {
+    async handleEmailChange(fields: SignInOptions): Promise<void> {
         const mutation = MyAccountQuery.getUpdateEmailMutation(fields);
 
         await fetchMutation(mutation);

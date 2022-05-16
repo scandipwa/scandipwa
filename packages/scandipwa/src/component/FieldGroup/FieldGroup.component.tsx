@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { FormGroupComponentProps } from './FieldGroup.type';
+import { FieldGroupComponentProps } from './FieldGroup.type';
 
 import './FieldGroup.style';
 
@@ -22,7 +22,7 @@ import './FieldGroup.style';
  * Field Group
  * @class FieldGroup
  * @namespace Component/FieldGroup/Component */
-export class FieldGroup extends PureComponent<FormGroupComponentProps> {
+export class FieldGroup extends PureComponent<FieldGroupComponentProps> {
     static defaultProps = {
         validationResponse: null
     };

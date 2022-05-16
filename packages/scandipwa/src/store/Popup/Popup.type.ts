@@ -10,6 +10,7 @@
  */
 import { AnyAction } from 'redux';
 
+import { Page } from 'Component/Header/Header.config';
 import { MyAccountAddressPopupAction } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { MyAccountAddressPopupPayload } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.type';
 import {
@@ -39,6 +40,7 @@ export type PopupStore = {
 
 export type PopupPayload = {
     [MyAccountAddressPopupAction.ADDRESS_POPUP_ID]: MyAccountAddressPopupPayload;
+    [Page.CUSTOMER_ACCOUNT]: unknown;
 };
 
 declare module 'Util/Store/Store.type' {

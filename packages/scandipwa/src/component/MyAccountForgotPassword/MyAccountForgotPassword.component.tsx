@@ -36,9 +36,9 @@ export class MyAccountForgotPassword extends PureComponent<MyAccountForgotPasswo
                   attr={ {
                       id: 'email',
                       name: 'email',
-                      class: 'ForgotPassword-Input_type_email',
+                      className: 'ForgotPassword-Input_type_email',
                       placeholder: __('Your email address'),
-                      autocomplete: 'email'
+                      autoComplete: 'email'
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {

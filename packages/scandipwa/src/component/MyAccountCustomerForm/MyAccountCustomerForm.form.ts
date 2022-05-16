@@ -10,19 +10,30 @@
  */
 
 import { FieldType } from 'Component/Field/Field.config';
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import { validatePassword } from 'Util/Validator';
 import { ValidationInputType } from 'Util/Validator/Config';
+
+import {
+    MyAccountCustomerFormComponentProps,
+    MyAccountCustomerFormEmailAndPasswordProps,
+    MyAccountCustomerFormInformationProps
+} from './MyAccountCustomerForm.type';
 
 /**
  * Returns customer forms fields
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/MyAccountCustomerForm/Form/customerInformationFields */
-export const customerInformationFields = (props) => {
+export const customerInformationFields = (
+    props: Pick<MyAccountCustomerFormComponentProps, MyAccountCustomerFormInformationProps>
+): Partial<FieldContainerProps>[] => {
     const {
-        firstname,
-        lastname,
-        taxvat,
+        customer: {
+            firstname = '',
+            lastname = '',
+            taxvat = ''
+        },
         showTaxVatNumber,
         handleChangeEmailCheckbox,
         handleChangePasswordCheckbox,
@@ -41,7 +52,7 @@ export const customerInformationFields = (props) => {
                 placeholder: __('Your first name')
             },
             addRequiredTag: true,
-            validateOn: [ 'onChange' ],
+            validateOn: ['onChange'],
             validationRule: {
                 isRequired: true
             }
@@ -55,7 +66,7 @@ export const customerInformationFields = (props) => {
                 placeholder: __('Your last name')
             },
             addRequiredTag: true,
-            validateOn: [ 'onChange' ],
+            validateOn: ['onChange'],
             validationRule: {
                 isRequired: true
             }
@@ -70,7 +81,7 @@ export const customerInformationFields = (props) => {
                     placeholder: __('Your tax/VAT number')
                 },
                 addRequiredTag: vatNumberRequired,
-                validateOn: [ 'onChange' ],
+                validateOn: ['onChange'],
                 validationRule: {
                     isRequired: vatNumberRequired
                 }
@@ -106,7 +117,9 @@ export const customerInformationFields = (props) => {
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/MyAccountCustomerForm/Form/customerEmailAndPasswordFields */
-export const customerEmailAndPasswordFields = (props) => {
+export const customerEmailAndPasswordFields = (
+    props: Pick<MyAccountCustomerFormComponentProps, MyAccountCustomerFormEmailAndPasswordProps>
+): Partial<FieldContainerProps>[] => {
     const {
         minimunPasswordCharacter,
         showEmailChangeField,
@@ -133,9 +146,9 @@ export const customerEmailAndPasswordFields = (props) => {
                     onChange: handleEmailInput
                 },
                 addRequiredTag: true,
-                validateOn: [ 'onChange' ],
+                validateOn: ['onChange'],
                 validationRule: {
-                    inputType: ValidationInputType.email,
+                    inputType: ValidationInputType.EMAIL,
                     isRequired: true
                 }
             }
@@ -155,9 +168,9 @@ export const customerEmailAndPasswordFields = (props) => {
                     onChange: handlePasswordInput
                 },
                 addRequiredTag: true,
-                validateOn: [ 'onChange' ],
+                validateOn: ['onChange'],
                 validationRule: {
-                    inputType: ValidationInputType.password,
+                    inputType: ValidationInputType.PASSWORD,
                     isRequired: true
                 }
             }
@@ -173,12 +186,12 @@ export const customerEmailAndPasswordFields = (props) => {
                     'aria-label': __('New password')
                 },
                 addRequiredTag: true,
-                validateOn: [ 'onChange' ],
+                validateOn: ['onChange'],
                 validationRule: {
-                    inputType: ValidationInputType.password,
+                    inputType: ValidationInputType.PASSWORD,
                     isRequired: true,
-                    match: (value) => {
-                        const password = document.getElementById('currentPassword');
+                    match: (value: string) => {
+                        const password = document.getElementById('currentPassword') as HTMLInputElement;
 
                         if (value && password.value === value) {
                             return __('New passwords can\'t be the same as old password!');
@@ -197,12 +210,12 @@ export const customerEmailAndPasswordFields = (props) => {
                     'aria-label': __('Confirm New password')
                 },
                 addRequiredTag: true,
-                validateOn: [ 'onChange' ],
+                validateOn: ['onChange'],
                 validationRule: {
                     isRequired: true,
-                    inputType: ValidationInputType.password,
-                    match: (value) => {
-                        const password = document.getElementById('newPassword');
+                    inputType: ValidationInputType.PASSWORD,
+                    match: (value: string) => {
+                        const password = document.getElementById('newPassword') as HTMLInputElement;
                         return password.value === value;
                     },
                     customErrorMessages: {

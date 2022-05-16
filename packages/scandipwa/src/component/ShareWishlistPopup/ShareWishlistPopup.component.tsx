@@ -16,17 +16,13 @@ import ShareWishlistForm from 'Component/ShareWishlistForm';
 import { ReactElement } from 'Type/Common.type';
 
 import { SHARE_WISHLIST_POPUP_ID } from './ShareWishlistPopup.config';
+import { ShareWishlistPopupComponentProps } from './ShareWishlistPopup.type';
 
 import './ShareWishlistPopup.style';
 
 /** @namespace Component/ShareWishlistPopup/Component */
-export class ShareWishlistPopup extends PureComponent {
+export class ShareWishlistPopup extends PureComponent<ShareWishlistPopupComponentProps> {
     state = {};
-
-    static propTypes = {
-        handleFormData: PropTypes.func.isRequired,
-        isFormLoading: PropTypes.bool.isRequired
-    };
 
     renderContent(): ReactElement {
         const { handleFormData, isFormLoading } = this.props;

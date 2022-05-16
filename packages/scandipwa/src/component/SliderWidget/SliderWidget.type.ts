@@ -39,7 +39,7 @@ export interface SliderWidgetComponentProps {
     slider: Partial<EnhancedSlider>;
 }
 
-export interface SliderWidgetComponenState {
+export interface SliderWidgetComponentState {
     activeImage: number;
     carouselDirection: Directions;
 }

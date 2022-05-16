@@ -49,8 +49,8 @@ MyAccountCustomerFormContainerState
         handlePasswordInput: this.handlePasswordInput.bind(this)
     };
 
-    state = {
-        email: null,
+    state: MyAccountCustomerFormContainerState = {
+        email: '',
         currentPassword: '',
         isEmailEdit: false
     };
@@ -88,7 +88,7 @@ MyAccountCustomerFormContainerState
             currentPassword,
             range,
             minimunPasswordCharacter,
-            email: !isEmailEdit ? currentCustomerEmail : email
+            email: !isEmailEdit ? currentCustomerEmail as string : email
         };
     }
 

@@ -9,13 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Children, createRef, PureComponent } from 'react';
+import {
+    Children,
+    createRef,
+    MouseEvent,
+    PureComponent,
+    ReactNode,
+    RefObject
+} from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
-import { LEFT, RIGHT } from 'Component/ChevronIcon/ChevronIcon.config';
+import { Directions } from 'Component/ChevronIcon/ChevronIcon.config';
 import Draggable from 'Component/Draggable';
-import { ChildrenType, MixType, RefType } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
+import { DraggableComponentState } from 'Component/Draggable/Draggable.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import CSS from 'Util/CSS';
 import { isRtl } from 'Util/CSS/CSS';
@@ -25,6 +32,7 @@ import {
     ANIMATION_DURATION,
     HEIGHT_TRANSITION_SPEED_ON_MOUNT
 } from './Slider.config';
+import { SliderComponentProps, SliderComponentState } from './Slider.type';
 
 import './Slider.style';
 
@@ -33,27 +41,7 @@ import './Slider.style';
  * @class Slider
  * @namespace Component/Slider/Component
  */
-export class Slider extends PureComponent {
-    static propTypes = {
-        showCrumbs: PropTypes.bool,
-        showArrows: PropTypes.bool,
-        showCounter: PropTypes.bool,
-        activeImage: PropTypes.number,
-        onActiveImageChange: PropTypes.func,
-        mix: MixType,
-        children: ChildrenType.isRequired,
-        isInteractionDisabled: PropTypes.bool,
-        device: DeviceType.isRequired,
-        onClick: PropTypes.func,
-        isVertical: PropTypes.bool,
-        isHeightTransitionDisabledOnMount: PropTypes.bool,
-        sliderHeight: PropTypes.oneOfType([
-            PropTypes.number,
-            PropTypes.string
-        ]),
-        sliderRef: RefType
-    };
-
+export class Slider extends PureComponent<SliderComponentProps, SliderComponentState> {
     static defaultProps = {
         activeImage: 0,
         onActiveImageChange: noopFn,
@@ -62,50 +50,46 @@ export class Slider extends PureComponent {
         showCounter: false,
         isInteractionDisabled: false,
         mix: {},
-        onClick: null,
+        onClick: noopFn,
         isVertical: false,
         isHeightTransitionDisabledOnMount: false,
-        sliderHeight: null,
+        sliderHeight: 0,
         sliderRef: null
     };
 
     sliderWidth = 0;
 
-    draggableRef = createRef();
+    draggableRef = createRef<HTMLDivElement>();
 
-    sliderRef = createRef();
+    sliderRef = createRef<HTMLDivElement>();
 
-    handleDragStart = this.handleInteraction.bind(this, this.handleDragStart);
-
-    handleDrag = this.handleInteraction.bind(this, this.handleDrag);
-
-    handleDragEnd = this.handleInteraction.bind(this, this.handleDragEnd);
-
-    renderCrumb = this.renderCrumb.bind(this);
-
-    renderCounter = this.renderCounter.bind(this);
-
-    goNext = this.goNext.bind(this);
-
-    goPrev = this.goPrev.bind(this);
-
-    handleClick = this.handleClick.bind(this);
-
-    __construct(props): void {
-        super.__construct(props);
+    __construct(props: SliderComponentProps): void {
+        super.__construct?.(props);
 
         const { activeImage } = this.props;
 
         this.state = {
             prevActiveImage: activeImage
         };
+
+        this.handleDragStart = this.handleInteraction.bind(this, this.handleDragStart);
+        this.handleDrag = this.handleInteraction.bind(this, this.handleDrag);
+        this.handleDragEnd = this.handleInteraction.bind(this, this.handleDragEnd);
+        this.renderCrumb = this.renderCrumb.bind(this);
+        this.renderCounter = this.renderCounter.bind(this);
+        this.goNext = this.goNext.bind(this);
+        this.goPrev = this.goPrev.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(
+        props: SliderComponentProps,
+        state: SliderComponentState
+    ): Partial<SliderComponentState> | null {
         const { activeImage, children } = props;
         const { prevActiveImage } = state;
 
-        if (prevActiveImage !== activeImage && children.length !== 1) {
+        if (prevActiveImage !== activeImage && Array.isArray(children) && children.length !== 1) {
             return { prevActiveImage: activeImage };
         }
 
@@ -115,7 +99,7 @@ export class Slider extends PureComponent {
     componentDidMount(): void {
         this.addWindowResizeWatcher();
 
-        if (!this.getIsSlider()) {
+        if (!this.getIsSlider() || !this.draggableRef.current) {
             return;
         }
 
@@ -135,7 +119,8 @@ export class Slider extends PureComponent {
             this.setStyleVariablesOnMount();
         }, 0);
 
-        const target = sliderChildren[0].querySelector('img') || sliderChildren[0];
+        const target = sliderChildren[0].querySelector<HTMLImageElement>('img')
+        || sliderChildren[0] as HTMLImageElement;
 
         target.onload = () => {
             const height = target.offsetHeight;
@@ -155,7 +140,7 @@ export class Slider extends PureComponent {
         setTimeout(() => CSS.setVariable(sliderRef, 'sliderOpacity', '1'), 0);
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: SliderComponentProps): void {
         const { activeImage: prevActiveImage } = prevProps;
         const { activeImage } = this.props;
 
@@ -167,7 +152,7 @@ export class Slider extends PureComponent {
         }
     }
 
-    getDir() {
+    getDir(): number {
         const { isVertical } = this.props;
 
         if (!isVertical && isRtl()) {
@@ -177,7 +162,7 @@ export class Slider extends PureComponent {
         return 1;
     }
 
-    addWindowResizeWatcher() {
+    addWindowResizeWatcher(): void {
         window.addEventListener('resize', () => {
             const { activeImage } = this.props;
             const newTranslate = -activeImage * this.getSlideWidth() * this.getDir();
@@ -194,7 +179,7 @@ export class Slider extends PureComponent {
         });
     }
 
-    setStyleVariablesOnMount() {
+    setStyleVariablesOnMount(): void {
         const { sliderHeight, isHeightTransitionDisabledOnMount, activeImage } = this.props;
 
         const sliderRef = this.getSliderRef();
@@ -219,7 +204,7 @@ export class Slider extends PureComponent {
         this.setTranlateXStyle(newTranslate);
     }
 
-    setTranlateXStyle(translate) {
+    setTranlateXStyle(translate: number): void {
         const { isVertical } = this.props;
 
         CSS.setVariable(
@@ -229,30 +214,35 @@ export class Slider extends PureComponent {
         );
     }
 
-    setAnimationSpeedStyle(animationDuration = ANIMATION_DURATION) {
+    setAnimationSpeedStyle(animationDuration = ANIMATION_DURATION): void {
         CSS.setVariable(this.draggableRef, 'animation-speed', `${ animationDuration }ms`);
     }
 
-    getIsSlider() {
+    getIsSlider(): boolean {
         const { children } = this.props;
 
         return children.length > 0;
     }
 
-    getSlideWidth() {
+    getSlideWidth(): number {
         const { isVertical } = this.props;
         const { offsetWidth = 0, offsetHeight = 0 } = this.draggableRef.current || {};
 
         return isVertical ? offsetHeight : offsetWidth;
     }
 
-    getSliderRef() {
+    getSliderRef(): RefObject<HTMLDivElement> {
         const { sliderRef } = this.props;
 
         return sliderRef || this.sliderRef;
     }
 
-    onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize) {
+    onClickChangeSlide(
+        state: DraggableComponentState,
+        slideSize: number,
+        lastTranslate: number,
+        fullSliderSize: number
+    ): number {
         const { originalX } = state;
         const { prevActiveImage: prevActiveSlider } = this.state;
         const { onActiveImageChange, device, onClick } = this.props;
@@ -264,7 +254,7 @@ export class Slider extends PureComponent {
         }
 
         const fullSliderPoss = Math.round(fullSliderSize / slideSize);
-        const elementPositionInDOM = this.draggableRef.current.getBoundingClientRect().x;
+        const elementPositionInDOM = this.draggableRef.current?.getBoundingClientRect().x || 0;
 
         const sliderPosition = -prevActiveSlider;
         const realElementPositionInDOM = elementPositionInDOM - lastTranslate;
@@ -291,16 +281,16 @@ export class Slider extends PureComponent {
         return sliderPosition;
     }
 
-    getFullSliderWidth() {
+    getFullSliderWidth(): number {
         const { isVertical } = this.props;
-        const { scrollWidth: fullSliderWidth, scrollHeight } = this.draggableRef.current;
+        const { scrollWidth: fullSliderWidth, scrollHeight } = this.draggableRef.current as HTMLDivElement;
 
         const width = isVertical ? scrollHeight : fullSliderWidth;
 
         return width - this.getSlideWidth();
     }
 
-    calculateNextSlide(state) {
+    calculateNextSlide(state: DraggableComponentState): number {
         const { isVertical } = this.props;
         const {
             translateX,
@@ -360,11 +350,11 @@ export class Slider extends PureComponent {
         return activeSlide;
     }
 
-    handleDragStart() {
+    handleDragStart(): void {
         this.setAnimationSpeedStyle(0);
     }
 
-    handleDrag(state) {
+    handleDrag(state: DraggableComponentState): void {
         const { isVertical } = this.props;
         const { translateX, translateY } = state;
         const translate = isVertical ? translateY : translateX;
@@ -379,7 +369,7 @@ export class Slider extends PureComponent {
         }
     }
 
-    handleDragEnd(state, callback) {
+    handleDragEnd(state: DraggableComponentState, callback: (state: Partial<DraggableComponentState>) => void): void {
         const { isVertical } = this.props;
         const activeSlide = this.calculateNextSlide(state);
         const slideSize = this.getSlideWidth();
@@ -403,13 +393,15 @@ export class Slider extends PureComponent {
         });
     }
 
-    handleClick(state, callback, e) {
+    handleClick(state: DraggableComponentState,
+        callback: (state: Partial<DraggableComponentState>) => void,
+        e: MouseEvent): void {
         if (e.type === 'contextmenu') {
             this.handleDragEnd(state, callback);
         }
     }
 
-    handleInteraction(callback, ...args) {
+    handleInteraction(callback, ...args): void {
         const { isInteractionDisabled } = this.props;
 
         if (isInteractionDisabled || !callback) {
@@ -419,12 +411,12 @@ export class Slider extends PureComponent {
         callback.call(this, ...args);
     }
 
-    changeActiveImage(activeImage) {
+    changeActiveImage(activeImage: number): void {
         const { onActiveImageChange } = this.props;
         onActiveImageChange(activeImage);
     }
 
-    goPrev() {
+    goPrev(): void {
         const { activeImage } = this.props;
 
         if (activeImage > 0) {
@@ -432,7 +424,7 @@ export class Slider extends PureComponent {
         }
     }
 
-    goNext() {
+    goNext(): void {
         const { activeImage, children } = this.props;
         const nextImage = activeImage + 1;
 
@@ -477,7 +469,7 @@ export class Slider extends PureComponent {
         );
     }
 
-    renderCrumb(_, i): ReactElement {
+    renderCrumb(_: ReactNode, i: number): ReactElement {
         const { activeImage } = this.props;
         const isActive = i === Math.abs(-activeImage);
 
@@ -517,7 +509,7 @@ export class Slider extends PureComponent {
                   aria-label={ __('Previous') }
                   onClick={ this.goPrev }
                 >
-                    <ChevronIcon direction={ LEFT } />
+                    <ChevronIcon direction={ Directions.LEFT } />
                 </button>
                 <button
                   block="Slider"
@@ -526,7 +518,7 @@ export class Slider extends PureComponent {
                   aria-label={ __('Next') }
                   onClick={ this.goNext }
                 >
-                    <ChevronIcon direction={ RIGHT } />
+                    <ChevronIcon direction={ Directions.RIGHT } />
                 </button>
             </>
         );

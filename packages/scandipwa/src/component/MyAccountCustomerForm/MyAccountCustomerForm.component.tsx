@@ -9,8 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import FieldForm from 'Component/FieldForm';
+import { FormContainerProps } from 'Component/Form/Form.type';
+import { ChangeCustomerPasswordOptions, SignInOptions } from 'Query/MyAccount.type';
 import { ReactElement } from 'Type/Common.type';
+import { GQLCustomerUpdateInput } from 'Type/Graphql.type';
+import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import { customerEmailAndPasswordFields, customerInformationFields } from './MyAccountCustomerForm.form';
@@ -23,12 +28,15 @@ export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormCompon
         currentPassword: ''
     };
 
-    onFormSuccess(form, fields): void {
+    onFormSuccess(form: HTMLFormElement, fields: FieldData[]): void {
         const { onSave } = this.props;
-        onSave(transformToNameValuePair(fields));
+        onSave(transformToNameValuePair<
+        ChangeCustomerPasswordOptions
+        & SignInOptions
+        & GQLCustomerUpdateInput>(fields));
     }
 
-    get customerInformationFieldMap() {
+    get customerInformationFieldMap(): Partial<FieldContainerProps>[] {
         const {
             showTaxVatNumber,
             handleChangeEmailCheckbox,
@@ -36,20 +44,12 @@ export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormCompon
             showEmailChangeField,
             showPasswordChangeField,
             vatNumberRequired,
-            customer: {
-                firstname = '',
-                lastname = '',
-                taxvat = '',
-                email = ''
-            }
+            customer
         } = this.props;
 
         return customerInformationFields({
             showTaxVatNumber,
-            firstname,
-            lastname,
-            taxvat,
-            email,
+            customer,
             handleChangePasswordCheckbox,
             handleChangeEmailCheckbox,
             showEmailChangeField,
@@ -58,7 +58,7 @@ export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormCompon
         });
     }
 
-    get emailAndPasswordFieldMap() {
+    get emailAndPasswordFieldMap(): Partial<FieldContainerProps>[] {
         const {
             minimunPasswordCharacter,
             showEmailChangeField,
@@ -94,7 +94,7 @@ export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormCompon
         );
     }
 
-    getFormProps() {
+    getFormProps(): Partial<FormContainerProps> {
         return {
             onSubmit: this.onFormSuccess.bind(this)
         };

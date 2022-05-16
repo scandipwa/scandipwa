@@ -13,7 +13,9 @@ import { MouseEvent } from 'react';
 import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { UpdateCustomerPasswordForgotStatusAction } from 'Store/MyAccount/MyAccount.type';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
+import { FieldData } from 'Util/Form/Form.type';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MyAccountForgotPasswordContainerMapStateProps {}
 
 export interface MyAccountForgotPasswordContainerMapDispatchProps {
@@ -39,7 +41,7 @@ export type MyAccountForgotPasswordContainerProps = MyAccountForgotPasswordConta
 
 export type MyAccountForgotPasswordComponentProps = {
     state: MyAccountPageState;
-    onForgotPasswordSuccess: (form, fields) => Promise<void>;
+    onForgotPasswordSuccess: (form: HTMLFormElement, fields: FieldData[]) => Promise<void>;
     onFormError: () => void;
     handleSignIn: (e: MouseEvent) => void;
     handleCreateAccount: (e: MouseEvent) => void;

@@ -11,7 +11,8 @@
 
 import { ChangeEvent } from 'react';
 
-import { Customer } from 'Query/MyAccount.type';
+import { ChangeCustomerPasswordOptions, Customer, SignInOptions } from 'Query/MyAccount.type';
+import { GQLCustomerUpdateInput } from 'Type/Graphql.type';
 
 export interface MyAccountCustomerFormContainerMapStateProps {
     showTaxVatNumber: string;
@@ -19,11 +20,16 @@ export interface MyAccountCustomerFormContainerMapStateProps {
     minimunPasswordCharacter: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MyAccountCustomerFormContainerMapDispatchProps {}
 
 export interface MyAccountCustomerFormContainerBaseProps {
     customer: Partial<Customer>;
-    onSave: (fields) => Promise<void>;
+    onSave: (fields:
+    ChangeCustomerPasswordOptions
+    & SignInOptions
+    & GQLCustomerUpdateInput
+    ) => Promise<void>;
     showEmailChangeField: boolean;
     showPasswordChangeField: boolean;
     handleChangeEmailCheckbox: () => void;
@@ -35,14 +41,18 @@ export type MyAccountCustomerFormContainerProps = MyAccountCustomerFormContainer
 & MyAccountCustomerFormContainerBaseProps;
 
 export type MyAccountCustomerFormContainerState = {
-    email: null | string;
+    email: string;
     currentPassword: string;
     isEmailEdit: boolean;
 };
 
 export interface MyAccountCustomerFormComponentProps {
     customer: Partial<Customer>;
-    onSave: (fields) => Promise<void>;
+    onSave: (fields:
+    ChangeCustomerPasswordOptions
+    & SignInOptions
+    & GQLCustomerUpdateInput
+    ) => Promise<void>;
     showTaxVatNumber: boolean;
     showEmailChangeField: boolean;
     showPasswordChangeField: boolean;
@@ -57,18 +67,32 @@ export interface MyAccountCustomerFormComponentProps {
     minimunPasswordCharacter: string;
 }
 
-export type MyAccountCustomerFormContainerPropsKeys =
-    | 'customer'
-    | 'onSave'
-    | 'showTaxVatNumber'
-    | 'showEmailChangeField'
-    | 'showPasswordChangeField'
-    | 'handleChangeEmailCheckbox'
-    | 'handleChangePasswordCheckbox'
-    | 'handleEmailInput'
-    | 'handlePasswordInput'
-    | 'email'
-    | 'currentPassword'
-    | 'vatNumberRequired'
-    | 'range'
-    | 'minimunPasswordCharacter';
+export type MyAccountCustomerFormContainerPropsKeys = 'customer'
+| 'onSave'
+| 'showTaxVatNumber'
+| 'showEmailChangeField'
+| 'showPasswordChangeField'
+| 'handleChangeEmailCheckbox'
+| 'handleChangePasswordCheckbox'
+| 'email'
+| 'currentPassword'
+| 'vatNumberRequired'
+| 'range'
+| 'minimunPasswordCharacter';
+
+export type MyAccountCustomerFormEmailAndPasswordProps = 'minimunPasswordCharacter'
+| 'showEmailChangeField'
+| 'showPasswordChangeField'
+| 'handleEmailInput'
+| 'handlePasswordInput'
+| 'currentPassword'
+| 'email'
+| 'range';
+
+export type MyAccountCustomerFormInformationProps = 'customer'
+| 'showTaxVatNumber'
+| 'handleChangeEmailCheckbox'
+| 'handleChangePasswordCheckbox'
+| 'showEmailChangeField'
+| 'showPasswordChangeField'
+| 'vatNumberRequired';

@@ -15,13 +15,14 @@ import { PureComponent } from 'react';
 import { Directions } from 'Component/ChevronIcon/ChevronIcon.config';
 import Html from 'Component/Html';
 import Image from 'Component/Image';
+import { ImageRatio } from 'Component/Image/Image.type';
 import Slider from 'Component/Slider';
 import { ReactElement } from 'Type/Common.type';
 import { debounce } from 'Util/Request';
 
 import {
-    SliderWidgetComponenState,
     SliderWidgetComponentProps,
+    SliderWidgetComponentState,
     SlideWithPlaceholder
 } from './SliderWidget.type';
 
@@ -32,14 +33,14 @@ import './SliderWidget.style';
  * @class SliderWidget
  * @namespace Component/SliderWidget/Component
  */
-export class SliderWidget extends PureComponent<SliderWidgetComponentProps, SliderWidgetComponenState> {
+export class SliderWidget extends PureComponent<SliderWidgetComponentProps, SliderWidgetComponentState> {
     static defaultProps = {
         slider: [{}]
     };
 
     changeSlideDebounced?: () => void;
 
-    state: SliderWidgetComponenState = {
+    state: SliderWidgetComponentState = {
         activeImage: 0,
         carouselDirection: Directions.RIGHT
     };
@@ -52,7 +53,7 @@ export class SliderWidget extends PureComponent<SliderWidgetComponentProps, Slid
 
     componentDidUpdate(
         prevProps: SliderWidgetComponentProps,
-        prevState: SliderWidgetComponenState
+        prevState: SliderWidgetComponentState
     ): void {
         const { slider: { slideSpeed, slides } } = this.props;
         const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
@@ -135,7 +136,7 @@ export class SliderWidget extends PureComponent<SliderWidgetComponentProps, Slid
             >
                 <Image
                   mix={ { block: 'SliderWidget', elem: 'FigureImage' } }
-                  ratio="custom"
+                  ratio={ ImageRatio.IMG_CUSTOM }
                   src={ this.getSlideImage(slide) }
                   isPlaceholder={ isPlaceholder }
                 />
@@ -154,6 +155,10 @@ export class SliderWidget extends PureComponent<SliderWidgetComponentProps, Slid
         const { activeImage } = this.state;
         const { slider: { slides, title: block } } = this.props;
 
+        if (!slides) {
+            return null;
+        }
+
         return (
             <Slider
               mix={ { block: 'SliderWidget', mix: { block } } }
@@ -161,7 +166,7 @@ export class SliderWidget extends PureComponent<SliderWidgetComponentProps, Slid
               activeImage={ activeImage }
               onActiveImageChange={ this.onActiveImageChange }
             >
-                { slides?.map(this.renderSlide.bind(this)) }
+                { slides.map(this.renderSlide.bind(this)) }
             </Slider>
         );
     }

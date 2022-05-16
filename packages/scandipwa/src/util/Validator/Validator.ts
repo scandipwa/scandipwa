@@ -235,18 +235,18 @@ export default validate;
  */
 export const validatePassword = (
     value: string,
-    range: Record<string, number>,
-    minCharacter: number
+    range: ValidationRule['range'],
+    minCharacter: string
 ): string | boolean => {
-    if (value.length === 0) {
+    if (value.length === 0 || !range) {
         return true;
     }
 
-    if (value.length < range.min) {
+    if (range.min && value.length < range.min) {
         return __('Minimum %s characters!', range.min);
     }
 
-    if (value.length > range.max) {
+    if (range.max && value.length > range.max) {
         return __('Maximum %s characters!', range.max);
     }
 

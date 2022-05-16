@@ -163,7 +163,7 @@ MyAccountContainerProps, MyAccountContainerState> {
         } = props;
         const { activeTab } = state;
 
-        if (this.tabMap[ selectedTab ] && isSignedIn()) {
+        if (selectedTab && this.tabMap[ selectedTab ] && isSignedIn()) {
             return { activeTab: selectedTab };
         }
 

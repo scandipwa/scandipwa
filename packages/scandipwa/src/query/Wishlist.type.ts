@@ -17,7 +17,7 @@ export interface ItemOption {
 }
 
 export interface WishlistItem {
-    id: number;
+    id: string;
     sku: string;
     qty: number;
     description: string;

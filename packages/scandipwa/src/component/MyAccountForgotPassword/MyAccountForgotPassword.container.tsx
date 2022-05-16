@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, RefObject } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -18,7 +18,7 @@ import { updateCustomerPasswordForgotEmail } from 'Store/MyAccount/MyAccount.act
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import transformToNameValuePair from 'Util/Form/Transform';
+import { FieldData } from 'Util/Form/Form.type';
 
 import MyAccountForgotPassword from './MyAccountForgotPassword.component';
 import {
@@ -77,15 +77,15 @@ export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountFor
         };
     }
 
-    async onForgotPasswordSuccess(form: RefObject<HTMLFormElement>, fields): Promise<void> {
+    async onForgotPasswordSuccess(form: HTMLFormElement, fields: FieldData[]): Promise<void> {
         const {
             forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible
         } = this.props;
-        const submittedEmail = form[ 0 ].value;
+        const submittedEmail = fields[ 0 ].value as string;
         setLoadingState(true);
 
         try {
-            await forgotPassword(transformToNameValuePair(fields));
+            await forgotPassword({ email: submittedEmail });
             setSignInState(MyAccountPageState.STATE_FORGOT_PASSWORD_SUCCESS);
             forgotPasswordEmail(submittedEmail);
 

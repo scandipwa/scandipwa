@@ -10,6 +10,7 @@
  */
 
 import { FieldType } from 'Component/Field/Field.config';
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import { ValidationInputType } from 'Util/Validator/Config';
 
 /**
@@ -17,7 +18,7 @@ import { ValidationInputType } from 'Util/Validator/Config';
  * @returns {Object}
  * @namespace Component/ShareWishlistForm/Form/shareWishlistForm
  */
-export const shareWishlistForm = () => [
+export const shareWishlistForm = (): Partial<FieldContainerProps>[] => [
     {
         type: FieldType.EMAIL,
         label: __('Email addresses, separated by commas'),
@@ -26,9 +27,9 @@ export const shareWishlistForm = () => [
             placeholder: __('Email addresses, separated by commas'),
             'aria-label': __('Email address')
         },
-        validateOn: [ 'onChange' ],
+        validateOn: ['onChange'],
         validationRule: {
-            inputType: ValidationInputType.emailList,
+            inputType: ValidationInputType.EMAILLIST,
             isRequired: true
         },
         addRequiredTag: true

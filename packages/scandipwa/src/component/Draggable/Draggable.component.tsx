@@ -10,37 +10,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { MouseEvent, PureComponent, TouchEvent as ReactTouchEvent } from 'react';
 
-import {
-    ChildrenType, MixType, ReactElement,
-    ReactElement, RefType
-} from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+
+import { DraggableComponentProps, DraggableComponentState } from './Draggable.type';
 
 import './Draggable.style';
 
 /** @namespace Component/Draggable/Component */
-export class Draggable extends PureComponent {
-    static propTypes = {
-        shiftX: PropTypes.number,
-        shiftY: PropTypes.number,
-        onDragStart: PropTypes.func,
-        onClick: PropTypes.func,
-        onDragEnd: PropTypes.func,
-        handleFocus: PropTypes.func,
-        handleKey: PropTypes.func,
-        onDrag: PropTypes.func,
-        children: ChildrenType.isRequired,
-        mix: MixType,
-        draggableRef: RefType
-    };
-
+export class Draggable extends PureComponent<DraggableComponentProps, DraggableComponentState> {
     static defaultProps = {
         shiftX: 0,
         shiftY: 0,
         onDragStart: noopFn,
-        onDragEnd: (state, callback) => {
+        onDragEnd: (state: DraggableComponentState, callback: (...args: unknown[]) => unknown): void => {
             const { translateX, translateY } = state;
 
             callback({
@@ -58,7 +43,7 @@ export class Draggable extends PureComponent {
         mix: {}
     };
 
-    state = {
+    state: DraggableComponentState = {
         isDragging: false,
         originalX: 0,
         translateX: 0,
@@ -68,23 +53,23 @@ export class Draggable extends PureComponent {
         lastTranslateY: 0
     };
 
-    handleTouchStart = this.handleTouchStart.bind(this);
+    __construct(props: DraggableComponentProps): void {
+        super.__construct?.(props);
 
-    handleMouseDown = this.handleMouseDown.bind(this);
+        this.handleTouchStart = this.handleTouchStart.bind(this);
+        this.handleMouseDown = this.handleMouseDown.bind(this);
+        this.handleTouchMove = this.handleTouchMove.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleTouchEnd = this.handleTouchEnd.bind(this);
+        this.handleMouseUp = this.handleMouseUp.bind(this);
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleDragEnd = this.handleDragEnd.bind(this);
+    }
 
-    handleTouchMove = this.handleTouchMove.bind(this);
-
-    handleClick = this.handleClick.bind(this);
-
-    handleTouchEnd = this.handleTouchEnd.bind(this);
-
-    handleMouseUp = this.handleMouseUp.bind(this);
-
-    handleMouseMove = this.handleMouseMove.bind(this);
-
-    handleDragEnd = this.handleDragEnd.bind(this);
-
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(
+        props: DraggableComponentProps,
+        state: DraggableComponentState
+    ): Partial<DraggableComponentState> | null {
         const { shiftX, shiftY } = props;
         const { lastTranslateX, lastTranslateY } = state;
 
@@ -105,7 +90,7 @@ export class Draggable extends PureComponent {
         window.removeEventListener('touchend', this.handleTouchEnd);
     }
 
-    handleTouchStart({ touches }) {
+    handleTouchStart({ touches }: ReactTouchEvent): void {
         window.addEventListener('touchmove', this.handleTouchMove);
         window.addEventListener('touchend', this.handleTouchEnd);
 
@@ -114,7 +99,7 @@ export class Draggable extends PureComponent {
         }
     }
 
-    handleMouseDown(event) {
+    handleMouseDown(event: MouseEvent): void {
         window.addEventListener('mousemove', this.handleMouseMove);
         window.addEventListener('mouseup', this.handleMouseUp);
 
@@ -122,17 +107,17 @@ export class Draggable extends PureComponent {
         this.handleDragStart(event);
     }
 
-    handleTouchMove({ touches }) {
+    handleTouchMove({ touches }: TouchEvent): void {
         if (touches.length === 1) {
             this.handleMouseMove(touches[0]);
         }
     }
 
-    handleMouseMove({ clientX, clientY }) {
+    handleMouseMove({ clientX, clientY }: MouseEventInit): void {
         const { isDragging } = this.state;
         const { shiftX, shiftY } = this.props;
 
-        if (!isDragging) {
+        if (!isDragging || clientX === undefined || clientY === undefined) {
             return;
         }
 
@@ -151,21 +136,21 @@ export class Draggable extends PureComponent {
         });
     }
 
-    handleTouchEnd() {
+    handleTouchEnd(): void {
         window.removeEventListener('touchmove', this.handleTouchMove);
         window.removeEventListener('touchend', this.handleTouchEnd);
 
         this.handleDragEnd();
     }
 
-    handleMouseUp() {
+    handleMouseUp(): void {
         window.removeEventListener('mousemove', this.handleMouseMove);
         window.removeEventListener('mouseup', this.handleMouseUp);
 
         this.handleDragEnd();
     }
 
-    handleClick(event) {
+    handleClick(event: MouseEvent): void {
         const { onClick } = this.props;
 
         if (onClick) {
@@ -176,7 +161,7 @@ export class Draggable extends PureComponent {
                     isDragging: false,
                     translateX: 0,
                     translateY: 0
-                }),
+                } as DraggableComponentState),
                 event
             );
         }
@@ -185,8 +170,12 @@ export class Draggable extends PureComponent {
     handleDragStart({
         clientX,
         clientY
-    }) {
+    }: MouseEvent | MouseEventInit): void {
         const { onDragStart } = this.props;
+
+        if (typeof clientX === 'undefined' || typeof clientY === 'undefined') {
+            return;
+        }
 
         if (onDragStart) {
             onDragStart();
@@ -199,15 +188,17 @@ export class Draggable extends PureComponent {
         });
     }
 
-    handleDragEnd() {
+    handleDragEnd(): void {
         const { onDragEnd } = this.props;
 
-        onDragEnd(this.state, (newState) => this.setState({
+        onDragEnd(this.state, (
+            newState: Partial<DraggableComponentState>
+        ) => this.setState<keyof typeof newState>({
             ...newState,
             isDragging: false,
             translateX: 0,
             translateY: 0
-        }));
+        } as DraggableComponentState));
 
         // TO STAY WHERE RELEASED
         // originalX: 0,

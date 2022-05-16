@@ -6,24 +6,33 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { CreateAccountOptions } from 'Query/MyAccount.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { SignInStateType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountCreateAccount from './MyAccountCreateAccount.component';
 import { CONFIRMATION_REQUIRED, SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
+import {
+    MyAccountCreateAccountComponentProps,
+    MyAccountCreateAccountContainerMapDispatchProps,
+    MyAccountCreateAccountContainerMapStateProps,
+    MyAccountCreateAccountContainerProps,
+    MyAccountCreateAccountContainerPropsKeys
+} from './MyAccountCreateAccount.type';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -31,9 +40,9 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountCreateAccountContainerMapStateProps => ({
     isLoading: state.MyAccountReducer.isLoading,
-    showTaxVatNumber: !!state.ConfigReducer.show_tax_vat_number,
+    showTaxVatNumber: state.ConfigReducer.show_tax_vat_number,
     newsletterActive: state.ConfigReducer.newsletter_general_active,
     isMobile: state.ConfigReducer.device.isMobile,
     minimunPasswordLength: state.ConfigReducer.minimun_password_length,
@@ -41,7 +50,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountCreateAccountContainerMapDispatchProps => ({
     createAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
     ),
@@ -49,24 +58,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container */
-export class MyAccountCreateAccountContainer extends PureComponent {
-    static propTypes = {
-        createAccount: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func,
-        setSignInState: PropTypes.func.isRequired,
-        setLoadingState: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        showTaxVatNumber: PropTypes.bool.isRequired,
-        isLandingPage: PropTypes.bool,
-        isMobile: PropTypes.bool.isRequired,
-        handleSignIn: PropTypes.func.isRequired,
-        state: SignInStateType.isRequired,
-        newsletterActive: PropTypes.bool.isRequired,
-        minimunPasswordLength: PropTypes.number.isRequired,
-        minimunPasswordCharacter: PropTypes.string.isRequired
-    };
-
+export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCreateAccountContainerProps> {
     static defaultProps = {
         isLandingPage: false,
         onSignIn: noopFn
@@ -77,7 +69,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         onError: this.onError.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<MyAccountCreateAccountComponentProps, MyAccountCreateAccountContainerPropsKeys> {
         const {
             state,
             handleSignIn,
@@ -92,7 +84,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         return {
             state,
             handleSignIn,
-            showTaxVatNumber,
+            showTaxVatNumber: !!showTaxVatNumber,
             newsletterActive,
             vatNumberRequired: this.getVatNumberRequired(),
             range,
@@ -100,18 +92,18 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         };
     }
 
-    getVatNumberRequired() {
+    getVatNumberRequired(): boolean {
         const { showTaxVatNumber } = this.props;
 
         return showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED;
     }
 
-    onError() {
+    onError(): void {
         const { showNotification } = this.props;
         showNotification(NotificationType.INFO, __('Incorrect data! Please resolve all field validation errors.'));
     }
 
-    async onSuccess(form, fields) {
+    async onSuccess(form: HTMLFormElement, fields: FieldData[]): Promise<void> {
         const {
             createAccount,
             onSignIn,
@@ -141,7 +133,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
                 taxvat
             },
             password
-        };
+        } as CreateAccountOptions;
 
         if (isLoading) {
             return;
@@ -155,11 +147,11 @@ export class MyAccountCreateAccountContainer extends PureComponent {
 
             // if user needs confirmation
             if (code === CONFIRMATION_REQUIRED) {
-                setSignInState(STATE_CONFIRM_EMAIL);
+                setSignInState(MyAccountPageState.STATE_CONFIRM_EMAIL);
 
                 if (isLandingPage || isMobile) {
                     showNotification(
-                        'success',
+                        NotificationType.SUCCESS,
                         // eslint-disable-next-line max-len
                         __('The email confirmation link has been sent to your email. Please confirm your account to proceed.')
                     );

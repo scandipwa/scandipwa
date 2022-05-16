@@ -41,7 +41,7 @@ export interface MyAccountOverlayContainerMapDispatchProps {
 export type MyAccountOverlayContainerProps = MyAccountOverlayContainerMapStateProps
 & MyAccountOverlayContainerMapDispatchProps
 & {
-    isCheckout?: boolean;
+    isCheckout: boolean;
     onSignIn: () => void;
 };
 
@@ -62,7 +62,7 @@ export interface MyAccountOverlayComponentProps extends RouteComponentProps {
     handleForgotPassword: (e: MouseEvent) => void;
     handleSignIn: (e: MouseEvent) => void;
     handleCreateAccount: (e: MouseEvent) => void;
-    isCheckout?: boolean;
+    isCheckout: boolean;
     isMobile: boolean;
     onSignIn: () => void;
 }

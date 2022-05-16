@@ -167,7 +167,7 @@ export class MyAccountOverlay<Props extends MyAccountOverlayComponentProps> exte
         );
     }
 
-    render() {
+    render(): ReactElement {
         const {
             onVisible,
             isCheckout,

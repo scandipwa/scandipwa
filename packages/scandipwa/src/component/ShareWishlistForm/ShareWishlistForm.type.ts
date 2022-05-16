@@ -9,13 +9,9 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type KeyValueTableComponentProps = {
-    title?: string;
-    isSelected?: boolean;
-};
+import { GQLShareWishlistInput } from 'Type/Graphql.type';
 
-export type DataPair<T> = {
-    key: string;
-    label: string;
-    source: T;
-};
+export interface ShareWishlistFormComponentProps {
+    onSave: (fields: GQLShareWishlistInput) => void;
+    isFormLoading: boolean;
+}

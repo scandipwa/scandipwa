@@ -10,13 +10,14 @@
  */
 
 import { FieldType } from 'Component/Field/Field.config';
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import { ValidationInputType } from 'Util/Validator/Config';
 
 /**
  * Returns fields for newsletter
  * @returns {[{validateOn: [string], validationRule: {isRequired: boolean, inputType: string}, type: string, attr: {name: string, placeholder: *, 'aria-label': *}}]}
  * @namespace Component/NewsletterSubscription/NewsletterForm/Form/newsletterSubscriptionForm */
-export const newsletterSubscriptionForm = () => [
+export const newsletterSubscriptionForm = (): Partial<FieldContainerProps>[] => [
     {
         type: FieldType.EMAIL,
         attr: {
@@ -24,9 +25,9 @@ export const newsletterSubscriptionForm = () => [
             placeholder: __('Enter your email address'),
             'aria-label': __('Email address')
         },
-        validateOn: [ 'onChange' ],
+        validateOn: ['onChange'],
         validationRule: {
-            inputType: ValidationInputType.email,
+            inputType: ValidationInputType.EMAIL,
             isRequired: true
         }
     }

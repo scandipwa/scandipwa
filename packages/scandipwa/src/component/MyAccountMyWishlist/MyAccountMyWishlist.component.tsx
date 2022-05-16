@@ -17,45 +17,46 @@ import ProductCard from 'Component/ProductCard';
 import ShareIcon from 'Component/ShareIcon';
 import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
-import { ProductType } from 'Type/ProductList.type';
+import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
+import { ObjectEntries, ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
+
+import {
+    MyAccountMyWishlistComponentProps,
+    MyAccountMyWishlistComponentState
+} from './MyAccountMyWishlist.type';
 
 import './MyAccountMyWishlist.style';
 
 /** @namespace Component/MyAccountMyWishlist/Component */
-export class MyAccountMyWishlist extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        isWishlistLoading: PropTypes.bool.isRequired,
-        removeAll: PropTypes.func.isRequired,
-        addAllToCart: PropTypes.func.isRequired,
-        shareWishlist: PropTypes.func.isRequired,
-        isWishlistEmpty: PropTypes.bool.isRequired,
-        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-        isActionsDisabled: PropTypes.bool.isRequired,
-        isEditingActive: PropTypes.bool.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        removeSelectedFromWishlist: PropTypes.func.isRequired,
-        loadingItemsMap: PropTypes.objectOf(Object).isRequired,
-        setIsQtyUpdateInProgress: PropTypes.func.isRequired,
-        isQtyUpdateInProgress: PropTypes.bool.isRequired
+export class MyAccountMyWishlist<
+P extends MyAccountMyWishlistComponentProps,
+S extends MyAccountMyWishlistComponentState
+> extends PureComponent<P, S> {
+    static defaultProps = {
+        creatorsName: ''
     };
 
-    state = {
-        selectedIdMap: []
+    state: S = {
+        selectedIdMap: [],
+        actionLineHeight: 0
     };
 
-    actionLineMobileRef = createRef();
+    actionLineMobileRef = createRef<HTMLDivElement>();
 
-    productsRef = createRef();
+    productsRef = createRef<HTMLDivElement>();
 
-    handleSelectIdChange = this.handleSelectIdChange.bind(this);
+    __construct(props: P): void {
+        super.__construct?.(props);
+
+        this.handleSelectIdChange = this.handleSelectIdChange.bind(this);
+    }
 
     componentDidMount(): void {
         this.setActionLineHeight();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: P): void {
         const { isEditingActive: prevIsEditingActive, isMobile: prevIsMobile } = prevProps;
         const { isEditingActive, isMobile } = this.props;
         const { actionLineHeight: prevActionLineHeight } = this.state;
@@ -68,7 +69,7 @@ export class MyAccountMyWishlist extends PureComponent {
         }
     }
 
-    setActionLineHeight() {
+    setActionLineHeight(): void {
         const { isMobile } = this.props;
         const { current } = this.actionLineMobileRef;
 
@@ -83,7 +84,7 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    handleSelectIdChange(id, isRemoveOnly = false) {
+    handleSelectIdChange(id: string, isRemoveOnly = false): void {
         const { selectedIdMap: prevSelectedIdMap } = this.state;
         const selectIdIndex = prevSelectedIdMap.findIndex((selectId) => selectId === id);
         const selectedIdMap = Array.from(prevSelectedIdMap);
@@ -107,7 +108,7 @@ export class MyAccountMyWishlist extends PureComponent {
         this.setState({ selectedIdMap });
     }
 
-    handleRemoveButtonClick() {
+    handleRemoveButtonClick(): void {
         // Removes selected items from wishlist
 
         const { removeSelectedFromWishlist } = this.props;
@@ -126,7 +127,7 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    renderProduct([id, product]): ReactElement {
+    renderProduct([id, product]: ObjectEntries<Record<string, WishlistProduct>>): ReactElement {
         const { isEditingActive, loadingItemsMap, setIsQtyUpdateInProgress } = this.props;
 
         return (

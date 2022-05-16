@@ -55,6 +55,7 @@ export interface CustomerAddress {
     default_billing: boolean;
     vat_id: string;
     region: CustomerAddressRegion;
+    company: string;
 }
 
 export type CustomerFields = Array<

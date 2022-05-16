@@ -14,7 +14,7 @@ import { DOMAttributes, FormHTMLAttributes, MutableRefObject } from 'react';
 import { Children, Mods } from 'Type/Common.type';
 import { ValidationDOMOutput, ValidationRule } from 'Util/Validator/Validator.type';
 
-export interface FormGroupContainerProps {
+export interface FieldGroupContainerProps {
     children: Children;
     attr: FormHTMLAttributes<HTMLDivElement>;
     events: Omit<DOMAttributes<HTMLDivElement>, 'children' | 'dangerouslySetInnerHTML'>;
@@ -27,11 +27,11 @@ export interface FormGroupContainerProps {
     mods: Mods;
 }
 
-export interface FormGroupContainerState {
+export interface FieldGroupContainerState {
     validationResponse: true | ValidationDOMOutput | null;
 }
 
-export interface FormGroupComponentProps {
+export interface FieldGroupComponentProps {
     children: Children;
     attr: FormHTMLAttributes<HTMLDivElement>;
     events: Omit<DOMAttributes<HTMLDivElement>, 'children' | 'dangerouslySetInnerHTML'>;
@@ -43,7 +43,7 @@ export interface FormGroupComponentProps {
     mods: Mods;
 }
 
-export type FormGroupContainerPropsKeys = 'validationResponse'
+export type FieldGroupContainerPropsKeys = 'validationResponse'
 | 'children'
 | 'attr'
 | 'showErrorAsLabel'

@@ -14,6 +14,7 @@
 import { lazy, PureComponent, Suspense } from 'react';
 
 import RenderWhenVisible from 'Component/RenderWhenVisible';
+import { ReactElement } from 'Type/Common.type';
 
 import {
     CATALOG_PRODUCT_LIST,

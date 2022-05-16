@@ -9,47 +9,38 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef, PureComponent } from 'react';
+import { createRef, MouseEvent, PureComponent } from 'react';
 
 import Draggable from 'Component/Draggable';
 import Loader from 'Component/Loader';
-import { ChildrenType, MixType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
 import { isRtl } from 'Util/CSS/CSS';
+
+import { SwipeToDeleteComponentProps, SwipeToDeleteComponentState } from './SwipeToDelete.type';
 
 import './SwipeToDelete.style';
 
 /** @namespace Component/SwipeToDelete/Component */
-export class SwipeToDelete extends PureComponent {
-    static propTypes = {
-        children: ChildrenType.isRequired,
-        dragRightOpenTriggerThreshold: PropTypes.number.isRequired,
-        dragRightOpenThreshold: PropTypes.number.isRequired,
-        dragItemRemoveThreshold: PropTypes.number.isRequired,
-        animationDuration: PropTypes.number.isRequired,
-        animationDurationOnRemove: PropTypes.number.isRequired,
-        renderRightSideContent: PropTypes.func.isRequired,
-        topElemMix: MixType.isRequired,
-        onAheadOfDragItemRemoveThreshold: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired
-    };
-
+export class SwipeToDelete extends PureComponent<SwipeToDeleteComponentProps, SwipeToDeleteComponentState> {
     state = {
         isRightSideOpen: false,
         isAheadRemoveItemThreshold: false
     };
 
-    draggableRef = createRef();
+    draggableRef = createRef<HTMLDivElement>();
 
-    draggableRemoveThreshold;
+    draggableRemoveThreshold = 0;
 
-    draggableWidth;
+    draggableWidth = 0;
 
-    handleDragEnd = this.handleDragEnd.bind(this);
+    __construct(props: SwipeToDeleteComponentProps): void {
+        super.__construct?.(props);
 
-    handleDragStart = this.handleDragStart.bind(this);
-
-    handleDrag = this.handleDrag.bind(this);
+        this.handleDragEnd = this.handleDragEnd.bind(this);
+        this.handleDragStart = this.handleDragStart.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
+    }
 
     componentDidMount(): void {
         // Sets default style
@@ -59,22 +50,27 @@ export class SwipeToDelete extends PureComponent {
         this.setDraggableRemoveThreshold();
     }
 
-    setRightSideContentWidth() {
+    setRightSideContentWidth(): void {
         const { dragRightOpenThreshold } = this.props;
         CSS.setVariable(this.draggableRef, 'right-side-content-width', `${ dragRightOpenThreshold }px`);
     }
 
-    setTranslateXStyle(translate) {
+    setTranslateXStyle(translate: number): void {
         CSS.setVariable(this.draggableRef, 'translateX', `${ translate }px`);
     }
 
-    setDraggableWidth() {
+    setDraggableWidth(): void {
         const { draggableRef } = this;
+
+        if (!draggableRef.current) {
+            return;
+        }
+
         const { width } = draggableRef.current.getBoundingClientRect();
         this.draggableWidth = width;
     }
 
-    setDraggableRemoveThreshold() {
+    setDraggableRemoveThreshold(): void {
         const { draggableWidth } = this;
         const {
             dragRightOpenThreshold,
@@ -84,7 +80,7 @@ export class SwipeToDelete extends PureComponent {
         this.draggableRemoveThreshold = draggableWidth * dragItemRemoveThreshold - dragRightOpenThreshold;
     }
 
-    setAnimationSpeedStyle(specAnimationDuration) {
+    setAnimationSpeedStyle(specAnimationDuration?: number): void {
         const { animationDuration } = this.props;
 
         const duration = specAnimationDuration === undefined
@@ -94,12 +90,12 @@ export class SwipeToDelete extends PureComponent {
         CSS.setVariable(this.draggableRef, 'animation-speed', `${ duration }ms`);
     }
 
-    handleDragStart() {
+    handleDragStart(): void {
         // Remove animation when drag starts
         this.setAnimationSpeedStyle(0);
     }
 
-    handleDrag({ translateX: translate }) {
+    handleDrag({ translateX: translate }: { translateX: number }): void {
         const { dragRightOpenThreshold } = this.props;
         const { isRightSideOpen, isAheadRemoveItemThreshold } = this.state;
         const { draggableRemoveThreshold } = this;
@@ -142,7 +138,7 @@ export class SwipeToDelete extends PureComponent {
         }
     }
 
-    handleDragEnd({ translateX: translate }) {
+    handleDragEnd({ translateX: translate }: { translateX: number }): void {
         const {
             dragRightOpenThreshold,
             dragRightOpenTriggerThreshold,
@@ -196,7 +192,7 @@ export class SwipeToDelete extends PureComponent {
         );
     }
 
-    stopPropagation(event) {
+    stopPropagation(event: MouseEvent): void {
         event.stopPropagation();
     }
 
@@ -208,7 +204,7 @@ export class SwipeToDelete extends PureComponent {
                 <div
                   block="SwipeToDelete"
                   role="button"
-                  tabIndex="0"
+                  tabIndex={ 0 }
                   onMouseDown={ this.stopPropagation }
                 >
                     { children }

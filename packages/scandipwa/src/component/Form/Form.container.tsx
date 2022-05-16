@@ -125,6 +125,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     surroundEvent(hook: any, ...args: ((event?: SyntheticEvent) => void)[]): void {
         const { attr, returnAsObject } = this.props;
         const fields = getFieldsData(

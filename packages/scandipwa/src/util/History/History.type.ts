@@ -17,4 +17,7 @@ export type HistoryState = {
     isFromEmailChange?: boolean;
     prevCategoryId?: number;
     stack?: string[];
+    firstName?: string;
+    lastName?: string;
+    email?: string;
 };

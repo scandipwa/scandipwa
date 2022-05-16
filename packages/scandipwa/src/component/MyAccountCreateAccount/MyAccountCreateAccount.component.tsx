@@ -14,28 +14,17 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
-import { SignInStateType } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { validatePassword } from 'Util/Validator';
 import { ValidationInputType } from 'Util/Validator/Config';
 
+import { MyAccountCreateAccountComponentProps } from './MyAccountCreateAccount.type';
+
 import './MyAccountCreateAccount.style.scss';
 
 /** @namespace Component/MyAccountCreateAccount/Component */
-export class MyAccountCreateAccount extends PureComponent {
-    static propTypes = {
-        state: SignInStateType.isRequired,
-        onError: PropTypes.func.isRequired,
-        onSuccess: PropTypes.func.isRequired,
-        handleSignIn: PropTypes.func.isRequired,
-        showTaxVatNumber: PropTypes.bool.isRequired,
-        vatNumberRequired: PropTypes.bool.isRequired,
-        newsletterActive: PropTypes.bool.isRequired,
-        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
-        minimunPasswordCharacter: PropTypes.string.isRequired
-    };
-
+export class MyAccountCreateAccount extends PureComponent<MyAccountCreateAccountComponentProps> {
     renderVatNumberField(): ReactElement {
         const { showTaxVatNumber, vatNumberRequired } = this.props;
 
@@ -91,11 +80,11 @@ export class MyAccountCreateAccount extends PureComponent {
                       name: 'firstname',
                       defaultValue: firstName,
                       placeholder: __('Your first name'),
-                      autocomplete: 'given-name'
+                      autoComplete: 'given-name'
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
-                      inputType: ValidationInputType.alphaSpace,
+                      inputType: ValidationInputType.ALPHASPACE,
                       isRequired: true
                   } }
                   addRequiredTag
@@ -108,11 +97,11 @@ export class MyAccountCreateAccount extends PureComponent {
                       name: 'lastname',
                       defaultValue: lastName,
                       placeholder: __('Your last name'),
-                      autocomplete: 'family-name'
+                      autoComplete: 'family-name'
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
-                      inputType: ValidationInputType.alphaSpace,
+                      inputType: ValidationInputType.ALPHASPACE,
                       isRequired: true
                   } }
                   addRequiredTag
@@ -138,12 +127,12 @@ export class MyAccountCreateAccount extends PureComponent {
                       name: 'email',
                       defaultValue: email,
                       placeholder: __('Your email name'),
-                      autocomplete: 'email'
+                      autoComplete: 'email'
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputType.email
+                      inputType: ValidationInputType.EMAIL
                   } }
                   addRequiredTag
                 />
@@ -155,14 +144,14 @@ export class MyAccountCreateAccount extends PureComponent {
                           id: 'password',
                           name: 'password',
                           placeholder: __('Enter your password'),
-                          autocomplete: 'new-password'
+                          autoComplete: 'new-password'
                       } }
                       validateOn={ ['onChange'] }
                       validationRule={ {
                           isRequired: true,
                           inputType: ValidationInputType.PASSWORD,
                           match: (value) => {
-                              const email = document.getElementById('email');
+                              const email = document.getElementById('email') as HTMLInputElement;
 
                               if (value && email.value === value) {
                                   return __('Passwords can\'t be the same as email!');
@@ -180,15 +169,15 @@ export class MyAccountCreateAccount extends PureComponent {
                           id: 'confirm_password',
                           name: 'confirm_password',
                           placeholder: __('Retype your password'),
-                          autocomplete: 'new-password'
+                          autoComplete: 'new-password'
                       } }
                       validateOn={ ['onChange'] }
                       validationRule={ {
                           isRequired: true,
                           inputType: ValidationInputType.PASSWORD,
                           match: (value) => {
-                              const password = document.getElementById('password');
-                              return value && password.value === value;
+                              const password = document.getElementById('password') as HTMLInputElement;
+                              return !!value && password.value === value;
                           },
                           customErrorMessages: {
                               onMatchFail: __('Passwords do not match!')
