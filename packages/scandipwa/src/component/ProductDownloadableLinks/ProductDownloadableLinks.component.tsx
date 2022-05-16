@@ -16,30 +16,22 @@ import FieldContainer from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import Link from 'Component/Link';
+import { DownloadableProductLinks } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
-import { DownloadableLinksType } from 'Type/Downloadable.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
+
+import { ProductDownloadableLinksComponentProps } from './ProductDownloadableLinks.type';
 
 import './ProductDownloadableLinks.style';
 
 /** @namespace Component/ProductDownloadableLinks/Component */
-export class ProductDownloadableLinks extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        isRequired: PropTypes.bool.isRequired,
-        links: DownloadableLinksType,
-        title: PropTypes.string.isRequired,
-        setSelectedCheckboxValues: PropTypes.func.isRequired,
-        setRef: PropTypes.func.isRequired,
-        isOpenInNewTab: PropTypes.bool.isRequired,
-        currencyCode: PropTypes.string.isRequired
-    };
-
+export class ProductDownloadableLinks extends PureComponent<ProductDownloadableLinksComponentProps> {
     static defaultProps = {
         links: []
     };
 
-    renderLabel(link): ReactElement {
+    renderLabel(link: DownloadableProductLinks): ReactElement {
         const { title, price } = link;
         const { isRequired, currencyCode = GQLCurrencyEnum.USD } = this.props;
 
@@ -59,9 +51,9 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderCheckBox(link): ReactElement {
+    renderCheckBox(link: DownloadableProductLinks): ReactElement {
         const { setSelectedCheckboxValues, isRequired } = this.props;
-        const { uid } = link;
+        const { uid = '' } = link;
         const label = this.renderLabel(link);
 
         if (!isRequired) {
@@ -75,7 +67,7 @@ export class ProductDownloadableLinks extends PureComponent {
                   id: `link-${ uid }`,
                   value: uid,
                   name: `link-${ uid }`,
-                  key: { uid }
+                  key: uid
               } }
               events={ {
                   onChange: setSelectedCheckboxValues
@@ -85,7 +77,7 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderLink(link): ReactElement {
+    renderLink(link: DownloadableProductLinks): ReactElement {
         const { isOpenInNewTab } = this.props;
         const { sample_url } = link;
 
@@ -105,7 +97,7 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderDownloadableLink(link): ReactElement {
+    renderDownloadableLink(link: DownloadableProductLinks): ReactElement {
         const { isRequired } = this.props;
         const { id } = link;
 

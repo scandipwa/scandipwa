@@ -195,7 +195,7 @@ export class WishlistDispatcher {
 
     async removeItemFromWishlist(
         dispatch: Dispatch,
-        { item_id, noMessages }: { item_id: string; noMessages: boolean }
+        { item_id, noMessages }: { item_id: string; noMessages?: boolean }
     ): Promise<void> {
         if (!item_id || !isSignedIn()) {
             return Promise.reject();

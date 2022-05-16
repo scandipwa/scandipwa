@@ -18,12 +18,14 @@ import {
     mapStateToProps as sourceMapStateToProps,
     ProductContainer
 } from 'Component/Product/Product.container';
-import { StockStatus } from 'Component/Product/Stock.config';
+import { ProductComponentContainerFunctions } from 'Component/Product/Product.type';
 import { ReactElement } from 'Type/Common.type';
+import { GQLProductStockStatus } from 'Type/Graphql.type';
 import { RootState } from 'Util/Store/Store.type';
 
 import ProductActions from './ProductActions.component';
 import {
+    ProductActionsComponentContainerFunctions,
     ProductActionsContainerMapStateProps,
     ProductActionsContainerProps,
     ProductActionsContainerState
@@ -39,8 +41,11 @@ export const mapStateToProps = (state: RootState): ProductActionsContainerMapSta
 });
 
 /** @namespace Component/ProductActions/Container */
-export class ProductActionsContainer extends ProductContainer {
-    containerFunctions = {
+export class ProductActionsContainer extends ProductContainer<
+ProductActionsContainerProps,
+ProductActionsContainerState
+> {
+    containerFunctions: ProductActionsComponentContainerFunctions = {
         ...this.containerFunctions,
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this)
     };
@@ -81,7 +86,7 @@ export class ProductActionsContainer extends ProductContainer {
         // Updates ProductPages active product state, to
         // match selected product variant
         if (selectedProduct !== prevSelectedProduct) {
-            setActiveProduct(selectedProduct);
+            setActiveProduct(selectedProduct || {});
         }
     }
 
@@ -103,7 +108,7 @@ export class ProductActionsContainer extends ProductContainer {
             stock_status
         } = variants[ configurableVariantIndex ] || product;
 
-        if (stock_status === StockStatus.IN_STOCK) {
+        if (stock_status === GQLProductStockStatus.IN_STOCK) {
             return 'https://schema.org/InStock';
         }
 
@@ -131,7 +136,7 @@ export class ProductActionsContainer extends ProductContainer {
     }
     //#endregion
 
-    showOnlyIfLoaded(expression, content, placeholder = content) {
+    showOnlyIfLoaded(expression: boolean, content: ReactElement, placeholder = content): ReactElement {
         const { areDetailsLoaded } = this.props;
 
         if (!areDetailsLoaded) {

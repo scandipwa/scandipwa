@@ -12,8 +12,11 @@
 import { PureComponent } from 'react';
 
 import ProductBundleOption from 'Component/ProductBundleOption';
+import { BundleOptionRendererType } from 'Component/ProductBundleOption/ProductBundleOption.type';
 import { ReactElement } from 'Type/Common.type';
-import { ProductItemsType } from 'Type/ProductList.type';
+import { IndexedBundleItem } from 'Util/Product/Product.type';
+
+import { ProductBundleOptionsComponentProps } from './ProductBundleOptions.type';
 
 import './ProductBundleOptions.style';
 
@@ -22,16 +25,11 @@ import './ProductBundleOptions.style';
  * @class ProductBundleOptions
  * @namespace Component/ProductBundleOptions/Component
  */
-export class ProductBundleOptions extends PureComponent {
-    static propTypes = {
-        options: ProductItemsType.isRequired,
-        updateSelectedValues: PropTypes.func.isRequired
-    };
-
-    renderOptionGroup(group): ReactElement {
+export class ProductBundleOptions extends PureComponent<ProductBundleOptionsComponentProps> {
+    renderOptionGroup(group: IndexedBundleItem): ReactElement {
         const {
             title,
-            options,
+            options = [],
             type,
             required,
             uid,
@@ -45,9 +43,8 @@ export class ProductBundleOptions extends PureComponent {
               key={ option_id }
               title={ title }
               options={ options }
-              type={ type }
+              type={ type as BundleOptionRendererType }
               isRequired={ required }
-              required={ required }
               updateSelectedValues={ updateSelectedValues }
               uid={ uid }
             />

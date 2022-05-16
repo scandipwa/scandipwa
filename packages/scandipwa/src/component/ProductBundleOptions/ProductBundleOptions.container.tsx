@@ -9,30 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductItemsType } from 'Type/ProductList.type';
-
 import ProductBundleOptions from './ProductBundleOptions.component';
+import { ProductBundleOptionsComponentProps, ProductBundleOptionsContainerProps } from './ProductBundleOptions.type';
 
 /**
  * Product Bundle Options
  * @class ProductBundleOptions
  * @namespace Component/ProductBundleOptions/Container
  */
-export class ProductBundleOptionsContainer extends PureComponent {
-    static propTypes = {
-        options: ProductItemsType,
-        updateSelectedValues: PropTypes.func.isRequired
-    };
-
+export class ProductBundleOptionsContainer extends PureComponent<ProductBundleOptionsContainerProps> {
     static defaultProps = {
         options: []
     };
 
-    containerProps() {
+    containerProps(): ProductBundleOptionsComponentProps {
         const { options, updateSelectedValues } = this.props;
 
         return {
@@ -44,7 +38,7 @@ export class ProductBundleOptionsContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductBundleOptions
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

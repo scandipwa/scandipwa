@@ -93,6 +93,7 @@ export type FieldAttributes = (InputHTMLAttributes<HTMLInputElement>
     selectPlaceholder?: string;
     isExpanded?: boolean;
     noPlaceholder?: boolean;
+    key?: string | number;
 };
 
 export type FieldEvents = Omit<DOMAttributes<HTMLElement>, 'children' | 'dangerouslySetInnerHTML' | 'onChange'>

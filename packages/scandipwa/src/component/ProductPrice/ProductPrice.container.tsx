@@ -9,62 +9,51 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ProductType } from 'Component/Product/Product.config';
-import { MixType, ReactElement } from 'Type/Common.type';
-import { LabelType } from 'Type/Field.type';
-import { ProductPriceType, TierPricesType } from 'Type/Price.type';
+import { ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductPrice from './ProductPrice.component';
+import { DisplayProductPricesInCatalog } from './ProductPrice.config';
 import {
-    DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX
-} from './ProductPrice.config';
+    ProductPriceComponentProps,
+    ProductPriceContainerMapDispatchProps,
+    ProductPriceContainerMapStateProps,
+    ProductPriceContainerProps
+} from './ProductPrice.type';
 
 /** @namespace Component/ProductPrice/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductPriceContainerMapStateProps => ({
     displayTaxInPrice: state.ConfigReducer.priceTaxDisplay?.product_price_display_type
 });
 
 /** @namespace Component/ProductPrice/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): ProductPriceContainerMapDispatchProps => ({});
 
 /**
  * Product price
  * @class ProductPrice
  * @namespace Component/ProductPrice/Container
  */
-export class ProductPriceContainer extends PureComponent {
-    static propTypes = {
-        // Price should be gotten from Util/Product/Extract/getPrice()
-        price: ProductPriceType,
-        isPreview: PropTypes.bool,
-        priceType: PropTypes.oneOf(Object.values(ProductType)),
-
-        isSchemaRequired: PropTypes.bool,
-        mix: MixType,
-        displayTaxInPrice: PropTypes.string,
-        tierPrices: TierPricesType,
-        label: LabelType,
-        variantsCount: PropTypes.number
-    };
-
-    static defaultProps = {
+export class ProductPriceContainer extends PureComponent<ProductPriceContainerProps> {
+    static defaultProps: Partial<ProductPriceContainerProps> = {
         isPreview: false,
         isSchemaRequired: false,
-        displayTaxInPrice: DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX,
+        displayTaxInPrice: DisplayProductPricesInCatalog.INCL_TAX,
         mix: {},
         price: {},
-        priceType: ProductType.simple,
+        priceType: ProductType.SIMPLE,
         tierPrices: [],
         label: '',
         variantsCount: 0
     };
 
-    containerProps() {
+    containerProps(): Partial<ProductPriceComponentProps> {
         const {
             price: {
                 price,
@@ -72,8 +61,8 @@ export class ProductPriceContainer extends PureComponent {
                 configuration,
                 price: {
                     finalPrice: {
-                        currency: priceCurrency
-                    },
+                        currency: priceCurrency = GQLCurrencyEnum.USD
+                    } = {},
                     discount: {
                         percentOff: discountPercentage = 0
                     } = {}
@@ -109,7 +98,7 @@ export class ProductPriceContainer extends PureComponent {
         };
     }
 
-    getMinTierPrice(currency) {
+    getMinTierPrice(currency: GQLCurrencyEnum): string {
         const { tierPrices } = this.props;
 
         if (tierPrices && tierPrices.length > 0) {

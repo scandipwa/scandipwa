@@ -25,9 +25,11 @@ import {
     BuyRequestBundleOptions,
     BuyRequestCustomizableOptions,
     BuyRequestDownloadableOptions,
+    IndexedBundleOption,
     IndexedProduct,
     PriceLabels,
-    ProductTransformData
+    ProductTransformData,
+    TransformedBundleOption
 } from './Product.type';
 
 export const PRICE_TYPE_PERCENT = 'PERCENT';
@@ -203,11 +205,11 @@ export const bundleOptionToLabel = (option, currencyCode = GQLCurrencyEnum.USD):
  * @namespace Util/Product/Transform/bundleOptionsToSelectTransform
  */
 export const bundleOptionsToSelectTransform = (
-    options,
+    options: IndexedBundleOption[],
     currencyCode = GQLCurrencyEnum.USD,
-    quantity = {}
-) => (
-    options.reduce((result = [], option) => {
+    quantity: Record<string, number> = {}
+): TransformedBundleOption[] => (
+    options.reduce((result: TransformedBundleOption[] = [], option) => {
         const {
             uid: sourceUid = '',
             quantity: defaultQuantity = 1,
@@ -216,14 +218,14 @@ export const bundleOptionsToSelectTransform = (
             is_default
         } = option;
 
-        const isAvailable = getProductInStock(product as FormattedProduct);
+        const isAvailable = getProductInStock(product);
 
         const {
             priceLabel,
             baseLabel
         } = bundleOptionToLabel(option, currencyCode);
 
-        const { [sourceUid]: currentQty = defaultQuantity } = quantity as any;
+        const { [sourceUid]: currentQty = defaultQuantity } = quantity;
         const uid = getEncodedBundleUid(sourceUid, currentQty);
 
         result.push({
@@ -366,10 +368,10 @@ export const magentoProductTransform = (
  * @namespace Util/Product/Transform/nonRequiredRadioOptions
  */
 export const nonRequiredRadioOptions = (
-    options,
+    options: IndexedBundleOption[],
     isRequired = false,
     type: string = FieldType.RADIO
-) => {
+): Partial<IndexedBundleOption>[] => {
     if (isRequired || type !== FieldType.RADIO) {
         return options;
     }

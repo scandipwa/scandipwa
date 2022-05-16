@@ -14,7 +14,11 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 
 import GroupedProductsItem from './GroupedProductsItem.component';
-import { GroupedProductsItemContainerProps } from './GroupedProductsItem.type';
+import {
+    GroupedProductsItemComponentContainerPropKeys,
+    GroupedProductsItemComponentProps,
+    GroupedProductsItemContainerProps
+} from './GroupedProductsItem.type';
 
 /** @namespace Component/GroupedProductsItem/Container */
 export class GroupedProductsItemContainer extends PureComponent<GroupedProductsItemContainerProps> {
@@ -29,7 +33,7 @@ export class GroupedProductsItemContainer extends PureComponent<GroupedProductsI
         this.setQuantity(defaultQuantity);
     }
 
-    containerProps() {
+    containerProps(): Pick<GroupedProductsItemComponentProps, GroupedProductsItemComponentContainerPropKeys> {
         const { product } = this.props;
 
         return {

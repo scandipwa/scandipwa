@@ -17,7 +17,7 @@ import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 
 export interface ProductConfigurableAttributeDropdownContainerProps {
     option: ProductListFilter;
-    updateConfigurableVariant: (key: string, value: string | number | boolean, isEmpty: boolean) => void;
+    updateConfigurableVariant?: (key: string, value: string | number | boolean, isEmpty: boolean) => void;
     getIsConfigurableAttributeAvailable: (o: ProductConfigurableAttribute) => boolean;
     parameters: Record<string, string>;
     isUnselected: boolean;

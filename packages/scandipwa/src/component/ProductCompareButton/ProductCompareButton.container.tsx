@@ -9,14 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
+import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { MixType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductCompareButton from './ProductCompareButton.component';
+import {
+    ProductCompareButtonComponentContainerPropKeys,
+    ProductCompareButtonComponentProps,
+    ProductCompareButtonContainerMapDispatchProps,
+    ProductCompareButtonContainerMapStateProps,
+    ProductCompareButtonContainerProps,
+    ProductCompareButtonContainerState
+} from './ProductCompareButton.type';
 
 export const ProductCompareDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -24,12 +32,12 @@ export const ProductCompareDispatcher = import(
 );
 
 /** @namespace Component/ProductCompareButton/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductCompareButtonContainerMapStateProps => ({
     comparedProducts: state.ProductCompareReducer.productIds
 });
 
 /** @namespace Component/ProductCompareButton/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareButtonContainerMapDispatchProps => ({
     addProductToCompare: (productId) => ProductCompareDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCompare(productId, dispatch)
     ),
@@ -39,15 +47,10 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/ProductCompareButton/Container */
-export class ProductCompareButtonContainer extends PureComponent {
-    static propTypes = {
-        mix: MixType,
-        productId: PropTypes.number,
-        addProductToCompare: PropTypes.func.isRequired,
-        removeComparedProduct: PropTypes.func.isRequired,
-        comparedProducts: PropTypes.arrayOf(PropTypes.number).isRequired
-    };
-
+export class ProductCompareButtonContainer extends PureComponent<
+ProductCompareButtonContainerProps,
+ProductCompareButtonContainerState
+> {
     static defaultProps = {
         productId: null,
         mix: {}
@@ -61,7 +64,7 @@ export class ProductCompareButtonContainer extends PureComponent {
         handleClick: this.handleClick.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<ProductCompareButtonComponentProps, ProductCompareButtonComponentContainerPropKeys> {
         const { mix } = this.props;
         const { isLoading } = this.state;
 
@@ -72,13 +75,13 @@ export class ProductCompareButtonContainer extends PureComponent {
         };
     }
 
-    isActive() {
+    isActive(): boolean {
         const { comparedProducts, productId } = this.props;
 
-        return comparedProducts.indexOf(productId) !== -1;
+        return !!productId && comparedProducts.indexOf(productId) !== -1;
     }
 
-    async handleClick(e) {
+    async handleClick(e: MouseEvent): Promise<void> {
         const {
             productId,
             addProductToCompare,
@@ -90,9 +93,9 @@ export class ProductCompareButtonContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         if (this.isActive()) {
-            await removeComparedProduct(productId);
+            await removeComparedProduct(String(productId));
         } else {
-            await addProductToCompare(productId);
+            await addProductToCompare(String(productId));
         }
 
         this.setState({ isLoading: false });
@@ -101,8 +104,8 @@ export class ProductCompareButtonContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductCompareButton
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

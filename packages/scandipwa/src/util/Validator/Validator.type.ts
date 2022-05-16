@@ -15,7 +15,10 @@ export type ValidationRule = {
     isRequired?: boolean;
     inputType?: string;
     selector?: string;
-    match?: string | ((args: string | Record<string, string>[] | undefined) => boolean);
+    match?: string
+    | ((args: string | Record<string, string>[] | undefined) => boolean)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    | ((...args: any[]) => true | string);
     range?: { min?: number; max?: number; showLengthError?: boolean };
     fileExtension?: Record<string, string>;
     customErrorMessages?: Record<string, string>;

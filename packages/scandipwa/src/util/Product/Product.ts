@@ -407,16 +407,15 @@ export const getIndexedParameteredProducts = (
     }), {});
 
 /** @namespace Util/Product/sortBySortOrder */
-export const sortBySortOrder = (
-    options: IndexedConfigurableOptions[],
-    sortKey: string
-): IndexedConfigurableOptions[] => options.sort(
+export const sortBySortOrder = <T>(options: T[], sortKey?: keyof T): T[] => options.sort(
     (a, b) => {
-        if (a[sortKey] < b[sortKey]) {
+        const k = sortKey || 'sort_order' as keyof T;
+
+        if (a[k] < b[k]) {
             return -1;
         }
 
-        if (a[sortKey] > b[sortKey]) {
+        if (a[k] > b[k]) {
             return 1;
         }
 

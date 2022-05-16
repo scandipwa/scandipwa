@@ -39,7 +39,9 @@ ProductConfigurableAttributeDropdownContainerProps
             option: { attribute_code }
         } = this.props;
 
-        updateConfigurableVariant(attribute_code, value, true);
+        if (updateConfigurableVariant) {
+            updateConfigurableVariant(attribute_code, value, true);
+        }
     }
 
     containerProps(): Pick<

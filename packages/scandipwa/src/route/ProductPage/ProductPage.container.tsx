@@ -341,7 +341,7 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         }
     }
 
-    getLink(key: string, value: string): string {
+    getLink(key?: string, value = ''): string {
         const { location: { search, pathname } } = this.props;
         const obj = {
             ...convertQueryStringToKeyValuePairs(search)

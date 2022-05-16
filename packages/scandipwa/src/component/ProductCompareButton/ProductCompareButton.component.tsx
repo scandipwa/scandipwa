@@ -13,19 +13,14 @@ import { PureComponent } from 'react';
 
 import CompareIcon from 'Component/CompareIcon';
 import Loader from 'Component/Loader';
-import { MixType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { ProductCompareButtonComponentProps } from './ProductCompareButton.type';
 
 import './ProductCompareButton.style';
 
 /** @namespace Component/ProductCompareButton/Component */
-export class ProductCompareButton extends PureComponent {
-    static propTypes = {
-        handleClick: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool,
-        isActive: PropTypes.bool,
-        mix: MixType.isRequired
-    };
-
+export class ProductCompareButton extends PureComponent<ProductCompareButtonComponentProps> {
     static defaultProps = {
         isLoading: false,
         isActive: false

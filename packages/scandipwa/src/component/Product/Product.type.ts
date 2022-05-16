@@ -29,7 +29,7 @@ export interface ProductContainerMapDispatchProps {
 
 export interface ProductContainerBaseProps {
     product: IndexedProduct;
-    configFormRef: RefObject<HTMLElement>;
+    configFormRef: RefObject<HTMLFormElement>;
     parameters: Record<string, string>;
     cartId: string;
     device: Device;
@@ -56,12 +56,26 @@ export interface ProductContainerState {
     activeProduct: IndexedProduct | null;
 }
 
-export interface ProductComponentProps {
+export interface ProductComponentContainerFunctions {
+    setQuantity: (quantity: ProductQuantity) => void;
+    addToCart: (options?: AddProductToCartOptions) => Promise<void>;
+    updateSelectedValues: (data?: Partial<ProductOption>) => void;
+    setAdjustedPrice: (type: keyof AdjustedPriceMap, amount: number) => void;
+    setDownloadableLinks: (links: string[]) => void;
+    updateAddToCartTriggeredWithError: () => void;
+    getActiveProduct: () => IndexedProduct;
+    setActiveProduct: (key: string, value: string, checkEmptyValue?: boolean) => void;
+    getMagentoProduct: () => ProductTransformData[];
+    setValidator: (elem: HTMLElement) => void;
+    scrollOptionsIntoView: () => void;
+}
+
+export interface ProductComponentProps extends ProductComponentContainerFunctions {
     isWishlistEnabled: boolean;
     unselectedOptions: string[];
     quantity: ProductQuantity;
     product: IndexedProduct;
-    configFormRef: RefObject<HTMLElement>;
+    configFormRef: RefObject<HTMLFormElement>;
     parameters: Record<string, string>;
     device: Device;
     magentoProduct: ProductTransformData[];
@@ -71,15 +85,6 @@ export interface ProductComponentProps {
     minQuantity: number;
     productName: string;
     productPrice: ProductPrice;
-    setQuantity: (quantity: ProductQuantity) => void;
-    addToCart: (options: AddProductToCartOptions) => Promise<void>;
-    updateSelectedValues: () => void;
-    setAdjustedPrice: () => void;
-    setDownloadableLinks: () => void;
-    updateAddToCartTriggeredWithError: () => void;
-
-    getActiveProduct: () => IndexedProduct;
-    setActiveProduct: (product: Partial<IndexedProduct>) => void;
 }
 
 export type ProductComponentContainerPropKeys =

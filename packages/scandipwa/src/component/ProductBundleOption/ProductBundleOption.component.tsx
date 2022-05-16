@@ -10,41 +10,35 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { ChangeEvent, ChangeEventHandler, PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import { ReactElement } from 'Type/Common.type';
-import { ItemOptionsType } from 'Type/ProductList.type';
 import {
-    DEFAULT_MAX_PRODUCTS, DEFAULT_MIN_PRODUCTS,
-    getBundleOption, getMaxQuantity, getMinQuantity, getProductInStock
+    getBundleOption,
+    getMaxQuantity,
+    getMinQuantity,
+    getProductInStock
 } from 'Util/Product/Extract';
+import {
+    DEFAULT_MAX_PRODUCTS,
+    DEFAULT_MIN_PRODUCTS,
+    IndexedBundleOption,
+    IndexedProduct
+} from 'Util/Product/Product.type';
 import { bundleOptionToLabel, getEncodedBundleUid } from 'Util/Product/Transform';
-import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
+import { ValidationInputTypeNumber } from 'Util/Validator/Config';
+
+import { ProductBundleOptionComponentProps } from './ProductBundleOption.type';
 
 /**
  * Product Bundle Option
  * @class ProductBundleOption
  * @namespace Component/ProductBundleOption/Component
  */
-export class ProductBundleOption extends PureComponent {
-    static propTypes = {
-        uid: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        quantity: PropTypes.objectOf(PropTypes.number).isRequired,
-        setQuantity: PropTypes.func.isRequired,
-        isRequired: PropTypes.bool.isRequired,
-        options: ItemOptionsType.isRequired,
-        currencyCode: PropTypes.string.isRequired,
-        activeSelectUid: PropTypes.string,
-        setActiveSelectUid: PropTypes.func.isRequired,
-        getDropdownOptions: PropTypes.func.isRequired,
-        updateSelectedValues: PropTypes.func.isRequired
-    };
-
+export class ProductBundleOption extends PureComponent<ProductBundleOptionComponentProps> {
     static defaultProps = {
         activeSelectUid: null
     };
@@ -62,7 +56,7 @@ export class ProductBundleOption extends PureComponent {
     }
 
     //#refion ERROR
-    getError(quantity, stock, min = -1, max = DEFAULT_MAX_PRODUCTS, value) {
+    getError(quantity: number, stock: boolean, min = -1, max = DEFAULT_MAX_PRODUCTS, value?: string): true | string {
         if (!value) {
             return true;
         }
@@ -84,12 +78,12 @@ export class ProductBundleOption extends PureComponent {
     //#endregion
 
     //#region QUANTITY CHANGE
-    setQuantity(uid, quantity) {
+    setQuantity(uid: string, quantity: number): void {
         const { setQuantity } = this.props;
         setQuantity(uid, quantity);
     }
 
-    renderQuantityChange(uid, quantity, product = null): ReactElement {
+    renderQuantityChange(uid: string, quantity: number, product: IndexedProduct | null = null): ReactElement {
         const min = !product ? DEFAULT_MIN_PRODUCTS : getMinQuantity(product);
         const max = !product ? DEFAULT_MAX_PRODUCTS : getMaxQuantity(product);
         // eslint-disable-next-line no-nested-ternary
@@ -111,7 +105,7 @@ export class ProductBundleOption extends PureComponent {
                   max
               } }
               validationRule={ {
-                  inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
+                  inputType: ValidationInputTypeNumber.NUMERIC,
                   isRequired: true,
                   range: {
                       min,
@@ -126,11 +120,11 @@ export class ProductBundleOption extends PureComponent {
     //#endregion
 
     //#region CHECKBOXES
-    renderCheckBox(option): ReactElement {
+    renderCheckBox(option: Partial<IndexedBundleOption>): ReactElement {
         const {
-            uid,
+            uid = '',
             can_change_quantity: canChangeQuantity,
-            product,
+            product = {},
             quantity: defaultQuantity = 1,
             is_default
         } = option;
@@ -170,7 +164,7 @@ export class ProductBundleOption extends PureComponent {
         );
     }
 
-    renderCheckBoxValues(options): ReactElement {
+    renderCheckBoxValues(options: Partial<IndexedBundleOption>[]): ReactElement {
         const { isRequired } = this.props;
 
         return (
@@ -188,12 +182,12 @@ export class ProductBundleOption extends PureComponent {
     //#endregion
 
     //#region RADIO
-    renderRadio(name, option): ReactElement {
+    renderRadio(name: string, option: Partial<IndexedBundleOption>): ReactElement {
         const {
-            uid,
+            uid = '',
             can_change_quantity: canChangeQuantity,
             quantity: defaultQuantity = 1,
-            product,
+            product = {},
             is_default
         } = option;
 
@@ -230,7 +224,7 @@ export class ProductBundleOption extends PureComponent {
         );
     }
 
-    renderRadioValues(options): ReactElement {
+    renderRadioValues(options: Partial<IndexedBundleOption>[]): ReactElement {
         const { isRequired, uid } = this.props;
 
         return (
@@ -248,9 +242,9 @@ export class ProductBundleOption extends PureComponent {
     //#endregion
 
     //#region SELECT
-    updateSelect(...args) {
+    updateSelect(...args: [ChangeEvent, HTMLInputElement]): void {
         const { updateSelectedValues, setActiveSelectUid } = this.props;
-        const { value } = args[args.length - 1] || {};
+        const { value } = (args[args.length - 1] || {}) as HTMLInputElement;
         setActiveSelectUid(value);
         updateSelectedValues();
     }
@@ -264,10 +258,10 @@ export class ProductBundleOption extends PureComponent {
             options
         } = this.props;
 
-        const activeOption = getBundleOption(activeSelectUid, options);
+        const activeOption = getBundleOption(activeSelectUid || '', options);
 
         const {
-            uid: optionUid,
+            uid: optionUid = '',
             quantity: defaultQuantity = 1,
             can_change_quantity: canChangeQuantity = false,
             product = {}
@@ -294,7 +288,7 @@ export class ProductBundleOption extends PureComponent {
                   mix={ { block: 'ProductBundleItem', elem: 'Select' } }
                   options={ getDropdownOptions() }
                   events={ {
-                      onChange: this.updateSelect.bind(this)
+                      onChange: this.updateSelect.bind(this) as ChangeEventHandler
                   } }
                   validationRule={ {
                       isRequired,
@@ -309,7 +303,7 @@ export class ProductBundleOption extends PureComponent {
     //#endregion
 
     //#region TITLE
-    renderOptionGroupTitle(title): ReactElement {
+    renderOptionGroupTitle(title: string): ReactElement {
         const { isRequired } = this.props;
 
         return (
@@ -320,7 +314,7 @@ export class ProductBundleOption extends PureComponent {
         );
     }
 
-    getLabel(option) {
+    getLabel(option: Partial<IndexedBundleOption>): ReactElement {
         const { currencyCode } = this.props;
         const {
             baseLabel,

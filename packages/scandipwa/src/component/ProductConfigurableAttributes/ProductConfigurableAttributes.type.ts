@@ -14,19 +14,20 @@ import { AnimationEvent } from 'react';
 import { StockStatus } from 'Component/Product/Stock.config';
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 import { Mix, ReactElement } from 'Type/Common.type';
+import { IndexedConfigurableOption, IndexedVariant } from 'Util/Product/Product.type';
 
 export interface ProductConfigurableAttributesContainerProps {
     renderPlaceholder: (block: string) => ReactElement;
     getLink: (filterKey: string, value: string) => string;
     parameters: Record<string, string>;
-    updateConfigurableVariant: (requestVar: string, value: string) => void;
+    updateConfigurableVariant?: (requestVar: string, value: string) => void;
     isExpandable: boolean;
     showProductAttributeAsLink: boolean;
-    variants: ProductConfigurableVariant[];
+    variants: IndexedVariant[];
     mix: Mix;
     isReady: boolean;
     numberOfPlaceholders: number[];
-    configurable_options: Record<string, ProductListFilter>;
+    configurable_options: Record<string, IndexedConfigurableOption>;
     addToCartTriggeredWithError: boolean;
     updateAddToCartTriggeredWithError: () => void;
     inStock: boolean;
@@ -34,14 +35,14 @@ export interface ProductConfigurableAttributesContainerProps {
 
 export interface ProductConfigurableAttributesComponentProps {
     renderPlaceholder: (block: string) => ReactElement;
-    configurable_options: Record<string, ProductListFilter>;
+    configurable_options: Record<string, IndexedConfigurableOption>;
     isExpandable: boolean;
     isReady: boolean;
     mix: Mix;
     numberOfPlaceholders: number[];
     parameters: Record<string, string>;
     showProductAttributeAsLink: boolean;
-    updateConfigurableVariant: (requestVar: string, value: string) => void;
+    updateConfigurableVariant?: (requestVar: string, value: string) => void;
     inStock: boolean;
     addToCartTriggeredWithError: boolean;
     updateAddToCartTriggeredWithError: () => void;

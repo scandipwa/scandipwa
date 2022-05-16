@@ -10,6 +10,7 @@
  */
 
 import { ProductOption } from 'Component/Product/Product.type';
+import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
 import {
     AttributeWithValue,
     AttributeWithValueOption,
@@ -26,6 +27,7 @@ import {
     SwatchData
 } from 'Query/ProductList.type';
 import { Merge } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 
 export enum QtyFields {
     SALABLE_QTY = 'salable_qty',
@@ -125,3 +127,52 @@ export type ProductTransformData = {
     selected_options: string[];
     entered_options: ProductOption[];
 };
+
+export interface FormattedMoney {
+    value: number;
+    currency: GQLCurrencyEnum;
+    valueFormatted: string;
+}
+
+export interface ProductExtractBasePrice {
+    finalPrice: FormattedMoney;
+    finalPriceExclTax: FormattedMoney;
+    originalPrice: FormattedMoney;
+    originalPriceExclTax: FormattedMoney;
+    discount: { percentOff: number };
+}
+
+export interface ProductExtractOriginalPrice {
+    minRegularPrice: FormattedMoney;
+    minFinalPrice: FormattedMoney;
+    minFinalPriceExclTax: FormattedMoney;
+    maxRegularPrice: FormattedMoney;
+    maxFinalPrice: FormattedMoney;
+    maxFinalPriceExclTax: FormattedMoney;
+}
+
+export interface ProductExtractPriceConfiguration {
+    containsOptions: boolean;
+    containsOptionsWithPrice: boolean;
+    containsRequiredOptions: boolean;
+    containsRequiredOptionsWithPrice: boolean;
+}
+
+export interface ProductExtractPrice {
+    price: ProductExtractBasePrice;
+    originalPrice: ProductExtractOriginalPrice;
+    configuration: ProductExtractPriceConfiguration;
+}
+
+export type ProductExtractImage = Record<ImageType, { url?: string }>;
+
+export interface TransformedBundleOption {
+    id: string;
+    name: string;
+    value: string;
+    label?: string;
+    subLabel: string;
+    sort_order: number;
+    isAvailable: boolean;
+    isDefault: boolean;
+}

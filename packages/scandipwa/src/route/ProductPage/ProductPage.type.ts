@@ -61,7 +61,7 @@ export interface ProductPageContainerState {
 }
 
 export interface ProductPageComponentProps {
-    getLink: (key: string, value: string) => string;
+    getLink: (key?: string, value?: string) => string;
     parameters: Record<string, string>;
     dataSource: Partial<IndexedProduct>;
     activeProduct: Partial<IndexedProduct>;

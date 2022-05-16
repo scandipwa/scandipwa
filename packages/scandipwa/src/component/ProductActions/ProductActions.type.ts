@@ -10,11 +10,14 @@
  */
 
 import {
+    ProductComponentContainerFunctions,
+    ProductContainerBaseProps,
     ProductContainerMapDispatchProps,
     ProductContainerMapStateProps,
     ProductContainerProps,
     ProductContainerState
 } from 'Component/Product/Product.type';
+import { ReactElement } from 'Type/Common.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export interface ProductActionsContainerMapStateProps extends ProductContainerMapStateProps {
@@ -26,9 +29,9 @@ export interface ProductActionsContainerMapStateProps extends ProductContainerMa
 
 export type ProductActionsContainerMapDispatchProps = ProductContainerMapDispatchProps;
 
-export interface ProductActionsContainerBaseProps {
+export interface ProductActionsContainerBaseProps extends ProductContainerBaseProps {
     areDetailsLoaded: boolean;
-    getLink: (key: string, value: string) => string;
+    getLink: (key?: string, value?: string) => string;
     areReviewsEnabled: boolean;
     displayProductStockStatus: boolean;
     isInStockAlertEnabled: boolean;
@@ -41,3 +44,7 @@ export type ProductActionsContainerProps = ProductContainerProps
 & ProductActionsContainerBaseProps;
 
 export type ProductActionsContainerState = ProductContainerState;
+
+export interface ProductActionsComponentContainerFunctions extends ProductComponentContainerFunctions {
+    showOnlyIfLoaded: (expression: boolean, content: ReactElement, placeholder?: ReactElement) => ReactElement;
+}

@@ -116,7 +116,7 @@ export class ProductCard extends Product {
         }
 
         // If product is not a variant.
-        const notConfigured = baseType !== ProductType.configurable || typeId === baseType;
+        const notConfigured = baseType !== ProductType.CONFIGURABLE || typeId === baseType;
 
         return super.renderPrice(notConfigured);
     }

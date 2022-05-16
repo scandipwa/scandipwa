@@ -18,7 +18,6 @@ export interface FormGroupContainerProps {
     children: Children;
     attr: FormHTMLAttributes<HTMLDivElement>;
     events: Omit<DOMAttributes<HTMLDivElement>, 'children' | 'dangerouslySetInnerHTML'>;
-    returnAsObject: boolean;
     elemRef: MutableRefObject<HTMLDivElement>;
     validationRule: ValidationRule;
     validateOn: string[];

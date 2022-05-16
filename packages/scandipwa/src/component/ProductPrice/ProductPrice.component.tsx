@@ -14,14 +14,12 @@ import { PureComponent } from 'react';
 import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
-import { MixType, ReactElement } from 'Type/Common.type';
-import { OriginalPriceType, ProductPriceType } from 'Type/Price.type';
-import { PriceConfiguration } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
+import { FormattedMoney } from 'Util/Product/Product.type';
 
-import {
-    DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX,
-    DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX
-} from './ProductPrice.config';
+import { DisplayProductPricesInCatalog } from './ProductPrice.config';
+import { CurrencySchema, PriceSchema, ProductPriceComponentProps } from './ProductPrice.type';
 
 import './ProductPrice.style';
 
@@ -30,24 +28,8 @@ import './ProductPrice.style';
  * @class ProductPrice
  * @namespace Component/ProductPrice/Component
  */
-export class ProductPrice extends PureComponent {
-    static propTypes = {
-        price: ProductPriceType,
-        priceType: PropTypes.oneOf(Object.values(ProductType)),
-        originalPrice: OriginalPriceType,
-        tierPrice: PropTypes.string,
-        configuration: PriceConfiguration,
-        priceCurrency: PropTypes.string,
-        discountPercentage: PropTypes.number,
-        isPreview: PropTypes.bool,
-        isSchemaRequired: PropTypes.bool,
-        label: PropTypes.string,
-        variantsCount: PropTypes.number,
-        mix: MixType,
-        displayTaxInPrice: PropTypes.string
-    };
-
-    static defaultProps = {
+export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
+    static defaultProps: Partial<ProductPriceComponentProps> = {
         price: {},
         priceType: ProductType.SIMPLE,
         originalPrice: {},
@@ -60,25 +42,25 @@ export class ProductPrice extends PureComponent {
         tierPrice: '',
         label: '',
         configuration: {},
-        displayTaxInPrice: DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX
+        displayTaxInPrice: DisplayProductPricesInCatalog.INCL_TAX
     };
 
     pricePreviewRenderMap = {
-        [ProductType.simple]: this.renderDefaultPrice.bind(this),
-        [ProductType.virtual]: this.renderDefaultPrice.bind(this),
-        [ProductType.bundle]: this.renderBundlePrice.bind(this),
-        [ProductType.grouped]: this.renderGroupedPrice.bind(this),
-        [ProductType.downloadable]: this.renderDefaultPrice.bind(this),
-        [ProductType.configurable]: this.renderConfigurablePrice.bind(this)
+        [ProductType.SIMPLE]: this.renderDefaultPrice.bind(this),
+        [ProductType.VIRTUAL]: this.renderDefaultPrice.bind(this),
+        [ProductType.BUNDLE]: this.renderBundlePrice.bind(this),
+        [ProductType.GROUPED]: this.renderGroupedPrice.bind(this),
+        [ProductType.DOWNLOADABLE]: this.renderDefaultPrice.bind(this),
+        [ProductType.CONFIGURABLE]: this.renderConfigurablePrice.bind(this)
     };
 
     priceLabelTypeMap = {
-        [ProductType.simple]: __('Starting at'),
-        [ProductType.virtual]: __('Starting at'),
-        [ProductType.bundle]: __('Starting at'),
-        [ProductType.grouped]: __('Starting at'),
-        [ProductType.downloadable]: __('Starting at'),
-        [ProductType.configurable]: __('As Low as')
+        [ProductType.SIMPLE]: __('Starting at'),
+        [ProductType.VIRTUAL]: __('Starting at'),
+        [ProductType.BUNDLE]: __('Starting at'),
+        [ProductType.GROUPED]: __('Starting at'),
+        [ProductType.DOWNLOADABLE]: __('Starting at'),
+        [ProductType.CONFIGURABLE]: __('As Low as')
     };
 
     renderPlaceholder(): ReactElement {
@@ -94,13 +76,13 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    getCurrencySchema() {
+    getCurrencySchema(): Partial<CurrencySchema> {
         const { isSchemaRequired, priceCurrency } = this.props;
 
         return isSchemaRequired ? { itemProp: 'priceCurrency', content: priceCurrency } : {};
     }
 
-    getCurrentPriceSchema() {
+    getCurrentPriceSchema(): Partial<PriceSchema> {
         const {
             isSchemaRequired,
             variantsCount,
@@ -118,7 +100,7 @@ export class ProductPrice extends PureComponent {
         return isSchemaRequired ? { itemProp: 'price', content: contentPrice } : {};
     }
 
-    renderPrice(price, label): ReactElement {
+    renderPrice(price: Partial<FormattedMoney>, label: string | ReactElement): ReactElement {
         const {
             discountPercentage
         } = this.props;
@@ -128,7 +110,7 @@ export class ProductPrice extends PureComponent {
             valueFormatted: priceFormatted = 0
         } = price;
 
-        const { itemProp = null, content = null } = this.getCurrentPriceSchema();
+        const { itemProp, content } = this.getCurrentPriceSchema();
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
@@ -143,18 +125,18 @@ export class ProductPrice extends PureComponent {
             <PriceSemanticElementName block="ProductPrice" elem="Price">
                 { this.renderPriceBadge(label) }
                 <span
-                  itemProp={ itemProp }
-                  content={ content }
+                  itemScope
                   block="ProductPrice"
                   elem="PriceValue"
                 >
+                    <meta itemProp={ itemProp } content={ String(content) } />
                     { priceFormatted }
                 </span>
             </PriceSemanticElementName>
         );
     }
 
-    renderPriceBadge(label): ReactElement {
+    renderPriceBadge(label: string | ReactElement): ReactElement {
         if (!label) {
             return null;
         }
@@ -162,7 +144,7 @@ export class ProductPrice extends PureComponent {
         return <span mix={ { block: 'ProductPrice', elem: 'PriceBadge' } }>{ label }</span>;
     }
 
-    renderSubPrice(price): ReactElement {
+    renderSubPrice(price: Partial<FormattedMoney>): ReactElement {
         const {
             value: priceExclTax = 0,
             valueFormatted: priceExclTaxFormatted = 0
@@ -205,7 +187,7 @@ export class ProductPrice extends PureComponent {
               block="ProductPrice"
               elem="HighPrice"
               aria-label={ __('Old product price') }
-              itemProp={ isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : null }
+              itemProp={ isSchemaRequired && variantsCount > 1 ? 'highPrice' : undefined }
             >
                 { originalPriceFormatted }
             </del>
@@ -216,7 +198,7 @@ export class ProductPrice extends PureComponent {
         const { isSchemaRequired } = this.props;
 
         if (isSchemaRequired) {
-            const { itemProp = null, content = null } = this.getCurrencySchema();
+            const { itemProp, content } = this.getCurrencySchema();
 
             return (
                 <meta itemProp={ itemProp } content={ content } />
@@ -247,14 +229,14 @@ export class ProductPrice extends PureComponent {
     renderBundlePrice(): ReactElement {
         const {
             originalPrice: {
-                minFinalPrice = {},
+                minFinalPrice = {} as FormattedMoney,
                 minFinalPrice: { value: minValue = 0 } = {},
-                maxFinalPrice = {},
+                maxFinalPrice = {} as FormattedMoney,
                 maxFinalPrice: { value: maxValue = 0 } = {},
-                minFinalPriceExclTax = {},
-                maxFinalPriceExclTax = {},
-                minRegularPrice = {},
-                maxRegularPrice = {},
+                minFinalPriceExclTax = {} as FormattedMoney,
+                maxFinalPriceExclTax = {} as FormattedMoney,
+                minRegularPrice = {} as FormattedMoney,
+                maxRegularPrice = {} as FormattedMoney,
                 minRegularPrice: { value: minRegularValue = 0 } = {},
                 maxRegularPrice: { value: maxRegularValue = 0 } = {}
             }
@@ -289,7 +271,7 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    renderRegularPrice(price): ReactElement {
+    renderRegularPrice(price: FormattedMoney): ReactElement {
         const {
             value,
             valueFormatted
@@ -362,7 +344,7 @@ export class ProductPrice extends PureComponent {
         return this.renderPriceWithOrWithoutTax(finalPrice, finalPriceExclTax, label);
     }
 
-    renderDefaultPrice(defaultLabel = null): ReactElement {
+    renderDefaultPrice(defaultLabel: string | null = null): ReactElement {
         const {
             price: { finalPrice = {}, finalPriceExclTax = {} } = {},
             label
@@ -377,14 +359,18 @@ export class ProductPrice extends PureComponent {
         );
     }
 
-    renderPriceWithOrWithoutTax(basePrice, taxPrice, label): ReactElement {
+    renderPriceWithOrWithoutTax(
+        basePrice: Partial<FormattedMoney>,
+        taxPrice: Partial<FormattedMoney>,
+        label?: string | ReactElement
+    ): ReactElement {
         const { displayTaxInPrice } = this.props;
 
-        if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX) {
+        if (displayTaxInPrice === DisplayProductPricesInCatalog.INCL_TAX) {
             return this.renderPrice(basePrice, label);
         }
 
-        if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
+        if (displayTaxInPrice === DisplayProductPricesInCatalog.EXCL_TAX) {
             return this.renderPrice(taxPrice, label);
         }
 
@@ -448,7 +434,7 @@ export class ProductPrice extends PureComponent {
             >
                 { isPreview && renderer && renderer() }
                 { (!isPreview || !renderer) && this.renderDefaultPrice() }
-                { priceType !== ProductType.bundle && this.renderTierPrice() }
+                { priceType !== ProductType.BUNDLE && this.renderTierPrice() }
             </div>
         );
     }

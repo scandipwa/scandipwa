@@ -10,10 +10,10 @@
  */
 
 import { ProductQuantity } from 'Component/Product/Product.type';
-import { IndexedProduct } from 'Util/Product/Product.type';
+import { ProductItem } from 'Query/ProductList.type';
 
 export interface GroupedProductsItemContainerProps {
-    product: IndexedProduct;
+    product: ProductItem;
     quantity: ProductQuantity;
     setQuantity: (quantity: ProductQuantity) => void;
     defaultQuantity: number;
@@ -21,6 +21,10 @@ export interface GroupedProductsItemContainerProps {
 
 export interface GroupedProductsItemComponentProps {
     itemCount: number;
-    product: IndexedProduct;
-    setQuantity: (quantity: ProductQuantity) => void;
+    product: ProductItem;
+    setQuantity: (quantity: number) => void;
 }
+
+export type GroupedProductsItemComponentContainerPropKeys =
+| 'itemCount'
+| 'product';

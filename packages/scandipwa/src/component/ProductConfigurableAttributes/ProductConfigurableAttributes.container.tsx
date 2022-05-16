@@ -11,12 +11,12 @@
 
 import { AnimationEvent, PureComponent } from 'react';
 
-import { StockStatus } from 'Component/Product/Stock.config';
 import {
     BIG_PLACEHOLDER_CONFIG
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 import { ReactElement } from 'Type/Common.type';
+import { GQLProductStockStatus } from 'Type/Graphql.type';
 import { noopFn } from 'Util/Common';
 import { getBooleanLabel } from 'Util/Product';
 
@@ -111,7 +111,10 @@ export class ProductConfigurableAttributesContainer extends PureComponent<Produc
 
     handleOptionClick({ attribute_code, attribute_value }: ProductConfigurableAttribute): void {
         const { updateConfigurableVariant } = this.props;
-        updateConfigurableVariant(attribute_code, attribute_value);
+
+        if (updateConfigurableVariant) {
+            updateConfigurableVariant(attribute_code, attribute_value);
+        }
     }
 
     isSelected({ attribute_code = '', attribute_value = '' }: Partial<ProductConfigurableAttribute>): boolean {
@@ -164,7 +167,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent<Produc
                 const { attribute_value: foundValue } = attributes[ attribute_code ] || {};
 
                 return (
-                    stock_status === StockStatus.IN_STOCK
+                    stock_status === GQLProductStockStatus.IN_STOCK
                     // Variant must have currently checked attribute_code and attribute_value
                     && foundValue === attribute_value
                     // Variant must have all currently selected attributes

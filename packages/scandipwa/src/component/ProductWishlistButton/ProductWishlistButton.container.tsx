@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,19 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { MixType } from 'Type/Common.type';
-import { MagentoProductType, ProductType } from 'Type/ProductList.type';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
-import { noopFn } from 'Util/Common';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
-import { NotificationType } from 'Store/Notification/Notification.type';
+import {
+    ProductWishlistButtonComponentContainerPropKeys,
+    ProductWishlistButtonComponentProps,
+    ProductWishlistButtonContainerMapDispatchProps,
+    ProductWishlistButtonContainerMapStateProps,
+    ProductWishlistButtonContainerProps,
+    ProductWishlistButtonContainerState
+} from './ProductWishlistButton.type';
 
 export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -30,14 +36,16 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Component/ProductWishlistButton/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductWishlistButtonContainerMapStateProps => ({
     productsInWishlist: state.WishlistReducer.productsInWishlist,
     isAddingWishlistItem: state.WishlistReducer.isLoading,
-    wishlistId: state.WishlistReducer.id
+    // !FIXME: state.WishlistReducer.id doesn't exist. wishilistId is '0' by default. This must be fixed!
+    // wishlistId: state.WishlistReducer.id
+    wishlistId: '0'
 });
 
 /** @namespace Component/ProductWishlistButton/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductWishlistButtonContainerMapDispatchProps => ({
     addProductToWishlist: (wishlistItem) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addItemToWishlist(dispatch, wishlistItem)
     ),
@@ -48,25 +56,15 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/ProductWishlistButton/Container */
-export class ProductWishlistButtonContainer extends PureComponent {
-    static propTypes = {
-        magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
-        isAddingWishlistItem: PropTypes.bool.isRequired,
-        productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
-        addProductToWishlist: PropTypes.func.isRequired,
-        removeProductFromWishlist: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        onProductValidationError: PropTypes.func,
-        wishlistId: PropTypes.number,
-        mix: MixType
-    };
-
+export class ProductWishlistButtonContainer extends PureComponent<
+ProductWishlistButtonContainerProps,
+ProductWishlistButtonContainerState
+> {
     static defaultProps = {
-        mix: {},
-        onProductValidationError: noopFn
+        mix: {}
     };
 
-    state = {
+    state: ProductWishlistButtonContainerState = {
         isWishlistButtonLoading: false,
         isWishListToggle: false
     };
@@ -76,7 +74,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         removeFromWishlist: this.toggleProductInWishlist.bind(this, false)
     };
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: ProductWishlistButtonContainerProps): void {
         const { isAddingWishlistItem: isPrevAddingWishlistItem } = prevProps;
         const { isAddingWishlistItem } = this.props;
 
@@ -85,7 +83,10 @@ export class ProductWishlistButtonContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<
+    ProductWishlistButtonComponentProps,
+    ProductWishlistButtonComponentContainerPropKeys
+    > {
         const { magentoProduct, mix } = this.props;
 
         return {
@@ -97,14 +98,14 @@ export class ProductWishlistButtonContainer extends PureComponent {
         };
     }
 
-    setWishlistButtonLoading(isLoading) {
+    setWishlistButtonLoading(isLoading: boolean): void {
         return this.setState({ isWishlistButtonLoading: isLoading });
     }
 
-    async toggleProductInWishlist(add = true) {
+    async toggleProductInWishlist(add = true): Promise<void> {
         const {
             magentoProduct,
-            magentoProduct: [ { sku } ] = [],
+            magentoProduct: [{ sku }] = [],
             showNotification,
             addProductToWishlist,
             removeProductFromWishlist,
@@ -116,13 +117,16 @@ export class ProductWishlistButtonContainer extends PureComponent {
         } = this.state;
 
         if (!isSignedIn()) {
-            return showNotification(NotificationType.INFO, __('You must login or register to add items to your wishlist.'));
+            return showNotification(
+                NotificationType.INFO,
+                __('You must login or register to add items to your wishlist.')
+            );
         }
 
         this.setWishlistButtonLoading(true);
 
         if (isWishListToggle) {
-            return;
+            return undefined;
         }
 
         this.setState({ isWishListToggle: true });
@@ -135,7 +139,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
             this.setState({ isWishListToggle: false });
 
-            return;
+            return undefined;
         }
 
         const wishlistItem = this.getWishlistItem(sku);
@@ -143,7 +147,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         if (!wishlistItem) {
             this.setState({ isWishListToggle: false });
 
-            return;
+            return undefined;
         }
 
         const {
@@ -154,18 +158,19 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         this.setState({ isWishListToggle: false });
 
-        return removeProductFromWishlist({ item_id: itemId });
+        return removeProductFromWishlist({ item_id: String(itemId) });
     }
 
-    isDisabled() {
+    isDisabled(): boolean {
         const { isAddingWishlistItem } = this.props;
         return isAddingWishlistItem || !isSignedIn();
-    };
+    }
 
-    getWishlistItem(sku) {
+    getWishlistItem(sku: string): WishlistProduct | undefined {
         const { productsInWishlist } = this.props;
+
         if (!productsInWishlist) {
-            return null;
+            return undefined;
         }
 
         // TODO: After new graphql will need to check by options
@@ -174,25 +179,25 @@ export class ProductWishlistButtonContainer extends PureComponent {
         );
     }
 
-    isInWishlist() {
+    isInWishlist(): boolean {
         const { magentoProduct = [] } = this.props;
-        const [ { sku: productSku } ] = magentoProduct;
+        const [{ sku: productSku }] = magentoProduct;
 
         if (!productSku) {
             return false;
         }
 
         return !!this.getWishlistItem(productSku);
-    };
+    }
 
     render(): ReactElement {
         const { isWishlistButtonLoading } = this.state;
 
         return (
             <ProductWishlistButton
-                isLoading={isWishlistButtonLoading}
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              isLoading={ isWishlistButtonLoading }
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

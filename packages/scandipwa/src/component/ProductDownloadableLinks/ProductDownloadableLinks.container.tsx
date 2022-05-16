@@ -9,41 +9,43 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DownloadableLinksType } from 'Type/Downloadable.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductDownloadableLinks from './ProductDownloadableLinks.component';
+import {
+    ProductDownloadableLinksComponentContainerPropKeys,
+    ProductDownloadableLinksComponentProps,
+    ProductDownloadableLinksContainerMapDispatchProps,
+    ProductDownloadableLinksContainerMapStateProps,
+    ProductDownloadableLinksContainerProps,
+    ProductDownloadableLinksContainerState
+} from './ProductDownloadableLinks.type';
 
 /** @namespace Component/ProductDownloadableLinks/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductDownloadableLinksContainerMapStateProps => ({
     isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window,
     currencyCode: state.ConfigReducer.currencyData.current_currency_code
 });
 
 /** @namespace Component/ProductDownloadableLinks/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): ProductDownloadableLinksContainerMapDispatchProps => ({});
 
 /** @namespace Component/ProductDownloadableLinks/Container */
-export class ProductDownloadableLinksContainer extends PureComponent {
-    static propTypes = {
-        title: PropTypes.string,
-        currencyCode: PropTypes.string.isRequired,
-        isRequired: PropTypes.bool,
-        links: DownloadableLinksType,
-        setLinkedDownloadables: PropTypes.func.isRequired,
-        isOpenInNewTab: PropTypes.bool.isRequired
-    };
-
+export class ProductDownloadableLinksContainer extends PureComponent<
+ProductDownloadableLinksContainerProps,
+ProductDownloadableLinksContainerState
+> {
     static defaultProps = {
         title: '',
         links: [],
         isRequired: false
     };
 
-    state = {
+    state: ProductDownloadableLinksContainerState = {
         isLoading: true,
         selectedLinks: []
     };
@@ -53,7 +55,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         setRef: this.setRef.bind(this)
     };
 
-    formRef = createRef();
+    formRef: HTMLElement | null = null;
 
     componentDidMount(): void {
         const { links } = this.props;
@@ -63,7 +65,10 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         }
     }
 
-    componentDidUpdate(_, prevState): void {
+    componentDidUpdate(
+        _: ProductDownloadableLinksContainerProps,
+        prevState: ProductDownloadableLinksContainerState
+    ): void {
         const { links } = this.props;
         const {
             selectedLinks,
@@ -83,13 +88,13 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         }
     }
 
-    setRef(elem) {
+    setRef(elem: HTMLElement | null): void {
         if (elem && this.formRef !== elem) {
             this.formRef = elem;
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<ProductDownloadableLinksComponentProps, ProductDownloadableLinksComponentContainerPropKeys> {
         const {
             isOpenInNewTab,
             isRequired,
@@ -110,20 +115,20 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         };
     }
 
-    stopLoading() {
+    stopLoading(): void {
         this.setState({ isLoading: false });
     }
 
-    updateSelectedOptionsArray() {
+    updateSelectedOptionsArray(): void {
         const { setLinkedDownloadables } = this.props;
         const { selectedLinks } = this.state;
 
         setLinkedDownloadables(selectedLinks);
     }
 
-    setSelectedCheckboxValues() {
+    setSelectedCheckboxValues(): void {
         const { selectedLinks } = this.state;
-        const checkboxes = this.formRef.querySelectorAll('input[type="checkbox"]:checked');
+        const checkboxes = this.formRef?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked') || [];
         const newSelectedLinks = Array.from(checkboxes, ({ value }) => value);
 
         if (selectedLinks !== newSelectedLinks) {
@@ -131,17 +136,11 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         }
     }
 
-    getIsLinkSelected(id) {
-        const { selectedLinks } = this.state;
-
-        return selectedLinks.some(({ link_id }) => link_id === id);
-    }
-
     render(): ReactElement {
         return (
             <ProductDownloadableLinks
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

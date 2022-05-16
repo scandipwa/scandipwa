@@ -37,6 +37,7 @@ import { validateGroup } from 'Util/Validator';
 
 import {
     AdjustedPriceMap,
+    ProductComponentContainerFunctions,
     ProductComponentContainerPropKeys,
     ProductComponentProps,
     ProductContainerMapDispatchProps,
@@ -85,7 +86,7 @@ S extends ProductContainerState
         cartId: ''
     };
 
-    containerFunctions = {
+    containerFunctions: ProductComponentContainerFunctions = {
         addToCart: this.addToCart.bind(this),
 
         // Used to update entered and selected state values

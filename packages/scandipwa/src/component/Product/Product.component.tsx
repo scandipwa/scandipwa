@@ -31,7 +31,7 @@ import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { filterConfigurableOptions } from 'Util/Product';
-import { IndexedConfigurableOption } from 'Util/Product/Product.type';
+import { IndexedBundleItem, IndexedConfigurableOption } from 'Util/Product/Product.type';
 import { ValidationInputTypeNumber } from 'Util/Validator/Config';
 
 import { ProductType } from './Product.config';
@@ -68,14 +68,14 @@ export class Product extends PureComponent<ProductComponentProps> {
     renderBundleOptions(): ReactElement {
         const {
             product: {
-                items
+                items = []
             } = {},
             updateSelectedValues
         } = this.props;
 
         return (
             <ProductBundleOptions
-              options={ items }
+              options={ items as IndexedBundleItem[] }
               updateSelectedValues={ updateSelectedValues }
             />
         );
@@ -102,7 +102,6 @@ export class Product extends PureComponent<ProductComponentProps> {
     renderDownloadableLinks(): ReactElement {
         const {
             setDownloadableLinks,
-            setAdjustedPrice,
             product: {
                 type_id,
                 downloadable_product_links: links,
@@ -121,7 +120,6 @@ export class Product extends PureComponent<ProductComponentProps> {
             <ProductDownloadableLinks
               links={ links }
               setLinkedDownloadables={ setDownloadableLinks }
-              setLinkedDownloadablesPrice={ setAdjustedPrice }
               title={ links_title }
               isRequired={ isRequired }
             />
@@ -132,7 +130,7 @@ export class Product extends PureComponent<ProductComponentProps> {
         const {
             product: {
                 type_id,
-                samples_title,
+                samples_title = '',
                 downloadable_product_samples: samples
             }
         } = this.props;
@@ -159,9 +157,9 @@ export class Product extends PureComponent<ProductComponentProps> {
 
     renderConfigurableOptions(): ReactElement {
         const {
-            setActiveProduct,
+            // setActiveProduct,
             parameters,
-            product: { type_id: type, variants = {} },
+            product: { type_id: type, variants = [] },
             inStock,
             addToCartTriggeredWithError,
             updateAddToCartTriggeredWithError
@@ -184,9 +182,8 @@ export class Product extends PureComponent<ProductComponentProps> {
                   mix={ { block: this.className, elem: 'Attributes' } }
                   parameters={ parameters }
                   variants={ variants }
-                  updateConfigurableVariant={ setActiveProduct }
+                //   updateConfigurableVariant={ setActiveProduct }
                   configurable_options={ this.getConfigurableAttributes() }
-                  isContentExpanded
                   inStock={ inStock }
                   showProductAttributeAsLink={ false }
                 />
@@ -313,7 +310,7 @@ export class Product extends PureComponent<ProductComponentProps> {
               attr={ {
                   id: 'item_qty',
                   name: 'item_qty',
-                  defaultValue: quantity,
+                  defaultValue: quantity as number,
                   max: maxQuantity,
                   min: minQuantity
               } }
@@ -394,7 +391,7 @@ export class Product extends PureComponent<ProductComponentProps> {
                 <ProductPrice
                   meta
                   price={ productPrice }
-                  priceType={ type }
+                  priceType={ type as ProductType }
                   tierPrices={ priceTiers }
                   isPreview={ isPreview }
                   mix={ { block: this.className, elem: 'Price' } }

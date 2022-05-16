@@ -272,7 +272,7 @@ export class ProductActions extends Product {
         } = this.props;
         const { type_id: activeType } = getActiveProduct();
 
-        const notConfigured = baseType === ProductType.configurable && activeType === baseType;
+        const notConfigured = baseType === ProductType.CONFIGURABLE && activeType === baseType;
 
         return super.renderPrice(!inStock || notConfigured || isPricePreview);
     }

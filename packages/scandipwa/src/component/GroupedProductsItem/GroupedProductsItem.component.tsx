@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import FieldContainer from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import Image from 'Component/Image';
+import { ProductType } from 'Component/Product/Product.config';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
@@ -37,7 +38,7 @@ export class GroupedProductsItem extends PureComponent<GroupedProductsItemCompon
         const {
             product: {
                 name,
-                price_range: priceRange,
+                price_range: priceRange = {},
                 type_id: type = '',
                 dynamic_price: dynamicPrice
             }
@@ -49,7 +50,7 @@ export class GroupedProductsItem extends PureComponent<GroupedProductsItemCompon
                     <TextPlaceholder content={ name } />
                 </p>
                 <ProductPrice
-                  price={ getPrice(priceRange, dynamicPrice, {}, type) }
+                  price={ getPrice(priceRange, dynamicPrice, {}, type as ProductType) }
                   mods={ { type: 'regular' } }
                 />
             </div>

@@ -10,41 +10,33 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { MouseEvent, PureComponent } from 'react';
 
 import HeartIcon from 'Component/HeartIcon';
 import Loader from 'Component/Loader';
-import { MixType, ReactElement } from 'Type/Common.type';
-import { MagentoProductType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { ProductWishlistButtonComponentProps } from './ProductWishlistButton.type';
 
 import './ProductWishlistButton.style';
 
 /** @namespace Component/ProductWishlistButton/Component */
-export class ProductWishlistButton extends PureComponent {
-    static propTypes = {
-        magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
-
-        isLoading: PropTypes.bool,
-        isDisabled: PropTypes.bool,
-        isInWishlist: PropTypes.bool,
-        isSignedIn: PropTypes.bool.isRequired,
-
-        addToWishlist: PropTypes.func.isRequired,
-        removeFromWishlist: PropTypes.func.isRequired,
-
-        mix: MixType
-    };
-
+export class ProductWishlistButton extends PureComponent<ProductWishlistButtonComponentProps> {
     static defaultProps = {
         mix: {},
+        // !FIXME: isLoading is never set
         isLoading: false,
         isDisabled: false,
         isInWishlist: false
     };
 
-    onClick = this.onClick.bind(this);
+    __construct(props: ProductWishlistButtonComponentProps): void {
+        super.__construct?.(props);
 
-    getTitle() {
+        this.onClick = this.onClick.bind(this);
+    }
+
+    getTitle(): string {
         const { isInWishlist, isSignedIn } = this.props;
 
         if (!isSignedIn) {
@@ -58,9 +50,8 @@ export class ProductWishlistButton extends PureComponent {
         return __('Add to Wishlist');
     }
 
-    onClick(e) {
+    onClick(e: MouseEvent): Promise<void> {
         const {
-            magentoProduct,
             isInWishlist,
             addToWishlist,
             removeFromWishlist
@@ -69,10 +60,10 @@ export class ProductWishlistButton extends PureComponent {
         e.preventDefault();
 
         if (!isInWishlist) {
-            return addToWishlist(magentoProduct);
+            return addToWishlist();
         }
 
-        return removeFromWishlist(magentoProduct);
+        return removeFromWishlist();
     }
 
     renderButton(): ReactElement {
@@ -94,6 +85,8 @@ export class ProductWishlistButton extends PureComponent {
 
     renderLoader(): ReactElement {
         const { isLoading } = this.props;
+
+        // !FIXME: Is loading is never set
 
         return (
             <Loader isLoading={ isLoading } />

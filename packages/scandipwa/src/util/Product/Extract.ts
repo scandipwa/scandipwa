@@ -15,8 +15,10 @@
 import { ProductType } from 'Component/Product/Product.config';
 import { AdjustedPriceMap, ProductOption } from 'Component/Product/Product.type';
 import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
-import { BundleOption, GroupedProductItem } from 'Query/ProductList.type';
-import { GQLProductStockStatus } from 'Type/Graphql.type';
+import {
+    BundleOption, GroupedProductItem, Money, PriceRange
+} from 'Query/ProductList.type';
+import { GQLCurrencyEnum, GQLProductStockStatus } from 'Type/Graphql.type';
 import { decodeBase64 } from 'Util/Base64';
 import { FieldValue } from 'Util/Form/Form.type';
 import { formatPrice } from 'Util/Price';
@@ -27,6 +29,8 @@ import {
     IndexedBundleItem,
     IndexedProduct,
     IndexedVariant,
+    ProductExtractImage,
+    ProductExtractPrice,
     QtyFields
 } from './Product.type';
 
@@ -223,9 +227,11 @@ export const getGroupedProductsInStockQuantity = (
  * @param options
  * @namespace Util/Product/Extract/getBundleOption
  */
-export const getBundleOption = (uid: string, options: BundleOption[] = []): BundleOption | undefined => {
+export const getBundleOption = (
+    uid: string, options: Partial<BundleOption>[] = []
+): Partial<BundleOption> | undefined => {
     const uidParts = decodeBase64(uid).split('/');
-    return options.find(({ uid: linkedUid }) => {
+    return options.find(({ uid: linkedUid = '' }) => {
         const linkedUidParts = decodeBase64(linkedUid).split('/');
 
         if (uidParts.length !== linkedUidParts.length) {
@@ -254,12 +260,12 @@ export const getBundleOption = (uid: string, options: BundleOption[] = []): Bund
  * @namespace Util/Product/Extract/getPrice
  */
 export const getPrice = (
-    priceRange,
+    priceRange: Partial<PriceRange>,
     dynamicPrice = false,
-    adjustedPrice = {},
-    type = ProductType.SIMPLE,
+    adjustedPrice: Partial<AdjustedPriceMap> = {},
+    type: ProductType = ProductType.SIMPLE,
     options = []
-) => {
+): ProductExtractPrice => {
     const priceAcc = type === ProductType.BUNDLE
         ? 'default_final_price'
         : 'regular_price';
@@ -280,15 +286,15 @@ export const getPrice = (
             } = {}
         } = {},
         minimum_price: {
-            regular_price: minRegularPrice,
-            final_price: minFinalPrice,
-            final_price_excl_tax: minFinalPriceExclTax
-        },
+            regular_price: minRegularPrice = {} as Money,
+            final_price: minFinalPrice = {} as Money,
+            final_price_excl_tax: minFinalPriceExclTax = {} as Money
+        } = {},
         maximum_price: {
-            regular_price: maxRegularPrice,
-            final_price: maxFinalPrice,
-            final_price_excl_tax: maxFinalPriceExclTax
-        }
+            regular_price: maxRegularPrice = {} as Money,
+            final_price: maxFinalPrice = {} as Money,
+            final_price_excl_tax: maxFinalPriceExclTax = {} as Money
+        } = {}
     } = priceRange || {};
 
     // Fixes decimal misplacement for discount
@@ -334,13 +340,13 @@ export const getPrice = (
 
     // Adds adjusted price
     Object.keys(adjustedPrice || {}).forEach((key) => {
-        const { [key]: group } = adjustedPrice;
+        const { [key as keyof AdjustedPriceMap]: group } = adjustedPrice;
         const {
             inclTax = 0,
             exclTax = 0,
             requiresDiscountCalculations = true,
             hasDiscountCalculated = false
-        } = group;
+        } = group || {};
 
         if (requiresDiscountCalculations) {
             if (hasDiscountCalculated) {
@@ -591,7 +597,7 @@ export const getSubLabelFromMaxCharacters = (maxCharacters: number, value = ''):
  * @param field
  * @namespace Util/Product/Extract/getImage
  */
-export const getImage = (product: IndexedProduct, field: ImageType): string => {
+export const getImage = (product: ProductExtractImage, field: ImageType): string => {
     const { [field]: { url = 'no_selection' } = {} } = product;
     return url && url !== 'no_selection' ? url : '';
 };
@@ -601,19 +607,19 @@ export const getImage = (product: IndexedProduct, field: ImageType): string => {
  * @param product
  * @namespace Util/Product/Extract/getThumbnailImage
  */
-export const getThumbnailImage = (product: IndexedProduct): string => getImage(product, ImageType.THUMBNAIL);
+export const getThumbnailImage = (product: ProductExtractImage): string => getImage(product, ImageType.THUMBNAIL);
 
 /**
  * Returns products small image
  * @param product
  * @namespace Util/Product/Extract/getSmallImage
  */
-export const getSmallImage = (product: IndexedProduct): string => getImage(product, ImageType.SMALL);
+export const getSmallImage = (product: ProductExtractImage): string => getImage(product, ImageType.SMALL);
 
 /**
  * Returns products base image
  * @param product
  * @namespace Util/Product/Extract/getBaseImage
  */
-export const getBaseImage = (product: IndexedProduct): string => getImage(product, ImageType.IMAGE);
+export const getBaseImage = (product: ProductExtractImage): string => getImage(product, ImageType.IMAGE);
 // #endregion

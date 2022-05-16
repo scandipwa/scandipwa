@@ -14,18 +14,13 @@ import { PureComponent } from 'react';
 import ExpandableContent from 'Component/ExpandableContent';
 import Link from 'Component/Link';
 import { ReactElement } from 'Type/Common.type';
-import { DownloadableSamplesType } from 'Type/ProductList.type';
+
+import { ProductDownloadableSamplesComponentProps } from './ProductDownloadableSamples.type';
 
 import './ProductDownloadableSamples.style';
 
 /** @namespace Component/ProductDownloadableSamples/Component */
-export class ProductDownloadableSamples extends PureComponent {
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        samples: DownloadableSamplesType.isRequired,
-        isOpenInNewTab: PropTypes.bool
-    };
-
+export class ProductDownloadableSamples extends PureComponent<ProductDownloadableSamplesComponentProps> {
     static defaultProps = {
         isOpenInNewTab: false
     };

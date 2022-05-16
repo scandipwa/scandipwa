@@ -16,6 +16,7 @@ import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableA
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { IndexedConfigurableOption } from 'Util/Product/Product.type';
 
 import {
     ProductConfigurableAttribute,
@@ -61,7 +62,7 @@ export class ProductConfigurableAttributes extends PureComponent<ProductConfigur
         );
     }
 
-    renderSwatch(option: ProductListFilter, isUnselected = false): ReactElement {
+    renderSwatch(option: IndexedConfigurableOption, isUnselected = false): ReactElement {
         const {
             handleShakeAnimationEnd
         } = this.props;
@@ -82,7 +83,7 @@ export class ProductConfigurableAttributes extends PureComponent<ProductConfigur
         );
     }
 
-    renderDropdown(option: ProductListFilter, isUnselected = false): ReactElement {
+    renderDropdown(option: IndexedConfigurableOption, isUnselected = false): ReactElement {
         const {
             updateConfigurableVariant,
             getIsConfigurableAttributeAvailable,

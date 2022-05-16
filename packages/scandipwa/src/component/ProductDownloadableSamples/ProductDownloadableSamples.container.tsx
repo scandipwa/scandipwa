@@ -9,32 +9,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { DownloadableSamplesType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductDownloadableSamples from './ProductDownloadableSamples.component';
+import {
+    ProductDownloadableSamplesComponentProps,
+    ProductDownloadableSamplesContainerMapDispatchProps,
+    ProductDownloadableSamplesContainerMapStateProps,
+    ProductDownloadableSamplesContainerProps
+} from './ProductDownloadableSamples.type';
 
 /** @namespace Component/ProductDownloadableSamples/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductDownloadableSamplesContainerMapStateProps => ({
     isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window
 });
 
 /** @namespace Component/ProductDownloadableSamples/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): ProductDownloadableSamplesContainerMapDispatchProps => ({});
 
 /** @namespace Component/ProductDownloadableSamples/Container */
-export class ProductDownloadableSamplesContainer extends PureComponent {
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        samples: DownloadableSamplesType.isRequired,
-        isOpenInNewTab: PropTypes.bool.isRequired
-    };
-
-    containerProps() {
+export class ProductDownloadableSamplesContainer extends PureComponent<ProductDownloadableSamplesContainerProps> {
+    containerProps(): ProductDownloadableSamplesComponentProps {
         const { title, samples, isOpenInNewTab } = this.props;
 
         return { title, samples, isOpenInNewTab };
@@ -43,7 +42,7 @@ export class ProductDownloadableSamplesContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductDownloadableSamples
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }
