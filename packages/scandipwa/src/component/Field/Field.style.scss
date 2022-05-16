@@ -274,7 +274,7 @@
 
                                 &:hover {
                                     background-color: var(--primary-success-color);
-                                    color: #{$white};
+                                    color: var(--color-white);
                                 }
                             }
                         }
@@ -293,7 +293,7 @@
 
                                 &:hover {
                                     background-color: var(--primary-error-color);
-                                    color: #{$white};
+                                    color: var(--color-white);
                                 }
                             }
                         }
@@ -305,7 +305,9 @@
                     inset-block-start: 10px;
                     inset-inline-end: 10px;
                     padding: 5px 10px;
+                    color: var(--paragraph-color);
                     cursor: pointer;
+                    z-index: 2;
                 }
             }
         }
@@ -462,7 +464,7 @@
                 width: auto;
             }
 
-            + p {
+            + p, + button + p {
                 margin-block-start: 5px;
                 margin-block-end: 0;
             }
