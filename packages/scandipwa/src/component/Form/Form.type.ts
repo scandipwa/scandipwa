@@ -51,6 +51,7 @@ export interface FormComponentProps {
     subLabel: string;
     mix: Mix;
     validationResponse: true | ValidationDOMOutput | null;
+    setRef: (elem: HTMLFormElement | null) => void;
 }
 
 export type FormContainerPropsKeys = 'validationResponse'
