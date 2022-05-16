@@ -47,6 +47,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         onShippingEstimationFieldsChange: PropTypes.func,
         onAddressSelect: PropTypes.func,
         customer: CustomerType.isRequired,
+        updateShippingFieldsId: PropTypes.func.isRequired,
         isBilling: PropTypes.bool,
         isSubmitted: PropTypes.bool,
         is_virtual: PropTypes.bool,
@@ -106,7 +107,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
 
         this.state = {
             prevDefaultAddressId: defaultAddressId,
-            selectedAddressId
+            selectedAddressId,
+            isAddressComparedToCustomerAddresses: false
         };
     }
 
@@ -175,12 +177,34 @@ export class CheckoutAddressBookContainer extends PureComponent {
         this.setState({ selectedAddressId: this.getSelectedAddressId(prevDefaultAddressId) });
     }
 
-    getSelectedAddressId(defaultAddressId) {
+    getAddressId() {
         const {
             shippingFields,
             customer: {
                 addresses = []
             } = {},
+            updateShippingFieldsId
+        } = this.props;
+        const { isAddressComparedToCustomerAddresses } = this.state;
+
+        if (isSignedIn() && !isAddressComparedToCustomerAddresses) {
+            // comparing address values to check if the fetched address is in the address book
+            const addressId = getAddressIdFromAddressBook(shippingFields, addresses);
+
+            if (addressId) {
+                updateShippingFieldsId(addressId);
+            }
+
+            this.setState({ isAddressComparedToCustomerAddresses: true });
+
+            return addressId;
+        }
+
+        return 0;
+    }
+
+    getSelectedAddressId(defaultAddressId) {
+        const {
             shippingFields: {
                 id: shippingFieldsId = 0,
                 street: shippingFieldsStreet = []
@@ -200,18 +224,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
             return defaultAddressId;
         }
 
-        // comparing address values to check if the fetched address is in the address book
-        const addressId = (
-            isSignedIn()
-                ? getAddressIdFromAddressBook(shippingFields, addresses)
-                : 0
-        );
-
-        if (addressId) {
-            updateShippingFieldsId(addressId);
-        }
-
-        return addressId;
+        return this.getAddressId();
     }
 
     onAddressSelect(address) {
