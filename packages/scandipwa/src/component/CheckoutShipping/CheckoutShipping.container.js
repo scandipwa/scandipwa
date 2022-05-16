@@ -66,12 +66,7 @@ export class CheckoutShippingContainer extends PureComponent {
         selectedShippingMethod: ShippingMethodType,
         setSelectedShippingMethodCode: PropTypes.func,
         totals: TotalsType.isRequired,
-        selectedStoreAddress: StoreType,
-        isCreateUser: PropTypes.bool.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
-        onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired
+        selectedStoreAddress: StoreType
     };
 
     static defaultProps = {
@@ -145,12 +140,7 @@ export class CheckoutShippingContainer extends PureComponent {
             shippingMethods,
             totals,
             onStoreSelect,
-            onShippingEstimationFieldsChange,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved
+            onShippingEstimationFieldsChange
         } = this.props;
         const { selectedShippingMethod } = this.state;
 
@@ -166,12 +156,7 @@ export class CheckoutShippingContainer extends PureComponent {
             totals,
             selectedShippingMethod,
             onStoreSelect,
-            onShippingEstimationFieldsChange,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved
+            onShippingEstimationFieldsChange
         };
     }
 

@@ -14,14 +14,13 @@ import { PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
-import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import StoreInPickUpComponent from 'Component/StoreInPickUp';
-import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { Addresstype } from 'Type/Account.type';
-import { CheckoutStepType, ShippingMethodsType, ShippingMethodType } from 'Type/Checkout.type';
+import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { getAllCartItemsSku } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
@@ -46,14 +45,7 @@ export class CheckoutShipping extends PureComponent {
         estimateAddress: Addresstype.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func,
-        checkoutStep: CheckoutStepType.isRequired,
-        isCreateUser: PropTypes.bool.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
-        onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
+        setSelectedShippingMethodCode: PropTypes.func
     };
 
     static defaultProps = {
@@ -192,34 +184,6 @@ export class CheckoutShipping extends PureComponent {
         );
     }
 
-    renderGuestForm() {
-        const {
-            checkoutStep,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved,
-            isSignedIn
-        } = this.props;
-        const isBilling = checkoutStep === BILLING_STEP;
-
-        if (isSignedIn) {
-            return null;
-        }
-
-        return (
-            <CheckoutGuestForm
-              isBilling={ isBilling }
-              isCreateUser={ isCreateUser }
-              onEmailChange={ onEmailChange }
-              onCreateUserChange={ onCreateUserChange }
-              onPasswordChange={ onPasswordChange }
-              isGuestEmailSaved={ isGuestEmailSaved }
-            />
-        );
-    }
-
     renderContent() {
         const { isLoading, isPickInStoreMethodSelected } = this.props;
 
@@ -229,7 +193,6 @@ export class CheckoutShipping extends PureComponent {
 
         return (
             <>
-                { this.renderGuestForm() }
                 { this.renderAddressBook() }
                 <div>
                     <Loader isLoading={ isLoading } />
