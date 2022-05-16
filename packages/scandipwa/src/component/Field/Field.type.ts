@@ -21,7 +21,7 @@ import {
     TextareaHTMLAttributes
 } from 'react';
 
-import { Mix } from 'Type/Common.type';
+import { Mix, ReactElement } from 'Type/Common.type';
 import { FieldOptions, Option } from 'Type/Field.type';
 import { FieldValidationOutput, ValidationDOMOutput, ValidationRule } from 'Util/Validator/Validator.type';
 
@@ -40,8 +40,8 @@ export interface FieldContainerProps {
     validationRule: ValidationRule;
     validateOn: string[];
     showErrorAsLabel: boolean;
-    label: string | null;
-    subLabel: string | null;
+    label: ReactElement | string | null;
+    subLabel: ReactElement | string | null;
     addRequiredTag: boolean;
 }
 
@@ -60,8 +60,8 @@ export interface FieldComponentProps {
     options: Option[];
     changeValueOnDoubleClick: boolean;
     isSortSelect: boolean;
-    label: string | null;
-    subLabel: string | null;
+    label: ReactElement | string | null;
+    subLabel: ReactElement | string | null;
     addRequiredTag: boolean;
     showErrorAsLabel: boolean;
     validationResponse: null | boolean | ValidationDOMOutput;
@@ -92,11 +92,12 @@ export type FieldAttributes = (InputHTMLAttributes<HTMLInputElement>
 & {
     selectPlaceholder?: string;
     isExpanded?: boolean;
+    noPlaceholder?: boolean;
 };
 
 export type FieldEvents = Omit<DOMAttributes<HTMLElement>, 'children' | 'dangerouslySetInnerHTML' | 'onChange'>
 & {
-    onChange?: ((event: ChangeEvent<HTMLInputElement>, field: EventFieldData) => void)
+    onChange?: ((event: ChangeEvent<HTMLInputElement>, field?: EventFieldData) => void)
     | FieldNumberCustomEvents['onChange']
     | FieldSelectCustomEvents['onChange']
     | FieldInputCustomEvents['onChange'];
@@ -104,8 +105,8 @@ export type FieldEvents = Omit<DOMAttributes<HTMLElement>, 'children' | 'dangero
 };
 
 export type FieldNumberCustomEvents = {
-    onChange?: (value: number, field: EventFieldData, event: SyntheticEvent) => void;
-    onLoad?: (value: number, field: EventFieldData, event: SyntheticEvent) => void;
+    onChange?: (value: number, field?: EventFieldData, event?: SyntheticEvent) => void;
+    onLoad?: (value: number, field?: EventFieldData, event?: SyntheticEvent) => void;
 };
 
 export type FieldSelectCustomEvents = {
