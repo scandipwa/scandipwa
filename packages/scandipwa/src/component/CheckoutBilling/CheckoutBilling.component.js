@@ -61,11 +61,13 @@ export class CheckoutBilling extends PureComponent {
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
         })).isRequired,
-        selectedShippingMethod: PropTypes.string.isRequired
+        selectedShippingMethod: PropTypes.string.isRequired,
+        paymentMethod: PropTypes.string
     };
 
     static defaultProps = {
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
+        paymentMethod: ''
     };
 
     setOrderButtonEnableStatus = this.setOrderButtonEnableStatus.bind(this);
@@ -224,6 +226,8 @@ export class CheckoutBilling extends PureComponent {
     }
 
     renderActions() {
+        const { paymentMethod } = this.props;
+
         const {
             isOrderButtonVisible,
             isOrderButtonEnabled,
@@ -238,7 +242,7 @@ export class CheckoutBilling extends PureComponent {
 
         // if terms and conditions are enabled, validate for acceptance
         const isDisabled = termsAreEnabled
-            ? !isOrderButtonEnabled || !isTermsAndConditionsAccepted
+            ? !isOrderButtonEnabled || !isTermsAndConditionsAccepted || paymentMethod === 'braintree_local_payment'
             : !isOrderButtonEnabled;
 
         return (

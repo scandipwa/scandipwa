@@ -149,7 +149,7 @@ export class CheckoutBillingContainer extends PureComponent {
             onPasswordChange,
             isGuestEmailSaved
         } = this.props;
-        const { isSameAsShipping } = this.state;
+        const { isSameAsShipping, paymentMethod } = this.state;
 
         return {
             cartTotalSubPrice,
@@ -167,7 +167,8 @@ export class CheckoutBillingContainer extends PureComponent {
             onEmailChange,
             onCreateUserChange,
             onPasswordChange,
-            isGuestEmailSaved
+            isGuestEmailSaved,
+            paymentMethod
         };
     }
 
