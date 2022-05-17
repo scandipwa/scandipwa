@@ -22,43 +22,12 @@ export class CheckoutDeliveryOptions extends PureComponent {
     static propTypes = {
         shippingMethods: ShippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,
-        selectedShippingMethod: ShippingMethodType,
-        checkoutReducerShippingMethod: PropTypes.string.isRequired
+        selectedShippingMethod: ShippingMethodType
     };
 
     static defaultProps = {
         selectedShippingMethod: {}
     };
-
-    state = {
-        initialSelectedMethod: null
-    };
-
-    componentDidUpdate(prevProps) {
-        const { checkoutReducerShippingMethod, shippingMethods, selectShippingMethod } = this.props;
-        const { shippingMethods: prevShippingMethods } = prevProps;
-        const { initialSelectedMethod } = this.state;
-
-        if (
-            checkoutReducerShippingMethod
-            && (!prevShippingMethods.length && shippingMethods.length)
-        ) {
-            shippingMethods.forEach(
-                (method) => {
-                    const { available, method_code } = method;
-
-                    if (available && method_code === checkoutReducerShippingMethod) {
-                        // eslint-disable-next-line react/no-did-update-set-state
-                        this.setState({ initialSelectedMethod: method });
-                    }
-                }
-            );
-        } else if (initialSelectedMethod) {
-            selectShippingMethod(initialSelectedMethod);
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ initialSelectedMethod: null });
-        }
-    }
 
     renderHeading() {
         return (
@@ -73,10 +42,9 @@ export class CheckoutDeliveryOptions extends PureComponent {
             selectShippingMethod,
             selectedShippingMethod: { method_code: selectedMethodCode }
         } = this.props;
-        const { initialSelectedMethod } = this.state;
 
         const { carrier_code, method_code } = option;
-        const isSelected = (initialSelectedMethod?.method_code || selectedMethodCode) === method_code;
+        const isSelected = selectedMethodCode === method_code;
 
         return (
             <CheckoutDeliveryOption
