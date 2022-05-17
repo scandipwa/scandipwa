@@ -59,7 +59,8 @@ export class CategoryProductListContainer extends PureComponent {
         sort: PropTypes.objectOf(PropTypes.string),
         selectedFilters: SelectedFiltersType,
         pages: PagesType.isRequired,
-        isPageLoading: PropTypes.bool
+        isPageLoading: PropTypes.bool,
+        isPlp: PropTypes.bool
     };
 
     static defaultProps = {
@@ -72,7 +73,8 @@ export class CategoryProductListContainer extends PureComponent {
         search: '',
         sort: undefined,
         selectedFilters: {},
-        isPageLoading: false
+        isPageLoading: false,
+        isPlp: true
     };
 
     containerFunctions = {
@@ -143,7 +145,8 @@ export class CategoryProductListContainer extends PureComponent {
             selectedFilters,
             sort,
             totalItems,
-            totalPages
+            totalPages,
+            isPlp
         } = this.props;
 
         return {
@@ -157,6 +160,7 @@ export class CategoryProductListContainer extends PureComponent {
             totalPages,
             isLoading: this.getIsLoading(),
             isPreventRequest: this.getIsPreventRequest(),
+            isPlp,
             mix: { block: 'CategoryProductList', mods: { layout: this.getLayout() } }
         };
     }
