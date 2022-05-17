@@ -121,7 +121,7 @@ export class FieldFileContainer extends PureComponent {
                 ...events,
                 onChange: this.onChange.bind(this)
             },
-            resetFieldValue: resetFieldValue.bind(this, this),
+            resetFieldValue: resetFieldValue.bind(this, { setState: (val) => this.setState(val) }),
             fileName,
             isLoading,
             value
