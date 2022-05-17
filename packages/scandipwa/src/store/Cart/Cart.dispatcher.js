@@ -83,6 +83,8 @@ export class CartDispatcher {
 
             return null;
         } catch (error) {
+            dispatch(updateIsLoadingCart(false));
+
             return this.createGuestEmptyCart(dispatch);
         }
     }
@@ -129,6 +131,8 @@ export class CartDispatcher {
             return quoteId;
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
+
+            dispatch(updateIsLoadingCart(false));
 
             return null;
         }
