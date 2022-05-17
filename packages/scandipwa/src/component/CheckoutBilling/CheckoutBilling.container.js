@@ -120,14 +120,12 @@ export class CheckoutBillingContainer extends PureComponent {
         super.__construct(props);
 
         const { paymentMethods, customer } = props;
-        const [method] = paymentMethods;
-        const { code: paymentMethod } = method || {};
 
         this.state = {
             isSameAsShipping: this.isSameShippingAddress(customer),
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
-            paymentMethod
+            paymentMethod: ''
         };
     }
 

@@ -148,8 +148,6 @@ export class Checkout extends PureComponent {
         }
     };
 
-    stepsCount = 2;
-
     componentDidMount() {
         this.updateHeader();
         this.updateStepURL(true);
@@ -214,7 +212,7 @@ export class Checkout extends PureComponent {
                     <div block="Checkout" elem="Step">
                         <span block="Checkout" elem="SelectedStep">{ number }</span>
                         <span block="Checkout" elem="StepsBorder">/</span>
-                        <span block="Checkout" elem="TotalSteps">{ this.stepsCount }</span>
+                        <span block="Checkout" elem="TotalSteps">{ Object.keys(this.stepMap).length }</span>
                     </div>
                 </div>
                 <div block="Checkout" elem="StepBarTotal" />

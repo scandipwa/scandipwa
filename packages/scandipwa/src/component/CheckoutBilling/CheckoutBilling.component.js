@@ -33,7 +33,7 @@ export class CheckoutBilling extends PureComponent {
     state = {
         isOrderButtonVisible: true,
         isOrderButtonEnabled: true,
-        isTermsAndConditionsAccepted: false
+        isTACAccepted: false
     };
 
     static propTypes = {
@@ -93,8 +93,8 @@ export class CheckoutBilling extends PureComponent {
     }
 
     setTACAccepted() {
-        this.setState(({ isTermsAndConditionsAccepted: oldIsTACAccepted }) => ({
-            isTermsAndConditionsAccepted: !oldIsTACAccepted
+        this.setState(({ isTACAccepted: oldIsTACAccepted }) => ({
+            isTACAccepted: !oldIsTACAccepted
         }));
     }
 
@@ -132,7 +132,7 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
-    renderTermsAndConditions() {
+    renderTAC() {
         const {
             termsAreEnabled,
             termsAndConditions
@@ -142,7 +142,7 @@ export class CheckoutBilling extends PureComponent {
             checkbox_text = __('I agree to terms and conditions')
         } = termsAndConditions[0] || {};
 
-        const { isTermsAndConditionsAccepted } = this.state;
+        const { isTACAccepted } = this.state;
 
         if (!termsAreEnabled) {
             return null;
@@ -165,7 +165,7 @@ export class CheckoutBilling extends PureComponent {
                           id: 'termsAndConditions',
                           name: 'termsAndConditions',
                           value: 'termsAndConditions',
-                          checked: isTermsAndConditionsAccepted
+                          checked: isTACAccepted
                       } }
                       events={ {
                           onChange: this.setTACAccepted
@@ -231,7 +231,7 @@ export class CheckoutBilling extends PureComponent {
         const {
             isOrderButtonVisible,
             isOrderButtonEnabled,
-            isTermsAndConditionsAccepted
+            isTACAccepted
         } = this.state;
 
         const { termsAreEnabled } = this.props;
@@ -242,7 +242,7 @@ export class CheckoutBilling extends PureComponent {
 
         // if terms and conditions are enabled, validate for acceptance
         const isDisabled = termsAreEnabled
-            ? !isOrderButtonEnabled || !isTermsAndConditionsAccepted || paymentMethod === 'braintree_local_payment'
+            ? !isOrderButtonEnabled || !isTACAccepted || !paymentMethod
             : !isOrderButtonEnabled;
 
         return (
@@ -375,7 +375,7 @@ export class CheckoutBilling extends PureComponent {
                 { is_virtual && this.renderGuestForm() }
                 { this.renderAddresses() }
                 { this.renderPayments() }
-                { this.renderTermsAndConditions() }
+                { this.renderTAC() }
                 { this.renderActions() }
                 { this.renderPopup() }
             </Form>
