@@ -112,14 +112,12 @@ export class CheckoutBillingContainer extends PureComponent {
         super.__construct(props);
 
         const { paymentMethods, customer } = props;
-        const [method] = paymentMethods;
-        const { code: paymentMethod } = method || {};
 
         this.state = {
             isSameAsShipping: this.isSameShippingAddress(customer),
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
-            paymentMethod
+            paymentMethod: ''
         };
     }
 
@@ -135,7 +133,7 @@ export class CheckoutBillingContainer extends PureComponent {
             termsAreEnabled,
             totals
         } = this.props;
-        const { isSameAsShipping } = this.state;
+        const { isSameAsShipping, paymentMethod } = this.state;
 
         return {
             cartTotalSubPrice,
@@ -147,7 +145,8 @@ export class CheckoutBillingContainer extends PureComponent {
             shippingAddress,
             termsAndConditions,
             termsAreEnabled,
-            totals
+            totals,
+            paymentMethod
         };
     }
 
