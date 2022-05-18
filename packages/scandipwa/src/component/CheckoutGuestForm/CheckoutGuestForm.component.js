@@ -44,6 +44,7 @@ export class CheckoutGuestForm extends FieldForm {
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }),
         minimunPasswordCharacter: PropTypes.string.isRequired,
         isLoading: PropTypes.bool.isRequired,
+        onFormError: PropTypes.func.isRequired,
         formRef: RefType
     };
 
