@@ -31,7 +31,6 @@ import scrollToError from 'Util/Form/Form';
 import { debounce, getErrorMessage } from 'Util/Request';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
-// import checkoutGuestFormForm from './CheckoutGuestForm.form';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */

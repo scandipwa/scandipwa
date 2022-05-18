@@ -292,8 +292,8 @@ export class CheckoutContainer extends PureComponent {
             isCartLoading: prevIsCartLoading
         } = prevProps;
 
-        const { email, checkoutStep } = this.state;
-        const { email: prevEmail } = prevState;
+        const { email, checkoutStep, isVisibleEmailRequired } = this.state;
+        const { email: prevEmail, isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevState;
         const { pathname = '' } = location;
 
         this.handleRedirectIfNoItemsInCart();
@@ -347,7 +347,7 @@ export class CheckoutContainer extends PureComponent {
         if (email !== prevEmail) {
             this.checkEmailAvailability(email);
 
-            if (email) {
+            if (email && isVisibleEmailRequired !== prevIsVisibleEmailRequired) {
                 this.onChangeEmailRequired();
             }
         }
