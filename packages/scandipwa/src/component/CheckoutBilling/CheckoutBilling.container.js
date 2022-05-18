@@ -74,7 +74,8 @@ export class CheckoutBillingContainer extends PureComponent {
         setLoading: PropTypes.func.isRequired,
         termsAreEnabled: PropTypes.bool,
         newShippingId: PropTypes.number,
-        newShippingStreet: PropTypes.arrayOf(PropTypes.string).isRequired
+        newShippingStreet: PropTypes.arrayOf(PropTypes.string).isRequired,
+        onChangeEmailRequired: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -183,12 +184,13 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     onBillingSuccess(form, fields, asyncData) {
-        const { savePaymentInformation } = this.props;
+        const { savePaymentInformation, onChangeEmailRequired } = this.props;
         const { isSameAsShipping } = this.state;
 
         const extractedFields = transformToNameValuePair(fields);
         const address = this._getAddress(extractedFields);
         const paymentMethod = this._getPaymentData(extractedFields, asyncData);
+        onChangeEmailRequired();
 
         savePaymentInformation({
             billing_address: address,

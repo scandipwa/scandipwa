@@ -188,7 +188,8 @@ export class CheckoutContainer extends PureComponent {
         goBack: this.goBack.bind(this),
         handleSelectDeliveryMethod: this.handleSelectDeliveryMethod.bind(this),
         onStoreSelect: this.onStoreSelect.bind(this),
-        onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
+        onShippingMethodSelect: this.onShippingMethodSelect.bind(this),
+        onChangeEmailRequired: this.onChangeEmailRequired.bind(this)
     };
 
     checkEmailAvailability = debounce((email) => {
@@ -227,7 +228,8 @@ export class CheckoutContainer extends PureComponent {
             isGuestEmailSaved: false,
             isCreateUser: false,
             estimateAddress: {},
-            isPickInStoreMethodSelected: false
+            isPickInStoreMethodSelected: false,
+            isVisibleEmailRequired: false
         };
     }
 
@@ -344,6 +346,10 @@ export class CheckoutContainer extends PureComponent {
 
         if (email !== prevEmail) {
             this.checkEmailAvailability(email);
+
+            if (email) {
+                this.onChangeEmailRequired();
+            }
         }
 
         if (!isEmailAvailable) {
@@ -514,6 +520,12 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ selectedStoreAddress: address });
     }
 
+    onChangeEmailRequired() {
+        const { email } = this.state;
+
+        this.setState({ isVisibleEmailRequired: !email });
+    }
+
     goBack() {
         const { checkoutStep } = this.state;
 
@@ -607,7 +619,8 @@ export class CheckoutContainer extends PureComponent {
             shippingAddress,
             shippingMethods,
             selectedStoreAddress,
-            isPickInStoreMethodSelected
+            isPickInStoreMethodSelected,
+            isVisibleEmailRequired
         } = this.state;
 
         return {
@@ -636,7 +649,8 @@ export class CheckoutContainer extends PureComponent {
             totals,
             selectedStoreAddress,
             isPickInStoreMethodSelected,
-            isCartLoading
+            isCartLoading,
+            isVisibleEmailRequired
         };
     }
 
@@ -678,6 +692,10 @@ export class CheckoutContainer extends PureComponent {
         const { email } = this.state;
         const { updateEmail } = this.props;
         const guestCartId = getGuestQuoteId();
+
+        if (!email) {
+            this.onChangeEmailRequired();
+        }
 
         if (!guestCartId || !email) {
             return null;

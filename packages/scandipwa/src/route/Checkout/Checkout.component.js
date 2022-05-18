@@ -115,7 +115,9 @@ export class Checkout extends PureComponent {
         selectedStoreAddress: StoreType,
         onCouponCodeUpdate: PropTypes.func,
         isSignedIn: PropTypes.bool.isRequired,
-        isCartLoading: PropTypes.bool.isRequired
+        isCartLoading: PropTypes.bool.isRequired,
+        isVisibleEmailRequired: PropTypes.bool.isRequired,
+        onChangeEmailRequired: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -231,7 +233,8 @@ export class Checkout extends PureComponent {
             onCreateUserChange,
             onPasswordChange,
             isGuestEmailSaved,
-            isSignedIn
+            isSignedIn,
+            isVisibleEmailRequired
         } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
 
@@ -247,6 +250,7 @@ export class Checkout extends PureComponent {
               onCreateUserChange={ onCreateUserChange }
               onPasswordChange={ onPasswordChange }
               isGuestEmailSaved={ isGuestEmailSaved }
+              isVisibleEmailRequired={ isVisibleEmailRequired }
             />
         );
     }
@@ -267,7 +271,8 @@ export class Checkout extends PureComponent {
             cartTotalSubPrice,
             onShippingMethodSelect,
             onStoreSelect,
-            selectedStoreAddress
+            selectedStoreAddress,
+            onChangeEmailRequired
         } = this.props;
 
         return (
@@ -288,6 +293,7 @@ export class Checkout extends PureComponent {
                   isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
                   onStoreSelect={ onStoreSelect }
                   selectedStoreAddress={ selectedStoreAddress }
+                  onChangeEmailRequired={ onChangeEmailRequired }
                 />
             </Suspense>
         );
@@ -300,7 +306,8 @@ export class Checkout extends PureComponent {
             shippingAddress,
             paymentMethods = [],
             savePaymentInformation,
-            selectedShippingMethod
+            selectedShippingMethod,
+            onChangeEmailRequired
         } = this.props;
 
         return (
@@ -312,6 +319,7 @@ export class Checkout extends PureComponent {
                   shippingAddress={ shippingAddress }
                   savePaymentInformation={ savePaymentInformation }
                   selectedShippingMethod={ selectedShippingMethod }
+                  onChangeEmailRequired={ onChangeEmailRequired }
                 />
             </Suspense>
         );
