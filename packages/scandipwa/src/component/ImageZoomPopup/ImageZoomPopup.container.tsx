@@ -9,50 +9,44 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import Popup from 'Component/Popup';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { ChildrenType, MixType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { RootState } from 'Util/Store/Store.type';
 
 import ImageZoomPopup from './ImageZoomPopup.component';
+import {
+    ImageZoomPopupComponentProps,
+    ImageZoomPopupContainerMapDispatchProps,
+    ImageZoomPopupContainerMapStateProps,
+    ImageZoomPopupContainerProps
+} from './ImageZoomPopup.type';
 
 /** @namespace Component/ImageZoomPopup/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ImageZoomPopupContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/ImageZoomPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ImageZoomPopupContainerMapDispatchProps => ({
     showPopup: (id, payload) => dispatch(showPopup(id, payload)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
 /** @namespace Component/ImageZoomPopup/Container */
-export class ImageZoomPopupContainer extends PureComponent {
-    static propTypes = {
-        children: ChildrenType.isRequired,
-        showPopup: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
-        onClose: PropTypes.func,
-        popupId: PropTypes.string.isRequired,
-        isActive: PropTypes.bool.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        activeImageId: PropTypes.number.isRequired,
-        mix: MixType
-    };
-
-    static defaultProps = {
+export class ImageZoomPopupContainer extends PureComponent<ImageZoomPopupContainerProps> {
+    static defaultProps: Partial<ImageZoomPopupContainerProps> = {
         onClose: noopFn,
         mix: {}
     };
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: ImageZoomPopupContainerProps): void {
         const { isActive: prevIsActive, popupId } = prevProps;
         const { isActive, showPopup } = this.props;
 
@@ -61,7 +55,7 @@ export class ImageZoomPopupContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): ImageZoomPopupComponentProps {
         const {
             children,
             activeImageId
@@ -89,15 +83,15 @@ export class ImageZoomPopupContainer extends PureComponent {
 
         return (
             <Popup
-                id={popupId}
-                clickOutside={false}
-                mix={{ block: 'ImageZoomPopup', mix }}
-                contentMix={{ block: 'ImageZoomPopup', elem: 'PopupContent' }}
-                onClose={onClose}
-                onHide={onClose}
+              id={ popupId }
+              clickOutside={ false }
+              mix={ { block: 'ImageZoomPopup', mix } }
+              contentMix={ { block: 'ImageZoomPopup', elem: 'PopupContent' } }
+              onClose={ onClose }
+              onHide={ onClose }
             >
                 <ImageZoomPopup
-                    {...this.containerProps()}
+                  { ...this.containerProps() }
                 />
             </Popup>
         );

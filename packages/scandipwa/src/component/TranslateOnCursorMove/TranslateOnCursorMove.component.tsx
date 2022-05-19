@@ -11,34 +11,29 @@
 
 import { createRef, PureComponent } from 'react';
 
-import { ChildrenType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
+
+import { TranslateOnCursorMoveComponentProps } from './TranslateOnCursorMove.type';
 
 import './TranslateOnCursorMove.style';
 
 /** @namespace Component/TranslateOnCursorMove/Component */
-export class TranslateOnCursorMove extends PureComponent {
-    static propTypes = {
-        children: ChildrenType.isRequired,
-        activeImageId: PropTypes.number.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        itemSelector: PropTypes.string.isRequired,
-        targetSelector: PropTypes.string.isRequired
-    };
+export class TranslateOnCursorMove extends PureComponent<TranslateOnCursorMoveComponentProps> {
+    ref = createRef<HTMLDivElement>();
 
-    static defaultProps = {};
+    __construct(props: TranslateOnCursorMoveComponentProps): void {
+        super.__construct?.(props);
 
-    ref = createRef();
-
-    handleLoad = this.handleLoad.bind(this);
-
-    handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleLoad = this.handleLoad.bind(this);
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+    }
 
     componentDidMount(): void {
         window.addEventListener('resize', this.handleLoad);
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: TranslateOnCursorMoveComponentProps): void {
         const { activeImageId } = this.props;
         const { activeImageId: prevActiveImageId } = prevProps;
 
@@ -52,22 +47,22 @@ export class TranslateOnCursorMove extends PureComponent {
         CSS.setVariable(this.ref, 'translateYOnCursorMove', '0');
     }
 
-    handleLoad() {
+    handleLoad(): void {
         const {
             activeImageId,
             itemSelector,
             targetSelector
         } = this.props;
 
-        const targets = this.ref.current.querySelectorAll(itemSelector);
-        const target = targets?.[activeImageId]?.querySelector(targetSelector);
+        const targets = this.ref.current?.querySelectorAll<HTMLElement>(itemSelector);
+        const target = targets?.[activeImageId]?.querySelector<HTMLElement>(targetSelector);
 
         if (!target) {
             return;
         }
 
         const innerHeight = target.getBoundingClientRect().height;
-        const { height: wrapperHeight } = this.ref.current.getBoundingClientRect();
+        const { height: wrapperHeight = 0 } = this.ref.current?.getBoundingClientRect() || {};
         const translate = (wrapperHeight - innerHeight) / 2;
 
         // style set directly (not via `setVariable`) as different translate Y values have to be applied at the same time
@@ -76,7 +71,7 @@ export class TranslateOnCursorMove extends PureComponent {
         CSS.setVariable(this.ref, 'imageOpacity', '1');
     }
 
-    handleMouseMove({ pageY: wrapperPageY }) {
+    handleMouseMove({ pageY: wrapperPageY }: { pageY: number }): void {
         const {
             activeImageId,
             itemSelector,
@@ -87,15 +82,15 @@ export class TranslateOnCursorMove extends PureComponent {
         const paddingY = 90;
 
         const target = this.ref.current
-            .querySelectorAll(itemSelector)?.[activeImageId]
-            ?.querySelector(targetSelector);
+            ?.querySelectorAll<HTMLElement>(itemSelector)?.[activeImageId]
+            ?.querySelector<HTMLElement>(targetSelector);
 
         if (!target) {
             return;
         }
 
         const innerHeight = target.getBoundingClientRect().height;
-        const { height: wrapperHeight, top } = this.ref.current.getBoundingClientRect();
+        const { height: wrapperHeight = 0, top = 0 } = this.ref.current?.getBoundingClientRect() || {};
 
         const pageY = wrapperPageY - top;
 

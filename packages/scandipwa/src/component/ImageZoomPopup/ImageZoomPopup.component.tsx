@@ -12,17 +12,14 @@
 import { PureComponent } from 'react';
 
 import TranslateOnCursorMove from 'Component/TranslateOnCursorMove';
-import { ChildrenType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { ImageZoomPopupComponentProps } from './ImageZoomPopup.type';
 
 import './ImageZoomPopup.style';
 
 /** @namespace Component/ImageZoomPopup/Component */
-export class ImageZoomPopup extends PureComponent {
-    static propTypes = {
-        children: ChildrenType.isRequired,
-        activeImageId: PropTypes.number.isRequired
-    };
-
+export class ImageZoomPopup extends PureComponent<ImageZoomPopupComponentProps> {
     render(): ReactElement {
         const {
             children,

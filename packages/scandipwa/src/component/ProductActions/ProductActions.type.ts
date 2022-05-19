@@ -11,6 +11,8 @@
 
 import {
     ProductComponentContainerFunctions,
+    ProductComponentContainerPropKeys,
+    ProductComponentProps,
     ProductContainerBaseProps,
     ProductContainerMapDispatchProps,
     ProductContainerMapStateProps,
@@ -36,6 +38,8 @@ export interface ProductActionsContainerBaseProps extends ProductContainerBasePr
     displayProductStockStatus: boolean;
     isInStockAlertEnabled: boolean;
     setActiveProduct: (product: Partial<IndexedProduct>) => void;
+    // !FIXME: This prop is always undefined. We must fix it later.
+    configurableVariantIndex: never;
 }
 
 export type ProductActionsContainerProps = ProductContainerProps
@@ -48,3 +52,32 @@ export type ProductActionsContainerState = ProductContainerState;
 export interface ProductActionsComponentContainerFunctions extends ProductComponentContainerFunctions {
     showOnlyIfLoaded: (expression: boolean, content: ReactElement, placeholder?: ReactElement) => ReactElement;
 }
+
+export interface ProductActionsComponentProps extends ProductComponentProps {
+    showOnlyIfLoaded: (expression: boolean, content: ReactElement, placeholder: ReactElement) => ReactElement;
+    areDetailsLoaded: boolean;
+    getLink: (key?: string, value?: string) => string;
+    offerCount: number;
+    offerType: string;
+    stockMeta: string;
+    metaLink: string;
+    isPriceAlertEnabled: boolean;
+    isInStockAlertEnabled: boolean;
+    isWishlistEnabled: boolean;
+    displayProductStockStatus: boolean;
+    areReviewsEnabled: boolean;
+    isPricePreview: boolean;
+}
+
+export type ProductActionsComponentContainerPropKeys = ProductComponentContainerPropKeys
+| 'areDetailsLoaded'
+| 'areReviewsEnabled'
+| 'displayProductStockStatus'
+| 'getLink'
+| 'isInStockAlertEnabled'
+| 'isPriceAlertEnabled'
+| 'isPricePreview'
+| 'offerCount'
+| 'offerType'
+| 'stockMeta'
+| 'metaLink';

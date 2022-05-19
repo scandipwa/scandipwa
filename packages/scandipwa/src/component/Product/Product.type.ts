@@ -14,7 +14,7 @@ import { RefObject } from 'react';
 import { PriceRange } from 'Query/ProductList.type';
 import { AddProductToCartOptions } from 'Store/Cart/Cart.type';
 import { Device } from 'Type/Device.type';
-import { IndexedProduct, ProductTransformData } from 'Util/Product/Product.type';
+import { IndexedProduct, ProductExtractPrice, ProductTransformData } from 'Util/Product/Product.type';
 
 export interface ProductContainerMapStateProps {
     cartId: string;
@@ -29,7 +29,7 @@ export interface ProductContainerMapDispatchProps {
 
 export interface ProductContainerBaseProps {
     product: IndexedProduct;
-    configFormRef: RefObject<HTMLFormElement>;
+    configFormRef?: RefObject<HTMLFormElement>;
     parameters: Record<string, string>;
     cartId: string;
     device: Device;
@@ -75,7 +75,7 @@ export interface ProductComponentProps extends ProductComponentContainerFunction
     unselectedOptions: string[];
     quantity: ProductQuantity;
     product: IndexedProduct;
-    configFormRef: RefObject<HTMLFormElement>;
+    configFormRef?: RefObject<HTMLFormElement>;
     parameters: Record<string, string>;
     device: Device;
     magentoProduct: ProductTransformData[];
@@ -84,7 +84,7 @@ export interface ProductComponentProps extends ProductComponentContainerFunction
     maxQuantity: number;
     minQuantity: number;
     productName: string;
-    productPrice: ProductPrice;
+    productPrice: Partial<ProductExtractPrice>;
 }
 
 export type ProductComponentContainerPropKeys =

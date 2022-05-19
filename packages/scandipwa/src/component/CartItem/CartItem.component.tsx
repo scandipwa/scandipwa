@@ -16,6 +16,7 @@ import CloseIcon from 'Component/CloseIcon';
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import Image from 'Component/Image';
+import { ImageRatio } from 'Component/Image/Image.type';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { ReactElement } from 'Type/Common.type';
@@ -475,7 +476,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
                       isNotAvailable, isMobileLayout
                   }
               } }
-              ratio="custom"
+              ratio={ ImageRatio.IMG_CUSTOM }
               alt={ `Product ${name} thumbnail.` }
             />
                 <img

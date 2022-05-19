@@ -9,40 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { Component } from 'react';
-import { withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 
-import { LocationType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 import ProductGallery from './ProductGalleryBaseImage.component';
 import { INITIAL_SCALE, TRANSFORMATION_DELAY, TRANSFORMATION_SPEED } from './ProductGalleryBaseImage.config';
+import { ProductGalleryBaseImageContainerProps, ProductGalleryComponentProps } from './ProductGalleryBaseImage.type';
 
 /** @namespace Component/ProductGalleryBaseImage/Container */
-export class ProductGalleryBaseImageContainer extends Component {
-    static propTypes = {
-        disableZoom: PropTypes.func.isRequired,
-        scale: PropTypes.number.isRequired,
-        previousScale: PropTypes.number.isRequired,
-        index: PropTypes.number.isRequired,
-        mediaData: PropTypes.shape({
-            id: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            label: PropTypes.string,
-            file: PropTypes.string,
-            base: PropTypes.shape({
-                url: PropTypes.string
-            })
-        }).isRequired,
-        isZoomEnabled: PropTypes.bool.isRequired,
-        setTransform: PropTypes.func.isRequired,
-        location: LocationType.isRequired
-    };
-
-    shouldComponentUpdate(nextProps) {
+export class ProductGalleryBaseImageContainer extends Component<ProductGalleryBaseImageContainerProps> {
+    shouldComponentUpdate(nextProps: ProductGalleryBaseImageContainerProps): boolean {
         const { scale, mediaData: { id } } = this.props;
         const { scale: nextScale, mediaData: { id: nextId } } = nextProps;
 
@@ -53,7 +32,7 @@ export class ProductGalleryBaseImageContainer extends Component {
         return false;
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: ProductGalleryBaseImageContainerProps): void {
         const {
             scale,
             previousScale,
@@ -75,20 +54,20 @@ export class ProductGalleryBaseImageContainer extends Component {
         }
     }
 
-    containerProps() {
+    containerProps(): ProductGalleryComponentProps {
         return {
             alt: this._getAlt(),
             src: this._getSrc()
         };
     }
 
-    _getAlt() {
+    _getAlt(): string {
         const { mediaData: { label } = {} } = this.props;
 
         return label || '';
     }
 
-    _getSrc() {
+    _getSrc(): string | undefined {
         const {
             mediaData: { file, base: { url: baseUrl } = {} },
             isZoomEnabled
@@ -104,12 +83,14 @@ export class ProductGalleryBaseImageContainer extends Component {
     render(): ReactElement {
         return (
             <ProductGallery
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }
 }
 
 export default withRouter(
-    ProductGalleryBaseImageContainer
+    ProductGalleryBaseImageContainer as unknown as React.ComponentType<
+    RouteComponentProps & ProductGalleryBaseImageContainerProps
+    >
 );

@@ -18,7 +18,6 @@ import {
     mapStateToProps as sourceMapStateToProps,
     ProductContainer
 } from 'Component/Product/Product.container';
-import { ProductComponentContainerFunctions } from 'Component/Product/Product.type';
 import { ReactElement } from 'Type/Common.type';
 import { GQLProductStockStatus } from 'Type/Graphql.type';
 import { RootState } from 'Util/Store/Store.type';
@@ -26,6 +25,8 @@ import { RootState } from 'Util/Store/Store.type';
 import ProductActions from './ProductActions.component';
 import {
     ProductActionsComponentContainerFunctions,
+    ProductActionsComponentContainerPropKeys,
+    ProductActionsComponentProps,
     ProductActionsContainerMapStateProps,
     ProductActionsContainerProps,
     ProductActionsContainerState
@@ -45,12 +46,14 @@ export class ProductActionsContainer extends ProductContainer<
 ProductActionsContainerProps,
 ProductActionsContainerState
 > {
+    static defaultProps: Partial<ProductActionsContainerProps> = ProductContainer.defaultProps;
+
     containerFunctions: ProductActionsComponentContainerFunctions = {
         ...this.containerFunctions,
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<ProductActionsComponentProps, ProductActionsComponentContainerPropKeys> {
         const {
             areDetailsLoaded,
             areReviewsEnabled,
@@ -101,6 +104,7 @@ ProductActionsContainerState
         const {
             product,
             product: { variants = [] },
+            // !FIXME: This prop is always undefined. We must fix it later.
             configurableVariantIndex
         } = this.props;
 

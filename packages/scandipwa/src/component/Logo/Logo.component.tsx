@@ -16,7 +16,9 @@ import {
     IMAGE_NOT_FOUND,
     IMAGE_NOT_SPECIFIED
 } from 'Component/Image/Image.config';
+import { ImageRatio } from 'Component/Image/Image.type';
 import logo from 'Style/icons/logos/mainLogo.svg';
+import { ReactElement } from 'Type/Common.type';
 
 import './Logo.style';
 
@@ -31,7 +33,7 @@ export class Logo extends Image {
                 <Image
                   src={ logo }
                   alt="LogoPlaceholder"
-                  ratio="custom"
+                  ratio={ ImageRatio.IMG_CUSTOM }
                 />
             </div>
         );

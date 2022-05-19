@@ -9,57 +9,54 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import ProductAlertsQuery from 'Query/ProductAlerts.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { ReactElement } from 'Type/Common.type';
-import { StockStatusType } from 'Type/StockStatus.type';
+import { NetworkError, ReactElement } from 'Type/Common.type';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductAlerts from './ProductAlerts.component';
-import { PRODUCT_ALERT_IN_STOCK, PRODUCT_ALERT_PRICE_DROP } from './ProductAlerts.config';
+import { ProductAlert } from './ProductAlerts.config';
+import {
+    ProductAlertsComponentContainerPropKeys,
+    ProductAlertsComponentProps,
+    ProductAlertsContainerMapDispatchProps,
+    ProductAlertsContainerMapStateProps,
+    ProductAlertsContainerProps
+} from './ProductAlerts.type';
 
 /** @namespace Component/ProductAlerts/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductAlertsContainerMapStateProps => ({
     isPriceAlertEnabled: state.ConfigReducer.product_alert_allow_price,
     isInStockAlertEnabled: state.ConfigReducer.product_alert_allow_stock,
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 /** @namespace Component/ProductAlerts/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductAlertsContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message))
 });
 
 /** @namespace Component/ProductAlerts/Container */
-export class ProductAlertsContainer extends PureComponent {
-    static propTypes = {
-        isSignedIn: PropTypes.bool.isRequired,
-        productId: PropTypes.number.isRequired,
-        showErrorNotification: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        isInStockAlertEnabled: PropTypes.bool,
-        isPriceAlertEnabled: PropTypes.bool,
-        stockStatus: StockStatusType
-    };
-
-    static defaultProps = {
+export class ProductAlertsContainer extends PureComponent<ProductAlertsContainerProps> {
+    static defaultProps: Partial<ProductAlertsContainerProps> = {
         isInStockAlertEnabled: false,
         isPriceAlertEnabled: false,
         stockStatus: null
     };
 
     containerFunctions = {
-        handlePriceDropSubscribeAlertPriceDrop: this.handlePriceDropSubscribe.bind(this, PRODUCT_ALERT_PRICE_DROP),
-        handlePriceDropSubscribeAlertInStock: this.handlePriceDropSubscribe.bind(this, PRODUCT_ALERT_IN_STOCK)
+        handlePriceDropSubscribeAlertPriceDrop: this.handlePriceDropSubscribe.bind(this, ProductAlert.PRICE_DROP),
+        handlePriceDropSubscribeAlertInStock: this.handlePriceDropSubscribe.bind(this, ProductAlert.IN_STOCK)
     };
 
-    containerProps() {
+    containerProps(): Pick<ProductAlertsComponentProps, ProductAlertsComponentContainerPropKeys> {
         const {
             isInStockAlertEnabled,
             isPriceAlertEnabled,
@@ -73,7 +70,7 @@ export class ProductAlertsContainer extends PureComponent {
         };
     }
 
-    async handlePriceDropSubscribe(type) {
+    async handlePriceDropSubscribe(type: string): Promise<void> {
         const {
             productId,
             showErrorNotification,
@@ -86,7 +83,7 @@ export class ProductAlertsContainer extends PureComponent {
             return;
         }
 
-        const query = ProductAlertsQuery.getProductAlertSubscribeMutation(productId, type);
+        const query = ProductAlertsQuery.getProductAlertSubscribeMutation(String(productId), type);
 
         try {
             const productAlertSubscribe = await fetchMutation(query);
@@ -95,7 +92,7 @@ export class ProductAlertsContainer extends PureComponent {
                 showNotification(NotificationType.SUCCESS, __('You saved the alert subscription'));
             }
         } catch (error) {
-            showErrorNotification(getErrorMessage(error));
+            showErrorNotification(getErrorMessage(error as NetworkError));
         }
     }
 

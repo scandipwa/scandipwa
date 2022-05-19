@@ -12,16 +12,18 @@
 import Html from 'Component/Html';
 import { Product } from 'Component/Product/Product.component';
 import { ProductType } from 'Component/Product/Product.config';
-import { StockType } from 'Component/Product/Stock.config';
 import ProductAlerts from 'Component/ProductAlerts';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import TierPrices from 'Component/TierPrices';
 import { ReactElement } from 'Type/Common.type';
+import { GQLProductStockStatus } from 'Type/Graphql.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import {
     showNewReviewPopup
 } from 'Util/Product';
+
+import { ProductActionsComponentProps } from './ProductActions.type';
 
 import './ProductActions.style';
 
@@ -30,24 +32,7 @@ import './ProductActions.style';
  * @class ProductActions
  * @namespace Component/ProductActions/Component
  */
-export class ProductActions extends Product {
-    static propTypes = {
-        ...Product.propTypes,
-        showOnlyIfLoaded: PropTypes.func.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired,
-        getLink: PropTypes.func.isRequired,
-        offerCount: PropTypes.number.isRequired,
-        offerType: PropTypes.string.isRequired,
-        stockMeta: PropTypes.string.isRequired,
-        metaLink: PropTypes.string.isRequired,
-        isPriceAlertEnabled: PropTypes.bool.isRequired,
-        isInStockAlertEnabled: PropTypes.bool.isRequired,
-        isWishlistEnabled: PropTypes.bool.isRequired,
-        displayProductStockStatus: PropTypes.bool.isRequired,
-        areReviewsEnabled: PropTypes.bool.isRequired,
-        isPricePreview: PropTypes.bool
-    };
-
+export class ProductActions extends Product<ProductActionsComponentProps> {
     static defaultProps = {
         ...Product.defaultProps,
         productName: '',
@@ -56,7 +41,7 @@ export class ProductActions extends Product {
 
     className = 'ProductActions';
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: ProductActionsComponentProps): void {
         const { product: { id: prevId } } = prevProps;
         const { product: { id }, minQuantity, setQuantity } = this.props;
 
@@ -107,7 +92,7 @@ export class ProductActions extends Product {
               aria-label="Product SKU and availability"
             >
                 { showOnlyIfLoaded(
-                    sku,
+                    !!sku,
                     (
                         <>
                             { this.renderSku() }
@@ -162,7 +147,7 @@ export class ProductActions extends Product {
             return (
                 <meta
                   itemProp="offerCount"
-                  content={ offerCount }
+                  content={ String(offerCount) }
                 />
             );
         }
@@ -219,7 +204,7 @@ export class ProductActions extends Product {
                 { this.renderSchema() }
                 <meta
                   itemProp="highPrice"
-                  content={ (minFinalPrice === maxFinalPrice) ? minFinalPrice : maxFinalPrice }
+                  content={ (minFinalPrice === maxFinalPrice) ? String(minFinalPrice) : String(maxFinalPrice) }
                 />
                 { this.renderPrice() }
             </div>
@@ -234,7 +219,7 @@ export class ProductActions extends Product {
             }
         } = this.props;
 
-        if (type === ProductType.grouped) {
+        if (type === ProductType.GROUPED) {
             return null;
         }
 
@@ -313,7 +298,7 @@ export class ProductActions extends Product {
             >
                 <ProductAlerts
                   productId={ id }
-                  stockStatus={ inStock ? StockType.IN_STOCK : StockType.OUT_OF_STOCK }
+                  stockStatus={ inStock ? GQLProductStockStatus.IN_STOCK : GQLProductStockStatus.OUT_OF_STOCK }
                 />
             </section>
         );
@@ -373,7 +358,7 @@ export class ProductActions extends Product {
 
     renderMobile(): ReactElement {
         const { product: { type_id: type } } = this.props;
-        const isWithoutPriceTotal = type === ProductType.grouped;
+        const isWithoutPriceTotal = type === ProductType.GROUPED;
 
         return (
             <>
@@ -403,7 +388,7 @@ export class ProductActions extends Product {
         const { device: { isMobile } = {}, setValidator } = this.props;
 
         return (
-            <article block="ProductActions" ref={ (elem) => setValidator(elem) }>
+            <article block="ProductActions" ref={ (elem) => elem && setValidator(elem) }>
                 { isMobile ? this.renderMobile() : this.renderDesktop() }
             </article>
         );

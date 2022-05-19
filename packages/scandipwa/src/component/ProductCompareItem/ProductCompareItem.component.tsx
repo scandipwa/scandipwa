@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import AddToCart from 'Component/AddToCart';
 import CloseIcon from 'Component/CloseIcon';
 import Image from 'Component/Image';
+import { ImageRatio } from 'Component/Image/Image.type';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import ProductReviewRating from 'Component/ProductReviewRating';
@@ -59,7 +60,7 @@ export class ProductCompareItem extends PureComponent {
             <figure block="ProductCompareItem" elem="Figure">
                 <Link block="ProductCompareItem" elem="ImageLink" to={ linkTo }>
                     <Image
-                      ratio="custom"
+                      ratio={ ImageRatio.IMG_CUSTOM }
                       src={ imgUrl }
                       alt={ name }
                       isPlaceholder={ !id }

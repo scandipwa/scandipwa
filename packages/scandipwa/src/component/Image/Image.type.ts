@@ -23,7 +23,7 @@ export enum ImageRatio {
 export interface ImageContainerProps {
     isPlaceholder: boolean;
     src: string | null;
-    style: Record<string, string>;
+    style: Record<string, string | undefined>;
     width: string;
     height: string;
     alt: string;

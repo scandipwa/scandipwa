@@ -11,15 +11,21 @@
 
 import { connect } from 'react-redux';
 
+import { RootState } from 'Util/Store/Store.type';
+
 import TranslateOnCursorMove from './TranslateOnCursorMove.component';
+import {
+    TranslateOnCursorMoveMapDispatchProps,
+    TranslateOnCursorMoveMapStateProps
+} from './TranslateOnCursorMove.type';
 
 /** @namespace Component/TranslateOnCursorMove/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): TranslateOnCursorMoveMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/TranslateOnCursorMove/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): TranslateOnCursorMoveMapDispatchProps => ({});
 
 // eslint-disable-next-line @scandipwa/scandipwa-guidelines/always-both-mappings
 export default connect(mapStateToProps, mapDispatchToProps)(TranslateOnCursorMove);

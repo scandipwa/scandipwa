@@ -11,23 +11,16 @@
 
 import { PureComponent } from 'react';
 
-import { StockType } from 'Component/Product/Stock.config';
 import { ReactElement } from 'Type/Common.type';
-import { StockStatusType } from 'Type/StockStatus.type';
+import { GQLProductStockStatus } from 'Type/Graphql.type';
+
+import { ProductAlertsComponentProps } from './ProductAlerts.type';
 
 import './ProductAlerts.style';
 
 /** @namespace Component/ProductAlerts/Component */
-export class ProductAlerts extends PureComponent {
-    static propTypes = {
-        handlePriceDropSubscribeAlertPriceDrop: PropTypes.func.isRequired,
-        handlePriceDropSubscribeAlertInStock: PropTypes.func.isRequired,
-        isInStockAlertEnabled: PropTypes.bool,
-        isPriceAlertEnabled: PropTypes.bool,
-        stockStatus: StockStatusType
-    };
-
-    static defaultProps = {
+export class ProductAlerts extends PureComponent<ProductAlertsComponentProps> {
+    static defaultProps: Partial<ProductAlertsComponentProps> = {
         isInStockAlertEnabled: false,
         isPriceAlertEnabled: false,
         stockStatus: null
@@ -62,7 +55,7 @@ export class ProductAlerts extends PureComponent {
             return null;
         }
 
-        if (stockStatus === StockType.IN_STOCK || !stockStatus) {
+        if (stockStatus === GQLProductStockStatus.IN_STOCK || !stockStatus) {
             return null;
         }
 

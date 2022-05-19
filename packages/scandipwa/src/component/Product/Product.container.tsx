@@ -78,8 +78,8 @@ export class ProductContainer<
 P extends ProductContainerProps,
 S extends ProductContainerState
 > extends PureComponent <P, S> {
-    static defaultProps = {
-        configFormRef: createRef(),
+    static defaultProps: Partial<ProductContainerProps> = {
+        configFormRef: createRef<HTMLFormElement>(),
         parameters: {},
         defaultSelectedOptions: [],
         defaultEnteredOptions: [],

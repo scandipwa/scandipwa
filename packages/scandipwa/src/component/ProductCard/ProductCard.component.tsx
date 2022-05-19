@@ -13,6 +13,7 @@
 import { createRef } from 'react';
 
 import Image from 'Component/Image';
+import { ImageRatio } from 'Component/Image/Image.type';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { Product } from 'Component/Product/Product.component';
@@ -130,7 +131,7 @@ export class ProductCard extends Product {
               imageRef={ this.imageRef }
               src={ thumbnail }
               alt={ name }
-              ratio="custom"
+              ratio={ ImageRatio.IMG_CUSTOM }
               mix={ { block: 'ProductCard', elem: 'Picture', mix } }
               isPlaceholder={ !id }
             />

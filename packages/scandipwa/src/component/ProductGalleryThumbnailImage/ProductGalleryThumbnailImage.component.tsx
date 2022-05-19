@@ -12,6 +12,7 @@
 import { PureComponent } from 'react';
 
 import Image from 'Component/Image';
+import { ImageRatio } from 'Component/Image/Image.type';
 import {
     IMAGE_TYPE, PLACEHOLDER_TYPE, THUMBNAIL_KEY, VIDEO_TYPE
 } from 'Component/ProductGallery/ProductGallery.config';
@@ -55,7 +56,7 @@ export class ProductGalleryThumbnailImage extends PureComponent {
     renderPlaceholder(): ReactElement {
         return (
             <Image
-              ratio="custom"
+              ratio={ ImageRatio.IMG_CUSTOM }
               mix={ { block: 'ProductGalleryThumbnailImage' } }
               isPlaceholder
             />
@@ -72,7 +73,7 @@ export class ProductGalleryThumbnailImage extends PureComponent {
 
         return (
             <Image
-              ratio="custom"
+              ratio={ ImageRatio.IMG_CUSTOM }
               src={ url }
               alt={ label }
               mix={ { block: 'ProductGalleryThumbnailImage' } }
@@ -100,7 +101,7 @@ export class ProductGalleryThumbnailImage extends PureComponent {
             <Image
               src={ src }
               alt={ alt }
-              ratio="custom"
+              ratio={ ImageRatio.IMG_CUSTOM }
               mix={ { block: 'ProductGalleryThumbnailImage' } }
             />
         );

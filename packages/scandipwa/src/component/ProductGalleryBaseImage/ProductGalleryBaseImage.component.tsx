@@ -13,15 +13,13 @@ import { PureComponent } from 'react';
 import { TransformComponent } from 'react-zoom-pan-pinch';
 
 import Image from 'Component/Image';
+import { ImageRatio } from 'Component/Image/Image.type';
 import { ReactElement } from 'Type/Common.type';
 
-/** @namespace Component/ProductGalleryBaseImage/Component */
-export class ProductGalleryBaseImage extends PureComponent {
-    static propTypes = {
-        src: PropTypes.string.isRequired,
-        alt: PropTypes.string.isRequired
-    };
+import { ProductGalleryComponentProps } from './ProductGalleryBaseImage.type';
 
+/** @namespace Component/ProductGalleryBaseImage/Component */
+export class ProductGalleryBaseImage extends PureComponent<ProductGalleryComponentProps> {
     render(): ReactElement {
         const { src, alt } = this.props;
 
@@ -29,7 +27,7 @@ export class ProductGalleryBaseImage extends PureComponent {
             <TransformComponent>
                 <Image
                   src={ src }
-                  ratio="custom"
+                  ratio={ ImageRatio.IMG_CUSTOM }
                   mix={ {
                       block: 'ProductGallery',
                       elem: 'SliderImage',

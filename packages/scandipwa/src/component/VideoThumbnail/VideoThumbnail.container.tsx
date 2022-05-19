@@ -9,24 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
+import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { VIDEO_POPUP_ID } from 'Component/VideoPopup/VideoPopup.config';
 import { hideActivePopup } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { MediaItemType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 
 import VideoThumbnail from './VideoThumbnail.component';
+import {
+    VideoThumbnailContainerMapDispatchProps,
+    VideoThumbnailContainerMapStateProps,
+    VideoThumbnailContainerProps
+} from './VideoThumbnail.type';
 
 /** @namespace Component/VideoThumbnail/Container/mapStateToProps
  */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (): VideoThumbnailContainerMapStateProps => ({});
 
 /** @namespace Component/VideoThumbnail/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): VideoThumbnailContainerMapDispatchProps => ({
     showPopup: (payload) => dispatch(showPopup(VIDEO_POPUP_ID, payload)),
     hideActivePopup: () => dispatch(hideActivePopup())
 });
@@ -34,15 +38,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /**
  * @class VideoThumbnailContainer
  * @namespace Component/VideoThumbnail/Container */
-export class VideoThumbnailContainer extends PureComponent {
-    static propTypes = {
-        media: MediaItemType.isRequired,
-        showPopup: PropTypes.func.isRequired,
-        isVideoZoomed: PropTypes.bool.isRequired,
-        hideActivePopup: PropTypes.func.isRequired,
-        onZoomedVideoClick: PropTypes.func.isRequired
-    };
-
+export class VideoThumbnailContainer extends PureComponent<VideoThumbnailContainerProps> {
     containerFunctions = {
         onPlayClick: this.onPlayClick.bind(this)
     };
@@ -53,12 +49,12 @@ export class VideoThumbnailContainer extends PureComponent {
      * @param event
      * @private
      */
-    onPlayClick(event) {
+    onPlayClick(event: MouseEvent): void {
         const {
             media,
             media: {
                 video_content: {
-                    video_title
+                    video_title = ''
                 } = {}
             } = {},
             showPopup,
@@ -69,7 +65,7 @@ export class VideoThumbnailContainer extends PureComponent {
         event.preventDefault();
 
         if (isVideoZoomed) {
-            onZoomedVideoClick();
+            onZoomedVideoClick(false);
         }
 
         setTimeout(() => {
@@ -85,8 +81,8 @@ export class VideoThumbnailContainer extends PureComponent {
 
         return (
             <VideoThumbnail
-                media={media}
-                {...this.containerFunctions}
+              media={ media }
+              { ...this.containerFunctions }
             />
         );
     }

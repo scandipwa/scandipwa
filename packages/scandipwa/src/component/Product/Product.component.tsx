@@ -42,7 +42,7 @@ import { ProductComponentProps } from './Product.type';
  * @class Product
  * @namespace Component/Product/Component
  */
-export class Product extends PureComponent<ProductComponentProps> {
+export class Product<P extends ProductComponentProps> extends PureComponent<P> {
     static defaultProps = {
         configFormRef: createRef()
     };
@@ -389,7 +389,6 @@ export class Product extends PureComponent<ProductComponentProps> {
               elem="PriceWrapper"
             >
                 <ProductPrice
-                  meta
                   price={ productPrice }
                   priceType={ type as ProductType }
                   tierPrices={ priceTiers }

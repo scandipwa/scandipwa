@@ -10,7 +10,7 @@
  */
 
 import { createRef, PureComponent } from 'react';
-import { withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
 import CarouselScroll from 'Component/CarouselScroll';
@@ -20,21 +20,25 @@ import {
     CAROUSEL_ITEM_WIDTH
 } from 'Component/CarouselScroll/CarouselScroll.config';
 import Image from 'Component/Image';
+import { ImageRatio } from 'Component/Image/Image.type';
 import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
 import Slider from 'Component/Slider';
 import VideoPopup from 'Component/VideoPopup';
 import VideoThumbnail from 'Component/VideoThumbnail';
-import { RefType } from 'Type/Common.type';
-import { LocationType } from 'Type/Router.type';
+import { MediaGalleryEntry } from 'Query/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
 
 import {
-    IMAGE_TYPE,
     MAX_ZOOM_SCALE,
-    PLACEHOLDER_TYPE,
-    VIDEO_TYPE
+    MediaType
 } from './ProductGallery.config';
+import {
+    ProductGalleryComponentProps,
+    ProductGalleryComponentState,
+    TransformRenderFnProps
+} from './ProductGallery.type';
 
 import './ProductGallery.style';
 
@@ -43,46 +47,48 @@ import './ProductGallery.style';
  * @class ProductGallery
  * @namespace Component/ProductGallery/Component
  */
-export class ProductGallery extends PureComponent {
-    static propTypes = {
-        gallery: PropTypes.arrayOf(
-            PropTypes.shape({
-                id: PropTypes.oneOfType([
-                    PropTypes.number,
-                    PropTypes.string
-                ]),
-                image: PropTypes.string,
-                isPlaceholder: PropTypes.bool,
-                alt: PropTypes.string,
-                type: PropTypes.string,
-                media_type: PropTypes.string
-            })
-        ).isRequired,
-        productId: PropTypes.number,
-        isZoomEnabled: PropTypes.bool.isRequired,
-        activeImage: PropTypes.number.isRequired,
-        onActiveImageChange: PropTypes.func.isRequired,
-        handleZoomChange: PropTypes.func.isRequired,
-        registerSharedElementDestination: PropTypes.func.isRequired,
-        disableZoom: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
-        sliderRef: RefType.isRequired,
-        handleImageZoomPopupActiveChange: PropTypes.func.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        isImageZoomPopupActive: PropTypes.bool.isRequired,
-        isWithEmptySwitcher: PropTypes.bool.isRequired,
-        showLoader: PropTypes.bool.isRequired
-    };
+export class ProductGallery extends PureComponent<ProductGalleryComponentProps, ProductGalleryComponentState> {
+    // static propTypes = {
+    //     gallery: PropTypes.arrayOf(
+    //         PropTypes.shape({
+    //             id: PropTypes.oneOfType([
+    //                 PropTypes.number,
+    //                 PropTypes.string
+    //             ]),
+    //             image: PropTypes.string,
+    //             isPlaceholder: PropTypes.bool,
+    //             alt: PropTypes.string,
+    //             type: PropTypes.string,
+    //             media_type: PropTypes.string
+    //         })
+    //     ).isRequired,
+    //     productId: PropTypes.number,
+    //     isZoomEnabled: PropTypes.bool.isRequired,
+    //     activeImage: PropTypes.number.isRequired,
+    //     onActiveImageChange: PropTypes.func.isRequired,
+    //     handleZoomChange: PropTypes.func.isRequired,
+    //     registerSharedElementDestination: PropTypes.func.isRequired,
+    //     disableZoom: PropTypes.func.isRequired,
+    //     location: LocationType.isRequired,
+    //     sliderRef: RefType.isRequired,
+    //     handleImageZoomPopupActiveChange: PropTypes.func.isRequired,
+    //     isMobile: PropTypes.bool.isRequired,
+    //     isImageZoomPopupActive: PropTypes.bool.isRequired,
+    //     isWithEmptySwitcher: PropTypes.bool.isRequired,
+    //     showLoader: PropTypes.bool.isRequired
+    // };
 
-    static defaultProps = {
+    static defaultProps: Partial<ProductGalleryComponentProps> = {
         productId: 0
     };
 
+    timeout: NodeJS.Timeout | null = null;
+
     maxScale = MAX_ZOOM_SCALE;
 
-    imageRef = createRef();
+    imageRef = createRef<HTMLDivElement>();
 
-    galleryRef = createRef();
+    galleryRef = createRef<HTMLDivElement>();
 
     state = {
         scrollEnabled: true,
@@ -90,14 +96,13 @@ export class ProductGallery extends PureComponent {
         prevZoom: false
     };
 
-    handleSliderClick = this.handleSliderClick.bind(this);
-
     calculateGallerySize = this._calculateGallerySize.bind(this);
 
-    onWheel = this.onWheel.bind(this);
+    __construct(props: ProductGalleryComponentProps): void {
+        super.__construct?.(props);
 
-    __construct(props, context): void {
-        super.__construct(props, context);
+        this.handleSliderClick = this.handleSliderClick.bind(this);
+        this.onWheel = this.onWheel.bind(this);
         this.renderSlide = this.renderSlide.bind(this);
     }
 
@@ -106,17 +111,17 @@ export class ProductGallery extends PureComponent {
         window.addEventListener('resize', this.calculateGallerySize);
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: ProductGalleryComponentProps): void {
         const {
             productId,
-            location: { pathname },
+            location: { pathname = '' } = {},
             sliderRef,
             isImageZoomPopupActive
         } = this.props;
 
         const {
             productId: prevProductId,
-            location: { pathname: prevPathname }
+            location: { pathname: prevPathname = '' } = {}
         } = prevProps;
 
         const { prevZoom } = this.state;
@@ -142,12 +147,12 @@ export class ProductGallery extends PureComponent {
         window.removeEventListener('resize', this.calculateGallerySize);
     }
 
-    handleZoomChange(prevZoom) {
+    handleZoomChange(prevZoom: boolean): void {
         setTimeout(this.calculateGallerySize, 0);
         this.setState({ prevZoom });
     }
 
-    _calculateGallerySize() {
+    _calculateGallerySize(): void {
         const { isMobile } = this.props;
         const ref = this.galleryRef.current;
 
@@ -160,7 +165,7 @@ export class ProductGallery extends PureComponent {
         this.setState({ slidesCount });
     }
 
-    handleSliderClick() {
+    handleSliderClick(): void {
         const {
             handleImageZoomPopupActiveChange,
             gallery,
@@ -169,19 +174,19 @@ export class ProductGallery extends PureComponent {
 
         const { media_type } = gallery[activeImage];
 
-        if (media_type === VIDEO_TYPE) {
+        if (media_type === MediaType.VIDEO) {
             return;
         }
 
         handleImageZoomPopupActiveChange(true);
     }
 
-    updateSharedDestinationElement() {
+    updateSharedDestinationElement(): void {
         const { registerSharedElementDestination } = this.props;
         registerSharedElementDestination(this.imageRef);
     }
 
-    renderAdditionalPicture(media, index = 0): ReactElement {
+    renderAdditionalPicture(media: MediaGalleryEntry, index = 0): ReactElement {
         return (
             <ProductGalleryThumbnailImage
               key={ index }
@@ -197,7 +202,7 @@ export class ProductGallery extends PureComponent {
      * @returns {*}
      * @private
      */
-    renderVideo(media, index): ReactElement {
+    renderVideo(media: MediaGalleryEntry, index: number): ReactElement {
         const { isImageZoomPopupActive, handleImageZoomPopupActiveChange } = this.props;
 
         return (
@@ -210,11 +215,11 @@ export class ProductGallery extends PureComponent {
         );
     }
 
-    renderPlaceholder(index): ReactElement {
+    renderPlaceholder(index: number): ReactElement {
         return (
             <Image
               key={ index }
-              ratio="custom"
+              ratio={ ImageRatio.IMG_CUSTOM }
               mix={ {
                   block: 'ProductGallery',
                   elem: 'SliderImage',
@@ -225,7 +230,7 @@ export class ProductGallery extends PureComponent {
         );
     }
 
-    stopScrolling() {
+    stopScrolling(): void {
         this.setState({ scrollEnabled: false });
         this.timeout = setTimeout(() => {
             this.setState({ scrollEnabled: true });
@@ -236,7 +241,7 @@ export class ProductGallery extends PureComponent {
         }, 20);
     }
 
-    onWheel(zoomState) {
+    onWheel(zoomState: { scale: number }): void {
         const { scale } = zoomState;
 
         if (this.timeout) {
@@ -255,7 +260,7 @@ export class ProductGallery extends PureComponent {
      * @returns {*}
      * @private
      */
-    renderImage(mediaData, index): ReactElement {
+    renderImage(mediaData: MediaGalleryEntry, index: number): ReactElement {
         const {
             isZoomEnabled,
             handleZoomChange,
@@ -279,7 +284,7 @@ export class ProductGallery extends PureComponent {
                 <Image
                   key={ index }
                   src={ src }
-                  ratio="custom"
+                  ratio={ ImageRatio.IMG_CUSTOM }
                   mix={ {
                       block: 'ProductGallery',
                       elem: 'SliderImage',
@@ -296,13 +301,11 @@ export class ProductGallery extends PureComponent {
             <TransformWrapper
               key={ index }
               onZoomChange={ handleZoomChange }
-              onWheelStart={ this.onWheelStart }
               onWheel={ this.onWheel }
               wheel={ { limitsOnWheel: true, disabled: !scrollEnabled } }
             //   doubleClick={ { mode: 'reset' } }
               pan={ {
                   disabled: !isZoomEnabled,
-                  limitToWrapperBounds: true,
                   velocity: false
               } }
               options={ {
@@ -315,7 +318,7 @@ export class ProductGallery extends PureComponent {
                     previousScale,
                     resetTransform,
                     setTransform
-                }) => {
+                }: TransformRenderFnProps) => {
                     if (scale === 1 && previousScale !== 1) {
                         resetTransform();
                     }
@@ -342,15 +345,15 @@ export class ProductGallery extends PureComponent {
      * @param index
      * @returns {null|*}
      */
-    renderSlide(media, index): ReactElement {
+    renderSlide(media: MediaGalleryEntry, index: number): ReactElement {
         const { media_type } = media;
 
         switch (media_type) {
-        case IMAGE_TYPE:
+        case MediaType.IMAGE:
             return this.renderImage(media, index);
-        case VIDEO_TYPE:
+        case MediaType.VIDEO:
             return this.renderVideo(media, index);
-        case PLACEHOLDER_TYPE:
+        case MediaType.PLACEHOLDER:
             return this.renderPlaceholder(index);
         default:
             return null;
@@ -386,7 +389,7 @@ export class ProductGallery extends PureComponent {
         );
     }
 
-    getImageUrl() {
+    getImageUrl(): string {
         const {
             gallery: [
                 {
@@ -454,4 +457,8 @@ export class ProductGallery extends PureComponent {
     }
 }
 
-export default withRouter(ProductGallery);
+export default withRouter(
+    ProductGallery as unknown as React.ComponentType<
+    RouteComponentProps & ProductGalleryComponentProps
+    >
+);
