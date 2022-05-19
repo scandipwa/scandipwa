@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -69,7 +69,7 @@ S extends MyAccountMyWishlistContainerState
         creatorsName: ''
     };
 
-    state: S = {
+    state: MyAccountMyWishlistContainerState = {
         isLoading: false,
         loadingItemsMap: {},
         isQtyUpdateInProgress: false
@@ -226,4 +226,7 @@ S extends MyAccountMyWishlistContainerState
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountMyWishlistContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    // eslint-disable-next-line max-len
+    MyAccountMyWishlistContainer as unknown as ComponentType<MyAccountMyWishlistContainerProps>
+);

@@ -71,52 +71,52 @@ export class UrlRewrites extends PureComponent {
         } = props;
 
         switch (type) {
-            case TYPE_PRODUCT:
-                return (
+        case TYPE_PRODUCT:
+            return (
                     <ProductPage
-                        history={history}
-                        location={location}
-                        match={match}
-                        productSKU={productSKU}
-                        productID={id}
-                        key={id}
+                      history={ history }
+                      location={ location }
+                      match={ match }
+                      productSKU={ productSKU }
+                      productID={ id }
+                      key={ id }
                     />
-                );
-            case TYPE_CMS_PAGE:
-                return (
+            );
+        case TYPE_CMS_PAGE:
+            return (
                     <CmsPage
-                        history={history}
-                        location={location}
-                        match={match}
-                        pageIds={pageIds}
+                      history={ history }
+                      location={ location }
+                      match={ match }
+                      pageIds={ pageIds }
                     />
-                );
-            case TYPE_CATEGORY:
-                return (
+            );
+        case TYPE_CATEGORY:
+            return (
                     <CategoryPage
-                        history={history}
-                        location={location}
-                        match={match}
-                        categoryIds={categoryIds}
+                      history={ history }
+                      location={ location }
+                      match={ match }
+                      categoryIds={ categoryIds }
                     />
-                );
-            case TYPE_NOTFOUND:
-                return (
+            );
+        case TYPE_NOTFOUND:
+            return (
                     <NoMatch
-                        history={history}
-                        location={location}
-                        match={match}
+                      history={ history }
+                      location={ location }
+                      match={ match }
                     />
-                );
-            default:
-                return this.renderDefaultPage();
+            );
+        default:
+            return this.renderDefaultPage();
         }
     }
 
     render(): ReactElement {
         return (
-            <Suspense fallback={this.renderDefaultPage()}>
-                {this.renderContent()}
+            <Suspense fallback={ this.renderDefaultPage() }>
+                { this.renderContent() }
             </Suspense>
         );
     }

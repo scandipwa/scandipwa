@@ -13,17 +13,18 @@
 
 import Image from 'Component/Image/Image.component';
 import {
-    IMAGE_NOT_FOUND,
-    IMAGE_NOT_SPECIFIED
+    ImageState
 } from 'Component/Image/Image.config';
 import { ImageRatio } from 'Component/Image/Image.type';
 import logo from 'Style/icons/logos/mainLogo.svg';
 import { ReactElement } from 'Type/Common.type';
 
+import { LogoComponentProps } from './Logo.type';
+
 import './Logo.style';
 
 /** @namespace Component/Logo/Component */
-export class Logo extends Image {
+export class Logo extends Image<LogoComponentProps> {
     renderPlaceholderLogo(): ReactElement {
         return (
             <div
@@ -48,8 +49,8 @@ export class Logo extends Image {
         }
 
         switch (imageStatus) {
-        case IMAGE_NOT_FOUND:
-        case IMAGE_NOT_SPECIFIED:
+        case ImageState.IMAGE_NOT_FOUND:
+        case ImageState.IMAGE_NOT_SPECIFIED:
             return this.renderPlaceholderLogo();
         default:
             return super.renderImage();

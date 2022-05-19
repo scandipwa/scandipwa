@@ -24,7 +24,7 @@ import {
 } from './Image.type';
 
 /** @namespace Component/Image/Container */
-export class ImageContainer extends PureComponent<ImageContainerProps> {
+export class ImageContainer<P extends ImageContainerProps> extends PureComponent<P> {
     static defaultProps = {
         src: '',
         alt: '',
@@ -79,7 +79,8 @@ export class ImageContainer extends PureComponent<ImageContainerProps> {
         }
 
         if (
-            window.prefetchedImages
+            typeof src === 'string'
+            && window.prefetchedImages
             && window.prefetchedImages[ src || '' ]
             && window.prefetchedImages[ src || '' ].complete
         ) {

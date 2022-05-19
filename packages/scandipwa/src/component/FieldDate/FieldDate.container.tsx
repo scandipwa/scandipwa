@@ -11,11 +11,11 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import DatePicker from 'Component/DatePicker';
 import DateSelect from 'Component/DateSelect';
+import { ReactElement } from 'Type/Common.type';
 
 import { FIELD_DATE_TYPE } from './FieldDate.config';
 
@@ -63,14 +63,14 @@ export class FieldDateContainer extends PureComponent {
         if (useCalendar) {
             return (
                 <DatePicker
-                    {...this.containerProps()}
+                  { ...this.containerProps() }
                 />
             );
         }
 
         return (
             <DateSelect
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

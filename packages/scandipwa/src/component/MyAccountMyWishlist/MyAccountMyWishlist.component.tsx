@@ -37,7 +37,7 @@ S extends MyAccountMyWishlistComponentState
         creatorsName: ''
     };
 
-    state: S = {
+    state: MyAccountMyWishlistComponentState = {
         selectedIdMap: [],
         actionLineHeight: 0
     };

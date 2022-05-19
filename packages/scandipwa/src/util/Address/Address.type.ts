@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { Country } from 'Query/Region.type';
+
 export type ZippopotamResponseResult = {
     city: string;
     region: string;
@@ -18,4 +20,9 @@ export type ZippopotamResponseResult = {
 export type FormattedRegion = {
     country?: string;
     region?: string | null;
+};
+
+export type CountryOption = Country & {
+    name: string;
+    value: string;
 };

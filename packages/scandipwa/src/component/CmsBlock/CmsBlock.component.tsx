@@ -51,7 +51,7 @@ export class CmsBlock extends PureComponent<CmsBlockComponentProps> {
             blockType
         } = this.props;
 
-        if (disabled) {
+        if (!content || disabled) {
             return null;
         }
 

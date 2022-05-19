@@ -9,15 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface Region {
-    code: string;
-    name: string;
-    id: number;
-}
+import { FieldContainerProps } from 'Component/Field/Field.type';
 
-export interface Country {
-    id: string;
-    is_state_required: boolean;
-    available_regions: Region[];
-    label: string;
-}
+export type FormSection = {
+    name: string;
+    fields: Partial<FieldContainerProps>[];
+    attr?: { name?: string };
+    mods?: Record<string, boolean>;
+};

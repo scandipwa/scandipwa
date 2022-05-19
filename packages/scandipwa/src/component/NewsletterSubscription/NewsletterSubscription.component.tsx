@@ -10,10 +10,13 @@
  */
 
 import { FieldType } from 'Component/Field/Field.config';
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import FieldForm from 'Component/FieldForm';
+import { FormContainerProps } from 'Component/Form/Form.type';
 import { ReactElement } from 'Type/Common.type';
 
 import newsletterSubscriptionForm from './NewsletterForm.form';
+import { NewsletterSubscriptionComponentProps } from './NewsletterSubscription.type';
 
 import './NewsletterSubscription.style';
 
@@ -22,13 +25,8 @@ import './NewsletterSubscription.style';
  * @class NewsletterSubscription
  * @namespace Component/NewsletterSubscription/Component
  */
-export class NewsletterSubscription extends FieldForm {
-    static propTypes = {
-        onFormSubmit: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired
-    };
-
-    get fieldMap() {
+export class NewsletterSubscription extends FieldForm<NewsletterSubscriptionComponentProps> {
+    get fieldMap(): Partial<FieldContainerProps>[] {
         return newsletterSubscriptionForm();
     }
 
@@ -55,7 +53,7 @@ export class NewsletterSubscription extends FieldForm {
         );
     }
 
-    getFormProps() {
+    getFormProps(): Partial<FormContainerProps> {
         const { onFormSubmit } = this.props;
 
         return {

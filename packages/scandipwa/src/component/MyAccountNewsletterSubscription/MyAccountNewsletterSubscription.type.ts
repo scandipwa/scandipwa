@@ -34,6 +34,8 @@ export interface MyAccountNewsletterSubscriptionComponentProps {
     onCustomerSave: (form, fields) => void;
     customer: Partial<Customer>;
     isSubscriptionSelected: boolean;
+    setSubscriptionStatus: () => void;
+    onError: () => void;
 }
 
 export type MyAccountNewsletterSubscriptionContainerPropsKeys =

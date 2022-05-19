@@ -9,15 +9,10 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface Region {
-    code: string;
-    name: string;
-    id: number;
-}
+import { ValidationRule } from 'Util/Validator/Validator.type';
 
-export interface Country {
-    id: string;
-    is_state_required: boolean;
-    available_regions: Region[];
-    label: string;
+export interface MyAccountPasswordFormComponentProps {
+    onPasswordChange: () => void;
+    range: ValidationRule['range'];
+    minimunPasswordCharacter: string;
 }

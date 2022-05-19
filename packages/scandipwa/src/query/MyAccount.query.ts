@@ -98,8 +98,8 @@ export class MyAccountQuery {
             .addFieldList(this._getAddressFields());
     }
 
-    getDeleteAddressMutation(id: number): Field<'deleteCustomerAddress', boolean> {
-        return new Field<'deleteCustomerAddress', boolean>('deleteCustomerAddress')
+    getDeleteAddressMutation(id: number): Mutation<'deleteCustomerAddress', boolean> {
+        return new Mutation<'deleteCustomerAddress', boolean>('deleteCustomerAddress')
             .addArgument('id', 'Int!', id);
     }
 
@@ -211,7 +211,7 @@ export class MyAccountQuery {
         return [
             new Field<'id', number>('id'),
             new Field<'customer_id', number>('customer_id'),
-            new Field<'country_id', number>('country_id'),
+            new Field<'country_id', string>('country_id'),
             new Field<'street', string>('street'),
             new Field<'telephone', string>('telephone'),
             new Field<'postcode', string>('postcode'),

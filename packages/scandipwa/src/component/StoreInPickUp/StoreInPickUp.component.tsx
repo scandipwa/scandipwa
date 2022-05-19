@@ -13,32 +13,17 @@ import { PureComponent } from 'react';
 
 import StoreInPickUpPopupComponent from 'Component/StoreInPickUpPopup';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
-import { Addresstype } from 'Type/Account.type';
-import { ShippingMethodsType, StoreType } from 'Type/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
+
+import { StoreInPickUpComponentProps } from './StoreInPickUp.type';
 
 import './StoreInPickUp.style';
 
 /** @namespace Component/StoreInPickUp/Component */
-export class StoreInPickUpComponent extends PureComponent {
-    static propTypes = {
-        selectStore: PropTypes.func,
-        handleOpenPopup: PropTypes.func.isRequired,
-        countryId: PropTypes.string.isRequired,
-        estimateAddress: Addresstype.isRequired,
-        shippingMethods: ShippingMethodsType.isRequired,
-        onStoreSelect: PropTypes.func.isRequired,
-        onShippingMethodSelect: PropTypes.func.isRequired,
-        setSelectedStore: PropTypes.func.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func,
-        cartItemsSku: PropTypes.arrayOf(PropTypes.string).isRequired,
-        selectedStore: StoreType
-    };
-
+export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponentProps> {
     static defaultProps = {
         selectedStore: null,
-        selectStore: null,
-        setSelectedShippingMethodCode: null
+        selectStore: null
     };
 
     renderEmptyResult(): ReactElement {
@@ -62,15 +47,14 @@ export class StoreInPickUpComponent extends PureComponent {
     }
 
     renderStore(): ReactElement {
-        const { selectStore, selectedStore, setSelectedShippingMethodCode } = this.props;
-        const { pickup_location_code } = selectedStore;
+        const { selectStore, selectedStore } = this.props;
+        const { pickup_location_code } = selectedStore || {};
 
         return (
             <StoreInPickUpStoreComponent
               store={ selectedStore }
               selectStore={ selectStore }
               key={ pickup_location_code }
-              setSelectedShippingMethodCode={ setSelectedShippingMethodCode }
               isSelectedStore
             />
         );
@@ -93,7 +77,6 @@ export class StoreInPickUpComponent extends PureComponent {
     renderPopup(): ReactElement {
         const {
             countryId,
-            estimateAddress,
             shippingMethods,
             onStoreSelect,
             onShippingMethodSelect,
@@ -104,7 +87,6 @@ export class StoreInPickUpComponent extends PureComponent {
         return (
             <StoreInPickUpPopupComponent
               countryId={ countryId }
-              estimateAddress={ estimateAddress }
               shippingMethods={ shippingMethods }
               onStoreSelect={ onStoreSelect }
               onShippingMethodSelect={ onShippingMethodSelect }

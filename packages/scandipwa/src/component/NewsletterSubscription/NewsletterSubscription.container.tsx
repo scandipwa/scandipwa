@@ -6,20 +6,26 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Dispatch } from 'redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { LocationType } from 'Type/Router.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import NewsletterSubscription from './NewsletterSubscription.component';
+import {
+    NewsletterSubscriptionContainerProps,
+    NewsletterSubscriptionContainerState,
+    NewsletterSubscriptionMapDispatchProps,
+    NewsletterSubscriptionMapStateProps
+} from './NewsletterSubscription.type';
 
 export const NewsletterSubscriptionDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -27,13 +33,13 @@ export const NewsletterSubscriptionDispatcher = import(
 );
 
 /** @namespace Component/NewsletterSubscription/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): NewsletterSubscriptionMapStateProps => ({
     allowGuestSubscribe: state.ConfigReducer.newsletter_subscription_allow_guest_subscribe,
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 /** @namespace Component/NewsletterSubscription/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): NewsletterSubscriptionMapDispatchProps => ({
     subscribeToNewsletter: (email) => NewsletterSubscriptionDispatcher.then(
         ({ default: dispatcher }) => dispatcher.subscribeToNewsletter(dispatch, email)
     ),
@@ -41,15 +47,10 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/NewsletterSubscription/Container */
-export class NewsletterSubscriptionContainer extends PureComponent {
-    static propTypes = {
-        location: LocationType.isRequired,
-        subscribeToNewsletter: PropTypes.func.isRequired,
-        showErrorNotification: PropTypes.func.isRequired,
-        allowGuestSubscribe: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
-    };
-
+export class NewsletterSubscriptionContainer extends PureComponent<
+NewsletterSubscriptionContainerProps,
+NewsletterSubscriptionContainerState
+> {
     containerFunctions = {
         onFormSubmit: this.onFormSubmit.bind(this)
     };
@@ -58,7 +59,11 @@ export class NewsletterSubscriptionContainer extends PureComponent {
         isLoading: false
     };
 
-    onFormSubmitDone = this.onFormSubmitDone.bind(this);
+    __construct(props: NewsletterSubscriptionContainerProps): void {
+        super.__construct?.(props);
+
+        this.onFormSubmitDone = this.onFormSubmitDone.bind(this);
+    }
 
     containerProps() {
         const { isLoading } = this.state;
@@ -66,7 +71,7 @@ export class NewsletterSubscriptionContainer extends PureComponent {
         return { isLoading };
     }
 
-    onFormSubmit(form, fields) {
+    onFormSubmit(form: HTMLFormElement, fields): void {
         const {
             subscribeToNewsletter,
             allowGuestSubscribe,
@@ -93,7 +98,7 @@ export class NewsletterSubscriptionContainer extends PureComponent {
             .catch(this.onFormSubmitDone);
     }
 
-    onFormSubmitDone() {
+    onFormSubmitDone(): void {
         this.setState({ isLoading: false });
     }
 

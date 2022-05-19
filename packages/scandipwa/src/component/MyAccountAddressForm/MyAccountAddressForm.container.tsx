@@ -6,27 +6,39 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
+import { ChangeEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { Addresstype } from 'Type/Account.type';
-import { CountriesType } from 'Type/Config.type';
+import { EventFieldData } from 'Component/Field/Field.type';
+import { Region } from 'Query/Region.type';
+import { ReactElement } from 'Type/Common.type';
 import {
     getAvailableRegions,
     getCityAndRegionFromZipcode,
-    getRegionIdFromAvailableRegions
+    getRegionIdFromAvailableRegions,
+    transformCountriesToOptions
 } from 'Util/Address';
+import { CountryOption } from 'Util/Address/Address.type';
 import { debounce } from 'Util/Request';
-import transformCountriesToOptions from 'Util/Store/Transform';
+import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountAddressForm from './MyAccountAddressForm.component';
 import { UPDATE_ZIPCODE_FREQUENCY } from './MyAccountAddressForm.config';
+import {
+    InitialDataAddress,
+    MyAccountAddressFormComponentProps,
+    MyAccountAddressFormContainerMapDispatchProps,
+    MyAccountAddressFormContainerMapStateProps,
+    MyAccountAddressFormContainerProps,
+    MyAccountAddressFormContainerPropsKeys,
+    MyAccountAddressFormContainerState
+} from './MyAccountAddressForm.type';
 
 /** @namespace Component/MyAccountAddressForm/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountAddressFormContainerMapStateProps => ({
     countries: transformCountriesToOptions(state.ConfigReducer.countries || []),
     defaultCountry: state.ConfigReducer.default_country,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
@@ -35,25 +47,18 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/MyAccountAddressForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): MyAccountAddressFormContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountAddressForm/Container */
-export class MyAccountAddressFormContainer extends PureComponent {
-    static propTypes = {
-        address: Addresstype.isRequired,
-        countries: CountriesType.isRequired,
-        defaultCountry: PropTypes.string,
-        addressLinesQty: PropTypes.number.isRequired,
-        showVatNumber: PropTypes.bool.isRequired,
-        regionDisplayAll: PropTypes.bool.isRequired,
-        onSave: PropTypes.func.isRequired
-    };
-
+export class MyAccountAddressFormContainer extends PureComponent<
+MyAccountAddressFormContainerProps,
+MyAccountAddressFormContainerState
+> {
     static defaultProps = {
         defaultCountry: 'US'
     };
 
-    state = {
+    state: MyAccountAddressFormContainerState = {
         countryId: this.getCountry()?.value || 'US',
         availableRegions: this.getAvailableRegions() || [],
         isStateRequired: !!this.getCountry()?.is_state_required,
@@ -71,7 +76,7 @@ export class MyAccountAddressFormContainer extends PureComponent {
         onRegionIdChange: this.onRegionIdChange.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<MyAccountAddressFormComponentProps, MyAccountAddressFormContainerPropsKeys> {
         const {
             address,
             countries,
@@ -99,7 +104,7 @@ export class MyAccountAddressFormContainer extends PureComponent {
             showVatNumber,
             regionDisplayAll,
             countryId,
-            availableRegions,
+            availableRegions: Array.isArray(availableRegions) ? availableRegions : [],
             isStateRequired,
             onSave,
             currentCity,
@@ -110,20 +115,20 @@ export class MyAccountAddressFormContainer extends PureComponent {
     }
 
     // #region GETTERS
-    getCountry(countryId = null) {
+    getCountry(countryId?: string): CountryOption | undefined {
         const { countries, defaultCountry, address: { country_id: countryIdAddress } = {} } = this.props;
         const countryIdFixed = countryId || countryIdAddress || defaultCountry;
         return countries.find(({ value }) => value === countryIdFixed);
     }
 
-    getCurrentAddress() {
+    getCurrentAddress(): InitialDataAddress {
         const { address, address: { id: addressId } } = this.props;
 
         if (!addressId) {
             return {
                 region: '',
                 regionId: 1,
-                zipCode: '',
+                postcode: '',
                 city: ''
             };
         }
@@ -144,32 +149,32 @@ export class MyAccountAddressFormContainer extends PureComponent {
      * @param zipCode
      * @returns {Promise<[*, *]|null[]|*>}
      */
-    getAvailableRegions(countryId = null, zipCode = null) {
+    getAvailableRegions(countryId?: string, zipCode?: string): Region[] | Promise<void> {
         const { countries, defaultCountry } = this.props;
         const { value: currCountryId = defaultCountry } = this.getCountry(countryId) || {};
 
         return !zipCode
             ? getAvailableRegions(currCountryId, countries)
-            : this.handleSetCityAndRegionDependingOnZipcode(countryId, zipCode);
+            : this.handleSetCityAndRegionDependingOnZipcode(zipCode, countryId);
     }
     // #endregion
 
     // #region EVENTS
-    onCityChange(field) {
+    onCityChange(field: ChangeEvent<HTMLInputElement>): void {
         this.setState({ currentCity: field.target.value });
     }
 
-    onRegionChange(field) {
+    onRegionChange(field: ChangeEvent<HTMLInputElement>): void {
         this.setState({ currentRegion: field.target.value });
     }
 
-    onRegionIdChange(field) {
-        this.setState({ currentRegionId: field });
+    onRegionIdChange(field: string): void {
+        this.setState({ currentRegionId: Number(field) });
     }
 
-    onCountryChange(field, e) {
+    onCountryChange(field: string, e?: EventFieldData): void {
         // Handles auto fill
-        const fieldValue = typeof field === 'object' ? e.value : field;
+        const fieldValue = typeof field === 'object' ? e && e.value : field;
 
         const { currentZipcode } = this.state;
         const { countries } = this.props;
@@ -202,16 +207,16 @@ export class MyAccountAddressFormContainer extends PureComponent {
         });
     }
 
-    onZipcodeChange(event, field) {
+    onZipcodeChange(event: ChangeEvent<HTMLInputElement>, field?: EventFieldData): void {
         const { value: zipCode = '' } = field || {};
         const { countryId } = this.state;
         this.setState({ currentZipcode: zipCode });
-        debounce(this.getAvailableRegions(countryId, zipCode), UPDATE_ZIPCODE_FREQUENCY);
+        debounce(this.handleSetCityAndRegionDependingOnZipcode(zipCode, countryId), UPDATE_ZIPCODE_FREQUENCY);
     }
 
-    async handleSetCityAndRegionDependingOnZipcode(countryId, zipCode) {
+    async handleSetCityAndRegionDependingOnZipcode(zipCode: string, countryId?: string): Promise<void> {
         const { availableRegions = [] } = this.state;
-        const cityAndRegion = await getCityAndRegionFromZipcode(countryId, zipCode);
+        const cityAndRegion = countryId ? await getCityAndRegionFromZipcode(countryId, zipCode) : null;
 
         if (!cityAndRegion) {
             return;
@@ -219,7 +224,7 @@ export class MyAccountAddressFormContainer extends PureComponent {
 
         const { city, region } = cityAndRegion;
 
-        if (availableRegions && availableRegions.length) {
+        if (availableRegions && Array.isArray(availableRegions)) {
             this.setState({
                 currentCity: city,
                 currentRegionId: getRegionIdFromAvailableRegions(availableRegions, cityAndRegion),
@@ -238,8 +243,8 @@ export class MyAccountAddressFormContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountAddressForm
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

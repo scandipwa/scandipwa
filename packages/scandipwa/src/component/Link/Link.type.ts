@@ -30,7 +30,7 @@ export interface LinkContainerDispatchProps {
 export type LinkContainerProps =
     LinkContainerMapStateProps & LinkContainerDispatchProps & {
         onClick: (e: MouseEvent) => void;
-        to: Url;
+        to: Url | string;
         children: Children;
         isOpenInNewTab?: boolean;
         className?: string;

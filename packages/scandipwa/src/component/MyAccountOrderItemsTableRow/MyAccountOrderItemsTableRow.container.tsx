@@ -17,6 +17,7 @@ import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountOrderItemsTableRow from './MyAccountOrderItemsTableRow.component';
+import { OrderColumnSpanCount } from './MyAccountOrderItemsTableRow.config';
 import {
     MyAccountOrderItemsTableRowComponentProps,
     MyAccountOrderItemsTableRowContainerMapDispatchProps,
@@ -67,13 +68,13 @@ export class MyAccountOrderItemsTableRowContainer extends PureComponent<MyAccoun
 
         switch (activeTab) {
         case OrderTabs.ORDER_REFUNDS: {
-            return 7;
+            return OrderColumnSpanCount.ORDER_REFUNDS;
         }
         case OrderTabs.ORDER_SHIPMENTS: {
-            return 3;
+            return OrderColumnSpanCount.ORDER_SHIPMENTS;
         }
         default: {
-            return 5;
+            return OrderColumnSpanCount.DEFAULT;
         }
         }
     }

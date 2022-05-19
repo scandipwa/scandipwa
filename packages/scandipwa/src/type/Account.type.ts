@@ -70,7 +70,7 @@ export type TrimmedAddress = {
     region_string?: string | null;
     region_id: number | string;
     region_code: string | null;
-    street: string | string[];
+    street: string | Array<string | null>;
     telephone: string;
     vat_id: string | null;
 };

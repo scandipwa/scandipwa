@@ -16,29 +16,16 @@ import { FieldType } from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
 import Popup from 'Component/Popup';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
-import { StoreType } from 'Type/Checkout.type';
+import { Store } from 'Query/StoreInPickUp.type';
 import { ReactElement } from 'Type/Common.type';
-import { CountriesType } from 'Type/Config.type';
 
 import { STORE_IN_PICK_UP_POPUP_ID } from './StoreInPickUpPopup.config';
+import { StoreInPickUpPopupComponentProps } from './StoreInPickUpPopup.type';
 
 import './StoreInPickUpPopup.style';
 
 /** @namespace Component/StoreInPickUpPopup/Component */
-export class StoreInPickUpPopupComponent extends PureComponent {
-    static propTypes = {
-        countries: CountriesType.isRequired,
-        selectedCountryId: PropTypes.string.isRequired,
-        handleChangeCountry: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool,
-        selectStore: PropTypes.func.isRequired,
-        setStoreSearchCriteria: PropTypes.func.isRequired,
-        storeSearchCriteria: PropTypes.string,
-        stores: PropTypes.arrayOf(
-            StoreType
-        )
-    };
-
+export class StoreInPickUpPopupComponent extends PureComponent<StoreInPickUpPopupComponentProps> {
     static defaultProps = {
         stores: [],
         storeSearchCriteria: '',
@@ -112,7 +99,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         );
     }
 
-    renderStore(store): ReactElement {
+    renderStore(store: Store): ReactElement {
         const { selectStore } = this.props;
         const { pickup_location_code } = store;
 

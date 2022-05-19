@@ -14,13 +14,13 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import MyAccountQuery from 'Query/MyAccount.query';
-import { CustomerAddress } from 'Query/MyAccount.type';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { NetworkError, ReactElement } from 'Type/Common.type';
+import { GQLCustomerAddressInput } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
@@ -97,7 +97,7 @@ MyAccountAddressPopupContainerProps, MyAccountAddressPopupContainerState
                 goToPreviousHeaderState();
             });
         } catch (e) {
-            showErrorNotification(e);
+            showErrorNotification(e as NetworkError | NetworkError[]);
         }
     }
 
@@ -107,7 +107,7 @@ MyAccountAddressPopupContainerProps, MyAccountAddressPopupContainerState
         this.setState({ isLoading: false });
     }
 
-    handleAddress(address: CustomerAddress): Promise<void> {
+    handleAddress(address: GQLCustomerAddressInput): Promise<void> {
         const { payload: { address: { id } } } = this.props;
         this.setState({ isLoading: true });
 
@@ -118,7 +118,7 @@ MyAccountAddressPopupContainerProps, MyAccountAddressPopupContainerState
         return this.handleCreateAddress(address);
     }
 
-    async handleEditAddress(address: CustomerAddress): Promise<void> {
+    async handleEditAddress(address: GQLCustomerAddressInput): Promise<void> {
         const { payload: { address: { id } } } = this.props;
         const query = MyAccountQuery.getUpdateAddressMutation(id, address);
 
@@ -130,7 +130,7 @@ MyAccountAddressPopupContainerProps, MyAccountAddressPopupContainerState
             await fetchMutation(query);
             this.handleAfterAction();
         } catch (e) {
-            this.handleError(e);
+            this.handleError(e as NetworkError | NetworkError[]);
         }
     }
 
@@ -148,11 +148,11 @@ MyAccountAddressPopupContainerProps, MyAccountAddressPopupContainerState
             await fetchMutation(query);
             this.handleAfterAction();
         } catch (e) {
-            this.handleError(e);
+            this.handleError(e as NetworkError | NetworkError[]);
         }
     }
 
-    async handleCreateAddress(address: CustomerAddress): Promise<void> {
+    async handleCreateAddress(address: GQLCustomerAddressInput): Promise<void> {
         if (!isSignedIn()) {
             return;
         }
@@ -163,7 +163,7 @@ MyAccountAddressPopupContainerProps, MyAccountAddressPopupContainerState
             await fetchMutation(query);
             this.handleAfterAction();
         } catch (e) {
-            this.handleError(e);
+            this.handleError(e as NetworkError | NetworkError[]);
         }
     }
 

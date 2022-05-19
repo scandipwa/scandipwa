@@ -14,7 +14,7 @@ export type KeyValueTableComponentProps = {
     isSelected?: boolean;
 };
 
-export type DataPair<T> = {
+export type DataPair<T = Record<string, string | number>> = {
     key: string;
     label: string;
     source: T;

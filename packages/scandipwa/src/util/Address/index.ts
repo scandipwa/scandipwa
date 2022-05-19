@@ -13,8 +13,56 @@ import { CustomerAddress } from 'Query/MyAccount.type';
 import { Country, Region } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
 import { TrimmedAddress } from 'Type/Account.type';
+import { GQLCustomerAddressInput } from 'Type/Graphql.type';
 
-import { FormattedRegion, ZippopotamResponseResult } from './Address.type';
+import { CountryOption, FormattedRegion, ZippopotamResponseResult } from './Address.type';
+
+/** @namespace Util/Address/Index/trimCustomerAddress */
+export const trimCustomerAddress = (customerAddress: Partial<CustomerAddress>): GQLCustomerAddressInput => {
+    const {
+        default_shipping = false,
+        default_billing = false,
+        company,
+        city = '',
+        country_id,
+        firstname = '',
+        lastname = '',
+        middlename = '',
+        postcode = '',
+        street = [''],
+        telephone = '',
+        region: {
+            region_code,
+            region,
+            region_id = 1
+        } = {},
+        prefix = '',
+        suffix = '',
+        vat_id
+    } = customerAddress;
+
+    return {
+        company,
+        default_shipping,
+        default_billing,
+        city,
+        country_id,
+        firstname,
+        lastname,
+        middlename,
+        postcode,
+        street,
+        telephone,
+        region: {
+            region_code,
+            region,
+            region_id
+        },
+        prefix,
+        suffix,
+        vat_id
+    };
+};
 
 /** @namespace Util/Address/Index/trimCheckoutCustomerAddress */
 export const trimCheckoutCustomerAddress = (customerAddress: CustomerAddress): TrimmedAddress => {
@@ -173,8 +221,8 @@ export const getDefaultAddressLabel = (address: CustomerAddress): string => {
 
 /** @namespace Util/Address/Index/getAvailableRegions */
 export const getAvailableRegions = (country_id: string, countries: Country[]): Region[] => {
-    const country = countries.find(({ id }) => id === country_id) || {};
-    const { available_regions } = country as Country;
+    const country: Country | undefined = countries.find(({ id }) => id === country_id);
+    const { available_regions } = country || {};
 
     // need to handle null value
     return available_regions || [];
@@ -235,3 +283,29 @@ export const checkIfStoreIncluded = (stores: Store[], selectedStore: Store): boo
 
     return !!stores.find((store) => JSON.stringify(store) === selectedStoreInString);
 };
+
+/**
+ * Transforms countries list into select options
+ * @param countries
+ * @namespace Util/Address/Index/transformCountriesToOptions */
+export const transformCountriesToOptions = (countries: Country[]): CountryOption[] => {
+    const options = countries.map((country) => {
+        const { id } = country;
+
+        return {
+            value: id,
+            name: id,
+            ...country
+        };
+    });
+
+    const filtered = options.filter(({ label }) => label);
+
+    const sorted = filtered.sort(
+        ({ label }, { label: labelCompare }) => label.localeCompare(labelCompare)
+    );
+
+    return sorted;
+};
+
+export default transformCountriesToOptions;

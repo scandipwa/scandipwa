@@ -6,35 +6,29 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
 import { ReactElement } from 'Type/Common.type';
 
-import { StoreItemType } from 'Type/Config.type';
-
 import StoreItem from './StoreItem.component';
+import { StoreItemComponentProps, StoreItemContainerProps } from './StoreItem.type';
 
 /** @namespace Component/StoreItem/Container */
-export class StoreItemContainer extends PureComponent {
-    static propTypes = {
-        item: StoreItemType.isRequired,
-        handleStoreSelect: PropTypes.func.isRequired
-    };
-
+export class StoreItemContainer extends PureComponent<StoreItemContainerProps> {
     containerFunctions = {
         getStoreCode: this.getStoreCode.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<StoreItemComponentProps, 'item'>{
         const { item } = this.props;
 
         return { item };
     }
 
-    getStoreCode() {
+    getStoreCode(): void {
         const { item: { value }, handleStoreSelect } = this.props;
 
         handleStoreSelect(value);
@@ -43,8 +37,8 @@ export class StoreItemContainer extends PureComponent {
     render(): ReactElement {
         return (
             <StoreItem
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

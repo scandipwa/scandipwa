@@ -160,32 +160,32 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
             name: RouterSwitchItemType.CONFIRM_ACCOUNT
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ (props) => <MyAccount { ...props } selectedTab={ MyAccountTabs.MY_ORDERS } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.MY_ORDERS } } /> } />,
             position: 70,
             name: RouterSwitchItemType.MY_ACCOUNT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/history') } render={ (props) => <MyAccount { ...props } selectedTab={ MyAccountTabs.MY_ORDERS } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/history') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.MY_ORDERS } } /> } />,
             position: 71,
             name: RouterSwitchItemType.MY_ACCOUNT_ORDERS
         },
         {
-            component: <Route path={ withStoreRegex('/downloadable/customer/products') } render={ (props) => <MyAccount { ...props } selectedTab={ MyAccountTabs.MY_DOWNLOADABLE } /> } />,
+            component: <Route path={ withStoreRegex('/downloadable/customer/products') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.MY_DOWNLOADABLE } } /> } />,
             position: 72,
             name: RouterSwitchItemType.MY_ACCOUNT_DOWNLOADABLE
         },
         {
-            component: <Route path={ withStoreRegex('/wishlist') } render={ (props) => <MyAccount { ...props } selectedTab={ MyAccountTabs.MY_WISHLIST } /> } />,
+            component: <Route path={ withStoreRegex('/wishlist') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.MY_WISHLIST } } /> } />,
             position: 73,
             name: RouterSwitchItemType.MY_ACCOUNT_WISHLIST
         },
         {
-            component: <Route path={ withStoreRegex('/customer/address') } render={ (props) => <MyAccount { ...props } selectedTab={ MyAccountTabs.ADDRESS_BOOK } /> } />,
+            component: <Route path={ withStoreRegex('/customer/address') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.ADDRESS_BOOK } } /> } />,
             position: 74,
             name: RouterSwitchItemType.MY_ACCOUNT_ADDRESS
         },
         {
-            component: <Route path={ withStoreRegex('/newsletter/manage') } render={ (props) => <MyAccount { ...props } selectedTab={ MyAccountTabs.NEWSLETTER_SUBSCRIPTION } /> } />,
+            component: <Route path={ withStoreRegex('/newsletter/manage') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.NEWSLETTER_SUBSCRIPTION } } /> } />,
             position: 75,
             name: RouterSwitchItemType.MY_ACCOUNT_NEWSLETTER
         },

@@ -11,9 +11,9 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
+import { ReactElement } from 'Type/Common.type';
 import {
     HistoryType,
     LocationType,
@@ -110,7 +110,7 @@ export class UrlRewritesContainer extends PureComponent {
 
         const type = this.getType();
 
-        if ([ TYPE_CATEGORY, TYPE_PRODUCT ].includes(type)) {
+        if ([TYPE_CATEGORY, TYPE_PRODUCT].includes(type)) {
             if (location.pathname.endsWith('/')) {
                 history.replace(
                     location.pathname.slice(0, -1),
@@ -138,51 +138,51 @@ export class UrlRewritesContainer extends PureComponent {
         const isLoading = this.getIsLoading();
 
         switch (this.getType()) {
-            case TYPE_PRODUCT:
-                /**
+        case TYPE_PRODUCT:
+            /**
                  * In case we are not yet sure what product ID it is:
                  * - check if there is a hint in browser history
                  * - fallback to none
                  */
-                if (isLoading) {
-                    const product = history?.state?.state?.product;
+            if (isLoading) {
+                const product = history?.state?.state?.product;
 
-                    if (product) {
-                        const { sku: historySKU, id } = product;
+                if (product) {
+                    const { sku: historySKU, id } = product;
 
-                        return { productSKU: historySKU, id };
-                    }
-
-                    return {};
+                    return { productSKU: historySKU, id };
                 }
 
-                return { productSKU: sku, id };
-            case TYPE_CMS_PAGE:
-                if (isLoading) {
-                    return { isOnlyPlaceholder: true };
-                }
+                return {};
+            }
 
-                return { pageIds: id };
-            case TYPE_CATEGORY:
-                /**
+            return { productSKU: sku, id };
+        case TYPE_CMS_PAGE:
+            if (isLoading) {
+                return { isOnlyPlaceholder: true };
+            }
+
+            return { pageIds: id };
+        case TYPE_CATEGORY:
+            /**
                  * In case we are not yet sure what category ID it is:
                  * - check if there is a hint in browser history
                  * - fallback to none
                  */
-                if (isLoading) {
-                    const category = history?.state?.state?.category;
+            if (isLoading) {
+                const category = history?.state?.state?.category;
 
-                    if (category && category !== true) {
-                        return { categoryIds: category };
-                    }
-
-                    return {};
+                if (category && category !== true) {
+                    return { categoryIds: category };
                 }
 
-                return { categoryIds: id };
-            case TYPE_NOTFOUND:
-            default:
                 return {};
+            }
+
+            return { categoryIds: id };
+        case TYPE_NOTFOUND:
+        default:
+            return {};
         }
     }
 
@@ -261,7 +261,7 @@ export class UrlRewritesContainer extends PureComponent {
     render(): ReactElement {
         return (
             <UrlRewrites
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

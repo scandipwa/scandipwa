@@ -9,29 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import FieldForm from 'Component/FieldForm';
+import { FormContainerProps } from 'Component/Form/Form.type';
 import Loader from 'Component/Loader';
+import { ReactElement } from 'Type/Common.type';
 
 import contactForm from './ContactForm.form';
+import { ContactFormComponentProps } from './ContactForm.type';
 
 import './ContactForm.style';
 
 /** @namespace Component/ContactForm/Component */
-export class ContactForm extends FieldForm {
-    static propTypes = {
-        isLoading: PropTypes.bool,
-        onFormSubmit: PropTypes.func.isRequired
-    };
-
+export class ContactForm extends FieldForm<ContactFormComponentProps> {
     static defaultProps = {
         isLoading: false
     };
 
-    get fieldMap() {
+    get fieldMap(): Partial<FieldContainerProps>[] {
         return contactForm();
     }
 
-    getFormProps() {
+    getFormProps(): Partial<FormContainerProps> {
         const { onFormSubmit } = this.props;
 
         return {

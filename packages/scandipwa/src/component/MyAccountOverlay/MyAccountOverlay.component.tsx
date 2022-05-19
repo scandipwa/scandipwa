@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
+import { ComponentType, PureComponent } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import Loader from 'Component/Loader';
 import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
@@ -190,5 +190,5 @@ export class MyAccountOverlay<Props extends MyAccountOverlayComponentProps> exte
 }
 
 export default withRouter(
-    MyAccountOverlay
+    MyAccountOverlay as unknown as ComponentType<MyAccountOverlayComponentProps> & RouteComponentProps
 );

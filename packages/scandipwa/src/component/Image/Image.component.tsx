@@ -27,7 +27,7 @@ import './Image.style';
  * @class Image
  * @namespace Component/Image/Component
  */
-export class Image extends PureComponent<ImageComponentProps> {
+export class Image<P extends ImageComponentProps> extends PureComponent<P> {
     static defaultProps = {
         src: '',
         alt: '',

@@ -111,11 +111,11 @@ export type FieldNumberCustomEvents = {
 };
 
 export type FieldSelectCustomEvents = {
-    onChange?: (value: string) => void;
+    onChange?: (value: string, field?: EventFieldData, event?: SyntheticEvent) => void;
 };
 
 export type FieldInputCustomEvents = {
-    onChange?: (value: string) => void;
+    onChange?: (value: string, field?: EventFieldData, event?: SyntheticEvent) => void;
 };
 
 export type EventFieldData = FieldAttributes & { fieldRef: FieldRef; value: string; type: string };

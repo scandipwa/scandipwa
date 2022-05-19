@@ -11,14 +11,20 @@
 
 import { connect } from 'react-redux';
 
+import { RootState } from 'Util/Store/Store.type';
+
 import ExpandableContentShowMore from './ExpandableContentShowMore.component';
+import {
+    ExpandableContentContainerDispatchProps,
+    ExpandableContentShowMoreContainerMapStateProps
+} from './ExpandableContentShowMore.type';
 
 /** @namespace Component/ExpandableContentShowMore/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ExpandableContentShowMoreContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/ExpandableContentShowMore/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): ExpandableContentContainerDispatchProps => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpandableContentShowMore);

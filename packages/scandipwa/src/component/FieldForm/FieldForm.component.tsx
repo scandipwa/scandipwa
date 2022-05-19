@@ -19,6 +19,8 @@ import Form from 'Component/Form';
 import { FormContainerProps } from 'Component/Form/Form.type';
 import { ReactElement } from 'Type/Common.type';
 
+import { FormSection } from './FieldForm.type';
+
 import './FieldForm.style';
 
 /** @namespace Component/FieldForm/Component */
@@ -54,23 +56,18 @@ export class FieldForm<T> extends PureComponent<T> {
         ];
     }
 
-    renderSection(section): ReactElement {
-        const {
-            fields,
-            attr: {
-                name = ''
-            } = {},
-            name: sectionName
-        } = section;
-
+    renderSection(section: FormSection | Partial<FieldContainerProps>): ReactElement {
         // If contains attr fields then outputs data as fields
-        if (Array.isArray(fields)) {
+        if ('fields' in section) {
+            const { name: sectionName, attr: { name } = {}, fields } = section;
             return (
                 <FieldGroup { ...section } key={ name || sectionName }>
                     { fields.map(this.renderSection.bind(this)) }
                 </FieldGroup>
             );
         }
+
+        const { attr: { name } = {} } = section;
 
         return <Field { ...section } key={ name } />;
     }

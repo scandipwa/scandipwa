@@ -11,34 +11,36 @@
 
 import { createRef, PureComponent } from 'react';
 
-import { ChildrenType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+
+import {
+    ExpandableContentShowMoreComponentProps,
+    ExpandableContentShowMoreComponentState
+} from './ExpandableContentShowMore.type';
 
 import './ExpandableContentShowMore.style';
 
 /** @namespace Component/ExpandableContentShowMore/Component */
-export class ExpandableContentShowMore extends PureComponent {
-    static propTypes = {
-        showElemCount: PropTypes.number,
-        children: ChildrenType.isRequired,
-        isMobile: PropTypes.bool.isRequired
-    };
-
+export class ExpandableContentShowMore extends PureComponent<
+ExpandableContentShowMoreComponentProps,
+ExpandableContentShowMoreComponentState
+> {
     static defaultProps = {
         showElemCount: 3
     };
 
-    handleShowAllButtonClick = this.handleShowAllButtonClick.bind(this);
+    ref = createRef<HTMLDivElement>();
 
-    __construct(props): void {
-        super.__construct(props);
+    expandableRef = createRef<HTMLDivElement>();
 
-        this.ref = createRef();
+    expandableContentHeight: number | string = 'auto';
+
+    __construct(props: ExpandableContentShowMoreComponentProps): void {
+        super.__construct?.(props);
 
         const { showElemCount, children: { length } } = this.props;
 
-        this.expandableRef = createRef();
-        this.expandableContentHeight = 'auto';
-
+        this.handleShowAllButtonClick = this.handleShowAllButtonClick.bind(this);
         this.state = {
             isOpen: length > showElemCount,
             isExpanding: false
@@ -56,7 +58,7 @@ export class ExpandableContentShowMore extends PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: ExpandableContentShowMoreComponentProps): void {
         const { children: prevChildren } = prevProps;
         const { children: nextChildren } = this.props;
 
@@ -64,19 +66,21 @@ export class ExpandableContentShowMore extends PureComponent {
             if (this.expandableRef.current) {
             // eslint-disable-next-line react/no-did-update-set-state
                 this.setState({ isOpen: true }, () => {
-                    this.expandableRef.current.style.height = 'auto';
+                    if (this.expandableRef.current) {
+                        this.expandableRef.current.style.height = 'auto';
+                    }
                 });
             }
         }
 
         const { isExpanding } = this.state;
 
-        if (isExpanding) {
+        if (isExpanding && this.expandableRef.current) {
             const ONE_SECOND_IN_MS = 1000;
-            const transitionDurationCSStoMS = window
+            const transitionDurationCSStoMS = Number(window
                 .getComputedStyle(this.expandableRef.current)
                 .getPropertyValue('transition-duration')
-                .slice(0, -1) * ONE_SECOND_IN_MS;
+                .slice(0, -1)) * ONE_SECOND_IN_MS;
 
             setTimeout(() => this.setState({ isExpanding: false }),
                 transitionDurationCSStoMS);
@@ -87,7 +91,7 @@ export class ExpandableContentShowMore extends PureComponent {
         }
     }
 
-    getExpandableContentHeight() {
+    getExpandableContentHeight(): void {
         const { isOpen } = this.state;
         const { showElemCount, children: { length } } = this.props;
 
@@ -106,7 +110,7 @@ export class ExpandableContentShowMore extends PureComponent {
         });
     }
 
-    handleShowAllButtonClick() {
+    handleShowAllButtonClick(): void {
         const { isExpanding } = this.state;
 
         if (!isExpanding) {

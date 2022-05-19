@@ -17,6 +17,7 @@ import { Dispatch } from 'redux';
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { ProductType } from 'Component/Product/Product.config';
 import CheckoutQuery from 'Query/Checkout.query';
+import { ShippingMethod } from 'Query/Checkout.type';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
@@ -264,7 +265,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         this.setState({ password });
     }
 
-    onShippingMethodSelect(selectedShippingMethod): void {
+    onShippingMethodSelect(selectedShippingMethod: ShippingMethod): void {
         const { method_code } = selectedShippingMethod;
         this.setState({ selectedShippingMethod: method_code });
     }

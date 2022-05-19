@@ -10,16 +10,17 @@
  */
 
 import ImageContainer from 'Component/Image/Image.container';
+import { ReactElement } from 'Type/Common.type';
 
 import Logo from './Logo.component';
+import { LogoContainerProps } from './Logo.type';
 
 /** @namespace Component/Logo/Container */
-export class LogoContainer extends ImageContainer {
+export class LogoContainer extends ImageContainer<LogoContainerProps> {
     render(): ReactElement {
         return (
             <Logo
               { ...this.containerProps() }
-              { ...this.containerFunctions }
             />
         );
     }

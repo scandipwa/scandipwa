@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -17,3 +18,9 @@ export const ORDER_STATUS_TRANSLATION_MAP = {
     quantity_returned: __('Returned'),
     quantity_shipped: __('Shipped')
 };
+
+export enum OrderColumnSpanCount {
+    ORDER_REFUNDS = 7,
+    ORDER_SHIPMENTS = 3,
+    DEFAULT = 5
+}

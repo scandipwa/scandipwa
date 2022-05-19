@@ -47,6 +47,7 @@ export type FieldOptions = {
     id?: string | number;
     label?: Label;
     value?: string | number;
+    isHovered?: boolean;
 };
 
 export type ValuesShape = {

@@ -9,39 +9,62 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Country } from 'Query/Region.type';
+import { ChangeEvent } from 'react';
+
+import { ShippingMethod } from 'Query/Checkout.type';
 import { Store } from 'Query/StoreInPickUp.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { Merge } from 'Type/Common.type';
+import { CountryOption } from 'Util/Address/Address.type';
 
-export interface StoreInPickUpContainerMapStateProps {
-    countries: Country[];
+export interface StoreInPickUpPopupContainerMapStateProps {
+    countries: CountryOption[];
     defaultCountry: string;
     selectedStore: Store | null;
 }
 
-export interface StoreInPickUpContainerDispatchProps {
+export interface StoreInPickUpPopupContainerDispatchProps {
     hideActiveOverlay: () => void;
     showNotification: (type: NotificationType, message: string) => void;
     clearPickUpStore: () => void;
 }
 
-export type StoreInPickUpContainerProps =
-    StoreInPickUpContainerMapStateProps & StoreInPickUpContainerDispatchProps & {
-        countryId: string;
-        estimateAddress: never;
-        onShippingMethodSelect: () => void;
-        onStoreSelect: (store: StoreWithCountryId) => void;
-        setSelectedStore: (store: Store) => void;
-        shippingMethods: never;
-        cartItemsSku: Array<{ sku: string }>;
-    };
+export interface StoreInPickUpPopupContainerBaseProps {
+    countryId: string;
+    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
+    onStoreSelect: (store: StoreWithCountryId) => void;
+    setSelectedStore: (store: Store) => void;
+    shippingMethods: ShippingMethod[];
+    cartItemsSku: { sku: string }[];
+}
 
-export interface StoreInPickUpContainerState {
+export type StoreInPickUpPopupContainerProps =
+    StoreInPickUpPopupContainerMapStateProps
+    & StoreInPickUpPopupContainerDispatchProps
+    & StoreInPickUpPopupContainerBaseProps;
+
+export interface StoreInPickUpPopupContainerState {
     stores: Store[];
     storeSearchCriteria: string;
     isLoading: boolean;
     selectedCountryId: string;
 }
+
+export interface StoreInPickUpPopupComponentProps {
+    countries: CountryOption[];
+    selectedCountryId: string;
+    handleChangeCountry: (countryId: string) => void;
+    isLoading: boolean;
+    selectStore: (store: Store) => void;
+    setStoreSearchCriteria: (searchCriteria: ChangeEvent<HTMLInputElement>) => void;
+    storeSearchCriteria: string;
+    stores: Store[];
+}
+
+export type StoreInPickUpPopupComponentPropsKeys = 'countries'
+| 'isLoading'
+| 'selectedCountryId'
+| 'stores'
+| 'storeSearchCriteria';
 
 export type StoreWithCountryId = Merge<Store, { country_id: string }>;

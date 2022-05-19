@@ -10,6 +10,7 @@
  */
 import { CustomerAddress } from 'Query/MyAccount.type';
 import { NetworkError } from 'Type/Common.type';
+import { GQLCustomerAddressInput } from 'Type/Graphql.type';
 
 import { MyAccountAddressPopupAction } from './MyAccountAddressPopup.config';
 
@@ -30,7 +31,7 @@ export type MyAccountAddressPopupContainerProps = MyAccountAddressPopupContainer
 
 export type MyAccountAddressPopupComponentProps = {
     isLoading: boolean;
-    handleAddress: (address: CustomerAddress) => Promise<void>;
+    handleAddress: (address: GQLCustomerAddressInput) => Promise<void>;
     handleDeleteAddress: () => Promise<void>;
     payload: MyAccountAddressPopupPayload;
 };

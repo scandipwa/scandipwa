@@ -9,31 +9,30 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import FieldForm from 'Component/FieldForm';
+import { FormContainerProps } from 'Component/Form/Form.type';
+import { ReactElement } from 'Type/Common.type';
+import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import myAccountPasswordForm from './MyAccountPasswordForm.form';
+import { MyAccountPasswordFormComponentProps } from './MyAccountPasswordForm.type';
 
 /** @namespace Component/MyAccountPasswordForm/Component */
-export class MyAccountPasswordForm extends FieldForm {
-    static propTypes = {
-        onPasswordChange: PropTypes.func.isRequired,
-        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
-        minimunPasswordCharacter: PropTypes.string.isRequired
-    };
-
-    onFormSuccess(form, fields) {
+export class MyAccountPasswordForm extends FieldForm<MyAccountPasswordFormComponentProps> {
+    onFormSuccess(form: HTMLFormElement, fields: FieldData[]): void {
         const { onPasswordChange } = this.props;
         onPasswordChange(transformToNameValuePair(fields));
     }
 
-    get fieldMap() {
+    get fieldMap(): Partial<FieldContainerProps>[] {
         const { range, minimunPasswordCharacter } = this.props;
 
         return myAccountPasswordForm(range, minimunPasswordCharacter);
     }
 
-    getFormProps() {
+    getFormProps(): Partial<FormContainerProps> {
         return {
             onSubmit: this.onFormSuccess.bind(this)
         };

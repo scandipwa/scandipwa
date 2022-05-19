@@ -10,21 +10,28 @@
  */
 
 import { FieldType } from 'Component/Field/Field.config';
+import { FieldContainerProps } from 'Component/Field/Field.type';
+import { FormSection } from 'Component/FieldForm/FieldForm.type';
 import { ValidationInputType } from 'Util/Validator/Config';
+
+import {
+    MyAccountAddressFormEvents,
+    MyAccountAddressFormProps
+} from './MyAccountAddressForm.type';
 
 /**
  * Returns fields for street
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue: (*|string), name: string, placeholder: *}}]|*[]}
  * @namespace Component/MyAccountAddressForm/Form/getStreetFields */
-export const getStreetFields = (props) => {
+export const getStreetFields = (props: MyAccountAddressFormProps): Partial<FieldContainerProps>[] => {
     const {
         addressLinesQty = 1,
         address: { street = [] }
     } = props;
 
     if (addressLinesQty === 1) {
-        return [ {
+        return [{
             type: FieldType.TEXT,
             label: __('Street address'),
             attr: {
@@ -33,11 +40,11 @@ export const getStreetFields = (props) => {
                 placeholder: __('Your street address')
             },
             addRequiredTag: true,
-            validateOn: [ 'onChange' ],
+            validateOn: ['onChange'],
             validationRule: {
                 isRequired: true
             }
-        } ];
+        }];
     }
 
     const streets = [];
@@ -53,7 +60,7 @@ export const getStreetFields = (props) => {
                 placeholder: __('Your street address line %s', i + 1)
             },
             addRequiredTag: i === 0,
-            validateOn: i === 0 ? [ 'onChange' ] : [],
+            validateOn: i === 0 ? ['onChange'] : [],
             validationRule: {
                 isRequired: i === 0
             }
@@ -70,7 +77,10 @@ export const getStreetFields = (props) => {
  * @returns {[{addRequiredTag: boolean, validateOn: (string[]|*[]), validationRule: {isRequired}, options, label: *, type: string, attr: {defaultValue: number, name: string, selectPlaceholder: *}}]|*[]|[{validateOn: (string[]|*[]), validationRule: {isRequired}, label: *, type: string, attr: {defaultValue, name: string, id: string, placeholder: *}}]}
  * @namespace Component/MyAccountAddressForm/Form/getRegionFields
  */
-export const getRegionFields = (props, events) => {
+export const getRegionFields = (
+    props: MyAccountAddressFormProps,
+    events: MyAccountAddressFormEvents
+): Partial<FieldContainerProps>[] => {
     const {
         currentRegion,
         currentRegionId,
@@ -100,7 +110,7 @@ export const getRegionFields = (props, events) => {
                     onChange: onRegionChange
                 },
                 addRequiredTag: isStateRequired,
-                validateOn: isStateRequired ? [ 'onChange' ] : [],
+                validateOn: isStateRequired ? ['onChange'] : [],
                 validationRule: {
                     isRequired: isStateRequired
                 }
@@ -122,7 +132,7 @@ export const getRegionFields = (props, events) => {
             },
             options: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
             addRequiredTag: isStateRequired,
-            validateOn: isStateRequired ? [ 'onChange' ] : [],
+            validateOn: isStateRequired ? ['onChange'] : [],
             validationRule: {
                 isRequired: isStateRequired
             }
@@ -135,7 +145,7 @@ export const getRegionFields = (props, events) => {
  * @param props
  * @returns {*[]|[{label: *, type: string, attr: {defaultValue: string, name: string}}]}
  * @namespace Component/MyAccountAddressForm/Form/getVatFields */
-export const getVatFields = (props) => {
+export const getVatFields = (props: MyAccountAddressFormProps): Partial<FieldContainerProps>[] => {
     const { showVatNumber, vat_id: vatID = '' } = props;
 
     if (!showVatNumber) {
@@ -152,7 +162,7 @@ export const getVatFields = (props) => {
                 defaultValue: vatID
             },
             addRequiredTag: false,
-            validateOn: [ 'onChange' ],
+            validateOn: ['onChange'],
             validationRule: {
                 isRequired: false
             }
@@ -166,7 +176,10 @@ export const getVatFields = (props) => {
  * @param events
  * @returns {[{label: *, type: string, attr: {defaultChecked, name: string}}, {label: *, type: string, attr: {defaultChecked, name: string}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue: string, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue: string, name: string, placeholder: *}}, {mods: {street: boolean, multipleFields: boolean, oddAddresses: boolean}, name: string, fields: ({addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue: (*|string), name: string, placeholder: *}}[]|*[])}, null, ...*[]|{label: *, type: string, attr: {defaultValue: string, name: string}}[], null]}
  * @namespace Component/MyAccountAddressForm/Form/myAccountAddressForm */
-export const myAccountAddressForm = (props, events = {}) => {
+export const myAccountAddressForm = (
+    props: MyAccountAddressFormProps,
+    events: MyAccountAddressFormEvents
+): Array<Partial<FieldContainerProps> | FormSection> => {
     const {
         default_billing: defaultBilling,
         default_shipping: defaultShipping,
@@ -212,7 +225,7 @@ export const myAccountAddressForm = (props, events = {}) => {
                 placeholder: __('Your first name')
             },
             addRequiredTag: true,
-            validateOn: [ 'onChange' ],
+            validateOn: ['onChange'],
             validationRule: {
                 isRequired: true
             }
@@ -226,7 +239,7 @@ export const myAccountAddressForm = (props, events = {}) => {
                 placeholder: __('Your last name')
             },
             addRequiredTag: true,
-            validateOn: [ 'onChange' ],
+            validateOn: ['onChange'],
             validationRule: {
                 isRequired: true
             }
@@ -258,7 +271,7 @@ export const myAccountAddressForm = (props, events = {}) => {
                     },
                     options: countries,
                     addRequiredTag: true,
-                    validateOn: [ 'onChange' ],
+                    validateOn: ['onChange'],
                     validationRule: {
                         isRequired: true
                     }
@@ -276,7 +289,7 @@ export const myAccountAddressForm = (props, events = {}) => {
                         onChange: onZipcodeChange
                     },
                     addRequiredTag: true,
-                    validateOn: [ 'onChange', 'onBlur' ],
+                    validateOn: ['onChange', 'onBlur'],
                     validationRule: {
                         isRequired: true
                     }
@@ -293,7 +306,7 @@ export const myAccountAddressForm = (props, events = {}) => {
                         onChange: onCityChange
                     },
                     addRequiredTag: true,
-                    validateOn: [ 'onChange' ],
+                    validateOn: ['onChange'],
                     validationRule: {
                         isRequired: true
                     }
@@ -310,9 +323,9 @@ export const myAccountAddressForm = (props, events = {}) => {
                 placeholder: __('Your phone number')
             },
             addRequiredTag: true,
-            validateOn: [ 'onChange' ],
+            validateOn: ['onChange'],
             validationRule: {
-                inputType: ValidationInputType.phone,
+                inputType: ValidationInputType.PHONE,
                 isRequired: true
             }
         }

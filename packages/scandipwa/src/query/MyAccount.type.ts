@@ -11,7 +11,7 @@
 
 import { Field } from '@tilework/opus';
 
-import { GQLCustomerInput } from 'Type/Graphql.type';
+import { GQLCountryCodeEnum, GQLCustomerInput } from 'Type/Graphql.type';
 
 export interface CustomerAddressRegion {
     region_code: string;
@@ -22,7 +22,7 @@ export interface CustomerAddressRegion {
 export type CustomerAddressFields = Array<
 Field<'id', number>
 | Field<'customer_id', number>
-| Field<'country_id', number>
+| Field<'country_id', string>
 | Field<'street', string>
 | Field<'telephone', string>
 | Field<'postcode', string>
@@ -41,8 +41,8 @@ Field<'id', number>
 export interface CustomerAddress {
     id: number;
     customer_id: number;
-    country_id: number;
-    street: string;
+    country_id: GQLCountryCodeEnum;
+    street: Array<string | null>;
     telephone: string;
     postcode: string;
     city: string;

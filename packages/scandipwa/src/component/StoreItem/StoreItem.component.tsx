@@ -12,17 +12,13 @@
 import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
-import { StoreItemType } from 'Type/Config.type';
+
+import { StoreItemComponentProps } from './StoreItem.type';
 
 import './StoreItem.style';
 
 /** @namespace Component/StoreItem/Component */
-export class StoreItem extends PureComponent {
-    static propTypes = {
-        item: StoreItemType.isRequired,
-        getStoreCode: PropTypes.func.isRequired
-    };
-
+export class StoreItem extends PureComponent<StoreItemComponentProps> {
     render(): ReactElement {
         const {
             item: { label },

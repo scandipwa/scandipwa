@@ -5,11 +5,12 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export enum StoreInPickUpCode {
-    METHOD_CODE = 'pickup',
-    ATTRIBUTE_CODE = 'pickup_location_code'
-}
+import { ImageComponentProps, ImageContainerProps } from 'Component/Image/Image.type';
+
+export type LogoContainerProps = ImageContainerProps;
+
+export type LogoComponentProps = ImageComponentProps;

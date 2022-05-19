@@ -14,26 +14,12 @@ import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import { ReactElement } from 'Type/Common.type';
 
+import { StoreInPickUpStoreComponentProps } from './StoreInPickUpStore.type';
+
 import './StoreInPickUpStore.style';
 
 /** @namespace Component/StoreInPickUpStore/Component */
-export class StoreInPickUpStoreComponent extends PureComponent {
-    static propTypes = {
-        store: PropTypes.shape({
-            city: PropTypes.string,
-            country: PropTypes.string,
-            description: PropTypes.string,
-            name: PropTypes.string,
-            phone: PropTypes.string,
-            pickup_location_code: PropTypes.string,
-            postcode: PropTypes.string,
-            region: PropTypes.string,
-            street: PropTypes.string
-        }).isRequired,
-        handleSelectStore: PropTypes.func.isRequired,
-        isSelectedStore: PropTypes.bool.isRequired
-    };
-
+export class StoreInPickUpStoreComponent extends PureComponent<StoreInPickUpStoreComponentProps> {
     renderActions(): ReactElement {
         const { isSelectedStore, handleSelectStore } = this.props;
 

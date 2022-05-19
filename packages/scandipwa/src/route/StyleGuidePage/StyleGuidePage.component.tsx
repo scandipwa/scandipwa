@@ -30,21 +30,22 @@ import {
     NOTIFICATION_SUCCESS_DATA,
     TEXT_STYLES
 } from './StyleGuidePage.config';
+import { StyleGuidePageComponentProps } from './StyleGuidePage.type';
 
 import './StyleGuidePage.style';
 
 /** @namespace Route/StyleGuidePage/Component */
-export class StyleGuidePageComponent extends PureComponent {
+export class StyleGuidePageComponent extends PureComponent<StyleGuidePageComponentProps> {
     static propTypes = {
         fakeFunction: PropTypes.func.isRequired
     };
 
     renderMap = {
-        [ COLORS ]: () => this.renderColors(),
-        [ BUTTONS ]: () => this.renderButtons(),
-        [ TEXT_STYLES ]: () => this.renderTextStyles(),
-        [ INPUTS ]: () => this.renderInputs(),
-        [ ADDITIONAL_ELEMENTS ]: () => this.renderAdditionalElements()
+        [ COLORS ]: (): ReactElement => this.renderColors(),
+        [ BUTTONS ]: (): ReactElement => this.renderButtons(),
+        [ TEXT_STYLES ]: (): ReactElement => this.renderTextStyles(),
+        [ INPUTS ]: (): ReactElement => this.renderInputs(),
+        [ ADDITIONAL_ELEMENTS ]: (): ReactElement => this.renderAdditionalElements()
     };
 
     renderContentWrapper(): ReactElement {
@@ -477,7 +478,7 @@ export class StyleGuidePageComponent extends PureComponent {
         );
     }
 
-    renderItem(title, render): ReactElement {
+    renderItem(title: string, render: () => ReactElement): ReactElement {
         return (
             <div block="StyleGuidePage" elem="Component" key={ title }>
                 <h1 block="StyleGuidePage" elem="Heading">{ title }</h1>

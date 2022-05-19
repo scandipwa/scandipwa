@@ -5,54 +5,46 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { STORE_IN_PICK_UP_POPUP_ID } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.config';
+import { Store } from 'Query/StoreInPickUp.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
-import { Addresstype } from 'Type/Account.type';
-import { ShippingMethodsType, StoreType } from 'Type/Checkout.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import StoreInPickUp from './StoreInPickUp.component';
+import {
+    StoreInPickUpComponentProps,
+    StoreInPickUpComponentPropsKeys,
+    StoreInPickUpContainerDispatchProps,
+    StoreInPickUpContainerMapStateProps,
+    StoreInPickUpContainerProps
+} from './StoreInPickUp.type';
 
 /** @namespace Component/StoreInPickUp/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpContainerDispatchProps => ({
     showPopup: (payload) => dispatch(showPopup(STORE_IN_PICK_UP_POPUP_ID, payload)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     setPickUpStore: (store) => dispatch(setPickUpStore(store))
 });
 
 /** @namespace Component/StoreInPickUp/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): StoreInPickUpContainerMapStateProps => ({
     selectedStore: state.StoreInPickUpReducer.store
 });
 
 /** @namespace Component/StoreInPickUp/Container */
-export class StoreInPickUpContainer extends PureComponent {
-    static propTypes = {
-        showPopup: PropTypes.func.isRequired,
-        estimateAddress: Addresstype.isRequired,
-        shippingMethods: ShippingMethodsType.isRequired,
-        onStoreSelect: PropTypes.func.isRequired,
-        onShippingMethodSelect: PropTypes.func.isRequired,
-        countryId: PropTypes.string.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func,
-        cartItemsSku: PropTypes.arrayOf(PropTypes.string),
-        setPickUpStore: PropTypes.func.isRequired,
-        selectedStore: StoreType
-    };
-
+export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainerProps> {
     static defaultProps = {
-        setSelectedShippingMethodCode: null,
         cartItemsSku: [],
         selectedStore: null
     };
@@ -62,37 +54,33 @@ export class StoreInPickUpContainer extends PureComponent {
         setSelectedStore: this.setSelectedStore.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<StoreInPickUpComponentProps, StoreInPickUpComponentPropsKeys> {
         const {
             countryId,
-            estimateAddress,
             onShippingMethodSelect,
             onStoreSelect,
             shippingMethods,
-            setSelectedShippingMethodCode,
             cartItemsSku,
             selectedStore
         } = this.props;
 
         return {
             countryId,
-            estimateAddress,
             onShippingMethodSelect,
             onStoreSelect,
             selectedStore,
             shippingMethods,
-            setSelectedShippingMethodCode,
             cartItemsSku
         };
     }
 
-    handleOpenPopup() {
+    handleOpenPopup(): void {
         const { showPopup } = this.props;
 
         showPopup({ title: __('Select Store') });
     }
 
-    setSelectedStore(store) {
+    setSelectedStore(store: Store): void {
         const { setPickUpStore } = this.props;
 
         setPickUpStore(store);
@@ -101,8 +89,8 @@ export class StoreInPickUpContainer extends PureComponent {
     render(): ReactElement {
         return (
             <StoreInPickUp
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

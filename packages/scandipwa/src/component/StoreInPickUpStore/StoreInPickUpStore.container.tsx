@@ -5,27 +5,26 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
-import { StoreType } from 'Type/Checkout.type';
+import { PureComponent } from 'react';
+
+import { ReactElement } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import StoreInPickUpStoreComponent from './StoreInPickUpStore.component';
+import {
+    StoreInPickUpStoreComponentProps,
+    StoreInPickUpStoreContainerProps,
+    StoreInPickUpStoreContainerPropsKeys
+} from './StoreInPickUpStore.type';
 
 /** @namespace Component/StoreInPickUpStore/Container */
-export class StoreInPickUpStoreContainer extends PureComponent {
-    static propTypes = {
-        selectStore: PropTypes.func,
-        isSelectedStore: PropTypes.bool,
-        store: StoreType
-    };
-
+export class StoreInPickUpStoreContainer extends PureComponent<StoreInPickUpStoreContainerProps> {
     static defaultProps = {
-        selectStore: null,
+        selectStore: noopFn,
         isSelectedStore: false,
         store: null
     };
@@ -34,23 +33,25 @@ export class StoreInPickUpStoreContainer extends PureComponent {
         handleSelectStore: this.handleSelectStore.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<StoreInPickUpStoreComponentProps, StoreInPickUpStoreContainerPropsKeys> {
         const { store, isSelectedStore } = this.props;
 
         return { store, isSelectedStore };
     }
 
-    handleSelectStore() {
+    handleSelectStore(): void {
         const { selectStore, store } = this.props;
 
-        selectStore(store);
+        if (store) {
+            selectStore(store);
+        }
     }
 
     render(): ReactElement {
         return (
             <StoreInPickUpStoreComponent
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

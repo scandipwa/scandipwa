@@ -11,37 +11,20 @@
  */
 
 import { FieldType } from 'Component/Field/Field.config';
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import FieldForm from 'Component/FieldForm';
+import { FormSection } from 'Component/FieldForm/FieldForm.type';
 import { FormContainerProps } from 'Component/Form/Form.type';
-import { Addresstype } from 'Type/Account.type';
-import { CountriesType } from 'Type/Config.type';
+import { ReactElement } from 'Type/Common.type';
+import { trimCustomerAddress } from 'Util/Address';
 import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import myAccountAddressForm from './MyAccountAddressForm.form';
+import { MyAccountAddressFormComponentProps, MyAccountAddressFormFields } from './MyAccountAddressForm.type';
 
 /** @namespace Component/MyAccountAddressForm/Component */
-export class MyAccountAddressForm extends FieldForm {
-    static propTypes = {
-        address: Addresstype.isRequired,
-        countries: CountriesType.isRequired,
-        defaultCountry: PropTypes.string.isRequired,
-        addressLinesQty: PropTypes.number.isRequired,
-        showVatNumber: PropTypes.bool.isRequired,
-        regionDisplayAll: PropTypes.bool.isRequired,
-        onCountryChange: PropTypes.func.isRequired,
-        onZipcodeChange: PropTypes.func.isRequired,
-        onCityChange: PropTypes.func.isRequired,
-        onRegionChange: PropTypes.func.isRequired,
-        onRegionIdChange: PropTypes.func.isRequired,
-        countryId: PropTypes.string.isRequired,
-        isStateRequired: PropTypes.bool,
-        currentCity: PropTypes.string,
-        currentRegion: PropTypes.string,
-        currentZipcode: PropTypes.string,
-        currentRegionId: PropTypes.number
-    };
-
+export class MyAccountAddressForm extends FieldForm<MyAccountAddressFormComponentProps> {
     static defaultProps = {
         currentZipcode: null,
         currentCity: null,
@@ -51,7 +34,7 @@ export class MyAccountAddressForm extends FieldForm {
     };
 
     //#region GETTERS
-    get fieldMap() {
+    get fieldMap(): (Partial<FieldContainerProps> | FormSection)[] {
         const {
             address,
             countries,
@@ -108,27 +91,29 @@ export class MyAccountAddressForm extends FieldForm {
      * @param form
      * @param fields
      */
-    onSubmit(form: HTMLFormElement, fields: FieldData[]) {
+    onSubmit(form: HTMLFormElement, fields: FieldData[]): void {
         const { onSave, addressLinesQty } = this.props;
-        const newAddress = transformToNameValuePair(fields);
+        const newAddress = transformToNameValuePair<MyAccountAddressFormFields>(fields);
 
         // Joins streets into one variable
         if (addressLinesQty > 1) {
             newAddress.street = [];
             // eslint-disable-next-line fp/no-loops,fp/no-let
             for (let i = 0; i < addressLinesQty; i++) {
-                if (newAddress[`street_${i}`]) {
-                    newAddress.street.push(newAddress[`street_${i}`]);
+                const streetKey = `street_${i}`;
+
+                if (streetKey in newAddress) {
+                    newAddress.street.push(newAddress[streetKey as keyof MyAccountAddressFormFields] as string);
                 }
             }
         }
 
         // Fixes region variable format
         const { region_id = 0, region_string: region } = newAddress;
-        newAddress.region = { region_id: +region_id, region };
+        newAddress.region = { region_id: +region_id, region: region || '', region_code: '' };
 
         // Filters out non-required options and save address
-        onSave(newAddress);
+        onSave(trimCustomerAddress(newAddress));
     }
 
     //#region RENDERERS

@@ -22,7 +22,7 @@ import { ValidationRule } from 'Util/Validator/Validator.type';
  */
 export const myAccountPasswordForm = (
     range: ValidationRule['range'],
-    minimunPasswordCharacter: number
+    minimunPasswordCharacter: string
 ): Partial<FieldContainerProps>[] => [
     {
         label: __('Current password'),
@@ -54,7 +54,7 @@ export const myAccountPasswordForm = (
         validationRule: {
             inputType: ValidationInputType.PASSWORD,
             isRequired: true,
-            match: (value) => {
+            match: (value: string) => {
                 const password = document.getElementById('my-account-currentPassword') as HTMLInputElement;
 
                 if (value && password.value === value) {

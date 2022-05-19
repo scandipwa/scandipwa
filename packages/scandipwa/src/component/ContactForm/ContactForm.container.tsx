@@ -11,10 +11,20 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+
+import { ReactElement } from 'Type/Common.type';
+import { FieldData, FieldValue } from 'Util/Form/Form.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import ContactForm from './ContactForm.component';
+import {
+    ContactFormComponentProps,
+    ContactFormContainerMapDispatchProps,
+    ContactFormContainerMapStateProps,
+    ContactFormContainerProps
+} from './ContactForm.type';
 
 export const ContactFormDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -22,19 +32,19 @@ export const ContactFormDispatcher = import(
 );
 
 /** @namespace Component/ContactForm/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ContactFormContainerMapStateProps => ({
     isLoading: state.ContactFormReducer.isLoading
 });
 
 /** @namespace Component/ContactForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ContactFormContainerMapDispatchProps => ({
     sendMessage: (data) => ContactFormDispatcher.then(
         ({ default: dispatcher }) => dispatcher.prepareRequest(data, dispatch)
     )
 });
 
 /** @namespace Component/ContactForm/Container */
-export class ContactFormContainer extends PureComponent {
+export class ContactFormContainer extends PureComponent<ContactFormContainerProps> {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         sendMessage: PropTypes.func.isRequired
@@ -44,9 +54,9 @@ export class ContactFormContainer extends PureComponent {
         onFormSubmit: this.onFormSubmit.bind(this)
     };
 
-    onFormSubmit(form, fields) {
+    onFormSubmit(form: HTMLFormElement, fields: FieldData[]): void {
         const { sendMessage } = this.props;
-        const filteredFields = {};
+        const filteredFields: Record<string, FieldValue> = {};
         fields.forEach(({ name, value }) => {
             filteredFields[ name ] = value;
         });
@@ -54,7 +64,7 @@ export class ContactFormContainer extends PureComponent {
         sendMessage({ form, fields: filteredFields });
     }
 
-    containerProps() {
+    containerProps(): Pick<ContactFormComponentProps, 'isLoading'> {
         const { isLoading } = this.props;
 
         return { isLoading };
@@ -63,8 +73,8 @@ export class ContactFormContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ContactForm
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

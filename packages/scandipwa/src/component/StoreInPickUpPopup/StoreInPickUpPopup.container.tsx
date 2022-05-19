@@ -9,59 +9,61 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { ChangeEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
+import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
+import { ShippingMethod } from 'Query/Checkout.type';
 import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
 import { Store } from 'Query/StoreInPickUp.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
-import { Addresstype } from 'Type/Account.type';
-import { ShippingMethodsType, StoreType } from 'Type/Checkout.type';
-import { Merge, ReactElement } from 'Type/Common.type';
-import { CountriesType } from 'Type/Config.type';
-import { checkIfStoreIncluded } from 'Util/Address';
+import { ReactElement } from 'Type/Common.type';
+import { checkIfStoreIncluded, transformCountriesToOptions } from 'Util/Address';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
-import transformCountriesToOptions from 'Util/Store/Transform';
 
-import StoreInPickUpComponent from './StoreInPickUpPopup.component';
+import StoreInPickUpPopupComponent from './StoreInPickUpPopup.component';
 import { STORES_SEARCH_TIMEOUT } from './StoreInPickUpPopup.config';
 import {
-    StoreInPickUpContainerDispatchProps,
-    StoreInPickUpContainerMapStateProps,
-    StoreInPickUpContainerProps,
-    StoreInPickUpContainerState,
+    StoreInPickUpPopupComponentProps,
+    StoreInPickUpPopupComponentPropsKeys,
+    StoreInPickUpPopupContainerDispatchProps,
+    StoreInPickUpPopupContainerMapStateProps,
+    StoreInPickUpPopupContainerProps,
+    StoreInPickUpPopupContainerState,
     StoreWithCountryId
 } from './StoreInPickUpPopup.type';
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpContainerDispatchProps => ({
+export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpPopupContainerDispatchProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     clearPickUpStore: () => dispatch(clearPickUpStore())
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapStateToProps */
-export const mapStateToProps = (state: RootState): StoreInPickUpContainerMapStateProps => ({
+export const mapStateToProps = (state: RootState): StoreInPickUpPopupContainerMapStateProps => ({
     countries: transformCountriesToOptions(state.ConfigReducer.countries),
     defaultCountry: state.ConfigReducer.default_country,
     selectedStore: state.StoreInPickUpReducer.store
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container */
-export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainerProps, StoreInPickUpContainerState> {
+export class StoreInPickUpPopupContainer extends PureComponent<
+StoreInPickUpPopupContainerProps,
+StoreInPickUpPopupContainerState
+> {
     static defaultProps = {
         selectedStore: null
     };
 
     timeout: NodeJS.Timeout | null = null;
 
-    state: StoreInPickUpContainerState = {
+    state: StoreInPickUpPopupContainerState = {
         stores: [],
         storeSearchCriteria: '',
         isLoading: true,
@@ -75,7 +77,7 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
         handleChangeCountry: this.handleChangeCountry.bind(this)
     };
 
-    __construct(props: StoreInPickUpContainerProps): void {
+    __construct(props: StoreInPickUpPopupContainerProps): void {
         const {
             countryId,
             defaultCountry
@@ -92,8 +94,8 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
     }
 
     componentDidUpdate(
-        _: StoreInPickUpContainerProps,
-        prevState: StoreInPickUpContainerState
+        _: StoreInPickUpPopupContainerProps,
+        prevState: StoreInPickUpPopupContainerState
     ): void {
         const {
             storeSearchCriteria: prevStoreSearchCriteria
@@ -113,7 +115,7 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<StoreInPickUpPopupComponentProps, StoreInPickUpPopupComponentPropsKeys> {
         const { countries } = this.props;
         const {
             isLoading,
@@ -149,17 +151,21 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
 
         onStoreSelect(updateStore);
         setSelectedStore(store);
-        onShippingMethodSelect(method);
+
+        if (method) {
+            onShippingMethodSelect(method);
+        }
+
         hideActiveOverlay();
     }
 
-    getShippingMethod() {
+    getShippingMethod(): ShippingMethod | undefined {
         const { shippingMethods } = this.props;
 
-        return shippingMethods.find(({ method_code }) => method_code === STORE_IN_PICK_UP_METHOD_CODE);
+        return shippingMethods.find(({ method_code }) => method_code === StoreInPickUpCode.METHOD_CODE);
     }
 
-    setStoreSearchCriteria(searchCriteria): void {
+    setStoreSearchCriteria(searchCriteria: ChangeEvent<HTMLInputElement>): void {
         this.setState({ storeSearchCriteria: searchCriteria.target.value });
     }
 
@@ -204,7 +210,7 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
 
     render(): ReactElement {
         return (
-            <StoreInPickUpComponent
+            <StoreInPickUpPopupComponent
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />
@@ -212,4 +218,4 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoreInPickUpContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(StoreInPickUpPopupContainer);
