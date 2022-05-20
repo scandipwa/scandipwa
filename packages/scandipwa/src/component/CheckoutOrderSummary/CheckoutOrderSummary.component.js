@@ -68,10 +68,6 @@ export class CheckoutOrderSummary extends PureComponent {
     };
 
     renderPriceLine(price, title, mods) {
-        if (!price) {
-            return null;
-        }
-
         const { totals: { quote_currency_code } } = this.props;
 
         return (
@@ -205,18 +201,14 @@ export class CheckoutOrderSummary extends PureComponent {
 
         const title = __('Subtotal');
 
-        if (cartSubtotal) {
-            return (
+        return (
                 <CheckoutOrderSummaryPriceLine
-                  price={ cartSubtotal }
+                  price={ cartSubtotal.toFixed(2) }
                   currency={ quote_currency_code }
                   title={ title }
-                  subPrice={ cartSubtotalSubPrice }
+                  subPrice={ cartSubtotalSubPrice.toFixed(2) }
                 />
-            );
-        }
-
-        return this.renderPriceLine(cartSubtotal, title);
+        );
     }
 
     getShippingLabel() {
@@ -277,7 +269,7 @@ export class CheckoutOrderSummary extends PureComponent {
             );
         }
 
-        return this.renderPriceLine(grand_total, title, { isTotal: true });
+        return this.renderPriceLine(grand_total.toFixed(2), title, { isTotal: true });
     }
 
     renderTaxFullSummary() {
