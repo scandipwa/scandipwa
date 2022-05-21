@@ -6,28 +6,25 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { ReactElement } from 'Type/Common.type';
-import {
-    HistoryType,
-    LocationType,
-    MatchType,
-    UrlRewriteType
-} from 'Type/Router.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import UrlRewrites from './UrlRewrites.component';
 import {
-    TYPE_CATEGORY,
-    TYPE_CMS_PAGE,
-    TYPE_NOTFOUND,
-    TYPE_PRODUCT
+    UrlRewritePageType
 } from './UrlRewrites.config';
+import {
+    UrlRewritesContainerMapDispatchProps,
+    UrlRewritesContainerMapStateProps,
+    UrlRewritesContainerProps
+} from './UrlRewrites.type';
 
 export const UrlRewritesDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -40,14 +37,14 @@ export const NoMatchDispatcher = import(
 );
 
 /** @namespace Route/UrlRewrites/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): UrlRewritesContainerMapStateProps => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
     isLoading: state.UrlRewritesReducer.isLoading,
     requestedUrl: state.UrlRewritesReducer.requestedUrl
 });
 
 /** @namespace Route/UrlRewrites/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): UrlRewritesContainerMapDispatchProps => ({
     requestUrlRewrite: (urlParam) => {
         UrlRewritesDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch, { urlParam })
@@ -56,29 +53,21 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/UrlRewrites/Container */
-export class UrlRewritesContainer extends PureComponent {
-    static propTypes = {
-        location: LocationType.isRequired,
-        match: MatchType.isRequired,
-        history: HistoryType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        requestedUrl: PropTypes.string,
-        requestUrlRewrite: PropTypes.func.isRequired,
-        urlRewrite: UrlRewriteType.isRequired
-    };
-
+export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProps> {
     static defaultProps = {
         requestedUrl: ''
     };
 
     static stateMapping = {
-        category: TYPE_CATEGORY,
-        product: TYPE_PRODUCT,
-        page: TYPE_CMS_PAGE
+        category: UrlRewritePageType.CATEGORY,
+        product: UrlRewritePageType.PRODUCT,
+        page: UrlRewritePageType.CMS_PAGE
     };
 
-    __construct(props) {
-        super.__construct(props);
+    initialUrl = '';
+
+    __construct(props: UrlRewritesContainerProps): void {
+        super.__construct?.(props);
 
         this.requestUrlRewrite();
     }
@@ -105,16 +94,15 @@ export class UrlRewritesContainer extends PureComponent {
         this.redirectToCorrectUrl();
     }
 
-    redirectToCorrectUrl() {
+    redirectToCorrectUrl(): void {
         const { location, history } = this.props;
 
         const type = this.getType();
 
-        if ([TYPE_CATEGORY, TYPE_PRODUCT].includes(type)) {
+        if (type in [UrlRewritePageType.CATEGORY, UrlRewritePageType.PRODUCT]) {
             if (location.pathname.endsWith('/')) {
                 history.replace(
-                    location.pathname.slice(0, -1),
-                    history.state
+                    location.pathname.slice(0, -1)
                 );
             }
         }
@@ -138,7 +126,7 @@ export class UrlRewritesContainer extends PureComponent {
         const isLoading = this.getIsLoading();
 
         switch (this.getType()) {
-        case TYPE_PRODUCT:
+        case UrlRewritePageType.PRODUCT:
             /**
                  * In case we are not yet sure what product ID it is:
                  * - check if there is a hint in browser history
@@ -157,13 +145,13 @@ export class UrlRewritesContainer extends PureComponent {
             }
 
             return { productSKU: sku, id };
-        case TYPE_CMS_PAGE:
+        case UrlRewritePageType.CMS_PAGE:
             if (isLoading) {
                 return { isOnlyPlaceholder: true };
             }
 
             return { pageIds: id };
-        case TYPE_CATEGORY:
+        case UrlRewritePageType.CATEGORY:
             /**
                  * In case we are not yet sure what category ID it is:
                  * - check if there is a hint in browser history
@@ -180,13 +168,13 @@ export class UrlRewritesContainer extends PureComponent {
             }
 
             return { categoryIds: id };
-        case TYPE_NOTFOUND:
+        case UrlRewritePageType.NOTFOUND:
         default:
             return {};
         }
     }
 
-    getIsLoading() {
+    getIsLoading(): boolean {
         const { requestedUrl } = this.props;
 
         return location.pathname !== requestedUrl;
@@ -207,7 +195,7 @@ export class UrlRewritesContainer extends PureComponent {
         };
     }
 
-    getFallbackType() {
+    getFallbackType(): string {
         const {
             actionName: { type: initialType = '' } = {}
         } = window;
@@ -219,7 +207,7 @@ export class UrlRewritesContainer extends PureComponent {
         return '';
     }
 
-    getType() {
+    getType(): UrlRewritePageType | string {
         const { urlRewrite: { type, notFound } } = this.props;
 
         /**
@@ -229,10 +217,10 @@ export class UrlRewritesContainer extends PureComponent {
          */
         if (this.getIsLoading()) {
             const state = history?.state?.state || {};
-            const typeKey = Object.keys(state).find((key) => UrlRewritesContainer.stateMapping[ key ]);
+            const typeKey = Object.keys(state).find((key) => key in UrlRewritesContainer.stateMapping);
 
             if (typeKey) {
-                return UrlRewritesContainer.stateMapping[ typeKey ];
+                return UrlRewritesContainer.stateMapping[ typeKey as keyof typeof UrlRewritesContainer.stateMapping];
             }
 
             /**
@@ -242,7 +230,7 @@ export class UrlRewritesContainer extends PureComponent {
         }
 
         if (notFound) {
-            return TYPE_NOTFOUND;
+            return UrlRewritePageType.NOTFOUND;
         }
 
         if (type) {
@@ -252,7 +240,7 @@ export class UrlRewritesContainer extends PureComponent {
         return '';
     }
 
-    requestUrlRewrite() {
+    requestUrlRewrite(): void {
         const { requestUrlRewrite } = this.props;
 
         return requestUrlRewrite(location.pathname);

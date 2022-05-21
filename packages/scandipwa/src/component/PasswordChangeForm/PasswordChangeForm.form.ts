@@ -10,15 +10,20 @@
  */
 
 import { FieldType } from 'Component/Field/Field.config';
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import { validatePassword } from 'Util/Validator';
 import { ValidationInputType } from 'Util/Validator/Config';
+import { ValidationRule } from 'Util/Validator/Validator.type';
 
 /**
  * Returns password change forms fields
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/PasswordChangeForm/Form/customerEmailAndPasswordFields */
-export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) => [
+export const customerEmailAndPasswordFields = (
+    range: ValidationRule['range'],
+    minimunPasswordCharacter: string
+): Partial<FieldContainerProps>[] => [
     {
         type: FieldType.PASSWORD,
         label: __('New password'),
@@ -26,13 +31,13 @@ export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) 
             id: 'password',
             name: 'password',
             placeholder: __('Enter your password'),
-            autocomplete: 'new-password'
+            autoComplete: 'new-password'
         },
-        validateOn: [ 'onChange' ],
+        validateOn: ['onChange'],
         validationRule: {
             isRequired: true,
-            inputType: ValidationInputType.password,
-            match: (value) => validatePassword(value, range, minimunPasswordCharacter)
+            inputType: ValidationInputType.PASSWORD,
+            match: (value: string) => validatePassword(value, range, minimunPasswordCharacter)
         },
         addRequiredTag: true
     },
@@ -43,14 +48,14 @@ export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter) 
             id: 'password_confirmation',
             name: 'password_confirmation',
             placeholder: __('Retype your password'),
-            autocomplete: 'new-password'
+            autoComplete: 'new-password'
         },
-        validateOn: [ 'onChange' ],
+        validateOn: ['onChange'],
         validationRule: {
             isRequired: true,
-            inputType: ValidationInputType.password,
-            match: (value) => {
-                const password = document.getElementById('password');
+            inputType: ValidationInputType.PASSWORD,
+            match: (value: string) => {
+                const password = document.getElementById('password') as HTMLInputElement;
                 return password.value === value;
             },
             customErrorMessages: {

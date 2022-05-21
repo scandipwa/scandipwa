@@ -30,8 +30,8 @@ import './MyAccountMyWishlist.style';
 
 /** @namespace Component/MyAccountMyWishlist/Component */
 export class MyAccountMyWishlist<
-P extends MyAccountMyWishlistComponentProps,
-S extends MyAccountMyWishlistComponentState
+P extends MyAccountMyWishlistComponentProps = MyAccountMyWishlistComponentProps,
+S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
 > extends PureComponent<P, S> {
     static defaultProps = {
         creatorsName: ''

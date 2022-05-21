@@ -10,28 +10,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import FieldForm from 'Component/FieldForm';
+import { FormContainerProps } from 'Component/Form/Form.type';
+import { ReactElement } from 'Type/Common.type';
 
 import customerEmailAndPasswordFields from './PasswordChangeForm.form';
+import { PasswordChangeFormComponentProps } from './PasswordChangeForm.type';
 
 import './PasswordChangeForm.style';
 
 /** @namespace Component/PasswordChangeForm/Component */
-export class PasswordChangeForm extends FieldForm {
-    static propsTypes = {
-        onFormSubmit: PropTypes.func.isRequired,
-        onFormError: PropTypes.func.isRequired,
-        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
-        minimunPasswordCharacter: PropTypes.string.isRequired
-    };
-
-    get fieldMap() {
+export class PasswordChangeForm extends FieldForm<PasswordChangeFormComponentProps> {
+    get fieldMap(): Partial<FieldContainerProps>[] {
         const { range, minimunPasswordCharacter } = this.props;
 
         return customerEmailAndPasswordFields(range, minimunPasswordCharacter);
     }
 
-    getFormProps() {
+    getFormProps(): Partial<FormContainerProps> {
         const { onFormSubmit, onFormError } = this.props;
 
         return {

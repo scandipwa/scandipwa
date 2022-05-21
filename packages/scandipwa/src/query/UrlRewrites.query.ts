@@ -13,7 +13,6 @@ import { Field, Query } from '@tilework/opus';
 import { GQLUrlRewriteEntityTypeEnum } from 'Type/Graphql.type';
 
 import {
-    EntityUrl,
     UrlRewritesOutput,
     UrlRewritesQueryOptions
 } from './UrlRewrites.type';
@@ -25,7 +24,8 @@ import {
 export class UrlRewritesQuery {
     getQuery({ urlParam }: UrlRewritesQueryOptions): Query<'urlResolver', {
         sku: string;
-        type: EntityUrl;
+        type: GQLUrlRewriteEntityTypeEnum;
+        id: number;
     }> {
         return new Query<'urlResolver', UrlRewritesOutput>('urlResolver')
             .addArgument('url', 'String!', urlParam)
@@ -35,10 +35,12 @@ export class UrlRewritesQuery {
     _getUrlResolverFields(): Array<
     Field<'sku', string>
     | Field<'type', GQLUrlRewriteEntityTypeEnum>
+    | Field<'id', number>
     > {
         return [
             new Field<'sku', string>('sku'),
-            new Field<'type', GQLUrlRewriteEntityTypeEnum>('type')
+            new Field<'type', GQLUrlRewriteEntityTypeEnum>('type'),
+            new Field<'id', number>('id')
         ];
     }
 }

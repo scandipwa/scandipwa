@@ -19,7 +19,7 @@ export interface MyAccountMyWishlistContainerMapStateProps {
 
 export interface MyAccountMyWishlistContainerMapDispatchProps {
     clearWishlist: () => void;
-    moveWishlistToCart: () => void;
+    moveWishlistToCart: (sharingCode?: string) => Promise<void>;
     showPopup: <T>(payload: T) => void;
     showNotification: (message: string) => void;
     showError: (message: string) => void;
@@ -60,8 +60,8 @@ export interface MyAccountMyWishlistComponentProps {
 }
 
 export interface MyAccountMyWishlistComponentState {
-    selectedIdMap: string[],
-    actionLineHeight: number
+    selectedIdMap: string[];
+    actionLineHeight: number;
 }
 
 export type MyAccountMyWishlistContainerPropsKeys = 'isWishlistLoading'
@@ -73,4 +73,4 @@ export type MyAccountMyWishlistContainerPropsKeys = 'isWishlistLoading'
 | 'wishlistItems'
 | 'isEditingActive'
 | 'isMobile'
-| 'isQtyUpdateInProgress'
+| 'isQtyUpdateInProgress';

@@ -22,10 +22,12 @@ import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { ValidationInputType } from 'Util/Validator/Config';
 
+import { ConfirmAccountPageComponentProps } from './ConfirmAccountPage.type';
+
 import './ConfirmAccountPage.style';
 
 /** @namespace Route/ConfirmAccountPage/Component */
-export class ConfirmAccountPage extends PureComponent {
+export class ConfirmAccountPage extends PureComponent<ConfirmAccountPageComponentProps> {
     static propTypes = {
         redirect: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,

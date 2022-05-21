@@ -68,6 +68,7 @@ export type MyAccountAction = UpdateCustomerSignInStatusAction
 export type MyAccountStore = {
     isSignedIn: boolean;
     passwordResetStatus: string;
+    passwordResetMessage: string;
     isPasswordForgotSend: boolean;
     isLoading: boolean;
     isLocked: boolean;

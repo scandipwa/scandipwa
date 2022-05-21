@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { RouteComponentProps } from 'react-router';
+
 import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
@@ -25,7 +27,9 @@ export interface ContactPageMapDispatchProps {
     updateBreadcrumbs: (breadcrumbs: Breadcrumb[]) => void;
 }
 
-export type ContactPageContainerProps = ContactPageMapStateProps & ContactPageMapDispatchProps;
+export type ContactPageContainerProps = ContactPageMapStateProps
+& ContactPageMapDispatchProps
+& RouteComponentProps;
 
 export interface ContactPageContainerState {
     isLoading: boolean;

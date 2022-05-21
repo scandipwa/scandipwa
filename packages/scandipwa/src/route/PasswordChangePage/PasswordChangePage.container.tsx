@@ -6,13 +6,13 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
@@ -23,17 +23,23 @@ import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
+import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode, getQueryParam } from 'Util/Url';
 
 import PasswordChangePage from './PasswordChangePage.component';
+import { PasswordPageStatus } from './PasswordChangePage.config';
 import {
-    STATUS_PASSWORD_MISS_MATCH,
-    STATUS_PASSWORD_UPDATED
-} from './PasswordChangePage.config';
+    PasswordChangePageComponentProps,
+    PasswordChangePageContainerMapDispatchProps,
+    PasswordChangePageContainerMapStateProps,
+    PasswordChangePageContainerProps,
+    PasswordChangePageContainerPropsKeys,
+    PasswordChangePageContainerState
+} from './PasswordChangePage.type';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -41,7 +47,7 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Route/PasswordChangePage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): PasswordChangePageContainerMapStateProps => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus,
     passwordResetMessage: state.MyAccountReducer.passwordResetMessage,
     isMobile: state.ConfigReducer.device.isMobile,
@@ -50,7 +56,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): PasswordChangePageContainerMapDispatchProps => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (visibility) => dispatch(toggleBreadcrumbs(visibility)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
@@ -59,58 +65,40 @@ export const mapDispatchToProps = (dispatch) => ({
             ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch)
         );
     },
-    updateCustomerPasswordResetStatus(options) {
-        MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateCustomerPasswordResetStatus(options, dispatch)
-        );
-    },
     showNotification(type, message) {
         dispatch(showNotification(type, message));
     }
 });
 
 /** @namespace Route/PasswordChangePage/Container */
-export class PasswordChangePageContainer extends PureComponent {
-    static propTypes = {
-        updateMeta: PropTypes.func.isRequired,
-        toggleBreadcrumbs: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        passwordResetStatus: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]).isRequired,
-        passwordResetMessage: PropTypes.string.isRequired,
-        resetPassword: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        setHeaderState: PropTypes.func.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        minimunPasswordLength: PropTypes.number.isRequired,
-        minimunPasswordCharacter: PropTypes.string.isRequired
-    };
-
-    state = {
+export class PasswordChangePageContainer extends PureComponent<
+PasswordChangePageContainerProps,
+PasswordChangePageContainerState
+> {
+    state: PasswordChangePageContainerState = {
         passwordResetStatus: '',
         isLoading: false
     };
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(
+        props: PasswordChangePageContainerProps
+    ): Partial<PasswordChangePageContainerState> | null {
         const {
             passwordResetStatus,
             passwordResetMessage,
             showNotification
         } = props;
-        const stateToBeUpdated = {};
+        const stateToBeUpdated: Partial<PasswordChangePageContainerState> = {};
 
         if (passwordResetStatus) {
             stateToBeUpdated.isLoading = false;
             stateToBeUpdated.passwordResetStatus = passwordResetStatus;
 
             switch (passwordResetStatus) {
-            case STATUS_PASSWORD_UPDATED:
+            case PasswordPageStatus.UPDATED:
                 showNotification(NotificationType.SUCCESS, __('Password has been successfully updated!'));
                 break;
-            case STATUS_PASSWORD_MISS_MATCH:
+            case PasswordPageStatus.MISS_MATCH:
                 showNotification(NotificationType.INFO, __('Your password and confirmation password do not match.'));
                 break;
             default:
@@ -144,7 +132,7 @@ export class PasswordChangePageContainer extends PureComponent {
         });
     }
 
-    containerProps() {
+    containerProps(): Pick<PasswordChangePageComponentProps, PasswordChangePageContainerPropsKeys> {
         const { isLoading } = this.state;
         const { isMobile, minimunPasswordLength, minimunPasswordCharacter } = this.props;
 
@@ -162,33 +150,36 @@ export class PasswordChangePageContainer extends PureComponent {
         };
     }
 
-    shouldDisplayWarning() {
+    shouldDisplayWarning(): boolean {
+        const { location } = this.props;
         const token = getQueryParam('token', location);
 
         return !token;
     }
 
-    onPasswordSuccess(form, fields) {
+    onPasswordSuccess(form: HTMLFormElement, fields: FieldData[]): void {
         this.setState({ isLoading: true }, () => {
             const { resetPassword, location } = this.props;
             const { password, password_confirmation } = transformToNameValuePair(fields);
             const token = getQueryParam('token', location);
 
-            resetPassword({ token, password, password_confirmation });
+            if (token) {
+                resetPassword({ token, password, password_confirmation });
+            }
         });
     }
 
-    onError() {
+    onError(): void {
         this.setState({ isLoading: false });
     }
 
-    updateMeta() {
+    updateMeta(): void {
         const { updateMeta } = this.props;
 
         updateMeta({ title: __('Password Change Page') });
     }
 
-    toggleBreadcrumbs(visibility) {
+    toggleBreadcrumbs(visibility: boolean): void {
         const { toggleBreadcrumbs } = this.props;
 
         toggleBreadcrumbs(visibility);
@@ -197,7 +188,7 @@ export class PasswordChangePageContainer extends PureComponent {
     render(): ReactElement {
         const { passwordResetStatus } = this.state;
 
-        if (passwordResetStatus === STATUS_PASSWORD_UPDATED) {
+        if (passwordResetStatus === PasswordPageStatus.UPDATED) {
             return <Redirect to="/" />;
         }
 

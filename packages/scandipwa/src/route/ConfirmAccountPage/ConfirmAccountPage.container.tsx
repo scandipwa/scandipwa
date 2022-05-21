@@ -6,26 +6,34 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { ERROR_TYPE } from 'Component/Notification/Notification.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { LocationType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
+import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
 import { appendWithStoreCode, convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
+import {
+    ConfirmAccountPageComponentProps,
+    ConfirmAccountPageContainerMapDispatchProps,
+    ConfirmAccountPageContainerMapStateProps,
+    ConfirmAccountPageContainerProps,
+    ConfirmAccountPageContainerPropsKeys,
+    ConfirmAccountPageContainerState
+} from './ConfirmAccountPage.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -37,10 +45,10 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Route/ConfirmAccountPage/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (): ConfirmAccountPageContainerMapStateProps => ({});
 
 /** @namespace Route/ConfirmAccountPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ConfirmAccountPageContainerMapDispatchProps => ({
     toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     confirmAccount: (options) => MyAccountDispatcher.then(
@@ -53,23 +61,17 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/ConfirmAccountPage/Container */
-export class ConfirmAccountPageContainer extends PureComponent {
-    static propTypes = {
-        location: LocationType.isRequired,
-        signIn: PropTypes.func.isRequired,
-        updateMeta: PropTypes.func.isRequired,
-        confirmAccount: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        toggleBreadcrumbs: PropTypes.func.isRequired
-    };
-
+export class ConfirmAccountPageContainer extends PureComponent<
+ConfirmAccountPageContainerProps,
+ConfirmAccountPageContainerState
+> {
     containerFunctions = {
         onConfirmSuccess: this.onConfirmSuccess.bind(this),
         onFormError: this.onFormError.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: ConfirmAccountPageContainerProps): void {
+        super.__construct?.(props);
 
         this.state = {
             redirect: false,
@@ -88,7 +90,7 @@ export class ConfirmAccountPageContainer extends PureComponent {
         toggleBreadcrumbs(false);
     }
 
-    containerProps() {
+    containerProps(): Pick<ConfirmAccountPageComponentProps, ConfirmAccountPageContainerPropsKeys> {
         const { redirect, isLoading } = this.state;
 
         return {
@@ -98,7 +100,7 @@ export class ConfirmAccountPageContainer extends PureComponent {
         };
     }
 
-    shouldDisplayWarning() {
+    shouldDisplayWarning(): boolean {
         const {
             location: {
                 search
@@ -109,10 +111,7 @@ export class ConfirmAccountPageContainer extends PureComponent {
         return !(email && key);
     }
 
-    onConfirmAttempt() {
-    }
-
-    onConfirmSuccess(form, fields) {
+    onConfirmSuccess(form: HTMLFormElement, fields: FieldData[]): void {
         const {
             location: { search },
             confirmAccount,
@@ -121,12 +120,12 @@ export class ConfirmAccountPageContainer extends PureComponent {
 
         this.setState({ isLoading: true });
 
-        const { password } = transformToNameValuePair(fields);
+        const { password } = transformToNameValuePair<{ email: string; password: string }>(fields);
 
         const options = convertQueryStringToKeyValuePairs(search);
-        const { email } = options;
+        const { email, key } = options;
 
-        confirmAccount({ ...options, password })
+        confirmAccount({ email, password, key })
             .then(
                 /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch/then/then/confirmAccount/then */
                 (data) => {
@@ -151,15 +150,15 @@ export class ConfirmAccountPageContainer extends PureComponent {
             );
     }
 
-    onFormError() {
+    onFormError(): void {
         this.setState({ isLoading: false });
     }
 
     render(): ReactElement {
         return (
             <ConfirmAccountPage
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

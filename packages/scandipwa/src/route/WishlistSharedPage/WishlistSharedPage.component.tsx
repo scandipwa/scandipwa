@@ -14,6 +14,8 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import SourceWishlist from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.component';
 import SharedWishlistItem from 'Component/SharedWishlistItem';
+import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
+import { ObjectEntries, ReactElement } from 'Type/Common.type';
 
 import './WishlistSharedPage.style';
 
@@ -26,16 +28,16 @@ export class WishlistSharedPage extends SourceWishlist {
     renderActionLine(): ReactElement {
         return (
             <div block="WishlistSharedPage" elem="ActionBar">
-                {this.renderAddAllToCart()}
+                { this.renderAddAllToCart() }
             </div>
         );
     }
 
-    renderProduct([ id, product ]): ReactElement {
+    renderProduct([id, product]: ObjectEntries<Record<string, WishlistProduct>>): ReactElement {
         return (
             <SharedWishlistItem
-                key={id}
-                product={product}
+              key={ id }
+              product={ product }
             />
         );
     }
@@ -45,8 +47,8 @@ export class WishlistSharedPage extends SourceWishlist {
 
         return (
             <h1 block="WishlistSharedPage" elem="CreatorsInfo">
-                {__('Wishlist shared by ')}
-                <strong>{creatorsName}</strong>
+                { __('Wishlist shared by ') }
+                <strong>{ creatorsName }</strong>
             </h1>
         );
     }
@@ -64,8 +66,8 @@ export class WishlistSharedPage extends SourceWishlist {
 
         return (
             <div block="WishlistSharedPage" elem="Products">
-                <Loader isLoading={isLoading} />
-                {this.renderProducts()}
+                <Loader isLoading={ isLoading } />
+                { this.renderProducts() }
             </div>
         );
     }
@@ -74,9 +76,9 @@ export class WishlistSharedPage extends SourceWishlist {
         return (
             <main block="WishlistSharedPage">
                 <ContentWrapper>
-                    {this.renderActionLine()}
-                    {this.renderCreatorsInfo()}
-                    {this.renderContent()}
+                    { this.renderActionLine() }
+                    { this.renderCreatorsInfo() }
+                    { this.renderContent() }
                 </ContentWrapper>
             </main>
         );

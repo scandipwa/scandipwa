@@ -18,6 +18,7 @@ import { MyAccountAction, MyAccountActionType, MyAccountStore } from './MyAccoun
 export const getInitialState = (): MyAccountStore => ({
     isSignedIn: isInitiallySignedIn(),
     passwordResetStatus: '',
+    passwordResetMessage: '',
     isPasswordForgotSend: false,
     isLoading: false,
     isLocked: false,

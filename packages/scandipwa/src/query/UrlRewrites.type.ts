@@ -11,14 +11,10 @@
 
 import { GQLUrlRewriteEntityTypeEnum } from 'Type/Graphql.type';
 
-export interface EntityUrl {
-    sku: string;
-    type: GQLUrlRewriteEntityTypeEnum;
-}
-
 export interface UrlRewritesOutput {
     sku: string;
-    type: EntityUrl;
+    type: GQLUrlRewriteEntityTypeEnum;
+    id: number;
 }
 
 export type UrlRewritesQueryOptions = {

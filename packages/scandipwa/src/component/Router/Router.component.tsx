@@ -63,7 +63,7 @@ export const CreateAccountPage = lazy(() => import(/* webpackMode: "lazy", webpa
 export const LoginAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/LoginAccount'));
 export const ForgotPasswordPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/ForgotPassword'));
 export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "something-went-wrong" */ 'Route/SomethingWentWrong'));
-export const StyleGuidePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/StyleGuidePage'));
+export const StyleGuidePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "styleguide" */ 'Route/StyleGuidePage'));
 export const Breadcrumbs = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Breadcrumbs'));
 
 /** @namespace Component/Router/Component/withStoreRegex */

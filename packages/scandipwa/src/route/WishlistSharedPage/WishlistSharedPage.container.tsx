@@ -6,24 +6,31 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
 import WishlistQuery from 'Query/Wishlist.query';
+import { Wishlist } from 'Query/Wishlist.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { MatchType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 import { getIndexedProduct } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
 import { executeGet, getErrorMessage } from 'Util/Request';
 import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import WishlistShared from './WishlistSharedPage.component';
+import {
+    WishlistSharedPageContainerMapDispatchProps,
+    WishlistSharedPageContainerMapStateProps,
+    WishlistSharedPageContainerProps,
+    WishlistSharedPageContainerState
+} from './WishlistSharedPage.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -35,7 +42,7 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Route/WishlistSharedPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): WishlistSharedPageContainerMapDispatchProps => ({
     clearWishlist: () => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)
     ),
@@ -51,15 +58,11 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/WishlistSharedPage/Container */
-export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
-    static propTypes = {
-        match: MatchType.isRequired,
-        showError: PropTypes.func.isRequired,
-        showNoMatch: PropTypes.func.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired
-    };
-
-    state = {
+export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer<
+WishlistSharedPageContainerProps,
+WishlistSharedPageContainerState
+> {
+    state: WishlistSharedPageState = {
         creatorsName: '',
         wishlistItems: {},
         isWishlistLoading: true,
@@ -70,7 +73,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         this.requestWishlist();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: WishlistSharedPageContainerProps): void {
         const { match: { params: { code } } } = prevProps;
 
         if (this.getCode() !== code) {
@@ -78,11 +81,11 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         }
     }
 
-    setLoading(isLoading = true) {
+    setLoading(isLoading = true): void {
         this.setState({ isWishlistLoading: isLoading, isLoading });
     }
 
-    addAllToCart() {
+    addAllToCart(): Promise<void> {
         const { showError, moveWishlistToCart } = this.props;
         const sharingCode = this.getCode();
 
@@ -96,7 +99,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         );
     }
 
-    requestWishlist() {
+    requestWishlist(): void {
         const { showError, showNoMatch, updateBreadcrumbs } = this.props;
 
         const code = this.getCode();
@@ -105,10 +108,10 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         updateBreadcrumbs([]);
         this.setLoading();
 
-        executeGet(query, 'SharedWishlist', FIVE_MINUTES_IN_SECONDS).then(
+        executeGet<{ wishlist: Wishlist }>(query, 'SharedWishlist', FIVE_MINUTES_IN_SECONDS).then(
             /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/requestWishlist/executeGet/then */
             ({ wishlist, wishlist: { items_count, creators_name: creatorsName } = {} }) => {
-                if (!items_count) {
+                if (!items_count || !creatorsName) {
                     this.setLoading(false);
 
                     return;
@@ -160,13 +163,13 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         );
     }
 
-    _getIsWishlistEmpty() {
+    _getIsWishlistEmpty(): boolean {
         const { wishlistItems } = this.state;
 
         return Object.entries(wishlistItems).length <= 0;
     }
 
-    getCode() {
+    getCode(): string {
         const { match: { params: { code } } } = this.props;
 
         return code;
@@ -183,6 +186,6 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
 }
 
 /** @namespace Route/WishlistSharedPage/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (): WishlistSharedPageContainerMapStateProps => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishlistSharedPageContainer);

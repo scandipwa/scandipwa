@@ -9,28 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import PasswordChangeForm from 'Component/PasswordChangeForm';
+import { ReactElement } from 'Type/Common.type';
+
+import { PasswordChangePageComponentProps } from './PasswordChangePage.type';
 
 import './PasswordChangePage.style';
 
 /** @namespace Route/PasswordChangePage/Component */
-export class PasswordChangePage extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        onPasswordSuccess: PropTypes.func.isRequired,
-        onError: PropTypes.func.isRequired,
-        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        shouldDisplayWarning: PropTypes.bool.isRequired,
-        minimunPasswordCharacter: PropTypes.string.isRequired
-    };
-
+export class PasswordChangePage extends PureComponent<PasswordChangePageComponentProps> {
     renderWarningMessage(): ReactElement {
         const { shouldDisplayWarning } = this.props;
 
@@ -41,10 +32,10 @@ export class PasswordChangePage extends PureComponent {
         return (
             <div block="PasswordChangePage" elem="WarningMsg">
                 <h2>
-                    {__('Unable to reset password')}
+                    { __('Unable to reset password') }
                 </h2>
                 <div>
-                    {__('The URL is invalid. Some parameters are missing.')}
+                    { __('The URL is invalid. Some parameters are missing.') }
                 </div>
             </div>
         );
@@ -66,12 +57,12 @@ export class PasswordChangePage extends PureComponent {
 
         return (
             <>
-                {!isMobile && <h1>{__('Change My Password')}</h1>}
+                { !isMobile && <h1>{ __('Change My Password') }</h1> }
                 <PasswordChangeForm
-                    onFormError={onError}
-                    onFormSubmit={onPasswordSuccess}
-                    range={range}
-                    minimunPasswordCharacter={minimunPasswordCharacter}
+                  onFormError={ onError }
+                  onFormSubmit={ onPasswordSuccess }
+                  range={ range }
+                  minimunPasswordCharacter={ minimunPasswordCharacter }
                 />
             </>
         );
@@ -82,21 +73,21 @@ export class PasswordChangePage extends PureComponent {
 
         return (
             <ContentWrapper
-                mix={{ block: 'PasswordChangePage' }}
-                wrapperMix={{ block: 'PasswordChangePage', elem: 'Wrapper' }}
-                label={__('Password Change Actions')}
+              mix={ { block: 'PasswordChangePage' } }
+              wrapperMix={ { block: 'PasswordChangePage', elem: 'Wrapper' } }
+              label={ __('Password Change Actions') }
             >
-                <Loader isLoading={isLoading} />
-                {this.renderWarningMessage()}
-                {this.renderPageContents()}
+                <Loader isLoading={ isLoading } />
+                { this.renderWarningMessage() }
+                { this.renderPageContents() }
             </ContentWrapper>
         );
     }
 
     render(): ReactElement {
         return (
-            <main block="PasswordChangePage" aria-label={__('Password Change Page')}>
-                {this.renderContent()}
+            <main block="PasswordChangePage" aria-label={ __('Password Change Page') }>
+                { this.renderContent() }
             </main>
         );
     }
