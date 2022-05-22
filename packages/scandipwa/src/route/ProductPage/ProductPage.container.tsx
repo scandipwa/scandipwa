@@ -17,7 +17,6 @@ import { Dispatch } from 'redux';
 import { Page } from 'Component/Header/Header.config';
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
 import { RouterComponentProps } from 'Component/Router/Router.type';
-import { AttributeWithValue } from 'Query/ProductList.type';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -28,7 +27,7 @@ import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import { getAttributesWithValues, getIsConfigurableParameterSelected } from 'Util/Product';
-import { IndexedProduct } from 'Util/Product/Product.type';
+import { IndexedAttributeWithValue, IndexedProduct } from 'Util/Product/Product.type';
 import { debounce } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
 import {
@@ -431,7 +430,7 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         const { attributes: productAttr = {}, media_gallery_entries: mediaGallery = [] } = product;
         const { attributes: activeAttr = {}, media_gallery_entries: activeMediaGallery = [] } = activeProduct;
 
-        const attributes: Record<string, AttributeWithValue> = {};
+        const attributes: Record<string, IndexedAttributeWithValue> = {};
         Object.keys(productAttr).forEach((attr) => {
             const { [ attr ]: { attribute_value: attrValue }, [ attr ]: currAttr } = productAttr;
             const { [ attr ]: { attribute_value: activeAttrValue = '' } = {} } = activeAttr;
