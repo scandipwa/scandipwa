@@ -65,9 +65,18 @@ export interface MyAccountOverlayComponentProps extends RouteComponentProps {
     isCheckout: boolean;
     isMobile: boolean;
     onSignIn: () => void;
+    device: Device;
 }
 
 export type MyAccountOverlayRenderMap = {
     render: () => ReactElement | void;
     title?: string;
 };
+
+export type MyAccountOverlayContainerPropsKeys = 'isCheckout'
+| 'isLoading'
+| 'isMobile'
+| 'isOverlayVisible'
+| 'onSignIn'
+| 'state'
+| 'device';

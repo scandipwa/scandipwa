@@ -6,11 +6,12 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
-import PropTypes from 'prop-types';
+
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Subscribe } from 'unstated';
 
 import { Page } from 'Component/Header/Header.config';
@@ -20,9 +21,16 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { ReactElement } from 'Type/Common.type';
-import { UrlRewriteType } from 'Type/Router.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import NoMatch from './NoMatch.component';
+import {
+    NoMatchComponentProps,
+    NoMatchContainerMapDispatchProps,
+    NoMatchContainerMapStateProps,
+    NoMatchContainerProps,
+    NoMatchContainerPropsKeys
+} from './NoMatch.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -30,7 +38,7 @@ export const BreadcrumbsDispatcher = import(
 );
 
 /** @namespace Route/NoMatch/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): NoMatchContainerMapDispatchProps => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
             ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
@@ -42,20 +50,12 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/NoMatch/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): NoMatchContainerMapStateProps => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite
 });
 
 /** @namespace Route/NoMatch/Container */
-export class NoMatchContainer extends PureComponent {
-    static propTypes = {
-        changeHeaderState: PropTypes.func.isRequired,
-        updateMeta: PropTypes.func.isRequired,
-        updateNoMatch: PropTypes.func.isRequired,
-        urlRewrite: UrlRewriteType.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired
-    };
-
+export class NoMatchContainer extends PureComponent<NoMatchContainerProps> {
     componentDidMount(): void {
         this.updateHeaderState();
         this.updateMeta();
@@ -68,13 +68,13 @@ export class NoMatchContainer extends PureComponent {
         updateNoMatch(false);
     }
 
-    containerProps() {
+    containerProps(): Pick<NoMatchComponentProps, NoMatchContainerPropsKeys> {
         const { updateBreadcrumbs } = this.props;
 
         return { updateBreadcrumbs };
     }
 
-    updateHeaderState() {
+    updateHeaderState(): void {
         const { changeHeaderState } = this.props;
 
         changeHeaderState({
@@ -84,13 +84,13 @@ export class NoMatchContainer extends PureComponent {
         });
     }
 
-    updateMeta() {
+    updateMeta(): void {
         const { updateMeta } = this.props;
 
         updateMeta({ title: __('Page not found'), status_code: '404' });
     }
 
-    updateNoMatch() {
+    updateNoMatch(): void {
         const { updateNoMatch } = this.props;
 
         updateNoMatch(true);

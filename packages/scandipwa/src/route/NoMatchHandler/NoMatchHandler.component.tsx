@@ -6,32 +6,24 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
 import NoMatch from 'Route/NoMatch';
-import { ChildrenType } from 'Type/Common.type';
-import { LocationType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 
-/** @namespace Route/NoMatchHandler/Component */
-export class NoMatchHandler extends PureComponent {
-    static propTypes = {
-        children: ChildrenType.isRequired,
-        noMatch: PropTypes.bool.isRequired,
-        updateNoMatch: PropTypes.func.isRequired,
-        location: LocationType.isRequired
-    };
+import { NoMatchHandlerComponentProps } from './NoMatchHandler.type';
 
+/** @namespace Route/NoMatchHandler/Component */
+export class NoMatchHandler extends PureComponent<NoMatchHandlerComponentProps> {
     componentDidMount(): void {
         scrollToTop();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: NoMatchHandlerComponentProps): void {
         const { location: { pathname: newPathname } } = this.props;
         const { location: { pathname } } = prevProps;
 
@@ -56,7 +48,7 @@ export class NoMatchHandler extends PureComponent {
      * On browser route change
      * @return {void}
      */
-    onRouteChanged() {
+    onRouteChanged(): void {
         const {
             noMatch,
             updateNoMatch

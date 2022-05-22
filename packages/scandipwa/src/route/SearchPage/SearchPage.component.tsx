@@ -10,6 +10,7 @@
  */
 
 import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
+import { ReactElement } from 'Type/Common.type';
 import { decodeString } from 'Util/Common';
 
 import './SearchPage.style';
@@ -21,15 +22,15 @@ export class SearchPage extends CategoryPage {
 
         return (
             <h1
-                block="CategoryDetails"
-                elem="Heading"
-                mix={{
-                    block: 'SearchPage',
-                    elem: 'Heading'
-                }}
+              block="CategoryDetails"
+              elem="Heading"
+              mix={ {
+                  block: 'SearchPage',
+                  elem: 'Heading'
+              } }
             >
-                {__('Search results for: ')}
-                <span>{decodeString(search)}</span>
+                { __('Search results for: ') }
+                <span>{ decodeString(search) }</span>
             </h1>
         );
     }
@@ -38,7 +39,7 @@ export class SearchPage extends CategoryPage {
         return (
             <article block="CategoryDetails">
                 <div block="CategoryDetails" elem="Description">
-                    {this.renderSearchHeading()}
+                    { this.renderSearchHeading() }
                 </div>
             </article>
         );

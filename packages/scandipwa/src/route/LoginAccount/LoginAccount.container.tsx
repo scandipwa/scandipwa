@@ -1,4 +1,3 @@
-/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -7,12 +6,12 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import {
@@ -20,43 +19,38 @@ import {
     mapStateToProps,
     MyAccountOverlayContainer
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
+import { MyAccountOverlayContainerState } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { LocationType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import LoginAccount from './LoginAccount.component';
+import { LoginAccountContainerMapDispatchProps, LoginAccountContainerProps } from './LoginAccount.type';
 
 /** @namespace Route/LoginAccount/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): LoginAccountContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
     toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 /** @namespace Route/LoginAccount/Container */
-export class LoginAccountContainer extends MyAccountOverlayContainer {
-    static propTypes = {
-        ...MyAccountOverlayContainer.propTypes,
-        toggleBreadcrumbs: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
-        showNotification: PropTypes.func.isRequired
-    };
-
+export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccountContainerProps> {
     containerFunctions = {
         ...this.containerFunctions,
         onCreateAccountClick: this.onCreateAccountClick.bind(this)
     };
 
-    onCreateAccountClick() {
+    onCreateAccountClick(): void {
         history.replace(appendWithStoreCode(`${AccountPageUrl.REGISTRATION_URL}`));
     }
 
-    handleForgotPassword() {
+    handleForgotPassword(): void {
         history.replace(appendWithStoreCode(`${AccountPageUrl.FORGOT_PASSWORD_URL}`));
     }
 
@@ -81,7 +75,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
         scrollToTop({ behavior: 'smooth' });
     }
 
-    componentDidUpdate(prevProps, prevState): void {
+    componentDidUpdate(prevProps: LoginAccountContainerProps, prevState: MyAccountOverlayContainerState): void {
         if (isSignedIn()) {
             // remove login url from history to skip it when navigating back
             history.replace(appendWithStoreCode(AccountPageUrl.ACCOUNT_URL));

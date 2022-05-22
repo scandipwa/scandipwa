@@ -18,25 +18,28 @@ import {
     MyAccountOverlay
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
+
+import { ForgotPasswordComponentProps } from './ForgotPassword.type';
 
 import './ForgotPassword.style';
 
 /** @namespace Route/ForgotPassword/Component */
-export class ForgotPasswordComponent extends MyAccountOverlay {
+export class ForgotPasswordComponent extends MyAccountOverlay<ForgotPasswordComponentProps> {
     renderSignInWrapper(): ReactElement {
         const { onLoginClick } = this.props;
 
         return (
             <div block="ForgotPassword" elem="SignInWrapper">
-                <h3>{__('Registered Customers')}</h3>
-                <p>{__('If you have an account, sign in with your email address.')}</p>
+                <h3>{ __('Registered Customers') }</h3>
+                <p>{ __('If you have an account, sign in with your email address.') }</p>
                 <button
-                    block="Button"
-                    mix={{ block: 'ForgotPassword', elem: 'SignInButton' }}
-                    onClick={onLoginClick}
+                  block="Button"
+                  mix={ { block: 'ForgotPassword', elem: 'SignInButton' } }
+                  onClick={ onLoginClick }
                 >
-                    {__('Sign In')}
+                    { __('Sign In') }
                 </button>
             </div>
         );
@@ -47,17 +50,17 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
 
         return (
             <div block="ForgotPassword" elem="CreateAccountWrapper">
-                <h3>{__('New Customers')}</h3>
+                <h3>{ __('New Customers') }</h3>
                 <p>
-                    {__('Creating an account has many benefits:')}
-                    {__(' check out faster, keep more than one address, track orders and more.')}
+                    { __('Creating an account has many benefits:') }
+                    { __(' check out faster, keep more than one address, track orders and more.') }
                 </p>
                 <button
-                    block="Button"
-                    mix={{ block: 'ForgotPassword', elem: 'CreateAccountButton' }}
-                    onClick={onCreateAccountClick}
+                  block="Button"
+                  mix={ { block: 'ForgotPassword', elem: 'CreateAccountButton' } }
+                  onClick={ onCreateAccountClick }
                 >
-                    {__('Create an Account')}
+                    { __('Create an Account') }
                 </button>
             </div>
         );
@@ -72,11 +75,11 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
 
         return (
             <div block="ForgotPassword" elem="ContainerWrapper">
-                <h3>{__('Forgot Your Password?')}</h3>
+                <h3>{ __('Forgot Your Password?') }</h3>
                 <p>
-                    {__('Please enter your email address below to receive a password reset link.')}
+                    { __('Please enter your email address below to receive a password reset link.') }
                 </p>
-                {this.renderForgotPassword()}
+                { this.renderForgotPassword() }
             </div>
         );
     }
@@ -90,8 +93,8 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
 
         return (
             <div block="ForgotPassword" elem="AdditionalContent">
-                {this.renderCreateAccountWrapper()}
-                {this.renderSignInWrapper()}
+                { this.renderCreateAccountWrapper() }
+                { this.renderSignInWrapper() }
             </div>
         );
     }
@@ -102,20 +105,20 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
         } = this.props;
 
         if (isSignedIn()) {
-            return <Redirect to={AccountPageUrl.ACCOUNT_URL} />;
+            return <Redirect to={ AccountPageUrl.ACCOUNT_URL } />;
         }
 
         return (
             <ContentWrapper
-                mix={{
-                    block: 'ForgotPassword'
-                }}
-                label="Forgot password page"
+              mix={ {
+                  block: 'ForgotPassword'
+              } }
+              label="Forgot password page"
             >
                 <div block="ForgotPassword" elem="InnerWrapper">
-                    <Loader isLoading={isLoading} />
-                    {this.renderForgotPasswordWrapper()}
-                    {this.renderAdditionalContent()}
+                    <Loader isLoading={ isLoading } />
+                    { this.renderForgotPasswordWrapper() }
+                    { this.renderAdditionalContent() }
                 </div>
             </ContentWrapper>
         );

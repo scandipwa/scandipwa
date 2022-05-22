@@ -6,20 +6,26 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
+import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Dispatch } from 'redux';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { ChildrenType } from 'Type/Common.type';
-import { LocationType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import NoMatchHandler from './NoMatchHandler.component';
+import {
+    NoMatchHandlerComponentProps,
+    NoMatchHandlerContainerMapDispatchProps,
+    NoMatchHandlerContainerMapStateProps,
+    NoMatchHandlerContainerProps,
+    NoMatchHandlerContainerPropsKeys
+} from './NoMatchHandler.type';
 
 export const NoMatchDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -27,12 +33,12 @@ export const NoMatchDispatcher = import(
 );
 
 /** @namespace Route/NoMatchHandler/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): NoMatchHandlerContainerMapStateProps => ({
     noMatch: state.NoMatchReducer.noMatch
 });
 
 /** @namespace Route/NoMatchHandler/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): NoMatchHandlerContainerMapDispatchProps => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateNoMatch: (options) => {
         NoMatchDispatcher.then(
@@ -42,20 +48,12 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/NoMatchHandler/Container */
-export class NoMatchHandlerContainer extends PureComponent {
-    static propTypes = {
-        updateMeta: PropTypes.func.isRequired,
-        noMatch: PropTypes.bool,
-        location: LocationType.isRequired,
-        updateNoMatch: PropTypes.func.isRequired,
-        children: ChildrenType.isRequired
-    };
-
+export class NoMatchHandlerContainer extends PureComponent<NoMatchHandlerContainerProps> {
     static defaultProps = {
         noMatch: false
     };
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: NoMatchHandlerContainerProps): void {
         const { noMatch, updateMeta } = this.props;
         const { noMatch: prevNoMatch } = prevProps;
 
@@ -64,12 +62,11 @@ export class NoMatchHandlerContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<NoMatchHandlerComponentProps, NoMatchHandlerContainerPropsKeys> {
         const {
             children,
             location,
             noMatch,
-            updateMeta,
             updateNoMatch
         } = this.props;
 
@@ -77,7 +74,6 @@ export class NoMatchHandlerContainer extends PureComponent {
             children,
             location,
             noMatch,
-            updateMeta,
             updateNoMatch
         };
     }
@@ -85,12 +81,16 @@ export class NoMatchHandlerContainer extends PureComponent {
     render(): ReactElement {
         return (
             <NoMatchHandler
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }
 }
 
 export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(NoMatchHandlerContainer)
+    connect(
+        mapStateToProps, mapDispatchToProps
+    )(
+        NoMatchHandlerContainer as unknown as ComponentType<NoMatchHandlerContainerProps>
+    )
 );

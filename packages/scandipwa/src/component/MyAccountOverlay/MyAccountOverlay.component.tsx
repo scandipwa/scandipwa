@@ -31,7 +31,9 @@ import { MyAccountOverlayComponentProps, MyAccountOverlayRenderMap } from './MyA
 import './MyAccountOverlay.style';
 
 /** @namespace Component/MyAccountOverlay/Component */
-export class MyAccountOverlay<Props extends MyAccountOverlayComponentProps> extends PureComponent<Props> {
+export class MyAccountOverlay<
+Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps
+> extends PureComponent<Props> {
     static defaultProps = {
         isCheckout: false,
         onSignIn: noopFn

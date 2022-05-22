@@ -21,9 +21,13 @@ import {
     UrlRewritePageType
 } from './UrlRewrites.config';
 import {
+    UrlRewriteProps,
+    UrlRewritesComponentProps,
     UrlRewritesContainerMapDispatchProps,
     UrlRewritesContainerMapStateProps,
-    UrlRewritesContainerProps
+    UrlRewritesContainerProps,
+    UrlRewritesContainerPropsKeys,
+    UrlRewriteTypeSpecificProps
 } from './UrlRewrites.type';
 
 export const UrlRewritesDispatcher = import(
@@ -108,14 +112,14 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<UrlRewritesComponentProps, UrlRewritesContainerPropsKeys> {
         return {
             type: this.getType(),
             props: this.getProps()
         };
     }
 
-    getTypeSpecificProps() {
+    getTypeSpecificProps(): Partial<UrlRewriteTypeSpecificProps> {
         const {
             urlRewrite: {
                 id,
@@ -180,7 +184,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         return location.pathname !== requestedUrl;
     }
 
-    getProps() {
+    getProps(): UrlRewriteProps {
         const {
             location,
             match,

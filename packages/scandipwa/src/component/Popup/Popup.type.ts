@@ -31,6 +31,7 @@ export interface PopupContainerMapDispatchProps {
 
 export type PopupContainerProps = PopupContainerMapStateProps
 & PopupContainerMapDispatchProps
+& OverlayComponentProps
 & {
     mix: Mix;
     contentMix: Mix;

@@ -16,19 +16,22 @@ import Loader from 'Component/Loader';
 import {
     MyAccountOverlay
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+import { ReactElement } from 'Type/Common.type';
+
+import { CreateAccountComponentProps } from './CreateAccount.type';
 
 import './CreateAccount.style';
 
 /** @namespace Route/CreateAccount/Component */
-export class CreateAccountComponent extends MyAccountOverlay {
+export class CreateAccountComponent extends MyAccountOverlay<CreateAccountComponentProps> {
     renderSignInWrapper(): ReactElement {
         const { onLoginClick } = this.props;
 
         return (
             <div block="CreateAccount" elem="SignInWrapper">
-                <h3>{__('Registered Customers')}</h3>
-                <p>{__('If you have an account, sign in with your email address.')}</p>
-                <button block="Button" onClick={onLoginClick}>{__('Sign In')}</button>
+                <h3>{ __('Registered Customers') }</h3>
+                <p>{ __('If you have an account, sign in with your email address.') }</p>
+                <button block="Button" onClick={ onLoginClick }>{ __('Sign In') }</button>
             </div>
         );
     }
@@ -36,12 +39,12 @@ export class CreateAccountComponent extends MyAccountOverlay {
     renderCreateAccountWrapper(): ReactElement {
         return (
             <div block="CreateAccount" elem="CreateAccountWrapper">
-                <h3>{__('New Customers')}</h3>
+                <h3>{ __('New Customers') }</h3>
                 <p>
-                    {__('Creating an account has many benefits:')}
-                    {__(' check out faster, keep more than one address, track orders and more.')}
+                    { __('Creating an account has many benefits:') }
+                    { __(' check out faster, keep more than one address, track orders and more.') }
                 </p>
-                {this.renderCreateAccount(true)}
+                { this.renderCreateAccount(true) }
             </div>
         );
     }
@@ -49,11 +52,11 @@ export class CreateAccountComponent extends MyAccountOverlay {
     renderForgotPasswordWrapper(): ReactElement {
         return (
             <div block="CreateAccount" elem="ForgetPasswordWrapper">
-                <h3>{__('Forgot Your Password?')}</h3>
+                <h3>{ __('Forgot Your Password?') }</h3>
                 <p>
-                    {__('Please enter your email address below to receive a password reset link.')}
+                    { __('Please enter your email address below to receive a password reset link.') }
                 </p>
-                {this.renderForgotPassword()}
+                { this.renderForgotPassword() }
             </div>
         );
     }
@@ -67,8 +70,8 @@ export class CreateAccountComponent extends MyAccountOverlay {
 
         return (
             <>
-                {this.renderCreateAccountWrapper()}
-                {this.renderSignInWrapper()}
+                { this.renderCreateAccountWrapper() }
+                { this.renderSignInWrapper() }
             </>
         );
     }
@@ -80,14 +83,14 @@ export class CreateAccountComponent extends MyAccountOverlay {
 
         return (
             <ContentWrapper
-                label="Create account page"
-                mix={{
-                    block: 'CreateAccount'
-                }}
+              label="Create account page"
+              mix={ {
+                  block: 'CreateAccount'
+              } }
             >
                 <div block="CreateAccount" elem="InnerWrapper">
-                    <Loader isLoading={isLoading} />
-                    {this.renderContent()}
+                    <Loader isLoading={ isLoading } />
+                    { this.renderContent() }
                 </div>
             </ContentWrapper>
         );

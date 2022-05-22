@@ -10,8 +10,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import {
@@ -21,34 +21,22 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import ForgotPassword from './ForgotPassword.component';
+import { ForgotPasswordContainerMapDispatchProps, ForgotPasswordContainerProps } from './ForgotPassword.type';
 
 /** @namespace Route/ForgotPassword/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ForgotPasswordContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
     toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible))
 });
 
 /** @namespace Route/ForgotPassword/Container */
-export class ForgotPasswordContainer extends MyAccountOverlayContainer {
-    static propTypes = {
-        ...MyAccountOverlayContainer.propTypes,
-        updateBreadcrumbs: PropTypes.func.isRequired
-    };
-
-    containerProps() {
-        const { device } = this.props;
-
-        return {
-            ...super.containerProps(),
-            device
-        };
-    }
-
+export class ForgotPasswordContainer extends MyAccountOverlayContainer<ForgotPasswordContainerProps> {
     containerFunctions = {
         ...this.containerFunctions,
         onLoginClick: this.onLoginClick.bind(this),
@@ -70,11 +58,11 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
         scrollToTop({ behavior: 'smooth' });
     }
 
-    onLoginClick() {
+    onLoginClick(): void {
         history.replace(appendWithStoreCode(`${AccountPageUrl.LOGIN_URL}`));
     }
 
-    onCreateAccountClick() {
+    onCreateAccountClick(): void {
         history.replace(appendWithStoreCode(`${AccountPageUrl.REGISTRATION_URL}`));
     }
 

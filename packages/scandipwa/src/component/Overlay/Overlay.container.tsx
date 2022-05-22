@@ -27,7 +27,6 @@ export const mapStateToProps = (state: RootState): OverlayContainerMapStateProps
 /** @namespace Component/Overlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = (): OverlayContainerMapDispatchProps => ({});
 
-// eslint-disable-next-line @scandipwa/scandipwa-guidelines/always-both-mappings
 export default connect(
     mapStateToProps,
     mapDispatchToProps

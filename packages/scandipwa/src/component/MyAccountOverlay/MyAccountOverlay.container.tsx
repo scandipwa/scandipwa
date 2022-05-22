@@ -41,6 +41,7 @@ import {
     MyAccountOverlayContainerMapDispatchProps,
     MyAccountOverlayContainerMapStateProps,
     MyAccountOverlayContainerProps,
+    MyAccountOverlayContainerPropsKeys,
     MyAccountOverlayContainerState
 } from './MyAccountOverlay.type';
 
@@ -67,8 +68,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOverlayContaine
 
 /** @namespace Component/MyAccountOverlay/Container */
 export class MyAccountOverlayContainer<
-Props extends MyAccountOverlayContainerProps,
-State extends MyAccountOverlayContainerState
+Props extends MyAccountOverlayContainerProps = MyAccountOverlayContainerProps,
+State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
 > extends PureComponent<Props, State> {
     static defaultProps = {
         isCheckout: false,
@@ -195,19 +196,15 @@ State extends MyAccountOverlayContainerState
 
     containerProps(): Pick<
     MyAccountOverlayComponentProps,
-    'isCheckout'
-    | 'isLoading'
-    | 'isMobile'
-    | 'isOverlayVisible'
-    | 'onSignIn'
-    | 'state'
+    MyAccountOverlayContainerPropsKeys
     > {
         const {
             isOverlayVisible,
             isMobile,
             isLoading: propIsLoading,
             onSignIn,
-            isCheckout
+            isCheckout,
+            device
         } = this.props;
         const {
             state
@@ -219,7 +216,8 @@ State extends MyAccountOverlayContainerState
             isMobile,
             isOverlayVisible,
             onSignIn,
-            state
+            state,
+            device
         };
     }
 

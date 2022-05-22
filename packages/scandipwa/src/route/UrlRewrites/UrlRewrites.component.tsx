@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -7,23 +6,24 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
-import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 
 import {
-    TYPE_CATEGORY,
-    TYPE_CMS_PAGE,
-    TYPE_NOTFOUND,
-    TYPE_PRODUCT
+    UrlRewritePageType
 } from './UrlRewrites.config';
+import { UrlRewritesComponentProps } from './UrlRewrites.type';
 
-export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "product" */ 'Route/ProductPage'));
-export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/CategoryPage'));
+export const ProductPage = lazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product" */ 'Route/ProductPage')
+);
+export const CategoryPage = lazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/CategoryPage')
+);
 export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
 export const NoMatch = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/NoMatch'));
 
@@ -33,26 +33,13 @@ export const NoMatch = lazy(() => import(/* webpackMode: "lazy", webpackChunkNam
  * const TYPE_CUSTOM = 'CUSTOM';
  * @namespace Route/UrlRewrites/Component
  */
-export class UrlRewrites extends PureComponent {
-    static propTypes = {
-        props: PropTypes.shape({
-            location: LocationType,
-            match: MatchType,
-            history: HistoryType,
-            categoryIds: PropTypes.number,
-            id: PropTypes.number,
-            productSKU: PropTypes.string,
-            pageIds: PropTypes.number
-        }),
-        type: PropTypes.string
-    };
-
+export class UrlRewrites extends PureComponent<UrlRewritesComponentProps> {
     static defaultProps = {
         props: {},
         type: ''
     };
 
-    renderDefaultPage(): ReactElement {
+    renderDefaultPage(): JSX.Element {
         return (
             <main />
         );
@@ -71,7 +58,7 @@ export class UrlRewrites extends PureComponent {
         } = props;
 
         switch (type) {
-        case TYPE_PRODUCT:
+        case UrlRewritePageType.PRODUCT:
             return (
                     <ProductPage
                       history={ history }
@@ -82,7 +69,7 @@ export class UrlRewrites extends PureComponent {
                       key={ id }
                     />
             );
-        case TYPE_CMS_PAGE:
+        case UrlRewritePageType.CMS_PAGE:
             return (
                     <CmsPage
                       history={ history }
@@ -91,7 +78,7 @@ export class UrlRewrites extends PureComponent {
                       pageIds={ pageIds }
                     />
             );
-        case TYPE_CATEGORY:
+        case UrlRewritePageType.CATEGORY:
             return (
                     <CategoryPage
                       history={ history }
@@ -100,13 +87,9 @@ export class UrlRewrites extends PureComponent {
                       categoryIds={ categoryIds }
                     />
             );
-        case TYPE_NOTFOUND:
+        case UrlRewritePageType.NOTFOUND:
             return (
-                    <NoMatch
-                      history={ history }
-                      location={ location }
-                      match={ match }
-                    />
+                    <NoMatch />
             );
         default:
             return this.renderDefaultPage();

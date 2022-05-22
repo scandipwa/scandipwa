@@ -9,10 +9,13 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { History, Location } from 'history';
+import { match as Match } from 'react-router';
+
 import { CmsPageFields } from 'Query/CmsPage.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
-import { Location, Match } from 'Type/Router.type';
+import { HistoryState } from 'Util/History/History.type';
 
 export interface CmsPageContainerMapStateProps {
     isOffline: boolean;
@@ -26,15 +29,20 @@ export interface CmsPageContainerDispatchStateProps {
     toggleBreadcrumbs: (isActive: boolean) => void;
 }
 
-export type CmsPageContainerProps = CmsPageContainerMapStateProps & CmsPageContainerDispatchStateProps & {
+export interface CmsPageContainerBaseProps {
     match: Match;
-    location: Location;
+    location: Location<HistoryState>;
     pageIds: number;
     pageIdentifiers: string;
     isOnlyPlaceholder: boolean;
     isBreadcrumbsActive: boolean;
     changeHeaderState?: (state: NavigationState) => void;
-};
+    history: History<HistoryState>;
+}
+
+export type CmsPageContainerProps = CmsPageContainerMapStateProps
+& CmsPageContainerDispatchStateProps
+& CmsPageContainerBaseProps;
 
 export interface CmsPageContainerState {
     page: Partial<CmsPageFields>;

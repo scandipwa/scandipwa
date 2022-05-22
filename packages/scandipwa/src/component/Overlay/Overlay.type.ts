@@ -18,18 +18,19 @@ export interface OverlayContainerMapStateProps {
     isMobile: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface OverlayContainerMapDispatchProps {}
 
 export type OverlayComponentProps = OverlayContainerMapStateProps
 & OverlayContainerMapDispatchProps
 & {
     mix: Mix;
-    contentMix?: Mix;
+    contentMix: Mix;
     onVisible: () => void;
-    onClose?: () => void;
-    onHide?: () => void;
-    isStatic?: boolean;
-    children?: (ReactElement | Element)[];
+    onClose: () => void;
+    onHide: () => void;
+    isStatic: boolean;
+    children: (ReactElement | Element)[];
     id: string;
     isRenderInPortal?: boolean;
 };
