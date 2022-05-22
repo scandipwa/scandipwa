@@ -9,23 +9,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
+import { FormFields } from 'Component/Form/Form.type';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { CustomerType } from 'Type/Account.type';
-import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
-import { RatingItemsType } from 'Type/Rating.type';
+import { NetworkError, ReactElement } from 'Type/Common.type';
+import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import { getErrorMessage } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductReviewForm from './ProductReviewForm.component';
+import {
+    ProductReviewFormComponentContainerPropKeys,
+    ProductReviewFormComponentProps,
+    ProductReviewFormContainerMapDispatchProps,
+    ProductReviewFormContainerMapStateProps,
+    ProductReviewFormContainerProps,
+    ProductReviewFormContainerState
+} from './ProductReviewForm.type';
 
 export const ReviewDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -33,13 +41,13 @@ export const ReviewDispatcher = import(
 );
 
 /** @namespace Component/ProductReviewForm/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductReviewFormContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer,
     reviewRatings: state.ConfigReducer.reviewRatings
 });
 
 /** @namespace Component/ProductReviewForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductReviewFormContainerMapDispatchProps => ({
     addReview: (options) => ReviewDispatcher.then(
         ({ default: dispatcher }) => dispatcher.submitProductReview(dispatch, options)
     ),
@@ -49,25 +57,18 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/ProductReviewForm/Container */
-export class ProductReviewFormContainer extends PureComponent {
-    static propTypes = {
-        showNotification: PropTypes.func.isRequired,
-        goToPreviousHeaderState: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
-        reviewRatings: RatingItemsType.isRequired,
-        product: ProductType.isRequired,
-        addReview: PropTypes.func.isRequired,
-        customer: CustomerType.isRequired
-    };
-
+export class ProductReviewFormContainer extends PureComponent<
+ProductReviewFormContainerProps,
+ProductReviewFormContainerState
+> {
     containerFunctions = ({
         onReviewSubmitSuccess: this._onReviewSubmitSuccess.bind(this),
         onStarRatingClick: this._onStarRatingClick.bind(this),
         onReviewError: this._onReviewError.bind(this)
     });
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: ProductReviewFormContainerProps): void {
+        super.__construct?.(props);
 
         const { customer: { firstname: nickname } } = this.props;
         const reviewData = { nickname };
@@ -80,7 +81,7 @@ export class ProductReviewFormContainer extends PureComponent {
         };
     }
 
-    containerProps() {
+    containerProps(): Pick<ProductReviewFormComponentProps, ProductReviewFormComponentContainerPropKeys> {
         const { reviewRatings } = this.props;
         const {
             isLoading,
@@ -98,13 +99,16 @@ export class ProductReviewFormContainer extends PureComponent {
         };
     }
 
-    _onReviewError(_, invalidFields) {
+    _onReviewError(_: HTMLFormElement, invalidFields: FormFields | null): void {
         const reviewsAreNotValid = invalidFields;
 
         this.setState({ isLoading: !reviewsAreNotValid });
     }
 
-    async _onReviewSubmitSuccess(form, fields) {
+    async _onReviewSubmitSuccess(
+        form: HTMLFormElement,
+        fields: FormFields
+    ): Promise<void> {
         const {
             product,
             addReview,
@@ -121,9 +125,9 @@ export class ProductReviewFormContainer extends PureComponent {
             nickname,
             title,
             detail
-        } = transformToNameValuePair(fields);
+        } = transformToNameValuePair(fields as Record<string, FieldData>);
 
-        const { sku: product_sku } = product;
+        const { sku: product_sku = '' } = product;
 
         try {
             await addReview({
@@ -142,19 +146,19 @@ export class ProductReviewFormContainer extends PureComponent {
             goToPreviousHeaderState();
             hideActiveOverlay();
         } catch (error) {
-            showNotification(NotificationType.ERROR, getErrorMessage(error));
+            showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError));
         } finally {
             this.setState({ isLoading: false });
         }
     }
 
-    _onStarRatingClick(rating_id, option_id) {
+    _onStarRatingClick(rating_id: number, option_id: string): void {
         this.setState(({ ratingData }) => ({
             ratingData: { ...ratingData, [ rating_id ]: option_id }
         }));
     }
 
-    _handleFieldChange(fieldName, value) {
+    _handleFieldChange(fieldName: string, value: string): void {
         this.setState(({ reviewData }) => ({
             reviewData: { ...reviewData, [ fieldName ]: value }
         }));

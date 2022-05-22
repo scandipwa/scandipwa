@@ -15,17 +15,19 @@ import { Children, Mix } from 'Type/Common.type';
 import { DateObject, FieldData } from 'Util/Form/Form.type';
 import { ValidationDOMOutput, ValidationRule } from 'Util/Validator/Validator.type';
 
+export type FormFields = (DateObject | FieldData)[] | Record<string, DateObject | FieldData>;
+
 export interface FormContainerProps {
     children: Children;
     attr: FormHTMLAttributes<HTMLFormElement>;
     events: Omit<DOMAttributes<HTMLFormElement>, 'children' | 'dangerouslySetInnerHTML'>;
     onSubmit: (
         form: HTMLFormElement,
-        fields: (DateObject | FieldData)[] | Record<string, DateObject | FieldData>
+        fields: FormFields
     ) => void;
     onError: (
         form: HTMLFormElement,
-        fields: (DateObject | FieldData)[] | Record<string, DateObject | FieldData> | null,
+        fields: FormFields | null,
         validation: boolean | ValidationDOMOutput
     ) => void;
     returnAsObject: boolean;

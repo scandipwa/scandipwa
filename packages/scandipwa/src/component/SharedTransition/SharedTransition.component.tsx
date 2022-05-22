@@ -11,43 +11,30 @@
 
 import { createRef, PureComponent } from 'react';
 
-import { RefType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 
 import { SHARED_ELEMENT_TRANSITION } from './SharedTransition.config';
+import { SharedTransitionComponentProps } from './SharedTransition.type';
 
 import './SharedTransition.style';
 
 /** @namespace Component/SharedTransition/Component */
-export class SharedTransition extends PureComponent {
-    static propTypes = {
-        state: PropTypes.shape({
-            startingPosition: PropTypes.shape({
-                width: PropTypes.number,
-                height: PropTypes.number,
-                start: PropTypes.number,
-                top: PropTypes.number
-            }),
-            destinationPosition: PropTypes.shape({
-                width: PropTypes.number,
-                height: PropTypes.number,
-                start: PropTypes.number,
-                top: PropTypes.number
-            }),
-            sharedElementDestination: RefType,
-            sharedElement: RefType
-        }).isRequired,
-        cleanUpTransition: PropTypes.func.isRequired
-    };
-
-    sharedContainer = createRef();
+export class SharedTransition extends PureComponent<SharedTransitionComponentProps> {
+    sharedContainer = createRef<HTMLDivElement>();
 
     animationSpeed = SHARED_ELEMENT_TRANSITION;
+
+    transitionInAction = false;
 
     setDestinationTransform = this.setTransform.bind(this, 'destinationPosition');
 
     setStartingTransform = this.setTransform.bind(this, 'startingPosition');
 
-    cleanUpTransition = this.cleanUpTransition.bind(this);
+    __construct(props: SharedTransitionComponentProps): void {
+        super.__construct?.(props);
+
+        this.cleanUpTransition = this.cleanUpTransition.bind(this);
+    }
 
     componentDidUpdate(): void {
         if (this.transitionInAction) {
@@ -56,7 +43,7 @@ export class SharedTransition extends PureComponent {
         this.updateSharedElement();
     }
 
-    setTransform(key) {
+    setTransform(key: 'startingPosition' | 'destinationPosition'): void {
         const {
             state: {
                 [key]: {
@@ -68,28 +55,32 @@ export class SharedTransition extends PureComponent {
             }
         } = this.props;
 
-        this.sharedContainer.current.style.cssText = `
-            --shared-element-width: ${width}px;
-            --shared-element-height: ${height}px;
-            --shared-element-top: ${top}px;
-            --shared-element-start: ${left}px;
-            --shared-element-animation-speed: ${this.animationSpeed}ms;
-        `;
+        if (this.sharedContainer.current) {
+            this.sharedContainer.current.style.cssText = `
+                --shared-element-width: ${width}px;
+                --shared-element-height: ${height}px;
+                --shared-element-top: ${top}px;
+                --shared-element-start: ${left}px;
+                --shared-element-animation-speed: ${this.animationSpeed}ms;
+            `;
+        }
     }
 
-    cleanUpTransition() {
+    cleanUpTransition(): void {
         const { current: wrapper } = this.sharedContainer;
         const { cleanUpTransition } = this.props;
 
-        const range = document.createRange();
-        range.selectNodeContents(wrapper);
-        range.deleteContents();
+        if (wrapper) {
+            const range = document.createRange();
+            range.selectNodeContents(wrapper);
+            range.deleteContents();
+        }
 
         this.transitionInAction = false;
         cleanUpTransition();
     }
 
-    updateSharedElement() {
+    updateSharedElement(): void {
         const {
             state: {
                 sharedElementDestination,

@@ -46,7 +46,7 @@ export type IndexedConfigurableOption = ConfigurableProductOptions & AttributeWi
 export type IndexedConfigurableOptions = Record<string, IndexedConfigurableOption>;
 
 export type IndexedVariant = Merge<ProductItem, {
-    attributes: Record<string, AttributeWithValue>;
+    attributes: Record<string, IndexedAttributeWithValue>;
 }>;
 
 export type IndexedCustomOption = Merge<
@@ -74,7 +74,7 @@ export type IndexedBaseProduct<T> = Merge<T, {
     configurable_options?: IndexedConfigurableOptions;
     variants?: IndexedVariant[];
     options?: IndexedCustomOption[];
-    attributes?: Record<string, AttributeWithValue>;
+    attributes?: Record<string, IndexedAttributeWithValue>;
     reviews?: ProductReview[];
     review_summary?: ReviewSummary;
     items?: IndexedBundleItem[] | GroupedProductItem[];
@@ -93,6 +93,10 @@ export type IndexedBundleOption = Merge<BundleOption, {
 
 export type IndexedBundleItem = Merge<BundleItem, {
     options?: IndexedBundleOption[];
+}>;
+
+export type IndexedAttributeWithValue = Merge<AttributeWithValue, {
+    attribute_options: Record<string, IndexedAttributeWithValueOption>;
 }>;
 
 export type IndexedAttributeWithValueOption = Merge<AttributeWithValueOption, {
@@ -164,7 +168,7 @@ export interface ProductExtractPrice {
     configuration: ProductExtractPriceConfiguration;
 }
 
-export type ProductExtractImage = Record<ImageType, { url?: string }>;
+export type ProductExtractImage = Record<ImageType, { url?: string } | undefined>;
 
 export interface TransformedBundleOption {
     id: string;

@@ -9,43 +9,40 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
-import { LinkedProductsType, ProductCardPropsType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
+import { IndexedProduct } from 'Util/Product/Product.type';
+
+import { ProductLinksComponentProps } from './ProductLinks.type';
 
 import './ProductLinks.style';
 
 /** @namespace Component/ProductLinks/Component */
-export class ProductLinks extends PureComponent {
-    static propTypes = {
-        numberOfProductsToDisplay: PropTypes.number.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired,
-        linkedProducts: LinkedProductsType.isRequired,
-        linkType: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        productCardProps: ProductCardPropsType.isRequired,
-        productCardFunctions: PropTypes.objectOf(PropTypes.func).isRequired
-    };
+export class ProductLinks extends PureComponent<ProductLinksComponentProps> {
+    __construct(props: ProductLinksComponentProps): void {
+        super.__construct?.(props);
 
-    renderProductCard = this.renderProductCard.bind(this);
+        this.renderProductCard = this.renderProductCard.bind(this);
+    }
 
-    renderProductCard(product, i): ReactElement {
-        const {
-            productCardProps: {
-                siblingsHaveBrands,
-                siblingsHavePriceBadge,
-                siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions
-            },
-            productCardFunctions: {
-                setSiblingsHaveBrands,
-                setSiblingsHavePriceBadge,
-                setSiblingsHaveTierPrice,
-                setSiblingsHaveConfigurableOptions
-            }
-        } = this.props;
+    renderProductCard(product: IndexedProduct, i: number): ReactElement {
+        // const {
+        // productCardProps: {
+        //     siblingsHaveBrands,
+        //     siblingsHavePriceBadge,
+        //     siblingsHaveTierPrice,
+        //     siblingsHaveConfigurableOptions
+        // },
+        // productCardFunctions: {
+        //     setSiblingsHaveBrands,
+        //     setSiblingsHavePriceBadge,
+        //     setSiblingsHaveTierPrice,
+        //     setSiblingsHaveConfigurableOptions
+        // }
+        // } = this.props;
         const { id = i } = product;
 
         return (
@@ -54,14 +51,15 @@ export class ProductLinks extends PureComponent {
               elem="Card"
               product={ product }
               key={ id }
-              siblingsHaveBrands={ siblingsHaveBrands }
-              siblingsHavePriceBadge={ siblingsHavePriceBadge }
-              siblingsHaveTierPrice={ siblingsHaveTierPrice }
-              siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
-              setSiblingsHaveBrands={ setSiblingsHaveBrands }
-              setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
-              setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
-              setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
+            // !FIXME: This seems to be the obsolete code. We should remove it from all components.
+            //   siblingsHaveBrands={ siblingsHaveBrands }
+            //   siblingsHavePriceBadge={ siblingsHavePriceBadge }
+            //   siblingsHaveTierPrice={ siblingsHaveTierPrice }
+            //   siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
+            //   setSiblingsHaveBrands={ setSiblingsHaveBrands }
+            //   setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
+            //   setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
+            //   setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }
@@ -69,11 +67,11 @@ export class ProductLinks extends PureComponent {
     renderItems(): ReactElement {
         const {
             linkType,
-            linkedProducts: { [linkType]: { items } },
+            linkedProducts: { [linkType]: { items = [] } = {} },
             numberOfProductsToDisplay
         } = this.props;
 
-        if (!items) {
+        if (!items?.length) {
             return Array.from(
                 { length: numberOfProductsToDisplay },
                 (_, i) => this.renderProductCard({}, i)

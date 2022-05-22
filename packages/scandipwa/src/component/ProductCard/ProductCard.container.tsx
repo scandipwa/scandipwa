@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Subscribe } from 'unstated';
@@ -19,18 +18,28 @@ import {
     mapStateToProps as sourceMapStateToProps,
     ProductContainer
 } from 'Component/Product/Product.container';
-import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
+import SharedTransitionContainer, {
+    SharedTransitionUnstated
+} from 'Component/SharedTransition/SharedTransition.unstated';
+import { UrlRewrite } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { ReactElement } from 'Type/Common.type';
+import { ReactElement, Url } from 'Type/Common.type';
 import history from 'Util/History';
 import { getSmallImage } from 'Util/Product/Extract';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
-import { ProductCardContainerMapDispatchProps, ProductCardContainerMapStateProps } from './ProductCard.type';
+import {
+    ProductCardComponentContainerPropKeys,
+    ProductCardComponentProps,
+    ProductCardContainerMapDispatchProps,
+    ProductCardContainerMapStateProps,
+    ProductCardContainerProps,
+    ProductCartComponentContainerFunctions
+} from './ProductCard.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -52,46 +61,25 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductCardContainerMapD
 });
 
 /** @namespace Component/ProductCard/Container */
-export class ProductCardContainer extends ProductContainer {
-    static propTypes = {
-        ...ProductContainer.propTypes,
-        selectedFilters: FilterType,
-
-        // Link building
-        productUsesCategories: PropTypes.bool.isRequired,
-        categoryUrlSuffix: PropTypes.string.isRequired,
-        baseLinkUrl: PropTypes.string.isRequired,
-
-        hideCompareButton: PropTypes.bool,
-        hideWishlistButton: PropTypes.bool,
-        isLoading: PropTypes.bool,
-
-        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
-        showNotification: PropTypes.func.isRequired,
-
-        children: ChildrenType,
-        mix: MixType,
-        layout: LayoutType
-    };
-
+export class ProductCardContainer extends ProductContainer<ProductCardContainerProps> {
     static defaultProps = {
         ...ProductContainer.defaultProps,
         selectedFilters: {},
         hideWishlistButton: false,
         hideCompareButton: false,
-        renderContent: false,
+        renderContent: null,
         isLoading: false,
         children: null,
         mix: {},
         layout: CategoryPageLayout.GRID
     };
 
-    containerFunctions = {
+    containerFunctions: ProductCartComponentContainerFunctions = {
         ...this.containerFunctions,
         showSelectOptionsNotification: this.showSelectOptionsNotification.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<ProductCardComponentProps, ProductCardComponentContainerPropKeys> {
         const {
             children,
             mix,
@@ -117,7 +105,7 @@ export class ProductCardContainer extends ProductContainer {
         };
     }
 
-    getLinkTo() {
+    getLinkTo(): Url | undefined {
         const {
             baseLinkUrl,
             productUsesCategories,
@@ -139,7 +127,7 @@ export class ProductCardContainer extends ProductContainer {
 
         // if 'Product Use Categories' is enabled then use the current window location to see if the product
         // has any url_rewrite for that path. (if not then just use the default url)
-        const rewriteUrl = url_rewrites.find(({ url }) => url.includes(productUrl)) || {};
+        const rewriteUrl: Partial<UrlRewrite> = url_rewrites.find(({ url }) => url.includes(productUrl)) || {};
         const rewriteUrlPath = productUsesCategories
             ? (rewriteUrl.url && appendWithStoreCode(rewriteUrl.url)) || url
             : url;
@@ -151,7 +139,7 @@ export class ProductCardContainer extends ProductContainer {
         };
     }
 
-    showSelectOptionsNotification() {
+    showSelectOptionsNotification(): void {
         const { showNotification } = this.props;
 
         showNotification(NotificationType.INFO, __('Please, select product options!'));
@@ -160,7 +148,7 @@ export class ProductCardContainer extends ProductContainer {
     render(): ReactElement {
         return (
             <Subscribe to={ [SharedTransitionContainer] }>
-                { ({ registerSharedElement }) => (
+                { ({ registerSharedElement }: SharedTransitionUnstated): JSX.Element => (
                     <ProductCard
                       { ...this.containerFunctions }
                       { ...this.containerProps() }

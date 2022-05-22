@@ -597,7 +597,7 @@ export const getSubLabelFromMaxCharacters = (maxCharacters: number, value = ''):
  * @param field
  * @namespace Util/Product/Extract/getImage
  */
-export const getImage = (product: ProductExtractImage, field: ImageType): string => {
+export const getImage = (product: Partial<ProductExtractImage>, field: ImageType): string => {
     const { [field]: { url = 'no_selection' } = {} } = product;
     return url && url !== 'no_selection' ? url : '';
 };
@@ -607,19 +607,19 @@ export const getImage = (product: ProductExtractImage, field: ImageType): string
  * @param product
  * @namespace Util/Product/Extract/getThumbnailImage
  */
-export const getThumbnailImage = (product: ProductExtractImage): string => getImage(product, ImageType.THUMBNAIL);
+export const getThumbnailImage = (product: Partial<ProductExtractImage>): string => getImage(product, ImageType.THUMBNAIL);
 
 /**
  * Returns products small image
  * @param product
  * @namespace Util/Product/Extract/getSmallImage
  */
-export const getSmallImage = (product: ProductExtractImage): string => getImage(product, ImageType.SMALL);
+export const getSmallImage = (product: Partial<ProductExtractImage>): string => getImage(product, ImageType.SMALL);
 
 /**
  * Returns products base image
  * @param product
  * @namespace Util/Product/Extract/getBaseImage
  */
-export const getBaseImage = (product: ProductExtractImage): string => getImage(product, ImageType.IMAGE);
+export const getBaseImage = (product: Partial<ProductExtractImage>): string => getImage(product, ImageType.IMAGE);
 // #endregion

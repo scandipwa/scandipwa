@@ -20,11 +20,12 @@ import { Product } from 'Component/Product/Product.component';
 import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
+import { AttributeWithValueOption } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
-import { MixType, ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
-import { LayoutType } from 'Type/Layout.type';
-import { UrlType } from 'Type/Router.type';
+import { Children, ReactElement } from 'Type/Common.type';
+import { IndexedConfigurableOption } from 'Util/Product/Product.type';
+
+import { ContentObject, ProductCardComponentProps } from './ProductCard.type';
 
 import './ProductCard.style';
 
@@ -32,39 +33,21 @@ import './ProductCard.style';
  * Product card
  * @class ProductCard
  * @namespace Component/ProductCard/Component */
-export class ProductCard extends Product {
-    static propTypes = {
-        ...Product.propTypes,
-        linkTo: UrlType,
-        device: DeviceType.isRequired,
-        thumbnail: PropTypes.string,
-        isLoading: PropTypes.bool,
-        children: PropTypes.element,
-        layout: LayoutType,
-        mix: MixType,
-        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
-        hideWishlistButton: PropTypes.bool,
-        isWishlistEnabled: PropTypes.bool.isRequired,
-        hideCompareButton: PropTypes.bool,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        showSelectOptionsNotification: PropTypes.func.isRequired,
-        registerSharedElement: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
+export class ProductCard extends Product<ProductCardComponentProps> {
+    static defaultProps: Partial<ProductCardComponentProps> = {
         ...Product.defaultProps,
         thumbnail: '',
-        linkTo: {},
+        linkTo: '',
         children: null,
         isLoading: false,
         mix: {},
-        renderContent: false,
+        renderContent: null,
         hideWishlistButton: false,
         hideCompareButton: false,
         layout: CategoryPageLayout.GRID
     };
 
-    contentObject = {
+    contentObject: ContentObject = {
         renderCardLinkWrapper: this.renderCardLinkWrapper.bind(this),
         pictureBlock: {
             picture: this.renderPicture.bind(this)
@@ -77,13 +60,19 @@ export class ProductCard extends Product {
         }
     };
 
-    imageRef = createRef();
+    imageRef = createRef<HTMLImageElement>();
 
     className = 'ProductCard';
 
-    registerSharedElement = this.registerSharedElement.bind(this);
+    sharedComponent?: JSX.Element;
 
-    registerSharedElement() {
+    __construct(props: ProductCardComponentProps): void {
+        super.__construct?.(props);
+
+        this.registerSharedElement = this.registerSharedElement.bind(this);
+    }
+
+    registerSharedElement(): void {
         const { registerSharedElement } = this.props;
         registerSharedElement(this.imageRef);
     }
@@ -208,8 +197,8 @@ export class ProductCard extends Product {
         );
     }
 
-    renderCardLinkWrapper(children, mix = {}): ReactElement {
-        const { linkTo, product: { url } } = this.props;
+    renderCardLinkWrapper(children: Children, mix = {}): ReactElement {
+        const { linkTo = '', product: { url } } = this.props;
 
         if (!url) {
             return (
@@ -235,7 +224,7 @@ export class ProductCard extends Product {
         );
     }
 
-    requiresConfiguration() {
+    requiresConfiguration(): boolean {
         const {
             product: {
                 type_id: type,
@@ -244,12 +233,12 @@ export class ProductCard extends Product {
             }
         } = this.props;
 
-        const configureBundleAndGrouped = type === ProductType.bundle || type === ProductType.grouped;
-        const configureConfig = type === ProductType.configurable
+        const configureBundleAndGrouped = type === ProductType.BUNDLE || type === ProductType.GROUPED;
+        const configureConfig = type === ProductType.CONFIGURABLE
             // eslint-disable-next-line max-len
             && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
         const configureCustomize = options.some(({ required = false }) => required);
-        const configureDownloadableLinks = ProductType.downloadable && links_purchased_separately === 1;
+        const configureDownloadableLinks = ProductType.DOWNLOADABLE && links_purchased_separately === 1;
 
         return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
     }
@@ -286,11 +275,11 @@ export class ProductCard extends Product {
         return this.renderAddToCartButton(layout);
     }
 
-    getConfigurableAttributes() {
+    getConfigurableAttributes(): Record<string, IndexedConfigurableOption> {
         const filteredOptions = super.getConfigurableAttributes();
 
         return Object.fromEntries(Object.entries(filteredOptions).filter(([, option]) => {
-            const { attribute_options: attributeOptions = {} } = option;
+            const { attribute_options: attributeOptions = {} as AttributeWithValueOption } = option;
 
             return Object.values(attributeOptions).some(({ swatch_data: swatchData }) => swatchData);
         }));

@@ -9,14 +9,21 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { RefObject } from 'react';
+
 import {
+    ProductComponentContainerFunctions,
+    ProductComponentContainerPropKeys,
+    ProductComponentProps,
     ProductContainerBaseProps,
     ProductContainerMapDispatchProps,
     ProductContainerMapStateProps
 } from 'Component/Product/Product.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { Mix } from 'Type/Common.type';
+import {
+    Children, Mix, ReactElement, Url
+} from 'Type/Common.type';
 
 export interface ProductCardContainerMapStateProps extends ProductContainerMapStateProps {
     baseLinkUrl: string;
@@ -30,17 +37,10 @@ export interface ProductCardContainerMapDispatchProps extends ProductContainerMa
 
 export interface ProductCartContainerBaseProps extends ProductContainerBaseProps {
     selectedFilters: Record<string, string[]>;
-    productUsesCategories: boolean;
-    categoryUrlSuffix: string;
-    baseLinkUrl: string;
-
     hideCompareButton: boolean;
     hideWishlistButton: boolean;
     isLoading: boolean;
-
-    renderContent;
-    showNotification: (type: NotificationType, message: string) => void;
-
+    renderContent: ((content: ContentObject) => ReactElement) | null;
     mix: Mix;
     layout: CategoryPageLayout;
 }
@@ -48,3 +48,45 @@ export interface ProductCartContainerBaseProps extends ProductContainerBaseProps
 export type ProductCardContainerProps = ProductCardContainerMapStateProps
 & ProductCardContainerMapDispatchProps
 & ProductCartContainerBaseProps;
+
+export interface ProductCartComponentContainerFunctions extends ProductComponentContainerFunctions {
+    showSelectOptionsNotification: () => void;
+}
+
+export interface ProductCardComponentProps extends ProductComponentProps {
+    children: Children;
+    hideCompareButton: boolean;
+    hideWishlistButton: boolean;
+    isLoading: boolean;
+    layout: CategoryPageLayout;
+    mix: Mix;
+    renderContent: ((content: ContentObject) => ReactElement) | null;
+    thumbnail: string;
+    linkTo?: Url;
+    showSelectOptionsNotification: () => void;
+    registerSharedElement: (ref: RefObject<HTMLElement>) => void;
+}
+
+export type ProductCardComponentContainerPropKeys = ProductComponentContainerPropKeys
+| 'children'
+| 'hideCompareButton'
+| 'hideWishlistButton'
+| 'isLoading'
+| 'layout'
+| 'mix'
+| 'renderContent'
+| 'thumbnail'
+| 'linkTo';
+
+export interface ContentObject {
+    renderCardLinkWrapper: (children: Children, mix?: Mix) => ReactElement;
+    pictureBlock: {
+        picture: (mix?: Mix) => ReactElement;
+    };
+    content: {
+        review: () => ReactElement;
+        productPrice: () => ReactElement;
+        mainDetails: () => ReactElement;
+        additionalProductDetails: (withMeta?: boolean) => ReactElement;
+    };
+}

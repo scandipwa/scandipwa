@@ -34,7 +34,7 @@ export enum LinkedProductsActionType {
 
 export interface UpdateLinkedProductsAction extends AnyAction {
     type: LinkedProductsActionType.UPDATE_LINKED_PRODUCTS;
-    linkedProducts: LinkedProductsMap & {
+    linkedProducts?: LinkedProductsMap & {
         updateCrossSell?: boolean;
     };
 }

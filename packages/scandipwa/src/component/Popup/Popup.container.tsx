@@ -47,14 +47,15 @@ export const mapDispatchToProps = (dispatch: Dispatch): PopupContainerMapDispatc
 
 /** @namespace Component/Popup/Container */
 export class PopupContainer extends PureComponent<PopupContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<PopupContainerProps> = {
         onVisible: noopFn,
         onClose: noopFn,
         onHide: noopFn,
         mix: {},
         contentMix: {},
         children: [],
-        isStatic: false
+        isStatic: false,
+        clickOutside: false
     };
 
     containerFunctions = {

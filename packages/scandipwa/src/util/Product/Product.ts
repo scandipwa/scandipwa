@@ -37,6 +37,7 @@ import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';
 
 import {
+    IndexedAttributeWithValue,
     IndexedAttributeWithValueOption,
     IndexedBaseProduct,
     IndexedBundleItem,
@@ -59,7 +60,7 @@ export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
  * @namespace Util/Product/checkEveryOption
  */
 export const checkEveryOption = (
-    attributes: Record<string, AttributeWithValue>,
+    attributes: Record<string, IndexedAttributeWithValue>,
     options: Record<string, string>
 ): boolean => Object.keys(options)
     .every((option) => {
@@ -96,7 +97,7 @@ export const getIndexedAttributeOption = (option: AttributeWithValueOption): Ind
 /** @namespace Util/Product/getIndexedAttributes */
 export const getIndexedAttributes = (
     attributes: AttributeWithValue[]
-): Record<string, AttributeWithValue> => attributes.reduce((indexedAttributes, attribute) => {
+): Record<string, IndexedAttributeWithValue> => attributes.reduce((indexedAttributes, attribute) => {
     const { attribute_code, attribute_options = [] } = attribute;
 
     return {
@@ -118,7 +119,7 @@ export const getIndexedAttributes = (
 /** @namespace Util/Product/getIndexedConfigurableOptions */
 export const getIndexedConfigurableOptions = (
     configurableOptions: ConfigurableProductOptions[],
-    indexedAttributes: Record<string, AttributeWithValue>
+    indexedAttributes: Record<string, IndexedAttributeWithValue>
 ): IndexedConfigurableOptions => (
     configurableOptions.reduce((indexedConfigurableOptions, configurableOption) => {
         const { values, attribute_code } = configurableOption;

@@ -8,48 +8,46 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import LinkedProductsReducer from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { LinkedProductsType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import { withReducers } from 'Util/DynamicReducer';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductLinks from './ProductLinks.component';
+import {
+    ProductLinksComponentProps,
+    ProductLinksContainerMapDispatchProps,
+    ProductLinksContainerMapStateProps,
+    ProductLinksContainerProps,
+    ProductLinksContainerState
+} from './ProductLinks.type';
 
 /** @namespace Component/ProductLinks/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductLinksContainerMapStateProps => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts
 });
 
 /** @namespace Component/ProductLinks/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): ProductLinksContainerMapDispatchProps => ({});
 
 /** @namespace Component/ProductLinks/Container */
-export class ProductLinksContainer extends PureComponent {
-    static propTypes = {
-        linkedProducts: LinkedProductsType.isRequired,
-        linkType: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        numberOfProductsToDisplay: PropTypes.number,
-        areDetailsLoaded: PropTypes.bool
-    };
-
-    static defaultProps = {
+export class ProductLinksContainer extends PureComponent<ProductLinksContainerProps, ProductLinksContainerState> {
+    static defaultProps: Partial<ProductLinksContainerProps> = {
         numberOfProductsToDisplay: 4,
         areDetailsLoaded: true
     };
 
-    state = {
+    state: ProductLinksContainerState = {
         siblingsHaveBrands: false,
         siblingsHavePriceBadge: false,
         siblingsHaveTierPrice: false,
         siblingsHaveConfigurableOptions: false
     };
 
-    containerProps() {
+    containerProps(): ProductLinksComponentProps {
         const {
             areDetailsLoaded,
             linkType,
@@ -101,7 +99,7 @@ export class ProductLinksContainer extends PureComponent {
 
         return (
             <ProductLinks
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

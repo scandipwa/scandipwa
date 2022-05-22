@@ -48,7 +48,7 @@ export const LinkedProductsReducer: Reducer<LinkedProductsStore, UpdateLinkedPro
             [LinkedProductType.RELATED]: related,
             [LinkedProductType.CROSS_SELL]: crosssell,
             updateCrossSell = false
-        }
+        } = {}
     } = action;
 
     const {

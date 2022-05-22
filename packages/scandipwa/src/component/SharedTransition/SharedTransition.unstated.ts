@@ -9,9 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { RefObject } from 'react';
 import { Container } from 'unstated';
 
-export const sharedTransitionInitialState = {
+import { SharedTransitionPosition, SharedTransitionState } from './SharedTransition.type';
+
+export const sharedTransitionInitialState: SharedTransitionState = {
     sharedElementDestination: null,
     sharedElement: null,
     destinationPosition: {},
@@ -19,23 +22,23 @@ export const sharedTransitionInitialState = {
 };
 
 /** @namespace Component/SharedTransition/Unstated */
-export class SharedTransitionUnstated extends Container {
-    state = sharedTransitionInitialState;
+export class SharedTransitionUnstated extends Container<SharedTransitionState> {
+    state: SharedTransitionState = sharedTransitionInitialState;
 
-    _parseRectangle(val) {
+    __construct(): void {
+        this.registerSharedElementDestination = this.registerSharedElementDestination.bind(this);
+        this.registerSharedElement = this.registerSharedElement.bind(this);
+    }
+
+    _parseRectangle(val: DOMRect): SharedTransitionPosition {
         return JSON.parse(JSON.stringify(val));
     }
 
-    registerSharedElementDestination = this.registerSharedElementDestination.bind(this);
-
-    registerSharedElement = this.registerSharedElement.bind(this);
-
-    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/no-arrow-functions-in-class
-    cleanUpTransition = () => {
+    cleanUpTransition(): void {
         this.setState(sharedTransitionInitialState);
-    };
+    }
 
-    registerSharedElementDestination({ current }) {
+    registerSharedElementDestination({ current }: RefObject<HTMLElement>): void {
         if (current) {
             this.setState(({ sharedElementDestination }) => {
                 if (sharedElementDestination) {
@@ -50,9 +53,9 @@ export class SharedTransitionUnstated extends Container {
         }
     }
 
-    registerSharedElement({ current }) {
+    registerSharedElement({ current }: RefObject<HTMLElement>): void {
         if (current) {
-            const clone = current.cloneNode(true);
+            const clone = current.cloneNode(true) as HTMLElement;
 
             this.setState({
                 sharedElement: clone,

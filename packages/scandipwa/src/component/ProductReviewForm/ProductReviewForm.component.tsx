@@ -17,8 +17,10 @@ import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import ReviewStar from 'Component/ReviewStar';
+import { ReviewRatingValue } from 'Query/Review.type';
 import { ReactElement } from 'Type/Common.type';
-import { RatingItemsType } from 'Type/Rating.type';
+
+import { ProductReviewFormComponentProps } from './ProductReviewForm.type';
 
 import './ProductReviewForm.style';
 
@@ -27,21 +29,7 @@ import './ProductReviewForm.style';
  * @class ProductReviewForm
  * @namespace Component/ProductReviewForm/Component
  */
-export class ProductReviewForm extends PureComponent {
-    static propTypes = {
-        reviewRatings: RatingItemsType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        onReviewSubmitSuccess: PropTypes.func.isRequired,
-        onReviewError: PropTypes.func.isRequired,
-        onStarRatingClick: PropTypes.func.isRequired,
-        ratingData: PropTypes.objectOf(PropTypes.string).isRequired,
-        reviewData: PropTypes.shape({
-            nickname: PropTypes.string,
-            summary: PropTypes.string,
-            detail: PropTypes.string
-        }).isRequired
-    };
-
+export class ProductReviewForm extends PureComponent<ProductReviewFormComponentProps> {
     ratingTitleMap = {
         1: __('Awful'),
         2: __('Bad'),
@@ -50,7 +38,7 @@ export class ProductReviewForm extends PureComponent {
         5: __('Awesome')
     };
 
-    renderReviewStar(options, rating_id): ReactElement {
+    renderReviewStar(options: ReviewRatingValue, rating_id: number): ReactElement {
         const { ratingData, onStarRatingClick } = this.props;
         const { option_id, value } = options;
         const isChecked = !!ratingData[rating_id] && ratingData[rating_id] === option_id;
@@ -60,7 +48,7 @@ export class ProductReviewForm extends PureComponent {
               key={ option_id }
               name={ rating_id }
               value={ value }
-              title={ this.ratingTitleMap[value] }
+              title={ this.ratingTitleMap[Number(value) as keyof typeof this.ratingTitleMap] }
               isChecked={ isChecked }
               option_id={ option_id }
               rating_id={ rating_id }
@@ -85,7 +73,7 @@ export class ProductReviewForm extends PureComponent {
                             { rating_code }
                         </legend>
                         { rating_options
-                            .sort(({ value }, { value: nextValue }) => nextValue - value)
+                            .sort(({ value }, { value: nextValue }) => Number(nextValue) - Number(value))
                             .map((option) => this.renderReviewStar(option, rating_id)) }
                     </fieldset>
                 </FieldGroup>

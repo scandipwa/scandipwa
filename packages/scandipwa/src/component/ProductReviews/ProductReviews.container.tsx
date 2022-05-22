@@ -9,48 +9,44 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
-import { ProductType } from 'Type/ProductList.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductReviews from './ProductReviews.component';
+import {
+    ProductReviewsComponentProps,
+    ProductReviewsContainerMapDispatchProps,
+    ProductReviewsContainerMapStateProps,
+    ProductReviewsContainerProps
+} from './ProductReviews.type';
 
 /** @namespace Component/ProductReviews/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductReviewsContainerMapStateProps => ({
     isEnabled: state.ConfigReducer.reviews_are_enabled,
     isGuestEnabled: state.ConfigReducer.reviews_allow_guest,
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/ProductReviews/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductReviewsContainerMapDispatchProps => ({
     showInfoNotification: (message) => dispatch(showNotification(NotificationType.INFO, message))
 });
 
 /** @namespace Component/ProductReviews/Container */
-export class ProductReviewsContainer extends PureComponent {
-    static propTypes = {
-        showInfoNotification: PropTypes.func.isRequired,
-        isGuestEnabled: PropTypes.bool,
-        isEnabled: PropTypes.bool,
-        product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool,
-        device: DeviceType.isRequired
-    };
-
+export class ProductReviewsContainer extends PureComponent<ProductReviewsContainerProps> {
     static defaultProps = {
         isEnabled: true,
         isGuestEnabled: true,
         areDetailsLoaded: false
     };
 
-    containerProps() {
+    containerProps(): ProductReviewsComponentProps {
         const {
             areDetailsLoaded,
             device,
@@ -76,7 +72,6 @@ export class ProductReviewsContainer extends PureComponent {
         return (
             <ProductReviews
               { ...this.containerProps() }
-              { ...this.containerFunctions }
             />
         );
     }

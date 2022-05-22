@@ -16,20 +16,14 @@ import ExpandableContent from 'Component/ExpandableContent';
 import ProductReviewList from 'Component/ProductReviewList';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
-import { ProductType } from 'Type/ProductList.type';
 import { showNewReviewPopup } from 'Util/Product';
+
+import { ProductReviewsComponentProps } from './ProductReviews.type';
 
 import './ProductReviews.style';
 
 /** @namespace Component/ProductReviews/Component */
-export class ProductReviews extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired
-    };
-
+export class ProductReviews extends PureComponent<ProductReviewsComponentProps> {
     renderButton(): ReactElement {
         return (
             <button
@@ -61,13 +55,13 @@ export class ProductReviews extends PureComponent {
         );
     }
 
-    renderRatingSchema(percent, reviewCount): ReactElement {
+    renderRatingSchema(percent: number, reviewCount: number): ReactElement {
         return (
             <>
-                <meta itemProp="ratingValue" content={ percent } />
-                <meta itemProp="worstRating" content={ 0 } />
-                <meta itemProp="bestRating" content={ 100 } />
-                <meta itemProp="reviewCount" content={ reviewCount } />
+                <meta itemProp="ratingValue" content={ String(percent) } />
+                <meta itemProp="worstRating" content="0" />
+                <meta itemProp="bestRating" content="100" />
+                <meta itemProp="reviewCount" content={ String(reviewCount) } />
             </>
         );
     }
@@ -76,7 +70,7 @@ export class ProductReviews extends PureComponent {
         const {
             product: {
                 review_summary: {
-                    rating_summary,
+                    rating_summary = 0,
                     review_count
                 } = {}
             }
@@ -85,8 +79,7 @@ export class ProductReviews extends PureComponent {
         const STARS_COUNT = 5;
         const PERCENT = 100;
 
-        // eslint-disable-next-line no-mixed-operators
-        const percent = parseFloat(STARS_COUNT * (rating_summary || 0) / PERCENT).toFixed(2);
+        const percent = ((STARS_COUNT * (rating_summary || 0)) / PERCENT).toFixed(2);
 
         if (!review_count) {
             return this.renderNoRating();
@@ -120,9 +113,9 @@ export class ProductReviews extends PureComponent {
             <div
               block="ProductReviews"
               elem="Summary"
-              itemType={ review_count ? 'http://schema.org/AggregateRating' : null }
-              itemProp={ review_count ? 'aggregateRating' : null }
-              itemScope={ review_count ? true : null }
+              itemType={ review_count ? 'http://schema.org/AggregateRating' : '' }
+              itemProp={ review_count ? 'aggregateRating' : '' }
+              itemScope={ !!review_count }
             >
                 { this.renderRatingData() }
                 { this.renderButton() }

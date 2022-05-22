@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef, PureComponent } from 'react';
+import { ComponentType, createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -75,8 +75,8 @@ export const mapStateToProps = (state: RootState): ProductContainerMapStateProps
  * @namespace Component/Product/Container
 */
 export class ProductContainer<
-P extends ProductContainerProps,
-S extends ProductContainerState
+P extends ProductContainerProps = ProductContainerProps,
+S extends ProductContainerState = ProductContainerState
 > extends PureComponent <P, S> {
     static defaultProps: Partial<ProductContainerProps> = {
         configFormRef: createRef<HTMLFormElement>(),
@@ -583,8 +583,5 @@ S extends ProductContainerState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    // !FIXME: React typescript declarations has some strange issues with the generic class components.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    ProductContainer
+    ProductContainer as unknown as ComponentType<ProductContainerProps>
 );
