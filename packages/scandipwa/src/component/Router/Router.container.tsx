@@ -72,7 +72,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispat
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
     init: () => {
         ConfigDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch)
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch, undefined)
         );
         MyAccountDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleCustomerDataOnInit(dispatch)

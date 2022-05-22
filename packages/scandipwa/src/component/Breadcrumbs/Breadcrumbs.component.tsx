@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import Breadcrumb from 'Component/Breadcrumb';
 import ContentWrapper from 'Component/ContentWrapper';
-import { Breadcrumb as BreadcrumbType } from 'Type/Breadcrumbs.type';
+import { Breadcrumb as BreadcrumbType } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { ReactElement } from 'Type/Common.type';
 import { appendWithStoreCode, isHomePageUrl } from 'Util/Url';
 

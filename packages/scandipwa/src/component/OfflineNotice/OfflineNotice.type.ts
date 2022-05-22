@@ -9,9 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { Location } from 'history';
 import { RouteComponentProps } from 'react-router';
-
-import { Location } from 'Type/Router.type';
 
 export interface OfflineNoticeContainerMapStateProps {
     isOffline: boolean;

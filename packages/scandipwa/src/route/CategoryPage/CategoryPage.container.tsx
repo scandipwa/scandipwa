@@ -336,10 +336,10 @@ export class CategoryPageContainer extends PureComponent<CategoryPageContainerPr
         this.setState({ selectedLayoutType: CategoryPageLayout.LIST });
     }
 
-    onSortChange(sortDirection: SortDirections, sortKey: string): void {
+    onSortChange(sortDirection: SortDirections, sortKey: string[]): void {
         const { location, history } = this.props;
 
-        setQueryParams({ sortKey, sortDirection, page: '' }, location, history);
+        setQueryParams({ sortKey: sortKey.join(','), sortDirection, page: '' }, location, history);
         this.updateMeta();
     }
 

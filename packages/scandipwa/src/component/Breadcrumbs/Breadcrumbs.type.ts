@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Breadcrumb } from 'Type/Breadcrumbs.type';
+import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
 
 export interface BreadcrumbsContainerMapStateProps {
     breadcrumbs: Breadcrumb[];

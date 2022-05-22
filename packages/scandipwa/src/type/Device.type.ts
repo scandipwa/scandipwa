@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+// ! TODO: Maybe we should move this to common types?
 export type Device = {
     isMobile: boolean;
     android: boolean;

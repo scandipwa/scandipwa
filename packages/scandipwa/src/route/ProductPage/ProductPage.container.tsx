@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
@@ -579,7 +579,7 @@ export default withReducers({
     ProductReducer
 })(withRouter(
     connect(mapStateToProps, mapDispatchToProps)(
-        ProductPageContainer as unknown as React.ComponentType<
+        ProductPageContainer as unknown as ComponentType<
         RouterComponentProps & ProductPageContainerProps
         >
     )

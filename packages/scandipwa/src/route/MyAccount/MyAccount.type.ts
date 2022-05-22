@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { Location } from 'history';
 import { match, RouteComponentProps } from 'react-router';
 
 import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
@@ -17,7 +18,6 @@ import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { MyAccountTabs, MyAccountTabsSection } from 'Type/Account.type';
-import { Location } from 'Type/Router.type';
 
 export interface MyAccountContainerMapStateProps {
     isMobile: boolean;

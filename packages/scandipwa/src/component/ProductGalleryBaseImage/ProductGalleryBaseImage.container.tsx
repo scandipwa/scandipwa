@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { Component, ComponentType } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ReactElement } from 'Type/Common.type';
@@ -90,7 +90,7 @@ export class ProductGalleryBaseImageContainer extends Component<ProductGalleryBa
 }
 
 export default withRouter(
-    ProductGalleryBaseImageContainer as unknown as React.ComponentType<
+    ProductGalleryBaseImageContainer as unknown as ComponentType<
     RouteComponentProps & ProductGalleryBaseImageContainerProps
     >
 );

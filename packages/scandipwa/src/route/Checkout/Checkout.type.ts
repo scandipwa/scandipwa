@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { History } from 'history';
+import { match as Match } from 'react-router-dom';
+
 import { ShippingMethod } from 'Query/Checkout.type';
 import { CreateAccountOptions } from 'Query/MyAccount.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { GQLEstimateShippingCostsAddress } from 'Type/Graphql.type';
-import { History, Match } from 'Type/Router.type';
 
 import { CheckoutSteps } from './Checkout.config';
 

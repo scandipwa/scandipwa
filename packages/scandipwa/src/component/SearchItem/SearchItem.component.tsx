@@ -17,8 +17,6 @@ import ProductAttributeValue from 'Component/ProductAttributeValue';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
-import { AttributeType, ProductType } from 'Type/ProductList.type';
-import { UrlType } from 'Type/Router.type';
 
 import './SearchItem.style';
 

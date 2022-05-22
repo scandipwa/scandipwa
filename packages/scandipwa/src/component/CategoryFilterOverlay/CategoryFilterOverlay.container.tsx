@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Dispatch } from 'redux';
@@ -310,7 +310,7 @@ export default withRouter(
         mapStateToProps,
         mapDispatchToProps
     )(
-        CategoryFilterOverlayContainer as unknown as React.ComponentType<
+        CategoryFilterOverlayContainer as unknown as ComponentType<
         RouteComponentProps & CategoryFilterOverlayContainerProps
         >
     )

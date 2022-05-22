@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { UrlType } from 'Type/Router.type';
+import { Url } from 'Type/Common.type';
 
 export interface BreadcrumbComponentProps {
     index: number;
     isDisabled: boolean;
-    url: string | UrlType;
+    url: string | Url;
     name: string;
 }

@@ -9,8 +9,9 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { History } from 'history';
+
 import { Device } from 'Type/Device.type';
-import { History } from 'Type/Router.type';
 
 export interface CartPageContainerProps {
     updateBreadcrumbs: () => void;

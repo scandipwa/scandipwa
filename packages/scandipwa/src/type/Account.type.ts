@@ -27,12 +27,6 @@ export enum MyAccountTabsSection {
     THIRD_SECTION
 }
 
-export enum MyAccountEditTabs {
-    INFORMATION_EDIT = 'information_edit',
-    PASSWORD_EDIT = 'password_edit',
-    EMAIL_EDIT = 'email_edit'
-}
-
 export type Region = {
     region_code: string | null;
     region: string | null;
@@ -75,27 +69,7 @@ export type TrimmedAddress = {
     vat_id: string | null;
 };
 
-export type Customer = {
-    addresses: Address[];
-    created_at: string;
-    default_billing: string;
-    default_shipping: string;
-    dob: Date;
-    email: string;
-    firstname: string;
-    group_id: number;
-    id: number;
-    is_subscribed: boolean;
-    lastname: string;
-    middlename: string;
-    prefix: string;
-    suffix: string;
-    taxvat: string;
-};
-
 export type Tab = {
     url: string;
     name: string;
 };
-
-export type TabMap = Record<string, Tab>;

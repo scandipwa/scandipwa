@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef, PureComponent } from 'react';
+import { ComponentType, createRef, PureComponent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
@@ -458,7 +458,7 @@ export class ProductGallery extends PureComponent<ProductGalleryComponentProps, 
 }
 
 export default withRouter(
-    ProductGallery as unknown as React.ComponentType<
+    ProductGallery as unknown as ComponentType<
     RouteComponentProps & ProductGalleryComponentProps
     >
 );

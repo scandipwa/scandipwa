@@ -11,11 +11,9 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { withRouter } from 'react-router-dom';
 
-import { MixType } from 'Type/Common.type';
-import { HistoryType, LocationType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 import { setQueryParams } from 'Util/Url';
 
 import ResetButton from './ResetButton.component';
@@ -68,7 +66,7 @@ export class ResetButtonContainer extends PureComponent {
         const { location: { search = '' } } = this.props;
 
         return search.substr(1).split('&').reduce((acc, part) => {
-            const [ key, value ] = part.split('=');
+            const [key, value] = part.split('=');
 
             return { ...acc, [ key ]: value };
         }, {});
@@ -77,8 +75,8 @@ export class ResetButtonContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ResetButton
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

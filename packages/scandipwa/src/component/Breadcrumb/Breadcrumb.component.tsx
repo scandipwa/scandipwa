@@ -14,8 +14,7 @@ import { PureComponent } from 'react';
 import ChevronIcon from 'Component/ChevronIcon';
 import Link from 'Component/Link';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { ReactElement } from 'Type/Common.type';
-import { UrlType } from 'Type/Router.type';
+import { ReactElement, Url } from 'Type/Common.type';
 
 import { BreadcrumbComponentProps } from './Breadcrumb.type';
 
@@ -28,7 +27,7 @@ export class Breadcrumb extends PureComponent<BreadcrumbComponentProps> {
         name: ''
     };
 
-    getLinkUrl(): UrlType {
+    getLinkUrl(): Partial<Url> {
         const {
             url = ''
         } = this.props;

@@ -20,7 +20,6 @@ import Loader from 'Component/Loader';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
 import { UrlType } from 'Type/Router.type';
 import { ADD_TO_WISHLIST } from 'Util/Product';
 import { magentoProductTransform } from 'Util/Product/Transform';

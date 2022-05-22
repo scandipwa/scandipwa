@@ -9,10 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { Location } from 'history';
+
 import { OrderItem } from 'Query/Order.type';
 import { OrderList } from 'Store/Order/Order.type';
 import { Device } from 'Type/Device.type';
-import { Location } from 'Type/Router.type';
 
 export interface MyAccountMyOrdersContainerMapStateProps {
     orderList: Partial<OrderList>;

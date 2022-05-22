@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Location } from 'history';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
 import { ReactElement } from 'Type/Common.type';
-import { Location } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 import { RootState } from 'Util/Store/Store.type';
 import { getQueryParam } from 'Util/Url';
