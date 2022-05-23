@@ -13,16 +13,12 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
+import { MyAccountOrderTabComponentProps } from './MyAccountOrderTab.type';
+
 import './MyAccountOrderTab.style';
 
 /** @namespace Component/MyAccountOrderTab/Component */
-export class MyAccountOrderTab extends PureComponent {
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        handleClickOnTab: PropTypes.func.isRequired,
-        isActive: PropTypes.bool.isRequired
-    };
-
+export class MyAccountOrderTab extends PureComponent<MyAccountOrderTabComponentProps> {
     render(): ReactElement {
         const { title, isActive, handleClickOnTab } = this.props;
 

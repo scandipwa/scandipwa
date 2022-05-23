@@ -9,21 +9,19 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
 import { ReactElement } from 'Type/Common.type';
 
 import MyAccountOrderTab from './MyAccountOrderTab.component';
+import {
+    MyAccountOrderTabComponentProps,
+    MyAccountOrderTabContainerProps,
+    MyAccountOrderTabContainerPropsKeys
+} from './MyAccountOrderTab.type';
 
 /** @namespace Component/MyAccountOrderTab/Container */
-export class MyAccountOrderTabContainer extends PureComponent {
-    static propTypes = {
-        onTabClick: PropTypes.func.isRequired,
-        title: PropTypes.string.isRequired,
-        tabName: PropTypes.string.isRequired,
-        isActive: PropTypes.bool
-    };
-
+export class MyAccountOrderTabContainer extends PureComponent<MyAccountOrderTabContainerProps> {
     static defaultProps = {
         isActive: false
     };
@@ -32,13 +30,13 @@ export class MyAccountOrderTabContainer extends PureComponent {
         handleClickOnTab: this.handleClickOnTab.bind(this)
     };
 
-    containerProps() {
-        const { tabName, isActive, title } = this.props;
+    containerProps(): Pick<MyAccountOrderTabComponentProps, MyAccountOrderTabContainerPropsKeys> {
+        const { isActive, title } = this.props;
 
-        return { tabName, isActive, title };
+        return { isActive, title };
     }
 
-    handleClickOnTab() {
+    handleClickOnTab(): void {
         const { onTabClick, tabName } = this.props;
 
         onTabClick(tabName);
@@ -47,8 +45,8 @@ export class MyAccountOrderTabContainer extends PureComponent {
     render(): ReactElement {
         return (
             <MyAccountOrderTab
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

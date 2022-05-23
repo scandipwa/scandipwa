@@ -13,7 +13,9 @@ import { History } from 'history';
 import { match as Match } from 'react-router-dom';
 
 import { ShippingMethod } from 'Query/Checkout.type';
-import { CreateAccountOptions } from 'Query/MyAccount.type';
+import { CreateAccountOptions, Customer } from 'Query/MyAccount.type';
+import { Country } from 'Query/Region.type';
+import { CartTotals } from 'Store/Cart/Cart.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { GQLEstimateShippingCostsAddress } from 'Type/Graphql.type';
@@ -21,17 +23,17 @@ import { GQLEstimateShippingCostsAddress } from 'Type/Graphql.type';
 import { CheckoutSteps } from './Checkout.config';
 
 export interface CheckoutContainerMapStateProps {
-    totals: never;
-    cartTotalSubPrice: never;
-    customer: never;
-    guest_checkout: never;
-    countries: never;
-    isEmailAvailable: never;
-    isMobile: never;
-    isInStoreActivated: never;
-    isGuestNotAllowDownloadable: never;
-    savedEmail: never;
-    isSignedIn: never;
+    totals: CartTotals;
+    cartTotalSubPrice: number | null;
+    customer: Partial<Customer>;
+    guest_checkout: boolean;
+    countries: Country[];
+    isEmailAvailable: boolean;
+    isMobile: boolean;
+    isInStoreActivated: boolean;
+    isGuestNotAllowDownloadable: boolean;
+    savedEmail: string;
+    isSignedIn: boolean;
 }
 
 export interface CheckoutContainerDispatchProps {
@@ -45,7 +47,7 @@ export interface CheckoutContainerDispatchProps {
     setHeaderState: (stateName: NavigationState) => void;
     setNavigationState: (stateName: NavigationState) => void;
     createAccount: (options: CreateAccountOptions) => void;
-    updateShippingFields: (fields: never) => void;
+    updateShippingFields: (fields: Record<string, unknown>) => void;
     updateEmail: (email: string) => void;
     checkEmailAvailability: (email: string) => void;
     updateShippingPrice: (data: never) => void;
@@ -63,8 +65,8 @@ export interface CheckoutContainerState {
     requestsSent: number;
     paymentMethods: never[];
     shippingMethods: ShippingMethod[];
-    shippingAddress: never;
-    billingAddress: never;
+    shippingAddress: Record<string, never>;
+    billingAddress: Record<string, never>;
     selectedShippingMethod: string;
     checkoutStep: CheckoutSteps;
     orderID: string;

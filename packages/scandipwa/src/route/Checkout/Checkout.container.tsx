@@ -106,7 +106,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
     showInfoNotification: (message) => dispatch(showNotification(NotificationType.INFO, message)),
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
-    setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName)),
+    setNavigationState: (stateName) => dispatch(
+        changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName)
+    ),
     createAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
     ),
@@ -160,7 +162,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         toggleBreadcrumbs(false);
 
         this.state = {
-            isLoading: is_virtual,
+            isLoading: !!is_virtual,
             isDeliveryOptionsLoading: false,
             requestsSent: 0,
             paymentMethods: [],

@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { RootState } from 'Util/Store/Store.type';
+
 import {
     CartItem,
     CartItemPriceProps,
@@ -217,7 +219,7 @@ export const getCartShippingItemSubPrice = (state: CartState) => (props: CartIte
 };
 
 /** @namespace Util/Cart/getCartTotalSubPrice */
-export const getCartTotalSubPrice = (state: CartState): number | null => {
+export const getCartTotalSubPrice = (state: RootState): number | null => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {

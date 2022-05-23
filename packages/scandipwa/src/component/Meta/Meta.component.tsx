@@ -9,35 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, ReactPortal } from 'react';
 import { createPortal } from 'react-dom';
 
-import { MetaTitleType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { MetaComponentProps } from './Meta.type';
 
 /**
  * Page Meta data
  * @class Meta
  * @namespace Component/Meta/Component
  */
-export class Meta extends PureComponent {
-    static propTypes = {
-        metadata: PropTypes.arrayOf(
-            PropTypes.shape({
-                name: PropTypes.string,
-                property: PropTypes.string,
-                content: PropTypes.oneOfType([
-                    PropTypes.string,
-                    PropTypes.number
-                ])
-            })
-        ).isRequired,
-        canonical_url: PropTypes.string,
-        default_title: PropTypes.string.isRequired,
-        title_prefix: PropTypes.string.isRequired,
-        title_suffix: PropTypes.string.isRequired,
-        title: MetaTitleType
-    };
-
+export class Meta extends PureComponent<MetaComponentProps> {
     static defaultProps = {
         title: '',
         canonical_url: ''
@@ -62,11 +46,10 @@ export class Meta extends PureComponent {
 
         const titlePrefix = title_prefix ? `${ title_prefix } | ` : '';
         const titleSuffix = title_suffix ? ` | ${ title_suffix }` : '';
-        const { value = title } = title;
 
         return (
             <title>
-                { `${ titlePrefix }${ value || default_title }${ titleSuffix }` }
+                { `${ titlePrefix }${ title || default_title }${ titleSuffix }` }
             </title>
         );
     }
@@ -86,15 +69,15 @@ export class Meta extends PureComponent {
     renderMeta(): ReactElement {
         const { metadata } = this.props;
 
-        return (
+        return [
             <>
                 { this.renderTitle() }
                 { this.renderCanonical() }
                 { metadata.map((tag) => {
                     const {
-                        name = null,
+                        name,
                         property = null,
-                        content = null
+                        content
                     } = tag;
 
                     return (
@@ -106,12 +89,12 @@ export class Meta extends PureComponent {
                     );
                 }) }
             </>
-        );
+        ];
     }
 
-    render(): ReactElement {
+    render(): ReactPortal {
         return createPortal(
-            { ...this.renderMeta() },
+            this.renderMeta(),
             document.head
         );
     }

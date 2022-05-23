@@ -21,14 +21,16 @@ import { OverlayComponentProps } from './Overlay.type';
 import './Overlay.style';
 
 /** @namespace Component/Overlay/Component */
-export class Overlay<Props extends OverlayComponentProps> extends PureComponent<Props> {
-    static defaultProps = {
+export class Overlay<Props extends OverlayComponentProps = OverlayComponentProps> extends PureComponent<Props> {
+    static defaultProps: Partial<OverlayComponentProps> = {
         mix: {},
         children: [],
         onVisible: noopFn,
         isStatic: false,
         onHide: noopFn,
-        isRenderInPortal: true
+        isRenderInPortal: true,
+        contentMix: {},
+        onClose: noopFn
     };
 
     overlayRef = createRef<HTMLDivElement>();
@@ -51,7 +53,7 @@ export class Overlay<Props extends OverlayComponentProps> extends PureComponent<
     onVisible(): void {
         const { onVisible, isStatic, isMobile } = this.props;
 
-        if (isStatic) {
+        if (isStatic || !onVisible) {
             return;
         }
 

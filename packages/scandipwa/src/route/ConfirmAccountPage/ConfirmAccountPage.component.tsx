@@ -8,7 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
+
 import { PureComponent } from 'react';
 import { Redirect } from 'react-router';
 
@@ -28,14 +28,6 @@ import './ConfirmAccountPage.style';
 
 /** @namespace Route/ConfirmAccountPage/Component */
 export class ConfirmAccountPage extends PureComponent<ConfirmAccountPageComponentProps> {
-    static propTypes = {
-        redirect: PropTypes.bool.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        shouldDisplayWarning: PropTypes.bool.isRequired,
-        onConfirmSuccess: PropTypes.func.isRequired,
-        onFormError: PropTypes.func.isRequired
-    };
-
     renderWarningMessage(): ReactElement {
         const { shouldDisplayWarning } = this.props;
 

@@ -6,19 +6,26 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
-import PropTypes from 'prop-types';
+
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { MetaTitleType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import Meta from './Meta.component';
+import {
+    MetaComponentProps,
+    MetaContainerMapDispatchProps,
+    MetaContainerMapStateProps,
+    MetaContainerProps,
+    MetaContainerPropsKeys
+} from './Meta.type';
 
 /** @namespace Component/Meta/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MetaContainerMapStateProps => ({
     default_description: state.MetaReducer.default_description,
     default_keywords: state.MetaReducer.default_keywords,
     default_title: state.MetaReducer.default_title,
@@ -33,24 +40,10 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/Meta/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): MetaContainerMapDispatchProps => ({});
 
 /** @namespace Component/Meta/Container */
-export class MetaContainer extends PureComponent {
-    static propTypes = {
-        default_description: PropTypes.string,
-        default_keywords: PropTypes.string,
-        default_title: PropTypes.string,
-        canonical_url: PropTypes.string,
-        title_prefix: PropTypes.string,
-        title_suffix: PropTypes.string,
-        description: PropTypes.string,
-        keywords: PropTypes.string,
-        title: MetaTitleType,
-        robots: PropTypes.string,
-        status_code: PropTypes.string
-    };
-
+export class MetaContainer extends PureComponent<MetaContainerProps> {
     static defaultProps = {
         default_description: '',
         default_keywords: '',
@@ -65,7 +58,7 @@ export class MetaContainer extends PureComponent {
         status_code: ''
     };
 
-    containerProps() {
+    containerProps(): Pick<MetaComponentProps, MetaContainerPropsKeys> {
         const {
             canonical_url,
             default_title,
@@ -84,46 +77,46 @@ export class MetaContainer extends PureComponent {
         };
     }
 
-    _generateMetaFromMetadata(metadata, param = 'name') {
-        return Object.entries(metadata).reduce((acc, [ key, value ]) => (
+    _generateMetaFromMetadata(metadata: Record<string, string | undefined>, param = 'name'): Record<string, string>[] {
+        return Object.entries(metadata).reduce((acc: Record<string, string>[], [key, value]) => (
             value
-                ? [ ...acc, { [ param ]: key, content: `${value}` } ]
+                ? [...acc, { [ param ]: key, content: `${value}` }]
                 : acc
         ), []);
     }
 
-    _getTitle() {
+    _getTitle(): string | undefined {
         const { title, default_title } = this.props;
 
         return title || default_title;
     }
 
-    _getDescription() {
+    _getDescription(): string | undefined {
         const { description, default_description } = this.props;
 
         return description || default_description;
     }
 
-    _getKeywords() {
+    _getKeywords(): string | undefined {
         const { keywords, default_keywords } = this.props;
 
         return keywords || default_keywords;
     }
 
-    _getRobots() {
+    _getRobots(): string | undefined {
         const { robots } = this.props;
 
         return robots;
     }
 
-    _getStatusCode() {
+    _getStatusCode(): string | undefined {
         const { status_code } = this.props;
 
         return status_code;
     }
 
-    _getMetadata() {
-        const meta = {
+    _getMetadata(): Record<string, string>[] {
+        const meta: Record<string, string | undefined> = {
             title: this._getTitle(),
             description: this._getDescription(),
             keywords: this._getKeywords(),
@@ -137,7 +130,7 @@ export class MetaContainer extends PureComponent {
     render(): ReactElement {
         return (
             <Meta
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }
