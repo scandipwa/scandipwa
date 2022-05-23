@@ -11,37 +11,10 @@
 
 import { getFormattedRegion } from 'Util/Address';
 
-/** @namespace Component/MyAccountAddressTable/Table/getAddressAdditionalTableFields */
-export const getAddressAdditionalTableFields = (address, countries) => {
-    const regionData = getFormattedRegion(address, countries);
-
-    return [
-        {
-            key: 'country',
-            label: __('County'),
-            source: regionData
-        },
-        {
-            key: 'region',
-            label: __('State/Province'),
-            source: regionData
-        },
-        {
-            key: 'city',
-            label: __('City'),
-            source: address
-        },
-        {
-            key: 'vat_id',
-            label: __('VAT Number'),
-            source: address
-        }
-    ];
-};
-
 /** @namespace Component/MyAccountAddressTable/Table/getAddressTablePairArray */
 export const getAddressTablePairArray = (props) => {
-    const { address, countries, showAdditionalFields } = props;
+    const { address, countries } = props;
+    const regionData = getFormattedRegion(address, countries);
 
     return [
         {
@@ -60,15 +33,21 @@ export const getAddressTablePairArray = (props) => {
             source: address
         },
         {
-            key: 'postcode',
-            label: __('Postal code'),
-            source: address
+            key: 'region',
+            label: __('Region'),
+            source: { region: `${address.city}, ${regionData.region}, ${address.postcode}` }
+        },
+        {
+            key: 'country',
+            label: __('Country'),
+            source: regionData
         },
         {
             key: 'telephone',
             label: __('Phone number'),
             source: address
-        },
-        ...(showAdditionalFields ? getAddressAdditionalTableFields(address, countries) : [])
+        }
     ];
 };
+
+export default getAddressTablePairArray;
