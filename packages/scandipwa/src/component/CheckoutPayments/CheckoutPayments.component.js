@@ -47,6 +47,9 @@ export class CheckoutPayments extends PureComponent {
             region: PropTypes.string,
             street: PropTypes.arrayOf(PropTypes.string),
             telephone: PropTypes.string
+        }).isRequired,
+        totals: PropTypes.shape({
+            grand_total: PropTypes.number
         }).isRequired
     };
 
@@ -114,6 +117,12 @@ export class CheckoutPayments extends PureComponent {
 
     renderPayments() {
         const { paymentMethods } = this.props;
+        const { totals: { grand_total } } = this.props;
+        const paymentFree = paymentMethods.find((payment) => payment.code === 'free');
+
+        if (!grand_total && paymentFree) {
+            return this.renderPayment(paymentFree);
+        }
 
         return paymentMethods.map(this.renderPayment);
     }

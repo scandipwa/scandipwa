@@ -79,7 +79,8 @@ export class CheckoutPaymentsContainer extends PureComponent {
             billingAddress,
             paymentMethods,
             setOrderButtonEnableStatus,
-            showError
+            showError,
+            totals
         } = this.props;
 
         const { selectedPaymentCode } = this.state;
@@ -89,7 +90,8 @@ export class CheckoutPaymentsContainer extends PureComponent {
             paymentMethods,
             selectedPaymentCode,
             setOrderButtonEnableStatus,
-            showError
+            showError,
+            totals
         };
     }
 
