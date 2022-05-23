@@ -23,7 +23,7 @@ import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulation
 import {
     OrderTabs
 } from './MyAccountOrder.config';
-import { MyAccountOrderComponentProps, OrderRenderItems } from './MyAccountOrder.type';
+import { MyAccountOrderComponentProps, OrderRenderItems, OrderTab } from './MyAccountOrder.type';
 
 import './MyAccountOrder.style';
 
@@ -34,7 +34,7 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
         renderOrderCreditMemoTable: this.renderOrderCreditMemoTable.bind(this)
     };
 
-    tabMap = {
+    tabMap: Record<OrderTabs, OrderTab> = {
         [OrderTabs.ORDER_ITEMS]: {
             tabName: OrderTabs.ORDER_ITEMS,
             title: __('Items Ordered'),
@@ -98,7 +98,7 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
         }
     };
 
-    shouldTabsRender(): ReactElement {
+    shouldTabsRender(): OrderTab[] {
         return Object.values(this.tabMap).filter(({ shouldTabRender }) => shouldTabRender());
     }
 

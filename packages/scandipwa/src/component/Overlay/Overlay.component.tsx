@@ -53,7 +53,7 @@ export class Overlay<P extends OverlayComponentProps = OverlayComponentProps> ex
     onVisible(): void {
         const { onVisible, isStatic, isMobile } = this.props;
 
-        if (isStatic) {
+        if (isStatic || !onVisible) {
             return;
         }
 

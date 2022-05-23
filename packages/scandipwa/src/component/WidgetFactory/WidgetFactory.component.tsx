@@ -17,10 +17,7 @@ import RenderWhenVisible from 'Component/RenderWhenVisible';
 import { ReactElement } from 'Type/Common.type';
 
 import {
-    CATALOG_PRODUCT_LIST,
-    NEW_PRODUCTS,
-    RECENTLY_VIEWED,
-    SLIDER
+    Widget
 } from './WidgetFactory.config';
 
 import './WidgetFactory.style';
@@ -44,22 +41,18 @@ export const RecentlyViewedWidget = lazy(() => import(
 
 /** @namespace Component/WidgetFactory/Component */
 export class WidgetFactory extends PureComponent {
-    static propTypes = {
-        type: PropTypes.string.isRequired
-    };
-
     renderMap = {
-        [SLIDER]: {
+        [Widget.SLIDER]: {
             component: HomeSlider,
             fallback: this.renderSliderFallback
         },
-        [NEW_PRODUCTS]: {
+        [Widget.NEW_PRODUCTS]: {
             component: NewProducts
         },
-        [CATALOG_PRODUCT_LIST]: {
+        [Widget.CATALOG_PRODUCT_LIST]: {
             component: ProductListWidget
         },
-        [RECENTLY_VIEWED]: {
+        [Widget.RECENTLY_VIEWED]: {
             component: RecentlyViewedWidget
         }
     };

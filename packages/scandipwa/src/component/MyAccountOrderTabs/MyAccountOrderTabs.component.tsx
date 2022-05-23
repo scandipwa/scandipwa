@@ -11,30 +11,17 @@
 
 import { PureComponent } from 'react';
 
+import { OrderTab } from 'Component/MyAccountOrder/MyAccountOrder.type';
 import MyAccountOrderTab from 'Component/MyAccountOrderTab';
 import { ReactElement } from 'Type/Common.type';
+
+import { MyAccountOrderTabsComponentProps } from './MyAccountOrderTabs.type';
 
 import './MyAccountOrderTabs.style';
 
 /** @namespace Component/MyAccountOrderTabs/Component */
-export class MyAccountOrderTabs extends PureComponent {
-    static propTypes = {
-        tabs: PropTypes.arrayOf(PropTypes.shape({
-            tabName: PropTypes.string.isRequired,
-            render: PropTypes.func.isRequired,
-            title: PropTypes.string.isRequired
-        })).isRequired,
-        handleChangeActiveTab: PropTypes.func.isRequired,
-        activeTab: PropTypes.string.isRequired
-    };
-
-    renderActiveTab(): ReactElement {
-        const { tabs, activeTab } = this.props;
-
-        return tabs[activeTab].render();
-    }
-
-    renderTab(item, i): ReactElement {
+export class MyAccountOrderTabs extends PureComponent<MyAccountOrderTabsComponentProps> {
+    renderTab(item: OrderTab, i: number): ReactElement {
         const { handleChangeActiveTab, activeTab } = this.props;
         const { title, tabName } = item;
 

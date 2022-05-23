@@ -16,6 +16,7 @@ import {
 } from 'Query/Order.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import { ReactElement } from 'Type/Common.type';
 
 import { OrderTabs } from './MyAccountOrder.config';
 
@@ -66,3 +67,10 @@ export interface MyAccountOrderComponentProps {
 export type OrderRenderItems = {
     items: OrderItemProduct[]; number: string;
 } | OrderShipment | Invoice;
+
+export type OrderTab = {
+    tabName: OrderTabs;
+    title: string;
+    shouldTabRender: () => boolean;
+    render: () => ReactElement;
+};

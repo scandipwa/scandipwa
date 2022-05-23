@@ -10,7 +10,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Breadcrumbs from 'Component/Breadcrumbs/Breadcrumbs.component';
@@ -36,10 +35,6 @@ import './StyleGuidePage.style';
 
 /** @namespace Route/StyleGuidePage/Component */
 export class StyleGuidePageComponent extends PureComponent<StyleGuidePageComponentProps> {
-    static propTypes = {
-        fakeFunction: PropTypes.func.isRequired
-    };
-
     renderMap = {
         [ COLORS ]: (): ReactElement => this.renderColors(),
         [ BUTTONS ]: (): ReactElement => this.renderButtons(),
