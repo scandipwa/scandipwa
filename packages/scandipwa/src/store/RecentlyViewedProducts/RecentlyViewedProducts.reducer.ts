@@ -96,8 +96,8 @@ export const RecentlyViewedProductsReducer: Reducer<RecentlyViewedProductsStore,
 
     case RecentlyViewedProductsActionType.UPDATE_RECENTLY_VIEWED_PRODUCTS: {
         const {
-            products,
-            storeCode
+            products = [],
+            storeCode = ''
         } = action;
         const { recentlyViewedProducts: recent = {} } = state;
 

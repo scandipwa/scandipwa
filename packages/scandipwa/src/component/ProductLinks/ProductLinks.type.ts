@@ -42,16 +42,20 @@ export interface ProductLinksComponentProps {
     linkedProducts: Partial<Record<LinkedProductType, Partial<LinkedProducts>>>;
     numberOfProductsToDisplay: number;
     title: string;
-    productCardFunctions: {
-        setSiblingsHaveBrands: () => void;
-        setSiblingsHavePriceBadge: () => void;
-        setSiblingsHaveTierPrice: () => void;
-        setSiblingsHaveConfigurableOptions: () => void;
-    };
-    productCardProps: {
-        siblingsHaveBrands: boolean;
-        siblingsHavePriceBadge: boolean;
-        siblingsHaveTierPrice: boolean;
-        siblingsHaveConfigurableOptions: boolean;
-    };
+    productCardFunctions: ProductCartDisplayFunctions;
+    productCardProps: ProductCardDisplayProps;
+}
+
+export interface ProductCartDisplayFunctions {
+    setSiblingsHaveBrands: () => void;
+    setSiblingsHavePriceBadge: () => void;
+    setSiblingsHaveTierPrice: () => void;
+    setSiblingsHaveConfigurableOptions: () => void;
+}
+
+export interface ProductCardDisplayProps {
+    siblingsHaveBrands: boolean;
+    siblingsHavePriceBadge: boolean;
+    siblingsHaveTierPrice: boolean;
+    siblingsHaveConfigurableOptions: boolean;
 }

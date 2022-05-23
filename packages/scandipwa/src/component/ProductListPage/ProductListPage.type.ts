@@ -9,22 +9,25 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductItem } from 'Query/ProductList.type';
+import { RouteComponentProps } from 'react-router';
+
 import { Mix } from 'Type/Common.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
-export interface ProductListPageComponentProps {
+export interface ProductListPageComponentBaseProps {
     isInfiniteLoaderEnabled: boolean;
     isLoading: boolean;
     isVisible: boolean;
     updatePages: (next?: boolean) => void;
-    numberOfPlaceholders: number;
+    numberOfPlaceholders?: number;
     selectedFilters: Record<string, string[]>;
-    wrapperRef: (elm: HTMLElement | null) => void;
+    wrapperRef?: (elm: HTMLElement | null) => void;
     pageNumber: number;
     items: IndexedProduct[];
     mix: Mix;
 }
+
+export type ProductListPageComponentProps = RouteComponentProps & ProductListPageComponentBaseProps;
 
 export interface ProductListPageComponentState {
     siblingsHaveBrands: boolean;

@@ -12,33 +12,33 @@
 import { Component, createRef } from 'react';
 
 import ProductCard from 'Component/ProductCard';
-import { ProductCardPropsType, ProductType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
+import { IndexedProduct } from 'Util/Product/Product.type';
+
+import { NewProductsComponentProps } from './NewProducts.type';
 
 import './NewProducts.style';
 
 /** @namespace Component/NewProducts/Component */
-export class NewProducts extends Component {
-    static propTypes = {
-        products: PropTypes.arrayOf(ProductType),
-        productsPerPage: PropTypes.number.isRequired,
-        productCardProps: ProductCardPropsType.isRequired,
-        productCardFunctions: PropTypes.objectOf(PropTypes.func).isRequired
-    };
-
+export class NewProducts extends Component<NewProductsComponentProps> {
     static defaultProps = {
         products: Array.from({ length: 4 }, () => ({}))
     };
 
-    newProductsRef = createRef();
+    newProductsRef = createRef<HTMLElement>();
 
-    renderProductCard = this.renderProductCard.bind(this);
+    __construct(props: NewProductsComponentProps): void {
+        super.__construct?.(props);
+
+        this.renderProductCard = this.renderProductCard.bind(this);
+    }
 
     componentDidMount(): void {
         this.setStyles();
     }
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: NewProductsComponentProps): boolean {
         const { products, productsPerPage } = this.props;
         const {
             products: nextProducts,
@@ -52,39 +52,40 @@ export class NewProducts extends Component {
         this.setStyles();
     }
 
-    setStyles() {
+    setStyles(): void {
         const { productsPerPage } = this.props;
         CSS.setVariable(this.newProductsRef, 'new-products-per-page-count', productsPerPage);
     }
 
-    renderProductCard(product, i): ReactElement {
-        const {
-            productCardProps: {
-                siblingsHaveBrands,
-                siblingsHavePriceBadge,
-                siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions
-            },
-            productCardFunctions: {
-                setSiblingsHaveBrands,
-                setSiblingsHavePriceBadge,
-                setSiblingsHaveTierPrice,
-                setSiblingsHaveConfigurableOptions
-            }
-        } = this.props;
+    renderProductCard(product: IndexedProduct, i: number): ReactElement {
+        // const {
+        //     productCardProps: {
+        //         siblingsHaveBrands,
+        //         siblingsHavePriceBadge,
+        //         siblingsHaveTierPrice,
+        //         siblingsHaveConfigurableOptions
+        //     },
+        //     productCardFunctions: {
+        //         setSiblingsHaveBrands,
+        //         setSiblingsHavePriceBadge,
+        //         setSiblingsHaveTierPrice,
+        //         setSiblingsHaveConfigurableOptions
+        //     }
+        // } = this.props;
 
         return (
             <ProductCard
               key={ product.id || i }
               product={ product }
-              siblingsHaveBrands={ siblingsHaveBrands }
-              siblingsHavePriceBadge={ siblingsHavePriceBadge }
-              siblingsHaveTierPrice={ siblingsHaveTierPrice }
-              siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
-              setSiblingsHaveBrands={ setSiblingsHaveBrands }
-              setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
-              setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
-              setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
+            // !FIXME: This seems to be the obsolete code. We should remove it from all components.
+            //   siblingsHaveBrands={ siblingsHaveBrands }
+            //   siblingsHavePriceBadge={ siblingsHavePriceBadge }
+            //   siblingsHaveTierPrice={ siblingsHaveTierPrice }
+            //   siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
+            //   setSiblingsHaveBrands={ setSiblingsHaveBrands }
+            //   setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
+            //   setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
+            //   setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }

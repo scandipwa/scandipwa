@@ -13,6 +13,9 @@ import { PureComponent } from 'react';
 
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
 import Overlay from 'Component/Overlay';
+import {
+    ProductConfigurableAttribute
+} from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
 import ResetAttributes from 'Component/ResetAttributes';
 import ResetButton from 'Component/ResetButton';
 import { ReactElement } from 'Type/Common.type';
@@ -26,7 +29,7 @@ import './CategoryFilterOverlay.style';
 export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayComponentProps> {
     renderFilters(): ReactElement {
         const {
-            availableFilters,
+            availableFilters = {},
             customFiltersValues,
             toggleCustomFilter,
             isMatchingInfoFilter,
@@ -35,11 +38,13 @@ export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayCo
             renderPlaceholder
         } = this.props;
 
+        const filters = availableFilters as unknown as Record<string, Partial<ProductConfigurableAttribute>>;
+
         return (
             <CategoryConfigurableAttributes
               mix={ { block: 'CategoryFilterOverlay', elem: 'Attributes' } }
               isReady={ isMatchingInfoFilter }
-              configurable_options={ availableFilters }
+              configurable_options={ filters }
               getLink={ getFilterUrl }
               parameters={ customFiltersValues }
               updateConfigurableVariant={ toggleCustomFilter }

@@ -9,49 +9,49 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import ProductListQuery from 'Query/ProductList.query';
+import { ProductsQueryOutput } from 'Query/ProductList.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { getIndexedProducts } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
 import { executeGet } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 
 import NewProducts from './NewProducts.component';
+import {
+    NewProductsComponentProps,
+    NewProductsContainerMapDispatchProps,
+    NewProductsContainerMapStateProps,
+    NewProductsContainerProps,
+    NewProductsContainerState
+} from './NewProducts.type';
 
 /** @namespace Component/NewProducts/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): NewProductsContainerMapStateProps => ({
     timezone: state.ConfigReducer.timezone
 });
 
 /** @namespace Component/NewProducts/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): NewProductsContainerMapDispatchProps => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
 /** @namespace Component/NewProducts/Container */
-export class NewProductsContainer extends PureComponent {
-    static propTypes = {
-        category: PropTypes.string,
-        cacheLifetime: PropTypes.number,
-        productsCount: PropTypes.number,
-        timezone: PropTypes.string.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        productsPerPage: PropTypes.number
-    };
-
-    static defaultProps = {
+export class NewProductsContainer extends PureComponent<NewProductsContainerProps, NewProductsContainerState> {
+    static defaultProps: Partial<NewProductsContainerProps> = {
         category: '',
         productsCount: 10,
         cacheLifetime: 86400,
         productsPerPage: 6
     };
 
-    state = {
+    state: NewProductsContainerState = {
         products: undefined,
         siblingsHaveBrands: false,
         siblingsHavePriceBadge: false,
@@ -63,7 +63,7 @@ export class NewProductsContainer extends PureComponent {
         this.requestProducts();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: NewProductsContainerProps): void {
         const {
             category,
             productsCount,
@@ -85,10 +85,10 @@ export class NewProductsContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): NewProductsComponentProps {
         const { productsPerPage } = this.props;
         const {
-            products,
+            products = [],
             siblingsHaveBrands,
             siblingsHavePriceBadge,
             siblingsHaveTierPrice,
@@ -119,7 +119,7 @@ export class NewProductsContainer extends PureComponent {
      * @returns {Date}
      * @memberof NewProducts
      */
-    getRequestDate() {
+    getRequestDate(): string {
         const { cacheLifetime, timezone: timeZone } = this.props;
         const milliInSeccond = 1000;
 
@@ -137,7 +137,7 @@ export class NewProductsContainer extends PureComponent {
         return requestDate.toISOString().slice(0, timeOffset);
     }
 
-    requestProducts() {
+    requestProducts(): void {
         const {
             timezone,
             category: categoryUrlPath,
@@ -164,7 +164,7 @@ export class NewProductsContainer extends PureComponent {
         };
 
         const query = [ProductListQuery.getQuery(options)];
-        executeGet(prepareQuery(query), 'NewProducts', cacheLifetime)
+        executeGet<{ products: ProductsQueryOutput }>(prepareQuery(query), 'NewProducts', cacheLifetime)
             .then(
                 /** @namespace Component/NewProducts/Container/NewProductsContainer/requestProducts/then/catch/executeGet/then */
                 ({ products: { items } }) => this.setState({ products: getIndexedProducts(items) })

@@ -9,46 +9,48 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import RecentlyViewedProductsDispatcher from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.dispatcher';
 import RecentlyViewedProductsReducer from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.reducer';
-import { ItemsType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import { withReducers } from 'Util/DynamicReducer';
+import { RootState } from 'Util/Store/Store.type';
 
 import RecentlyViewedWidget from './RecentlyViewedWidget.component';
+import {
+    RecentlyViewedWidgetComponentProps,
+    RecentlyViewedWidgetContainerMapDispatchProps,
+    RecentlyViewedWidgetContainerMapStateProps,
+    RecentlyViewedWidgetContainerProps,
+    RecentlyViewedWidgetContainerState
+} from './RecentlyViewedWidget.type';
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): RecentlyViewedWidgetContainerMapStateProps => ({
     recentProducts: state.RecentlyViewedProductsReducer.recentlyViewedProducts,
     isLoading: state.RecentlyViewedProductsReducer.isLoading,
     store: state.ConfigReducer.code
 });
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): RecentlyViewedWidgetContainerMapDispatchProps => ({
     updateRecentViewedProductsInfo:
         (options) => RecentlyViewedProductsDispatcher.handleData(dispatch, options)
 });
 
 /** @namespace Component/RecentlyViewedWidget/Container */
-export class RecentlyViewedWidgetContainer extends PureComponent {
-    static propTypes = {
-        pageSize: PropTypes.number,
-        updateRecentViewedProductsInfo: PropTypes.func.isRequired,
-        recentProducts: PropTypes.objectOf(ItemsType).isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        store: PropTypes.string.isRequired
-    };
-
-    static defaultProps = {
+export class RecentlyViewedWidgetContainer extends PureComponent<
+RecentlyViewedWidgetContainerProps,
+RecentlyViewedWidgetContainerState
+> {
+    static defaultProps: Partial<RecentlyViewedWidgetContainerProps> = {
         pageSize: 6
     };
 
-    state = {
+    state: RecentlyViewedWidgetContainerState = {
         siblingsHaveBrands: false,
         siblingsHavePriceBadge: false,
         siblingsHaveTierPrice: false,
@@ -67,7 +69,7 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): RecentlyViewedWidgetComponentProps {
         const {
             siblingsHaveBrands,
             siblingsHavePriceBadge,
@@ -106,7 +108,7 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
     render(): ReactElement {
         return (
             <RecentlyViewedWidget
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

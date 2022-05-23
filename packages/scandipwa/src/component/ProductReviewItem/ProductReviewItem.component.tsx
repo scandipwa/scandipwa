@@ -12,8 +12,11 @@
 import { PureComponent } from 'react';
 
 import ProductReviewRating from 'Component/ProductReviewRating';
+import { ProductReview } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
-import { ReviewItemType } from 'Type/Rating.type';
+import { RatingVote } from 'Util/Product/Product.type';
+
+import { ProductReviewItemComponentProps } from './ProductReviewItem.type';
 
 import './ProductReviewItem.style';
 
@@ -21,12 +24,8 @@ import './ProductReviewItem.style';
  * @class ProductReviewItem
  * @namespace Component/ProductReviewItem/Component
  */
-export class ProductReviewItem extends PureComponent {
-    static propTypes = {
-        reviewItem: ReviewItemType.isRequired
-    };
-
-    getFormattedDate(created_at) {
+export class ProductReviewItem extends PureComponent<ProductReviewItemComponentProps> {
+    getFormattedDate(created_at: string): string {
         // Safari bug
         const fixedDate = created_at.replace(/-/g, '/');
         const date = new Date(fixedDate);
@@ -34,7 +33,7 @@ export class ProductReviewItem extends PureComponent {
         return date ? date.toDateString() : created_at;
     }
 
-    renderReviewListItemRating(ratingVoteItem, i): ReactElement {
+    renderReviewListItemRating(ratingVoteItem: RatingVote, i: number): ReactElement {
         const {
             rating_code,
             percent
@@ -50,9 +49,9 @@ export class ProductReviewItem extends PureComponent {
               itemProp="reviewRating"
             >
                 <p itemProp="name" block="ProductReviewItem" elem="RatingItem">{ rating_code }</p>
-                <meta itemProp="ratingValue" content={ percent } />
-                <meta itemProp="worstRating" content={ 0 } />
-                <meta itemProp="bestRating" content={ 100 } />
+                <meta itemProp="ratingValue" content={ String(percent) } />
+                <meta itemProp="worstRating" content="0" />
+                <meta itemProp="bestRating" content="100" />
                 <ProductReviewRating
                   summary={ percent }
                   code={ rating_code }
@@ -61,7 +60,7 @@ export class ProductReviewItem extends PureComponent {
         );
     }
 
-    renderAuthor(reviewItem): ReactElement {
+    renderAuthor(reviewItem: ProductReview): ReactElement {
         const { nickname, created_at } = reviewItem;
 
         return (

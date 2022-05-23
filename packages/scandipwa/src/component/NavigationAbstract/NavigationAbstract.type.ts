@@ -16,12 +16,16 @@ export interface NavigationAbstractContainerMapStateProps {
     device: Device;
 }
 
-export interface NavigationAbstractContainerProps extends
-    NavigationAbstractContainerMapStateProps {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface NavigationAbstractContainerMapDispatchProps {}
+
+export type NavigationAbstractContainerProps = NavigationAbstractContainerMapStateProps
+& NavigationAbstractContainerMapDispatchProps
+& {
     setNavigationState: (stateName: NavigationState) => void;
     hideActiveOverlay: () => void;
     navigationState: NavigationState;
-}
+};
 
 export interface NavigationAbstractContainerState {
     prevPathname: string;

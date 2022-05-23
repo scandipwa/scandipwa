@@ -108,13 +108,13 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
     }
 
     renderBooleanAttribute(): ReactElement {
-        const { attribute: { attribute_value } } = this.props;
+        const { attribute: { attribute_value = '' } } = this.props;
 
         return this.renderStringValue(+attribute_value ? __('Yes') : __('No'));
     }
 
     renderMultiSelectAttribute(): ReactElement {
-        const { attribute: { attribute_value } } = this.props;
+        const { attribute: { attribute_value = '' } } = this.props;
 
         const labelsArray = attribute_value.split(',').reduce((labels: string[], value) => {
             const { label } = this.getOptionLabel(value);
@@ -130,7 +130,13 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
     }
 
     renderSelectAttribute(): ReactElement {
-        const { attribute: { attribute_value, attribute_code, has_swatch } } = this.props;
+        const {
+            attribute: {
+                attribute_value = '',
+                attribute_code = '',
+                has_swatch
+            }
+        } = this.props;
         const attributeOption = this.getOptionLabel(attribute_value);
         const {
             label, labelText, count, swatch_data
@@ -183,7 +189,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
 
     renderTextAreaAttribute(): ReactElement {
         const {
-            attribute: { attribute_value }
+            attribute: { attribute_value = '' }
         } = this.props;
 
         return (
@@ -312,7 +318,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         );
     }
 
-    renderStringValue(value: string, label: string | null = null, count = 0): ReactElement {
+    renderStringValue(value: string | undefined, label: string | null = null, count = 0): ReactElement {
         const { isFormattedAsText, isSelected } = this.props;
         const isSwatch = !!label;
 
@@ -321,7 +327,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         }
 
         if (!isSwatch) {
-            return this.renderDropdown(value, String(count));
+            return this.renderDropdown(value || '', String(count));
         }
 
         return (
@@ -337,7 +343,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
     }
 
     renderNumericAttribute(): ReactElement {
-        const { attribute: { attribute_value } } = this.props;
+        const { attribute: { attribute_value = '0' } } = this.props;
 
         return this.renderStringValue(parseFloat(attribute_value).toFixed(2));
     }

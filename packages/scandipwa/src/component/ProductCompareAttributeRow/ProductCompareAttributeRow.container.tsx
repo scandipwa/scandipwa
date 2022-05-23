@@ -9,32 +9,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { DeviceType } from 'Type/Device.type';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductCompareAttributeRow from './ProductCompareAttributeRow.component';
+import {
+    ProductCompareAttributeRowComponentProps,
+    ProductCompareAttributeRowContainerMapDispatchProps,
+    ProductCompareAttributeRowContainerMapStateProps,
+    ProductCompareAttributeRowContainerProps
+} from './ProductCompareAttributeRow.type';
 
 /** @namespace Component/ProductCompareAttributeRow/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductCompareAttributeRowContainerMapStateProps => ({
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/ProductCompareAttributeRow/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): ProductCompareAttributeRowContainerMapDispatchProps => ({});
 
 /** @namespace Component/ProductCompareAttributeRow/Container */
-export class ProductCompareAttributeRowContainer extends PureComponent {
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        values: PropTypes.arrayOf(PropTypes.string).isRequired,
-        device: DeviceType.isRequired
-    };
-
-    containerProps() {
+export class ProductCompareAttributeRowContainer extends PureComponent<ProductCompareAttributeRowContainerProps> {
+    containerProps(): ProductCompareAttributeRowComponentProps {
         const { title, values, device } = this.props;
 
         return { title, values, device };
@@ -43,7 +42,7 @@ export class ProductCompareAttributeRowContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductCompareAttributeRow
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

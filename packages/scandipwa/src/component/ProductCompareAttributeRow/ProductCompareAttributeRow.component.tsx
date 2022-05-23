@@ -13,18 +13,13 @@ import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
 import { ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
+
+import { ProductCompareAttributeRowComponentProps } from './ProductCompareAttributeRow.type';
 
 import './ProductCompareAttributeRow.style';
 
 /** @namespace Component/ProductCompareAttributeRow/Component */
-export class ProductCompareAttributeRow extends PureComponent {
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        values: PropTypes.arrayOf(PropTypes.string).isRequired,
-        device: DeviceType.isRequired
-    };
-
+export class ProductCompareAttributeRow extends PureComponent<ProductCompareAttributeRowComponentProps> {
     renderTitle(): ReactElement {
         const { title } = this.props;
 
@@ -35,7 +30,7 @@ export class ProductCompareAttributeRow extends PureComponent {
         );
     }
 
-    renderValue(value, i): ReactElement {
+    renderValue(value: string | null, i: number): ReactElement {
         if (value === null) {
             return <div block="ProductCompareAttributeRow" elem="Value" key={ i }>&mdash;</div>;
         }

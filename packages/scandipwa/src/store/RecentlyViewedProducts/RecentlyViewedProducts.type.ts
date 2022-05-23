@@ -28,8 +28,8 @@ export interface AddRecentlyViewedProductAction extends AnyAction {
 
 export interface UpdateRecentlyViewedProductsAction extends AnyAction {
     type: RecentlyViewedProductsActionType.UPDATE_RECENTLY_VIEWED_PRODUCTS;
-    products: ProductItem[];
-    storeCode: string;
+    products?: ProductItem[];
+    storeCode?: string;
 }
 
 export interface UpdateLoadStatusAction extends AnyAction {
@@ -54,7 +54,7 @@ declare module 'Util/Store/Store.type' {
 
 export interface RecentlyViewedProductsDispatcherOptions {
     store: string;
-    recentProducts: Record<string, RecentlyViewedProductItem>;
+    recentProducts: Record<string, RecentlyViewedProductItem[]>;
 }
 
 export interface RecentlyViewedProductsDispatcherData {

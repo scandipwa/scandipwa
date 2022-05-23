@@ -16,24 +16,14 @@ import { FieldType } from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
+import { ProductConfigurableAttributeDropdownComponentProps } from './ProductConfigurableAttributeDropdown.type';
+
 import './ProductConfigurableAttributeDropdown.style';
 
 /** @namespace Component/ProductConfigurableAttributeDropdown/Component */
-export class ProductConfigurableAttributeDropdown extends PureComponent {
-    static propTypes = {
-        onChange: PropTypes.func.isRequired,
-        selectOptions: PropTypes.arrayOf(PropTypes.shape({
-            label: PropTypes.string,
-            id: PropTypes.string,
-            value: PropTypes.string
-        })).isRequired,
-        selectValue: PropTypes.string,
-        selectLabel: PropTypes.string,
-        selectName: PropTypes.string.isRequired,
-        isUnselected: PropTypes.bool,
-        handleShakeAnimationEnd: PropTypes.func
-    };
-
+export class ProductConfigurableAttributeDropdown extends PureComponent<
+ProductConfigurableAttributeDropdownComponentProps
+> {
     static defaultProps = {
         selectValue: '',
         selectLabel: 'attribute',

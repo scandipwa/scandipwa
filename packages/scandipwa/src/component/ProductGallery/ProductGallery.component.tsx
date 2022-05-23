@@ -48,36 +48,6 @@ import './ProductGallery.style';
  * @namespace Component/ProductGallery/Component
  */
 export class ProductGallery extends PureComponent<ProductGalleryComponentProps, ProductGalleryComponentState> {
-    // static propTypes = {
-    //     gallery: PropTypes.arrayOf(
-    //         PropTypes.shape({
-    //             id: PropTypes.oneOfType([
-    //                 PropTypes.number,
-    //                 PropTypes.string
-    //             ]),
-    //             image: PropTypes.string,
-    //             isPlaceholder: PropTypes.bool,
-    //             alt: PropTypes.string,
-    //             type: PropTypes.string,
-    //             media_type: PropTypes.string
-    //         })
-    //     ).isRequired,
-    //     productId: PropTypes.number,
-    //     isZoomEnabled: PropTypes.bool.isRequired,
-    //     activeImage: PropTypes.number.isRequired,
-    //     onActiveImageChange: PropTypes.func.isRequired,
-    //     handleZoomChange: PropTypes.func.isRequired,
-    //     registerSharedElementDestination: PropTypes.func.isRequired,
-    //     disableZoom: PropTypes.func.isRequired,
-    //     location: LocationType.isRequired,
-    //     sliderRef: RefType.isRequired,
-    //     handleImageZoomPopupActiveChange: PropTypes.func.isRequired,
-    //     isMobile: PropTypes.bool.isRequired,
-    //     isImageZoomPopupActive: PropTypes.bool.isRequired,
-    //     isWithEmptySwitcher: PropTypes.bool.isRequired,
-    //     showLoader: PropTypes.bool.isRequired
-    // };
-
     static defaultProps: Partial<ProductGalleryComponentProps> = {
         productId: 0
     };

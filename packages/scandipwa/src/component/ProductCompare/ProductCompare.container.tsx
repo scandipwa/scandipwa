@@ -9,20 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import {
     PRODUCT_COMPARE_FIRST_COLUMN_WIDTH
 } from 'Component/ProductCompare/ProductCompare.config';
-import { DeviceType } from 'Type/Device.type';
-import { ItemType, ProductItemsType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { getProductInStock } from 'Util/Product/Extract';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductCompare from './ProductCompare.component';
+import {
+    ProductCompareAttributeShape,
+    ProductCompareComponentContainerPropKeys,
+    ProductCompareComponentProps,
+    ProductCompareContainerMapDispatchProps,
+    ProductCompareContainerMapStateProps,
+    ProductCompareContainerProps
+} from './ProductCompare.type';
 
 export const ProductCompareDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -30,7 +37,7 @@ export const ProductCompareDispatcher = import(
 );
 
 /** @namespace Component/ProductCompare/Container/mapStateToProps  */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductCompareContainerMapStateProps => ({
     products: state.ProductCompareReducer.products,
     items: state.ProductCompareReducer.items,
     attributes: state.ProductCompareReducer.attributes,
@@ -39,7 +46,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/ProductCompare/Container/mapDispatchToProps  */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareContainerMapDispatchProps => ({
     fetchCompareList: () => ProductCompareDispatcher.then(
         ({ default: dispatcher }) => dispatcher.getCompareList(dispatch)
     ),
@@ -49,27 +56,8 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/ProductCompare/Container */
-export class ProductCompareContainer extends PureComponent {
-    static propTypes = {
-        fetchCompareList: PropTypes.func.isRequired,
-        clearCompareList: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool,
-        products: ProductItemsType,
-        items: PropTypes.arrayOf(PropTypes.shape({
-            products: ItemType,
-            attributes: PropTypes.arrayOf(PropTypes.shape({
-                code: PropTypes.string,
-                value: PropTypes.string
-            }))
-        })),
-        attributes: PropTypes.arrayOf(PropTypes.shape({
-            code: PropTypes.string,
-            label: PropTypes.string
-        })),
-        device: DeviceType.isRequired
-    };
-
-    static defaultProps = {
+export class ProductCompareContainer extends PureComponent<ProductCompareContainerProps> {
+    static defaultProps: Partial<ProductCompareContainerProps> = {
         isLoading: false,
         products: [],
         items: [],
@@ -95,8 +83,8 @@ export class ProductCompareContainer extends PureComponent {
         const productCompareRow = document.getElementById('productCompareRow');
         const scrollerContent = document.getElementById('scrollerContent');
 
-        if ((productCompareRow && productCompareRow.offsetWidth >= scrollerContent.offsetWidth)
-            || (productCompareRow && productCompareRow.offsetWidth < scrollerContent.offsetWidth)) {
+        if (scrollerContent && ((productCompareRow && productCompareRow.offsetWidth >= scrollerContent.offsetWidth)
+            || (productCompareRow && productCompareRow.offsetWidth < scrollerContent.offsetWidth))) {
             const width = device.isMobile
                 ? productCompareRow.offsetWidth
                 : productCompareRow.offsetWidth - PRODUCT_COMPARE_FIRST_COLUMN_WIDTH;
@@ -105,7 +93,7 @@ export class ProductCompareContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<ProductCompareComponentProps, ProductCompareComponentContainerPropKeys> {
         const {
             isLoading,
             products,
@@ -119,33 +107,37 @@ export class ProductCompareContainer extends PureComponent {
         };
     }
 
-    handleScroll() {
+    handleScroll(): void {
         const scrollerScroll = document.getElementById('scrollerScroll');
         const productCompare = document.getElementById('productCompare');
 
-        productCompare.scrollLeft = scrollerScroll.scrollLeft;
+        if (productCompare) {
+            productCompare.scrollLeft = scrollerScroll?.scrollLeft || 0;
+        }
     }
 
-    handleBlockScroll() {
+    handleBlockScroll(): void {
         const scrollerScroll = document.getElementById('scrollerScroll');
         const productCompare = document.getElementById('productCompare');
 
-        scrollerScroll.scrollLeft = productCompare.scrollLeft;
+        if (scrollerScroll) {
+            scrollerScroll.scrollLeft = productCompare?.scrollLeft || 0;
+        }
     }
 
-    fetchCompareList() {
+    fetchCompareList(): void {
         const { fetchCompareList } = this.props;
 
         fetchCompareList();
     }
 
-    clearCompareList() {
+    clearCompareList(): void {
         const { clearCompareList } = this.props;
 
         clearCompareList();
     }
 
-    getAttributes() {
+    getAttributes(): ProductCompareAttributeShape[] {
         const { attributes, items } = this.props;
 
         if (!items.length || !attributes.length) {
@@ -161,7 +153,7 @@ export class ProductCompareContainer extends PureComponent {
                     if (code === 'description' || code === 'short_description') {
                         const {
                             [ code ]: {
-                                html
+                                html = ''
                             } = {}
                         } = product || {};
 
@@ -170,7 +162,7 @@ export class ProductCompareContainer extends PureComponent {
                         }
                     }
 
-                    return attributes.find((attribute) => attribute.code === code).value;
+                    return attributes.find((attribute) => attribute.code === code)?.value || '';
                 }
             )
         }));
@@ -179,8 +171,8 @@ export class ProductCompareContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductCompare
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

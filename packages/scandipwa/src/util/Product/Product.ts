@@ -46,7 +46,9 @@ import {
     IndexedConfigurableOptions,
     IndexedCustomOption,
     IndexedProduct,
-    IndexedVariant
+    IndexedReview,
+    IndexedVariant,
+    RatingVote
 } from './Product.type';
 
 export const ADD_TO_CART = 'ADD_TO_CART';
@@ -261,7 +263,7 @@ export const getIndexedCustomOptions = (
 );
 
 /** @namespace Util/Product/getIndexedReviews */
-export const getIndexedReviews = (reviews?: ProductReviews): ProductReview[] => {
+export const getIndexedReviews = (reviews?: ProductReviews): IndexedReview[] => {
     if (!reviews) {
         return [];
     }
@@ -269,10 +271,8 @@ export const getIndexedReviews = (reviews?: ProductReviews): ProductReview[] => 
     const { items } = reviews;
     const ONE_FIFTH_OF_A_HUNDRED = 20;
 
-    return items.reduce((acc: ProductReview[], review: ProductReview) => {
+    return items.reduce((acc: IndexedReview[], review: ProductReview) => {
         const { rating_votes = [], ...restOfReview } = review;
-
-        type RatingVote = RatingsBreakdown & { percent: number };
 
         const newRatingVotes = rating_votes.reduce((ratingVotesAcc: RatingVote[], vote: RatingsBreakdown) => {
             const { rating_code, value } = vote;
@@ -535,7 +535,7 @@ export const validateProductQuantity = (quantity: number, stockItem: ProductStoc
 };
 
 /** @namespace Util/Product/getAttributesWithValues */
-export const getAttributesWithValues = (product: IndexedProduct): Record<string, AttributeWithValue> => {
+export const getAttributesWithValues = (product: IndexedProduct): Record<string, IndexedAttributeWithValue> => {
     const { attributes = {} } = product;
 
     return Object.entries(attributes).reduce((acc, [, val]) => {

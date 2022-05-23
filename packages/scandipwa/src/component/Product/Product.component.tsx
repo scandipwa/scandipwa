@@ -184,6 +184,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
                   variants={ variants }
                 //   updateConfigurableVariant={ setActiveProduct }
                   configurable_options={ this.getConfigurableAttributes() }
+                  isContentExpanded
                   inStock={ inStock }
                   showProductAttributeAsLink={ false }
                 />

@@ -9,26 +9,32 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { AnimationEvent } from 'react';
+
 import {
     ProductConfigurableAttribute
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
 import { AggregationOption } from 'Query/ProductList.type';
-import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
+import { Merge } from 'Type/Common.type';
+import { IndexedAttributeWithValueOption } from 'Util/Product/Product.type';
 
 export interface ProductConfigurableAttributeDropdownContainerProps {
-    option: ProductListFilter;
-    updateConfigurableVariant?: (key: string, value: string | number | boolean, isEmpty: boolean) => void;
-    getIsConfigurableAttributeAvailable: (o: ProductConfigurableAttribute) => boolean;
+    option: Partial<ProductConfigurableAttribute>;
+    updateConfigurableVariant?: (key: string, value: string | number | boolean, isEmpty?: boolean) => void;
+    getIsConfigurableAttributeAvailable: (o: Partial<ProductConfigurableAttribute>) => boolean;
     parameters: Record<string, string>;
     isUnselected: boolean;
+    handleShakeAnimationEnd: (e: AnimationEvent<HTMLElement>) => void;
 }
 
 export interface ProductConfigurableAttributeDropdownComponentProps {
     selectValue: string;
-    selectOptions;
+    selectOptions: Partial<ProductConfigurableAttributeDropdownOption>[];
     selectName: string;
     selectLabel: string;
     isUnselected: boolean;
+    handleShakeAnimationEnd: (e: AnimationEvent<HTMLElement>) => void;
+    onChange: (value: string) => void;
 }
 
 export type ProductConfigurableAttributeDropdownComponentContainerProps =
@@ -36,9 +42,10 @@ export type ProductConfigurableAttributeDropdownComponentContainerProps =
     | 'selectOptions'
     | 'selectName'
     | 'selectLabel'
-    | 'isUnselected';
+    | 'isUnselected'
+    | 'handleShakeAnimationEnd';
 
-export interface ProductConfigurableAttributeDropdownOption extends AggregationOption {
+export type ProductConfigurableAttributeDropdownOption = Merge<AggregationOption, IndexedAttributeWithValueOption> & {
     id: string;
     isAvailable: boolean;
-}
+};

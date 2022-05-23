@@ -82,8 +82,8 @@ RecentlyViewedProductsDispatcherData
             return [];
         }
 
-        const recentlyViewedProductsSKUs = storeRecentProducts.reduce((productSKUs, item) => {
-            const { sku } = item;
+        const recentlyViewedProductsSKUs = storeRecentProducts.reduce((productSKUs: string[], item) => {
+            const { sku = '' } = item;
 
             return [...productSKUs, `${sku.replace(/ /g, '%20')}`];
         }, []);

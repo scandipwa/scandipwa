@@ -13,10 +13,18 @@ import { connect } from 'react-redux';
 
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributesContainer from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
+import {
+    ProductConfigurableAttribute
+} from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
+import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
 
 import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.component';
 import {
+    CategoryConfigurableAttributesComponentContainerFunctions,
+    CategoryConfigurableAttributesComponentContainerPropKeys,
+    CategoryConfigurableAttributesComponentProps,
+    CategoryConfigurableAttributesContainerMapDispatchProps,
     CategoryConfigurableAttributesContainerMapStateProps,
     CategoryConfigurableAttributesContainerProps
 } from './CategoryConfigurableAttributes.type';
@@ -29,22 +37,25 @@ export const mapStateToProps = (state: RootState): CategoryConfigurableAttribute
 });
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapDispatchToProps */
-export const mapDispatchToProps = (): Record<string, never> => ({});
+export const mapDispatchToProps = (): CategoryConfigurableAttributesContainerMapDispatchProps => ({});
 
 /** @namespace Component/CategoryConfigurableAttributes/Container */
 export class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer<
 CategoryConfigurableAttributesContainerProps
 > {
-    static propTypes = {
-        parameters: SelectedFiltersType.isRequired
-    };
+    static defaultProps: Partial<
+    CategoryConfigurableAttributesContainerProps
+    > = ProductConfigurableAttributesContainer.defaultProps;
 
-    containerFunctions = {
+    containerFunctions: CategoryConfigurableAttributesComponentContainerFunctions = {
         ...this.containerFunctions,
         getSubCategories: this.getSubCategories.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<
+    CategoryConfigurableAttributesComponentProps,
+    CategoryConfigurableAttributesComponentContainerPropKeys
+    > {
         const {
             currencyCode,
             showProductCount,
@@ -59,15 +70,15 @@ CategoryConfigurableAttributesContainerProps
         };
     }
 
-    getCategorySubCategories() {
+    getCategorySubCategories(): string[] {
         const { childrenCategories } = this.props;
         return childrenCategories.map(({ id }) => id.toString());
     }
 
-    getSubCategories(option) {
+    getSubCategories(option: Partial<ProductConfigurableAttribute>): Partial<ProductConfigurableAttribute> {
         const { isSearchPage } = this.props;
         const optionWithSubcategories = { ...option };
-        const { attribute_values } = option;
+        const { attribute_values = [] } = option;
 
         if (!isSearchPage) {
             const categoryItemsIds = this.getCategorySubCategories();

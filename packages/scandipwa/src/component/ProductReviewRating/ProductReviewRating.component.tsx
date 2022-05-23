@@ -17,9 +17,11 @@ import {
     STARS_GRANULARITY_PERCENT
 } from 'Component/ProductReviewRating/ProductReviewRating.config';
 import Star from 'Component/StarIcon';
-import { STAR_EMPTY, STAR_FULL, STAR_HALF_FULL } from 'Component/StarIcon/StarIcon.config';
-import { MixType } from 'Type/Common.type';
+import { StartFill } from 'Component/StarIcon/StarIcon.config';
+import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
+
+import { ProductReviewRatingComponentProps } from './ProductReviewRating.type';
 
 import './ProductReviewRating.style';
 
@@ -27,16 +29,8 @@ import './ProductReviewRating.style';
  * @class ProductReviewRating
  * @namespace Component/ProductReviewRating/Component
  */
-export class ProductReviewRating extends PureComponent {
-    static propTypes = {
-        summary: PropTypes.number,
-        code: PropTypes.string,
-        placeholder: PropTypes.bool,
-        mix: MixType,
-        count: PropTypes.number
-    };
-
-    static defaultProps = {
+export class ProductReviewRating extends PureComponent<ProductReviewRatingComponentProps> {
+    static defaultProps: Partial<ProductReviewRatingComponentProps> = {
         summary: 0,
         code: '',
         placeholder: false,
@@ -44,7 +38,7 @@ export class ProductReviewRating extends PureComponent {
         count: 0
     };
 
-    reviewRating = createRef();
+    reviewRating = createRef<HTMLDivElement>();
 
     componentDidMount(): void {
         this.updateRating();
@@ -54,16 +48,16 @@ export class ProductReviewRating extends PureComponent {
         this.updateRating();
     }
 
-    getAriaText(summary, code) {
+    getAriaText(summary: number, code: string): string {
         const ONE_FIFTH_OF_A_HUNDRED = 20;
-        const rating = parseFloat(summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
+        const rating = parseFloat(String(summary / ONE_FIFTH_OF_A_HUNDRED)).toFixed(2);
 
         return code
             ? `Review's ${code} rating is ${rating} out of 5`
             : `Product's rating is ${rating} out of 5`;
     }
 
-    updateRating() {
+    updateRating(): void {
         const { summary } = this.props;
 
         CSS.setVariable(
@@ -82,7 +76,7 @@ export class ProductReviewRating extends PureComponent {
         );
     }
 
-    getStarCounts() {
+    getStarCounts(): number[] {
         const { summary } = this.props;
         const percentRounded = Math.round(summary / STARS_GRANULARITY_PERCENT) * STARS_GRANULARITY_PERCENT;
         const fullCount = Math.floor(percentRounded / ONE_STAR_SHARE);
@@ -92,7 +86,7 @@ export class ProductReviewRating extends PureComponent {
         return [fullCount, halfFullCount, emptyCount];
     }
 
-    renderStar(count, type): ReactElement {
+    renderStar(count: number, type: StartFill): ReactElement {
         return Array.from(Array(count), (_, i) => <Star key={ i } starFill={ type } />);
     }
 
@@ -121,9 +115,9 @@ export class ProductReviewRating extends PureComponent {
               aria-label={ ariaText }
               mix={ mix }
             >
-                { this.renderStar(fullCount, STAR_FULL) }
-                { this.renderStar(halfFullCount, STAR_HALF_FULL) }
-                { this.renderStar(emptyCount, STAR_EMPTY) }
+                { this.renderStar(fullCount, StartFill.FULL) }
+                { this.renderStar(halfFullCount, StartFill.HALF_FULL) }
+                { this.renderStar(emptyCount, StartFill.EMPTY) }
                 <span block="ProductReviewRating" elem="Counter">
                     { `(${count})` }
                 </span>

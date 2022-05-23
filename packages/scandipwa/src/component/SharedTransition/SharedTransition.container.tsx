@@ -14,14 +14,12 @@
 
 import { Subscribe } from 'unstated';
 
-import { ReactElement } from 'Type/Common.type';
-
 import SharedTransition from './SharedTransition.component';
 import { SharedTransitionComponentProps } from './SharedTransition.type';
 import SharedTransitionContainer from './SharedTransition.unstated';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default (props: Record<string, any>): ReactElement => (
+export default (props: Record<string, any>): JSX.Element => (
     <Subscribe to={ [SharedTransitionContainer] }>
         { (sharedTransition) => (
             <SharedTransition

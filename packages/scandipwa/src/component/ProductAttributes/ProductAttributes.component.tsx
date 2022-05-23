@@ -13,17 +13,15 @@ import { Fragment, PureComponent } from 'react';
 
 import ExpandableContent from 'Component/ExpandableContent';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
-import { AttributeType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
+import { IndexedAttributeWithValue } from 'Util/Product/Product.type';
+
+import { ProductAttributesComponentProps } from './ProductAttributes.type';
 
 import './ProductAttributes.style';
 
 /** @namespace Component/ProductAttributes/Component */
-export class ProductAttributes extends PureComponent {
-    static propTypes = {
-        areDetailsLoaded: PropTypes.bool.isRequired,
-        attributesWithValues: AttributeType.isRequired
-    };
-
+export class ProductAttributes extends PureComponent<ProductAttributesComponentProps> {
     renderGroups(): ReactElement {
         const { attributesWithValues } = this.props;
 
@@ -54,7 +52,7 @@ export class ProductAttributes extends PureComponent {
         );
     }
 
-    renderAttribute(attribute): ReactElement {
+    renderAttribute(attribute: IndexedAttributeWithValue): ReactElement {
         return (
             <Fragment key={ attribute.attribute_label }>
                 <dt block="ProductAttributes" elem="AttributeLabel">
@@ -71,7 +69,7 @@ export class ProductAttributes extends PureComponent {
         );
     }
 
-    renderAttributes(attribute_group_id): ReactElement {
+    renderAttributes(attribute_group_id: string): ReactElement {
         const { attributesWithValues } = this.props;
 
         if (!Object.keys(attributesWithValues).length) {

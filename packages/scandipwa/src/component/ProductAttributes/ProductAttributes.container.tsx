@@ -9,23 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
-import { ProductType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import { getAttributesWithValues } from 'Util/Product';
 
 import ProductAttributes from './ProductAttributes.component';
+import { ProductAttributesComponentProps, ProductAttributesContainerProps } from './ProductAttributes.type';
 
 /** @namespace Component/ProductAttributes/Container */
-export class ProductAttributesContainer extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired
-    };
-
-    containerProps() {
+export class ProductAttributesContainer extends PureComponent<ProductAttributesContainerProps> {
+    containerProps(): ProductAttributesComponentProps {
         const { areDetailsLoaded, product } = this.props;
 
         return {
@@ -37,7 +31,7 @@ export class ProductAttributesContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductAttributes
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

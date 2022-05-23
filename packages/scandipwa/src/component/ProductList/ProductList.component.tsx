@@ -13,7 +13,6 @@ import { PureComponent } from 'react';
 
 import Pagination from 'Component/Pagination';
 import ProductListPage from 'Component/ProductListPage';
-import { ProductItem } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
@@ -49,7 +48,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
 
     observer: IntersectionObserver | null = null;
 
-    nodes: Record<string, HTMLElement> = {};
+    nodes: Record<string, HTMLElement | null> = {};
 
     observedNodes: HTMLElement[] = [];
 
@@ -238,10 +237,10 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
             mix
         } = this.props;
         const {
-            items,
-            keys,
-            pageNumber,
-            selectedFilters,
+            items = [],
+            // keys = [],
+            pageNumber = 0,
+            selectedFilters = {},
             wrapperRef,
             key
         } = this._processProps(props);
@@ -255,7 +254,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
               isVisible={ isVisible }
               mix={ mix }
               items={ items }
-              keys={ keys }
+            //   keys={ keys }
               pageNumber={ pageNumber }
               selectedFilters={ selectedFilters }
               wrapperRef={ wrapperRef }
@@ -274,7 +273,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
             pageNumber,
             items,
             key,
-            wrapperRef: (node: HTMLElement) => {
+            wrapperRef: (node: HTMLElement | null) => {
                 this.nodes[ pageNumber ] = node;
             }
         });

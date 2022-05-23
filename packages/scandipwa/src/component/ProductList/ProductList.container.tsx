@@ -321,7 +321,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
         const { location, history } = this.props;
 
         setQueryParams({
-            page: pageNumber === 1 ? '' : pageNumber
+            page: pageNumber === 1 ? '' : String(pageNumber)
         }, location, history);
     }
 

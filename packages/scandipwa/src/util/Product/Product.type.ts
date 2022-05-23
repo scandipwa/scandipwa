@@ -24,6 +24,7 @@ import {
     GroupedProductItem,
     ProductItem,
     ProductReview,
+    RatingsBreakdown,
     SwatchData
 } from 'Query/ProductList.type';
 import { Merge } from 'Type/Common.type';
@@ -39,9 +40,12 @@ export const DEFAULT_MIN_PRODUCTS = 1;
 
 export const DEFAULT_MAX_PRODUCTS = 999;
 
-export type IndexedConfigurableOption = ConfigurableProductOptions & AttributeWithValue & {
+export type IndexedConfigurableOption = Merge<
+Merge<ConfigurableProductOptions, IndexedAttributeWithValue>,
+{
     attribute_values: string[];
-};
+}
+>;
 
 export type IndexedConfigurableOptions = Record<string, IndexedConfigurableOption>;
 
@@ -75,7 +79,7 @@ export type IndexedBaseProduct<T> = Merge<T, {
     variants?: IndexedVariant[];
     options?: IndexedCustomOption[];
     attributes?: Record<string, IndexedAttributeWithValue>;
-    reviews?: ProductReview[];
+    reviews?: IndexedReview[];
     review_summary?: ReviewSummary;
     items?: IndexedBundleItem[] | GroupedProductItem[];
     // !FIXME: This prop is alway undefined. Added for compatibility with the legacy code.
@@ -101,6 +105,10 @@ export type IndexedAttributeWithValue = Merge<AttributeWithValue, {
 
 export type IndexedAttributeWithValueOption = Merge<AttributeWithValueOption, {
     swatch_data: SwatchData | null;
+}>;
+
+export type IndexedReview = Merge<ProductReview, {
+    rating_votes: RatingVote[];
 }>;
 
 export interface BuyRequestBundleOptions {
@@ -180,3 +188,5 @@ export interface TransformedBundleOption {
     isAvailable: boolean;
     isDefault: boolean;
 }
+
+export type RatingVote = RatingsBreakdown & { percent: number };

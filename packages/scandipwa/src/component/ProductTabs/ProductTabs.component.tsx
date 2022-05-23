@@ -17,21 +17,16 @@ import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import { isMobile } from 'Util/Mobile';
 
+import { ProductTabsComponentProps, ProductTabsComponentState, ProductTabShape } from './ProductTabs.type';
+
 import './ProductTabs.style';
 
 /** @namespace Component/ProductTabs/Component */
-export class ProductTabs extends PureComponent {
-    static propTypes = {
-        tabs: PropTypes.arrayOf(PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            render: PropTypes.func.isRequired
-        })).isRequired
-    };
+export class ProductTabs extends PureComponent<ProductTabsComponentProps, ProductTabsComponentState> {
+    __construct(props: ProductTabsComponentProps): void {
+        super.__construct?.(props);
 
-    onTabClick = this.onTabClick.bind(this);
-
-    __construct(props): void {
-        super.__construct(props);
+        this.onTabClick = this.onTabClick.bind(this);
 
         const { tabs: [{ id }] } = this.props;
 
@@ -40,7 +35,7 @@ export class ProductTabs extends PureComponent {
         };
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: ProductTabsComponentProps): void {
         const { tabs: prevTabs } = prevProps;
         const { tabs } = this.props;
 
@@ -50,18 +45,18 @@ export class ProductTabs extends PureComponent {
         }
     }
 
-    onTabClick(tab) {
+    onTabClick(tab: string): void {
         const { tabs } = this.props;
         const { activeTab } = this.state;
 
-        const { id: currentTab } = tabs.find(({ name }) => name === tab);
+        const { id: currentTab = '' } = tabs.find(({ name }) => name === tab) || {};
 
         if (activeTab !== currentTab) {
             this.setActiveTab(currentTab);
         }
     }
 
-    setActiveTab(activeTab) {
+    setActiveTab(activeTab: string): void {
         this.setState({ activeTab });
     }
 
@@ -83,7 +78,7 @@ export class ProductTabs extends PureComponent {
         return tabs.map(({ render, name }) => render(name));
     }
 
-    renderTab(item): ReactElement {
+    renderTab(item: ProductTabShape): ReactElement {
         const { activeTab } = this.state;
         const { id, name } = item;
 

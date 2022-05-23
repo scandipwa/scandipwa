@@ -13,7 +13,8 @@ import { PureComponent } from 'react';
 
 import ProductReviewItem from 'Component/ProductReviewItem';
 import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
+
+import { ProductReviewListComponentProps } from './ProductReviewList.type';
 
 import './ProductReviewList.style';
 
@@ -21,13 +22,9 @@ import './ProductReviewList.style';
  * @class ProductReviewList
  * @namespace Component/ProductReviewList/Component
  */
-export class ProductReviewList extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired
-    };
-
+export class ProductReviewList extends PureComponent<ProductReviewListComponentProps> {
     renderReviews(): ReactElement {
-        const { product: { reviews } } = this.props;
+        const { product: { reviews = [] } } = this.props;
 
         return reviews.map((reviewItem, i) => (
             <ProductReviewItem

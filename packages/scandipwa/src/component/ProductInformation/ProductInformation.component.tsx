@@ -17,17 +17,13 @@ import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
+
+import { ProductInformationComponentProps } from './ProductInformation.type';
 
 import './ProductInformation.style';
 
 /** @namespace Component/ProductInformation/Component */
-export class ProductInformation extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired
-    };
-
+export class ProductInformation extends PureComponent<ProductInformationComponentProps> {
     renderDescription(): ReactElement {
         const { product: { description: { html } = {} } } = this.props;
 
@@ -62,7 +58,7 @@ export class ProductInformation extends PureComponent {
         );
     }
 
-    isHTMLWhiteSpaceOrUndefined(htmlString) {
+    isHTMLWhiteSpaceOrUndefined(htmlString: string): boolean {
         if (!htmlString || htmlString.trim() === '') {
             return true;
         }
@@ -77,7 +73,9 @@ export class ProductInformation extends PureComponent {
         }
 
         // check if at least one HTML element has content
-        const elementsWithContent = Array.from(document.body.children).filter(
+        const elementsWithContent = Array.from(
+            document.body.children as HTMLCollectionOf<HTMLElement>
+        ).filter(
             (element) => element.innerText !== '' || element.nodeName === 'IMG'
         );
 
@@ -88,7 +86,7 @@ export class ProductInformation extends PureComponent {
         const {
             areDetailsLoaded,
             product: {
-                description: { html } = {}
+                description: { html = '' } = {}
             }
         } = this.props;
 

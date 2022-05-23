@@ -9,22 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { ProductType } from 'Component/Product/Product.config';
+import { GroupedProductItem } from 'Query/ProductList.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
-import { ProductType } from 'Type/ProductList.type';
+import { ReactElement, Url } from 'Type/Common.type';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
 import { magentoProductTransform } from 'Util/Product/Transform';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import ProductCompareItem from './ProductCompareItem.component';
+import {
+    ProductCompareItemContainerMapDispatchProps,
+    ProductCompareItemContainerMapStateProps,
+    ProductCompareItemContainerProps,
+    ProductCompareItemContainerState
+} from './ProductCompareItem.type';
 
 export const ProductCompareDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -36,13 +41,13 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/ProductCompareItem/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductCompareItemContainerMapStateProps => ({
     device: state.ConfigReducer.device,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
 /** @namespace Component/ProductCompareItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareItemContainerMapDispatchProps => ({
     removeComparedProduct: (productId) => ProductCompareDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch)
     ),
@@ -53,18 +58,11 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/ProductCompareItem/Container */
-export class ProductCompareItemContainer extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        addProductToCart: PropTypes.func.isRequired,
-        removeComparedProduct: PropTypes.func.isRequired,
-        device: DeviceType.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        isInStock: PropTypes.func.isRequired,
-        isWishlistEnabled: PropTypes.bool.isRequired
-    };
-
-    state = {
+export class ProductCompareItemContainer extends PureComponent<
+ProductCompareItemContainerProps,
+ProductCompareItemContainerState
+> {
+    state: ProductCompareItemContainerState = {
         isLoading: false
     };
 
@@ -91,7 +89,7 @@ export class ProductCompareItemContainer extends PureComponent {
         };
     }
 
-    async removeComparedProduct() {
+    async removeComparedProduct(): Promise<void> {
         const {
             product: { id } = {},
             removeComparedProduct
@@ -108,8 +106,8 @@ export class ProductCompareItemContainer extends PureComponent {
             return {};
         }
 
-        return items.reduce((result, item) => {
-            const { product: { id } = {} } = item;
+        return (items as GroupedProductItem[]).reduce((result, item) => {
+            const { product: { id = 0 } = {} } = item;
             Object.assign(result, { [ id ]: 1 });
 
             return result;
@@ -148,7 +146,7 @@ export class ProductCompareItemContainer extends PureComponent {
         return thumbnail.url;
     }
 
-    getLinkTo() {
+    getLinkTo(): Url {
         const { product: { url }, product } = this.props;
 
         return {
@@ -164,12 +162,12 @@ export class ProductCompareItemContainer extends PureComponent {
         return !!(types.indexOf(type_id) !== -1 || options?.length);
     }
 
-    overriddenAddToCartBtnHandler() {
+    overriddenAddToCartBtnHandler(): void {
         const { showNotification } = this.props;
         showNotification(NotificationType.INFO, __('Please, select required options!'));
     }
 
-    redirectToProductPage() {
+    redirectToProductPage(): void {
         const { product: { url } } = this.props;
 
         history.push({ pathname: appendWithStoreCode(url) });
@@ -184,7 +182,7 @@ export class ProductCompareItemContainer extends PureComponent {
         return magentoProductTransform(ADD_TO_CART, item, currentQty);
     }
 
-    async addItemToCart() {
+    async addItemToCart(): Promise<void> {
         const {
             addProductToCart
         } = this.props;

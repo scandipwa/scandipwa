@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
@@ -17,17 +16,15 @@ import { ReactElement } from 'Type/Common.type';
 import { setQueryParams } from 'Util/Url';
 
 import ResetButton from './ResetButton.component';
+import {
+    ResetButtonComponentContainerPropKeys,
+    ResetButtonComponentProps,
+    ResetButtonContainerProps
+} from './ResetButton.type';
 
 /** @namespace Component/ResetButton/Container */
-export class ResetButtonContainer extends PureComponent {
-    static propTypes = {
-        history: HistoryType.isRequired,
-        location: LocationType.isRequired,
-        mix: MixType,
-        onClick: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
+export class ResetButtonContainer extends PureComponent<ResetButtonContainerProps> {
+    static defaultProps: Partial<ResetButtonContainerProps> = {
         mix: {}
     };
 
@@ -35,7 +32,7 @@ export class ResetButtonContainer extends PureComponent {
         resetFilters: this.resetFilters.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<ResetButtonComponentProps, ResetButtonComponentContainerPropKeys> {
         const { mix, onClick } = this.props;
 
         return {
@@ -45,7 +42,7 @@ export class ResetButtonContainer extends PureComponent {
         };
     }
 
-    resetFilters() {
+    resetFilters(): void {
         const { location, history } = this.props;
 
         setQueryParams({
@@ -56,13 +53,13 @@ export class ResetButtonContainer extends PureComponent {
         }, location, history);
     }
 
-    isContentFiltered() {
+    isContentFiltered(): boolean {
         const { customFilters, priceMin, priceMax } = this.urlStringToObject();
 
         return !!(customFilters || priceMin || priceMax);
     }
 
-    urlStringToObject() {
+    urlStringToObject(): Record<string, string> {
         const { location: { search = '' } } = this.props;
 
         return search.substr(1).split('&').reduce((acc, part) => {

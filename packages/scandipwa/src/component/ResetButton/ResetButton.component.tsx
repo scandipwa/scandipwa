@@ -11,27 +11,26 @@
 
 import { PureComponent } from 'react';
 
-import { MixType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
+
+import { ResetButtonComponentProps } from './ResetButton.type';
 
 import './ResetButton.style';
 
 /** @namespace Component/ResetButton/Component */
-export class ResetButton extends PureComponent {
-    static propTypes = {
-        mix: MixType,
-        resetFilters: PropTypes.func.isRequired,
-        onClick: PropTypes.func.isRequired,
-        isContentFiltered: PropTypes.bool.isRequired
-    };
-
+export class ResetButton extends PureComponent<ResetButtonComponentProps> {
     static defaultProps = {
         mix: {}
     };
 
-    onClick = this.onClick.bind(this);
+    __construct(props: ResetButtonComponentProps): void {
+        super.__construct?.(props);
 
-    onClick() {
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick(): void {
         const { onClick, resetFilters } = this.props;
 
         onClick();

@@ -14,22 +14,21 @@ import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
 import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttributeValue.component';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
-import { CategoryFragment, SelectedFiltersType } from 'Type/Category.type';
+import {
+    ProductConfigurableAttribute
+} from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
+import { ReactElement } from 'Type/Common.type';
 import { getPriceFilterLabel } from 'Util/Category';
 import { sortBySortOrder } from 'Util/Product';
+import { IndexedAttributeWithValueOption } from 'Util/Product/Product.type';
+
+import { CategoryConfigurableAttributesComponentProps } from './CategoryConfigurableAttributes.type';
 
 /** @namespace Component/CategoryConfigurableAttributes/Component */
-export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
-    static propTypes = {
-        ...ProductConfigurableAttributes.propTypes,
-        currencyCode: PropTypes.string.isRequired,
-        showProductCount: PropTypes.bool.isRequired,
-        childrenCategories: PropTypes.arrayOf(PropTypes.shape(CategoryFragment)).isRequired,
-        getSubCategories: PropTypes.func.isRequired,
-        parameters: SelectedFiltersType.isRequired
-    };
-
-    renderSubCategories(option): ReactElement {
+export class CategoryConfigurableAttributes extends ProductConfigurableAttributes<
+CategoryConfigurableAttributesComponentProps
+> {
+    renderSubCategories(option: Partial<ProductConfigurableAttribute>): ReactElement {
         const { getSubCategories } = this.props;
 
         const optionWithSubcategories = getSubCategories(option);
@@ -42,7 +41,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         return this.renderDropdownOrSwatch(optionWithSubcategories);
     }
 
-    renderPriceSwatch(option): ReactElement {
+    renderPriceSwatch(option: Partial<ProductConfigurableAttribute>): ReactElement {
         const { currencyCode } = this.props;
         const { attribute_options, ...priceOption } = option;
 
@@ -52,23 +51,26 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
                 return null;
             }
 
-            priceOption.attribute_options = Object.entries(attribute_options).reduce((acc, [key, option]) => {
-                const { label: oldLabel } = option;
-                const [from, to] = oldLabel.split('~');
-                const label = getPriceFilterLabel(from, to, currencyCode);
-                acc[key] = { ...option, label };
+            (priceOption as Partial<ProductConfigurableAttribute>).attribute_options = Object.entries(attribute_options)
+                .reduce((
+                    acc: Record<string, IndexedAttributeWithValueOption>,
+                    [key, option]
+                ) => {
+                    const { label: oldLabel } = option;
+                    const [from, to] = oldLabel.split('~');
+                    const label = getPriceFilterLabel(from, to, currencyCode);
+                    acc[key] = { ...option, label };
 
-                return acc;
-            }, {});
+                    return acc;
+                }, {});
         }
 
         return this.renderDropdownOrSwatch(priceOption);
     }
 
-    renderDropdownOrSwatch(option): ReactElement {
+    renderDropdownOrSwatch(option: Partial<ProductConfigurableAttribute>): ReactElement {
         const {
-            isContentExpanded,
-            getSubHeading
+            isContentExpanded
         } = this.props;
 
         const {
@@ -77,14 +79,13 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
             attribute_options
         } = option;
 
-        const [{ swatch_data }] = attribute_options ? Object.values(attribute_options) : [{}];
+        const [{ swatch_data = null }] = attribute_options ? Object.values(attribute_options) : [{}];
         const isSwatch = !!swatch_data;
 
         return (
             <ExpandableContent
               key={ attribute_code }
               heading={ attribute_label }
-              subHeading={ getSubHeading(option) }
               mix={ {
                   block: 'ProductConfigurableAttributes',
                   elem: 'Expandable'
@@ -96,7 +97,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         );
     }
 
-    renderConfigurableAttributeValue(attribute): ReactElement {
+    renderConfigurableAttributeValue(attribute: Partial<ProductConfigurableAttribute>): ReactElement {
         const {
             getIsConfigurableAttributeAvailable,
             handleOptionClick,
@@ -120,7 +121,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         );
     }
 
-    renderConfigurableOption(option): ReactElement {
+    renderConfigurableOption(option: Partial<ProductConfigurableAttribute>): ReactElement {
         const { attribute_code } = option;
 
         switch (attribute_code) {
@@ -140,8 +141,8 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
             .map(this.renderConfigurableOption.bind(this));
     }
 
-    renderDropdown(option): ReactElement {
-        const { attribute_values } = option;
+    renderDropdown(option: Partial<ProductConfigurableAttribute>): ReactElement {
+        const { attribute_values = [] } = option;
 
         return (
             <div

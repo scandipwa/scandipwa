@@ -60,7 +60,7 @@ export interface CategoryFilterOverlayComponentProps {
     onSeeResultsClick: () => void;
     onVisible: () => void;
     onHide: () => void;
-    toggleCustomFilter: (requestVar: string, value: string) => void;
+    toggleCustomFilter: (requestVar: string, value: string | number | boolean) => void;
     getFilterUrl: (filterKey: string, value: string) => string;
 }
 

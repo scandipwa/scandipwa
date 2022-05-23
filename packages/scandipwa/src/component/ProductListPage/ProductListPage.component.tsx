@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import ProductCard from 'Component/ProductCard';
+import { ProductLinksComponentProps } from 'Component/ProductLinks/ProductLinks.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -63,7 +64,7 @@ ProductListPageComponentState
         this.stopObserving();
     }
 
-    containerProps() {
+    containerProps(): Pick<ProductLinksComponentProps, 'productCardFunctions' | 'productCardProps'> {
         const {
             siblingsHaveBrands,
             siblingsHavePriceBadge,
@@ -134,7 +135,8 @@ ProductListPageComponentState
 
     renderPlaceholders(): ReactElement {
         const {
-            numberOfPlaceholders, mix: {
+            numberOfPlaceholders = DEFAULT_PLACEHOLDER_COUNT,
+            mix: {
                 mods: {
                     layout = CategoryPageLayout.GRID
                 } = {}
@@ -147,7 +149,7 @@ ProductListPageComponentState
                 <ProductCard
                   key={ i }
                   product={ {} }
-                  layout={ layout }
+                  layout={ layout as CategoryPageLayout }
                 />
             )
         );
@@ -182,7 +184,7 @@ ProductListPageComponentState
               // eslint-disable-next-line react/no-array-index-key
               key={ i }
               selectedFilters={ selectedFilters }
-              layout={ layout }
+              layout={ layout as CategoryPageLayout }
               { ...this.containerProps() }
             />
         ));

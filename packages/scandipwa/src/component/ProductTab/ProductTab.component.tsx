@@ -14,24 +14,24 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
+import { ProductTabComponentProps } from './ProductTab.type';
+
 import './ProductTab.style';
 
 /** @namespace Component/ProductTab/Component */
-export class ProductTab extends PureComponent {
-    static propTypes = {
-        tabName: PropTypes.string.isRequired,
-        onClick: PropTypes.func,
-        isActive: PropTypes.bool
-    };
-
-    static defaultProps = {
+export class ProductTab extends PureComponent<ProductTabComponentProps> {
+    static defaultProps: Partial<ProductTabComponentProps> = {
         onClick: noopFn,
         isActive: false
     };
 
-    onClick = this.onClick.bind(this);
+    __construct(props: ProductTabComponentProps): void {
+        super.__construct?.(props);
 
-    onClick() {
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick(): void {
         const { onClick, tabName } = this.props;
         onClick(tabName);
     }

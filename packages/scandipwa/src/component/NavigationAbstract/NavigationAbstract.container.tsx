@@ -23,6 +23,7 @@ import { isHomePageUrl } from 'Util/Url';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 import {
+    NavigationAbstractContainerMapDispatchProps,
     NavigationAbstractContainerMapStateProps,
     NavigationAbstractContainerProps,
     NavigationAbstractContainerState
@@ -36,7 +37,7 @@ export const mapStateToProps = (state: RootState): NavigationAbstractContainerMa
 });
 
 /** @namespace Component/NavigationAbstract/Container/mapDispatchToProps */
-export const mapDispatchToProps = (): Record<string, never> => ({});
+export const mapDispatchToProps = (): NavigationAbstractContainerMapDispatchProps => ({});
 
 /** @namespace Component/NavigationAbstract/Container */
 export class NavigationAbstractContainer<

@@ -9,10 +9,13 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductItem, ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
+import { ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { Mix } from 'Type/Common.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ProductListWidgetContainerMapStateProps {}
 
 export interface ProductListWidgetContainerMapDispatchProps {
     updateNoMatch: (noMatch: boolean) => void;

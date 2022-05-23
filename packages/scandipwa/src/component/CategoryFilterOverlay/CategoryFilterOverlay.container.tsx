@@ -73,8 +73,8 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
         }, location, history);
     }
 
-    toggleCustomFilter(requestVar: string, value: string): void {
-        this.updateFilter(requestVar, this._getNewFilterArray(requestVar, value));
+    toggleCustomFilter(requestVar: string, value: string | number | boolean): void {
+        this.updateFilter(requestVar, this._getNewFilterArray(requestVar, String(value)));
     }
 
     getFilterUrl(filterName: string, filterArray: string[], isFull = true): string {

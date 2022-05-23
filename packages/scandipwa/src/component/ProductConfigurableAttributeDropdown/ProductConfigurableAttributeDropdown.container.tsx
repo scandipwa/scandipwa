@@ -25,7 +25,7 @@ import {
 export class ProductConfigurableAttributeDropdownContainer extends PureComponent<
 ProductConfigurableAttributeDropdownContainerProps
 > {
-    static defaultProps = {
+    static defaultProps: Partial<ProductConfigurableAttributeDropdownContainerProps> = {
         isUnselected: false
     };
 
@@ -33,10 +33,10 @@ ProductConfigurableAttributeDropdownContainerProps
         onChange: this.onChange.bind(this)
     };
 
-    onChange(value: boolean): void {
+    onChange(value: string): void {
         const {
             updateConfigurableVariant,
-            option: { attribute_code }
+            option: { attribute_code = '' }
         } = this.props;
 
         if (updateConfigurableVariant) {
@@ -48,21 +48,26 @@ ProductConfigurableAttributeDropdownContainerProps
     ProductConfigurableAttributeDropdownComponentProps,
     ProductConfigurableAttributeDropdownComponentContainerProps
     > {
-        const { option: { attribute_code, attribute_label }, isUnselected } = this.props;
+        const {
+            option: { attribute_code = '', attribute_label = '' },
+            isUnselected,
+            handleShakeAnimationEnd
+        } = this.props;
 
         return {
             selectValue: this._getSelectValue(),
             selectOptions: this._getSelectOptions(),
             selectName: attribute_code,
             selectLabel: attribute_label,
-            isUnselected
+            isUnselected,
+            handleShakeAnimationEnd
         };
     }
 
-    _getSelectOptions() {
+    _getSelectOptions(): Partial<ProductConfigurableAttributeDropdownOption>[] {
         const {
             option: {
-                attribute_options,
+                attribute_options = {},
                 attribute_code
             },
             getIsConfigurableAttributeAvailable
@@ -76,7 +81,7 @@ ProductConfigurableAttributeDropdownContainerProps
         }
 
         return Object.values(attribute_options)
-            .reduce((acc: ProductConfigurableAttributeDropdownOption[], option) => {
+            .reduce((acc: Partial<ProductConfigurableAttributeDropdownOption>[], option) => {
                 const { value } = option;
 
                 const isAvailable = getIsConfigurableAttributeAvailable({
@@ -93,7 +98,7 @@ ProductConfigurableAttributeDropdownContainerProps
     }
 
     _getSelectValue(): string {
-        const { option: { attribute_code } } = this.props;
+        const { option: { attribute_code = '' } } = this.props;
         const { parameters = {} } = this.props;
 
         return parameters[ attribute_code ];

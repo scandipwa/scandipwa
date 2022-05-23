@@ -21,13 +21,15 @@ import { OverlayComponentProps } from './Overlay.type';
 import './Overlay.style';
 
 /** @namespace Component/Overlay/Component */
-export class Overlay<Props extends OverlayComponentProps> extends PureComponent<Props> {
-    static defaultProps = {
+export class Overlay<P extends OverlayComponentProps = OverlayComponentProps> extends PureComponent<P> {
+    static defaultProps: Partial<OverlayComponentProps> = {
         mix: {},
+        contentMix: {},
         children: [],
         onVisible: noopFn,
         isStatic: false,
         onHide: noopFn,
+        onClose: noopFn,
         isRenderInPortal: true
     };
 
@@ -35,7 +37,7 @@ export class Overlay<Props extends OverlayComponentProps> extends PureComponent<
 
     YoffsetWhenScrollDisabled = window.pageYOffset || document.body.scrollTop;
 
-    componentDidUpdate(prevProps: Props): void {
+    componentDidUpdate(prevProps: P): void {
         const prevWasVisible = this.getIsVisible(prevProps);
         const isVisible = this.getIsVisible();
 
@@ -60,7 +62,10 @@ export class Overlay<Props extends OverlayComponentProps> extends PureComponent<
         }
 
         this.overlayRef.current?.focus();
-        onVisible();
+
+        if (onVisible) {
+            onVisible();
+        }
     }
 
     onHide(): void {
@@ -79,7 +84,7 @@ export class Overlay<Props extends OverlayComponentProps> extends PureComponent<
         }
     }
 
-    getIsVisible(props: Props = this.props): boolean {
+    getIsVisible(props: P = this.props): boolean {
         const { id, activeOverlay, isStatic } = props;
 
         return isStatic || id === activeOverlay;
@@ -121,7 +126,7 @@ export class Overlay<Props extends OverlayComponentProps> extends PureComponent<
               block="Overlay"
               ref={ this.overlayRef }
               mods={ { isVisible, isStatic, isInstant: areOtherOverlaysOpen } }
-              mix={ { ...mix, mods: { ...mix.mods, isVisible } } }
+              mix={ { ...mix, mods: { ...(mix?.mods || {}), isVisible } } }
             >
                 { children && children }
             </div>

@@ -16,7 +16,7 @@ import { withReducers } from 'Util/DynamicReducer';
 import { RootState } from 'Util/Store/Store.type';
 
 import Breadcrumbs from './Breadcrumbs.component';
-import { BreadcrumbsContainerMapStateProps } from './Breadcrumbs.type';
+import { BreadcrumbsContainerMapDispatchProps, BreadcrumbsContainerMapStateProps } from './Breadcrumbs.type';
 
 /** @namespace Component/Breadcrumbs/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): BreadcrumbsContainerMapStateProps => ({
@@ -25,7 +25,7 @@ export const mapStateToProps = (state: RootState): BreadcrumbsContainerMapStateP
 });
 
 /** @namespace Component/Breadcrumbs/Container/mapDispatchToProps */
-export const mapDispatchToProps = (): Record<string, never> => ({});
+export const mapDispatchToProps = (): BreadcrumbsContainerMapDispatchProps => ({});
 
 export default withReducers({
     BreadcrumbsReducer

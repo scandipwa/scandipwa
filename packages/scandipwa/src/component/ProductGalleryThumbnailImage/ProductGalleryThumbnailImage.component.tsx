@@ -13,40 +13,25 @@ import { PureComponent } from 'react';
 
 import Image from 'Component/Image';
 import { ImageRatio } from 'Component/Image/Image.type';
-import {
-    IMAGE_TYPE, PLACEHOLDER_TYPE, THUMBNAIL_KEY, VIDEO_TYPE
-} from 'Component/ProductGallery/ProductGallery.config';
+import { ImageType, MediaType } from 'Component/ProductGallery/ProductGallery.config';
 import { ReactElement } from 'Type/Common.type';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
+
+import { ProductGalleryThumbnailImageComponentProps } from './ProductGalleryThumbnailImage.type';
 
 import './ProductGalleryThumbnailImage.style';
 
 /** @namespace Component/ProductGalleryThumbnailImage/Component */
-export class ProductGalleryThumbnailImage extends PureComponent {
-    static propTypes = {
-        media: PropTypes.shape({
-            label: PropTypes.string,
-            file: PropTypes.string,
-            media_type: PropTypes.string,
-            id: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            thumbnail: PropTypes.shape({
-                url: PropTypes.string
-            })
-        }).isRequired
-    };
-
+export class ProductGalleryThumbnailImage extends PureComponent<ProductGalleryThumbnailImageComponentProps> {
     renderMedia(): ReactElement {
         const { media: { media_type } } = this.props;
 
         switch (media_type) {
-        case VIDEO_TYPE:
+        case MediaType.VIDEO:
             return this.renderVideo();
-        case IMAGE_TYPE:
+        case MediaType.IMAGE:
             return this.renderImage();
-        case PLACEHOLDER_TYPE:
+        case MediaType.PLACEHOLDER:
             return this.renderPlaceholder();
         default:
             return null;
@@ -91,7 +76,10 @@ export class ProductGalleryThumbnailImage extends PureComponent {
             }
         } = this.props;
 
-        if (id === THUMBNAIL_KEY) {
+        // !FIXME: Possible dead code. Id is number and cannot be comparable to the 'thumbnail' value.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if (id === ImageType.THUMBNAIL) {
             return this.renderPlaceholder();
         }
 

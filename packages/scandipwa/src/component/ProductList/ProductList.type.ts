@@ -11,7 +11,7 @@
 
 import { History, Location } from 'history';
 
-import { ProductAttributeFilterOptions, ProductItem, ProductListOptions } from 'Query/ProductList.type';
+import { ProductAttributeFilterOptions, ProductListOptions } from 'Query/ProductList.type';
 import { CategorySortOptions } from 'Route/CategoryPage/CategoryPage.type';
 import { Mix } from 'Type/Common.type';
 import { Device } from 'Type/Device.type';
@@ -74,7 +74,7 @@ export interface ProductListComponentProps {
     requestPage: (currentPage?: number, isNext?: boolean) => void;
     isInfiniteLoaderEnabled: boolean;
     loadPrevPage: () => void;
-    loadPage: (next: boolean) => void;
+    loadPage: (next?: boolean) => void;
     updatePage: (pageNumber: number) => void;
 }
 
@@ -106,6 +106,6 @@ export interface PageProps {
     keys: number[];
     pageNumber: number;
     selectedFilters: Record<string, string[]>;
-    wrapperRef: (elm: HTMLElement) => void;
+    wrapperRef?: (elm: HTMLElement | null) => void;
     key: number;
 }

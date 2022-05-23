@@ -13,23 +13,19 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
+import { ReviewStarComponentProps } from './ReviewStar.type';
+
 import './ReviewStar.style';
 
 /** @namespace Component/ReviewStar/Component */
-export class ReviewStar extends PureComponent {
-    static propTypes = {
-        value: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        isChecked: PropTypes.bool.isRequired,
-        option_id: PropTypes.string.isRequired,
-        rating_id: PropTypes.string.isRequired,
-        onStarRatingClick: PropTypes.func.isRequired
-    };
+export class ReviewStar extends PureComponent<ReviewStarComponentProps> {
+    __construct(props: ReviewStarComponentProps): void {
+        super.__construct?.(props);
 
-    onStarRatingClick = this.onStarRatingClick.bind(this);
+        this.onStarRatingClick = this.onStarRatingClick.bind(this);
+    }
 
-    onStarRatingClick() {
+    onStarRatingClick(): void {
         const {
             rating_id,
             option_id,

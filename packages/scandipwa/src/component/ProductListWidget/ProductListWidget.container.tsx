@@ -25,6 +25,7 @@ import {
     ProductListWidgetAdaptProps,
     ProductListWidgetComponentContainerProps,
     ProductListWidgetContainerMapDispatchProps,
+    ProductListWidgetContainerMapStateProps,
     ProductListWidgetContainerProps,
     ProductListWidgetContainerState,
     ProductListWidgetQueryResult
@@ -33,7 +34,7 @@ import {
 import './ProductListWidget.style';
 
 /** @namespace Component/ProductListWidget/Container/mapStateToProps */
-export const mapStateToProps = (): Record<string, never> => ({});
+export const mapStateToProps = (): ProductListWidgetContainerMapStateProps => ({});
 
 /** @namespace Component/ProductListWidget/Container/mapDispatchToProps */
 export const mapDispatchToProps = (): ProductListWidgetContainerMapDispatchProps => ({

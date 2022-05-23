@@ -11,34 +11,26 @@
 
 import { Component } from 'react';
 
+import { ProductType } from 'Component/Product/Product.config';
 import ProductCompareAttributeRow from 'Component/ProductCompareAttributeRow';
 import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
-import { DeviceType } from 'Type/Device.type';
-import { ProductItemsType } from 'Type/ProductList.type';
+import { ComparableProduct } from 'Query/ProductCompare.type';
+import { ReactElement } from 'Type/Common.type';
 import { getPrice } from 'Util/Product/Extract';
+
+import { ProductCompareComponentProps } from './ProductCompare.type';
 
 import './ProductCompare.style';
 
 /** @namespace Component/ProductCompare/Component */
-export class ProductCompare extends Component {
-    static propTypes = {
-        clearCompareList: PropTypes.func.isRequired,
-        getAttributes: PropTypes.func.isRequired,
-        isInStock: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool,
-        products: ProductItemsType,
-        device: DeviceType.isRequired,
-        handleScroll: PropTypes.func.isRequired,
-        handleBlockScroll: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
+export class ProductCompare extends Component<ProductCompareComponentProps> {
+    static defaultProps: Partial<ProductCompareComponentProps> = {
         isLoading: false,
         products: []
     };
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: ProductCompareComponentProps): boolean {
         const { products, isLoading } = this.props;
         const { products: nextProducts, isLoading: nextIsLoading } = nextProps;
 
@@ -126,7 +118,7 @@ export class ProductCompare extends Component {
         );
     }
 
-    renderProductPrice(product): ReactElement {
+    renderProductPrice(product: ComparableProduct): ReactElement {
         const { isInStock } = this.props;
 
         if (!isInStock(product)) {
@@ -142,13 +134,13 @@ export class ProductCompare extends Component {
             id
         } = product;
 
-        const price = getPrice(price_range, dynamic_price, {}, type_id);
+        const price = getPrice(price_range, dynamic_price, {}, type_id as ProductType);
 
         return (
             <ProductPrice
               price={ price }
               key={ id }
-              priceType={ type_id }
+              priceType={ type_id as ProductType }
               isPreview
             />
         );

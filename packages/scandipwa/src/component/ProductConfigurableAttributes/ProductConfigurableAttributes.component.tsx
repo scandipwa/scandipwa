@@ -13,10 +13,8 @@ import { PureComponent } from 'react';
 
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
-import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
-import { IndexedConfigurableOption } from 'Util/Product/Product.type';
 
 import {
     ProductConfigurableAttribute,
@@ -26,18 +24,20 @@ import {
 import './ProductConfigurableAttributes.style';
 
 /** @namespace Component/ProductConfigurableAttributes/Component */
-export class ProductConfigurableAttributes extends PureComponent<ProductConfigurableAttributesComponentProps> {
-    static defaultProps = {
+export class ProductConfigurableAttributes<
+P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttributesComponentProps
+> extends PureComponent<P> {
+    static defaultProps: Partial<ProductConfigurableAttributesComponentProps> = {
         isReady: true,
         mix: {},
         getIsConfigurableAttributeAvailable: (): boolean => true,
-        renderPlaceholder: noopFn,
+        renderPlaceholder: noopFn as unknown as (block: string) => ReactElement,
         handleShakeAnimationEnd: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true
     };
 
-    renderConfigurableAttributeValue(attribute: ProductConfigurableAttribute): ReactElement {
+    renderConfigurableAttributeValue(attribute: Partial<ProductConfigurableAttribute>): ReactElement {
         const {
             getIsConfigurableAttributeAvailable,
             handleOptionClick,
@@ -62,11 +62,11 @@ export class ProductConfigurableAttributes extends PureComponent<ProductConfigur
         );
     }
 
-    renderSwatch(option: IndexedConfigurableOption, isUnselected = false): ReactElement {
+    renderSwatch(option: Partial<ProductConfigurableAttribute>, isUnselected = false): ReactElement {
         const {
             handleShakeAnimationEnd
         } = this.props;
-        const { attribute_values, attribute_code } = option;
+        const { attribute_values = [], attribute_code } = option;
 
         return (
             <div
@@ -77,13 +77,15 @@ export class ProductConfigurableAttributes extends PureComponent<ProductConfigur
               onAnimationEnd={ handleShakeAnimationEnd }
             >
                 { attribute_values.map((attribute_value) => (
-                    this.renderConfigurableAttributeValue({ ...option, attribute_value })
+                    this.renderConfigurableAttributeValue(
+                        { ...option, attribute_value } as unknown as Partial<ProductConfigurableAttribute>
+                    )
                 )) }
             </div>
         );
     }
 
-    renderDropdown(option: IndexedConfigurableOption, isUnselected = false): ReactElement {
+    renderDropdown(option: Partial<ProductConfigurableAttribute>, isUnselected = false): ReactElement {
         const {
             updateConfigurableVariant,
             getIsConfigurableAttributeAvailable,
@@ -125,9 +127,9 @@ export class ProductConfigurableAttributes extends PureComponent<ProductConfigur
 
         return Object.values(configurable_options).map((option) => {
             const {
-                attribute_code,
+                attribute_code = '',
                 attribute_label,
-                attribute_options,
+                attribute_options = {},
                 attribute_id
             } = option;
             const isUnselected = addToCartTriggeredWithError ? !parameters[attribute_code] : false;

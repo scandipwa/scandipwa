@@ -14,7 +14,6 @@ import { AnimationEvent, PureComponent } from 'react';
 import {
     BIG_PLACEHOLDER_CONFIG
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
-import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 import { ReactElement } from 'Type/Common.type';
 import { GQLProductStockStatus } from 'Type/Graphql.type';
 import { noopFn } from 'Util/Common';
@@ -23,29 +22,33 @@ import { getBooleanLabel } from 'Util/Product';
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';
 import {
     ProductConfigurableAttribute,
+    ProductConfigurableAttributesComponentContainerFunctions,
     ProductConfigurableAttributesComponentContainerPropsKeys,
     ProductConfigurableAttributesComponentProps,
     ProductConfigurableAttributesContainerProps
 } from './ProductConfigurableAttributes.type';
 
 /** @namespace Component/ProductConfigurableAttributes/Container */
-export class ProductConfigurableAttributesContainer extends PureComponent<ProductConfigurableAttributesContainerProps> {
-    static defaultProps = {
-        renderPlaceholder: noopFn,
-        getLink: noopFn,
+export class ProductConfigurableAttributesContainer<
+    P extends ProductConfigurableAttributesContainerProps = ProductConfigurableAttributesContainerProps
+> extends PureComponent<P> {
+    static defaultProps: Partial<ProductConfigurableAttributesContainerProps> = {
+        renderPlaceholder: noopFn as unknown as (block: string) => ReactElement,
+        getLink: noopFn as unknown as (filterKey: string, value: string) => string,
         isExpandable: true,
         showProductAttributeAsLink: true,
-        variants: null,
+        variants: [],
         isReady: true,
         mix: {},
         numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
         inStock: true,
         updateAddToCartTriggeredWithError: noopFn,
-        addToCartTriggeredWithError: false
+        addToCartTriggeredWithError: false,
+        isContentExpanded: false
 
     };
 
-    containerFunctions = {
+    containerFunctions: ProductConfigurableAttributesComponentContainerFunctions = {
         handleOptionClick: this.handleOptionClick.bind(this),
         getSubHeading: this.getSubHeading.bind(this),
         isSelected: this.isSelected.bind(this),
@@ -70,7 +73,8 @@ export class ProductConfigurableAttributesContainer extends PureComponent<Produc
             updateConfigurableVariant,
             inStock,
             addToCartTriggeredWithError,
-            updateAddToCartTriggeredWithError
+            updateAddToCartTriggeredWithError,
+            isContentExpanded
         } = this.props;
 
         return {
@@ -85,22 +89,23 @@ export class ProductConfigurableAttributesContainer extends PureComponent<Produc
             updateConfigurableVariant,
             inStock,
             addToCartTriggeredWithError,
-            updateAddToCartTriggeredWithError
+            updateAddToCartTriggeredWithError,
+            isContentExpanded
         };
     }
 
-    getLink({ attribute_code, attribute_value }: ProductConfigurableAttribute): string {
+    getLink({ attribute_code = '', attribute_value = '' }: Partial<ProductConfigurableAttribute>): string {
         const { getLink } = this.props;
 
         return getLink(attribute_code, attribute_value);
     }
 
     getSubHeading({
-        attribute_values,
+        attribute_values = [],
         attribute_code,
-        attribute_options,
+        attribute_options = {},
         is_boolean = false
-    }: ProductListFilter): string {
+    }: Partial<ProductConfigurableAttribute>): string {
         return attribute_values.reduce((acc: string[], attribute_value) => (this.isSelected({
             attribute_code,
             attribute_value
@@ -109,7 +114,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent<Produc
             : acc), []).join(', ');
     }
 
-    handleOptionClick({ attribute_code, attribute_value }: ProductConfigurableAttribute): void {
+    handleOptionClick({ attribute_code = '', attribute_value = '' }: Partial<ProductConfigurableAttribute>): void {
         const { updateConfigurableVariant } = this.props;
 
         if (updateConfigurableVariant) {
@@ -118,7 +123,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent<Produc
     }
 
     isSelected({ attribute_code = '', attribute_value = '' }: Partial<ProductConfigurableAttribute>): boolean {
-        const { parameters = {} } = this.props;
+        const { parameters = {} as Record<string, string> } = this.props;
         const parameter = parameters[ attribute_code ];
 
         if (parameter === undefined) {
@@ -140,7 +145,9 @@ export class ProductConfigurableAttributesContainer extends PureComponent<Produc
         updateAddToCartTriggeredWithError();
     }
 
-    getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }: ProductConfigurableAttribute): boolean {
+    getIsConfigurableAttributeAvailable(
+        { attribute_code = '', attribute_value = '' }: Partial<ProductConfigurableAttribute>
+    ): boolean {
         const { parameters, variants } = this.props;
 
         // skip out of stock check, if variants data has not been provided

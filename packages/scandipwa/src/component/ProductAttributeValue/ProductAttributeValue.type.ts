@@ -9,16 +9,13 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import {
-    ProductConfigurableAttribute
-} from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
 import { AggregationOption } from 'Query/ProductList.type';
 import { Mix } from 'Type/Common.type';
 
 export interface ProductAttributeValueComponentProps {
-    getLink: (o: ProductConfigurableAttribute) => string;
-    onClick: (o: ProductConfigurableAttribute) => void;
-    attribute: ProductConfigurableAttribute;
+    getLink: (o: Partial<ProductAttributeShape>) => string;
+    onClick: (o: Partial<ProductAttributeShape>) => void;
+    attribute: Partial<ProductAttributeShape>;
     isSelected: boolean;
     isAvailable: boolean;
     mix: Mix;
@@ -31,4 +28,17 @@ export interface ProductAttributeValueOption extends AggregationOption {
     label: string;
     labelText: string;
     count: number;
+}
+
+export interface ProductAttributeShape {
+    attribute_options: Record<string, {
+        label: string;
+        count?: number;
+    }>;
+    attribute_value: string;
+    attribute_code: string;
+    attribute_label: string;
+    attribute_type: string;
+    has_swatch: boolean;
+    is_boolean: boolean;
 }

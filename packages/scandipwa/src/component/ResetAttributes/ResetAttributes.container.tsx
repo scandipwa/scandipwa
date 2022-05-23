@@ -9,36 +9,36 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { SelectedFiltersType } from 'Type/Category.type';
-import { AttributesType } from 'Type/ProductList.type';
+import { AggregationOption } from 'Query/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import { getPriceFilterLabel } from 'Util/Category';
 import { getBooleanLabel } from 'Util/Product';
+import { RootState } from 'Util/Store/Store.type';
 
 import ResetAttributes from './ResetAttributes.component';
+import {
+    FilterOption,
+    ResetAttributesComponentProps,
+    ResetAttributesContainerMapDispatchProps,
+    ResetAttributesContainerMapStateProps,
+    ResetAttributesContainerProps,
+    ResetItem
+} from './ResetAttributes.type';
 
 /** @namespace Component/ResetAttributes/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ResetAttributesContainerMapStateProps => ({
     currency_code: state.ConfigReducer.currencyData.current_currency_code
 });
 
 /** @namespace Component/ResetAttributes/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): ResetAttributesContainerMapDispatchProps => ({});
 
 /** @namespace Component/ResetAttributes/Container */
-export class ResetAttributesContainer extends PureComponent {
-    static propTypes = {
-        availableFilters: AttributesType.isRequired,
-        customFiltersValues: SelectedFiltersType.isRequired,
-        currency_code: PropTypes.string.isRequired,
-        toggleCustomFilter: PropTypes.func.isRequired
-    };
-
-    containerProps() {
+export class ResetAttributesContainer extends PureComponent<ResetAttributesContainerProps> {
+    containerProps(): ResetAttributesComponentProps {
         const { toggleCustomFilter } = this.props;
 
         return {
@@ -47,9 +47,9 @@ export class ResetAttributesContainer extends PureComponent {
         };
     }
 
-    getFilterOptionsForPrice(values, options) {
+    getFilterOptionsForPrice(values: string[], options: AggregationOption[]): FilterOption[] {
         // no multiselect for price, always 1 selected value
-        const [ fromValue, toValue ] = values[ 0 ].split('_');
+        const [fromValue, toValue] = values[ 0 ].split('_');
 
         return options
             .filter(({ value_string }) => value_string.startsWith(fromValue))
@@ -57,7 +57,7 @@ export class ResetAttributesContainer extends PureComponent {
                 const { currency_code } = this.props;
                 const { label: initialLabel, value_string } = option;
 
-                const [ from, to ] = initialLabel.split('~');
+                const [from, to] = initialLabel.split('~');
                 const rangeEnd = toValue === '*' ? toValue : to;
 
                 const label = getPriceFilterLabel(from, rangeEnd, currency_code);
@@ -66,11 +66,11 @@ export class ResetAttributesContainer extends PureComponent {
             });
     }
 
-    getFilterOptionsDefault(values, options) {
+    getFilterOptionsDefault(values: string[], options: AggregationOption[]): FilterOption[] {
         return options.filter((option) => values.includes(option.value_string));
     }
 
-    getResetData(attrCode, attrValues) {
+    getResetData(attrCode: string, attrValues: string[]): Record<string, ResetItem[]> {
         const { availableFilters } = this.props;
         const filterData = availableFilters[ attrCode ];
 
@@ -92,7 +92,7 @@ export class ResetAttributesContainer extends PureComponent {
         return {
             [ attribute_label ]: func(attrValues, Object.values(attribute_options))
                 .map(
-                    (option) => ({
+                    (option: FilterOption) => ({
                         ...option,
                         attribute_code,
                         attribute_label,
@@ -102,11 +102,11 @@ export class ResetAttributesContainer extends PureComponent {
         };
     }
 
-    filterResetItems() {
+    filterResetItems(): Record<string, ResetItem[]> {
         const { customFiltersValues } = this.props;
 
         return Object.entries(customFiltersValues).reduce(
-            (prev, [ attrCode, attrValues ]) => (
+            (prev: Record<string, ResetItem[]>, [attrCode, attrValues]) => (
                 {
                     ...prev,
                     ...this.getResetData(attrCode, attrValues)
@@ -118,7 +118,7 @@ export class ResetAttributesContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ResetAttributes
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

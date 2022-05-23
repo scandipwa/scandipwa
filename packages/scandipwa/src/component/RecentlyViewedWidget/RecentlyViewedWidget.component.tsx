@@ -12,23 +12,21 @@
 import React, { Component } from 'react';
 
 import ProductCard from 'Component/ProductCard';
-import { ItemsType, ProductCardPropsType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
+
+import { RecentlyViewedWidgetComponentProps } from './RecentlyViewedWidget.type';
 
 import './RecentlyViewedWidget.style';
 
 /** @namespace Component/RecentlyViewedWidget/Component */
-export class RecentlyViewedWidget extends Component {
-    static propTypes = {
-        pageSize: PropTypes.number.isRequired,
-        products: ItemsType.isRequired,
-        productCardProps: ProductCardPropsType.isRequired,
-        productCardFunctions: PropTypes.objectOf(PropTypes.func).isRequired,
-        isLoading: PropTypes.bool.isRequired
-    };
+export class RecentlyViewedWidget extends Component<RecentlyViewedWidgetComponentProps> {
+    __construct(props: RecentlyViewedWidgetComponentProps): void {
+        super.__construct?.(props);
 
-    renderProductCard = this.renderProductCard.bind(this);
+        this.renderProductCard = this.renderProductCard.bind(this);
+    }
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: RecentlyViewedWidgetComponentProps): boolean {
         const { products, pageSize } = this.props;
         const {
             products: nextProducts,
