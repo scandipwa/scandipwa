@@ -256,20 +256,15 @@ export class CheckoutOrderSummary extends PureComponent {
             cartTotalSubPrice
         } = this.props;
         const title = __('Order total');
-
-        if (cartTotalSubPrice) {
-            return (
+        return (
                 <CheckoutOrderSummaryPriceLine
-                  price={ grand_total }
+                  price={ grand_total.toFixed(2) }
                   currency={ quote_currency_code }
                   title={ title }
-                  subPrice={ cartTotalSubPrice }
+                  subPrice={ cartTotalSubPrice && cartTotalSubPrice.toFixed(2) }
                   mods={ { isTotal: true } }
                 />
-            );
-        }
-
-        return this.renderPriceLine(grand_total.toFixed(2), title, { isTotal: true });
+        );
     }
 
     renderTaxFullSummary() {
