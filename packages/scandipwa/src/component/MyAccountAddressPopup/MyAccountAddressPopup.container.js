@@ -77,7 +77,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         return { isLoading, payload };
     }
 
-    async handleAfterAction() {
+    async handleAfterAction(status, operation) {
         const {
             hideActiveOverlay,
             updateCustomerDetails,
@@ -91,6 +91,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
                 hideActiveOverlay();
                 goToPreviousHeaderState();
             });
+            this.showAddressNotification(status, operation);
         } catch (e) {
             showErrorNotification(e);
         }
@@ -130,6 +131,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
 
     async handleEditAddress(address) {
         const { payload: { address: { id } } } = this.props;
+
         const query = MyAccountQuery.getUpdateAddressMutation(id, address);
 
         if (!isSignedIn()) {
@@ -138,8 +140,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction();
-            this.showAddressNotification('success', 'edited');
+            this.handleAfterAction('success', 'edited');
         } catch (e) {
             this.handleError(e);
         }
@@ -157,8 +158,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction();
-            this.showAddressNotification('success', 'deleted');
+            this.handleAfterAction('success', 'deleted');
         } catch (e) {
             this.handleError(e);
         }
@@ -173,8 +173,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction();
-            this.showAddressNotification('success', 'saved');
+            this.handleAfterAction('success', 'saved');
         } catch (e) {
             this.handleError(e);
         }

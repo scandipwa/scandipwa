@@ -12,6 +12,7 @@
 export const FIELD_TYPE = {
     email: 'email',
     text: 'text',
+    numberWithControls: 'numberWithControls',
     number: 'number',
     radio: 'radio',
     checkbox: 'checkbox',
@@ -22,6 +23,7 @@ export const FIELD_TYPE = {
     multi: 'multi',
     date: 'date',
     time: 'time',
+    tel: 'tel',
     dateTime: 'datetime-local',
     submit: 'submit',
     button: 'button'

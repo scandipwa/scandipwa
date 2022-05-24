@@ -46,6 +46,13 @@
             max-width: 100%;
             margin: 0 auto;
             margin-block-end: var(--myaccount-wihslist-products-margin-bottom);
+
+            & > .Loader .Loader-Scale {
+                position: fixed;
+                inset-block-start: auto;
+                inset-block-end: 50%;
+                transform: translate(-50%, 50%);
+            }
         }
 
         @include desktop {
@@ -76,20 +83,9 @@
             inset-block-start: calc(0px - var(--myaccount-wishlist-action-bar-offset));
         }
 
-        @include mobile {
-            background-color: var(--my-account-content-background);
-            inset-block-end: var(--footer-total-height);
-            display: block;
-            inset-inline-start: 0;
-            padding: 14px;
-            position: fixed;
-            width: 100%;
-            border-block-start: 1px solid var(--primary-divider-color);
-            z-index: 10;
-
-            .hideOnScroll & {
-                transform: translateY(var(--footer-nav-height));
-            }
+        @include mobile-bottom-wrapper {
+            padding: 16px;
+            inset-block-end: 16px;
         }
 
         @include tablet {

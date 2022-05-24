@@ -19,6 +19,7 @@ import ChevronIcon from 'Component/ChevronIcon';
 import { LEFT } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
+import CmsBlock from 'Component/CmsBlock';
 import CompareIcon from 'Component/CompareIcon';
 import CurrencySwitcher from 'Component/CurrencySwitcher';
 import ExclamationMarkIcon from 'Component/ExclamationMarkIcon';
@@ -719,22 +720,36 @@ export class Header extends NavigationAbstract {
         return (
             <div block="Header" elem="TopMenu">
                 <div block="Header" elem="News">
-                    <ExclamationMarkIcon />
-                    <span>{ __('Check new arrivals') }</span>
-                    <Link
-                      to="/"
-                      key="news"
-                      block="Header"
-                      elem="NewsButton"
-                    >
-                        { __('here!') }
-                    </Link>
+                    { this.renderCMSBlock() }
                 </div>
                 <div block="Header" elem="Switcher">
                     <CurrencySwitcher />
                     <StoreSwitcher />
                 </div>
             </div>
+        );
+    }
+
+    renderCMSBlock() {
+        const { header_content: { contacts_cms } = {} } = window.contentConfiguration;
+
+        if (contacts_cms) {
+            return <CmsBlock identifier={ contacts_cms } />;
+        }
+
+        return (
+            <>
+                <ExclamationMarkIcon />
+                <span>{ __('Check new arrivals') }</span>
+                <Link
+                  to="/"
+                  key="news"
+                  block="Header"
+                  elem="NewsButton"
+                >
+                    { __('here!') }
+                </Link>
+            </>
         );
     }
 

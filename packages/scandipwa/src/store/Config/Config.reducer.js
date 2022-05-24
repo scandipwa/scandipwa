@@ -11,7 +11,11 @@
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import { UPDATE_CONFIG, UPDATE_CONFIG_DEVICE } from './Config.action';
+import {
+    UPDATE_CONFIG,
+    UPDATE_CONFIG_DEVICE,
+    UPDATE_CURRENT_CURRENCY
+} from './Config.action';
 
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
@@ -24,12 +28,13 @@ export const filterStoreConfig = (config) => Object.entries(config).reduce(
 );
 
 export const {
-    countries, reviewRatings, storeConfig, currencyData, cartDisplayConfig
+    countries, reviewRatings, storeConfig, currencyData, currency, cartDisplayConfig
 } = BrowserDatabase.getItem('config') || {
     countries: [],
     reviewRatings: [],
     storeConfig: {},
     currencyData: {},
+    currency: {},
     cartDisplayConfig: {
         display_tax_in_price: '',
         display_tax_in_subtotal: '',
@@ -43,6 +48,9 @@ export const {
 /** @namespace Store/Config/Reducer/getIndexedRatings */
 export const getIndexedRatings = (reviewRatings) => ((reviewRatings) ? reviewRatings.items || [] : []);
 
+/** @namespace Store/Config/Reducer/getCurrencyRates */
+export const getCurrencyRates = (base, state) => (base || state.currency || {});
+
 /** @namespace Store/Config/Reducer/getCurrencyData */
 export const getCurrencyData = (base, state) => (base || state.currencyData || {});
 
@@ -55,10 +63,11 @@ export const getCheckoutAgreementData = (base, state) => (base || state.checkout
 /** @namespace Store/Config/Reducer/getInitialState */
 export const getInitialState = () => ({
     ...filterStoreConfig(storeConfig),
+    currencyData,
+    currency,
     countries,
     reviewRatings,
     checkoutAgreements: [],
-    currencyData,
     isLoading: true,
     cartDisplayConfig,
     priceTaxDisplay: {},
@@ -92,6 +101,9 @@ export const ConfigReducer = (
         device
     } = action;
 
+    const { currentCurrency = '' } = action;
+    const { currencyData: prevCurrencyData } = state;
+
     switch (type) {
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
@@ -103,6 +115,7 @@ export const ConfigReducer = (
             countries: getCountryData(countries, state),
             reviewRatings: getIndexedRatings(reviewRatings),
             checkoutAgreements: getCheckoutAgreementData(checkoutAgreements, state),
+            currency: getCurrencyRates(currency, state),
             currencyData: getCurrencyData(currencyData, state),
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
@@ -120,9 +133,17 @@ export const ConfigReducer = (
             }
         };
 
+    case UPDATE_CURRENT_CURRENCY:
+        return {
+            ...state,
+            currencyData: {
+                ...prevCurrencyData,
+                current_currency_code: currentCurrency
+            }
+        };
+
     default:
         return state;
     }
 };
-
 export default ConfigReducer;

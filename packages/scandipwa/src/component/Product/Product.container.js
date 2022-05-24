@@ -292,7 +292,7 @@ export class ProductContainer extends PureComponent {
             });
         }
 
-        const values = getFieldsData(current, true, [FIELD_TYPE.number]);
+        const values = getFieldsData(current, true, [FIELD_TYPE.numberWithControls]);
 
         values.forEach(({ name, value, type }) => {
             if (type === FIELD_TYPE.select) {
@@ -301,7 +301,7 @@ export class ProductContainer extends PureComponent {
                 if (value !== FIELD_RADIO_NONE) {
                     selectedOptions.push(value);
                 }
-            } else if (type !== FIELD_TYPE.number) {
+            } else if (type !== FIELD_TYPE.numberWithControls) {
                 enteredOptions.push({
                     uid: name,
                     value
