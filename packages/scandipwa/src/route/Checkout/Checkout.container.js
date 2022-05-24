@@ -248,7 +248,6 @@ export class CheckoutContainer extends PureComponent {
         const { email } = this.state;
 
         this.handleRedirectIfNoItemsInCart();
-
         this.handleRedirectIfLessThanMinAmountInCart();
 
         // if guest checkout is disabled and user is not logged in => throw him to homepage
@@ -303,6 +302,7 @@ export class CheckoutContainer extends PureComponent {
         const { pathname = '' } = location;
 
         this.handleRedirectIfNoItemsInCart();
+        this.handleRedirectIfLessThanMinAmountInCart();
 
         if (prevIsCartLoading && !isCartLoading) {
             if (checkoutStep === SHIPPING_STEP) {
