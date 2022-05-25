@@ -50,12 +50,17 @@
         flex-direction: column;
         row-gap: 24px;
 
+
         .Field {
             margin-block-start: 12px;
 
             &-ErrorMessages {
                 padding-block-start: 6px;
             }
+        }
+
+        &:first-child {
+            grid-column: 1 / 3;
         }
 
         input,

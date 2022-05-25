@@ -107,7 +107,7 @@ export class ProductReviewForm extends PureComponent {
     }
 
     renderReviewFormContent() {
-        const { reviewData } = this.props;
+        const { reviewData, reviewRatings } = this.props;
 
         const {
             nickname = '',
@@ -120,12 +120,14 @@ export class ProductReviewForm extends PureComponent {
               block="ProductReviewForm"
               elem="Wrapper"
             >
-                <div
-                  block="ProductReviewForm"
-                  elem="RatingWrapper"
-                >
-                    { this.renderReviewRating() }
-                </div>
+                { reviewRatings.length > 0 && (
+                    <div
+                      block="ProductReviewForm"
+                      elem="RatingWrapper"
+                    >
+                        { this.renderReviewRating() }
+                    </div>
+                ) }
                 <div
                   block="ProductReviewForm"
                   elem="Content"
