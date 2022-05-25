@@ -49,7 +49,8 @@ export const mapStateToProps = (state) => ({
     cartTotalSubPrice: getCartTotalSubPrice(state),
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state),
-    cartDisplaySettings: state.ConfigReducer.cartDisplayConfig
+    cartDisplaySettings: state.ConfigReducer.cartDisplayConfig,
+    minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount
 });
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */
@@ -80,7 +81,11 @@ export class CartOverlayContainer extends PureComponent {
         activeOverlay: PropTypes.string.isRequired,
         isMobile: PropTypes.bool.isRequired,
         cartShippingPrice: PropTypes.number,
-        cartShippingSubPrice: PropTypes.number
+        cartShippingSubPrice: PropTypes.number,
+        minimumOrderAmount: PropTypes.shape({
+            minimum_order_amount_reached: PropTypes.bool,
+            minimum_order_description: PropTypes.string
+        })
     };
 
     static defaultProps = {
@@ -88,7 +93,8 @@ export class CartOverlayContainer extends PureComponent {
         cartTotalSubPrice: null,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
-        currencyCode: null
+        currencyCode: null,
+        minimumOrderAmount: {}
     };
 
     state = {
@@ -115,7 +121,10 @@ export class CartOverlayContainer extends PureComponent {
             cartDisplaySettings,
             isMobile,
             cartShippingPrice,
-            cartShippingSubPrice
+            cartShippingSubPrice,
+            minimumOrderAmount: {
+                minimum_order_amount_reached: minimumOrderAmountReached = true
+            }
         } = this.props;
         const { isEditing, isCartItemLoading } = this.state;
 
@@ -131,6 +140,7 @@ export class CartOverlayContainer extends PureComponent {
             cartShippingPrice,
             cartShippingSubPrice,
             isCartItemLoading,
+            minimumOrderAmountReached,
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items)
         };
     }
