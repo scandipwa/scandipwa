@@ -18,6 +18,7 @@ import ProductReviewList from 'Component/ProductReviewList';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { DeviceType } from 'Type/Device.type';
 import { ProductType } from 'Type/ProductList.type';
+import { RatingItemsType } from 'Type/Rating.type';
 import { showNewReviewPopup } from 'Util/Product';
 
 import './ProductReviews.style';
@@ -27,7 +28,8 @@ export class ProductReviews extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        reviewRatings: RatingItemsType.isRequired
     };
 
     renderButton() {
@@ -79,7 +81,8 @@ export class ProductReviews extends PureComponent {
                     rating_summary,
                     review_count
                 } = {}
-            }
+            },
+            reviewRatings
         } = this.props;
 
         const STARS_COUNT = 5;
@@ -95,13 +98,15 @@ export class ProductReviews extends PureComponent {
         return (
             <>
                 { this.renderRatingSchema(rating_summary, review_count) }
-                <ProductReviewRating
-                  mix={ { block: 'ProductReviews', elem: 'SummaryRating' } }
-                  summary={ rating_summary }
-                />
+                { reviewRatings.length > 0 && (
+                    <ProductReviewRating
+                      mix={ { block: 'ProductReviews', elem: 'SummaryRating' } }
+                      summary={ rating_summary }
+                    />
+                ) }
                 <p block="ProductReviews" elem="SummaryDetails">
-                    { percent }
-                    <span>{ __('%s reviews', review_count || 0) }</span>
+                    { reviewRatings.length > 0 && <span>{ percent }</span> }
+                    <span>{ __('%s review(s)', review_count || 0) }</span>
                 </p>
             </>
         );

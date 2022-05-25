@@ -603,5 +603,6 @@
     "Please add a shipping address and a shipping method!": null,
     "Number": null,
     "Telephone": null,
-    "The requested qty is not available!": null
+    "The requested qty is not available!": null,
+    "%s review(s)": null
 }
