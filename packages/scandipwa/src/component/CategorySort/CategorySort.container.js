@@ -30,7 +30,7 @@ export class CategorySortContainer extends PureComponent {
         isCurrentCategoryLoaded: PropTypes.bool,
         onSortChange: PropTypes.func.isRequired,
         sortKey: PropTypes.string.isRequired,
-        sortDirection: SortDirectionType.isRequired,
+        sortDirection: SortDirectionType.isRequired
     };
 
     static defaultProps = {
