@@ -130,7 +130,7 @@ export class ProductPrice extends PureComponent {
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
-        if (priceValue === undefined) {
+        if (!priceValue && priceValue !== 0) {
             return null;
         }
 
