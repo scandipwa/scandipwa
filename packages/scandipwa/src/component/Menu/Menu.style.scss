@@ -29,7 +29,6 @@
         text-transform: none;
         display: flex;
         align-items: center;
-        
 
         .CompareIcon {
             margin-inline-end: 12px;
@@ -81,8 +80,6 @@
 
     &-Item {
         padding-inline-start: 0;
-        text-decoration: underline;
-        text-decoration-color: black;
 
         @include desktop {
             height: var(--menu-item-height);
@@ -98,6 +95,7 @@
 
             &:hover {
                 color: var(--link-hover);
+                text-decoration: underline;
             }
 
             @include mobile {
@@ -201,7 +199,6 @@
                 }
             }
 
-            
             break-inside: avoid;
             overflow: hidden;
         }
@@ -224,7 +221,6 @@
                 background: none;
                 display: block;
                 padding: 0;
-                //text-decoration: underline;
             }
 
             .Menu-SubMenu & {
