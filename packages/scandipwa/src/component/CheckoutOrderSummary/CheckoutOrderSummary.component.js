@@ -258,10 +258,10 @@ export class CheckoutOrderSummary extends PureComponent {
         const title = __('Order total');
         return (
                 <CheckoutOrderSummaryPriceLine
-                  price={ grand_total.toFixed(2) }
+                  price={ Number(grand_total || 0).toFixed(2) }
                   currency={ quote_currency_code }
                   title={ title }
-                  subPrice={ cartTotalSubPrice && cartTotalSubPrice.toFixed(2) }
+                  subPrice={ Number(cartTotalSubPrice || 0).toFixed(2) }
                   mods={ { isTotal: true } }
                 />
         );
