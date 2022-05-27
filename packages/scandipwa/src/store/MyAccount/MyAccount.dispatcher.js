@@ -12,7 +12,15 @@
 import { CHECKOUT, MY_ACCOUNT } from 'Component/Header/Header.config';
 import { CONFIRMATION_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import MyAccountQuery from 'Query/MyAccount.query';
-import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
+import {
+    ACCOUNT_CONFIRMATION_URL,
+    ACCOUNT_LOGIN_URL
+} from 'Route/MyAccount/MyAccount.config';
+import {
+    ACCOUNT_CONFIRMATION_NOT_REQUIRED,
+    CONFIRMATION_SENT,
+    WRONG_EMAIL
+} from 'Route/SendConfirmationPage/SendConfirmationPage.config';
 import {
     updateCustomerDetails,
     updateCustomerPasswordForgotStatus,
@@ -201,6 +209,41 @@ export class MyAccountDispatcher {
                 return false;
             }
         );
+    }
+
+    /**
+     * Resend confirmation email
+     * @param {{email: String}} [options={}]
+     * @memberof MyAccountDispatcher
+     */
+    async resendConfirmation(options = {}, dispatch) {
+        const mutation = MyAccountQuery.getResendConfirmationMutation(options);
+
+        try {
+            const { resendConfirmationEmail: { status = '' } } = await fetchMutation(mutation);
+
+            switch (status) {
+            case ACCOUNT_CONFIRMATION_NOT_REQUIRED:
+                dispatch(showNotification('success', __('This email does not require confirmation.')));
+                history.push(ACCOUNT_LOGIN_URL);
+
+                return false;
+            case CONFIRMATION_SENT:
+                dispatch(showNotification('success', __('Please check your email for confirmation key.')));
+
+                return true;
+            case WRONG_EMAIL:
+                const { email = '' } = options;
+
+                history.push(`${ ACCOUNT_CONFIRMATION_URL }/?email=${ email }`);
+
+                throw __('Wrong email! Please, try again!');
+            default:
+                throw __('Something went wrong! Please, try again!');
+            }
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 
     /**

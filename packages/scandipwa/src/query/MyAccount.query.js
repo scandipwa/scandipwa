@@ -104,6 +104,20 @@ export class MyAccountQuery {
             .addField(this._getCustomerField());
     }
 
+    getResendConfirmationMutation(options) {
+        const { email } = options;
+
+        return new Field('resendConfirmationEmail')
+            .addArgument('email', 'String!', email)
+            .addFieldList(this._getResendConfirmationFields());
+    }
+
+    _getResendConfirmationFields() {
+        return [
+            'status'
+        ];
+    }
+
     getConfirmAccountMutation(options) {
         const { key, email, password } = options;
 
