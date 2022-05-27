@@ -120,6 +120,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             showNotification,
             isMobile
         } = this.props;
+        const { location: { state: { orderID = '' } = {} } } = history;
 
         const {
             password,
@@ -138,7 +139,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
                 is_subscribed,
                 taxvat
             },
-            password
+            password,
+            orderID
         };
 
         if (isLoading) {

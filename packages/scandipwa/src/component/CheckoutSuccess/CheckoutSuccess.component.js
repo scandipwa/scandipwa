@@ -48,7 +48,8 @@ export class CheckoutSuccess extends PureComponent {
             isEmailAvailable,
             email,
             firstName,
-            lastName
+            lastName,
+            orderID
         } = this.props;
 
         if (!isEmailAvailable || isSignedIn()) {
@@ -69,7 +70,8 @@ export class CheckoutSuccess extends PureComponent {
                       state: {
                           firstName,
                           lastName,
-                          email
+                          email,
+                          orderID
                       }
                   } }
                   block="Button"
