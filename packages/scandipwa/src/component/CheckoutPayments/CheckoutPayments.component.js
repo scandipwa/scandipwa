@@ -118,7 +118,9 @@ export class CheckoutPayments extends PureComponent {
     renderPayments() {
         const { paymentMethods } = this.props;
         const { totals: { grand_total } } = this.props;
-        const paymentFree = paymentMethods.find((payment) => payment.code === 'free');
+        const codeFree = 'free';
+
+        const paymentFree = paymentMethods.find((payment) => payment.code === codeFree);
 
         if (!grand_total && paymentFree) {
             return this.renderPayment(paymentFree);
