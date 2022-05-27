@@ -18,17 +18,23 @@ import { Field } from 'Util/Query';
 export class MyAccountQuery {
     /**
      * Get ResetPassword mutation
-     * @param {{token: String, password: String, password_confirmation: String}} options A object containing different aspects of query, each item can be omitted
+     * @param {{customer_id: String, token: String, password: String, password_confirmation: String}} options A object containing different aspects of query, each item can be omitted
      * @return {Field}
      * @memberof MyAccount
      */
     getResetPasswordMutation(options) {
-        const { token, password, password_confirmation } = options;
+        const {
+            customer_id,
+            token,
+            password,
+            password_confirmation
+        } = options;
 
         return new Field('s_resetPassword')
             .addArgument('token', 'String!', token)
             .addArgument('password', 'String!', password)
             .addArgument('password_confirmation', 'String!', password_confirmation)
+            .addArgument('customer_id', 'String!', customer_id)
             .addField('status');
     }
 

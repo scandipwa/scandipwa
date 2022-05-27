@@ -154,7 +154,7 @@ export class MyAccountDispatcher {
 
     /**
      * Reset password action
-     * @param {{token: String, password: String, password_confirmation: String}} [options={}]
+     * @param {{customer_id: String, token: String, password: String, password_confirmation: String}} [options={}]
      * @returns {Promise<{status: String}>} Reset password token
      * @memberof MyAccountDispatcher
      */
