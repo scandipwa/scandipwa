@@ -295,13 +295,21 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
+    renderCheckboxValue(value) {
+        if (typeof value !== 'string') {
+            return value;
+        }
+
+        return <Html content={ value } />;
+    }
+
     getCheckboxLabel(value, subLabel) {
         return (
             <div
               block="ProductAttributeValue"
               elem="Label"
             >
-                { value }
+                { this.renderCheckboxValue(value) }
                 { this.renderSublabel(subLabel) }
             </div>
         );
@@ -328,12 +336,20 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
+    renderValue(value) {
+        if (value) {
+            return <Html content={ `${value}` } />;
+        }
+
+        return false;
+    }
+
     renderStringValue(value, label, count) {
         const { isFormattedAsText, isSelected } = this.props;
         const isSwatch = label;
 
         if (isFormattedAsText) {
-            return label || value || __('N/A');
+            return label || this.renderValue(value) || __('N/A');
         }
 
         if (!isSwatch) {

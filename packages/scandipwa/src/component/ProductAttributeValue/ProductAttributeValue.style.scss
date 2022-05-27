@@ -182,6 +182,17 @@
                     }
                 }
             }
+
+            img {
+                height: 32px;
+                object-fit: cover;
+                vertical-align: middle;
+                width: 32px;
+
+                @include mobile {
+                    margin: 5px 0px;
+                }
+            }
         }
 
         &:hover,
