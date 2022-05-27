@@ -98,7 +98,8 @@ export class ProductCardContainer extends ProductContainer {
             hideWishlistButton,
             isLoading,
             renderContent,
-            product
+            product,
+            isPlp
         } = this.props;
 
         return {
@@ -110,6 +111,7 @@ export class ProductCardContainer extends ProductContainer {
             layout,
             mix,
             renderContent,
+            isPlp,
             thumbnail: getSmallImage(this.getActiveProduct()) || getSmallImage(product),
             linkTo: this.getLinkTo()
         };
