@@ -92,6 +92,19 @@
         }
     }
 
+    &-ValueLabel {
+        img {
+            max-height: auto;
+            max-width: auto;
+            object-fit: cover;
+            vertical-align: middle;
+        }
+
+        .Image-Content {
+            position: inherit;
+        }
+    }
+
     &-AttributeLabel {
         font-weight: bold;
     }

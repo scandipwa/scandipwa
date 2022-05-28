@@ -40,7 +40,8 @@ export class ProductListPage extends PureComponent {
         wrapperRef: PropTypes.func,
         pageNumber: PropTypes.number,
         items: PropTypes.arrayOf(ProductType),
-        mix: MixType
+        mix: MixType,
+        isPlp: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -79,6 +80,8 @@ export class ProductListPage extends PureComponent {
             siblingsHaveConfigurableOptions
         } = this.state;
 
+        const { isPlp } = this.props;
+
         return {
             productCardFunctions: {
                 setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
@@ -91,7 +94,8 @@ export class ProductListPage extends PureComponent {
                 siblingsHavePriceBadge,
                 siblingsHaveTierPrice,
                 siblingsHaveConfigurableOptions
-            }
+            },
+            isPlp
         };
     }
 

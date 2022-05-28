@@ -87,7 +87,8 @@ export const mapStateToProps = (state) => ({
     isGuestNotAllowDownloadable: state.ConfigReducer.downloadable_disable_guest_checkout,
     savedEmail: state.CheckoutReducer.email,
     isSignedIn: state.MyAccountReducer.isSignedIn,
-    shippingFields: state.CheckoutReducer.shippingFields
+    shippingFields: state.CheckoutReducer.shippingFields,
+    minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
@@ -168,11 +169,16 @@ export class CheckoutContainer extends PureComponent {
         isSignedIn: PropTypes.bool.isRequired,
         isCartLoading: PropTypes.bool.isRequired,
         shippingFields: Addresstype,
-        savedEmail: PropTypes.string.isRequired
+        savedEmail: PropTypes.string.isRequired,
+        minimumOrderAmount: PropTypes.shape({
+            minimum_order_amount_reached: PropTypes.bool,
+            minimum_order_description: PropTypes.string
+        })
     };
 
     static defaultProps = {
         cartTotalSubPrice: null,
+        minimumOrderAmount: {},
         shippingFields: {}
     };
 
@@ -242,6 +248,7 @@ export class CheckoutContainer extends PureComponent {
         const { email } = this.state;
 
         this.handleRedirectIfNoItemsInCart();
+        this.handleRedirectIfLessThanMinAmountInCart();
 
         // if guest checkout is disabled and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
@@ -295,6 +302,7 @@ export class CheckoutContainer extends PureComponent {
         const { pathname = '' } = location;
 
         this.handleRedirectIfNoItemsInCart();
+        this.handleRedirectIfLessThanMinAmountInCart();
 
         if (prevIsCartLoading && !isCartLoading) {
             if (checkoutStep === SHIPPING_STEP) {
@@ -488,6 +496,16 @@ export class CheckoutContainer extends PureComponent {
             if (!(orderID && checkoutStep === DETAILS_STEP)) {
                 history.push(appendWithStoreCode(CART_URL));
             }
+        }
+    }
+
+    handleRedirectIfLessThanMinAmountInCart() {
+        const {
+            minimumOrderAmount: { minimum_order_amount_reached = true }
+        } = this.props;
+
+        if (!minimum_order_amount_reached) {
+            history.push(appendWithStoreCode(CART_URL));
         }
     }
 

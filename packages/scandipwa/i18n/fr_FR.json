@@ -604,5 +604,12 @@
     "Number": null,
     "Telephone": null,
     "The requested qty is not available!": null,
-    "Remove file": null
+    "Please check your email for confirmation key.": null,
+    "Wrong email! Please, try again!": null,
+    "Unable to re-request confirmation email": null,
+    "Send confirmation link": null,
+    "Please enter your email below and we will send you the confirmation link.": null,
+    "Send Confirmation Page": null,
+    "Send Confirmation Action": null,
+    "This email does not require confirmation.": null
 }
