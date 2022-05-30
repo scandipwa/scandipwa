@@ -294,6 +294,7 @@ export class Field extends PureComponent {
     // Renders fields label above field
     renderLabel() {
         const { type, label, attr: { name } = {} } = this.props;
+        console.log(label);
 
         if (!label) {
             return null;
@@ -347,7 +348,6 @@ export class Field extends PureComponent {
             type, validationResponse, mix
         } = this.props;
         const inputRenderer = this.renderMap[type] ?? this.renderDefaultInput.bind(this);
-        const { mods: { hasError = false } = {} } = mix;
 
         return (
             <div block="Field" elem="Wrapper" mods={ { type } }>
@@ -355,7 +355,7 @@ export class Field extends PureComponent {
                   block="Field"
                   mods={ {
                       type,
-                      isValid: !hasError && validationResponse === true,
+                      isValid: validationResponse === true,
                       hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
                   } }
                   mix={ mix }
