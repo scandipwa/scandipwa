@@ -20,7 +20,7 @@ import { PurchaseOrder } from 'Component/PurchaseOrder/PurchaseOrder.component';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { PaymentMethodsType } from 'Type/Checkout.type';
 
-import { KLARNA, PURCHASE_ORDER } from './CheckoutPayments.config';
+import { CODE_FREE, KLARNA, PURCHASE_ORDER } from './CheckoutPayments.config';
 
 import './CheckoutPayments.style';
 
@@ -118,9 +118,8 @@ export class CheckoutPayments extends PureComponent {
     renderPayments() {
         const { paymentMethods } = this.props;
         const { totals: { grand_total } } = this.props;
-        const codeFree = 'free';
 
-        const paymentFree = paymentMethods.find((payment) => payment.code === codeFree);
+        const paymentFree = paymentMethods.find((payment) => payment.code === CODE_FREE);
 
         if (!grand_total && paymentFree) {
             return this.renderPayment(paymentFree);
