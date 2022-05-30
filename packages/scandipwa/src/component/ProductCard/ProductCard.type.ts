@@ -43,6 +43,7 @@ export interface ProductCartContainerBaseProps extends ProductContainerBaseProps
     renderContent: ((content: ContentObject) => ReactElement) | null;
     mix: Mix;
     layout: CategoryPageLayout;
+    children: Children;
 }
 
 export type ProductCardContainerProps = ProductCardContainerMapStateProps

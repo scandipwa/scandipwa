@@ -24,11 +24,14 @@ import {
     GroupedProductItem,
     ProductItem,
     ProductReview,
+    ProductStockItem,
     RatingsBreakdown,
     SwatchData
 } from 'Query/ProductList.type';
+import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { Merge } from 'Type/Common.type';
-import { GQLCurrencyEnum } from 'Type/Graphql.type';
+import { GQLCurrencyEnum, GQLProductStockStatus } from 'Type/Graphql.type';
+import { DateRangeAttribute, YearRangeAttribute } from 'Util/Form/Form.type';
 
 export enum QtyFields {
     SALABLE_QTY = 'salable_qty',
@@ -53,21 +56,23 @@ export type IndexedVariant = Merge<ProductItem, {
     attributes: Record<string, IndexedAttributeWithValue>;
 }>;
 
-export type IndexedCustomOption = Merge<
-Omit<
+export type CleanCustomizableProductFragmentOptions = Omit<
 CustomizableProductFragmentOptions,
-'checkboxValues' | 'dropdownValues' | 'fieldValues' | 'areaValues' | 'fileValues'
->,
+'CustomizableAreaOption' | 'CustomizableCheckboxOption' | 'CustomizableDateOption' | 'CustomizableDropDownOption'
+| 'CustomizableFieldOption' | 'CustomizableFileOption' | 'CustomizableMultipleOption' | 'CustomizableRadioOption'
+| 'checkboxValues' | 'dropdownValues' | 'fieldValues' | 'areaValues' | 'fileValues'
+>;
+
+export type IndexedCustomOptionValue = CustomizableSelectionValue
+| CustomizableFieldValue
+| CustomizableFileValue;
+
+export type IndexedCustomOption = Merge<
+CleanCustomizableProductFragmentOptions,
 {
-    value: CustomizableSelectionValue[]
-    | CustomizableFieldValue[]
-    | CustomizableFieldValue[]
-    | CustomizableFileValue[]
-    | Omit<
-    CustomizableProductFragmentOptions,
-    'checkboxValues' | 'dropdownValues' | 'fieldValues' | 'areaValues' | 'fileValues'
-    >;
-}>;
+    value: IndexedCustomOptionValue[] | CleanCustomizableProductFragmentOptions;
+}
+>;
 
 export type ReviewSummary = {
     rating_summary: number;
@@ -87,6 +92,8 @@ export type IndexedBaseProduct<T> = Merge<T, {
 }>;
 
 export type IndexedProduct = IndexedBaseProduct<Partial<ProductItem>>;
+
+export type IndexedWishlistProduct = IndexedBaseProduct<Partial<WishlistProduct>>;
 
 export type IndexedBundleOption = Merge<BundleOption, {
     regularOptionPrice: number;
@@ -190,3 +197,35 @@ export interface TransformedBundleOption {
 }
 
 export type RatingVote = RatingsBreakdown & { percent: number };
+
+export interface NoneRadioOption {
+    title: string;
+    label: string;
+    uid: string;
+    price: number;
+    finalOptionPrice: number;
+    can_change_quantity: boolean;
+    priceInclTax: number;
+    is_default: boolean;
+}
+
+export interface TransformedCustomizableOptions {
+    id: string;
+    name: string;
+    value: string;
+    label?: string;
+    subLabel: string;
+    sort_order: number;
+}
+
+export type GetYearRangeAttributes<IsYear extends boolean = false> = IsYear extends true
+    ? YearRangeAttribute
+    : DateRangeAttribute;
+
+export interface StockCheckProduct {
+    type_id: string;
+    stock_status: GQLProductStockStatus;
+    stock_item?: ProductStockItem;
+    items?: Partial<StockCheckProduct>[];
+    variants?: Partial<StockCheckProduct>[];
+}

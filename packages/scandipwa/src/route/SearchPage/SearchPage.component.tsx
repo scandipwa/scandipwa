@@ -13,10 +13,15 @@ import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
 import { ReactElement } from 'Type/Common.type';
 import { decodeString } from 'Util/Common';
 
+import { SearchPageComponentProps, SearchPageComponentState } from './SearchPage.type';
+
 import './SearchPage.style';
 
 /** @namespace Route/SearchPage/Component */
-export class SearchPage extends CategoryPage {
+export class SearchPage extends CategoryPage<
+SearchPageComponentProps,
+SearchPageComponentState
+> {
     renderSearchHeading(): ReactElement {
         const { search } = this.props;
 

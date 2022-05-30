@@ -9,30 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
 import { ReactElement } from 'Type/Common.type';
 
-import { OptionsListType } from 'Type/ProductList.type';
-
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
+import {
+    ProductCustomizableOptionsComponentProps,
+    ProductCustomizableOptionsContainerProps
+} from './ProductCustomizableOptions.type';
 
 /**
  * Product Customizable Options
  * @class ProductCustomizableOptionsContainer
  * @namespace Component/ProductCustomizableOptions/Container
  */
-export class ProductCustomizableOptionsContainer extends PureComponent {
-    static propTypes = {
-        options: OptionsListType,
-        updateSelectedValues: PropTypes.func.isRequired
-    };
-
+export class ProductCustomizableOptionsContainer extends PureComponent<ProductCustomizableOptionsContainerProps> {
     static defaultProps = {
         options: []
     };
 
-    containerProps() {
+    containerProps(): ProductCustomizableOptionsComponentProps {
         const { options, updateSelectedValues } = this.props;
 
         return {
@@ -44,7 +41,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
     render(): ReactElement {
         return (
             <ProductCustomizableOptions
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

@@ -9,15 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { ProductType } from 'Type/ProductList.type';
+import { ReactElement, Url } from 'Type/Common.type';
+import { IndexedAttributeWithValue } from 'Util/Product/Product.type';
 
 import SearchItem from './SearchItem.component';
+import {
+    SearchItemComponentContainerPropKeys,
+    SearchItemComponentProps,
+    SearchItemContainerMapDispatchProps,
+    SearchItemContainerMapStateProps,
+    SearchItemContainerProps
+} from './SearchItem.type';
 
 export const SearchBarDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -25,25 +32,20 @@ export const SearchBarDispatcher = import(
 );
 
 /** @namespace Component/SearchItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): SearchItemContainerMapDispatchProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
 /** @namespace Component/SearchItem/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (): SearchItemContainerMapStateProps => ({});
 
 /** @namespace Component/SearchItem/Container */
-export class SearchItemContainer extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired
-    };
-
+export class SearchItemContainer extends PureComponent<SearchItemContainerProps> {
     containerFunctions = {
         onClick: this.handleItemClick.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<SearchItemComponentProps, SearchItemComponentContainerPropKeys> {
         const { product } = this.props;
 
         return {
@@ -54,20 +56,20 @@ export class SearchItemContainer extends PureComponent {
         };
     }
 
-    handleItemClick() {
+    handleItemClick(): void {
         const { hideActiveOverlay } = this.props;
 
         hideActiveOverlay();
     }
 
-    getLinkTo() {
+    getLinkTo(): Url {
         const {
             product,
             product: { url }
         } = this.props;
 
         if (!url) {
-            return {};
+            return { pathname: '' };
         }
 
         return {
@@ -76,19 +78,19 @@ export class SearchItemContainer extends PureComponent {
         };
     }
 
-    getImgSrc() {
+    getImgSrc(): string {
         const {
             product: {
-                thumbnail: { url } = {}
+                thumbnail: { url = '' } = {}
             }
         } = this.props;
 
         return url;
     }
 
-    getCustomAttribute() {
+    getCustomAttribute(): IndexedAttributeWithValue | null {
         const { product: { sku } } = this.props;
-        const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration;
+        const { product_list_content: { attribute_to_display = null } = {} } = window.contentConfiguration || {};
         const { product: { attributes = {} } } = this.props;
         const attribute = attributes[ attribute_to_display || 'brand' ];
 
@@ -102,8 +104,8 @@ export class SearchItemContainer extends PureComponent {
     render(): ReactElement {
         return (
             <SearchItem
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

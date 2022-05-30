@@ -13,37 +13,36 @@ import 'intersection-observer';
 import { PureComponent } from 'react';
 import { InView } from 'react-intersection-observer';
 
-import { ChildrenType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
+
+import { RenderWhenVisibleComponentProps } from './RenderWhenVisible.type';
 
 import './RenderWhenVisible.style';
 
 /** @namespace Component/RenderWhenVisible/Component */
-export class RenderWhenVisible extends PureComponent {
-    static propTypes = {
-        children: ChildrenType.isRequired,
-        fallback: PropTypes.func
-    };
-
-    static defaultProps = {
+export class RenderWhenVisible extends PureComponent<RenderWhenVisibleComponentProps> {
+    static defaultProps: Partial<RenderWhenVisibleComponentProps> = {
         fallback: noopFn
     };
+
+    node: HTMLElement | null = null;
 
     state = {
         wasVisible: false
     };
 
-    handleVisibilityToggle = this.handleVisibilityToggle.bind(this);
+    __construct(props: RenderWhenVisibleComponentProps): void {
+        super.__construct?.(props);
 
-    __construct(props): void {
-        super.__construct(props);
+        this.handleVisibilityToggle = this.handleVisibilityToggle.bind(this);
 
         // a hack to determine if the element is on screen or not immediately
         setTimeout(this.checkIsVisible, 0);
     }
 
-    checkIsVisible() {
+    checkIsVisible(): void {
         if (!this.node) {
             return;
         }
@@ -56,13 +55,13 @@ export class RenderWhenVisible extends PureComponent {
         }
     }
 
-    shouldrender(): ReactElement {
+    shouldRender(): boolean {
         const { wasVisible } = this.state;
 
         return !wasVisible && !isSSR() && !isCrawler();
     }
 
-    handleVisibilityToggle(isVisible) {
+    handleVisibilityToggle(isVisible: boolean): void {
         const { wasVisible } = this.state;
 
         if (!wasVisible && isVisible) {

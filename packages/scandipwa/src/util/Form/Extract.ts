@@ -16,11 +16,11 @@ import {
     FieldDateType,
     TimeFormat
 } from 'Component/FieldDate/FieldDate.config';
+import { GetYearRangeAttributes } from 'Util/Product/Product.type';
 
 import {
     DateMap,
     DateObject,
-    DateRangeAttribute,
     DatesData,
     FieldData,
     GetFieldsData,
@@ -35,8 +35,8 @@ import {
  * @namespace Util/Form/Extract/zeroBasedValue
  */
 // eslint-disable-next-line no-magic-numbers
-export const zeroBasedValue = <T>(value: T, lessThan = 10): string | T => (
-    (+value < lessThan) ? `0${value}` : value
+export const zeroBasedValue = (value: number, lessThan = 10): string => (
+    (+value < lessThan) ? `0${value}` : String(value)
 );
 
 /** @namespace Util/Form/Extract/adjustHours */
@@ -95,16 +95,18 @@ export const calcYearRangeAttributes = (startYear: number, endYear: number): Yea
 };
 
 /** @namespace Util/Form/Extract/getYearRangeAttributes */
-export const getYearRangeAttributes = (yearRange = ',', isYear = false): YearRangeAttribute | DateRangeAttribute => {
-    const [startYear, endYear] = yearRange.split(',');
+export const getYearRangeAttributes = <IsYear extends boolean = false>(
+    yearRange: string | undefined, isYear: IsYear
+): GetYearRangeAttributes<IsYear> => {
+    const [startYear, endYear] = (yearRange || ',').split(',');
 
     const { minYear, maxYear } = calcYearRangeAttributes(Number(startYear), Number(endYear));
 
     if (isYear) {
-        return { minYear, maxYear };
+        return <GetYearRangeAttributes<IsYear>>{ minYear, maxYear };
     }
 
-    return {
+    return <GetYearRangeAttributes<IsYear>>{
         minDate: new Date(`${minYear}-01-01T00:00:00.000`),
         maxDate: new Date(`${maxYear}-12-31T23:59:59.999`)
     };

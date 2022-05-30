@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { FormFields } from 'Component/Form/Form.type';
 import { ContactFormDispatcherOptions } from 'Store/ContactForm/ContactForm.type';
-import { FieldData } from 'Util/Form/Form.type';
 
 export interface ContactFormContainerMapStateProps {
     isLoading: boolean;
@@ -20,10 +20,16 @@ export interface ContactFormContainerMapDispatchProps {
     sendMessage: (data: ContactFormDispatcherOptions) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ContactFormContainerBaseProps {}
+
 export type ContactFormContainerProps = ContactFormContainerMapStateProps
-& ContactFormContainerMapDispatchProps;
+& ContactFormContainerMapDispatchProps
+& ContactFormContainerBaseProps;
 
 export interface ContactFormComponentProps {
     isLoading: boolean;
-    onFormSubmit: (form: HTMLFormElement, fields: FieldData[]) => void;
+    onFormSubmit: (form: HTMLFormElement, fields: FormFields) => void;
 }
+
+export type ContactFormComponentContainerPropKeys = 'isLoading';

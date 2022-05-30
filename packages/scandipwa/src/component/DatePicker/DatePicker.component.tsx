@@ -11,43 +11,40 @@
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { forwardRef, PureComponent } from 'react';
+import {
+    ForwardedRef,
+    forwardRef,
+    MouseEvent,
+    PureComponent
+} from 'react';
 import DatePicker from 'react-datepicker';
 
 import { FieldType } from 'Component/Field/Field.config';
-import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
+import { ReactElement } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
+
+import { DatePickerComponentPlaceholderMap, DatePickerComponentProps } from './DatePicker.type';
 
 import './DatePicker.style.scss';
 
 /** @namespace Component/DatePicker/Component */
-export class DatePickerComponent extends PureComponent {
-    static propTypes = {
-        selectedDate: PropTypes.instanceOf(Date).isRequired,
-        type: PropTypes.shape(PropTypes.oneOf(Object.values(FIELD_DATE_TYPE))).isRequired,
-        onSetDate: PropTypes.func.isRequired,
-        showTimeSelect: PropTypes.bool.isRequired,
-        showTimeSelectOnly: PropTypes.bool.isRequired,
-        minDate: PropTypes.instanceOf(Date).isRequired,
-        maxDate: PropTypes.instanceOf(Date).isRequired,
-        dateFormat: PropTypes.string.isRequired,
-        timeFormat: PropTypes.string.isRequired,
-        uid: PropTypes.string.isRequired,
-        isClearable: PropTypes.bool.isRequired
-    };
-
-    placeholderMap = {
+export class DatePickerComponent extends PureComponent<DatePickerComponentProps> {
+    placeholderMap: DatePickerComponentPlaceholderMap = {
         [FieldType.DATE]: __('Select date'),
         [FieldType.DATETIME]: __('Select date & time'),
         [FieldType.TIME]: __('Select time')
     };
 
-    getPlaceholder() {
+    getPlaceholder(): string {
         const { type } = this.props;
 
-        return this.placeholderMap[type] || '';
+        return this.placeholderMap[type as unknown as keyof DatePickerComponentPlaceholderMap] || '';
     }
 
-    renderCustomInput({ value, onClick }, ref): ReactElement {
+    renderCustomInput({ value, onClick }: {
+        value: string;
+        onClick: (e: MouseEvent) => void;
+    }, ref: ForwardedRef<HTMLInputElement>): JSX.Element {
         const { selectedDate, uid } = this.props;
 
         return (
@@ -93,7 +90,7 @@ export class DatePickerComponent extends PureComponent {
               minDate={ minDate }
               maxDate={ maxDate }
               isClearable={ isClearable }
-              customInput={ <DateInput /> }
+              customInput={ <DateInput value="" onClick={ noopFn } /> }
             />
         );
     }

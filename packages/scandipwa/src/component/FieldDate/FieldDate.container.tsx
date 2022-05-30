@@ -9,39 +9,36 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import DatePicker from 'Component/DatePicker';
 import DateSelect from 'Component/DateSelect';
 import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
-import { FIELD_DATE_TYPE } from './FieldDate.config';
+import {
+    FieldDateComponentProps,
+    FieldDateContainerMapDispatchProps,
+    FieldDateContainerMapStateProps,
+    FieldDateContainerProps
+} from './FieldDate.type';
 
 /** @namespace Component/FieldDate/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): FieldDateContainerMapStateProps => ({
     useCalendar: !!+state.ConfigReducer.use_calendar
 });
 
 /** @namespace Component/FieldDate/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): FieldDateContainerMapDispatchProps => ({});
 
 /** @namespace Component/FieldDate/Container */
-export class FieldDateContainer extends PureComponent {
-    static propTypes = {
-        type: PropTypes.oneOf(Object.values(FIELD_DATE_TYPE)).isRequired,
-        uid: PropTypes.string.isRequired,
-        isRequired: PropTypes.bool,
-        updateSelectedValues: PropTypes.func.isRequired,
-        useCalendar: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
+export class FieldDateContainer extends PureComponent<FieldDateContainerProps> {
+    static defaultProps: Partial<FieldDateContainerProps> = {
         isRequired: false
     };
 
-    containerProps() {
+    containerProps(): FieldDateComponentProps {
         const {
             type,
             uid,

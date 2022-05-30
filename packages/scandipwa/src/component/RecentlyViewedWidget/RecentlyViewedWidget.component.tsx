@@ -12,6 +12,7 @@
 import React, { Component } from 'react';
 
 import ProductCard from 'Component/ProductCard';
+import { RecentlyViewedProductItem } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.type';
 import { ReactElement } from 'Type/Common.type';
 
 import { RecentlyViewedWidgetComponentProps } from './RecentlyViewedWidget.type';
@@ -36,7 +37,7 @@ export class RecentlyViewedWidget extends Component<RecentlyViewedWidgetComponen
         return products !== nextProducts || pageSize !== nextPageSize;
     }
 
-    renderProducts(products): ReactElement {
+    renderProducts(products: RecentlyViewedProductItem[]): ReactElement {
         const { pageSize } = this.props;
 
         return (
@@ -46,38 +47,46 @@ export class RecentlyViewedWidget extends Component<RecentlyViewedWidgetComponen
         );
     }
 
-    renderProductCard(product): ReactElement {
+    renderProductCard(product: RecentlyViewedProductItem): ReactElement {
+        // const {
+        //     productCardProps: {
+        //         siblingsHaveBrands,
+        //         siblingsHavePriceBadge,
+        //         siblingsHaveTierPrice,
+        //         siblingsHaveConfigurableOptions
+        //     },
+        //     productCardFunctions: {
+        //         setSiblingsHaveBrands,
+        //         setSiblingsHavePriceBadge,
+        //         setSiblingsHaveTierPrice,
+        //         setSiblingsHaveConfigurableOptions
+        //     },
+        //     isLoading
+        // } = this.props;
+
         const {
-            productCardProps: {
-                siblingsHaveBrands,
-                siblingsHavePriceBadge,
-                siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions
-            },
-            productCardFunctions: {
-                setSiblingsHaveBrands,
-                setSiblingsHavePriceBadge,
-                setSiblingsHaveTierPrice,
-                setSiblingsHaveConfigurableOptions
-            },
-            isLoading
-        } = this.props;
-        const { id, selectedFilters } = product;
+            id,
+            // !FIXME: Possible obsolete code. selectedFilters is always undefined and doesn't exist in type.
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            selectedFilters
+        } = product;
 
         return (
             <ProductCard
               selectedFilters={ selectedFilters }
               product={ product }
               key={ id }
-              isPreview={ isLoading }
-              siblingsHaveBrands={ siblingsHaveBrands }
-              siblingsHavePriceBadge={ siblingsHavePriceBadge }
-              siblingsHaveTierPrice={ siblingsHaveTierPrice }
-              siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
-              setSiblingsHaveBrands={ setSiblingsHaveBrands }
-              setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
-              setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
-              setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
+            // !FIXME: Possible obsolete code. We should check it and remove if unused.
+            //   isPreview={ isLoading }
+            //   siblingsHaveBrands={ siblingsHaveBrands }
+            //   siblingsHavePriceBadge={ siblingsHavePriceBadge }
+            //   siblingsHaveTierPrice={ siblingsHaveTierPrice }
+            //   siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
+            //   setSiblingsHaveBrands={ setSiblingsHaveBrands }
+            //   setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
+            //   setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
+            //   setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }

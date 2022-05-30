@@ -9,34 +9,40 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { match as Match } from 'react-router';
+
 import {
     MyAccountMyWishlistComponentProps,
+    MyAccountMyWishlistContainerBaseProps,
+    MyAccountMyWishlistContainerMapDispatchProps,
+    MyAccountMyWishlistContainerMapStateProps,
     MyAccountMyWishlistContainerState
 } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.type';
 import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface WishlistSharedPageContainerMapStateProps {}
+export interface WishlistSharedPageContainerMapStateProps extends MyAccountMyWishlistContainerMapStateProps {}
 
-export interface WishlistSharedPageContainerMapDispatchProps {
-    clearWishlist: () => void;
-    moveWishlistToCart: (sharingCode?: string) => Promise<void>;
-    showNotification: (message: string) => void;
-    showError:(message: string) => void;
+export interface WishlistSharedPageContainerMapDispatchProps extends MyAccountMyWishlistContainerMapDispatchProps {
     showNoMatch: () => void;
     updateBreadcrumbs: (breadcrumbs: Breadcrumb[]) => void;
+}
+
+export interface WishlistSharedPageContainerBaseProps extends MyAccountMyWishlistContainerBaseProps {
+    code: string;
+    match: Match;
 }
 
 export type WishlistSharedPageContainerProps =
 WishlistSharedPageContainerMapDispatchProps
 & WishlistSharedPageContainerMapStateProps
-& { code: string };
+& WishlistSharedPageContainerBaseProps;
 
 export interface WishlistSharedPageContainerState extends MyAccountMyWishlistContainerState {
     creatorsName: string;
     wishlistItems: Record<string, never>;
     isWishlistLoading: boolean;
-    isLoading: boolean;
 }
 
-export type WishlistSharedPageComponentProps = MyAccountMyWishlistComponentProps;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface WishlistSharedPageComponentProps extends MyAccountMyWishlistComponentProps {}

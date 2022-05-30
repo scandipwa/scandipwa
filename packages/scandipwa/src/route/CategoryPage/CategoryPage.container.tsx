@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -125,8 +125,11 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
 });
 
 /** @namespace Route/CategoryPage/Container */
-export class CategoryPageContainer extends PureComponent<CategoryPageContainerProps, CategoryPageContainerState> {
-    static defaultProps = {
+export class CategoryPageContainer<
+P extends CategoryPageContainerProps = CategoryPageContainerProps,
+S extends CategoryPageContainerState = CategoryPageContainerState
+> extends PureComponent<P, S> {
+    static defaultProps: Partial<CategoryPageContainerProps> = {
         categoryIds: -1,
         isSearchPage: false,
         currentArgs: {},
@@ -154,7 +157,7 @@ export class CategoryPageContainer extends PureComponent<CategoryPageContainerPr
         onListButtonClick: this.onListButtonClick.bind(this)
     };
 
-    __construct(props: CategoryPageContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
@@ -721,4 +724,8 @@ export class CategoryPageContainer extends PureComponent<CategoryPageContainerPr
 
 export default withReducers({
     CategoryReducer
-})(connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer));
+})(
+    connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer as unknown as ComponentType<
+    CategoryPageContainerProps
+    >)
+);

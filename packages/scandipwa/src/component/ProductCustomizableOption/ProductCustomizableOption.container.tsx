@@ -9,70 +9,75 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { FieldType } from 'Component/Field/Field.config';
+import { CustomizableSelectionValue } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
-import { CustomizableOptionsType } from 'Type/ProductList.type';
 import { sortBySortOrder } from 'Util/Product';
+import { IndexedCustomOptionValue } from 'Util/Product/Product.type';
 import { customizableOptionsToSelectTransform, nonRequiredRadioOptions } from 'Util/Product/Transform';
+import { RootState } from 'Util/Store/Store.type';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
-import { CONFIG_FieldType } from './ProductCustomizableOption.config';
+import { ConfigFieldType } from './ProductCustomizableOption.config';
+import {
+    CustomFieldValue,
+    ProductCustomizableOptionComponentContainerPropKeys,
+    ProductCustomizableOptionComponentProps,
+    ProductCustomizableOptionContainerMapDispatchProps,
+    ProductCustomizableOptionContainerMapStateProps,
+    ProductCustomizableOptionContainerProps
+} from './ProductCustomizableOption.type';
 
 /** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): ProductCustomizableOptionContainerMapStateProps => ({
     currencyCode: state.ConfigReducer.currencyData.current_currency_code
 });
 
 /** @namespace Component/ProductCustomizableOption/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): ProductCustomizableOptionContainerMapDispatchProps => ({});
 
 /**
  * Product Customizable Option
  * @class ProductCustomizableOptionContainer
  * @namespace Component/ProductCustomizableOption/Container
  */
-export class ProductCustomizableOptionContainer extends PureComponent {
-    static propTypes = {
-        uid: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        isRequired: PropTypes.bool.isRequired,
-        type: PropTypes.string.isRequired,
-        options: CustomizableOptionsType,
-        updateSelectedValues: PropTypes.func.isRequired,
-        currencyCode: PropTypes.string.isRequired
-    };
-
-    static defaultProps = {
+export class ProductCustomizableOptionContainer extends PureComponent<ProductCustomizableOptionContainerProps> {
+    static defaultProps: Partial<ProductCustomizableOptionContainerProps> = {
         options: []
     };
 
     containerFunctions = {
-        getDropdownOptions: this.getDropdownOptions.bind(this)
+        getDropdownOptions: this.getDropdownOptions.bind(this),
+        updateSelectedValues: this.updateSelectedValues.bind(this)
     };
 
-    getFieldType() {
+    getFieldType(): FieldType {
         const { type } = this.props;
-        const typeKey = Object.keys(CONFIG_FieldType).find((key) => CONFIG_FieldType[ key ] === type);
+        const typeKey = Object.keys(ConfigFieldType).find(
+            (key) => ConfigFieldType[ key as keyof typeof ConfigFieldType ] === type
+        ) || '';
 
-        return FieldType[ typeKey ];
+        return FieldType[ typeKey as keyof typeof FieldType ];
     }
 
-    getDropdownOptions() {
+    getDropdownOptions(): IndexedCustomOptionValue[] | null {
         const { options, currencyCode, type } = this.props;
 
-        if (type !== CONFIG_FieldType.SELECT) {
+        if (type !== ConfigFieldType.SELECT) {
             return null;
         }
 
-        return sortBySortOrder(customizableOptionsToSelectTransform(options, currencyCode));
+        return sortBySortOrder(customizableOptionsToSelectTransform(
+            options as CustomizableSelectionValue[],
+            currencyCode
+        )) as unknown as IndexedCustomOptionValue[];
     }
 
-    getSortedOptions() {
-        const { options = {} } = this.props;
+    getSortedOptions(): CustomFieldValue[] {
+        const { options = [] as CustomFieldValue[] } = this.props;
 
         if (!Array.isArray(options)) {
             return options;
@@ -81,13 +86,21 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return sortBySortOrder(options);
     }
 
-    containerProps() {
+    updateSelectedValues(): void {
+        const { updateSelectedValues } = this.props;
+
+        updateSelectedValues();
+    }
+
+    containerProps(): Pick<
+    ProductCustomizableOptionComponentProps,
+    ProductCustomizableOptionComponentContainerPropKeys
+    > {
         const {
             uid,
             title,
             isRequired,
             type,
-            updateSelectedValues,
             currencyCode
         } = this.props;
 
@@ -97,7 +110,6 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             isRequired,
             type,
             options: nonRequiredRadioOptions(this.getSortedOptions(), isRequired, type),
-            updateSelectedValues,
             currencyCode,
             fieldType: this.getFieldType()
         };

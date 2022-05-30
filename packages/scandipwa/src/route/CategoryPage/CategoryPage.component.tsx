@@ -44,18 +44,21 @@ export const CategoryFilterOverlay = lazy(() => import(
 ));
 
 /** @namespace Route/CategoryPage/Component */
-export class CategoryPage extends PureComponent<CategoryPageComponentProps, CategoryPageComponentState> {
-    static defaultProps = {
+export class CategoryPage<
+P extends CategoryPageComponentProps = CategoryPageComponentProps,
+S extends CategoryPageComponentState = CategoryPageComponentState
+> extends PureComponent<P, S> {
+    static defaultProps: Partial<CategoryPageComponentProps> = {
         isContentFiltered: true,
         isMatchingListFilter: false,
         isCurrentCategoryLoaded: false,
         isMatchingInfoFilter: false,
         totalPages: 1,
-        defaultPlpType: '',
+        defaultPlpType: undefined,
         plpTypes: [],
         search: '',
         appliedFiltersCount: 0,
-        selectedLayoutType: ''
+        selectedLayoutType: undefined
     };
 
     state: CategoryPageComponentState = {

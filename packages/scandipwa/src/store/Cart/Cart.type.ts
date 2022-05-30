@@ -91,6 +91,6 @@ Partial<QuoteData>,
 >;
 
 export interface AddProductToCartOptions {
-    cartId: string;
+    cartId?: string;
     products: GQLCartItemInput[];
 }

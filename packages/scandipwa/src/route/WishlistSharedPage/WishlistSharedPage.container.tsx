@@ -12,17 +12,20 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
+import {
+    mapDispatchToProps as sourceMapDispatchToProps,
+    mapStateToProps as sourceMapStateToProps,
+    MyAccountMyWishlistContainer
+} from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
 import WishlistQuery from 'Query/Wishlist.query';
 import { Wishlist } from 'Query/Wishlist.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { getIndexedProduct } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
 import { executeGet, getErrorMessage } from 'Util/Request';
 import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { RootState } from 'Util/Store/Store.type';
 
 import WishlistShared from './WishlistSharedPage.component';
 import {
@@ -41,16 +44,14 @@ export const WishlistDispatcher = import(
     'Store/Wishlist/Wishlist.dispatcher'
 );
 
+/** @namespace Route/WishlistSharedPage/Container/mapStateToProps */
+export const mapStateToProps = (state: RootState): WishlistSharedPageContainerMapStateProps => ({
+    ...sourceMapStateToProps(state)
+});
+
 /** @namespace Route/WishlistSharedPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): WishlistSharedPageContainerMapDispatchProps => ({
-    clearWishlist: () => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)
-    ),
-    moveWishlistToCart: (sharingCode) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch, sharingCode)
-    ),
-    showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
-    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
+    ...sourceMapDispatchToProps(dispatch),
     showNoMatch: () => dispatch(updateNoMatch(true)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
@@ -62,11 +63,15 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer<
 WishlistSharedPageContainerProps,
 WishlistSharedPageContainerState
 > {
-    state: WishlistSharedPageState = {
+    static defaultProps: Partial<WishlistSharedPageContainerProps> = MyAccountMyWishlistContainer.defaultProps;
+
+    state: WishlistSharedPageContainerState = {
         creatorsName: '',
         wishlistItems: {},
         isWishlistLoading: true,
-        isLoading: false
+        isLoading: false,
+        loadingItemsMap: {},
+        isQtyUpdateInProgress: false
     };
 
     componentDidMount(): void {
@@ -74,7 +79,8 @@ WishlistSharedPageContainerState
     }
 
     componentDidUpdate(prevProps: WishlistSharedPageContainerProps): void {
-        const { match: { params: { code } } } = prevProps;
+        const { match: { params = {} } } = prevProps;
+        const { code } = params as Record<string, string>;
 
         if (this.getCode() !== code) {
             this.requestWishlist();
@@ -170,7 +176,8 @@ WishlistSharedPageContainerState
     }
 
     getCode(): string {
-        const { match: { params: { code } } } = this.props;
+        const { match: { params = {} } } = this.props;
+        const { code } = params as Record<string, string>;
 
         return code;
     }
@@ -184,8 +191,5 @@ WishlistSharedPageContainerState
         );
     }
 }
-
-/** @namespace Route/WishlistSharedPage/Container/mapStateToProps */
-export const mapStateToProps = (): WishlistSharedPageContainerMapStateProps => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishlistSharedPageContainer);

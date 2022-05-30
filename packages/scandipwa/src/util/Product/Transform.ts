@@ -14,7 +14,8 @@ import { FieldType } from 'Component/Field/Field.config';
 import { ProductType } from 'Component/Product/Product.config';
 import { ProductOption } from 'Component/Product/Product.type';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
-import { AttributeWithValue, GroupedProductItem } from 'Query/ProductList.type';
+import { CustomizableSelectionValue, GroupedProductItem } from 'Query/ProductList.type';
+import { Merge } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { decodeBase64, encodeBase64 } from 'Util/Base64';
 import { formatPrice } from 'Util/Price';
@@ -25,11 +26,15 @@ import {
     BuyRequestBundleOptions,
     BuyRequestCustomizableOptions,
     BuyRequestDownloadableOptions,
+    IndexedAttributeWithValue,
     IndexedBundleOption,
+    IndexedCustomOptionValue,
     IndexedProduct,
+    NoneRadioOption,
     PriceLabels,
     ProductTransformData,
-    TransformedBundleOption
+    TransformedBundleOption,
+    TransformedCustomizableOptions
 } from './Product.type';
 
 export const PRICE_TYPE_PERCENT = 'PERCENT';
@@ -156,7 +161,7 @@ export const getSelectedOptions = (buyRequest: string): string[] => [
 /** @namespace Util/Product/Transform/transformParameters */
 export const transformParameters = (
     parameters: Record<string, string>,
-    attributes: Record<string, AttributeWithValue>
+    attributes: Record<string, IndexedAttributeWithValue>
 ): string[] => Object.entries(parameters)
     .map(([attrCode, selectedValue]) => {
         const attrId = attributes[attrCode]?.attribute_id;
@@ -276,14 +281,13 @@ export const customizableOptionToLabel = (option: CustomizableOption, currencyCo
  * @namespace Util/Product/Transform/customizableOptionsToSelectTransform
  */
 export const customizableOptionsToSelectTransform = (
-    options,
+    options: CustomizableSelectionValue[],
     currencyCode = GQLCurrencyEnum.USD
-) => (
-    options.reduce((result = [], option) => {
+): TransformedCustomizableOptions[] => (
+    options.reduce((result: TransformedCustomizableOptions[] = [], option) => {
         const {
             uid,
             title,
-            position,
             sort_order = 0
         } = option;
 
@@ -298,7 +302,7 @@ export const customizableOptionsToSelectTransform = (
             value: uid,
             label: baseLabel,
             subLabel: priceLabel,
-            sort_order: position || sort_order
+            sort_order
         });
 
         return result;
@@ -367,23 +371,23 @@ export const magentoProductTransform = (
  * @returns {[{uid: string, price: number, priceInclTax: number, title: *, is_default: boolean},...*]|*}
  * @namespace Util/Product/Transform/nonRequiredRadioOptions
  */
-export const nonRequiredRadioOptions = (
-    options: IndexedBundleOption[],
+export const nonRequiredRadioOptions = <T>(
+    options: T | T[],
     isRequired = false,
     type: string = FieldType.RADIO
-): Partial<IndexedBundleOption>[] => {
+): T | Array<T | NoneRadioOption> => {
     if (isRequired || type !== FieldType.RADIO) {
         return options;
     }
 
-    const hasDefault = options.find(({ is_default }) => is_default);
+    const hasDefault = (options as Array<{ is_default?: boolean }>).find(({ is_default }) => is_default);
 
     return [
         {
             ...NONE_RADIO_OPTION,
             is_default: !hasDefault
         },
-        ...options
+        ...(options as T[])
     ];
 };
 

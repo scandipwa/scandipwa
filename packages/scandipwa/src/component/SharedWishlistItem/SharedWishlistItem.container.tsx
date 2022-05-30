@@ -10,11 +10,25 @@
  */
 
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { WishlistItemContainer } from 'Component/WishlistItem/WishlistItem.container';
-import { showNotification } from 'Store/Notification/Notification.action';
+import {
+    mapDispatchToProps as sourceMapDispatchToProps,
+    mapStateToProps as sourceMapStateToProps,
+    WishlistItemContainer
+} from 'Component/WishlistItem/WishlistItem.container';
+import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import SharedWishlistItem from './SharedWishlistItem.component';
+import {
+    SharedWishlistItemComponentContainerPropKeys,
+    SharedWishlistItemComponentProps,
+    SharedWishlistItemContainerMapDispatchProps,
+    SharedWishlistItemContainerMapStateProps,
+    SharedWishlistItemContainerProps,
+    SharedWishlistItemContainerState
+} from './SharedWishlistItem.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -22,29 +36,33 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/SharedWishlistItem/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state: RootState): SharedWishlistItemContainerMapStateProps => ({
+    ...sourceMapStateToProps(state)
+});
 
 /** @namespace Component/SharedWishlistItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
-    )
+export const mapDispatchToProps = (dispatch: Dispatch): SharedWishlistItemContainerMapDispatchProps => ({
+    ...sourceMapDispatchToProps(dispatch)
 });
 
 /** @namespace Component/SharedWishlistItem/Container */
-export class SharedWishlistItemContainer extends WishlistItemContainer {
-    state = {
+export class SharedWishlistItemContainer extends WishlistItemContainer<
+SharedWishlistItemContainerProps,
+SharedWishlistItemContainerState
+> {
+    state: SharedWishlistItemContainerState = {
+        isLoading: false,
+        currentQty: 0,
         quantity: 1
     };
 
-    _getConfigurableVariantIndex() {
-        const { product: { wishlist: { sku }, variants } } = this.props;
+    _getConfigurableVariantIndex(): number {
+        const { product: { wishlist: { sku = '' } = {}, variants = [] } } = this.props;
 
-        return +this.getConfigurableVariantIndex(sku, variants);
+        return +(this.getConfigurableVariantIndex(sku, variants) || 0);
     }
 
-    containerProps() {
+    containerProps(): Pick<SharedWishlistItemComponentProps, SharedWishlistItemComponentContainerPropKeys> {
         const {
             handleSelectIdChange,
             isEditingActive,
@@ -52,9 +70,10 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
             isRemoving,
             product
         } = this.props;
-        const { isLoading } = this.state;
+        const { isLoading, quantity } = this.state;
 
         return {
+            ...super.containerProps(),
             changeQuantity: this.changeQuantity,
             changeDescription: this.changeDescription,
             configurableVariantIndex: this._getConfigurableVariantIndex(),
@@ -64,19 +83,20 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
             isEditingActive,
             isMobile,
             isRemoving,
-            product
+            product,
+            quantity
         };
     }
 
-    changeQuantity(quantity) {
+    changeQuantity = (() => (quantity: number): void => {
         this.setState({ quantity });
-    }
+    })();
 
     render(): ReactElement {
         return (
             <SharedWishlistItem
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

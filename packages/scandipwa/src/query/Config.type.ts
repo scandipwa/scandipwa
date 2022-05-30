@@ -11,7 +11,7 @@
 
 import { Field } from '@tilework/opus';
 
-import { GQLCheckoutAgreementMode } from 'Type/Graphql.type';
+import { GQLCheckoutAgreementMode, GQLCurrencyEnum } from 'Type/Graphql.type';
 
 export interface PriceTaxDisplay {
     product_price_display_type: string;
@@ -164,7 +164,7 @@ export interface Currency {
 
 export interface CurrencyConfig {
     available_currencies_data: Currency[];
-    current_currency_code: string;
+    current_currency_code: GQLCurrencyEnum;
 }
 
 export interface CheckoutAgreement {

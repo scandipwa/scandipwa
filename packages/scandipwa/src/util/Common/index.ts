@@ -19,6 +19,9 @@
  */
 export const noopFn = (): void => {};
 
+/** @namespace Util/Common/Index/noopFnAsync */
+export const noopFnAsync = async (): Promise<void> => {};
+
 /** @namespace Util/Common/Index/decodeString */
 export const decodeString = (string: string): string => {
     try {

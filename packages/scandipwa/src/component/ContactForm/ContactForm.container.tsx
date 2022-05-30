@@ -9,17 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { FormFields } from 'Component/Form/Form.type';
 import { ReactElement } from 'Type/Common.type';
-import { FieldData, FieldValue } from 'Util/Form/Form.type';
+import { FieldValue } from 'Util/Form/Form.type';
 import { RootState } from 'Util/Store/Store.type';
 
 import ContactForm from './ContactForm.component';
 import {
+    ContactFormComponentContainerPropKeys,
     ContactFormComponentProps,
     ContactFormContainerMapDispatchProps,
     ContactFormContainerMapStateProps,
@@ -45,26 +46,24 @@ export const mapDispatchToProps = (dispatch: Dispatch): ContactFormContainerMapD
 
 /** @namespace Component/ContactForm/Container */
 export class ContactFormContainer extends PureComponent<ContactFormContainerProps> {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        sendMessage: PropTypes.func.isRequired
-    };
-
     containerFunctions = {
         onFormSubmit: this.onFormSubmit.bind(this)
     };
 
-    onFormSubmit(form: HTMLFormElement, fields: FieldData[]): void {
+    onFormSubmit(form: HTMLFormElement, fields: FormFields): void {
         const { sendMessage } = this.props;
         const filteredFields: Record<string, FieldValue> = {};
-        fields.forEach(({ name, value }) => {
-            filteredFields[ name ] = value;
-        });
+
+        if (Array.isArray(fields)) {
+            fields.forEach(({ name, value }) => {
+                filteredFields[ name ] = value;
+            });
+        }
 
         sendMessage({ form, fields: filteredFields });
     }
 
-    containerProps(): Pick<ContactFormComponentProps, 'isLoading'> {
+    containerProps(): Pick<ContactFormComponentProps, ContactFormComponentContainerPropKeys> {
         const { isLoading } = this.props;
 
         return { isLoading };

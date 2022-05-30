@@ -9,39 +9,41 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import DateSelect from 'Component/DateSelect/DateSelect.component';
-import { AMPM_FORMAT, DEFAULT_MONTH_DAYS, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
-import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
+import { AMPM_FORMAT, DEFAULT_MONTH_DAYS, HourFormat } from 'Component/DateSelect/DateSelect.config';
+import { FieldDateType } from 'Component/FieldDate/FieldDate.config';
+import { ReactElement } from 'Type/Common.type';
 import { adjustHours, getYearRangeAttributes, zeroBasedValue } from 'Util/Form/Extract';
+import { RootState } from 'Util/Store/Store.type';
+
+import {
+    DateSelectComponentContainerPropKeys,
+    DateSelectComponentProps,
+    DateSelectContainerMapDispatchProps,
+    DateSelectContainerMapStateProps,
+    DateSelectContainerProps,
+    DateSelectContainerState
+} from './DateSelect.type';
 
 /** @namespace Component/DateSelect/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): DateSelectContainerMapStateProps => ({
     yearRange: state.ConfigReducer.year_range,
     dateFieldsOrder: state.ConfigReducer.date_fields_order,
     timeFormat: state.ConfigReducer.time_format
 });
 
 /** @namespace Component/DateSelect/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): DateSelectContainerMapDispatchProps => ({});
 
 /** @namespace Component/DateSelect/Container */
-export class DateSelectContainer extends PureComponent {
-    static propTypes = {
-        type: PropTypes.oneOf(Object.values(FIELD_DATE_TYPE)).isRequired,
-        timeFormat: PropTypes.oneOf(Object.values(TIME_FORMAT)).isRequired,
-        dateFieldsOrder: PropTypes.string.isRequired,
-        yearRange: PropTypes.string.isRequired,
-        uid: PropTypes.string.isRequired,
-        isRequired: PropTypes.bool,
-        updateSelectedValues: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
+export class DateSelectContainer extends PureComponent<
+DateSelectContainerProps,
+DateSelectContainerState
+> {
+    static defaultProps: Partial<DateSelectContainerProps> = {
         isRequired: false
     };
 
@@ -54,11 +56,12 @@ export class DateSelectContainer extends PureComponent {
         onSetAMPM: this.onSetAMPM.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: DateSelectContainerProps): void {
+        super.__construct?.(props);
+
         const { yearRange, timeFormat } = props;
 
-        const { minDate, maxDate } = getYearRangeAttributes(yearRange);
+        const { minDate, maxDate } = getYearRangeAttributes(yearRange, false);
         const currentDate = new Date();
         const validMinDate = minDate > currentDate ? minDate : currentDate;
         const selectedDate = maxDate < validMinDate ? maxDate : validMinDate;
@@ -68,7 +71,7 @@ export class DateSelectContainer extends PureComponent {
         const selectedDay = selectedDate.getDate();
         const selectedHours = zeroBasedValue(adjustHours(selectedDate.getHours(), timeFormat));
         const selectedMinutes = zeroBasedValue(selectedDate.getMinutes());
-        const selectedAMPM = selectedDate.getHours() >= HOURS_12H_COUNT ? AMPM_FORMAT.PM : AMPM_FORMAT.AM;
+        const selectedAMPM = selectedDate.getHours() >= HourFormat.H12 ? AMPM_FORMAT.PM : AMPM_FORMAT.AM;
 
         this.state = {
             selectedYear,
@@ -81,7 +84,7 @@ export class DateSelectContainer extends PureComponent {
         };
     }
 
-    containerProps() {
+    containerProps(): Pick<DateSelectComponentProps, DateSelectComponentContainerPropKeys> {
         const {
             selectedYear,
             selectedMonth,
@@ -101,8 +104,8 @@ export class DateSelectContainer extends PureComponent {
             isRequired
         } = this.props;
 
-        const showTimeSelect = type === FIELD_DATE_TYPE.dateTime || type === FIELD_DATE_TYPE.time;
-        const showDateSelect = type === FIELD_DATE_TYPE.dateTime || type === FIELD_DATE_TYPE.date;
+        const showTimeSelect = type === FieldDateType.DATETIME || type === FieldDateType.TIME;
+        const showDateSelect = type === FieldDateType.DATETIME || type === FieldDateType.DATE;
 
         return {
             selectedYear,
@@ -123,7 +126,7 @@ export class DateSelectContainer extends PureComponent {
         };
     }
 
-    getMaxDay() {
+    getMaxDay(): void {
         const { selectedYear, selectedMonth, selectedDay } = this.state;
         const { updateSelectedValues } = this.props;
 
@@ -131,44 +134,44 @@ export class DateSelectContainer extends PureComponent {
         this.setState({ maxDay });
 
         if (selectedDay && selectedDay > maxDay) {
-            this.setState({ selectedDay: '' }, updateSelectedValues);
+            this.setState({ selectedDay: undefined }, updateSelectedValues);
         }
     }
 
-    updateValue() {
+    updateValue(): void {
         const { updateSelectedValues } = this.props;
 
         updateSelectedValues();
         this.getMaxDay();
     }
 
-    onSetYear(year) {
+    onSetYear(year: number): void {
         this.setState({ selectedYear: year }, this.updateValue.bind(this));
     }
 
-    onSetMonth(month) {
+    onSetMonth(month: number): void {
         this.setState({ selectedMonth: month }, this.updateValue.bind(this));
     }
 
-    onSetDay(day) {
+    onSetDay(day: number): void {
         const { updateSelectedValues } = this.props;
 
         this.setState({ selectedDay: day }, updateSelectedValues);
     }
 
-    onSetHours(hours) {
+    onSetHours(hours: string): void {
         const { updateSelectedValues } = this.props;
 
         this.setState({ selectedHours: hours }, updateSelectedValues);
     }
 
-    onSetMinutes(minutes) {
+    onSetMinutes(minutes: string): void {
         const { updateSelectedValues } = this.props;
 
         this.setState({ selectedMinutes: minutes }, updateSelectedValues);
     }
 
-    onSetAMPM(ampm) {
+    onSetAMPM(ampm: string): void {
         const { updateSelectedValues } = this.props;
 
         this.setState({ selectedAMPM: ampm }, updateSelectedValues);
@@ -177,8 +180,8 @@ export class DateSelectContainer extends PureComponent {
     render(): ReactElement {
         return (
             <DateSelect
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

@@ -14,31 +14,25 @@ import { PureComponent } from 'react';
 import Overlay from 'Component/Overlay';
 import SearchItem from 'Component/SearchItem';
 import { ReactElement } from 'Type/Common.type';
-import { ItemsType } from 'Type/ProductList.type';
+import { IndexedProduct } from 'Util/Product/Product.type';
 
 import {
     AMOUNT_OF_PLACEHOLDERS,
     SEARCH_TIMEOUT
 } from './SearchOverlay.config';
+import { SearchOverlayComponentProps } from './SearchOverlay.type';
 
 import './SearchOverlay.style';
 
 /** @namespace Component/SearchOverlay/Component */
-export class SearchOverlay extends PureComponent {
-    static propTypes = {
-        searchCriteria: PropTypes.string,
-        searchResults: ItemsType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        makeSearchRequest: PropTypes.func.isRequired,
-        clearSearchResults: PropTypes.func.isRequired,
-        isHideOverlay: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
+export class SearchOverlay extends PureComponent<SearchOverlayComponentProps> {
+    static defaultProps: Partial<SearchOverlayComponentProps> = {
         searchCriteria: ''
     };
 
-    componentDidUpdate(prevProps): void {
+    timeout: NodeJS.Timeout | null = null;
+
+    componentDidUpdate(prevProps: SearchOverlayComponentProps): void {
         const { searchCriteria: prevSearchCriteria } = prevProps;
         const { searchCriteria, clearSearchResults, makeSearchRequest } = this.props;
 
@@ -54,11 +48,11 @@ export class SearchOverlay extends PureComponent {
         }
     }
 
-    renderSearchItem(product, i): ReactElement {
+    renderSearchItem(product: Partial<IndexedProduct>, i: number): ReactElement {
         return (
             <SearchItem
               product={ product }
-              key={ i }
+              key={ product.id || i }
             />
         );
     }

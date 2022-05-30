@@ -8,28 +8,24 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
-import { ChildrenType, RefType } from 'Type/Common.type';
+import { createRef, PureComponent } from 'react';
+
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import CarouselScrollItem from './CarouselScrollItem.component';
+import {
+    CarouselScrollItemComponentContainerPropKeys,
+    CarouselScrollItemComponentProps,
+    CarouselScrollItemContainerProps
+} from './CarouselScrollItem.type';
 
 /** @namespace Component/CarouselScrollItem/Container */
-export class CarouselScrollItemContainer extends PureComponent {
-    static propTypes = {
-        isActive: PropTypes.bool,
-        itemRef: RefType,
-        onClick: PropTypes.func,
-        children: ChildrenType,
-        position: PropTypes.number.isRequired
-    };
-
-    static defaultProps = {
+export class CarouselScrollItemContainer extends PureComponent<CarouselScrollItemContainerProps> {
+    static defaultProps: Partial<CarouselScrollItemContainerProps> = {
         isActive: false,
-        itemRef: noopFn,
+        itemRef: createRef<HTMLDivElement>(),
         onClick: noopFn,
         children: []
     };
@@ -38,7 +34,7 @@ export class CarouselScrollItemContainer extends PureComponent {
         onClick: this.onClick.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<CarouselScrollItemComponentProps, CarouselScrollItemComponentContainerPropKeys> {
         const {
             isActive,
             itemRef,
@@ -52,7 +48,7 @@ export class CarouselScrollItemContainer extends PureComponent {
         };
     }
 
-    onClick() {
+    onClick(): void {
         const { onClick, position } = this.props;
         onClick(position);
     }
@@ -60,8 +56,8 @@ export class CarouselScrollItemContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CarouselScrollItem
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

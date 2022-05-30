@@ -10,13 +10,12 @@
  */
 
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { Mix } from 'Type/Common.type';
 import { GQLWishlistItemInput } from 'Type/Graphql.type';
-import { ProductTransformData } from 'Util/Product/Product.type';
+import { IndexedWishlistProduct, ProductTransformData } from 'Util/Product/Product.type';
 
 export interface ProductWishlistButtonContainerMapStateProps {
-    productsInWishlist: Record<string, WishlistProduct>;
+    productsInWishlist: Record<string, IndexedWishlistProduct>;
     isAddingWishlistItem: boolean;
     wishlistId: string;
 }

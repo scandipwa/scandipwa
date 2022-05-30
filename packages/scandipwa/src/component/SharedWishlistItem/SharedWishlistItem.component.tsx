@@ -14,12 +14,15 @@ import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import ProductCard from 'Component/ProductCard';
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
+import { ReactElement } from 'Type/Common.type';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
+
+import { SharedWishlistItemComponentProps } from './SharedWishlistItem.type';
 
 import './SharedWishlistItem.style';
 
 /** @namespace Component/SharedWishlistItem/Component */
-export class SharedWishlistItem extends SourceWishlistItem {
+export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemComponentProps> {
     renderAddToCart(): ReactElement {
         const {
             product,
@@ -66,7 +69,7 @@ export class SharedWishlistItem extends SourceWishlistItem {
                   product={ product }
                   quantity={ quantity }
                   mix={ { block: 'WishlistItem', elem: 'AddToCart' } }
-                  disabled={ !inStock }
+                  isDisabled={ !inStock }
                 />
             </div>
         );

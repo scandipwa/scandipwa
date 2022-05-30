@@ -9,11 +9,26 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Children, Ref } from 'Type/Common.type';
+import { RefObject } from 'react';
+
+import { Children } from 'Type/Common.type';
+
+export interface CarouselScrollItemContainerProps {
+    isActive: boolean;
+    itemRef: RefObject<HTMLDivElement>;
+    onClick: (position: number) => void;
+    children: Children;
+    position: number;
+}
 
 export interface CarouselScrollItemComponentProps {
     isActive: boolean;
-    itemRef: Ref;
-    onClick: ()=> void;
+    itemRef: RefObject<HTMLDivElement>;
     children: Children;
+    onClick: () => void;
 }
+
+export type CarouselScrollItemComponentContainerPropKeys =
+    | 'isActive'
+    | 'itemRef'
+    | 'children';

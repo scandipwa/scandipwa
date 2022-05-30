@@ -16,7 +16,10 @@ import { ProductType } from 'Component/Product/Product.config';
 import { AdjustedPriceMap, ProductOption } from 'Component/Product/Product.type';
 import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
 import {
-    BundleOption, GroupedProductItem, Money, PriceRange
+    BundleOption,
+    GroupedProductItem,
+    Money,
+    PriceRange
 } from 'Query/ProductList.type';
 import { GQLCurrencyEnum, GQLProductStockStatus } from 'Type/Graphql.type';
 import { decodeBase64 } from 'Util/Base64';
@@ -31,7 +34,8 @@ import {
     IndexedVariant,
     ProductExtractImage,
     ProductExtractPrice,
-    QtyFields
+    QtyFields,
+    StockCheckProduct
 } from './Product.type';
 
 // TODO unify keyof product and stockitem.
@@ -152,8 +156,8 @@ export const getProductOptionInStock = (product: IndexedProduct): boolean => {
  * @namespace Util/Product/Extract/getProductInStock
  */
 export const getProductInStock = (
-    product: Partial<IndexedProduct>,
-    parentProduct?: IndexedProduct
+    product: Partial<StockCheckProduct>,
+    parentProduct?: Partial<StockCheckProduct>
 ): boolean => {
     if (!product) {
         return false;
@@ -179,7 +183,10 @@ export const getProductInStock = (
     if (type === ProductType.CONFIGURABLE && parentProduct === product) {
         const { variants = [] } = product;
 
-        return inStock && !!variants.some((variant) => getProductInStock(variant, product));
+        return inStock && !!variants.some((variant) => getProductInStock(
+            variant,
+            product
+        ));
     }
 
     const { type_id: parentTypeId = false } = parentProduct || {};
@@ -199,7 +206,7 @@ export const getProductInStock = (
         const { items = [] } = product;
 
         return inStock && !!(items as GroupedProductItem[]).some(
-            ({ product: groupedProduct }) => getProductInStock(groupedProduct)
+            ({ product: groupedProduct }) => getProductInStock(groupedProduct as StockCheckProduct)
         );
     }
 
@@ -219,7 +226,7 @@ export const getGroupedProductsInStockQuantity = (
     { items = [] }: Partial<IndexedProduct>
 ): Record<number, number> => (items as GroupedProductItem[]).reduce((acc: Record<number, number>, {
     product, product: { id }, qty = 1
-}) => (getProductInStock(product) ? { ...acc, [id]: qty } : acc), {});
+}) => (getProductInStock(product as StockCheckProduct) ? { ...acc, [id]: qty } : acc), {});
 
 /**
  * Checks if bundle option exist in options (ignoring quantity)

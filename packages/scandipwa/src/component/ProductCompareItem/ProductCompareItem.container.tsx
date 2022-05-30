@@ -13,18 +13,22 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { ProductType } from 'Component/Product/Product.config';
 import { GroupedProductItem } from 'Query/ProductList.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement, Url } from 'Type/Common.type';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
+import { ProductTransformData } from 'Util/Product/Product.type';
 import { magentoProductTransform } from 'Util/Product/Transform';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import ProductCompareItem from './ProductCompareItem.component';
 import {
+    ProductCompareItemComponentContainerPropKeys,
+    ProductCompareItemComponentProps,
     ProductCompareItemContainerMapDispatchProps,
     ProductCompareItemContainerMapStateProps,
     ProductCompareItemContainerProps,
@@ -63,7 +67,8 @@ ProductCompareItemContainerProps,
 ProductCompareItemContainerState
 > {
     state: ProductCompareItemContainerState = {
-        isLoading: false
+        isLoading: false,
+        currentQty: 0
     };
 
     containerFunctions = {
@@ -74,7 +79,7 @@ ProductCompareItemContainerState
         addItemToCart: this.addItemToCart.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<ProductCompareItemComponentProps, ProductCompareItemComponentContainerPropKeys> {
         const { product, isInStock, isWishlistEnabled } = this.props;
         const { isLoading } = this.state;
 
@@ -96,10 +101,10 @@ ProductCompareItemContainerState
         } = this.props;
 
         this.setState({ isLoading: true });
-        await removeComparedProduct(id);
+        await removeComparedProduct(String(id));
     }
 
-    getGroupedProductQuantity() {
+    getGroupedProductQuantity(): Record<number, number> {
         const { product: { items } = {} } = this.props;
 
         if (!items) {
@@ -114,7 +119,7 @@ ProductCompareItemContainerState
         }, {});
     }
 
-    getProductOptionsData() {
+    getProductOptionsData(): { requiredOptions: number[] } {
         const { product: { options } } = this.props;
 
         if (!options) {
@@ -128,7 +133,7 @@ ProductCompareItemContainerState
         };
     }
 
-    getProductImage() {
+    getProductImage(): string {
         const {
             product: {
                 thumbnail,
@@ -140,10 +145,10 @@ ProductCompareItemContainerState
         } = this.props;
 
         if (isMobile) {
-            return small_image.url;
+            return small_image?.url || '';
         }
 
-        return thumbnail.url;
+        return thumbnail?.url || '';
     }
 
     getLinkTo(): Url {
@@ -155,9 +160,9 @@ ProductCompareItemContainerState
         };
     }
 
-    getOverrideAddToCartBtnBehavior() {
+    getOverrideAddToCartBtnBehavior(): boolean {
         const { product: { type_id, options } } = this.props;
-        const types = [ProductType.bundle, ProductType.configurable, ProductType.grouped];
+        const types: string[] = [ProductType.BUNDLE, ProductType.CONFIGURABLE, ProductType.GROUPED];
 
         return !!(types.indexOf(type_id) !== -1 || options?.length);
     }
@@ -173,7 +178,7 @@ ProductCompareItemContainerState
         history.push({ pathname: appendWithStoreCode(url) });
     }
 
-    getProducts() {
+    getProducts(): ProductTransformData[] {
         const {
             product: item
         } = this.props;

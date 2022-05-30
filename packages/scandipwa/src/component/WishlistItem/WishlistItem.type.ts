@@ -9,11 +9,14 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { ProductType } from 'Component/Product/Product.config';
+import { ItemOption } from 'Query/Wishlist.type';
 import { AddProductToCartOptions } from 'Store/Cart/Cart.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
+import { ReactElement } from 'Type/Common.type';
 import { GQLWishlistItemUpdateInput } from 'Type/Graphql.type';
+import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 export interface WishlistItemContainerMapStateProps {
     isMobile: boolean;
@@ -22,20 +25,14 @@ export interface WishlistItemContainerMapStateProps {
 export interface WishlistItemContainerMapDispatchProps {
     showNotification: (type: NotificationType, message: string) => void;
     addProductToCart: (options: AddProductToCartOptions) => void;
-    updateWishlistItem: (options: {
-        wishlistItems: GQLWishlistItemUpdateInput[];
-        wishlistId: string;
-    }) => void;
-    removeFromWishlist: (options: {
-        item_id: string;
-        noMessages: boolean;
-    }) => void;
+    updateWishlistItem: (options: { wishlistItems: GQLWishlistItemUpdateInput[]; wishlistId: string }) => void;
+    removeFromWishlist: (options: { item_id: string; noMessages: boolean }) => void;
     changeHeaderState: (state: NavigationState) => void;
 }
 
 export interface WishlistItemContainerBaseProps {
-    product: WishlistProduct;
-    handleSelectIdChange: (id: string, isRemoveOnly: boolean) => void;
+    product: IndexedWishlistProduct;
+    handleSelectIdChange: (id: string, isRemoveOnly?: boolean) => void;
     isRemoving: boolean;
     isMobile: boolean;
     wishlistId: string;
@@ -50,4 +47,42 @@ export interface WishlistItemContainerProps extends WishlistItemContainerMapStat
 export interface WishlistItemContainerState {
     isLoading: boolean;
     currentQty: number;
+}
+
+export interface WishlistItemComponentProps {
+    inStock: boolean;
+    changeQuantity: (quantity: number) => void;
+    changeDescription: (value: string) => void;
+    minSaleQuantity: number;
+    maxSaleQuantity: number;
+    attributes: string[];
+    isLoading: boolean;
+    handleSelectIdChange: (id: string, isRemoveOnly?: boolean) => void;
+    isEditingActive: boolean;
+    isMobile: boolean;
+    isRemoving: boolean;
+    product: IndexedWishlistProduct;
+    addToCart: () => Promise<void>;
+    removeItem: () => Promise<void>;
+    redirectToProductPage: () => void;
+    setQuantity: (quantity: number) => void;
+}
+
+export type WishlistItemComponentContainerPropKeys =
+    | 'inStock'
+    | 'changeQuantity'
+    | 'changeDescription'
+    | 'minSaleQuantity'
+    | 'maxSaleQuantity'
+    | 'attributes'
+    | 'isLoading'
+    | 'handleSelectIdChange'
+    | 'isEditingActive'
+    | 'isMobile'
+    | 'isRemoving'
+    | 'product';
+
+export interface WishlistItemComponentOptionMap {
+    [ProductType.GROUPED]: (option: ItemOption) => ReactElement;
+    [ProductType.BUNDLE]: (option: ItemOption) => ReactElement;
 }

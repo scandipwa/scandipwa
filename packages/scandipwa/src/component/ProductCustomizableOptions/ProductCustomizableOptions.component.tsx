@@ -12,8 +12,12 @@
 import { PureComponent } from 'react';
 
 import ProductCustomizableOption from 'Component/ProductCustomizableOption';
+import { ConfigFieldType } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
+import { CustomFieldValue } from 'Component/ProductCustomizableOption/ProductCustomizableOption.type';
 import { ReactElement } from 'Type/Common.type';
-import { OptionsListType } from 'Type/ProductList.type';
+import { IndexedCustomOption } from 'Util/Product/Product.type';
+
+import { ProductCustomizableOptionsComponentProps } from './ProductCustomizableOptions.type';
 
 import './ProductCustomizableOptions.style';
 
@@ -22,17 +26,12 @@ import './ProductCustomizableOptions.style';
  * @class ProductCustomizableOptions
  * @namespace Component/ProductCustomizableOptions/Component
  */
-export class ProductCustomizableOptions extends PureComponent {
-    static propTypes = {
-        options: OptionsListType,
-        updateSelectedValues: PropTypes.func.isRequired
-    };
-
+export class ProductCustomizableOptions extends PureComponent<ProductCustomizableOptionsComponentProps> {
     static defaultProps = {
         options: []
     };
 
-    renderOptionGroup(group): ReactElement {
+    renderOptionGroup(group: IndexedCustomOption): ReactElement {
         const {
             title,
             value,
@@ -48,9 +47,9 @@ export class ProductCustomizableOptions extends PureComponent {
               key={ uid }
               uid={ uid }
               title={ title }
-              options={ value }
+              options={ value as CustomFieldValue[] }
               isRequired={ required }
-              type={ type }
+              type={ type as ConfigFieldType }
               updateSelectedValues={ updateSelectedValues }
             />
         );

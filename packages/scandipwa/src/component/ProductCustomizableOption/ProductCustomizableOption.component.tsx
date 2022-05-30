@@ -9,49 +9,47 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { ChangeEvent, PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import FieldDate from 'Component/FieldDate';
-import { FIELD_DATE_TYPE } from 'Component/FieldDate/FieldDate.config';
+import { FieldDateType } from 'Component/FieldDate/FieldDate.config';
 import FieldGroup from 'Component/FieldGroup';
+import { CustomizableFieldValue, CustomizableFileValue, CustomizableSelectionValue } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
-import { CustomizableOptionsType } from 'Type/ProductList.type';
+import { FieldOptions } from 'Type/Field.type';
 // eslint-disable-next-line no-unused-vars
 import { getSubLabelFromMaxCharacters } from 'Util/Product/Extract';
+import { IndexedCustomOptionValue } from 'Util/Product/Product.type';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
 
 import { ConfigFieldType } from './ProductCustomizableOption.config';
+import {
+    ProductCustomizableOptionComponentProps,
+    ProductCustomizableOptionComponentRenderMap,
+    ProductCustomizableOptionComponentState
+} from './ProductCustomizableOption.type';
 
 /**
  * Product Customizable Option
  * @class ProductCustomizableOption
  * @namespace Component/ProductCustomizableOption/Component
  */
-export class ProductCustomizableOption extends PureComponent {
-    static propTypes = {
-        uid: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        fieldType: PropTypes.string.isRequired,
-        updateSelectedValues: PropTypes.func.isRequired,
-        getDropdownOptions: PropTypes.func.isRequired,
-        isRequired: PropTypes.bool.isRequired,
-        currencyCode: PropTypes.string.isRequired,
-        options: CustomizableOptionsType
-    };
-
-    static defaultProps = {
+export class ProductCustomizableOption extends PureComponent<
+ProductCustomizableOptionComponentProps,
+ProductCustomizableOptionComponentState
+> {
+    static defaultProps: Partial<ProductCustomizableOptionComponentProps> = {
         options: []
     };
 
-    renderMap = {
+    renderMap: ProductCustomizableOptionComponentRenderMap = {
         [ConfigFieldType.TEXT]: this.renderDefaultValue.bind(this),
         [ConfigFieldType.TEXTAREA]: this.renderDefaultValue.bind(this),
-        [ConfigFieldType.DATE]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.date),
-        [ConfigFieldType.DATETIME]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.dateTime),
-        [ConfigFieldType.TIME]: this.renderDatePicker.bind(this, FIELD_DATE_TYPE.time),
+        [ConfigFieldType.DATE]: this.renderDatePicker.bind(this, FieldDateType.DATE),
+        [ConfigFieldType.DATETIME]: this.renderDatePicker.bind(this, FieldDateType.DATETIME),
+        [ConfigFieldType.TIME]: this.renderDatePicker.bind(this, FieldDateType.TIME),
 
         [ConfigFieldType.FILE]: this.renderFileValue.bind(this),
         [ConfigFieldType.SELECT]: this.renderSelectValues.bind(this),
@@ -60,7 +58,7 @@ export class ProductCustomizableOption extends PureComponent {
         [ConfigFieldType.MULTI]: this.renderCheckboxValues.bind(this)
     };
 
-    state = {
+    state: ProductCustomizableOptionComponentState = {
         value: ''
     };
 
@@ -69,7 +67,11 @@ export class ProductCustomizableOption extends PureComponent {
         updateSelectedValues();
     }
 
-    getLabel(option, overrideBase = null, overridePrice = null) {
+    getLabel(
+        option: Partial<IndexedCustomOptionValue>,
+        overrideBase: string | null = null,
+        overridePrice: string | null = null
+    ): ReactElement {
         const { currencyCode } = this.props;
 
         const {
@@ -89,18 +91,18 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    updateValues({ currentTarget: { value } }) {
+    updateValues({ currentTarget: { value } }: ChangeEvent<HTMLInputElement>): void {
         const { updateSelectedValues } = this.props;
         this.setState({ value });
         updateSelectedValues();
     }
 
-    renderDefaultValue(option): ReactElement {
+    renderDefaultValue(option: Partial<CustomizableFieldValue>): ReactElement {
         const {
             title, fieldType, isRequired, uid
         } = this.props;
         const { value } = this.state;
-        const { max_characters } = option;
+        const { max_characters = 0 } = option;
         const label = this.getLabel(option, title);
         const subLabel = getSubLabelFromMaxCharacters(max_characters, value);
 
@@ -111,7 +113,7 @@ export class ProductCustomizableOption extends PureComponent {
                   type={ fieldType }
                   validationRule={ {
                       isRequired,
-                      range: { max: max_characters > 0 ? max_characters : null }
+                      range: { max: max_characters > 0 ? max_characters : undefined }
                   } }
                   attr={ {
                       id: uid,
@@ -128,7 +130,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderDatePicker(type, option): ReactElement {
+    renderDatePicker(type: FieldDateType, option: Partial<IndexedCustomOptionValue>): ReactElement {
         const {
             title,
             uid,
@@ -151,11 +153,11 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderFileValue(option): ReactElement {
+    renderFileValue(option: Partial<IndexedCustomOptionValue>): ReactElement {
         const {
             title, uid, isRequired, updateSelectedValues
         } = this.props;
-        const { file_extension: fileExtensions = '' } = option;
+        const { file_extension: fileExtensions = '' } = option as CustomizableFileValue;
         const label = this.getLabel(option, title);
 
         return (
@@ -183,7 +185,9 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderCheckBox(option): ReactElement {
+    renderCheckBox(
+        option: Partial<CustomizableSelectionValue> & { is_default?: boolean }
+    ): ReactElement {
         const {
             uid,
             is_default: isDefault = false
@@ -210,7 +214,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderCheckboxValues(options): ReactElement {
+    renderCheckboxValues(options: Partial<IndexedCustomOptionValue>[]): ReactElement {
         const { isRequired } = this.props;
 
         return (
@@ -225,11 +229,11 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderRadio(name, option): ReactElement {
+    renderRadio(name: string, option: Partial<IndexedCustomOptionValue>): ReactElement {
         const {
             uid,
             is_default
-        } = option;
+        } = option as CustomizableSelectionValue & { is_default?: boolean };
         const { updateSelectedValues } = this.props;
         const label = this.getLabel(option);
 
@@ -252,7 +256,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderRadioValues(options): ReactElement {
+    renderRadioValues(options: Partial<IndexedCustomOptionValue>[]): ReactElement {
         const { isRequired, uid } = this.props;
 
         return (
@@ -285,7 +289,7 @@ export class ProductCustomizableOption extends PureComponent {
                       selectPlaceholder: __('Select option...')
                   } }
                   mix={ { block: 'ProductCustomizableItem', elem: 'Select' } }
-                  options={ getDropdownOptions() }
+                  options={ (getDropdownOptions() as FieldOptions[]) || undefined }
                   events={ {
                       onChange: updateSelectedValues
                   } }
@@ -298,7 +302,7 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
-    renderOptionGroupTitle(title): ReactElement {
+    renderOptionGroupTitle(title: ReactElement): ReactElement {
         const { isRequired } = this.props;
 
         return (
@@ -311,7 +315,9 @@ export class ProductCustomizableOption extends PureComponent {
 
     render(): ReactElement {
         const { options, type, title } = this.props;
-        const render = this.renderMap[type];
+        const render = this.renderMap[type] as (
+            o: Partial<IndexedCustomOptionValue> | Partial<IndexedCustomOptionValue>[]
+        ) => ReactElement;
 
         if (!render) {
             return null;

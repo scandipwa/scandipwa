@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { CartDisplay, Totals } from 'Type/MiniCart.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 
 export interface CartOverlayComponentProps {
     totals: Totals;
     changeHeaderState: () => void;
     handleCheckoutClick: () => void;
-    currencyCode: string;
+    currencyCode: GQLCurrencyEnum;
     showOverlay: (overlay: string) => void;
     activeOverlay: string;
     hasOutOfStockProductsInCart: boolean;

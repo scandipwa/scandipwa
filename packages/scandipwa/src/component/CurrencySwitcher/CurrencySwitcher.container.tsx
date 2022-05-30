@@ -45,7 +45,7 @@ export class CurrencySwitcherContainer extends DataContainer<CurrencySwitcherCon
         super.__construct(props, 'CurrencySwitcherContainer');
     }
 
-    _handleCurrencySelect(currencyCode: string): void {
+    _handleCurrencySelect(currencyCode: GQLCurrencyEnum): void {
         const { updateCurrency } = this.props;
 
         updateCurrency({ currencyCode }).then(

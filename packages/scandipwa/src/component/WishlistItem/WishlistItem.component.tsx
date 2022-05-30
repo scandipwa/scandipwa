@@ -16,52 +16,44 @@ import CloseIcon from 'Component/CloseIcon';
 import EditIcon from 'Component/EditIcon';
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
+import { ProductType } from 'Component/Product/Product.config';
 import ProductCard from 'Component/ProductCard';
+import { ContentObject } from 'Component/ProductCard/ProductCard.type';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import { ItemOption } from 'Query/Wishlist.type';
 import { ReactElement } from 'Type/Common.type';
-import { noopFn } from 'Util/Common';
+import { noopFn, noopFnAsync } from 'Util/Common';
+import { IndexedWishlistProduct } from 'Util/Product/Product.type';
+
+import { WishlistItemComponentOptionMap, WishlistItemComponentProps } from './WishlistItem.type';
 
 import './WishlistItem.style';
 
 /** @namespace Component/WishlistItem/Component */
-export class WishlistItem extends PureComponent {
-    static propTypes = {
-        addToCart: PropTypes.func,
-        changeQuantity: PropTypes.func,
-        product: ProductType.isRequired,
-        changeDescription: PropTypes.func,
-        removeItem: PropTypes.func,
-        redirectToProductPage: PropTypes.func,
-        isLoading: PropTypes.bool,
-        isRemoving: PropTypes.bool.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        isEditingActive: PropTypes.bool.isRequired,
-        handleSelectIdChange: PropTypes.func.isRequired,
-        setQuantity: PropTypes.func.isRequired,
-        minSaleQuantity: PropTypes.number.isRequired,
-        maxSaleQuantity: PropTypes.number.isRequired,
-        inStock: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
-        addToCart: noopFn,
+export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemComponentProps> extends PureComponent<P> {
+    static defaultProps: Partial<WishlistItemComponentProps> = {
+        addToCart: noopFnAsync,
         changeQuantity: noopFn,
         changeDescription: noopFn,
-        removeItem: noopFn,
+        removeItem: noopFnAsync,
         redirectToProductPage: noopFn,
         isLoading: false
     };
 
-    renderContent = this.renderContent.bind(this);
-
-    optionRenderMap = {
-        [ProductType.grouped]: this.renderGroupedOption.bind(this),
-        [ProductType.bundle]: this.renderBundleOption.bind(this)
+    optionRenderMap: WishlistItemComponentOptionMap = {
+        [ProductType.GROUPED]: this.renderGroupedOption.bind(this),
+        [ProductType.BUNDLE]: this.renderBundleOption.bind(this)
     };
+
+    __construct(props: WishlistItemComponentProps): void {
+        super.__construct?.(props);
+
+        this.renderContent = this.renderContent.bind(this);
+    }
 
     renderCommentField(): ReactElement {
         const {
-            product: { wishlist: { description } },
+            product: { wishlist: { description } = {} },
             changeDescription,
             inStock
         } = this.props;
@@ -76,7 +68,7 @@ export class WishlistItem extends PureComponent {
                   defaultValue: description
               } }
               events={ {
-                  onChange: ({ target: { value } = {} }) => changeDescription(value)
+                  onChange: ({ target: { value = '' } = {} }) => changeDescription(value)
               } }
               mix={ { block: 'WishlistItem', elem: 'CommentField' } }
               isDisabled={ !inStock }
@@ -86,7 +78,7 @@ export class WishlistItem extends PureComponent {
 
     renderQuantityFieldInput(): ReactElement {
         const {
-            product: { wishlist: { quantity } },
+            product: { wishlist: { quantity } = {} },
             changeQuantity,
             setQuantity,
             minSaleQuantity,
@@ -105,7 +97,7 @@ export class WishlistItem extends PureComponent {
                   max: maxSaleQuantity
               } }
               events={ {
-                  onChange: (quantity) => {
+                  onChange: (quantity: number): void => {
                       changeQuantity(quantity);
                       setQuantity(quantity);
                   }
@@ -118,7 +110,7 @@ export class WishlistItem extends PureComponent {
 
     renderQuantityField(): ReactElement {
         const {
-            product: { wishlist: { quantity } },
+            product: { wishlist: { quantity } = {} },
             isEditingActive,
             isMobile
         } = this.props;
@@ -194,17 +186,17 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    getWishlistProduct() {
+    getWishlistProduct(): IndexedWishlistProduct {
         const {
             product,
             product: { url, type_id }
         } = this.props;
 
-        if (type_id !== ProductType.configurable) {
+        if (type_id !== ProductType.CONFIGURABLE) {
             return product;
         }
 
-        const wishedVariant = product.variants.find(({ sku }) => sku === product.wishlist.sku);
+        const wishedVariant = product.variants?.find(({ sku }) => sku === product.wishlist?.sku);
 
         if (!wishedVariant) {
             return {
@@ -214,12 +206,12 @@ export class WishlistItem extends PureComponent {
         }
 
         return {
-            ...wishedVariant,
+            ...(wishedVariant as unknown as IndexedWishlistProduct),
             url
         };
     }
 
-    renderGroupedOption(option): ReactElement {
+    renderGroupedOption(option: ItemOption): ReactElement {
         const { label, value } = option;
 
         return (
@@ -229,7 +221,7 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    renderBundleOption(option): ReactElement {
+    renderBundleOption(option: ItemOption): ReactElement {
         const { label, value } = option;
 
         return (
@@ -240,9 +232,9 @@ export class WishlistItem extends PureComponent {
     }
 
     renderOptions(): ReactElement {
-        const { product: { type_id, wishlist: { options } } } = this.props;
+        const { product: { type_id = '', wishlist: { options = [] } = {} } } = this.props;
 
-        const renderMethod = this.optionRenderMap[type_id];
+        const renderMethod = this.optionRenderMap[type_id as keyof WishlistItemComponentOptionMap];
 
         if (renderMethod) {
             return (
@@ -260,7 +252,7 @@ export class WishlistItem extends PureComponent {
     }
 
     renderRating(): ReactElement {
-        const { product: { rating_summary, review_count } } = this.props;
+        const { product: { rating_summary, review_count = 0 } } = this.props;
 
         if (review_count < 1) {
             return <div block="WishlistItem" elem="RatingPlaceholder" />;
@@ -272,7 +264,7 @@ export class WishlistItem extends PureComponent {
     renderBrand(): ReactElement {
         const {
             product: {
-                attributes: { brand: { attribute_value: brand } = {} } = {}
+                attributes: { brand: { attribute_value: brand = '' } = {} } = {}
             }
         } = this.props;
 
@@ -289,7 +281,7 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    renderPrice(productPrice): ReactElement {
+    renderPrice(productPrice: () => ReactElement): ReactElement {
         const { inStock } = this.props;
 
         if (!inStock) {
@@ -307,7 +299,7 @@ export class WishlistItem extends PureComponent {
     }
 
     renderSelectCheckbox(): ReactElement {
-        const { product: { wishlist: { id } }, handleSelectIdChange, isEditingActive } = this.props;
+        const { product: { wishlist: { id = '' } = {} }, handleSelectIdChange, isEditingActive } = this.props;
 
         return (
             <div block="WishlistItem" elem="Select" mods={ { isEditingActive } }>
@@ -341,7 +333,7 @@ export class WishlistItem extends PureComponent {
                       elem="Edit"
                       onClick={ redirectToProductPage }
                       aria-label={ __('Edit wishlist item') }
-                      tabIndex="0"
+                      tabIndex={ 0 }
                     >
                         <EditIcon />
                     </button>
@@ -354,7 +346,7 @@ export class WishlistItem extends PureComponent {
         content: { productPrice },
         pictureBlock: { picture: renderPicture },
         renderCardLinkWrapper
-    }) {
+    }: ContentObject): ReactElement {
         return (
             <div block="WishlistItem" elem="FigureWrapper">
                 { renderCardLinkWrapper((
@@ -380,7 +372,7 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    renderContentMobile(renderMethods): ReactElement {
+    renderContentMobile(renderMethods: ContentObject): ReactElement {
         const {
             isEditingActive
         } = this.props;
@@ -396,7 +388,7 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    renderContent(renderMethods): ReactElement {
+    renderContent(renderMethods: ContentObject): ReactElement {
         const { redirectToProductPage } = this.props;
 
         const {

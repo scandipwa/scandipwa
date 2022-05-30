@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import { FIELD_RADIO_NONE } from 'Component/Field/Field.config';
+import { NoneRadioOption } from 'Util/Product/Product.type';
 
 export enum ConfigFieldType {
     TEXT = 'field',
@@ -23,12 +24,13 @@ export enum ConfigFieldType {
     MULTI = 'multiple'
 }
 
-export const NONE_RADIO_OPTION = {
+export const NONE_RADIO_OPTION: NoneRadioOption = {
     title: __('None'),
     label: __('None'),
     uid: FIELD_RADIO_NONE,
     price: 0,
     finalOptionPrice: 0,
     can_change_quantity: false,
-    priceInclTax: 0
+    priceInclTax: 0,
+    is_default: false
 };

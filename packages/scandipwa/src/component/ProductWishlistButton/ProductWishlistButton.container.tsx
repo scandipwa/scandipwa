@@ -15,9 +15,9 @@ import { Dispatch } from 'redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
+import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 import { RootState } from 'Util/Store/Store.type';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
@@ -153,7 +153,7 @@ ProductWishlistButtonContainerState
         const {
             wishlist: {
                 id: itemId
-            }
+            } = {}
         } = wishlistItem;
 
         this.setState({ isWishListToggle: false });
@@ -166,7 +166,7 @@ ProductWishlistButtonContainerState
         return isAddingWishlistItem || !isSignedIn();
     }
 
-    getWishlistItem(sku: string): WishlistProduct | undefined {
+    getWishlistItem(sku: string): IndexedWishlistProduct | undefined {
         const { productsInWishlist } = this.props;
 
         if (!productsInWishlist) {

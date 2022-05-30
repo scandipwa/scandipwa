@@ -31,7 +31,7 @@ export type MetaTitle = string | unknown;
 export type Url<T = unknown> = string | {
     search?: string;
     pathname: string;
-    state: T;
+    state?: T;
 };
 
 export type NetworkError = { message: string };

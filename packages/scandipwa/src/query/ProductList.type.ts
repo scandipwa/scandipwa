@@ -554,6 +554,7 @@ export type ProductListOptionArgs = {
     search?: string;
     currentPage?: number;
     sort?: CategorySortOptions;
+    pageSize?: number;
 };
 
 export type PriceRangeMap = {

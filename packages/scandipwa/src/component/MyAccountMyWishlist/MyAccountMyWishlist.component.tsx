@@ -17,9 +17,9 @@ import ProductCard from 'Component/ProductCard';
 import ShareIcon from 'Component/ShareIcon';
 import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
-import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { ObjectEntries, ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
+import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 import {
     MyAccountMyWishlistComponentProps,
@@ -33,7 +33,7 @@ export class MyAccountMyWishlist<
 P extends MyAccountMyWishlistComponentProps = MyAccountMyWishlistComponentProps,
 S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
 > extends PureComponent<P, S> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountMyWishlistComponentProps> = {
         creatorsName: ''
     };
 
@@ -127,7 +127,7 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
         );
     }
 
-    renderProduct([id, product]: ObjectEntries<Record<string, WishlistProduct>>): ReactElement {
+    renderProduct([id, product]: ObjectEntries<Record<string, IndexedWishlistProduct>>): ReactElement {
         const { isEditingActive, loadingItemsMap, setIsQtyUpdateInProgress } = this.props;
 
         return (

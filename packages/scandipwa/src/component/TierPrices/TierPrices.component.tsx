@@ -12,22 +12,19 @@
 import { PureComponent } from 'react';
 
 import { ProductType } from 'Component/Product/Product.config';
+import { TierPrice } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice, getLowestPriceTiersPrice } from 'Util/Price';
 
 import { calculateTierDiscountOverSpecialPrice } from '../../util/Price/Price';
+import { TierPricesComponentProps } from './TierPrices.type';
 
 import './TierPrices.style';
 
 /** @namespace Component/TierPrices/Component */
-export class TierPrices extends PureComponent {
-    static propTypes = {
-        product: ProductType.isRequired,
-        isLowestPrice: PropTypes.bool
-    };
-
-    static defaultProps = {
+export class TierPrices extends PureComponent<TierPricesComponentProps> {
+    static defaultProps: Partial<TierPricesComponentProps> = {
         isLowestPrice: false
     };
 
@@ -40,19 +37,19 @@ export class TierPrices extends PureComponent {
             currency
         },
         quantity
-    }) {
+    }: TierPrice): ReactElement {
         const {
             product: {
                 price_range: {
                     minimum_price: {
                         final_price: {
-                            value: minPriceForOneUnit
-                        },
+                            value: minPriceForOneUnit = 0
+                        } = {},
                         discount: {
-                            percent_off: discountForOneUnit
-                        }
-                    }
-                },
+                            percent_off: discountForOneUnit = 0
+                        } = {}
+                    } = {}
+                } = {},
                 type_id
             }
         } = this.props;
@@ -72,14 +69,14 @@ export class TierPrices extends PureComponent {
 
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
-                { type_id === ProductType.bundle
+                { type_id === ProductType.BUNDLE
                     ? this.renderBundleTierPrice(quantity, tierDiscount)
                     : this.renderProductTierPrice(quantity, formattedPrice, percentOff) }
             </li>
         );
     }
 
-    renderProductTierPrice(quantity, formattedPrice, percentOff): ReactElement {
+    renderProductTierPrice(quantity: number, formattedPrice: string, percentOff: number): ReactElement {
         return (
             <>
                 { __(
@@ -97,7 +94,7 @@ export class TierPrices extends PureComponent {
         );
     }
 
-    renderBundleTierPrice(quantity, percentOff): ReactElement {
+    renderBundleTierPrice(quantity: number, percentOff: number): ReactElement {
         return (
             <>
                 { __(
@@ -116,15 +113,15 @@ export class TierPrices extends PureComponent {
     renderLowestTierPrice(): ReactElement {
         const {
             product: {
-                price_tiers,
+                price_tiers = [],
                 price_range: {
                     minimum_price: {
                         final_price: {
-                            currency
-                        }
-                    }
-                }
-            }
+                            currency = GQLCurrencyEnum.USD
+                        } = {}
+                    } = {}
+                } = {}
+            } = {}
         } = this.props;
 
         const formattedPrice = getLowestPriceTiersPrice(price_tiers, currency);
@@ -140,7 +137,7 @@ export class TierPrices extends PureComponent {
     }
 
     renderDetailedTierPriceList(): ReactElement {
-        const { product: { price_tiers } } = this.props;
+        const { product: { price_tiers = [] } } = this.props;
 
         return price_tiers.map(this.renderDetailedTierPrice.bind(this));
     }

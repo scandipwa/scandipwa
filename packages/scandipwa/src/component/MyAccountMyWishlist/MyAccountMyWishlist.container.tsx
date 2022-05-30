@@ -62,10 +62,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyWishlistConta
 
 /** @namespace Component/MyAccountMyWishlist/Container */
 export class MyAccountMyWishlistContainer<
-P extends MyAccountMyWishlistContainerProps,
-S extends MyAccountMyWishlistContainerState
+P extends MyAccountMyWishlistContainerProps = MyAccountMyWishlistContainerProps,
+S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
 > extends PureComponent<P, S> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountMyWishlistContainerProps> = {
         creatorsName: ''
     };
 

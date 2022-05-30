@@ -24,6 +24,7 @@ import { updateConfig } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { setCurrency } from 'Util/Currency';
 import { fetchMutation, QueryDispatcher } from 'Util/Request';
@@ -37,7 +38,7 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
         super.__construct('Config');
     }
 
-    static async updateCurrency(dispatch: Dispatch, options: { currencyCode: string }): Promise<void> {
+    static async updateCurrency(dispatch: Dispatch, options: { currencyCode: GQLCurrencyEnum }): Promise<void> {
         const { currencyCode } = options;
 
         try {

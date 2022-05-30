@@ -16,12 +16,12 @@ export interface CurrencySwitcherMapStateProps {
 }
 
 export interface CurrencySwitcherMapDispatchProps {
-    updateCurrency: (options: { currencyCode: string }) => Promise<void>;
+    updateCurrency: (options: { currencyCode: GQLCurrencyEnum }) => Promise<void>;
 }
 
 export type CurrencySwitcherContainerProps = CurrencySwitcherMapStateProps & CurrencySwitcherMapDispatchProps;
 
 export interface CurrencySwitcherComponentProps {
     currencyData: CurrencyConfig;
-    handleCurrencySelect: (currencyCode: string) => void;
+    handleCurrencySelect: (currencyCode: GQLCurrencyEnum) => void;
 }

@@ -16,13 +16,13 @@ import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { MyAccountTabs, MyAccountTabsSection } from 'Type/Account.type';
+import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 export interface MyAccountContainerMapStateProps {
     isMobile: boolean;
     isWishlistEnabled: boolean;
-    wishlistItems: Record<string, WishlistProduct>;
+    wishlistItems: Record<string, IndexedWishlistProduct>;
     IsSignedInFromState: boolean;
     isLocked: boolean;
     newsletterActive: boolean;

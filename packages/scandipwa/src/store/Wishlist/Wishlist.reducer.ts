@@ -13,10 +13,11 @@ import { Reducer } from 'redux';
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedParameteredProducts } from 'Util/Product';
+import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 import {
     UpdateAllProductsInWishlistAction,
-    WishlistAction, WishlistActionType, WishlistProduct, WishlistStore
+    WishlistAction, WishlistActionType, WishlistStore
 } from './Wishlist.type';
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
@@ -29,14 +30,14 @@ export const getInitialState = (): WishlistStore => ({
 
 /** @namespace Store/Wishlist/Reducer/deleteProperty */
 export const deleteProperty = (
-    key: string, { [key]: _, ...newObj }: Record<string, WishlistProduct>
-): Record<string, WishlistProduct> => newObj;
+    key: string, { [key]: _, ...newObj }: Record<string, IndexedWishlistProduct>
+): Record<string, IndexedWishlistProduct> => newObj;
 
 /** @namespace Store/Wishlist/Reducer/removeItemFromWishlist */
 export const removeItemFromWishlist = (
     item_id: string,
     { productsInWishlist: initialProducts }: WishlistStore
-): { productsInWishlist: Record<string, WishlistProduct> } => {
+): { productsInWishlist: Record<string, IndexedWishlistProduct> } => {
     const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
 
     BrowserDatabase.setItem(
@@ -48,8 +49,8 @@ export const removeItemFromWishlist = (
 };
 
 /** @namespace Store/Wishlist/Reducer/clearWishlist */
-export const clearWishlist = (): { productsInWishlist: Record<string, WishlistProduct> } => {
-    const productsInWishlist: Record<string, WishlistProduct> = {};
+export const clearWishlist = (): { productsInWishlist: Record<string, IndexedWishlistProduct> } => {
+    const productsInWishlist: Record<string, IndexedWishlistProduct> = {};
 
     BrowserDatabase.setItem(productsInWishlist, PRODUCTS_IN_WISHLIST);
 

@@ -13,98 +13,81 @@ import { PureComponent } from 'react';
 
 import {
     AMPM_FORMAT,
+    DateFieldAttr,
     DEFAULT_MONTH_DAYS,
-    FIELD_NAME_ATTR,
-    FieldType_ATTR,
-    HOURS_12H_COUNT,
-    HOURS_24H_COUNT,
+    HourFormat,
     MINUTES_COUNT,
     MONTHS_COUNT
 } from 'Component/DateSelect/DateSelect.config';
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
-import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
+import { TimeFormat } from 'Component/FieldDate/FieldDate.config';
 import { ReactElement } from 'Type/Common.type';
-import { DateType } from 'Type/Field.type';
 import { isMagentoDateFormatValid, zeroBasedValue } from 'Util/Form/Extract';
 import { range } from 'Util/Manipulations';
+
+import { DateSelectComponentDateMap, DateSelectComponentProps, OptionShape } from './DateSelect.type';
 
 import './DateSelect.style.scss';
 
 /** @namespace Component/DateSelect/Component */
-export class DateSelectComponent extends PureComponent {
-    static propTypes = {
-        type: PropTypes.oneOf(Object.values(FIELD_DATE_TYPE)).isRequired,
-        onSetYear: PropTypes.func.isRequired,
-        onSetMonth: PropTypes.func.isRequired,
-        onSetDay: PropTypes.func.isRequired,
-        onSetHours: PropTypes.func.isRequired,
-        onSetMinutes: PropTypes.func.isRequired,
-        onSetAMPM: PropTypes.func.isRequired,
-        selectedYear: DateType.isRequired,
-        selectedMonth: DateType.isRequired,
-        selectedDay: DateType.isRequired,
-        selectedHours: DateType.isRequired,
-        selectedMinutes: DateType.isRequired,
-        selectedAMPM: PropTypes.string.isRequired,
-        uid: PropTypes.string.isRequired,
-        isRequired: PropTypes.bool.isRequired,
-        minYear: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-        maxYear: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-        maxDay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-        showDateSelect: PropTypes.bool.isRequired,
-        showTimeSelect: PropTypes.bool.isRequired,
-        dateFieldsOrder: PropTypes.string.isRequired,
-        timeFormat: PropTypes.string.isRequired
-    };
-
-    dateMap = {
+export class DateSelectComponent extends PureComponent<DateSelectComponentProps> {
+    dateMap: DateSelectComponentDateMap = {
         d: this.renderDay.bind(this),
         m: this.renderMonth.bind(this),
         y: this.renderYear.bind(this)
     };
 
-    getYearOptions() {
+    getYearOptions(): OptionShape[] {
         const { minYear, maxYear } = this.props;
 
         const yearRange = range(+minYear, +maxYear);
-        return yearRange.map((year) => ({ id: year, value: year, label: year }));
+        return yearRange.map((year) => {
+            const y = String(year);
+            return { id: y, value: y, label: y };
+        });
     }
 
-    getMonthOptions() {
+    getMonthOptions(): OptionShape[] {
         const monthRange = range(1, +MONTHS_COUNT);
-        return monthRange.map((month) => ({ id: month, value: month, label: month }));
+        return monthRange.map((month) => {
+            const m = String(month);
+            return { id: m, value: m, label: m };
+        });
     }
 
-    getDayOptions() {
+    getDayOptions(): OptionShape[] {
         const { maxDay } = this.props;
 
         const dayRange = range(1, +maxDay || DEFAULT_MONTH_DAYS);
-        return dayRange.map((day) => ({ id: day, value: day, label: day }));
+        return dayRange.map((day) => {
+            const d = String(day);
+            return { id: d, value: d, label: d };
+        });
     }
 
-    getHoursOptions() {
+    getHoursOptions(): OptionShape[] {
         const { timeFormat } = this.props;
 
-        const maxHours = timeFormat === TIME_FORMAT.H12 ? HOURS_12H_COUNT : HOURS_24H_COUNT - 1;
-        const hoursRange = range(timeFormat === TIME_FORMAT.H12 ? 1 : 0, maxHours);
+        const maxHours = timeFormat === TimeFormat.H12 ? HourFormat.H12 : HourFormat.H24 - 1;
+        const hoursRange = range(timeFormat === TimeFormat.H12 ? 1 : 0, maxHours);
         return hoursRange.map((hours) => ({
-            id: hours,
+            id: String(hours),
             value: zeroBasedValue(hours),
             label: zeroBasedValue(hours)
         }));
     }
 
-    getMinutesOptions() {
+    getMinutesOptions(): OptionShape[] {
         const minutesRange = range(0, MINUTES_COUNT - 1);
         return minutesRange.map((minutes) => ({
-            id: minutes,
+            id: String(minutes),
             value: zeroBasedValue(minutes),
             label: zeroBasedValue(minutes)
         }));
     }
 
-    getAMPMOptions() {
+    getAMPMOptions(): OptionShape[] {
         const ampmRange = Object.values(AMPM_FORMAT);
         return ampmRange.map((option) => ({
             id: option.toString(),
@@ -131,8 +114,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   selectPlaceholder: __('Year'),
                   value: selectedYear,
-                  [FieldType_ATTR]: type,
-                  [FIELD_NAME_ATTR]: 'year'
+                  [DateFieldAttr.TYPE]: type,
+                  [DateFieldAttr.NAME]: 'year'
               } }
               key={ `${type}-year-${ uid }` }
               options={ this.getYearOptions() }
@@ -166,8 +149,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   selectPlaceholder: __('Month'),
                   value: selectedMonth,
-                  [FieldType_ATTR]: type,
-                  [FIELD_NAME_ATTR]: 'month'
+                  [DateFieldAttr.TYPE]: type,
+                  [DateFieldAttr.NAME]: 'month'
               } }
               key={ `${type}-month-${ uid }` }
               options={ this.getMonthOptions() }
@@ -201,8 +184,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   selectPlaceholder: __('Day'),
                   value: selectedDay,
-                  [FieldType_ATTR]: type,
-                  [FIELD_NAME_ATTR]: 'day'
+                  [DateFieldAttr.TYPE]: type,
+                  [DateFieldAttr.NAME]: 'day'
               } }
               key={ `${type}-day-${ uid }` }
               options={ this.getDayOptions() }
@@ -236,8 +219,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   selectPlaceholder: __('Hours'),
                   value: selectedHours,
-                  [FieldType_ATTR]: type,
-                  [FIELD_NAME_ATTR]: 'hours'
+                  [DateFieldAttr.TYPE]: type,
+                  [DateFieldAttr.NAME]: 'hours'
               } }
               key={ `${type}-hours-${ uid }` }
               options={ this.getHoursOptions() }
@@ -271,8 +254,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   selectPlaceholder: __('Minutes'),
                   value: selectedMinutes,
-                  [FieldType_ATTR]: type,
-                  [FIELD_NAME_ATTR]: 'minutes'
+                  [DateFieldAttr.TYPE]: type,
+                  [DateFieldAttr.NAME]: 'minutes'
               } }
               key={ `${type}-minutes-${ uid }` }
               options={ this.getMinutesOptions() }
@@ -298,7 +281,7 @@ export class DateSelectComponent extends PureComponent {
             timeFormat
         } = this.props;
 
-        if (timeFormat !== TIME_FORMAT.H12) {
+        if (timeFormat !== TimeFormat.H12) {
             return null;
         }
 
@@ -311,8 +294,8 @@ export class DateSelectComponent extends PureComponent {
                   name: uid,
                   value: selectedAMPM,
                   noPlaceholder: true,
-                  [FieldType_ATTR]: type,
-                  [FIELD_NAME_ATTR]: 'ampm'
+                  [DateFieldAttr.TYPE]: type,
+                  [DateFieldAttr.NAME]: 'ampm'
               } }
               options={ this.getAMPMOptions() }
               mix={ { block: 'DateSelect', elem: 'AMPM' } }
@@ -340,7 +323,9 @@ export class DateSelectComponent extends PureComponent {
 
         return (
             <div block="DateSelect" elem="InnerWrapper">
-                { dateFieldsOrder.split(',').map((field) => this.dateMap[field]()) }
+                { dateFieldsOrder
+                    .split(',')
+                    .map((field) => this.dateMap[field as keyof DateSelectComponentDateMap]()) }
             </div>
         );
     }

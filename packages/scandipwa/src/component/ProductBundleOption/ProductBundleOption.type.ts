@@ -14,7 +14,7 @@ import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { IndexedBundleOption, TransformedBundleOption } from 'Util/Product/Product.type';
 
 export interface ProductBundleOptionContainerMapStateProps {
-    currencyCode: string;
+    currencyCode: GQLCurrencyEnum;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

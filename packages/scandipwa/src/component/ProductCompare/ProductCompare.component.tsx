@@ -18,6 +18,7 @@ import ProductPrice from 'Component/ProductPrice';
 import { ComparableProduct } from 'Query/ProductCompare.type';
 import { ReactElement } from 'Type/Common.type';
 import { getPrice } from 'Util/Product/Extract';
+import { StockCheckProduct } from 'Util/Product/Product.type';
 
 import { ProductCompareComponentProps } from './ProductCompare.type';
 
@@ -121,7 +122,7 @@ export class ProductCompare extends Component<ProductCompareComponentProps> {
     renderProductPrice(product: ComparableProduct): ReactElement {
         const { isInStock } = this.props;
 
-        if (!isInStock(product)) {
+        if (!isInStock(product as Partial<StockCheckProduct>)) {
             return (
                 <div block="ProductCompareAttributeRow" elem="OutOfStock">{ __('Out of stock') }</div>
             );

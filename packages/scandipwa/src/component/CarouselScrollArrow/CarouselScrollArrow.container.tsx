@@ -8,25 +8,24 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
 import { ReactElement } from 'Type/Common.type';
 
 import CarouselScrollArrow from './CarouselScrollArrow.component';
+import {
+    CarouselScrollArrowComponentContainerPropKeys,
+    CarouselScrollArrowComponentProps,
+    CarouselScrollArrowContainerProps
+} from './CarouselScrollArrow.type';
 
 /** @namespace Component/CarouselScrollArrow/Container */
-export class CarouselScrollArrowContainer extends PureComponent {
-    static propTypes = {
-        isNextArrow: PropTypes.bool.isRequired,
-        onClick: PropTypes.func.isRequired,
-        isInvisible: PropTypes.bool.isRequired
-    };
-
+export class CarouselScrollArrowContainer extends PureComponent<CarouselScrollArrowContainerProps> {
     containerFunctions = {
         onClick: this.onClick.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<CarouselScrollArrowComponentProps, CarouselScrollArrowComponentContainerPropKeys> {
         const { isNextArrow, isInvisible } = this.props;
 
         return {
@@ -37,7 +36,7 @@ export class CarouselScrollArrowContainer extends PureComponent {
         };
     }
 
-    onClick() {
+    onClick(): void {
         const { onClick, isNextArrow } = this.props;
         onClick(isNextArrow);
     }
@@ -45,8 +44,8 @@ export class CarouselScrollArrowContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CarouselScrollArrow
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

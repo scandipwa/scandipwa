@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -21,13 +20,12 @@ import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
-import { ProductTransformData } from 'Util/Product/Product.type';
+import { IndexedVariant, ProductTransformData } from 'Util/Product/Product.type';
 import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { Debouncer } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
@@ -36,6 +34,8 @@ import { appendWithStoreCode } from 'Util/Url';
 import WishlistItem from './WishlistItem.component';
 import { UPDATE_WISHLIST_FREQUENCY } from './WishlistItem.config';
 import {
+    WishlistItemComponentContainerPropKeys,
+    WishlistItemComponentProps,
     WishlistItemContainerMapDispatchProps,
     WishlistItemContainerMapStateProps,
     WishlistItemContainerProps,
@@ -73,11 +73,14 @@ export const mapDispatchToProps = (dispatch: Dispatch): WishlistItemContainerMap
 });
 
 /** @namespace Component/WishlistItem/Container */
-export class WishlistItemContainer extends PureComponent<WishlistItemContainerProps, WishlistItemContainerState> {
-    static defaultProps = {
+export class WishlistItemContainer<
+P extends WishlistItemContainerProps = WishlistItemContainerProps,
+S extends WishlistItemContainerState = WishlistItemContainerState
+> extends PureComponent<P, S> {
+    static defaultProps: Partial<WishlistItemContainerProps> = {
         isRemoving: false,
         setIsQtyUpdateInProgress: noopFn,
-        wishlistId: 0
+        wishlistId: '0'
     };
 
     containerFunctions = {
@@ -92,7 +95,7 @@ export class WishlistItemContainer extends PureComponent<WishlistItemContainerPr
     changeDescriptionDebouncer = new Debouncer();
 
     changeDescription = this.changeDescriptionDebouncer.startDebounce((description: string) => {
-        const { wishlistId, product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+        const { wishlistId, product: { wishlist: { id: item_id } = {} }, updateWishlistItem } = this.props;
 
         if (!isSignedIn() || !item_id) {
             return;
@@ -113,7 +116,7 @@ export class WishlistItemContainer extends PureComponent<WishlistItemContainerPr
             product: {
                 wishlist: {
                     id: item_id
-                }
+                } = {}
             },
             updateWishlistItem,
             setIsQtyUpdateInProgress
@@ -146,7 +149,7 @@ export class WishlistItemContainer extends PureComponent<WishlistItemContainerPr
         this.getAttributes = this.getAttributes.bind(this);
     }
 
-    containerProps() {
+    containerProps(): Pick<WishlistItemComponentProps, WishlistItemComponentContainerPropKeys> {
         const {
             handleSelectIdChange,
             isEditingActive,
@@ -185,21 +188,24 @@ export class WishlistItemContainer extends PureComponent<WishlistItemContainerPr
         setIsQtyUpdateInProgress(true);
     }
 
-    getConfigurableVariantIndex(sku: string, variants) {
-        return Object.keys(variants).find((i) => variants[ i ].sku === sku);
+    getConfigurableVariantIndex(sku: string, variants: IndexedVariant[]): string | undefined {
+        return Object.keys(variants).find((i) => variants[ Number(i) ].sku === sku);
     }
 
-    getAttributes() {
-        const { product: { variants, configurable_options, wishlist: { sku: wishlistSku } } } = this.props;
+    getAttributes(): string[] {
+        const { product: { variants, configurable_options = {}, wishlist: { sku: wishlistSku } = {} } } = this.props;
 
-        const { attributes = [] } = variants.find(({ sku }) => sku === wishlistSku) || {};
+        const { attributes = [] } = variants?.find(({ sku }) => sku === wishlistSku) || {};
 
-        return attributes ? Object.values(attributes).reduce((acc, { attribute_code, attribute_value }) => {
+        return attributes ? Object.values(attributes).reduce((
+            acc: string[],
+            { attribute_code, attribute_value }
+        ) => {
             const {
                 attribute_options: {
                     [ attribute_value ]: {
-                        value,
-                        label
+                        value = '',
+                        label = ''
                     } = {}
                 } = {}
             } = configurable_options[ attribute_code ] || {};
@@ -219,7 +225,7 @@ export class WishlistItemContainer extends PureComponent<WishlistItemContainerPr
             product: {
                 wishlist: {
                     buy_request
-                }
+                } = {}
             },
             product: item
         } = this.props;
@@ -239,9 +245,9 @@ export class WishlistItemContainer extends PureComponent<WishlistItemContainerPr
             product: {
                 type_id: typeId,
                 wishlist: {
-                    quantity,
+                    quantity = 0,
                     buy_request: buyRequest
-                }
+                } = {}
             }
         } = this.props;
 
@@ -263,19 +269,19 @@ export class WishlistItemContainer extends PureComponent<WishlistItemContainerPr
 
         const {
             type_id,
-            variants,
-            url,
+            variants = [],
+            url = '',
             wishlist: {
                 id,
-                sku
-            }
+                sku = ''
+            } = {}
         } = item;
 
         if (!isSignedIn()) {
             return;
         }
 
-        if (type_id === ProductType.configurable) {
+        if (type_id === ProductType.CONFIGURABLE) {
             const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
 
             if (!configurableVariantIndex) {
@@ -296,7 +302,7 @@ export class WishlistItemContainer extends PureComponent<WishlistItemContainerPr
             this.changeQuantityDebouncer.cancelDebounceAndExecuteImmediately();
             this.changeDescriptionDebouncer.cancelDebounceAndExecuteImmediately();
             await addProductToCart({ products });
-            this.removeItem(id);
+            this.removeItem(!!id);
         } catch {
             this.setState({ isLoading: false });
             history.push({ pathname: appendWithStoreCode(url) });
@@ -310,7 +316,7 @@ export class WishlistItemContainer extends PureComponent<WishlistItemContainerPr
     }
 
     async removeItem(noMessages = true, isRemoveOnly = false): Promise<void> {
-        const { product: { wishlist: { id: item_id } }, removeFromWishlist, handleSelectIdChange } = this.props;
+        const { product: { wishlist: { id: item_id } = {} }, removeFromWishlist, handleSelectIdChange } = this.props;
 
         if (!isSignedIn() || !item_id) {
             return;
@@ -328,7 +334,7 @@ export class WishlistItemContainer extends PureComponent<WishlistItemContainerPr
     }
 
     redirectToProductPage(): void {
-        const { product: { url } } = this.props;
+        const { product: { url = '' } } = this.props;
 
         history.push({ pathname: appendWithStoreCode(url) });
     }

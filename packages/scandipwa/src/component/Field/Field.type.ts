@@ -21,6 +21,7 @@ import {
     TextareaHTMLAttributes
 } from 'react';
 
+import { DateFieldAttr } from 'Component/DateSelect/DateSelect.config';
 import { Mix, ReactElement } from 'Type/Common.type';
 import { FieldOptions, Option } from 'Type/Field.type';
 import { FieldValidationOutput, ValidationDOMOutput, ValidationRule } from 'Util/Validator/Validator.type';
@@ -94,6 +95,8 @@ export type FieldAttributes = (InputHTMLAttributes<HTMLInputElement>
     isExpanded?: boolean;
     noPlaceholder?: boolean;
     key?: string | number;
+    [DateFieldAttr.TYPE]?: string;
+    [DateFieldAttr.NAME]?: string;
 };
 
 export type FieldEvents = Omit<DOMAttributes<HTMLElement>, 'children' | 'dangerouslySetInnerHTML' | 'onChange'>

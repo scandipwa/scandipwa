@@ -9,10 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 
 /** @namespace Util/Category/Filters/getPriceFilterLabel */
-export const getPriceFilterLabel = (from: number | string, to: number | string, currencyCode: string): string => {
+export const getPriceFilterLabel = (
+    from: number | string,
+    to: number | string,
+    currencyCode: GQLCurrencyEnum
+): string => {
     const priceFrom = formatPrice(Number(from), currencyCode);
     const priceTo = formatPrice(Number(to), currencyCode);
 

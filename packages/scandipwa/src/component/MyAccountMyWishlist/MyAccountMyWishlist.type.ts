@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
+import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 export interface MyAccountMyWishlistContainerMapStateProps {
-    wishlistItems: Record<string, WishlistProduct>;
+    wishlistItems: Record<string, IndexedWishlistProduct>;
     isWishlistLoading: boolean;
     isMobile: boolean;
 }
@@ -48,7 +48,7 @@ export interface MyAccountMyWishlistComponentProps {
     addAllToCart: () => Promise<void>;
     shareWishlist: () => void;
     isWishlistEmpty: boolean;
-    wishlistItems: Record<string, WishlistProduct>;
+    wishlistItems: Record<string, IndexedWishlistProduct>;
     isActionsDisabled: boolean;
     isEditingActive: boolean;
     isMobile: boolean;

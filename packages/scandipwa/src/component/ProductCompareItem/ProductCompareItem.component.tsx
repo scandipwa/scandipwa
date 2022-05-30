@@ -20,29 +20,18 @@ import Loader from 'Component/Loader';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 import { ReactElement } from 'Type/Common.type';
-import { UrlType } from 'Type/Router.type';
 import { ADD_TO_WISHLIST } from 'Util/Product';
+import { StockCheckProduct } from 'Util/Product/Product.type';
 import { magentoProductTransform } from 'Util/Product/Transform';
+
+import { ProductCompareItemComponentProps } from './ProductCompareItem.type';
 
 import './ProductCompareItem.style';
 
 /** @namespace Component/ProductCompareItem/Component */
-export class ProductCompareItem extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        product: ProductType.isRequired,
-        addItemToCart: PropTypes.func.isRequired,
-        removeComparedProduct: PropTypes.func.isRequired,
-        imgUrl: PropTypes.string.isRequired,
-        overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
-        linkTo: UrlType,
-        overriddenAddToCartBtnHandler: PropTypes.func.isRequired,
-        isWishlistEnabled: PropTypes.bool.isRequired,
-        isInStock: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
-        linkTo: {}
+export class ProductCompareItem extends PureComponent<ProductCompareItemComponentProps> {
+    static defaultProps: Partial<ProductCompareItemComponentProps> = {
+        linkTo: { pathname: '' }
     };
 
     renderProductImage(): ReactElement {
@@ -133,10 +122,7 @@ export class ProductCompareItem extends PureComponent {
             >
                 <AddToCart
                   product={ {} }
-                  groupedProductQuantity={ {} }
-                  productOptionsData={ {} }
                   mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
-                  disableHandler
                 />
             </Link>
         );
@@ -146,8 +132,6 @@ export class ProductCompareItem extends PureComponent {
         return (
             <AddToCart
               product={ {} }
-              groupedProductQuantity={ {} }
-              productOptionsData={ {} }
               mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
               isDisabled
             />
@@ -161,7 +145,7 @@ export class ProductCompareItem extends PureComponent {
             isInStock
         } = this.props;
 
-        if (!isInStock(product)) {
+        if (!isInStock(product as Partial<StockCheckProduct>)) {
             return this.renderAddToCartBtnDisabled();
         }
 

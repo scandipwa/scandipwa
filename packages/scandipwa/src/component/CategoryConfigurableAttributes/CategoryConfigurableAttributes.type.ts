@@ -18,9 +18,10 @@ import {
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
 import { CategoryTree } from 'Query/Category.type';
 import { Merge } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 
 export interface CategoryConfigurableAttributesContainerMapStateProps {
-    currencyCode: string;
+    currencyCode: GQLCurrencyEnum;
     showProductCount: boolean;
     childrenCategories: CategoryTree[];
 }
@@ -44,7 +45,7 @@ export interface CategoryConfigurableAttributesComponentContainerFunctions
 }
 
 export interface CategoryConfigurableAttributesComponentBaseProps extends ProductConfigurableAttributesComponentProps {
-    currencyCode: string;
+    currencyCode: GQLCurrencyEnum;
     showProductCount: boolean;
     childrenCategories: CategoryTree[];
 }

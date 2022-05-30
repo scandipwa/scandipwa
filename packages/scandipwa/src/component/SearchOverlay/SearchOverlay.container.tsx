@@ -9,16 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import SearchBarReducer from 'Store/SearchBar/SearchBar.reducer';
-import { ItemsType } from 'Type/ProductList.type';
+import { ReactElement } from 'Type/Common.type';
 import { withReducers } from 'Util/DynamicReducer';
+import { RootState } from 'Util/Store/Store.type';
 
 import SearchOverlay from './SearchOverlay.component';
+import {
+    SearchOverlayComponentContainerPropKeys,
+    SearchOverlayComponentProps,
+    SearchOverlayContainerMapDispatchProps,
+    SearchOverlayContainerMapStateProps,
+    SearchOverlayContainerProps
+} from './SearchOverlay.type';
 
 export const SearchBarDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -26,13 +33,13 @@ export const SearchBarDispatcher = import(
 );
 
 /** @namespace Component/SearchOverlay/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): SearchOverlayContainerMapStateProps => ({
     searchResults: state.SearchBarReducer.productsInSearch,
     isLoading: state.SearchBarReducer.isLoading
 });
 
 /** @namespace Component/SearchOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): SearchOverlayContainerMapDispatchProps => ({
     makeSearchRequest: (options) => SearchBarDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
@@ -42,17 +49,8 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/SearchOverlay/Container */
-export class SearchOverlayContainer extends PureComponent {
-    static propTypes = {
-        makeSearchRequest: PropTypes.func.isRequired,
-        clearSearchResults: PropTypes.func.isRequired,
-        searchCriteria: PropTypes.string.isRequired,
-        searchResults: ItemsType.isRequired,
-        isHideOverlay: PropTypes.bool,
-        isLoading: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
+export class SearchOverlayContainer extends PureComponent<SearchOverlayContainerProps> {
+    static defaultProps: Partial<SearchOverlayContainerProps> = {
         isHideOverlay: false
     };
 
@@ -60,7 +58,7 @@ export class SearchOverlayContainer extends PureComponent {
         makeSearchRequest: this.makeSearchRequest.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<SearchOverlayComponentProps, SearchOverlayComponentContainerPropKeys> {
         const {
             clearSearchResults,
             isHideOverlay,
@@ -78,7 +76,7 @@ export class SearchOverlayContainer extends PureComponent {
         };
     }
 
-    makeSearchRequest() {
+    makeSearchRequest(): void {
         const {
             makeSearchRequest,
             clearSearchResults,
@@ -101,8 +99,8 @@ export class SearchOverlayContainer extends PureComponent {
     render(): ReactElement {
         return (
             <SearchOverlay
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

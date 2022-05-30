@@ -18,20 +18,14 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 
+import { SearchItemComponentProps } from './SearchItem.type';
+
 import './SearchItem.style';
 
 /** @namespace Component/SearchItem/Component */
-export class SearchItem extends PureComponent {
-    static propTypes = {
-        linkTo: UrlType,
-        imgSrc: PropTypes.string,
-        customAttribute: AttributeType,
-        product: ProductType,
-        onClick: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
-        linkTo: {},
+export class SearchItem extends PureComponent<SearchItemComponentProps> {
+    static defaultProps: Partial<SearchItemComponentProps> = {
+        linkTo: { pathname: '' },
         imgSrc: '',
         customAttribute: null,
         product: {}
@@ -64,7 +58,7 @@ export class SearchItem extends PureComponent {
             <figcaption block="SearchItem" elem="Content">
                 { this.renderCustomAttribute() }
                 <h4 block="SearchItem" elem="Title" mods={ { isLoaded: !!name } }>
-                    <TextPlaceholder content={ name } length={ TextPlaceHolderLength.Long } />
+                    <TextPlaceholder content={ name } length={ TextPlaceHolderLength.LONG } />
                 </h4>
             </figcaption>
         );

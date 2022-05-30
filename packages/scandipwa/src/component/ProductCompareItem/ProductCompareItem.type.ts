@@ -12,8 +12,9 @@
 import { ComparableProduct } from 'Query/ProductCompare.type';
 import { AddProductToCartOptions } from 'Store/Cart/Cart.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import { Url } from 'Type/Common.type';
 import { Device } from 'Type/Device.type';
-import { IndexedProduct } from 'Util/Product/Product.type';
+import { StockCheckProduct } from 'Util/Product/Product.type';
 
 export interface ProductCompareItemContainerMapStateProps {
     device: Device;
@@ -28,7 +29,7 @@ export interface ProductCompareItemContainerMapDispatchProps {
 
 export interface ProductCompareItemContainerBaseProps {
     product: ComparableProduct;
-    isInStock: (product: Partial<IndexedProduct>, parentProduct?: IndexedProduct | undefined) => boolean;
+    isInStock: (product: Partial<StockCheckProduct>, parentProduct?: Partial<StockCheckProduct> | undefined) => boolean;
 }
 
 export type ProductCompareItemContainerProps = ProductCompareItemContainerMapStateProps
@@ -37,4 +38,29 @@ export type ProductCompareItemContainerProps = ProductCompareItemContainerMapSta
 
 export interface ProductCompareItemContainerState {
     isLoading: boolean;
+    currentQty: number | Record<number, number>;
 }
+
+export interface ProductCompareItemComponentProps {
+    product: ComparableProduct;
+    isLoading: boolean;
+    imgUrl: string;
+    overrideAddToCartBtnBehavior: boolean;
+    linkTo: Url;
+    isInStock: (product: Partial<StockCheckProduct>, parentProduct?: Partial<StockCheckProduct>) => boolean;
+    isWishlistEnabled: boolean;
+    removeComparedProduct: () => Promise<void>;
+    getGroupedProductQuantity: () => Record<number, number>;
+    getProductOptionsData: () => { requiredOptions: number[] };
+    overriddenAddToCartBtnHandler: () => void;
+    addItemToCart: () => Promise<void>;
+}
+
+export type ProductCompareItemComponentContainerPropKeys =
+    | 'product'
+    | 'isLoading'
+    | 'imgUrl'
+    | 'overrideAddToCartBtnBehavior'
+    | 'linkTo'
+    | 'isInStock'
+    | 'isWishlistEnabled';

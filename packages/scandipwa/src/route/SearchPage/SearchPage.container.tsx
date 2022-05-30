@@ -8,27 +8,36 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 // TODO: try SEARCH type
 import { Page } from 'Component/Header/Header.config';
+import { SortFields } from 'Query/ProductList.type';
 import { LOADING_TIME, SortDirections } from 'Route/CategoryPage/CategoryPage.config';
-import { CategoryPageContainer } from 'Route/CategoryPage/CategoryPage.container';
+import {
+    CategoryPageContainer,
+    mapDispatchToProps as sourceMapDispatchToProps,
+    mapStateToProps as sourceMapStateToProps
+} from 'Route/CategoryPage/CategoryPage.container';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
+import { ReactElement } from 'Type/Common.type';
 import { decodeString, noopFn } from 'Util/Common';
 import { withReducers } from 'Util/DynamicReducer';
 import { debounce } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
 import { BEST_MATCH_SORT_OPTION_VALUE, NONE_SORT_OPTION } from './SearchPage.config';
+import {
+    SearchPageComponentContainerPropKeys,
+    SearchPageComponentProps,
+    SearchPageContainerConfig,
+    SearchPageContainerMapDispatchProps, SearchPageContainerMapStateProps, SearchPageContainerProps,
+    SearchPageContainerState
+} from './SearchPage.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -52,77 +61,52 @@ export const ProductListInfoDispatcher = import(
 );
 
 /** @namespace Route/SearchPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    category: state.CategoryReducer.category,
-    isOffline: state.OfflineReducer.isOffline,
-    filters: state.ProductListInfoReducer.filters,
-    currentArgs: state.ProductListReducer.currentArgs,
-    sortFields: state.ProductListInfoReducer.sortFields,
+export const mapStateToProps = (state: RootState): SearchPageContainerMapStateProps => ({
+    ...sourceMapStateToProps(state),
     minPriceRange: state.ProductListInfoReducer.minPrice,
-    maxPriceRange: state.ProductListInfoReducer.maxPrice,
-    isInfoLoading: state.ProductListInfoReducer.isLoading,
-    totalPages: state.ProductListReducer.totalPages,
-    totalItems: state.ProductListReducer.totalItems,
-    isMobile: state.ConfigReducer.device.isMobile,
-    plpType: state.ConfigReducer.plp_list_mode
+    maxPriceRange: state.ProductListInfoReducer.maxPrice
 });
 
 /** @namespace Route/SearchPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: (options) => CategoryDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
-    ),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
-    ),
-    requestProductListInfo: (options) => ProductListInfoDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
-    ),
-    updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: (options) => NoMatchDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
-    ),
-    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+export const mapDispatchToProps = (dispatch: Dispatch): SearchPageContainerMapDispatchProps => ({
+    ...sourceMapDispatchToProps(dispatch),
     updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 /** @namespace Route/SearchPage/Container */
-export class SearchPageContainer extends CategoryPageContainer {
-    static propTypes = {
-        ...this.propTypes,
-        updateMetaFromCategory: PropTypes.func
-    };
-
-    static defaultProps = {
-        ...this.defaultProps,
+export class SearchPageContainer extends CategoryPageContainer<
+SearchPageContainerProps,
+SearchPageContainerState
+> {
+    static defaultProps: Partial<SearchPageContainerProps> = {
+        ...CategoryPageContainer.defaultProps,
         isSearchPage: true,
         updateMetaFromCategory: noopFn
     };
 
-    config = {
+    config: SearchPageContainerConfig = {
         sortKey: 'none',
         sortDirection: SortDirections.ASC
     };
 
-    updateMeta() {
+    updateMeta(): void {
         const { updateMeta } = this.props;
         updateMeta({ title: __('Search') });
     }
 
-    updateBreadcrumbs() {
+    updateBreadcrumbs(): void {
         const { updateBreadcrumbs } = this.props;
         const search = decodeString(this.getSearchParam());
 
-        updateBreadcrumbs([{
+        updateBreadcrumbs({
             url: '',
-            name: search
-        }]);
+            name: search,
+            id: '',
+            breadcrumbs: []
+        });
     }
 
-    updateHeaderState() {
+    updateHeaderState(): void {
         const {
             changeHeaderState,
             history
@@ -142,7 +126,7 @@ export class SearchPageContainer extends CategoryPageContainer {
         });
     }
 
-    getIsMatchingListFilter() {
+    getIsMatchingListFilter(): boolean {
         const { currentArgs: { search: currentSearch } } = this.props;
         const search = this.getSearchParam();
 
@@ -150,7 +134,7 @@ export class SearchPageContainer extends CategoryPageContainer {
         return super.getIsMatchingListFilter() && search === currentSearch;
     }
 
-    getIsMatchingInfoFilter() {
+    getIsMatchingInfoFilter(): boolean {
         const { currentArgs: { search: currentSearch } } = this.props;
         const search = this.getSearchParam();
 
@@ -165,15 +149,17 @@ export class SearchPageContainer extends CategoryPageContainer {
         this.updateNavigationState();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: SearchPageContainerProps): void {
         const {
             isOffline,
-            match: { params: { query } }
+            match: { params = {} }
         } = this.props;
+        const { query } = params as Record<string, string>;
 
         const {
-            match: { params: { query: prevQuery } }
+            match: { params: prevParams = {} }
         } = prevProps;
+        const { query: prevQuery } = prevParams as Record<string, string>;
 
         if (isOffline) {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
@@ -189,13 +175,14 @@ export class SearchPageContainer extends CategoryPageContainer {
         }
     }
 
-    getSearchParam() {
-        const { match: { params: { query } } } = this.props;
+    getSearchParam(): string {
+        const { match: { params = {} } } = this.props;
+        const { query } = params as Record<string, string>;
 
         return query;
     }
 
-    getSortFields() {
+    getSortFields(): SortFields {
         const {
             sortFields: {
                 options = []
@@ -212,14 +199,22 @@ export class SearchPageContainer extends CategoryPageContainer {
         };
     }
 
+    containerProps(): Pick<
+    SearchPageComponentProps,
+    SearchPageComponentContainerPropKeys
+    > {
+        return {
+            ...super.containerProps(),
+            search: this.getSearchParam(),
+            sortFields: this.getSortFields()
+        };
+    }
+
     render(): ReactElement {
         return (
             <SearchPage
               { ...this.containerFunctions }
               { ...this.containerProps() }
-                // addded here to not override the container props
-              search={ this.getSearchParam() }
-              sortFields={ this.getSortFields() }
             />
         );
     }

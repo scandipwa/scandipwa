@@ -13,6 +13,7 @@ import { AnyAction } from 'redux';
 import { PriceRange, ProductItem } from 'Query/ProductList.type';
 import { WishlistItem } from 'Query/Wishlist.type';
 import { Merge } from 'Type/Common.type';
+import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 export enum WishlistActionType {
     CLEAR_WISHLIST = 'CLEAR_WISHLIST',
@@ -47,7 +48,7 @@ export type WishlistAction = RemoveItemFromWishlistAction
 | ClearWishlistAction;
 
 export type WishlistStore = {
-    productsInWishlist: Record<string, WishlistProduct>;
+    productsInWishlist: Record<string, IndexedWishlistProduct>;
     isLoading: boolean;
 };
 
@@ -60,6 +61,7 @@ declare module 'Util/Store/Store.type' {
 export type WishlistProduct = Merge<ProductItem, {
     price_range?: PriceRange;
     quantity: number;
+    configurableVariantIndex: string;
     wishlist: Merge<Partial<WishlistItem>, {
         quantity: number;
     }>;

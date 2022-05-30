@@ -48,6 +48,7 @@ import {
     IndexedProduct,
     IndexedReview,
     IndexedVariant,
+    IndexedWishlistProduct,
     RatingVote
 } from './Product.type';
 
@@ -398,7 +399,7 @@ export const getIndexedProducts = <T extends Partial<ProductItem>>(
 /** @namespace Util/Product/getIndexedParameteredProducts */
 export const getIndexedParameteredProducts = (
     products: Record<string, WishlistProduct>
-): Record<string, WishlistProduct> => Object.entries(products)
+): Record<string, IndexedWishlistProduct> => Object.entries(products)
     .reduce((
         products,
         [id, product]

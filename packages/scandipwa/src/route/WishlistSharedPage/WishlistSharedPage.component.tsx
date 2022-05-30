@@ -8,23 +8,20 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import SourceWishlist from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.component';
 import SharedWishlistItem from 'Component/SharedWishlistItem';
-import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { ObjectEntries, ReactElement } from 'Type/Common.type';
+import { IndexedWishlistProduct } from 'Util/Product/Product.type';
+
+import { WishlistSharedPageComponentProps } from './WishlistSharedPage.type';
 
 import './WishlistSharedPage.style';
 
 /** @namespace Route/WishlistSharedPage/Component */
-export class WishlistSharedPage extends SourceWishlist {
-    static propTypes = {
-        creatorsName: PropTypes.string.isRequired
-    };
-
+export class WishlistSharedPage extends SourceWishlist<WishlistSharedPageComponentProps> {
     renderActionLine(): ReactElement {
         return (
             <div block="WishlistSharedPage" elem="ActionBar">
@@ -33,7 +30,7 @@ export class WishlistSharedPage extends SourceWishlist {
         );
     }
 
-    renderProduct([id, product]: ObjectEntries<Record<string, WishlistProduct>>): ReactElement {
+    renderProduct([id, product]: ObjectEntries<Record<string, IndexedWishlistProduct>>): ReactElement {
         return (
             <SharedWishlistItem
               key={ id }

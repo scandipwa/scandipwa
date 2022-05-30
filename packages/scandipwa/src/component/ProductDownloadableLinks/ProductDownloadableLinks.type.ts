@@ -10,10 +10,11 @@
  */
 
 import { DownloadableProductLinks } from 'Query/ProductList.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 
 export interface ProductDownloadableLinksContainerMapStateProps {
     isOpenInNewTab: boolean;
-    currencyCode: string;
+    currencyCode: GQLCurrencyEnum;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -42,7 +43,7 @@ export interface ProductDownloadableLinksComponentProps {
     title: string;
     isLoading: boolean;
     selectedLinks: string[];
-    currencyCode: string;
+    currencyCode: GQLCurrencyEnum;
     setSelectedCheckboxValues: () => void;
     setRef: (elem: HTMLElement | null) => void;
 }

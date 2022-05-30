@@ -9,42 +9,41 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
 import DatePicker from 'Component/DatePicker/DatePicker.component';
-import { FIELD_DATE_TYPE, TIME_FORMAT } from 'Component/FieldDate/FieldDate.config';
+import { FieldDateType } from 'Component/FieldDate/FieldDate.config';
+import { ReactElement } from 'Type/Common.type';
 import {
     getDateTimeFormat,
     getTimeFormat,
     getYearRangeAttributes
 } from 'Util/Form/Extract';
+import { RootState } from 'Util/Store/Store.type';
+
+import {
+    DatePickerComponentContainerPropKeys,
+    DatePickerComponentProps,
+    DatePickerContainerMapDispatchProps,
+    DatePickerContainerMapStateProps,
+    DatePickerContainerProps,
+    DatePickerContainerState
+} from './DatePicker.type';
 
 /** @namespace Component/DatePicker/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): DatePickerContainerMapStateProps => ({
     yearRange: state.ConfigReducer.year_range,
     dateFieldsOrder: state.ConfigReducer.date_fields_order,
     timeFormat: state.ConfigReducer.time_format
 });
 
 /** @namespace Component/DatePicker/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): DatePickerContainerMapDispatchProps => ({});
 
 /** @namespace Component/DatePicker/Container */
-export class DatePickerContainer extends PureComponent {
-    static propTypes = {
-        type: PropTypes.oneOf(Object.values(FIELD_DATE_TYPE)).isRequired,
-        timeFormat: PropTypes.oneOf(Object.values(TIME_FORMAT)).isRequired,
-        dateFieldsOrder: PropTypes.string.isRequired,
-        yearRange: PropTypes.string.isRequired,
-        uid: PropTypes.string.isRequired,
-        isRequired: PropTypes.bool,
-        updateSelectedValues: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
+export class DatePickerContainer extends PureComponent<DatePickerContainerProps, DatePickerContainerState> {
+    static defaultProps: Partial<DatePickerContainerProps> = {
         isRequired: false
     };
 
@@ -52,18 +51,19 @@ export class DatePickerContainer extends PureComponent {
         onSetDate: this.onSetDate.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
-        const { yearRange } = props;
+    __construct(props: DatePickerContainerProps): void {
+        super.__construct?.(props);
 
-        const { minDate, maxDate } = getYearRangeAttributes(yearRange);
+        const { yearRange } = props;
+        const { minDate, maxDate } = getYearRangeAttributes(yearRange, false);
         const currentDate = new Date();
         const validMinDate = minDate > currentDate ? minDate : currentDate;
         const selectedDate = maxDate < validMinDate ? maxDate : validMinDate;
+
         this.state = { selectedDate };
     }
 
-    containerProps() {
+    containerProps(): Pick<DatePickerComponentProps, DatePickerComponentContainerPropKeys> {
         const { selectedDate } = this.state;
         const {
             type,
@@ -74,8 +74,8 @@ export class DatePickerContainer extends PureComponent {
             isRequired
         } = this.props;
 
-        const showTimeSelect = type === FIELD_DATE_TYPE.dateTime || type === FIELD_DATE_TYPE.time;
-        const showTimeSelectOnly = type === FIELD_DATE_TYPE.time;
+        const showTimeSelect = type === FieldDateType.DATETIME || type === FieldDateType.TIME;
+        const showTimeSelectOnly = type === FieldDateType.TIME;
         const dateFormat = getDateTimeFormat(type, dateFieldsOrder, magentoTimeFormat);
         const timeFormat = getTimeFormat(magentoTimeFormat);
 
@@ -83,15 +83,16 @@ export class DatePickerContainer extends PureComponent {
             selectedDate,
             showTimeSelect,
             showTimeSelectOnly,
-            ...getYearRangeAttributes(yearRange),
+            ...getYearRangeAttributes(yearRange, false),
             dateFormat,
             timeFormat,
             uid,
-            isClearable: !isRequired
+            isClearable: !isRequired,
+            type
         };
     }
 
-    onSetDate(date) {
+    onSetDate(date: Date): void {
         const { updateSelectedValues } = this.props;
 
         this.setState({ selectedDate: date }, updateSelectedValues);
@@ -100,8 +101,8 @@ export class DatePickerContainer extends PureComponent {
     render(): ReactElement {
         return (
             <DatePicker
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }
