@@ -27,6 +27,7 @@ export class CategorySortContainer extends PureComponent {
             }))
         ]),
         isMatchingInfoFilter: PropTypes.bool,
+        isCurrentCategoryLoaded: PropTypes.bool,
         onSortChange: PropTypes.func.isRequired,
         sortKey: PropTypes.string.isRequired,
         sortDirection: SortDirectionType.isRequired
@@ -34,11 +35,13 @@ export class CategorySortContainer extends PureComponent {
 
     static defaultProps = {
         sortFields: [],
-        isMatchingInfoFilter: false
+        isMatchingInfoFilter: false,
+        isCurrentCategoryLoaded: false
     };
 
     containerProps() {
         const {
+            isCurrentCategoryLoaded,
             isMatchingInfoFilter,
             onSortChange,
             sortDirection,
@@ -46,6 +49,7 @@ export class CategorySortContainer extends PureComponent {
         } = this.props;
 
         return {
+            isCurrentCategoryLoaded,
             isMatchingInfoFilter,
             onSortChange,
             sortDirection,
