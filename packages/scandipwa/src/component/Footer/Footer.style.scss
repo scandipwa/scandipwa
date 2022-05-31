@@ -24,7 +24,7 @@
     }
 
     &-CopyrightContentWrapper {
-        background-color: var(--secondary-base-color);
+        background-color: var(--footer-background-color);
     }
 
     &-CopyrightContent {
@@ -59,7 +59,7 @@
 
     &-Content {
         min-height: var(--footer-content-height);
-        background-color: var(--secondary-base-color);
+        background-color: var(--footer-background-color);
     }
 
     &-Columns {
