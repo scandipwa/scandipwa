@@ -16,6 +16,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
 import Popup from 'Component/Popup/Popup.container';
 import ProductActions from 'Component/ProductActions';
+import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviewForm from 'Component/ProductReviewForm/ProductReviewForm.container';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
@@ -35,10 +36,7 @@ export const ProductGallery = lazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "product-gallery" */
     'Component/ProductGallery'
 ));
-export const ProductInformation = lazy(() => import(
-    /* webpackMode: "lazy", webpackChunkName: "product-info" */
-    'Component/ProductInformation'
-));
+
 export const ProductReviews = lazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "product-reviews" */
     'Component/ProductReviews'
@@ -131,13 +129,11 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> } key={ key }>
-                <ProductInformation
-                  product={ { ...dataSource, parameters } }
-                  areDetailsLoaded={ areDetailsLoaded }
-                  key={ key }
-                />
-            </Suspense>
+            <ProductInformation
+              product={ { ...dataSource, parameters } }
+              areDetailsLoaded={ areDetailsLoaded }
+              key={ key }
+            />
         );
     }
 
