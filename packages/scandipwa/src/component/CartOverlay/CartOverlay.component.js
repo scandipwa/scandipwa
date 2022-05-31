@@ -103,7 +103,7 @@ export class CartOverlay extends PureComponent {
     renderOrderTotalExlTax() {
         const { cartTotalSubPrice } = this.props;
 
-        if (!cartTotalSubPrice) {
+        if (!cartTotalSubPrice && cartTotalSubPrice !== 0) {
             return null;
         }
 
