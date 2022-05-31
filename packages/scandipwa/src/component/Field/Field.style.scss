@@ -282,6 +282,15 @@
                         }
                     }
                 }
+
+                button {
+                    cursor: pointer;
+                    z-index: 2;
+
+                    &:hover {
+                        color: var(--button-hover-background);
+                    }
+                }
             }
         }
     }
@@ -424,7 +433,7 @@
                 margin-block-end: 0;
             }
 
-            span {
+            span, button {
                 color: var(--primary-base-color);
                 font-size: 18px;
                 font-weight: 700;
@@ -437,7 +446,7 @@
                 width: auto;
             }
 
-            + p {
+            + p, + button + p {
                 margin-block-start: 5px;
                 margin-block-end: 0;
             }
