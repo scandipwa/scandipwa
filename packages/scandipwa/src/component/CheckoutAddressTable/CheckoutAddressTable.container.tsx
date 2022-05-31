@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
@@ -17,18 +16,17 @@ import {
     mapStateToProps,
     MyAccountAddressTableContainer
 } from 'Component/MyAccountAddressTable/MyAccountAddressTable.container';
+import { ReactElement } from 'Type/Common.type';
 
 import CheckoutAddressTable from './CheckoutAddressTable.component';
+import {
+    CheckoutAddressTableContainerProps,
+    CheckoutAddressTableContainerPropsKeys
+} from './CheckoutAddressTable.type';
 
 /** @namespace Component/CheckoutAddressTable/Container */
-export class CheckoutAddressTableContainer extends MyAccountAddressTableContainer {
-    static propTypes = {
-        ...super.propTypes,
-        isSelected: PropTypes.bool.isRequired,
-        onClick: PropTypes.func.isRequired
-    };
-
-    containerProps() {
+export class CheckoutAddressTableContainer extends MyAccountAddressTableContainer<CheckoutAddressTableContainerProps> {
+    containerProps(): Pick<CheckoutAddressTableContainerProps, CheckoutAddressTableContainerPropsKeys> {
         const { isSelected, onClick } = this.props;
 
         return {
@@ -41,8 +39,8 @@ export class CheckoutAddressTableContainer extends MyAccountAddressTableContaine
     render(): ReactElement {
         return (
             <CheckoutAddressTable
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

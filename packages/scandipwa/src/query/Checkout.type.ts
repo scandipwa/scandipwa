@@ -9,6 +9,9 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { AppliedTaxItem } from './Cart.type';
+import { PaymentMethodAdditionalData } from './Order.type';
+
 export interface TotalsItem {
     qty: number;
     name: string;
@@ -23,8 +26,12 @@ export interface TotalsItem {
 }
 
 export interface TotalsObject {
+    applied_rule_ids: string;
+    applied_taxes: AppliedTaxItem[];
+    coupon_code: string;
     subtotal: number;
     tax_amount: number;
+    items_qty: number;
     base_grand_total: number;
     grand_total: number;
     discount_amount: number;
@@ -41,6 +48,8 @@ export interface TotalsObject {
 export interface PaymentMethod {
     code: string;
     title: string;
+    additional_data?: PaymentMethodAdditionalData;
+    purchase_order_number?: string;
 }
 
 export interface PaymentDetails {

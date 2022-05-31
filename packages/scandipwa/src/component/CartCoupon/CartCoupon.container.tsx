@@ -6,18 +6,25 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { MixType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import CartCoupon from './CartCoupon.component';
+import {
+    CartCouponComponentProps,
+    CartCouponContainerMapDispatchProps,
+    CartCouponContainerMapStateProps,
+    CartCouponContainerProps,
+    CartCouponContainerPropsKeys,
+    CartCouponContainerState
+} from './CartCoupon.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -25,11 +32,11 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/CartCoupon/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (): CartCouponContainerMapStateProps => ({});
 
 /** @namespace Component/CartCoupon/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    applyCouponToCart: (couponCode) => CartDispatcher.then(
+export const mapDispatchToProps = (dispatch: Dispatch): CartCouponContainerMapDispatchProps => ({
+    applyCouponToCart: (couponCode: string) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode)
     ),
     removeCouponFromCart: () => CartDispatcher.then(
@@ -38,16 +45,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/CartCoupon/Container */
-export class CartCouponContainer extends PureComponent {
-    static propTypes = {
-        couponCode: PropTypes.string,
-        applyCouponToCart: PropTypes.func.isRequired,
-        removeCouponFromCart: PropTypes.func.isRequired,
-        onCouponCodeUpdate: PropTypes.func,
-        mix: MixType,
-        title: PropTypes.string
-    };
-
+export class CartCouponContainer extends PureComponent<CartCouponContainerProps, CartCouponContainerState> {
     static defaultProps = {
         couponCode: '',
         onCouponCodeUpdate: noopFn,
@@ -55,14 +53,14 @@ export class CartCouponContainer extends PureComponent {
         title: ''
     };
 
-    state = { isLoading: false };
+    state: CartCouponContainerState = { isLoading: false };
 
     containerFunctions = {
         handleApplyCouponToCart: this.handleApplyCouponToCart.bind(this),
         handleRemoveCouponFromCart: this.handleRemoveCouponFromCart.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<CartCouponComponentProps, CartCouponContainerPropsKeys> {
         const { isLoading } = this.state;
         const { couponCode, mix, title } = this.props;
 
@@ -74,30 +72,24 @@ export class CartCouponContainer extends PureComponent {
         };
     }
 
-    handleApplyCouponToCart(couponCode) {
-        const { applyCouponToCart, onCouponCodeUpdate } = this.props;
+    handleApplyCouponToCart(couponCode: string): void {
+        const { applyCouponToCart } = this.props;
 
         this.setState({ isLoading: true });
 
         applyCouponToCart(couponCode).then(
-            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally/applyCouponToCart/then/onCouponCodeUpdate */
-            () => onCouponCodeUpdate()
-        ).finally(
-            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally */
+            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/applyCouponToCart/then */
             () => this.setState({ isLoading: false })
         );
     }
 
-    handleRemoveCouponFromCart() {
-        const { removeCouponFromCart, onCouponCodeUpdate } = this.props;
+    handleRemoveCouponFromCart(): void {
+        const { removeCouponFromCart } = this.props;
 
         this.setState({ isLoading: true });
 
         removeCouponFromCart().then(
-            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleRemoveCouponFromCart/then/finally/removeCouponFromCart/then/onCouponCodeUpdate */
-            () => onCouponCodeUpdate()
-        ).finally(
-            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleRemoveCouponFromCart/then/finally */
+            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleRemoveCouponFromCart/removeCouponFromCart/then */
             () => this.setState({ isLoading: false })
         );
     }
@@ -105,8 +97,8 @@ export class CartCouponContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CartCoupon
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

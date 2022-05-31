@@ -11,30 +11,22 @@
 
 import { PureComponent } from 'react';
 
-import {
-    ChildrenType, ModsType, ReactElement
-} from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 
-/** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
-export class CheckoutOrderSummaryPriceLine extends PureComponent {
-    static propTypes = {
-        price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-        currency: PropTypes.string,
-        itemsQty: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        coupon_code: PropTypes.string,
-        mods: ModsType,
-        subPrice: PropTypes.node,
-        children: ChildrenType
-    };
+import { CheckoutOrderSummaryPriceLineProps } from './CheckoutOrderSummaryPriceLine.type';
 
+/** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
+export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSummaryPriceLineProps> {
     static defaultProps = {
         mods: {},
         subPrice: null,
         children: [],
         coupon_code: '',
-        currency: GQLCurrencyEnum.USD
+        currency: GQLCurrencyEnum.USD,
+        itemsQty: null,
+        price: undefined
     };
 
     renderPrice(): ReactElement {
@@ -42,7 +34,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
 
         return (
             <strong>
-                { formatPrice(price, currency) }
+                { formatPrice(Number(price), currency) }
             </strong>
         );
     }

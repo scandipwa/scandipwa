@@ -13,25 +13,16 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
-import { ShippingMethodType } from 'Type/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
 import { formatPrice } from 'Util/Price';
 
 import { DELIVERY_METHOD_UNAVAILABLE_MESSAGE } from './CheckoutDeliveryOption.config';
+import { CheckoutDeliveryOptionComponentProps } from './CheckoutDeliveryOption.type';
 
 import './CheckoutDeliveryOption.style';
 
 /** @namespace Component/CheckoutDeliveryOption/Component */
-export class CheckoutDeliveryOption extends PureComponent {
-    static propTypes = {
-        option: ShippingMethodType.isRequired,
-        currency: PropTypes.string.isRequired,
-        isSelected: PropTypes.bool,
-        optionPrice: PropTypes.number,
-        optionSubPrice: PropTypes.number,
-        onOptionClick: PropTypes.func.isRequired
-    };
-
+export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOptionComponentProps> {
     static defaultProps = {
         isSelected: false,
         optionPrice: 0,
@@ -58,7 +49,7 @@ export class CheckoutDeliveryOption extends PureComponent {
         );
     }
 
-    getOptionPrice() {
+    getOptionPrice(): string {
         const {
             currency,
             optionPrice

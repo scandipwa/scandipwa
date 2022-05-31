@@ -17,18 +17,12 @@ import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { appendWithStoreCode } from 'Util/Url';
 
+import { CheckoutSuccessComponentProps } from './CheckoutSuccess.type';
+
 import './CheckoutSuccess.style';
 
 /** @namespace Component/CheckoutSuccess/Component */
-export class CheckoutSuccess extends PureComponent {
-    static propTypes = {
-        orderID: PropTypes.string.isRequired,
-        isEmailAvailable: PropTypes.bool.isRequired,
-        email: PropTypes.string.isRequired,
-        firstName: PropTypes.string.isRequired,
-        lastName: PropTypes.string.isRequired
-    };
-
+export class CheckoutSuccess extends PureComponent<CheckoutSuccessComponentProps> {
     renderButtons(): ReactElement {
         return (
             <div block="CheckoutSuccess" elem="ButtonWrapper">

@@ -44,11 +44,11 @@ export type DateObject = {
     value: string;
 };
 
-export type FieldData = {
+export type FieldData<T = FieldValue> = {
     field: HTMLElement;
     name: string;
     type: string;
-    value: FieldValue;
+    value: T;
 };
 
 export type GetFieldsData<AsObject extends boolean = false> = AsObject extends true

@@ -12,7 +12,9 @@
 import KeyValueTable from 'Component/KeyValueTable';
 import { DataPair } from 'Component/KeyValueTable/KeyValueTable.type';
 import Loader from 'Component/Loader';
+import { CustomerAddress } from 'Query/MyAccount.type';
 import { ReactElement } from 'Type/Common.type';
+import { FormattedRegion } from 'Util/Address/Address.type';
 
 import { getAddressTablePairArray } from './MyAccountAddressTable.table';
 import { MyAccountAddressTableComponentProps } from './MyAccountAddressTable.type';
@@ -20,8 +22,10 @@ import { MyAccountAddressTableComponentProps } from './MyAccountAddressTable.typ
 import './MyAccountAddressTable.style';
 
 /** @namespace Component/MyAccountAddressTable/Component */
-export class MyAccountAddressTable extends KeyValueTable<MyAccountAddressTableComponentProps> {
-    get dataPairArray(): DataPair<unknown>[] {
+export class MyAccountAddressTable <
+Props extends MyAccountAddressTableComponentProps = MyAccountAddressTableComponentProps
+> extends KeyValueTable<Props> {
+    get dataPairArray(): DataPair<CustomerAddress | FormattedRegion>[] {
         return getAddressTablePairArray(this.props);
     }
 

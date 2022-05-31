@@ -17,16 +17,17 @@ export interface MyAccountForgotPasswordSuccessContainerMapStateProps {
     submittedEmail: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MyAccountForgotPasswordSuccessContainerMapDispatchProps {}
 
 export type MyAccountForgotPasswordSuccessContainerProps = MyAccountForgotPasswordSuccessContainerMapStateProps
 & MyAccountForgotPasswordSuccessContainerMapDispatchProps & {
-    state: MyAccountPageState;
+    state: MyAccountPageState | '';
     handleSignIn: (event: MouseEvent) => void;
 };
 
 export type MyAccountForgotPasswordSuccessComponentProps = {
-    state: MyAccountPageState;
+    state: MyAccountPageState | '';
     handleSignIn: (event: MouseEvent) => void;
     submittedEmail: string;
 };

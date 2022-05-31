@@ -11,8 +11,9 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+
+import { ReactElement } from 'Type/Common.type';
 
 import CookiePopup from './CookiePopup.component';
 
@@ -51,8 +52,8 @@ export class CookiePopupContainer extends PureComponent {
 
         return (
             <CookiePopup
-                {...this.containerProps()}
-                key={code}
+              { ...this.containerProps() }
+              key={ code }
             />
         );
     }

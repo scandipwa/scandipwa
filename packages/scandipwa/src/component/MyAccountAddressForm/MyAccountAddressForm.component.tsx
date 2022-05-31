@@ -24,7 +24,9 @@ import myAccountAddressForm from './MyAccountAddressForm.form';
 import { MyAccountAddressFormComponentProps, MyAccountAddressFormFields } from './MyAccountAddressForm.type';
 
 /** @namespace Component/MyAccountAddressForm/Component */
-export class MyAccountAddressForm extends FieldForm<MyAccountAddressFormComponentProps> {
+export class MyAccountAddressForm<
+    Props extends MyAccountAddressFormComponentProps = MyAccountAddressFormComponentProps
+> extends FieldForm<Props> {
     static defaultProps = {
         currentZipcode: null,
         currentCity: null,

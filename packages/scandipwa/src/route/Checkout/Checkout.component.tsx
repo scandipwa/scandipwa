@@ -6,25 +6,16 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import { Page } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
-import { Addresstype } from 'Type/Account.type';
-import {
-    CheckoutStepType,
-    PaymentMethodsType,
-    ShippingMethodsType,
-    StoreType
-} from 'Type/Checkout.type';
-import { TotalsType } from 'Type/MiniCart.type';
-import { HistoryType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
 import { appendWithStoreCode } from 'Util/Url';
@@ -33,6 +24,7 @@ import {
     CheckoutSteps,
     CheckoutStepUrl
 } from './Checkout.config';
+import { CheckoutComponentProps, CheckoutMapStep } from './Checkout.type';
 
 import './Checkout.style';
 
@@ -72,48 +64,7 @@ export const ExpandableContent = lazy(() => import(
 ));
 
 /** @namespace Route/Checkout/Component */
-export class Checkout extends PureComponent {
-    static propTypes = {
-        setLoading: PropTypes.func.isRequired,
-        setDetailsStep: PropTypes.func.isRequired,
-        shippingMethods: ShippingMethodsType.isRequired,
-        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
-        setHeaderState: PropTypes.func.isRequired,
-        paymentMethods: PaymentMethodsType.isRequired,
-        saveAddressInformation: PropTypes.func.isRequired,
-        savePaymentInformation: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool,
-        isDeliveryOptionsLoading: PropTypes.bool.isRequired,
-        shippingAddress: Addresstype.isRequired,
-        billingAddress: Addresstype.isRequired,
-        estimateAddress: Addresstype.isRequired,
-        checkoutTotals: TotalsType.isRequired,
-        orderID: PropTypes.string.isRequired,
-        email: PropTypes.string.isRequired,
-        isEmailAvailable: PropTypes.bool.isRequired,
-        selectedShippingMethod: PropTypes.string.isRequired,
-        history: HistoryType.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
-        paymentTotals: TotalsType,
-        checkoutStep: CheckoutStepType.isRequired,
-        isCreateUser: PropTypes.bool.isRequired,
-        onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired,
-        goBack: PropTypes.func.isRequired,
-        totals: TotalsType.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        isPickInStoreMethodSelected: PropTypes.bool.isRequired,
-        handleSelectDeliveryMethod: PropTypes.func.isRequired,
-        isInStoreActivated: PropTypes.bool.isRequired,
-        cartTotalSubPrice: PropTypes.number,
-        onShippingMethodSelect: PropTypes.func.isRequired,
-        onStoreSelect: PropTypes.func.isRequired,
-        selectedStoreAddress: StoreType,
-        onCouponCodeUpdate: PropTypes.func,
-        isSignedIn: PropTypes.bool.isRequired
-    };
-
+export class Checkout extends PureComponent<CheckoutComponentProps> {
     static defaultProps = {
         paymentTotals: {},
         selectedStoreAddress: {},
@@ -122,7 +73,7 @@ export class Checkout extends PureComponent {
         onCouponCodeUpdate: noopFn
     };
 
-    stepMap = {
+    stepMap: Record<CheckoutSteps, CheckoutMapStep> = {
         [ CheckoutSteps.SHIPPING_STEP ]: {
             number: 1,
             title: __('Personal information'),
@@ -157,7 +108,7 @@ export class Checkout extends PureComponent {
         history.replace(appendWithStoreCode(`${CheckoutStepUrl.CHECKOUT_URL}${url}`));
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: CheckoutComponentProps): void {
         const { checkoutStep } = this.props;
         const { checkoutStep: prevCheckoutStep } = prevProps;
 
@@ -167,7 +118,7 @@ export class Checkout extends PureComponent {
         }
     }
 
-    updateHeader() {
+    updateHeader(): void {
         const { setHeaderState, checkoutStep, goBack } = this.props;
         const { mobileTitle, title } = this.stepMap[ checkoutStep ];
 
@@ -178,7 +129,7 @@ export class Checkout extends PureComponent {
         });
     }
 
-    updateStep() {
+    updateStep(): void {
         const { checkoutStep, history } = this.props;
         const { url } = this.stepMap[ checkoutStep ];
 
@@ -216,7 +167,6 @@ export class Checkout extends PureComponent {
 
     renderGuestForm(): ReactElement {
         const {
-            checkoutStep,
             isCreateUser,
             onEmailChange,
             onCreateUserChange,
@@ -224,7 +174,6 @@ export class Checkout extends PureComponent {
             isGuestEmailSaved,
             isSignedIn
         } = this.props;
-        const isBilling = checkoutStep === CheckoutSteps.BILLING_STEP;
 
         if (isSignedIn) {
             return null;
@@ -232,7 +181,6 @@ export class Checkout extends PureComponent {
 
         return (
             <CheckoutGuestForm
-              isBilling={ isBilling }
               isCreateUser={ isCreateUser }
               onEmailChange={ onEmailChange }
               onCreateUserChange={ onCreateUserChange }
@@ -248,14 +196,9 @@ export class Checkout extends PureComponent {
             onShippingEstimationFieldsChange,
             saveAddressInformation,
             isDeliveryOptionsLoading,
-            onPasswordChange,
-            onCreateUserChange,
-            onEmailChange,
-            isCreateUser,
             estimateAddress,
             isPickInStoreMethodSelected,
             handleSelectDeliveryMethod,
-            cartTotalSubPrice,
             onShippingMethodSelect,
             onStoreSelect,
             selectedStoreAddress
@@ -266,14 +209,9 @@ export class Checkout extends PureComponent {
                 <CheckoutShipping
                   isLoading={ isDeliveryOptionsLoading }
                   shippingMethods={ shippingMethods }
-                  cartTotalSubPrice={ cartTotalSubPrice }
                   saveAddressInformation={ saveAddressInformation }
                   onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
                   onShippingMethodSelect={ onShippingMethodSelect }
-                  onPasswordChange={ onPasswordChange }
-                  onCreateUserChange={ onCreateUserChange }
-                  onEmailChange={ onEmailChange }
-                  isCreateUser={ isCreateUser }
                   estimateAddress={ estimateAddress }
                   handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
                   isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
@@ -316,15 +254,15 @@ export class Checkout extends PureComponent {
             billingAddress: {
                 firstname,
                 lastname
-            }
+            } = {}
         } = this.props;
 
         return (
             <Suspense fallback={ <Loader /> }>
                 <CheckoutSuccess
                   email={ email }
-                  firstName={ firstname }
-                  lastName={ lastname }
+                  firstName={ firstname || '' }
+                  lastName={ lastname || '' }
                   isEmailAvailable={ isEmailAvailable }
                   orderID={ orderID }
                 />
@@ -372,16 +310,17 @@ export class Checkout extends PureComponent {
 
     renderSummary(showOnMobile = false): ReactElement {
         const {
-            checkoutTotals,
             checkoutStep,
             paymentTotals,
-            isMobile,
-            onCouponCodeUpdate
+            isMobile
         } = this.props;
         const { areTotalsVisible } = this.stepMap[ checkoutStep ];
-        const { renderPromo } = this.renderPromo(true);
 
-        if (!areTotalsVisible || (showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
+        if (!areTotalsVisible
+            || (showOnMobile && !isMobile)
+            || (!showOnMobile && isMobile)
+            || !paymentTotals
+        ) {
             return null;
         }
 
@@ -389,11 +328,9 @@ export class Checkout extends PureComponent {
             <>
                 <CheckoutOrderSummary
                   checkoutStep={ checkoutStep }
-                  totals={ checkoutTotals }
-                  paymentTotals={ paymentTotals }
+                  totals={ paymentTotals }
                   isExpandable={ isMobile }
-                  onCouponCodeUpdate={ onCouponCodeUpdate }
-                  renderCmsBlock={ renderPromo }
+                  renderCmsBlock={ this.renderPromo(true) }
                   showItems
                 />
                 { !showOnMobile && this.renderDiscountCode() }
@@ -413,7 +350,7 @@ export class Checkout extends PureComponent {
             checkout_content: {
                 [ isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms' ]: promo
             } = {}
-        } = window.contentConfiguration;
+        } = window.contentConfiguration || {};
 
         if (!promo) {
             return null;

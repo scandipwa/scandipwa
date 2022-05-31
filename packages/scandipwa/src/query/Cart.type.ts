@@ -126,7 +126,7 @@ export interface QuoteData {
     shipping_method: string;
     is_in_store_pickup_available: boolean;
     items: TotalsItem[];
-    applied_taxes: AppliedTaxItem;
+    applied_taxes: AppliedTaxItem[];
 }
 
 export interface CartUserInputError {

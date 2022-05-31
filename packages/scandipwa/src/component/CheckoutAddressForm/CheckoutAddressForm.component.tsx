@@ -10,16 +10,14 @@
  */
 
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 
-/** @namespace Component/CheckoutAddressForm/Component */
-export class CheckoutAddressForm extends MyAccountAddressForm {
-    static propTypes = {
-        ...MyAccountAddressForm.propTypes,
-        onShippingEstimationFieldsChange: PropTypes.func
-    };
+import { CheckoutAddressFormComponentProps } from './CheckoutAddressForm.type';
 
+/** @namespace Component/CheckoutAddressForm/Component */
+export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFormComponentProps> {
     static defaultProps = {
         ...MyAccountAddressForm.defaultProps,
         onShippingEstimationFieldsChange: noopFn
@@ -27,35 +25,41 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     lastRequest = null;
 
-    onAddressChange = this.onAddressChange.bind(this);
+    __construct(props: CheckoutAddressFormComponentProps): void {
+        super.__construct?.(props);
 
-    componentDidMount(): void {
-        const {
-            address: {
-                countryId,
-                regionId,
-                region,
-                city,
-                postcode
-            },
-            defaultCountry,
-            onShippingEstimationFieldsChange
-        } = this.props;
-
-        onShippingEstimationFieldsChange({
-            country_id: countryId || defaultCountry,
-            region_id: regionId !== '' ? regionId : null,
-            region,
-            city,
-            postcode
-        });
+        this.onAddressChange = this.onAddressChange.bind(this);
     }
+
+    // componentDidMount(): void {
+    //     const {
+    //         address: {
+    //             country_id,
+    //             city,
+    //             postcode,
+    //             region: {
+    //                 region,
+    //                 region_id
+    //             }
+    //         },
+    //         defaultCountry,
+    //         onShippingEstimationFieldsChange
+    //     } = this.props;
+
+    //     onShippingEstimationFieldsChange({
+    //         country_id: country_id || defaultCountry,
+    //         region_id,
+    //         region,
+    //         city,
+    //         postcode
+    //     });
+    // }
 
     get fieldMap() {
         const fieldMap = super.fieldMap;
         const addressGroup = fieldMap.find(({ name }) => name === 'addressGroup');
 
-        if (addressGroup) {
+        if (addressGroup && 'events' in addressGroup) {
             addressGroup.events = {
                 // Updates shipping methods on address blurt
                 onBlur: this.onAddressChange,

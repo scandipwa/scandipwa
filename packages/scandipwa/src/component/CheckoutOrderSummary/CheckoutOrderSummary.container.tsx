@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -18,11 +19,17 @@ import {
     getCartSubtotalSubPrice,
     getCartTotalSubPrice
 } from 'Util/Cart';
+import { RootState } from 'Util/Store/Store.type';
 
 import CheckoutOrderSummary from './CheckoutOrderSummary.component';
+import {
+    CheckoutOrderSummaryComponentProps,
+    CheckoutOrderSummaryContainerMapDispatchProps,
+    CheckoutOrderSummaryContainerMapStateProps
+} from './CheckoutOrderSummary.type';
 
 /** @namespace Component/CheckoutOrderSummary/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CheckoutOrderSummaryContainerMapStateProps => ({
     cartDisplayConfig: state.ConfigReducer.cartDisplayConfig,
     cartSubtotal: getCartSubtotal(state),
     cartSubtotalSubPrice: getCartSubtotalSubPrice(state),
@@ -34,6 +41,11 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/CheckoutOrderSummary/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): CheckoutOrderSummaryContainerMapDispatchProps => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutOrderSummary);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(
+    CheckoutOrderSummary as unknown as ComponentType<CheckoutOrderSummaryComponentProps>
+);

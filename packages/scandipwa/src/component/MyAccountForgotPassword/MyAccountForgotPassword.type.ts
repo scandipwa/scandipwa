@@ -29,7 +29,7 @@ export interface MyAccountForgotPasswordContainerMapDispatchProps {
 export type MyAccountForgotPasswordContainerProps = MyAccountForgotPasswordContainerMapStateProps
 & MyAccountForgotPasswordContainerMapDispatchProps
 & {
-    state: MyAccountPageState;
+    state: MyAccountPageState | '';
     onFormError: () => void;
     handleSignIn: (e: MouseEvent) => void;
     handleCreateAccount: (e: MouseEvent) => void;
@@ -40,7 +40,7 @@ export type MyAccountForgotPasswordContainerProps = MyAccountForgotPasswordConta
 };
 
 export type MyAccountForgotPasswordComponentProps = {
-    state: MyAccountPageState;
+    state: MyAccountPageState | '';
     onForgotPasswordSuccess: (form: HTMLFormElement, fields: FieldData[]) => Promise<void>;
     onFormError: () => void;
     handleSignIn: (e: MouseEvent) => void;

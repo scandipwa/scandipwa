@@ -11,25 +11,26 @@
 
 import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddressTable.component';
+import { ReactElement } from 'Type/Common.type';
+
+import { CheckoutAddressTableComponentProps } from './CheckoutAddressTable.type';
 
 import './CheckoutAddressTable.style';
 
 /** @namespace Component/CheckoutAddressTable/Component */
-export class CheckoutAddressTable extends MyAccountAddressTable {
-    static propTypes = {
-        ...MyAccountAddressTable.propTypes,
-        isSelected: PropTypes.bool,
-        onClick: PropTypes.func.isRequired
-    };
-
+export class CheckoutAddressTable extends MyAccountAddressTable<CheckoutAddressTableComponentProps> {
     static defaultProps = {
         ...MyAccountAddressTable.defaultProps,
         isSelected: false
     };
 
-    onAddressClick = this.onAddressClick.bind(this);
+    __construct(props: CheckoutAddressTableComponentProps): void {
+        this.__construct?.(props);
 
-    onAddressClick() {
+        this.onAddressClick = this.onAddressClick.bind(this);
+    }
+
+    onAddressClick(): void {
         const { address, onClick } = this.props;
         onClick(address);
     }

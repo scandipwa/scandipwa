@@ -6,22 +6,27 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { ShippingMethodType } from 'Type/Checkout.type';
-import { TotalsType } from 'Type/MiniCart.type';
+import { ReactElement } from 'Type/Common.type';
 import { getCartShippingItemPrice, getCartShippingItemSubPrice } from 'Util/Cart';
+import { RootState } from 'Util/Store/Store.type';
 
 import CheckoutDeliveryOption from './CheckoutDeliveryOption.component';
+import {
+    CheckoutDeliveryOptionComponentProps,
+    CheckoutDeliveryOptionContainerMapDispatchProps,
+    CheckoutDeliveryOptionContainerMapStateProps,
+    CheckoutDeliveryOptionContainerProps,
+    CheckoutDeliveryOptionContainerPropsKeys
+} from './CheckoutDeliveryOption.type';
 
 /** @namespace Component/CheckoutDeliveryOption/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CheckoutDeliveryOptionContainerMapStateProps => ({
     totals: state.CartReducer.cartTotals,
     cartDisplayConfig: state.ConfigReducer.cartDisplayConfig,
     getCartShippingItemPrice: getCartShippingItemPrice(state),
@@ -29,29 +34,20 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/CheckoutDeliveryOption/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): CheckoutDeliveryOptionContainerMapDispatchProps => ({});
 
 /** @namespace Component/CheckoutDeliveryOption/Container */
-export class CheckoutDeliveryOptionContainer extends PureComponent {
-    static propTypes = {
-        totals: TotalsType.isRequired,
-        getCartShippingItemPrice: PropTypes.func.isRequired,
-        getCartShippingItemSubPrice: PropTypes.func.isRequired,
-        option: ShippingMethodType.isRequired,
-        onClick: PropTypes.func.isRequired,
-        isSelected: PropTypes.bool.isRequired
-    };
-
+export class CheckoutDeliveryOptionContainer extends PureComponent<CheckoutDeliveryOptionContainerProps> {
     containerFunctions = {
         onOptionClick: this.onOptionClick.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<CheckoutDeliveryOptionComponentProps, CheckoutDeliveryOptionContainerPropsKeys> {
         const {
             isSelected,
             getCartShippingItemPrice,
             getCartShippingItemSubPrice,
-            option = {},
+            option,
             totals: {
                 quote_currency_code
             }
@@ -62,12 +58,12 @@ export class CheckoutDeliveryOptionContainer extends PureComponent {
             option,
             optionPrice: getCartShippingItemPrice(option),
             optionSubPrice: getCartShippingItemSubPrice(option),
-            currency: quote_currency_code
+            currency: quote_currency_code || 'USD'
         };
     }
 
-    onOptionClick() {
-        const { onClick, option = {} } = this.props;
+    onOptionClick(): void {
+        const { onClick, option } = this.props;
 
         if (!option.available) {
             return;
@@ -79,8 +75,8 @@ export class CheckoutDeliveryOptionContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CheckoutDeliveryOption
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

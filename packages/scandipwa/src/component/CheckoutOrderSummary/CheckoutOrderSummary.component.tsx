@@ -15,13 +15,12 @@ import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
 import Loader from 'Component/Loader';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { CheckoutStepType } from 'Type/Checkout.type';
-import { ChildrenType } from 'Type/Common.type';
-import { CartConfigType } from 'Type/Config.type';
-import { TotalsType } from 'Type/MiniCart.type';
+import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
+import { Mods, ReactElement } from 'Type/Common.type';
 import { getItemsCountLabel } from 'Util/Cart';
 import { noopFn } from 'Util/Common';
+
+import { CheckoutOrderSummaryComponentProps } from './CheckoutOrderSummary.type';
 
 import './CheckoutOrderSummary.style';
 
@@ -34,24 +33,7 @@ export const CartCoupon = lazy(() => import(
  * Checkout Order Summary component
  * @namespace Component/CheckoutOrderSummary/Component
  */
-export class CheckoutOrderSummary extends PureComponent {
-    static propTypes = {
-        totals: TotalsType,
-        checkoutStep: CheckoutStepType,
-        renderCmsBlock: PropTypes.func,
-        isExpandable: PropTypes.bool,
-        cartDisplayConfig: CartConfigType.isRequired,
-        cartShippingPrice: PropTypes.number,
-        cartShippingSubPrice: PropTypes.number,
-        cartSubtotal: PropTypes.number,
-        cartSubtotalSubPrice: PropTypes.number,
-        cartTotalSubPrice: PropTypes.number,
-        showItems: PropTypes.bool,
-        children: ChildrenType,
-        isLoading: PropTypes.bool,
-        isMobile: PropTypes.bool.isRequired
-    };
-
+export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComponentProps> {
     static defaultProps = {
         totals: {},
         isLoading: false,
@@ -67,7 +49,7 @@ export class CheckoutOrderSummary extends PureComponent {
         checkoutStep: null
     };
 
-    renderPriceLine(price, title, mods): ReactElement {
+    renderPriceLine(price: number, title: string, mods?: Mods): ReactElement {
         if (!price) {
             return null;
         }
@@ -107,12 +89,13 @@ export class CheckoutOrderSummary extends PureComponent {
             }
         } = this.props;
 
-        if (!applied_rule_ids) {
+        if (!applied_rule_ids || !discount_amount) {
             return null;
         }
 
         const label = coupon_code ? __('Coupon code discount') : __('Discount');
         const discount = -Math.abs(discount_amount);
+
         return (
             <CheckoutOrderSummaryPriceLine
               price={ discount }
@@ -122,7 +105,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderMobileDiscount(coupon_code): ReactElement {
+    renderMobileDiscount(coupon_code?: string): ReactElement {
         return (
             <>
                 <div
@@ -144,7 +127,7 @@ export class CheckoutOrderSummary extends PureComponent {
             isMobile
         } = this.props;
 
-        if (!items || items.length < 1 || checkoutStep !== BILLING_STEP) {
+        if (!items || items.length < 1 || checkoutStep !== CheckoutSteps.BILLING_STEP) {
             return null;
         }
 
@@ -166,7 +149,7 @@ export class CheckoutOrderSummary extends PureComponent {
     renderItems(): ReactElement {
         const { showItems, totals: { items_qty, items = [] } } = this.props;
 
-        if (!showItems) {
+        if (!showItems || !items_qty) {
             return null;
         }
 
@@ -219,10 +202,10 @@ export class CheckoutOrderSummary extends PureComponent {
         return this.renderPriceLine(cartSubtotal, title);
     }
 
-    getShippingLabel() {
+    getShippingLabel(): string {
         const { checkoutStep } = this.props;
 
-        if (checkoutStep === BILLING_STEP) {
+        if (checkoutStep === CheckoutSteps.BILLING_STEP) {
             return __('Shipping');
         }
 
@@ -277,6 +260,10 @@ export class CheckoutOrderSummary extends PureComponent {
             );
         }
 
+        if (!grand_total) {
+            return null;
+        }
+
         return this.renderPriceLine(grand_total, title, { isTotal: true });
     }
 
@@ -328,7 +315,7 @@ export class CheckoutOrderSummary extends PureComponent {
               currency={ quote_currency_code }
               itemsQty={ items_qty }
               title={ __('Tax') }
-              mods={ { withAppendedContent: display_full_tax_summary } }
+              mods={ { withAppendedContent: display_full_tax_summary || false } }
             >
                 { this.renderTaxFullSummary() }
             </CheckoutOrderSummaryPriceLine>

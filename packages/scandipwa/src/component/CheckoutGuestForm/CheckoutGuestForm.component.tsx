@@ -9,75 +9,61 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import FieldForm from 'Component/FieldForm';
 import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
 import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
 import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
 import {
-    STATE_CONFIRM_EMAIL,
-    STATE_FORGOT_PASSWORD,
-    STATE_FORGOT_PASSWORD_SUCCESS,
-    STATE_LOGGED_IN,
-    STATE_SIGN_IN
+    MyAccountPageState
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import MyAccountSignIn from 'Component/MyAccountSignIn';
-import { noopFn } from 'Util/Common';
+import { ReactElement } from 'Type/Common.type';
 
 import checkoutGuestForm from './CheckoutGuestForm.form';
+import { CheckoutGuestFormComponentProps, CheckoutGuestFormRenderMapItem } from './CheckoutGuestForm.type';
 
 import './CheckoutGuestForm.style';
 
 /** @namespace Component/CheckoutGuestForm/Component */
-export class CheckoutGuestForm extends FieldForm {
-    static propTypes = {
-        formId: PropTypes.string.isRequired,
-        handleEmailInput: PropTypes.func.isRequired,
-        handleCreateUser: PropTypes.func.isRequired,
-        isEmailAvailable: PropTypes.bool.isRequired,
-        emailValue: PropTypes.string.isRequired,
-        signInState: PropTypes.string.isRequired,
-        setSignInState: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired,
-        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }),
-        minimunPasswordCharacter: PropTypes.string.isRequired,
-        isLoading: PropTypes.bool.isRequired
-    };
-
-    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
-    componentDidUpdate(prevProps): void {
+export class CheckoutGuestForm extends FieldForm<CheckoutGuestFormComponentProps> {
+    componentDidUpdate(prevProps: CheckoutGuestFormComponentProps): void {
         const { isEmailAvailable, setSignInState, signInState } = this.props;
         const { isEmailAvailable: prevIsEmailAvailable } = prevProps;
 
-        if (!isEmailAvailable && prevIsEmailAvailable && signInState !== STATE_SIGN_IN) {
-            setSignInState(STATE_SIGN_IN);
+        if (!isEmailAvailable && prevIsEmailAvailable && signInState !== MyAccountPageState.STATE_SIGN_IN) {
+            setSignInState(MyAccountPageState.STATE_SIGN_IN);
         }
     }
 
-    renderMap = {
-        [STATE_SIGN_IN]: {
-            render: () => this.renderSignIn(),
+    renderMap: Record<MyAccountPageState | '', CheckoutGuestFormRenderMapItem> = {
+        [MyAccountPageState.STATE_SIGN_IN]: {
+            render: (): ReactElement => this.renderSignIn(),
             title: __('Sign in to your account')
         },
-        [STATE_FORGOT_PASSWORD]: {
-            render: () => this.renderForgotPassword(),
+        [MyAccountPageState.STATE_FORGOT_PASSWORD]: {
+            render: (): ReactElement => this.renderForgotPassword(),
             title: __('Get password link')
         },
-        [STATE_FORGOT_PASSWORD_SUCCESS]: {
-            render: () => this.renderForgotPasswordSuccess()
+        [MyAccountPageState.STATE_FORGOT_PASSWORD_SUCCESS]: {
+            render: (): ReactElement => this.renderForgotPasswordSuccess()
         },
-        [STATE_LOGGED_IN]: {
-            render: noopFn
+        [MyAccountPageState.STATE_LOGGED_IN]: {
+            render: () => null
         },
-        [STATE_CONFIRM_EMAIL]: {
-            render: () => this.renderConfirmEmail(),
+        [MyAccountPageState.STATE_CONFIRM_EMAIL]: {
+            render: (): ReactElement => this.renderConfirmEmail(),
             title: __('Confirm the email')
+        },
+        [MyAccountPageState.STATE_CREATE_ACCOUNT]: {
+            render: () => null
         },
         '': {
             title: __('Enter personal information')
         }
     };
 
-    get fieldMap() {
+    get fieldMap(): Partial<FieldContainerProps>[] {
         const {
             handleEmailInput,
             handlePasswordInput,
@@ -169,6 +155,7 @@ export class CheckoutGuestForm extends FieldForm {
               setLoadingState={ setLoadingState }
               setSignInState={ setSignInState }
               isCheckout
+              isOverlayVisible={ false }
             />
         );
     }
@@ -190,7 +177,6 @@ export class CheckoutGuestForm extends FieldForm {
             onFormError,
             handleForgotPassword,
             handleCreateAccount,
-            isCheckout,
             setLoadingState,
             onSignIn
         } = this.props;
@@ -201,7 +187,7 @@ export class CheckoutGuestForm extends FieldForm {
               onFormError={ onFormError }
               handleForgotPassword={ handleForgotPassword }
               handleCreateAccount={ handleCreateAccount }
-              isCheckout={ isCheckout }
+              isCheckout
               setLoadingState={ setLoadingState }
               onSignIn={ onSignIn }
             />

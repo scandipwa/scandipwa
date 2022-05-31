@@ -13,7 +13,7 @@ import { AnyAction } from 'redux';
 import { Url } from 'Type/Common.type';
 
 export type Breadcrumb = {
-    url: Url;
+    url?: Url;
     name: string;
 };
 

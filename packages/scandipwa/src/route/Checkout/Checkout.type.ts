@@ -10,15 +10,17 @@
  */
 
 import { History } from 'history';
-import { match as Match } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
-import { ShippingMethod } from 'Query/Checkout.type';
+import { PaymentMethod, ShippingMethod, TotalsObject } from 'Query/Checkout.type';
 import { CreateAccountOptions, Customer } from 'Query/MyAccount.type';
 import { Country } from 'Query/Region.type';
+import { Store } from 'Query/StoreInPickUp.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
-import { GQLEstimateShippingCostsAddress } from 'Type/Graphql.type';
+import { ReactElement } from 'Type/Common.type';
+import { GQLAddressExtensionAttributes, GQLCountryCodeEnum, GQLEstimateShippingCostsAddress } from 'Type/Graphql.type';
 
 import { CheckoutSteps } from './Checkout.config';
 
@@ -46,34 +48,145 @@ export interface CheckoutContainerDispatchProps {
     showSuccessNotification: (message: string) => void;
     setHeaderState: (stateName: NavigationState) => void;
     setNavigationState: (stateName: NavigationState) => void;
-    createAccount: (options: CreateAccountOptions) => void;
+    createAccount: (options: CreateAccountOptions) => Promise<boolean | 'confirmation_required'>;
     updateShippingFields: (fields: Record<string, unknown>) => void;
     updateEmail: (email: string) => void;
     checkEmailAvailability: (email: string) => void;
-    updateShippingPrice: (data: never) => void;
+    updateShippingPrice: (data: TotalsObject) => void;
 }
 
-export type CheckoutContainerProps =
-    CheckoutContainerMapStateProps & CheckoutContainerDispatchProps & {
-        history: History;
-        match: Match;
-    };
-
+export type CheckoutContainerProps = RouteComponentProps<{ step: string }>
+& CheckoutContainerMapStateProps
+& CheckoutContainerDispatchProps;
 export interface CheckoutContainerState {
     isLoading: boolean;
     isDeliveryOptionsLoading: boolean;
     requestsSent: number;
-    paymentMethods: never[];
+    paymentMethods: PaymentMethod[];
     shippingMethods: ShippingMethod[];
-    shippingAddress: Record<string, never>;
-    billingAddress: Record<string, never>;
+    shippingAddress: Partial<CheckoutAddress> | undefined;
+    billingAddress: CheckoutAddress | undefined;
     selectedShippingMethod: string;
     checkoutStep: CheckoutSteps;
     orderID: string;
-    paymentTotals: never;
+    paymentTotals: TotalsObject | undefined;
     email: string;
     isGuestEmailSaved: boolean;
     isCreateUser: boolean;
-    estimateAddress: GQLEstimateShippingCostsAddress;
+    estimateAddress: GQLEstimateShippingCostsAddress | undefined;
     isPickInStoreMethodSelected: boolean;
+    selectedStoreAddress: Store | undefined;
+    password: string;
+}
+
+export interface CheckoutComponentProps {
+    setLoading: (isLoading: boolean) => void;
+    setDetailsStep: (orderID: string) => void;
+    shippingMethods: ShippingMethod[];
+    onShippingEstimationFieldsChange: (address: CheckoutAddress) => void;
+    setHeaderState: (stateName: NavigationState) => void;
+    paymentMethods: PaymentMethod[];
+    saveAddressInformation: (addressInformation: AddressInformation) => Promise<void>;
+    savePaymentInformation: (paymentInformation) => Promise<void>;
+    isLoading: boolean;
+    isDeliveryOptionsLoading: boolean;
+    shippingAddress: Partial<CheckoutAddress> | undefined;
+    billingAddress: CheckoutAddress | undefined;
+    estimateAddress: GQLEstimateShippingCostsAddress | undefined;
+    checkoutTotals: CartTotals;
+    orderID: string;
+    email: string;
+    isEmailAvailable: boolean;
+    selectedShippingMethod: string;
+    history: History;
+    onEmailChange: (email: string) => void;
+    paymentTotals: TotalsObject | undefined;
+    checkoutStep: CheckoutSteps;
+    isCreateUser: boolean;
+    onCreateUserChange: () => void;
+    onPasswordChange: (password: string) => void ;
+    isGuestEmailSaved: boolean;
+    goBack: () => void;
+    totals: CartTotals;
+    isMobile: boolean;
+    isPickInStoreMethodSelected: boolean;
+    handleSelectDeliveryMethod: () => void;
+    isInStoreActivated: boolean;
+    cartTotalSubPrice: number | null;
+    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
+    onStoreSelect: (address: Store) => void;
+    selectedStoreAddress: Store | undefined;
+    isSignedIn: boolean;
+}
+
+export type CheckoutContainerPropsKeys =
+| 'billingAddress'
+| 'cartTotalSubPrice'
+| 'checkoutStep'
+| 'checkoutTotals'
+| 'email'
+| 'estimateAddress'
+| 'history'
+| 'isCreateUser'
+| 'isDeliveryOptionsLoading'
+| 'isEmailAvailable'
+| 'isGuestEmailSaved'
+| 'isInStoreActivated'
+| 'isSignedIn'
+| 'isLoading'
+| 'isMobile'
+| 'orderID'
+| 'paymentMethods'
+| 'paymentTotals'
+| 'selectedShippingMethod'
+| 'setHeaderState'
+| 'shippingAddress'
+| 'shippingMethods'
+| 'totals'
+| 'selectedStoreAddress'
+| 'isPickInStoreMethodSelected';
+
+export interface AddressInformation {
+    billing_address: CheckoutAddress;
+    shipping_address: CheckoutAddress;
+    shipping_carrier_code: string;
+    shipping_method_code: string;
+}
+
+export interface CheckoutAddress {
+    city?: string;
+    company?: string;
+    country_id: GQLCountryCodeEnum;
+    email?: string;
+    extension_attributes?: Array<GQLAddressExtensionAttributes | null>;
+    firstname?: string;
+    lastname?: string;
+    method?: string;
+    postcode?: string;
+    region?: string;
+    region_code?: string;
+    region_id?: number;
+    street?: Array<string | null>;
+    telephone?: string;
+    vat_id?: string;
+    guest_email?: string;
+    save_in_address_book?: boolean;
+    purchaseOrderNumber?: string;
+    id?: number;
+    region_string?: string;
+}
+
+export interface PaymentInformation {
+    billing_address: CheckoutAddress;
+    paymentMethod: PaymentMethod;
+    same_as_shipping: boolean;
+}
+
+export interface CheckoutMapStep {
+    number?: number;
+    title: string;
+    url: string;
+    render: () => ReactElement;
+    areTotalsVisible: boolean;
+    mobileTitle?: string;
 }

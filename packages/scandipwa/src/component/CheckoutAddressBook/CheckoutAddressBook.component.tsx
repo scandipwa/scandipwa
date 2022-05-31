@@ -15,36 +15,37 @@ import CheckoutAddressForm from 'Component/CheckoutAddressForm';
 import CheckoutAddressTable from 'Component/CheckoutAddressTable';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { CustomerAddress } from 'Query/MyAccount.type';
+import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { ADDRESS_BOOK, CustomerType } from 'Type/Account.type';
+import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import { getDefaultAddressLabel } from 'Util/Address';
 import { isSignedIn } from 'Util/Auth';
 
+import { CheckoutAddressBookComponentProps, CheckoutAddressBookComponentState } from './CheckoutAddressBook.type';
+
 import './CheckoutAddressBook.style';
 
 /** @namespace Component/CheckoutAddressBook/Component */
-export class CheckoutAddressBook extends PureComponent {
-    static propTypes = {
-        customer: CustomerType.isRequired,
-        onAddressSelect: PropTypes.func.isRequired,
-        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
-        selectedAddressId: PropTypes.number.isRequired,
-        isBilling: PropTypes.bool.isRequired,
-        isSubmitted: PropTypes.bool.isRequired,
-        is_virtual: PropTypes.bool.isRequired
-    };
-
+export class CheckoutAddressBook extends PureComponent<
+CheckoutAddressBookComponentProps,
+CheckoutAddressBookComponentState
+> {
     state = {
         isCustomAddressExpanded: false
     };
 
-    renderAddress = this.renderAddress.bind(this);
+    __construct(props: CheckoutAddressBookComponentProps): void {
+        super.__construct?.(props);
 
-    expandCustomAddress = this.expandCustomAddress.bind(this);
+        this.renderAddress = this.renderAddress.bind(this);
+        this.expandCustomAddress = this.expandCustomAddress.bind(this);
+    }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(
+        props: CheckoutAddressBookComponentProps
+    ): CheckoutAddressBookComponentState | null {
         const { is_virtual, selectedAddressId, customer: { addresses = [] } } = props;
 
         if (addresses.length === 0) {
@@ -58,10 +59,10 @@ export class CheckoutAddressBook extends PureComponent {
         return { isCustomAddressExpanded: false };
     }
 
-    expandCustomAddress() {
+    expandCustomAddress(): void {
         const { onAddressSelect } = this.props;
         this.setState({ isCustomAddressExpanded: true });
-        onAddressSelect({});
+        onAddressSelect();
     }
 
     renderNoAddresses(): ReactElement {
@@ -69,7 +70,7 @@ export class CheckoutAddressBook extends PureComponent {
             <div>
                 <p>{ __('You have no configured addresses.') }</p>
                 <p>
-                    <Link to={ `${ AccountPageUrl.ACCOUNT_URL }/${ ADDRESS_BOOK }` }>
+                    <Link to={ `${ AccountPageUrl.ACCOUNT_URL }/${ MyAccountTabs.ADDRESS_BOOK }` }>
                         { __('Go to Address Book to configure them!') }
                     </Link>
                 </p>
@@ -83,7 +84,7 @@ export class CheckoutAddressBook extends PureComponent {
         );
     }
 
-    renderAddress(address, index): ReactElement {
+    renderAddress(address: CustomerAddress, index: number): ReactElement {
         const { onAddressSelect, selectedAddressId } = this.props;
         const addressNumber = index + 1;
         const { id } = address;
@@ -130,12 +131,11 @@ export class CheckoutAddressBook extends PureComponent {
 
     renderCustomAddress(): ReactElement {
         const { isBilling, onShippingEstimationFieldsChange, isSubmitted } = this.props;
-        const formPortalId = isBilling ? BILLING_STEP : SHIPPING_STEP;
+        const formPortalId = isBilling ? CheckoutSteps.BILLING_STEP : CheckoutSteps.SHIPPING_STEP;
 
         return (
             <CheckoutAddressForm
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-              address={ {} }
               id={ formPortalId }
               isSubmitted={ isSubmitted }
             />

@@ -10,8 +10,11 @@
  */
 
 import { FieldType } from 'Component/Field/Field.config';
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import { validatePassword } from 'Util/Validator';
 import { ValidationInputType } from 'Util/Validator/Config';
+
+import { CheckoutGuestFormEvents, CheckoutGuestFormProps } from './CheckoutGuestForm.type';
 
 /**
  * Form for guest checkout
@@ -20,9 +23,12 @@ import { ValidationInputType } from 'Util/Validator/Config';
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean, inputType: string}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *, 'aria-label': *}, events: {onChange}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean, inputType: string}, label: *, type: string, attr: {name: string, placeholder: *, 'aria-label': *}, events: {onChange}}]|*[]]}
  * @namespace Component/CheckoutGuestForm/Form/checkoutGuestForm
  */
-export const checkoutGuestForm = (props, events) => {
+export const checkoutGuestForm = (
+    props: CheckoutGuestFormProps,
+    events: CheckoutGuestFormEvents
+): Partial<FieldContainerProps>[] => {
     const {
-        emailValue, isCreateUser, range, minimunPasswordCharacter
+        emailValue, range, isCreateUser, minimunPasswordCharacter
     } = props;
     const { handleEmailInput, handlePasswordInput } = events;
 

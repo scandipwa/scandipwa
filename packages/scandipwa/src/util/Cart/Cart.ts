@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { ShippingMethod } from 'Query/Checkout.type';
 import { RootState } from 'Util/Store/Store.type';
 
 import {
     CartItem,
     CartItemPriceProps,
-    CartState,
     DisplayCartTaxInPrice,
     DisplayCartTaxInShipping,
     DisplayCartTaxInSubTotal,
@@ -43,7 +43,7 @@ export const DISPLAY_CART_TAX_IN_PRICE = {
 };
 
 /** @namespace Util/Cart/getCartSubtotal */
-export const getCartSubtotal = (state: CartState): number => {
+export const getCartSubtotal = (state: RootState): number => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
@@ -66,7 +66,7 @@ export const getCartSubtotal = (state: CartState): number => {
 };
 
 /** @namespace Util/Cart/getCartSubtotalSubPrice */
-export const getCartSubtotalSubPrice = (state: CartState): number | null => {
+export const getCartSubtotalSubPrice = (state: RootState): number | null => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
@@ -88,7 +88,7 @@ export const getCartSubtotalSubPrice = (state: CartState): number | null => {
 };
 
 /** @namespace Util/Cart/getCartItemPrice */
-export const getCartItemPrice = (state: CartState) => (props: CartItemPriceProps): number => {
+export const getCartItemPrice = (state: RootState) => (props: CartItemPriceProps): number => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
@@ -110,7 +110,7 @@ export const getCartItemPrice = (state: CartState) => (props: CartItemPriceProps
 };
 
 /** @namespace Util/Cart/getCartItemSubPrice */
-export const getCartItemSubPrice = (state: CartState) => (props: CartItemPriceProps): number | null => {
+export const getCartItemSubPrice = (state: RootState) => (props: CartItemPriceProps): number | null => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
@@ -131,7 +131,7 @@ export const getCartItemSubPrice = (state: CartState) => (props: CartItemPricePr
 };
 
 /** @namespace Util/Cart/getCartShippingPrice */
-export const getCartShippingPrice = (state: CartState): number => {
+export const getCartShippingPrice = (state: RootState): number => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
@@ -154,7 +154,7 @@ export const getCartShippingPrice = (state: CartState): number => {
 };
 
 /** @namespace Util/Cart/getCartShippingSubPrice */
-export const getCartShippingSubPrice = (state: CartState): number | null => {
+export const getCartShippingSubPrice = (state: RootState): number | null => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
@@ -176,7 +176,7 @@ export const getCartShippingSubPrice = (state: CartState): number | null => {
 };
 
 /** @namespace Util/Cart/getCartShippingItemPrice */
-export const getCartShippingItemPrice = (state: CartState) => (props: CartItemPriceProps): number => {
+export const getCartShippingItemPrice = (state: RootState) => (props: ShippingMethod): number => {
     const {
         ConfigReducer: {
             priceTaxDisplay: {
@@ -198,7 +198,7 @@ export const getCartShippingItemPrice = (state: CartState) => (props: CartItemPr
 };
 
 /** @namespace Util/Cart/getCartShippingItemSubPrice */
-export const getCartShippingItemSubPrice = (state: CartState) => (props: CartItemPriceProps): number | null => {
+export const getCartShippingItemSubPrice = (state: RootState) => (props: ShippingMethod): number | null => {
     const {
         ConfigReducer: {
             priceTaxDisplay: {

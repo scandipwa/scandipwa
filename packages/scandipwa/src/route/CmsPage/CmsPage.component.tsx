@@ -56,7 +56,7 @@ export class CmsPage extends PureComponent<CmsPageComponentProps> {
             );
         }
 
-        if (!isLoading && !content) {
+        if (!isLoading || !content) {
             return null;
         }
 

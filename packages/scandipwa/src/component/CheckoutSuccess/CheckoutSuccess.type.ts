@@ -9,13 +9,10 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type KeyValueTableComponentProps = {
-    title?: string;
-    isSelected?: boolean;
-};
-
-export type DataPair<T> = {
-    key: string;
-    label: string;
-    source: T;
-};
+export interface CheckoutSuccessComponentProps {
+    orderID: string;
+    isEmailAvailable: boolean;
+    email: string;
+    firstName: string;
+    lastName: string;
+}

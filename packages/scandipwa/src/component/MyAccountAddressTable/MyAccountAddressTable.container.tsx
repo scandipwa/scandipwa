@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -25,7 +25,8 @@ import {
     MyAccountAddressTableComponentProps,
     MyAccountAddressTableContainerMapDispatchProps,
     MyAccountAddressTableContainerMapStateProps,
-    MyAccountAddressTableContainerProps
+    MyAccountAddressTableContainerProps,
+    MyAccountAddressTableContainerPropsKeys
 } from './MyAccountAddressTable.type';
 
 /** @namespace Component/MyAccountAddressTable/Container/mapStateToProps */
@@ -39,7 +40,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressTableCon
 });
 
 /** @namespace Component/MyAccountAddressTable/Container */
-export class MyAccountAddressTableContainer extends PureComponent<MyAccountAddressTableContainerProps> {
+export class MyAccountAddressTableContainer<
+    Props extends MyAccountAddressTableContainerProps = MyAccountAddressTableContainerProps
+> extends PureComponent<Props> {
     static defaultProps = {
         showAdditionalFields: false,
         showActions: false,
@@ -54,12 +57,7 @@ export class MyAccountAddressTableContainer extends PureComponent<MyAccountAddre
 
     containerProps(): Pick<
     MyAccountAddressTableComponentProps,
-    'address'
-    | 'countries'
-    | 'mix'
-    | 'showAdditionalFields'
-    | 'showActions'
-    | 'title'
+    MyAccountAddressTableContainerPropsKeys
     > {
         const {
             address,
@@ -110,4 +108,9 @@ export class MyAccountAddressTableContainer extends PureComponent<MyAccountAddre
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountAddressTableContainer);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(
+    MyAccountAddressTableContainer as unknown as ComponentType<MyAccountAddressTableContainerProps>
+);

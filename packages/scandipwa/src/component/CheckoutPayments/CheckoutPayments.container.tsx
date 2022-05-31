@@ -61,7 +61,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
     };
 
     __construct(props) {
-        super.__construct(props);
+        super.__construct?.(props);
     }
 
     componentDidMount(): void {

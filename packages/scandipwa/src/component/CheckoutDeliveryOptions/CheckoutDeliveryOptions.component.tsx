@@ -12,28 +12,22 @@
 import { PureComponent } from 'react';
 
 import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
-import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
-import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout.type';
+import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
+import { ShippingMethod } from 'Query/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
+
+import { CheckoutDeliveryOptionsComponent } from './CheckoutDeliveryOptions.type';
 
 import './CheckoutDeliveryOptions.style';
 
 /** @namespace Component/CheckoutDeliveryOptions/Component */
-export class CheckoutDeliveryOptions extends PureComponent {
-    static propTypes = {
-        shippingMethods: ShippingMethodsType.isRequired,
-        selectShippingMethod: PropTypes.func.isRequired,
-        handleSelectDeliveryMethod: PropTypes.func.isRequired,
-        selectedShippingMethod: ShippingMethodType,
-        isShippingMethodPreSelected: PropTypes.bool.isRequired
-    };
-
+export class CheckoutDeliveryOptions extends PureComponent<CheckoutDeliveryOptionsComponent> {
     static defaultProps = {
         selectedShippingMethod: {}
     };
 
-    shippingRenderMap = {
-        [STORE_IN_PICK_UP_METHOD_CODE]: this.handleSelectStoreInPickUp.bind(this)
+    shippingRenderMap: Record<string, () => ReactElement> = {
+        [StoreInPickUpCode.METHOD_CODE]: this.handleSelectStoreInPickUp.bind(this)
     };
 
     renderHeading(): ReactElement {
@@ -44,23 +38,23 @@ export class CheckoutDeliveryOptions extends PureComponent {
         );
     }
 
-    handleSelectStoreInPickUp() {
+    handleSelectStoreInPickUp(): ReactElement {
         const {
             handleSelectDeliveryMethod,
             isShippingMethodPreSelected
         } = this.props;
 
-        if (isShippingMethodPreSelected) {
-            return;
+        if (!isShippingMethodPreSelected) {
+            handleSelectDeliveryMethod();
         }
 
-        handleSelectDeliveryMethod();
+        return null;
     }
 
-    renderDeliveryOption(option): ReactElement {
+    renderDeliveryOption(option: ShippingMethod): ReactElement {
         const {
             selectShippingMethod,
-            selectedShippingMethod: { method_code: selectedMethodCode }
+            selectedShippingMethod: { method_code: selectedMethodCode = '' } = {}
         } = this.props;
 
         const { carrier_code, method_code } = option;
@@ -95,7 +89,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
     }
 
     renderSelectedShippingMethod(): ReactElement {
-        const { selectedShippingMethod: { method_code } } = this.props;
+        const { selectedShippingMethod: { method_code = '' } = {} } = this.props;
         const render = this.shippingRenderMap[method_code];
 
         if (!render) {

@@ -29,7 +29,7 @@ export interface MyAccountSignInContainerMapDispatchProps {
 }
 
 export interface MyAccountSignInContainerBaseProps {
-    state: MyAccountPageState;
+    state: MyAccountPageState | '';
     onFormError: () => void;
     handleForgotPassword: (e: MouseEvent) => void;
     handleCreateAccount: (e: MouseEvent) => void;
@@ -39,7 +39,7 @@ export interface MyAccountSignInContainerBaseProps {
     isCheckout: boolean;
     isLoading: boolean;
     emailValue: string;
-    setSignInState: (state: MyAccountPageState) => void;
+    setSignInState: (state: MyAccountPageState | '') => void;
 }
 
 export interface MyAccountSignInContainerProps extends MyAccountSignInContainerMapStateProps,
@@ -56,7 +56,7 @@ export interface MyAccountSignInComponentProps {
     handleForgotPassword: (e: MouseEvent) => void;
     handleCreateAccount: (e: MouseEvent) => void;
     isCheckout: boolean;
-    state: MyAccountPageState;
+    state: MyAccountPageState | '';
     emailValue: string;
     handleEmailInput: (emailInput: ChangeEvent<HTMLInputElement>) => void;
     isLoading: boolean;

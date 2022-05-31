@@ -50,10 +50,10 @@ export const mapStateToProps = (state: RootState): MyAccountAddressFormContainer
 export const mapDispatchToProps = (): MyAccountAddressFormContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountAddressForm/Container */
-export class MyAccountAddressFormContainer extends PureComponent<
-MyAccountAddressFormContainerProps,
-MyAccountAddressFormContainerState
-> {
+export class MyAccountAddressFormContainer <
+    Props extends MyAccountAddressFormContainerProps = MyAccountAddressFormContainerProps,
+    State extends MyAccountAddressFormContainerState = MyAccountAddressFormContainerState
+> extends PureComponent<Props, State> {
     static defaultProps = {
         defaultCountry: 'US'
     };

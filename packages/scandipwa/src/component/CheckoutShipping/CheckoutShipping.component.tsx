@@ -17,39 +17,18 @@ import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import StoreInPickUpComponent from 'Component/StoreInPickUp';
-import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { Addresstype } from 'Type/Account.type';
-import { ShippingMethodsType, ShippingMethodType } from 'Type/Checkout.type';
+import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { ReactElement } from 'Type/Common.type';
-import { TotalsType } from 'Type/MiniCart.type';
 import { getAllCartItemsSku } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
+
+import { CheckoutShippingComponentProps } from './CheckoutShipping.type';
 
 import './CheckoutShipping.style';
 
 /** @namespace Component/CheckoutShipping/Component */
-export class CheckoutShipping extends PureComponent {
-    static propTypes = {
-        totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number,
-        onShippingSuccess: PropTypes.func.isRequired,
-        onShippingError: PropTypes.func.isRequired,
-        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
-        shippingMethods: ShippingMethodsType.isRequired,
-        onShippingMethodSelect: PropTypes.func.isRequired,
-        selectedShippingMethod: ShippingMethodType.isRequired,
-        onAddressSelect: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        isSubmitted: PropTypes.bool.isRequired,
-        onStoreSelect: PropTypes.func.isRequired,
-        estimateAddress: Addresstype.isRequired,
-        handleSelectDeliveryMethod: PropTypes.func.isRequired,
-        isPickInStoreMethodSelected: PropTypes.bool.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func
-    };
-
+export class CheckoutShipping extends PureComponent<CheckoutShippingComponentProps> {
     static defaultProps = {
-        setSelectedShippingMethodCode: null,
         cartTotalSubPrice: null
     };
 
@@ -72,7 +51,7 @@ export class CheckoutShipping extends PureComponent {
         );
     }
 
-    renderPriceLine(price): ReactElement {
+    renderPriceLine(price: number): ReactElement {
         const { totals: { quote_currency_code } } = this.props;
 
         return formatPrice(price, quote_currency_code);
@@ -85,6 +64,10 @@ export class CheckoutShipping extends PureComponent {
                 quote_currency_code
             }
         } = this.props;
+
+        if (!grand_total) {
+            return null;
+        }
 
         const orderTotal = formatPrice(grand_total, quote_currency_code);
 
@@ -122,23 +105,19 @@ export class CheckoutShipping extends PureComponent {
 
     renderPickInStoreMethod(): ReactElement {
         const {
-            estimateAddress: { country_id },
+            estimateAddress: { country_id } = {},
             shippingMethods,
             onStoreSelect,
             onShippingMethodSelect,
-            estimateAddress,
-            setSelectedShippingMethodCode,
             totals: { items }
         } = this.props;
 
         return (
             <StoreInPickUpComponent
-              countryId={ country_id }
+              countryId={ country_id || 'US' }
               shippingMethods={ shippingMethods }
               onStoreSelect={ onStoreSelect }
               onShippingMethodSelect={ onShippingMethodSelect }
-              estimateAddress={ estimateAddress }
-              setSelectedShippingMethodCode={ setSelectedShippingMethodCode }
               cartItemsSku={ getAllCartItemsSku(items) }
             />
         );
@@ -148,8 +127,6 @@ export class CheckoutShipping extends PureComponent {
         const {
             shippingMethods,
             onShippingMethodSelect,
-            estimateAddress,
-            onStoreSelect,
             handleSelectDeliveryMethod,
             selectedShippingMethod
         } = this.props;
@@ -158,8 +135,6 @@ export class CheckoutShipping extends PureComponent {
             <CheckoutDeliveryOptions
               shippingMethods={ shippingMethods }
               onShippingMethodSelect={ onShippingMethodSelect }
-              estimateAddress={ estimateAddress }
-              onStoreSelect={ onStoreSelect }
               handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
               selectedShippingMethod={ selectedShippingMethod }
             />
@@ -210,7 +185,7 @@ export class CheckoutShipping extends PureComponent {
         return (
             <Form
               attr={ {
-                  id: SHIPPING_STEP
+                  id: CheckoutSteps.SHIPPING_STEP
               } }
               onSubmit={ onShippingSuccess }
               onError={ onShippingError }

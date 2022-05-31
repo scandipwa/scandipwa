@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
@@ -17,23 +16,18 @@ import {
     mapStateToProps,
     MyAccountAddressFormContainer
 } from 'Component/MyAccountAddressForm/MyAccountAddressForm.container';
-import { noopFn } from 'Util/Common';
+import { ReactElement } from 'Type/Common.type';
 
 import CheckoutAddressForm from './CheckoutAddressForm.component';
+import {
+    CheckoutAddressFormComponentProps,
+    CheckoutAddressFormContainerProps,
+    CheckoutAddressFormContainerPropsKeys
+} from './CheckoutAddressForm.type';
 
 /** @namespace Component/CheckoutAddressForm/Container */
-export class CheckoutAddressFormContainer extends MyAccountAddressFormContainer {
-    static propTypes = {
-        ...super.propTypes,
-        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
-        onSave: PropTypes.func
-    };
-
-    static defaultProps = {
-        onSave: noopFn
-    };
-
-    containerProps() {
+export class CheckoutAddressFormContainer extends MyAccountAddressFormContainer<CheckoutAddressFormContainerProps> {
+    containerProps(): Pick<CheckoutAddressFormComponentProps, CheckoutAddressFormContainerPropsKeys> {
         const { onShippingEstimationFieldsChange } = this.props;
 
         return {
@@ -45,8 +39,8 @@ export class CheckoutAddressFormContainer extends MyAccountAddressFormContainer 
     render(): ReactElement {
         return (
             <CheckoutAddressForm
-                {...this.containerFunctions}
-                {...this.containerProps()}
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

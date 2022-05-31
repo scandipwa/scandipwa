@@ -9,20 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { ChangeEvent, MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
+import { EventFieldData } from 'Component/Field/Field.type';
 import {
-    AUTOFILL_CHECK_TIMER,
-    GUEST_EMAIL_FIELD_ID
-} from 'Component/CheckoutGuestForm/CheckoutGuestForm.config';
-import {
-    STATE_CREATE_ACCOUNT,
-    STATE_FORGOT_PASSWORD,
-    STATE_SIGN_IN
+    MyAccountPageState
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { SHIPPING_STEP, UPDATE_EMAIL_CHECK_FREQUENCY } from 'Route/Checkout/Checkout.config';
+import { CheckoutSteps, UPDATE_EMAIL_CHECK_FREQUENCY } from 'Route/Checkout/Checkout.config';
 import { updateEmail, updateEmailAvailable } from 'Store/Checkout/Checkout.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -30,8 +25,17 @@ import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
 import { debounce, getErrorMessage } from 'Util/Request';
+import { RootState } from 'Util/Store/Store.type';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
+import {
+    CheckoutGuestFormComponentProps,
+    CheckoutGuestFormContainerMapDispatchProps,
+    CheckoutGuestFormContainerMapStateProps,
+    CheckoutGuestFormContainerProps,
+    CheckoutGuestFormContainerPropsKeys,
+    CheckoutGuestFormContainerState
+} from './CheckoutGuestForm.type';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -43,7 +47,7 @@ export const CheckoutDispatcher = import(
 );
 
 /** @namespace Component/CheckoutGuestForm/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CheckoutGuestFormContainerMapStateProps => ({
     isEmailConfirmationRequired: state.ConfigReducer.is_email_confirmation_required,
     emailValue: state.CheckoutReducer.email,
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
@@ -52,7 +56,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/CheckoutGuestForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): CheckoutGuestFormContainerMapDispatchProps => ({
     signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     ),
@@ -66,33 +70,17 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/CheckoutGuestForm/Container */
-export class CheckoutGuestFormContainer extends PureComponent {
-    static propTypes = {
-        isCreateUser: PropTypes.bool.isRequired,
-        isGuestEmailSaved: PropTypes.bool,
-        showErrorNotification: PropTypes.func.isRequired,
-        onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
-        clearEmailStatus: PropTypes.func.isRequired,
-        emailValue: PropTypes.string,
-        onSignIn: PropTypes.func,
-        isEmailAvailable: PropTypes.bool.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        signIn: PropTypes.func.isRequired,
-        checkEmailAvailability: PropTypes.func.isRequired,
-        updateEmail: PropTypes.func.isRequired,
-        minimunPasswordLength: PropTypes.number.isRequired,
-        minimunPasswordCharacter: PropTypes.string.isRequired
-    };
-
+export class CheckoutGuestFormContainer extends PureComponent<
+CheckoutGuestFormContainerProps,
+CheckoutGuestFormContainerState
+> {
     static defaultProps = {
         emailValue: '',
         isGuestEmailSaved: false,
         onSignIn: noopFn
     };
 
-    state = {
+    state: CheckoutGuestFormContainerState = {
         isLoading: false,
         signInState: ''
     };
@@ -109,88 +97,90 @@ export class CheckoutGuestFormContainer extends PureComponent {
         setLoadingState: this.setLoadingState.bind(this)
     };
 
-    checkEmailAvailability = debounce((email) => {
+    checkEmailAvailability = debounce((email: string) => {
         const { checkEmailAvailability } = this.props;
         checkEmailAvailability(email);
     }, UPDATE_EMAIL_CHECK_FREQUENCY);
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: CheckoutGuestFormContainerProps): void {
+        super.__construct?.(props);
 
         const { clearEmailStatus } = props;
         clearEmailStatus();
     }
 
-    componentDidMount(): void {
-        setTimeout(
-            () => {
-                const field = document.getElementById(GUEST_EMAIL_FIELD_ID);
+    // componentDidMount(): void {
+    //     setTimeout(
+    //         () => {
+    //             const field = document.getElementById(GUEST_EMAIL_FIELD_ID);
 
-                if (field) {
-                    this.handleEmailInput(field.value);
-                }
-            },
-            AUTOFILL_CHECK_TIMER
-        );
-    }
+    //             if (field) {
+    //                 this.handleEmailInput(field.value);
+    //             }
+    //         },
+    //         AUTOFILL_CHECK_TIMER
+    //     );
+    // }
 
-    containerProps() {
+    containerProps(): Pick<CheckoutGuestFormComponentProps, CheckoutGuestFormContainerPropsKeys> {
         const {
             emailValue,
             isEmailAvailable,
             onSignIn,
             minimunPasswordLength,
-            minimunPasswordCharacter
+            minimunPasswordCharacter,
+            isCreateUser
         } = this.props;
         const { isLoading, signInState } = this.state;
 
         const range = { min: minimunPasswordLength, max: 64 };
 
         return ({
-            formId: SHIPPING_STEP,
+            formId: CheckoutSteps.SHIPPING_STEP,
             emailValue,
             isEmailAvailable,
             isLoading,
             signInState,
             onSignIn,
             range,
-            minimunPasswordCharacter
+            minimunPasswordCharacter,
+            isCreateUser
         });
     }
 
-    onFormError() {
+    onFormError(): void {
         this.setState({ isLoading: false });
     }
 
-    handleForgotPassword(e) {
+    handleForgotPassword(e: MouseEvent): void {
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
-        this.setState({ signInState: STATE_FORGOT_PASSWORD });
+        this.setState({ signInState: MyAccountPageState.STATE_FORGOT_PASSWORD });
     }
 
-    handleSignIn(e) {
+    handleSignIn(e: MouseEvent): void {
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
-        this.setState({ signInState: STATE_SIGN_IN });
+        this.setState({ signInState: MyAccountPageState.STATE_SIGN_IN });
     }
 
-    handleCreateAccount(e) {
+    handleCreateAccount(e: MouseEvent): void {
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
-        this.setState({ signInState: STATE_CREATE_ACCOUNT });
+        this.setState({ signInState: MyAccountPageState.STATE_CREATE_ACCOUNT });
     }
 
-    setSignInState(signInState) {
+    setSignInState(signInState: MyAccountPageState | ''): void {
         this.setState({ signInState });
     }
 
-    setLoadingState(isLoading) {
+    setLoadingState(isLoading: boolean): void {
         this.setState({ isLoading });
     }
 
-    handleEmailInput(event, field) {
+    handleEmailInput(event: ChangeEvent<HTMLInputElement>, field?: EventFieldData): void {
         const { onEmailChange } = this.props;
-        const { value: email } = field;
+        const { value: email = '' } = field || {};
         this.checkEmailAvailability(email);
         onEmailChange(email);
 
@@ -201,12 +191,12 @@ export class CheckoutGuestFormContainer extends PureComponent {
         }
     }
 
-    handleCreateUser() {
+    handleCreateUser(): void {
         const { onCreateUserChange } = this.props;
         onCreateUserChange();
     }
 
-    handlePasswordInput(password) {
+    handlePasswordInput(password: string): void {
         const { onPasswordChange } = this.props;
         onPasswordChange(password);
     }

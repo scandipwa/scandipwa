@@ -11,6 +11,28 @@
 
 import { Mix } from 'Type/Common.type';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CartCouponContainerMapStateProps {}
+
+export interface CartCouponContainerMapDispatchProps {
+    applyCouponToCart: (couponCode: string) => Promise<void>;
+    removeCouponFromCart: () => Promise<void>;
+}
+
+export interface CartCouponContainerBaseProps {
+    couponCode: string;
+    mix: Mix;
+    title: string;
+}
+
+export type CartCouponContainerProps = CartCouponContainerMapStateProps
+& CartCouponContainerMapDispatchProps
+& CartCouponContainerBaseProps;
+
+export interface CartCouponContainerState {
+    isLoading: boolean;
+}
+
 export interface CartCouponComponentProps {
     isLoading: boolean;
     couponCode: string;
@@ -23,3 +45,9 @@ export interface CartCouponComponentProps {
 export interface CartCouponComponentState {
     enteredCouponCode: string;
 }
+
+export type CartCouponContainerPropsKeys =
+| 'isLoading'
+| 'couponCode'
+| 'mix'
+| 'title';

@@ -39,3 +39,11 @@ export type MyAccountAddressTableComponentProps = {
     countries: Country[];
     title: string;
 };
+
+export type MyAccountAddressTableContainerPropsKeys =
+'address'
+| 'countries'
+| 'mix'
+| 'showAdditionalFields'
+| 'showActions'
+| 'title';

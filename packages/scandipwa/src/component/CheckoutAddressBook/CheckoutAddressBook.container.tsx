@@ -9,16 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { CustomerType } from 'Type/Account.type';
+import { CustomerAddress } from 'Query/MyAccount.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
+import { RootState } from 'Util/Store/Store.type';
 
 import CheckoutAddressBook from './CheckoutAddressBook.component';
+import {
+    CheckoutAddressBookComponentProps,
+    CheckoutAddressBookContainerMapDispatchProps,
+    CheckoutAddressBookContainerMapStateProps,
+    CheckoutAddressBookContainerProps,
+    CheckoutAddressBookContainerPropsKeys,
+    CheckoutAddressBookContainerState
+} from './CheckoutAddressBook.type';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -26,29 +35,22 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/CheckoutAddressBook/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CheckoutAddressBookContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer
 });
 
 /** @namespace Component/CheckoutAddressBook/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): CheckoutAddressBookContainerMapDispatchProps => ({
     requestCustomerData: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     )
 });
 
 /** @namespace Component/CheckoutAddressBook/Container */
-export class CheckoutAddressBookContainer extends PureComponent {
-    static propTypes = {
-        requestCustomerData: PropTypes.func.isRequired,
-        onShippingEstimationFieldsChange: PropTypes.func,
-        onAddressSelect: PropTypes.func,
-        customer: CustomerType.isRequired,
-        isBilling: PropTypes.bool,
-        isSubmitted: PropTypes.bool,
-        is_virtual: PropTypes.bool
-    };
-
+export class CheckoutAddressBookContainer extends PureComponent<
+CheckoutAddressBookContainerProps,
+CheckoutAddressBookContainerState
+> {
     static defaultProps = {
         isBilling: false,
         onAddressSelect: noopFn,
@@ -57,7 +59,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         is_virtual: false
     };
 
-    static _getDefaultAddressId(props) {
+    static _getDefaultAddressId(props: CheckoutAddressBookContainerProps): number {
         const { customer, isBilling } = props;
         const defaultKey = isBilling ? 'default_billing' : 'default_shipping';
         const { [ defaultKey ]: defaultAddressId, addresses } = customer;
@@ -77,8 +79,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
         onAddressSelect: this.onAddressSelect.bind(this)
     });
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: CheckoutAddressBookContainerProps): void {
+        super.__construct?.(props);
 
         const {
             requestCustomerData,
@@ -103,7 +105,10 @@ export class CheckoutAddressBookContainer extends PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(
+        props: CheckoutAddressBookContainerProps,
+        state: CheckoutAddressBookContainerState
+    ): null | CheckoutAddressBookContainerState {
         const { prevDefaultAddressId } = state;
         const defaultAddressId = CheckoutAddressBookContainer._getDefaultAddressId(props);
 
@@ -117,7 +122,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         return null;
     }
 
-    componentDidUpdate(_, prevState): void {
+    componentDidUpdate(_: CheckoutAddressBookContainerProps, prevState: CheckoutAddressBookContainerState): void {
         const {
             onAddressSelect,
             requestCustomerData,
@@ -136,7 +141,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<CheckoutAddressBookComponentProps, CheckoutAddressBookContainerPropsKeys> {
         const {
             customer,
             onShippingEstimationFieldsChange,
@@ -156,12 +161,12 @@ export class CheckoutAddressBookContainer extends PureComponent {
         };
     }
 
-    onAddressSelect(address) {
-        const { id = 0 } = address;
+    onAddressSelect(address?: CustomerAddress): void {
+        const { id = 0 } = address || {};
         this.setState({ selectedAddressId: id });
     }
 
-    estimateShipping(addressId) {
+    estimateShipping(addressId: number): void {
         const {
             onShippingEstimationFieldsChange,
             customer: { addresses = [] }
@@ -199,8 +204,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CheckoutAddressBook
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

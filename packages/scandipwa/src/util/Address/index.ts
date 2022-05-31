@@ -12,6 +12,7 @@
 import { CustomerAddress } from 'Query/MyAccount.type';
 import { Country, Region } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
+import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
 import { TrimmedAddress } from 'Type/Account.type';
 import { GQLCustomerAddressInput } from 'Type/Graphql.type';
 
@@ -100,7 +101,7 @@ export const trimCheckoutCustomerAddress = (customerAddress: CustomerAddress): T
 };
 
 /** @namespace Util/Address/Index/trimCheckoutAddress */
-export const trimCheckoutAddress = (customerAddress: TrimmedAddress): TrimmedAddress => {
+export const trimCheckoutAddress = (customerAddress: Partial<CheckoutAddress>): TrimmedAddress => {
     const {
         company = null,
         city = '',
@@ -138,8 +139,8 @@ export const trimCheckoutAddress = (customerAddress: TrimmedAddress): TrimmedAdd
  * @returns {*}
  * @namespace Util/Address/Index/removeEmptyStreets
  */
-export const removeEmptyStreets = <T>(street: T | T[]): T | T[] => (
-    Array.isArray(street) ? street.filter((line) => line) : street
+export const removeEmptyStreets = (street: Array<string | null>): Array<string | null> => (
+    street.filter((line) => line)
 );
 
 /** transforming "street[index]" entries into a single "street" object
