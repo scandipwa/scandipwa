@@ -182,6 +182,20 @@ body {
     color: $black;
     scroll-behavior: smooth;
     background-color: #fff;
+
+    &::after {
+        content: "";
+        position: fixed;
+        height: 100vh;
+        width: 100vw;
+        background: linear-gradient(var(--header-background-color) 50%, var(--footer-background-color) 50%);
+        inset-block-end: 0;
+        z-index: -1;
+    }
+}
+
+#root {
+    background-color: #fff;
 }
 
 a {
