@@ -87,11 +87,11 @@
             line-height: 24px;
             font-size: 18px;
         }
+    }
 
-        span:nth-child(2) {
-            &::before {
-                content: ' / ';
-            }
+    &-ReviewCount_hasDivider {
+        &::before {
+            content: ' / ';
         }
     }
 }
