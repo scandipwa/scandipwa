@@ -11,14 +11,16 @@
 
 // util class, is applied on <html> on fullscreen image
 
+:root {
+    --carousel-scroll-item-height: 38px;
+    --carousel-scroll-margin-top: 28px;
+}
+
 .overscrollPrevented {
     overscroll-behavior: contain;
 }
 
 .ProductGallery {
-    --carousel-scroll-item-height: 38px;
-    --carousel-scroll-margin-top: 28px;
-
     display: flex;
     flex-direction: column;
     height: 500px;
