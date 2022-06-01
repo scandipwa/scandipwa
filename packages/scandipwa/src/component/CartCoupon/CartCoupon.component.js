@@ -123,6 +123,9 @@ export class CartCoupon extends PureComponent {
                       events={ {
                           onChange: this.handleCouponCodeChange
                       } }
+                        validationRule={ {
+                          isRequired: true
+                      } }
                       validateOn={ ['onChange'] }
                       mix={ { mods: { hasError: isFieldWithError }, block: 'Field' } }
                     />
