@@ -175,13 +175,18 @@ img {
 
 html {
     font-size: $font-standard-size;
-    
+    overscroll-behavior-y: auto;
+
     &.isDemoVisible {
         body {
             &::after {
                 background: linear-gradient(var(--demo-notice-background-color) 50%, var(--footer-background-color) 50%);
             }
         }
+    }
+
+    @include pointer-device-coarse {
+        overscroll-behavior-y: none;
     }
 }
 
