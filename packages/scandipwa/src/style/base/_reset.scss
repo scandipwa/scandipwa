@@ -177,7 +177,7 @@ html {
     font-size: $font-standard-size;
     overscroll-behavior-y: none;
 
-    @include pointer-device-coarse {
+    @include none-pointer-device {
         overscroll-behavior-y: auto;
     }
 }

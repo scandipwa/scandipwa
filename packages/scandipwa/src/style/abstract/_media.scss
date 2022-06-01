@@ -80,7 +80,7 @@
     }
 }
 
-@mixin pointer-device-coarse {
+@mixin none-pointer-device {
     @media (pointer: coarse) or (pointer: none){
         @content;
     }
