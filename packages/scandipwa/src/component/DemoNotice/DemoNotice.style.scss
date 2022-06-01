@@ -17,7 +17,7 @@
 .DemoNotice {
     padding-block-start: env(safe-area-inset-top);
     align-items: center;
-    background-color: var(--primary-base-color);
+    background-color: var(--demo-notice-background-color);
     color: $white;
     display: flex;
     font-size: 14px;
