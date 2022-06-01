@@ -109,13 +109,6 @@
         }
     }
 
-    &_hasError {
-        input:not([type='number']),
-        textarea,
-        select {
-            border: 1px solid var(--primary-error-color);
-        }
-    }
 
     textarea {
         font-size: 14px;
@@ -247,14 +240,27 @@
         &_datetime-local,
         &_file,
         &_select {
-            &.Field_isValid {
+            &.Field {
                 input,
                 textarea,
                 select {
-                    // &:placeholder-shown {
-                    //     border: 1px solid var(--color-dark-gray);
-                    // }
-                    border: 1px solid var(--primary-success-color);
+                    border: 1px solid var(--color-dark-gray);
+                }
+
+                &_isValid {
+                    input,
+                    textarea,
+                    select {
+                        border: 1px solid var(--primary-success-color);
+                    }
+                }
+
+                &_hasError {
+                    input:not([type='number']),
+                    textarea,
+                    select {
+                        border: 1px solid var(--primary-error-color);
+                    }
                 }
             }
         }
