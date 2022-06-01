@@ -28,8 +28,6 @@
     padding-inline: var(--button-padding);
     text-decoration: var(--button-text-decoration);
     text-transform: uppercase;
-    transition-timing-function: ease-out;
-    transition-property: background-color, color, border;
     will-change: background-color, color, border;
 
     @include mobile {
