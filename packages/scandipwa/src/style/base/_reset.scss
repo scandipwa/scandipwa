@@ -175,7 +175,7 @@ img {
 
 html {
     font-size: $font-standard-size;
-    overscroll-behavior-y: auto;
+    overscroll-behavior-y: none;
 
     &.isDemoVisible {
         body {
@@ -186,7 +186,7 @@ html {
     }
 
     @include pointer-device-coarse {
-        overscroll-behavior-y: none;
+        overscroll-behavior-y: auto;
     }
 }
 
