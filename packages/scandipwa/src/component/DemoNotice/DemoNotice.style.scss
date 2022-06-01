@@ -12,6 +12,17 @@
 :root {
     /* stylelint-disable-next-line length-zero-no-unit */
     --demo-notice-height: 0px;
+    --demo-notice-background-color: var(--primary-base-color);
+}
+
+html {
+    &.isDemoVisible {
+        body {
+            &::after {
+                background: linear-gradient(var(--demo-notice-background-color) 50%, var(--footer-background-color) 50%);
+            }
+        }
+    }
 }
 
 .DemoNotice {
