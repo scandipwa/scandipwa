@@ -244,10 +244,9 @@
 
     &-DeleteButtonText {
         color: inherit;
-        line-height: 1em;
         margin-inline-start: 4px;
         cursor: pointer;
-        font-family: sans-serif;
+        margin-block-start: 2px;
 
         &_isMobileLayout {
             display: none;
