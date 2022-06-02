@@ -48,6 +48,7 @@
 
     &Options-List {
         min-height: 30px;
+        overflow-wrap: break-word;
 
         @include desktop {
             padding-inline: 9px;
