@@ -55,6 +55,7 @@
 
         @include mobile {
             padding: 0 0 14px;
+            padding-block-start: 20px;
         }
 
         &:last-child {
