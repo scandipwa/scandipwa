@@ -81,7 +81,7 @@
 }
 
 @mixin none-pointer-device {
-    @media (pointer: coarse) or (pointer: none){
+    @media (pointer: coarse) , (pointer: none) {
         @content;
     }
 }
