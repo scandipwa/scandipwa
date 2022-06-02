@@ -268,6 +268,7 @@ export class CategoryPage extends PureComponent {
             selectedSort,
             onSortChange,
             isMatchingInfoFilter,
+            isCurrentCategoryLoaded,
             isMobile
         } = this.props;
 
@@ -281,6 +282,7 @@ export class CategoryPage extends PureComponent {
 
         return (
             <CategorySort
+              isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
               isMatchingInfoFilter={ isMatchingInfoFilter }
               onSortChange={ onSortChange }
               sortFields={ updatedSortFields }
