@@ -501,10 +501,15 @@ export class CheckoutContainer extends PureComponent {
 
     handleRedirectIfLessThanMinAmountInCart() {
         const {
-            minimumOrderAmount: { minimum_order_amount_reached = true }
+            minimumOrderAmount: { minimum_order_amount_reached = true },
+            match: {
+                params: {
+                    step: urlStep = ''
+                }
+            }
         } = this.props;
 
-        if (!minimum_order_amount_reached) {
+        if (!minimum_order_amount_reached && !urlStep.includes(DETAILS_URL_STEP)) {
             history.push(appendWithStoreCode(CART_URL));
         }
     }
