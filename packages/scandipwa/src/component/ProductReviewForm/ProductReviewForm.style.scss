@@ -18,6 +18,9 @@
         }
     }
 
+    display: flex;
+    flex-direction: column;
+
     &-RatingWrapper {
         display: flex;
         flex-direction: column;
@@ -46,13 +49,11 @@
     }
 
     &-Content {
-        display: flex;
-        flex-direction: column;
         row-gap: 24px;
 
 
         .Field {
-            margin-block-start: 12px;
+            margin-block-start: 14px;
 
             &-ErrorMessages {
                 padding-block-start: 6px;
@@ -124,7 +125,8 @@
     }
 
     & &-Button {
-        margin-block-start: 12px;
+        margin-block-start: 14px;
+        width: 160px;
 
         @include mobile {
             margin-block-start: 28px;
