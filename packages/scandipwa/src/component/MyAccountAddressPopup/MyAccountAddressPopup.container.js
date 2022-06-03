@@ -116,7 +116,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
 
     showAddressNotification(status, operation) {
         const { showSuccessNotification, showErrorNotification } = this.props;
-        const message = __(`You ${operation} the address`);
+        const message = __('You %s the address', operation).toString();
         switch (status) {
         case 'success':
             showSuccessNotification(message);
