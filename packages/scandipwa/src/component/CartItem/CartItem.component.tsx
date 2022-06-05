@@ -19,9 +19,9 @@ import Image from 'Component/Image';
 import { ImageRatio } from 'Component/Image/Image.type';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
+import { SelectedBundleOption, SelectedCustomizableOption } from 'Query/Cart.type';
 import { ReactElement } from 'Type/Common.type';
 import {
-    GQLSelectedBundleOption,
     GQLSelectedBundleOptionValue,
     GQLSelectedCustomizableOption,
     GQLSelectedCustomizableOptionValue,
@@ -40,7 +40,7 @@ import './CartItem.style';
  * @namespace Component/CartItem/Component
  */
 export class CartItem extends PureComponent<CartItemComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<CartItemComponentProps> = {
         isCartOverlay: false,
         isMobileLayout: false,
         showLoader: true
@@ -151,7 +151,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
     }
 
     renderContent(): ReactElement {
-        const { linkTo = {}, isProductInStock, isMobile } = this.props;
+        const { linkTo = { pathname: '' }, isProductInStock, isMobile } = this.props;
 
         if (!isProductInStock || Object.keys(linkTo).length === 0 || isMobile) {
             // If product is out of stock, or link is not set
@@ -205,7 +205,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
         );
     }
 
-    renderBundleProductOptionLabel(option: GQLSelectedBundleOption): ReactElement {
+    renderBundleProductOptionLabel(option: SelectedBundleOption): ReactElement {
         const { label, values = [] } = option;
 
         if (values.length === 0) {
@@ -224,7 +224,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
         );
     }
 
-    renderProductBundleOption(option: GQLSelectedBundleOption): ReactElement {
+    renderProductBundleOption(option: SelectedBundleOption): ReactElement {
         const { id } = option;
 
         return (
@@ -239,7 +239,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
         );
     }
 
-    renderProductBundleOptions(itemOptions: GQLSelectedBundleOption[] = []): ReactElement {
+    renderProductBundleOptions(itemOptions: SelectedBundleOption[] = []): ReactElement {
         if (!itemOptions.length) {
             return null;
         }
@@ -270,7 +270,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
         );
     }
 
-    renderProductOptions(itemOptions: GQLSelectedCustomizableOption[] = []): ReactElement {
+    renderProductOptions(itemOptions: SelectedCustomizableOption[] = []): ReactElement {
         if (!itemOptions.length) {
             return null;
         }

@@ -101,9 +101,9 @@ export interface TotalsItem {
     tax_percent: number;
     discount_amount: number;
     discount_percent: number;
-    customizable_options: SelectedCustomizableOption;
-    downloadable_links: SelectedDownloadableLinks;
-    bundle_options: SelectedBundleOption;
+    customizable_options: SelectedCustomizableOption[];
+    downloadable_links: SelectedDownloadableLinks[];
+    bundle_options: SelectedBundleOption[];
     product: CartProductItem;
 }
 

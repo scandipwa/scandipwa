@@ -9,22 +9,34 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
+import { QuoteData } from 'Query/Cart.type';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { ReactElement } from 'Type/Common.type';
+import { ReactElement, Url } from 'Type/Common.type';
 import { encodeBase64 } from 'Util/Base64';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
+import {
+    IndexedAttributeWithValue, IndexedProduct, IndexedVariant, StockCheckProduct
+} from 'Util/Product/Product.type';
 import { makeCancelable } from 'Util/Promise';
 import { CancelablePromise } from 'Util/Promise/Promise.type';
 import { RootState } from 'Util/Store/Store.type';
 import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
-import { CartItemContainerProps, CartItemContainerState } from './CartItem.type';
+import {
+    CartItemComponentContainerPropKeys,
+    CartItemComponentProps,
+    CartItemContainerMapDispatchProps,
+    CartItemContainerMapStateProps,
+    CartItemContainerProps,
+    CartItemContainerState
+} from './CartItem.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -32,21 +44,21 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/CartItem/Container/mapStateToProps */
-export const mapStateToProps = (state: RootState) => ({
+export const mapStateToProps = (state: RootState): CartItemContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
     cartId: state.CartReducer.cartTotals?.id || ''
 });
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): CartItemContainerMapDispatchProps => ({
     addProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
     changeItemQty: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options)
     ),
-    removeProduct: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options)
+    removeProduct: (itemId) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, itemId)
     ),
     updateCrossSellProducts: (items) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch)
@@ -56,18 +68,18 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /** @namespace Component/CartItem/Container */
 export class CartItemContainer extends PureComponent<CartItemContainerProps, CartItemContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<CartItemContainerProps> = {
         updateCrossSellsOnRemove: false,
         isCartOverlay: false,
         isEditing: false,
         cartId: '',
-        onCartItemLoading: null,
+        onCartItemLoading: undefined,
         showLoader: true
     };
 
     state: CartItemContainerState = { isLoading: false };
 
-    handlers = [];
+    handlers: CancelablePromise[] = [];
 
     containerFunctions = {
         handleChangeQuantity: this.handleChangeQuantity.bind(this),
@@ -99,19 +111,19 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
     productIsInStock(): boolean {
         const { item: { product } } = this.props;
 
-        return getProductInStock(product);
+        return getProductInStock(product as Partial<StockCheckProduct>);
     }
 
     /**
      * @returns {Product}
      */
-    getCurrentProduct() {
+    getCurrentProduct(): IndexedVariant | IndexedProduct | undefined {
         const { item: { product } } = this.props;
         const variantIndex = this._getVariantIndex();
 
         return variantIndex < 0
             ? product
-            : product.variants[ variantIndex ];
+            : product.variants?.[ variantIndex ];
     }
 
     setStateNotLoading(): void {
@@ -119,7 +131,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         this.setState({ isLoading: false });
     }
 
-    containerProps() {
+    containerProps(): Pick<CartItemComponentProps, CartItemComponentContainerPropKeys> {
         const {
             item,
             currency_code,
@@ -140,8 +152,8 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             showLoader,
             linkTo: this._getProductLinkTo(),
             thumbnail: this._getProductThumbnail(),
-            minSaleQuantity: getMinQuantity(this.getCurrentProduct()),
-            maxSaleQuantity: getMaxQuantity(this.getCurrentProduct()),
+            minSaleQuantity: getMinQuantity(this.getCurrentProduct() as IndexedProduct),
+            maxSaleQuantity: getMaxQuantity(this.getCurrentProduct() as IndexedProduct),
             isProductInStock: this.productIsInStock(),
             optionsLabels: this.getConfigurableOptionsLabels(),
             isMobileLayout: this.getIsMobileLayout()
@@ -153,7 +165,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
      * @return {void}
      * @param quantity
      */
-    handleChangeQuantity(quantity): void {
+    handleChangeQuantity(quantity: number): void {
         this.setState({ isLoading: true }, () => {
             const { changeItemQty, item: { item_id, qty = 1 }, cartId } = this.props;
 
@@ -163,7 +175,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             }
 
             this.hideLoaderAfterPromise(changeItemQty({
-                uid: encodeBase64(item_id),
+                uid: encodeBase64(String(item_id)),
                 quantity,
                 cartId
             }));
@@ -174,12 +186,12 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
     /**
      * @return {void}
      */
-    handleRemoveItem(e): void {
+    handleRemoveItem(e: MouseEvent): void {
         this.handleRemoveItemOnSwipe(e);
         this.notifyAboutLoadingStateChange(true);
     }
 
-    handleRemoveItemOnSwipe(e): void {
+    handleRemoveItemOnSwipe(e?: MouseEvent): void {
         if (e) {
             e.preventDefault();
         }
@@ -197,7 +209,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         return isMobile || isCartOverlay;
     }
 
-    async removeProductAndUpdateCrossSell() {
+    async removeProductAndUpdateCrossSell(): Promise<Partial<QuoteData> | null> {
         const {
             removeProduct,
             updateCrossSellProducts,
@@ -208,7 +220,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         const result = await removeProduct(item_id);
 
         if (result && updateCrossSellsOnRemove) {
-            await updateCrossSellProducts(result.items);
+            await updateCrossSellProducts(result.items || []);
         }
 
         return result;
@@ -218,7 +230,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
      * @param {Promise}
      * @returns {cancelablePromise}
      */
-    registerCancelablePromise(promise) {
+    registerCancelablePromise(promise: Promise<unknown>): CancelablePromise {
         const cancelablePromise = makeCancelable(promise);
         this.handlers.push(cancelablePromise);
 
@@ -229,12 +241,12 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
      * @param {Promise} promise
      * @returns {void}
      */
-    hideLoaderAfterPromise(promise): void {
+    hideLoaderAfterPromise(promise: Promise<unknown>): void {
         this.registerCancelablePromise(promise)
             .promise.then(this.setStateNotLoading, this.setStateNotLoading);
     }
 
-    getProductVariant() {
+    getProductVariant(): IndexedVariant {
         const {
             item: {
                 product: {
@@ -249,7 +261,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
     /**
      * @returns {Int}
      */
-    _getVariantIndex() {
+    _getVariantIndex(): number {
         const {
             item: {
                 sku: itemSku,
@@ -265,20 +277,20 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
      * @param url_key Url to product
      * @return {{pathname: String, state Object}} Pathname and product state
      */
-    _getProductLinkTo() {
+    _getProductLinkTo(): Url {
         const {
             item: {
                 product,
                 product: {
                     type_id,
-                    configurable_options,
+                    configurable_options = {},
                     parent,
-                    url
+                    url = ''
                 } = {}
             } = {}
         } = this.props;
 
-        if (type_id !== ProductType.configurable) {
+        if (type_id !== ProductType.CONFIGURABLE) {
             return {
                 pathname: url,
                 state: { product }
@@ -288,7 +300,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         const variant = this.getProductVariant();
 
         if (!variant) {
-            return {};
+            return { pathname: '' };
         }
         const { attributes } = variant;
 
@@ -312,13 +324,13 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
     }
 
     _getProductThumbnail(): string {
-        const product = this.getCurrentProduct();
+        const product = this.getCurrentProduct() || {};
         const { thumbnail: { url: thumbnail } = {} } = product;
 
         return thumbnail || '';
     }
 
-    getConfigurationOptionLabel([key, attribute]): string | null {
+    getConfigurationOptionLabel([key, attribute]: [string, IndexedAttributeWithValue]): string | null {
         const {
             item: {
                 product: {
@@ -346,7 +358,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         return label;
     }
 
-    getConfigurableOptionsLabels() {
+    getConfigurableOptionsLabels(): string[] {
         const {
             item: {
                 product: {
@@ -360,15 +372,15 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             return [];
         }
 
-        const { attributes = [] } = this.getCurrentProduct() || {};
+        const { attributes = {} } = this.getCurrentProduct() || {};
 
         return Object.entries(attributes)
             .filter(([attrKey]) => Object.keys(configurable_options).includes(attrKey))
             .map(this.getConfigurationOptionLabel.bind(this))
-            .filter((label) => label);
+            .filter((label) => !!label) as string[];
     }
 
-    notifyAboutLoadingStateChange(isLoading): void {
+    notifyAboutLoadingStateChange(isLoading: boolean): void {
         const { onCartItemLoading } = this.props;
 
         if (onCartItemLoading) {

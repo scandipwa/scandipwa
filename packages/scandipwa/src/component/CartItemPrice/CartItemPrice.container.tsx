@@ -9,35 +9,35 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
 
-import { MixType } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { getCartItemPrice, getCartItemSubPrice } from 'Util/Cart';
+import { CartItemPriceProps } from 'Util/Cart/Cart.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import CartItemPrice from './CartItemPrice.component';
+import {
+    CartItemPriceComponentContainerPropKeys,
+    CartItemPriceComponentProps,
+    CartItemPriceContainerMapDispatchProps,
+    CartItemPriceContainerMapStateProps,
+    CartItemPriceContainerProps
+} from './CartItemPrice.type';
 
 /** @namespace Component/CartItemPrice/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CartItemPriceContainerMapStateProps => ({
     getCartItemPrice: getCartItemPrice(state),
     getCartItemSubPrice: getCartItemSubPrice(state)
 });
 
 /** @namespace Component/CartItemPrice/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): CartItemPriceContainerMapDispatchProps => ({});
 
 /** @namespace Component/CartItemPrice/Container */
-export class CartItemPriceContainer extends PureComponent {
-    static propTypes = {
-        getCartItemPrice: PropTypes.func.isRequired,
-        getCartItemSubPrice: PropTypes.func.isRequired,
-        currency_code: PropTypes.string.isRequired,
-        mix: MixType.isRequired
-    };
-
-    containerProps() {
+export class CartItemPriceContainer extends PureComponent<CartItemPriceContainerProps> {
+    containerProps(): Pick<CartItemPriceComponentProps, CartItemPriceComponentContainerPropKeys> {
         const {
             getCartItemPrice,
             getCartItemSubPrice,
@@ -49,15 +49,15 @@ export class CartItemPriceContainer extends PureComponent {
         return {
             currency_code,
             mix,
-            price: getCartItemPrice(rest),
-            subPrice: getCartItemSubPrice(rest)
+            price: getCartItemPrice(rest as CartItemPriceProps),
+            subPrice: getCartItemSubPrice(rest as CartItemPriceProps)
         };
     }
 
     render(): ReactElement {
         return (
             <CartItemPrice
-                {...this.containerProps()}
+              { ...this.containerProps() }
             />
         );
     }

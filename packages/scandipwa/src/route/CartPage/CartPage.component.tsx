@@ -9,9 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 
 import CartCoupon from 'Component/CartCoupon';
 import CartItem from 'Component/CartItem';
@@ -22,28 +20,20 @@ import ExpandableContent from 'Component/ExpandableContent';
 import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import ProductLinks from 'Component/ProductLinks';
-import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { DeviceType } from 'Type/Device.type';
-import { TotalsType } from 'Type/MiniCart.type';
+import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+
+import { CartPageComponentProps } from './CartPage.type';
 
 import './CartPage.style';
 
 /** @namespace Route/CartPage/Component */
-export class CartPage extends PureComponent {
-    static propTypes = {
-        totals: TotalsType.isRequired,
-        onCheckoutButtonClick: PropTypes.func.isRequired,
-        hasOutOfStockProductsInCart: PropTypes.bool,
-        onCouponCodeUpdate: PropTypes.func,
-        onCartItemLoading: PropTypes.func,
-        device: DeviceType.isRequired
-    };
-
-    static defaultProps = {
+export class CartPage extends PureComponent<CartPageComponentProps> {
+    static defaultProps: Partial<CartPageComponentProps> = {
         hasOutOfStockProductsInCart: false,
         onCouponCodeUpdate: noopFn,
-        onCartItemLoading: null
+        onCartItemLoading: noopFn
     };
 
     renderCartItems(): ReactElement {
@@ -61,29 +51,29 @@ export class CartPage extends PureComponent {
 
         if (items.length < 1) {
             return (
-                <p block="CartPage" elem="Empty">{__('There are no products in cart.')}</p>
+                <p block="CartPage" elem="Empty">{ __('There are no products in cart.') }</p>
             );
         }
 
         return (
             <>
                 <p block="CartPage" elem="TableHead" aria-hidden>
-                    <span>{__('item')}</span>
-                    <span>{__('quantity')}</span>
-                    <span>{__('subtotal')}</span>
+                    <span>{ __('item') }</span>
+                    <span>{ __('quantity') }</span>
+                    <span>{ __('subtotal') }</span>
                 </p>
                 <div block="CartPage" elem="Items" aria-label="List of items in cart">
-                    {items.map((item) => (
+                    { items.map((item) => (
                         <CartItem
-                            key={item.item_id}
-                            item={item}
-                            currency_code={quote_currency_code}
-                            onCartItemLoading={onCartItemLoading}
-                            showLoader
-                            isEditing
-                            updateCrossSellsOnRemove
+                          key={ item.item_id }
+                          item={ item }
+                          currency_code={ quote_currency_code }
+                          onCartItemLoading={ onCartItemLoading }
+                          showLoader
+                          isEditing
+                          updateCrossSellsOnRemove
                         />
-                    ))}
+                    )) }
                 </div>
             </>
         );
@@ -100,11 +90,11 @@ export class CartPage extends PureComponent {
 
         return (
             <ExpandableContent
-                heading={__('Have a discount code?')}
-                mix={{ block: 'CartPage', elem: 'Discount' }}
-                isArrow
+              heading={ __('Have a discount code?') }
+              mix={ { block: 'CartPage', elem: 'Discount' } }
+              isArrow
             >
-                <CartCoupon couponCode={coupon_code} />
+                <CartCoupon couponCode={ coupon_code } />
             </ExpandableContent>
         );
     }
@@ -115,7 +105,7 @@ export class CartPage extends PureComponent {
         if (hasOutOfStockProductsInCart) {
             return (
                 <div block="CartPage" elem="OutOfStockProductsWarning">
-                    {__('Please, remove out of stock products from cart')}
+                    { __('Please, remove out of stock products from cart') }
                 </div>
             );
         }
@@ -123,13 +113,13 @@ export class CartPage extends PureComponent {
         return (
             <div block="CartPage" elem="CheckoutButtonWrapper">
                 <button
-                    block="CartPage"
-                    elem="CheckoutButton"
-                    mix={{ block: 'Button' }}
-                    onClick={onCheckoutButtonClick}
+                  block="CartPage"
+                  elem="CheckoutButton"
+                  mix={ { block: 'Button' } }
+                  onClick={ onCheckoutButtonClick }
                 >
                     <LockIcon />
-                    {__('Proceed to checkout')}
+                    { __('Proceed to checkout') }
                 </button>
             </div>
         );
@@ -143,13 +133,13 @@ export class CartPage extends PureComponent {
 
         return (
             <CheckoutOrderSummary
-                totals={totals}
+              totals={ totals }
                 // eslint-disable-next-line react/jsx-no-bind
-                renderCmsBlock={() => this.renderPromo(true)}
-                onCouponCodeUpdate={onCouponCodeUpdate}
-                showItems={false}
+              renderCmsBlock={ () => this.renderPromo() }
+              onCouponCodeUpdate={ onCouponCodeUpdate }
+              showItems={ false }
             >
-                {this.renderSecureCheckoutButton()}
+                { this.renderSecureCheckoutButton() }
             </CheckoutOrderSummary>
         );
     }
@@ -157,11 +147,11 @@ export class CartPage extends PureComponent {
     renderTotals(): ReactElement {
         return (
             <article
-                block="CartPage"
-                elem="Summary"
-                mix={{ block: 'FixedElement', elem: 'Bottom' }}
+              block="CartPage"
+              elem="Summary"
+              mix={ { block: 'FixedElement', elem: 'Bottom' } }
             >
-                {this.renderSummary()}
+                { this.renderSummary() }
             </article>
         );
     }
@@ -169,26 +159,26 @@ export class CartPage extends PureComponent {
     renderCrossSellProducts(): ReactElement {
         return (
             <ProductLinks
-                linkType={CROSS_SELL}
-                title={__('Frequently bought together')}
+              linkType={ LinkedProductType.CROSS_SELL }
+              title={ __('Frequently bought together') }
             />
         );
     }
 
     renderPromoContent(): ReactElement {
-        const { cart_content: { cart_cms } = {} } = window.contentConfiguration;
+        const { cart_content: { cart_cms = '' } = {} } = window.contentConfiguration || {};
 
         if (cart_cms) {
-            return <CmsBlock identifier={cart_cms} />;
+            return <CmsBlock identifier={ cart_cms } />;
         }
 
         return (
             <figure
-                block="CartPage"
-                elem="PromoBlock"
+              block="CartPage"
+              elem="PromoBlock"
             >
                 <figcaption block="CartPage" elem="PromoText">
-                    {__('Free shipping on order 49$ and more.')}
+                    { __('Free shipping on order 49$ and more.') }
                 </figcaption>
             </figure>
         );
@@ -197,10 +187,10 @@ export class CartPage extends PureComponent {
     renderPromo(): ReactElement {
         return (
             <div
-                block="CartPage"
-                elem="Promo"
+              block="CartPage"
+              elem="Promo"
             >
-                {this.renderPromoContent()}
+                { this.renderPromoContent() }
             </div>
         );
     }
@@ -208,7 +198,7 @@ export class CartPage extends PureComponent {
     renderHeading(): ReactElement {
         return (
             <h1 block="CartPage" elem="Heading">
-                {__('Cart')}
+                { __('Cart') }
             </h1>
         );
     }
@@ -222,8 +212,8 @@ export class CartPage extends PureComponent {
 
         return (
             <div block="CartPage" elem="Floating">
-                {this.renderPromo()}
-                {this.renderTotals()}
+                { this.renderPromo() }
+                { this.renderTotals() }
             </div>
         );
     }
@@ -232,11 +222,11 @@ export class CartPage extends PureComponent {
         return (
             <>
                 <div block="CartPage" elem="Static">
-                    {this.renderHeading()}
-                    {this.renderCartItems()}
-                    {this.renderDiscountCode()}
+                    { this.renderHeading() }
+                    { this.renderCartItems() }
+                    { this.renderDiscountCode() }
                 </div>
-                {this.renderTotalsSection()}
+                { this.renderTotalsSection() }
             </>
         );
     }
@@ -244,13 +234,13 @@ export class CartPage extends PureComponent {
     renderMobile(): ReactElement {
         return (
             <div block="CartPage" elem="Static">
-                {this.renderHeading()}
-                {this.renderCartItems()}
+                { this.renderHeading() }
+                { this.renderCartItems() }
                 <div block="CartPage" elem="Floating">
-                    {this.renderTotals()}
+                    { this.renderTotals() }
                 </div>
-                {this.renderDiscountCode()}
-                {this.renderPromo()}
+                { this.renderDiscountCode() }
+                { this.renderPromo() }
             </div>
         );
     }
@@ -269,12 +259,12 @@ export class CartPage extends PureComponent {
         return (
             <main block="CartPage" aria-label="Cart Page">
                 <ContentWrapper
-                    wrapperMix={{ block: 'CartPage', elem: 'Wrapper' }}
-                    label="Cart page details"
+                  wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
+                  label="Cart page details"
                 >
-                    {this.renderMainContent()}
+                    { this.renderMainContent() }
                 </ContentWrapper>
-                {this.renderCrossSellProducts()}
+                { this.renderCrossSellProducts() }
             </main>
         );
     }

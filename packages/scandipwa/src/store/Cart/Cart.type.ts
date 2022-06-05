@@ -81,16 +81,24 @@ declare module 'Util/Store/Store.type' {
     }
 }
 
+export type IndexedCartItem = Merge<TotalsItem, {
+    product: IndexedProduct;
+}>;
+
 export type CartTotals = Merge<
 Partial<QuoteData>,
 {
-    items?: Merge<TotalsItem, {
-        product: IndexedProduct;
-    }>[];
+    items?: IndexedCartItem[];
 }
 >;
 
 export interface AddProductToCartOptions {
     cartId?: string;
     products: GQLCartItemInput[];
+}
+
+export interface UpdateProductInCartOptions {
+    quantity: number;
+    uid: string;
+    cartId: string;
 }

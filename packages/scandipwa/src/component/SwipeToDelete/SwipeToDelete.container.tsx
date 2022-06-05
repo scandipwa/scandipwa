@@ -42,7 +42,7 @@ export const mapDispatchToProps = (): SwipeToDeleteContainerMapDispatchProps => 
 
 /** @namespace Component/SwipeToDelete/Container */
 export class SwipeToDeleteContainer extends PureComponent<SwipeToDeleteContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<SwipeToDeleteContainerProps> = {
         // Threshold after we open right side
         dragRightOpenTriggerThreshold: DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD,
         // Width of opened right side

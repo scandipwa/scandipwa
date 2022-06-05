@@ -291,10 +291,10 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             estimateAddress: address
         });
 
-        fetchMutation<'estimateShippingCosts', ShippingMethod[]>(CheckoutQuery.getEstimateShippingCosts(
+        fetchMutation<'estimateShippingCosts', ShippingMethod>([CheckoutQuery.getEstimateShippingCosts(
             address,
             guestQuoteId
-        )).then(
+        )]).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/onShippingEstimationFieldsChange/fetchMutation/then */
             ({ estimateShippingCosts: shippingMethods }) => {
                 const { requestsSent } = this.state;

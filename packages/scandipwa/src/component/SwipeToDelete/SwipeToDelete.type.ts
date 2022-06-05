@@ -27,7 +27,7 @@ export interface SwipeToDeleteContainerBaseProps {
     animationDurationOnRemove:number;
     renderRightSideContent: () => ReactElement;
     topElemMix: Mix;
-    onAheadOfDragItemRemoveThreshold: ((noMessages: void, isRemoveOnly: void) => Promise<void>) | (() => void);
+    onAheadOfDragItemRemoveThreshold: () => void;
     isLoading: boolean;
 }
 
@@ -44,7 +44,7 @@ export interface SwipeToDeleteComponentProps {
     animationDurationOnRemove:number;
     renderRightSideContent: () => ReactElement;
     topElemMix: Mix;
-    onAheadOfDragItemRemoveThreshold: ((noMessages: void, isRemoveOnly: void) => Promise<void>) | (() => void);
+    onAheadOfDragItemRemoveThreshold: () => void;
     isLoading: boolean;
 }
 

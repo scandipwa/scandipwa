@@ -10,37 +10,16 @@
  */
 
 import { ShippingMethod } from 'Query/Checkout.type';
+import { IndexedCartItem } from 'Store/Cart/Cart.type';
 import { RootState } from 'Util/Store/Store.type';
 
 import {
-    CartItem,
     CartItemPriceProps,
     DisplayCartTaxInPrice,
     DisplayCartTaxInShipping,
     DisplayCartTaxInSubTotal,
     DisplayShippingPrices
 } from './Cart.type';
-
-// ! TODO remove this when migrate components to TS
-export const DISPLAY_CART_TAX_IN_SUBTOTAL = {
-    INCL_TAX: DisplayCartTaxInSubTotal.INCL_TAX,
-    EXCL_TAX: DisplayCartTaxInSubTotal.EXCL_TAX,
-    BOTH: DisplayCartTaxInSubTotal.BOTH
-};
-
-// ! TODO remove this when migrate components to TS
-export const DISPLAY_CART_TAX_IN_SHIPPING = {
-    INCL_TAX: DisplayCartTaxInShipping.INCL_TAX,
-    EXCL_TAX: DisplayCartTaxInShipping.EXCL_TAX,
-    BOTH: DisplayCartTaxInShipping.BOTH
-};
-
-// ! TODO remove this when migrate components to TS
-export const DISPLAY_CART_TAX_IN_PRICE = {
-    INCL_TAX: DisplayCartTaxInPrice.INCL_TAX,
-    EXCL_TAX: DisplayCartTaxInPrice.EXCL_TAX,
-    BOTH: DisplayCartTaxInPrice.BOTH
-};
 
 /** @namespace Util/Cart/getCartSubtotal */
 export const getCartSubtotal = (state: RootState): number => {
@@ -250,7 +229,7 @@ export const getItemsCountLabel = (items_qty: number): string => (
 
 /** @namespace Util/Cart/getAllCartItemsSku */
 export const getAllCartItemsSku = (
-    cartItems: CartItem[]
+    cartItems: IndexedCartItem[]
 ): Array<{ sku: string }> => cartItems.reduce(
     (acc, item) => {
         acc.push({ sku: item.sku || '' });
@@ -261,7 +240,7 @@ export const getAllCartItemsSku = (
 );
 
 /** @namespace Util/Cart/trimCrossSellDuplicateItems */
-export const trimCrossSellDuplicateItems = (items: CartItem[]): CartItem[] => items.filter(
+export const trimCrossSellDuplicateItems = (items: IndexedCartItem[]): IndexedCartItem[] => items.filter(
     ({
         sku: itemSku,
         product: { variants: itemVariants, id: itemId }

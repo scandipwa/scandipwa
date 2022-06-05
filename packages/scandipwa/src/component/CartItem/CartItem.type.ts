@@ -9,43 +9,78 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { CartItem } from 'Type/MiniCart.type';
-import { UrlType } from 'Type/Router.type';
+import { MouseEvent } from 'react';
 
-export interface CartItemComponentProps {
-    isLoading: boolean;
-    item: CartItem;
-    currency_code: string;
-    isEditing: boolean;
-    isCartOverlay: boolean;
-    handleRemoveItem: () => void;
-    minSaleQuantity: number;
-    maxSaleQuantity: number;
-    handleChangeQuantity: () => void;
-    linkTo: UrlType;
-    thumbnail: string;
-    isProductInStock: boolean;
+import { QuoteData, TotalsItem } from 'Query/Cart.type';
+import { AddProductToCartOptions, IndexedCartItem, UpdateProductInCartOptions } from 'Store/Cart/Cart.type';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { Url } from 'Type/Common.type';
+import { IndexedProduct, IndexedVariant } from 'Util/Product/Product.type';
+
+export interface CartItemContainerMapStateProps {
     isMobile: boolean;
-    optionsLabels: string[];
-    isMobileLayout: boolean;
-    showLoader: boolean;
+    cartId: string;
 }
 
-export interface CartItemContainerProps {
-    item: CartItem;
+export interface CartItemContainerMapDispatchProps {
+    addProduct: (options: AddProductToCartOptions) => void;
+    changeItemQty: (options: UpdateProductInCartOptions) => Promise<void>;
+    removeProduct: (itemId: number) => Promise<Partial<QuoteData> | null>;
+    updateCrossSellProducts: (items: TotalsItem[]) => void;
+    showNotification: (type: NotificationType, title: string, error: unknown) => void;
+}
+
+export interface CartItemContainerBaseProps {
+    item: IndexedCartItem;
     currency_code: string;
-    changeItemQty: () => void;
-    removeProduct: () => void;
-    updateCrossSellProducts: () => void;
     updateCrossSellsOnRemove: boolean;
     isCartOverlay: boolean;
-    isMobile: boolean;
     isEditing: boolean;
-    cartId: string;
-    onCartItemLoading: () => void;
+    onCartItemLoading: (isLoading: boolean) => void;
     showLoader: boolean;
 }
+
+export type CartItemContainerProps = CartItemContainerMapStateProps
+& CartItemContainerMapDispatchProps
+& CartItemContainerBaseProps;
 
 export interface CartItemContainerState {
     isLoading: boolean;
 }
+
+export interface CartItemComponentProps {
+    item: IndexedCartItem;
+    currency_code: string;
+    isEditing: boolean;
+    isCartOverlay: boolean;
+    isMobile: boolean;
+    isLoading: boolean;
+    showLoader: boolean;
+    linkTo: Url;
+    thumbnail: string;
+    minSaleQuantity: number;
+    maxSaleQuantity: number;
+    isProductInStock: boolean;
+    optionsLabels: string[];
+    isMobileLayout: boolean;
+    handleChangeQuantity: (quantity: number) => void;
+    handleRemoveItem: (e: MouseEvent) => void;
+    getCurrentProduct: () => IndexedVariant | IndexedProduct | undefined;
+    getProductVariant: () => IndexedVariant;
+}
+
+export type CartItemComponentContainerPropKeys =
+    | 'item'
+    | 'currency_code'
+    | 'isEditing'
+    | 'isCartOverlay'
+    | 'isMobile'
+    | 'isLoading'
+    | 'showLoader'
+    | 'linkTo'
+    | 'thumbnail'
+    | 'minSaleQuantity'
+    | 'maxSaleQuantity'
+    | 'isProductInStock'
+    | 'optionsLabels'
+    | 'isMobileLayout';

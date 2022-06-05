@@ -23,7 +23,7 @@ import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 
-import { AddProductToCartOptions } from './Cart.type';
+import { AddProductToCartOptions, UpdateProductInCartOptions } from './Cart.type';
 
 export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -102,11 +102,7 @@ export class CartDispatcher {
         return this._updateCartData({}, dispatch);
     }
 
-    async changeItemQty(dispatch: Dispatch, options: {
-        quantity: number;
-        uid: string;
-        cartId: string;
-    }): Promise<void> {
+    async changeItemQty(dispatch: Dispatch, options: UpdateProductInCartOptions): Promise<void> {
         const { uid, quantity = 1, cartId: originalCartId } = options;
 
         const cartId = !originalCartId ? getGuestQuoteId() : originalCartId;

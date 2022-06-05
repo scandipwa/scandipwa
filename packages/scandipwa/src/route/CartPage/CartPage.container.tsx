@@ -10,14 +10,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+import { IndexedCartItem } from 'Store/Cart/Cart.type';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -25,9 +26,6 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
-import { DeviceType } from 'Type/Device.type';
-import { TotalsType } from 'Type/MiniCart.type';
-import { HistoryType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import {
@@ -41,10 +39,19 @@ import {
 } from 'Util/Cart';
 import history from 'Util/History';
 import { getProductInStock } from 'Util/Product/Extract';
+import { StockCheckProduct } from 'Util/Product/Product.type';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import CartPage from './CartPage.component';
+import {
+    CartPageComponentContainerPropKeys,
+    CartPageComponentProps,
+    CartPageContainerMapDispatchProps,
+    CartPageContainerMapStateProps,
+    CartPageContainerProps,
+    CartPageContainerState
+} from './CartPage.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -57,7 +64,7 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Route/CartPage/Container/mapStateToProps */
-export const mapStateToProps = (state: RootState) => ({
+export const mapStateToProps = (state: RootState): CartPageContainerMapStateProps => ({
     totals: state.CartReducer.cartTotals,
     headerState: state.NavigationReducer[ NavigationType.TOP_NAVIGATION_TYPE ].navigationState,
     guest_checkout: state.ConfigReducer.guest_checkout,
@@ -71,7 +78,7 @@ export const mapStateToProps = (state: RootState) => ({
 });
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDispatchProps => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
@@ -85,20 +92,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/CartPage/Container */
-export class CartPageContainer extends PureComponent {
-    static propTypes = {
-        updateBreadcrumbs: PropTypes.func.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
-        updateCrossSellProducts: PropTypes.func.isRequired,
-        showOverlay: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        updateMeta: PropTypes.func.isRequired,
-        guest_checkout: PropTypes.bool.isRequired,
-        history: HistoryType.isRequired,
-        totals: TotalsType.isRequired,
-        device: DeviceType.isRequired
-    };
-
+export class CartPageContainer extends PureComponent<CartPageContainerProps, CartPageContainerState> {
     containerFunctions = {
         onCheckoutButtonClick: this.onCheckoutButtonClick.bind(this),
         onCartItemLoading: this.onCartItemLoading.bind(this)
@@ -118,7 +112,7 @@ export class CartPageContainer extends PureComponent {
         this._updateCrossSellProducts();
     }
 
-    componentDidUpdate(prevProps): void {
+    componentDidUpdate(prevProps: CartPageContainerProps): void {
         const {
             changeHeaderState,
             totals: { items_qty = 0 },
@@ -150,7 +144,7 @@ export class CartPageContainer extends PureComponent {
         }
     }
 
-    containerProps() {
+    containerProps(): Pick<CartPageComponentProps, CartPageComponentContainerPropKeys> {
         const {
             totals,
             totals: {
@@ -169,11 +163,11 @@ export class CartPageContainer extends PureComponent {
         };
     }
 
-    hasOutOfStockProductsInCartItems(items) {
-        return items.some(({ product }) => !getProductInStock(product));
+    hasOutOfStockProductsInCartItems(items: IndexedCartItem[]): boolean {
+        return items.some(({ product }) => !getProductInStock(product as Partial<StockCheckProduct>));
     }
 
-    onCheckoutButtonClick(e) {
+    onCheckoutButtonClick(e: MouseEvent): void {
         const {
             history,
             guest_checkout,
@@ -221,11 +215,11 @@ export class CartPageContainer extends PureComponent {
         showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
     }
 
-    onCartItemLoading(isCartItemLoading) {
+    onCartItemLoading(isCartItemLoading: boolean): void {
         this.setState({ isCartItemLoading });
     }
 
-    _updateBreadcrumbs() {
+    _updateBreadcrumbs(): void {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
             { url: '/cart', name: __('Shopping cart') }
@@ -234,8 +228,8 @@ export class CartPageContainer extends PureComponent {
         updateBreadcrumbs(breadcrumbs);
     }
 
-    _changeHeaderState() {
-        const { changeHeaderState, totals: { items_qty } } = this.props;
+    _changeHeaderState(): void {
+        const { changeHeaderState, totals: { items_qty = 0 } } = this.props;
         const title = getItemsCountLabel(items_qty);
 
         changeHeaderState({
@@ -245,7 +239,7 @@ export class CartPageContainer extends PureComponent {
         });
     }
 
-    _updateCrossSellProducts() {
+    _updateCrossSellProducts(): void {
         const {
             updateCrossSellProducts,
             totals: {
