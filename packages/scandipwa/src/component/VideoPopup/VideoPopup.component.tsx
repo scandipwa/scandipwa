@@ -15,10 +15,11 @@ import { PureComponent } from 'react';
 
 import Popup from 'Component/Popup';
 import { ReactElement } from 'Type/Common.type';
-import { MediaItemType } from 'Type/ProductList.type';
 import { makeCancelable } from 'Util/Promise';
+import { CancelablePromise } from 'Util/Promise/Promise.type';
 
 import { VIDEO_POPUP_ID, VIMEO_FORMAT, YOUTUBE_FORMAT } from './VideoPopup.config';
+import { VideoPopupComponentProps, VimeoComponent, YouTubeComponent } from './VideoPopup.type';
 
 import './VideoPopup.style';
 
@@ -27,10 +28,14 @@ import './VideoPopup.style';
  * @class VideoPopup
  * @namespace Component/VideoPopup/Component
  */
-export class VideoPopup extends PureComponent {
-    static propTypes = {
-        payload: MediaItemType.isRequired
-    };
+export class VideoPopup extends PureComponent<VideoPopupComponentProps> {
+    vimeoPromise: CancelablePromise<{ default: VimeoComponent }> | null = null;
+
+    youTubePromise: CancelablePromise<{ default: YouTubeComponent }> | null = null;
+
+    vimeoComponent: VimeoComponent | null = null;
+
+    youTubeComponent: YouTubeComponent | null = null;
 
     componentDidMount(): void {
         this.loadVimeoLibrary();
@@ -61,7 +66,7 @@ export class VideoPopup extends PureComponent {
      * @returns {*}
      * @private
      */
-    _renderVimeoVideo(videoId): ReactElement {
+    _renderVimeoVideo(videoId: string): ReactElement {
         const Vimeo = this.vimeoComponent;
 
         if (!Vimeo) {
@@ -82,7 +87,7 @@ export class VideoPopup extends PureComponent {
      * @returns {*}
      * @private
      */
-    _renderYoutubeVideo(videoId): ReactElement {
+    _renderYoutubeVideo(videoId: string): ReactElement {
         const YouTube = this.youTubeComponent;
 
         if (!YouTube) {
@@ -100,7 +105,7 @@ export class VideoPopup extends PureComponent {
         );
     }
 
-    loadVimeoLibrary() {
+    loadVimeoLibrary(): void {
         this.vimeoPromise = makeCancelable(import('react-vimeo'));
 
         this.vimeoPromise.promise.then(
@@ -111,8 +116,8 @@ export class VideoPopup extends PureComponent {
         );
     }
 
-    loadYouTubeLibrary() {
-        this.youTubePromise = makeCancelable(import('react-youtube'));
+    loadYouTubeLibrary(): void {
+        this.youTubePromise = makeCancelable<{ default: YouTubeComponent }>(import('react-youtube'));
 
         this.youTubePromise.promise.then(
             /** @namespace Component/VideoPopup/Component/VideoPopup/loadYouTubeLibrary/then */
@@ -146,7 +151,7 @@ export class VideoPopup extends PureComponent {
             return this._renderVimeoVideo(vimeoId);
         }
 
-        const [, youtubeId] = YOUTUBE_FORMAT.exec(video_url);
+        const [, youtubeId] = YOUTUBE_FORMAT.exec(video_url) || [];
 
         if (youtubeId) {
             return this._renderYoutubeVideo(youtubeId);

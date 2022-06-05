@@ -16,19 +16,13 @@ import CloseIcon from 'Component/CloseIcon';
 import { ReactElement } from 'Type/Common.type';
 import { getFiltersCount } from 'Util/Category';
 
+import { ResetAttributesComponentProps, ResetItem } from './ResetAttributes.type';
+
 import './ResetAttributes.style';
 
 /** @namespace Component/ResetAttributes/Component */
-export class ResetAttributes extends PureComponent {
-    static propTypes = {
-        toggleCustomFilter: PropTypes.func.isRequired,
-        filtersData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.shape({
-            label: PropTypes.string.isRequired,
-            attribute_code: PropTypes.string.isRequired
-        }))).isRequired
-    };
-
-    renderSelectedOption(selectedOption): ReactElement {
+export class ResetAttributes extends PureComponent<ResetAttributesComponentProps> {
+    renderSelectedOption(selectedOption: ResetItem): ReactElement {
         const { toggleCustomFilter } = this.props;
         const { attribute_code, attribute_label, value_string } = selectedOption;
         const onRemove = () => toggleCustomFilter(attribute_code, value_string);
@@ -39,7 +33,7 @@ export class ResetAttributes extends PureComponent {
                   block="ResetAttributes"
                   elem="CloseIcon"
                   role="button"
-                  tabIndex="0"
+                  tabIndex={ 0 }
                   onKeyDown={ onRemove }
                   onClick={ onRemove }
                   aria-label={ __('Close') }
@@ -54,7 +48,7 @@ export class ResetAttributes extends PureComponent {
         );
     }
 
-    renderResetItem(title, selectedOptions): ReactElement {
+    renderResetItem(title: string, selectedOptions: ResetItem[]): ReactElement {
         return (
             <div key={ title }>
                 { selectedOptions.map((o) => this.renderSelectedOption(o)) }

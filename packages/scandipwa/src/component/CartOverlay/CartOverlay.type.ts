@@ -9,18 +9,74 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { GQLCurrencyEnum } from 'Type/Graphql.type';
+import { MouseEvent } from 'react';
+
+import { CartDisplayConfig } from 'Query/Cart.type';
+import { CartTotals } from 'Store/Cart/Cart.type';
+import { NavigationState } from 'Store/Navigation/Navigation.type';
+import { NotificationType } from 'Store/Notification/Notification.type';
+
+export interface CartOverlayContainerMapStateProps {
+    totals: CartTotals;
+    isMobile: boolean;
+    guest_checkout: boolean;
+    currencyCode?: string;
+    activeOverlay: string;
+    cartTotalSubPrice: number | null;
+    cartShippingPrice: number;
+    cartShippingSubPrice: number | null;
+    cartDisplaySettings: CartDisplayConfig;
+}
+
+export interface CartOverlayContainerMapDispatchProps {
+    setNavigationState: (stateName: NavigationState) => void;
+    changeHeaderState: (state: NavigationState) => void;
+    showOverlay: (overlayKey: string) => void;
+    showNotification: (type: NotificationType, message: string) => void;
+    hideActiveOverlay: () => void;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CartOverlayContainerBaseProps {}
+
+export type CartOverlayContainerProps = CartOverlayContainerMapStateProps
+& CartOverlayContainerMapDispatchProps
+& CartOverlayContainerBaseProps;
+
+export interface CartOverlayContainerState {
+    isEditing: boolean;
+    isCartItemLoading: boolean;
+}
 
 export interface CartOverlayComponentProps {
-    totals: Totals;
-    changeHeaderState: () => void;
-    handleCheckoutClick: () => void;
-    currencyCode: GQLCurrencyEnum;
-    showOverlay: (overlay: string) => void;
+    totals: CartTotals;
+    showOverlay: (overlayKey: string) => void;
+    currencyCode?: string;
     activeOverlay: string;
-    hasOutOfStockProductsInCart: boolean;
-    cartTotalSubPrice: number;
-    cartDisplaySettings: CartDisplay;
+    cartTotalSubPrice: number | null;
+    cartDisplaySettings: CartDisplayConfig;
+    isEditing: boolean;
     isMobile: boolean;
-    onCartItemLoading: () => void;
+    cartShippingPrice: number;
+    cartShippingSubPrice: number | null;
+    isCartItemLoading: boolean;
+    hasOutOfStockProductsInCart: boolean;
+    changeHeaderState: () => void;
+    handleCheckoutClick: (e: MouseEvent) => void;
+    onCartItemLoading: (isCartItemLoading: boolean) => void;
+    scrollToTop: () => void;
 }
+
+export type CartOverlayComponentContainerPropKeys =
+    | 'totals'
+    | 'showOverlay'
+    | 'currencyCode'
+    | 'activeOverlay'
+    | 'cartTotalSubPrice'
+    | 'cartDisplaySettings'
+    | 'isEditing'
+    | 'isMobile'
+    | 'cartShippingPrice'
+    | 'cartShippingSubPrice'
+    | 'isCartItemLoading'
+    | 'hasOutOfStockProductsInCart';

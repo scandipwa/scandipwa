@@ -19,7 +19,7 @@ import LockIcon from 'Component/LockIcon';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
 import { ReactElement } from 'Type/Common.type';
-import { scrollToTop } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
 import { formatPrice } from 'Util/Price';
 
 import { CartOverlayComponentProps } from './CartOverlay.type';
@@ -28,10 +28,10 @@ import './CartOverlay.style';
 
 /** @namespace Component/CartOverlay/Component */
 export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<CartOverlayComponentProps> = {
         hasOutOfStockProductsInCart: false,
-        onCartItemLoading: null,
-        currencyCode: null,
+        onCartItemLoading: noopFn,
+        currencyCode: undefined,
         cartTotalSubPrice: null
     };
 
@@ -197,6 +197,8 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     }
 
     renderActions(): ReactElement {
+        const { scrollToTop } = this.props;
+
         return (
             <div block="CartOverlay" elem="Actions">
                 <Link

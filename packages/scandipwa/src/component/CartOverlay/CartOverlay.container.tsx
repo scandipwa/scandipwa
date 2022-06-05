@@ -9,20 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
+import { IndexedCartItem } from 'Store/Cart/Cart.type';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
-import { CartDisplayType, TotalsType } from 'Type/MiniCart.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import {
@@ -32,9 +32,19 @@ import {
 } from 'Util/Cart';
 import history from 'Util/History';
 import { getProductInStock } from 'Util/Product/Extract';
+import { StockCheckProduct } from 'Util/Product/Product.type';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import CartOverlay from './CartOverlay.component';
+import {
+    CartOverlayComponentContainerPropKeys,
+    CartOverlayComponentProps,
+    CartOverlayContainerMapDispatchProps,
+    CartOverlayContainerMapStateProps,
+    CartOverlayContainerProps,
+    CartOverlayContainerState
+} from './CartOverlay.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -42,7 +52,7 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/CartOverlay/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CartOverlayContainerMapStateProps => ({
     totals: state.CartReducer.cartTotals,
     isMobile: state.ConfigReducer.device.isMobile,
     guest_checkout: state.ConfigReducer.guest_checkout,
@@ -55,45 +65,25 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): CartOverlayContainerMapDispatchProps => ({
     setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    updateTotals: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateTotals(dispatch, options)
-    ),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
 /** @namespace Component/CartOverlay/Container */
-export class CartOverlayContainer extends PureComponent {
-    static propTypes = {
-        totals: TotalsType.isRequired,
-        guest_checkout: PropTypes.bool,
-        changeHeaderState: PropTypes.func.isRequired,
-        showOverlay: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        setNavigationState: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
-        cartTotalSubPrice: PropTypes.number,
-        cartDisplaySettings: CartDisplayType.isRequired,
-        currencyCode: PropTypes.string,
-        activeOverlay: PropTypes.string.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        cartShippingPrice: PropTypes.number,
-        cartShippingSubPrice: PropTypes.number
-    };
-
-    static defaultProps = {
+export class CartOverlayContainer extends PureComponent<CartOverlayContainerProps> {
+    static defaultProps: Partial<CartOverlayContainerProps> = {
         guest_checkout: true,
         cartTotalSubPrice: null,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
-        currencyCode: null
+        currencyCode: undefined
     };
 
-    state = {
+    state: CartOverlayContainerState = {
         isEditing: false,
         isCartItemLoading: false
     };
@@ -101,10 +91,11 @@ export class CartOverlayContainer extends PureComponent {
     containerFunctions = {
         changeHeaderState: this.changeHeaderState.bind(this),
         handleCheckoutClick: this.handleCheckoutClick.bind(this),
-        onCartItemLoading: this.onCartItemLoading.bind(this)
+        onCartItemLoading: this.onCartItemLoading.bind(this),
+        scrollToTop: this.scrollToTop.bind(this)
     };
 
-    containerProps() {
+    containerProps(): Pick<CartOverlayComponentProps, CartOverlayComponentContainerPropKeys> {
         const {
             totals,
             totals: {
@@ -137,11 +128,11 @@ export class CartOverlayContainer extends PureComponent {
         };
     }
 
-    hasOutOfStockProductsInCartItems(items = []) {
-        return items.some(({ product }) => !getProductInStock(product));
+    hasOutOfStockProductsInCartItems(items: IndexedCartItem[] = []): boolean {
+        return items.some(({ product }) => !getProductInStock(product as Partial<StockCheckProduct>));
     }
 
-    handleCheckoutClick(e) {
+    handleCheckoutClick(e: MouseEvent): void {
         const {
             guest_checkout,
             showOverlay,
@@ -157,7 +148,11 @@ export class CartOverlayContainer extends PureComponent {
         const hasOutOfStockProductsInCart = this.hasOutOfStockProductsInCartItems(totals.items);
 
         if (hasOutOfStockProductsInCart) {
-            showNotification(NotificationType.ERROR, __('Cannot proceed to checkout. Remove out of stock products first.'));
+            showNotification(
+                NotificationType.ERROR,
+                __('Cannot proceed to checkout. Remove out of stock products first.')
+            );
+
             e.preventDefault();
 
             return;
@@ -178,7 +173,7 @@ export class CartOverlayContainer extends PureComponent {
         setNavigationState({ name: CUSTOMER_ACCOUNT_OVERLAY_KEY, title: 'Sign in' });
     }
 
-    changeHeaderState() {
+    changeHeaderState(): void {
         const {
             changeHeaderState,
             totals: { count = 0 }
@@ -201,8 +196,12 @@ export class CartOverlayContainer extends PureComponent {
         });
     }
 
-    onCartItemLoading(isCartItemLoading) {
+    onCartItemLoading(isCartItemLoading: boolean): void {
         this.setState({ isCartItemLoading });
+    }
+
+    scrollToTop(): void {
+        scrollToTop();
     }
 
     render(): ReactElement {

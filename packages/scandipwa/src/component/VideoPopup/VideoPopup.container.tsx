@@ -11,15 +11,18 @@
 
 import { connect } from 'react-redux';
 
+import { RootState } from 'Util/Store/Store.type';
+
 import VideoPopup from './VideoPopup.component';
 import { VIDEO_POPUP_ID } from './VideoPopup.config';
+import { VideoPopupContainerMapDispatchProps, VideoPopupContainerMapStateProps } from './VideoPopup.type';
 
 /** @namespace Component/VideoPopup/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): VideoPopupContainerMapStateProps => ({
     payload: state.PopupReducer.popupPayload[VIDEO_POPUP_ID] || {}
 });
 
 /** @namespace Component/VideoPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): VideoPopupContainerMapDispatchProps => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(VideoPopup);

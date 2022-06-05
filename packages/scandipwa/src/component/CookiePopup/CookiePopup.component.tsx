@@ -17,31 +17,30 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import { COOKIE_POPUP } from './CookiePopup.config';
+import { CookiePopupComponentProps, CookiePopupComponentState } from './CookiePopup.type';
 
 import './CookiePopup.style';
 
 /** @namespace Component/CookiePopup/Component */
-export class CookiePopup extends PureComponent {
-    static propTypes = {
-        cookieText: PropTypes.string.isRequired,
-        cookieLink: PropTypes.string.isRequired,
-        code: PropTypes.string.isRequired
-    };
-
+export class CookiePopup extends PureComponent<CookiePopupComponentProps, CookiePopupComponentState> {
     state = {
         isAccepted: this.getAcceptCookieValue()
     };
 
-    acceptCookies = this.acceptCookies.bind(this);
+    __construct(props: CookiePopupComponentProps): void {
+        super.__construct?.(props);
 
-    getAcceptCookieValue() {
+        this.acceptCookies = this.acceptCookies.bind(this);
+    }
+
+    getAcceptCookieValue(): boolean {
         const { code } = this.props;
         const param = `${ COOKIE_POPUP }_${ code }`;
 
         return !!BrowserDatabase.getItem(param);
     }
 
-    acceptCookies() {
+    acceptCookies(): void {
         const { code } = this.props;
         const param = `${ COOKIE_POPUP }_${ code }`;
 
@@ -88,7 +87,7 @@ export class CookiePopup extends PureComponent {
               role="button"
               tabIndex={ 0 }
             >
-                    { __('Got it') }
+                { __('Got it') }
             </div>
         );
     }
@@ -103,8 +102,8 @@ export class CookiePopup extends PureComponent {
 
         return (
             <div block="CookiePopup">
-                    { this.renderCookieText() }
-                    { this.renderCTA() }
+                { this.renderCookieText() }
+                { this.renderCTA() }
             </div>
         );
     }

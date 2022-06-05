@@ -13,6 +13,8 @@ import { AnyAction } from 'redux';
 import { Page } from 'Component/Header/Header.config';
 import { MyAccountAddressPopupAction } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { MyAccountAddressPopupPayload } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.type';
+import { VIDEO_POPUP_ID } from 'Component/VideoPopup/VideoPopup.config';
+import { VideoPopupPayload } from 'Component/VideoPopup/VideoPopup.type';
 import {
     HideActiveOverlayAction,
     HideActivePopupAction
@@ -41,6 +43,7 @@ export type PopupStore = {
 export type PopupPayload = {
     [MyAccountAddressPopupAction.ADDRESS_POPUP_ID]: MyAccountAddressPopupPayload;
     [Page.CUSTOMER_ACCOUNT]: unknown;
+    [VIDEO_POPUP_ID]: VideoPopupPayload;
 };
 
 declare module 'Util/Store/Store.type' {

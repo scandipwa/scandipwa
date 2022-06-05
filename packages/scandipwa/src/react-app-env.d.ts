@@ -15,3 +15,14 @@ declare module 'html-react-parser/lib/attributes-to-props' {
         attributes: Record<string, string | number>
     ): Record<string, string | number>;
 }
+
+declare module 'react-vimeo' {
+    interface VimeoComponentProps {
+        videoId: string;
+        autoplay: boolean;
+    }
+
+    declare function VimeoComponent(props: VimeoComponentProps): JSX.Element;
+
+    export default VimeoComponent;
+}

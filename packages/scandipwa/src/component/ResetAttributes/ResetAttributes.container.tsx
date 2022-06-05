@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 
 import { AggregationOption } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { getPriceFilterLabel } from 'Util/Category';
 import { getBooleanLabel } from 'Util/Product';
 import { RootState } from 'Util/Store/Store.type';
@@ -60,7 +61,7 @@ export class ResetAttributesContainer extends PureComponent<ResetAttributesConta
                 const [from, to] = initialLabel.split('~');
                 const rangeEnd = toValue === '*' ? toValue : to;
 
-                const label = getPriceFilterLabel(from, rangeEnd, currency_code);
+                const label = getPriceFilterLabel(from, rangeEnd, currency_code as GQLCurrencyEnum);
 
                 return { value_string, label };
             });
