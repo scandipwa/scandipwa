@@ -20,7 +20,7 @@ import './ChevronIcon.style';
 
 /** @namespace Component/ChevronIcon/Component */
 export class ChevronIcon extends PureComponent<ChevronIconComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ChevronIconComponentProps> = {
         direction: Directions.RIGHT
     };
 

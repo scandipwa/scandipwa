@@ -34,7 +34,7 @@ import './MyAccountOverlay.style';
 export class MyAccountOverlay<
 Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps
 > extends PureComponent<Props> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountOverlayComponentProps> = {
         isCheckout: false,
         onSignIn: noopFn
     };

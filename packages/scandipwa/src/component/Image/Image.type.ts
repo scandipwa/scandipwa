@@ -13,6 +13,8 @@ import { RefObject } from 'react';
 
 import { Mix } from 'Type/Common.type';
 
+import { ImageState } from './Image.config';
+
 export enum ImageRatio {
     IMG_4X3 = '4x3',
     IMG_16X9 = '16x9',
@@ -50,6 +52,10 @@ export interface ImageComponentProps {
     isPlain: boolean;
     showIsLoading: boolean;
     isCached: boolean;
+}
+
+export interface ImageComponentState {
+    imageStatus: ImageState;
 }
 
 export interface ImageSize {

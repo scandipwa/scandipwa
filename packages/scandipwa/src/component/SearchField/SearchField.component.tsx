@@ -43,7 +43,7 @@ export const SearchOverlay = lazy(
 
 /** @namespace Component/SearchField/Component */
 export class SearchField extends PureComponent<SearchFieldComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<SearchFieldComponentProps> = {
         isVisible: true,
         isActive: true,
         searchCriteria: '',

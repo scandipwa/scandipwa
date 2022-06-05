@@ -18,7 +18,7 @@ import { CategoryItemsCountComponentProps } from './CategoryItemsCount.type';
 
 /** @namespace Component/CategoryItemsCount/Component */
 export class CategoryItemsCount extends PureComponent<CategoryItemsCountComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<CategoryItemsCountComponentProps> = {
         isMatchingListFilter: false
     };
 

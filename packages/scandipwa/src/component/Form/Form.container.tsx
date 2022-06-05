@@ -31,7 +31,7 @@ import {
  * @class FormContainer
  * @namespace Component/Form/Container */
 export class FormContainer extends PureComponent<FormContainerProps, FormContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<FormContainerProps> = {
         attr: {},
         events: {},
         validationRule: {},
@@ -47,7 +47,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         elemRef: null
     };
 
-    state = {
+    state: FormContainerState = {
         validationResponse: null
     };
 

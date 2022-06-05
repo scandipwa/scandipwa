@@ -55,7 +55,7 @@ export interface ProductListWidgetComponentProps extends ProductListWidgetAdaptP
     isWidget: boolean;
 }
 
-export type ProductListWidgetComponentContainerProps = Pick<
+export type ProductListWidgetComponentContainerPropKeys = Pick<
 ProductListWidgetComponentProps,
 | 'selectedFilters'
 | 'title'

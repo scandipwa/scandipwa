@@ -21,7 +21,7 @@ import './ProductCompareButton.style';
 
 /** @namespace Component/ProductCompareButton/Component */
 export class ProductCompareButton extends PureComponent<ProductCompareButtonComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ProductCompareButtonComponentProps> = {
         isLoading: false,
         isActive: false
     };

@@ -18,7 +18,7 @@ import { CartItemPriceComponentProps } from './CartItemPrice.type';
 
 /** @namespace Component/CartItemPrice/Component */
 export class CartItemPrice extends PureComponent<CartItemPriceComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<CartItemPriceComponentProps> = {
         subPrice: null
     };
 

@@ -22,7 +22,7 @@ import './ProductWishlistButton.style';
 
 /** @namespace Component/ProductWishlistButton/Component */
 export class ProductWishlistButton extends PureComponent<ProductWishlistButtonComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ProductWishlistButtonComponentProps> = {
         mix: {},
         // !FIXME: isLoading is never set
         isLoading: false,

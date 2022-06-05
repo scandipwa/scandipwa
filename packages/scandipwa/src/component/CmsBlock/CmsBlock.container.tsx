@@ -18,7 +18,7 @@ import { CmsBlockComponentProps, CmsBlockContainerProps, CmsBlockContainerState 
 
 /** @namespace Component/CmsBlock/Container */
 export class CmsBlockContainer extends DataContainer<CmsBlockContainerProps, CmsBlockContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<CmsBlockContainerProps> = {
         blockType: ''
     };
 

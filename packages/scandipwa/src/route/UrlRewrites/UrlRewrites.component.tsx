@@ -34,7 +34,7 @@ export const NoMatch = lazy(() => import(/* webpackMode: "lazy", webpackChunkNam
  * @namespace Route/UrlRewrites/Component
  */
 export class UrlRewrites extends PureComponent<UrlRewritesComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<UrlRewritesComponentProps> = {
         props: {},
         type: ''
     };

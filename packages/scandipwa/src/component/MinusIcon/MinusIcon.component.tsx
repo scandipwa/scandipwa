@@ -19,7 +19,7 @@ import './MinusIcon.style';
 
 /** @namespace Component/MinusIcon/Component */
 export class MinusIcon extends PureComponent<MinusIconComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<MinusIconComponentProps> = {
         isPrimary: false
     };
 

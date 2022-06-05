@@ -63,11 +63,11 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerM
 
 /** @namespace Component/MyAccountOrder/Container */
 export class MyAccountOrderContainer extends PureComponent<MyAccountOrderContainerProps, MyAccountOrderContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountOrderContainerProps> = {
         is_allowed_reorder: false
     };
 
-    state = {
+    state: MyAccountOrderContainerState = {
         order: {},
         isLoading: true,
         activeTab: OrderTabs.ORDER_ITEMS

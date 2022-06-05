@@ -125,7 +125,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
 
 /** @namespace Route/Checkout/Container */
 export class CheckoutContainer extends PureComponent<CheckoutContainerProps, CheckoutContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<CheckoutContainerProps> = {
         cartTotalSubPrice: null
     };
 

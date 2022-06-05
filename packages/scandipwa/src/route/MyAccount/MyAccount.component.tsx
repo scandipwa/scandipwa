@@ -55,7 +55,7 @@ export const MyAccountNewsletterSubscription = lazy(() => import(
 
 /** @namespace Route/MyAccount/Component */
 export class MyAccount extends Component<MyAccountComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountComponentProps> = {
         subHeading: '',
         tabName: ''
     };

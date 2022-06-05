@@ -33,7 +33,7 @@ import './ProductActions.style';
  * @namespace Component/ProductActions/Component
  */
 export class ProductActions extends Product<ProductActionsComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ProductActionsComponentProps> = {
         ...Product.defaultProps,
         productName: '',
         isPricePreview: false

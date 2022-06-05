@@ -45,7 +45,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): StoreSwitcherContainerMa
 
 /** @namespace Component/StoreSwitcher/Container */
 export class StoreSwitcherContainer extends DataContainer<StoreSwitcherContainerProps, StoreSwitcherContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<StoreSwitcherContainerProps> = {
         currentStoreCode: 'default'
     };
 

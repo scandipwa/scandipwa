@@ -19,7 +19,7 @@ import './HomeIcon.style';
 
 /** @namespace Component/HomeIcon/Component */
 export class HomeIcon extends PureComponent<HomeIconComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<HomeIconComponentProps> = {
         isActive: false
     };
 

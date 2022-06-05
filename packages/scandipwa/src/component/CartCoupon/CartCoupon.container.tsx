@@ -46,7 +46,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartCouponContainerMapDi
 
 /** @namespace Component/CartCoupon/Container */
 export class CartCouponContainer extends PureComponent<CartCouponContainerProps, CartCouponContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<CartCouponContainerProps> = {
         couponCode: '',
         onCouponCodeUpdate: noopFn,
         mix: {},

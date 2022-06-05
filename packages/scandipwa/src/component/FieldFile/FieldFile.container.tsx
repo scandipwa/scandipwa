@@ -30,7 +30,7 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
         setRef: this.setRef.bind(this)
     };
 
-    state = {
+    state: FieldFileContainerState = {
         isLoading: false,
         fileName: ''
     };

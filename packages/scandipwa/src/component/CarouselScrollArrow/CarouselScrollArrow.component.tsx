@@ -21,7 +21,7 @@ import './CarouselScrollArrow.style';
 
 /** @namespace Component/CarouselScrollArrow/Component */
 export class CarouselScrollArrow extends PureComponent<CarouselScrollArrowComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<CarouselScrollArrowComponentProps> = {
         mods: {},
         onClick: noopFn
     };

@@ -39,7 +39,7 @@ import { ProductBundleOptionComponentProps } from './ProductBundleOption.type';
  * @namespace Component/ProductBundleOption/Component
  */
 export class ProductBundleOption extends PureComponent<ProductBundleOptionComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ProductBundleOptionComponentProps> = {
         activeSelectUid: null
     };
 

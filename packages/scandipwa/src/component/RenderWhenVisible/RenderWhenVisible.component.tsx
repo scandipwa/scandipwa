@@ -17,19 +17,19 @@ import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
 
-import { RenderWhenVisibleComponentProps } from './RenderWhenVisible.type';
+import { RenderWhenVisibleComponentProps, RenderWhenVisibleComponentState } from './RenderWhenVisible.type';
 
 import './RenderWhenVisible.style';
 
 /** @namespace Component/RenderWhenVisible/Component */
-export class RenderWhenVisible extends PureComponent<RenderWhenVisibleComponentProps> {
+export class RenderWhenVisible extends PureComponent<RenderWhenVisibleComponentProps, RenderWhenVisibleComponentState> {
     static defaultProps: Partial<RenderWhenVisibleComponentProps> = {
         fallback: noopFn
     };
 
     node: HTMLElement | null = null;
 
-    state = {
+    state: RenderWhenVisibleComponentState = {
         wasVisible: false
     };
 

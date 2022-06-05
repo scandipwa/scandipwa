@@ -19,7 +19,7 @@ import './RadioButtonIcon.style';
 
 /** @namespace Component/RadioButtonIcon/Component */
 export class RadioButton extends PureComponent<RadioButtonIconComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<RadioButtonIconComponentProps> = {
         isActive: false
     };
 

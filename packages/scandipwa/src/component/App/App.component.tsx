@@ -51,7 +51,7 @@ export class App extends PureComponent<unknown, AppComponentState> {
         this.renderUnStated.bind(this)
     ];
 
-    state = {
+    state: AppComponentState = {
         isSomethingWentWrong: false,
         errorDetails: undefined
     };

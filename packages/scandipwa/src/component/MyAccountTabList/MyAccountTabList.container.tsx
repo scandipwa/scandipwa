@@ -46,11 +46,11 @@ export class MyAccountTabListContainer extends PureComponent<
 MyAccountTabListContainerProps,
 MyAccountTabListContainerState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountTabListContainerProps> = {
         onSignOut: noopFn
     };
 
-    state = {
+    state: MyAccountTabListContainerState = {
         isContentExpanded: false
     };
 

@@ -60,7 +60,7 @@ export class ProductGallery extends PureComponent<ProductGalleryComponentProps, 
 
     galleryRef = createRef<HTMLDivElement>();
 
-    state = {
+    state: ProductGalleryComponentState = {
         scrollEnabled: true,
         slidesCount: 7,
         prevZoom: false

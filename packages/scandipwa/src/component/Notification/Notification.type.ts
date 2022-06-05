@@ -11,10 +11,14 @@
 
 import { Notification } from 'Store/Notification/Notification.type';
 
-export type NotificationComponentProps = {
+export interface NotificationComponentProps {
     notificationId: string;
     notification: Notification<unknown>;
     onHideNotification: (id: string) => void;
     lifeTime: number;
     id: string;
-};
+}
+
+export interface NotificationComponentState {
+    isNotificationVisible: boolean;
+}

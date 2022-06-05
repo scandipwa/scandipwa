@@ -36,7 +36,7 @@ export const mapDispatchToProps = (): MyAccountOrderItemsTableRowContainerMapDis
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Container */
 export class MyAccountOrderItemsTableRowContainer extends PureComponent<MyAccountOrderItemsTableRowContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountOrderItemsTableRowContainerProps> = {
         selectedOptions: [],
         enteredOptions: [],
         comments: []

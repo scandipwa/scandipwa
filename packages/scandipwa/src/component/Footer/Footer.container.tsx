@@ -37,7 +37,7 @@ export const mapDispatchToProps = (): FooterContainerMapDispatchProps => ({});
 
 /** @namespace Component/Footer/Container */
 export class FooterContainer extends PureComponent<FooterContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<FooterContainerProps> = {
         copyright: '',
         isVisibleOnMobile: false
     };

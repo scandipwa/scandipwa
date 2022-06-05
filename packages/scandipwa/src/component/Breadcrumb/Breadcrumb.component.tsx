@@ -22,7 +22,7 @@ import './Breadcrumb.style';
 
 /** @namespace Component/Breadcrumb/Component */
 export class Breadcrumb extends PureComponent<BreadcrumbComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<BreadcrumbComponentProps> = {
         url: '',
         name: ''
     };

@@ -24,7 +24,7 @@ import './Loader.style';
  * @namespace Component/Loader/Component
  */
 export class Loader extends PureComponent<LoaderComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<LoaderComponentProps> = {
         isLoading: true,
         mix: {}
     };

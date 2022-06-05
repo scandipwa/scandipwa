@@ -21,7 +21,7 @@ import { FormComponentProps } from './Form.type';
  * @class Form
  * @namespace Component/Form/Component */
 export class Form extends PureComponent<FormComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<FormComponentProps> = {
         validationResponse: null
     };
 

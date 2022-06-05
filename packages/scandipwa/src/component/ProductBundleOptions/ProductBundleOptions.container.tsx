@@ -22,7 +22,7 @@ import { ProductBundleOptionsComponentProps, ProductBundleOptionsContainerProps 
  * @namespace Component/ProductBundleOptions/Container
  */
 export class ProductBundleOptionsContainer extends PureComponent<ProductBundleOptionsContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ProductBundleOptionsContainerProps> = {
         options: []
     };
 

@@ -54,7 +54,7 @@ export class MyAccountAddressFormContainer <
     Props extends MyAccountAddressFormContainerProps = MyAccountAddressFormContainerProps,
     State extends MyAccountAddressFormContainerState = MyAccountAddressFormContainerState
 > extends PureComponent<Props, State> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountAddressFormContainerProps> = {
         defaultCountry: 'US'
     };
 

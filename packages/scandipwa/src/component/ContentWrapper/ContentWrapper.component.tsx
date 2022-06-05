@@ -23,7 +23,7 @@ import './ContentWrapper.style';
  * @namespace Component/ContentWrapper/Component
  */
 export class ContentWrapper extends PureComponent<ContentWrapperComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ContentWrapperComponentProps> = {
         mix: {},
         wrapperMix: {},
         children: null,

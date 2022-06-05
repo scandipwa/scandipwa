@@ -23,7 +23,7 @@ import { MyAccountCustomerFormComponentProps } from './MyAccountCustomerForm.typ
 
 /** @namespace Component/MyAccountCustomerForm/Component */
 export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountCustomerFormComponentProps> = {
         email: '',
         currentPassword: ''
     };

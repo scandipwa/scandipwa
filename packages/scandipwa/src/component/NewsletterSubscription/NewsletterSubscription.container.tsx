@@ -55,7 +55,7 @@ NewsletterSubscriptionContainerState
         onFormSubmit: this.onFormSubmit.bind(this)
     };
 
-    state = {
+    state: NewsletterSubscriptionContainerState = {
         isLoading: false
     };
 

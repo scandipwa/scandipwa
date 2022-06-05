@@ -74,7 +74,7 @@ export class CheckoutGuestFormContainer extends PureComponent<
 CheckoutGuestFormContainerProps,
 CheckoutGuestFormContainerState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<CheckoutGuestFormContainerProps> = {
         emailValue: '',
         isGuestEmailSaved: false,
         onSignIn: noopFn

@@ -17,7 +17,7 @@ import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import { ImageState } from './Image.config';
-import { ImageComponentProps } from './Image.type';
+import { ImageComponentProps, ImageComponentState } from './Image.type';
 
 import './Image.style';
 
@@ -27,8 +27,11 @@ import './Image.style';
  * @class Image
  * @namespace Component/Image/Component
  */
-export class Image<P extends ImageComponentProps> extends PureComponent<P> {
-    static defaultProps = {
+export class Image<
+P extends ImageComponentProps = ImageComponentProps,
+S extends ImageComponentState = ImageComponentState
+> extends PureComponent<P, S> {
+    static defaultProps: Partial<ImageComponentProps> = {
         src: '',
         alt: '',
         wrapperSize: {},
@@ -46,7 +49,7 @@ export class Image<P extends ImageComponentProps> extends PureComponent<P> {
 
     image = createRef();
 
-    state = { imageStatus: ImageState.IMAGE_LOADING };
+    state: ImageComponentState = { imageStatus: ImageState.IMAGE_LOADING };
 
     renderMap = {
         [ImageState.IMAGE_NOT_FOUND]: this.renderImageNotFound.bind(this),

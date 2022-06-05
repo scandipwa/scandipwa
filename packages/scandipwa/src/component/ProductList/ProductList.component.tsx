@@ -29,7 +29,7 @@ import './ProductList.style';
  * @namespace Component/ProductList/Component
  */
 export class ProductList extends PureComponent<ProductListComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ProductListComponentProps> = {
         mix: {},
         title: '',
         isInfiniteLoaderEnabled: false,

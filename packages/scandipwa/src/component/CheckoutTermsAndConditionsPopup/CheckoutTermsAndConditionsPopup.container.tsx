@@ -11,8 +11,9 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { ReactElement } from 'Type/Common.type';
 import { connect } from 'react-redux';
+
+import { ReactElement } from 'Type/Common.type';
 
 import CheckoutTermsAndConditionsPopup from './CheckoutTermsAndConditionsPopup.component';
 import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup.config';
@@ -48,8 +49,8 @@ export class CheckoutTermsAndConditionsPopupContainer extends PureComponent {
     render(): ReactElement {
         return (
             <CheckoutTermsAndConditionsPopup
-                {...this.containerProps()}
-                {...this.containerFunctions}
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

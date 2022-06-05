@@ -51,7 +51,7 @@ export class CheckoutAddressBookContainer extends PureComponent<
 CheckoutAddressBookContainerProps,
 CheckoutAddressBookContainerState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<CheckoutAddressBookContainerProps> = {
         isBilling: false,
         onAddressSelect: noopFn,
         onShippingEstimationFieldsChange: noopFn,

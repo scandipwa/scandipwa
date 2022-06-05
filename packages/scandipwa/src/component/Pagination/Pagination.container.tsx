@@ -40,7 +40,7 @@ export const mapDispatchToProps = (): PaginationContainerMapDispatchProps => ({}
 
 /** @namespace Component/Pagination/Container */
 export class PaginationContainer extends PureComponent<PaginationContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<PaginationContainerProps> = {
         isLoading: false,
         id: '',
         mix: {}

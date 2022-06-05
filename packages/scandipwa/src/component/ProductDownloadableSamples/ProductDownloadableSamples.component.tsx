@@ -21,7 +21,7 @@ import './ProductDownloadableSamples.style';
 
 /** @namespace Component/ProductDownloadableSamples/Component */
 export class ProductDownloadableSamples extends PureComponent<ProductDownloadableSamplesComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ProductDownloadableSamplesComponentProps> = {
         isOpenInNewTab: false
     };
 

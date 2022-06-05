@@ -91,7 +91,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispat
 
 /** @namespace Component/Router/Container */
 export class RouterContainer extends PureComponent<RouterContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<RouterContainerProps> = {
         base_link_url: '',
         default_description: '',
         default_keywords: '',

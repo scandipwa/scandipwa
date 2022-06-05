@@ -44,7 +44,7 @@ export const mapDispatchToProps = (): MetaContainerMapDispatchProps => ({});
 
 /** @namespace Component/Meta/Container */
 export class MetaContainer extends PureComponent<MetaContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<MetaContainerProps> = {
         default_description: '',
         default_keywords: '',
         default_title: '',

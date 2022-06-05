@@ -20,7 +20,7 @@ import './PaginationLink.style';
 
 /** @namespace Component/PaginationLink/Component */
 export class PaginationLink extends PureComponent<PaginationLinkComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<PaginationLinkComponentProps> = {
         children: []
     };
 

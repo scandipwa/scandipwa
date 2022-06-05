@@ -25,7 +25,7 @@ import './Popup.style';
 
 /** @namespace Component/Popup/Component */
 export class Popup extends Overlay<PopupComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<PopupComponentProps> = {
         ...Overlay.defaultProps,
         clickOutside: true,
         title: ''

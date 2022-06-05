@@ -19,7 +19,7 @@ import './CheckoutAddressTable.style';
 
 /** @namespace Component/CheckoutAddressTable/Component */
 export class CheckoutAddressTable extends MyAccountAddressTable<CheckoutAddressTableComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<CheckoutAddressTableComponentProps> = {
         ...MyAccountAddressTable.defaultProps,
         isSelected: false
     };

@@ -51,12 +51,12 @@ export class ProductCompareButtonContainer extends PureComponent<
 ProductCompareButtonContainerProps,
 ProductCompareButtonContainerState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<ProductCompareButtonContainerProps> = {
         productId: null,
         mix: {}
     };
 
-    state = {
+    state: ProductCompareButtonContainerState = {
         isLoading: false
     };
 

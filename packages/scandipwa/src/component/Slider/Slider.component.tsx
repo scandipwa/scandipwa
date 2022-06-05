@@ -42,7 +42,7 @@ import './Slider.style';
  * @namespace Component/Slider/Component
  */
 export class Slider extends PureComponent<SliderComponentProps, SliderComponentState> {
-    static defaultProps = {
+    static defaultProps: Partial<SliderComponentProps> = {
         activeImage: 0,
         onActiveImageChange: noopFn,
         showCrumbs: false,

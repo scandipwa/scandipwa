@@ -19,6 +19,7 @@ import { ReactElement } from 'Type/Common.type';
 import {
     Widget
 } from './WidgetFactory.config';
+import { WidgetFactoryComponentProps, WidgetFactoryComponentRenderMap } from './WidgetFactory.type';
 
 import './WidgetFactory.style';
 
@@ -40,8 +41,8 @@ export const RecentlyViewedWidget = lazy(() => import(
 ));
 
 /** @namespace Component/WidgetFactory/Component */
-export class WidgetFactory extends PureComponent {
-    renderMap = {
+export class WidgetFactory extends PureComponent<WidgetFactoryComponentProps> {
+    renderMap: WidgetFactoryComponentRenderMap = {
         [Widget.SLIDER]: {
             component: HomeSlider,
             fallback: this.renderSliderFallback
@@ -57,20 +58,20 @@ export class WidgetFactory extends PureComponent {
         }
     };
 
-    renderSliderFallback(): ReactElement {
+    renderSliderFallback(): JSX.Element {
         return (
             <div block="WidgetFactory" elem="SliderPlaceholder" />
         );
     }
 
-    renderDefaultFallback(): ReactElement {
+    renderDefaultFallback(): JSX.Element {
         return <div />;
     }
 
     renderContent(): ReactElement {
         const {
             type,
-            sliderId = null,
+            sliderId = 0,
             displayType,
             productsCount,
             showPager,
@@ -102,7 +103,7 @@ export class WidgetFactory extends PureComponent {
         return null;
     }
 
-    renderFallback(): ReactElement {
+    renderFallback(): Exclude<ReactElement, undefined> | null {
         const { type } = this.props;
         const { fallback = this.renderDefaultFallback } = this.renderMap[type] || {};
 

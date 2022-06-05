@@ -33,7 +33,7 @@ import {
  * @namespace Component/Field/Container
  */
 export class FieldContainer extends PureComponent<FieldContainerProps, FieldContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<FieldContainerProps> = {
         type: FieldType.TEXT,
         attr: {},
         events: {},
@@ -51,7 +51,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         isSortSelect: false
     };
 
-    state = {
+    state: FieldContainerState = {
         validationResponse: null,
         showLengthError: false
     };

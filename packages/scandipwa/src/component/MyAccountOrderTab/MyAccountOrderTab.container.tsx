@@ -22,7 +22,7 @@ import {
 
 /** @namespace Component/MyAccountOrderTab/Container */
 export class MyAccountOrderTabContainer extends PureComponent<MyAccountOrderTabContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountOrderTabContainerProps> = {
         isActive: false
     };
 

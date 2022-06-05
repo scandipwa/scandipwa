@@ -22,7 +22,7 @@ import './NewProducts.style';
 
 /** @namespace Component/NewProducts/Component */
 export class NewProducts extends Component<NewProductsComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<NewProductsComponentProps> = {
         products: Array.from({ length: 4 }, () => ({}))
     };
 

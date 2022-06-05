@@ -59,7 +59,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountCreateAccountCo
 
 /** @namespace Component/MyAccountCreateAccount/Container */
 export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCreateAccountContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountCreateAccountContainerProps> = {
         isLandingPage: false,
         onSignIn: noopFn
     };

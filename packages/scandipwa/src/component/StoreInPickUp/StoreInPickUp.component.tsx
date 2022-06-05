@@ -21,7 +21,7 @@ import './StoreInPickUp.style';
 
 /** @namespace Component/StoreInPickUp/Component */
 export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<StoreInPickUpComponentProps> = {
         selectedStore: null,
         selectStore: null
     };

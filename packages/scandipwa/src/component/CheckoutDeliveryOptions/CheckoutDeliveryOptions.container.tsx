@@ -27,7 +27,7 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent<
 CheckoutDeliveryOptionsContainerProps,
 CheckoutDeliveryOptionsContainerState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<CheckoutDeliveryOptionsContainerProps> = {
         selectedShippingMethod: {}
     };
 

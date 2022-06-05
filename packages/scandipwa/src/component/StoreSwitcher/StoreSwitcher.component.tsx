@@ -25,7 +25,7 @@ import './StoreSwitcher.style';
 
 /** @namespace Component/StoreSwitcher/Component */
 export class StoreSwitcher extends PureComponent<StoreSwitcherComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<StoreSwitcherComponentProps> = {
         storeLabel: ''
     };
 

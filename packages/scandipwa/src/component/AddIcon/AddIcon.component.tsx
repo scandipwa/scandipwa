@@ -19,7 +19,7 @@ import './AddIcon.style';
 
 /** @namespace Component/AddIcon/Component */
 export class AddIcon extends PureComponent<AddIconComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<AddIconComponentProps> = {
         isPrimary: false
     };
 

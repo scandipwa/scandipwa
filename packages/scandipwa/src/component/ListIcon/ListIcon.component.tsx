@@ -19,7 +19,7 @@ import './ListIcon.style';
 
 /** @namespace Component/ListIcon/Component */
 export class ListIcon extends PureComponent<ListIconComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ListIconComponentProps> = {
         isActive: false
     };
 

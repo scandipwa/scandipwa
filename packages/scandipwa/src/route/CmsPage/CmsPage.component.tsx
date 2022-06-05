@@ -22,7 +22,7 @@ import './CmsPage.style';
 
 /** @namespace Route/CmsPage/Component */
 export class CmsPage extends PureComponent<CmsPageComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<CmsPageComponentProps> = {
         isBreadcrumbsActive: true
     };
 

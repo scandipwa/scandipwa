@@ -34,7 +34,8 @@ import {
     AddToCartComponentProps,
     AddToCartContainerMapDispatchProps,
     AddToCartContainerMapStateProps,
-    AddToCartContainerProps
+    AddToCartContainerProps,
+    AddToCartContainerState
 } from './AddToCart.type';
 
 export const CartDispatcher = import(
@@ -56,7 +57,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): AddToCartContainerMapDis
 });
 
 /* @namespace Component/AddToCart/Container */
-export class AddToCartContainer extends PureComponent<AddToCartContainerProps> {
+export class AddToCartContainer extends PureComponent<AddToCartContainerProps, AddToCartContainerState> {
     static defaultProps: Partial<AddToCartContainerProps> = {
         quantity: 1,
         cartId: '',
@@ -71,7 +72,7 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps> {
         addProductToCart: this.addProductToCart.bind(this)
     };
 
-    state = {
+    state: AddToCartContainerState = {
         isAdding: false
     };
 

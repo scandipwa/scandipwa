@@ -42,6 +42,10 @@ export type AddToCartContainerProps = AddToCartContainerMapStateProps
 & AddToCartContainerMapDispatchProps
 & AddToCartContainerBaseProps;
 
+export interface AddToCartContainerState {
+    isAdding: boolean;
+}
+
 export interface AddToCartComponentProps {
     isDisabled: boolean;
     isIconEnabled: boolean;

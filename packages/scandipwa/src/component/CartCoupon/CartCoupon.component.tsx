@@ -24,7 +24,7 @@ import './CartCoupon.style';
 
 /** @namespace Component/CartCoupon/Component */
 export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCouponComponentState> {
-    static defaultProps = {
+    static defaultProps: Partial<CartCouponComponentProps> = {
         couponCode: ''
     };
 

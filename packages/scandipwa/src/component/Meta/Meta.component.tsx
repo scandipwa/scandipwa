@@ -22,7 +22,7 @@ import { MetaComponentProps } from './Meta.type';
  * @namespace Component/Meta/Component
  */
 export class Meta extends PureComponent<MetaComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<MetaComponentProps> = {
         title: '',
         canonical_url: ''
     };

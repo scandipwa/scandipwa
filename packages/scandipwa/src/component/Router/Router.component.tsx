@@ -71,7 +71,7 @@ export const withStoreRegex = (path: string): string => window.storeRegexText.co
 
 /** @namespace Component/Router/Component */
 export class Router extends PureComponent<RouterComponentProps, RouterComponentState> {
-    static defaultProps = {
+    static defaultProps: Partial<RouterComponentProps> = {
         isBigOffline: false
     };
 
@@ -239,7 +239,7 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
         }
     ];
 
-    state = {
+    state: RouterComponentState = {
         hasError: false,
         errorDetails: {}
     };

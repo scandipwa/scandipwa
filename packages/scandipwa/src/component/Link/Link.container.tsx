@@ -44,7 +44,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): LinkContainerDispatchPro
 
 /** @namespace Component/Link/Container */
 export class LinkContainer extends PureComponent<LinkContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<LinkContainerProps> = {
         onClick: noopFn
     };
 

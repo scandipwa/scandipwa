@@ -18,7 +18,7 @@ import { CheckoutAddressFormComponentProps } from './CheckoutAddressForm.type';
 
 /** @namespace Component/CheckoutAddressForm/Component */
 export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFormComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<CheckoutAddressFormComponentProps> = {
         ...MyAccountAddressForm.defaultProps,
         onShippingEstimationFieldsChange: noopFn
     };

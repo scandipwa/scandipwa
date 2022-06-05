@@ -31,7 +31,7 @@ import {
  * @class FieldGroupContainer
  * @namespace Component/FieldGroup/Container */
 export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps, FieldGroupContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<FieldGroupContainerProps> = {
         attr: {},
         events: {},
         validationRule: {},
@@ -45,7 +45,7 @@ export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps,
         returnAsObject: false
     };
 
-    state = {
+    state: FieldGroupContainerState = {
         validationResponse: null
     };
 

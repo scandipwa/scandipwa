@@ -28,7 +28,7 @@ import 'Component/MyAccountOverlay/MyAccountOverlay.style';
 
 /** @namespace Component/PopupSuspense/Component */
 export class PopupSuspense extends PureComponent<PopupSuspenseComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<PopupSuspenseComponentProps> = {
         onVisible: noopFn
     };
 

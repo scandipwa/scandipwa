@@ -15,3 +15,7 @@ export interface RenderWhenVisibleComponentProps {
     children: Children;
     fallback: () => ReactElement | void;
 }
+
+export interface RenderWhenVisibleComponentState {
+    wasVisible: boolean;
+}

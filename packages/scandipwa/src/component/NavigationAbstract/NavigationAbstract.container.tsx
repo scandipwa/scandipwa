@@ -50,7 +50,7 @@ State extends NavigationAbstractContainerState
         '/': this.default_state
     };
 
-    state = {
+    state: NavigationAbstractContainerState = {
         prevPathname: ''
     } as State;
 

@@ -23,7 +23,7 @@ import DataContainer from 'Util/Request/DataContainer';
 
 import {
     ProductListWidgetAdaptProps,
-    ProductListWidgetComponentContainerProps,
+    ProductListWidgetComponentContainerPropKeys,
     ProductListWidgetContainerMapDispatchProps,
     ProductListWidgetContainerMapStateProps,
     ProductListWidgetContainerProps,
@@ -47,7 +47,7 @@ export class ProductListWidgetContainer extends DataContainer<
 ProductListWidgetContainerProps,
 ProductListWidgetContainerState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<ProductListWidgetContainerProps> = {
         showPager: 0,
         productsCount: 10,
         productsPerPage: 5,
@@ -75,7 +75,7 @@ ProductListWidgetContainerState
         this.updateProductListItems = this.updateProductListItems.bind(this);
     }
 
-    containerProps(): ProductListWidgetComponentContainerProps {
+    containerProps(): ProductListWidgetComponentContainerPropKeys {
         const {
             selectedFilters,
             title

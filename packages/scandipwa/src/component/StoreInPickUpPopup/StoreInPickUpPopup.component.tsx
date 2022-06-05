@@ -26,7 +26,7 @@ import './StoreInPickUpPopup.style';
 
 /** @namespace Component/StoreInPickUpPopup/Component */
 export class StoreInPickUpPopupComponent extends PureComponent<StoreInPickUpPopupComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<StoreInPickUpPopupComponentProps> = {
         stores: [],
         storeSearchCriteria: '',
         isLoading: true

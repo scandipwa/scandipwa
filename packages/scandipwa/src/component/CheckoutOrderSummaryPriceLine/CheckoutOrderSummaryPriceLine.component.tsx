@@ -19,7 +19,7 @@ import { CheckoutOrderSummaryPriceLineProps } from './CheckoutOrderSummaryPriceL
 
 /** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
 export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSummaryPriceLineProps> {
-    static defaultProps = {
+    static defaultProps: Partial<CheckoutOrderSummaryPriceLineProps> = {
         mods: {},
         subPrice: null,
         children: [],

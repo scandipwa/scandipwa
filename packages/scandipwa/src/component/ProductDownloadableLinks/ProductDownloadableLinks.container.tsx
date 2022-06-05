@@ -39,7 +39,7 @@ export class ProductDownloadableLinksContainer extends PureComponent<
 ProductDownloadableLinksContainerProps,
 ProductDownloadableLinksContainerState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<ProductDownloadableLinksContainerProps> = {
         title: '',
         links: [],
         isRequired: false

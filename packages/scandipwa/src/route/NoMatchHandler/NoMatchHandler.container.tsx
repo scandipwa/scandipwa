@@ -49,7 +49,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): NoMatchHandlerContainerM
 
 /** @namespace Route/NoMatchHandler/Container */
 export class NoMatchHandlerContainer extends PureComponent<NoMatchHandlerContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<NoMatchHandlerContainerProps> = {
         noMatch: false
     };
 

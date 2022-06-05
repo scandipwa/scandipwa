@@ -85,8 +85,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountContainerMapDis
 
 /** @namespace Route/MyAccount/Container */
 export class MyAccountContainer extends PureComponent<
-MyAccountContainerProps, MyAccountContainerState> {
-    static defaultProps = {
+MyAccountContainerProps,
+MyAccountContainerState
+> {
+    static defaultProps: Partial<MyAccountContainerProps> = {
         wishlistItems: {},
         selectedTab: ''
     };

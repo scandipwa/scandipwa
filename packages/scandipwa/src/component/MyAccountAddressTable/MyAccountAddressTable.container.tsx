@@ -43,7 +43,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressTableCon
 export class MyAccountAddressTableContainer<
     Props extends MyAccountAddressTableContainerProps = MyAccountAddressTableContainerProps
 > extends PureComponent<Props> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountAddressTableContainerProps> = {
         showAdditionalFields: false,
         showActions: false,
         mix: {},

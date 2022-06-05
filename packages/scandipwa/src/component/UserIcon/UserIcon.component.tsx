@@ -19,7 +19,7 @@ import './UserIcon.style';
 
 /** @namespace Component/UserIcon/Component */
 export class UserIcon extends PureComponent<UserIconComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<UserIconComponentProps> = {
         isActive: false
     };
 

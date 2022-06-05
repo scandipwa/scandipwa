@@ -23,7 +23,7 @@ import {
 
 /** @namespace Component/StoreInPickUpStore/Container */
 export class StoreInPickUpStoreContainer extends PureComponent<StoreInPickUpStoreContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<StoreInPickUpStoreContainerProps> = {
         selectStore: noopFn,
         isSelectedStore: false,
         store: null

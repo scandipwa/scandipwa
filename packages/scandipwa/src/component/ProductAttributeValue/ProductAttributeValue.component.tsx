@@ -29,7 +29,7 @@ import './ProductAttributeValue.style';
 
 /** @namespace Component/ProductAttributeValue/Component */
 export class ProductAttributeValue extends PureComponent<ProductAttributeValueComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ProductAttributeValueComponentProps> = {
         isSelected: false,
         onClick: noopFn,
         getLink: noopFn,

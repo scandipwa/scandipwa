@@ -60,7 +60,7 @@ export class ProductWishlistButtonContainer extends PureComponent<
 ProductWishlistButtonContainerProps,
 ProductWishlistButtonContainerState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<ProductWishlistButtonContainerProps> = {
         mix: {}
     };
 

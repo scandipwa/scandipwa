@@ -25,11 +25,11 @@ import './CarouselScroll.style';
 
 /** @namespace Component/CarouselScroll/Component */
 export class CarouselScroll extends PureComponent<CarouselScrollComponentProps, CarouselScrollComponentState> {
-    static defaultProps = {
+    static defaultProps: Partial<CarouselScrollComponentProps> = {
         showArrow: true,
         showedItemCount: 1,
         onChange: noopFn,
-        activeItemId: null,
+        activeItemId: undefined,
         isImageZoomPopupActive: false
     };
 

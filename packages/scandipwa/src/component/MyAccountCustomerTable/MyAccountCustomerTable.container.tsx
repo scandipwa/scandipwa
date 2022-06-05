@@ -24,7 +24,7 @@ import {
 
 /** @namespace Component/MyAccountCustomerTable/Container */
 export class MyAccountCustomerTableContainer extends PureComponent<MyAccountCustomerTableContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountCustomerTableContainerProps> = {
         title: ''
     };
 

@@ -27,7 +27,7 @@ import {
  * @class FieldNumberContainer
  * @namespace Component/FieldNumber/Container */
 export class FieldNumberContainer extends PureComponent<FieldNumberContainerProps, FieldNumberContainerState>{
-    state = {
+    state: FieldNumberContainerState = {
         value: 0
     };
 

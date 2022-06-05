@@ -21,7 +21,7 @@ import './Draggable.style';
 
 /** @namespace Component/Draggable/Component */
 export class Draggable extends PureComponent<DraggableComponentProps, DraggableComponentState> {
-    static defaultProps = {
+    static defaultProps: Partial<DraggableComponentProps> = {
         shiftX: 0,
         shiftY: 0,
         onDragStart: noopFn,

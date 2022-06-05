@@ -65,7 +65,7 @@ export const ExpandableContent = lazy(() => import(
 
 /** @namespace Route/Checkout/Component */
 export class Checkout extends PureComponent<CheckoutComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<CheckoutComponentProps> = {
         paymentTotals: {},
         selectedStoreAddress: {},
         isLoading: false,

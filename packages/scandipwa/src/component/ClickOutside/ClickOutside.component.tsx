@@ -26,7 +26,7 @@ import { ClickOutsideComponentProps } from './ClickOutside.type';
 export class ClickOutside extends PureComponent<ClickOutsideComponentProps> {
     childrenRefs: RefObject<HTMLElement>[] = [];
 
-    static defaultProps = {
+    static defaultProps: Partial<ClickOutsideComponentProps> = {
         onClick: noopFn,
         children: []
     };

@@ -24,7 +24,7 @@ import './MyAccountSignIn.style.scss';
 
 /** @namespace Component/MyAccountSignIn/Component */
 export class MyAccountSignIn extends PureComponent<MyAccountSignInComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountSignInComponentProps> = {
         isLoading: false
     };
 

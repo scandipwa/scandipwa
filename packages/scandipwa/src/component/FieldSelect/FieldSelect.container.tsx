@@ -26,13 +26,13 @@ import {
  * @class FieldSelectContainer
  * @namespace Component/FieldSelect/Container */
 export class FieldSelectContainer extends PureComponent<FieldSelectContainerProps, FieldSelectContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<FieldSelectContainerProps> = {
         noPlaceholder: false,
         changeValueOnDoubleClick: false,
         isSortSelect: false
     };
 
-    state = {
+    state: FieldSelectContainerState = {
         valueIndex: -1,
         searchString: '',
         selectedOptionIndex: 0,

@@ -62,7 +62,7 @@ export class MyAccountSignInContainer extends PureComponent<
 MyAccountSignInContainerProps,
 MyAccountSignInContainerState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountSignInContainerProps> = {
         emailValue: '',
         isEmailAvailable: true,
         setSignInState: noopFn,

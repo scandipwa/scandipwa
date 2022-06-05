@@ -64,7 +64,7 @@ export class CheckoutShippingContainer extends PureComponent<
 CheckoutShippingContainerProps,
 CheckoutShippingContainerState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<CheckoutShippingContainerProps> = {
         selectedStoreAddress: {},
         selectedShippingMethod: null,
         setSelectedShippingMethodCode: null,

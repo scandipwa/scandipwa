@@ -25,7 +25,7 @@ import {
  * @namespace Component/ProductCustomizableOptions/Container
  */
 export class ProductCustomizableOptionsContainer extends PureComponent<ProductCustomizableOptionsContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ProductCustomizableOptionsContainerProps> = {
         options: []
     };
 

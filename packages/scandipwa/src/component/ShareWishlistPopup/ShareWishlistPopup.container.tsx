@@ -50,7 +50,7 @@ export class ShareWishlistPopupContainer extends PureComponent<
 ShareWishlistPopupContainerProps,
 ShareWishlistPopupContainerState
 > {
-    state = {
+    state: ShareWishlistPopupContainerState = {
         isLoading: false
     };
 

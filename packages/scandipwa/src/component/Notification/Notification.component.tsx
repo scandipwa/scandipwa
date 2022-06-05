@@ -18,7 +18,7 @@ import CSS from 'Util/CSS';
 import {
     ANIMATION_DURATION, ERROR_NOTIFICATION_LIFETIME, ERROR_TYPE, NOTIFICATION_LIFETIME
 } from './Notification.config';
-import { NotificationComponentProps } from './Notification.type';
+import { NotificationComponentProps, NotificationComponentState } from './Notification.type';
 
 import './Notification.style';
 
@@ -27,13 +27,13 @@ import './Notification.style';
  * @class Notification
  * @namespace Component/Notification/Component
  */
-export class Notification extends PureComponent<NotificationComponentProps> {
-    static defaultProps = {
+export class Notification extends PureComponent<NotificationComponentProps, NotificationComponentState> {
+    static defaultProps: Partial<NotificationComponentProps> = {
         lifeTime: 0,
         id: ''
     };
 
-    state = { isNotificationVisible: true };
+    state: NotificationComponentState = { isNotificationVisible: true };
 
     notification = createRef<HTMLDivElement>();
 

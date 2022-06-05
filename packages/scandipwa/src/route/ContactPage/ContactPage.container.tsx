@@ -54,7 +54,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): ContactPageMapDispatchPr
 
 /** @namespace Route/ContactPage/Container */
 export class ContactPageContainer extends DataContainer<ContactPageContainerProps, ContactPageContainerState> {
-    state = {
+    state: ContactPageContainerState = {
         isLoading: false,
         isEnabled: false
     };

@@ -57,7 +57,7 @@ export class StoreInPickUpPopupContainer extends PureComponent<
 StoreInPickUpPopupContainerProps,
 StoreInPickUpPopupContainerState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<StoreInPickUpPopupContainerProps> = {
         selectedStore: null
     };
 

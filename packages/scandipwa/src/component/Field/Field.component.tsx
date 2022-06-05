@@ -42,7 +42,7 @@ import './Field.style';
  * @namespace Component/Field/Component
  */
 export class Field extends PureComponent<FieldComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<FieldComponentProps> = {
         validationResponse: null,
         changeValueOnDoubleClick: false,
         isSortSelect: false

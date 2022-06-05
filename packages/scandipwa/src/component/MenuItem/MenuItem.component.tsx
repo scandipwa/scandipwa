@@ -23,7 +23,7 @@ import { MenuItemComponentProps } from './MenuItem.type';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent<MenuItemComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<MenuItemComponentProps> = {
         onItemClick: noopFn
     };
 

@@ -30,7 +30,7 @@ import './Footer.style';
  * @namespace Component/Footer/Component
  */
 export class Footer extends Component<FooterComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<FooterComponentProps> = {
         copyright: '',
         isVisibleOnMobile: false,
         onItemClick: noopFn

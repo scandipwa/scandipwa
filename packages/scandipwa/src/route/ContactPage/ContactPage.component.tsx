@@ -25,7 +25,7 @@ import './ContactPage.style';
 
 /** @namespace Route/ContactPage/Component */
 export class ContactPage extends PureComponent<ContactPageComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ContactPageComponentProps> = {
         isLoading: false
     };
 

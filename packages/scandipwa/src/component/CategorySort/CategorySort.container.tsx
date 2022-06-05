@@ -21,7 +21,7 @@ import {
 
 /** @namespace Component/CategorySort/Container */
 export class CategorySortContainer extends PureComponent<CategorySortContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<CategorySortContainerProps> = {
         sortFields: [],
         isMatchingInfoFilter: false
     };

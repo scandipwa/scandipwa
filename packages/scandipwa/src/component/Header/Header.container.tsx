@@ -78,7 +78,7 @@ export const DEFAULT_HEADER_STATE = {
 
 /** @namespace Component/Header/Container */
 export class HeaderContainer extends NavigationAbstractContainer<HeaderContainerProps, HeaderContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<HeaderContainerProps> = {
         header_logo_src: ''
     };
 

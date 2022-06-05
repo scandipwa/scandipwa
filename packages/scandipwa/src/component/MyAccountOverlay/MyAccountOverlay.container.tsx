@@ -71,7 +71,7 @@ export class MyAccountOverlayContainer<
 Props extends MyAccountOverlayContainerProps = MyAccountOverlayContainerProps,
 State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
 > extends PureComponent<Props, State> {
-    static defaultProps = {
+    static defaultProps: Partial<MyAccountOverlayContainerProps> = {
         isCheckout: false,
         isLoading: false,
         onSignIn: noopFn,

@@ -58,9 +58,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressPopupCon
 
 /** @namespace Component/MyAccountAddressPopup/Container */
 export class MyAccountAddressPopupContainer extends PureComponent<
-MyAccountAddressPopupContainerProps, MyAccountAddressPopupContainerState
+MyAccountAddressPopupContainerProps,
+MyAccountAddressPopupContainerState
 > {
-    state = {
+    state: MyAccountAddressPopupContainerState = {
         isLoading: false
     };
 

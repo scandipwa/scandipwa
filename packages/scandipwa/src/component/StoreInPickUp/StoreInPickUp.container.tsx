@@ -44,7 +44,7 @@ export const mapStateToProps = (state: RootState): StoreInPickUpContainerMapStat
 
 /** @namespace Component/StoreInPickUp/Container */
 export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<StoreInPickUpContainerProps> = {
         cartItemsSku: [],
         selectedStore: null
     };

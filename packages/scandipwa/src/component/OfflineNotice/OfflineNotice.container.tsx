@@ -41,7 +41,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): OfflineNoticeContainerMa
 
 /** @namespace Component/OfflineNotice/Container */
 export class OfflineNoticeContainer extends PureComponent<OfflineNoticeContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<OfflineNoticeContainerProps> = {
         isPage: false
     };
 

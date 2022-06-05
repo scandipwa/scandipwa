@@ -55,7 +55,7 @@ export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpac
 
 /** @namespace Component/Header/Component */
 export class Header extends NavigationAbstract<HeaderComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<HeaderComponentProps> = {
         logo_alt: 'ScandiPWA logo',
         logo_height: 25,
         logo_width: 200,

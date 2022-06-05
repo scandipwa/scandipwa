@@ -24,7 +24,7 @@ import './ProductConfigurableAttributeDropdown.style';
 export class ProductConfigurableAttributeDropdown extends PureComponent<
 ProductConfigurableAttributeDropdownComponentProps
 > {
-    static defaultProps = {
+    static defaultProps: Partial<ProductConfigurableAttributeDropdownComponentProps> = {
         selectValue: '',
         selectLabel: 'attribute',
         handleShakeAnimationEnd: noopFn,

@@ -58,7 +58,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): UrlRewritesContainerMapD
 
 /** @namespace Route/UrlRewrites/Container */
 export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProps> {
-    static defaultProps = {
+    static defaultProps: Partial<UrlRewritesContainerProps> = {
         requestedUrl: ''
     };
 

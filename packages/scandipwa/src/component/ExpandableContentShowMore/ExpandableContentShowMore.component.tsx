@@ -25,7 +25,7 @@ export class ExpandableContentShowMore extends PureComponent<
 ExpandableContentShowMoreComponentProps,
 ExpandableContentShowMoreComponentState
 > {
-    static defaultProps = {
+    static defaultProps: Partial<ExpandableContentShowMoreComponentProps> = {
         showElemCount: 3
     };
 

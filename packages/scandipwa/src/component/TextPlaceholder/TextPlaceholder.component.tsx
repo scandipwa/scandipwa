@@ -23,7 +23,7 @@ import './TextPlaceholder.style';
  * @namespace Component/TextPlaceholder/Component
  */
 export class TextPlaceholder extends PureComponent<TextPlaceholderComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<TextPlaceholderComponentProps> = {
         content: '',
         length: 'short',
         mix: {}

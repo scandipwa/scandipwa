@@ -32,7 +32,7 @@ export class CheckoutAddressBook extends PureComponent<
 CheckoutAddressBookComponentProps,
 CheckoutAddressBookComponentState
 > {
-    state = {
+    state: CheckoutAddressBookComponentState = {
         isCustomAddressExpanded: false
     };
 

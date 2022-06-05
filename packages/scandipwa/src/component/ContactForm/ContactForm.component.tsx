@@ -22,7 +22,7 @@ import './ContactForm.style';
 
 /** @namespace Component/ContactForm/Component */
 export class ContactForm extends FieldForm<ContactFormComponentProps> {
-    static defaultProps = {
+    static defaultProps: Partial<ContactFormComponentProps> = {
         isLoading: false
     };
 

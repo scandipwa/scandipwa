@@ -98,7 +98,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
         onCartItemLoading: this.onCartItemLoading.bind(this)
     };
 
-    state = {
+    state: CartPageContainerState = {
         isCartItemLoading: false
     };
 
