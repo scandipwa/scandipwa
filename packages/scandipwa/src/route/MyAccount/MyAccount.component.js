@@ -18,6 +18,7 @@ import MyAccountInformation from 'Component/MyAccountInformation';
 import MyAccountOrder from 'Component/MyAccountOrder';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
+import NoMatch from 'Route/NoMatch';
 import {
     ACCOUNT_INFORMATION,
     ActiveTabType,
@@ -164,6 +165,10 @@ export class MyAccount extends Component {
 
         if (!isSignedIn()) {
             return this.renderLoginOverlay();
+        }
+
+        if (!tabMap[activeTab]) {
+            return <NoMatch />;
         }
 
         const TabContent = this.getTabContent();
