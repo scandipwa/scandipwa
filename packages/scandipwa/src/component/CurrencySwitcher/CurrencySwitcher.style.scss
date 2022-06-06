@@ -73,6 +73,10 @@
                 }
             }
 
+            &-OptionsWrapper_isExpanded {
+                scrollbar-width: thin;
+            }
+
             &-Option {
                 line-height: 28px;
                 padding: 6px 12px;
