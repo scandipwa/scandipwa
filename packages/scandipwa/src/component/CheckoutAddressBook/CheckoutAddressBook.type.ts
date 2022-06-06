@@ -10,7 +10,7 @@
  */
 
 import { Customer, CustomerAddress } from 'Query/MyAccount.type';
-import { CheckoutAddress, EstimateAddress } from 'Route/Checkout/Checkout.type';
+import { EstimateAddress } from 'Route/Checkout/Checkout.type';
 
 export interface CheckoutAddressBookContainerMapStateProps {
     customer: Partial<Customer>;

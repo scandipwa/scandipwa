@@ -17,14 +17,12 @@ import { FieldType } from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import { ReactElement } from 'Type/Common.type';
 
+import { PurchaseOrderComponentProps } from './PurchaseOrder.type';
+
 import './PurchaseOrder.style';
 
 /** @namespace Component/PurchaseOrder/Component */
-export class PurchaseOrder extends PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired
-    };
-
+export class PurchaseOrder extends PureComponent<PurchaseOrderComponentProps> {
     render(): ReactElement {
         const { id } = this.props;
 

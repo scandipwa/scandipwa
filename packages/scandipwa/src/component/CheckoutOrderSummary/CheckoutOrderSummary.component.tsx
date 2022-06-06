@@ -15,6 +15,7 @@ import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
 import Loader from 'Component/Loader';
+import { TotalsItem } from 'Query/Checkout.type';
 import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { Mods, ReactElement } from 'Type/Common.type';
 import { getItemsCountLabel } from 'Util/Cart';
@@ -35,18 +36,18 @@ export const CartCoupon = lazy(() => import(
  */
 export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComponentProps> {
     static defaultProps: Partial<CheckoutOrderSummaryComponentProps> = {
-        totals: {},
+        totals: undefined,
         isLoading: false,
         renderCmsBlock: noopFn,
         isExpandable: false,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
         cartTotalSubPrice: null,
-        cartSubtotal: null,
+        cartSubtotal: undefined,
         cartSubtotalSubPrice: null,
         showItems: true,
         children: [],
-        checkoutStep: null
+        checkoutStep: undefined
     };
 
     renderPriceLine(price: number, title: string, mods?: Mods): ReactElement {
@@ -66,7 +67,7 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         );
     }
 
-    renderItem(item): ReactElement {
+    renderItem(item: TotalsItem): ReactElement {
         const { totals: { quote_currency_code } } = this.props;
 
         const { item_id } = item;

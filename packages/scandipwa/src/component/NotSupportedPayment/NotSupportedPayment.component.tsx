@@ -13,17 +13,15 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
+import { NotSupportedPaymentComponentProps } from './NotSupportedPayment.type';
+
 import './NotSupportedPayment.style';
 
 /** @namespace Component/NotSupportedPayment/Component */
-export class NotSupportedPayment extends PureComponent {
-    static propTypes = {
-        disableButton: PropTypes.func.isRequired
-    };
-
+export class NotSupportedPayment extends PureComponent<NotSupportedPaymentComponentProps> {
     componentDidMount(): void {
         const { disableButton } = this.props;
-        disableButton();
+        disableButton(true);
     }
 
     render(): ReactElement {
