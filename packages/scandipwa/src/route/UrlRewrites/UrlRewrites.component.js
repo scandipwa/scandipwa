@@ -73,14 +73,16 @@ export class UrlRewrites extends PureComponent {
         switch (type) {
         case TYPE_PRODUCT:
             return (
-                <ProductPage
-                  history={ history }
-                  location={ location }
-                  match={ match }
-                  productSKU={ productSKU }
-                  productID={ id }
-                  key={ id }
-                />
+                productSKU ? (
+                    <ProductPage
+                      history={ history }
+                      location={ location }
+                      match={ match }
+                      productSKU={ productSKU }
+                      productID={ id }
+                      key={ id }
+                    />
+                ) : this.renderDefaultPage()
             );
         case TYPE_CMS_PAGE:
             return (
