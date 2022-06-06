@@ -25,6 +25,8 @@ import { DeviceType } from 'Type/Device.type';
 import { LayoutType } from 'Type/Layout.type';
 import { LinkType } from 'Type/Router.type';
 
+import { scrollToTop } from '../../util/Browser/Browser';
+
 import './ProductCard.style';
 
 /**
@@ -83,8 +85,11 @@ export class ProductCard extends Product {
     registerSharedElement = this.registerSharedElement.bind(this);
 
     registerSharedElement() {
-        const { registerSharedElement } = this.props;
-        document.documentElement.scrollIntoView();
+        const { registerSharedElement, isPlp } = this.props;
+
+        if (!isPlp) {
+            scrollToTop();
+        }
         registerSharedElement(this.imageRef);
     }
 

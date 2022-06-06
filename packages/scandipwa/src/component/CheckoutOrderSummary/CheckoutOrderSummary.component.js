@@ -342,9 +342,9 @@ export class CheckoutOrderSummary extends PureComponent {
             <div block="CheckoutOrderSummary" elem="OrderTotals">
                 <ul>
                     { this.renderSubTotal() }
-                    { this.renderTax() }
                     { this.renderDiscount() }
                     { this.renderShipping() }
+                    { this.renderTax() }
                     <div block="CheckoutOrderSummary" elem="ButtonWrapper" mods={ { isEmpty: items.length < 1 } }>
                         { this.renderOrderTotal() }
                         { children }
