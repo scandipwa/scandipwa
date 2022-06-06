@@ -10,6 +10,9 @@
  */
 
 .ProductReviewForm {
+    display: flex;
+    flex-direction: column;
+
     &-Wrapper {
         @include desktop {
             display: grid;
@@ -17,9 +20,6 @@
             grid-gap: 24px;
         }
     }
-
-    display: flex;
-    flex-direction: column;
 
     &-RatingWrapper {
         display: flex;
