@@ -13,26 +13,25 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
-import { PaymentMethodType } from 'Type/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
+
+import { CheckoutPaymentComponentProps } from './CheckoutPayment.type';
 
 import './CheckoutPayment.style';
 
 /** @namespace Component/CheckoutPayment/Component */
-export class CheckoutPayment extends PureComponent {
-    static propTypes = {
-        method: PaymentMethodType.isRequired,
-        onClick: PropTypes.func.isRequired,
-        isSelected: PropTypes.bool
-    };
-
+export class CheckoutPayment extends PureComponent<CheckoutPaymentComponentProps> {
     static defaultProps = {
         isSelected: false
     };
 
-    onClick = this.onClick.bind(this);
+    __construct(props: CheckoutPaymentComponentProps): void {
+        super.__construct?.(props);
 
-    onClick() {
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick(): void {
         const {
             onClick,
             method

@@ -60,6 +60,7 @@ export class FieldForm<T> extends PureComponent<T> {
         // If contains attr fields then outputs data as fields
         if ('fields' in section) {
             const { name: sectionName, attr: { name } = {}, fields } = section;
+
             return (
                 <FieldGroup { ...section } key={ name || sectionName }>
                     { fields.map(this.renderSection.bind(this)) }

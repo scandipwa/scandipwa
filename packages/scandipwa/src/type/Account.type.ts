@@ -10,6 +10,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { GQLCountryCodeEnum } from './Graphql.type';
+
 export enum MyAccountTabs {
     MY_ACCOUNT = 'my-account',
     MY_ORDERS = 'my-orders',
@@ -53,20 +55,20 @@ export type Address = {
     vat_id: number | null;
 };
 
-export type TrimmedAddress = {
+export type TrimmedCheckoutAddress = {
     city: string;
-    company: string | null;
-    country_id: string | number;
+    company?: string;
+    country_id: GQLCountryCodeEnum;
     firstname: string;
     lastname: string;
     postcode: string;
-    region?: string | null;
-    region_string?: string | null;
-    region_id: number | string;
-    region_code: string | null;
-    street: string | Array<string | null>;
+    region?: string;
+    region_string?: string;
+    region_id: number;
+    region_code?: string;
+    street: Array<string | null>;
     telephone: string;
-    vat_id: string | null;
+    vat_id?: string;
 };
 
 export type Tab = {

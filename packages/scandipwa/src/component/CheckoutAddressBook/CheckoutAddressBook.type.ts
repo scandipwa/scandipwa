@@ -10,7 +10,7 @@
  */
 
 import { Customer, CustomerAddress } from 'Query/MyAccount.type';
-import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
+import { CheckoutAddress, EstimateAddress } from 'Route/Checkout/Checkout.type';
 
 export interface CheckoutAddressBookContainerMapStateProps {
     customer: Partial<Customer>;
@@ -21,7 +21,7 @@ export interface CheckoutAddressBookContainerMapDispatchProps {
 }
 
 export interface CheckoutAddressBookContainerBaseProps {
-    onShippingEstimationFieldsChange: (address: CheckoutAddress) => void;
+    onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
     onAddressSelect: (id: number) => void;
     isBilling: boolean;
     isSubmitted: boolean;
@@ -40,7 +40,7 @@ export interface CheckoutAddressBookContainerState {
 export interface CheckoutAddressBookComponentProps {
     customer: Partial<Customer>;
     onAddressSelect: (address?: CustomerAddress) => void;
-    onShippingEstimationFieldsChange: ((address: CheckoutAddress) => void) | (() => void);
+    onShippingEstimationFieldsChange: ((address: EstimateAddress) => void) | (() => void);
     selectedAddressId: number;
     isBilling: boolean;
     isSubmitted: boolean;

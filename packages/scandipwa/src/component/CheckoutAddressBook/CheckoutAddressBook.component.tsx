@@ -16,7 +16,6 @@ import CheckoutAddressTable from 'Component/CheckoutAddressTable';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { CustomerAddress } from 'Query/MyAccount.type';
-import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
@@ -130,14 +129,11 @@ CheckoutAddressBookComponentState
     }
 
     renderCustomAddress(): ReactElement {
-        const { isBilling, onShippingEstimationFieldsChange, isSubmitted } = this.props;
-        const formPortalId = isBilling ? CheckoutSteps.BILLING_STEP : CheckoutSteps.SHIPPING_STEP;
+        const { onShippingEstimationFieldsChange } = this.props;
 
         return (
             <CheckoutAddressForm
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-              id={ formPortalId }
-              isSubmitted={ isSubmitted }
             />
         );
     }

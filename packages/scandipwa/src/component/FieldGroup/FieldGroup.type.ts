@@ -9,15 +9,23 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { DOMAttributes, FormHTMLAttributes, MutableRefObject } from 'react';
+import {
+    DOMAttributes,
+    FocusEventHandler,
+    FormHTMLAttributes,
+    MutableRefObject,
+    ReactEventHandler,
+    RefObject
+} from 'react';
 
+import { FieldRef } from 'Component/Field/Field.type';
 import { Children, Mods } from 'Type/Common.type';
 import { ValidationDOMOutput, ValidationRule } from 'Util/Validator/Validator.type';
 
 export interface FieldGroupContainerProps {
     children: Children;
     attr: FormHTMLAttributes<HTMLDivElement>;
-    events: Omit<DOMAttributes<HTMLDivElement>, 'children' | 'dangerouslySetInnerHTML'>;
+    events: FieldGroupEvents;
     elemRef: MutableRefObject<HTMLDivElement>;
     validationRule: ValidationRule;
     validateOn: string[];
@@ -34,7 +42,7 @@ export interface FieldGroupContainerState {
 export interface FieldGroupComponentProps {
     children: Children;
     attr: FormHTMLAttributes<HTMLDivElement>;
-    events: Omit<DOMAttributes<HTMLDivElement>, 'children' | 'dangerouslySetInnerHTML'>;
+    events: FieldGroupEvents;
     setRef: (elem: HTMLDivElement | null) => void;
     showErrorAsLabel: boolean;
     validationResponse: true | ValidationDOMOutput | null;
@@ -52,3 +60,25 @@ export type FieldGroupContainerPropsKeys = 'validationResponse'
 | 'mods'
 | 'events'
 | 'setRef';
+
+export type FieldGroupEvents = Omit<
+DOMAttributes<HTMLDivElement>,
+'children'
+| 'onBlur'
+| 'onLoad'
+| 'dangerouslySetInnerHTML'
+>
+& {
+    onBlur: (event: FocusEventHandler, fields: FieldGroupEventData) => void;
+    onLoad: (event: ReactEventHandler, fields: FieldGroupEventData) => void;
+};
+
+export interface FieldGroupEventData {
+    fields: {
+        field: RefObject<FieldRef>;
+        name: string;
+        type: string;
+        value: string;
+    }[];
+    formRef: RefObject<HTMLDivElement>;
+}

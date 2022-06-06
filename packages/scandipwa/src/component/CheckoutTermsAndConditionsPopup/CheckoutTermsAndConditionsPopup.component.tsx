@@ -15,18 +15,13 @@ import Html from 'Component/Html';
 import Popup from 'Component/Popup';
 import { ReactElement } from 'Type/Common.type';
 
+import { CheckoutTermsAndConditionsPopupComponentProps } from './CheckoutTermsAndConditionsPopup.component.type';
 import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup.config';
 
 import './CheckoutTermsAndConditionsPopup.style';
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Component */
-export class CheckoutTermsAndConditionsPopup extends PureComponent {
-    static propTypes = {
-        payload: PropTypes.shape({
-            text: PropTypes.string
-        }).isRequired
-    };
-
+export class CheckoutTermsAndConditionsPopup extends PureComponent<CheckoutTermsAndConditionsPopupComponentProps> {
     renderContent(): ReactElement {
         const { payload: { text = 'No text was passed' } } = this.props;
 

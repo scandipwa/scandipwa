@@ -10,6 +10,12 @@
  */
 import { AnyAction } from 'redux';
 
+import {
+    CheckoutTermsAndConditionsPopupPayload
+} from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.component.type';
+import {
+    TERMS_AND_CONDITIONS_POPUP_ID
+} from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
 import { Page } from 'Component/Header/Header.config';
 import { MyAccountAddressPopupAction } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { MyAccountAddressPopupPayload } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.type';
@@ -44,6 +50,7 @@ export type PopupPayload = {
     [MyAccountAddressPopupAction.ADDRESS_POPUP_ID]: MyAccountAddressPopupPayload;
     [Page.CUSTOMER_ACCOUNT]: unknown;
     [VIDEO_POPUP_ID]: VideoPopupPayload;
+    [TERMS_AND_CONDITIONS_POPUP_ID]: CheckoutTermsAndConditionsPopupPayload;
 };
 
 declare module 'Util/Store/Store.type' {

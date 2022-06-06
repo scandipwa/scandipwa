@@ -10,10 +10,12 @@
  */
 
 import { FieldContainerProps } from 'Component/Field/Field.type';
+import { FieldGroupEvents } from 'Component/FieldGroup/FieldGroup.type';
 
 export type FormSection = {
     name: string;
     fields: Partial<FieldContainerProps>[];
     attr?: { name?: string };
     mods?: Record<string, boolean>;
+    events?: FieldGroupEvents;
 };

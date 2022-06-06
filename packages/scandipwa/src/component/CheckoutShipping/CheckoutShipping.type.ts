@@ -10,10 +10,10 @@
  */
 
 import { FormFields } from 'Component/Form/Form.type';
+import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import { ShippingMethod } from 'Query/Checkout.type';
 import { Customer } from 'Query/MyAccount.type';
-import { Store } from 'Query/StoreInPickUp.type';
-import { AddressInformation, CheckoutAddress } from 'Route/Checkout/Checkout.type';
+import { AddressInformation, EstimateAddress } from 'Route/Checkout/Checkout.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { GQLEstimateShippingCostsAddress } from 'Type/Graphql.type';
 import { FieldData } from 'Util/Form/Form.type';
@@ -28,7 +28,7 @@ export interface CheckoutShippingContainerMapStateProps {
 }
 
 export interface CheckoutShippingContainerMapDispatchProps {
-    updateShippingFields: (fields: Record<string, string | boolean>) => void;
+    updateShippingFields: (fields: Record<string, unknown>) => void;
 }
 
 export interface CheckoutShippingContainerBaseProps {
@@ -39,10 +39,10 @@ export interface CheckoutShippingContainerBaseProps {
     isLoading: boolean;
     isPickInStoreMethodSelected: boolean;
     isSubmitted: boolean;
-    onShippingEstimationFieldsChange: (address: CheckoutAddress) => void;
+    onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
     onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
-    onStoreSelect: (address: Store) => void;
-    selectedStoreAddress?: Store;
+    onStoreSelect: (address: StoreWithCountryId) => void;
+    selectedStoreAddress: StoreWithCountryId;
 }
 
 export type CheckoutShippingContainerProps = CheckoutShippingContainerMapStateProps
@@ -67,14 +67,14 @@ export interface CheckoutShippingComponentProps {
         fields: FormFields | null,
         validation: boolean | ValidationDOMOutput
     ) => void;
-    onShippingEstimationFieldsChange: (address: CheckoutAddress) => void;
+    onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
     shippingMethods: ShippingMethod[];
     onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     selectedShippingMethod: ShippingMethod | undefined;
     onAddressSelect: (id: number) => void;
     isLoading: boolean;
     isSubmitted: boolean;
-    onStoreSelect: (address: Store) => void;
+    onStoreSelect: (address: StoreWithCountryId) => void;
     estimateAddress?: GQLEstimateShippingCostsAddress;
     handleSelectDeliveryMethod: () => void;
     isPickInStoreMethodSelected: boolean;

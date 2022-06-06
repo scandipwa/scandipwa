@@ -23,7 +23,8 @@ export interface FormContainerProps {
     events: Omit<DOMAttributes<HTMLFormElement>, 'children' | 'dangerouslySetInnerHTML'>;
     onSubmit: (
         form: HTMLFormElement,
-        fields: FormFields
+        fields: FieldData[],
+        asyncData: unknown
     ) => void;
     onError: (
         form: HTMLFormElement,

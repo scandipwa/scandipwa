@@ -16,9 +16,9 @@ import { prepareQuery } from 'Util/Query';
 import { executePost } from 'Util/Request/Request';
 
 /** @namespace Util/Request/Query/fetchQuery */
-export const fetchQuery = <S extends string, T>(
+export const fetchQuery = <S extends string, T, IsArray extends boolean = false>(
     rawQueries: Query<S, T, boolean> | Query<S, T, boolean>[]
-): Promise<Record<S, T>> => {
+): Promise<Record<S, IsArray extends false ? T : T[]>> => {
     const queries = rawQueries instanceof Query ? [rawQueries] : rawQueries;
 
     return executePost(prepareQuery(queries));

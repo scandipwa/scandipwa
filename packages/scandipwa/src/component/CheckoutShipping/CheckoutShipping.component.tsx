@@ -118,7 +118,7 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
               shippingMethods={ shippingMethods }
               onStoreSelect={ onStoreSelect }
               onShippingMethodSelect={ onShippingMethodSelect }
-              cartItemsSku={ getAllCartItemsSku(items) }
+              cartItemsSku={ getAllCartItemsSku(items || []) }
             />
         );
     }

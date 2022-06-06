@@ -230,14 +230,13 @@ export const getItemsCountLabel = (items_qty: number): string => (
 /** @namespace Util/Cart/getAllCartItemsSku */
 export const getAllCartItemsSku = (
     cartItems: IndexedCartItem[]
-): Array<{ sku: string }> => cartItems.reduce(
+): Array<{ sku: string }> => (cartItems ? cartItems.reduce<Array<{ sku: string }>>(
     (acc, item) => {
         acc.push({ sku: item.sku || '' });
 
         return acc;
-    },
-    [] as Array<{ sku: string }>
-);
+    }, []
+) : []);
 
 /** @namespace Util/Cart/trimCrossSellDuplicateItems */
 export const trimCrossSellDuplicateItems = (items: IndexedCartItem[]): IndexedCartItem[] => items.filter(

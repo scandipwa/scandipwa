@@ -6,25 +6,24 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { KLARNA, PURCHASE_ORDER } from 'Component/CheckoutPayments/CheckoutPayments.config';
+import { PaymentMethods } from 'Component/CheckoutPayments/CheckoutPayments.config';
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
-import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
+import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
+import { Customer, CustomerAddress } from 'Query/MyAccount.type';
+import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { Addresstype, CustomerType } from 'Type/Account.type';
-import { PaymentMethodsType } from 'Type/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
-import { TotalsType } from 'Type/MiniCart.type';
 import {
     getFormFields,
     setAddressesInFormObject,
@@ -32,59 +31,52 @@ import {
     trimCheckoutCustomerAddress
 } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
+import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
+import { RootState } from 'Util/Store/Store.type';
 
 import CheckoutBilling from './CheckoutBilling.component';
+import {
+    CheckoutBillingComponentProps,
+    CheckoutBillingContainerMapDispatchProps,
+    CheckoutBillingContainerMapStateProps,
+    CheckoutBillingContainerProps,
+    CheckoutBillingContainerPropsKeys,
+    CheckoutBillingContainerState
+} from './CheckoutBilling.type';
 
 /** @namespace Component/CheckoutBilling/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CheckoutBillingContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer,
     totals: state.CartReducer.cartTotals,
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
     termsAndConditions: state.ConfigReducer.checkoutAgreements,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
     cartTotalSubPrice: getCartTotalSubPrice(state),
-    newShippingId: state.CheckoutReducer.shippingFields.id,
-    newShippingStreet: state.CheckoutReducer.shippingFields.street
+    newShippingId: state.CheckoutReducer.shippingFields.id as number,
+    newShippingStreet: state.CheckoutReducer.shippingFields.street as string[]
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): CheckoutBillingContainerMapDispatchProps => ({
     showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     showPopup: (payload) => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
 });
 
 /** @namespace Component/CheckoutBilling/Container */
-export class CheckoutBillingContainer extends PureComponent {
-    static propTypes = {
-        showErrorNotification: PropTypes.func.isRequired,
-        paymentMethods: PaymentMethodsType.isRequired,
-        savePaymentInformation: PropTypes.func.isRequired,
-        showPopup: PropTypes.func.isRequired,
-        shippingAddress: Addresstype.isRequired,
-        customer: CustomerType.isRequired,
-        totals: TotalsType.isRequired,
-        addressLinesQty: PropTypes.number.isRequired,
-        termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
-            checkbox_text: PropTypes.string,
-            content: PropTypes.string,
-            name: PropTypes.string
-        })).isRequired,
-        selectedShippingMethod: PropTypes.string.isRequired,
-        cartTotalSubPrice: PropTypes.number,
-        setDetailsStep: PropTypes.func.isRequired,
-        setLoading: PropTypes.func.isRequired,
-        termsAreEnabled: PropTypes.bool,
-        newShippingId: PropTypes.number.isRequired,
-        newShippingStreet: PropTypes.arrayOf(PropTypes.string).isRequired
-    };
-
+export class CheckoutBillingContainer extends PureComponent<
+CheckoutBillingContainerProps,
+CheckoutBillingContainerState
+> {
     static defaultProps = {
         termsAreEnabled: false,
         cartTotalSubPrice: null
     };
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(
+        props: CheckoutBillingContainerProps,
+        state: CheckoutBillingContainerState
+    ): Partial<CheckoutBillingContainerState> | null {
         const { paymentMethod, prevPaymentMethods } = state;
         const { paymentMethods } = props;
 
@@ -109,8 +101,8 @@ export class CheckoutBillingContainer extends PureComponent {
         showPopup: this.showPopup.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: CheckoutBillingContainerProps): void {
+        super.__construct?.(props);
 
         const { paymentMethods, customer } = props;
         const [method] = paymentMethods;
@@ -124,14 +116,13 @@ export class CheckoutBillingContainer extends PureComponent {
         };
     }
 
-    containerProps() {
+    containerProps(): Pick<CheckoutBillingComponentProps, CheckoutBillingContainerPropsKeys>{
         const {
             cartTotalSubPrice,
             paymentMethods,
             selectedShippingMethod,
             setDetailsStep,
             setLoading,
-            shippingAddress,
             termsAndConditions,
             termsAreEnabled,
             totals
@@ -145,14 +136,13 @@ export class CheckoutBillingContainer extends PureComponent {
             selectedShippingMethod,
             setDetailsStep,
             setLoading,
-            shippingAddress,
             termsAndConditions,
             termsAreEnabled,
             totals
         };
     }
 
-    isSameShippingAddress({ default_billing, default_shipping }) {
+    isSameShippingAddress({ default_billing, default_shipping }: Partial<Customer>): boolean {
         const {
             totals: { is_virtual },
             selectedShippingMethod,
@@ -169,28 +159,28 @@ export class CheckoutBillingContainer extends PureComponent {
             || (default_billing && parseInt(default_billing, 10) === newShippingId)
             || (!default_billing)
         )
-            && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE;
+            && selectedShippingMethod !== StoreInPickUpCode.METHOD_CODE;
     }
 
-    onAddressSelect(id) {
+    onAddressSelect(id: number): void {
         this.setState({ selectedCustomerAddressId: id });
     }
 
-    onSameAsShippingChange() {
+    onSameAsShippingChange(): void {
         this.setState(({ isSameAsShipping }) => ({ isSameAsShipping: !isSameAsShipping }));
     }
 
-    onPaymentMethodSelect(code) {
+    onPaymentMethodSelect(code: string): void {
         this.setState({ paymentMethod: code });
     }
 
-    onBillingSuccess(form, fields, asyncData) {
+    onBillingSuccess(form: HTMLFormElement, fields: FieldData[]): void {
         const { savePaymentInformation } = this.props;
         const { isSameAsShipping } = this.state;
 
-        const extractedFields = transformToNameValuePair(fields);
+        const extractedFields = transformToNameValuePair<Record<string, unknown>>(fields);
         const address = this._getAddress(extractedFields);
-        const paymentMethod = this._getPaymentData(extractedFields, asyncData);
+        const paymentMethod = this._getPaymentData(extractedFields);
 
         savePaymentInformation({
             billing_address: address,
@@ -199,7 +189,7 @@ export class CheckoutBillingContainer extends PureComponent {
         });
     }
 
-    showPopup() {
+    showPopup(): void {
         const { showPopup, termsAndConditions } = this.props;
         const {
             name: title = __('Terms and Conditions'),
@@ -211,21 +201,11 @@ export class CheckoutBillingContainer extends PureComponent {
         });
     }
 
-    _getPaymentData(fields, asyncData) {
+    _getPaymentData(fields: Record<string, unknown>): { code: string } & Record<string, unknown> {
         const { paymentMethod: code } = this.state;
 
         switch (code) {
-        case KLARNA:
-            const [{ authorization_token }] = asyncData;
-
-            return {
-                code,
-                additional_data: {
-                    authorization_token
-                }
-            };
-
-        case PURCHASE_ORDER:
+        case PaymentMethods.PURCHASE_ORDER:
             const { purchaseOrderNumber } = fields;
 
             return {
@@ -238,19 +218,19 @@ export class CheckoutBillingContainer extends PureComponent {
         }
     }
 
-    getBillingSameAsShipping() {
+    getBillingSameAsShipping(): Partial<CheckoutAddress> {
         const { selectedShippingMethod, shippingAddress } = this.props;
 
-        if (selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE) {
-            const { extension_attributes, ...billingAddress } = shippingAddress;
+        if (selectedShippingMethod === StoreInPickUpCode.METHOD_CODE) {
+            const { extension_attributes, ...billingAddress } = shippingAddress || {};
 
             return billingAddress;
         }
 
-        return shippingAddress;
+        return shippingAddress || {};
     }
 
-    _getAddress(fields) {
+    _getAddress(fields: Record<string, unknown>): CheckoutAddress {
         const { addressLinesQty } = this.props;
 
         const {
@@ -261,7 +241,7 @@ export class CheckoutBillingContainer extends PureComponent {
         const formFields = getFormFields(fields, addressLinesQty);
 
         if (isSameAsShipping) {
-            return this.getBillingSameAsShipping();
+            return this.getBillingSameAsShipping() as CheckoutAddress;
         }
 
         if (!selectedCustomerAddressId) {
@@ -271,7 +251,7 @@ export class CheckoutBillingContainer extends PureComponent {
         }
 
         const { customer: { addresses } } = this.props;
-        const address = addresses.find(({ id }) => id === selectedCustomerAddressId);
+        const address = addresses?.find(({ id }) => id === selectedCustomerAddressId) as CustomerAddress;
 
         return {
             ...trimCheckoutCustomerAddress(address),

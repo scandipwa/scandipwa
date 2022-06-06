@@ -292,7 +292,8 @@ export const listenForBroadCast = <T = unknown>(name: string): Promise<T> => new
 
 // TODO
 /** @namespace Util/Request/debounce */
-export const debounce = <T>(callback: (...args: T[]) => void | Promise<T>, delay: number): (...args: T[]) => void => {
+export const debounce = <T>(
+    callback: (...args: T[]) => void | Promise<void>, delay: number): (...args: T[]) => void => {
     // eslint-disable-next-line fp/no-let
     let timeout: NodeJS.Timeout;
 

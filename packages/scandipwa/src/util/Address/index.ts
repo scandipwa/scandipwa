@@ -13,8 +13,7 @@ import { CustomerAddress } from 'Query/MyAccount.type';
 import { Country, Region } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
 import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
-import { TrimmedAddress } from 'Type/Account.type';
-import { GQLCustomerAddressInput } from 'Type/Graphql.type';
+import { GQLCountryCodeEnum, GQLCustomerAddressInput } from 'Type/Graphql.type';
 
 import { CountryOption, FormattedRegion, ZippopotamResponseResult } from './Address.type';
 
@@ -25,7 +24,7 @@ export const trimCustomerAddress = (customerAddress: Partial<CustomerAddress>): 
         default_billing = false,
         company,
         city = '',
-        country_id,
+        country_id = GQLCountryCodeEnum.US,
         firstname = '',
         lastname = '',
         middlename = '',
@@ -66,22 +65,22 @@ export const trimCustomerAddress = (customerAddress: Partial<CustomerAddress>): 
 };
 
 /** @namespace Util/Address/Index/trimCheckoutCustomerAddress */
-export const trimCheckoutCustomerAddress = (customerAddress: CustomerAddress): TrimmedAddress => {
+export const trimCheckoutCustomerAddress = (customerAddress: CustomerAddress): CheckoutAddress => {
     const {
-        company = null,
+        company,
         city = '',
-        country_id = 1,
+        country_id = GQLCountryCodeEnum.US,
         firstname = '',
         lastname = '',
         postcode = '',
         street = [''],
         telephone = '',
         region: {
-            region_code = null,
-            region = null,
+            region_code,
+            region,
             region_id = 1
         } = {},
-        vat_id = null
+        vat_id
     } = customerAddress;
 
     return {
@@ -101,11 +100,11 @@ export const trimCheckoutCustomerAddress = (customerAddress: CustomerAddress): T
 };
 
 /** @namespace Util/Address/Index/trimCheckoutAddress */
-export const trimCheckoutAddress = (customerAddress: Partial<CheckoutAddress>): TrimmedAddress => {
+export const trimCheckoutAddress = (customerAddress: CheckoutAddress & Record<string, unknown>): CheckoutAddress => {
     const {
-        company = null,
+        company,
         city = '',
-        country_id = '1',
+        country_id = GQLCountryCodeEnum.US,
         firstname = '',
         lastname = '',
         postcode = '',
@@ -113,8 +112,8 @@ export const trimCheckoutAddress = (customerAddress: Partial<CheckoutAddress>): 
         telephone = '',
         region_string = '',
         region_id = 0,
-        region_code = null,
-        vat_id = null
+        region_code,
+        vat_id
     } = customerAddress;
 
     return {
@@ -127,7 +126,7 @@ export const trimCheckoutAddress = (customerAddress: Partial<CheckoutAddress>): 
         street,
         telephone,
         region: region_string,
-        region_id: region_id === '' ? 0 : region_id,
+        region_id,
         region_code,
         vat_id
     };
@@ -146,26 +145,26 @@ export const removeEmptyStreets = (street: Array<string | null>): Array<string |
 /** transforming "street[index]" entries into a single "street" object
     for checkout/billing/myAccoutAddress form fields object */
 /** @namespace Util/Address/Index/setAddressesInFormObject */
-export const setAddressesInFormObject = <T>(
-    fields: Record<string, T>,
+export const setAddressesInFormObject = (
+    fields: Record<string, unknown>,
     numberOfLines: number,
     prefix = 'street'
-): Record<string, T | T[]> => {
+): CheckoutAddress & Record<string, unknown> => {
     const addressKeys = new Array(numberOfLines)
         .fill('')
         .map((_, index) => `${prefix}${index}`);
 
-    const addressValues = addressKeys.map((key) => fields[key]);
+    const addressValues = addressKeys.map((key) => fields[key]) as Array<string | null>;
 
     // removing street related fields from the form object
-    const newFields:Record<string, T | T[]> = Object.keys(fields)
+    const newFields = Object.keys(fields)
         .filter((key) => !addressKeys.includes(key))
         .reduce(
             (acc, key) => {
                 acc[key] = fields[key];
 
                 return acc;
-            }, {} as Record<string, T >
+            }, {} as CheckoutAddress & Record<string, unknown>
         );
 
     // setting single street entry to the form object
@@ -176,7 +175,10 @@ export const setAddressesInFormObject = <T>(
 
 // get Form Fields object depending on addressLinesQty
 /** @namespace Util/Address/Index/getFormFields */
-export const getFormFields = <T>(fields: Record<string, T>, addressLinesQty: number): T | Record<string, T | T[]> => {
+export const getFormFields = (
+    fields: Record<string, unknown>,
+    addressLinesQty: number
+): Record<string, unknown> | CheckoutAddress & Record<string, unknown> => {
     if (addressLinesQty === 1) {
         return fields;
     }

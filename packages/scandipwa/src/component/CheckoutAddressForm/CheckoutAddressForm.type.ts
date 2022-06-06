@@ -14,17 +14,18 @@ import {
     MyAccountAddressFormContainerProps,
     MyAccountAddressFormContainerPropsKeys
 } from 'Component/MyAccountAddressForm/MyAccountAddressForm.type';
-import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
+import { EstimateAddress } from 'Route/Checkout/Checkout.type';
 
 export interface CheckoutAddressFormContainerBaseProps {
-    onShippingEstimationFieldsChange: ((address: CheckoutAddress) => void) | (() => void);
+    onShippingEstimationFieldsChange: ((address: EstimateAddress) => void) | (() => void);
+    defaultCountry: string;
 }
 
 export type CheckoutAddressFormContainerProps = MyAccountAddressFormContainerProps
 & CheckoutAddressFormContainerBaseProps;
 
 export interface CheckoutAddressFormComponentBaseProps {
-    onShippingEstimationFieldsChange: ((address: CheckoutAddress) => void) | (() => void);
+    onShippingEstimationFieldsChange: ((address: EstimateAddress) => void) | (() => void);
 }
 
 export type CheckoutAddressFormComponentProps = MyAccountAddressFormComponentProps
@@ -32,3 +33,11 @@ export type CheckoutAddressFormComponentProps = MyAccountAddressFormComponentPro
 
 export type CheckoutAddressFormContainerPropsKeys = MyAccountAddressFormContainerPropsKeys
 | 'onShippingEstimationFieldsChange';
+
+export interface EstimateAddressFields {
+    city: string;
+    country_id: string;
+    postcode: string;
+    region_id?: string;
+    region_string?: string;
+}

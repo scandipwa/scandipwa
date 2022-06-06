@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { MouseEvent, PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutPayments from 'Component/CheckoutPayments';
@@ -17,53 +17,34 @@ import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndCondition
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
-import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { Addresstype } from 'Type/Account.type';
-import { PaymentMethodsType } from 'Type/Checkout.type';
+import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
+import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { ReactElement } from 'Type/Common.type';
-import { TotalsType } from 'Type/MiniCart.type';
 import { formatPrice } from 'Util/Price';
+
+import { CheckoutBillingComponentProps, CheckoutBillingComponentState } from './CheckoutBilling.type';
 
 import './CheckoutBilling.style';
 
 /** @namespace Component/CheckoutBilling/Component */
-export class CheckoutBilling extends PureComponent {
+export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps, CheckoutBillingComponentState> {
     state = {
         isOrderButtonVisible: true,
         isOrderButtonEnabled: true,
         isTermsAndConditionsAccepted: false
     };
 
-    static propTypes = {
-        setLoading: PropTypes.func.isRequired,
-        setDetailsStep: PropTypes.func.isRequired,
-        isSameAsShipping: PropTypes.bool.isRequired,
-        termsAreEnabled: PropTypes.bool.isRequired,
-        onSameAsShippingChange: PropTypes.func.isRequired,
-        onPaymentMethodSelect: PropTypes.func.isRequired,
-        onBillingSuccess: PropTypes.func.isRequired,
-        onAddressSelect: PropTypes.func.isRequired,
-        showPopup: PropTypes.func.isRequired,
-        paymentMethods: PaymentMethodsType.isRequired,
-        totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number,
-        shippingAddress: Addresstype.isRequired,
-        termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
-            checkbox_text: PropTypes.string
-        })).isRequired,
-        selectedShippingMethod: PropTypes.string.isRequired
-    };
-
     static defaultProps = {
         cartTotalSubPrice: null
     };
 
-    setOrderButtonEnableStatus = this.setOrderButtonEnableStatus.bind(this);
+    __construct(props: CheckoutBillingComponentProps): void {
+        super.__construct?.(props);
 
-    setTACAccepted = this.setTACAccepted.bind(this);
-
-    handleShowPopup = this.handleShowPopup.bind(this);
+        this.setOrderButtonEnableStatus = this.setOrderButtonEnableStatus.bind(this);
+        this.setTACAccepted = this.setTACAccepted.bind(this);
+        this.handleShowPopup = this.handleShowPopup.bind(this);
+    }
 
     componentDidMount(): void {
         const { termsAreEnabled } = this.props;
@@ -73,21 +54,17 @@ export class CheckoutBilling extends PureComponent {
         }
     }
 
-    setOrderButtonVisibility(isOrderButtonVisible) {
-        this.setState({ isOrderButtonVisible });
-    }
-
-    setOrderButtonEnableStatus(isOrderButtonEnabled) {
+    setOrderButtonEnableStatus(isOrderButtonEnabled: boolean): void {
         this.setState({ isOrderButtonEnabled });
     }
 
-    setTACAccepted() {
+    setTACAccepted(): void {
         this.setState(({ isTermsAndConditionsAccepted: oldIsTACAccepted }) => ({
             isTermsAndConditionsAccepted: !oldIsTACAccepted
         }));
     }
 
-    handleShowPopup(e) {
+    handleShowPopup(e: MouseEvent): void {
         const { showPopup } = this.props;
         e.preventDefault();
         showPopup();
@@ -169,7 +146,7 @@ export class CheckoutBilling extends PureComponent {
     renderOrderTotal(): ReactElement {
         const { totals: { grand_total, quote_currency_code } } = this.props;
 
-        const orderTotal = formatPrice(grand_total, quote_currency_code);
+        const orderTotal = formatPrice(grand_total || 0, quote_currency_code);
 
         return (
             <dl block="Checkout" elem="OrderTotal">
@@ -256,14 +233,14 @@ export class CheckoutBilling extends PureComponent {
                   id: 'sameAsShippingAddress',
                   name: 'sameAsShippingAddress',
                   value: 'sameAsShippingAddress',
-                  checked: isSameAsShipping && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE
+                  checked: isSameAsShipping && selectedShippingMethod !== StoreInPickUpCode.METHOD_CODE
               } }
               events={ {
                   onChange: onSameAsShippingChange
               } }
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
               label={ __('My billing and shipping are the same') }
-              isDisabled={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
+              isDisabled={ selectedShippingMethod === StoreInPickUpCode.METHOD_CODE }
             />
         );
     }
@@ -289,10 +266,10 @@ export class CheckoutBilling extends PureComponent {
     renderPayments(): ReactElement {
         const {
             paymentMethods,
-            onPaymentMethodSelect,
-            setLoading,
-            setDetailsStep,
-            shippingAddress
+            onPaymentMethodSelect
+            // setLoading,
+            // setDetailsStep,
+            // shippingAddress
         } = this.props;
 
         if (!paymentMethods.length) {
@@ -301,12 +278,12 @@ export class CheckoutBilling extends PureComponent {
 
         return (
             <CheckoutPayments
-              setLoading={ setLoading }
-              setDetailsStep={ setDetailsStep }
+            //   setLoading={ setLoading }
+            //   setDetailsStep={ setDetailsStep }
               paymentMethods={ paymentMethods }
               onPaymentMethodSelect={ onPaymentMethodSelect }
-              setOrderButtonVisibility={ this.setOrderButtonVisibility }
-              billingAddress={ shippingAddress }
+            //   setOrderButtonVisibility={ this.setOrderButtonVisibility }
+            //   billingAddress={ shippingAddress }
               setOrderButtonEnableStatus={ this.setOrderButtonEnableStatus }
             />
         );
@@ -322,7 +299,7 @@ export class CheckoutBilling extends PureComponent {
         return (
             <Form
               attr={ {
-                  id: BILLING_STEP
+                  id: CheckoutSteps.BILLING_STEP
               } }
               mix={ { block: 'CheckoutBilling' } }
               onSubmit={ onBillingSuccess }

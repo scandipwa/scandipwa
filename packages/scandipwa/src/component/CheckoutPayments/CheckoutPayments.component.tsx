@@ -10,58 +10,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { ErrorInfo, PureComponent } from 'react';
 
 import CheckoutPayment from 'Component/CheckoutPayment';
-import Klarna from 'Component/Klarna';
 import NotSupportedPayment from 'Component/NotSupportedPayment';
 import { PurchaseOrder } from 'Component/PurchaseOrder/PurchaseOrder.component';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { PaymentMethodsType } from 'Type/Checkout.type';
+import { PaymentMethod } from 'Query/Checkout.type';
+import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { ReactElement } from 'Type/Common.type';
 
-import { KLARNA, PURCHASE_ORDER } from './CheckoutPayments.config';
+import { PaymentMethods } from './CheckoutPayments.config';
+import { CheckoutPaymentsComponentProps } from './CheckoutPayments.type';
 
 import './CheckoutPayments.style';
 
 /** @namespace Component/CheckoutPayments/Component */
-export class CheckoutPayments extends PureComponent {
-    static propTypes = {
-        showError: PropTypes.func.isRequired,
-        selectPaymentMethod: PropTypes.func.isRequired,
-        paymentMethods: PaymentMethodsType.isRequired,
-        setOrderButtonEnableStatus: PropTypes.func.isRequired,
-        selectedPaymentCode: PropTypes.string.isRequired,
-        billingAddress: PropTypes.shape({
-            city: PropTypes.string,
-            company: PropTypes.string,
-            country_id: PropTypes.string,
-            email: PropTypes.string,
-            firstname: PropTypes.string,
-            lastname: PropTypes.string,
-            postcode: PropTypes.string,
-            region_id: PropTypes.oneOfType([
-                PropTypes.number,
-                PropTypes.string
-            ]),
-            region: PropTypes.string,
-            street: PropTypes.arrayOf(PropTypes.string),
-            telephone: PropTypes.string
-        }).isRequired
-    };
-
-    paymentRenderMap = {
-        [KLARNA]: this.renderKlarnaPayment.bind(this),
-        [PURCHASE_ORDER]: this.renderPurchaseOrderPayment.bind(this)
+export class CheckoutPayments extends PureComponent<CheckoutPaymentsComponentProps> {
+    paymentRenderMap: Record<string, () => ReactElement> = {
+        // [KLARNA]: this.renderKlarnaPayment.bind(this),
+        [PaymentMethods.PURCHASE_ORDER]: this.renderPurchaseOrderPayment.bind(this)
     };
 
     state = {
         hasError: false
     };
 
-    renderPayment = this.renderPayment.bind(this);
+    __construct(props: CheckoutPaymentsComponentProps): void {
+        super.__construct?.(props);
+        this.renderPayment = this.renderPayment.bind(this);
+    }
 
-    componentDidCatch(error, info) {
+    componentDidCatch(error: Error, info: ErrorInfo): void {
         const { showError, setOrderButtonEnableStatus } = this.props;
 
         console.groupCollapsed('Suppressed error log:');
@@ -77,14 +56,14 @@ export class CheckoutPayments extends PureComponent {
         );
     }
 
-    renderKlarnaPayment(): ReactElement {
-        const { setOrderButtonEnableStatus } = this.props;
+    // renderKlarnaPayment(): ReactElement {
+    //     const { setOrderButtonEnableStatus } = this.props;
 
-        return <Klarna setOrderButtonEnableStatus={ setOrderButtonEnableStatus } />;
-    }
+    //     return <Klarna setOrderButtonEnableStatus={ setOrderButtonEnableStatus } />;
+    // }
 
     renderPurchaseOrderPayment(): ReactElement {
-        return <PurchaseOrder id={ BILLING_STEP } />;
+        return <PurchaseOrder id={ CheckoutSteps.BILLING_STEP } />;
     }
 
     renderNotSupported(): ReactElement {
@@ -93,7 +72,7 @@ export class CheckoutPayments extends PureComponent {
         return <NotSupportedPayment disableButton={ setOrderButtonEnableStatus } />;
     }
 
-    renderPayment(method): ReactElement {
+    renderPayment(method: PaymentMethod): ReactElement {
         const {
             selectPaymentMethod,
             selectedPaymentCode

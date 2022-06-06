@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
-
 export interface Store {
     city: string;
     country: string;
@@ -21,9 +19,8 @@ export interface Store {
     postcode: string;
     region: string;
     street: string[];
-    country_id: string;
     extension_attributes?: {
-        attribute_code: StoreInPickUpCode.ATTRIBUTE_CODE;
+        attribute_code: string;
         value: string;
     }[];
 }

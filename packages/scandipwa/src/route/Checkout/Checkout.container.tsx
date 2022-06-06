@@ -15,10 +15,10 @@ import { Dispatch } from 'redux';
 
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
 import { ProductType } from 'Component/Product/Product.config';
+import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import CheckoutQuery from 'Query/Checkout.query';
 import { PaymentMethod, SetGuestEmailOnCartOutput, ShippingMethod } from 'Query/Checkout.type';
 import MyAccountQuery from 'Query/MyAccount.query';
-import { Store } from 'Query/StoreInPickUp.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
@@ -61,6 +61,7 @@ import {
     CheckoutContainerProps,
     CheckoutContainerPropsKeys,
     CheckoutContainerState,
+    EstimateAddress,
     PaymentInformation
 } from './Checkout.type';
 
@@ -277,7 +278,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         this.setState({ selectedShippingMethod: method_code });
     }
 
-    onShippingEstimationFieldsChange(address: CheckoutAddress): void {
+    onShippingEstimationFieldsChange(address: EstimateAddress): void {
         const { requestsSent } = this.state;
         const guestQuoteId = getGuestQuoteId();
 
@@ -291,10 +292,10 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             estimateAddress: address
         });
 
-        fetchMutation<'estimateShippingCosts', ShippingMethod>([CheckoutQuery.getEstimateShippingCosts(
+        fetchMutation<'estimateShippingCosts', ShippingMethod, true>(CheckoutQuery.getEstimateShippingCosts(
             address,
             guestQuoteId
-        )]).then(
+        )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/onShippingEstimationFieldsChange/fetchMutation/then */
             ({ estimateShippingCosts: shippingMethods }) => {
                 const { requestsSent } = this.state;
@@ -330,7 +331,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         this.setState({ isPickInStoreMethodSelected: !isPickInStoreMethodSelected });
     }
 
-    onStoreSelect(address: Store): void {
+    onStoreSelect(address: StoreWithCountryId): void {
         this.setState({ selectedStoreAddress: address });
     }
 
@@ -483,7 +484,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             return;
         }
 
-        fetchQuery<'getPaymentMethods', PaymentMethod[]>(CheckoutQuery.getPaymentMethodsQuery(
+        fetchQuery<'getPaymentMethods', PaymentMethod, true>(CheckoutQuery.getPaymentMethodsQuery(
             guestQuoteId
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/_getPaymentMethods/fetchQuery/then */
@@ -577,25 +578,34 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
     prepareAddressInformation(addressInformation: AddressInformation): GQLSaveAddressInformation {
         const {
-            shipping_address: {
-                id,
-                save_in_address_book,
-                guest_email,
-                ...shippingAddress
-            } = {},
-            billing_address: {
-                id: dropId,
-                save_in_address_book: dropSaveInAddressBook,
-                guest_email: dropGuestEmail,
-                ...billingAddress
-            } = {},
+            shipping_address,
+            billing_address,
             ...data
         } = addressInformation;
 
+        if ('save_in_address_book' in shipping_address && 'save_in_address_book' in billing_address) {
+            const {
+                id,
+                save_in_address_book,
+                ...shippingAddress
+            } = shipping_address;
+            const {
+                id: dropId,
+                save_in_address_book: dropSaveInBook,
+                ...billingAddress
+            } = billing_address;
+
+            return {
+                ...data,
+                shipping_address: shippingAddress,
+                billing_address: billingAddress
+            };
+        }
+
         return {
             ...data,
-            shipping_address: shippingAddress,
-            billing_address: billingAddress
+            shipping_address,
+            billing_address
         };
     }
 
@@ -650,7 +660,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         );
     }
 
-    async savePaymentInformation(paymentInformation): Promise<void> {
+    async savePaymentInformation(paymentInformation: PaymentInformation): Promise<void> {
         const { totals: { is_virtual } } = this.props;
         const {
             billing_address: {
@@ -710,7 +720,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             country_code: country_id,
             region,
             region_id,
-            street: removeEmptyStreets(street)
+            street: removeEmptyStreets(street || [''])
         };
 
         /**

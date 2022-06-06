@@ -15,6 +15,7 @@ import { ShippingMethod } from 'Query/Checkout.type';
 import { Store } from 'Query/StoreInPickUp.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { Merge } from 'Type/Common.type';
+import { GQLCountryCodeEnum } from 'Type/Graphql.type';
 import { CountryOption } from 'Util/Address/Address.type';
 
 export interface StoreInPickUpPopupContainerMapStateProps {
@@ -67,4 +68,4 @@ export type StoreInPickUpPopupComponentPropsKeys = 'countries'
 | 'stores'
 | 'storeSearchCriteria';
 
-export type StoreWithCountryId = Merge<Store, { country_id: string }>;
+export type StoreWithCountryId = Merge<Store, { country_id: GQLCountryCodeEnum }>;

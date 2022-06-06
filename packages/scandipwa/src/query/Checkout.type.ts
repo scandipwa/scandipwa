@@ -47,7 +47,7 @@ export interface TotalsObject {
 
 export interface PaymentMethod {
     code: string;
-    title: string;
+    title?: string;
     additional_data?: PaymentMethodAdditionalData;
     purchase_order_number?: string;
 }

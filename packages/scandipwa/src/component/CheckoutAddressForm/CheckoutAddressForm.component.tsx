@@ -9,12 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { FocusEventHandler, ReactEventHandler } from 'react';
+
+import { FieldContainerProps } from 'Component/Field/Field.type';
+import { FormSection } from 'Component/FieldForm/FieldForm.type';
+import { FieldGroupEventData } from 'Component/FieldGroup/FieldGroup.type';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
+import myAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.form';
+import { EstimateAddress } from 'Route/Checkout/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 
-import { CheckoutAddressFormComponentProps } from './CheckoutAddressForm.type';
+import { CheckoutAddressFormComponentProps, EstimateAddressFields } from './CheckoutAddressForm.type';
 
 /** @namespace Component/CheckoutAddressForm/Component */
 export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFormComponentProps> {
@@ -23,7 +30,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
         onShippingEstimationFieldsChange: noopFn
     };
 
-    lastRequest = null;
+    lastRequest: EstimateAddress | null = null;
 
     __construct(props: CheckoutAddressFormComponentProps): void {
         super.__construct?.(props);
@@ -31,33 +38,60 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
         this.onAddressChange = this.onAddressChange.bind(this);
     }
 
-    // componentDidMount(): void {
-    //     const {
-    //         address: {
-    //             country_id,
-    //             city,
-    //             postcode,
-    //             region: {
-    //                 region,
-    //                 region_id
-    //             }
-    //         },
-    //         defaultCountry,
-    //         onShippingEstimationFieldsChange
-    //     } = this.props;
+    get fieldMap(): (Partial<FieldContainerProps> | FormSection)[] {
+        const {
+            address,
+            countries,
+            addressLinesQty,
+            regionDisplayAll,
+            showVatNumber,
+            defaultCountry,
+            availableRegions,
+            isStateRequired,
+            countryId,
+            currentRegion,
+            currentCity,
+            currentRegionId,
+            currentZipcode,
+            onCountryChange,
+            onZipcodeChange,
+            onCityChange,
+            onRegionChange,
+            onRegionIdChange
+        } = this.props;
 
-    //     onShippingEstimationFieldsChange({
-    //         country_id: country_id || defaultCountry,
-    //         region_id,
-    //         region,
-    //         city,
-    //         postcode
-    //     });
-    // }
+        const fieldMap = myAccountAddressForm({
+            address,
+            countries,
+            addressLinesQty,
+            regionDisplayAll,
+            showVatNumber,
+            defaultCountry,
+            availableRegions,
+            isStateRequired,
+            countryId,
+            currentRegion,
+            currentCity,
+            currentRegionId,
+            currentZipcode,
+            ...address
+        }, {
+            onCountryChange,
+            onZipcodeChange,
+            onCityChange,
+            onRegionChange,
+            onRegionIdChange
+        });
 
-    get fieldMap() {
-        const fieldMap = super.fieldMap;
-        const addressGroup = fieldMap.find(({ name }) => name === 'addressGroup');
+        const addressGroup = fieldMap.find((element) => {
+            if (!('name' in element)) {
+                return false;
+            }
+
+            const { name } = element;
+
+            return name === 'addressGroup';
+        }) as FormSection | undefined;
 
         if (addressGroup && 'events' in addressGroup) {
             addressGroup.events = {
@@ -73,7 +107,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
         return fieldMap;
     }
 
-    onAddressChange(event, data) {
+    onAddressChange(event: FocusEventHandler | ReactEventHandler, data: FieldGroupEventData): void {
         const { fields = {} } = data;
         const {
             country_id,
@@ -81,12 +115,12 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
             region_string: region,
             city,
             postcode
-        } = transformToNameValuePair(fields);
+        } = transformToNameValuePair<EstimateAddressFields>(fields);
 
         const { onShippingEstimationFieldsChange } = this.props;
         const request = {
             country_id,
-            region_id: regionId !== '' ? regionId : null,
+            region_id: regionId !== '' ? Number(regionId) : undefined,
             region,
             city,
             postcode

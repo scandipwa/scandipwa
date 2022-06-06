@@ -6,79 +6,71 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
+import { PaymentMethod } from 'Query/Checkout.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { Addresstype } from 'Type/Account.type';
-import { PaymentMethodsType } from 'Type/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
-import { TotalsType } from 'Type/MiniCart.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import CheckoutPayments from './CheckoutPayments.component';
-import { KLARNA } from './CheckoutPayments.config';
+import {
+    CheckoutPaymentsComponentProps,
+    CheckoutPaymentsContainerMapDispatchProps,
+    CheckoutPaymentsContainerMapStateProps,
+    CheckoutPaymentsContainerProps,
+    CheckoutPaymentsContainerPropsKeys,
+    CheckoutPaymentsContainerState
+} from './CheckoutPayments.type';
 
 /** @namespace Component/CheckoutPayments/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): CheckoutPaymentsContainerMapDispatchProps => ({
     showError: (message) => dispatch(showNotification(NotificationType.ERROR, message))
 });
 
 /** @namespace Component/CheckoutPayments/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): CheckoutPaymentsContainerMapStateProps => ({
     totals: state.CartReducer.cartTotals,
     email: state.CheckoutReducer.email
 });
 
 /** @namespace Component/CheckoutPayments/Container */
-export class CheckoutPaymentsContainer extends PureComponent {
-    static propTypes = {
-        onPaymentMethodSelect: PropTypes.func.isRequired,
-        setOrderButtonEnableStatus: PropTypes.func.isRequired,
-        paymentMethods: PaymentMethodsType.isRequired,
-        totals: TotalsType.isRequired,
-        email: PropTypes.string.isRequired,
-        billingAddress: Addresstype.isRequired,
-        showError: PropTypes.func.isRequired
-    };
-
+export class CheckoutPaymentsContainer extends PureComponent<
+CheckoutPaymentsContainerProps,
+CheckoutPaymentsContainerState
+> {
     containerFunctions = {
         selectPaymentMethod: this.selectPaymentMethod.bind(this)
     };
 
     state = {
-        selectedPaymentCode: null
+        selectedPaymentCode: ''
     };
 
     dataMap = {
-        [ KLARNA ]: this.getKlarnaData.bind(this)
+        // [ PaymentMethods.KLARNA ]: this.getKlarnaData.bind(this)
     };
 
-    __construct(props) {
-        super.__construct?.(props);
-    }
+    // componentDidMount(): void {
+    //     if (window.formPortalCollector) {
+    //         window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData, 'CheckoutPaymentsContainer');
+    //     }
+    // }
 
-    componentDidMount(): void {
-        if (window.formPortalCollector) {
-            window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData, 'CheckoutPaymentsContainer');
-        }
-    }
+    // componentWillUnmount(): void {
+    //     if (window.formPortalCollector) {
+    //         window.formPortalCollector.unsubscribe(CheckoutSteps.BILLING_STEP, 'CheckoutPaymentsContainer');
+    //     }
+    // }
 
-    componentWillUnmount(): void {
-        if (window.formPortalCollector) {
-            window.formPortalCollector.unsubscribe(BILLING_STEP, 'CheckoutPaymentsContainer');
-        }
-    }
-
-    containerProps() {
+    containerProps(): Pick<CheckoutPaymentsComponentProps, CheckoutPaymentsContainerPropsKeys> {
         const {
-            billingAddress,
             paymentMethods,
             setOrderButtonEnableStatus,
             showError
@@ -87,7 +79,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
         const { selectedPaymentCode } = this.state;
 
         return {
-            billingAddress,
             paymentMethods,
             selectedPaymentCode,
             setOrderButtonEnableStatus,
@@ -95,22 +86,27 @@ export class CheckoutPaymentsContainer extends PureComponent {
         };
     }
 
-    getKlarnaData() {
-        return { asyncData: KlarnaContainer.authorize() };
-    }
+    // getKlarnaData() {
+    //     return { asyncData: KlarnaContainer.authorize() };
+    // }
 
-    collectAdditionalData() {
-        const { selectedPaymentCode } = this.state;
-        const additionalDataGetter = this.dataMap[ selectedPaymentCode ];
+    // collectAdditionalData() {
+    //     const { selectedPaymentCode } = this.state;
 
-        if (!additionalDataGetter) {
-            return {};
-        }
+    //     if (!selectedPaymentCode) {
+    //         return {};
+    //     }
 
-        return additionalDataGetter();
-    }
+    //     const additionalDataGetter = this.dataMap[ selectedPaymentCode ];
 
-    selectPaymentMethod({ code }) {
+    //     if (!additionalDataGetter) {
+    //         return {};
+    //     }
+
+    //     return additionalDataGetter();
+    // }
+
+    selectPaymentMethod({ code }: PaymentMethod): void {
         const {
             onPaymentMethodSelect,
             setOrderButtonEnableStatus

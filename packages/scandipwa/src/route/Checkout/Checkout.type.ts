@@ -12,15 +12,15 @@
 import { History } from 'history';
 import { RouteComponentProps } from 'react-router-dom';
 
+import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import { PaymentMethod, ShippingMethod, TotalsObject } from 'Query/Checkout.type';
 import { CreateAccountOptions, Customer } from 'Query/MyAccount.type';
 import { Country } from 'Query/Region.type';
-import { Store } from 'Query/StoreInPickUp.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
-import { GQLAddressExtensionAttributes, GQLCountryCodeEnum, GQLEstimateShippingCostsAddress } from 'Type/Graphql.type';
+import { GQLCountryCodeEnum, GQLEstimateShippingCostsAddress } from 'Type/Graphql.type';
 
 import { CheckoutSteps } from './Checkout.config';
 
@@ -73,9 +73,9 @@ export interface CheckoutContainerState {
     email: string;
     isGuestEmailSaved: boolean;
     isCreateUser: boolean;
-    estimateAddress: GQLEstimateShippingCostsAddress | undefined;
+    estimateAddress?: GQLEstimateShippingCostsAddress;
     isPickInStoreMethodSelected: boolean;
-    selectedStoreAddress: Store | undefined;
+    selectedStoreAddress: StoreWithCountryId | undefined;
     password: string;
 }
 
@@ -83,11 +83,11 @@ export interface CheckoutComponentProps {
     setLoading: (isLoading: boolean) => void;
     setDetailsStep: (orderID: string) => void;
     shippingMethods: ShippingMethod[];
-    onShippingEstimationFieldsChange: (address: CheckoutAddress) => void;
+    onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
     setHeaderState: (stateName: NavigationState) => void;
     paymentMethods: PaymentMethod[];
     saveAddressInformation: (addressInformation: AddressInformation) => Promise<void>;
-    savePaymentInformation: (paymentInformation) => Promise<void>;
+    savePaymentInformation: (paymentInformation: PaymentInformation) => Promise<void>;
     isLoading: boolean;
     isDeliveryOptionsLoading: boolean;
     shippingAddress: Partial<CheckoutAddress> | undefined;
@@ -114,8 +114,8 @@ export interface CheckoutComponentProps {
     isInStoreActivated: boolean;
     cartTotalSubPrice: number | null;
     onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
-    onStoreSelect: (address: Store) => void;
-    selectedStoreAddress: Store | undefined;
+    onStoreSelect: (address: StoreWithCountryId) => void;
+    selectedStoreAddress: StoreWithCountryId | undefined;
     isSignedIn: boolean;
 }
 
@@ -147,33 +147,52 @@ export type CheckoutContainerPropsKeys =
 | 'isPickInStoreMethodSelected';
 
 export interface AddressInformation {
-    billing_address: CheckoutAddress;
-    shipping_address: CheckoutAddress;
+    billing_address: CheckoutAddress | Partial<StoreWithCountryId>;
+    shipping_address: CheckoutAddress | Partial<StoreWithCountryId>;
     shipping_carrier_code: string;
     shipping_method_code: string;
 }
 
 export interface CheckoutAddress {
-    city?: string;
+    city: string;
     company?: string;
     country_id: GQLCountryCodeEnum;
     email?: string;
-    extension_attributes?: Array<GQLAddressExtensionAttributes | null>;
-    firstname?: string;
-    lastname?: string;
+    extension_attributes?: {
+        attribute_code: string;
+        value: string;
+    }[];
+    firstname: string;
+    lastname: string;
     method?: string;
-    postcode?: string;
+    postcode: string;
     region?: string;
     region_code?: string;
     region_id?: number;
     street?: Array<string | null>;
-    telephone?: string;
+    telephone: string;
     vat_id?: string;
     guest_email?: string;
     save_in_address_book?: boolean;
     purchaseOrderNumber?: string;
     id?: number;
     region_string?: string;
+}
+
+export interface EstimateAddress {
+    city?: string;
+    country_id?: string;
+    customer_id?: number;
+    email?: string;
+    firstname?: string;
+    lastname?: string;
+    postcode?: string;
+    region?: string;
+    region_code?: string;
+    region_id?: number;
+    same_as_billing?: number;
+    street?: Array<string | null>;
+    telephone?: string;
 }
 
 export interface PaymentInformation {

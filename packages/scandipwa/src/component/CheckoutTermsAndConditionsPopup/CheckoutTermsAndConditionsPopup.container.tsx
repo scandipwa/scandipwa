@@ -6,41 +6,48 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import CheckoutTermsAndConditionsPopup from './CheckoutTermsAndConditionsPopup.component';
+import {
+    CheckoutTermsAndConditionsContainerPropsKeys,
+    CheckoutTermsAndConditionsPopupComponentProps,
+    CheckoutTermsAndConditionsPopupContainerMapDispatchProps,
+    CheckoutTermsAndConditionsPopupContainerMapStateProps,
+    CheckoutTermsAndConditionsPopupContainerProps
+} from './CheckoutTermsAndConditionsPopup.component.type';
 import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup.config';
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    payload: state.PopupReducer.popupPayload[ TERMS_AND_CONDITIONS_POPUP_ID ] || {}
+export const mapStateToProps = (state: RootState): CheckoutTermsAndConditionsPopupContainerMapStateProps => ({
+    payload: state.PopupReducer.popupPayload[ TERMS_AND_CONDITIONS_POPUP_ID ]
 });
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (): CheckoutTermsAndConditionsPopupContainerMapDispatchProps => ({});
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container */
-export class CheckoutTermsAndConditionsPopupContainer extends PureComponent {
-    static propTypes = {
-        payload: PropTypes.shape({
-            text: PropTypes.string
-        })
-    };
-
+export class CheckoutTermsAndConditionsPopupContainer extends PureComponent<
+CheckoutTermsAndConditionsPopupContainerProps
+> {
     static defaultProps = {
         payload: {
-            text: ''
+            text: '',
+            title: ''
         }
     };
 
-    containerProps() {
+    containerProps(): Pick<
+    CheckoutTermsAndConditionsPopupComponentProps,
+    CheckoutTermsAndConditionsContainerPropsKeys
+    > {
         const { payload } = this.props;
 
         return { payload };
@@ -50,7 +57,6 @@ export class CheckoutTermsAndConditionsPopupContainer extends PureComponent {
         return (
             <CheckoutTermsAndConditionsPopup
               { ...this.containerProps() }
-              { ...this.containerFunctions }
             />
         );
     }

@@ -17,12 +17,10 @@ import { FormFields } from 'Component/Form/Form.type';
 import {
     StoreInPickUpCode
 } from 'Component/StoreInPickUp/StoreInPickUp.config';
+import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import { ShippingMethod } from 'Query/Checkout.type';
-import { CustomerAddress } from 'Query/MyAccount.type';
-import { Store } from 'Query/StoreInPickUp.type';
 import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
 import { updateShippingFields } from 'Store/Checkout/Checkout.action';
-import { TrimmedAddress } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import {
     trimCheckoutAddress,
@@ -65,9 +63,7 @@ CheckoutShippingContainerProps,
 CheckoutShippingContainerState
 > {
     static defaultProps: Partial<CheckoutShippingContainerProps> = {
-        selectedStoreAddress: {},
-        selectedShippingMethod: null,
-        setSelectedShippingMethodCode: null,
+        selectedStoreAddress: undefined,
         isSubmitted: false,
         cartTotalSubPrice: null
     };
@@ -154,7 +150,10 @@ CheckoutShippingContainerState
         };
     }
 
-    getStoreAddress(shippingAddress: TrimmedAddress, isBillingAddress = false): Store {
+    getStoreAddress(
+        shippingAddress: CheckoutAddress,
+        isBillingAddress = false
+    ): Partial<StoreWithCountryId> {
         const {
             selectedStoreAddress: {
                 region,
@@ -175,7 +174,7 @@ CheckoutShippingContainerState
             city,
             postcode,
             telephone: phone,
-            street: [street],
+            street,
             firstname: name,
             lastname: 'Store'
         };
@@ -234,7 +233,7 @@ CheckoutShippingContainerState
             selectedShippingMethod
         } = this.state;
 
-        const formattedFields = transformToNameValuePair<Partial<CheckoutAddress>>(fields);
+        const formattedFields = transformToNameValuePair <CheckoutAddress & Record<string, unknown>>(fields);
 
         // Joins streets into one variable
         if (addressLinesQty > 1) {
@@ -254,6 +253,10 @@ CheckoutShippingContainerState
         const shippingAddress = selectedCustomerAddressId
             ? this._getAddressById(selectedCustomerAddressId)
             : formFields;
+
+        if (!shippingAddress) {
+            return;
+        }
 
         const {
             carrier_code: shipping_carrier_code,
@@ -276,18 +279,23 @@ CheckoutShippingContainerState
         updateShippingFields({
             ...(
                 street.length
-                    || (default_shipping && parseInt(default_shipping, 10) === data.shipping_address.id)
+                    || ('id' in data.shipping_address
+                    && default_shipping
+                    && parseInt(default_shipping, 10) === data.shipping_address.id)
                     ? formattedFields : data.shipping_address
             ),
             shippingMethod
         });
     }
 
-    _getAddressById(addressId: number) {
+    _getAddressById(addressId: number): CheckoutAddress | null {
         const { customer: { addresses } } = this.props;
 
-        // We know that it will always find address
-        const address = (addresses as CustomerAddress[]).find(({ id }) => id === addressId) as CustomerAddress;
+        const address = (addresses)?.find(({ id }) => id === addressId);
+
+        if (!address) {
+            return null;
+        }
 
         return {
             ...trimCheckoutCustomerAddress(address),

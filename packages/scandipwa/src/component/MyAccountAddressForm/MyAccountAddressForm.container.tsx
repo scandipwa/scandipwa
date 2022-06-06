@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ChangeEvent, PureComponent } from 'react';
+import { ChangeEvent, ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { EventFieldData } from 'Component/Field/Field.type';
@@ -250,4 +250,9 @@ export class MyAccountAddressFormContainer <
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountAddressFormContainer);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(
+    MyAccountAddressFormContainer as unknown as ComponentType<MyAccountAddressFormContainerProps>
+);
