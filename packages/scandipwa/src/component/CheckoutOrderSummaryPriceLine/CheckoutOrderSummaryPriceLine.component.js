@@ -98,7 +98,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
             return null;
         }
 
-        if (+price === 0 && !itemsQty) {
+        if (price === 0 && !itemsQty) {
             return null;
         }
 
