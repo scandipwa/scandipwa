@@ -48,6 +48,7 @@ export class Product extends PureComponent {
         productPrice: PriceType.isRequired,
         inStock: PropTypes.bool.isRequired,
         magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired,
 
         quantity: QuantityType.isRequired,
         maxQuantity: PropTypes.number.isRequired,
@@ -400,7 +401,9 @@ export class Product extends PureComponent {
     }
 
     renderPrice(isPreview = false) {
-        const { getActiveProduct, productPrice } = this.props;
+        const {
+            getActiveProduct, productPrice, inStock, areDetailsLoaded
+        } = this.props;
         const product = getActiveProduct();
 
         const {
@@ -408,7 +411,7 @@ export class Product extends PureComponent {
             price_tiers: priceTiers
         } = product;
 
-        if (!productPrice) {
+        if (!productPrice || (!isPreview && !areDetailsLoaded)) {
             return null;
         }
 
@@ -423,6 +426,7 @@ export class Product extends PureComponent {
                   priceType={ type }
                   tierPrices={ priceTiers }
                   isPreview={ isPreview }
+                  inStock={ inStock }
                   mix={ { block: this.className, elem: 'Price' } }
                 />
             </div>
@@ -430,12 +434,6 @@ export class Product extends PureComponent {
     }
 
     renderStock() {
-        // const { displayProductStockStatus } = this.props;
-        //
-        // if (!displayProductStockStatus) {
-        //     return null;
-        // }
-
         const { inStock } = this.props;
 
         const stockStatusLabel = inStock ? __('In stock') : __('Out of stock');

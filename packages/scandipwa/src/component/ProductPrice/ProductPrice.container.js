@@ -43,7 +43,7 @@ export class ProductPriceContainer extends PureComponent {
         price: ProductPriceType,
         isPreview: PropTypes.bool,
         priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
-
+        inStock: PropTypes.bool,
         isSchemaRequired: PropTypes.bool,
         mix: MixType,
         displayTaxInPrice: PropTypes.string,
@@ -61,7 +61,8 @@ export class ProductPriceContainer extends PureComponent {
         priceType: PRODUCT_TYPE.simple,
         tierPrices: [],
         label: '',
-        variantsCount: 0
+        variantsCount: 0,
+        inStock: false
     };
 
     containerProps() {
@@ -85,7 +86,8 @@ export class ProductPriceContainer extends PureComponent {
             mix,
             variantsCount,
             priceType,
-            displayTaxInPrice
+            displayTaxInPrice,
+            inStock
         } = this.props;
 
         if (!price || !originalPrice) {
@@ -105,7 +107,8 @@ export class ProductPriceContainer extends PureComponent {
             mix,
             variantsCount,
             priceType,
-            displayTaxInPrice
+            displayTaxInPrice,
+            inStock
         };
     }
 

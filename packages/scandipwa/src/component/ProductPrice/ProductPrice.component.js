@@ -44,7 +44,8 @@ export class ProductPrice extends PureComponent {
         label: PropTypes.string,
         variantsCount: PropTypes.number,
         mix: MixType,
-        displayTaxInPrice: PropTypes.string
+        displayTaxInPrice: PropTypes.string,
+        inStock: PropTypes.bool
     };
 
     static defaultProps = {
@@ -60,7 +61,8 @@ export class ProductPrice extends PureComponent {
         tierPrice: '',
         label: '',
         configuration: {},
-        displayTaxInPrice: DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX
+        displayTaxInPrice: DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX,
+        inStock: false
     };
 
     pricePreviewRenderMap = {
@@ -117,7 +119,7 @@ export class ProductPrice extends PureComponent {
 
     renderPrice(price, label) {
         const {
-            discountPercentage
+            discountPercentage, inStock
         } = this.props;
 
         const {
@@ -130,7 +132,7 @@ export class ProductPrice extends PureComponent {
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
-        if (!priceValue && priceValue !== 0) {
+        if ((!priceValue && priceValue !== 0) || !inStock) {
             return null;
         }
 
