@@ -77,7 +77,8 @@ export class MyAccount extends Component {
         match: MatchType.isRequired,
         changeTabName: PropTypes.func.isRequired,
         tabName: PropTypes.string,
-        setTabSubheading: PropTypes.func.isRequired
+        setTabSubheading: PropTypes.func.isRequired,
+        isTabEnabled: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -160,14 +161,15 @@ export class MyAccount extends Component {
             match,
             changeTabName,
             tabName,
-            setTabSubheading
+            setTabSubheading,
+            isTabEnabled
         } = this.props;
 
         if (!isSignedIn()) {
             return this.renderLoginOverlay();
         }
 
-        if (!tabMap[activeTab]) {
+        if (!isTabEnabled(activeTab)) {
             return <NoMatch />;
         }
 
