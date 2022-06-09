@@ -39,6 +39,7 @@
     &-LabelContainer {
         display: flex;
         align-items: center;
+        line-height: 1;
 
         .ChevronIcon {
             width: 23px;
@@ -234,6 +235,10 @@
             .SubtractButton {
                 width: 24px;
             }
+        }
+
+        &_textarea {
+            line-height: 0;
         }
 
         &_text,
