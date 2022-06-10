@@ -64,7 +64,6 @@
             }
 
             &-Options {
-                overflow-y: auto;
                 width: min-content;
                 min-width: var(--selector-width);
 
@@ -74,6 +73,7 @@
             }
 
             &-OptionsWrapper_isExpanded {
+                overflow-x: hidden;
                 scrollbar-width: thin;
             }
 
