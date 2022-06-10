@@ -11,14 +11,14 @@
         "scandipwa/service-worker": "1.0.2",
         "scandipwa/installer": "4.0",
         "scandipwa/menu-organizer": "2.1.5",
-        "scandipwa/persisted-query": "3.0.3",
+        "scandipwa/persisted-query": "3.0.4",
         "scandipwa/slider-graphql": "2.1.0",
-        "scandipwa/cms-graphql": "1.4.4",
+        "scandipwa/cms-graphql": "1.4.5",
         "scandipwa/catalog-graphql": "3.2.12",
         "scandipwa/route717": "2.0.2",
-        "scandipwa/performance": "1.5.5",
-        "scandipwa/customer-graph-ql": "3.1.12",
-        "scandipwa/quote-graphql": "2.19.23",
+        "scandipwa/performance": "1.5.6",
+        "scandipwa/customer-graph-ql": "3.1.14",
+        "scandipwa/quote-graphql": "2.19.26",
         "scandipwa/wishlist-graphql": "2.0.16",
         "scandipwa/urlrewrite-graphql": "1.3.7",
         "scandipwa/store-graphql": "1.2.11",
@@ -32,7 +32,8 @@
         "scandipwa/directory-graphql": "1.0.1",
         "scandipwa/product-alerts-graphql": "1.0.0",
         "scandipwa/sales-graphql": "1.0.11",
-        "scandipwa/catalog-customer-graphql": "1.0.0"
+        "scandipwa/catalog-customer-graphql": "1.0.0",
+        "scandipwa/review-graphql": "1.0.0"
     },
     "autoload": {
         "files": [

@@ -68,7 +68,6 @@ export class MyAccountDashboard extends PureComponent {
             >
                 <MyAccountAddressTable
                   address={ address }
-                  showAdditionalFields
                   title={ __('Default %s address', name) }
                 />
             </div>

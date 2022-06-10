@@ -27,7 +27,8 @@ export class FieldFile extends PureComponent {
         events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
         fileName: PropTypes.string.isRequired,
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        resetFieldValue: PropTypes.func.isRequired
     };
 
     renderSubLabel(allowedTypes) {
@@ -43,7 +44,8 @@ export class FieldFile extends PureComponent {
         const {
             attr: { id = '', multiple = false } = {},
             fileName = '',
-            isLoading = false
+            isLoading = false,
+            resetFieldValue
         } = this.props;
 
         if (isLoading) {
@@ -54,6 +56,7 @@ export class FieldFile extends PureComponent {
             return (
                 <label htmlFor={ id }>
                     <p>{ fileName }</p>
+                    <button onClick={ resetFieldValue }>{ __('Remove file') }</button>
                 </label>
             );
         }

@@ -66,7 +66,8 @@ export const mapStateToProps = (state) => ({
     cartTotalSubPrice: getCartTotalSubPrice(state),
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state),
-    isLoading: state.CartReducer.isLoading
+    isLoading: state.CartReducer.isLoading,
+    minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount
 });
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
@@ -95,7 +96,15 @@ export class CartPageContainer extends PureComponent {
         guest_checkout: PropTypes.bool.isRequired,
         history: HistoryType.isRequired,
         totals: TotalsType.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        minimumOrderAmount: PropTypes.shape({
+            minimum_order_amount_reached: PropTypes.bool,
+            minimum_order_description: PropTypes.string
+        })
+    };
+
+    static defaultProps = {
+        minimumOrderAmount: {}
     };
 
     containerFunctions = {
@@ -163,7 +172,11 @@ export class CartPageContainer extends PureComponent {
             totals: {
                 items = []
             } = {},
-            device
+            device,
+            minimumOrderAmount: {
+                minimum_order_amount_reached: minimumOrderAmountReached = true,
+                minimum_order_description: minimumOrderDescription = ''
+            }
         } = this.props;
 
         const { isCartItemLoading, isInitialLoad } = this.state;
@@ -173,7 +186,9 @@ export class CartPageContainer extends PureComponent {
             totals,
             isCartItemLoading,
             device,
-            isInitialLoad
+            isInitialLoad,
+            minimumOrderAmountReached,
+            minimumOrderDescription
         };
     }
 

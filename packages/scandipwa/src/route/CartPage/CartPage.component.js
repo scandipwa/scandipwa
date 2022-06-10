@@ -37,13 +37,17 @@ export class CartPage extends PureComponent {
         onCouponCodeUpdate: PropTypes.func,
         onCartItemLoading: PropTypes.func,
         device: DeviceType.isRequired,
-        isInitialLoad: PropTypes.bool.isRequired
+        isInitialLoad: PropTypes.bool.isRequired,
+        minimumOrderAmountReached: PropTypes.bool,
+        minimumOrderDescription: PropTypes.string
     };
 
     static defaultProps = {
         hasOutOfStockProductsInCart: false,
         onCouponCodeUpdate: noopFn,
-        onCartItemLoading: null
+        onCartItemLoading: null,
+        minimumOrderAmountReached: true,
+        minimumOrderDescription: ''
     };
 
     renderCartItems() {
@@ -115,12 +119,25 @@ export class CartPage extends PureComponent {
     }
 
     renderSecureCheckoutButton() {
-        const { onCheckoutButtonClick, hasOutOfStockProductsInCart } = this.props;
+        const {
+            onCheckoutButtonClick,
+            minimumOrderDescription,
+            minimumOrderAmountReached,
+            hasOutOfStockProductsInCart
+        } = this.props;
 
         if (hasOutOfStockProductsInCart) {
             return (
                 <div block="CartPage" elem="OutOfStockProductsWarning">
                     { __('Please, remove out of stock products from cart') }
+                </div>
+            );
+        }
+
+        if (!minimumOrderAmountReached) {
+            return (
+                <div block="CartPage" elem="OutOfStockProductsWarning">
+                    { minimumOrderDescription }
                 </div>
             );
         }

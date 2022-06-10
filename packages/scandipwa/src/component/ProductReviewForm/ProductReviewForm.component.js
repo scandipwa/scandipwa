@@ -106,9 +106,25 @@ export class ProductReviewForm extends PureComponent {
         );
     }
 
+    renderReviewRatingWrapper() {
+        const { reviewRatings } = this.props;
+
+        if (reviewRatings && reviewRatings.length === 0) {
+            return null;
+        }
+
+        return (
+            <div
+              block="ProductReviewForm"
+              elem="RatingWrapper"
+            >
+              { this.renderReviewRating() }
+            </div>
+        );
+    }
+
     renderReviewFormContent() {
         const { reviewData } = this.props;
-
         const {
             nickname = '',
             summary = '',
@@ -120,12 +136,7 @@ export class ProductReviewForm extends PureComponent {
               block="ProductReviewForm"
               elem="Wrapper"
             >
-                <div
-                  block="ProductReviewForm"
-                  elem="RatingWrapper"
-                >
-                    { this.renderReviewRating() }
-                </div>
+               { this.renderReviewRatingWrapper() }
                 <div
                   block="ProductReviewForm"
                   elem="Content"

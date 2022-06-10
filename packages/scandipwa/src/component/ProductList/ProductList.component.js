@@ -47,6 +47,7 @@ export class ProductList extends PureComponent {
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
         isWidget: PropTypes.bool,
+        isPlp: PropTypes.bool.isRequired,
         mix: MixType
     };
 
@@ -254,7 +255,8 @@ export class ProductList extends PureComponent {
             loadPage,
             isLoading,
             isVisible,
-            mix
+            mix,
+            isPlp
         } = this.props;
         const {
             items,
@@ -278,6 +280,7 @@ export class ProductList extends PureComponent {
               pageNumber={ pageNumber }
               selectedFilters={ selectedFilters }
               wrapperRef={ wrapperRef }
+              isPlp={ isPlp }
             />
         );
     }

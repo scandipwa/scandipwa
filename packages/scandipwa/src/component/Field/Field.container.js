@@ -120,8 +120,11 @@ export class FieldContainer extends PureComponent {
         this.setState({ validationResponse: null });
     }
 
-    resetFieldValue(fieldContext) {
-        fieldContext.setState({
+    resetFieldValue(fieldHandler, event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        fieldHandler.setState({
             value: '',
             fileName: '',
             isLoading: false
