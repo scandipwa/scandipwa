@@ -15,10 +15,13 @@ import { getFormattedRegion } from 'Util/Address';
 export const getAddressTablePairArray = (props) => {
     const { address, countries } = props;
     const regionData = getFormattedRegion(address, countries);
-
+    console.log(regionData);
+    console.log(address);
     const constructRegion = regionData.region
         ? `${address.city}, ${regionData.region}, ${address.postcode}`
         : `${address.city},  ${address.postcode}`;
+
+    console.log(constructRegion);
 
     return [
         {
@@ -39,7 +42,7 @@ export const getAddressTablePairArray = (props) => {
         {
             key: 'region',
             label: __('Region'),
-            source: { constructRegion }
+            source: { region: constructRegion }
         },
         {
             key: 'country',
