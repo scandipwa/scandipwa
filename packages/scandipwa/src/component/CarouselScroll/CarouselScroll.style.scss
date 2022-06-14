@@ -5,7 +5,7 @@
     height: 100%;
     display: flex;
     align-items: center;
-    margin-block-start: 28px;
+    margin-block-start: var(--carousel-scroll-margin-top);
     width: fit-content;
 
     &-ContentWrapper {

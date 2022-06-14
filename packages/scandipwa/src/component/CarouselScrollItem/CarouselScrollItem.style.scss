@@ -7,7 +7,7 @@
     flex: 1;
     cursor: pointer;
     width: 57px;
-    height: 38px;
+    height: var(--carousel-scroll-item-height);
     border-color: var(--option-border-color);
     border-radius: 2px;
 
