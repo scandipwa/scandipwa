@@ -504,7 +504,9 @@ export class CheckoutContainer extends PureComponent {
             minimumOrderAmount: { minimum_order_amount_reached = true }
         } = this.props;
 
-        if (!minimum_order_amount_reached) {
+        const { checkoutStep } = this.state;
+
+        if (!minimum_order_amount_reached && checkoutStep !== DETAILS_STEP) {
             history.push(appendWithStoreCode(CART_URL));
         }
     }
