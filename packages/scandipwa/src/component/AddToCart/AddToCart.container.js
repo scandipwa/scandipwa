@@ -55,6 +55,7 @@ export class AddToCartContainer extends PureComponent {
         addToCart: PropTypes.func,
         fallbackAddToCart: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool,
+        updateSelectedValues: PropTypes.func,
 
         isIconEnabled: PropTypes.bool,
         mix: MixType,
@@ -69,6 +70,7 @@ export class AddToCartContainer extends PureComponent {
         isIconEnabled: true,
         isDisabled: false,
         addToCart: null,
+        updateSelectedValues: null,
         product: {}
     };
 
@@ -95,7 +97,8 @@ export class AddToCartContainer extends PureComponent {
     };
 
     async addProductToCart(e) {
-        const { product, addToCart } = this.props;
+        const { product, addToCart, updateSelectedValues } = this.props;
+        await updateSelectedValues();
 
         if ((!product || Object.keys(product).length === 0) && !addToCart) {
             return;
