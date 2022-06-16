@@ -52,6 +52,85 @@ export class UrlRewrites extends PureComponent {
         type: ''
     };
 
+    renderProductPage() {
+        const { props } = this.props;
+        const {
+            history,
+            location,
+            match,
+            productSKU,
+            id
+        } = props;
+
+        return (
+            productSKU ? (
+                <ProductPage
+                  history={ history }
+                  location={ location }
+                  match={ match }
+                  productSKU={ productSKU }
+                  productID={ id }
+                  key={ id }
+                />
+            ) : this.renderDefaultPage()
+        );
+    }
+
+    renderCmsPage() {
+        const { props } = this.props;
+        const {
+            history,
+            location,
+            match,
+            pageIds
+        } = props;
+
+        return (
+            <CmsPage
+              history={ history }
+              location={ location }
+              match={ match }
+              pageIds={ pageIds }
+            />
+        );
+    }
+
+    renderCategoryPage() {
+        const { props } = this.props;
+        const {
+            history,
+            location,
+            match,
+            categoryIds
+        } = props;
+
+        return (
+            <CategoryPage
+              history={ history }
+              location={ location }
+              match={ match }
+              categoryIds={ categoryIds }
+            />
+        );
+    }
+
+    renderNoMatch() {
+        const { props } = this.props;
+        const {
+            history,
+            location,
+            match
+        } = props;
+
+        return (
+        <NoMatch
+          history={ history }
+          location={ location }
+          match={ match }
+        />
+        );
+    }
+
     renderDefaultPage() {
         return (
             <main />
@@ -59,57 +138,17 @@ export class UrlRewrites extends PureComponent {
     }
 
     renderContent() {
-        const { props, type } = this.props;
-        const {
-            id,
-            history,
-            location,
-            match,
-            productSKU,
-            categoryIds,
-            pageIds
-        } = props;
+        const { type } = this.props;
 
         switch (type) {
         case TYPE_PRODUCT:
-            return (
-                productSKU ? (
-                    <ProductPage
-                      history={ history }
-                      location={ location }
-                      match={ match }
-                      productSKU={ productSKU }
-                      productID={ id }
-                      key={ id }
-                    />
-                ) : this.renderDefaultPage()
-            );
+            return this.renderProductPage();
         case TYPE_CMS_PAGE:
-            return (
-                <CmsPage
-                  history={ history }
-                  location={ location }
-                  match={ match }
-                  pageIds={ pageIds }
-                />
-            );
+            return this.renderCmsPage();
         case TYPE_CATEGORY:
-            return (
-                <CategoryPage
-                  history={ history }
-                  location={ location }
-                  match={ match }
-                  categoryIds={ categoryIds }
-                />
-            );
+            return this.renderCategoryPage();
         case TYPE_NOTFOUND:
-            return (
-                <NoMatch
-                  history={ history }
-                  location={ location }
-                  match={ match }
-                />
-            );
+            return this.renderNoMatch();
         default:
             return this.renderDefaultPage();
         }
