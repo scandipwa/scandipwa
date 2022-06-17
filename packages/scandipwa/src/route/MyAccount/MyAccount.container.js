@@ -203,7 +203,8 @@ export class MyAccountContainer extends PureComponent {
         onSignIn: this.onSignIn.bind(this),
         onSignOut: this.onSignOut.bind(this),
         getMyWishlistSubHeading: this.getMyWishlistSubHeading.bind(this),
-        setTabSubheading: this.setTabSubheading.bind(this)
+        setTabSubheading: this.setTabSubheading.bind(this),
+        isTabEnabled: this.isTabEnabled.bind(this)
     };
 
     subHeadingRenderMap = {
