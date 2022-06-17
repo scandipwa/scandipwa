@@ -178,6 +178,16 @@ export class ConfigQuery {
             this.getPriceDisplayTypeField()
         ];
     }
+
+    getCurrentWebsite() {
+        return new Field('storeConfig').addFieldList(this._getCurrentWebsiteFields());
+    }
+
+    _getCurrentWebsiteFields() {
+        return [
+            'website_code'
+        ];
+    }
 }
 
 export default new ConfigQuery();
