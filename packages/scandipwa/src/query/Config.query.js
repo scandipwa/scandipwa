@@ -179,11 +179,11 @@ export class ConfigQuery {
         ];
     }
 
-    getCurrentWebsite() {
-        return new Field('storeConfig').addFieldList(this._getCurrentWebsiteFields());
+    getWebsiteCode() {
+        return new Field('storeConfig').addFieldList(this._getWebsiteCodeFields());
     }
 
-    _getCurrentWebsiteFields() {
+    _getWebsiteCodeFields() {
         return [
             'website_code'
         ];

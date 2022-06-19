@@ -61,7 +61,6 @@ export class StoreSwitcherContainer extends DataContainer {
 
     componentDidMount() {
         this._getStoreList();
-        this._getCurrentWebsite();
     }
 
     componentDidUpdate(prevProps) {
@@ -129,13 +128,6 @@ export class StoreSwitcherContainer extends DataContainer {
                 }
             ];
         }, []);
-    }
-
-    _getCurrentWebsite() {
-        this.fetchData(
-            [ConfigQuery.getCurrentWebsite()],
-            ({ storeConfig }) => this.setState({ website_code: storeConfig.website_code })
-        );
     }
 
     getCurrentLabel(storeCode) {
