@@ -45,8 +45,7 @@ export class StoreSwitcherContainer extends DataContainer {
     state = {
         storeList: [],
         isOpened: false,
-        storeLabel: '',
-        website_code: ''
+        storeLabel: ''
     };
 
     containerFunctions = {
