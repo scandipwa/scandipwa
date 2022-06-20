@@ -62,8 +62,11 @@ export class UrlRewrites extends PureComponent {
             id
         } = props;
 
+        if (!productSKU) {
+            return this.renderDefaultPage();
+        }
+
         return (
-            productSKU ? (
                 <ProductPage
                   history={ history }
                   location={ location }
@@ -72,7 +75,6 @@ export class UrlRewrites extends PureComponent {
                   productID={ id }
                   key={ id }
                 />
-            ) : this.renderDefaultPage()
         );
     }
 
