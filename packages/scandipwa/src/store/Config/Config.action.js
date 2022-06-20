@@ -32,11 +32,3 @@ export const updateConfigDevice = (device) => ({
     type: UPDATE_CONFIG_DEVICE,
     device
 });
-
-export const UPDATE_WEBSITE_CODE = 'UPDATE_WEBSITE_CODE';
-
-/** @namespace Store/Config/Action/updateWebsiteCode */
-export const updateWebsiteCode = (website_code) => ({
-    type: UPDATE_WEBSITE_CODE,
-    website_code
-});

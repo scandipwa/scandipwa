@@ -10,17 +10,14 @@
  */
 
 import CartQuery from 'Query/Cart.query';
-import ConfigQuery from 'Query/Config.query';
 import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
 import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
-import { updateWebsiteCode } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { getRegionIdOfRegionName } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
-import { prepareQuery } from 'Util/Query';
 import {
-    executeGet, fetchMutation, fetchQuery, getErrorMessage
+    fetchMutation, fetchQuery, getErrorMessage
 } from 'Util/Request';
 
 export const CURRENT_WEBSITE = 'base';
@@ -44,9 +41,6 @@ export class CartDispatcher {
             if (!disableLoader) {
                 dispatch(updateIsLoadingCart(true));
             }
-
-            // await this.executeWebsiteCodeQuery(dispatch);
-
             // ! Get quote token first (local or from the backend) just to make sure it exists
             const quoteId = await this._getGuestQuoteId(dispatch);
 
@@ -129,13 +123,7 @@ export class CartDispatcher {
         try {
             dispatch(updateIsLoadingCart(true));
 
-            // const {
-            //     createEmptyCart: quoteId = ''
-            // } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
-
-            const quoteId = await this._getQuoteId(dispatch);
-
-            console.log('CREATE GUEST EMPTY CART', quoteId);
+            const quoteId = await this._getNewQuoteId(dispatch);
 
             setGuestQuoteId(quoteId);
 
@@ -208,7 +196,6 @@ export class CartDispatcher {
     async addProductToCart(dispatch, options = {}) {
         const { products = [], cartId: userCartId } = options;
 
-        // const cartId = userCartId || getGuestQuoteId();
         const cartId = userCartId || getGuestQuoteId();
 
         if (!Array.isArray(products) || products.length === 0) {
@@ -390,10 +377,8 @@ export class CartDispatcher {
      * @param Dispatch dispatch
      * @return string quote id
      */
-    _getGuestQuoteId(dispatch) {
+    async _getGuestQuoteId(dispatch) {
         const guestQuoteId = getGuestQuoteId();
-
-        console.log('GUEST QUOTE ID RESOLVED', guestQuoteId);
 
         if (guestQuoteId) {
             return guestQuoteId;
@@ -402,24 +387,12 @@ export class CartDispatcher {
         return this.createGuestEmptyCart(dispatch);
     }
 
-    async _getQuoteId(dispatch) {
-        const [
-            { createEmptyCart: quoteId = '' }
-        ] = await Promise.all([
-            fetchMutation(CartQuery.getCreateEmptyCartMutation()),
-            this.executeWebsiteCodeQuery(dispatch)
-        ]);
-
-        return quoteId;
-    }
-
-    async executeWebsiteCodeQuery(dispatch) {
-        const websiteCodeQuery = ConfigQuery.getWebsiteCode();
-        const { storeConfig: { website_code = '' } = {} } = await executeGet(
-            prepareQuery(websiteCodeQuery), 'websiteCodeQuery'
+    async _getNewQuoteId() {
+        const { createEmptyCart: quoteId = '' } = await fetchMutation(
+            CartQuery.getCreateEmptyCartMutation()
         );
 
-        dispatch(updateWebsiteCode(website_code));
+        return quoteId;
     }
 }
 
