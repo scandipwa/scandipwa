@@ -694,7 +694,7 @@ export class CheckoutContainer extends PureComponent {
         const guestCartId = getGuestQuoteId();
 
         if (!email) {
-            this.onChangeEmailRequired();
+            this.setState({ isVisibleEmailRequired: false }, this.onChangeEmailRequired);
         }
 
         if (!guestCartId || !email) {
