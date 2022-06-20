@@ -1,6 +1,5 @@
 /**
  * ScandiPWA - Progressive Web App for Magento
-    console.log('WEBSITE_CODE_FROM_STORE', website_code);
  *
  * Copyright © Scandiweb, Inc. All rights reserved.
  * See LICENSE for license details.
