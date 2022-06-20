@@ -40,7 +40,8 @@ export class FieldContainer extends PureComponent {
         value: PropTypes.number.isRequired,
         changeValueOnDoubleClick: PropTypes.bool,
         isSortSelect: PropTypes.bool,
-        resetFieldValue: PropTypes.func.isRequired,
+        updateSelectedValues: PropTypes.func,
+        resetFieldValue: PropTypes.func,
         // Validation
         validationRule: ValidationRuleType,
         validateOn: PropTypes.arrayOf(PropTypes.string),
@@ -67,7 +68,9 @@ export class FieldContainer extends PureComponent {
         subLabel: '',
         elemRef: null,
         changeValueOnDoubleClick: false,
-        isSortSelect: false
+        isSortSelect: false,
+        updateSelectedValues: null,
+        resetFieldValue: null
     };
 
     state = {
@@ -121,6 +124,8 @@ export class FieldContainer extends PureComponent {
     }
 
     resetFieldValue(fieldHandler, event) {
+        const { updateSelectedValues } = this.props;
+
         event.preventDefault();
         event.stopPropagation();
 
@@ -130,8 +135,10 @@ export class FieldContainer extends PureComponent {
             isLoading: false
         });
 
+        this.fieldRef.fileData = '';
         this.fieldRef.value = '';
         this.validate();
+        updateSelectedValues();
     }
 
     handleShowLengthError() {

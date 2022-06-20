@@ -127,13 +127,9 @@ export class CartDispatcher {
 
             setGuestQuoteId(quoteId);
 
-            dispatch(updateIsLoadingCart(false));
-
             return quoteId;
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
-
-            dispatch(updateIsLoadingCart(false));
 
             return null;
         }
