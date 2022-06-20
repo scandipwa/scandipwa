@@ -102,14 +102,12 @@ export class ProductPage extends PureComponent {
 
         return (
             <>
-                <Suspense fallback={ <Loader /> }>
-                    <ProductGallery
-                      product={ activeProduct }
-                      areDetailsLoaded={ areDetailsLoaded }
-                      isWithEmptySwitcher={ useEmptyGallerySwitcher }
-                      showLoader={ isVariant }
-                    />
-                </Suspense>
+                <ProductGallery
+                  product={ activeProduct }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  isWithEmptySwitcher={ useEmptyGallerySwitcher }
+                  showLoader={ isVariant }
+                />
                 <ProductActions
                   getLink={ getLink }
                   product={ dataSource }
