@@ -64,7 +64,7 @@ export class SearchOverlay extends PureComponent {
     }
 
     renderNoResults() {
-        return <p>{ __('No results found!') }</p>;
+        return <p block="NoResults">{ __('No results found!') }</p>;
     }
 
     renderSearchResults() {
