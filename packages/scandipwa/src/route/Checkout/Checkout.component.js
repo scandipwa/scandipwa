@@ -238,7 +238,7 @@ export class Checkout extends PureComponent {
         } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
 
-        if (isSignedIn) {
+        if ((checkoutStep !== SHIPPING_STEP && !isBilling) || isSignedIn) {
             return null;
         }
 
