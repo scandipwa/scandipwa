@@ -160,8 +160,6 @@ export class CartDispatcher {
     async changeItemQty(dispatch, options) {
         const { uid, quantity = 1, cartId: originalCartId } = options;
 
-        // const cartId = !originalCartId ? getGuestQuoteId() : originalCartId;
-
         const cartId = !originalCartId ? getGuestQuoteId() : originalCartId;
 
         try {
