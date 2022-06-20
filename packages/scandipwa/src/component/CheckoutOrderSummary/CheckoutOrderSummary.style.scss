@@ -54,7 +54,7 @@
         padding-inline-start: 0;
 
         @include mobile {
-            padding: 0 0 14px;
+            padding: 14px 0;
         }
 
         &:last-child {
