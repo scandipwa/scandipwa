@@ -147,7 +147,10 @@ export class StoreInPickUpContainer extends PureComponent {
             navigationState: { onCloseClick } = {}
         } = this.props;
 
-        onCloseClick();
+        if (onCloseClick) {
+            onCloseClick();
+        }
+
         hideActiveOverlay();
         goToPreviousNavigationState();
     }
