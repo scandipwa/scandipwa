@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// import ConfigQuery from 'Query/Config.query';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
