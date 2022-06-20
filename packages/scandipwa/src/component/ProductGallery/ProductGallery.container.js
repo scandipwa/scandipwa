@@ -179,7 +179,6 @@ export class ProductGalleryContainer extends PureComponent {
 
         if (returnValue === -1) {
             return 0;
-            //in case there is no base image, there could be a video at position 0 and this will put it in view
         }
 
         return returnValue;
